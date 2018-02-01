@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : First benchmark draft for the TextView, split between TextView - TextViewWrapper .
+// END-HISTORY
+// ====================================================================
+
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import url from 'url';

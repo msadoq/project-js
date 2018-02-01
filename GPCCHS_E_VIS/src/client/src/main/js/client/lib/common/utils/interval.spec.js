@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Add createInterval function in common/utils/interval
+// VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Change interval signature in common/utils/interval
+// END-HISTORY
+// ====================================================================
+
 import createInterval from './interval';
 
 describe('utils:interval', () => {

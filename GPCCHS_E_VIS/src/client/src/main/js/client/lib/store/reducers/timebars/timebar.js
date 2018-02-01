@@ -1,6 +1,23 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Refacto timebars reducer OK .
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Creation of timebarTimelines reducer .
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Can not create timebar with same id.
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_PAGE_OPEN action and remove WS_LOAD_DOCUMENTS
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Replace WS_TIMEBAR_ADD by WS_TIMEBAR_CREATE_NEW .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Refacto loadDocumentsInStore from documentManager .
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Remove unused parameter from timebar
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add some eslint relaxation rules
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : Timebar creation : timebar is created with uuid attribute.
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// VERSION : 1.1.2 : DM : #6816 : 09/08/2017 : Repace updeep by spread operator in timebar reducer
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import u from 'updeep';
-import * as types from '../../types';
+import * as types from 'store/types';
 
 const initialState = {
   id: null,
@@ -21,6 +38,12 @@ const initialState = {
   mode: 'Normal',
   realTime: false,
 };
+
+const createSafeVisuWindow = ({ lower, upper, current }) => ({
+  lower: lower === current ? lower - 1 : lower,
+  upper: upper === current ? upper + 1 : upper,
+  current,
+});
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function timebarReducer(stateTimebar = initialState, action) {
@@ -91,7 +114,7 @@ export default function timebarReducer(stateTimebar = initialState, action) {
       if (newValues.slideWindow || newValues.visuWindow) {
         return {
           ...stateTimebar,
-          visuWindow: newValues.visuWindow || tb.visuWindow,
+          visuWindow: createSafeVisuWindow(newValues.visuWindow || tb.visuWindow),
           slideWindow: newValues.slideWindow || tb.slideWindow,
         };
       }

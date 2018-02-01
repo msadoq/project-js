@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move lint-reporter in scripts/ folder
+// END-HISTORY
+// ====================================================================
+
 const _ = require('lodash/fp');
 const async = require('async');
 const { writeFileSync } = require('fs');

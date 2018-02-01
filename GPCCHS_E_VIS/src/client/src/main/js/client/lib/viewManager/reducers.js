@@ -1,6 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Split viewManager/index.js in several files
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// VERSION : 1.1.2 : DM : #5828 : 11/04/2017 : Implement automation for data reducers in viewManager
+// VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
+// VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView using SkeletonView
+// VERSION : 1.1.2 : DM : #6129 : 04/05/2017 : merge dev on mimic branch
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 
-import composeReducers from '../store/helpers/composeReducers';
+import packetViewConfigurationReducer from './PacketView/store/configurationReducer';
 import createReducerByViews from '../store/helpers/createReducerByViews';
 import commonConfigurationReducer from './commonConfiguration/reducer';
 
@@ -11,7 +23,7 @@ import mimicViewConfigurationReducer from './MimicView/store/configurationReduce
 import historyViewConfigurationReducer from './HistoryView/store/configurationReducer';
 import groundAlarmViewConfigurationReducer from './GroundAlarmView/store/configurationReducer';
 import onboardAlarmViewConfigurationReducer from './OnboardAlarmView/store/configurationReducer';
-import packetViewConfigurationReducer from './PacketView/store/configurationReducer';
+import * as constants from './constants';
 
 import plotViewDataReducer from './PlotView/store/dataReducer';
 import dynamicViewDataReducer from './DynamicView/store/dataReducer';
@@ -23,7 +35,7 @@ import packetViewDataReducer from './PacketView/store/dataReducer';
 
 import alarmViewUiReducer from './GroundAlarmView/store/uiReducer';
 
-import * as constants from './constants';
+import composeReducers from '../store/helpers/composeReducers';
 
 /* --- Utils ---------------------------------------------------------------- */
 const appendString = _.curry((x, str) => str.concat(x));

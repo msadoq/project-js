@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add Tooltip and use it in dropdown menu
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : REVERT Add Tooltip and use it in dropdown menu"
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Fix Tooltip when collapse and resize window
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Add Tooltip and use it in dropdown menu
+// END-HISTORY
+// ====================================================================
+
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 

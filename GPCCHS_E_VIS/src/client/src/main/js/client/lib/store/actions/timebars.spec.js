@@ -1,5 +1,35 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Add unit test for timebar action add
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Write timebars/handlePlay action creator tests
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Write timebars/restoreWidth action creator tests
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Write timebars/switchToFixedMode action creator tests
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Write timebars/updateSpeed action creator tests
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Write timebars/switchToNormalMode action creator tests
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Write timebars/jump action creator tests
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Write timebars/switchToRealtimeMode action creator tests
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Write last actions/timebars.spec.js thunks tests
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Write timebars/updateCursors action creator tests
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : add mocked parameter VISUWINDOW_MAX_LENGTH for tests
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Write timebars/switchToExtensibleMode action creator tests
+// VERSION : 1.1.2 : DM : #3622 : 28/02/2017 : In actions, reduers, views, timelineId -> timelineUuid to avoid confusion.
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Rewrite action/timebars tests . .
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : change thunk pause into simple action
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : change thunk pause into simple action
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Fix jest tests in store/actions
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Automatically remove messages after a while
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : FA : #6670 : 20/06/2017 : Fix store coverage (actions/timebars) .
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Skip old thunks smartPlay and handlePlay tests
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Add realTimeHandler and goNowHandler in player middleware
+// VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Remove skipped old tests about handlePlay and smartPlay
+// END-HISTORY
+// ====================================================================
+
+import { mockStore, freezeMe } from 'common/jest';
 import * as actions from './timebars';
-import { mockStore, freezeMe } from '../../common/jest';
 
 describe('store:actions:timebars', () => {
   const state = freezeMe({
@@ -46,6 +76,18 @@ describe('store:actions:timebars', () => {
         visuWindow: { lower: 100, current: 150, upper: 200 },
         slideWindow: { lower: 160, upper: 400 },
         realTime: true,
+      },
+      tb7: {
+        mode: 'Fixed',
+        visuWindow: { lower: 100, current: 120, upper: 200, defaultWidth: 50 },
+        slideWindow: { lower: 160, upper: 400 },
+        realTime: false,
+      },
+      tb8: {
+        mode: 'Fixed',
+        visuWindow: { lower: 110, current: 120, upper: 160, defaultWidth: 50 },
+        slideWindow: { lower: 110, upper: 160 },
+        realTime: false,
       },
     },
     timelines: {
@@ -137,6 +179,14 @@ describe('store:actions:timebars', () => {
             messages: [{ content: 'Current cursor must be before upper cursor' }],
           },
         },
+        {
+          type: 'WS_MESSAGE_ADD',
+          payload: {
+            containerId: 'timeSetter-tb2',
+            type: 'error',
+            messages: [{ content: 'Lower cursor must be before upper cursor' }],
+          },
+        },
       ]);
     });
   });
@@ -184,6 +234,32 @@ describe('store:actions:timebars', () => {
             visuWindow: { lower: NaN, upper: NaN },
             slideWindow: { lower: 100, upper: 170 },
             timebarUuid: 'tb3',
+          },
+        },
+      ]);
+    });
+    test('dispatches a WS_MESSAGE_RESET and restores width', () => {
+      store.dispatch(actions.restoreWidth('tb7'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_TIMEBAR_UPDATE_CURSORS',
+          payload: {
+            visuWindow: { lower: 110, upper: 160 },
+            slideWindow: { lower: 110, upper: 160 },
+            timebarUuid: 'tb7',
+          },
+        },
+      ]);
+    });
+    test('dispatches a WS_MESSAGE_RESET and restores width', () => {
+      store.dispatch(actions.restoreWidth('tb8'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_TIMEBAR_UPDATE_CURSORS',
+          payload: {
+            visuWindow: { lower: 110, upper: 160 },
+            slideWindow: { lower: 110, upper: 160 },
+            timebarUuid: 'tb8',
           },
         },
       ]);

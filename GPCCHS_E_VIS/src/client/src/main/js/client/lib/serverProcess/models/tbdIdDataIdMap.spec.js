@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 22/08/2017 : Second fix filters crash on realtime
+// VERSION : 1.1.2 : DM : #6700 : 22/08/2017 : Fix error on filters retrieval .
+// END-HISTORY
+// ====================================================================
+
 import { get, add, getFilters } from './tbdIdDataIdMap';
 
 describe('models/tbdIdDataIdMap', () => {

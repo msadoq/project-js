@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Fix tests on mimic view
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// END-HISTORY
+// ====================================================================
+
 import { getCount } from './dataSelector';
 
 describe('viewManager/MimicView/store/dataSelector', () => {

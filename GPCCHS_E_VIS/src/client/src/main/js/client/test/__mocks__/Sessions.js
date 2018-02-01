@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : Snapshot : various fixes, propStubs and mocks.
+// END-HISTORY
+// ====================================================================
+
 const Sessions = [
   {
     name: 'Master',

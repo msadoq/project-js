@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6829 : 30/06/2017 : Grizzly parametric first draft 1.0
+// VERSION : 1.1.2 : DM : #6829 : 03/07/2017 : Grizzly Parametric, second draft, X axes top/bottom, Y axes right/left. 1.1
+// VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Grizzly parametric version 1.3 : magnet points.
+// VERSION : 1.1.2 : DM : #6829 : 06/07/2017 : Added format X and Y to tooltip. Grizzly Parametric.
+// END-HISTORY
+// ====================================================================
+
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
@@ -75,7 +84,7 @@ export default class YAxis extends Component {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
     const attrs = ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
-      'scale', 'autoTick', 'tickStep', 'format', 'gridStyle', 'gridSize'];
+      'scale', 'autoTick', 'tickStep', 'format', 'gridStyle', 'gridSize', 'showGrid'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;

@@ -1,7 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import fs from 'fs';
 
-import { read, parse } from '../../common/fs';
+import { read, parse } from 'common/fs';
 
 import * as fmd from './fmd';
 import resolvePath from './pathResolver';
@@ -47,23 +54,19 @@ export const writeDocument = (path, json, cb) => {
   if (!_.startsWith('/', path)) {
     return cb(new Error('path should be absolute'));
   }
-  if (fmd.isInFmd(path)) {
-    return fmd.createDocument(path, json.type, (err, oid) => {
-      if (err) {
-        return cb(err);
-      }
-      return fs.writeFile(path, data, (errWriting) => {
-        if (errWriting) {
-          return cb(errWriting);
-        }
-        return cb(null, oid);
-      });
-    });
-  }
-  return fs.writeFile(path, data, (errWriting) => {
+  const writeFile = oid => fs.writeFile(path, data, (errWriting) => {
     if (errWriting) {
       return cb(errWriting);
     }
-    return cb(null);
+    return cb(null, oid);
   });
+  if (fmd.isInFmd(path)) {
+    return fmd.createDocument(path, json.type, (err, oid) => {
+      if (err) {
+        return cb(new Error(`FMD createDocument : ${err}`));
+      }
+      return writeFile(oid);
+    });
+  }
+  return writeFile();
 };

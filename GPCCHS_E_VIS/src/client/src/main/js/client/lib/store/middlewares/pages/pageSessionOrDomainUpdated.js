@@ -1,7 +1,7 @@
-import { WS_PAGE_UPDATE_SESSIONNAME, WS_PAGE_UPDATE_DOMAINNAME } from '../../types';
-import { getPageViews } from '../../selectors/pages';
-import { get } from '../../../common/configurationManager';
-import { touchViewConfiguration } from '../../actions/views';
+import { WS_PAGE_UPDATE_SESSIONNAME, WS_PAGE_UPDATE_DOMAINNAME } from 'store/types';
+import { getPageViews } from 'store/selectors/pages';
+import { get } from 'common/configurationManager';
+import { touchViewConfiguration } from 'store/actions/views';
 
 const pageSessionOrDomainUpdated =
   ({ dispatch, getState }) => next => (action) => {

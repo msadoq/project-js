@@ -1,13 +1,20 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Fix SaveWizard save workspace .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Rename SaveAgent in SaveWizard .
+// END-HISTORY
+// ====================================================================
+
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import { getWorkspaceFile, getWorkspaceIsModified, getWorkspaceIsNew } from 'store/reducers/hsc';
+import { getPagesWithViews } from 'store/selectors/pages';
+import { askSaveView } from 'store/actions/views';
+import { askSavePage } from 'store/actions/pages';
+import { askSaveWorkspace } from 'store/actions/hsc';
 import SaveWizardModal from './SaveWizardModal';
-import { getWorkspaceFile, getWorkspaceIsModified, getWorkspaceIsNew } from '../../../store/reducers/hsc';
-import { getPagesWithViews } from '../../../store/selectors/pages';
-import { askSaveView } from '../../../store/actions/views';
-import { askSavePage } from '../../../store/actions/pages';
-import { askSaveWorkspace } from '../../../store/actions/hsc';
 
 const mapStateToProps = createStructuredSelector({
   pages: getPagesWithViews,

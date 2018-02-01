@@ -1,6 +1,5 @@
 node_modules
-coverage
-benchmarks
-adapters
-dist
-docs
+/coverage
+/dist
+
+/adapters

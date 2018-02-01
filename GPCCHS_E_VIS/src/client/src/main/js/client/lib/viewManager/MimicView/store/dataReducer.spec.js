@@ -1,9 +1,24 @@
-import moment from 'moment';
-import mimicViewData from './dataReducer';
-import * as types from '../../../store/types';
-import { freezeMe } from '../../../common/jest';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Fix tests on mimic view
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for mocha .
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Plug mimic view to data consumption
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json patch
+// END-HISTORY
+// ====================================================================
 
-describe('viewManager/TextView/store/dataReducer', () => {
+import moment from 'moment';
+import * as types from 'store/types';
+import { freezeMe } from 'common/jest';
+import mimicViewData from './dataReducer';
+
+describe('viewManager/MimicView/store/dataReducer', () => {
   const payload = { rId1: {}, rId2: {} };
   for (let j = 10; j < 21; j += 1) {
     payload.rId1[j] = {
@@ -35,13 +50,6 @@ describe('viewManager/TextView/store/dataReducer', () => {
       },
     });
     expect(mimicViewData(state, { type: types.HSC_CLOSE_WORKSPACE })).toEqual({});
-  });
-  test('WS_VIEW_RELOAD', () => {
-    const action = { type: types.WS_VIEW_RELOAD,
-      payload: { view: { type: 'PlotView', uuid: 'myPlot' } } };
-    expect(mimicViewData(freezeMe({}), action)).toEqual({});
-    action.payload.view = { type: 'MimicView', uuid: 'myMimic' };
-    expect(mimicViewData(freezeMe({}), action)).toEqual({ myMimic: { index: {}, values: {} } });
   });
   test('WS_VIEW_OPENED', () => {
     const action = { type: types.WS_VIEW_OPENED,
@@ -198,8 +206,8 @@ describe('viewManager/TextView/store/dataReducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10).utc().toISOString() },
-            ep4: { value: 'val9' } },
+            ep1: { color: '#2ecc71', value: moment(10).utc().toISOString() },
+            ep4: { color: '#2ecc71', value: 'val9' } },
         },
       });
     });
@@ -207,8 +215,8 @@ describe('viewManager/TextView/store/dataReducer', () => {
       const state = freezeMe({ text: {
         index: { ep1: 9, ep4: 9 },
         values: {
-          ep1: { value: moment(9).utc().toISOString() },
-          ep4: { value: 'val9', monit: undefined } },
+          ep1: { color: '#2ecc71', value: moment(9).utc().toISOString() },
+          ep4: { color: '#2ecc71', value: 'val9', monit: undefined } },
       } });
       const action = { type: types.INJECT_DATA_LAST,
         payload: {
@@ -222,8 +230,8 @@ describe('viewManager/TextView/store/dataReducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10).utc().toISOString() },
-            ep4: { value: 'val9' } },
+            ep1: { color: '#2ecc71', value: moment(10).utc().toISOString() },
+            ep4: { color: '#2ecc71', value: 'val9' } },
         },
       });
     });

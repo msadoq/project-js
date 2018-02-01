@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6816 : 02/08/2017 : add mimic benchmark with isolated mimicView component
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
 import vGauge from '../../lib/viewManager/MimicView/Components/Collection/vGauge';
 import hGauge from '../../lib/viewManager/MimicView/Components/Collection/hGauge';
 import digital from '../../lib/viewManager/MimicView/Components/Animation/digital';
@@ -68,6 +74,7 @@ export const hgauge = (n) => {
     .replace('__TRANSLATE_TO__', (100 + (Math.floor(i / 10) * 200)))
   ).join('');
 
+  // eslint-disable-next-line no-console
   console.log(epSvg);
 
   return {
@@ -114,6 +121,7 @@ export const hslider = (n) => {
     .replace('__TRANSLATE_TO__', (100 + (Math.floor(i / 10) * 200)))
   ).join('');
 
+  // eslint-disable-next-line no-console
   console.log(epSvg);
 
   return {

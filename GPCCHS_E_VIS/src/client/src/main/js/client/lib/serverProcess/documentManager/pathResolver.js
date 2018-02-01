@@ -1,9 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : Add some TODO test in documentManager
+// VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : VIMA can be opened with --PAGE
+// END-HISTORY
+// ====================================================================
+
 import { join } from 'path';
 import _ from 'lodash/fp';
 import startsWith from 'lodash/fp/startsWith';
 
+import { isExists } from 'common/fs';
 import * as fmd from './fmd';
-import { isExists } from '../../common/fs';
 
 export const resolveFmdPath = (path, cb) => {
   if (!_.startsWith('/', path)) {
@@ -35,7 +44,7 @@ export const resolveOid = (oId, cb) => (
 export default ({ folder, relativePath, oId, absolutePath }, cb) => {
   const rootDir = folder || fmd.getRootDir();
   if (absolutePath) {
-    return cb(null, { resolvedPath: absolutePath });
+    return resolveFmdPath(absolutePath, cb);
   }
   if (oId) {
     return resolveOid(oId, cb);

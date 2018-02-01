@@ -1,3 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : Move filter application in main process
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : contains and icontains filters accept regex
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : Remove describe only . .
+// VERSION : 1.1.2 : FA : ISIS-FT-1952 : 16/05/2017 : Apply filters considering data type
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper modules
+// END-HISTORY
+// ====================================================================
+
 import _omit from 'lodash/omit';
 import _assign from 'lodash/assign';
 

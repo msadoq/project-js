@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in dataManager.
+// VERSION : 1.1.2 : DM : #6829 : 22/06/2017 : Working logarithmic scale for Y axes on PlotView.
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+// VERSION : 1.1.2 : DM : #6835 : 15/09/2017 : Added defaultProps for new lasso props on Grizzly and GrizzlyParametric.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import styles from './GrizzlyChart.css';

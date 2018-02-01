@@ -1,9 +1,16 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Rename Page/ContentSelector in Page/ContentSelectors .
+// VERSION : 1.1.2 : DM : #5828 : 21/04/2017 : A maximized view can be closed, it wont be taken into consideration anymore.
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
-import { getPageLayout } from '../../store/reducers/pages';
+import { getPageLayout } from 'store/reducers/pages';
 import {
   getWindowFocusedPageSelector,
-} from '../../store/selectors/windows';
+} from 'store/selectors/windows';
 
 export const getPageLayoutWithCollapsed = createSelector(
   getPageLayout,

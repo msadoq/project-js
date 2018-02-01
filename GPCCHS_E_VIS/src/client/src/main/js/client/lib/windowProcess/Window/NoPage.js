@@ -3,7 +3,6 @@ import path from 'path';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import classnames from 'classnames';
-import { main } from '../ipc';
 import DroppableContainer from '../common/DroppableContainer';
 import MessagesContainer from '../common/MessagesContainer';
 import styles from './NoPage.css';
@@ -25,12 +24,14 @@ class NoPage extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
     askOpenPage: PropTypes.func.isRequired,
+    askOpenWorkspace: PropTypes.func.isRequired,
     addMessage: PropTypes.func.isRequired,
   };
 
   onDrop = (e) => { // eslint-disable-line class-methods-use-this
     const {
       askOpenPage,
+      askOpenWorkspace,
       addMessage,
       windowId,
     } = this.props;
@@ -54,14 +55,9 @@ class NoPage extends PureComponent {
         },
       ],
       [_.eq('page'), () => askOpenPage(filePath)],
-      [_.eq('workspace'), () => main.openWorkspace({
-        absolutePath: path.join(
-          global.parameters.get('ISIS_DOCUMENTS_ROOT'),
-          _.getOr(_.get('filepath', content), 'filePath', content)
-        ),
-      })],
+      [_.eq('workspace'), () => askOpenWorkspace(filePath)],
       [
-        _.stubTrue,
+        _.always(true),
         () => {
           addMessage(
             windowId,

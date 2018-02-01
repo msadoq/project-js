@@ -1,3 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : FA : #5317 : 09/02/2017 : packaging dedupe dependencies and refactor for lodash
+// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Fix css bug on production bundle
+// VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Fix production webpack build errors
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Loading for code editor .
+// VERSION : 1.1.2 : FA : #6721 : 19/05/2017 : Fix renderer warning when build
+// VERSION : 1.1.2 : FA : #6721 : 22/05/2017 : Fix renderer warning when build
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : All built files is now in a dist/ folder
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : Fix process.env definePlugin in webpack
+// VERSION : 1.1.2 : FA : #6993 : 21/06/2017 : Fix packaging : Copy external htmlhint when build renderer
+// END-HISTORY
+// ====================================================================
+
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import merge from 'webpack-merge';

@@ -1,3 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Cleanup store/reducers structures, add folder for each reducer
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/health . . .
+// VERSION : 1.1.2 : DM : #5828 : 28/03/2017 : Refacto reducers/health . . .
+// VERSION : 1.1.2 : DM : #5828 : 28/03/2017 : Clean health.windowsStatus when close workspace or window
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add mock delay in profiling loop event - Try to add middlware to induce stress => not possible - Modify health logic, change as soon as the critical delay is reached
+// VERSION : 1.1.2 : FA : #7185 : 06/07/2017 : Add JSDoc on codeEditor, domains & health reducers
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 import _some from 'lodash/some';
@@ -6,9 +18,9 @@ import {
   HEALTH_STATUS_HEALTHY,
   HEALTH_STATUS_CRITICAL,
   HEALTH_STATUS_WARNING,
-} from '../../../constants';
+} from 'constants';
 
-import * as types from '../../types';
+import * as types from 'store/types';
 
 /* --- Reducer -------------------------------------------------------------- */
 

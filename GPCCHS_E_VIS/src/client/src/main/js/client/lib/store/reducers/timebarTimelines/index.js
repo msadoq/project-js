@@ -1,5 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Cleanup store/reducers structures, add folder for each reducer
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getTimebarTimelines simple selector in store/reducers/timebarTimelines
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
-import * as types from '../../types';
+import * as types from 'store/types';
 
 /* --- Reducer -------------------------------------------------------------- */
 // corresponding between timebars and timelines

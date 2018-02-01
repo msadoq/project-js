@@ -1,10 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : PlotView legend : left right top bottom.
+// END-HISTORY
+// ====================================================================
+
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import ViewParams from './ViewParams';
-import { getView } from '../../../../store/reducers/views';
-import { getConfigurationByViewId } from '../../../selectors';
-import { getDomains } from '../../../../store/reducers/domains';
-import { getSessions } from '../../../../store/reducers/sessions';
+import { getView } from 'store/reducers/views';
+import { getConfigurationByViewId } from 'viewManager/selectors';
+import { getDomains } from 'store/reducers/domains';
+import { getSessions } from 'store/reducers/sessions';
 import {
   updateBgColor,
   updateTitle,
@@ -13,7 +18,8 @@ import {
   updateTitleStyle,
   updateDomainName,
   updateSessionName,
-} from '../../../../store/actions/views';
+} from 'store/actions/views';
+import ViewParams from './ViewParams';
 
 const mapStateToProps = (state, { viewId }) => {
   const view = getView(state, { viewId });

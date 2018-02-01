@@ -1,0 +1,10 @@
+package dataControllerUtils.protobuf;
+
+import "./ADEPayloadHeader.proto";
+
+message ADEGenericPayload {
+    extensions 3 to 103;
+
+    required ADEPayloadHeader header = 1;
+    required bytes            payload = 2;
+}

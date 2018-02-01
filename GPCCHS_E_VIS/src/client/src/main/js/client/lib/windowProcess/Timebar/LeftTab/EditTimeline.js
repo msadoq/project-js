@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in windowProcess/Timebar
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
+// END-HISTORY
+// ====================================================================
+
 // import moment from 'moment';
 import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';

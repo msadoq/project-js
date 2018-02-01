@@ -2,14 +2,14 @@ import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
-import * as constants from '../../../../constants';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
+import * as constants from 'constants';
 
 const MODES = [
-  { value: constants.OBA_ALARM_MODE_ALL, label: 'All' },
-  { value: constants.OBA_ALARM_MODE_TOACKNOWLEDGE, label: 'To Acknowledge' },
+  { value: constants.ALARM_MODE_ALL, label: 'All' },
+  { value: constants.ALARM_MODE_TOACKNOWLEDGE, label: 'To Acknowledge' },
 ];
 
 class EntryPointConnectedData extends Component {

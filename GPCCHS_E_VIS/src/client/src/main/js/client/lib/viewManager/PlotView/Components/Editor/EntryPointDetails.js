@@ -1,11 +1,34 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #5828 : 28/03/2017 : PlotView editor: Time based data : unit x: 's', axisId: 'time', auto values. Display non-editable values.
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : PlotView EntryPoint refacto: connectedData instead of connectedDataX and connectedDataY.
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : Plot & Text editor panels and sub-panels are stored in store.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Plot & Text editor panels and sub-panels are stored in store.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : In Text Plot and Dynamic, domain is a dropdown list of available domains, timeline is not a free dropdown anymore.
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : DM : #6129 : 10/07/2017 : MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
+// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Added "connectedDataParametric" key to EntryPoints in PlotViews JSON files, EntryPoints can be parametric or not. Updated PlotView's editor accordingly.
+// VERSION : 1.1.2 : DM : #6835 : 12/09/2017 : Fixed two lint errors in PlotView Editor and View.
+// VERSION : 1.1.2 : FA : #7773 : 13/09/2017 : Fixed bug when editing PlotView/TextView/MimicView EntryPoint's name.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, PureComponent } from 'react';
 import Collapse from 'rc-collapse';
+import _get from 'lodash/get';
+import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
 import EntryPointParameters from './EntryPointParameters';
 import EntryPointConnectedData from './EntryPointConnectedData';
-import EntryPointStateColors from '../../../commonEditor/EntryPoint/EntryPointStateColors';
+
+import { entryPointType } from '../../../common/Components/types';
 
 const { Panel } = Collapse;
 const emptyArray = [];
+
+const { string, shape, arrayOf, bool, func, oneOfType } = PropTypes;
 
 /*
   EntryPointDetails représente un Point d'entrée,
@@ -13,36 +36,17 @@ const emptyArray = [];
 */
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
-    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    axes: PropTypes.shape({}).isRequired,
-    entryPoint: PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      parametric: PropTypes.bool.isRequired,
-      connectedData: PropTypes.shape({
-        axisId: PropTypes.string,
-        digit: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        fieldX: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-    }).isRequired,
-    updateEntryPoint: PropTypes.func.isRequired,
-    panels: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.bool,
+    viewId: string.isRequired,
+    timelines: arrayOf(shape({})).isRequired,
+    axes: shape({}).isRequired,
+    entryPoint: entryPointType.isRequired,
+    updateEntryPoint: func.isRequired,
+    panels: oneOfType([
+      arrayOf(string),
+      bool,
     ]).isRequired,
-    updateViewSubPanels: PropTypes.func.isRequired,
-    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    updateViewSubPanels: func.isRequired,
+    domains: arrayOf(shape({})).isRequired,
   };
 
   static defaultProps = {
@@ -56,7 +60,7 @@ export default class EntryPointDetails extends PureComponent {
       entryPoint,
     } = this.props;
     updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
-  }
+  };
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId } = this.props;
@@ -64,7 +68,7 @@ export default class EntryPointDetails extends PureComponent {
       ...entryPoint,
       ...values,
     });
-  }
+  };
 
   handleObjectParametersSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId } = this.props;
@@ -72,8 +76,10 @@ export default class EntryPointDetails extends PureComponent {
       ...entryPoint,
       objectStyle: values,
       name: values.name,
+      displayLine: values.displayLine,
+      displayPoints: values.displayPoints,
     });
-  }
+  };
 
   handleConnectedDataSubmit = (values) => {
     const {
@@ -91,7 +97,7 @@ export default class EntryPointDetails extends PureComponent {
         connectedDataParametric: values.connectedDataParametric,
       }
     );
-  }
+  };
 
   render() {
     const {
@@ -104,7 +110,16 @@ export default class EntryPointDetails extends PureComponent {
     } = this.props;
 
     // TODO Rerender (new ref)
-    const initialValuesParameters = { ...entryPoint.objectStyle, name: entryPoint.name };
+    const initialValuesParameters = {
+      ...entryPoint.objectStyle,
+      name: entryPoint.name,
+      displayLine: _get(
+        entryPoint, 'displayLine', _get(
+          entryPoint, ['objectStyle', 'line', 'size'], 0) > 0),
+      displayPoints: _get(
+        entryPoint, 'displayPoints', _get(
+          entryPoint, ['objectStyle', 'points', 'size'], 0) > 0),
+    };
     // TODO Rerender (new ref)
     const initialValuesConnectedData = {
       connectedData: entryPoint.connectedData,

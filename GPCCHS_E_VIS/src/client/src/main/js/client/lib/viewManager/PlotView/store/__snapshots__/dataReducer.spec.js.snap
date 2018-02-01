@@ -55,6 +55,7 @@ Object {
           "x": 100000,
         },
         "100120": Object {
+          "color": "#2ecc71",
           "masterTime": 100120,
           "refTime": 100120,
           "symbol": undefined,
@@ -63,6 +64,7 @@ Object {
           "x": 100120,
         },
         "100220": Object {
+          "color": "#2ecc71",
           "masterTime": 100220,
           "refTime": 100220,
           "symbol": undefined,
@@ -71,6 +73,7 @@ Object {
           "x": 100220,
         },
         "100320": Object {
+          "color": "#2ecc71",
           "masterTime": 100320,
           "refTime": 100320,
           "symbol": undefined,
@@ -79,6 +82,7 @@ Object {
           "x": 100320,
         },
         "100420": Object {
+          "color": "#2ecc71",
           "masterTime": 100420,
           "refTime": 100420,
           "symbol": undefined,
@@ -87,6 +91,7 @@ Object {
           "x": 100420,
         },
         "100520": Object {
+          "color": "#2ecc71",
           "masterTime": 100520,
           "refTime": 100520,
           "symbol": undefined,
@@ -95,6 +100,7 @@ Object {
           "x": 100520,
         },
         "100620": Object {
+          "color": "#2ecc71",
           "masterTime": 100620,
           "refTime": 100620,
           "symbol": undefined,
@@ -103,6 +109,7 @@ Object {
           "x": 100620,
         },
         "100720": Object {
+          "color": "#2ecc71",
           "masterTime": 100720,
           "refTime": 100720,
           "symbol": undefined,
@@ -111,6 +118,7 @@ Object {
           "x": 100720,
         },
         "100820": Object {
+          "color": "#2ecc71",
           "masterTime": 100820,
           "refTime": 100820,
           "symbol": undefined,
@@ -149,6 +157,7 @@ Object {
       },
       "ATT_BC_REVTCOUNT1_Offset": Object {
         "110120": Object {
+          "color": "#2ecc71",
           "masterTime": 110120,
           "refTime": 100120,
           "symbol": undefined,
@@ -157,6 +166,7 @@ Object {
           "x": 110120,
         },
         "110220": Object {
+          "color": "#2ecc71",
           "masterTime": 110220,
           "refTime": 100220,
           "symbol": undefined,
@@ -165,6 +175,7 @@ Object {
           "x": 110220,
         },
         "110320": Object {
+          "color": "#2ecc71",
           "masterTime": 110320,
           "refTime": 100320,
           "symbol": undefined,
@@ -173,6 +184,7 @@ Object {
           "x": 110320,
         },
         "110420": Object {
+          "color": "#2ecc71",
           "masterTime": 110420,
           "refTime": 100420,
           "symbol": undefined,
@@ -181,6 +193,7 @@ Object {
           "x": 110420,
         },
         "110520": Object {
+          "color": "#2ecc71",
           "masterTime": 110520,
           "refTime": 100520,
           "symbol": undefined,
@@ -189,6 +202,7 @@ Object {
           "x": 110520,
         },
         "110620": Object {
+          "color": "#2ecc71",
           "masterTime": 110620,
           "refTime": 100620,
           "symbol": undefined,
@@ -197,6 +211,7 @@ Object {
           "x": 110620,
         },
         "110720": Object {
+          "color": "#2ecc71",
           "masterTime": 110720,
           "refTime": 100720,
           "symbol": undefined,
@@ -205,6 +220,7 @@ Object {
           "x": 110720,
         },
         "110820": Object {
+          "color": "#2ecc71",
           "masterTime": 110820,
           "refTime": 100820,
           "symbol": undefined,

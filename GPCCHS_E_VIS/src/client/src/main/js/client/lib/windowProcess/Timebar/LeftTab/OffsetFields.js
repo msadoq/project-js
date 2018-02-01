@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in windowProcess/Timebar
+// VERSION : 1.1.2 : FA : #6670 : 13/06/2017 : Fix last two tests AddTimeline EditTimeline.
+// VERSION : 1.1.2 : FA : #6670 : 13/06/2017 : Remove console warn in LeftTab/OffsetFields
+// VERSION : 1.1.2 : FA : #6670 : 13/06/2017 : Restore some snapshots in viewManager and windowProcess
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import _debounce from 'lodash/debounce';

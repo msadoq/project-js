@@ -1,10 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
+// VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
-import withMouseWheelEvents from '../../../../windowProcess/common/hoc/withMouseWheelEvents';
-import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
-import withBatchedSetState from '../../../../windowProcess/common/hoc/withBatchedSetState';
-import { HISTORYVIEW_SEPARATOR } from '../../../../constants';
+import withMouseWheelEvents from 'windowProcess/common/hoc/withMouseWheelEvents';
+import withDimensions from 'windowProcess/common/hoc/withDimensions';
+import withBatchedSetState from 'windowProcess/common/hoc/withBatchedSetState';
+import { HISTORYVIEW_SEPARATOR } from 'constants';
 
 import styles from './HistoryView.css';
 

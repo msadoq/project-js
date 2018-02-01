@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #6670 : 29/06/2017 : Add a basic test for rootReducer
+// END-HISTORY
+// ====================================================================
+
 import rootReducer from '.';
 
 describe('store:reducers', () => {

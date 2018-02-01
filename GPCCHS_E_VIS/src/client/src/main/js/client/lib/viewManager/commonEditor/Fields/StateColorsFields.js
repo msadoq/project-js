@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : importing exact path instead of .. from index.js .
+// VERSION : 1.1.2 : FA : #6780 : 21/06/2017 : Apply default state colors in views
+// END-HISTORY
+// ====================================================================
+
 /* eslint import/no-webpack-loader-syntax:0 */
 import React, { PropTypes } from 'react';
 import {
@@ -5,29 +13,41 @@ import {
   Glyphicon,
   Alert,
 } from 'react-bootstrap';
+import _each from 'lodash/map';
 import classnames from 'classnames';
-import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import ColorPicker from '../../../windowProcess/commonReduxForm/ColorPicker';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ColorPicker from 'windowProcess/commonReduxForm/ColorPicker';
+import { operators } from 'common/operators';
+import {
+  getStateColorFilters,
+  STATE_COLOR_TYPES,
+  STATE_COLOR_NOMINAL,
+} from 'windowProcess/common/colors';
 import styles from './fields.css';
-import { operators } from '../../../common/operators';
+
+const { shape, func } = PropTypes;
+
+const monitoringStateColors = {
+  'true-false': getStateColorFilters(true, false),
+  'true-true': getStateColorFilters(true, true),
+  'false-false': getStateColorFilters(false, false),
+  'false-true': getStateColorFilters(false, true),
+};
 
 export default class StateColorsFields extends React.Component {
-
   static propTypes = {
-    fields: PropTypes.shape({
-      push: PropTypes.func,
-      remove: PropTypes.func,
-      insert: PropTypes.func,
-      getAll: PropTypes.func,
+    fields: shape({
+      push: func,
+      remove: func,
+      insert: func,
+      getAll: func,
     }).isRequired,
-  }
-
+  };
   state = {
     error: null,
     editingIndex: null,
     currentColor: null,
-  }
-
+  };
   onInputChange = () => {
     const { error } = this.state;
     const fieldLength = this.fieldField.value.length;
@@ -44,8 +64,7 @@ export default class StateColorsFields extends React.Component {
         error: 'Field and operand are required',
       });
     }
-  }
-
+  };
   addStateColor = (e) => {
     e.preventDefault();
     const { currentColor } = this.state;
@@ -62,11 +81,13 @@ export default class StateColorsFields extends React.Component {
     );
     this.setState({ currentColor: null });
     this.resetFields();
-  }
-
-  /*
-    Reset with default values if no argument is given
-  */
+  };
+  /**
+   * Reset with default values if no argument is given
+   * @param field
+   * @param opt
+   * @param opd
+   */
   resetFields = (
     field = '',
     opt = Object.keys(operators)[0],
@@ -75,8 +96,7 @@ export default class StateColorsFields extends React.Component {
     this.fieldField.value = field;
     this.operatorField.value = opt;
     this.operandField.value = opd;
-  }
-
+  };
   editStateColor = (index) => {
     const { fields } = this.props;
     const { editingIndex } = this.state;
@@ -95,12 +115,10 @@ export default class StateColorsFields extends React.Component {
         currentColor: stateColor.color,
       });
     }
-  }
-
+  };
   updateColor = (color) => {
     this.setState({ currentColor: color });
-  }
-
+  };
   removeStateColor = (index) => {
     const { fields } = this.props;
     const { editingIndex } = this.state;
@@ -112,8 +130,7 @@ export default class StateColorsFields extends React.Component {
       });
       this.resetFields();
     }
-  }
-
+  };
   updateStateColor = (e) => {
     e.preventDefault();
     const { fields } = this.props;
@@ -140,20 +157,76 @@ export default class StateColorsFields extends React.Component {
         currentColor: null,
       });
     }, 100);
-  }
+  };
+  renderMonitoringColors = () => (
+    <div>
+      <table className="table table-condensed table-responsive table-bordered">
+        <thead>
+          <tr>
+            <th>Obs</th>
+            <th>Sig</th>
+            {_each(STATE_COLOR_TYPES, (type, key) => (
+              <th
+                key={`table-header-${key}-${type}`}
+              >{type.substr(0, 3)}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {
+            ['true', 'false'].map(obsolete =>
+              ['true', 'false'].map(significant =>
+                <tr>
+                  <td>{ obsolete === 'true' ? 'Yes' : 'No' }</td>
+                  <td>{ significant === 'true' ? 'Yes' : 'No' }</td>
+                  {_each(monitoringStateColors[`${obsolete}-${significant}`], (o, k) => (
+                    <td
+                      key={`table-row-${obsolete}-${significant}-${k}`}
+                      style={{ background: o.color, textAlign: 'center' }}
+                    >
+                      {
+                        o.condition.operand === STATE_COLOR_NOMINAL
+                        && obsolete === 'false'
+                        && significant === 'true'
+                        && ('x')
+                      }
+                    </td>
+                  ))}
+                </tr>
+              )
+            )
+          }
+        </tbody>
+      </table>
+    </div>
+  );
+  /**
+   * @param error
+   * @returns {*}
+   */
+  renderErrors = (error) => {
+    if (!error) {
+      return null;
+    }
 
-  render() {
+    return (
+      <div>
+        <Alert bsStyle="danger" className="m0">
+          {error}
+        </Alert>
+      </div>
+    );
+  };
+  renderTableList = () => {
     const { fields } = this.props;
     const { editingIndex } = this.state;
-    const { error } = this.state;
     const stateColors = fields.getAll();
-    const canEdit = editingIndex !== null;
-    const canAdd = this.operandField && this.fieldField &&
-      this.operandField.value.length && this.fieldField.value.length;
+
     const tableStyle = { fontSize: '12px' };
     const glyphTrashStyle = { cursor: 'pointer' };
     const glyphPencilStyle = { cursor: 'pointer', color: 'inherit' };
     const glyphPencilEditingStyle = { cursor: 'pointer', color: '#0275D8' };
+
     return (
       <div>
         <Table condensed striped style={tableStyle}>
@@ -207,9 +280,19 @@ export default class StateColorsFields extends React.Component {
             }
           </tbody>
         </Table>
-        {error && (<div><br /><Alert bsStyle="danger" className="m0">
-          {error}
-        </Alert><br /></div>)}
+      </div>
+    );
+  };
+  renderForm = () => {
+    const { fields } = this.props;
+    const { editingIndex, error } = this.state;
+    const stateColors = fields.getAll();
+    const canEdit = editingIndex !== null;
+    const canAdd = this.operandField && this.fieldField &&
+      this.operandField.value.length && this.fieldField.value.length;
+
+    return (
+      <div>
         <HorizontalFormGroup label="color">
           <ColorPicker
             color={(editingIndex !== null && stateColors[editingIndex]) ?
@@ -263,6 +346,17 @@ export default class StateColorsFields extends React.Component {
             />
           }
         </HorizontalFormGroup>
+      </div>
+    );
+  };
+  render() {
+    return (
+      <div>
+        <br />
+        {this.renderMonitoringColors()}
+        {this.renderTableList()}
+        {this.renderErrors(this.state.error)}
+        {this.renderForm()}
       </div>
     );
   }

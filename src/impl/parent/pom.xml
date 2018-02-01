@@ -4,12 +4,12 @@
   <groupId>fr.cnes.lpisis.gpcc</groupId>
   <artifactId>gpcchs-parent</artifactId>
   <packaging>pom</packaging>
-  <version>2.0.0-R10S1-SNAPSHOT</version>
+  <version>2.0.0-R10S3-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis.gpcc</groupId>
     <artifactId>gpcchs-system</artifactId>
-    <version>2.0.0-R10S1-SNAPSHOT</version>
+    <version>2.0.0-R10S3-SNAPSHOT</version>
     <relativePath>../system</relativePath>
   </parent>
   <properties>
@@ -17,6 +17,41 @@
   </properties>
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.js</groupId>
+        <artifactId>gpcchs_e_vis_common</artifactId>
+        <type>isis-js-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcchs.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.js</groupId>
+        <artifactId>gpcchs_e_vis_client</artifactId>
+        <type>isis-js-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcchs.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpds.js</groupId>
+        <artifactId>gpds_rtd</artifactId>
+        <type>isis-js-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpds.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.python</groupId>
+        <artifactId>gpcc_xmlRuntime</artifactId>
+        <type>isis-python-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.python</groupId>
+        <artifactId>gpcctc_l_cnt_isisContainerCommon</artifactId>
+        <type>isis-python-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>

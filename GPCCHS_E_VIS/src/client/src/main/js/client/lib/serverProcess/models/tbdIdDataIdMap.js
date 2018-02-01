@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Add a forecast on play pressed
+// VERSION : 1.1.2 : DM : #6700 : 22/08/2017 : Second fix filters crash on realtime
+// VERSION : 1.1.2 : DM : #6700 : 22/08/2017 : Fix error on filters retrieval .
+// END-HISTORY
+// ====================================================================
+
 /**
  * tbdIdDataIdMap
  * Map to link tbdId with DataId

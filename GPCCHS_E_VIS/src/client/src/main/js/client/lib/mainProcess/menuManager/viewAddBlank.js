@@ -1,13 +1,21 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Clean menuManager . . .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add sendProductLog middleware in serverProcess + replace old IPC productLog
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
-import { LOG_DOCUMENT_OPEN } from '../../constants';
+import { LOG_DOCUMENT_OPEN } from 'constants';
 
+import { addBlankView } from 'store/actions/views';
+import { addBlankPage } from 'store/actions/pages';
+import { getWindowFocusedPageId } from 'store/reducers/windows';
+import { getViewModule } from 'viewManager';
 import { server } from '../ipc';
-import { addBlankView } from '../../store/actions/views';
-import { addBlankPage } from '../../store/actions/pages';
-import { getWindowFocusedPageId } from '../../store/reducers/windows';
 import { getStore } from '../store';
-import { getViewModule } from '../../viewManager';
 
 const viewAddBlank = (type, focusedWindow) => {
   const { dispatch, getState } = getStore();

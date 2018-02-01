@@ -1,3 +1,32 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in dataManager.
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Adapting PlotView and Grizzly for the new data structure.
+// VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Grizzly : perfOutput as an option, log lines number, points number and axis.
+// VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Fixed perf log in Grizzly, counting total number of points differently.
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Fix linting rules on hsc hss and common
+// VERSION : 1.1.2 : FA : #6130 : 30/03/2017 : Highlight curve by selecting entry point in the legend.
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #6302 : 04/04/2017 : FIx lint in Grizzly and PlotView.js .
+// VERSION : 1.1.2 : DM : #6302 : 06/04/2017 : Fix some lint errors, added justification and DV6 TBC_CNES prefix on others.
+// VERSION : 1.1.2 : DM : #5828 : 25/04/2017 : Grizzly : when y axis labels are out of range, they are hidden.
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : Small fix in Grizzly: leftMargin for LinesCanvas is always accurate.
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 13/06/2017 : Prep for point labels option on PlotView.
+// VERSION : 1.1.2 : DM : #6829 : 06/07/2017 : PlotView perfOutput is available, just set perOutput={true} to Grizzly.
+// VERSION : 1.1.2 : FA : #7185 : 06/07/2017 : Fix lint errors and warnings
+// VERSION : 1.1.2 : DM : #6829 : 10/07/2017 : PlotView default yAccessor : .value instead of .y
+// VERSION : 1.1.2 : DM : #6829 : 10/07/2017 : linesCanvas prop lines[n].yAccessor is not mandatory.
+// VERSION : 1.1.2 : DM : #6835 : 18/07/2017 : PlotView's lines take string instead of function for colorAccessor attribute.
+// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
+// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Grizzly/PlotView : having only one method on Chart to calculate position styles for ToolTip, LinesCanvas and Background divs.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+// VERSION : 1.1.2 : FA : #7755 : 18/09/2017 : When pointStyle, lineStyle or other property is changed on EP, curves get updated automatically.
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using indexes to iterate.
+// VERSION : 1.1.2 : FA : #7814 : 19/09/2017 : GrizzlyParametric now also works with indexes and data.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, Component } from 'react';
 import styles from './GrizzlyChart.css';
 

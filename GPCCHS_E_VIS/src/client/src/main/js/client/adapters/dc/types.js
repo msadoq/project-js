@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
+// END-HISTORY
+// ====================================================================
+
 const _isInteger = require('lodash/isInteger');
 const _isBuffer = require('lodash/isBuffer');
 const _isNumber = require('lodash/isNumber');

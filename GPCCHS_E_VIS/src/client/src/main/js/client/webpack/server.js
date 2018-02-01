@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Revert "Replace some console uses by new Console"
+// VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Replace some console uses by new Console
+// VERSION : 1.1.2 : DM : #3622 : 24/02/2017 : Improve DX on npm run wp, display dashboard
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// END-HISTORY
+// ====================================================================
+
 /* eslint no-console: 0 */
 import express from 'express';
 import webpack from 'webpack';

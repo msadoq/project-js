@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <!-- Produced by  -->
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.cnes.lpisis.gpcc.js</groupId>
+  <artifactId>gpcchs_e_vis_launcher_test</artifactId>
+  <packaging>pom</packaging>
+  <version>2.0.0-R10S3-SNAPSHOT</version>
+  <name>${project.groupId}.${project.artifactId}</name>
+  <parent>
+    <groupId>fr.cnes.lpisis.gpcc</groupId>
+    <artifactId>gpcchs-parent</artifactId>
+    <version>2.0.0-R10S3-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
+  <dependencies>
+    <dependency>
+      <groupId>fr.cnes.lpisis.gpcc.js</groupId>
+      <artifactId>gpcchs_e_vis_client</artifactId>
+      <type>isis-js-bundle</type>
+      <classifier>unix_dev</classifier>
+    </dependency>
+    <dependency>
+      <groupId>fr.cnes.lpisis.gpcc.js</groupId>
+      <artifactId>gpcchs_e_vis_common</artifactId>
+      <type>isis-js-module-dependency</type>
+      <classifier>unix_dev</classifier>
+    </dependency>
+    <dependency>
+      <groupId>fr.cnes.lpisis.gpds.js</groupId>
+      <artifactId>gpds_rtd</artifactId>
+      <type>isis-js-module-dependency</type>
+      <classifier>unix_dev</classifier>
+    </dependency>
+    <dependency>
+      <groupId>fr.cnes.lpisis.cots</groupId>
+      <artifactId>zmq</artifactId>
+      <type>isis-cots</type>
+    </dependency>
+    <dependency>
+      <groupId>fr.cnes.lpisis.cots</groupId>
+      <artifactId>node</artifactId>
+      <type>isis-cots</type>
+    </dependency>
+    <dependency>
+      <groupId>fr.cnes.lpisis.cots</groupId>
+      <artifactId>gpcchs_npm_cache</artifactId>
+      <type>isis-cots</type>
+    </dependency>
+  </dependencies>
+</project>

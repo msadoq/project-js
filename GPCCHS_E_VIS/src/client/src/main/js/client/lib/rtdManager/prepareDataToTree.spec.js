@@ -1,3 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5822 : 15/03/2017 : add a tree component and format inspector data to be consumed
+// VERSION : 1.1.2 : DM : #5822 : 15/03/2017 : add styles for the inspector
+// VERSION : 1.1.2 : DM : #5822 : 16/03/2017 : resolve a rtd link in the inspector
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Migrate all rtdManager test for jest
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper modules
+// END-HISTORY
+// ====================================================================
+
 import prepareDataToTree from './prepareDataToTree';
 
 describe('rtdManager/prepareDataToTree', () => {

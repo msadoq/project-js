@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : FA : #5838 : 16/06/2017 : Add a third parameter to childProcess to allow args passing to child process
+// VERSION : 1.1.2 : DM : #6700 : 19/06/2017 : Cleanup child process fork method options
+// VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Cleanup main and server startup process
+// END-HISTORY
+// ====================================================================
+
 const { fork: forkChildProcess } = require('child_process');
 const logger = require('../logManager')('main:childProcess');
 const {

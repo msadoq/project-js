@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Add archive controller and its test
+// VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Code robustness : ensure that there is a request for a given queryId in singleton
+// VERSION : 1.1.2 : DM : #6700 : 29/08/2017 : Add throttle mechanism in patch reducer
+// VERSION : 1.1.2 : FA : #7858 : 18/09/2017 : Add robustness on 'dataId undefined' crash
+// END-HISTORY
+// ====================================================================
+
 const { decode, encode } = require('../../../utils/adapters');
 const executionMonitor = require('../../../common/logManager/execution');
 const logger = require('../../../common/logManager')('controllers:onTimebasedArchiveData');

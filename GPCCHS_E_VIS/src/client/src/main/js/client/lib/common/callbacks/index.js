@@ -1,8 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper modules
+// END-HISTORY
+// ====================================================================
+
 import _isString from 'lodash/isString';
 import _isEmpty from 'lodash/isEmpty';
 import _has from 'lodash/has';
 import _isFunction from 'lodash/isFunction';
-import getLogger from '../../common/logManager';
+import getLogger from 'common/logManager';
 
 const logger = getLogger('common:registeredCallbacks');
 

@@ -1,9 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Creation of store observer and test state
+// END-HISTORY
+// ====================================================================
+
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _intersection from 'lodash/intersection';
-import { retrieveNeededIntervals } from '../../viewManager/commonData/intervalManagement';
-import mergeInterval from '../../common/intervals/merge';
+import { retrieveNeededIntervals } from 'viewManager/commonData/intervalManagement';
+import mergeInterval from 'common/intervals/merge';
 
 /**
  * Return the current missing intervals requests list

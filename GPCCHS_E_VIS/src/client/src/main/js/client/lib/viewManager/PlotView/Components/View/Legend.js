@@ -1,3 +1,22 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Fixed import errors in editor components.
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : New legend toggable on plotview !
+// VERSION : 1.1.2 : FA : #6130 : 30/03/2017 : Highlight curve by selecting entry point in the legend.
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Fixed incorrect PropType in PlotView's legend.
+// VERSION : 1.1.2 : DM : #6302 : 04/04/2017 : FIx lint in Grizzly and PlotView.js .
+// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Fix PlotView legend, due to connectedDataY -> connectedData.
+// VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : It's possible to select multiple lines in PlotView legend.
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : open parameter in editor via context menu
+// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : User can now show/hide/remove EP from Plot in legend.
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : PlotView legend : left right top bottom.
+// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
+// VERSION : 1.1.2 : FA : #7256 : 21/07/2017 : Legend PlotView colors are editable in styles/PlotView.css
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : Fixed few eslint errors / warnings no-console and spaced-comment.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, Component } from 'react';
 import _get from 'lodash/get';
 import { Glyphicon } from 'react-bootstrap';

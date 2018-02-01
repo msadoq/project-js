@@ -1,7 +1,13 @@
-import getLogger from '../../../common/logManager';
-import flattenDataId from '../../../common/flattenDataId';
-import parseConnectedData from '../../commonData/parseConnectedData';
-import flattenStateColors from '../../commonData/flattenStateColors';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
+// END-HISTORY
+// ====================================================================
+
+import getLogger from 'common/logManager';
+import flattenDataId from 'common/flattenDataId';
+import parseConnectedData from 'viewManager/commonData/parseConnectedData';
+import flattenStateColors from 'viewManager/commonData/flattenStateColors';
 
 const logger = getLogger('data:PLotView:parseEntryPoint');
 

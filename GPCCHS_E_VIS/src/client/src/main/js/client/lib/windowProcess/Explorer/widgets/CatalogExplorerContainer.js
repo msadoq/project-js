@@ -1,5 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : catalog explorer : open, close and browse items
+// END-HISTORY
+// ====================================================================
+
 import { connect } from 'react-redux';
-import CatalogExplorer from './CatalogExplorer';
 import {
   getRteSessions,
   getRteDomains,
@@ -8,7 +14,7 @@ import {
   getRteOpenedItems,
   getRteFocusedItem,
   getRteFocusedInfo,
-} from '../../../store/reducers/rte';
+} from 'store/reducers/rte';
 import {
   isRteCatalogNodeToggled as toggleCatalogNode,
   isRteItemNameNodeToggled as toggleItemNameNode,
@@ -18,7 +24,8 @@ import {
   deleteRteItemNames as deleteItemNames,
   closeRteItem as closeItem,
   setRteFocusedItem as setFocusedItem,
-} from '../../../store/actions/rte';
+} from 'store/actions/rte';
+import CatalogExplorer from './CatalogExplorer';
 
 const mapStateToProps = (state) => {
   const sessions = getRteSessions(state);

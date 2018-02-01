@@ -1,0 +1,407 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager:commonData:sortDataBy sort boolean ascending boolean sort 1`] = `
+Array [
+  Object {
+    "type": "boolean",
+    "value": false,
+  },
+  Object {
+    "type": "boolean",
+    "value": false,
+  },
+  Object {
+    "type": "boolean",
+    "value": false,
+  },
+  Object {
+    "type": "boolean",
+    "value": true,
+  },
+  Object {
+    "type": "boolean",
+    "value": true,
+  },
+  Object {
+    "type": "boolean",
+    "value": true,
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort boolean descending boolean sort 1`] = `
+Array [
+  Object {
+    "type": "boolean",
+    "value": true,
+  },
+  Object {
+    "type": "boolean",
+    "value": true,
+  },
+  Object {
+    "type": "boolean",
+    "value": true,
+  },
+  Object {
+    "type": "boolean",
+    "value": false,
+  },
+  Object {
+    "type": "boolean",
+    "value": false,
+  },
+  Object {
+    "type": "boolean",
+    "value": false,
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort double ascending double sort 1`] = `
+Array [
+  Object {
+    "symbol": "50.000000001",
+    "type": "double",
+  },
+  Object {
+    "symbol": "50.000000002",
+    "type": "double",
+  },
+  Object {
+    "symbol": "50.000000003",
+    "type": "double",
+  },
+  Object {
+    "symbol": "50.000000004",
+    "type": "double",
+  },
+  Object {
+    "symbol": "50.000000005",
+    "type": "double",
+  },
+  Object {
+    "symbol": "50.000000005",
+    "type": "double",
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort double descending double sort 1`] = `
+Array [
+  Object {
+    "symbol": "50.000000005",
+    "type": "double",
+  },
+  Object {
+    "symbol": "50.000000005",
+    "type": "double",
+  },
+  Object {
+    "symbol": "50.000000004",
+    "type": "double",
+  },
+  Object {
+    "symbol": "50.000000003",
+    "type": "double",
+  },
+  Object {
+    "symbol": "50.000000002",
+    "type": "double",
+  },
+  Object {
+    "symbol": "50.000000001",
+    "type": "double",
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort duration ascending duration sort 1`] = `
+Array [
+  Object {
+    "type": "duration",
+    "value": 10,
+  },
+  Object {
+    "type": "duration",
+    "value": 20,
+  },
+  Object {
+    "type": "duration",
+    "value": 30,
+  },
+  Object {
+    "type": "duration",
+    "value": 40,
+  },
+  Object {
+    "type": "duration",
+    "value": 50,
+  },
+  Object {
+    "type": "duration",
+    "value": 50,
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort duration descending duration sort 1`] = `
+Array [
+  Object {
+    "type": "duration",
+    "value": 50,
+  },
+  Object {
+    "type": "duration",
+    "value": 40,
+  },
+  Object {
+    "type": "duration",
+    "value": 30,
+  },
+  Object {
+    "type": "duration",
+    "value": 20,
+  },
+  Object {
+    "type": "duration",
+    "value": 10,
+  },
+  Object {
+    "type": "duration",
+    "value": 10,
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort long ascending long sort 1`] = `
+Array [
+  Object {
+    "symbol": "50000000001",
+    "type": "long",
+  },
+  Object {
+    "symbol": "50000000002",
+    "type": "long",
+  },
+  Object {
+    "symbol": "50000000003",
+    "type": "long",
+  },
+  Object {
+    "symbol": "50000000004",
+    "type": "long",
+  },
+  Object {
+    "symbol": "50000000005",
+    "type": "long",
+  },
+  Object {
+    "symbol": "50000000005",
+    "type": "long",
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort long descending long sort 1`] = `
+Array [
+  Object {
+    "symbol": "50000000005",
+    "type": "long",
+  },
+  Object {
+    "symbol": "50000000005",
+    "type": "long",
+  },
+  Object {
+    "symbol": "50000000004",
+    "type": "long",
+  },
+  Object {
+    "symbol": "50000000003",
+    "type": "long",
+  },
+  Object {
+    "symbol": "50000000002",
+    "type": "long",
+  },
+  Object {
+    "symbol": "50000000001",
+    "type": "long",
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort number ascending number sort 1`] = `
+Array [
+  Object {
+    "type": "number",
+    "value": 1,
+  },
+  Object {
+    "type": "number",
+    "value": 2,
+  },
+  Object {
+    "type": "number",
+    "value": 3,
+  },
+  Object {
+    "type": "number",
+    "value": 4,
+  },
+  Object {
+    "type": "number",
+    "value": 5,
+  },
+  Object {
+    "type": "number",
+    "value": 5,
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort number descending number sort 1`] = `
+Array [
+  Object {
+    "type": "number",
+    "value": 5,
+  },
+  Object {
+    "type": "number",
+    "value": 4,
+  },
+  Object {
+    "type": "number",
+    "value": 3,
+  },
+  Object {
+    "type": "number",
+    "value": 2,
+  },
+  Object {
+    "type": "number",
+    "value": 1,
+  },
+  Object {
+    "type": "number",
+    "value": 1,
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort string ascending string sort 1`] = `
+Array [
+  Object {
+    "type": "string",
+    "value": "a",
+  },
+  Object {
+    "type": "string",
+    "value": "b",
+  },
+  Object {
+    "type": "string",
+    "value": "c",
+  },
+  Object {
+    "type": "string",
+    "value": "d",
+  },
+  Object {
+    "type": "string",
+    "value": "e",
+  },
+  Object {
+    "type": "string",
+    "value": "e",
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort string descending string sort 1`] = `
+Array [
+  Object {
+    "type": "string",
+    "value": "e",
+  },
+  Object {
+    "type": "string",
+    "value": "d",
+  },
+  Object {
+    "type": "string",
+    "value": "c",
+  },
+  Object {
+    "type": "string",
+    "value": "b",
+  },
+  Object {
+    "type": "string",
+    "value": "a",
+  },
+  Object {
+    "type": "string",
+    "value": "a",
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort time ascending time sort 1`] = `
+Array [
+  Object {
+    "type": "time",
+    "value": 10000,
+  },
+  Object {
+    "type": "time",
+    "value": 20000,
+  },
+  Object {
+    "type": "time",
+    "value": 30000,
+  },
+  Object {
+    "type": "time",
+    "value": 40000,
+  },
+  Object {
+    "type": "time",
+    "value": 50000,
+  },
+  Object {
+    "type": "time",
+    "value": 50000,
+  },
+]
+`;
+
+exports[`viewManager:commonData:sortDataBy sort time descending time sort 1`] = `
+Array [
+  Object {
+    "type": "time",
+    "value": 50000,
+  },
+  Object {
+    "type": "time",
+    "value": 40000,
+  },
+  Object {
+    "type": "time",
+    "value": 30000,
+  },
+  Object {
+    "type": "time",
+    "value": 20000,
+  },
+  Object {
+    "type": "time",
+    "value": 10000,
+  },
+  Object {
+    "type": "time",
+    "value": 10000,
+  },
+]
+`;

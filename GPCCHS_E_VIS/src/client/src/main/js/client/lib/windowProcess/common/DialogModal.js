@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Add margin right 5px in DialogModal
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Add DialogModal used by ModalGeneric
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add onSaveView documents middleware .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Rename DialogModal component displayName .
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, PureComponent } from 'react';
 import { Button } from 'react-bootstrap';
 

@@ -1,22 +1,29 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { join, dirname } from 'path';
-import { LOG_DOCUMENT_SAVE } from '../../constants';
+import { LOG_DOCUMENT_SAVE } from 'constants';
 
-import { getWindows } from '../../store/reducers/windows';
-import { getPage } from '../../store/reducers/pages';
-import { getTimebars, getTimebarId } from '../../store/reducers/timebars';
-import { getTimebarTimelines } from '../../store/reducers/timebarTimelines';
-import { getTimeline } from '../../store/reducers/timelines';
+import { getWindows } from 'store/reducers/windows';
+import { getPage } from 'store/reducers/pages';
+import { getTimebars, getTimebarId } from 'store/reducers/timebars';
+import { getTimebarTimelines } from 'store/reducers/timebarTimelines';
+import { getTimeline } from 'store/reducers/timelines';
 import {
   getWorkspaceFile,
   getWorkspaceFolder,
   getDomainName,
   getSessionName,
-} from '../../store/reducers/hsc';
+} from 'store/reducers/hsc';
 
-import validation from './validation';
+import { createFolder } from 'common/fs';
 import { dc } from '../ipc';
-import { createFolder } from '../../common/fs';
+import validation from './validation';
 import { writeDocument } from './io';
 
 const getPageLocation = ({ oId, path, absolutePath }) => {
@@ -48,6 +55,9 @@ const prepareTimebars = state => _.map(timebar => ({
   speed: timebar.speed,
   masterId: timebar.masterId,
   mode: timebar.mode,
+  visuWindow: {
+    defaultWidth: timebar.visuWindow.defaultWidth,
+  },
   timelines: _.map((timelineUuid) => {
     const timeline = getTimeline(state, { timelineUuid });
     return _.omit('uuid', timeline);

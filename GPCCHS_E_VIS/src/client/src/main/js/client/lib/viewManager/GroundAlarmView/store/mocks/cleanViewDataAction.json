@@ -1,0 +1,547 @@
+{
+  "type": "WS_VIEWDATA_CLEAN",
+  "payload": {
+    "dataMap": {
+      "perView": {
+        "v1": {
+          "type": "GroundAlarmView",
+          "entryPoints": {
+            "groundAlarmEP": {
+              "id": "38546d77-44d4-464e-9e50-27470728f418",
+              "tbdId": ".<GroundMonitoringAlarmAckRequest>:0:1",
+              "dataId": {
+                "parameterName": "",
+                "catalog": "",
+                "comObject": "GroundMonitoringAlarmAckRequest",
+                "domainId": 1,
+                "domain": "fr.cnes.isis",
+                "sessionName": "Master",
+                "sessionId": 0
+              },
+              "localId": "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange",
+              "offset": 0,
+              "timebarUuid": "9ce70636-b7b9-4d61-856e-6b99836f9a2c",
+              "mode": 0,
+              "type": "GroundAlarmView",
+              "stateColors": [
+                {
+                  "color": "darkorange",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "alarm"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "critical"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "outOfRange"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "severe"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "danger"
+                  }
+                },
+                {
+                  "color": "#FFFF00",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "warning"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "v3": {
+          "type": "OnboardAlarmView",
+          "entryPoints": {
+            "onboardAlarmEP": {
+              "id": "93394013-ecb4-4f45-88a8-2357a960ad7f",
+              "tbdId": ".<OnBoardAlarmAckRequest>:0:1",
+              "dataId": {
+                "parameterName": "",
+                "catalog": "",
+                "comObject": "OnBoardAlarmAckRequest",
+                "domainId": 1,
+                "domain": "fr.cnes.isis",
+                "sessionName": "Master",
+                "sessionId": 0
+              },
+              "localId": "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange",
+              "offset": 0,
+              "timebarUuid": "9ce70636-b7b9-4d61-856e-6b99836f9a2c",
+              "mode": 0,
+              "type": "OnboardAlarmView",
+              "stateColors": [
+                {
+                  "color": "darkorange",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "alarm"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "critical"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "outOfRange"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "severe"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "danger"
+                  }
+                },
+                {
+                  "color": "#FFFF00",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "warning"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "perRangeTbdId": {
+        ".<GroundMonitoringAlarmAckRequest>:0:1": {
+          "dataId": {
+            "parameterName": "",
+            "catalog": "",
+            "comObject": "GroundMonitoringAlarmAckRequest",
+            "domainId": 1,
+            "domain": "fr.cnes.isis",
+            "sessionName": "Master",
+            "sessionId": 0
+          },
+          "localIds": {
+            "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+              "timebarUuid": "9ce70636-b7b9-4d61-856e-6b99836f9a2c",
+              "offset": 0,
+              "viewType": "GroundAlarmView"
+            }
+          },
+          "views": [
+            "3e608577-2343-477b-a8b7-84ef2bbc7ebf"
+          ],
+          "mode": 0
+        },
+        ".<OnBoardAlarmAckRequest>:0:1": {
+          "dataId": {
+            "parameterName": "",
+            "catalog": "",
+            "comObject": "OnBoardAlarmAckRequest",
+            "domainId": 1,
+            "domain": "fr.cnes.isis",
+            "sessionName": "Master",
+            "sessionId": 0
+          },
+          "localIds": {
+            "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+              "timebarUuid": "9ce70636-b7b9-4d61-856e-6b99836f9a2c",
+              "offset": 0,
+              "viewType": "OnboardAlarmView"
+            }
+          },
+          "views": [
+            "v3"
+          ],
+          "mode": 0
+        }
+      },
+      "perLastTbdId": {},
+      "forecastIntervals": {
+        ".<GroundMonitoringAlarmAckRequest>:0:1": {
+          "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+            "expectedInterval": [
+              1512742742002,
+              1512742772002
+            ]
+          }
+        },
+        ".<OnBoardAlarmAckRequest>:0:1": {
+          "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+            "expectedInterval": [
+              1512742742002,
+              1512742772002
+            ]
+          }
+        }
+      },
+      "expectedRangeIntervals": {
+        ".<GroundMonitoringAlarmAckRequest>:0:1": {
+          "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+            "expectedInterval": [
+              1512742112002,
+              1512742742002
+            ]
+          }
+        },
+        ".<OnBoardAlarmAckRequest>:0:1": {
+          "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+            "expectedInterval": [
+              1512742112002,
+              1512742742002
+            ]
+          }
+        }
+      },
+      "expectedLastIntervals": {}
+    },
+    "previousDataMap": {
+      "perView": {
+        "v1": {
+          "type": "GroundAlarmView",
+          "entryPoints": {
+            "groundAlarmEP": {
+              "id": "38546d77-44d4-464e-9e50-27470728f418",
+              "tbdId": ".<GroundMonitoringAlarmAckRequest>:0:1",
+              "dataId": {
+                "parameterName": "",
+                "catalog": "",
+                "comObject": "GroundMonitoringAlarmAckRequest",
+                "domainId": 1,
+                "domain": "fr.cnes.isis",
+                "sessionName": "Master",
+                "sessionId": 0
+              },
+              "localId": "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange",
+              "offset": 0,
+              "timebarUuid": "9ce70636-b7b9-4d61-856e-6b99836f9a2c",
+              "mode": 0,
+              "type": "GroundAlarmView",
+              "stateColors": [
+                {
+                  "color": "darkorange",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "alarm"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "critical"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "outOfRange"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "severe"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "danger"
+                  }
+                },
+                {
+                  "color": "#FFFF00",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "warning"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "v2": {
+          "type": "GroundAlarmView",
+          "entryPoints": {
+            "groundAlarmEP": {
+              "id": "38546d77-44d4-464e-9e50-27470728f418",
+              "tbdId": ".<GroundMonitoringAlarmAckRequest>:0:1",
+              "dataId": {
+                "parameterName": "",
+                "catalog": "",
+                "comObject": "GroundMonitoringAlarmAckRequest",
+                "domainId": 1,
+                "domain": "fr.cnes.isis",
+                "sessionName": "Master",
+                "sessionId": 0
+              },
+              "localId": "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange",
+              "offset": 0,
+              "timebarUuid": "9ce70636-b7b9-4d61-856e-6b99836f9a2c",
+              "mode": 0,
+              "type": "GroundAlarmView",
+              "stateColors": [
+                {
+                  "color": "darkorange",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "alarm"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "critical"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "outOfRange"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "severe"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "danger"
+                  }
+                },
+                {
+                  "color": "#FFFF00",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "warning"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "v3": {
+          "type": "OnboardAlarmView",
+          "entryPoints": {
+            "onboardAlarmEP": {
+              "id": "93394013-ecb4-4f45-88a8-2357a960ad7f",
+              "tbdId": ".<OnBoardAlarmAckRequest>:0:1",
+              "dataId": {
+                "parameterName": "",
+                "catalog": "",
+                "comObject": "OnBoardAlarmAckRequest",
+                "domainId": 1,
+                "domain": "fr.cnes.isis",
+                "sessionName": "Master",
+                "sessionId": 0
+              },
+              "localId": "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange",
+              "offset": 0,
+              "timebarUuid": "9ce70636-b7b9-4d61-856e-6b99836f9a2c",
+              "mode": 0,
+              "type": "OnboardAlarmView",
+              "stateColors": [
+                {
+                  "color": "darkorange",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "alarm"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "critical"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "outOfRange"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "severe"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "danger"
+                  }
+                },
+                {
+                  "color": "#FFFF00",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "warning"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "perRangeTbdId": {
+        ".<GroundMonitoringAlarmAckRequest>:0:1": {
+          "dataId": {
+            "parameterName": "",
+            "catalog": "",
+            "comObject": "GroundMonitoringAlarmAckRequest",
+            "domainId": 1,
+            "domain": "fr.cnes.isis",
+            "sessionName": "Master",
+            "sessionId": 0
+          },
+          "localIds": {
+            "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+              "timebarUuid": "9ce70636-b7b9-4d61-856e-6b99836f9a2c",
+              "offset": 0,
+              "viewType": "GroundAlarmView"
+            }
+          },
+          "views": [
+            "3e608577-2343-477b-a8b7-84ef2bbc7ebf"
+          ],
+          "mode": 0
+        },
+        ".<OnBoardAlarmAckRequest>:0:1": {
+          "dataId": {
+            "parameterName": "",
+            "catalog": "",
+            "comObject": "OnBoardAlarmAckRequest",
+            "domainId": 1,
+            "domain": "fr.cnes.isis",
+            "sessionName": "Master",
+            "sessionId": 0
+          },
+          "localIds": {
+            "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+              "timebarUuid": "9ce70636-b7b9-4d61-856e-6b99836f9a2c",
+              "offset": 0,
+              "viewType": "OnboardAlarmView"
+            }
+          },
+          "views": [
+            "v3"
+          ],
+          "mode": 0
+        }
+      },
+      "perLastTbdId": {},
+      "forecastIntervals": {
+        ".<GroundMonitoringAlarmAckRequest>:0:1": {
+          "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+            "expectedInterval": [
+              1512742659502,
+              1512742689502
+            ]
+          }
+        },
+        ".<OnBoardAlarmAckRequest>:0:1": {
+          "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+            "expectedInterval": [
+              1512742659502,
+              1512742689502
+            ]
+          }
+        }
+      },
+      "expectedRangeIntervals": {
+        ".<GroundMonitoringAlarmAckRequest>:0:1": {
+          "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+            "expectedInterval": [
+              1512742029502,
+              1512742659502
+            ]
+          }
+        },
+        ".<OnBoardAlarmAckRequest>:0:1": {
+          "nofield.9ce70636-b7b9-4d61-856e-6b99836f9a2c:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+            "expectedInterval": [
+              1512742029502,
+              1512742659502
+            ]
+          }
+        }
+      },
+      "expectedLastIntervals": {}
+    },
+    "configuration": {}
+  }
+}

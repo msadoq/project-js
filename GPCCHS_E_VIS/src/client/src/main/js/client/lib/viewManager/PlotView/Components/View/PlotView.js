@@ -1,3 +1,68 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Renamed GrizzlyPlot and RSCPlot with coherent names.
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in dataManager.
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : New legend toggable on plotview !
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Grizzly: autoTick and tickStep are taken into consideration.
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Format tooltip line function is given in props, and no longer resides in Tooltip.
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Adapting PlotView and Grizzly for the new data structure.
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Move general variables at top level of a view
+// VERSION : 1.1.2 : FA : #5512 : 15/03/2017 : PlotView legend height is smarter.
+// VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Grizzly : perfOutput as an option, log lines number, points number and axis.
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove react-dimensions from project, use custom HOC
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Fix mount or unmount components for resizing plotview
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Fix display legend in plotview
+// VERSION : 1.1.2 : DM : #5822 : 23/03/2017 : add context menu on plotview
+// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : inspector view: separate general data from specific TM data
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : PlotView: x axis is always time/s , not editable. Newly created Ep always stick to time axis or create one.
+// VERSION : 1.1.2 : DM : #5822 : 27/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : PlotView: show symbol in tooltip
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : PlotView and Grizzly : user can configure tickStep, autoTick and showTicks for x axis.
+// VERSION : 1.1.2 : FA : #6130 : 30/03/2017 : User can re-click on legend item to cancel curve highlight.
+// VERSION : 1.1.2 : FA : #6130 : 30/03/2017 : Highlight curve by selecting entry point in the legend.
+// VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Fix open editor when entrypoint is dropped
+// VERSION : 1.1.2 : DM : #5822 : 03/04/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Define PlotView's format tooltip function outside of react component, cleaner.
+// VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : Fix plot view drawing .
+// VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : no connectedDataX and connectedDataY for default drag&drop created EP.
+// VERSION : 1.1.2 : DM : #6302 : 04/04/2017 : FIx lint in Grizzly and PlotView.js .
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : Merging branch dev into branch dev-plot-ep-refacto.
+// VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : It's possible to select multiple lines in PlotView legend.
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : mark parameter as checked in context menu when opened in inspector
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : open parameter in editor via context menu
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : add context menu on views
+// VERSION : 1.1.2 : DM : #5828 : 26/04/2017 : Ported 1.1.0 patch to dev branch. EP Drag & drop auto-axis-creation.
+// VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : Fix editor search on open
+// VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : fix context menu on plot view
+// VERSION : 1.1.2 : DM : #5822 : 03/05/2017 : Inspector : display dynamic data
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : PlotView must show every point, if any point is out of limits in Plot, limits are modified.
+// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : User can now show/hide/remove EP from Plot in legend.
+// VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add possibility to show links in views
+// VERSION : 1.1.2 : DM : #6835 : 31/05/2017 : First draft for parametric PlotView, x axis becomes basic axis with numb values.
+// VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 13/06/2017 : Prep for point labels option on PlotView.
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 19/06/2017 : Improve PlotView editor UI -> legend in store.
+// VERSION : 1.1.2 : DM : #6829 : 22/06/2017 : Working logarithmic scale for Y axes on PlotView.
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : Plot axes log settings stored in store and documents.
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : PlotView legend : left right top bottom.
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : DM : #6829 : 10/07/2017 : PlotView default yAccessor : .value instead of .y
+// VERSION : 1.1.2 : DM : #6835 : 18/07/2017 : PlotView's lines take string instead of function for colorAccessor attribute.
+// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
+// VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit style easily.
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 20/07/2017 : Reimplement openLink middleware . .
+// VERSION : 1.1.2 : DM : #6830 : 21/07/2017 : Interactive logarithmic y axes on PlotView.
+// VERSION : 1.1.2 : DM : #6830 : 21/07/2017 : PlotView -> logarithmic axis : base can be anything: 2, 10, 12....
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : no point is not an error anymore on PlotView.
+// VERSION : 1.1.2 : FA : #7776 : 13/09/2017 : update of plot view tooltip
+// VERSION : 1.1.2 : FA : #7776 : 13/09/2017 : Fix plot drawing when timeline has offset
+// VERSION : 1.1.2 : FA : #7834 : 15/09/2017 : Fixed right click on PlotView and PlotView legend.
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using indexes to iterate.
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
@@ -9,20 +74,37 @@ import _uniq from 'lodash/uniq';
 import _result from 'lodash/result';
 import classnames from 'classnames';
 import moment from 'moment';
-import getLogger from '../../../../common/logManager';
-import { get } from '../../../../common/configurationManager';
-import withDimensions from '../../../../windowProcess/common/hoc/withDimensions';
-import GrizzlyChart from './GrizzlyParametric/Chart';
-import Legend from './Legend';
+import LinksContainer from 'windowProcess/View/LinksContainer';
+import { get } from 'common/configurationManager';
+import withDimensions from 'windowProcess/common/hoc/withDimensions';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import DroppableContainer from 'windowProcess/common/DroppableContainer';
 
-import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
-import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
+import getLogger from 'common/logManager';
+import Legend from './Legend';
+import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
-import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 const logger = getLogger('view:plot');
+
+/**
+ * @param master
+ * @returns {function(*, *=)}
+ */
+export const sortAxes = master => (
+  (a, b) => {
+    if (a === master) {
+      return 1;
+    }
+    if (b === master) {
+      return -1;
+    }
+
+    return a.localeCompare(b);
+  }
+);
 
 /**
  * @param entryPoints
@@ -50,65 +132,19 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
 
   xAxesIds = _uniq(xAxesIds);
   yAxesIds = _uniq(yAxesIds);
+  xAxesIds = xAxesIds.sort(sortAxes(_get(grids, [0, 'xAxisId'])));
+  yAxesIds = yAxesIds.sort(sortAxes(_get(grids, [0, 'yAxisId'])));
 
   yAxesIds.forEach((axisId) => {
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
-    const axisEntryPoints = entryPoints
-      .filter(ep =>
-        (
-          (ep.parametric && _get(ep, ['connectedDataParametric', 'yAxisId']) === axis.id) ||
-          (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
-        )
-      );
-    const mins = [];
-    const maxs = [];
-    axisEntryPoints.forEach((ep) => {
-      if (!ep.parametric && _get(ep, ['connectedData', 'stringParameter'])) {
-        mins.push(ep.connectedData.defaultY);
-        maxs.push(ep.connectedData.defaultY);
-      } else {
-        if (typeof data.min[ep.name] === 'number') {
-          mins.push(data.min[ep.name]);
-        }
-        if (typeof data.min[ep.name] === 'number') {
-          maxs.push(data.max[ep.name]);
-        }
-      }
-    });
-    const min = _min(mins);
-    const max = _max(maxs);
-    return yAxes.push({
-      id: axis.id,
-      extents:
-        axis.autoLimits === true ?
-        [min, max]
-        :
-        [
-          min < axis.min ? min : axis.min,
-          max > axis.max ? max : axis.max,
-        ],
-      orient: 'top',
-      format: '.3f',
-      showAxis: axis.showAxis === true,
-      showLabels: axis.showLabels === true,
-      showTicks: axis.showTicks === true,
-      autoLimits: false,
-      autoTick: axis.autoTick === true,
-      tickStep: axis.tickStep,
-      showGrid: _get(grid, 'showGrid', false),
-      gridStyle: _get(grid, ['line', 'style']),
-      gridSize: _get(grid, ['line', 'size']),
-      unit: axis.unit,
-      label: axis.label,
-      labelStyle: axis.style,
-      logarithmic: axis.logarithmic,
-      logSettings: axis.logSettings,
-      formatAsDate: false,
-    });
+    const { min, max } = computeMinMaxForAxis(entryPoints, axis, data, true);
+    return yAxes.push(defaultAxisConfig(axis, grid, min, max));
   });
 
   xAxesIds.forEach((axisId) => {
+    // specific for asciss axis (x), always add time
+    // it will only be drawn if an entry point is associated
     if (axisId === 'time') {
       return xAxes.push({
         id: 'time',
@@ -132,54 +168,96 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
     }
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
-    const axisEntryPoints = entryPoints
-      .filter(ep =>
+    const { min, max } = computeMinMaxForAxis(entryPoints, axis, data, false);
+    return xAxes.push(defaultAxisConfig(axis, grid, min, max));
+  });
+
+  return { xAxes, yAxes };
+};
+
+/**
+ * @param entryPoints
+ * @param axis
+ * @param data
+ * @param ordinal
+ * @returns {{min: *, max: *}}
+ * @pure
+ */
+export const computeMinMaxForAxis = (entryPoints, axis, data, ordinal) => {
+  const axisEntryPoints =
+    ordinal
+      // only for ordinate values (Y).
+      ? entryPoints.filter(ep => (
+        (ep.parametric && _get(ep, ['connectedDataParametric', 'yAxisId']) === axis.id) ||
+        (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
+      ))
+      // Absciss values (X)
+      : entryPoints.filter(ep =>
         (ep.parametric && _get(ep, ['connectedDataParametric', 'xAxisId']) === axis.id)
-      );
-    const mins = [];
-    const maxs = [];
-    axisEntryPoints.forEach((ep) => {
+      )
+  ;
+  const mins = [];
+  const maxs = [];
+  axisEntryPoints.forEach((ep) => {
+    // only for ordinal values (Y). we should draw a single line for non parametric string values
+    // the height will be defined by the defaultY value
+    if (ordinal && !ep.parametric && _get(ep, ['connectedData', 'stringParameter'])) {
+      mins.push(ep.connectedData.defaultY);
+      maxs.push(ep.connectedData.defaultY);
+    } else {
       if (typeof data.min[ep.name] === 'number') {
         mins.push(data.min[ep.name]);
       }
       if (typeof data.min[ep.name] === 'number') {
         maxs.push(data.max[ep.name]);
       }
-    });
-    const min = _min(mins);
-    const max = _max(maxs);
-    return yAxes.push({
-      id: axis.id,
-      extents:
-        axis.autoLimits === true ?
-        [min, max]
-        :
-        [
-          min < axis.min ? min : axis.min,
-          max > axis.max ? max : axis.max,
-        ],
-      orient: 'top',
-      format: '.3f',
-      showAxis: axis.showAxis === true,
-      showLabels: axis.showLabels === true,
-      showTicks: axis.showTicks === true,
-      autoLimits: false,
-      autoTick: axis.autoTick === true,
-      tickStep: axis.tickStep,
-      showGrid: _get(grid, 'showGrid', false),
-      gridStyle: _get(grid, ['line', 'style']),
-      gridSize: _get(grid, ['line', 'size']),
-      unit: axis.unit,
-      label: axis.label,
-      labelStyle: axis.style,
-      logarithmic: axis.logarithmic,
-      logSettings: axis.logSettings,
-      formatAsDate: false,
-    });
+    }
   });
+  const min = _min(mins);
+  const max = _max(maxs);
 
-  return { xAxes, yAxes };
+  return { min, max };
 };
+
+/**
+ * @param axis
+ * @param grid
+ * @param min
+ * @param max
+ * @returns {{id, extents: *[], orient: string, format: string, showAxis: boolean, showLabels: boolean, showTicks: boolean, autoLimits: boolean, autoTick: boolean, tickStep, showGrid: *, gridStyle: *, gridSize: *, unit, label, labelStyle, logarithmic, logSettings: *|{base: number, max: number, min: number}|yAxis.logSettings|{base, max, min}|logSettings|{min, max, base}, formatAsDate: boolean}}
+ * @pure
+ */
+export const defaultAxisConfig = (axis, grid, min, max) => ({
+  id: axis.id,
+  extents:
+    axis.autoLimits === true
+      ? [min, max]
+      : [
+        min < axis.min
+          ? min
+          : axis.min,
+        max > axis.max
+            ? max
+            : axis.max,
+      ],
+  orient: 'top',
+  format: '.3f',
+  showAxis: axis.showAxis === true,
+  showLabels: axis.showLabels === true,
+  showTicks: axis.showTicks === true,
+  autoLimits: false,
+  autoTick: axis.autoTick === true,
+  tickStep: axis.tickStep,
+  showGrid: _get(grid, 'showGrid', false),
+  gridStyle: _get(grid, ['line', 'style']),
+  gridSize: _get(grid, ['line', 'size']),
+  unit: axis.unit,
+  label: axis.label,
+  labelStyle: axis.style,
+  logarithmic: axis.logarithmic,
+  logSettings: axis.logSettings,
+  formatAsDate: false,
+});
 
 /**
  * @param id
@@ -236,6 +314,8 @@ export const parseDragData = (data, id, defaultTimelineId) => {
     connectedData: {
       formula: `${data.catalogName}.${data.item}<${val}>.${get('DEFAULT_FIELD')[val]}`,
       fieldX: 'onboardDate',
+      unit: 'V',
+      domain: '*',
       timeline: defaultTimelineId,
     },
   };
@@ -252,6 +332,7 @@ export class GrizzlyPlotView extends PureComponent {
     containerHeight: number.isRequired,
     updateDimensions: func.isRequired,
     saveLiveExtents: func.isRequired,
+    pause: func.isRequired,
     data: shape({
       lines: object, // eslint-disable-line react/no-unused-prop-types
     }),
@@ -262,21 +343,7 @@ export class GrizzlyPlotView extends PureComponent {
     }),
     viewId: string.isRequired,
     addEntryPoint: func.isRequired,
-    entryPoints: shape({
-      name: string.isRequired,
-      connectedData: shape({
-        axisId: string,
-        stringParameter: string,
-        defaultY: string,
-      }),
-      connectedDataParametric: shape({
-        xAxisId: string,
-        YAxisId: string,
-      }),
-      stateColors: object.isRequired,
-      obsolete: bool,
-      nonsignificant: bool,
-    }).isRequired,
+    entryPoints: shape(),
     configuration: shape({
       procedures: array,
       entryPoints: array,
@@ -423,15 +490,11 @@ export class GrizzlyPlotView extends PureComponent {
     };
     handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
   };
-
   onContextMenu = (e) => {
     e.stopPropagation();
     const {
       entryPoints,
       openInspector,
-      isViewsEditorOpen,
-      closeEditor,
-      openEditor,
       mainMenu,
       inspectorEpId,
       isInspectorOpened,
@@ -460,21 +523,9 @@ export class GrizzlyPlotView extends PureComponent {
         checked: opened,
       });
     });
-    const editorMenu = (isViewsEditorOpen) ?
-    {
-      label: 'Close Editor',
-      click: () => closeEditor(),
-    } : {
-      label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
-    };
-    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
+    handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
-
   onDrop = this.drop.bind(this);
-
   getEntryPointErrors(supClass = '') {
     const epWithErrors = Object
       .keys(this.props.entryPoints)
@@ -508,7 +559,6 @@ export class GrizzlyPlotView extends PureComponent {
         </div>
       </CloseableAlert> : undefined;
   }
-
   drop(e) {
     const {
       addEntryPoint,
@@ -532,7 +582,6 @@ export class GrizzlyPlotView extends PureComponent {
 
     e.stopPropagation();
   }
-
   shouldRender() {
     const {
       containerWidth,
@@ -556,7 +605,6 @@ export class GrizzlyPlotView extends PureComponent {
     }
     return info;
   }
-
   toggleShowLegend = (e) => {
     e.preventDefault();
     const {
@@ -566,13 +614,11 @@ export class GrizzlyPlotView extends PureComponent {
     } = this.props;
     toggleLegend(viewId, !configuration.showLegend);
   };
-
   toggleShowLinks = (e) => {
     e.preventDefault();
     const { showLinks, updateShowLinks, viewId } = this.props;
     updateShowLinks(viewId, !showLinks);
   };
-
   showEp = (e, lineId) => {
     e.preventDefault();
     const {
@@ -597,7 +643,6 @@ export class GrizzlyPlotView extends PureComponent {
 
     this.setState(newState);
   };
-
   hideEp = (e, lineId) => {
     e.preventDefault();
     const {
@@ -622,7 +667,6 @@ export class GrizzlyPlotView extends PureComponent {
 
     this.setState(newState);
   };
-
   removeEntryPoint = (e, id) => {
     e.preventDefault();
     const {
@@ -633,17 +677,14 @@ export class GrizzlyPlotView extends PureComponent {
     const index = entryPoints.findIndex(a => a.id === id);
     removeEntryPoint(viewId, index);
   };
-
   removeLink = (e, index) => {
     e.preventDefault();
     const { removeLink, viewId } = this.props;
     removeLink(viewId, index);
   };
-
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
-
     if (noRender) {
       logger.debug('no render due to', noRender);
       // TODO : clean message component
@@ -681,6 +722,7 @@ export class GrizzlyPlotView extends PureComponent {
       viewId,
       showLinks,
       saveLiveExtents,
+      pause,
     } = this.props;
     let {
       configuration: { entryPoints },
@@ -769,6 +811,7 @@ export class GrizzlyPlotView extends PureComponent {
           allowPan
           perfOutput={false}
           linesListener={memoizeLiveExtents(saveLiveExtents, viewId)}
+          zoomPanListener={memoizeZoomOrPan(pause, viewId)}
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxesAt="bottom"
@@ -787,9 +830,13 @@ export class GrizzlyPlotView extends PureComponent {
                 xAxisId: 'time',
                 yAxisId: _get(ep, ['connectedData', 'axisId']),
                 fill: _get(ep, ['objectStyle', 'curveColor']),
-                lineSize: _get(ep, ['objectStyle', 'line', 'size']),
+                lineSize: _get(ep, ['objectStyle', 'displayLine'], true) === true
+                  ? _get(ep, ['objectStyle', 'line', 'size'])
+                  : 0,
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
-                pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
+                pointStyle: _get(ep, ['objectStyle', 'displayPoints'], true) === true
+                  ? _get(ep, ['objectStyle', 'points', 'style'])
+                  : 0,
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                 dataAccessor: ep.name,
                 stopInstruction: packet => (packet.isObsolete || false),
@@ -829,6 +876,15 @@ const SizeablePlotView = withDimensions({ elementResize: true })(GrizzlyPlotView
  */
 const memoizeLiveExtents = (saveLiveExtents, viewId) => _memoize(
   liveExtents => saveLiveExtents(viewId, liveExtents)
+);
+
+/**
+ * @param pause
+ * @param viewId
+ * @returns {Function}
+ */
+const memoizeZoomOrPan = (pause, viewId) => _memoize(
+  e => pause(viewId, e)
 );
 
 /**

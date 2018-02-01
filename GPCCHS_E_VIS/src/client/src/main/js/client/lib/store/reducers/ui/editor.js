@@ -1,6 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Implement ui/dialog reducer . .
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Split ui reducer + prepare ui/dialog reducer
+// END-HISTORY
+// ====================================================================
+
 import _get from 'lodash/get';
 import _ from 'lodash/fp';
-import * as types from '../../types';
+import * as types from 'store/types';
 
 /* --- Reducer -------------------------------------------------------------- */
 export default function editorReducer(state = {}, action) {

@@ -1,9 +1,20 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6816 : 02/08/2017 : add mimic benchmark with isolated mimicView component
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : imicView Fixed rotate animation error, set visibility to visible.
+// VERSION : 1.1.2 : DM : #6127 : 04/09/2017 : View component now do not automatically set overflow to auto
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// VERSION : 1.1.2 : DM : #6816 : 15/09/2017 : Fixed proptype error in MimicViewWrapper.
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import _each from 'lodash/each';
-import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
-import getLogger from '../../../../common/logManager';
-import LinksContainer from '../../../../windowProcess/View/LinksContainer';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import getLogger from 'common/logManager';
+import LinksContainer from 'windowProcess/View/LinksContainer';
 import styles from './MimicView.css';
 import MimicView from './MimicView';
 
@@ -27,12 +38,9 @@ export default class MimicViewWrapper extends PureComponent {
     showLinks: PropTypes.bool,
     updateShowLinks: PropTypes.func.isRequired,
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
     openInspector: PropTypes.func.isRequired,
-    openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
     openLink: PropTypes.func.isRequired,
     width: PropTypes.number.isRequired,
@@ -50,24 +58,11 @@ export default class MimicViewWrapper extends PureComponent {
     const {
       entryPoints,
       openInspector,
-      isViewsEditorOpen,
-      openEditor,
-      closeEditor,
       mainMenu,
       isInspectorOpened,
       inspectorEpId,
     } = this.props;
     const separator = { type: 'separator' };
-    const editorMenu = (isViewsEditorOpen) ?
-    {
-      label: 'Close Editor',
-      click: () => closeEditor(),
-    } : {
-      label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
-    };
     const inspectorMenu = {
       label: 'Open in Inspector',
       submenu: [],
@@ -92,7 +87,7 @@ export default class MimicViewWrapper extends PureComponent {
         checked: opened,
       });
     });
-    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
+    handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
 
   toggleShowLinks = (e) => {

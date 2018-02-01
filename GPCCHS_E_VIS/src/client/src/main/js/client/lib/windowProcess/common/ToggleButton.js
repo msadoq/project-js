@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 14/02/2017 : Explorer Right panel refactoring .
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 

@@ -1,16 +1,28 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add partial performance widget in explorer
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/health . . .
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Add number of points per view in explorer panel
+// VERSION : 1.1.2 : DM : #5828 : 31/03/2017 : Rename dataSelector in dataSelectors .
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : Complete performance tab in explorer
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Add robustness code to avoid performance explorer crash
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add mock delay in profiling loop event - Try to add middlware to induce stress => not possible - Modify health logic, change as soon as the critical delay is reached
+// END-HISTORY
+// ====================================================================
+
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
-import { getHealthMapForWindow } from '../../../store/reducers/health';
-import { getWindowsVisibleViews } from '../../../store/selectors/windows';
-import { getWindowFocusedPageId } from '../../../store/reducers/windows';
-import { getPage } from '../../../store/reducers/pages';
-import { play, pause } from '../../../store/actions/hsc';
-import { updateStressProcess } from '../../../store/actions/health';
-import textData from '../../../viewManager/TextView/store/dataSelectors';
-import plotData from '../../../viewManager/PlotView/store/dataSelectors';
-import * as constants from '../../../viewManager/constants';
+import { getHealthMapForWindow } from 'store/reducers/health';
+import { getWindowsVisibleViews } from 'store/selectors/windows';
+import { getWindowFocusedPageId } from 'store/reducers/windows';
+import { getPage } from 'store/reducers/pages';
+import { play, pause } from 'store/actions/hsc';
+import { updateStressProcess } from 'store/actions/health';
+import textData from 'viewManager/TextView/store/dataSelectors';
+import plotData from 'viewManager/PlotView/store/dataSelectors';
+import * as constants from 'viewManager/constants';
 import Performance from './Performance';
 
 const mapStateToProps = (state, { windowId }) => {

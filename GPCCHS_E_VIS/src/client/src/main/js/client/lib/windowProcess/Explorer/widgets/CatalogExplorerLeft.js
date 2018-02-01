@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : update catalog explorer display styles
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : catalog explorer : open, close and browse items
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import {
   Panel,
@@ -6,10 +14,10 @@ import {
   FormControl,
 } from 'react-bootstrap';
 import _map from 'lodash/map';
-import getLogger from '../../../common/logManager';
-import createItemKey from '../../../rtdManager/createItemKey';
+import getLogger from 'common/logManager';
+import createItemKey from 'rtdManager/createItemKey';
+import { main } from 'windowProcess/ipc';
 import Tree from './Tree';
-import { main } from '../../ipc';
 import styles from './CatalogExplorer.css';
 // import handleContextMenu from '../../common/handleContextMenu';
 

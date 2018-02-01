@@ -1,14 +1,21 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 // import _ from 'lodash/fp';
 import async from 'async';
 import { v4 } from 'uuid';
 
-import { readDocument } from './io';
-import validation from './validation';
 import {
   isViewTypeSupported,
   getSchema,
   getViewModule,
-} from '../../viewManager';
+} from 'viewManager';
+import { readDocument } from './io';
+import validation from './validation';
 
 const simpleReadView = async.reflect((viewInfo, cb) => {
   readDocument(viewInfo, (err, viewContent, properties, viewPath) => {

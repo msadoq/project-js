@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 21/04/2017 : WHen mouse out of body / escape pressed, "mouseup" is triggered.
+// VERSION : 1.1.2 : DM : #5828 : 21/04/2017 : REVERT WHen mouse out of body / escape pressed, "mouseup" is triggered."
+// VERSION : 1.1.2 : DM : #5828 : 21/04/2017 : Cleaned adn moved shortcuts handling to windowWrapper.
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Remove health management obsolete code
+// END-HISTORY
+// ====================================================================
+
 import React, { Component, PropTypes } from 'react';
 import Window from './Window';
 

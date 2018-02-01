@@ -1,0 +1,192 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6835.txt
+
+
+Reference changement : #6835
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.plot.vipv
+	Added domainX and domainY to PlotView EntryPoint's connectedDataParametric.
+	Added "connectedDataParametric" key to EntryPoints in PlotViews JSON files, EntryPoints can be parametric or not. Updated PlotView's editor accordingly.
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot1.vipv
+	Added domainX and domainY to PlotView EntryPoint's connectedDataParametric.
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot15.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot20.vipv (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview10.vipv
+	Added domainX and domainY to PlotView EntryPoint's connectedDataParametric.
+	Added "connectedDataParametric" key to EntryPoints in PlotViews JSON files, EntryPoints can be parametric or not. Updated PlotView's editor accordingly.
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview4.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot10.vipv (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.js
+	PlotView parses entryPoints differently depending on entryPoints being parametric or not.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.css
+	Added "connectedDataParametric" key to EntryPoints in PlotViews JSON files, EntryPoints can be parametric or not. Updated PlotView's editor accordingly.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.js
+	Added domainX and domainY to PlotView EntryPoint's connectedDataParametric.
+	Added "connectedDataParametric" key to EntryPoints in PlotViews JSON files, EntryPoints can be parametric or not. Updated PlotView's editor accordingly.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetails.js
+	Fixed two lint errors in PlotView Editor and View.
+	Added "connectedDataParametric" key to EntryPoints in PlotViews JSON files, EntryPoints can be parametric or not. Updated PlotView's editor accordingly.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Chart.js
+	Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+	Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+	No parametric bool prop in Grizzly, there is a dedicated GrizzlyParametric. Curves must be above grid.
+	PlotView's lines take string instead of function for colorAccessor attribute.
+	First draft for parametric PlotView, x axis becomes basic axis with numb values.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/CurrentCursorCanvas.js
+	Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+	PlotView is never parametric, fixed positionned tooltip in Parametric and PlotView.
+	First draft for parametric PlotView, x axis becomes basic axis with numb values.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/GrizzlyChart.css
+	Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+	Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+	PlotView's lines take string instead of function for colorAccessor attribute.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js
+	On Grizzly and GrizzlyParametric, tooltip goes on right or left, always avoiding hovering cursor.
+	Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+	PlotView is never parametric, fixed positionned tooltip in Parametric and PlotView.
+	No parametric bool prop in Grizzly, there is a dedicated GrizzlyParametric. Curves must be above grid.
+	PlotView's lines take string instead of function for colorAccessor attribute.
+	First draft for parametric PlotView, x axis becomes basic axis with numb values.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/XAxisParametric.js
+	No parametric bool prop in Grizzly, there is a dedicated GrizzlyParametric. Curves must be above grid.
+	First draft for parametric PlotView, x axis becomes basic axis with numb values.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Zones.js
+	Added defaultProps for new lasso props on Grizzly and GrizzlyParametric.
+	Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+	Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+	Fixed two lint errors in PlotView Editor and View.
+	Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+	Restored perfOutput for grizzly parametric .
+	GrizzlyParametric: removed unused methods in Chart, put plot lines before grid.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/GrizzlyChart.css
+	Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LinesCanvas.js
+	Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+	Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+	Restored perfOutput for grizzly parametric .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Tooltip.js
+	On Grizzly and GrizzlyParametric, tooltip goes on right or left, always avoiding hovering cursor.
+	Fixed unused proptype lint error.
+	Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+	PlotView is never parametric, fixed positionned tooltip in Parametric and PlotView.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/XAxis.js
+	Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Zones.js
+	Added defaultProps for new lasso props on Grizzly and GrizzlyParametric.
+	Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+	PlotView's lines take string instead of function for colorAccessor attribute.
+	First draft for parametric PlotView, x axis becomes basic axis with numb values.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewParametricFake.js
+	Removed useless props from PlotViewParametricFake.
+	Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/PlotView.schema.json
+	Added domainX and domainY to PlotView EntryPoint's connectedDataParametric.
+	Added "connectedDataParametric" key to EntryPoints in PlotViews JSON files, EntryPoints can be parametric or not. Updated PlotView's editor accordingly.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/data/parseEntryPoint.js
+	PlotView parses entryPoints differently depending on entryPoints being parametric or not.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedDataParametric.js (idem)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.plot.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot1.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot15.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot20.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview10.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview4.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot10.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/CurrentCursorCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/GrizzlyChart.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Zones.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/GrizzlyChart.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Tooltip.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/XAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Zones.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/PlotView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/data/parseEntryPoint.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewParametricFake.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedDataParametric.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

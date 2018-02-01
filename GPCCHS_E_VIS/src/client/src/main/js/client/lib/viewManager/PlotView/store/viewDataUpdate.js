@@ -1,16 +1,41 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Creation of data store for plotView
+// VERSION : 1.1.2 : DM : #3622 : 22/03/2017 : Update viewData organization for last structure + cleaning
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : converts long to string to ensure precision
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : PlotView : plots string value
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Remove viewManager utils folder .
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : Move filter application in main process
+// VERSION : 1.1.2 : DM : #5828 : 21/04/2017 : Fix long data recovery for plot view
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Merge branch 'dev' into simplify_datamap
+// VERSION : 1.1.2 : FA : ISIS-FT-1952 : 16/05/2017 : Apply filters considering data type
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Multiple changes on the load mechansim of adapters : - To test with Jest, add a mock of config(MESSAGES_NAMESPACE) in jest/index.js - Test fix - Lint pass ( 1 test is still KO)
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Branch full cycle mechanism for rangeData
+// VERSION : 1.1.2 : DM : #6700 : 02/08/2017 : Update unit tests for Plot View store
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : Fixed few eslint errors / warnings no-console and spaced-comment.
+// VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : fix plot view data order
+// VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
+// VERSION : 1.1.2 : FA : #7776 : 13/09/2017 : Fix plot drawing when timeline has offset
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json patch
+// END-HISTORY
+// ====================================================================
+
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _last from 'lodash/last';
-import _findIndex from 'lodash/findIndex';
+import _head from 'lodash/head';
 import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
 import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
-import _head from 'lodash/head';
+import { applyFilters } from 'viewManager/commonData/applyFilters';
 import _isEmpty from 'lodash/isEmpty';
-import getLogger from '../../../common/logManager';
-import parameters from '../../../common/configurationManager';
-import { getStateColorObj } from '../../commonData/stateColors';
-import { applyFilters } from '../../commonData/applyFilters';
+import getLogger from 'common/logManager';
+import parameters from 'common/configurationManager';
+import { getStateColorObj } from 'viewManager/commonData/stateColors';
+import _findIndex from 'lodash/findIndex';
 
 const logger = getLogger('data:rangeValues');
 
@@ -249,7 +274,11 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
           valX,
           refTime: timestamp,
           value: valY,
-          ...getStateColorObj(value, ep.stateColors),
+          ...getStateColorObj( // will fetch default / fallback / custom color
+            value,
+            ep.stateColors,
+            _get(value, 'monitoringState.value')
+          ),
           // Case of enum : add symbol to show it in tooltip
           // Case of long : add string representation in tooltip to keep precision
           // Case of double : add string representation in tooltip to keep precision

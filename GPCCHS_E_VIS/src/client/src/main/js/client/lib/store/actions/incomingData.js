@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Add skeleton for incomingData and retrieveData middleware + their test
+// VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Implements prepare LAst middleware and its test
+// VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Branch full cycle mechanism for rangeData
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : update unit tests . .
+// VERSION : 1.1.2 : FA : #7578 : 23/08/2017 : Add throttle mechanism to pubSubController
+// END-HISTORY
+// ====================================================================
+
 import * as types from '../types';
 import simple from '../helpers/simpleActionCreator';
 

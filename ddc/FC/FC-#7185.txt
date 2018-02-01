@@ -1,0 +1,91 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#7185.txt
+
+
+Reference changement : #7185
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/Source.js
+	Fix lint errors and warnings
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceClose.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/testPerf/computePerfTest.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/testPerf/index.html (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/testPerf/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/codeEditor.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/monitorings/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/ipc.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/codeEditor/index.js
+	Add JSDoc on codeEditor, domains & health reducers
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/domains/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/health/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.spec.js
+	Fix lint errors and warnings
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/hsc.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotAxes.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParams.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/CurrentCursorCanvas.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LinesCanvas.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/applyFilters.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/main.development.js (idem)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/Source.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceClose.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/codeEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/monitorings/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/codeEditor/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/domains/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/health/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/hsc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotAxes.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParams.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/CurrentCursorCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/applyFilters.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+GPCCHS_E_VIS/src/client/src/main/js/client/main.development.js
+
+FICHIERS AJOUTES
+================
+Pas de fichiers ajoutes.
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/testPerf/computePerfTest.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/testPerf/index.html
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/testPerf/index.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

@@ -1,6 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Fix little bug in wikiHelper middleware
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
-import * as types from '../../../../store/types';
-import { add as addMessage } from '../../../../store/actions/messages';
+import * as types from 'store/types';
+import { add as addMessage } from 'store/actions/messages';
 
 const addGlobalWarning = msg => addMessage('global', 'warning', msg);
 const addGlobalError = msg => addMessage('global', 'error', msg);

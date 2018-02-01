@@ -24,10 +24,10 @@ if [ $EXIT_CODE -gt 0 ]; then
   exitError
 fi
 
-NODE_ENV=test ./node_modules/.bin/jest --findRelatedTests $@
-EXIT_CODE=$?
-if [ $EXIT_CODE -gt 0 ]; then
-  exitError
-fi
+# NODE_ENV=test ./node_modules/.bin/jest --findRelatedTests $@
+# EXIT_CODE=$?
+# if [ $EXIT_CODE -gt 0 ]; then
+#   exitError
+# fi
 
 exitSuccess

@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// END-HISTORY
+// ====================================================================
+
 /* eslint no-restricted-properties:0 */
 const _pipe = require('lodash/fp/pipe');
 const _cond = require('lodash/fp/cond');

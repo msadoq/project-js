@@ -1,11 +1,11 @@
 import _get from 'lodash/get';
 import React, { PropTypes, Component } from 'react';
+import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
+import { Misc } from 'viewManager/commonEditor/Misc';
+import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import OnboardAlarmEditorForm from './OnboardAlarmEditorForm';
 import styles from '../../../commonEditor/Editor.css';
-import Navbar from '../../../commonEditor/Navbar/Navbar';
 import OnboardAlarmTab from './OnboardAlarmTab';
-import { Misc } from '../../../commonEditor/Misc';
-import ReloadAndSaveViewButtonsContainer from '../../../commonEditor/ReloadAndSaveViewButtonsContainer';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
 

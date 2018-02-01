@@ -2,31 +2,48 @@ import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import { getInspectorOptions } from 'viewManager/GroundAlarmView/store/selectors';
+import { getAlarmDomain, getAlarmTimeline, getAlarmMode, getSearch, getEnableSearch } from 'viewManager/OnboardAlarmView/store/configurationReducer';
+import { getIsPlaying } from 'store/reducers/hsc';
+import { getDataRows } from 'viewManager/OnboardAlarmView/store/selectors';
+import { getSelectedAlarms, getSort, getExpandedAlarms } from 'viewManager/GroundAlarmView/store/uiReducer';
+import {
+  collapseAlarm,
+  uncollapseAlarm,
+  toggleSelection,
+  toggleSort,
+  inputToggle,
+  inputSearch,
+  inputResetAll,
+} from 'viewManager/GroundAlarmView/store/actions';
+import { openAckModal } from 'viewManager/OnboardAlarmView/store/actions';
+import { getData } from 'viewManager/OnboardAlarmView/store/dataReducer';
 import OnboardAlarmTable from './OnboardAlarmTable';
-import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
-import { getData, getDataLines } from '../../../store/dataReducer';
-import { openAckModal } from '../../../store/actions';
-import { getSelectedAlarms } from '../../../../GroundAlarmView/store/uiReducer';
-import { collapseAlarm, uncollapseAlarm, toggleSelection } from '../../../../GroundAlarmView/store/actions';
-import { getInspectorOptions } from '../../../../GroundAlarmView/store/selectors';
-import { getIsPlaying } from '../../../../../store/reducers/hsc';
 
 const mapStateToProps = createStructuredSelector({
+  sort: getSort,
   mode: getAlarmMode,
   domain: getAlarmDomain,
   timeline: getAlarmTimeline,
-  lines: getDataLines,
+  rows: getDataRows,
+  expandedAlarms: getExpandedAlarms,
   selectedAlarms: getSelectedAlarms,
-  indexedLines: _.compose(_.prop('lines'), getData),
+  indexedRows: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,
   isPlayingTimebar: getIsPlaying,
+  search: getSearch,
+  enableSearch: getEnableSearch,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
-  openAckModal: _.compose(dispatch, openAckModal),
+  openAckModal: selectedAlarms => dispatch(openAckModal(viewId, selectedAlarms)),
   collapse: oid => dispatch(collapseAlarm(viewId, oid)),
   uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
   toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),
+  toggleSort: column => dispatch(toggleSort(viewId, column)),
+  inputSearch: (column, value) => dispatch(inputSearch(viewId, column, value)),
+  inputResetAll: () => dispatch(inputResetAll(viewId)),
+  inputToggle: () => dispatch(inputToggle(viewId)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

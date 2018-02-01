@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : No vertical bar when editor minimized.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import { Nav, NavItem } from 'react-bootstrap';
 import styles from './style.css';

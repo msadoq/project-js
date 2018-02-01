@@ -28,9 +28,7 @@
 .AlarmView .alarmChildren th {
   border-color: #777777;
   background-color: #999999;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 0;
+  border: 0;
   color: var(--gray-darker);
 }
 

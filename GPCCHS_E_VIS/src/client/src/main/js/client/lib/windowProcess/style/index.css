@@ -6,6 +6,7 @@
 @import './PlotView.css';
 @import './HistoryView';
 @import './AlarmView';
+@import './TableView';
 @import './Nav.css';
 @import './Timebar.css';
 @import './Editor.css';

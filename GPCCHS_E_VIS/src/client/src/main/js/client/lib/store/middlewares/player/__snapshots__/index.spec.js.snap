@@ -30,7 +30,7 @@ Array [
       "containerId": "global",
       "messages": Array [
         Object {
-          "content": "One process of the application is oveloaded, cannot switch to play",
+          "content": "One process of the application is overloaded, cannot switch to play",
         },
       ],
       "type": "warning",
@@ -56,6 +56,14 @@ Array [
       "type": "warning",
     },
     "type": "WS_MESSAGE_ADD",
+  },
+]
+`;
+
+exports[`store:middlewares:player play/pause cannot play if no page has a focus 1`] = `
+Array [
+  Object {
+    "type": "HSC_PLAY",
   },
 ]
 `;
@@ -90,14 +98,14 @@ Array [
   Object {
     "payload": Object {
       "slideWindow": Object {
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "lower": 1498643009147,
+        "upper": 1498643174147,
       },
       "timebarUuid": "tb1",
       "visuWindow": Object {
-        "current": NaN,
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "current": 1498643157647,
+        "lower": 1498642860647,
+        "upper": 1498643190647,
       },
     },
     "type": "WS_TIMEBAR_UPDATE_CURSORS",
@@ -105,14 +113,14 @@ Array [
   Object {
     "payload": Object {
       "slideWindow": Object {
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "lower": 1498643009147,
+        "upper": 1498643174147,
       },
       "timebarUuid": "tb1",
       "visuWindow": Object {
-        "current": NaN,
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "current": 1498643157647,
+        "lower": 1498642860647,
+        "upper": 1498643190647,
       },
     },
     "type": "WS_TIMEBAR_UPDATE_CURSORS",
@@ -120,14 +128,14 @@ Array [
   Object {
     "payload": Object {
       "slideWindow": Object {
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "lower": 1498643009147,
+        "upper": 1498643174147,
       },
       "timebarUuid": "tb1",
       "visuWindow": Object {
-        "current": NaN,
-        "lower": 1498642826647,
-        "upper": 1498643156647,
+        "current": 1498643157647,
+        "lower": 1498642860647,
+        "upper": 1498643190647,
       },
     },
     "type": "WS_TIMEBAR_UPDATE_CURSORS",
@@ -237,18 +245,6 @@ Array [
       "pageId": "p1",
     },
     "type": "WS_WINDOW_PAGE_FOCUS",
-  },
-]
-`;
-
-exports[`store:middlewares:player when open an editor dispatch a HSC_PAUSE action when open an editor 1`] = `
-Array [
-  Object {
-    "payload": Object {},
-    "type": "HSC_PAUSE",
-  },
-  Object {
-    "type": "WS_PAGE_PANELS_LOAD_IN_EDITOR",
   },
 ]
 `;

@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Refacto SaveWizardModal component . .
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import _ from 'lodash/fp';
 import { Row, Col } from 'react-bootstrap';

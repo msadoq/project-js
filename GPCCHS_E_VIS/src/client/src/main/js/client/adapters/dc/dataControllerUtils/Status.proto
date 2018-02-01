@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
+// END-HISTORY
+// ====================================================================
+
 package dataControllerUtils.protobuf;
 
 message Status {
@@ -5,6 +11,7 @@ extensions 2 to 102;
       enum STATUS {
         SUCCESS = 0;
         ERROR = 1;
+        TBD_ERROR = 2;
       }
 
     required STATUS status = 1;

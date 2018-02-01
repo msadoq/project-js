@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 22/03/2017 : Update viewData organization for last structure + cleaning
+// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Fix or comment some coding standard warnings
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Update DynamicView : plug it to data consumption
+// END-HISTORY
+// ====================================================================
+
 import _isEqual from 'lodash/isEqual';
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';

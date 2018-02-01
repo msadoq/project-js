@@ -1,5 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Cleanup main and server startup process
+// END-HISTORY
+// ====================================================================
+
 import { parallel } from 'async';
-import getLogger from '../../common/logManager';
+import getLogger from 'common/logManager';
 import { dc } from '../ipc';
 
 const TIMEOUT = 2500;

@@ -1,14 +1,52 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 22/05/2017 : Move server from server/ sub-component to client/lib/serverProcess
+// VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move serverProcess code one level upper
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : Fix proto register for packaging
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Merge branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Modify protobuf loading strategy : - Move adapters in another folder - New architecture generated for adapters folder - Add raw adapter mechanism
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Add types.proto in dc - Add parse/stringify mechanism to configurationManager
+// VERSION : 1.1.2 : FA : #6798 : 16/06/2017 : Several changes : - Lint pass - Modify stub to use encode/decode of adapters (row AND protobuf) - Add a new stubs.js file to load the stubs present in the adapters plugins
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 19/06/2017 : Cleanup main and server startup process
+// VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Cleanup main and server startup process
+// VERSION : 1.1.2 : FA : #6798 : 20/06/2017 : Merge branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix merge and add robustness code in server process bootstraping
+// VERSION : 1.1.2 : FA : #6993 : 21/06/2017 : Fix packaging : replace parameters.get('IS_BUNDLED') by process.env.IS_BUNDLED
+// VERSION : 1.1.2 : FA : #6798 : 21/06/2017 : Fix side effect due to stringify/parse parameters in forked process
+// VERSION : 1.1.2 : DM : #6700 : 23/06/2017 : First draft implementation of dataRequesting management on server
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : First draft implementation of dataRequesting management on server
+// VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Small fix to access DEBUG value in conf, in forked process
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add health mechanism on each process
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Modify health monitoring mechanism : - Handle properly start and stop - Add critical delay value in conf - Only start monitoring on DEBUG
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add mock delay in profiling loop event - Try to add middlware to induce stress => not possible - Modify health logic, change as soon as the critical delay is reached
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing decorator on DEBUG only (for each process) - Move decorator on makeSlave/MasterDispatcher
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Fix openInspector : init rtd in serverProcess
+// VERSION : 1.1.2 : FA : #7355 : 27/07/2017 : RTD is now optional on VIMA installation
+// VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Creation of store observer and test state
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add sendProductLog middleware in serverProcess + replace old IPC productLog
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Clean code . . .
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add redux and patch workflow improvment + remove store observer
+// VERSION : 1.1.2 : DM : #6700 : 29/08/2017 : Add throttle mechanism in patch reducer
+// END-HISTORY
+// ====================================================================
+
 import exit from 'exit';
 import { series } from 'async';
 import { setRtd, getRtd } from '../rtdManager';
-import { read } from '../common/fs';
+import { updateDomains } from '../store/actions/domains';
 import adapter from '../utils/adapters';
 import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
 import getLogger from '../common/logManager';
-import { get, setFmdConfiguration } from '../common/configurationManager';
+import { get } from '../common/configurationManager';
 import makeCreateStore from './store';
-import { updateDomains } from '../store/actions/domains';
-import { updateSessions } from '../store/actions/sessions';
+import { setRteSessions } from '../store/actions/rte';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { sendProductLog } from '../store/actions/hsc';
 import connectToZmq from './lifecycle/zmq';
@@ -16,9 +54,10 @@ import fetchInitialData from './lifecycle/data';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
 import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreObserver';
-import { setRteSessions } from '../store/actions/rte';
 import passerelle from '../utils/passerelle/index';
+import { updateSessions } from '../store/actions/sessions';
 
+const isDebugEnabled = () => get('DEBUG') === 'on';
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 
 adapter.registerGlobal();
@@ -50,25 +89,12 @@ const launchPasserelle = (callback) => {
   callback(null);
 };
 
-function loadFmdConfigurationFile(callback) {
-  const confPath = get('CONFIGURATION');
-  if (confPath) {
-    read(confPath, (error, content) => {
-      callback(error, content);
-      setFmdConfiguration(JSON.parse(content));
-    });
-  } else {
-    callback(null);
-  }
-}
-
-const loadMissionsAdapters = (missionsAdapters) => {
-  adapter.registerGlobal(missionsAdapters);
-};
-
 series({
   // ZeroMQ sockets
-  loadFileConfig: callback => loadFmdConfigurationFile(callback),
+  store: (callback) => {
+    const store = makeCreateStore('server', isDebugEnabled())(); // STORE
+    return callback(null, store);
+  },
   zmq: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), callback),
   // TODO : Send logBook to LPISIS (after store init to allow dispatch)
   logBook: (callback) => {
@@ -98,19 +124,13 @@ series({
   },
   // Initial data for store (domains, sessions, master session ID)
   initialData: callback => fetchInitialData(callback),
-}, (err, { initialData, loadFileConfig }) => {
+}, (err, { store, initialData }) => {
   if (err) {
     throw err;
-  }
-  if (loadFileConfig) {
-    loadMissionsAdapters(get('MISSIONS_ADAPTERS'));
   }
 
   // ipc with main
   process.on('message', clientController);
-  const isDebugEnabled = get('DEBUG') === 'on';
-  // store
-  const store = makeCreateStore('server', isDebugEnabled)(); // STORE
   store.subscribe(makeSubscriptionStoreObserver(store));
 
   // inform main that everything is ready and pass initialState
@@ -135,7 +155,7 @@ series({
   /* Start Health Monitoring mechanism
   On a status change, the Server Health status is updated
   */
-  if (isDebugEnabled) {
+  if (isDebugEnabled()) {
     monitoring = eventLoopMonitoring({
       criticalDelay: get('SERVER_HEALTH_CRITICAL_DELAY'),
       onStatusChange: status => store.dispatch(updateHssStatus(status)),

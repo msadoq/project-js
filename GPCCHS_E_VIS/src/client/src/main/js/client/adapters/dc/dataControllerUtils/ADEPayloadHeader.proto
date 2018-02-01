@@ -1,0 +1,9 @@
+package dataControllerUtils.protobuf;
+
+message ADEPayloadHeader {
+    extensions 4 to 104;
+
+    required int64  providerId = 1;
+    required string comObjectType = 2;
+    optional int64  instanceOid = 3;
+}

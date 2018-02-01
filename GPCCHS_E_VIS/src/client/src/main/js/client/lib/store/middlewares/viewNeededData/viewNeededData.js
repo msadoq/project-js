@@ -1,12 +1,20 @@
-import _cloneDeep from 'lodash/cloneDeep';
-import dataMapGenerator from '../../../dataManager/map';
-import { getWindowsOpened, getIsWorkspaceOpening } from '../../../store/reducers/hsc';
-import execution from '../../../common/logManager/execution';
-import computeMissingRangeIntervals from '../../observers/computeMissingRangeIntervals';
-import computeMissingLastIntervals from '../../observers/computeMissingLastIntervals';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add redux and patch workflow improvment + remove store observer
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Clean code . . .
+// VERSION : 1.1.2 : DM : #6700 : 28/08/2017 : Add some exectuion map + minor lint fix
+// END-HISTORY
+// ====================================================================
 
-import { viewsNeedRange, viewsNeedLast } from '../../../store/actions/retrieveData';
-import { cleanViewData } from '../../../store/actions/viewData';
+import _cloneDeep from 'lodash/cloneDeep';
+import dataMapGenerator from 'dataManager/map';
+import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
+import execution from 'common/logManager/execution';
+import computeMissingRangeIntervals from 'store/observers/computeMissingRangeIntervals';
+import computeMissingLastIntervals from 'store/observers/computeMissingLastIntervals';
+
+import { viewsNeedRange, viewsNeedLast } from 'store/actions/retrieveData';
+import { cleanViewData } from 'store/actions/viewData';
 
 
 const makeViewNeededData = () => {

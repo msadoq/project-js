@@ -1,3 +1,19 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 14/02/2017 : Add lint rule on selector signatures
+// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Add getIsWorkspaceOpening selector in project
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Remove useless workspaceOpened in state.hsc
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/hsc . . .
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Add comments on all selectors
+// VERSION : 1.1.2 : FA : #7081 : 27/06/2017 : Fix crash while closing application with document to save (a merge was probably deleted some code)
+// VERSION : 1.1.2 : FA : #7185 : 05/07/2017 : Fix lint errors and warnings
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Fix store broken test due to selectors/hsc export
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Add workspace middleware => TODO : onWsClose
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Lint fix . . . .
+// END-HISTORY
+// ====================================================================
+
 import { getWindowPageIds } from '../reducers/windows';
 import { getPage } from '../reducers/pages';
 import { getView } from '../reducers/views';

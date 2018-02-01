@@ -4,13 +4,13 @@ import moment from 'moment';
 import _last from 'lodash/last';
 import _get from 'lodash/get';
 
+import * as constants from 'constants';
+import { getViewTitle } from 'store/reducers/views';
 import { getOnboardAlarmViewData, getData } from './dataReducer';
-import * as constants from '../../../constants';
-import { getViewTitle } from '../../../store/reducers/views';
 
 const MODES_WORDING = {
-  [constants.OBA_ALARM_MODE_ALL]: 'All',
-  [constants.OBA_ALARM_MODE_TOACKNOWLEDGE]: 'To Acknowledge',
+  [constants.ALARM_MODE_ALL]: 'All',
+  [constants.ALARM_MODE_TOACKNOWLEDGE]: 'To Acknowledge',
 };
 
 const getEntryPointsByViewId = (state, { viewId }) => (

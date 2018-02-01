@@ -1,10 +1,18 @@
-import { getStore } from '../../store';
-import { getRtd } from '../../../rtdManager';
-import prepareDataToTree from '../../../rtdManager/prepareDataToTree';
-import { add } from '../../../store/actions/messages';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : update catalog explorer controllers with new rtd connection
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : catalog explorer : open, close and browse items
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// END-HISTORY
+// ====================================================================
+
+import { getStore } from 'mainProcess/store';
+import { getRtd } from 'rtdManager';
+import prepareDataToTree from 'rtdManager/prepareDataToTree';
+import { add } from 'store/actions/messages';
 import {
   openRteItem,
-} from '../../../store/actions/rte';
+} from 'store/actions/rte';
 
 
 export default function ({ sessionId, domainId, catalog, version, namespace, name, key }) {

@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Separate expectedIntervalsMap by structure type in dataMap
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : remove lower bound type from viewManager
+// END-HISTORY
+// ====================================================================
+
 import _find from 'lodash/find';
 
 export function addInterval(knownIntervals, interval) {

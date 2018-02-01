@@ -1,0 +1,931 @@
+{
+  "type": "INJECT_DATA_RANGE",
+  "payload": {
+    "oldViewMap": {
+      "v1": {
+        "type": "GroundAlarmView",
+        "entryPoints": {
+          "groundAlarmEP": {
+            "id": "a16aa3e0-6757-49ec-9f81-e70e20f36d8f",
+            "tbdId": ".<GroundMonitoringAlarmAckRequest>:0:1",
+            "dataId": {
+              "parameterName": "",
+              "catalog": "",
+              "comObject": "GroundMonitoringAlarmAckRequest",
+              "domainId": 1,
+              "domain": "fr.cnes.isis",
+              "sessionName": "Master",
+              "sessionId": 0
+            },
+            "localId": "nofield.19b3dcc4-4bb3-4517-9580-94be06b64e6f:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange",
+            "offset": 0,
+            "timebarUuid": "19b3dcc4-4bb3-4517-9580-94be06b64e6f",
+            "mode": 0,
+            "type": "GroundAlarmView",
+            "stateColors": [
+              {
+                "color": "darkorange",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "alarm"
+                }
+              },
+              {
+                "color": "darkred",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "critical"
+                }
+              },
+              {
+                "color": "darkred",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "outOfRange"
+                }
+              },
+              {
+                "color": "#FF0000",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "severe"
+                }
+              },
+              {
+                "color": "#FF0000",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "danger"
+                }
+              },
+              {
+                "color": "#FFFF00",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "warning"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "v3": {
+        "type": "OnboardAlarmView",
+        "entryPoints": {
+          "onboardAlarmEP": {
+            "id": "666ef2e3-2f0a-4c5c-98c4-eda813cad335",
+            "tbdId": ".<OnBoardAlarmAckRequest>:0:1",
+            "dataId": {
+              "parameterName": "",
+              "catalog": "",
+              "comObject": "OnBoardAlarmAckRequest",
+              "domainId": 1,
+              "domain": "fr.cnes.isis",
+              "sessionName": "Master",
+              "sessionId": 0
+            },
+            "localId": "nofield.19b3dcc4-4bb3-4517-9580-94be06b64e6f:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange",
+            "offset": 0,
+            "timebarUuid": "19b3dcc4-4bb3-4517-9580-94be06b64e6f",
+            "mode": 0,
+            "type": "OnboardAlarmView",
+            "stateColors": [
+              {
+                "color": "darkorange",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "alarm"
+                }
+              },
+              {
+                "color": "darkred",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "critical"
+                }
+              },
+              {
+                "color": "darkred",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "outOfRange"
+                }
+              },
+              {
+                "color": "#FF0000",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "severe"
+                }
+              },
+              {
+                "color": "#FF0000",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "danger"
+                }
+              },
+              {
+                "color": "#FFFF00",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "warning"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "newViewMap": {
+      "v1": {
+        "type": "GroundAlarmView",
+        "entryPoints": {
+          "groundAlarmEP": {
+            "id": "a16aa3e0-6757-49ec-9f81-e70e20f36d8f",
+            "tbdId": ".<GroundMonitoringAlarmAckRequest>:0:1",
+            "dataId": {
+              "parameterName": "",
+              "catalog": "",
+              "comObject": "GroundMonitoringAlarmAckRequest",
+              "domainId": 1,
+              "domain": "fr.cnes.isis",
+              "sessionName": "Master",
+              "sessionId": 0
+            },
+            "localId": "nofield.19b3dcc4-4bb3-4517-9580-94be06b64e6f:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange",
+            "offset": 0,
+            "timebarUuid": "19b3dcc4-4bb3-4517-9580-94be06b64e6f",
+            "mode": 0,
+            "type": "GroundAlarmView",
+            "stateColors": [
+              {
+                "color": "darkorange",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "alarm"
+                }
+              },
+              {
+                "color": "darkred",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "critical"
+                }
+              },
+              {
+                "color": "darkred",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "outOfRange"
+                }
+              },
+              {
+                "color": "#FF0000",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "severe"
+                }
+              },
+              {
+                "color": "#FF0000",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "danger"
+                }
+              },
+              {
+                "color": "#FFFF00",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "warning"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "v2": {
+        "type": "GroundAlarmView",
+        "entryPoints": {
+          "groundAlarmEP": {
+            "id": "a16aa3e0-6757-49ec-9f81-e70e20f36d8f",
+            "tbdId": ".<GroundMonitoringAlarmAckRequest>:0:1",
+            "dataId": {
+              "parameterName": "",
+              "catalog": "",
+              "comObject": "GroundMonitoringAlarmAckRequest",
+              "domainId": 1,
+              "domain": "fr.cnes.isis",
+              "sessionName": "Master",
+              "sessionId": 0
+            },
+            "localId": "nofield.19b3dcc4-4bb3-4517-9580-94be06b64e6f:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange",
+            "offset": 0,
+            "timebarUuid": "19b3dcc4-4bb3-4517-9580-94be06b64e6f",
+            "mode": 0,
+            "type": "GroundAlarmView",
+            "stateColors": [
+              {
+                "color": "darkorange",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "alarm"
+                }
+              },
+              {
+                "color": "darkred",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "critical"
+                }
+              },
+              {
+                "color": "darkred",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "outOfRange"
+                }
+              },
+              {
+                "color": "#FF0000",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "severe"
+                }
+              },
+              {
+                "color": "#FF0000",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "danger"
+                }
+              },
+              {
+                "color": "#FFFF00",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "warning"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "v3": {
+        "type": "OnboardAlarmView",
+        "entryPoints": {
+          "onboardAlarmEP": {
+            "id": "666ef2e3-2f0a-4c5c-98c4-eda813cad335",
+            "tbdId": ".<OnBoardAlarmAckRequest>:0:1",
+            "dataId": {
+              "parameterName": "",
+              "catalog": "",
+              "comObject": "OnBoardAlarmAckRequest",
+              "domainId": 1,
+              "domain": "fr.cnes.isis",
+              "sessionName": "Master",
+              "sessionId": 0
+            },
+            "localId": "nofield.19b3dcc4-4bb3-4517-9580-94be06b64e6f:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange",
+            "offset": 0,
+            "timebarUuid": "19b3dcc4-4bb3-4517-9580-94be06b64e6f",
+            "mode": 0,
+            "type": "OnboardAlarmView",
+            "stateColors": [
+              {
+                "color": "darkorange",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "alarm"
+                }
+              },
+              {
+                "color": "darkred",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "critical"
+                }
+              },
+              {
+                "color": "darkred",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "outOfRange"
+                }
+              },
+              {
+                "color": "#FF0000",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "severe"
+                }
+              },
+              {
+                "color": "#FF0000",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "danger"
+                }
+              },
+              {
+                "color": "#FFFF00",
+                "condition": {
+                  "field": "monitoringState",
+                  "operator": "=",
+                  "operand": "warning"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "oldExpectedRangeIntervals": {
+      ".<GroundMonitoringAlarmAckRequest>:0:1": {
+        "nofield.19b3dcc4-4bb3-4517-9580-94be06b64e6f:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+          "expectedInterval": [
+            1512738808618,
+            1512739438618
+          ]
+        }
+      },
+      ".<OnBoardAlarmAckRequest>:0:1": {
+        "nofield.19b3dcc4-4bb3-4517-9580-94be06b64e6f:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+          "expectedInterval": [
+            1512738808618,
+            1512739438618
+          ]
+        }
+      }
+    },
+    "newExpectedRangeIntervals": {
+      ".<GroundMonitoringAlarmAckRequest>:0:1": {
+        "nofield.19b3dcc4-4bb3-4517-9580-94be06b64e6f:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+          "expectedInterval": [
+            1512738808618,
+            1512739438618
+          ]
+        }
+      },
+      ".<OnBoardAlarmAckRequest>:0:1": {
+        "nofield.19b3dcc4-4bb3-4517-9580-94be06b64e6f:0:#FF0000.monitoringState.=.danger,#FF0000.monitoringState.=.severe,#FFFF00.monitoringState.=.warning,darkorange.monitoringState.=.alarm,darkred.monitoringState.=.critical,darkred.monitoringState.=.outOfRange": {
+          "expectedInterval": [
+            1512738808618,
+            1512739438618
+          ]
+        }
+      }
+    },
+    "dataToInject": {
+      ".<GroundMonitoringAlarmAckRequest>:0:1": {
+        "1234": {
+          "oid": "oid123456",
+          "groundMonitoringAlarm": {
+            "creationDate": {
+              "type": "time",
+              "value": 1512739427734
+            },
+            "paramUid": {
+              "type": "long",
+              "symbol": "4021"
+            },
+            "updateDate": {
+              "type": "time",
+              "value": 1512739427784
+            },
+            "closingDate": {
+              "type": "time",
+              "value": 1512739427824
+            },
+            "hasAckRequest": {
+              "type": "boolean",
+              "value": true
+            },
+            "alarmId": {
+              "type": "long",
+              "symbol": "97056"
+            },
+            "transitions": [
+              {
+                "onboardDate": {
+                  "type": "time",
+                  "value": 1512739427834
+                },
+                "groundDate": {
+                  "type": "time",
+                  "value": 1512739427854
+                },
+                "convertedValue": {
+                  "type": "double",
+                  "symbol": "0.9110968147862077"
+                },
+                "extractedValue": {
+                  "type": "double",
+                  "symbol": "1.3666452221793115"
+                },
+                "rawValue": {
+                  "type": "double",
+                  "symbol": "0.45554840739310387"
+                }
+              }
+            ],
+            "isNominal": {
+              "type": "boolean",
+              "value": true
+            },
+            "referenceTimestamp": {
+              "type": "time",
+              "value": 1512739427734
+            }
+          },
+          "parameterName": "pNameid",
+          "parameterType": "pTypealiquip",
+          "satellite": "satellitelaboris",
+          "telemetryType": "telemetryTypeea"
+        },
+        "1512739427834": {
+          "oid": "oid6656565.101702654",
+          "groundMonitoringAlarm": {
+            "creationDate": {
+              "type": "time",
+              "value": 1512739427734
+            },
+            "paramUid": {
+              "type": "long",
+              "symbol": "4021"
+            },
+            "updateDate": {
+              "type": "time",
+              "value": 1512739427784
+            },
+            "closingDate": {
+              "type": "time",
+              "value": 1512739427824
+            },
+            "hasAckRequest": {
+              "type": "boolean",
+              "value": true
+            },
+            "alarmId": {
+              "type": "long",
+              "symbol": "97056"
+            },
+            "transitions": [
+              {
+                "onboardDate": {
+                  "type": "time",
+                  "value": 1512739427834
+                },
+                "groundDate": {
+                  "type": "time",
+                  "value": 1512739427854
+                },
+                "convertedValue": {
+                  "type": "double",
+                  "symbol": "0.9110968147862077"
+                },
+                "extractedValue": {
+                  "type": "double",
+                  "symbol": "1.3666452221793115"
+                },
+                "rawValue": {
+                  "type": "double",
+                  "symbol": "0.45554840739310387"
+                }
+              }
+            ],
+            "isNominal": {
+              "type": "boolean",
+              "value": true
+            },
+            "referenceTimestamp": {
+              "type": "time",
+              "value": 1512739427734
+            }
+          },
+          "parameterName": "pNameid",
+          "parameterType": "pTypealiquip",
+          "satellite": "satellitelaboris",
+          "telemetryType": "telemetryTypeea"
+        }
+      },
+      ".<OnBoardAlarmAckRequest>:0:1": {
+        "10000": {
+          "oid": "oid9702994.625313295",
+          "onBoardAlarm": {
+            "apid": 46724,
+            "reportId": 50977,
+            "reportName": "reportNameexercitation",
+            "eventType": 74460,
+            "alarmLevel": "",
+            "onBoardDate": {
+              "type": "time",
+              "value": 1512738808620
+            },
+            "groundDate": {
+              "type": "time",
+              "value": 10000
+            },
+            "parameter": [
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNameveniam,"
+                },
+                "value": {
+                  "type": "string",
+                  "value": "valueipsum"
+                }
+              },
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNamequis"
+                },
+                "value": {
+                  "type": "ulong",
+                  "symbol": "1185"
+                }
+              }
+            ]
+          },
+          "satellite": "satelliteexercitation",
+          "telemetryType": "telemetryTypenisi"
+        },
+        "11000": {
+          "oid": "oid9404463.599430528",
+          "onBoardAlarm": {
+            "apid": 48463,
+            "reportId": 50227,
+            "reportName": "reportNameincididunt",
+            "eventType": 10631,
+            "alarmLevel": "outOfRange",
+            "onBoardDate": {
+              "type": "time",
+              "value": 1512738808621
+            },
+            "groundDate": {
+              "type": "time",
+              "value": 11000
+            },
+            "parameter": [
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNameculpa"
+                },
+                "value": {
+                  "type": "double",
+                  "symbol": "80680.28520556254"
+                }
+              },
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNamelaborum."
+                },
+                "value": {
+                  "type": "ulong",
+                  "symbol": "20926"
+                }
+              }
+            ]
+          },
+          "satellite": "satelliteaute",
+          "telemetryType": "telemetryTypecupidatat"
+        },
+        "1512753960547": {
+          "oid": "oid8594091.229397235",
+          "onBoardAlarm": {
+            "apid": 7583,
+            "reportId": 67264,
+            "reportName": "reportNameex",
+            "eventType": 87252,
+            "alarmLevel": "",
+            "onBoardDate": {
+              "type": "time",
+              "value": 1512753960527
+            },
+            "groundDate": {
+              "type": "time",
+              "value": 1512753960547
+            },
+            "parameter": [
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNamecommodo"
+                },
+                "value": {
+                  "type": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNameest"
+                },
+                "value": {
+                  "type": "ulong",
+                  "symbol": "76514"
+                }
+              }
+            ]
+          },
+          "satellite": "satellitelaborum.",
+          "telemetryType": "telemetryTypein"
+        },
+        "1512754020547": {
+          "oid": "oid3572696.62530598",
+          "onBoardAlarm": {
+            "apid": 87933,
+            "reportId": 98873,
+            "reportName": "reportNameadipiscing",
+            "eventType": 94473,
+            "alarmLevel": "critical",
+            "onBoardDate": {
+              "type": "time",
+              "value": 1512754020527
+            },
+            "groundDate": {
+              "type": "time",
+              "value": 1512754020547
+            },
+            "parameter": [
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNameut"
+                },
+                "value": {
+                  "type": "ulong",
+                  "symbol": "29105"
+                }
+              },
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNameconsectetur"
+                },
+                "value": {
+                  "type": "boolean",
+                  "value": true
+                }
+              }
+            ]
+          },
+          "satellite": "satellitereprehenderit",
+          "telemetryType": "telemetryTypeanim"
+        },
+        "1512754132547": {
+          "oid": "oid7350914.631915657",
+          "onBoardAlarm": {
+            "apid": 17826,
+            "reportId": 10525,
+            "reportName": "reportNamepariatur.",
+            "eventType": 10583,
+            "alarmLevel": "danger",
+            "onBoardDate": {
+              "type": "time",
+              "value": 1512754132527
+            },
+            "groundDate": {
+              "type": "time",
+              "value": 1512754132547
+            },
+            "parameter": [
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNamenostrud"
+                },
+                "value": {
+                  "type": "double",
+                  "symbol": "76263.08964214558"
+                }
+              },
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNamemollit"
+                },
+                "value": {
+                  "type": "ulong",
+                  "symbol": "39140"
+                }
+              }
+            ]
+          },
+          "satellite": "satelliteproident,",
+          "telemetryType": "telemetryTypeExcepteur"
+        },
+        "1512754189547": {
+          "oid": "oid1485043.0485876133",
+          "onBoardAlarm": {
+            "apid": 29839,
+            "reportId": 97824,
+            "reportName": "reportNamead",
+            "eventType": 94874,
+            "alarmLevel": "nonsignificant",
+            "onBoardDate": {
+              "type": "time",
+              "value": 1512754189527
+            },
+            "groundDate": {
+              "type": "time",
+              "value": 1512754189547
+            },
+            "parameter": [
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNamesit"
+                },
+                "value": {
+                  "type": "ulong",
+                  "symbol": "36920"
+                }
+              },
+              {
+                "name": {
+                  "type": "identifier",
+                  "value": "pNameest"
+                },
+                "value": {
+                  "type": "ulong",
+                  "symbol": "2527"
+                }
+              }
+            ]
+          },
+          "satellite": "satelliteconsequat.",
+          "telemetryType": "telemetryTypefugiat"
+        }
+      }
+    },
+    "configurations": {
+      "HistoryViewConfiguration": {},
+      "GroundAlarmViewConfiguration": {
+        "v1": {
+          "entryPoints": [
+            {
+              "name": "groundAlarmEP",
+              "id": "a16aa3e0-6757-49ec-9f81-e70e20f36d8f",
+              "connectedData": {
+                "domain": "*",
+                "timeline": "*",
+                "mode": 0
+              },
+              "stateColors": [
+                {
+                  "color": "darkorange",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "alarm"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "critical"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "outOfRange"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "severe"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "danger"
+                  }
+                },
+                {
+                  "color": "#FFFF00",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "warning"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "OnboardAlarmViewConfiguration": {
+        "v3": {
+          "entryPoints": [
+            {
+              "id": "666ef2e3-2f0a-4c5c-98c4-eda813cad335",
+              "name": "onboardAlarmEP",
+              "connectedData": {
+                "domain": "*",
+                "timeline": "*",
+                "mode": 0
+              },
+              "stateColors": [
+                {
+                  "color": "darkorange",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "alarm"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "critical"
+                  }
+                },
+                {
+                  "color": "darkred",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "outOfRange"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "severe"
+                  }
+                },
+                {
+                  "color": "#FF0000",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "danger"
+                  }
+                },
+                {
+                  "color": "#FFFF00",
+                  "condition": {
+                    "field": "monitoringState",
+                    "operator": "=",
+                    "operand": "warning"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

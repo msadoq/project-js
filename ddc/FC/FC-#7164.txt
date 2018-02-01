@@ -1,0 +1,107 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#7164.txt
+
+
+Reference changement : #7164
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/adapters/dc/dataControllerUtils/filter.js
+	Apply filters on getLast request
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/flattenDataId.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/flattenDataId.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perRemoteIdData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perRemoteIdData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedArchiveData.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedArchiveData.spec.js
+	Fix unit tests . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedPubSubData.js
+	Apply filters on getLast request
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedPubSubData.spec.js
+	Fix unit tests . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/computeMissingIntervals.js
+	Apply filters on getLast request
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/computeMissingIntervals.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/dataQueries.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/observer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/connectedData.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/connectedData.spec.js
+	Fix unit tests . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/dataMapSingleton.js
+	Apply filters on getLast request
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/dataMapSingleton.spec.js
+	Fix unit tests . .
+	Apply filters on getLast request
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/data/parseEntryPoint.js
+	Apply filters on getLast request
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/data/parseEntryPoint.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/data/parseEntryPoint.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/flattenStateColors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/flattenStateColors.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/EntryPointConnectedDataFields.js (idem)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/adapters/dc/dataControllerUtils/filter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/flattenDataId.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/flattenDataId.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perRemoteIdData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perRemoteIdData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedArchiveData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedArchiveData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedPubSubData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onTimebasedPubSubData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/computeMissingIntervals.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/computeMissingIntervals.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/dataQueries.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/dataRequests/observer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/connectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/connectedData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/data/parseEntryPoint.spec.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/dataMapSingleton.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/models/dataMapSingleton.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/flattenStateColors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/flattenStateColors.spec.js
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/EntryPointConnectedDataFields.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

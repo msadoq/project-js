@@ -5,25 +5,18 @@
     "react"
   ],
   "plugins": [
-  	"babel-plugin-add-module-exports"
+  	"babel-plugin-add-module-exports",
+    ["module-resolver", {
+      "root": ["./lib"]
+    }]
   ],
   "env": {
     "test": {},
-    "production": {
-      "presets": [
-        "react-optimize"
-      ],
-      "plugins": [
-		 "babel-plugin-lodash"
-      ]
-    },
+    "production": {},
     "development": {
       "presets": [
         "react-hmre"
-      ],
-  	  "plugins": [
-  		  "babel-plugin-lodash"
-  	  ]
+      ]
     }
   }
 }

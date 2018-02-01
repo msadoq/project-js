@@ -1,19 +1,30 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add partial performance widget in explorer
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Add number of points per view in explorer panel
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : Complete performance tab in explorer
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add mock delay in profiling loop event - Try to add middlware to induce stress => not possible - Modify health logic, change as soon as the critical delay is reached
+// END-HISTORY
+// ====================================================================
+
 import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
 import _reduce from 'lodash/reduce';
 import _get from 'lodash/get';
 import _isObject from 'lodash/isObject';
 import classnames from 'classnames';
+import * as constants from 'viewManager/constants';
+import Perf from 'react-dom/lib/ReactPerf';
+import { get } from 'common/configurationManager';
+import getLogger from 'common/logManager';
+import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_WARNING, HEALTH_STATUS_CRITICAL } from 'constants';
 import {
   Panel,
   Button,
 } from 'react-bootstrap';
-import Perf from 'react-dom/lib/ReactPerf';
-import { get } from '../../../common/configurationManager';
-import getLogger from '../../../common/logManager';
-import { HEALTH_STATUS_HEALTHY, HEALTH_STATUS_WARNING, HEALTH_STATUS_CRITICAL } from '../../../constants';
 import styles from './Performance.css';
-import * as constants from '../../../viewManager/constants';
 
 const logger = getLogger('Performance');
 

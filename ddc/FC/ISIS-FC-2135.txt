@@ -1,0 +1,220 @@
+#GPCCHS 1.1.2 02/10/2017 ISIS-FC-2135.txt
+
+
+Reference changement : ISIS-FT-2135
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.spec.js
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onSaveView.js
+	Remove some useless 'addOnce' (messages) .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/server/onError.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageSave.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceSave.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.spec.js
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/messages.js
+	Message removing can be cancel by passing the mouse over the message
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+	Add animation to messages removing
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/messages.spec.js
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.js
+	Remove some useless 'addOnce' (messages) .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.spec.js
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/createStore.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/messages.spec.js.snap
+	Write middlewares/messages tests . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.js
+	give a name to the messages redux middleware
+	Message removing can be cancel by passing the mouse over the message
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.spec.js
+	Write middlewares/messages tests . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.js
+	Message removing can be cancel by passing the mouse over the message
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+	Add animation to messages removing
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.spec.js
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+	Add animation to messages removing
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	Message removing can be cancel by passing the mouse over the message
+	Add animation to messages removing
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Messages.js
+	Message removing can be cancel by passing the mouse over the message
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+	Add animation to messages removing
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/MessagesContainer.js
+	Message removing can be cancel by passing the mouse over the message
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Messages.js
+	Message removing can be cancel by passing the mouse over the message
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+	Add animation to messages removing
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/MessagesContainer.js
+	Message removing can be cancel by passing the mouse over the message
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetter.js
+	Message removing can be cancel by passing the mouse over the message
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+	Add animation to messages removing
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetterContainer.js
+	Message removing can be cancel by passing the mouse over the message
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Messages.js
+	Message removing can be cancel by passing the mouse over the message
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+	Add animation to messages removing
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/MessagesContainer.js
+	Message removing can be cancel by passing the mouse over the message
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/Message.css
+	Message removing can be cancel by passing the mouse over the message
+	Automatically remove messages after a while
+	
+	
+	
+	- add uuids in state.messages
+	Add animation to messages removing
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/Message.js (idem)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onSaveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/server/onError.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageSave.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceSave.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/messages.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/createStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/MessagesContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/MessagesContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetterContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/MessagesContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/Message.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/Message.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/messages.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.spec.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

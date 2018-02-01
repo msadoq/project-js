@@ -1,14 +1,31 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : CReation of knownRanges reducer and actions
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : Update of knownRanges reducer and actions
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : update of preparePubSup middleware .
+// VERSION : 1.1.2 : DM : #6700 : 27/07/2017 : update preparePubSub and add unit tests for it
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Add PubSubController and retrieveLast/Range update
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Update some tests . . .
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
-import _isArray from 'lodash/isArray';
+import mergeIntervals from 'common/intervals/merge';
 import _isEmpty from 'lodash/isEmpty';
 import _filter from 'lodash/filter';
-import * as types from '../../types';
-import mergeIntervals from '../../../common/intervals/merge';
-import removeIntervals from '../../../common/intervals/remove';
-import missingIntervals from '../../../common/intervals/missing';
-import includesTimestamp from '../../../common/intervals/includesTimestamp';
-import getIncludesTimestamp from '../../../common/intervals/getIncludesTimestamp';
-import flattenDataId from '../../../common/flattenDataId';
+import * as types from 'store/types';
+import flattenDataId from 'common/flattenDataId';
+import removeIntervals from 'common/intervals/remove';
+import missingIntervals from 'common/intervals/missing';
+import includesTimestamp from 'common/intervals/includesTimestamp';
+import getIncludesTimestamp from 'common/intervals/getIncludesTimestamp';
+import { get } from 'common/configurationManager';
+import _isArray from 'lodash/isArray';
+
+const isCacheDisabled = String(get('DISABLE_LOKI_CACHE')) === 'true';
 
 /* --- Reducer -------------------------------------------------------------- */
 
@@ -18,7 +35,8 @@ import flattenDataId from '../../../common/flattenDataId';
  * @param {object} action - The action dispatched.
  * @return {object} The new state.
  */
-export default function knownRanges(state = {}, action) {
+
+const knownRanges = (state = {}, action) => {
   switch (action.type) {
     case types.WS_KNOWNINTERVAL_ADD: {
       const tbdId = action.payload.tbdId;
@@ -88,7 +106,9 @@ export default function knownRanges(state = {}, action) {
     default:
       return state;
   }
-}
+};
+
+export default isCacheDisabled ? _.always({}) : knownRanges;
 
 /* --- Selectors ------------------------------------------------------------ */
 
@@ -178,4 +198,3 @@ export const getUpperIntervalIsInKnownRanges = (state, tbdId, interval) => {
   }
   return getIncludesTimestamp(tbdIdRanges.intervals, interval[1]);
 };
-

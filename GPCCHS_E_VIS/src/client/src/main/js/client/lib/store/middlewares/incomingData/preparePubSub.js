@@ -1,21 +1,34 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
+// VERSION : 1.1.2 : FA : #7578 : 23/08/2017 : Add throttle mechanism to pubSubController
+// VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add redux and patch workflow improvment + remove store observer
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add execution map trace in three middlewares to make performance analysis easier
+// VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : move dumpBuffer use in a specific middleware
+// VERSION : 1.1.2 : DM : #6816 : 06/09/2017 : test perfs on hss process
+// END-HISTORY
+// ====================================================================
+
 import _isBuffer from 'lodash/isBuffer';
-import * as types from '../../types';
+import { applyFilters } from 'viewManager/commonData/applyFilters';
 import {
   isDataIdInCache,
   isTimestampInKnownRanges,
   getKnownRanges,
-} from '../../reducers/knownRanges';
+} from 'store/reducers/knownRanges';
 import {
   isDataIdInDatamapLast,
   isTimestampInLastDatamapInterval,
-} from '../../../dataManager/mapSelector';
-import { decode, getType } from '../../../utils/adapters';
-import { applyFilters } from '../../../viewManager/commonData/applyFilters';
-import { set as setLastPubSubTimestamp } from '../../../serverProcess/models/lastPubSubTimestamp';
-import executionMonitor from '../../../common/logManager/execution';
-import dataMapGenerator from '../../../dataManager/map';
-import { newData } from '../../../store/actions/incomingData';
-import { add as addMessage } from '../../../store/actions/messages';
+} from 'dataManager/mapSelector';
+import { decode, getType } from 'utils/adapters';
+import { add as addMessage } from 'store/actions/messages';
+import { set as setLastPubSubTimestamp } from 'serverProcess/models/lastPubSubTimestamp';
+import executionMonitor from 'common/logManager/execution';
+import dataMapGenerator from 'dataManager/map';
+import { newData } from 'store/actions/incomingData';
+import * as types from 'store/types';
 
 const logger = require('../../../common/logManager')('middleware:preparePubSub');
 

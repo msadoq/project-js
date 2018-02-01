@@ -1,15 +1,26 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : First benchmark draft for the TextView, split between TextView - TextViewWrapper .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 20/07/2017 : Reimplement openLink middleware . .
+// VERSION : 1.1.2 : DM : #6785 : 21/07/2017 : add links on textview if specify in html editor
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6127 : 04/09/2017 : View component now do not automatically set overflow to auto
+// VERSION : 1.1.2 : FA : #7834 : 14/09/2017 : Fixed right click bug on TextView, confusion between TextView and TextViewWrapper
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _each from 'lodash/each';
 import classnames from 'classnames';
-import getLogger from '../../../../common/logManager';
-import { get } from '../../../../common/configurationManager';
-import LinksContainer from '../../../../windowProcess/View/LinksContainer';
+import getLogger from 'common/logManager';
+import { get } from 'common/configurationManager';
+import LinksContainer from 'windowProcess/View/LinksContainer';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import TextView from './TextView';
-import DroppableContainer from '../../../../windowProcess/common/DroppableContainer';
-import handleContextMenu from '../../../../windowProcess/common/handleContextMenu';
 import styles from './TextView.css';
 
 const logger = getLogger('view:text');
@@ -50,8 +61,6 @@ export default class TextViewWrapper extends PureComponent {
     entryPoints: PropTypes.objectOf(PropTypes.object),
     openInspector: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
-    closeEditor: PropTypes.func.isRequired,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
@@ -85,9 +94,6 @@ export default class TextViewWrapper extends PureComponent {
     const {
       entryPoints,
       openInspector,
-      isViewsEditorOpen,
-      openEditor,
-      closeEditor,
       mainMenu,
       isInspectorOpened,
       inspectorEpId,
@@ -99,25 +105,13 @@ export default class TextViewWrapper extends PureComponent {
     const separator = { type: 'separator' };
     if (span) {
       const epName = _get(this.spanValues, [span.id, 'ep']);
-      const editorMenu = [{
-        label: `Open ${epName} in Editor`,
-        click: () => {
-          openEditor(epName);
-        },
-      }];
-      if (isViewsEditorOpen) {
-        editorMenu.push({
-          label: 'Close Editor',
-          click: () => closeEditor(),
-        });
-      }
       const inspectorLabel = `Open ${epName} in Inspector`;
       if (_get(entryPoints, [epName, 'error'])) {
         const inspectorMenu = {
           label: inspectorLabel,
           enabled: false,
         };
-        handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+        handleContextMenu([inspectorMenu, separator, ...mainMenu]);
         return;
       }
       const { id, dataId, field } = entryPoints[epName];
@@ -133,19 +127,9 @@ export default class TextViewWrapper extends PureComponent {
         }),
         checked: opened,
       };
-      handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
+      handleContextMenu([inspectorMenu, separator, ...mainMenu]);
       return;
     }
-    const editorMenu = (isViewsEditorOpen) ?
-    {
-      label: 'Close Editor',
-      click: () => closeEditor(),
-    } : {
-      label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
-    };
     const inspectorMenu = {
       label: 'Open in Inspector',
       submenu: [],
@@ -170,7 +154,7 @@ export default class TextViewWrapper extends PureComponent {
         checked: opened,
       });
     });
-    handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
+    handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
 
 

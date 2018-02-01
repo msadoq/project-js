@@ -1,0 +1,197 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6302.txt
+
+
+Reference changement : #6302
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/createLoggingSelector.js
+	Add comment and fix coding convetions warning and un-needed relaxations
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/debug.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/mainStore.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/page.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/window.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/windowStore.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorForm.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointParameters.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotGrid.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotMarker.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+	Fix some lint errors, added justification and DV6 TBC_CNES prefix on others.
+	FIx lint in Grizzly and PlotView.js .
+	Add comment and fix coding convetions warning and un-needed relaxations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js
+	Add comment and fix coding convetions warning and un-needed relaxations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.js
+	FIx lint in Grizzly and PlotView.js .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.css (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.js
+	Add comment and fix coding convetions warning and un-needed relaxations
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointDetails.js
+	Fix some lint errors, added justification and DV6 TBC_CNES prefix on others.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/cleanViewData.js
+	Add comment and fix coding convetions warning and un-needed relaxations
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/EntryPointName.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsForm.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Information.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationSelectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationSelectors.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/LeftTab.js
+	Fix some lint errors, added justification and DV6 TBC_CNES prefix on others.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/SelectTimebar.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetter.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.js
+	Fix some lint errors, added justification and DV6 TBC_CNES prefix on others.
+	Addedn relaxation rules for timebar complexity eslint errors, must not split.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/Dimensions.js
+	Fix crash introduce in Dimensions.js component
+	Add comment and fix coding convetions warning and un-needed relaxations
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/index.js
+	Add comment and fix coding convetions warning and un-needed relaxations
+GPCCHS_E_VIS/src/client/src/main/js/client/startupApp.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/startupCode.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/.eslintrc (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/log/execution.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/log/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/log/renderer.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/package.json (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/cOP1IfAutoState.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/cOP1InternalState.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/cOP1Status.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/clcwSegmentMask.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus011Command.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus013Ldt.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/types.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/data/lpisis/index.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/dc.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/dcTestReg.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/utils/monitorSocket/parse.js (idem)
+GPCCHS_E_VIS/src/common/src/main/js/common/utils/test.js (idem)
+
+
+GPCCHS_E_VIS/src/server/src/main/js/server/lib/utils/test.js
+	Comment VIMA coding convention relaxation rules
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/debug.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/mainStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/page.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/window.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/windowStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointParameters.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotGrid.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotMarker.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/EntryPointName.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Information.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/LeftTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/SelectTimebar.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/Dimensions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/startupApp.js
+GPCCHS_E_VIS/src/client/src/main/js/client/startupCode.js
+GPCCHS_E_VIS/src/common/src/main/js/common/.eslintrc
+GPCCHS_E_VIS/src/common/src/main/js/common/log/execution.js
+GPCCHS_E_VIS/src/common/src/main/js/common/log/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/log/renderer.js
+GPCCHS_E_VIS/src/common/src/main/js/common/package.json
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/cOP1IfAutoState.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/cOP1InternalState.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/cOP1Status.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/cop1/clcwSegmentMask.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus011Command.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/pusGroundModel/pus013Ldt.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/types.js
+GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/data/lpisis/index.js
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/dc.js
+GPCCHS_E_VIS/src/common/src/main/js/common/stubs/dcTestReg.js
+GPCCHS_E_VIS/src/common/src/main/js/common/utils/monitorSocket/parse.js
+GPCCHS_E_VIS/src/common/src/main/js/common/utils/test.js
+GPCCHS_E_VIS/src/server/src/main/js/server/lib/utils/test.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationSelectors.spec.js
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/createLoggingSelector.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

@@ -1,5 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add unit test for productLog middleware
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
-import { sendProductLog } from '../../actions/hsc';
+import { sendProductLog } from 'store/actions/hsc';
 import makeProductLogMiddleware from './';
 
 const fakeSendProductLog = x => x;

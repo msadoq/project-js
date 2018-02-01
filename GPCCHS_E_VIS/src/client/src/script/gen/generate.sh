@@ -1,5 +1,12 @@
 #!/bin/bash -e
 
+# ====================================================================
+# HISTORY
+# VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+# VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : Update poms due to removing server package
+# END-HISTORY
+# ====================================================================
+
 PRG="$0"
 EXEC_DIR=`dirname ${PRG}`
 export PRGDIR=`(cd ${EXEC_DIR} ; echo $PWD)`

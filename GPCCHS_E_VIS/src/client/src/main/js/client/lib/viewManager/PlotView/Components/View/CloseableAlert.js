@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in dataManager.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, Component } from 'react';
 import {
   Alert as BSAlert,

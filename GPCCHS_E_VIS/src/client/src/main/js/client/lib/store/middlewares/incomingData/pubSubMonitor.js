@@ -1,6 +1,6 @@
-import * as types from '../../types';
-import executionMonitor from '../../../common/logManager/execution';
-import { updateLastPubSubTimestamp } from '../../actions/health';
+import * as types from 'store/types';
+import executionMonitor from 'common/logManager/execution';
+import { updateLastPubSubTimestamp } from 'store/actions/health';
 
 const pubSubMonitor = (timing) => {
   let timeoutPubSub;

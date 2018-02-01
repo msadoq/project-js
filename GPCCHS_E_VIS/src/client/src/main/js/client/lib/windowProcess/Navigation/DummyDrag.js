@@ -1,3 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : FA : #5316 : 08/02/2017 : Remove some eslint-disable relaxations in Navigation/DummyDrag component
+// VERSION : 1.1.2 : FA : #5443 : 15/02/2017 : Fix filepath prop and arrange page height for bigger drop zone
+// VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit style easily.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : New extensions. Updated extensions of data files, updated config.sample.json.
+// END-HISTORY
+// ====================================================================
+
 import React from 'react';
 import _ from 'lodash/fp';
 
@@ -61,7 +72,7 @@ const dragStartFactory = _.memoize(item => e => dragStart(item, e));
 
 const DummyDrag = () => (
   <div style={s.container} >
-    <span className="DragMe" style={{ marginRight: '1em' }}>Drag-moi</span>
+    <span className="DragMe" style={{ marginRight: '1em' }}>Drag me</span>
     {items.map(item =>
       <div
         key={item.name}

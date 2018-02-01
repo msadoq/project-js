@@ -1,12 +1,26 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Improve SaveAgentModal + onClosePage / onSavePage seems to be OK
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add 2 selectors in documents middlewares selectors
+// VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Add workspace middleware => TODO : onWsClose
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Closing window now display a save wizard (documents middleware)
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add SaveAgentModal to ModalGeneric .
+// VERSION : 1.1.2 : FA : #7145 : 27/07/2017 : Remote unused selector in documents middleware
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : VIMA can be opened with --VIEW
+// VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : VIMA can be opened with --PAGE
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
-import { getViews } from '../../reducers/views';
-import { getPages } from '../../reducers/pages';
-import { getWindows } from '../../reducers/windows';
+import { getViews } from 'store/reducers/views';
+import { getPages } from 'store/reducers/pages';
+import { getWindows } from 'store/reducers/windows';
 
-import { getWindowPages } from '../../selectors/windows';
-import { getPageViews } from '../../selectors/pages';
+import { getWindowPages } from 'store/selectors/windows';
+import { getPageViews } from 'store/selectors/pages';
 
 const filterUnsavedViewIds = _.pipe(_.filter('isModified'), _.map(_.get('uuid')));
 const filterUnsavedPageIds = _.pipe(_.filter('isModified'), _.map(_.get('uuid')));

@@ -1,11 +1,18 @@
-import { dirname } from 'path';
-import { LOG_DOCUMENT_SAVE } from '../../constants';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
 
+import { dirname } from 'path';
+import { LOG_DOCUMENT_SAVE } from 'constants';
+
+import { createFolder } from 'common/fs';
+import { isViewTypeSupported, getSchema, getViewModule } from 'viewManager';
 import { dc } from '../ipc';
 import validation from './validation';
-import { createFolder } from '../../common/fs';
 import { writeDocument } from './io';
-import { isViewTypeSupported, getSchema, getViewModule } from '../../viewManager';
 
 const writeView = (view, path, callback) => {
   if (!view) {

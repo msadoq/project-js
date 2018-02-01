@@ -1,11 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 04/05/2017 : merge dev on mimic branch
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import {
   Form,
 } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import InputField from 'windowProcess/commonReduxForm/InputField';
 
 const EntryPointName = (props) => {
   const {

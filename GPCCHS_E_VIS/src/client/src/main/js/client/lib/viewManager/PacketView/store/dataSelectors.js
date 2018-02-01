@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { getViewTitle } from '../../../store/reducers/views';
+import { getViewTitle } from 'store/reducers/views';
 
 const getFullTitle = getViewTitle;
 

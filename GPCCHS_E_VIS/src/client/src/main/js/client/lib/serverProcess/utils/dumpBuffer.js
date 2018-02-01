@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #6794 : 18/07/2017 : Factorization of dumpBuffer module to call only one function
+// VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : move dumpBuffer use in a specific middleware
+// END-HISTORY
+// ====================================================================
+
 const { tmpdir } = require('os');
 const { join } = require('path');
 const { writeFile, mkdirSync } = require('fs');

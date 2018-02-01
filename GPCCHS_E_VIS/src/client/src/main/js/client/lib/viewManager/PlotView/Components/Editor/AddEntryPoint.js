@@ -1,13 +1,20 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 27/04/2017 : Uniforming new EP process for PlotView and textView. Fot PlotView EP, user might choose unit and axis in form to prevent VIMA from auto-creating Y axis.
+// VERSION : 1.1.2 : DM : #6829 : 07/07/2017 : Resolved issue on empty ReactSelectFields, by calling this.props.reset() onMount.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, Component } from 'react';
 import {
   Form,
 } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
-import HorizontalFormGroup from '../../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import ClearSubmitButtons from '../../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
-import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 
 class AddEntryPoint extends Component {
 

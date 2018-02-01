@@ -153,9 +153,7 @@ Array [
       "jestSerialized": true,
     },
     "payload": Object {
-      "page": Object {
-        "timebarUuid": "tb1",
-      },
+      "page": Object {},
       "windowId": "w1",
     },
     "type": "WS_PAGE_ADD_BLANK",

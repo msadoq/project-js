@@ -1,14 +1,26 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Move openLink middleware in documents middleware
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 20/07/2017 : Reimplement openLink middleware . .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 20/07/2017 : Links can now be relative path or absolute fmd path
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rewrite openLink middleware unit tests
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rename all create* middleware by make*
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Refacto openLink documents middleware (serverProcess)
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
-import { join, dirname } from 'path';
+import { addBlankPage, focusPage } from 'store/actions/pages';
 import { v4 } from 'uuid';
-import * as types from '../../../types';
-import { focusView } from '../../../actions/views';
-import { addBlankPage, focusPage } from '../../../actions/pages';
-import { getLink, getView, getViews } from '../../../reducers/views';
-import { getPages } from '../../../reducers/pages';
-import { getFocusedWindowId } from '../../../reducers/hsc';
-import { add as addMessage } from '../../../actions/messages';
-import { get } from '../../../../common/configurationManager';
+import * as types from 'store/types';
+import { focusView } from 'store/actions/views';
+import { get } from 'common/configurationManager';
+import { getLink, getView, getViews } from 'store/reducers/views';
+import { getPages } from 'store/reducers/pages';
+import { getFocusedWindowId } from 'store/reducers/hsc';
+import { add as addMessage } from 'store/actions/messages';
+import { join, dirname } from 'path';
 
 const isAbsolutePath = path => /^\//.test(path);
 

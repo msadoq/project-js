@@ -1,11 +1,19 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
+// VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
+// VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Update of history view data store
+// END-HISTORY
+// ====================================================================
+
 import _omit from 'lodash/omit';
 import _concat from 'lodash/concat';
 import _without from 'lodash/without';
+import * as types from 'store/types';
+import * as constants from 'viewManager/constants';
+
 import cleanCurrentViewData from './cleanViewData';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
-
-import * as types from '../../../store/types';
-import * as constants from '../../constants';
 
 const initialState = {
   cols: [],
@@ -20,7 +28,6 @@ export default function historyViewData(state = {}, action) {
     case types.DATA_REMOVE_ALL_VIEWDATA:
     case types.HSC_CLOSE_WORKSPACE:
       return {};
-    case types.WS_VIEW_RELOAD:
     case types.WS_VIEW_OPENED:
     case types.WS_VIEW_ADD_BLANK:
       if (action.payload.view.type !== constants.VM_VIEW_HISTORY) {

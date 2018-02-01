@@ -1,4 +1,10 @@
-import { get } from '../../common/configurationManager';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6835 : 12/09/2017 : PlotView parses entryPoints differently depending on entryPoints being parametric or not.
+// END-HISTORY
+// ====================================================================
+
+import { get } from 'common/configurationManager';
 import formulaParser from './formula';
 import domainsFilter from './domains';
 import sessionsFilter from './sessions';

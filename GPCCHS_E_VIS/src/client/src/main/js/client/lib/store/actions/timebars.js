@@ -1,6 +1,33 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : fix reselect signature linting errors
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Creation of timebarTimelines reducer .
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Add unit test for timebar action add
+// VERSION : 1.1.2 : DM : #3622 : 20/02/2017 : Fix missing wrong selectors calls
+// VERSION : 1.1.2 : DM : #3622 : 20/02/2017 : Added default slideWindow values instead of dispatching message timebars#updateCursors.
+// VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Replace thunk by a vanilla action creator in actions/timebars
+// VERSION : 1.1.2 : DM : #3622 : 28/02/2017 : In actions, reduers, views, timelineId -> timelineUuid to avoid confusion.
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Replace WS_TIMEBAR_ADD by WS_TIMEBAR_CREATE_NEW .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Discard addAndMountTimeline . . .
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Discard unmountAndRemoveTimeline + TBTL actions
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/hsc . . .
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/messages . . .
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getTimebar and getTimebars simple selectors in store/reducers/timebars
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Remove some useless 'addOnce' (messages) .
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : FA : #6670 : 21/06/2017 : Add basic player middleware .
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Add realTimeHandler and goNowHandler in player middleware
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : split of viewData cleaning in dataReducer for plot
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import { v4 } from 'uuid';
 import _get from 'lodash/get';
-import { get } from '../../common/configurationManager';
+import { get } from 'common/configurationManager';
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import {
@@ -54,6 +81,9 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
     }
     if (current > upper) {
       messages.push('Current cursor must be before upper cursor');
+    }
+    if (lower >= upper) {
+      messages.push('Lower cursor must be before upper cursor');
     }
     if (newSlideWindow.lower < lower || newSlideWindow.lower > current) {
       newSlideWindow.lower = lower;
@@ -110,7 +140,10 @@ export const updateSpeed = (timebarUuid, speed) =>
     });
   };
 
-
+/**
+ * @param timebarUuid
+ * @returns {function(*, *)}
+ */
 export function restoreWidth(timebarUuid) {
   return (dispatch, getState) => {
     const timebar = getTimebar(getState(), { timebarUuid });
@@ -118,19 +151,22 @@ export function restoreWidth(timebarUuid) {
       dispatch(setRealTime(timebarUuid, false));
     }
     const vw = timebar.visuWindow;
-    const newSlideUpper = timebar.mode === 'Extensible' ?
-      vw.current + (vw.defaultWidth) :
-      vw.current + (vw.defaultWidth / 4);
+    // resize must keep ratio arround current position
+    const ratio = (vw.current - vw.lower) / (vw.upper - vw.lower);
+    // const newSlideUpper = timebar.mode === 'Extensible' ?
+    //   vw.current + (vw.defaultWidth) :
+    //   vw.current + (vw.defaultWidth / 4);
+    const lower = vw.current - (ratio * vw.defaultWidth);
     dispatch(
       updateCursors(
         timebarUuid,
         {
-          lower: vw.current - (vw.defaultWidth / 2),
-          upper: vw.current + (vw.defaultWidth / 2),
+          lower,
+          upper: lower + vw.defaultWidth,
         },
         {
-          lower: vw.current - (vw.defaultWidth / 4),
-          upper: newSlideUpper,
+          lower,
+          upper: lower + vw.defaultWidth,
         }
       )
     );

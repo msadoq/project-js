@@ -1,7 +1,24 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 19/06/2017 : Remove obsolete arguments in renderer process store creator
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Avoid "double action logging" in renderer process console
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Fix redux-logger predicate to display only patched action
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing info to meta action's
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing decorator on DEBUG only (for each process) - Move decorator on makeSlave/MasterDispatcher
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Disable profiling output on debug off
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Do not use root reducer on mainProcess store and windowProcess store
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Remove predicate in redux-logger, use redux-logger before ipc slave dispatcher to prevent for duplicate actions
+// VERSION : 1.1.2 : DM : #6700 : 13/09/2017 : Cleanup action computing times code
+// VERSION : 1.1.2 : FA : #7813 : 19/09/2017 : Add batch action + logger support Remove ipc transmission for un-patch action
+// END-HISTORY
+// ====================================================================
+
 import _always from 'lodash/fp/always';
 // import _set from 'lodash/fp/set';
 import _pipe from 'lodash/fp/pipe';
 import { createStore, applyMiddleware, compose } from 'redux';
+import createTempStore from 'store/helpers/createTempStore';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { remote } from 'electron';
@@ -13,9 +30,9 @@ import {
   TIMING_MILESTONES,
   TIMING_DATA,
  } from '../constants';
-import { BATCH } from '../store/types';
+import { BATCHING_REDUCER_BATCH } from '../store/types';
 
-let store;
+let store = createTempStore();
 const identity = `renderer-${remote.getCurrentWindow().windowId}`;
 function prepareEnhancers(isDebugOn) {
   const enhancer = makeRendererEnhancer(
@@ -57,7 +74,7 @@ function prepareEnhancers(isDebugOn) {
 
 const logBatchedActions = (action) => {
   const actionDecorated = action;
-  if (actionDecorated.type === BATCH) {
+  if (actionDecorated.type === BATCHING_REDUCER_BATCH) {
     actionDecorated.payload.type = action.payload.map(next => next.type).join(' => ');
     return actionDecorated.payload;
   }
@@ -157,14 +174,9 @@ const decorateActionWithTiming = (action) => {
 export default function makeCreateStore(isDebugOn) {
   return (initialState) => {
     const enhancer = prepareEnhancers(isDebugOn);
-    store = createStore(_always({}), initialState, enhancer);
+    store = store.replaceStore(createStore(_always({}), initialState, enhancer));
     return store;
   };
 }
 
-export function getStore() {
-  if (!store) {
-    throw new Error('store wasn\'t inited yet');
-  }
-  return store;
-}
+export const getStore = () => store;

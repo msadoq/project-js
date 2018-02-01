@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// VERSION : 1.1.2 : DM : #6129 : 03/05/2017 : first functionnal mimic with animations
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 
 import commonInput from '../commonInput';

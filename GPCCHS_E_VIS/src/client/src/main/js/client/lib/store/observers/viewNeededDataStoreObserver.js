@@ -1,12 +1,21 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Creation of store observer and test state
+// VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Branch full cycle mechanism for rangeData
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : split of viewData cleaning in dataReducer for plot
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : update store observer to dispatch action only when data is present
+// END-HISTORY
+// ====================================================================
+
 import _cloneDeep from 'lodash/cloneDeep';
-import dataMapGenerator from '../../dataManager/map';
-import { getWindowsOpened, getIsWorkspaceOpening } from '../../store/reducers/hsc';
-import execution from '../../common/logManager/execution';
+import dataMapGenerator from 'dataManager/map';
+import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
+import execution from 'common/logManager/execution';
+import { viewsNeedRange, viewsNeedLast } from 'store/actions/retrieveData';
+import { cleanViewData } from 'store/actions/viewData';
+
 import computeMissingRangeIntervals from './computeMissingRangeIntervals';
 import computeMissingLastIntervals from './computeMissingLastIntervals';
-
-import { viewsNeedRange, viewsNeedLast } from '../../store/actions/retrieveData';
-import { cleanViewData } from '../../store/actions/viewData';
 
 /**
  * Store observer that reacts on store updates to dispatch needed data.

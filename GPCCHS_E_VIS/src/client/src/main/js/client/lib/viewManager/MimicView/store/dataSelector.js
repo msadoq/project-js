@@ -1,12 +1,20 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
+// VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Fix tests on mimic view
+// VERSION : 1.1.2 : DM : #5822 : 21/06/2017 : add context menu in mimiv view to open entry points in inspector
+// END-HISTORY
+// ====================================================================
+
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
 import _ from 'lodash/fp';
 
-import { getMimicViewData, getData } from './dataReducer';
+import { getViewTitle } from 'store/reducers/views';
 
-import { getViewTitle } from '../../../store/reducers/views';
+import { getMimicViewData, getData } from './dataReducer';
 
 const getFullTitle = getViewTitle;
 

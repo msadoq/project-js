@@ -1,3 +1,30 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in dataManager.
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Using binary search to determine position of tooltip.
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Format tooltip line function is given in props, and no longer resides in Tooltip.
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Adapting PlotView and Grizzly for the new data structure.
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Fix tooltip renders on every tick. Now doesn't render if showTooltip is false.
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Tooltip renders on each ticks. Even if mouse doesn't move.
+// VERSION : 1.1.2 : DM : #5828 : 02/05/2017 : PlotView : Tooltip value updates when play and mouse not moving.
+// VERSION : 1.1.2 : DM : #6835 : 31/05/2017 : First draft for parametric PlotView, x axis becomes basic axis with numb values.
+// VERSION : 1.1.2 : FA : #7185 : 06/07/2017 : Fix lint errors and warnings
+// VERSION : 1.1.2 : DM : #6829 : 10/07/2017 : PlotView default yAccessor : .value instead of .y
+// VERSION : 1.1.2 : DM : #6835 : 18/07/2017 : PlotView's lines take string instead of function for colorAccessor attribute.
+// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
+// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Grizzly/PlotView : having only one method on Chart to calculate position styles for ToolTip, LinesCanvas and Background divs.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6835 : 25/08/2017 : No parametric bool prop in Grizzly, there is a dedicated GrizzlyParametric. Curves must be above grid.
+// VERSION : 1.1.2 : DM : #6835 : 28/08/2017 : PlotView is never parametric, fixed positionned tooltip in Parametric and PlotView.
+// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+// VERSION : 1.1.2 : FA : #7776 : 13/09/2017 : update of plot view tooltip
+// VERSION : 1.1.2 : FA : #7776 : 13/09/2017 : Fix plot drawing when timeline has offset
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : On Grizzly and GrizzlyParametric, tooltip goes on right or left, always avoiding hovering cursor.
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using indexes to iterate.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _sum from 'lodash/sum';

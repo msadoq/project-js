@@ -1,9 +1,16 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : FA : #7753 : 18/09/2017 : Fixed Save & close issue with svg and html code editor.
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { ButtonGroup, Button } from 'react-bootstrap';
 import _map from 'lodash/map';
 import { lint } from '../common/htmllint';
-import CodeMirrorField from '../windowProcess/commonReduxForm/CodeMirrorField';
+import knobe from '../viewManager/MimicView/Components/Collection/knobe';
 import styles from './Source.css';
 import hGauge from '../viewManager/MimicView/Components/Collection/hGauge';
 import vGauge from '../viewManager/MimicView/Components/Collection/vGauge';
@@ -11,9 +18,9 @@ import hSlider from '../viewManager/MimicView/Components/Collection/hSlider';
 import vSlider from '../viewManager/MimicView/Components/Collection/vSlider';
 import circuitBreaker from '../viewManager/MimicView/Components/Collection/circuitBreaker';
 import diode from '../viewManager/MimicView/Components/Collection/diode';
-import knobe from '../viewManager/MimicView/Components/Collection/knobe';
+import ep from '../viewManager/MimicView/Components/Collection/ep';
 import multiState from '../viewManager/MimicView/Components/Collection/multiState';
-import transistor from '../viewManager/MimicView/Components/Collection/transistor';
+import CodeMirrorField from '../windowProcess/commonReduxForm/CodeMirrorField';
 import colour from '../viewManager/MimicView/Components/Animation/colour';
 import digital from '../viewManager/MimicView/Components/Animation/digital';
 import rotate from '../viewManager/MimicView/Components/Animation/rotate';
@@ -23,7 +30,7 @@ import show from '../viewManager/MimicView/Components/Animation/show';
 import textBox from '../viewManager/MimicView/Components/Animation/textBox';
 import translateX from '../viewManager/MimicView/Components/Animation/translateX';
 import translateY from '../viewManager/MimicView/Components/Animation/translateY';
-import ep from '../viewManager/MimicView/Components/Collection/ep';
+import transistor from '../viewManager/MimicView/Components/Collection/transistor';
 
 const { string, func, arrayOf, bool } = PropTypes;
 

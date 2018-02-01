@@ -71,6 +71,9 @@
   ],
   "settings": {
     "import/resolver": {
+      "babel-module": {
+        "root": ["lib"]
+      },
       "webpack": {
         "config": "webpack/config.eslint.js"
       }

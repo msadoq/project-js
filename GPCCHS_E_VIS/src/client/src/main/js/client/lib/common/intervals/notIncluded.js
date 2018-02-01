@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper modules
+// END-HISTORY
+// ====================================================================
+
 const _isArray = require('lodash/isArray');
 const _reduce = require('lodash/reduce');
 const _sortedIndexBy = require('lodash/sortedIndexBy');

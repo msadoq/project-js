@@ -1,0 +1,158 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#7235.txt
+
+
+Reference changement : #7235
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.js
+	Fix mechansim for open/save/close workspace
+	Add workspace middleware => TODO : onWsClose
+	Correct VIMA shutdown on new workspace : add middleware for synchronous treatment
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.spec.js
+	Correct VIMA shutdown on new workspace : add middleware for synchronous treatment
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/index.js
+	Add workspace middleware => TODO : onWsClose
+	Correct VIMA shutdown on new workspace : add middleware for synchronous treatment
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.js
+	Add workspace middleware => TODO : onWsClose
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writeWorkspace.js
+	Fix mechansim for open/save/close workspace
+	Add workspace middleware => TODO : onWsClose
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writeWorkspace.spec.js
+	Add workspace middleware => TODO : onWsClose
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+	Clean old code in menuManager/IPC controller
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenWorkspace.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+	Correct VIMA shutdown on new workspace : add middleware for synchronous treatment
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/index.js
+	Fix mechansim for open/save/close workspace
+	Add workspace middleware => TODO : onWsClose
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceClose.js
+	Clean old code in menuManager/IPC controller
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceOpen.js
+	Clean old code in menuManager/IPC controller
+	Correct VIMA shutdown on new workspace : add middleware for synchronous treatment
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceSave.js
+	Clean old code in menuManager/IPC controller
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/windows.js
+	Clean old code in menuManager/IPC controller
+	Lint fix . . . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+	Fix mechansim for open/save/close workspace
+	Add workspace middleware => TODO : onWsClose
+	Correct VIMA shutdown on new workspace : add middleware for synchronous treatment
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.js
+	Add workspace middleware => TODO : onWsClose
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/index.js
+	Add workspace middleware => TODO : onWsClose
+	Correct VIMA shutdown on new workspace : add middleware for synchronous treatment
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.js
+	Fix mechansim for open/save/close workspace
+	Add workspace middleware => TODO : onWsClose
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.js
+	Lint fix . . . .
+	Fix mechansim for open/save/close workspace
+	Add workspace middleware => TODO : onWsClose
+	Correct VIMA shutdown on new workspace : add middleware for synchronous treatment
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js
+	Fix mechansim for open/save/close workspace
+	Add workspace middleware => TODO : onWsClose
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/hsc.js
+	Lint fix . . . .
+	Add workspace middleware => TODO : onWsClose
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	Add workspace middleware => TODO : onWsClose
+	Correct VIMA shutdown on new workspace : add middleware for synchronous treatment
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+	Clean old code in menuManager/IPC controller
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/windows.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/hsc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writeWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writeWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceClose.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceOpen.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/workspaceSave.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

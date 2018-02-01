@@ -1,5 +1,5 @@
 import React from 'react';
-import createInterval from '../../../common/utils/interval';
+import createInterval from 'common/utils/interval';
 import { getWrappedInstance } from '../utils';
 
 const identity = x => x;

@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : First benchmark draft for the TextView, split between TextView - TextViewWrapper .
+// VERSION : 1.1.2 : DM : #7281 : 25/07/2017 : Fix error in textview benchmark, missing end of tag. #2
+// VERSION : 1.1.2 : DM : #7281 : 25/07/2017 : Fix error in textview benchmark, missing end of tag.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
 import _memoize from 'lodash/memoize';
 
 const epIds = [
@@ -30,17 +38,17 @@ const epIds = [
 const hexa = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 const style = '<style>.eps{ max-width: 850px; padding: 5px; } .ep { margin: 2px; display: inline-block; padding: 3px 10px; text-align: center; width: 60px; height: 28px; border: 1px solid #33B; background: #336; }</style>';
 
-const memoizeData = _memoize(count => {
-    let data = {};
-    let eps = epIds.filter((v, i) => i < count);
-    for (let i = 0; i < count; i += 1) {
-      data[eps[i]] = { value: i, color: '#FFF' };
-    }
-    return data;
+const memoizeData = _memoize((count) => {
+  const data = {};
+  const eps = epIds.filter((v, i) => i < count);
+  for (let i = 0; i < count; i += 1) {
+    data[eps[i]] = { value: i, color: '#FFF' };
   }
+  return data;
+}
 );
 
-const memoizeEP = _memoize(count => {
+const memoizeEP = _memoize((count) => {
   const entryPoints = {};
   const eps = epIds.filter((v, i) => i < count);
   for (let i = 0; i < count; i += 1) {

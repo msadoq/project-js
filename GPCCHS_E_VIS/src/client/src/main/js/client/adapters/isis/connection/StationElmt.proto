@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
+// END-HISTORY
+// ====================================================================
+
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/STRING.proto";
 import "./FlowConfiguration.proto";

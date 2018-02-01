@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 23/08/2017 : On Plot/Text/Mimic/Dynamic editors: Save and Reload buttons beneath the title.
+// VERSION : 1.1.2 : FA : ISIS-FT-1986 : 05/09/2017 : Editor top buttons: bsSize="tiny" -> bsSize="small"
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import { ButtonGroup, Button } from 'react-bootstrap';
 
@@ -5,6 +12,7 @@ export default class ViewParams extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     isModified: PropTypes.bool.isRequired,
+    isSaved: PropTypes.bool.isRequired,
     askReloadView: PropTypes.func.isRequired,
     askSaveView: PropTypes.func.isRequired,
   }
@@ -20,6 +28,7 @@ export default class ViewParams extends React.Component {
   render() {
     const {
       isModified,
+      isSaved,
     } = this.props;
 
     return (
@@ -32,6 +41,7 @@ export default class ViewParams extends React.Component {
             onClick={this.askReloadView}
             className="mr5"
             title="Reload view from document"
+            disabled={!isSaved}
           >
             Reload
           </Button>

@@ -1,50 +1,6 @@
 .container {
   overflow-x: auto;
   overflow-y: hidden;
-
-  .prevCurrent td, .prevCurrent th {
-    border-bottom: none;
-  }
-
-  .current td {
-    border: 1px solid green;
-  }
-
-  .selectable {
-    cursor: pointer;
-  }
-
-  .notAllowed {
-    cursor: not-allowed;
-  }
-
-  .hover {
-    filter: brightness(115%);
-  }
-
-  table {
-    border-collapse: collapse;
-  }
-
-  th {
-    text-align: center;
-  }
-
-  table, th, td {
-    border: 1px solid black;
-  }
-
-  th, td {
-    padding: 3px;
-  }
-
-  td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    min-width: 220px;
-    max-width: 220px;
-  }
 }
 
 .scrollbar {

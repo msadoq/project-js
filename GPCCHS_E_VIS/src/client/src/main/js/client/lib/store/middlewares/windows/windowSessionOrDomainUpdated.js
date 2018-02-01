@@ -1,9 +1,9 @@
-import { WS_WORKSPACE_UPDATE_SESSIONNAME, WS_WORKSPACE_UPDATE_DOMAINNAME } from '../../types';
-import { getFocusedWindowId } from '../../reducers/hsc/index';
-import { getWindowFocusedPageSelector } from '../../selectors/windows';
-import { getPageViews } from '../../selectors/pages';
-import { get } from '../../../common/configurationManager';
-import { touchViewConfiguration } from '../../actions/views';
+import { WS_WORKSPACE_UPDATE_SESSIONNAME, WS_WORKSPACE_UPDATE_DOMAINNAME } from 'store/types';
+import { getFocusedWindowId } from 'store/reducers/hsc/index';
+import { getWindowFocusedPageSelector } from 'store/selectors/windows';
+import { getPageViews } from 'store/selectors/pages';
+import { get } from 'common/configurationManager';
+import { touchViewConfiguration } from 'store/actions/views';
 
 const windowSessionOrDomainUpdated =
   ({ dispatch, getState }) => next => (action) => {

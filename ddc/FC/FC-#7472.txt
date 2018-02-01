@@ -1,0 +1,107 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#7472.txt
+
+
+Reference changement : #7472
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/impl/editor/src/main/binResources/bin/vima
+	Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
+GPCCHS_E_VIS/src/impl/editor/src/main/py/GPCCHS_E_VIS/editor/__init__.py (idem)
+
+
+GPCCHS_E_VIS/src/impl/editor/src/main/py/GPCCHS_E_VIS/editor/gpcchs.py
+	Update launcher options list to have -d for debug traces
+	Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
+
+
+GPCCHS_E_VIS/src/impl/editor/src/main/py/GPCCHS_E_VIS/launcher/__init__.py
+	Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
+GPCCHS_E_VIS/src/impl/editor/src/main/py/GPCCHS_E_VIS/launcher/gpcchs.py (idem)
+GPCCHS_E_VIS/src/impl/editor/src/main/py/GPCCHS_E_VIS/launcher/gpcchsClientWrapper.py (idem)
+GPCCHS_E_VIS/src/impl/editor/src/main/resources/features/gpcchs_e_vis-default.xml (idem)
+GPCCHS_E_VIS/src/impl/editor/src/main/resources/share/desktop/gpcchs_e_vis.desktop (idem)
+GPCCHS_E_VIS/src/impl/parent/pom.xml (idem)
+
+
+GPCCHS_E_VIS/src/impl/pom.xml
+	Update pom to put R8S4 instead R8S3
+	Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
+
+
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/pom.xml
+	Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/binResources/bin/gpcchs_e_clt_wrapper (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/__init__.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActivator/__init__.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActivator/ihmLauncherActivator.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActivator/ihmLauncherConfigHandler.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActor/__init__.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActor/dcFeature.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActor/hsFeature.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActor/ihmLauncherActor.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherConfig/__init__.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherConfig/ihmLauncherConfig.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherConfig/ihmLauncherConfigInterface.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/__init__.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/create.py (idem)
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/resources/share/other/xsd/IhmLauncherConfig.xsd (idem)
+
+
+GPCCHS_E_VIS/src/impl/python/pom.xml
+	Update pom to put R8S4 instead R8S3
+	Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
+
+
+GPCCHS_E_VIS/src/pom.xml
+	Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/impl/editor/src/main/binResources/bin/vima
+GPCCHS_E_VIS/src/impl/editor/src/main/resources/features/gpcchs_e_vis-default.xml
+GPCCHS_E_VIS/src/impl/editor/src/main/resources/share/desktop/gpcchs_e_vis.desktop
+GPCCHS_E_VIS/src/impl/parent/pom.xml
+GPCCHS_E_VIS/src/pom.xml
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/impl/editor/src/main/py/GPCCHS_E_VIS/editor/__init__.py
+GPCCHS_E_VIS/src/impl/editor/src/main/py/GPCCHS_E_VIS/editor/gpcchs.py
+GPCCHS_E_VIS/src/impl/pom.xml
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/pom.xml
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/binResources/bin/gpcchs_e_clt_wrapper
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/__init__.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActivator/__init__.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActivator/ihmLauncherActivator.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActivator/ihmLauncherConfigHandler.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActor/__init__.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActor/dcFeature.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActor/hsFeature.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherActor/ihmLauncherActor.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherConfig/__init__.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherConfig/ihmLauncherConfig.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/IhmLauncherConfig/ihmLauncherConfigInterface.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/__init__.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/py/GPCCHS_E_VIS/ihmLauncher/create.py
+GPCCHS_E_VIS/src/impl/python/ihmLauncher/src/main/resources/share/other/xsd/IhmLauncherConfig.xsd
+GPCCHS_E_VIS/src/impl/python/pom.xml
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/impl/editor/src/main/py/GPCCHS_E_VIS/launcher/__init__.py
+GPCCHS_E_VIS/src/impl/editor/src/main/py/GPCCHS_E_VIS/launcher/gpcchs.py
+GPCCHS_E_VIS/src/impl/editor/src/main/py/GPCCHS_E_VIS/launcher/gpcchsClientWrapper.py
+
+
+#Generated by Framework DDC-ng (version 0.8a)

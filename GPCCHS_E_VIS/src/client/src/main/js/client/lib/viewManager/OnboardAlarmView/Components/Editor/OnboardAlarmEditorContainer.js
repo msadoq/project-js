@@ -2,19 +2,19 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import OnboardAlarmEditor from './OnboardAlarmEditor';
-import { getPageTimelines } from '../../../../store/selectors/timelines';
-import { getViewTitle, getViewTitleStyle } from '../../../../store/reducers/views';
+import { getConfigurationByViewId } from 'viewManager';
+import { getPageTimelines } from 'store/selectors/timelines';
+import { getViewTitle, getViewTitleStyle } from 'store/reducers/views';
+import { open as openModal } from 'store/actions/modals';
+import { updateViewTab, updateViewPanels } from 'store/actions/ui';
+import { getViewTab, getViewPanels } from 'store/reducers/ui/editor';
+import { getDomains } from 'store/reducers/domains';
 import {
   updateEntryPoint,
   updateTitle,
   updateTitleStyle,
-} from '../../../../store/actions/views';
-import { updateViewTab, updateViewPanels } from '../../../../store/actions/ui';
-import { getViewTab, getViewPanels } from '../../../../store/reducers/ui/editor';
-import { getDomains } from '../../../../store/reducers/domains';
-import { getConfigurationByViewId } from '../../../../viewManager';
-import { open as openModal } from '../../../../store/actions/modals';
+} from 'store/actions/views';
+import OnboardAlarmEditor from './OnboardAlarmEditor';
 
 const mapStateToProps = createStructuredSelector({
   title: getViewTitle,

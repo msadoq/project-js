@@ -1,10 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 31/03/2017 : Rename dataSelector in dataSelectors .
+// VERSION : 1.1.2 : DM : #5822 : 03/05/2017 : Inspector : display dynamic data
+// END-HISTORY
+// ====================================================================
+
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
 import _ from 'lodash/fp';
 
-import { getViewTitle } from '../../../store/reducers/views';
+import { getViewTitle } from 'store/reducers/views';
 
 const getFullTitle = getViewTitle;
 

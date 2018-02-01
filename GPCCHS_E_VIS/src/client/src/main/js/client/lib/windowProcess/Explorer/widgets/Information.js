@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Add information widget in explorer with masterSession and configuration
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Add information widget in explorer with masterSession and configuration
+// VERSION : 1.1.2 : DM : #6302 : 04/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Change 'configuration' prop by 'parameters' in InformationContainer
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import Inspector from 'react-json-inspector';
 

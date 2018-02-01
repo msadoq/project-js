@@ -1,3 +1,20 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : first draft on inspector: retrieve data from rtd on right-click
+// VERSION : 1.1.2 : DM : #3622 : 08/03/2017 : update rtdManager tests and onOpenInspector controller
+// VERSION : 1.1.2 : DM : #5822 : 15/03/2017 : add styles for the inspector
+// VERSION : 1.1.2 : DM : #5822 : 03/04/2017 : update tests for rtd data retrieving
+// VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : update rtdManager tests due to rtd stubs updates
+// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : remove use of sinon for rtd stub
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : fix the rtd manager tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Migrate all rtdManager test for jest
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for mocha .
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper modules
+// END-HISTORY
+// ====================================================================
+
 import { connect } from 'rtd/catalogs';
 import { Monitoring as loadMonitorings } from 'rtd/stubs/loaders';
 import { Monitoring as generateMonitoring } from 'rtd/stubs/generators';

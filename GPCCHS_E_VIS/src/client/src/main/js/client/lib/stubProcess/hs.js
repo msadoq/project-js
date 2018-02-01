@@ -1,3 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move DC stub code in client/lib/stubProcess
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move few common/ modules in client/ folder
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Add types.proto in dc - Add parse/stringify mechanism to configurationManager
+// VERSION : 1.1.2 : FA : #6798 : 21/06/2017 : Fix side effect due to stringify/parse parameters in forked process
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Remove data from protobuf in client - Change some stubProcesses and some controllers
+// VERSION : 1.1.2 : FA : #6798 : 23/06/2017 : Merge branch 'dev' into pgaucher-464-proto-config
+// VERSION : 1.1.2 : FA : #6798 : 23/06/2017 : Minor fix : duplicate declaration of a require
+// VERSION : 1.1.2 : FA : #6798 : 23/06/2017 : Small fix : fix unit test in decode proto UINTEGER
+// END-HISTORY
+// ====================================================================
+
 const parameters = require('../common/configurationManager');
 const async = require('async');
 const parseArgs = require('minimist');

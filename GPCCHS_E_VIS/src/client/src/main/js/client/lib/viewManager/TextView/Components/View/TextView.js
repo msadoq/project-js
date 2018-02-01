@@ -1,3 +1,44 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in dataManager.
+// VERSION : 1.1.2 : DM : #3622 : 10/03/2017 : Optimize TextView values rendering .
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Move general variables at top level of a view
+// VERSION : 1.1.2 : DM : #3622 : 22/03/2017 : Update viewData organization for last structure + cleaning
+// VERSION : 1.1.2 : DM : #5822 : 22/03/2017 : add context menu on text view
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Fix TextView and hidden values when editor is open
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5822 : 23/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Cleanup React components tree and props
+// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : inspector view: separate general data from specific TM data
+// VERSION : 1.1.2 : DM : #5822 : 27/03/2017 : fix openInspector and InspectorContainer imports
+// VERSION : 1.1.2 : DM : #5822 : 27/03/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Fix open editor when entrypoint is dropped
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add some eslint relaxation rules
+// VERSION : 1.1.2 : DM : #5822 : 03/04/2017 : merge dev in working branch
+// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Fix 0 display in text view
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : mark parameter as checked in context menu when opened in inspector
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : open parameter in editor via context menu
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : add context menu on views
+// VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : Fix editor search on open
+// VERSION : 1.1.2 : DM : #5822 : 03/05/2017 : Inspector : display dynamic data
+// VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add possibility to show links in views
+// VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : DM : #6829 : 06/07/2017 : RV : perform dom updates only if necessaries, keeping attributes color, title and value (innerHTML) in memory.
+// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : First benchmark draft for the TextView, split between TextView - TextViewWrapper .
+// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : perfOutput logging in TextView happens after requestAnimationFrame.
+// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : REVERT perfOutput logging in TextView happens after requestAnimationFrame.
+// VERSION : 1.1.2 : DM : #6785 : 21/07/2017 : add links on textview if specify in html editor
+// VERSION : 1.1.2 : DM : #6785 : 21/07/2017 : add links on mimicView if specify in svg editor
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6816 : 09/08/2017 : Textview is now in dark
+// VERSION : 1.1.2 : DM : #6816 : 28/08/2017 : Added eslint warning error justification in TextView.
+// VERSION : 1.1.2 : FA : #7834 : 14/09/2017 : Fixed right click bug on TextView, confusion between TextView and TextViewWrapper
+// VERSION : 1.1.2 : FA : #7753 : 19/09/2017 : Resolved millenary problem with text and values interpolation in TextView code editor.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, PureComponent } from 'react';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import { html as beautifyHtml } from 'js-beautify';

@@ -1,6 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add PlotView and DynamicView configurationReducer in viewManager
+// VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : Remove old configuration reducers from reducers/views/configuration
+// VERSION : 1.1.2 : DM : #5828 : 27/04/2017 : Fixed tests - auto axis creation when new EntryPoint.
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// END-HISTORY
+// ====================================================================
+
 /* eslint no-unused-expressions: 0 */
-import { freezeMe } from '../../../common/jest';
-import { updateAxis, addAxis, removeAxis, getYAxis } from './axes';
+import { freezeMe } from 'common/jest';
+import { updateAxis, addAxis, removeAxis, getYAxis, createAxis } from './axes';
 
 describe('store:views:axes', () => {
   const state = freezeMe({
@@ -87,6 +99,31 @@ describe('store:views:axes', () => {
       };
       const axisY = getYAxis(state, { payload: { entryPoint } });
       expect(axisY).toEqual({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
+    });
+  });
+
+  describe('createAxis', () => {
+    test('createAxis', () => {
+      const label = 'vBat';
+      const unit = 'V';
+      expect(createAxis(state, label, unit)).toEqual({
+        autoLimits: true,
+        showTicks: true,
+        autoTick: true,
+        showAxis: true,
+        showLabels: true,
+        max: 300,
+        min: -300,
+        logarithmic: false,
+        logSettings: {
+          min: 0.1,
+          max: 1000000000,
+          base: 10,
+        },
+        label,
+        unit,
+        id: 'v_bat',
+      });
     });
   });
 });

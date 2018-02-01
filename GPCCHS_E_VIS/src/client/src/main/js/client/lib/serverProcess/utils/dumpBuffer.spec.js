@@ -1,7 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #6794 : 18/07/2017 : Factorization of dumpBuffer module to call only one function
+// END-HISTORY
+// ====================================================================
+
 import { join } from 'path';
 import rimraf from 'rimraf';
+import fs from 'common/fs';
 import { createDumpFolder, dumpBuffer } from './dumpBuffer';
-import fs from '../../common/fs';
 
 describe.skip('serverProcess/utils/dumpBuffer', () => {
   global.testConfig.DUMP_DIR = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/dump';

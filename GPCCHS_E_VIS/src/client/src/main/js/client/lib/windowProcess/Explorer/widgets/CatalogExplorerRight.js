@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : update catalog explorer display styles
+// VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : catalog explorer : open, close and browse items
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : Fixed few eslint errors / warnings no-console and spaced-comment.
+// END-HISTORY
+// ====================================================================
+
 import React, { PureComponent, PropTypes } from 'react';
 import {
   Navbar,
@@ -11,12 +20,12 @@ import _map from 'lodash/map';
 import _get from 'lodash/get';
 import _nth from 'lodash/nth';
 import _indexOf from 'lodash/indexOf';
-import getLogger from '../../../common/logManager';
-import Tree from './Tree';
-import { NODE_TYPE_LINK as LINK/* , NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK */ } from '../../../constants';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
+import { main } from 'windowProcess/ipc';
+import { NODE_TYPE_LINK as LINK/* , NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK */ } from 'constants';
+import getLogger from 'common/logManager';
 import styles from './CatalogExplorer.css';
-import { main } from '../../ipc';
-import handleContextMenu from '../../common/handleContextMenu';
+import Tree from './Tree';
 
 const logger = getLogger('CatalogExplorerRight');
 

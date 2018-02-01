@@ -1,10 +1,33 @@
 {
   "type": "GroundAlarmView",
-  "title": "New Ground Alarm View",
+  "title": "Ground Alarm View",
+  "titleStyle": {
+    "align": "left",
+    "bold": false,
+    "color": "#000000",
+    "font": "Arial",
+    "italic": false,
+    "size": 12,
+    "strikeOut": false,
+    "underline": false
+  },
   "links": [],
   "defaultRatio": {
     "length": 5,
     "width": 5
+  },
+  "search": {
+    "timestamp": "",
+    "parameterName": "",
+    "parameterType": "",
+    "firstOccurence": "",
+    "lastOccurence": "",
+    "duration": "",
+    "rawValue": "",
+    "physicalValue": "",
+    "satellite": "",
+    "ackState": "",
+    "enabled": true
   },
   "entryPoint": {
     "name": "groundAlarmEP",

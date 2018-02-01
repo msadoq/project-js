@@ -4,14 +4,14 @@ import moment from 'moment';
 import _last from 'lodash/last';
 import _get from 'lodash/get';
 
-import * as constants from '../../../constants';
+import * as constants from 'constants';
+import { getViewTitle } from 'store/reducers/views';
 import { getGroundAlarmViewData, getData } from './dataReducer';
-import { getViewTitle } from '../../../store/reducers/views';
 
 const MODES_WORDING = {
-  [constants.GMA_ALARM_MODE_ALL]: 'All',
-  [constants.GMA_ALARM_MODE_NONNOMINAL]: 'Non Nominal',
-  [constants.GMA_ALARM_MODE_TOACKNOWLEDGE]: 'To Acknowledge',
+  [constants.ALARM_MODE_ALL]: 'All',
+  [constants.ALARM_MODE_NONNOMINAL]: 'Non Nominal',
+  [constants.ALARM_MODE_TOACKNOWLEDGE]: 'To Acknowledge',
 };
 
 const getEntryPointsByViewId = (state, { viewId }) => (

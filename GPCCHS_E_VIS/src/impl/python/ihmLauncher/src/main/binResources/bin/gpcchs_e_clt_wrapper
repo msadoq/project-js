@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# ====================================================================
+# HISTORY
+# VERSION : 1.1.2 : FA : #7472 : 01/09/2017 : Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
+# END-HISTORY
+# ====================================================================
+
 # This wrapper is necessary because it is not possible to ask generic launcher to add environment variables
 
 # Create necessary environment variable for GPCCHS javascript application

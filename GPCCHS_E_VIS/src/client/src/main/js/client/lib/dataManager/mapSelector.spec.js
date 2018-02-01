@@ -1,3 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : update of dataMap selector .
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : creatin of selectors on datamap
+// VERSION : 1.1.2 : DM : #6700 : 27/07/2017 : update preparePubSub and add unit tests for it
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// END-HISTORY
+// ====================================================================
+
 import { isDataIdInDatamapLast, isTimestampInLastInterval } from './mapSelector';
 import flattenDataId from '../common/flattenDataId';
 import dataMapGenerator from './map';

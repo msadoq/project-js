@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 21/07/2017 : Separate perTdbId by structure type in dataMap
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// END-HISTORY
+// ====================================================================
+
 import _has from 'lodash/has';
 import _set from 'lodash/set';
 import _each from 'lodash/each';

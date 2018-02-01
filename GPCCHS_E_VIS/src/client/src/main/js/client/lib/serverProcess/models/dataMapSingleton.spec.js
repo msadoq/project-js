@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7164 : 07/07/2017 : Fix unit tests . .
+// VERSION : 1.1.2 : FA : #7164 : 07/07/2017 : Apply filters on getLast request
+// END-HISTORY
+// ====================================================================
+
 const dataMapSingleton = require('./dataMapSingleton');
 
 describe('models/dataMapSingleton', () => {

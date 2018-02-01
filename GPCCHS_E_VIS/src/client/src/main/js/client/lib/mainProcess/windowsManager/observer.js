@@ -1,11 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Move windows observer from main orchestration in a pure store observer
+// VERSION : 1.1.2 : DM : #6129 : 27/06/2017 : merge dev on abesson-mimic branch .
+// END-HISTORY
+// ====================================================================
+
 import { series, each } from 'async';
 import _each from 'lodash/each';
 import _difference from 'lodash/difference';
 import { app } from 'electron';
-import execution from '../../common/logManager/execution';
-import { getWindows } from '../../store/reducers/windows';
-import { getIsWorkspaceOpening } from '../../store/reducers/hsc';
-import { getViewId } from '../../store/reducers/codeEditor';
+import execution from 'common/logManager/execution';
+import { getWindows } from 'store/reducers/windows';
+import { getIsWorkspaceOpening } from 'store/reducers/hsc';
+import { getViewId } from 'store/reducers/codeEditor';
 import { getWindowsTitle, getEditorWindowTitle } from './selectors';
 import {
   getOpenedWindowsIds,

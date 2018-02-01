@@ -1,8 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix some tests and remove some old code
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
-import * as types from '../../types';
+import * as types from 'store/types';
+import { getStubData } from 'utils/stubs';
+import lokiManager from 'serverProcess/models/lokiKnownRangesData';
 import prepareRange from './prepareRange';
-import { getStubData } from '../../../utils/stubs';
-import lokiManager from '../../../serverProcess/models/lokiKnownRangesData';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 

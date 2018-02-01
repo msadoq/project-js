@@ -1,3 +1,10 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #6891 : 19/07/2017 : Rename test folder in common and use jest for tests
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 /* eslint-disable import/no-dynamic-require, "DV6 TBC_CNES specific tests need dynamic require" */
 const ProtoBuf = require('protobufjs');
 const MALAdapters = require('./ccsds_mal');

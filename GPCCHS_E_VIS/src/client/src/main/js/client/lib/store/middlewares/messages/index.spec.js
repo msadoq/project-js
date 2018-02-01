@@ -1,3 +1,9 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Move messages middleware in a folder
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 import makeMessagesMiddleware from './';
 

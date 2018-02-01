@@ -1,3 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : first draft on inspector: retrieve data from rtd on right-click
+// VERSION : 1.1.2 : DM : #5822 : 15/03/2017 : add a tree component and format inspector data to be consumed
+// VERSION : 1.1.2 : DM : #5822 : 15/03/2017 : add styles for the inspector
+// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : inspector view: separate general data from specific TM data
+// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : remove use of sinon for rtd stub
+// VERSION : 1.1.2 : FA : #6762 : 02/06/2017 : RTD can now be disabled using RTD_ON in config
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : FA : ISIS-FT-1939 : 05/07/2017 : create rtdManager function to retrieve unit
+// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Use rtdManager as dependency injection in inspector middleware
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import asyncParallel from 'async/parallel';
 import { get } from '../common/configurationManager';
 import { SDB_NAMESPACE } from './constants';

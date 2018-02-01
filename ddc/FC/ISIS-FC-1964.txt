@@ -1,0 +1,1619 @@
+#GPCCHS 1.1.2 02/10/2017 ISIS-FC-1964.txt
+
+
+Reference changement : ISIS-FT-1964
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.json
+	Remove layout.i in dev.page.json .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.text.json
+	Repair link in pbf.text.json document
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fmd.js
+	Move common/fmd + common/pathResolver in documentManager
+	Fix packaging electron problem .
+	Fix common/fmd, disable Links feature for now
+	On save view middleware .
+	Hotfix common fmd because migrate documentManager in server
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fmd.spec.js
+	Move common/fmd + common/pathResolver in documentManager
+	Repair common/fmd tests . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fp.spec.js
+	Wrtie common/fp tests . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/serializers.js
+	Add 2 jest serializers (redux action)
+	Write onSavePage tests + refacto jest serializers
+	
+	
+	
+	+ update snapshots files
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/setup.js
+	Move documentManager in serverProcess .
+	Write onSavePage tests + refacto jest serializers
+	
+	
+	
+	+ update snapshots files
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/pathResolver.js
+	Move common/fmd + common/pathResolver in documentManager
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+	Clean IPC about openInspector .
+	Remove serverDebug ipc . .
+	Clean IPC about FMD_GET/FMD_CREATE and RELOAD_SESSIONS/GET_SESSION_TIME
+	Clean IPC about documents .
+	Remove SAVE_PAGE ipc method .
+	Replace ipc openPage by askOpenPage redux action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/actions.spec.js.snap
+	Move documentManager in serverProcess .
+	Write onSavePage tests + refacto jest serializers
+	
+	
+	
+	+ update snapshots files
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/readView.spec.js.snap
+	Move documentManager in serverProcess .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/saveView.spec.js.snap
+	Wrtie common/fp tests . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/saveWorkspace.spec.js.snap
+	fix store types tests .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/writeView.spec.js.snap
+	Move documentManager in serverProcess .
+	Fix documentManager writeView tests .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/writeWorkspace.spec.js.snap
+	Move documentManager in serverProcess .
+	Fix documentManager tests . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.js
+	Move documentManager in serverProcess .
+	Add onReloadView documents middleware .
+	Add saveViewAsModel thunk in documentManager/actions
+	Add onSaveView documents middleware .
+	Fix packaging electron problem .
+	Fix documentManager tests about simpleReadView (weird)
+	Fix documentManager tests . .
+	Fix lint warnings on view middleware .
+	On save view middleware .
+	Fix bug with page.absolutePath while saving a page
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.spec.js
+	Move documentManager in serverProcess .
+	Add onReloadView documents middleware .
+	Fix documentManager tests (need to mock serverProcess/ipc)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/createBlankWorkspace.js
+	Move documentManager in serverProcess .
+	Open a blank workspace, set isModified to true by default
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/createBlankWorkspace.spec.js
+	Move documentManager in serverProcess .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/document.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/pages/page1.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/pages/pageSmall_with_oid.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/small.workspace.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/views/plot1.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/views/text1.json (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fmd.js
+	Move documentManager in serverProcess .
+	Move common/fmd + common/pathResolver in documentManager
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fmd.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/index.js
+	Move documentManager in serverProcess .
+	Add saveViewAsModel thunk in documentManager/actions
+	On save view middleware .
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/io.js
+	Move documentManager in serverProcess .
+	Move common/fmd + common/pathResolver in documentManager
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/io.spec.js
+	Move documentManager in serverProcess .
+	Move common/fmd + common/pathResolver in documentManager
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/pathResolver.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readPage.js
+	Move documentManager in serverProcess .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readPage.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readView.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readWorkspace.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readWorkspace.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/savePage.js
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/savePage.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveView.js
+	On save view middleware .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveView.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/page.schema.json
+	Move documentManager in serverProcess .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/timebars.schema.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/workspace.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/validation.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/validation.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writePage.js
+	Move documentManager in serverProcess .
+	Fix packaging electron problem .
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writePage.spec.js
+	Move documentManager in serverProcess .
+	Fix documentManager tests (need to mock serverProcess/ipc)
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writeView.js
+	Move documentManager in serverProcess .
+	Fix packaging electron problem .
+	Fix lint warnings on view middleware .
+	On save view middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writeView.spec.js
+	Move documentManager in serverProcess .
+	Fix documentManager tests (need to mock serverProcess/ipc)
+	Fix documentManager writeView tests .
+	Fix lint warnings on view middleware .
+	On save view middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writeWorkspace.js
+	Move documentManager in serverProcess .
+	Fix packaging electron problem .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writeWorkspace.spec.js
+	Move documentManager in serverProcess .
+	Move common/fmd + common/pathResolver in documentManager
+	Fix documentManager tests (need to mock serverProcess/ipc)
+	Fix documentManager tests . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+	Clean IPC about openInspector .
+	Remove serverDebug ipc . .
+	Clean IPC about FMD_GET/FMD_CREATE and RELOAD_SESSIONS/GET_SESSION_TIME
+	Clean IPC about documents .
+	Fix common/fmd, disable Links feature for now
+	Remove unused onSavePage ipc renderer to mainProcess controllers
+	Replace ipc openPage by askOpenPage redux action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onCreateModel.js
+	Clean IPC about documents .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetSessionTime.js
+	Clean IPC about FMD_GET/FMD_CREATE and RELOAD_SESSIONS/GET_SESSION_TIME
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenInspector.js
+	Clean IPC about openInspector .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenPage.js
+	Replace ipc openPage by askOpenPage redux action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenView.js
+	Clean IPC about documents .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onReloadSessions.js
+	Clean IPC about FMD_GET/FMD_CREATE and RELOAD_SESSIONS/GET_SESSION_TIME
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onReloadView.js
+	Clean IPC about documents .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onSavePage.js
+	Remove unused onSavePage ipc renderer to mainProcess controllers
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onSaveView.js
+	Clean IPC about documents .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onServerDebug.js
+	Remove serverDebug ipc . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/electronManager/dialogObserver.js
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+	Ask open workspace at start in mainProcess/index
+	serverProcess has now a APP_ENV='server' even in dev mode
+	Fix crash when rtd is off
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/ipc.js
+	Remove serverDebug ipc . .
+	Clean IPC about FMD_GET/FMD_CREATE and RELOAD_SESSIONS/GET_SESSION_TIME
+	Clean IPC about documents .
+	Fix mainProcess ipc : dont ignore action when webContent is loading
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/index.js
+	Clean menuManager . . .
+	Ask open workspace at start in mainProcess/index
+	On open view middleware .
+	Remove pageOpen and pageSave in menuManager, add pageAddBlank
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+	Rename WS_ASK_PAGE in WS_ASK_OPEN_PAGE action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageAddBlank.js
+	Remove pageOpen and pageSave in menuManager, add pageAddBlank
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageOpen.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageSave.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/selectors.js
+	Clean menuManager . . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/selectors.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/viewAddBlank.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/viewOpen.js
+	Clean menuManager . . .
+	Fix common/fmd, disable Links feature for now
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store.js
+	Do not use root reducer on mainProcess store and windowProcess store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/windows.js
+	Closing window now display a save wizard (documents middleware)
+	Fix store broken test due to selectors/hsc export
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/index.js
+	Remove serverDebug ipc . .
+	Clean IPC about FMD_GET/FMD_CREATE and RELOAD_SESSIONS/GET_SESSION_TIME
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdCreate.js
+	Clean IPC about FMD_GET/FMD_CREATE and RELOAD_SESSIONS/GET_SESSION_TIME
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdCreate.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdGet.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdGet.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onGetMasterSession.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onGetMasterSession.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onServerDebug.js
+	Remove serverDebug ipc . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onServerDebug.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/actions.spec.js.snap
+	Move documentManager in serverProcess .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/readView.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/writeView.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/writeWorkspace.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/createBlankWorkspace.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/createBlankWorkspace.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/document.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/pages/page1.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/pages/pageSmall_with_oid.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/small.workspace.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/views/plot1.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/views/text1.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/io.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/io.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/pathResolver.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readPage.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readPage.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readView.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readWorkspace.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readWorkspace.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/schemas/page.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/schemas/timebars.schema.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/schemas/workspace.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/validation.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/validation.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writePage.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writePage.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeView.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/index.js
+	Fix openInspector : init rtd in serverProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/store.js
+	Move documentManager in serverProcess .
+	Rename all create* middleware by make*
+	Add inspector middleware in serverProcess store
+	Move openLink middleware in documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+	Ask open workspace at start in mainProcess/index
+	SaveAgentModal component can be in a workspace mode
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/inspector.js
+	Clean IPC about openInspector .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/links.js
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/modals.js
+	Can now propagate choice and modal props via closeModal action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.js
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+	Change askOpenPage redux action signature
+	Rename WS_ASK_PAGE in WS_ASK_OPEN_PAGE action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.spec.js
+	Fix closePage test in store/actions/pages
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/ui.js
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.js
+	Add onSaveViewAsModel documents middleware .
+	Add onReloadView documents middleware .
+	Add onSaveView documents middleware .
+	On open view middleware .
+	Add types and action creator for views middlewares
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/windows.js
+	Closing window now display a save wizard (documents middleware)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeMasterDispatcher.js
+	Do not filter action with no patch in master dispatcher
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeMasterDispatcher.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeSlaveDispatcher.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/pipeMiddlewares.js
+	Add helpers in documents middleware + refacto + opti pipeMiddlewares function
+	
+	
+	
+	Add withOpenModal middleware enhancer
+	Add pipeMiddlewares in store/helpers .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/pipeMiddlewares.spec.js
+	Rename all 'returnedAction' by 'nextAction' in middlewares
+	Add pipeMiddlewares in store/helpers .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/messages.spec.js.snap
+	Write onSavePage tests + refacto jest serializers
+	
+	
+	
+	+ update snapshots files
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/openLink.spec.js.snap
+	Move openLink middleware in documents middleware
+	Add next(action) in openLink middleware
+	Write onSavePage tests + refacto jest serializers
+	
+	
+	
+	+ update snapshots files
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents.js
+	Split documents middleware code in several middlewares
+	Rename WS_ASK_PAGE in WS_ASK_OPEN_PAGE action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/dialogUtils.js
+	Add helpers in documents middleware + refacto + opti pipeMiddlewares function
+	
+	
+	
+	Add withOpenModal middleware enhancer
+	Split documents middleware code in several middlewares
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/helpers.js
+	Rename all 'returnedAction' by 'nextAction' in middlewares
+	Add an options parameter to openDialog documents helper
+	Fix documents middleware helpers .
+	Write onClosePage middleware . .
+	Add withOpenModal middleware enhancer (in documents middleware)
+	Add helpers in documents middleware + refacto + opti pipeMiddlewares function
+	
+	
+	
+	Add withOpenModal middleware enhancer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/index.js
+	Rename all create* middleware by make*
+	Move openLink middleware in documents middleware
+	Move withOpenModal and withOpenDialog enhancers directly in each middleware
+	Add helpers in documents middleware + refacto + opti pipeMiddlewares function
+	
+	
+	
+	Add withOpenModal middleware enhancer
+	Split documents middleware . .
+	Split documents middleware code in several middlewares
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/__snapshots__/openLink.spec.js.snap
+	Rename all create* middleware by make*
+	Rewrite openLink middleware unit tests
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+	Move openLink middleware in documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/openLink.js
+	Refacto openLink documents middleware (serverProcess)
+	Rename all create* middleware by make*
+	Rewrite openLink middleware unit tests
+	Links can now be relative path or absolute fmd path
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+	Move openLink middleware in documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/openLink.spec.js
+	Rename all create* middleware by make*
+	Rewrite openLink middleware unit tests
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+	Move openLink middleware in documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages.js
+	Split documents middleware . .
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+	Change askOpenPage redux action signature
+	Split documents middleware code in several middlewares
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onSavePage.spec.js.snap
+	Finalize onSavePage documents middleware tests
+	Fix jest snapshot . .
+	Rename SaveAgent in SaveWizard .
+	Write onSavePage tests + refacto jest serializers
+	
+	
+	
+	+ update snapshots files
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/index.js
+	Rename all create* middleware by make*
+	Split documents middleware . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onClosePage.js
+	Rename all 'returnedAction' by 'nextAction' in middlewares
+	Move withOpenModal and withOpenDialog enhancers directly in each middleware
+	SaveWizardModal can now take several buttons
+	Rename SaveAgent in SaveWizard .
+	Fix SaveAgentModal css layout .
+	SaveAgentModal component can be in a workspace mode
+	Fix onClosePage documents middleware duplicate pageId
+	Improve SaveAgentModal + onClosePage / onSavePage seems to be OK
+	Add SaveAgentModal to ModalGeneric .
+	documents middleware now next the action before doing anything else
+	Write onClosePage middleware . .
+	Add withOpenModal middleware enhancer (in documents middleware)
+	Add helpers in documents middleware + refacto + opti pipeMiddlewares function
+	
+	
+	
+	Add withOpenModal middleware enhancer
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.js
+	Rename all 'returnedAction' by 'nextAction' in middlewares
+	Move withOpenModal and withOpenDialog enhancers directly in each middleware
+	Add an options parameter to openDialog documents helper
+	documents middleware now next the action before doing anything else
+	Add helpers in documents middleware + refacto + opti pipeMiddlewares function
+	
+	
+	
+	Add withOpenModal middleware enhancer
+	Split documents middleware . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.js
+	Rename all 'returnedAction' by 'nextAction' in middlewares
+	Move withOpenModal and withOpenDialog enhancers directly in each middleware
+	SaveWizardModal can now take several buttons
+	Add an options parameter to openDialog documents helper
+	Rename SaveAgent in SaveWizard .
+	Fix bug with oId in documents middlewares (onSavePage and onSaveView)
+	Improve SaveAgentModal + onClosePage / onSavePage seems to be OK
+	Add SaveAgentModal to ModalGeneric .
+	Fix bug with page.absolutePath while saving a page
+	documents middleware now next the action before doing anything else
+	Add helpers in documents middleware + refacto + opti pipeMiddlewares function
+	
+	
+	
+	Add withOpenModal middleware enhancer
+	Split documents middleware . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.spec.js
+	Move withOpenModal and withOpenDialog enhancers directly in each middleware
+	Finalize onSavePage documents middleware tests
+	Write onSavePage tests + refacto jest serializers
+	
+	
+	
+	+ update snapshots files
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.js
+	Closing window now display a save wizard (documents middleware)
+	Add 2 selectors in documents middlewares selectors
+	
+	
+	
+	Add getPageIdsByWindowIds
+	Add getViewIdsByWindowIds
+	+ tests
+	Improve SaveAgentModal + onClosePage / onSavePage seems to be OK
+	Add SaveAgentModal to ModalGeneric .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.spec.js
+	Closing window now display a save wizard (documents middleware)
+	Add 2 selectors in documents middlewares selectors
+	
+	
+	
+	Add getPageIdsByWindowIds
+	Add getViewIdsByWindowIds
+	+ tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views.js
+	Split documents middleware . .
+	Split documents middleware code in several middlewares
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/index.js
+	Rename all create* middleware by make*
+	Add onSaveViewAsModel documents middleware .
+	Add onReloadView documents middleware .
+	Add onSaveView documents middleware .
+	On save view middleware .
+	On open view middleware .
+	Lint documents middleware . .
+	Add helpers in documents middleware + refacto + opti pipeMiddlewares function
+	
+	
+	
+	Add withOpenModal middleware enhancer
+	Split documents middleware . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.js
+	Add onSaveView documents middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.js
+	Rename all 'returnedAction' by 'nextAction' in middlewares
+	Move withOpenModal and withOpenDialog enhancers directly in each middleware
+	Add an options parameter to openDialog documents helper
+	On open view middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onReloadView.js
+	Add onReloadView documents middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.js
+	Fix selector in onSaveView documents middleware
+	Rename all 'returnedAction' by 'nextAction' in middlewares
+	Move withOpenModal and withOpenDialog enhancers directly in each middleware
+	Add an options parameter to openDialog documents helper
+	Fix bug with oId in documents middlewares (onSavePage and onSaveView)
+	On save view middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.js
+	Add onSaveViewAsModel documents middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/index.js
+	Rename all create* middleware by make*
+	Lint documents middleware . .
+	Add helpers in documents middleware + refacto + opti pipeMiddlewares function
+	
+	
+	
+	Add withOpenModal middleware enhancer
+	Split documents middleware . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.js
+	Ask open workspace at start in mainProcess/index
+	Closing window now display a save wizard (documents middleware)
+	Rename all 'returnedAction' by 'nextAction' in middlewares
+	Move withOpenModal and withOpenDialog enhancers directly in each middleware
+	Fix copy/pasta typo in onOpenWorkspace/onCloseWorkspace
+	Fix onCloseWorkspace documentType to workspace
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.js
+	Ask open workspace at start in mainProcess/index
+	Rename all 'returnedAction' by 'nextAction' in middlewares
+	Move withOpenModal and withOpenDialog enhancers directly in each middleware
+	Fix copy/pasta typo in onOpenWorkspace/onCloseWorkspace
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js
+	Fix SaveWizard save workspace .
+	Rename all 'returnedAction' by 'nextAction' in middlewares
+	Move withOpenModal and withOpenDialog enhancers directly in each middleware
+	Fix onSaveWorkspace buttons . .
+	Add an options parameter to openDialog documents helper
+	Rename SaveAgent in SaveWizard .
+	Fix bug in onSaveWorkspace middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspaces.js
+	Split documents middleware . .
+	Split documents middleware code in several middlewares
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector.js
+	Clean IPC about openInspector .
+	Add inspector middleware in serverProcess store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.js
+	Rename all create* middleware by make*
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/openLink.js
+	Move openLink middleware in documents middleware
+	Add next(action) in openLink middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/openLink.spec.js
+	Move openLink middleware in documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/__snapshots__/index.spec.js.snap
+	Write onSavePage tests + refacto jest serializers
+	
+	
+	
+	+ update snapshots files
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/index.js
+	Rename all create* middleware by make*
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.js
+	Open a blank workspace, set isModified to true by default
+	Open or close a window now set workspace isModified to true
+	SaveAgentModal component can be in a workspace mode
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/rte/index.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.js
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+	Add onSaveView documents middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.js
+	Closing window now display a save wizard (documents middleware)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/hsc.js
+	Fix store broken test due to selectors/hsc export
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/pages.js
+	Fix bug in getPagesWithViews pages selector
+	
+	
+	
+	if a pageId is missing, use viewIds to retrieve them
+	Add SaveAgentModal to ModalGeneric .
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/windows.js
+	Fix selector in onSaveView documents middleware
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	Clean IPC about openInspector .
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+	Add onSaveViewAsModel documents middleware .
+	Add onReloadView documents middleware .
+	Ask open workspace at start in mainProcess/index
+	Closing window now display a save wizard (documents middleware)
+	fix store types tests .
+	SaveAgentModal component can be in a workspace mode
+	Add types and action creator for views middlewares
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+	Rename WS_ASK_PAGE in WS_ASK_OPEN_PAGE action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/dc.js
+	Remove forgotten console.log . .
+	Repair stubProcess dc in standalone mode (npm run start:dc:stub)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditor.js
+	On Plot/Text/Mimic/Dynamic editors: Save and Reload buttons beneath the title.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorForm.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+	Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointConnectedData.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+	Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+	On Plot/Text/Mimic/Dynamic editors: Save and Reload buttons beneath the title.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxis.js
+	Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointParameters.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditor.js
+	On Plot/Text/Mimic/Dynamic editors: Save and Reload buttons beneath the title.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotGrid.js
+	Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotTab.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsForm.js
+	Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+	no point is not an error anymore on PlotView.
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointConnectedData.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+	Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+	On Plot/Text/Mimic/Dynamic editors: Save and Reload buttons beneath the title.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewWrapper.js
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/EntryPointStateColors.js
+	Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLink.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ReloadAndSaveViewButtons.js
+	On Plot/Text/Mimic/Dynamic editors: Save and Reload buttons beneath the title.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ReloadAndSaveViewButtonsContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsForm.js
+	Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Cache.js
+	Remove serverDebug ipc . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerRight.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Debug.js
+	Remove serverDebug ipc . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/DebugContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js
+	Rewrite all saving page code
+	
+	
+	
+	- documents middleware now manage page open/save/close interactions
+	- Rename documentManager/savePage in documentManager/writePage
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Content.js
+	On open view middleware .
+	Replace ipc openPage by askOpenPage redux action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentContainer.js
+	Add onSaveView documents middleware .
+	On open view middleware .
+	Replace ipc openPage by askOpenPage redux action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Page.css
+	Remove old Page/Page component (+css)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Page.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsLeft.spec.js
+	Fix Timebar broken tests .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsRight.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsLeft.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsRight.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/LeftTab.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/Timebar.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Links.js
+	Clean windowProcess View Links .
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+	Fix lint error in View/Links .
+	Fix common/fmd, disable Links feature for now
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/LinksContainer.js
+	Reimplement openLink middleware . .
+	
+	
+	
+	simplify View/Links component
+	+ temporarily skip openLink middleware unit test
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Messages.js
+	On save view middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+	Clean IPC about openInspector .
+	Add onSaveViewAsModel documents middleware .
+	Add onReloadView documents middleware .
+	Add onSaveView documents middleware .
+	Change view contextual menu about reload and save
+	On save view middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/ViewContainer.js
+	Clean IPC about openInspector .
+	Add onSaveViewAsModel documents middleware .
+	Add onReloadView documents middleware .
+	Add onSaveView documents middleware .
+	On save view middleware .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/Window.js
+	Can now propagate choice and modal props via closeModal action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/DialogModal.js
+	Add onSaveView documents middleware .
+	Rename DialogModal component displayName .
+	Add margin right 5px in DialogModal
+	Add DialogModal used by ModalGeneric
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/Dimensions.js
+	Fixed few eslint errors / warnings no-console and spaced-comment.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+	Remove 2 old unused modals
+	
+	
+	
+	SaveBeforeClosing and UnsavedViewWarning
+	Rename SaveAgent in SaveWizard .
+	Move SaveAgentModal in a separate folder
+	Improve SaveAgentModal + onClosePage / onSavePage seems to be OK
+	Add SaveAgentModal to ModalGeneric .
+	Add DialogModal used by ModalGeneric
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveAgentModal.css
+	Move SaveAgentModal in a separate folder
+	Fix SaveAgentModal css layout .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveAgentModal.js
+	Move SaveAgentModal in a separate folder
+	Fix SaveAgentModal css layout .
+	SaveAgentModal component can be in a workspace mode
+	Improve SaveAgentModal + onClosePage / onSavePage seems to be OK
+	Fix linting error in SaveAgentModal component
+	Add SaveAgentModal to ModalGeneric .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveAgentModal/SaveAgentModal.css
+	Rename SaveAgent in SaveWizard .
+	Move SaveAgentModal in a separate folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveAgentModal/SaveAgentModal.js
+	Rename SaveAgent in SaveWizard .
+	Add propTypes in SaveAgentModalContainer + fix react keys
+	Move SaveAgentModal in a separate folder
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveAgentModal/SaveAgentModalContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveAgentModalContainer.js
+	Move SaveAgentModal in a separate folder
+	SaveAgentModal component can be in a workspace mode
+	Add SaveAgentModal to ModalGeneric .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveBeforeClosing.js
+	Remove 2 old unused modals
+	
+	
+	
+	SaveBeforeClosing and UnsavedViewWarning
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveBeforeClosingContainer.js
+	Remove 2 old unused modals
+	
+	
+	
+	SaveBeforeClosing and UnsavedViewWarning
+	Can now propagate choice and modal props via closeModal action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/ConfirmationButton.js
+	Refacto SaveWizardModal component . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizard/SaveButton.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizard/SavePage.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizard/SaveView.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizard/SaveWorkspace.js
+	Fix SaveWizard save workspace .
+	Refacto SaveWizardModal component . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizard/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizardModal.css
+	Refacto SaveWizardModal component . .
+	Rename SaveAgent in SaveWizard .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizardModal.js
+	Fix SaveWizard save workspace .
+	Refacto SaveWizardModal component . .
+	Fix SaveWizardModal documentsAreModified predicat .
+	SaveWizardModal can now take several buttons
+	Add bold page title in SaveWizard
+	Fix missing closeModal on OK button in SaveWizard component
+	Rename SaveAgent in SaveWizard .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizardModalContainer.js
+	Fix SaveWizard save workspace .
+	Rename SaveAgent in SaveWizard .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/propTypes.js
+	Refacto SaveWizardModal component . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/styles.css (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/UnsavedViewWarning.js
+	Remove 2 old unused modals
+	
+	
+	
+	SaveBeforeClosing and UnsavedViewWarning
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/UnsavedViewWarningContainer.js
+	Remove 2 old unused modals
+	
+	
+	
+	SaveBeforeClosing and UnsavedViewWarning
+	Can now propagate choice and modal props via closeModal action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ClearSubmitButtons.js
+	On Plot/Text/Mimic/Dynamic editors: Save and Reload buttons beneath the title.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+	Clean IPC about openInspector .
+	Remove serverDebug ipc . .
+	Clean IPC about FMD_GET/FMD_CREATE and RELOAD_SESSIONS/GET_SESSION_TIME
+	Clean IPC about documents .
+	Remove SAVE_PAGE ipc method .
+	Replace ipc openPage by askOpenPage redux action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/store.js
+	Do not use root reducer on mainProcess store and windowProcess store
+	Fix redux-logger predicate to display only patched action
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/PlotView.css
+	Simplyfied new themes edition: dark/light/green .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/Timebar.css (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/helpers.css
+	Fix SaveAgentModal css layout .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/index.css
+	Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/rc-collapse/index.css
+	Simplyfied new themes edition: dark/light/green .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/redux-form/index.css
+	Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/themes/dark.css
+	Simplyfied new themes edition: dark/light/green .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/themes/green.css (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/themes/light.css
+	Fixes to the light theme/ plotView colors.
+	Simplyfied new themes edition: dark/light/green .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/variables.css
+	Simplyfied new themes edition: dark/light/green .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+	Set APP_ENV to main when `npm run sh`
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.server.js
+	Add hiredis to webpack server config externals
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.text.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/setup.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/electronManager/dialogObserver.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/windows.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/inspector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/links.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/modals.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/ui.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/windows.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeMasterDispatcher.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeMasterDispatcher.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeSlaveDispatcher.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/messages.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/__snapshots__/index.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/rte/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/hsc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/pages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/windows.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/dc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointParameters.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotGrid.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/EntryPointStateColors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Cache.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerRight.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Content.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsLeft.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsRight.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsLeft.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsRight.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/LeftTab.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/Timebar.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Links.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/LinksContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/ViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/Window.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/Dimensions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ClearSubmitButtons.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/PlotView.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/Timebar.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/helpers.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/index.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/rc-collapse/index.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/variables.css
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+GPCCHS_E_VIS/src/client/src/main/js/client/webpack/config.server.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fp.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/serializers.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageAddBlank.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/viewAddBlank.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/actions.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/readView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/writeView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/writeWorkspace.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/createBlankWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/createBlankWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/document.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/pages/page1.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/pages/pageSmall_with_oid.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/small.workspace.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/views/plot1.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fixtures/views/text1.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/io.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/io.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/pathResolver.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readPage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readPage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/schemas/page.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/schemas/timebars.schema.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/schemas/workspace.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/validation.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/validation.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writePage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/pipeMiddlewares.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/pipeMiddlewares.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/helpers.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/openLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/openLink.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onSavePage.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onClosePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onReloadView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ReloadAndSaveViewButtons.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ReloadAndSaveViewButtonsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/DialogModal.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/ConfirmationButton.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizard/SaveButton.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizard/SavePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizard/SaveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizard/SaveWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizard/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizardModal.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizardModalContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/propTypes.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/styles.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/redux-form/index.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/themes/dark.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/themes/green.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/themes/light.css
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fmd.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fmd.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/pathResolver.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/actions.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/readView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/saveView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/saveWorkspace.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/createBlankWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/createBlankWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/document.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/pages/page1.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/pages/pageSmall_with_oid.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/small.workspace.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/views/plot1.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/fixtures/views/text1.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/io.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/io.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readPage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readPage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/readWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/savePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/savePage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/saveView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/page.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/timebars.schema.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/schemas/workspace.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/validation.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/validation.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writeWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/writeWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onCreateModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetSessionTime.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenInspector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenPage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onReloadSessions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onReloadView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onSavePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onSaveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onServerDebug.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageOpen.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageSave.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/selectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/viewOpen.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdCreate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdCreate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdGet.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onFmdGet.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onGetMasterSession.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onGetMasterSession.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onServerDebug.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onServerDebug.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/openLink.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/openLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/openLink.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Debug.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/DebugContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Page.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Page.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveBeforeClosing.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveBeforeClosingContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/UnsavedViewWarning.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/UnsavedViewWarningContainer.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

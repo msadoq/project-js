@@ -1,9 +1,16 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Refacto player middleware + move store/play.js
+// END-HISTORY
+// ====================================================================
+
 export function nextCurrent(current, speed, elapsed) {
   return current + (elapsed * speed);
 }
 
 export function computeCursors(
   current,
+  previousCurrent,
   lower,
   upper,
   slideLower,
@@ -22,20 +29,20 @@ export function computeCursors(
   if (mode === 'Normal' || mode === 'Extensible') {
     if (current + mandatoryMarginMs > upper) {
       offsetMs = (current + mandatoryMarginMs) - upper;
+    } else {
+      offsetMs = current - previousCurrent;
     }
   } else if (mode === 'Fixed') {
     if (current > slideUpper) {
-      offsetMs = current - slideUpper;
+      offsetMs = current - slideLower;
     }
   }
-
   const newLower = lower + offsetMs;
   const newUpper = upper + offsetMs;
 
   /*
   * @return { lower, upper, slideLower, slideUpper }
   */
-
   const r = {
     visuWindow: { current },
     slideWindow: {},

@@ -1,8 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Add retrieveMIddleware test skeleton implementation
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Add PubSubController and retrieveLast/Range update
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update retrieve range test and implemntation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Update retrieve range and last test
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
-import retrieveRange from './retrieveRange';
-import * as types from '../../types';
+import * as types from 'store/types';
 // import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
-import lokiManager from '../../../serverProcess/models/lokiKnownRangesData';
+import lokiManager from 'serverProcess/models/lokiKnownRangesData';
+import retrieveRange from './retrieveRange';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 

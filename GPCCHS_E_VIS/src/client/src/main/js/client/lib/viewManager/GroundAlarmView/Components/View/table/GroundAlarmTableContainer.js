@@ -2,30 +2,46 @@ import _ from 'lodash/fp';
 import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import { getInspectorOptions, getDataRows } from 'viewManager/GroundAlarmView/store/selectors';
+import { getIsPlaying } from 'store/reducers/hsc';
+import { getData } from 'viewManager/GroundAlarmView/store/dataReducer';
+import { getSelectedAlarms, getExpandedAlarms, getSort } from 'viewManager/GroundAlarmView/store/uiReducer';
+import {
+  openAckModal,
+  collapseAlarm, uncollapseAlarm,
+  toggleSelection,
+  toggleSort,
+  inputSearch,
+  inputResetAll,
+  inputToggle,
+} from 'viewManager/GroundAlarmView/store/actions';
+import { getAlarmDomain, getAlarmTimeline, getAlarmMode, getSearch, getEnableSearch } from 'viewManager/GroundAlarmView/store/configurationReducer';
 import GroundAlarmTable from './GroundAlarmTable';
-import { getAlarmDomain, getAlarmTimeline, getAlarmMode } from '../../../store/configurationReducer';
-import { getData, getDataLines } from '../../../store/dataReducer';
-import { getSelectedAlarms } from '../../../store/uiReducer';
-import { openAckModal, collapseAlarm, uncollapseAlarm, toggleSelection } from '../../../store/actions';
-import { getInspectorOptions } from '../../../store/selectors';
-import { getIsPlaying } from '../../../../../store/reducers/hsc';
 
 const mapStateToProps = createStructuredSelector({
+  sort: getSort,
   mode: getAlarmMode,
   domain: getAlarmDomain,
   timeline: getAlarmTimeline,
-  lines: getDataLines,
+  rows: getDataRows,
+  expandedAlarms: getExpandedAlarms,
   selectedAlarms: getSelectedAlarms,
-  indexedLines: _.compose(_.prop('lines'), getData),
+  indexedRows: _.compose(_.prop('lines'), getData),
   inspectorOptions: getInspectorOptions,
   isPlayingTimebar: getIsPlaying,
+  search: getSearch,
+  enableSearch: getEnableSearch,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
-  openAckModal: _.compose(dispatch, openAckModal),
+  openAckModal: selectedAlarms => dispatch(openAckModal(viewId, selectedAlarms)),
   collapse: oid => dispatch(collapseAlarm(viewId, oid)),
   uncollapse: oid => dispatch(uncollapseAlarm(viewId, oid)),
   toggleSelection: oid => dispatch(toggleSelection(viewId, oid)),
+  toggleSort: column => dispatch(toggleSort(viewId, column)),
+  inputSearch: (column, value) => dispatch(inputSearch(viewId, column, value)),
+  inputResetAll: () => dispatch(inputResetAll(viewId)),
+  inputToggle: () => dispatch(inputToggle(viewId)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

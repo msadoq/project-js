@@ -1,12 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 import _omit from 'lodash/omit';
+import { isTimestampInKnownRanges } from 'store/reducers/knownRanges';
+import { isTimestampInLastDatamapInterval } from 'dataManager/mapSelector';
+import lokiManager from 'serverProcess/models/lokiKnownRangesData';
+import { getStubData } from 'utils/stubs';
+import * as types from 'store/types';
+import state from 'common/jest/stateTest';
 import preparePubSub, { updateFinalPayload } from './preparePubSub';
-import { isTimestampInKnownRanges } from '../../reducers/knownRanges';
-import { isTimestampInLastDatamapInterval } from '../../../dataManager/mapSelector';
-import lokiManager from '../../../serverProcess/models/lokiKnownRangesData';
-import { getStubData } from '../../../utils/stubs';
-import * as types from '../../types';
-import state from '../../../common/jest/stateTest';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 

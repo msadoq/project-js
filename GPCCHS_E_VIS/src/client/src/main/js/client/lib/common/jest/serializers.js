@@ -1,7 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Write onSavePage tests + refacto jest serializers
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Add 2 jest serializers (redux action)
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import 'babel-polyfill';
 import _ from 'lodash/fp';
 
-import * as types from '../../store/types';
+import * as types from 'store/types';
 
 const typeIs = _.propEq('type');
 
@@ -26,7 +34,10 @@ export const messageActionSerializer = createActionSerializer({
 });
 
 export const dialogActionSerializer = createActionSerializer({
-  print: _.update('payload', _.unset('dialogId')),
+  print: _.pipe(
+    _.unset('payload.dialogId'),
+    _.unset('payload.options.defaultPath')
+  ),
   test: _.anyPass([
     typeIs(types.HSC_OPEN_DIALOG),
     typeIs(types.HSC_DIALOG_CLOSED),

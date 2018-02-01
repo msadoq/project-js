@@ -1,0 +1,309 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6785.txt
+
+
+Reference changement : #6785
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json
+	add links on mimicView if specify in svg editor
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/Source.css (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/pathResolver.js
+	read link defined with absolute path, FMD path or OID
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+	Fix opening view link in a new page and read only path for link definition
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/actions.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.js
+	Fix opening view link in a new page and read only path for link definition
+	activate links in views .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.spec.js
+	Fix opening view link in a new page and read only path for link definition
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/index.js
+	Add unit tests on open link middleware
+	Fix opening view link in a new page and read only path for link definition
+	activate links in views .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+	Fix opening view link in a new page and read only path for link definition
+	activate links in views .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenPageOrView.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/store.js
+	Add unit tests on open link middleware
+	Fix opening view link in a new page and read only path for link definition
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/links.js
+	Fix opening view link in a new page and read only path for link definition
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.js
+	activate links in views .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/openLink.spec.js.snap
+	Add unit tests on open link middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/openLink.js
+	Add unit tests on open link middleware
+	Fix opening view link in a new page and read only path for link definition
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/openLink.spec.js
+	Add unit tests on open link middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/index.js
+	Add Misc/links in view editor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.js
+	activate links in views .
+	Add Misc/links in view editor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.spec.js
+	activate links in views .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	Fix opening view link in a new page and read only path for link definition
+	activate links in views .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditor.js
+	Add Misc/links in view editor
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+	activate links in views .
+	Add possibility to show links in views
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicViewContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+	Fix links in mimic view
+	Add Misc/links in view editor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditorContainer.js
+	Add Misc/links in view editor
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTab.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTabContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/TextTab.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/TextTabContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+	Fix lint warning in MimicView
+	add links on mimicView if specify in svg editor
+	activate links in views .
+	Fix links in mimic view
+	Add possibility to show links in views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js
+	add links on mimicView if specify in svg editor
+	activate links in views .
+	Add possibility to show links in views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditor.js
+	Add Misc/links in view editor
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditorContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+	activate links in views .
+	Add possibility to show links in views
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+	Add Misc/links in view editor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.js
+	add links on mimicView if specify in svg editor
+	add links on textview if specify in html editor
+	activate links in views .
+	Add possibility to show links in views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewContainer.js
+	add links on textview if specify in html editor
+	activate links in views .
+	Add possibility to show links in views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewWrapper.js
+	add links on textview if specify in html editor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLink.js
+	Fix opening view link in a new page and read only path for link definition
+	Fix path writing after choice
+	Add Misc/links in view editor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLinkContainer.js
+	Add Misc/links in view editor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLinkWrapper.js
+	Fix path writing after choice
+	Add Misc/links in view editor
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/Links.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/LinksContainer.js
+	Add Misc/links in view editor
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/Misc.css (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/Misc.js
+	Fix path writing after choice
+	Add Misc/links in view editor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/index.js
+	Add Misc/links in view editor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Links.css
+	activate links in views .
+	Fix links in mimic view
+	Add possibility to show links in views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Links.js
+	Fix opening view link in a new page and read only path for link definition
+	read link defined with absolute path, FMD path or OID
+	Fix path writing after choice
+	activate links in views .
+	Fix links in mimic view
+	Add possibility to show links in views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/LinksContainer.js
+	Fix opening view link in a new page and read only path for link definition
+	read link defined with absolute path, FMD path or OID
+	activate links in views .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+	Add Misc/links in view editor
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/FileInputField.js
+	Fix opening view link in a new page and read only path for link definition
+	Fix path writing after choice
+	Fix path recovery on wrong field
+	Add Misc/links in view editor
+
+
+GPCCHS_E_VIS/src/common/src/main/js/common/constants/index.js
+	activate links in views .
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/Source.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/pathResolver.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/__snapshots__/actions.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/actions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/documentManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/Misc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+GPCCHS_E_VIS/src/common/src/main/js/common/constants/index.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/links.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/openLink.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/openLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/openLink.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTabContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLinkContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLinkWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/Links.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/LinksContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/Misc.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Links.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Links.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/LinksContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/FileInputField.js
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/TextTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/TextTabContainer.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

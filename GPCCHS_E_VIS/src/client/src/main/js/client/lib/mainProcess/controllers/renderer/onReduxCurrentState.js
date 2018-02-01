@@ -1,4 +1,10 @@
-import { getStore } from '../../store';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// END-HISTORY
+// ====================================================================
+
+import { getStore } from 'mainProcess/store';
 
 /**
  * Triggered when renderer process startup and request initialState

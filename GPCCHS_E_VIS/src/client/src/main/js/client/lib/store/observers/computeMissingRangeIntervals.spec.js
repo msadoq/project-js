@@ -1,8 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add unit test on missing interval computing
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// END-HISTORY
+// ====================================================================
+
 /* eslint-disable camelcase */
 import _cloneDeep from 'lodash/cloneDeep';
+import state from 'common/jest/stateTest';
+import dataMapGenerator from 'dataManager/map';
 import computeMissingRangeIntervals from './computeMissingRangeIntervals';
-import state from '../../common/jest/stateTest';
-import dataMapGenerator from '../../dataManager/map';
 
 
 describe('store/observers/computeMissingRangeIntervals', () => {

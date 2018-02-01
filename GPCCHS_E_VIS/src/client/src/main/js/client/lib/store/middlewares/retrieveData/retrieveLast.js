@@ -1,10 +1,24 @@
-import * as types from '../../types';
-import { getLastRecords } from '../../../serverProcess/models/lokiKnownRangesData';
-import { GETLASTTYPE_GET_LAST } from '../../../constants';
-import { getUpperIntervalIsInKnownRanges } from '../../reducers/knownRanges';
-import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
-import { newData } from '../../actions/incomingData';
-import executionMonitor from '../../../common/logManager/execution';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Add skeleton for incomingData and retrieveData middleware + their test
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Add PubSubController and retrieveLast/Range update
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update tests and implementation . .
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix error in retrieveLast and update its related tests
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Clean console log . . .
+// VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
+// VERSION : 1.1.2 : DM : #6700 : 28/08/2017 : Add some exectuion map + minor lint fix
+// END-HISTORY
+// ====================================================================
+
+import * as types from 'store/types';
+import { getLastRecords } from 'serverProcess/models/lokiKnownRangesData';
+import { GETLASTTYPE_GET_LAST } from 'constants';
+import { getUpperIntervalIsInKnownRanges } from 'store/reducers/knownRanges';
+import { add } from 'serverProcess/models/registeredArchiveQueriesSingleton';
+import { newData } from 'store/actions/incomingData';
+import executionMonitor from 'common/logManager/execution';
 
 const type = 'LAST';
 const getLastArguments = { getLastType: GETLASTTYPE_GET_LAST };

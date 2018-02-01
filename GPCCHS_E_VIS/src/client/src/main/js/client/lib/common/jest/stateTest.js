@@ -1,3 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Creation of store observer and test state
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : fix datamap for collapsed view add filter on mimic entry point fix computation of missing last interval Add filter on tbdId computation for plot view
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add entryPoints with offset in state for test
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Update state for unit tests
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add unit test on missing interval computing
+// VERSION : 1.1.2 : DM : #6700 : 02/08/2017 : Update unit tests for Plot View store
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : New extensions. Updated extensions of data files, updated config.sample.json.
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json patch
+// END-HISTORY
+// ====================================================================
+
 export default {
   DynamicViewConfiguration: {
     dynamic1: {

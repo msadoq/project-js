@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { moveProp } from '../../common/fp';
+import { moveProp } from 'common/fp';
 
 const singleton = x => [x];
 

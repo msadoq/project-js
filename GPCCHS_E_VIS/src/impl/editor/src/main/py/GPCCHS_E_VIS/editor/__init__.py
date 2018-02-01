@@ -14,6 +14,7 @@ Component : GPCCHS_E_VIS
 # ====================================================================
 # HISTORY
 # VERSION : 1.1.0 : : : 28/02/2017 : Initial version
+# VERSION : 1.1.2 : FA : #7472 : 01/09/2017 : Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
 # END-HISTORY
 # ====================================================================
 # Start of user code init

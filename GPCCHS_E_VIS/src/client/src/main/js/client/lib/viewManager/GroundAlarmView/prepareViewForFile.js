@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { copyProp } from '../../common/fp';
+import { copyProp } from 'common/fp';
 
 const keepFirstEntryPoint = _.pipe(
   copyProp('entryPoints[0]', 'entryPoint'),

@@ -1,15 +1,22 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import sinon from 'sinon';
 import rimraf from 'rimraf';
 import { join } from 'path';
 import { readFile } from 'fs';
 
-import { MIME_TYPES } from '../../constants';
-import { getTmpPath, freezeMe } from '../../common/jest';
+import { MIME_TYPES } from 'constants';
+import { getTmpPath, freezeMe } from 'common/jest';
 
+import fs from 'common/fs';
 import { writeWorkspace, writeWorkspaceAs } from './writeWorkspace';
 import * as fmdApi from './fmd';
-import fs from '../../common/fs';
 
 jest.mock('../ipc');
 

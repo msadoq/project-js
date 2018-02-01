@@ -1,6 +1,17 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : fix editor opening per view and rename longData to convertData
+// VERSION : 1.1.2 : FA : ISIS-FT-1952 : 16/05/2017 : Apply filters considering data type
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
+// VERSION : 1.1.2 : DM : #6700 : 12/07/2017 : Fix bug with blob payload fields
+// VERSION : 1.1.2 : DM : #6700 : 19/07/2017 : Fix bug with blob payload fields
+// END-HISTORY
+// ====================================================================
+
 import { isLongValue, convertData, convertLongData, updateObjectValues } from './convertData';
 
-describe.skip('viewManager:commonData:convertData', () => {
+describe('viewManager:commonData:convertData', () => {
   describe('isLongValue', () => {
     test('should returns true if a longValue', () => {
       const data = { type: 'long' };
@@ -96,7 +107,7 @@ describe.skip('viewManager:commonData:convertData', () => {
         { myString: { type: 'string', value: 'myStr' },
           myTime: { type: 'long', value: 1485648450000, symbol: '1485648450000' } }] });
     });
-    test.skip('complex object', () => {
+    test('complex object', () => {
       const data = { pus003DiagPacket: [{
         pus003Packet: {
           sid: { type: 'uinteger', value: 100 },
@@ -122,6 +133,7 @@ describe.skip('viewManager:commonData:convertData', () => {
             validityParameterMask: { type: 'string', value: 'mySTRING' },
             validityParameterExpectedValue: { type: 'double', symbol: '88.0390526054104' },
             collectionInterval: { type: 'duration', value: 4242 },
+            miscInterval: { type: 'duration', value: Infinity },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },
@@ -152,7 +164,7 @@ describe.skip('viewManager:commonData:convertData', () => {
             validityParameterMask: { type: 'string', value: 'mySTRING' },
             validityParameterExpectedValue:
               { type: 'double', symbol: '88.0390526054104', value: '88.0390526054104' },
-            collectionInterval: { type: 'duration', value: 4242 },
+            collectionInterval: { type: 'duration', value: '0:0:4.242' },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },
@@ -171,7 +183,8 @@ describe.skip('viewManager:commonData:convertData', () => {
             validityParameterMask: { type: 'string', value: 'mySTRING' },
             validityParameterExpectedValue:
               { type: 'double', symbol: '88.0390526054104', value: '88.0390526054104' },
-            collectionInterval: { type: 'duration', value: 4242 },
+            collectionInterval: { type: 'duration', value: '0:0:4.242' },
+            miscInterval: { type: 'duration', value: '-' },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },
@@ -186,7 +199,7 @@ describe.skip('viewManager:commonData:convertData', () => {
             validityParameterMask: { type: 'string', value: 'mySTRING' },
             validityParameterExpectedValue:
               { type: 'double', symbol: '88.0390526054104', value: '88.0390526054104' },
-            collectionInterval: { type: 'duration', value: 4242 },
+            collectionInterval: { type: 'duration', value: '0:0:4.242' },
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },

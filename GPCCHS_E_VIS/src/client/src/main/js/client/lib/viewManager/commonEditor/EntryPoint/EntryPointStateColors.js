@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : importing exact path instead of .. from index.js .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 19/07/2017 : Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import {
   reduxForm,
@@ -5,17 +13,8 @@ import {
 } from 'redux-form';
 import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
-import StateColorsFields from '../Fields/StateColorsFields';
-import ClearSubmitButtons from '../../../windowProcess/commonReduxForm/ClearSubmitButtons';
-
-/*
-const filters = [
-  'convertedValue', 'extractedValue', 'groundDate',
-  'isNominal', 'isObsolete', 'monitoringState',
-  'onBoardDate', 'rawValue', 'triggerOffCounter',
-  'triggerOnCounter', 'validityState'
-];
-*/
+import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
+import StateColorsFields from 'viewManager/commonEditor/Fields/StateColorsFields';
 
 const EntryPointStateColors = (props) => {
   const {

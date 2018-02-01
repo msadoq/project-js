@@ -26,6 +26,9 @@ Object {
         },
       ],
       "type": "timeBarConfiguration",
+      "visuWindow": Object {
+        "defaultWidth": 900000,
+      },
     },
   ],
   "type": "WorkSpace",
@@ -89,6 +92,9 @@ exports[`documentManager/writeWorkspace writeWorkspaceAs saves 1`] = `
       \\"speed\\": 1,
       \\"masterId\\": \\"Session 1\\",
       \\"mode\\": \\"Normal\\",
+      \\"visuWindow\\": {
+        \\"defaultWidth\\": 900000
+      },
       \\"timelines\\": [
         {
           \\"color\\": null,

@@ -1,8 +1,16 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Add "make" prefix to each documents middleware
+// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Write documents/onCloseView middleware unit tests
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import _ from 'lodash/fp';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import * as types from 'store/types';
 import makeOnCloseView from './onCloseView';
-import * as types from '../../../types';
 
 let saveViewError = false;
 const documentManager = {

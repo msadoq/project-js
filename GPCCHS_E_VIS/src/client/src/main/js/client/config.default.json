@@ -33,12 +33,42 @@
     "PacketView": 3600000
   },
   "STATE_COLORS": {
-    "alarm": "darkorange",
-    "critical": "darkred",
-    "outOfRange": "darkred",
-    "severe": "#FF0000",
-    "danger": "#FF0000",
-    "warning": "#FFFF00"
+    "nominal": [
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#2ecc71" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
+    ],
+    "warning": [
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#f1c40f" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
+    ],
+    "danger": [
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#e67e22" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
+    ],
+    "severe": [
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#d35400" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
+    ],
+    "critical": [
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#e74c3c" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
+    ],
+    "outOfRange": [
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#c0392b" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
+    ]
   },
   "FORECAST": 30000,
   "FORECAST_TRIGGER" : 5000,
@@ -177,5 +207,6 @@
       "path" : "./adapters/",
       "ns" :"dc"
     }
-  ]
+  ],
+  "DISABLE_LOKI_CACHE": false
 }

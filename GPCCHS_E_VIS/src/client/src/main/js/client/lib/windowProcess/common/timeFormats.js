@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 22/02/2017 : Standardized time formats between Timebar and PlotView, between moment JS and D3 JS.
+// VERSION : 1.1.2 : DM : #3622 : 22/02/2017 : Offsets displayed in tooltip !!!
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing decorator on DEBUG only (for each process) - Move decorator on makeSlave/MasterDispatcher
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing info to meta action's
+// VERSION : 1.1.2 : DM : #6700 : 13/09/2017 : Cleanup action computing times code
+// END-HISTORY
+// ====================================================================
+
 function fi(i) {
   const s = i.toString();
   if (s.length === 1) return `0${s}`;

@@ -1,3 +1,23 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6829 : 30/06/2017 : Grizzly parametric first draft 1.0
+// VERSION : 1.1.2 : DM : #6829 : 03/07/2017 : Grizzly Parametric, second draft, X axes top/bottom, Y axes right/left. 1.1
+// VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Few tooltip revisions + Zones.
+// VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Grizzly parametric version 1.3 : magnet points.
+// VERSION : 1.1.2 : FA : #7185 : 05/07/2017 : Fix lint errors and warnings
+// VERSION : 1.1.2 : DM : #6830 : 24/07/2017 : Reproducing styles memoization for Grizzly Parametric.
+// VERSION : 1.1.2 : DM : #6830 : 25/07/2017 : Parametric PlotView : logarithmic axes available.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6835 : 25/08/2017 : GrizzlyParametric: removed unused methods in Chart, put plot lines before grid.
+// VERSION : 1.1.2 : DM : #6835 : 06/09/2017 : Restored perfOutput for grizzly parametric .
+// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+// VERSION : 1.1.2 : DM : #6835 : 12/09/2017 : Fixed two lint errors in PlotView Editor and View.
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+// VERSION : 1.1.2 : FA : #7756 : 15/09/2017 : Fixed error when using lasso and Y Axis on right.
+// VERSION : 1.1.2 : FA : #7814 : 19/09/2017 : GrizzlyParametric now also works with indexes and data.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
@@ -10,7 +30,7 @@ import _throttle from 'lodash/throttle';
 import _debounce from 'lodash/debounce';
 import _each from 'lodash/fp/each';
 import { scaleLinear, scaleLog } from 'd3-scale';
-import styles from './GrizzlyChart.css';
+import keyCodes from 'common/utils/keymap';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
 
 import LinesCanvas from './LinesCanvas';
@@ -18,7 +38,7 @@ import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
 import Zones from './Zones';
-import keyCodes from '../../../../../common/utils/keymap';
+import styles from './GrizzlyChart.css';
 import Reset from './Reset';
 import { axisType, lineType } from './types';
 
@@ -45,6 +65,7 @@ export default class Chart extends React.Component {
     yAxes: arrayOf(axisType.isRequired).isRequired,
     lines: arrayOf(lineType.isRequired).isRequired,
     linesListener: func.isRequired,
+    zoomPanListener: func.isRequired,
   };
   static defaultProps = {
     yAxesAt: 'left',
@@ -132,47 +153,34 @@ export default class Chart extends React.Component {
   onWheel = (e) => {
     e.preventDefault();
     const { allowXZoom, allowYZoom } = this.props;
-    const { zoomLevels, ctrlPressed } = this.state;
+    const { zoomLevels } = this.state;
 
-    if (ctrlPressed) {
-      const hoveredAxis = this.wichAxisIsHovered(e);
-      const hoveredAxisId = hoveredAxis ? hoveredAxis[0] : null;
-      if (hoveredAxisId && ((allowXZoom && hoveredAxis[2] === 'X') || (allowYZoom && hoveredAxis[2] === 'Y'))) {
-        const zoomLevel = _get(zoomLevels, hoveredAxisId, 1);
-        const newZoomLevels = {
-          ...zoomLevels,
-          [hoveredAxisId]: zoomLevel * (e.deltaY > 0 ? 0.9 : 1.1),
-        };
-        this.setState({
-          zoomLevels: newZoomLevels,
-        });
-        this.dispatchOnZoomOrPan();
-      }
+    const hoveredAxis = this.wichAxisIsHovered(e);
+    const hoveredAxisId = hoveredAxis ? hoveredAxis[0] : null;
+    if (hoveredAxisId && ((allowXZoom && hoveredAxis[2] === 'X') || (allowYZoom && hoveredAxis[2] === 'Y'))) {
+      const zoomLevel = _get(zoomLevels, hoveredAxisId, 1);
+      const newZoomLevels = {
+        ...zoomLevels,
+        [hoveredAxisId]: zoomLevel * (e.deltaY > 0 ? 0.9 : 1.1),
+      };
+      this.setState({
+        zoomLevels: newZoomLevels,
+      });
+      this.dispatchOnZoomOrPan();
     }
   };
 
   onMouseDown = (e) => {
     e.preventDefault();
-    const { allowXZoom, allowYZoom, allowLasso } = this.props;
-    const { pans, ctrlPressed, shiftPressed } = this.state;
+    const { allowLasso } = this.props;
+    const { shiftPressed } = this.state;
     if (!this.onMouseMoveThrottle) {
       this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
     }
     const hoveredAxis = this.wichAxisIsHovered(e);
     const hoveredAxisId = hoveredAxis ? hoveredAxis[0] : null;
-    const hoveredAxisType = hoveredAxis ? hoveredAxis[2] : null;
-    if (ctrlPressed && hoveredAxisId && ((allowXZoom && hoveredAxis[2] === 'X') || (allowYZoom && hoveredAxis[2] === 'Y'))) {
-      const pan = _get(pans, hoveredAxisId, 0);
-      this.setState({
-        mouseMoveCursorOriginY: e.pageY,
-        mouseMoveCursorOriginX: e.pageX,
-        panAxisId: hoveredAxisId,
-        panAxisType: hoveredAxisType,
-        panOrigin: pan,
-      });
-      document.addEventListener('mousemove', this.onMouseMoveThrottle);
-      document.addEventListener('mouseup', this.onMouseUp);
-    } else if (shiftPressed && allowLasso && !hoveredAxisId) {
+
+    if (shiftPressed && allowLasso && !hoveredAxisId) {
       this.setState({
         mouseMoveCursorOriginX: e.pageX,
         mouseMoveCursorOriginY: e.pageY,
@@ -190,25 +198,10 @@ export default class Chart extends React.Component {
     const {
       mouseMoveCursorOriginX,
       mouseMoveCursorOriginY,
-      panAxisId,
-      panAxisType,
-      pans,
-      panOrigin,
-      zoomLevels,
       lassoing,
     } = this.state;
-    if (panAxisId) {
-      const axisZoomLevel = _get(zoomLevels, panAxisId, 1);
-      const newPans = {
-        ...pans,
-        [panAxisId]: panAxisType === 'X' ?
-          panOrigin + ((e.pageX - mouseMoveCursorOriginX) / axisZoomLevel) :
-          panOrigin + ((mouseMoveCursorOriginY - e.pageY) / axisZoomLevel),
-      };
-      this.setState({
-        pans: newPans,
-      });
-    } else if (lassoing) {
+
+    if (lassoing) {
       this.setState({
         lassoX: e.pageX - mouseMoveCursorOriginX,
         lassoY: e.pageY - mouseMoveCursorOriginY,
@@ -282,14 +275,6 @@ export default class Chart extends React.Component {
         panning: false,
         lassoX: 0,
         lassoY: 0,
-      });
-      this.dispatchOnZoomOrPan();
-    } else {
-      this.setState({
-        panAxisId: null,
-        panOrigin: null,
-        mouseMoveCursorOriginX: null,
-        mouseMoveCursorOriginY: null,
       });
       this.dispatchOnZoomOrPan();
     }
@@ -373,19 +358,17 @@ export default class Chart extends React.Component {
    */
   getLabelPosition = axisId => Object.values(this.labelsPosition || {})
     .filter(lp => lp.concernedAxes.includes(axisId));
-  dispatchOnZoomOrPan = _debounce(() => {
-    const event = {};
-    _each((line) => {
-      event[line.id] = {
-        width: this.chartWidth,
-        height: this.chartHeight,
-        xExtents: line.xAxis.calculatedExtents,
-        yExtents: line.yAxis.calculatedExtents,
-      };
-    }, this.linesUniq);
 
-    this.props.linesListener(event);
-  }, Chart.DEBOUNCE_DELAY);
+  setPan = (axisId, pan) => {
+    this.setState({
+      pans: {
+        ...this.state.pans,
+        [axisId]: pan,
+      },
+    });
+    this.dispatchOnZoomOrPan();
+  }
+
   /**
    * @param axis
    * @param pairLines
@@ -604,7 +587,23 @@ export default class Chart extends React.Component {
       pans: {},
     });
     this.dispatchOnZoomOrPan();
-    this.dispatchOnZoomOrPan();
+  };
+
+  dispatchOnZoomOrPan = () => {
+    this.props.zoomPanListener();
+    _debounce(() => {
+      const event = {};
+      _each((line) => {
+        event[line.id] = {
+          width: this.chartWidth,
+          height: this.chartHeight,
+          xExtents: line.xAxis.calculatedExtents,
+          yExtents: line.yAxis.calculatedExtents,
+        };
+      }, this.linesUniq);
+
+      this.props.linesListener(event);
+    }, Chart.DEBOUNCE_DELAY);
   };
 
   render() {
@@ -628,7 +627,6 @@ export default class Chart extends React.Component {
     } = this.props;
 
     const {
-      ctrlPressed,
       lassoX,
       lassoY,
       shiftPressed,
@@ -822,7 +820,8 @@ export default class Chart extends React.Component {
         }
         {
           <Zones
-            ctrlPressed={ctrlPressed}
+            allowXPan={allowXPan}
+            allowYPan={allowYPan}
             shiftPressed={shiftPressed}
             lassoX={lassoX}
             lassoY={lassoY}
@@ -840,6 +839,9 @@ export default class Chart extends React.Component {
             height={height}
             width={width}
             divStyle={this.divStyle}
+            setPan={this.setPan}
+            pans={this.state.pans}
+            zoomLevels={this.state.zoomLevels}
           />
         }
       </div>

@@ -1,6 +1,12 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Move inspector middleware in a folder
+// END-HISTORY
+// ====================================================================
+
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as types from '../../types';
+import * as types from 'store/types';
 import makeInspectorMiddleware from './';
 
 const rtdManager = {

@@ -1,3 +1,11 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : PlotView legend : left right top bottom.
+// VERSION : 1.1.2 : FA : #7185 : 05/07/2017 : Fix lint errors and warnings
+// VERSION : 1.1.2 : DM : #6829 : 11/07/2017 : PlotView legend and legend location : defaultValues.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes } from 'react';
 import ViewParamsForm from './ViewParamsForm';
 

@@ -1,12 +1,19 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import fs, { access, accessSync, mkdir, readFileSync } from 'fs';
 import rimraf from 'rimraf';
 import { join, resolve } from 'path';
 import { compose, prop, split } from 'lodash/fp';
 import sinon from 'sinon';
 
-import { MIME_TYPES } from '../../constants';
+import { MIME_TYPES } from 'constants';
 
-import { getTmpPath } from '../../common/jest';
+import { getTmpPath } from 'common/jest';
 import * as fmdApi from './fmd';
 import * as io from './io';
 

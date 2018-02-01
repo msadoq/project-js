@@ -1,3 +1,13 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Add a jest snapshot serializer to ignore uuid in messages redux actions
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Write onSavePage tests + refacto jest serializers
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
+
 import 'babel-polyfill';
 import { set } from 'lodash';
 import _, { difference, intersection } from 'lodash/fp';
@@ -17,14 +27,42 @@ global.testConfig = {
   VISUWINDOW_MAX_LENGTH: 42,
   VISUWINDOW_CURRENT_UPPER_MIN_MARGIN: 0.1,
   STATE_COLORS: {
-    alarm: 'orangered',
-    critical: 'red',
-    info: 'white',
-    outOfRange: 'grey',
-    severe: 'darkred',
-    warning: 'orange',
-    nonsignificant: 'lightgrey',
-    obsolete: 'tan',
+    nominal: [
+      { obsolete: true, significant: true, color: '#3498db' },
+      { obsolete: true, significant: false, color: '#bdc3c7' },
+      { obsolete: false, significant: true, color: '#2ecc71' },
+      { obsolete: false, significant: false, color: '#95a5a6' },
+    ],
+    warning: [
+      { obsolete: true, significant: true, color: '#3498db' },
+      { obsolete: true, significant: false, color: '#bdc3c7' },
+      { obsolete: false, significant: true, color: '#f1c40f' },
+      { obsolete: false, significant: false, color: '#95a5a6' },
+    ],
+    danger: [
+      { obsolete: true, significant: true, color: '#3498db' },
+      { obsolete: true, significant: false, color: '#bdc3c7' },
+      { obsolete: false, significant: true, color: '#e67e22' },
+      { obsolete: false, significant: false, color: '#95a5a6' },
+    ],
+    severe: [
+      { obsolete: true, significant: true, color: '#3498db' },
+      { obsolete: true, significant: false, color: '#bdc3c7' },
+      { obsolete: false, significant: true, color: '#d35400' },
+      { obsolete: false, significant: false, color: '#95a5a6' },
+    ],
+    critical: [
+      { obsolete: true, significant: true, color: '#3498db' },
+      { obsolete: true, significant: false, color: '#bdc3c7' },
+      { obsolete: false, significant: true, color: '#e74c3c' },
+      { obsolete: false, significant: false, color: '#95a5a6' },
+    ],
+    outOfRange: [
+      { obsolete: true, significant: true, color: '#3498db' },
+      { obsolete: true, significant: false, color: '#bdc3c7' },
+      { obsolete: false, significant: true, color: '#c0392b' },
+      { obsolete: false, significant: false, color: '#95a5a6' },
+    ],
   },
   DEFAULT_FIELD: {
     ReportingParameter: 'extractedValue',

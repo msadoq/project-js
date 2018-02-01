@@ -1,5 +1,25 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 21/07/2017 : Create loki model and its test
+// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : update of loki manager .
+// VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Branch full cycle mechanism for rangeData
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Update some tests . . .
+// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update tests and implementation . .
+// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
+// VERSION : 1.1.2 : DM : #6700 : 23/08/2017 : Update cache clean mechanism in dev tools
+// VERSION : 1.1.2 : DM : #6700 : 24/08/2017 : Clean console log . . .
+// END-HISTORY
+// ====================================================================
+
+import _ from 'lodash/fp';
+import { get } from 'common/configurationManager';
+
 const logger = require('../../common/logManager')('models:timebasedData');
 const database = require('./loki');
+
+const isCacheDisabled = String(get('DISABLE_LOKI_CACHE')) === 'true';
 
 // List of the tbdId indexing a lokiJs collection
 const tbdIds = [];
@@ -237,12 +257,14 @@ const removeAllExceptIntervals = (toKeep) => {
   }
 };
 
+const getDb = () => database;
+
 export default {
   getCollection,
   getLastRecords,
   getRangesRecords,
   removeRecords,
-  addRecord,
+  addRecord: isCacheDisabled ? _.noop : addRecord,
   addRecords,
   listCollections,
   removeCollection,
@@ -251,4 +273,5 @@ export default {
   displayCollection,
   removeAllExceptIntervals,
   getChargeLoki,
+  getDb,
 };

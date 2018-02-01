@@ -1,14 +1,21 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : importing exact path instead of .. from index.js .
+// END-HISTORY
+// ====================================================================
+
 import React from 'react';
 import { Field, FormSection } from 'redux-form';
 import {
   InputGroup,
   Col,
 } from 'react-bootstrap';
-import HorizontalFormGroup from '../../../windowProcess/commonReduxForm/HorizontalFormGroup';
-import ButtonToggleField from '../../../windowProcess/commonReduxForm/ButtonToggleField';
-import ColorPickerField from '../../../windowProcess/commonReduxForm/ColorPickerField';
-import InputField from '../../../windowProcess/commonReduxForm/InputField';
-import SelectButtonField from '../../../windowProcess/commonReduxForm/SelectButtonField';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
+import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
 import SelectFontField from '../Fields/SelectFontField';
 
 const { Addon } = InputGroup;

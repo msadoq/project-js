@@ -1,3 +1,39 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in dataManager.
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : New legend toggable on plotview !
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Grizzly: autoTick and tickStep are taken into consideration.
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Format tooltip line function is given in props, and no longer resides in Tooltip.
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Adapting PlotView and Grizzly for the new data structure.
+// VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Grizzly : perfOutput as an option, log lines number, points number and axis.
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : PlotView and Grizzly : user can configure tickStep, autoTick and showTicks for x axis.
+// VERSION : 1.1.2 : FA : #6130 : 29/03/2017 : Axis time props in Grizzly : fixing propstypes, object instead of array.
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : PlotView : horizontal zoom inverted, same as timebar.
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Tooltip renders on each ticks. Even if mouse doesn't move.
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : Fix Grizzly error when axis is removed, and still in Charts.js state (panned or zoomed).
+// VERSION : 1.1.2 : DM : #6835 : 31/05/2017 : First draft for parametric PlotView, x axis becomes basic axis with numb values.
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 13/06/2017 : Prep for point labels option on PlotView.
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 1.1.2 : DM : #6829 : 22/06/2017 : Working logarithmic scale for Y axes on PlotView.
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : Grizzly : memoizing scales on a per axis basis.
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : PlotView legend : left right top bottom.
+// VERSION : 1.1.2 : DM : #6835 : 18/07/2017 : PlotView's lines take string instead of function for colorAccessor attribute.
+// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Few changes to Grizzly/Chart to display a background-dedicated div.
+// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
+// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Grizzly/PlotView : having only one method on Chart to calculate position styles for ToolTip, LinesCanvas and Background divs.
+// VERSION : 1.1.2 : DM : #6830 : 21/07/2017 : Interactive logarithmic y axes on PlotView.
+// VERSION : 1.1.2 : DM : #6830 : 21/07/2017 : Fixed issue with Y logarithmic axis not updating when base changes.
+// VERSION : 1.1.2 : DM : #6830 : 21/07/2017 : PlotView -> logarithmic axis : base can be anything: 2, 10, 12....
+// VERSION : 1.1.2 : DM : #6830 : 25/07/2017 : Get the current cursor back on PlotView.
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 1.1.2 : DM : #6835 : 25/08/2017 : No parametric bool prop in Grizzly, there is a dedicated GrizzlyParametric. Curves must be above grid.
+// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+// VERSION : 1.1.2 : FA : #7756 : 15/09/2017 : Fixed error when using lasso and Y Axis on right.
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using indexes to iterate.
+// END-HISTORY
+// ====================================================================
+
 import React, { PropTypes, Component } from 'react';
 import _memoize from 'lodash/memoize';
 import _max from 'lodash/max';

@@ -1,8 +1,14 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add unit test on missing interval computing
+// END-HISTORY
+// ====================================================================
+
 /* eslint-disable camelcase */
 import _cloneDeep from 'lodash/cloneDeep';
+import state from 'common/jest/stateTest';
+import dataMapGenerator from 'dataManager/map';
 import computeMissingLastIntervals from './computeMissingLastIntervals';
-import state from '../../common/jest/stateTest';
-import dataMapGenerator from '../../dataManager/map';
 
 describe('store/observers/computeMissingLastIntervals', () => {
   const dataId_CLCW_TM_NOMINAL = {

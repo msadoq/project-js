@@ -1,0 +1,264 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#6829.txt
+
+
+Reference changement : #6829
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.plot.json
+	Plot axes log settings stored in store and documents.
+	showLegend information stored in file.
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview10.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview4.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot10.json (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js
+	showLegend information stored in file.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorForm.js
+	Resolved issue on empty ReactSelectFields, by calling this.props.reset() onMount.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointConnectedData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddEntryPoint.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxis.js
+	Plot axes log settings stored in store and documents.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxisWrapper.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.js
+	Resolved issue on empty ReactSelectFields, by calling this.props.reset() onMount.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotAxes.js
+	Fixed error when droping entrypoint in PlotView.
+	Plot axes log settings stored in store and documents.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotTab.js
+	PlotView legend : left right top bottom.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParams.js
+	PlotView legend and legend location : defaultValues.
+	PlotView legend : left right top bottom.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsContainer.js
+	PlotView legend : left right top bottom.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsForm.js
+	Resolved issue on empty ReactSelectFields, by calling this.props.reset() onMount.
+	PlotView legend : left right top bottom.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Chart.js
+	Grizzly : memoizing scales on a per axis basis.
+	PlotView legend : left right top bottom.
+	Working logarithmic scale for Y axes on PlotView.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/GrizzlyChart.css
+	Working logarithmic scale for Y axes on PlotView.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+	linesCanvas prop lines[n].yAccessor is not mandatory.
+	PlotView default yAccessor : .value instead of .y
+	PlotView perfOutput is available, just set perOutput={true} to Grizzly.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js
+	PlotView default yAccessor : .value instead of .y
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/YAxis.js
+	PlotView : line[n].yAccessor is not mandatory.
+	Working logarithmic scale for Y axes on PlotView.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Zones.js
+	Working logarithmic scale for Y axes on PlotView.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+	Few tooltip revisions + Zones.
+	Grizzly parametric version 1.3 : magnet points.
+	Grizzly Parametric, second draft, X axes top/bottom, Y axes right/left. 1.1
+	Grizzly parametric first draft 1.0
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/CurrentCursorCanvas.js
+	Grizzly parametric first draft 1.0
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/GrizzlyChart.css
+	Few tooltip revisions + Zones.
+	Grizzly parametric version 1.3 : magnet points.
+	Grizzly Parametric, second draft, X axes top/bottom, Y axes right/left. 1.1
+	Grizzly parametric first draft 1.0
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LinesCanvas.js
+	Grizzly Parametric, second draft, X axes top/bottom, Y axes right/left. 1.1
+	Grizzly parametric first draft 1.0
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Tooltip.js
+	Added format X and Y to tooltip. Grizzly Parametric.
+	Few tooltip revisions + Zones.
+	Grizzly parametric version 1.3 : magnet points.
+	Grizzly parametric first draft 1.0
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/XAxis.js
+	Added format X and Y to tooltip. Grizzly Parametric.
+	Grizzly parametric version 1.3 : magnet points.
+	Grizzly Parametric, second draft, X axes top/bottom, Y axes right/left. 1.1
+	Grizzly parametric first draft 1.0
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/XAxisParametric.js
+	Grizzly parametric version 1.3 : magnet points.
+	Grizzly parametric first draft 1.0
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/YAxis.js
+	Added format X and Y to tooltip. Grizzly Parametric.
+	Grizzly parametric version 1.3 : magnet points.
+	Grizzly Parametric, second draft, X axes top/bottom, Y axes right/left. 1.1
+	Grizzly parametric first draft 1.0
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Zones.js
+	Few tooltip revisions + Zones.
+	Grizzly parametric first draft 1.0
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.css
+	PlotView legend : left right top bottom.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+	PlotView default yAccessor : .value instead of .y
+	PlotView legend : left right top bottom.
+	Plot axes log settings stored in store and documents.
+	Working logarithmic scale for Y axes on PlotView.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/PlotView.schema.json
+	Plot axes log settings stored in store and documents.
+	showLegend information stored in file.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/prepareViewForStore.js
+	Fixing incorrect hexadecimal value, 3FFFFFF -> #FFFFFF .
+	PlotView legend and legend location : defaultValues.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/axes.js
+	Plot axes log settings stored in store and documents.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointConnectedData.js
+	Resolved issue on empty ReactSelectFields, by calling this.props.reset() onMount.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.js
+	RV : perform dom updates only if necessaries, keeping attributes color, title and value (innerHTML) in memory.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsForm.js
+	Resolved issue on empty ReactSelectFields, by calling this.props.reset() onMount.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/AddTimeline.spec.js.snap
+	ReduxForm fix - Update corresponding snapshot tests.
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/EditTimeline.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/InputField.js
+	ReduxForm fix - InputField's value isn't set by props.input.value.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/TextareaField.js
+	ReduxForm fix - TextAreaField value is not set upon props.input.value.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/InputField.spec.js.snap
+	ReduxForm fix - Update corresponding snapshot tests.
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pbf.plot.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview10.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plotview4.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/supsup.plot10.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxisWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotAxes.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/GrizzlyChart.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Tooltip.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/YAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/Zones.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Legend.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/PlotView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/prepareViewForStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/axes.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/AddTimeline.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/EditTimeline.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/InputField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/TextareaField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/__snapshots__/InputField.spec.js.snap
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParams.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/CurrentCursorCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/GrizzlyChart.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LinesCanvas.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Tooltip.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/XAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/YAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Zones.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

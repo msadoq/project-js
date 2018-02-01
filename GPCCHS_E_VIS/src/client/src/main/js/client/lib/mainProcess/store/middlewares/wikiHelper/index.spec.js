@@ -1,7 +1,13 @@
-import configureMockStore from 'redux-mock-store';
-import makeWikiHelperMiddleware from './';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add jest unit tests to wikiHelper middleware
+// END-HISTORY
+// ====================================================================
 
-import * as types from '../../../../store/types';
+import configureMockStore from 'redux-mock-store';
+import * as types from 'store/types';
+
+import makeWikiHelperMiddleware from './';
 
 let urlOpened = null;
 let fakeUrl = null;

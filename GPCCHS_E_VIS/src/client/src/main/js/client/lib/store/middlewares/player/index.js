@@ -1,22 +1,35 @@
-import { getPage } from '../../reducers/pages';
-import { getTimebar } from '../../reducers/timebars';
-import { getPlayingTimebarId } from '../../reducers/hsc';
-import { getHealthMap } from '../../reducers/health';
-import { getIsCodeEditorOpened } from '../../reducers/codeEditor';
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Player middleware now pause when focus a page with another timebar
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Refacto player middleware + move store/play.js
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Add realTimeHandler and goNowHandler in player middleware
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Remove Timebar/Controls/ControlsSelectors + tests .
+// VERSION : 1.1.2 : DM : #6129 : 27/06/2017 : merge dev on abesson-mimic branch .
+// VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Change interval signature in common/utils/interval
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rename all create* middleware by make*
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// END-HISTORY
+// ====================================================================
 
-import { updateCursors, switchToRealtimeMode, moveTo } from '../../actions/timebars';
-import { pause } from '../../actions/hsc';
+import { getPage } from 'store/reducers/pages';
+import { getTimebar } from 'store/reducers/timebars';
+import { getPlayingTimebarId } from 'store/reducers/hsc';
+import { getHealthMap } from 'store/reducers/health';
+import { getIsCodeEditorOpened } from 'store/reducers/codeEditor';
 
-import { add as addMessage } from '../../actions/messages';
-import { isAnyEditorOpened } from '../../selectors/pages';
-import { getCurrentSessionId } from '../../selectors/sessions';
+import { updateCursors, switchToRealtimeMode, moveTo } from 'store/actions/timebars';
+import { pause } from 'store/actions/hsc';
 
-import createInterval from '../../../common/utils/interval';
-import { HEALTH_STATUS_CRITICAL } from '../../../constants';
+import ipc from 'serverProcess/ipc';
+import { isAnyEditorOpenedInWindow } from 'store/selectors/pages';
+import { getCurrentSessionId } from 'store/selectors/sessions';
+
+import createInterval from 'common/utils/interval';
+import { HEALTH_STATUS_CRITICAL } from 'constants';
+import * as types from 'store/types';
+import { add as addMessage } from 'store/actions/messages';
+
 import { nextCurrent, computeCursors } from './cursors';
-import * as types from '../../types';
-
-import ipc from '../../../serverProcess/ipc';
 
 const nextTick = (delta, currentUpperMargin, dispatch, getState) => {
   const state = getState();
@@ -35,6 +48,7 @@ const nextTick = (delta, currentUpperMargin, dispatch, getState) => {
   );
   const nextCursors = computeCursors(
     newCurrent,
+    playingTimebar.visuWindow.current,
     playingTimebar.visuWindow.lower,
     playingTimebar.visuWindow.upper,
     playingTimebar.slideWindow.lower,
@@ -54,7 +68,7 @@ const playHandler = ({ dispatch, getState, interval, currentUpperMargin }, next,
   const health = getHealthMap(state);
   if (
     getIsCodeEditorOpened(state)
-    || isAnyEditorOpened(state)
+    || isAnyEditorOpenedInWindow(state)
   ) {
     dispatch(addMessage(
       'global',
@@ -76,7 +90,7 @@ const playHandler = ({ dispatch, getState, interval, currentUpperMargin }, next,
     dispatch(addMessage(
       'global',
       'warning',
-      'One process of the application is oveloaded, cannot switch to play'
+      'One process of the application is overloaded, cannot switch to play'
       )
     );
   }
@@ -88,10 +102,9 @@ const pauseHandler = ({ interval }, next, action) => {
   return next(action);
 };
 
-const openEditorHandler = ({ dispatch }, next, action) => {
-  dispatch(pause());
-  return next(action);
-};
+const openEditorHandler = ({ dispatch }, next, action) => (
+  next(action)
+);
 
 const focusPageHandler = ({ dispatch, getState }, next, action) => {
   const state = getState();

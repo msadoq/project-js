@@ -13,6 +13,7 @@ Component : GPCC
 # Start of user code HistoryZone
 # HISTORY
 # 
+# VERSION : 1.1.2 : FA : #7472 : 01/09/2017 : Update javascript VIMA launcher to used iedit and manage the features it launch, remove the old launcher
 # END-HISTORY
 # End of user code HistoryZone
 # ====================================================================

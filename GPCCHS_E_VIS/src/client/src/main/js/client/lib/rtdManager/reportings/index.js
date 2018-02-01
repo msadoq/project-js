@@ -1,3 +1,15 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : first draft on inspector: retrieve data from rtd on right-click
+// VERSION : 1.1.2 : DM : #3622 : 08/03/2017 : update rtdManager tests and onOpenInspector controller
+// VERSION : 1.1.2 : DM : #5822 : 15/03/2017 : add styles for the inspector
+// VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : add context in dynamic view for opening parameter in inspector
+// VERSION : 1.1.2 : DM : #5822 : 03/04/2017 : update tests for rtd data retrieving
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : FA : ISIS-FT-1939 : 05/07/2017 : create rtdManager function to retrieve unit
+// END-HISTORY
+// ====================================================================
+
 import _get from 'lodash/get';
 import asyncParallel from 'async/parallel';
 import asyncEach from 'async/each';

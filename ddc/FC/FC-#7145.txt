@@ -1,0 +1,587 @@
+#GPCCHS 1.1.2 02/10/2017 FC-#7145.txt
+
+
+Reference changement : #7145
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/interval.js
+	Compute delta time in createInterval utils
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+	Clean IPC about opening wiki helper + create a store folder in mainProcess
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenWikiHelper.js
+	Clean IPC about opening wiki helper + create a store folder in mainProcess
+	Catch errors when open wiki helper
+	Repair onOpenWikiHelper mainProcess controller .
+	
+	
+	
+	+ install opn dependency
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/electronManager/dialogObserver.js
+	Change openModal action, it now have a default dialogId
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+	Add sendProductLog middleware in serverProcess + replace old IPC productLog
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/ipc.js
+	Remove useless ipc in mainProcess + serverProcess controllers
+	
+	
+	
+	requestDomains / requestSessions / requestMasterSession
+	[FT:#7145] Add refactoring comments in ipc and controllers (main, server, renderer)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/index.js
+	Clean IPC about opening wiki helper + create a store folder in mainProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageAddBlank.js
+	Add sendProductLog middleware in serverProcess + replace old IPC productLog
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/viewAddBlank.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store.js
+	Clean IPC about opening wiki helper + create a store folder in mainProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/index.js
+	Fix little bug in wikiHelper middleware
+	Clean IPC about opening wiki helper + create a store folder in mainProcess
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper/__snapshots__/index.spec.js.snap
+	Add jest unit tests to wikiHelper middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper/index.js
+	Fix little bug in wikiHelper middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper/index.spec.js
+	Add jest unit tests to wikiHelper middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/storeEnhancer.js
+	Clean IPC about opening wiki helper + create a store folder in mainProcess
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/storeEnhancer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/index.js
+	Use rtdManager as dependency injection in inspector middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/index.js
+	Remove useless ipc in mainProcess + serverProcess controllers
+	
+	
+	
+	requestDomains / requestSessions / requestMasterSession
+	[FT:#7145] Add refactoring comments in ipc and controllers (main, server, renderer)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onDomainsQuery.js
+	Remove useless ipc in mainProcess + serverProcess controllers
+	
+	
+	
+	requestDomains / requestSessions / requestMasterSession
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onDomainsQuery.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onSessionsQuery.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onSessionsQuery.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/index.js
+	Refacto onFmdCreateData and onFmdGetData dc controllers
+	[FT:#7145] Add refactoring comments in ipc and controllers (main, server, renderer)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onFmdCreateData.js
+	Refacto onFmdCreateData and onFmdGetData dc controllers
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onFmdGetData.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/actions.spec.js.snap
+	Add sendProductLog middleware in serverProcess + replace old IPC productLog
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.js
+	Refacto onFmdCreateData and onFmdGetData dc controllers
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/index.js
+	Add sendProductLog middleware in serverProcess + replace old IPC productLog
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/ipc.js
+	Add sendProductLog middleware in serverProcess + replace old IPC productLog
+	Refacto onFmdCreateData and onFmdGetData dc controllers
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/store.js
+	Add sendProductLog middleware in serverProcess + replace old IPC productLog
+	Use rtdManager as dependency injection in inspector middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+	Add sendProductLog middleware in serverProcess + replace old IPC productLog
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/messages.js
+	Remove unused addOnce redux messages action
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/messages.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/ui.js
+	Clean IPC about opening wiki helper + create a store folder in mainProcess
+	Change openModal action, it now have a default dialogId
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/withListenAction.js
+	Use withListenAction enhancer in documents middleware
+	Add withListenAction middleware enhancer in store/helpers
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/inspector.spec.js.snap
+	Move inspector middleware in a folder
+	Write inspector middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/messages.spec.js.snap
+	Move messages middleware in a folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/helpers.js
+	Remove unused helpers in documents middleware
+	Change openModal action, it now have a default dialogId
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/openLink.spec.js
+	Use askOpenLink action creator in openLink unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onClosePage.spec.js.snap
+	Add "make" prefix to each documents middleware
+	Write documents/onClosePage middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onOpenPage.spec.js.snap
+	Add "make" prefix to each documents middleware
+	Write documents/onOpenPage middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onSavePage.spec.js.snap
+	Add "make" prefix to each documents middleware
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onClosePage.js
+	Use withListenAction enhancer in documents middleware
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onClosePage.spec.js
+	Add "make" prefix to each documents middleware
+	Write documents/onClosePage middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.js
+	Use withListenAction enhancer in documents middleware
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.spec.js
+	Add "make" prefix to each documents middleware
+	Write documents/onOpenPage middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.js
+	Use withListenAction enhancer in documents middleware
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.spec.js
+	Change openModal action, it now have a default dialogId
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.js
+	Remote unused selector in documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onCloseView.spec.js.snap
+	Add "make" prefix to each documents middleware
+	Write documents/onCloseView middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onOpenView.spec.js.snap
+	Add "make" prefix to each documents middleware
+	Write documents/onOpenView middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onReloadView.spec.js.snap
+	Add "make" prefix to each documents middleware
+	Update jest snapshots . .
+	Write documents/onReloadView middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveView.spec.js.snap
+	Add "make" prefix to each documents middleware
+	Update jest snapshots . .
+	Write documents/onSaveView middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveViewAsModel.spec.js.snap
+	Add "make" prefix to each documents middleware
+	Write documents/onSaveViewAsModel middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/index.js
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.js
+	Use withListenAction enhancer in documents middleware
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.spec.js
+	Add "make" prefix to each documents middleware
+	Write documents/onCloseView middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.js
+	Change openModal action, it now have a default dialogId
+	Use withlistenAction middleware enhancer in onOpenView
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.spec.js
+	Add "make" prefix to each documents middleware
+	Write documents/onOpenView middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onReloadView.js
+	Use withListenAction enhancer in documents middleware
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onReloadView.spec.js
+	Add "make" prefix to each documents middleware
+	Fix jest describe in onReloadView and onSaveView middlewares
+	Write documents/onReloadView middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.js
+	Use withListenAction enhancer in documents middleware
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.spec.js
+	Add "make" prefix to each documents middleware
+	Fix jest describe in onReloadView and onSaveView middlewares
+	Write documents/onSaveView middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.js
+	Use withListenAction enhancer in documents middleware
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.spec.js
+	Add "make" prefix to each documents middleware
+	Write documents/onSaveViewAsModel middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onCloseWorkspace.spec.js.snap
+	Write documents/onCloseWorkspace middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onOpenWorkspace.spec.js.snap
+	Use withlistenAction middleware enhancer in onOpenWorkspace
+	
+	
+	
+	+ fix bug (unsaved workspace)
+	+ add a test case
+	Write documents/onOpenWorkspace middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onSaveWorkspace.spec.js.snap
+	Write documents/onSaveWorkspace middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/index.js
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.js
+	Use withlistenAction middleware enhancer in onCloseWorkspace
+	Fix little bug in onCloseWorkspace middleware
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.spec.js
+	Write documents/onCloseWorkspace middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.js
+	Use withlistenAction middleware enhancer in onOpenWorkspace
+	
+	
+	
+	+ fix bug (unsaved workspace)
+	+ add a test case
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.spec.js
+	Use withlistenAction middleware enhancer in onOpenWorkspace
+	
+	
+	
+	+ fix bug (unsaved workspace)
+	+ add a test case
+	Write documents/onOpenWorkspace middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js
+	Use withlistenAction middleware enhancer in onSaveWorkspace
+	Add "make" prefix to each documents middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.spec.js
+	Write documents/onSaveWorkspace middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector.js
+	Move inspector middleware in a folder
+	Use rtdManager as dependency injection in inspector middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector.spec.js
+	Move inspector middleware in a folder
+	Write inspector middleware unit tests
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/__snapshots__/index.spec.js.snap
+	Move inspector middleware in a folder
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.js
+	Move messages middleware in a folder
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages/__snapshots__/index.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/productLog/__snapshots__/index.spec.js.snap
+	Add unit test for productLog middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/productLog/index.js
+	Add sendProductLog middleware in serverProcess + replace old IPC productLog
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/productLog/index.spec.js
+	Add unit test for productLog middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.js
+	Use withlistenAction middleware enhancer in onOpenWorkspace
+	
+	
+	
+	+ fix bug (unsaved workspace)
+	+ add a test case
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/dialog.spec.js
+	Change openModal action, it now have a default dialogId
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	Add sendProductLog middleware in serverProcess + replace old IPC productLog
+	Clean IPC about opening wiki helper + create a store folder in mainProcess
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditor.js
+	Fix renderer crash when titleStyle is missing
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditor.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/HelpContent.js
+	Clean IPC about opening wiki helper + create a store folder in mainProcess
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/HelpContentContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/Window.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/InputField.spec.js
+	Fix InputField component test .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+	Clean IPC about opening wiki helper + create a store folder in mainProcess
+	[FT:#7145] Add refactoring comments in ipc and controllers (main, server, renderer)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/store.js
+	Remove predicate in redux-logger, use redux-logger before ipc slave dispatcher to prevent for duplicate actions
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+	Repair onOpenWikiHelper mainProcess controller .
+	
+	
+	
+	+ install opn dependency
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/adaptersInstall.js
+	Refacto adaptersInstall script . .
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/interval.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/electronManager/dialogObserver.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageAddBlank.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/viewAddBlank.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/rtdManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onFmdCreateData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/onFmdGetData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/actions.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/hsc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/messages.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/ui.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/openLink.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onSavePage.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onClosePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onReloadView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/dialog.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/HelpContent.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/Window.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/InputField.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/adaptersInstall.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper/__snapshots__/index.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/storeEnhancer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/withListenAction.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onClosePage.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/__snapshots__/onOpenPage.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onClosePage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onCloseView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onOpenView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onReloadView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onSaveViewAsModel.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onReloadView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onCloseWorkspace.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onOpenWorkspace.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/__snapshots__/onSaveWorkspace.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/__snapshots__/index.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages/__snapshots__/index.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/productLog/__snapshots__/index.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/productLog/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/productLog/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/HelpContentContainer.js
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenWikiHelper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/storeEnhancer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onDomainsQuery.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onDomainsQuery.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onSessionsQuery.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onSessionsQuery.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/__snapshots__/messages.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/helpers.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages.spec.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

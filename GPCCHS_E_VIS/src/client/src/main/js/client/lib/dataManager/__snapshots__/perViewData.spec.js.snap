@@ -29,6 +29,8 @@ exports[`dataManager/perViewData plot view 1`] = `
 Object {
   "entryPoints": Object {
     "ATT_BC_REVTCOUNT1": Object {
+      "convertFrom": undefined,
+      "convertTo": undefined,
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -50,6 +52,8 @@ Object {
       "type": "PlotView",
     },
     "ATT_BC_REVTCOUNT1_Offset": Object {
+      "convertFrom": undefined,
+      "convertTo": undefined,
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -71,6 +75,8 @@ Object {
       "type": "PlotView",
     },
     "TMMGT_BC_VIRTCHAN3": Object {
+      "convertFrom": undefined,
+      "convertTo": undefined,
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -115,6 +121,8 @@ exports[`dataManager/perViewData text view 1`] = `
 Object {
   "entryPoints": Object {
     "AGA_AM_PRIORITY": Object {
+      "convertFrom": undefined,
+      "convertTo": undefined,
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -134,6 +142,8 @@ Object {
       "type": "TextView",
     },
     "AGA_AM_PRIOR_OFFSET": Object {
+      "convertFrom": undefined,
+      "convertTo": undefined,
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -156,6 +166,8 @@ Object {
       "error": "unable to parse this connectedData formula ",
     },
     "TMMGT_BC_VIRTCHAN3": Object {
+      "convertFrom": undefined,
+      "convertTo": undefined,
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",

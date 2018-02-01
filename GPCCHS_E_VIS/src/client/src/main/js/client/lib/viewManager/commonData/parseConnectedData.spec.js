@@ -23,6 +23,8 @@ describe('viewManager/commonData/parseConnectedData', () => {
       domain: 'cnes',
       timeline: 'tl1',
       filter: [],
+      convertFrom: 'g',
+      convertTo: 'kg',
     };
     timelines = [
       { id: 'tl1', sessionName: 'session1', offset: 0 },
@@ -95,6 +97,10 @@ describe('viewManager/commonData/parseConnectedData', () => {
       filters: [],
       field: 'extractedValue',
       offset: 0,
+      convert: {
+        from: 'g',
+        to: 'kg',
+      },
     });
   });
   test('decommuted param => no field', () => {
@@ -113,6 +119,10 @@ describe('viewManager/commonData/parseConnectedData', () => {
       filters: [],
       offset: 0,
       field: undefined,
+      convert: {
+        from: 'g',
+        to: 'kg',
+      },
     });
   });
   test('wildcard => view Data', () => {
@@ -133,6 +143,10 @@ describe('viewManager/commonData/parseConnectedData', () => {
       filters: [],
       field: 'extractedValue',
       offset: 0,
+      convert: {
+        from: 'g',
+        to: 'kg',
+      },
     });
   });
   test('wildcard => page Data', () => {
@@ -153,6 +167,10 @@ describe('viewManager/commonData/parseConnectedData', () => {
       filters: [],
       field: 'extractedValue',
       offset: 0,
+      convert: {
+        from: 'g',
+        to: 'kg',
+      },
     });
   });
   test('wildcard => workspace Data', () => {
@@ -173,6 +191,10 @@ describe('viewManager/commonData/parseConnectedData', () => {
       filters: [],
       field: 'extractedValue',
       offset: 0,
+      convert: {
+        from: 'g',
+        to: 'kg',
+      },
     });
   });
 });

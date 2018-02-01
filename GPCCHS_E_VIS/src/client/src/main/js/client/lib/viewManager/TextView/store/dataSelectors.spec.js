@@ -10,12 +10,12 @@
 // ====================================================================
 
 import moment from 'moment';
-import { getCount, getLastValue } from './dataSelectors';
+import dataSelectors from './dataSelectors';
 
 describe('viewManager/TextView/store/dataSelector', () => {
   describe('getCount', () => {
     test('counts data: empty state', () => {
-      expect(getCount({ TextViewData: {} })).toEqual({ all: 0 });
+      expect(dataSelectors.getCount({ TextViewData: {} })).toEqual({ all: 0 });
     });
     test('counts data', () => {
       const state = {
@@ -27,7 +27,7 @@ describe('viewManager/TextView/store/dataSelector', () => {
           v5: {},
         },
       };
-      expect(getCount(state)).toEqual({
+      expect(dataSelectors.getCount(state)).toEqual({
         v1: 1,
         v2: 3,
         v3: 0,
@@ -39,7 +39,7 @@ describe('viewManager/TextView/store/dataSelector', () => {
   });
   describe('getLastValue', () => {
     test('should support empty state', () => {
-      expect(getLastValue({ TextViewData: {} }, { epName: 'ep1', viewId: 'v1' })).toBeFalsy();
+      expect(dataSelectors.getLastValue({ TextViewData: {} }, { epName: 'ep1', viewId: 'v1' })).toBeFalsy();
     });
     test('should support empty props', () => {
       const state = {
@@ -50,8 +50,8 @@ describe('viewManager/TextView/store/dataSelector', () => {
           },
         },
       };
-      expect(getLastValue(state, { epName: 'ep1' })).toBeFalsy();
-      expect(getLastValue(state, { viewId: 'v1' })).toBeFalsy();
+      expect(dataSelectors.getLastValue(state, { epName: 'ep1' })).toBeFalsy();
+      expect(dataSelectors.getLastValue(state, { viewId: 'v1' })).toBeFalsy();
     });
     test('get last value', () => {
       const state = {
@@ -62,7 +62,7 @@ describe('viewManager/TextView/store/dataSelector', () => {
           },
         },
       };
-      expect(getLastValue(state, { epName: 'ep1', viewId: 'v1' })).toEqual({
+      expect(dataSelectors.getLastValue(state, { epName: 'ep1', viewId: 'v1' })).toEqual({
         timestamp: moment(123).utc().toISOString(),
         value: 1,
       });

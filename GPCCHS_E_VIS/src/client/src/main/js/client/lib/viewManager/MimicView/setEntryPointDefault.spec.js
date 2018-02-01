@@ -14,6 +14,8 @@ describe('viewManager', () => {
           filter: [],
           domain: get('WILDCARD_CHARACTER'),
           timeline: get('WILDCARD_CHARACTER'),
+          convertFrom: '',
+          convertTo: '',
         },
         stateColors: [],
       });

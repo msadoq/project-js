@@ -51,7 +51,22 @@ export default class EntryPointConnectedDataFields extends PureComponent {
             className="form-control input-sm"
           />
         </HorizontalFormGroup>
-
+        <HorizontalFormGroup label="Convert">
+          From
+          <Field
+            name="convertFrom"
+            type="text"
+            className="form-control input-sm"
+            component={InputField}
+          />
+          To
+          <Field
+            name="convertTo"
+            type="text"
+            className="form-control input-sm"
+            component={InputField}
+          />
+        </HorizontalFormGroup>
         <HorizontalFormGroup label="Domain">
           <DomainFieldContainer
             domainName={domain}

@@ -32,7 +32,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import { createStructuredSelector } from 'reselect';
 import _ from 'lodash/fp';
-import { getPageIdByViewId, getPage } from 'store/reducers/pages';
 import {
   addEntryPoint,
   updateContent,
@@ -44,12 +43,12 @@ import { getViewEntryPoints } from 'store/selectors/views';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
 import { getInspectorEpId } from 'store/reducers/inspector';
-import { getData } from 'viewManager/TextView/store/dataReducer';
+import { getData } from 'viewManager/TextView/store/dataSelectors';
 import { getViewContent } from 'viewManager/TextView/store/configurationSelectors';
 import { getLinks, areLinksShown } from 'store/reducers/views';
+import { getPageIdByViewId, getPage } from 'store/reducers/pages';
 import { getConfigurationByViewId } from 'viewManager';
 import TextViewWrapper from './TextViewWrapper';
-
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });

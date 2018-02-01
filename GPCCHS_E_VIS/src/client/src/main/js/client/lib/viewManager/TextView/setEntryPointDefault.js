@@ -17,6 +17,8 @@ const getNewTextEntryPoint = () => ({
   connectedData: {
     formula: '',
     unit: 's',
+    convertFrom: '',
+    convertTo: '',
     digits: 5,
     format: 'decimal',
     filter: [],

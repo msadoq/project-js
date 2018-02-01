@@ -71,11 +71,16 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
       if (!p[ep.field]) {
         continue;
       }
+
+      const valueComputed = (ep.convertTo && p.gpinuc && p.gpinuc[ep.field]) ?
+                            convertData(p.gpinuc[ep.field][ep.convertTo]) :
+                            convertData(p[ep.field]);
+
       if (timestamp >= previousTime) {
         newValue = {
           timestamp,
           value: {
-            value: convertData(p[ep.field]),
+            value: valueComputed,
             ...getStateColorObj(p, ep.stateColors),
           },
         };

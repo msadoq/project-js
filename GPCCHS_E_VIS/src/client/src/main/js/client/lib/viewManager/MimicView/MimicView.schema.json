@@ -62,6 +62,12 @@
                 },
                 "timeline": {
                     "type": "string"
+                },
+                "convertTo": {
+                    "type": "string"
+                },
+                "convertFrom": {
+                    "type": "string"
                 }
             },
             "required": [

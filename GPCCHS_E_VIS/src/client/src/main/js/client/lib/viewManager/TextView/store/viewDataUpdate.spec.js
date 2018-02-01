@@ -149,7 +149,11 @@ describe('viewManager', () => {
         };
         test('state undefined', () => {
           const data =
-            selectDataPerView(viewDataMap.text1, expectedIntervals, payload, { index: {}, values: {} });
+            selectDataPerView(viewDataMap.text1,
+              expectedIntervals,
+              payload,
+              { index: {}, values: {} }
+            );
           expect(data.index.ep4).toEqual(20);
           expect(data.index.ep7).toEqual(13);
           expect(data.values.ep4.value).toEqual(203);

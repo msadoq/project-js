@@ -10,11 +10,13 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
+
 import * as types from 'store/types';
 import { injectDataRange, injectDataLast } from 'store/actions/incomingData';
 import dataMapGenerator from 'dataManager/map';
 import executionMonitor from 'common/logManager/execution';
 import { getCurrentVisuWindow } from 'store/selectors/timebars';
+import { convertData, mapUnitConvertion } from '../../helpers/unitConverterHelper';
 
 let dataMap = {};
 let previousDataMap = {};
@@ -38,29 +40,36 @@ const injectData = (timing) => {
     const newExpectedLastIntervals = _.getOr({}, 'expectedLastIntervals', dataMap);
 
     const dataToInject = cleanBuffer();
-    const updateRangeData = injectDataRange(
-      oldViewMap,
-      newViewMap,
-      oldExpectedRangeIntervals,
-      newExpectedRangeIntervals,
-      dataToInject,
-      { HistoryViewConfiguration: state.HistoryViewConfiguration,
-        GroundAlarmViewConfiguration: state.GroundAlarmViewConfiguration,
-        OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration },
-      getCurrentVisuWindow(state)
-    );
 
-    const updateLastData = injectDataLast(
-      oldViewMap,
-      newViewMap,
-      oldExpectedLastIntervals,
-      newExpectedLastIntervals,
-      dataToInject
-    );
-    dispatch(updateRangeData);
-    dispatch(updateLastData);
+    const toConvertMap = mapUnitConvertion(newViewMap);
+    convertData(toConvertMap, dataToInject, (err, convertedDataToInject) => {
+      // TODO HANDLE ERROR
+      if (err) {
+        console.error(err);
+      }
+      const updateRangeData = injectDataRange(
+        oldViewMap,
+        newViewMap,
+        oldExpectedRangeIntervals,
+        newExpectedRangeIntervals,
+        convertedDataToInject,
+        { HistoryViewConfiguration: state.HistoryViewConfiguration,
+          GroundAlarmViewConfiguration: state.GroundAlarmViewConfiguration,
+          OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration },
+        getCurrentVisuWindow(state)
+      );
+      const updateLastData = injectDataLast(
+        oldViewMap,
+        newViewMap,
+        oldExpectedLastIntervals,
+        newExpectedLastIntervals,
+        convertedDataToInject
+      );
+      dispatch(updateRangeData);
+      dispatch(updateLastData);
 
-    previousDataMap = dataMap;
+      previousDataMap = dataMap;
+    });
   });
 
   /**

@@ -1,0 +1,6 @@
+package bridge.protobuf;
+import "ccsds_mal/types.proto";
+
+message ResultValues {
+    repeated ccsds_mal.protobuf.ATTRIBUTE values = 1;
+}

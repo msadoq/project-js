@@ -30,7 +30,6 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 
-import { configurationReducers, dataReducers, uiReducers } from 'viewManager';
 import sessions from './sessions';
 import timebars from './timebars';
 import views from './views';
@@ -49,7 +48,7 @@ import knownRanges from './knownRanges';
 import ui from './ui';
 import rte from './rte';
 import cache from './cache';
-
+import { getConfigurationReducers, getDataReducers, getUiReducers } from '../../viewManager/reducers';
 import hsc from './hsc';
 
 const rootReducer = combineReducers({
@@ -73,9 +72,9 @@ const rootReducer = combineReducers({
   ui,
   rte,
   knownRanges,
-  ...configurationReducers,
-  ...dataReducers,
-  ...uiReducers,
+  ...getConfigurationReducers(),
+  ...getDataReducers(),
+  ...getUiReducers(),
 });
 
 export default rootReducer;

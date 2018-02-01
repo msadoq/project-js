@@ -345,6 +345,22 @@ class EntryPointConnectedData extends Component {
                   </p>
                 }
               </HorizontalFormGroup>
+              <HorizontalFormGroup label="Convert">
+                From
+                <Field
+                  name="connectedData.convertFrom"
+                  type="text"
+                  className="form-control input-sm"
+                  component={InputField}
+                />
+                To
+                <Field
+                  name="connectedData.convertTo"
+                  type="text"
+                  className="form-control input-sm"
+                  component={InputField}
+                />
+              </HorizontalFormGroup>
               <HorizontalFormGroup label="Axis">
                 <Field
                   name="connectedData.axisId"

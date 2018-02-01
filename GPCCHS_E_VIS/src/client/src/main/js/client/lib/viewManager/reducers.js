@@ -25,7 +25,6 @@ import groundAlarmViewConfigurationReducer from './GroundAlarmView/store/configu
 import onboardAlarmViewConfigurationReducer from './OnboardAlarmView/store/configurationReducer';
 import * as constants from './constants';
 
-import textViewDataReducer from './TextView/store/dataReducer';
 import plotViewDataReducer from './PlotView/store/dataReducer';
 import dynamicViewDataReducer from './DynamicView/store/dataReducer';
 import mimicViewDataReducer from './MimicView/store/dataReducer';
@@ -59,7 +58,9 @@ const createConfigurationReducers = _.pipe(
 const createDataReducers = _.mapKeys(appendString('Data'));
 
 /* --- Reducers ------------------------------------------------------------- */
-export const configurationReducers = createConfigurationReducers({
+
+
+export const getConfigurationReducers = () => createConfigurationReducers({
   [constants.VM_VIEW_TEXT]: textViewConfigurationReducer,
   [constants.VM_VIEW_PLOT]: plotViewConfigurationReducer,
   [constants.VM_VIEW_DYNAMIC]: dynamicViewConfigurationReducer,
@@ -70,8 +71,9 @@ export const configurationReducers = createConfigurationReducers({
   [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewConfigurationReducer,
 });
 
-export const dataReducers = createDataReducers({
-  [constants.VM_VIEW_TEXT]: textViewDataReducer,
+export const getDataReducers = () => createDataReducers({
+  // eslint-disable-next-line global-require, "DV6 TBC_CNES Because its like that"
+  [constants.VM_VIEW_TEXT]: require('./TextView/store/dataReducer'),
   [constants.VM_VIEW_PLOT]: plotViewDataReducer,
   [constants.VM_VIEW_DYNAMIC]: dynamicViewDataReducer,
   [constants.VM_VIEW_MIMIC]: mimicViewDataReducer,
@@ -81,6 +83,6 @@ export const dataReducers = createDataReducers({
   [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewDataReducer,
 });
 
-export const uiReducers = {
+export const getUiReducers = () => ({
   AlarmViewUi: alarmViewUiReducer,
-};
+});

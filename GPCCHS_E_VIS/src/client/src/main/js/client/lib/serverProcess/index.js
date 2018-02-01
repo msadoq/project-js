@@ -54,6 +54,7 @@ import fetchInitialData from './lifecycle/data';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
 import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreObserver';
+import passerelle from '../utils/passerelle/index';
 import { updateSessions } from '../store/actions/sessions';
 
 const isDebugEnabled = () => get('DEBUG') === 'on';
@@ -82,6 +83,11 @@ const requestCatalogSessions = (store) => {
   }
 };
 
+const launchPasserelle = (callback) => {
+  passerelle.spawnPasserelle();
+  passerelle.init();
+  callback(null);
+};
 
 series({
   // ZeroMQ sockets
@@ -94,6 +100,7 @@ series({
   logBook: (callback) => {
     callback(null);
   },
+  launchGateway: callback => launchPasserelle(callback),
   rtd: (callback) => {
     if (get('RTD_ON') === 'on') {
       const createRtd = dynamicRequire('rtd/catalogs').connect;

@@ -136,7 +136,3 @@ export default function textViewData(state = {}, action) {
       return state;
   }
 }
-
-export const getTextViewData = state => state.TextViewData;
-
-export const getData = (state, { viewId }) => state.TextViewData[viewId];

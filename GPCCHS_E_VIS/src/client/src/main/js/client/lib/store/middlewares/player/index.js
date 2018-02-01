@@ -15,13 +15,11 @@ import { getPage } from 'store/reducers/pages';
 import { getTimebar } from 'store/reducers/timebars';
 import { getPlayingTimebarId } from 'store/reducers/hsc';
 import { getHealthMap } from 'store/reducers/health';
-import { getIsCodeEditorOpened } from 'store/reducers/codeEditor';
 
 import { updateCursors, switchToRealtimeMode, moveTo } from 'store/actions/timebars';
 import { pause } from 'store/actions/hsc';
 
 import ipc from 'serverProcess/ipc';
-import { isAnyEditorOpenedInWindow } from 'store/selectors/pages';
 import { getCurrentSessionId } from 'store/selectors/sessions';
 
 import createInterval from 'common/utils/interval';
@@ -67,16 +65,6 @@ const playHandler = ({ dispatch, getState, interval, currentUpperMargin }, next,
   const state = getState();
   const health = getHealthMap(state);
   if (
-    getIsCodeEditorOpened(state)
-    || isAnyEditorOpenedInWindow(state)
-  ) {
-    dispatch(addMessage(
-      'global',
-      'warning',
-      'Please close editors before play timebar'
-      )
-    );
-  } else if (
     health.dc !== HEALTH_STATUS_CRITICAL
     && health.hss !== HEALTH_STATUS_CRITICAL
     && health.main !== HEALTH_STATUS_CRITICAL
@@ -86,14 +74,14 @@ const playHandler = ({ dispatch, getState, interval, currentUpperMargin }, next,
       nextTick(delta, currentUpperMargin, dispatch, getState)
     ));
     return next(action);
-  } else {
-    dispatch(addMessage(
-      'global',
-      'warning',
-      'One process of the application is overloaded, cannot switch to play'
-      )
-    );
   }
+
+  dispatch(addMessage(
+    'global',
+    'warning',
+    'One process of the application is overloaded, cannot switch to play'
+    )
+  );
   return action;
 };
 

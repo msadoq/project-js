@@ -66,8 +66,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
-// import _max from 'lodash/max';
-// import _min from 'lodash/min';
+import _max from 'lodash/max';
+import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';

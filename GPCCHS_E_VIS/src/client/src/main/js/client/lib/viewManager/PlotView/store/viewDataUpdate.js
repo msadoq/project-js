@@ -327,11 +327,11 @@ export function selectEpDataParametric(_tbdIdPayloadX, epX, epNameX,
         valX,
         refTime: timestamp,
         value: valY,
-        //...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
+        // ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
         // Case of enum : add symbol to show it in tooltip
         // Case of long : add string representation in tooltip to keep precision
         // Case of double : add string representation in tooltip to keep precision
-        //symbol: _get(value, [ep.fieldY, 'symbol']),
+        // symbol: _get(value, [ep.fieldY, 'symbol']),
       };
     }
   }

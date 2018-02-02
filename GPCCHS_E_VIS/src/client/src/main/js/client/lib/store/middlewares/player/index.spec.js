@@ -61,16 +61,6 @@ describe('store:middlewares:player', () => {
   const mockStore = _.compose(configureMockStore(middlewares), freezeMe);
 
   describe('play/pause', () => {
-    test('cannot play if a code editor is opened', () => {
-      const store = mockStore({ health: {}, codeEditor: { viewId: 'UUID' } });
-      store.dispatch(play());
-      expect(store.getActions()).toMatchSnapshot();
-    });
-    test('cannot play if an editor is opened', () => {
-      const store = mockStore(state);
-      store.dispatch(play());
-      expect(store.getActions()).toMatchSnapshot();
-    });
     test('cannot play if no page has a focus', () => {
       state = { ...state, hsc: {} };
       const store = mockStore(state);

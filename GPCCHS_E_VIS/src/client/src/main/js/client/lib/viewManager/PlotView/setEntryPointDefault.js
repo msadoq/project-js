@@ -20,6 +20,7 @@ const getNewPlotEntryPoint = () => ({
   connectedData: {
     domain: get('WILDCARD_CHARACTER'),
     timeline: get('WILDCARD_CHARACTER'),
+    provider: get('WILDCARD_CHARACTER'),
     formula: '',
     fieldX: 'onboardDate',
     unit: 'V',

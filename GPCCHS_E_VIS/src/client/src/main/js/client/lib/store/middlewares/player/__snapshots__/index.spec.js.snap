@@ -1,25 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`store:middlewares:player play/pause cannot play if a code editor is opened 1`] = `
-Array [
-  Object {
-    "meta": Object {
-      "jestSerialized": true,
-    },
-    "payload": Object {
-      "containerId": "global",
-      "messages": Array [
-        Object {
-          "content": "Please close editors before play timebar",
-        },
-      ],
-      "type": "warning",
-    },
-    "type": "WS_MESSAGE_ADD",
-  },
-]
-`;
-
 exports[`store:middlewares:player play/pause cannot play if a health status is critical 1`] = `
 Array [
   Object {
@@ -31,26 +11,6 @@ Array [
       "messages": Array [
         Object {
           "content": "One process of the application is overloaded, cannot switch to play",
-        },
-      ],
-      "type": "warning",
-    },
-    "type": "WS_MESSAGE_ADD",
-  },
-]
-`;
-
-exports[`store:middlewares:player play/pause cannot play if an editor is opened 1`] = `
-Array [
-  Object {
-    "meta": Object {
-      "jestSerialized": true,
-    },
-    "payload": Object {
-      "containerId": "global",
-      "messages": Array [
-        Object {
-          "content": "Please close editors before play timebar",
         },
       ],
       "type": "warning",

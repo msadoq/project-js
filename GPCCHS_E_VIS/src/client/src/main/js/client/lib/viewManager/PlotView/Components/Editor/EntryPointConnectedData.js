@@ -30,8 +30,8 @@ import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import FiltersFields from 'viewManager/commonEditor/Fields/FiltersFields';
+import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
 import styles from './EntryPointConnectedData.css';
-
 
 /*
   EntryPointConnectedData représente une donnée connectée à un entryPoint.
@@ -392,7 +392,6 @@ class EntryPointConnectedData extends Component {
             </div>
           }
 
-
           <HorizontalFormGroup label="Timeline">
             <Field
               name="connectedData.timeline"
@@ -405,6 +404,11 @@ class EntryPointConnectedData extends Component {
               <span className="text-danger">No corresponding timeline, create it or change it</span>
             }
           </HorizontalFormGroup>
+
+          <HorizontalFormGroup label="Provider">
+            <ProviderFieldContainer />
+          </HorizontalFormGroup>
+
           <FieldArray
             name="connectedData.filter"
             component={FiltersFields}

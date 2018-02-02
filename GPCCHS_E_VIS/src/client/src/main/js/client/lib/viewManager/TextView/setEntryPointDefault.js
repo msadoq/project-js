@@ -24,6 +24,7 @@ const getNewTextEntryPoint = () => ({
     filter: [],
     domain: get('WILDCARD_CHARACTER'),
     timeline: get('WILDCARD_CHARACTER'),
+    provider: get('WILDCARD_CHARACTER'),
   },
   stateColors: [],
 });

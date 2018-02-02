@@ -41,6 +41,20 @@ const injectData = (timing) => {
 
     const dataToInject = cleanBuffer();
 
+    // TODO Do not dispatch all conf
+    const updateRangeData = injectDataRange(
+      oldViewMap,
+      newViewMap,
+      oldExpectedRangeIntervals,
+      newExpectedRangeIntervals,
+      dataToInject,
+      { HistoryViewConfiguration: state.HistoryViewConfiguration,
+        GroundAlarmViewConfiguration: state.GroundAlarmViewConfiguration,
+        OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration,
+        PlotViewConfiguration: state.PlotViewConfiguration },
+      getCurrentVisuWindow(state)
+    );
+
     const toConvertMap = mapUnitConvertion(newViewMap);
     convertData(toConvertMap, dataToInject, (err, convertedDataToInject) => {
       // TODO HANDLE ERROR

@@ -38,12 +38,14 @@ import _pick from 'lodash/pick';
  * @param newIntervals expected intervals for all entry points
  * @return cleaned state for current view
 /** *********************************************** */
+// eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity without perf. leak"
 export default function cleanCurrentViewData(
   currentState,
   oldViewFromMap,
   newViewFromMap,
   oldIntervals,
-  newIntervals) {
+  newIntervals,
+  configuration) {
   // Check if viewMap has changed
   if (_isEqual(newViewFromMap, oldViewFromMap) && _isEqual(oldIntervals, newIntervals)) {
     return currentState;
@@ -68,9 +70,32 @@ export default function cleanCurrentViewData(
   const oldEntryPoints = oldViewFromMap.entryPoints;
   const newEntryPoints = newViewFromMap.entryPoints;
   const epNames = Object.keys(oldEntryPoints);
+  // pgaucher-plot
+  // Get parametric plot in configuration
+  // Remove all previous data for this parametric plot
+  for (let j = 0; j < configuration.entryPoints.length; j += 1) {
+    if (configuration.entryPoints[j].parametric) {
+      const name = configuration.entryPoints[j].name;
+      newState = { ...newState,
+        indexes: _omit(newState.indexes, name),
+        lines: _omit(newState.lines, name),
+        min: _omit(newState.min, name),
+        minTime: _omit(newState.minTime, name),
+        max: _omit(newState.max, name),
+        maxTime: _omit(newState.maxTime, name),
+      };
+    }
+  }
+
   for (let i = 0; i < epNames.length; i += 1) {
     const epName = epNames[i];
     const oldEp = oldEntryPoints[epName];
+    // pgaucher-plot
+    // If entrypoint is parametric in viewMap ( <plotname>-X and <plotname>-Y)
+    // Skip the algo of clean ( already cleanse above)
+    if (oldEp.parametric) {
+      continue;
+    }
     const newEp = newEntryPoints[epName];
     // check if only label has changed
     if (!newEp) {

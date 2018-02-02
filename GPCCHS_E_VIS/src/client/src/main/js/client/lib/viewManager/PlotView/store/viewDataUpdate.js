@@ -208,20 +208,220 @@ export function viewRangeAdd(state = {}, payloads) {
  * @param: received data
  * @return: updated state
 /* *********************************** */
-export function selectDataPerView(currentViewMap, intervalMap, payload) {
+export function selectDataPerView(currentViewMap, configuration, intervalMap, payload, viewState) {
   let epSubState = {};
   if (currentViewMap) {
-    Object.keys(currentViewMap.entryPoints).forEach((epName) => {
-      const ep = currentViewMap.entryPoints[epName];
-      // No payload for this tbd  Id
-      if (!payload[ep.tbdId]) {
-        return;
+    configuration.entryPoints.forEach((entryPoint) => {
+      if (entryPoint.parametric) {
+        const epX = currentViewMap.entryPoints[`${entryPoint.name}-X`];
+        const epY = currentViewMap.entryPoints[`${entryPoint.name}-Y`];
+        const newSubState = selectEpDataParametric(payload[epX.tbdId], epX, `${entryPoint.name}-X`,
+                                                   payload[epY.tbdId], epY, `${entryPoint.name}-Y`,
+                                                   entryPoint.name, epSubState, intervalMap,
+                                                   viewState.lines[epX.dataId.parameterName],
+                                                   viewState.lines[epY.dataId.parameterName]);
+        epSubState = { ...epSubState, ...newSubState };
+      } else {
+        const ep = currentViewMap.entryPoints[entryPoint.name];
+        if (!payload[ep.tbdId]) {
+          return;
+        }
+        const newSubState = selectEpData(
+          payload[ep.tbdId],
+          ep,
+          entryPoint.name,
+          epSubState,
+          intervalMap);
+        epSubState = { ...epSubState, ...newSubState };
       }
-      const newSubState = selectEpData(payload[ep.tbdId], ep, epName, epSubState, intervalMap);
-      epSubState = { ...epSubState, ...newSubState };
     });
   }
   return epSubState;
+}
+
+// eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity without perf. leak"
+export function selectEpDataParametric(_tbdIdPayloadX, epX, epNameX,
+  _tbdIdPayloadY, epY, epNameY, epName, viewState, intervalMap, linesX, linesY) {
+  let minX;
+  let minY;
+  let maxX;
+  let maxY;
+  const newState = {};
+  if (!newState[epName]) {
+    newState[epName] = {};
+  }
+  const expectedIntervalX = _get(intervalMap, [epX.tbdId, epX.localId, 'expectedInterval']);
+  const expectedIntervalY = _get(intervalMap, [epY.tbdId, epY.localId, 'expectedInterval']);
+  let indexX = 0;
+  let indexY = 0;
+  // case of error when visuWindow duration is too long
+  if (!expectedIntervalX || !expectedIntervalY) {
+    return {};
+  }
+  // pgaucher-plot
+  // Compute new tbdIdpayload for X and Y ( NOT OPTIMIZED)
+  const tbdIdPayloadX = computeNewPayload(linesX, _tbdIdPayloadX, epX.dataId.field);
+  const tbdIdPayloadY = computeNewPayload(linesY, _tbdIdPayloadY, epY.dataId.field);
+
+  const timestampsX = Object.keys(tbdIdPayloadX);
+  const timestampsY = Object.keys(tbdIdPayloadY);
+  while (indexX < timestampsX.length && indexY < timestampsY.length) {
+    const valueX = tbdIdPayloadX[timestampsX[indexX]];
+    const valueY = tbdIdPayloadY[timestampsY[indexY]];
+
+    const timestampX = valueX.refTime;
+    const timestampY = valueY.refTime;
+    const timestamp = Math.min(timestampX, timestampY);
+    // TODO warning OFFSET !!
+    // TODO Which offset to pick epX or epY ?
+    const masterTime = timestamp; // + EP.OFFSET;
+
+    let valX = valueX.value;
+    let valY = valueY.value;
+
+    if (timestampsX[indexX] === timestampsY[indexY]) {
+      indexX += 1;
+      indexY += 1;
+    } else if (timestampsX[indexX] < timestampsY[indexY]) {
+      // chexck if Y-1 exist
+      if (indexY > 0) {
+        valY = interpolatePoint(
+        tbdIdPayloadX[timestampsX[indexX]].refTime,
+        tbdIdPayloadY[timestampsY[indexY - 1]].refTime,
+        tbdIdPayloadY[timestampsY[indexY - 1]].value,
+        tbdIdPayloadY[timestampsY[indexY]].refTime,
+        tbdIdPayloadY[timestampsY[indexY]].value);
+        valX = tbdIdPayloadX[timestampsX[indexX]].value;
+      }
+      indexX += 1;
+    } else if (timestampsX[indexX] > timestampsY[indexY]) {
+      // chexck if X-1 exist
+      if (indexX > 0) {
+        valX = interpolatePoint(
+        tbdIdPayloadY[timestampsY[indexY]].refTime,
+        tbdIdPayloadX[timestampsX[indexX - 1]].refTime,
+        tbdIdPayloadX[timestampsX[indexX - 1]].value,
+        tbdIdPayloadX[timestampsX[indexX]].refTime,
+        tbdIdPayloadX[timestampsX[indexX]].value);
+        valY = tbdIdPayloadY[timestampsY[indexY]].value;
+      }
+      indexY += 1;
+    }
+
+    if (valX > maxX || !maxX) {
+      maxX = valX;
+    }
+    if (valY > maxY || !maxY) {
+      maxY = valY;
+    }
+    if (valX < minX || !minX) {
+      minX = valX;
+    }
+    if (valY < minY || !minY) {
+      minY = valY;
+    }
+    // TODO add symbol and getstatecolor object
+    if (valX !== undefined && valY !== undefined) {
+      newState[epName][masterTime] = {
+        x: valX,
+        valX,
+        refTime: timestamp,
+        value: valY,
+        //...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
+        // Case of enum : add symbol to show it in tooltip
+        // Case of long : add string representation in tooltip to keep precision
+        // Case of double : add string representation in tooltip to keep precision
+        //symbol: _get(value, [ep.fieldY, 'symbol']),
+      };
+    }
+  }
+  if (Object.keys(newState).length) {
+    if (viewState) {
+      newState.min = { ...viewState.min, [epName]: minY };
+      newState.max = { ...viewState.max, [epName]: maxY };
+      newState.minTime = { ...viewState.minTime, [epName]: minX };
+      newState.maxTime = { ...viewState.maxTime, [epName]: maxX };
+    } else {
+      newState.min = { [epName]: minY };
+      newState.max = { [epName]: maxY };
+      newState.minTime = { [epName]: minX };
+      newState.maxTime = { [epName]: maxX };
+    }
+  }
+  return newState;
+}
+
+/* ************************************
+ * Compute new payload list from old payload + injectedData
+ * @param:_allPayload: old paylaod
+ * @param: _newPayload: data to inject
+ * @param: field: value to get ( extractedVAlue ...)
+ * @return: updated payload
+/* *********************************** */
+export function computeNewPayload(_allPayload, _newPayload, field) {
+  const allPayload = _allPayload ? Object.keys(_allPayload) : [];
+  const newPayload = _newPayload ? Object.keys(_newPayload) : [];
+  let indexA = 0;
+  let indexB = 0;
+  const mutatedPayload = {};
+  while (indexA < allPayload.length && indexB < newPayload.length) {
+    if (_allPayload[allPayload[indexA]].refTime <
+        _newPayload[newPayload[indexB]].referenceTimestamp.value) {
+      mutatedPayload[_allPayload[allPayload[indexA]].refTime] = {
+        refTime: _allPayload[allPayload[indexA]].refTime,
+        value: _allPayload[allPayload[indexA]].value,
+      };
+      indexA += 1;
+    } else if (_allPayload[allPayload[indexA]].refTime >
+               _newPayload[newPayload[indexB]].referenceTimestamp.value) {
+      mutatedPayload[_newPayload[newPayload[indexB]].referenceTimestamp.value] = {
+        refTime: _newPayload[newPayload[indexB]].referenceTimestamp.value,
+        value: getFieldValue(_newPayload[newPayload[indexB]], field),
+      };
+      indexB += 1;
+    } else {
+      mutatedPayload[_newPayload[newPayload[indexB]].referenceTimestamp.value] = {
+        refTime: _newPayload[newPayload[indexB]].referenceTimestamp.value,
+        value: getFieldValue(_newPayload[newPayload[indexB]], field),
+      };
+      indexA += 1;
+      indexB += 1;
+    }
+  }
+  if (indexA < allPayload.length) {
+    for (let i = indexA; i < allPayload.length; i += 1) {
+      mutatedPayload[_allPayload[allPayload[i]].refTime] = {
+        refTime: _allPayload[allPayload[i]].refTime,
+        value: _allPayload[allPayload[i]].value,
+      };
+    }
+  } else if (indexB < newPayload.length) {
+    for (let i = indexB; i < newPayload.length; i += 1) {
+      mutatedPayload[_newPayload[newPayload[i]].referenceTimestamp.value] = {
+        refTime: _newPayload[newPayload[i]].referenceTimestamp.value,
+        value: getFieldValue(_newPayload[newPayload[i]], field),
+      };
+    }
+  }
+  // console.log('length', Object.keys(mutatedPayload).length);
+  return mutatedPayload;
+}
+
+/* ************************************
+ * Calculate new point interpolated ( order 1)
+/* *********************************** */
+// pgaucher-plot
+export function interpolatePoint(
+  toInterpolateTs,
+  lowerTs,
+  lowerValue,
+  upperTs,
+  upperValue) {
+    // Y = AX + B
+  const A = (lowerValue - upperValue) / (lowerTs - upperTs);
+  const B = ((lowerTs * upperValue) - (lowerValue * upperTs)) / (lowerTs - upperTs);
+
+  return (A * toInterpolateTs) + B;
 }
 /* ************************************
  * Select payload to add for current entry Point
@@ -247,7 +447,6 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
   let minTime;
   let maxTime;
 
-  const isParametric = ep.parametric;
   const timestamps = Object.keys(tbdIdPayload);
   for (let i = 0; i < timestamps.length; i += 1) {
     const value = tbdIdPayload[timestamps[i]];
@@ -261,41 +460,24 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
       newState[epName] = {};
     }
     let valForMax;
-    if (!isParametric) {
-      let valX;
-      if (ep.fieldX) {
-        valX = _get(value, [ep.fieldX, 'value']);
-      }
-      const valY = getFieldValue(value, ep.fieldY, ep.convertTo);
-      if (valY !== undefined) {
-        valForMax = valY;
-        newState[epName][masterTime] = {
-          x: masterTime,
-          valX,
-          refTime: timestamp,
-          value: valY,
-          ...getStateColorObj( // will fetch default / fallback / custom color
-            value,
-            ep.stateColors,
-            _get(value, 'monitoringState.value')
-          ),
-          // Case of enum : add symbol to show it in tooltip
-          // Case of long : add string representation in tooltip to keep precision
-          // Case of double : add string representation in tooltip to keep precision
-          symbol: _get(value, [ep.fieldY, 'symbol']),
-        };
-      }
-    } else {
-      // Case of parametric
-      const val = getFieldValue(value, ep.dataId.field);
-      if (val !== undefined) {
-        valForMax = val;
-        // save ep data
-        newState[epName][masterTime] = {
-          val,
-          refTime: timestamp,
-        };
-      }
+    let valX;
+    if (ep.fieldX) {
+      valX = _get(value, [ep.fieldX, 'value']);
+    }
+    const valY = getFieldValue(value, ep.fieldY, ep.convertTo);
+    if (valY !== undefined) {
+      valForMax = valY;
+      newState[epName][masterTime] = {
+        x: masterTime,
+        valX,
+        refTime: timestamp,
+        value: valY,
+        ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
+        // Case of enum : add symbol to show it in tooltip
+        // Case of long : add string representation in tooltip to keep precision
+        // Case of double : add string representation in tooltip to keep precision
+        symbol: _get(value, [ep.fieldY, 'symbol']),
+      };
     }
     if (valForMax) {
       const newMin = getMin(min, valForMax, minTime, masterTime);

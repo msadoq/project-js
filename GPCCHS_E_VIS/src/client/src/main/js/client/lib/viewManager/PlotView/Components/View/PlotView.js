@@ -66,8 +66,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
-import _max from 'lodash/max';
-import _min from 'lodash/min';
+// import _max from 'lodash/max';
+// import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';
@@ -138,8 +138,47 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
   yAxesIds.forEach((axisId) => {
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
-    const { min, max } = computeMinMaxForAxis(entryPoints, axis, data, true);
-    return yAxes.push(defaultAxisConfig(axis, grid, min, max));
+    // pgaucher-plot
+    // Hardcoded limit for paramertric
+    /* const axisEntryPoints = entryPoints
+      .filter(ep =>
+        (
+          (ep.parametric && _get(ep, ['connectedDataParametric', 'yAxisId']) === axis.id) ||
+          (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
+        )
+      ); */
+    // const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
+    // const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+    const min = 137;
+    const max = 140;
+    return yAxes.push({
+      id: axis.id,
+      extents:
+        axis.autoLimits === true ?
+        [min, max]
+        :
+        [
+          min < axis.min ? min : axis.min,
+          max > axis.max ? max : axis.max,
+        ],
+      orient: 'top',
+      format: '.3f',
+      showAxis: axis.showAxis === true,
+      showLabels: axis.showLabels === true,
+      showTicks: axis.showTicks === true,
+      autoLimits: false,
+      autoTick: axis.autoTick === true,
+      tickStep: axis.tickStep,
+      showGrid: _get(grid, 'showGrid', false),
+      gridStyle: _get(grid, ['line', 'style']),
+      gridSize: _get(grid, ['line', 'size']),
+      unit: axis.unit,
+      label: axis.label,
+      labelStyle: axis.style,
+      logarithmic: axis.logarithmic,
+      logSettings: axis.logSettings,
+      formatAsDate: false,
+    });
   });
 
   xAxesIds.forEach((axisId) => {
@@ -168,10 +207,45 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
     }
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
-    const { min, max } = computeMinMaxForAxis(entryPoints, axis, data, false);
-    return xAxes.push(defaultAxisConfig(axis, grid, min, max));
+    // pgaucher-plot
+    // Hardcoded limit for paramertric
+    /* const axisEntryPoints = entryPoints
+      .filter(ep =>
+        (ep.parametric && _get(ep, ['connectedDataParametric', 'xAxisId']) === axis.id)
+      ); */
+    // const min = _min(axisEntryPoints.map(ep => data.minTime[ep.name]));
+    // const max = _max(axisEntryPoints.map(ep => data.maxTime[ep.name]));
+    const min = 131;
+    const max = 135;
+    return xAxes.push({
+      id: axis.id,
+      extents:
+        axis.autoLimits === true ?
+        [min, max]
+        :
+        [
+          min < axis.min ? min : axis.min,
+          max > axis.max ? max : axis.max,
+        ],
+      orient: 'bottom',
+      format: '.3f',
+      showAxis: axis.showAxis === true,
+      showLabels: axis.showLabels === true,
+      showTicks: axis.showTicks === true,
+      autoLimits: false,
+      autoTick: axis.autoTick === true,
+      tickStep: axis.tickStep,
+      showGrid: _get(grid, 'showGrid', false),
+      gridStyle: _get(grid, ['line', 'style']),
+      gridSize: _get(grid, ['line', 'size']),
+      unit: axis.unit,
+      label: axis.label,
+      labelStyle: axis.style,
+      logarithmic: axis.logarithmic,
+      logSettings: axis.logSettings,
+      formatAsDate: false,
+    });
   });
-
   return { xAxes, yAxes };
 };
 
@@ -827,8 +901,8 @@ export class GrizzlyPlotView extends PureComponent {
                 data: lines[ep.name],
                 indexes: indexes[ep.name],
                 id: ep.name,
-                xAxisId: 'time',
-                yAxisId: _get(ep, ['connectedData', 'axisId']),
+                xAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'xAxisId']) : 'time',
+                yAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'yAxisId']) : _get(ep, ['connectedData', 'axisId']),
                 fill: _get(ep, ['objectStyle', 'curveColor']),
                 lineSize: _get(ep, ['objectStyle', 'displayLine'], true) === true
                   ? _get(ep, ['objectStyle', 'line', 'size'])

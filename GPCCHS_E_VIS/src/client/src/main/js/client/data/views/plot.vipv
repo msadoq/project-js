@@ -56,7 +56,7 @@
       "showLabels": true
     },
     {
-      "autoLimits": false,
+      "autoLimits": true,
       "autoTick": true,
       "id": "VBat",
       "label": "VBat",
@@ -168,6 +168,17 @@
         }
       },
       "parametric": false,
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "waiting",
+            "operator": "=="
+          }
+        }
+      },
+      "parametric": false,
       "stateColors": []
     },
     {
@@ -208,6 +219,45 @@
         "curveColor": "#ff9800"
       },
       "stateColors": []
+    },
+    {
+      "axisId": "",
+      "connectedData": {
+        "axisId": "VBat",
+        "digits": 5,
+        "domain": "*",
+        "fieldX": "onboardDate",
+        "filter": [],
+        "format": "decimal",
+        "formula": "",
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "connectedDataParametric": {
+        "domainX": "fr.cnes.isis",
+        "domainY": "fr.cnes.isis",
+        "formulaX": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
+        "formulaY": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
+        "unitX": "V",
+        "unitY": "V",
+        "xAxisId": "VBat",
+        "yAxisId": "VBat"
+      },
+      "name": "Parametric",
+      "objectStyle": {
+        "curveColor": "#03a9f4",
+        "line": {
+          "size": 3,
+          "style": "Continuous"
+        },
+        "points": {
+          "size": 3,
+          "style": "None"
+        }
+      },
+      "parametric": true,
+      "stateColors": [],
+      "unit": ""
     }
   ],
   "showYAxes": "left",

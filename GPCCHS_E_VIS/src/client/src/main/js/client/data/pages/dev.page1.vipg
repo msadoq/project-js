@@ -33,8 +33,8 @@
     {
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic_demo.vimv",
       "geometry": {
-        "x": 0,
-        "y": 0,
+        "x": 6,
+        "y": 17,
         "w": 6,
         "h": 13
       },
@@ -69,7 +69,8 @@
         "x": 6,
         "y": 13,
         "w": 6,
-        "h": 5
+        "h": 5,
+        "collapsed": true
       },
       "hideBorders": false,
       "windowState": "Normalized"

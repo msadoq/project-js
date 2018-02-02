@@ -221,6 +221,16 @@ function dcCall() {
       query.queryArguments,
       zmq
     );
+    /* setTimeout(() => {
+      sendArchiveData(
+      query.queryKey,
+      query.queryId,
+      query.dataId,
+      query.interval,
+      query.queryArguments,
+      zmq
+    );
+    }, Math.random() * 3000); */
   });
   queries = [];
 

@@ -27,7 +27,9 @@ export function isLongValue(data) {
 
 export function convertLongData(data) {
   if (data.type === 'time' || data.type === 'fineTime') {
-    return moment(data.value).utc().toISOString();
+    // keep that dirty slice to remove last 'Z' caracter.
+    // @see https://vmisismantis01.cnes-isis.toulouse.atos.net/mantisbt/view.php?id=9775
+    return moment(data.value).utc().toISOString().slice(0, -1);
   }
   if (data.type === 'long' || data.type === 'ulong') {
     return Number(data.symbol);
@@ -39,7 +41,7 @@ export function convertData(data) {
   if (!data) {
     return data;
   }
-
+  // for time, finetime, long & ulong types
   if (isLongValue(data)) {
     return convertLongData(data);
   } else if (data.type === 'boolean') {

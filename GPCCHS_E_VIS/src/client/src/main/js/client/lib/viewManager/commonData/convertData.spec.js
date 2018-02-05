@@ -73,11 +73,11 @@ describe('viewManager:commonData:convertData', () => {
     });
     test('time', () => {
       const data = { type: 'time', value: 1485648450000 };
-      expect(convertLongData(data)).toEqual('2017-01-29T00:07:30.000Z');
+      expect(convertLongData(data)).toEqual('2017-01-29T00:07:30.000');
     });
     test('fineTime', () => {
       const data = { type: 'fineTime', value: 1485648450000 };
-      expect(convertLongData(data)).toEqual('2017-01-29T00:07:30.000Z');
+      expect(convertLongData(data)).toEqual('2017-01-29T00:07:30.000');
     });
     test('other', () => {
       const data = { type: 'other', value: 123456 };
@@ -168,7 +168,7 @@ describe('viewManager:commonData:convertData', () => {
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },
-              lastUpdateTime: { type: 'time', value: '2017-01-29T00:07:30.000Z' },
+              lastUpdateTime: { type: 'time', value: '2017-01-29T00:07:30.000' },
             },
           },
         }],
@@ -188,7 +188,7 @@ describe('viewManager:commonData:convertData', () => {
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },
-              lastUpdateTime: { type: 'time', value: '2017-01-29T00:07:30.000Z' },
+              lastUpdateTime: { type: 'time', value: '2017-01-29T00:07:30.000' },
             },
           },
         }, {
@@ -203,7 +203,7 @@ describe('viewManager:commonData:convertData', () => {
             status: { type: 'uinteger', value: 100 },
             pusElement: {
               lastUpdateMode: { type: 'uinteger', value: 100 },
-              lastUpdateTime: { type: 'time', value: '2017-01-29T00:07:30.000Z' },
+              lastUpdateTime: { type: 'time', value: '2017-01-29T00:07:30.000' },
             },
           } }],
       });

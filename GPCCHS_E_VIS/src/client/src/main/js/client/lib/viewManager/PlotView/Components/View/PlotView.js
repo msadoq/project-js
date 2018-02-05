@@ -140,17 +140,16 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
     const grid = grids.find(g => g.yAxisId === axis.id);
     // pgaucher-plot
     // Hardcoded limit for paramertric
-    /* const axisEntryPoints = entryPoints
+    const axisEntryPoints = entryPoints
       .filter(ep =>
         (
-          (ep.parametric && _get(ep, ['connectedDataParametric', 'yAxisId']) === axis.id) ||
           (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
         )
-      ); */
-    // const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
-    // const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
-    const min = 137;
-    const max = 140;
+      );
+    const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
+    const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+    // const min = 137;
+    // const max = 140;
     return yAxes.push({
       id: axis.id,
       extents:

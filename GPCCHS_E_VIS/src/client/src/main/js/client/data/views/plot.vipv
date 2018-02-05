@@ -130,42 +130,45 @@
   ],
   "entryPoints": [
     {
-      "name": "TMMGT_BC_VIRTCHAN3",
-      "parametric": false,
       "connectedData": {
-        "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1",
         "axisId": "VBat",
+        "convertFrom": "",
+        "convertTo": "",
+        "defaultY": 1,
+        "digits": 5,
+        "domain": "fr.cnes.isis.simupus",
+        "fieldX": "groundDate",
+        "filter": [],
+        "format": "decimal",
+        "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
         "stringParameter": false,
-        "defaultY": 1
+        "timeline": "Session 1",
+        "unit": "V"
       },
       "connectedDataParametric": {
-        "formulaX": "",
-        "formulaY": "",
         "domainX": "",
         "domainY": "",
+        "formulaX": "",
+        "formulaY": "",
         "unitX": "",
         "unitY": "",
         "xAxisId": "",
         "yAxisId": ""
       },
+      "name": "TMMGT_BC_VIRTCHAN3",
       "objectStyle": {
+        "curveColor": "#FFBF00",
         "line": {
-          "style": "Continuous",
-          "size": 2
+          "size": 2,
+          "style": "Continuous"
         },
         "points": {
-          "style": "None",
-          "size": 0
-        },
-        "curveColor": "#FFBF00"
-      }
+          "size": 0,
+          "style": "None"
+        }
+      },
+      "parametric": false,
+      "stateColors": []
     },
     {
       "name": "ATT_BC_REVTCOUNT1",
@@ -203,7 +206,8 @@
           "size": 3
         },
         "curveColor": "#ff9800"
-      }
+      },
+      "stateColors": []
     }
   ],
   "showYAxes": "left",

@@ -4,7 +4,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import DimensionsForm from './DimensionsForm';
 
 export default class Dimensions extends React.Component {

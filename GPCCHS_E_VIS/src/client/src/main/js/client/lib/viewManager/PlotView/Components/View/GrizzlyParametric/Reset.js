@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import _memoize from 'lodash/memoize';
 import { Button } from 'react-bootstrap';
 import styles from './GrizzlyChart.css';

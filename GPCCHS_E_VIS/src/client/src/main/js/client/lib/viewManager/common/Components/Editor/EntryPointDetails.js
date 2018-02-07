@@ -7,7 +7,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import Collapse from 'rc-collapse';
 import { entryPointType } from 'viewManager/common/Components/types';
 import EntryPointConnectedDataFieldsContainer from 'viewManager/common/Components/Editor/EntryPointConnectedDataFieldsContainer';

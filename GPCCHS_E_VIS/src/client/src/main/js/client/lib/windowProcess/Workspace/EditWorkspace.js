@@ -6,7 +6,8 @@
 // ====================================================================
 
 // import moment from 'moment';
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import {
   Form,

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import _ from 'lodash/fp';
 import classnames from 'classnames';
 import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from 'constants';

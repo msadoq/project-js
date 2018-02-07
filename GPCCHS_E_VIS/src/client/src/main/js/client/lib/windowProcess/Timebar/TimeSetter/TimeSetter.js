@@ -11,7 +11,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import { Button } from 'react-bootstrap';
 import moment from 'moment';
 import Flatpickr from 'react-flatpickr';

@@ -1,5 +1,6 @@
 import _get from 'lodash/get';
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';

@@ -6,7 +6,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import { SourceContainer } from './SourceContainer';
 
 export default class CodeEditor extends PureComponent {

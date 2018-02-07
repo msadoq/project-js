@@ -19,7 +19,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import { Misc } from 'viewManager/commonEditor/Misc';

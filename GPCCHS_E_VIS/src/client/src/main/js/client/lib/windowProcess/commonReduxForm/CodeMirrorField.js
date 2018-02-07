@@ -9,9 +9,10 @@
 // ====================================================================
 
 /* eslint import/no-webpack-loader-syntax:0 */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import classnames from 'classnames';
-import CodeMirror from 'react-codemirror';
+import CodeMirror from 'react-codemirror2';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/html-hint';

@@ -4,7 +4,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { ButtonGroup, Button, Glyphicon } from 'react-bootstrap';
 import Continuous from './icons/continuous';
 import Dashed from './icons/dashed';

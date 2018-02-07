@@ -10,7 +10,7 @@
 // ====================================================================
 
 import { connect } from 'react-redux';
-import { PropTypes } from 'react';
+import { PropTypes } from 'prop-types';
 import { getPages } from 'store/reducers/pages';
 import { getViews } from 'store/reducers/views';
 import { focusPage } from 'store/actions/pages';

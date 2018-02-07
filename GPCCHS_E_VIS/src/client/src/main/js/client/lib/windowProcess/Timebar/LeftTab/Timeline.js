@@ -5,7 +5,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import { Glyphicon } from 'react-bootstrap';
 import { formatDuration } from 'windowProcess/common/timeFormats';
 import styles from './LeftTab.css';

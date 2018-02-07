@@ -21,7 +21,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import _get from 'lodash/get';
 import {
   FormGroup,
@@ -35,7 +36,7 @@ import InformationContainer from './widgets/InformationContainer';
 import CacheContainer from './widgets/CacheContainer';
 import CatalogExplorerContainer from './widgets/CatalogExplorerContainer';
 
-import PerformanceContainer from './widgets/PerformanceContainer';
+// import PerformanceContainer from './widgets/PerformanceContainer';
 
 const NotAlreadyImplemented = () => <div>Not already implemented</div>;
 
@@ -46,7 +47,6 @@ const widgets = {
   map: { title: 'Data map (developer)', component: DataMapContainer },
   store: { title: 'Store (developer)', component: StoreContainer },
   cache: { title: 'Cache (developer)', component: CacheContainer },
-  performance: { title: 'Performance (developer)', component: PerformanceContainer },
   information: { title: 'Information (developer)', component: InformationContainer },
 };
 

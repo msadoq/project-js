@@ -16,7 +16,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import Collapse from 'rc-collapse';
 import _get from 'lodash/get';
 import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';

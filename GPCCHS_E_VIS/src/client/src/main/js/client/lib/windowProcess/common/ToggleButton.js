@@ -4,7 +4,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { Button } from 'react-bootstrap';
 
 export default class ToggleButton extends React.Component {

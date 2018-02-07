@@ -12,7 +12,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import {
   Glyphicon,
   Alert,
@@ -45,7 +46,7 @@ export default class EntryPointTree extends PureComponent {
   };
 
   static contextTypes = {
-    windowId: React.PropTypes.string,
+    windowId: PropTypes.string,
   }
 
   onChange = (openPanels) => {

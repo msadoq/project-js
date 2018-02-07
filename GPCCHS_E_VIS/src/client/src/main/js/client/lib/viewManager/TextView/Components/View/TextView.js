@@ -39,7 +39,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import { html as beautifyHtml } from 'js-beautify';
 import updateSpanValues from './TextViewFunctions';

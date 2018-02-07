@@ -4,7 +4,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import styles from './Timebar.css';
 
 export default class TimebarTimeline extends PureComponent {

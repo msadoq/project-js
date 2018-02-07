@@ -5,6 +5,7 @@
 // ====================================================================
 
 import React from 'react';
+import { PropTypes } from 'prop-types';
 import {
   Panel,
 } from 'react-bootstrap';
@@ -12,7 +13,7 @@ import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
 
 export default class DynamicTab extends React.Component {
   static contextTypes = {
-    viewId: React.PropTypes.string,
+    viewId: PropTypes.string,
   };
   state = {
     isTitleOpen: false,

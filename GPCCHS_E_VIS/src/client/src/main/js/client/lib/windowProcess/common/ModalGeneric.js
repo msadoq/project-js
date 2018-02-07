@@ -29,7 +29,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import AddLinkContainer from 'viewManager/commonEditor/Misc/AddLinkContainer';
 import { Modal } from 'react-bootstrap';
 import PlotAddAxisContainer from 'viewManager/PlotView/Components/Editor/AddPlotAxisContainer';

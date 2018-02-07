@@ -14,7 +14,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import { Panel, Button } from 'react-bootstrap';
 import getLogger from 'common/logManager';
 import { NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from 'constants';

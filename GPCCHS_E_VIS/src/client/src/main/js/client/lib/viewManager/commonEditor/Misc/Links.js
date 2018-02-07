@@ -5,7 +5,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { Glyphicon, Button } from 'react-bootstrap';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';

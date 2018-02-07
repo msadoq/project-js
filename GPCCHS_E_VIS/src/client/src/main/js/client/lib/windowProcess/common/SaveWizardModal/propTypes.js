@@ -4,7 +4,7 @@
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'react';
+import { PropTypes } from 'prop-types';
 
 export const pagePropTypes = PropTypes.shape({
   title: PropTypes.string.isRequired,

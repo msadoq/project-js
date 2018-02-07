@@ -8,7 +8,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { NODE_TYPE_ARRAY as ARRAY, NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM, NODE_TYPE_OBJECT as OBJECT, NODE_TYPE_OBJECT_ITEM as OBJECT_ITEM, NODE_TYPE_ITEM as ITEM, NODE_TYPE_KEY as KEY, NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from 'constants';
 
 const Loading = props => (
@@ -113,8 +114,8 @@ const Toggle = (props) => {
 };
 
 Toggle.propTypes = {
-  style: React.PropTypes.shape({}).isRequired,
-  toggled: React.PropTypes.bool,
+  style: PropTypes.shape({}).isRequired,
+  toggled: PropTypes.bool,
 };
 Toggle.defaultProps = {
   toggled: false,

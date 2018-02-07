@@ -18,7 +18,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import _max from 'lodash/max';

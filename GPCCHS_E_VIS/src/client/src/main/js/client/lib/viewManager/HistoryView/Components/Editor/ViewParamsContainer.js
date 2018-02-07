@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { getView } from 'store/reducers/views';
 import { getConfigurationByViewId } from 'viewManager/selectors';

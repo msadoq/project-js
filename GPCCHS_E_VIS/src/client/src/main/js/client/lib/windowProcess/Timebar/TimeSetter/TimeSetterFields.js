@@ -7,17 +7,18 @@
 import moment from 'moment';
 import classnames from 'classnames';
 import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import _memoize from 'lodash/memoize';
 import styles from './TimeSetter.css';
 
 export default class TimeSetterFields extends PureComponent {
 
   static propTypes = {
-    ms: React.PropTypes.number.isRequired,
-    cursor: React.PropTypes.string.isRequired,
-    disabled: React.PropTypes.bool.isRequired,
-    undisplayed: React.PropTypes.bool.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    ms: PropTypes.number.isRequired,
+    cursor: PropTypes.string.isRequired,
+    disabled: PropTypes.bool.isRequired,
+    undisplayed: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired,
   }
 
   componentDidUpdate() {

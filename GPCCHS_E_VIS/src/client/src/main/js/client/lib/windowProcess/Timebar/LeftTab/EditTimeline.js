@@ -6,7 +6,8 @@
 // ====================================================================
 
 // import moment from 'moment';
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import {

@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
 import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from 'constants';

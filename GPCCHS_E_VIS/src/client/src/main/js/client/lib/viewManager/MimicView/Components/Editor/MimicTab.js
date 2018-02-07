@@ -7,7 +7,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import Collapse from 'rc-collapse';
 import {
   Button,
@@ -32,7 +33,7 @@ export default class MimicTab extends React.Component {
   }
 
   static contextTypes = {
-    viewId: React.PropTypes.string,
+    viewId: PropTypes.string,
   };
 
 

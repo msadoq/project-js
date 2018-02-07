@@ -7,7 +7,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import classnames from 'classnames';
 import { Alert, FormGroup, Col } from 'react-bootstrap';
 import path from 'path';

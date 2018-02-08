@@ -58,7 +58,7 @@
 
 .lowerFormattedTime{
   position: absolute;
-  top: -16px;
+  top: -24px;
   transform: translateX(-100%);
   color: var(--boundCursorsColor);
   font-weight: bold;
@@ -68,7 +68,7 @@
 }
 .upperFormattedTime{
   position: absolute;
-  top: -16px;
+  top: -24px;
   right: 0;
   color: var(--boundCursorsColor);
   transform: translateX(100%);
@@ -79,7 +79,7 @@
 }
 .currentFormattedTime{
   position: absolute;
-  top: -16px;
+  top: -14px;
   color: var(--currentCursorColor);
   white-space: nowrap;
   z-index: 2;

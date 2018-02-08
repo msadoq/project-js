@@ -23,6 +23,7 @@ import {
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
+import SaveVizualizationToggle from './SaveVisualizationToggle';
 
 const inlineStyles = {
   width200: { width: '200px' },
@@ -50,7 +51,7 @@ export default class ControlsLeft extends PureComponent {
     ),
     timebarUuid: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
-  }
+  };
 
   static defaultProps = {
     masterTimeline: null,
@@ -89,7 +90,7 @@ export default class ControlsLeft extends PureComponent {
     if (newSpeed !== 1 && !isPlaying) {
       play(timebarUuid);
     }
-  }
+  };
 
   updatePlayingSpeed = (e) => {
     e.preventDefault();
@@ -104,13 +105,13 @@ export default class ControlsLeft extends PureComponent {
       newSpeed = 10;
     }
     updateSpeed(timebarUuid, newSpeed);
-  }
+  };
 
   restoreWidth = (e) => {
     e.preventDefault();
     const { timebarUuid, restoreWidth } = this.props;
     restoreWidth(timebarUuid);
-  }
+  };
 
   goNow = (e) => {
     e.preventDefault();
@@ -119,7 +120,7 @@ export default class ControlsLeft extends PureComponent {
       goNow,
     } = this.props;
     goNow(timebarUuid);
-  }
+  };
 
   jump = (e) => {
     e.preventDefault();
@@ -128,7 +129,7 @@ export default class ControlsLeft extends PureComponent {
       timebarUuid,
       1000 * e.currentTarget.getAttribute('offset')
     );
-  }
+  };
 
   willOpenModal = (e) => {
     e.preventDefault();
@@ -144,7 +145,7 @@ export default class ControlsLeft extends PureComponent {
         cursor: 'all',
       }
     );
-  }
+  };
 
   render() {
     const {
@@ -212,10 +213,16 @@ export default class ControlsLeft extends PureComponent {
           </li>
           : ''
         }
+
+        <SaveVizualizationToggle
+          buttonClassName={allButtonsKlasses}
+          liClassName={styles.controlsLi}
+          glyphIconClassName={styles.glyphIcon}
+        />
+
         <li className={styles.controlsLi}>
           <button
             className={allButtonsKlasses}
-            direction="down"
             onClick={this.changeSpeed}
             title="Decrease speed"
           >
@@ -242,7 +249,6 @@ export default class ControlsLeft extends PureComponent {
         <li className={styles.controlsLi}>
           <button
             className={allButtonsKlasses}
-            direction="up"
             onClick={this.changeSpeed}
             title="Increase speed"
           >
@@ -270,7 +276,6 @@ export default class ControlsLeft extends PureComponent {
         </li>
         <li className={styles.controlsLi}>
           <button
-            offset={-10}
             className={allButtonsKlasses}
             onClick={this.jump}
             title="- 10s"
@@ -280,7 +285,6 @@ export default class ControlsLeft extends PureComponent {
         </li>
         <li className={styles.controlsLi}>
           <button
-            offset={10}
             className={allButtonsKlasses}
             onClick={this.jump}
             title="+ 10s"

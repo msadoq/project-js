@@ -226,6 +226,7 @@
   },
   "style": "./lib/app.global.css",
   "devDependencies": {
+    "electron-react-devtools": "^0.5.3",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-15.4": "^1.0.5",
     "enzyme-to-json": "^3.3.0",

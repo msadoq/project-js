@@ -68,13 +68,13 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
   test('WS_PAGE_OPENED', () => {
     const action = { type: types.WS_PAGE_OPENED,
       payload: { views:
-        [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'DynamicView', uuid: 'myDyn' }] } };
+          [{ type: 'PlotView', uuid: 'myPlot' }, { type: 'DynamicView', uuid: 'myDyn' }] } };
     expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
   });
   test('WS_WORKSPACE_OPENED', () => {
     const action = { type: types.WS_WORKSPACE_OPENED,
       payload: { views:
-        [{ type: 'TextView', uuid: 'myText' }, { type: 'DynamicView', uuid: 'myDyn' }] } };
+          [{ type: 'TextView', uuid: 'myText' }, { type: 'DynamicView', uuid: 'myDyn' }] } };
     expect(dynamicViewData(freezeMe({}), action)).toEqual({ myDyn: {} });
   });
   test('WS_VIEW_CLOSE', () => {
@@ -190,8 +190,8 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
             val2: { type: 'uinteger', value: 102 },
             val3: { type: 'uinteger', value: 103 },
             val4: { type: 'enum', value: 'val10', symbol: 'val10' },
-            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.010Z' },
-            time: { type: 'time', value: '1970-01-01T00:00:00.010Z' },
+            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.010' },
+            time: { type: 'time', value: '1970-01-01T00:00:00.010' },
           },
         },
       });
@@ -227,8 +227,8 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
             val2: { type: 'uinteger', value: 152 },
             val3: { type: 'uinteger', value: 153 },
             val4: { type: 'enum', value: 'val15', symbol: 'val15' },
-            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.015Z' },
-            time: { type: 'time', value: '1970-01-01T00:00:00.015Z' },
+            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.015' },
+            time: { type: 'time', value: '1970-01-01T00:00:00.015' },
           },
         },
       });
@@ -263,8 +263,8 @@ describe('viewManager/DynamicView/store/dataReducer', () => {
             val2: { type: 'uinteger', value: 152 },
             val3: { type: 'uinteger', value: 153 },
             val4: { type: 'enum', value: 'val15', symbol: 'val15' },
-            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.015Z' },
-            time: { type: 'time', value: '1970-01-01T00:00:00.015Z' },
+            referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.015' },
+            time: { type: 'time', value: '1970-01-01T00:00:00.015' },
           },
         },
       });

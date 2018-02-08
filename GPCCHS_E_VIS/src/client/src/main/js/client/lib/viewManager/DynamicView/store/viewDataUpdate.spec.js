@@ -90,8 +90,8 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
       expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },
         val4: { type: 'enum', value: 'val10', symbol: 'val10' },
-        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
-        time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
+        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020' },
+        time: { type: 'time', value: '1970-01-01T00:00:00.020' },
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });
@@ -110,8 +110,8 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
       expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },
         val4: { type: 'enum', value: 'val10', symbol: 'val10' },
-        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
-        time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
+        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020' },
+        time: { type: 'time', value: '1970-01-01T00:00:00.020' },
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });
@@ -129,8 +129,8 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
       expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },
         val4: { type: 'enum', value: 'val10', symbol: 'val10' },
-        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
-        time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
+        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020' },
+        time: { type: 'time', value: '1970-01-01T00:00:00.020' },
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });
@@ -148,8 +148,8 @@ describe('viewManager/DynamicView/store/viewDataUpdate', () => {
       expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },
         val4: { type: 'enum', value: 'val10', symbol: 'val10' },
-        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
-        time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
+        referenceTimestamp: { type: 'time', value: '1970-01-01T00:00:00.020' },
+        time: { type: 'time', value: '1970-01-01T00:00:00.020' },
         monitoringState: { type: 'uinteger', value: 'ok' },
       });
     });

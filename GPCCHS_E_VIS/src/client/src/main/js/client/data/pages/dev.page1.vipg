@@ -7,19 +7,6 @@
   "domainName": "fr.cnes.isis.simupus",
   "views": [
     {
-      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv",
-      "geometry": {
-        "x": 6,
-        "y": 5,
-        "w": 6,
-        "h": 8,
-        "maxH": 100,
-        "maxW": 100
-      },
-      "hideBorders": false,
-      "windowState": "Normalized"
-    },
-    {
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.vidv",
       "geometry": {
         "x": 9,
@@ -33,8 +20,8 @@
     {
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic_demo.vimv",
       "geometry": {
-        "x": 0,
-        "y": 0,
+        "x": 6,
+        "y": 6,
         "w": 6,
         "h": 13
       },
@@ -56,7 +43,7 @@
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/ground-alarm.viga",
       "geometry": {
         "x": 0,
-        "y": 13,
+        "y": 10,
         "w": 6,
         "h": 5
       },
@@ -67,9 +54,21 @@
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/onboard-alarm.viba",
       "geometry": {
         "x": 6,
-        "y": 13,
+        "y": 5,
         "w": 6,
-        "h": 5
+        "h": 5,
+        "collapsed": true
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    },
+    {
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 5,
+        "h": 10
       },
       "hideBorders": false,
       "windowState": "Normalized"

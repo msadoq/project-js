@@ -60,7 +60,10 @@ const makeViewNeededData = () => {
     previousDataMap = dataMap;
     // Clean viewData
     if (previous) {
-      dispatch(cleanViewData(dataMap, previous, state.HistoryViewConfiguration));
+      dispatch(cleanViewData(dataMap, previous, {
+        HistoryViewConfiguration: state.HistoryViewConfiguration,
+        PlotViewConfiguration: state.PlotViewConfiguration,
+      }));
     }
 
     // Dispatch neededData

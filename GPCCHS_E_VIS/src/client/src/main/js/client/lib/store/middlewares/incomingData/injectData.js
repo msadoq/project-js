@@ -55,7 +55,8 @@ const injectData = (timing) => {
         convertedDataToInject,
         { HistoryViewConfiguration: state.HistoryViewConfiguration,
           GroundAlarmViewConfiguration: state.GroundAlarmViewConfiguration,
-          OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration },
+          OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration,
+          PlotViewConfiguration: state.PlotViewConfiguration },
         getCurrentVisuWindow(state)
       );
       const updateLastData = injectDataLast(

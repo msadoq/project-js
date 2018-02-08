@@ -132,8 +132,8 @@
     {
       "connectedData": {
         "axisId": "VBat",
-        "convertFrom": "g",
-        "convertTo": "kg",
+        "convertFrom": "",
+        "convertTo": "",
         "defaultY": 1,
         "digits": 5,
         "domain": "fr.cnes.isis.simupus",

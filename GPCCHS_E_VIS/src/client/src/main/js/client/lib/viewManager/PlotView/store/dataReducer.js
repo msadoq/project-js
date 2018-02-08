@@ -80,7 +80,9 @@ export default function plotViewData(state = {}, action) {
       return newState;
     }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals } = action.payload;
+      const { dataToInject, newViewMap,
+              newExpectedRangeIntervals, configurations } = action.payload;
+      const { PlotViewConfiguration } = configurations;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
       if (!dataKeys.length) {
@@ -93,7 +95,11 @@ export default function plotViewData(state = {}, action) {
         const viewId = viewIds[i];
         // Data Selection
         const epSubState =
-          selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
+          selectDataPerView(newViewMap[viewId],
+                            PlotViewConfiguration[viewId],
+                            newExpectedRangeIntervals,
+                            dataToInject,
+                            state[viewId]);
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
           const viewState = viewRangeAdd(newState[viewId], epSubState);
@@ -105,8 +111,8 @@ export default function plotViewData(state = {}, action) {
       return newState || {};
     }
     case types.WS_VIEWDATA_CLEAN: {
-      const { previousDataMap, dataMap } = action.payload;
-
+      const { previousDataMap, dataMap, configuration } = action.payload;
+      const { PlotViewConfiguration } = configuration;
       // since now, state will changed
       let newState = state;
       const viewIds = Object.keys(state);
@@ -119,7 +125,8 @@ export default function plotViewData(state = {}, action) {
           previousDataMap.perView[viewId],
           dataMap.perView[viewId],
           previousDataMap.expectedRangeIntervals,
-          dataMap.expectedRangeIntervals);
+          dataMap.expectedRangeIntervals,
+          PlotViewConfiguration[viewId]);
         if (subState !== viewData) {
           newState = { ...newState, [viewId]: subState };
         }

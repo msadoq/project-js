@@ -71,6 +71,7 @@ export default class Tabs extends PureComponent {
     askClosePage: func.isRequired,
     movePageToWindow: func.isRequired,
     moveTabOrder: func.isRequired,
+    pageDragEvent: func.isRequired,
   };
 
   handleSelect = (eventKey) => {
@@ -90,18 +91,21 @@ export default class Tabs extends PureComponent {
   };
 
   handleDragStart = (ev, pageId, key) => {
+    this.props.pageDragEvent(true);
     this.setState({ dragging: pageId });
     ev.dataTransfer.setData('pageId', pageId);
     ev.dataTransfer.setData('position', key);
   };
 
   handleDragStop = () => {
+    console.log(this.state.newWindow);
     this.setState({ dragging: null });
   };
 
   handleDragOver = (e) => {
     e.preventDefault();
     const ev = e.currentTarget.parentNode;
+    this.props.pageDragEvent(false);
     if (ev.tagName.toLowerCase() === 'li') {
       ev.style.borderLeft = 'none';
       ev.style.borderRight = 'none';
@@ -118,6 +122,7 @@ export default class Tabs extends PureComponent {
 
   handleDragLeave = (e) => {
     const ev = e.currentTarget.parentNode;
+    this.props.pageDragEvent(true);
     ev.style.borderLeft = 'none';
     ev.style.borderRight = 'none';
   };
@@ -173,16 +178,6 @@ export default class Tabs extends PureComponent {
                   }
                 >
                   <div>
-                    <Button
-                      bsStyle="link"
-                      onClick={e => this.handleMoveOut(e, page.pageId)}
-                      className={styles.button}
-                    >
-                      <Glyphicon
-                        glyph="new-window"
-                        className="text-warning"
-                      />
-                    </Button>
                     <span>{page.isModified ? page.title.concat(' *') : page.title}</span>
                     <Button
                       bsStyle="link"

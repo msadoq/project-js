@@ -85,7 +85,7 @@ const makeOnCloseWorkspace = () => withListenAction(
         dispatch(openModal(windowId, {
           type: 'dialog',
           title: 'Confirmation',
-          message: `Are you sure you want to quit ${windowOrWorkspace}`,
+          message: 'Are you sure you want to quit?',
           buttons: [
             { label: `Yes, close ${windowOrWorkspace}`, value: 'quit', type: 'primary' },
             { label: 'Cancel', value: 'cancel', type: 'default' },

@@ -41,7 +41,7 @@ export default merge(baseConfig, {
   externals: [
     'source-map-support',
     'memcpy',
-    'zmq',
+    'zeromq',
     'bindings',
     'hiredis',
   ],
@@ -59,9 +59,9 @@ export default merge(baseConfig, {
     new CopyWebpackPlugin([
       { from: 'node_modules/rtd/**/*' },
       { from: 'node_modules/long/**/*' },
-      { from: 'node_modules/zmq/**/*' },
+      { from: 'node_modules/zeromq/**/*' },
       { from: 'node_modules/bindings/**/*' },
-      { from: 'node_modules/zmq/**/*', context: 'node_modules/common' }, // for dev (with run hello)
+      { from: 'node_modules/zeromq/**/*', context: 'node_modules/common' }, // for dev (with run hello)
       { from: 'node_modules/bindings/**/*', context: 'node_modules/common' }, // for dev (with run hello)
       { from: 'node_modules/common/**/*' },
       { from: 'adapters/**/*' },

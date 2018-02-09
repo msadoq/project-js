@@ -103,6 +103,25 @@ export function focusPage(windowId, pageId) {
 }
 
 /**
+ *
+ * @param newWindow boolean
+ * @returns {function(*, *)}
+ */
+export function pageDragEvent(newWindow) {
+  return (dispatch, getState) => {
+    const state = getState();
+    if (state.newWindow !== newWindow) {
+      dispatch({
+        type: types.PAGE_DRAG_EVENT,
+        payload: {
+          newWindow,
+        },
+      });
+    }
+  };
+}
+
+/**
  * @param pageId
  * @param fromWindowId
  * @param toWindowId
@@ -110,25 +129,29 @@ export function focusPage(windowId, pageId) {
  */
 export function movePageToWindow(pageId, fromWindowId, toWindowId) {
   return (dispatch, getState) => {
-    let windowId = toWindowId;
-    if (!toWindowId) {
-      const newWindowId = v4();
-      dispatch(addWindow(newWindowId, 'new Window'));
-      windowId = newWindowId;
-    }
-    // move selected page to selected or new window
-    dispatch(pageMoveToWindow(fromWindowId, windowId, pageId));
-    // focus this page on the new window
-    dispatch(focusPage(windowId, pageId));
-    // if moved view was focused, select another one in the previous window
     const state = getState();
-    const focusedPageId = getWindowFocusedPageId(state, { windowId: fromWindowId });
-    if (focusedPageId === pageId) {
-      const pageIds = _.difference(getWindowPageIds(state, { windowId: fromWindowId }), [pageId]);
-      // at least one page remaining in the previous window
-      if (pageIds.length > 0) {
-        // focus that page in the previous window
-        dispatch(focusPage(fromWindowId, pageIds[0]));
+    const nbPages = getWindowPageIds(state, { windowId: fromWindowId }).length;
+    // if there is only one page we do not move the page to an other window
+    if (nbPages > 1) {
+      let windowId = toWindowId;
+      if (!toWindowId) {
+        const newWindowId = v4();
+        dispatch(addWindow(newWindowId, 'new Window'));
+        windowId = newWindowId;
+      }
+      // move selected page to selected or new window
+      dispatch(pageMoveToWindow(fromWindowId, windowId, pageId));
+      // focus this page on the new window
+      dispatch(focusPage(windowId, pageId));
+      // if moved view was focused, select another one in the previous window
+      const focusedPageId = getWindowFocusedPageId(state, { windowId: fromWindowId });
+      if (focusedPageId === pageId) {
+        const pageIds = _.difference(getWindowPageIds(state, { windowId: fromWindowId }), [pageId]);
+        // at least one page remaining in the previous window
+        if (pageIds.length > 0) {
+          // focus that page in the previous window
+          dispatch(focusPage(fromWindowId, pageIds[0]));
+        }
       }
     }
   };

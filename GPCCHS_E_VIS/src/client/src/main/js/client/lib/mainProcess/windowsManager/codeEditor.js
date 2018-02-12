@@ -54,6 +54,7 @@ export function open(callback) {
     height: DEFAULT_HEIGHT,
     show: false,
   });
+  win.setMenu(null);
 
   const htmlPath = getHtmlPath('code');
   logger.debug('opening', htmlPath);

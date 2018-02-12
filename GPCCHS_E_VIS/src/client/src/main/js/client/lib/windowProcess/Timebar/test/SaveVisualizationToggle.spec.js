@@ -1,7 +1,7 @@
 import React from 'react';
 import { stub } from 'sinon';
 import { shallow } from 'enzyme';
-import SaveVisualizationToggle from './SaveVisualizationToggle';
+import SaveVisualizationToggle from '../Controls/SaveVisualizationToggle';
 
 describe('SaveVisualizationToggle', () => {
   test('should be displayed as active when a isActive prop', () => {

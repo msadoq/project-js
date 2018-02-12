@@ -9,7 +9,7 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
-import _getOr from 'lodash/fp/getOr';
+import _get from 'lodash/get';
 import { dirname, basename } from 'path';
 
 import { LOG_DOCUMENT_OPEN } from 'constants';
@@ -154,14 +154,16 @@ const prepareTimebar = (timelines, state) => (timebar) => {
   return {
     ...timebar,
     visuWindow: {
-      current,
-      lower,
-      upper,
-      defaultWidth: _getOr(
-        parameters.get('VISU_WINDOW_DEFAULT_WIDTH'),
+      current: _get(timebar, 'visuWindow.current', current),
+      lower: _get(timebar, 'visuWindow.lower', lower),
+      upper: _get(timebar, 'visuWindow.upper', upper),
+      defaultWidth: _get(
+        timebar,
         'visuWindow.defaultWidth',
-        timebar
+        parameters.get('VISU_WINDOW_DEFAULT_WIDTH')
       ),
+      // if any of current, lower or upper is defined, then window was saved
+      saved: !!timebar.visuWindow.current,
     },
     slideWindow: { lower, upper },
     rulerStart: Number(lower) - (5 * 60000),

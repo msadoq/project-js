@@ -94,6 +94,7 @@ describe('documentManager/writeWorkspace', () => {
             defaultWidth: 900000,
             lower: 1420106400000,
             upper: 1420106700000,
+            saved: true,
           },
           timelines: ['tl1', 'tl2'],
           mode: 'Normal',
@@ -118,8 +119,7 @@ describe('documentManager/writeWorkspace', () => {
       timebarTimelines: {
         abcd: ['tl1', 'tl2'],
       },
-      hsc:
-      {
+      hsc: {
         file: 'workspace1.json',
         folder: getTmpPath('testWk'),
       },
@@ -144,6 +144,92 @@ describe('documentManager/writeWorkspace', () => {
     });
 
     test('saves correct content', (done) => {
+      const path = join(state.hsc.folder, state.hsc.file);
+      writeWorkspace(state, path, () => {
+        readJson(path, (err, content) => {
+          expect(content).toMatchSnapshot();
+          done();
+        });
+      });
+    });
+
+    test('does not save timebar cursors if visuWindow save option is false', (done) => {
+      state = freezeMe({
+        windows: {
+          win1: {
+            focusedPage: 'page1',
+            geometry: {
+              h: 800,
+              kind: 'Absolute',
+              w: 1310,
+              x: 110,
+              y: 10,
+            },
+            pages: ['page1', 'page2'],
+            title: 'window1',
+          },
+        },
+        pages: {
+          page1: {
+            type: 'Page',
+            title: 'Page 1',
+            timebarUuid: 'abcd',
+            oId: 'oid:/testPlot.json',
+          },
+          page2: {
+            type: 'Page',
+            title: 'Page 2',
+            timebarUuid: 'abcd',
+            path: 'testText.json',
+          },
+        },
+        timebars: {
+          abcd: {
+            uuid: 'abcd',
+            id: 'tb1',
+            masterId: 'Session 1',
+            rulerResolution: 11250,
+            rulerStart: 1420106400000,
+            slideWindow: {
+              lower: 1420106550000,
+              upper: 1420107150000,
+            },
+            speed: 1,
+            visuWindow: {
+              current: 1420106460000,
+              defaultWidth: 900000,
+              lower: 1420106400000,
+              upper: 1420106700000,
+              saved: false,
+            },
+            timelines: ['tl1', 'tl2'],
+            mode: 'Normal',
+          },
+        },
+        timelines: {
+          tl1: {
+            color: null,
+            id: 'Session 1',
+            kind: 'Session',
+            offset: 0,
+            sessionName: 'session1',
+          },
+          tl2: {
+            color: null,
+            id: 'Session 2',
+            kind: 'Session',
+            offset: 0,
+            sessionName: 'session1',
+          },
+        },
+        timebarTimelines: {
+          abcd: ['tl1', 'tl2'],
+        },
+        hsc: {
+          file: 'workspace1.json',
+          folder: getTmpPath('testWk'),
+        },
+      });
       const path = join(state.hsc.folder, state.hsc.file);
       writeWorkspace(state, path, () => {
         readJson(path, (err, content) => {

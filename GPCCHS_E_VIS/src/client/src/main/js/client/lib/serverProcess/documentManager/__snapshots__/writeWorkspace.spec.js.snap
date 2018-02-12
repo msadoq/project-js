@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`documentManager/writeWorkspace writeWorkspace saves correct content 1`] = `
+exports[`documentManager/writeWorkspace writeWorkspace does not save timebar cursors if visuWindow save option is false 1`] = `
 Object {
   "timebars": Array [
     Object {
@@ -28,6 +28,67 @@ Object {
       "type": "timeBarConfiguration",
       "visuWindow": Object {
         "defaultWidth": 900000,
+      },
+    },
+  ],
+  "type": "WorkSpace",
+  "windows": Array [
+    Object {
+      "geometry": Object {
+        "h": 800,
+        "kind": "Absolute",
+        "w": 1310,
+        "x": 110,
+        "y": 10,
+      },
+      "pages": Array [
+        Object {
+          "oId": "oid:/testPlot.json",
+          "timebarId": "tb1",
+        },
+        Object {
+          "path": "testText.json",
+          "timebarId": "tb1",
+        },
+      ],
+      "title": "window1",
+      "type": "documentWindow",
+    },
+  ],
+}
+`;
+
+exports[`documentManager/writeWorkspace writeWorkspace saves correct content 1`] = `
+Object {
+  "timebars": Array [
+    Object {
+      "id": "tb1",
+      "masterId": "Session 1",
+      "mode": "Normal",
+      "rulerResolution": 11250,
+      "speed": 1,
+      "timelines": Array [
+        Object {
+          "color": null,
+          "id": "Session 1",
+          "kind": "Session",
+          "offset": 0,
+          "sessionName": "session1",
+        },
+        Object {
+          "color": null,
+          "id": "Session 2",
+          "kind": "Session",
+          "offset": 0,
+          "sessionName": "session1",
+        },
+      ],
+      "type": "timeBarConfiguration",
+      "visuWindow": Object {
+        "current": 1420106460000,
+        "defaultWidth": 900000,
+        "lower": 1420106400000,
+        "upper": 1420106700000,
       },
     },
   ],
@@ -93,7 +154,10 @@ exports[`documentManager/writeWorkspace writeWorkspaceAs saves 1`] = `
       \\"masterId\\": \\"Session 1\\",
       \\"mode\\": \\"Normal\\",
       \\"visuWindow\\": {
-        \\"defaultWidth\\": 900000
+        \\"defaultWidth\\": 900000,
+        \\"current\\": 1420106460000,
+        \\"lower\\": 1420106400000,
+        \\"upper\\": 1420106700000
       },
       \\"timelines\\": [
         {

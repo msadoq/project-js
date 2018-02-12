@@ -48,21 +48,29 @@ const prepareWindows = state => _.map(win => ({
   }),
 }), getWindows(state));
 
-const prepareTimebars = state => _.map(timebar => ({
-  id: timebar.id,
-  type: 'timeBarConfiguration',
-  rulerResolution: timebar.rulerResolution,
-  speed: timebar.speed,
-  masterId: timebar.masterId,
-  mode: timebar.mode,
-  visuWindow: {
-    defaultWidth: timebar.visuWindow.defaultWidth,
-  },
-  timelines: _.map((timelineUuid) => {
-    const timeline = getTimeline(state, { timelineUuid });
-    return _.omit('uuid', timeline);
-  }, getTimebarTimelines(state, { timebarUuid: timebar.uuid })),
-}), getTimebars(state));
+const prepareTimebars = state => _.map((timebar) => {
+  const cursors = !timebar.visuWindow.saved ? {} : {
+    current: timebar.visuWindow.current,
+    lower: timebar.visuWindow.lower,
+    upper: timebar.visuWindow.upper,
+  };
+  return {
+    id: timebar.id,
+    type: 'timeBarConfiguration',
+    rulerResolution: timebar.rulerResolution,
+    speed: timebar.speed,
+    masterId: timebar.masterId,
+    mode: timebar.mode,
+    visuWindow: {
+      defaultWidth: timebar.visuWindow.defaultWidth,
+      ...cursors,
+    },
+    timelines: _.map((timelineUuid) => {
+      const timeline = getTimeline(state, { timelineUuid });
+      return _.omit('uuid', timeline);
+    }, getTimebarTimelines(state, { timebarUuid: timebar.uuid })),
+  };
+}, getTimebars(state));
 
 const prepareWorkspace = state => ({
   type: 'WorkSpace',

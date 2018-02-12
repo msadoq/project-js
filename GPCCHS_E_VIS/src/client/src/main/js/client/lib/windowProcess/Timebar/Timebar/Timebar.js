@@ -87,7 +87,7 @@ export default class Timebar extends PureComponent {
     timebarUuid: PropTypes.string.isRequired,
     verticalScroll: PropTypes.number.isRequired,
     widthPx: PropTypes.number.isRequired,
-  }
+  };
 
   static contextTypes = {
     windowId: PropTypes.string,
@@ -116,7 +116,7 @@ export default class Timebar extends PureComponent {
     lower: null,
     upper: null,
     current: null,
-  }
+  };
 
   componentDidMount() {
     document.addEventListener('keydown', this.onShortcut);
@@ -252,7 +252,7 @@ export default class Timebar extends PureComponent {
           break;
       }
     }
-  }
+  };
 
   onMouseDown = (e) => {
     if (e.target.tagName === 'SPAN') {
@@ -292,7 +292,7 @@ export default class Timebar extends PureComponent {
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
     e.stopPropagation();
-  }
+  };
 
   // eslint-disable-next-line complexity, "DV6 TBC_CNES mouseUp handling, must not be split"
   onMouseUp = (e) => {
@@ -364,7 +364,7 @@ export default class Timebar extends PureComponent {
       navigating: false,
       dragNavigating: false,
     });
-  }
+  };
 
   onMouseMoveDragging = (e, viewportMsWidth) => {
     const {
@@ -435,7 +435,7 @@ export default class Timebar extends PureComponent {
       slideLower: slideLowerPosMs,
       slideUpper: slideUpperPosMs,
     });
-  }
+  };
 
   // eslint-disable-next-line complexity, "DV6 TBC_CNES mouseMove handling, must not be split"
   onMouseMoveResizing = () => {
@@ -509,7 +509,7 @@ export default class Timebar extends PureComponent {
       if (cursorPosMs < current) cursorPosMs = current;
       this.setState({ slideUpper: cursorPosMs });
     }
-  }
+  };
 
   // eslint-disable-next-line complexity, "DV6 TBC_CNES mouseMove handling, must not be split"
   onMouseMoveNavigating = () => {
@@ -579,7 +579,7 @@ export default class Timebar extends PureComponent {
         });
       }
     }
-  }
+  };
 
   onMouseMove = (e) => {
     e.preventDefault();
@@ -614,7 +614,7 @@ export default class Timebar extends PureComponent {
     } else if (navigating) {
       this.onMouseMoveNavigating();
     }
-  }
+  };
 
   /*
     Clicked on any of the 4 slideWindow.lower,
@@ -639,7 +639,7 @@ export default class Timebar extends PureComponent {
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
     e.stopPropagation();
-  }
+  };
 
   /*
     Clicked on the current cursor
@@ -672,7 +672,7 @@ export default class Timebar extends PureComponent {
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
     e.stopPropagation();
-  }
+  };
 
   // eslint-disable-next-line complexity, "DV6 TBC_CNES wheel handling, must not be split"
   onWheel = (e) => {
@@ -753,7 +753,7 @@ export default class Timebar extends PureComponent {
       }
       this.debounced2();
     }
-  }
+  };
 
   /*
     Navigating through the timescale, method called from child Timescale
@@ -780,7 +780,7 @@ export default class Timebar extends PureComponent {
     } else {
       this.setState({ viewportLower, viewportUpper });
     }
-  }
+  };
 
   autoUpdateViewportWindow = () => {
     const { timebarUuid, updateViewport, widthPx } = this.props;
@@ -791,7 +791,7 @@ export default class Timebar extends PureComponent {
       viewportLower,
       (viewportUpper - viewportLower) / widthPx
     );
-  }
+  };
 
   autoUpdateCursors = () => {
     const { timebarUuid, updateCursors } = this.props;
@@ -810,13 +810,13 @@ export default class Timebar extends PureComponent {
         upper: slideUpper,
       }
     );
-  }
+  };
 
   hideCursorTime = () => {
     setTimeout(() => {
       this.props.retrieveFormattedFullDateEl().innerHTML = '';
     }, 150);
-  }
+  };
 
   willUpdateCursorTime = (e) => {
     e.stopPropagation();
@@ -824,7 +824,7 @@ export default class Timebar extends PureComponent {
       this.cursorTimeThrottle = _throttle(this.updateCursorTime, 100);
     }
     this.cursorTimeThrottle(e.pageX);
-  }
+  };
 
   updateCursorTime = (pageX) => {
     const { retrieveFormattedFullDateEl, widthPx } = this.props;
@@ -833,7 +833,7 @@ export default class Timebar extends PureComponent {
     const cursorMs = lower + ((upper - lower) * (offsetPx / widthPx));
     this.setState({ cursorMs });
     retrieveFormattedFullDateEl().innerHTML = moment(cursorMs).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS');
-  }
+  };
 
   dragNavigate = () => {
     const {
@@ -870,7 +870,7 @@ export default class Timebar extends PureComponent {
       });
       setTimeout(this.dragNavigate, 60);
     }
-  }
+  };
 
   formatDate = (ms, cursor) => {
     const {
@@ -900,7 +900,7 @@ export default class Timebar extends PureComponent {
       return date.format('MM[-]DD HH[:]mm[:]ss');
     }
     return date.format('MM[-]DD HH[:]mm[:]ss.SSS');
-  }
+  };
 
   rePosition = (side, e) => {
     e.preventDefault();
@@ -927,7 +927,7 @@ export default class Timebar extends PureComponent {
       newViewportLower,
       (newViewportUpper - newViewportLower) / widthPx
     );
-  }
+  };
 
   bringCursors = (e) => {
     e.preventDefault();
@@ -980,7 +980,7 @@ export default class Timebar extends PureComponent {
         );
       }
     }
-  }
+  };
 
   calculate = () => {
     const {
@@ -1030,12 +1030,12 @@ export default class Timebar extends PureComponent {
       slideUpperPercentOffset,
       currentPercentOffset,
     };
-  }
+  };
 
-  assignTimelinesEl = (el) => { this.timelinesEl = el; }
-  assignEl = (el) => { this.el = el; }
-  bindRePositionLeft = this.rePosition.bind(this, 'left')
-  bindRePositionRight = this.rePosition.bind(this, 'right')
+  assignTimelinesEl = (el) => { this.timelinesEl = el; };
+  assignEl = (el) => { this.el = el; };
+  bindRePositionLeft = this.rePosition.bind(this, 'left');
+  bindRePositionRight = this.rePosition.bind(this, 'right');
 
   willOpenModal = (e) => {
     e.preventDefault();
@@ -1051,7 +1051,7 @@ export default class Timebar extends PureComponent {
         cursor: e.currentTarget.getAttribute('cursor'),
       }
     );
-  }
+  };
 
   render() {
     const {

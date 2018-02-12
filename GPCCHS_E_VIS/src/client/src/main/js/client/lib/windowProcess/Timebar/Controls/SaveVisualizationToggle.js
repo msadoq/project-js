@@ -15,9 +15,10 @@ export default class SaveVisualizationToggle extends PureComponent {
     glyphIconClassName: PropTypes.string,
     isActive: PropTypes.bool,
     handleClick: PropTypes.func.isRequired,
-  }
+  };
 
   static defaultProps = {
+    buttonClassName: null,
     liClassName: null,
     glyphIconClassName: null,
     isActive: false,

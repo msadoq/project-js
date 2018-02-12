@@ -23,7 +23,7 @@ import {
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
-import SaveVizualizationToggle from './SaveVisualizationToggle';
+import SaveVizualizationToggle from './SaveVisualizationToggleContainer';
 
 const inlineStyles = {
   width200: { width: '200px' },
@@ -218,6 +218,7 @@ export default class ControlsLeft extends PureComponent {
           buttonClassName={allButtonsKlasses}
           liClassName={styles.controlsLi}
           glyphIconClassName={styles.glyphIcon}
+          timebarUuid={this.props.timebarUuid}
         />
 
         <li className={styles.controlsLi}>

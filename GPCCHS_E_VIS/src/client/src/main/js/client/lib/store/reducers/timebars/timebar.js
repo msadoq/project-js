@@ -26,6 +26,7 @@ const initialState = {
     current: Date.now() - (9 * 60 * 1000),
     upper: Date.now() - (6 * 60 * 1000),
     defaultWidth: 720000,
+    saved: false,
   },
   slideWindow: {
     lower: Date.now() - (11 * 60 * 1000),
@@ -120,6 +121,14 @@ export default function timebarReducer(stateTimebar = initialState, action) {
       }
       return stateTimebar;
     }
+    case types.WS_TIMEBAR_SAVE_VISUALIZATION:
+      return {
+        ...stateTimebar,
+        visuWindow: {
+          ...stateTimebar.visuWindow,
+          saved: !stateTimebar.visuWindow.saved,
+        },
+      };
     default:
       return stateTimebar;
   }

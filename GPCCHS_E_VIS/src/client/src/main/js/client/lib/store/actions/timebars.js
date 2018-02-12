@@ -371,3 +371,5 @@ export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarU
  */
 
 export const updateTimeline = updateTL;
+
+export const toggle = simple(types.WS_TIMEBAR_SAVE_VISUALIZATION, 'timebarUuid');

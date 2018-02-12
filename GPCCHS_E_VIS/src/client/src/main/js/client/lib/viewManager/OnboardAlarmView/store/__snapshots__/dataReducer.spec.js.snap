@@ -22,7 +22,7 @@ Object {
         "ackState": "NO ACKNOWLEDGE",
         "alarmType": "outOfRange",
         "oid": "oid9404463.599430528",
-        "onBoardDate": "2017-12-08T13:13:28.621Z",
+        "onBoardDate": "2017-12-08T13:13:28.621",
         "parameters": Array [
           Object {
             "name": "pNameculpa",
@@ -76,7 +76,7 @@ Object {
         "reportType": 10631,
         "satellite": "satelliteaute",
         "telemetryType": "telemetryTypecupidatat",
-        "timestamp": "2017-12-08T13:13:28.621Z",
+        "timestamp": "2017-12-08T13:13:28.621",
       },
       "oid9702994.625313295": Object {
         "RIDId": 50977,
@@ -84,7 +84,7 @@ Object {
         "ackState": "NO ACKNOWLEDGE",
         "alarmType": "",
         "oid": "oid9702994.625313295",
-        "onBoardDate": "2017-12-08T13:13:28.620Z",
+        "onBoardDate": "2017-12-08T13:13:28.620",
         "parameters": Array [
           Object {
             "name": "pNameveniam,",
@@ -138,7 +138,7 @@ Object {
         "reportType": 74460,
         "satellite": "satelliteexercitation",
         "telemetryType": "telemetryTypenisi",
-        "timestamp": "2017-12-08T13:13:28.620Z",
+        "timestamp": "2017-12-08T13:13:28.620",
       },
     },
   },

@@ -7,7 +7,7 @@
       "geometry": {
         "w": 1186,
         "h": 851,
-        "x": 1948,
+        "x": 1958,
         "y": 45,
         "kind": "Absolute"
       },
@@ -23,15 +23,12 @@
     {
       "id": "TB1",
       "type": "timeBarConfiguration",
-      "rulerResolution": 2311.263972484953,
-      "speed": 0.3,
+      "rulerResolution": 243.57053585823303,
+      "speed": 0.15,
       "masterId": "Session 1",
       "mode": "Normal",
       "visuWindow": {
-        "defaultWidth": 60000,
-        "current": 1518188307578,
-        "lower": 1518188279842,
-        "upper": 1518188330690
+        "defaultWidth": 60000
       },
       "timelines": [
         {

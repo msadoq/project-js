@@ -120,6 +120,9 @@ export default class Timebar extends PureComponent {
 
   componentDidMount() {
     document.addEventListener('keydown', this.onShortcut);
+    // this.autoUpdateViewportWindow();
+    // this.autoUpdateCursors();
+    this.rePosition('left', { preventDefault: () => {} });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -268,7 +271,7 @@ export default class Timebar extends PureComponent {
       viewport,
       timebarUuid,
     } = this.props;
-    const { state } = this;
+    const { lower, upper, current, slideLower, slideUpper } = this.state;
 
     if (timebarRealTime) {
       setRealTime(timebarUuid, false);
@@ -279,11 +282,11 @@ export default class Timebar extends PureComponent {
       resizing: false,
       navigating: false,
       cursorOriginX: e.pageX,
-      dragOriginLower: state.lower || visuWindow.lower,
-      dragOriginUpper: state.upper || visuWindow.upper,
-      dragOriginCurrent: state.current || visuWindow.current,
-      dragOriginSlideLower: state.slideLower || slideWindow.lower,
-      dragOriginSlideUpper: state.slideUpper || slideWindow.upper,
+      dragOriginLower: lower || visuWindow.lower,
+      dragOriginUpper: upper || visuWindow.upper,
+      dragOriginCurrent: current || visuWindow.current,
+      dragOriginSlideLower: slideLower || slideWindow.lower,
+      dragOriginSlideUpper: slideUpper || slideWindow.upper,
       viewportLower: viewport.lower,
       viewportUpper: viewport.upper,
       slideLower: slideWindow.upper,

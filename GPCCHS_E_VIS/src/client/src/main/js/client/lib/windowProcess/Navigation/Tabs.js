@@ -65,12 +65,17 @@ const { string, func, object, arrayOf } = PropTypes;
 
 export default class Tabs extends PureComponent {
   static propTypes = {
+    // from container mapStateToProps
     pages: arrayOf(object).isRequired,
-    focusedPageId: string,
-    focusPage: func.isRequired,
+    windowId: PropTypes.string,
+    detachWindow: PropTypes.bool,
+    attachWindow: string,
+    // from container mapDispatchToProps
     askClosePage: func.isRequired,
     movePageToWindow: func.isRequired,
+    focusedPageId: string,
     moveTabOrder: func.isRequired,
+    focusPage: func.isRequired,
     pageDragEvent: func.isRequired,
   };
 
@@ -91,21 +96,26 @@ export default class Tabs extends PureComponent {
   };
 
   handleDragStart = (ev, pageId, key) => {
-    this.props.pageDragEvent(true);
+    this.props.pageDragEvent(true, this.props.windowId);
     this.setState({ dragging: pageId });
     ev.dataTransfer.setData('pageId', pageId);
     ev.dataTransfer.setData('position', key);
   };
 
-  handleDragStop = () => {
-    console.log(this.state.newWindow);
+  handleDragStop = (e, pageId) => {
+    e.stopPropagation();
+    if (this.props.windowId !== this.props.attachWindow) {
+      this.props.movePageToWindow(pageId, this.props.attachWindow);
+    } else if (this.props.detachWindow) {
+      this.props.movePageToWindow(pageId);
+    }
     this.setState({ dragging: null });
   };
 
   handleDragOver = (e) => {
     e.preventDefault();
     const ev = e.currentTarget.parentNode;
-    this.props.pageDragEvent(false);
+    this.props.pageDragEvent(false, this.props.windowId);
     if (ev.tagName.toLowerCase() === 'li') {
       ev.style.borderLeft = 'none';
       ev.style.borderRight = 'none';
@@ -122,7 +132,7 @@ export default class Tabs extends PureComponent {
 
   handleDragLeave = (e) => {
     const ev = e.currentTarget.parentNode;
-    this.props.pageDragEvent(true);
+    this.props.pageDragEvent(true, this.props.windowId);
     ev.style.borderLeft = 'none';
     ev.style.borderRight = 'none';
   };
@@ -165,7 +175,7 @@ export default class Tabs extends PureComponent {
               <div
                 draggable
                 onDragStart={(e) => { this.handleDragStart(e, page.title, key); }}
-                onDragEnd={this.handleDragStop}
+                onDragEnd={(e) => { this.handleDragStop(e, page.pageId); }}
                 onDrag={this.handleDrag}
               >
                 <OverlayTrigger

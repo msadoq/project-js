@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`windowProcess windowProcess :: Navigation windowProcess :: Navigation :: TabsContainer should render correctly with valid data 1`] = `
+<ul
+  className="MainNav nav nav-tabs"
+  role={null}
+>
+  <li
+    className=""
+    role="presentation"
+    style={undefined}
+  >
+    <a
+      href="#"
+      onClick={[Function]}
+      onDragLeave={[Function]}
+      onDragOver={[Function]}
+      onDrop={[Function]}
+      role="button"
+    >
+      <div
+        draggable={true}
+        onDrag={undefined}
+        onDragEnd={[Function]}
+        onDragStart={[Function]}
+      >
+        <div
+          onBlur={[Function]}
+          onClick={null}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          <span />
+          <button
+            className="button btn btn-link"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="text-danger glyphicon glyphicon-remove-circle"
+            />
+          </button>
+        </div>
+      </div>
+    </a>
+  </li>
+  <div
+    style={
+      Object {
+        "float": "right",
+        "margin": "0.5em",
+        "right": "4em",
+      }
+    }
+  >
+    <span
+      className="DragMe"
+      style={
+        Object {
+          "marginRight": "1em",
+        }
+      }
+    >
+      Drag me
+    </span>
+    <div
+      draggable={true}
+      onDragStart={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#00FF00",
+          "color": "white",
+          "display": "inline-block",
+          "marginRight": "1em",
+          "padding": "0.2em 0.5em",
+        }
+      }
+    >
+      Text view
+    </div>
+    <div
+      draggable={true}
+      onDragStart={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#00FF00",
+          "color": "white",
+          "display": "inline-block",
+          "marginRight": "1em",
+          "padding": "0.2em 0.5em",
+        }
+      }
+    >
+      page
+    </div>
+    <div
+      draggable={true}
+      onDragStart={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#00FF00",
+          "color": "white",
+          "display": "inline-block",
+          "marginRight": "1em",
+          "padding": "0.2em 0.5em",
+        }
+      }
+    >
+      workspace
+    </div>
+    <div
+      draggable={true}
+      onDragStart={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#00FF00",
+          "color": "white",
+          "display": "inline-block",
+          "marginRight": "1em",
+          "padding": "0.2em 0.5em",
+        }
+      }
+    >
+      EntryPoint
+    </div>
+  </div>
+</ul>
+`;

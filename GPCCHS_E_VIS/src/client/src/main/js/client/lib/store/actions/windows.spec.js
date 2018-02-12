@@ -84,7 +84,7 @@ describe('store:actions:windows', () => {
     });
   });
   describe('movePageToWindow', () => {
-    test('check dispatched action, single case', () => {
+    test('check dispatched action, single case, w1 with only p1, close w1', () => {
       store.dispatch(actions.movePageToWindow('p1', 'w1', 'w2'));
       expect(store.getActions()).toEqual([
         {
@@ -92,8 +92,23 @@ describe('store:actions:windows', () => {
           payload: { pageId: 'p1', fromWindowId: 'w1', toWindowId: 'w2' },
         },
         {
+          type: 'WS_ASK_CLOSE_WINDOW',
+          payload: { windowId: 'w1' },
+        },
+        {
           type: 'WS_WINDOW_PAGE_FOCUS',
           payload: { pageId: 'p1', windowId: 'w2' },
+        },
+      ]);
+    });
+  });
+  describe('pageDrageEvent', () => {
+    test('check dispatch action', () => {
+      store.dispatch(actions.pageDragEvent(true, 'w2'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'PAGE_DRAG_EVENT',
+          payload: { detachWindow: true, attachWindow: 'w2' },
         },
       ]);
     });

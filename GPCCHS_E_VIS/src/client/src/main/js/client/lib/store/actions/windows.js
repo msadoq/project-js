@@ -103,18 +103,23 @@ export function focusPage(windowId, pageId) {
 }
 
 /**
- *
- * @param newWindow boolean
+ * @param detachWindow
+ * @param windowId
  * @returns {function(*, *)}
  */
-export function pageDragEvent(newWindow) {
+export function pageDragEvent(detachWindow, windowId) {
   return (dispatch, getState) => {
     const state = getState();
-    if (state.newWindow !== newWindow) {
+    let attachWindow;
+    if (!state.attachWindow) {
+      attachWindow = windowId;
+    }
+    if (state.detachWindow !== detachWindow) {
       dispatch({
         type: types.PAGE_DRAG_EVENT,
         payload: {
-          newWindow,
+          detachWindow,
+          attachWindow,
         },
       });
     }
@@ -131,16 +136,24 @@ export function movePageToWindow(pageId, fromWindowId, toWindowId) {
   return (dispatch, getState) => {
     const state = getState();
     const nbPages = getWindowPageIds(state, { windowId: fromWindowId }).length;
-    // if there is only one page we do not move the page to an other window
-    if (nbPages > 1) {
-      let windowId = toWindowId;
-      if (!toWindowId) {
-        const newWindowId = v4();
-        dispatch(addWindow(newWindowId, 'new Window'));
-        windowId = newWindowId;
-      }
+    let windowId = toWindowId;
+    // we create a window only if there is more than one page in the fromWindow
+    if (!toWindowId && nbPages > 1) {
+      const newWindowId = v4();
+      dispatch(addWindow(newWindowId, 'new Window'));
+      windowId = newWindowId;
+    }
+    // windowId is not defined if there isn't more than one page in the fromWindow
+    // In this case there is nothing to do
+    if (windowId) {
       // move selected page to selected or new window
       dispatch(pageMoveToWindow(fromWindowId, windowId, pageId));
+      // In this case there is at least two windows
+      // the from window contains only one page
+      // we need to close it
+      if (nbPages === 1) {
+        dispatch(askCloseWindow(fromWindowId));
+      }
       // focus this page on the new window
       dispatch(focusPage(windowId, pageId));
       // if moved view was focused, select another one in the previous window

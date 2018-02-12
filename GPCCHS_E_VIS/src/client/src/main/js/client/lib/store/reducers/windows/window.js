@@ -149,9 +149,6 @@ export default function window(stateWindow = initialState, action) {
     case types.WS_WINDOW_SET_IS_LOADED: {
       return Object.assign({}, stateWindow, { isLoaded: true });
     }
-    case types.PAGE_DRAG_EVENT:
-      console.log('HERE I AM');
-      return { ...stateWindow, newWindow: action.payload.newWindow };
     default:
       return stateWindow;
   }

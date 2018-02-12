@@ -24,16 +24,19 @@ import Tabs from './Tabs';
 
 const mapStateToProps = (state, { windowId }) => ({
   pages: getWindowPages(state, { windowId }),
+  windowId,
+  detachWindow: state.hsc.detachWindow,
+  attachWindow: state.hsc.attachWindow,
 });
 
 function mapDispatchToProps(dispatch, { windowId }) {
   return bindActionCreators({
     askClosePage,
-    movePageToWindow: pageId => movePageToWindow(pageId, windowId),
+    movePageToWindow: (pageId, toWindow) => movePageToWindow(pageId, windowId, toWindow),
     focusPage: pageId => focusPage(windowId, pageId),
     moveTabOrder: (keyFrom, keyTarget) => moveTabOrder(windowId, keyFrom, keyTarget),
     closeModal: () => closeModal(windowId),
-    pageDragEvent: newWindow => pageDragEvent(newWindow),
+    pageDragEvent: detachWindow => pageDragEvent(detachWindow, windowId),
   }, dispatch);
 }
 

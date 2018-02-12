@@ -133,8 +133,11 @@ export default function hsc(state = initialState, action) {
       }
       return Object.assign({}, _.omit('sessionName', state), { isModified: true });
     case types.PAGE_DRAG_EVENT:
-      console.log('HERE I AM');
-      return { ...state, newWindow: action.payload.newWindow };
+      return {
+        ...state,
+        detachWindow: action.payload.detachWindow,
+        attachWindow: action.payload.attachWindow,
+      };
     default:
       return state;
   }

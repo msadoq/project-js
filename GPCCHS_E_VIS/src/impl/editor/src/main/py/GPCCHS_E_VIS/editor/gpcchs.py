@@ -46,8 +46,8 @@ class GPCCHS_launcher(object):
     _ISIS_WORK_DIR = os.environ.get('ISIS_WORK_DIR')
     _gpccdc_url = 'tcp://127.0.0.1:{}'
     _default_node_path = '/usr/share/isis/bin/node'
-    _gpccdc_conf_template_fmd_path = "DATA_PRODUCT/CCC/CONF_COMPONENT/ISIS/GPVI/gpccdc_d_dbr-template.xml"
-    _default_feature_fmd_path = "DATA_PRODUCT/SCHEMA/FEATURES/ISIS/GPVI/gpcchs_e_vis_launcher-default.feat"
+    _gpccdc_conf_template_fmd_path = "DATA_PRODUCT/ALL_TARGETS/CONF_COMPONENT/GPVI/gpccdc_d_dbr-template.xml"
+    _default_feature_fmd_path = "DATA_PRODUCT/ALL_TARGETS/FEATURES/GPVI/gpcchs_e_vis_launcher-default.feat"
     _iedit_cmd_base = "iedit -e {} -c conf/default.ini -f {}"
     _insertionConfBalise = "<CONFIG>"
 

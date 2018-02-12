@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WithFormFieldArray :: render WithFormFieldArray :: render 1`] = `
+<form
+  className="redux-form-padded form-horizontal"
+  onSubmit={[Function]}
+>
+  <div
+    className="ClearSubmitButtons root"
+  >
+    <div
+      className="btn-group"
+    >
+      <button
+        className="mr5 btn btn-default"
+        disabled={true}
+        onClick={[Function]}
+        type="button"
+      >
+        Clear
+      </button>
+      <button
+        className="btn btn-success"
+        disabled={true}
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+  <br />
+  <div>
+    Wrapped Component
+  </div>
+</form>
+`;

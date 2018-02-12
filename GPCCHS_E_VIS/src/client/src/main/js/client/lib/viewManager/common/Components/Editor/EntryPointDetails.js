@@ -10,13 +10,23 @@
 import React, { PropTypes, PureComponent } from 'react';
 import Collapse from 'rc-collapse';
 import { entryPointType } from 'viewManager/common/Components/types';
-import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
-import EntryPointConnectedData from './EntryPointConnectedData';
-import AddEntryPoint from './AddEntryPoint';
+import EntryPointConnectedDataFieldsContainer from 'viewManager/common/Components/Editor/EntryPointConnectedDataFieldsContainer';
+import EntryPointUnitContainer from 'viewManager/common/Components/Editor/EntryPointUnitContainer';
+import WithForm from 'viewManager/common/Hoc/WithForm';
+import WithFormFieldArray from 'viewManager/common/Hoc/WithFormFieldArray';
+// import { buildFormula } from 'viewManager/common'; // @todo uncomment
+import AddEntryPoint from 'viewManager/common/Components/Editor/AddEntryPoint';
+import StateColorsFields from 'viewManager/commonEditor/Fields/StateColorsFields';
+import FiltersFields from 'viewManager/commonEditor/Fields/FiltersFields';
 
 const { Panel } = Collapse;
 const { string, arrayOf, oneOfType, func, bool } = PropTypes;
 const emptyArray = [];
+const EntryPointConnectedDataFieldsContainerWithForm =
+  WithForm(EntryPointConnectedDataFieldsContainer);
+const StateColorsFieldsWithForm = WithFormFieldArray(StateColorsFields, 'stateColors');
+const EntryPointUnitWithForm = WithForm(EntryPointUnitContainer);
+const EntryPointFilterWithForm = WithFormFieldArray(FiltersFields, 'connectedData.filter');
 
 /*
   EntryPointDetails représente un Point d'entrée,
@@ -25,12 +35,15 @@ const emptyArray = [];
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: string.isRequired,
+    pageId: string.isRequired,
     entryPoint: entryPointType.isRequired,
-    updateEntryPoint: func.isRequired,
+    // From container mapStateToProps
     panels: oneOfType([
       arrayOf(string),
       bool,
     ]).isRequired,
+    // From container mapDispatchToProps
+    updateEntryPoint: func.isRequired,
     updateViewSubPanels: func.isRequired,
   };
 
@@ -47,11 +60,37 @@ export default class EntryPointDetails extends PureComponent {
     updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
   };
 
+  /**
+   * @param values
+   */
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId } = this.props;
     updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       ...values,
+      connectedData: {
+        ...values.connectedData,
+        // formula: buildFormula( // @todo uncomment and remove formula field
+        //   values.connectedData.catalog,
+        //   values.connectedData.catalogItem,
+        //   values.connectedData.comObject,
+        //   values.connectedData.comObjectField
+        // ),
+      },
+    });
+  };
+
+  /**
+   * @param values
+   */
+  handleSubmitUnit = (values) => {
+    const { entryPoint, updateEntryPoint, viewId } = this.props;
+    updateEntryPoint(viewId, entryPoint.id, {
+      ...entryPoint,
+      connectedData: {
+        ...entryPoint.connectedData,
+        ...values.unit,
+      },
     });
   };
 
@@ -59,6 +98,7 @@ export default class EntryPointDetails extends PureComponent {
     const {
       entryPoint,
       viewId,
+      pageId,
       panels,
     } = this.props;
 
@@ -85,17 +125,43 @@ export default class EntryPointDetails extends PureComponent {
           key="ConnData"
           header="Connected data"
         >
-          {Array.isArray(panels) && panels.includes('ConnData') && <EntryPointConnectedData
+          {Array.isArray(panels) && panels.includes('ConnData') && <EntryPointConnectedDataFieldsContainerWithForm
             form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}
             initialValues={entryPoint.connectedData}
+            viewId={viewId}
+            pageId={pageId}
+          />}
+        </Panel>
+        <Panel
+          key="Unit"
+          header="Unit"
+        >
+          {Array.isArray(panels) && panels.includes('Unit') && <EntryPointUnitWithForm
+            form={`entrypoint-unit-form-${entryPoint.id}-${viewId}`}
+            onSubmit={values => this.handleSubmitUnit({ unit: values })}
+            initialValues={units(entryPoint)}
+            viewId={viewId}
+            pageId={pageId}
+          />}
+        </Panel>
+        <Panel
+          key="Filter"
+          header="Filter"
+        >
+          {Array.isArray(panels) && panels.includes('Filter') && <EntryPointFilterWithForm
+            form={`entrypoint-filter-form-${entryPoint.id}-${viewId}`}
+            onSubmit={values => this.handleSubmit(values)}
+            initialValues={entryPoint}
+            viewId={viewId}
+            pageId={pageId}
           />}
         </Panel>
         <Panel
           key="stateColors"
           header="State colors"
         >
-          {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
+          {Array.isArray(panels) && panels.includes('stateColors') && <StateColorsFieldsWithForm
             initialValues={stateColor(entryPoint)}
             form={`entrypoint-stateColors-form-${entryPoint.id}-${viewId}`}
             onSubmit={this.handleSubmit}
@@ -108,4 +174,9 @@ export default class EntryPointDetails extends PureComponent {
 
 const stateColor = entryPoint => ({
   stateColors: entryPoint.stateColors || [],
+});
+
+const units = entryPoint => ({
+  convertFrom: entryPoint.connectedData.convertFrom,
+  convertTo: entryPoint.connectedData.convertTo,
 });

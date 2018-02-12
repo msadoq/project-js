@@ -11,26 +11,24 @@ import React, { PropTypes } from 'react';
 import { Glyphicon, FormGroup, InputGroup, FormControl, Button, Col } from 'react-bootstrap';
 
 const { Addon } = InputGroup;
+const { string, oneOf, func } = PropTypes;
 
 export default class EntryPointActions extends React.Component {
   static propTypes = {
-    changeSearch: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
-    viewId: PropTypes.string.isRequired,
-    viewType: PropTypes.string.isRequired,
-    search: PropTypes.string,
+    viewId: string.isRequired,
+    search: string,
+    viewType: oneOf(['TextView', 'MimicView', 'HistoryView']).isRequired,
+    // from container
+    changeSearch: func.isRequired,
+    openModal: func.isRequired,
   };
-
   static defaultProps = {
     search: '',
   };
-
   static contextTypes = {
-    windowId: PropTypes.string,
+    windowId: string,
   };
-
   searchName = e => this.props.changeSearch(e.target.value);
-
   willAddEntryPoint = (e) => {
     e.preventDefault();
     const {
@@ -42,8 +40,7 @@ export default class EntryPointActions extends React.Component {
       windowId,
     } = this.context;
     openModal(windowId, { type: 'addEntryPoint', viewType, viewId });
-  }
-
+  };
   render() {
     const { search } = this.props;
 

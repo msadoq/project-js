@@ -6,6 +6,7 @@ import { reduxForm } from 'redux-form';
 import EntryPointTree from './EntryPointTree';
 
 const propsStub = {
+  pageId: 'page1',
   viewId: 'view1',
   entryPoint: {},
   updateEntryPoint: () => null,
@@ -13,6 +14,7 @@ const propsStub = {
   updateViewSubPanels: () => null,
   remove: () => null,
   updateViewPanels: () => null,
+  removeEntryPoint: () => null,
   entryPointsPanels: {},
 };
 describe('EntryPointTree :: render', () => {

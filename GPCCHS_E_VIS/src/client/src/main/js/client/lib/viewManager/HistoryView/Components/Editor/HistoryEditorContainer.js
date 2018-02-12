@@ -4,23 +4,17 @@
 // END-HISTORY
 // ====================================================================
 
+import { createStructuredSelector } from 'reselect';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createStructuredSelector } from 'reselect';
-
-import { getViewPanels, getViewEntryPointsPanels, getViewTab } from 'store/reducers/ui/editor';
+import { getViewPanels, getViewTab } from 'store/reducers/ui/editor';
 import { getConfigurationByViewId } from 'viewManager';
 import {
   open as openModal,
 } from 'store/actions/modals';
-import { updateViewPanels, updateViewEntryPointsPanels, updateViewTab }
-  from 'store/actions/ui';
 import { getViewTitle, getViewTitleStyle } from 'store/reducers/views';
-import {
-  removeEntryPoint,
-  updateEditorSearch,
-} from 'store/actions/views';
+import { updateViewPanels, updateViewTab } from 'store/actions/ui';
 import HistoryEditor from './HistoryEditor';
 
 const mapStateToProps = createStructuredSelector({
@@ -29,22 +23,20 @@ const mapStateToProps = createStructuredSelector({
   configuration: getConfigurationByViewId,
   panels: getViewPanels,
   tab: getViewTab,
-  entryPointsPanels: getViewEntryPointsPanels,
 });
 
-const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
+const mapDispatchToProps = dispatch => bindActionCreators({
   openModal,
-  removeEntryPoint,
-  updateViewPanels,
   updateViewTab,
-  updateViewEntryPointsPanels,
-  updateEditorSearch: search => updateEditorSearch(viewId, search),
+  updateViewPanels,
 }, dispatch);
 
 const HistoryEditorContainer = connect(mapStateToProps, mapDispatchToProps)(HistoryEditor);
+const { string } = PropTypes;
 
 HistoryEditorContainer.propTypes = {
-  viewId: PropTypes.string.isRequired,
+  viewId: string.isRequired,
+  pageId: string.isRequired,
 };
 
 export default HistoryEditorContainer;

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextEditorContainer :: render TextEditorContainer :: render 1`] = `
+<ReduxForm
+  configuration={Object {}}
+  currentDisplay={0}
+  openModal={[Function]}
+  pageId="page-id"
+  panels={Object {}}
+  search="search"
+  tab={0}
+  title=""
+  titleStyle={Object {}}
+  updateViewPanels={[Function]}
+  updateViewTab={[Function]}
+  viewId="view-id"
+/>
+`;

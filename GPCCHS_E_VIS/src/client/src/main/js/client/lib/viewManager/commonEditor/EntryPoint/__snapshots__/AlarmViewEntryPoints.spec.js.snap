@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AlarmViewEntryPoints :: render AlarmViewEntryPoints :: render 1`] = `
+<div>
+  <HorizontalFormGroup
+    label="Domain"
+  >
+    <Connect(DomainField)
+      domainName={null}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="Timeline"
+  >
+    <Connect(TimelineField)
+      timelineName={null}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="Mode"
+  >
+    <Field
+      clearable={false}
+      component={[Function]}
+      name="mode"
+      options={
+        Array [
+          Object {
+            "label": "All",
+            "value": 0,
+          },
+          Object {
+            "label": "Non nominal",
+            "value": 1,
+          },
+          Object {
+            "label": "To Acknowledge",
+            "value": 2,
+          },
+        ]
+      }
+    />
+  </HorizontalFormGroup>
+</div>
+`;

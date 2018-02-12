@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EntryPointActions :: render EntryPointActions :: render 1`] = `
+<div>
+  <FormGroup
+    bsClass="form-group"
+    bsSize="sm"
+    className="row"
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      xs={8}
+    >
+      <InputGroup
+        bsClass="input-group"
+      >
+        <FormControl
+          bsClass="form-control"
+          componentClass="input"
+          onChange={[Function]}
+          type="text"
+          value={null}
+        />
+        <InputGroupAddon
+          bsClass="input-group-addon"
+        >
+          <Glyphicon
+            bsClass="glyphicon"
+            glyph="search"
+          />
+        </InputGroupAddon>
+      </InputGroup>
+    </Col>
+    <Col
+      bsClass="col"
+      className="text-right"
+      componentClass="div"
+      xs={4}
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsSize="small"
+        bsStyle="default"
+        disabled={false}
+        onClick={[Function]}
+        title="Add entry point"
+      >
+        <Glyphicon
+          bsClass="glyphicon"
+          glyph="plus"
+        />
+      </Button>
+    </Col>
+  </FormGroup>
+</div>
+`;

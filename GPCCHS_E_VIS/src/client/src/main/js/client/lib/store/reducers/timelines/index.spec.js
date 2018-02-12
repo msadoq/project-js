@@ -12,7 +12,7 @@
 /* eslint no-unused-expressions: 0 */
 import { freezeMe, freezeArgs } from 'common/jest';
 import * as types from 'store/types';
-import timelinesReducer, { getTimeline, getTimelines } from '.';
+import timelinesReducer, { getTimeline, getTimelines, getTimelineById, getTimelineUuidById } from '.';
 
 const reducer = freezeArgs(timelinesReducer);
 
@@ -47,5 +47,21 @@ describe('store:timelines:selectors', () => {
   });
   test('getTimelines', () => {
     expect(getTimelines({ timelines: true })).toBe(true);
+  });
+  test('getTimelineUuidById', () => {
+    const state = freezeMe({
+      timelines: {
+        myTimelineId: { id: 'Id' },
+      },
+    });
+    expect(getTimelineUuidById(state, { timelineId: 'Id' })).toBe('myTimelineId');
+  });
+  test('getTimelineById', () => {
+    const state = freezeMe({
+      timelines: {
+        myTimelineId: { id: 'Id' },
+      },
+    });
+    expect(getTimelineById(state, { timelineId: 'Id' })).toEqual({ id: 'Id' });
   });
 });

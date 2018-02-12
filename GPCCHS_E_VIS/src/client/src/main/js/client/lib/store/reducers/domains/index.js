@@ -8,6 +8,12 @@
 
 import _clone from 'lodash/clone';
 import * as types from 'store/types';
+import { createSelector } from 'reselect';
+import _find from 'lodash/find';
+import { get } from '../../../common/configurationManager';
+import { getView } from '../views';
+import { getPageDomainName } from '../pages';
+import { getDomainName } from '../hsc';
 
 /* --- Reducer -------------------------------------------------------------- */
 
@@ -34,3 +40,42 @@ export default function domains(state = [], action) {
  * @return {array} array of domains.
  */
 export const getDomains = state => state.domains;
+export const getDomainByName = createSelector(
+  (state, { domainName }) => domainName,
+  getDomains,
+  (domainName, _domains) => _find(_domains, d => d.name === domainName)
+  )
+;
+
+/**
+ * @param domainName
+ * @param viewId
+ * @param pageId
+ * @return
+ *  found domain if exists
+ *  or undefined if not
+ *  or error if cannot proceed to fallback
+ */
+export const getDomainByNameWithFallback = createSelector(
+  (state, { domainName }) => domainName,
+  getDomains,
+  getView,
+  (state, { pageId }) => getPageDomainName(state, { pageId }),
+  getDomainName,
+  (domainName, _domains, view, pageDomainName, workspaceDomainName) => {
+    let resolvedDomainName = domainName;
+    const wildcardCharacter = get('WILDCARD_CHARACTER');
+    if (domainName === wildcardCharacter) {
+      if (view && view.domainName && view.domainName !== wildcardCharacter) { // 1. view
+        resolvedDomainName = view.domainName;
+      } else if (pageDomainName && pageDomainName !== wildcardCharacter) {  // 2. page
+        resolvedDomainName = pageDomainName;
+      } else if (workspaceDomainName && workspaceDomainName !== wildcardCharacter) { // 3. workspace
+        resolvedDomainName = workspaceDomainName;
+      } else {
+        return { error: 'invalid entry point, domain not defined on entities' };
+      }
+    }
+    return _find(_domains, d => d.name === resolvedDomainName);
+  }
+);

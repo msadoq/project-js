@@ -10,27 +10,18 @@
 // END-HISTORY
 // ====================================================================
 
+import { createStructuredSelector } from 'reselect';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import {
-  addEntryPoint,
-  removeEntryPoint,
-  updateTitle,
-  updateTitleStyle,
-} from 'store/actions/views';
+import { bindActionCreators } from 'redux';
+import { getViewPanels, getViewTab } from 'store/reducers/ui/editor';
 import { getConfigurationByViewId } from 'viewManager';
 import {
   open as openModal,
 } from 'store/actions/modals';
-import {
-  updateViewPanels,
-  updateViewEntryPointsPanels,
-  updateViewTab,
-} from 'store/actions/ui';
 import { getViewTitle, getViewTitleStyle } from 'store/reducers/views';
-import { getViewPanels, getViewEntryPointsPanels, getViewTab } from 'store/reducers/ui/editor';
-import MimicEditor from './MimicEditor';
+import { updateViewPanels, updateViewTab } from 'store/actions/ui';
+import MimicEditor from 'viewManager/MimicView/Components/Editor/MimicEditor';
 
 const mapStateToProps = createStructuredSelector({
   title: getViewTitle,
@@ -38,24 +29,20 @@ const mapStateToProps = createStructuredSelector({
   configuration: getConfigurationByViewId,
   panels: getViewPanels,
   tab: getViewTab,
-  entryPointsPanels: getViewEntryPointsPanels,
 });
 
-const mapDispatchToProps = {
-  addEntryPoint,
-  removeEntryPoint,
-  updateTitle,
-  updateTitleStyle,
+const mapDispatchToProps = dispatch => bindActionCreators({
   openModal,
-  updateViewPanels,
-  updateViewEntryPointsPanels,
   updateViewTab,
-};
+  updateViewPanels,
+}, dispatch);
 
 const MimicEditorContainer = connect(mapStateToProps, mapDispatchToProps)(MimicEditor);
+const { string } = PropTypes;
 
 MimicEditorContainer.propTypes = {
-  viewId: PropTypes.string.isRequired,
+  viewId: string.isRequired,
+  pageId: string.isRequired,
 };
 
 export default MimicEditorContainer;

@@ -1,12 +1,15 @@
 import React, { PropTypes, PureComponent } from 'react';
-import { Field, FieldArray } from 'redux-form';
-import FiltersFields from 'viewManager/commonEditor/Fields/FiltersFields';
+import { Field } from 'redux-form';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
-import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
-import InputField from 'windowProcess/commonReduxForm/InputField';
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
 import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
+import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
+import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
+import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
+import ComObjectFieldContainer from 'viewManager/commonEditor/Fields/ComObjectFieldContainer';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
+import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
+import { reduxFormFieldsType } from '../types';
 
 const { string } = PropTypes;
 
@@ -16,13 +19,24 @@ const { string } = PropTypes;
 */
 export default class EntryPointConnectedDataFields extends PureComponent {
   static propTypes = {
-    timeline: string.isRequired,
-    domain: string.isRequired,
+    // own props
+    viewId: string.isRequired,
+    pageId: string.isRequired,
+    ...reduxFormFieldsType,
+    // from container mapStateToProps
+    selectedDomainName: string,
+    selectedTimelineId: string,
+    selectedCatalogName: string,
+    selectedItemName: string,
+    selectedComObjectName: string,
   };
 
   static defaultProps = {
-    timeline: null,
-    domain: null,
+    selectedDomainName: null,
+    selectedTimelineId: null,
+    selectedCatalogName: null,
+    selectedItemName: null,
+    selectedComObjectName: null,
   };
 
   static contextTypes = {
@@ -30,8 +44,16 @@ export default class EntryPointConnectedDataFields extends PureComponent {
   };
 
   render() {
-    const { timeline, domain } = this.props;
     const { windowId } = this.context;
+    const {
+      viewId,
+      pageId,
+      selectedDomainName,
+      selectedTimelineId,
+      selectedCatalogName,
+      selectedItemName,
+      selectedComObjectName,
+    } = this.props;
 
     return (
       <div>
@@ -44,51 +66,62 @@ export default class EntryPointConnectedDataFields extends PureComponent {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Unit">
-          <Field
-            name="unit"
-            component={InputField}
-            type="text"
-            className="form-control input-sm"
-          />
-        </HorizontalFormGroup>
-        <HorizontalFormGroup label="Convert">
-          From
-          <Field
-            name="convertFrom"
-            type="text"
-            className="form-control input-sm"
-            component={InputField}
-          />
-          To
-          <Field
-            name="convertTo"
-            type="text"
-            className="form-control input-sm"
-            component={InputField}
-          />
-        </HorizontalFormGroup>
         <HorizontalFormGroup label="Domain">
           <DomainFieldContainer
-            domainName={domain}
+            domainName={selectedDomainName}
           />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Timeline">
           <TimelineFieldContainer
             windowId={windowId}
-            timelineName={timeline}
+            timelineName={selectedTimelineId}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Catalog">
+          <CatalogFieldContainer
+            domainName={selectedDomainName}
+            timelineId={selectedTimelineId}
+            viewId={viewId}
+            pageId={pageId}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Catalog item">
+          <CatalogItemFieldContainer
+            domainName={selectedDomainName}
+            timelineId={selectedTimelineId}
+            catalogName={selectedCatalogName}
+            viewId={viewId}
+            pageId={pageId}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Com object">
+          <ComObjectContainer
+            domainName={selectedDomainName}
+            timelineId={selectedTimelineId}
+            catalogName={selectedCatalogName}
+            itemName={selectedItemName}
+            viewId={viewId}
+            pageId={pageId}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Com object Field">
+          <ComObjectFieldContainer
+            domainName={selectedDomainName}
+            timelineId={selectedTimelineId}
+            catalogName={selectedCatalogName}
+            itemName={selectedItemName}
+            comObjectName={selectedComObjectName}
           />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Provider">
           <ProviderFieldContainer />
         </HorizontalFormGroup>
-
-        <FieldArray
-          name="filter"
-          component={FiltersFields}
-        />
       </div>
     );
   }

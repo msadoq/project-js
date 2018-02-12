@@ -46,7 +46,9 @@ import codeEditor from './codeEditor';
 import inspector from './inspector';
 import knownRanges from './knownRanges';
 import ui from './ui';
+import catalogs from './catalogs';
 import rte from './rte';
+import comObjectMap from './comObjectMap';
 import cache from './cache';
 import { getConfigurationReducers, getDataReducers, getUiReducers } from '../../viewManager/reducers';
 import hsc from './hsc';
@@ -70,8 +72,10 @@ const rootReducer = combineReducers({
   codeEditor,
   inspector,
   ui,
+  catalogs,
   rte,
   knownRanges,
+  comObjectMap,
   ...getConfigurationReducers(),
   ...getDataReducers(),
   ...getUiReducers(),

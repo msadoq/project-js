@@ -7,8 +7,9 @@
 // ====================================================================
 
 import u from 'updeep';
+import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
-
+import _find from 'lodash/find';
 import * as types from 'store/types';
 import timeline from './timeline';
 
@@ -51,3 +52,12 @@ export default function timelines(stateTimelines = {}, action) {
 /* --- Selectors ------------------------------------------------------------ */
 export const getTimelines = state => state.timelines;
 export const getTimeline = (state, { timelineUuid }) => state.timelines[timelineUuid];
+export const getTimelineUuidById = (state, { timelineId }) =>
+  Object.keys(state.timelines).find(uuid => state.timelines[uuid].id === timelineId);
+
+export const getTimelineById = createSelector(
+  (state, { timelineId }) => timelineId,
+  getTimelines,
+  (timelineId, _timelines) => _find(_timelines, t => t.id === timelineId)
+  )
+;

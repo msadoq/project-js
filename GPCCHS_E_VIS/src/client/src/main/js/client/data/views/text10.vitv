@@ -26,8 +26,8 @@
   "entryPoints": [
     {
       "connectedData": {
-        "convertFrom": "g",
-        "convertTo": "kg",
+        "convertFrom": "",
+        "convertTo": "",
         "digits": 8,
         "domain": "fr.cnes.isis.simupus",
         "filter": [],
@@ -37,8 +37,7 @@
         "unit": "V"
       },
       "customColors": [],
-      "name": "AGA_AM_ACQPRIORITY",
-      "stateColors": []
+      "name": "AGA_AM_ACQPRIORITY"
     },
     {
       "name": "AGA_AM_CCSDSAPID",
@@ -128,8 +127,7 @@
         "formula": "Reporting.AGA_AM_ENABLED<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
         "unit": "V"
-      },
-      "stateColors": []
+      }
     },
     {
       "name": "AGA_AM_FID",

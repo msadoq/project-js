@@ -21,65 +21,53 @@ import React, { PropTypes, Component } from 'react';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
-import DynamicEditorForm from './DynamicEditorForm';
-import styles from '../../../commonEditor/Editor.css';
-import DynamicTab from './DynamicTab';
+import WithForm from 'viewManager/common/Hoc/WithForm';
+import DynamicViewEntryPointsContainer from 'viewManager/commonEditor/EntryPoint/DynamicViewEntryPointsContainer';
+// import { buildFormula } from 'viewManager/common';
+import styles from 'viewManager/commonEditor/Editor.css';
+import DynamicTab from 'viewManager/DynamicView/Components/Editor/DynamicTab';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
+const { string, number, bool, func, shape, array } = PropTypes;
+const DynamicViewEntryPointsWithForm = WithForm(DynamicViewEntryPointsContainer);
 
 export default class DynamicEditor extends Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
-    tab: PropTypes.number,
-    titleStyle: PropTypes.shape({
-      align: PropTypes.string,
-      bgColor: PropTypes.string,
-      bold: PropTypes.bool,
-      color: PropTypes.string,
-      font: PropTypes.string,
-      italic: PropTypes.bool,
-      size: PropTypes.number,
-      strikeOut: PropTypes.bool,
-      underline: PropTypes.bool,
+    viewId: string.isRequired,
+    pageId: string.isRequired,
+    tab: number,
+    titleStyle: shape({
+      align: string,
+      bgColor: string,
+      bold: bool,
+      color: string,
+      font: string,
+      italic: bool,
+      size: number,
+      strikeOut: bool,
+      underline: bool,
     }),
-    title: PropTypes.string,
-    configuration: PropTypes.shape({
-      entryPoints: PropTypes.array,
+    title: string,
+    configuration: shape({
+      entryPoints: array,
     }).isRequired,
-    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    updateEntryPoint: PropTypes.func.isRequired,
-    updateTitle: PropTypes.func.isRequired,
-    updateTitleStyle: PropTypes.func.isRequired,
-    updateViewTab: PropTypes.func.isRequired,
-    updateViewPanels: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
-    panels: PropTypes.shape({}).isRequired,
-  }
+    updateEntryPoint: func.isRequired,
+    updateViewTab: func.isRequired,
+    updateViewPanels: func.isRequired,
+    openModal: func.isRequired,
+    panels: shape({}).isRequired,
+  };
 
   static defaultProps = {
     titleStyle: {},
     tab: null,
     title: '',
-  }
+  };
 
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
-  }
-
-  handleTextTitle = (newVal) => {
-    const { updateTitle, viewId } = this.props;
-    updateTitle(viewId, newVal);
-  }
-
-  handleTextTitleStyle = (label, newVal) => {
-    const { titleStyle, updateTitleStyle, viewId } = this.props;
-    updateTitleStyle(viewId, {
-      ...titleStyle,
-      [label]: newVal,
-    });
-  }
+  };
 
   handleSubmit = (values) => {
     const { configuration, updateEntryPoint, viewId } = this.props;
@@ -87,16 +75,24 @@ export default class DynamicEditor extends Component {
     updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       ...values,
+      connectedData: {
+        ...values.connectedData,
+        // formula: buildFormula( // @todo uncomment and remove formula field
+        //   values.connectedData.catalog,
+        //   values.connectedData.catalogItem,
+        //   values.connectedData.comObject,
+        //   values.connectedData.comObjectField
+        // ),
+      },
     });
-  }
+  };
 
   render() {
     const { entryPoints } = this.props.configuration;
     const {
-      timelines,
       viewId,
+      pageId,
       tab,
-      domains,
       updateViewPanels,
       panels,
       openModal,
@@ -120,9 +116,9 @@ export default class DynamicEditor extends Component {
         />
         <div className={styles.content}>
           {(tab === 0 || tab === null) && <div className={styles.content}>
-            <DynamicEditorForm
-              domains={domains}
-              timelines={timelines}
+            <DynamicViewEntryPointsWithForm
+              viewId={viewId}
+              pageId={pageId}
               form={`entrypoint-connectedData-form-${viewId}`}
               onSubmit={values => this.handleSubmit({ connectedData: values })}
               initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}

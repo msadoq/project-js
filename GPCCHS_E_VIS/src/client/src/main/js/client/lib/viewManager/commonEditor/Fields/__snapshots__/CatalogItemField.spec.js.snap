@@ -1,0 +1,176 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CatalogItemField :: render CatalogItemField :: render 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Provider
+    store={
+        Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(Symbol.observable): [Function],
+          }
+    }
+>
+    <ReduxForm
+        askCatalogItems={[Function]}
+        catalogItems={
+            Array [
+                Object {
+                  "items": Array [],
+                  "name": "CatalogItemFieldName",
+                },
+              ]
+        }
+        catalogName="catalogName"
+        domainId={1}
+        sessionId={1}
+        timelineId="timelineId"
+    />
+</Provider>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "askCatalogItems": [Function],
+      "catalogItems": Array [
+        Object {
+          "items": Array [],
+          "name": "CatalogItemFieldName",
+        },
+      ],
+      "catalogName": "catalogName",
+      "domainId": 1,
+      "sessionId": 1,
+      "timelineId": "timelineId",
+    },
+    "ref": null,
+    "rendered": null,
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "askCatalogItems": [Function],
+        "catalogItems": Array [
+          Object {
+            "items": Array [],
+            "name": "CatalogItemFieldName",
+          },
+        ],
+        "catalogName": "catalogName",
+        "domainId": 1,
+        "sessionId": 1,
+        "timelineId": "timelineId",
+      },
+      "ref": null,
+      "rendered": null,
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactFifteenFourAdapter {
+      "options": Object {
+        "supportPrevContextArgumentOfComponentDidUpdate": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`CatalogItemField :: render CatalogItemField :: render requesting 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <CatalogItemField
+    CatalogItemFields={null}
+    askCatalogItems={[Function]}
+    catalogItems={
+        Array [
+            Object {
+              "items": Array [],
+              "name": "CatalogItemFieldName",
+            },
+          ]
+    }
+    catalogName="catalogName"
+    catalogs="requesting"
+    domainId={1}
+    itemName="itemName"
+    sessionId={1}
+    timelineId="timelineId"
+/>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "clearable": true,
+      "component": [Function],
+      "disabled": false,
+      "format": null,
+      "name": "catalogItem",
+      "options": Array [
+        Object {
+          "label": "CatalogItemFieldName",
+          "value": "CatalogItemFieldName",
+        },
+      ],
+    },
+    "ref": null,
+    "rendered": null,
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "clearable": true,
+        "component": [Function],
+        "disabled": false,
+        "format": null,
+        "name": "catalogItem",
+        "options": Array [
+          Object {
+            "label": "CatalogItemFieldName",
+            "value": "CatalogItemFieldName",
+          },
+        ],
+      },
+      "ref": null,
+      "rendered": null,
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactFifteenFourAdapter {
+      "options": Object {
+        "supportPrevContextArgumentOfComponentDidUpdate": true,
+      },
+    },
+  },
+}
+`;

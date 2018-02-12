@@ -23,7 +23,7 @@ const mapUnitConvertion = (newViewMap) => {
         const convertFrom = ep.convertFrom;
         const convertTo = ep.convertTo;
         if (convertFrom && convertTo) {
-          if (!_.find(mapConvert[tbdId], { field, convertFrom, convertTo })){
+          if (!_.find(mapConvert[tbdId], { field, convertFrom, convertTo })) {
             mapConvert[tbdId].push({ field, convertFrom, convertTo });
           }
         }
@@ -91,6 +91,7 @@ const convertData = (toConvertMap, dataToInject, cb) => {
 
     cb(err, convertedDataToInject);
     if (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
     }
   });

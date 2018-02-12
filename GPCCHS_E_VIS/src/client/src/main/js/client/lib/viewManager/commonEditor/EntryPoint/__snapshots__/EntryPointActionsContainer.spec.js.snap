@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EntryPointActionsContainer :: render EntryPointActionsContainer :: render 1`] = `
+<ReduxForm
+  pageId="pageId"
+  search={null}
+  viewId="viewId"
+  viewType="TextView"
+/>
+`;

@@ -6,6 +6,7 @@ import { reduxForm } from 'redux-form';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 
 const propsStub = {
+  pageId: 'page1',
   viewId: 'view1',
   entryPoint: {},
   updateEntryPoint: () => null,

@@ -28,7 +28,7 @@ const TYPE_PROTO = 'protobuf';
 const TYPE_RAW = 'raw';
 const comObjectTypes = {};
 const types = {};
-
+const fieldsMap = {};
 const logger = getLogger('AdaptersManager');
 let currentNamespace = '';
 
@@ -41,6 +41,7 @@ const registerGlobal = (override) => {
   } else {
     logger.warn('Please provide MISSION_ADAPTERS array for specific mission adapters');
   }
+  return fieldsMap;
 };
 
 const register = (namespaceArray) => {
@@ -68,6 +69,7 @@ const register = (namespaceArray) => {
                                                 adapter,
                                                 namespaces[adapters][adapter].adapter);
               registeredAdapter.type = TYPE_PROTO;
+              fieldsMap[adapter] = registeredAdapter.fieldsKeys;
               break;
             case TYPE_RAW:
               registeredAdapter = registerRaw(namespaces[adapters][adapter].adapter);
@@ -113,6 +115,15 @@ const decode = (type, buffer) => {
   }
 };
 
+const getFields = (comObjectName) => {
+  const type = _get(fieldsMap, comObjectName);
+  if (typeof type === 'undefined') {
+    logger.error(`No fields found for ${comObjectName}`);
+  }
+
+  return type;
+};
+
 const getMapper = (key) => {
   const type = _get(types, key);
 
@@ -130,4 +141,5 @@ module.exports = {
   encode,
   decode,
   getType,
+  getFields,
 };

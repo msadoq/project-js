@@ -56,11 +56,12 @@ import { updateHssStatus } from '../store/actions/health';
 import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreObserver';
 import passerelle from '../utils/passerelle/index';
 import { updateSessions } from '../store/actions/sessions';
+import setComObjectMap from '../store/actions/comObjectMap';
 
 const isDebugEnabled = () => get('DEBUG') === 'on';
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
 
-adapter.registerGlobal();
+const comObjectMap = adapter.registerGlobal();
 const clientController = require('./controllers/client');
 
 const logger = getLogger('main');
@@ -149,7 +150,7 @@ series({
   store.dispatch(updateMasterSessionIfNeeded(initialData.masterSessionId));
   store.dispatch(updateSessions(initialData.sessions));
   store.dispatch(updateDomains(initialData.domains));
-
+  store.dispatch(setComObjectMap(comObjectMap));
   requestCatalogSessions(store);
 
   /* Start Health Monitoring mechanism

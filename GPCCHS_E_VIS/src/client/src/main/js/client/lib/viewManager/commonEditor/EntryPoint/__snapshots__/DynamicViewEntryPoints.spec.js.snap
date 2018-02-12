@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DynamicViewEntryPoints :: render DynamicViewEntryPoints :: render 1`] = `
+<div>
+  <HorizontalFormGroup
+    label="Formula"
+  >
+    <Field
+      className="form-control input-sm"
+      component={[Function]}
+      name="formula"
+      rows="4"
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="Domain"
+  >
+    <Connect(DomainField)
+      domainName={null}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="Timeline"
+  >
+    <Connect(TimelineField)
+      timelineName={null}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="Catalog"
+  >
+    <Connect(CatalogField)
+      domainName={null}
+      pageId="pageId"
+      timelineId={null}
+      viewId="viewId"
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="Catalog item"
+  >
+    <Connect(CatalogItemField)
+      catalogName={null}
+      domainName={null}
+      pageId="pageId"
+      timelineId={null}
+      viewId="viewId"
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="Com object"
+  >
+    <Connect(ComObject)
+      catalogName={null}
+      domainName={null}
+      itemName={null}
+      pageId="pageId"
+      timelineId={null}
+      viewId="viewId"
+    />
+  </HorizontalFormGroup>
+</div>
+`;

@@ -7,6 +7,7 @@ import EntryPointDetails from './EntryPointDetails';
 
 const propsStub = {
   viewId: 'view1',
+  pageId: 'page1',
   entryPoint: {},
   updateEntryPoint: () => null,
   panels: [],

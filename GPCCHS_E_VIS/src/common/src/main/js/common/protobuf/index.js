@@ -30,6 +30,16 @@ module.exports.register = function register(rootPath, namespace, proto, mapper) 
   try {
     lookedUpType = builder.lookup(`${namespace}.protobuf.${proto}`);
     lookedUpType.mapper = mapper;
+    if (lookedUpType.fields) {
+      const fieldKeys = Object.keys(lookedUpType.fields);
+      const mappedFields = fieldKeys.map(key => (
+        {
+          name: key,
+          type: lookedUpType.fields[key].type,
+        }
+      ));
+      lookedUpType.fieldsKeys = mappedFields;
+    }
   } catch (e) {
     throw new Error(`${namespace}.protobuf.${proto} can't be lookedUp`);
   }

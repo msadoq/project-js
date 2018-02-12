@@ -1,73 +1,32 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
+import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 import { domainsType } from './types';
 
-const { string } = PropTypes;
+const { func } = PropTypes;
 
 export default class DomainField extends PureComponent {
   static propTypes = {
+    onChange: func,
+    // from container mapStateToProps
     domains: domainsType.isRequired,
-    domainName: string,
-    name: string,
   };
 
   static defaultProps = {
-    domainName: null,
-    name: 'domain',
-  };
-
-  state = {
-    domain: null,
-  };
-
-  newDomain = (domain) => {
-    this.setState({ domain });
+    onChange: null,
   };
 
   render() {
-    const { domains, domainName, name } = this.props;
-    const { domain } = this.state;
-
     return (
       <Field
-        name={name}
+        format={null}
+        name="domain"
         component={ReactSelectField}
-        onInputChange={this.newDomain}
         clearable
-        options={computeDomainFieldOptions(domains, domain, domainName)}
+        options={computeOptions(this.props.domains, true)}
+        onChange={this.props.onChange}
       />
     );
   }
 }
-
-/**
- * @param domains
- * @param domain
- * @param domainName
- */
-export const computeDomainFieldOptions = (domains, domain, domainName) => {
-  let options =
-  domains.map(d =>
-    ({
-      label: d.name,
-      value: d.name,
-    })
-  );
-  options = options.concat(
-    domain && !options.find(s => s.value === domain)
-      ? { label: domain, value: domain }
-      : []
-  );
-  options = options.concat(
-    domainName && !options.find(s => s.value === domainName)
-      ? { label: domainName, value: domainName }
-      : []
-  );
-  options = options.concat({
-    label: '*',
-    value: '*',
-  });
-
-  return options;
-};

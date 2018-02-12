@@ -29,6 +29,9 @@ const { arrayOf, string, number, shape, func } = PropTypes;
 
 export default class EntryPointTree extends Component {
   static propTypes = {
+    viewId: string.isRequired,
+    pageId: string.isRequired,
+    search: string,
     entryPoints: arrayOf(shape({
       id: string,
       name: string,
@@ -46,10 +49,10 @@ export default class EntryPointTree extends Component {
         unit: string,
       }),
     })),
-    search: string,
-    remove: func.isRequired,
-    viewId: string.isRequired,
+    // from container mapDispatchToProps
+    removeEntryPoint: func.isRequired,
     updateViewPanels: func.isRequired,
+    // from container mapStateToProps
     entryPointsPanels: shape({}).isRequired,
   };
 
@@ -68,12 +71,13 @@ export default class EntryPointTree extends Component {
   handleRemove = (e, key) => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.remove(key);
+    this.props.removeEntryPoint(this.props.viewId, key);
   };
 
   render() {
     const {
       entryPoints,
+      pageId,
       viewId,
       entryPointsPanels,
     } = this.props;
@@ -129,6 +133,7 @@ export default class EntryPointTree extends Component {
               {isOpen && <EntryPointDetailsContainer
                 key={`${entryPoint.id}#detailsContainer`}
                 viewId={viewId}
+                pageId={pageId}
                 entryPoint={entryPoint}
               />}
             </Panel>

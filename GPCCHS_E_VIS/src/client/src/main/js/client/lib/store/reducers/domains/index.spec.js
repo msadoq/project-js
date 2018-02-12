@@ -10,7 +10,7 @@
 
 import { freezeArgs } from 'common/jest';
 import * as actions from 'store/actions/domains';
-import domainsReducer, { getDomains } from '.';
+import domainsReducer, { getDomains, getDomainByName, getDomainByNameWithFallback } from '.';
 
 const reducer = freezeArgs(domainsReducer);
 
@@ -60,6 +60,84 @@ describe('store:domains:selectors', () => {
         },
       };
       expect(getDomains(state)).toBe(state.domains);
+    });
+  });
+  describe('getDomainByName', () => {
+    test('should return the matched domain', () => {
+      const state = {
+        domains: {
+          myDomainId: { domainId: 1, name: 'domainName-1' },
+          myOtherId: { domainId: 2, name: 'domainName-2' },
+        },
+      };
+      expect(getDomainByName(state, { domainName: 'domainName-1' })).toEqual({ domainId: 1, name: 'domainName-1' });
+    });
+    test('should return the matched domain', () => {
+      const state = {
+        domains: {
+          myDomainId: { domainId: 1, name: 'domainName-1' },
+          myOtherId: { domainId: 2, name: 'domainName-2' },
+        },
+      };
+      expect(getDomainByName(state, { domainName: 'domainName-3' })).toEqual(undefined);
+    });
+  });
+  describe('getDomainByNameWithFallback', () => {
+    const state = {
+      domains: {
+        domainId1: { domainId: 1, name: 'domainName-1' },
+        domainId2: { domainId: 2, name: 'domainName-2' },
+        domainId3: { domainId: 3, name: 'viewDomainName' },
+        domainId4: { domainId: 4, name: 'pageDomainName' },
+        domainId5: { domainId: 5, name: 'workspaceDomainName' },
+      },
+      views: {
+        'view-id': {
+          domainName: 'viewDomainName',
+        },
+      },
+      pages: {
+        'page-id': {
+          uuid: 'page-id',
+          domainName: 'pageDomainName',
+        },
+      },
+      hsc: {
+        domainName: 'workspaceDomainName',
+      },
+    };
+    test('undefined domain name', () => {
+      expect(getDomainByNameWithFallback(state, {
+        domainName: 'undefined', viewId: 'view-id', pageId: 'page-id',
+      })).toEqual(undefined);
+    });
+    test('no fallback', () => {
+      expect(getDomainByNameWithFallback(state, {
+        domainName: 'domainName-1', viewId: 'view-id', pageId: 'page-id',
+      })).toEqual({ domainId: 1, name: 'domainName-1' });
+    });
+    test('fallback on view domain name', () => {
+      expect(getDomainByNameWithFallback(state, {
+        domainName: '*', viewId: 'view-id', pageId: 'page-id',
+      })).toEqual({ domainId: 3, name: 'viewDomainName' });
+    });
+    test('fallback on page domain name', () => {
+      expect(getDomainByNameWithFallback(state, {
+        domainName: '*', viewId: '*', pageId: 'page-id',
+      })).toEqual({ domainId: 4, name: 'pageDomainName' });
+    });
+    test('fallback on workspace domain name', () => {
+      expect(getDomainByNameWithFallback(state, {
+        domainName: '*', viewId: '*', pageId: '*',
+      })).toEqual({ domainId: 5, name: 'workspaceDomainName' });
+    });
+    test('invalid configuration', () => {
+      expect(getDomainByNameWithFallback({
+        ...state,
+        hsc: {},
+      }, {
+        domainName: '*', viewId: '*', pageId: '*',
+      })).toEqual({ error: 'invalid entry point, domain not defined on entities' });
     });
   });
 });

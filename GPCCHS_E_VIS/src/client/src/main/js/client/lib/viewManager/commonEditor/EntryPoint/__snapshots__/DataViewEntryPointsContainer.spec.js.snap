@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataViewEntryPointsContainer :: render DataViewEntryPointsContainer :: render 1`] = `
+<ReduxForm
+  domainName="fr.cnes.test"
+  domains={
+    Array [
+      Object {
+        "domainId": 1,
+        "itemNamespace": "Domains",
+        "name": "fr.cnes.isis",
+        "oid": "0051525005151000565215465660515",
+        "parentDomainId": 0,
+      },
+      Object {
+        "domainId": 2,
+        "itemNamespace": "Domains",
+        "name": "fr.cnes.isis.simupus",
+        "oid": "0051525005151000565215465660515",
+        "parentDomainId": 1,
+      },
+    ]
+  }
+  form="form"
+  pageId="pageId"
+  viewId="viewId"
+  viewType="TextView"
+/>
+`;

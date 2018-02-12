@@ -1,72 +1,34 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
+import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 import { timelinesType } from './types';
 
-const { string } = PropTypes;
+const { func } = PropTypes;
 
 export default class TimelineField extends PureComponent {
   static propTypes = {
+    onChange: func,
+    // from container mapStateToProps
     timelines: timelinesType.isRequired,
-    timelineName: string,
   };
 
   static defaultProps = {
-    timelineName: null,
-  };
-
-  state = {
-    timeline: null,
-  };
-
-  newTimeline = (timeline) => {
-    this.setState({ timeline });
+    onChange: null,
   };
 
   render() {
-    const { timelines, timelineName } = this.props;
-    const { timeline } = this.state;
-
     return (
       <div>
         <Field
+          format={null}
           name="timeline"
           component={ReactSelectField}
-          onInputChange={this.newTimeline}
-          clearable={false}
-          options={computeTimelineFieldOptions(timelines, timeline, timelineName)}
+          clearable
+          options={computeOptions(this.props.timelines, true)}
+          onChange={this.props.onChange}
         />
       </div>
     );
   }
 }
-
-/**
- * @param timelines
- * @param timeline
- * @param timelineName
- */
-export const computeTimelineFieldOptions = (timelines, timeline, timelineName) => {
-  let options = timelines.map(d =>
-    ({
-      label: d.id,
-      value: d.id,
-    })
-  );
-  options = options.concat(
-    timeline && !options.find(s => s.value === timeline)
-      ? { label: timeline, value: timeline }
-      : []
-  );
-  options = options.concat(
-    timelineName && !options.find(s => s.value === timelineName)
-      ? { label: timelineName, value: timelineName }
-      : []
-  );
-  options = options.concat({
-    label: '*',
-    value: '*',
-  });
-
-  return options;
-};

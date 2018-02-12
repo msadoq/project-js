@@ -21,11 +21,88 @@
   "sessionName": "Master",
   "entryPoint": {
     "connectedData": {
-      "formula": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>",
+      "catalog": "TelemetryPacket",
+      "catalogItem": "CLCW_TM_NOMINAL",
+      "comObject": "DecommutedPacket",
+      "domain": "*",
       "filter": [],
-      "domain": "fr.cnes.isis.simupus",
-      "timeline": "Session 1"
+      "formula": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>",
+      "timeline": "*"
     },
-    "name": "dynamicEP"
+    "name": "dynamicEP",
+    "stateColors": [
+      {
+        "color": "darkorange",
+        "condition": {
+          "field": "monitoringState",
+          "operand": "alarm",
+          "operator": "="
+        }
+      },
+      {
+        "color": "darkred",
+        "condition": {
+          "field": "monitoringState",
+          "operand": "critical",
+          "operator": "="
+        }
+      },
+      {
+        "color": "darkred",
+        "condition": {
+          "field": "monitoringState",
+          "operand": "outOfRange",
+          "operator": "="
+        }
+      },
+      {
+        "color": "#FF0000",
+        "condition": {
+          "field": "monitoringState",
+          "operand": "severe",
+          "operator": "="
+        }
+      },
+      {
+        "color": "#FF0000",
+        "condition": {
+          "field": "monitoringState",
+          "operand": "danger",
+          "operator": "="
+        }
+      },
+      {
+        "color": "#FFFF00",
+        "condition": {
+          "field": "monitoringState",
+          "operand": "warning",
+          "operator": "="
+        }
+      },
+      {
+        "color": "1197ms",
+        "condition": {
+          "field": "monitoringState",
+          "operand": "time",
+          "operator": "="
+        }
+      },
+      {
+        "color": "gpcchs_main",
+        "condition": {
+          "field": "monitoringState",
+          "operand": "pname",
+          "operator": "="
+        }
+      },
+      {
+        "color": 3538,
+        "condition": {
+          "field": "monitoringState",
+          "operand": "pid",
+          "operator": "="
+        }
+      }
+    ]
   }
 }

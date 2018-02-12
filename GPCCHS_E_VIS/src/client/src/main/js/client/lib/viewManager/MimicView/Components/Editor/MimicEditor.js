@@ -14,106 +14,59 @@
 // END-HISTORY
 // ====================================================================
 
-/* eslint-disable */
-
 import React, { Component, PropTypes } from 'react';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
-import EntryPointTree from 'viewManager/common/Components/Editor/EntryPointTree';
-import EntryPointActions from 'viewManager/commonEditor/EntryPoint/EntryPointActions';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import { Misc } from 'viewManager/commonEditor/Misc';
-import styles from '../../../commonEditor/Editor.css';
-import MimicTabContainer from './MimicTabContainer';
-
-const newEntryPoint = {
-  name: 'NewEntryPoint',
-  connectedData: {}
-};
+import styles from 'viewManager/commonEditor/Editor.css';
+import MimicTabContainer from 'viewManager/MimicView/Components/Editor/MimicTabContainer';
+import DataViewEntryPointsContainer from 'viewManager/commonEditor/EntryPoint/DataViewEntryPointsContainer';
 
 const navBarItems = ['Entry Points', 'Mimic', 'Misc'];
+const { string, number, func, shape, array } = PropTypes;
 
 export default class Editor extends Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
-    // actions
-    addEntryPoint: PropTypes.func.isRequired,
-    removeEntryPoint: PropTypes.func.isRequired,
-    title: PropTypes.string,
-    titleStyle: PropTypes.shape(),
-    updateTitle: PropTypes.func.isRequired,
-    updateTitleStyle: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
-    configuration: PropTypes.shape({
-      entryPoints: PropTypes.array,
-      content: PropTypes.string.isRequired,
-    }),
-    updateViewPanels: PropTypes.func.isRequired,
-    panels: PropTypes.shape({}).isRequired,
-    tab: PropTypes.number,
-    entryPointsPanels: PropTypes.shape({}).isRequired,
+    search: string,
+    viewId: string.isRequired,
+    pageId: string.isRequired,
+    // from container mapStateToProps
+    title: string,
+    titleStyle: shape(),
+    configuration: shape({
+      entryPoints: array,
+    }).isRequired,
+    panels: shape({}).isRequired,
+    tab: number,
+    // from container mapDispatchToProps
+    openModal: func.isRequired,
+    updateViewTab: func.isRequired,
+    updateViewPanels: func.isRequired,
   };
-
   static defaultProps = {
     titleStyle: {},
     tab: null,
     title: '',
-  }
-
-  state = { search: '' };
-
-  addEntryPoint = (values) => {
-    const { addEntryPoint, viewId } = this.props;
-    addEntryPoint(
-      viewId,
-      {
-        ...newEntryPoint,
-        ...values,
-      }
-    );
-  }
-
-  removeEntryPoint = (key) => {
-    const { removeEntryPoint, viewId } = this.props;
-    removeEntryPoint(viewId, key);
-  }
-
-  handleTextTitle = (newVal) => {
-    const { updateTitle, viewId } = this.props;
-    updateTitle(viewId, newVal);
-  }
-
-  handleTextTitleStyle = (label, newVal) => {
-    const { configuration, updateTitleStyle, viewId } = this.props;
-    updateTitleStyle(viewId, {
-      ...configuration.titleStyle,
-      [label]: newVal
-    });
-  }
-
-  changeSearch = s => this.setState({ search: s });
-
+    search: null,
+  };
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
-  }
-
+  };
   render() {
-    const { currentDisplay, search } = this.state;
     const {
-      entryPointsPanels,
-      closeEditor,
-      updateTitleStyle,
-      updateTitle,
       openModal,
       tab,
       viewId,
+      pageId,
+      search,
+      panels,
       titleStyle,
       title,
+      updateViewPanels,
       configuration: {
         entryPoints,
       },
-      updateViewPanels,
-      panels,
     } = this.props;
 
     return (
@@ -129,31 +82,23 @@ export default class Editor extends Component {
           currentDisplay={tab === null ? 0 : tab}
           items={navBarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
-          closeEditor={closeEditor}
         />
         <div className={styles.content}>
           {(tab === 0 || tab === null) && <div>
-            <EntryPointActions
-              changeSearch={this.changeSearch}
-              openModal={openModal}
-              viewId={viewId}
-              viewType="MimicView"
-              search={search}
-            />
-            <EntryPointTree
-              viewId={viewId}
+            <DataViewEntryPointsContainer
               entryPoints={entryPoints}
-              entryPointsPanels={entryPointsPanels}
-              updateViewPanels={updateViewPanels}
+              viewId={viewId}
+              pageId={pageId}
               search={search}
-              remove={this.removeEntryPoint}
+              viewType={'TextView'}
             />
           </div>}
-          {tab === 1 &&
+          {
+            tab === 1 &&
             <MimicTabContainer
-              panels={panels}
               viewId={viewId}
               updateViewPanels={updateViewPanels}
+              panels={panels}
             />
           }
           {tab === 2 &&

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataViewEntryPoints :: render DataViewEntryPoints :: render 1`] = `
+<div>
+  <Connect(EntryPointActions)
+    search={null}
+    viewId="viewId"
+    viewType="TextView"
+  />
+  <Connect(EntryPointTree)
+    entryPoints={Array []}
+    pageId="pageId"
+    search={null}
+    viewId="viewId"
+  />
+</div>
+`;

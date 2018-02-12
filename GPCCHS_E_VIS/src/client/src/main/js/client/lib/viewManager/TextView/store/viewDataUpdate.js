@@ -30,6 +30,7 @@ const logger = getLogger('data:lastValue');
  * @param: received data
  * @return: updated state
 /* *********************************** */
+// eslint-disable-next-line complexity
 export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubState) {
   let epSubState = {};
   if (!currentViewMap) {

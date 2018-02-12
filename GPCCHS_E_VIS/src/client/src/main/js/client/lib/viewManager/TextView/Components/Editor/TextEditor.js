@@ -21,81 +21,56 @@
 
 import React, { Component, PropTypes } from 'react';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
-import EntryPointTree from 'viewManager/common/Components/Editor/EntryPointTree';
-import EntryPointActions from 'viewManager/commonEditor/EntryPoint/EntryPointActions';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import { Misc } from 'viewManager/commonEditor/Misc';
-import styles from '../../../commonEditor/Editor.css';
-import TextTabContainer from './TextTabContainer';
+import styles from 'viewManager/commonEditor/Editor.css';
+import TextTabContainer from 'viewManager/TextView/Components/Editor/TextTabContainer';
+import DataViewEntryPointsContainer from 'viewManager/commonEditor/EntryPoint/DataViewEntryPointsContainer';
 
 const navBarItems = ['Entry Points', 'Text', 'Misc'];
+const { string, number, func, shape, array } = PropTypes;
 
 export default class Editor extends Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
-    tab: PropTypes.number,
-    openModal: PropTypes.func.isRequired,
-    updateViewTab: PropTypes.func.isRequired,
-    removeEntryPoint: PropTypes.func.isRequired,
-    title: PropTypes.string,
-    titleStyle: PropTypes.shape(),
-    updateTitle: PropTypes.func.isRequired,
-    updateTitleStyle: PropTypes.func.isRequired,
-    panels: PropTypes.shape({}).isRequired,
-    entryPointsPanels: PropTypes.shape({}).isRequired,
-    updateViewPanels: PropTypes.func.isRequired,
-    updateEditorSearch: PropTypes.func.isRequired,
-    configuration: PropTypes.shape({
-      entryPoints: PropTypes.array,
-      content: PropTypes.string.isRequired,
-      search: PropTypes.string,
+    search: string,
+    viewId: string.isRequired,
+    pageId: string.isRequired,
+    // from container mapStateToProps
+    title: string,
+    titleStyle: shape(),
+    configuration: shape({
+      entryPoints: array,
     }).isRequired,
+    panels: shape({}).isRequired,
+    tab: number,
+    // from container mapDispatchToProps
+    openModal: func.isRequired,
+    updateViewTab: func.isRequired,
+    updateViewPanels: func.isRequired,
   };
-
   static defaultProps = {
     titleStyle: {},
     tab: null,
     title: '',
-  }
-
-  removeEntryPoint = (key) => {
-    const { removeEntryPoint, viewId } = this.props;
-    removeEntryPoint(viewId, key);
-  }
-
-  handleTextTitle = (newVal) => {
-    const { updateTitle, viewId } = this.props;
-    updateTitle(viewId, newVal);
-  }
-
-  handleTextTitleStyle = (label, newVal) => {
-    const { configuration, updateTitleStyle, viewId } = this.props;
-    updateTitleStyle(viewId, {
-      ...configuration.titleStyle,
-      [label]: newVal,
-    });
-  }
-
-  changeSearch = s => this.props.updateEditorSearch(s);
-
+    search: null,
+  };
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
-  }
-
+  };
   render() {
     const {
       openModal,
       tab,
       viewId,
+      pageId,
+      search,
       panels,
       titleStyle,
       title,
-      entryPointsPanels,
       updateViewPanels,
       configuration: {
         entryPoints,
-        search,
       },
     } = this.props;
 
@@ -115,20 +90,12 @@ export default class Editor extends Component {
         />
         <div className={styles.content}>
           {(tab === 0 || tab === null) && <div>
-            <EntryPointActions
-              changeSearch={this.changeSearch}
-              openModal={openModal}
-              viewId={viewId}
-              viewType="TextView"
-              search={search}
-            />
-            <EntryPointTree
-              viewId={viewId}
+            <DataViewEntryPointsContainer
               entryPoints={entryPoints}
+              viewId={viewId}
+              pageId={pageId}
               search={search}
-              remove={this.removeEntryPoint}
-              entryPointsPanels={entryPointsPanels}
-              updateViewPanels={updateViewPanels}
+              viewType={'TextView'}
             />
           </div>}
           {

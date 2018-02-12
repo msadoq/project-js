@@ -45,6 +45,7 @@ const injectData = (timing) => {
     convertData(toConvertMap, dataToInject, (err, convertedDataToInject) => {
       // TODO HANDLE ERROR
       if (err) {
+      // eslint-disable-next-line no-console
         console.error(err);
       }
       const updateRangeData = injectDataRange(

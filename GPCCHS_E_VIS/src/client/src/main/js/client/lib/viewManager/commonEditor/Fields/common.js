@@ -8,7 +8,7 @@ import { get } from 'common/configurationManager';
 export const computeOptions = (list, addWildcard = false) => {
   let options =
     list && Array.isArray(list)
-      ? list.map(d =>
+? list.map(d =>
         ({
           label: d.name,
           value: d.name,

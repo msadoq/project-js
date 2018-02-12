@@ -1,6 +1,6 @@
 import { PropTypes } from 'react';
 
-const { shape, number, string, bool, arrayOf } = PropTypes;
+const { shape, number, string, bool, arrayOf, oneOfType } = PropTypes;
 
 export const connectedDataType = shape({
   axisId: string,
@@ -41,3 +41,41 @@ export const entryPointType = shape({
   obsolete: bool,
   nonsignificant: bool,
 });
+
+export const domainType = shape({
+  domainId: number.isRequired,
+  name: string.isRequired,
+  itemNamespace: string,
+  oid: string,
+  parentDomainId: number,
+});
+
+export const timelineType = shape({
+  color: string,
+  id: string.isRequired,
+  kind: string,
+  offset: number,
+  sessionName: string.isRequired,
+  uuid: string.isRequired,
+});
+
+export const sessionType = shape({
+  id: number.isRequired,
+  name: string.isRequired,
+});
+
+export const catalogItemType = shape({
+  name: string.isRequired,
+});
+
+export const catalogType = shape({
+  name: string.isRequired,
+  items: oneOfType([
+    string, // when requesting
+    arrayOf(catalogItemType),
+  ]),
+});
+
+export const reduxFormFieldsType = {
+  form: string.isRequired,
+};

@@ -59,6 +59,7 @@ import pageSessionOrDomainUpdated from '../store/middlewares/pages/pageSessionOr
 import windowSessionOrDomainUpdated from '../store/middlewares/windows/windowSessionOrDomainUpdated';
 import getLogger from '../common/logManager';
 import makePlayerMiddleware from '../store/middlewares/player';
+import catalogMiddleware from '../store/middlewares/catalogs';
 
 const log = getLogger('server:store:enhancer');
 
@@ -68,6 +69,7 @@ let store = createTempStore();
 const createMiddlewares = (identity, isDebugOn) => {
   const middlewares = [
     thunk,
+    catalogMiddleware,
     createIncomingDataMiddleware(lokiManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),
     createCacheMiddleware(lokiManager),

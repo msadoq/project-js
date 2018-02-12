@@ -136,6 +136,7 @@ Array [
             "current": 1497626439672,
             "defaultWidth": undefined,
             "lower": NaN,
+            "saved": false,
             "upper": NaN,
           },
         },

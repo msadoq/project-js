@@ -163,7 +163,7 @@ const prepareTimebar = (timelines, state) => (timebar) => {
         parameters.get('VISU_WINDOW_DEFAULT_WIDTH')
       ),
       // if any of current, lower or upper is defined, then window was saved
-      saved: !!timebar.visuWindow.current,
+      saved: _get(timebar, 'visuWindow.current', false) && true,
     },
     slideWindow: { lower, upper },
     rulerStart: Number(lower) - (5 * 60000),

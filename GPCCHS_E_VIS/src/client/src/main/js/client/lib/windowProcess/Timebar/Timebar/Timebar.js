@@ -120,8 +120,6 @@ export default class Timebar extends PureComponent {
 
   componentDidMount() {
     document.addEventListener('keydown', this.onShortcut);
-    // this.autoUpdateViewportWindow();
-    // this.autoUpdateCursors();
     this.rePosition('left', { preventDefault: () => {} });
   }
 

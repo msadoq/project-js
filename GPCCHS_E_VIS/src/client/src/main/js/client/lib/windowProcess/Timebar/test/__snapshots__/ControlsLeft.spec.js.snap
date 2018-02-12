@@ -10,7 +10,19 @@ exports[`Controls renders correctly 1`] = `
   >
     <button
       className="btn btn-xs btn-control"
-      direction="down"
+      onClick={[Function]}
+      title="Save visualization window in workspace"
+    >
+      <span
+        className="glyphIcon glyphicon glyphicon-floppy-remove"
+      />
+    </button>
+  </li>
+  <li
+    className="controlsLi"
+  >
+    <button
+      className="btn btn-xs btn-control"
       onClick={[Function]}
       title="Decrease speed"
     >
@@ -35,7 +47,6 @@ exports[`Controls renders correctly 1`] = `
   >
     <button
       className="btn btn-xs btn-control"
-      direction="up"
       onClick={[Function]}
       title="Increase speed"
     >
@@ -62,7 +73,6 @@ exports[`Controls renders correctly 1`] = `
   >
     <button
       className="btn btn-xs btn-control"
-      offset={-10}
       onClick={[Function]}
       title="- 10s"
     >
@@ -74,7 +84,6 @@ exports[`Controls renders correctly 1`] = `
   >
     <button
       className="btn btn-xs btn-control"
-      offset={10}
       onClick={[Function]}
       title="+ 10s"
     >

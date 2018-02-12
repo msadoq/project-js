@@ -9,6 +9,8 @@
 
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import TimebarFixture from '../../../../test/__mocks__/Timebar';
 import ControlsLeft from '../Controls/ControlsLeft';
 
@@ -32,8 +34,11 @@ const propsStub = {
 };
 
 test('Controls renders correctly', () => {
+  const store = createStore(state => state, {});
   const tree = renderer.create(
-    <ControlsLeft {...propsStub} />
+    <Provider store={store}>
+      <ControlsLeft {...propsStub} />
+    </Provider>
   ).toJSON();
   expect(tree).toMatchSnapshot();
 });

@@ -44,7 +44,7 @@ export default class CatalogItemField extends PureComponent {
   }
 
   render() {
-    const { catalogItems, sessionId, domainId, timelineId, catalogName, askUnit } = this.props;
+    const { catalogItems, domainId, timelineId, catalogName } = this.props;
     const disabled = (!domainId || !timelineId || !catalogName || catalogItems === null);
     return (
       <Field

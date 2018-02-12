@@ -36,8 +36,7 @@
         "provider": ""
       },
       "customColors": [],
-      "name": "AGA_AM_ACQPRIORITY",
-      "stateColors": []
+      "name": "AGA_AM_ACQPRIORITY"
     },
     {
       "name": "AGA_AM_CCSDSAPID",
@@ -148,8 +147,7 @@
         "convertFrom": "",
         "convertTo": "",
         "provider": ""
-      },
-      "stateColors": []
+      }
     },
     {
       "name": "AGA_AM_FID",

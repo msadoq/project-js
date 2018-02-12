@@ -7,7 +7,7 @@ describe('buildFormula', () => {
     [undefined, null, 'AGA_AM_ACQPRIORITY'].forEach((catalogItem) => {
       [undefined, null, 'ReportingParameter'].forEach((comObject) => {
         [undefined, null, 'convertedValue'].forEach((field) => {
-          const formula = buildFormula(catalog, catalogItem, comObject, field);
+          const formula = buildFormula( catalog, catalogItem, comObject, field);
           test(`buildFormula :: [${catalog}][${catalogItem}][${comObject}][${field}] || ${formula}`, () => {
             if (catalog && catalogItem && comObject && field) {
               expect(formula).toEqual('Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.convertedValue');

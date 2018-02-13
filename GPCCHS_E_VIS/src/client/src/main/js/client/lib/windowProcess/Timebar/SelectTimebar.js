@@ -15,7 +15,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { FormGroup, Alert } from 'react-bootstrap';
 import _difference from 'lodash/difference';
 

@@ -29,7 +29,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import getLogger from 'common/logManager';
 import styles from './TimebarWrapper.css';
 import LeftTabContainer from './LeftTab/LeftTabContainer';

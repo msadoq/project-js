@@ -5,7 +5,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import EditTimeline from './EditTimeline';
 
 export default class EditTimelineWrapper extends PureComponent {

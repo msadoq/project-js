@@ -6,7 +6,7 @@
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { getData } from 'viewManager/HistoryView/store/dataReducer';

@@ -8,7 +8,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _debounce from 'lodash/debounce';
 import moment from 'moment';

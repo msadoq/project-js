@@ -8,7 +8,7 @@
 
 import moment from 'moment';
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { levelsRules, getZoomLevel } from 'windowProcess/common/timeFormats';
 import styles from './Scale.css';

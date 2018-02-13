@@ -20,7 +20,7 @@ import _debounce from 'lodash/debounce';
 import _throttle from 'lodash/throttle';
 import classnames from 'classnames';
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { get } from 'common/configurationManager';
 
 import styles from './Timebar.css';

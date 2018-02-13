@@ -18,7 +18,7 @@
 // ====================================================================
 
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import _get from 'lodash/get';
 import { Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';

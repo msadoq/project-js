@@ -12,7 +12,7 @@
 // ====================================================================
 
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _get from 'lodash/get';
 import _set from 'lodash/set';

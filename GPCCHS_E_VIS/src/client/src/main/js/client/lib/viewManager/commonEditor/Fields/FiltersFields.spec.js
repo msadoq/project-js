@@ -5,8 +5,7 @@
 // END-HISTORY
 // ====================================================================
 
-import React from 'react';
-import renderer from 'react-test-renderer';
+import { shallowRenderSnapshot } from 'common/jest/utils';
 import FiltersFields from './FiltersFields';
 
 const propsStub = {
@@ -22,13 +21,14 @@ const propsStub = {
   },
 };
 
-describe('component:FiltersFields', () => {
-  test('FiltersFields renders correctly', () => {
-    const tree = renderer.create(
-      <FiltersFields
-        fields={propsStub.fields}
-      />
-    ).toJSON();
-    expect(tree).toMatchSnapshot();
+describe('viewManager', () => {
+  describe('viewManager :: commonEditor', () => {
+    describe('viewManager :: commonEditor :: Fields', () => {
+      describe('viewManager :: commonEditor :: Fields :: FiltersFields', () => {
+        test('snapshot', () => {
+          shallowRenderSnapshot(FiltersFields, propsStub);
+        });
+      });
+    });
   });
 });

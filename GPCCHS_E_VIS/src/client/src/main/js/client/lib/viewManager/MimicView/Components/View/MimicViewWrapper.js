@@ -10,7 +10,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 import _each from 'lodash/each';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';

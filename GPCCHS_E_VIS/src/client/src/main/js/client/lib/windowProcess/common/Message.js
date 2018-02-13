@@ -11,7 +11,7 @@
 import _ from 'lodash/fp';
 import classnames from 'classnames';
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Alert } from 'react-bootstrap';
 import split from 'lodash/fp/split';
 import styles from './Message.css';

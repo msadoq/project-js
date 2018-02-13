@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Label, Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';
 import _ from 'lodash/fp';

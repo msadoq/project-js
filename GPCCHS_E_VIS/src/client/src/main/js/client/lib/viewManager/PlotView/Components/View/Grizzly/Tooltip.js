@@ -26,7 +26,7 @@
 // ====================================================================
 
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';

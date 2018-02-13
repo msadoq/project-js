@@ -10,7 +10,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, Col, Panel, Button } from 'react-bootstrap';
 import Inspector from 'react-json-inspector';
 

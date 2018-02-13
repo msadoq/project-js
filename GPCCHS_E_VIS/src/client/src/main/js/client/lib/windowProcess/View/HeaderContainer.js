@@ -14,7 +14,7 @@
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _uniqBy from 'lodash/uniqBy';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getPage, getPanels } from 'store/reducers/pages';
 import { getDataSelectors, getViewWithConfiguration } from 'viewManager';

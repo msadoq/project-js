@@ -12,7 +12,7 @@
 // ====================================================================
 
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import Collapse from 'rc-collapse';
 import { Button, Glyphicon } from 'react-bootstrap';
 import PlotGridsContainer from './PlotGridsContainer';

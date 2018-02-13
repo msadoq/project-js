@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import DataViewEntryPoints from 'viewManager/commonEditor/EntryPoint/DataViewEntryPoints';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 
 const mapStateToProps = () => ({});
 

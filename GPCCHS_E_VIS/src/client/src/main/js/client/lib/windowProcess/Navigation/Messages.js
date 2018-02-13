@@ -12,7 +12,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import classnames from 'classnames';
 import Message from '../common/Message';

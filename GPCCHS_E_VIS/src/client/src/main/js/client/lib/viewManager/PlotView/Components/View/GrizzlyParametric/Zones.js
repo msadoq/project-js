@@ -10,7 +10,7 @@
 // ====================================================================
 
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import _throttle from 'lodash/throttle';

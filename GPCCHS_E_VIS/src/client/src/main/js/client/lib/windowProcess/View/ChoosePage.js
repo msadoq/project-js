@@ -7,7 +7,7 @@
 
 import classnames from 'classnames';
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { FormGroup, Form } from 'react-bootstrap';
 import styles from './choosePage.css';
 

@@ -7,7 +7,7 @@
 import moment from 'moment';
 import classnames from 'classnames';
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import _memoize from 'lodash/memoize';
 import styles from './TimeSetter.css';
 

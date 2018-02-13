@@ -5,7 +5,7 @@
 // ====================================================================
 
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { ButtonGroup, Button, Glyphicon } from 'react-bootstrap';
 import Continuous from './icons/continuous';
 import Dashed from './icons/dashed';

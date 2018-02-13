@@ -10,7 +10,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';

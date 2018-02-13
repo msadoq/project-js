@@ -12,7 +12,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ControlsLeft from './ControlsLeft';
 import ControlsRight from './ControlsRight';

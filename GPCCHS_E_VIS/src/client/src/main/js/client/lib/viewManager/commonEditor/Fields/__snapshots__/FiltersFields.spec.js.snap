@@ -200,3 +200,171 @@ exports[`component:FiltersFields FiltersFields renders correctly 1`] = `
   </div>
 </div>
 `;
+
+exports[`component:FiltersFields snapshot 1`] = `
+<div
+  className="filterFields"
+>
+  <Table
+    bordered={false}
+    bsClass="table"
+    condensed={true}
+    hover={false}
+    responsive={false}
+    striped={true}
+    style={
+      Object {
+        "fontSize": "12px",
+      }
+    }
+  >
+    <thead>
+      <tr>
+        <th
+          colSpan={1}
+        >
+          Filters
+        </th>
+        <th
+          colSpan={2}
+        >
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        className=""
+      >
+        <td
+          className="col-xs-10"
+          style={
+            Object {
+              "verticalAlign": "middle",
+            }
+          }
+        >
+          convertedValue
+           
+          <b>
+            &lt;=
+             
+          </b>
+          0
+        </td>
+        <td
+          className="col-xs-1"
+        >
+          <Glyphicon
+            bsClass="glyphicon"
+            glyph="trash"
+            onClick={[Function]}
+            style={
+              Object {
+                "cursor": "pointer",
+              }
+            }
+            title="remove filter"
+          />
+        </td>
+        <td
+          className="col-xs-1"
+        >
+          <Glyphicon
+            bsClass="glyphicon"
+            glyph="pencil"
+            onClick={[Function]}
+            style={
+              Object {
+                "color": "inherit",
+                "cursor": "pointer",
+              }
+            }
+            title="edit filter"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </Table>
+  <HorizontalFormGroup
+    label="field"
+  >
+    <input
+      className="form-control"
+      onChange={[Function]}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="operator"
+  >
+    <select
+      className="form-control"
+    >
+      <option
+        value="="
+      >
+        =
+      </option>
+      <option
+        value="!="
+      >
+        !=
+      </option>
+      <option
+        value="<"
+      >
+        &lt;
+      </option>
+      <option
+        value="<="
+      >
+        &lt;=
+      </option>
+      <option
+        value=">"
+      >
+        &gt;
+      </option>
+      <option
+        value=">="
+      >
+        &gt;=
+      </option>
+      <option
+        value="CONTAINS"
+      >
+        CONTAINS
+      </option>
+      <option
+        value="ICONTAINS"
+      >
+        ICONTAINS
+      </option>
+    </select>
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="operand"
+  >
+    <input
+      className="form-control"
+      onChange={[Function]}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label=""
+  >
+    <input
+      className="btn btn-success"
+      disabled={true}
+      onClick={[Function]}
+      style={
+        Object {
+          "width": "90px",
+        }
+      }
+      type="submit"
+      value="Add filter"
+    />
+  </HorizontalFormGroup>
+</div>
+`;

@@ -7,7 +7,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { SourceContainer } from './SourceContainer';
 
 export default class CodeEditor extends PureComponent {

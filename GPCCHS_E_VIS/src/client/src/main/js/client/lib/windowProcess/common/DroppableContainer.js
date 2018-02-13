@@ -10,7 +10,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import _omit from 'lodash/omit';
 import noop from 'lodash/noop';
 import getLogger from 'common/logManager';

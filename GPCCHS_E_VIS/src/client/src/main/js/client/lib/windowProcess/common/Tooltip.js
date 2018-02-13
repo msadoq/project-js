@@ -8,7 +8,7 @@
 // ====================================================================
 
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 export default class Tooltip extends Component {

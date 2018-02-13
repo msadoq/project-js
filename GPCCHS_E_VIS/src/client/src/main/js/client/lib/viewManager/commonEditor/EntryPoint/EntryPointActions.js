@@ -8,7 +8,7 @@
 // ====================================================================
 
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Glyphicon, FormGroup, InputGroup, FormControl, Button, Col } from 'react-bootstrap';
 
 const { Addon } = InputGroup;

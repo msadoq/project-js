@@ -6,7 +6,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import styles from './GrizzlyChart.css';
 import { divStyleType } from './types';
 

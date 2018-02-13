@@ -36,7 +36,7 @@
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import _omit from 'lodash/omit';
 import classnames from 'classnames';
 import Grid from 'react-grid-layout';

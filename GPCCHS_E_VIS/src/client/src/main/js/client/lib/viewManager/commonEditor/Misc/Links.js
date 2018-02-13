@@ -6,7 +6,7 @@
 // ====================================================================
 
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Glyphicon, Button } from 'react-bootstrap';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';

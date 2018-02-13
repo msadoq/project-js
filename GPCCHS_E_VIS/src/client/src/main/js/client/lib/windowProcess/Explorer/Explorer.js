@@ -22,7 +22,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import _get from 'lodash/get';
 import {
   FormGroup,

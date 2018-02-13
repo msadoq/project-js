@@ -5,7 +5,7 @@
 // ====================================================================
 
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import DimensionsForm from './DimensionsForm';
 
 export default class Dimensions extends React.Component {

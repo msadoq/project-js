@@ -6,7 +6,7 @@
 // ====================================================================
 
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { v4 } from 'uuid';
 import AddLink from './AddLink';
 

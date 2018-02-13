@@ -5,7 +5,7 @@
 // ====================================================================
 
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { TwitterPicker } from 'react-color';
 import { Button } from 'react-bootstrap';
 import None from './icons/none';

@@ -64,7 +64,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _max from 'lodash/max';

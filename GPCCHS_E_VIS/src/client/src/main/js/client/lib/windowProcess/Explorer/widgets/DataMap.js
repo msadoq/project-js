@@ -6,7 +6,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import Inspector from 'react-json-inspector';
 import { SplitButton, MenuItem, ButtonToolbar } from 'react-bootstrap';
 import { clipboard } from 'electron';

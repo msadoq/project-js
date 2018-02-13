@@ -9,7 +9,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import EditWindow from './EditWindow';
 
 export default class EditWindowWrapper extends PureComponent {

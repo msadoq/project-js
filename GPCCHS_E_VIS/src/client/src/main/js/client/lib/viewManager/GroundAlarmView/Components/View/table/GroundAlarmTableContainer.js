@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { getInspectorOptions, getDataRows } from 'viewManager/GroundAlarmView/store/selectors';

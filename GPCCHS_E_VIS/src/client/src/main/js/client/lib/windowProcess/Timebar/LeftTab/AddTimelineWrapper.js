@@ -6,7 +6,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { schemeCategory20b } from 'd3-scale';
 import AddTimeline from './AddTimeline';
 

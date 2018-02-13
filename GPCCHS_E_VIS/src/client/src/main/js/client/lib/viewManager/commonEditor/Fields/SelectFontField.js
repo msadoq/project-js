@@ -5,7 +5,7 @@
 // ====================================================================
 
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { FormControl } from 'react-bootstrap';
 
 const SelectFontField = ({ input }) => {

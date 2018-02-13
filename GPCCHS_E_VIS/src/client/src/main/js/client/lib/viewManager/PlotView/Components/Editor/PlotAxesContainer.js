@@ -10,7 +10,7 @@
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 

@@ -7,7 +7,7 @@
 
 // import moment from 'moment';
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import {
   Form,

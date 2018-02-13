@@ -12,7 +12,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { html as beautifyHtml } from 'js-beautify';
 import HtmlSourceForm from './HtmlSourceForm';
 import SvgSourceForm from './SvgSourceForm';

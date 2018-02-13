@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
  * @param propsStub
  * @param stateStub
  */
-export const shallowRenderSnapshotInReduxFormInReduxForm = (
+export const shallowRenderSnapshotInReduxForm = (
   obj, propsStub = {}, stateStub = {}
 ) => {
   const renderer = new ShallowRenderer();

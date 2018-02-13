@@ -21,6 +21,7 @@ exports[`windowProcess windowProcess :: Navigation windowProcess :: Navigation :
       onDragLeave={[Function]}
       onDragOver={[Function]}
       onDrop={[Function]}
+      onKeyDown={[Function]}
       role="button"
     >
       <div

@@ -3,7 +3,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import ProviderField from 'viewManager/commonEditor/Fields/ProviderField';
-import { ShallowRenderer } from 'react-test-renderer/shallow';
+import ShallowRenderer from 'react-test-renderer/shallow';
 
 const propsStub = {
   timelineName: 'timeline',

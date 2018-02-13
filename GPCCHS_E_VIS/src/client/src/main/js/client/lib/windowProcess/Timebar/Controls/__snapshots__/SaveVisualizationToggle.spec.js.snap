@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SaveVisualizationToggle should be displayed as active when a isActive prop 1`] = `
+<li
+  className={null}
+>
+  <button
+    className="active"
+    onClick={[Function]}
+    title="Save visualization window in workspace"
+  >
+    <span
+      className="glyphicon glyphicon-floppy-saved"
+    />
+  </button>
+</li>
+`;
+
+exports[`SaveVisualizationToggle should not be displayed as active when no isActive prop 1`] = `
+<li
+  className={null}
+>
+  <button
+    className=""
+    onClick={[Function]}
+    title="Save visualization window in workspace"
+  >
+    <span
+      className="glyphicon glyphicon-floppy-remove"
+    />
+  </button>
+</li>
+`;

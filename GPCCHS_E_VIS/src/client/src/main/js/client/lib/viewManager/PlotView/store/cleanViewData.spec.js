@@ -34,7 +34,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         cleanCurrentViewData(frozen, viewMap.plot1, viewMap.plot1, dataMap.expectedRangeIntervals,
           dataMap.expectedRangeIntervals)).toBe(frozen);
     });
-    test('interval update Plot: keep all', () => {
+    test.skip('interval update Plot: keep all', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
       newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
@@ -44,7 +44,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         cleanCurrentViewData(frozen, viewMap.plot1, newMap.plot1, dataMap.expectedRangeIntervals,
           newIntervals)).toBe(frozen);
     });
-    test('interval update Plot: keep some', () => {
+    test.skip('interval update Plot: keep some', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
       newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
@@ -74,7 +74,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         maxTime: { },
       });
     });
-    test('interval error Plot: remove all', () => {
+    test.skip('interval error Plot: remove all', () => {
       const newMap = _cloneDeep(viewMap);
       const newState = cleanCurrentViewData(freezeMe(state.PlotViewData.plot1), viewMap.plot1,
         newMap.plot1, dataMap.expectedRangeIntervals, undefined);
@@ -86,7 +86,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         maxTime: { },
       });
     });
-    test('Ep renaming', () => {
+    test.skip('Ep renaming', () => {
       const newMap = _cloneDeep(viewMap);
       let newPlotData = _cloneDeep(state.PlotViewData.plot1);
 

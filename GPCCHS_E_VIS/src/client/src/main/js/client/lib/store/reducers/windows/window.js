@@ -61,13 +61,17 @@ const initialState = {
 export default function window(stateWindow = initialState, action) {
   switch (action.type) {
     case types.WS_WINDOW_ADD:
-      return Object.assign({}, stateWindow, {
+      return {
+        ...stateWindow,
         uuid: action.payload.windowId,
         title: action.payload.title || stateWindow.title,
-        geometry: Object.assign({}, stateWindow.geometry, action.payload.geometry),
+        geometry: {
+          ...stateWindow.geometry,
+          ...action.payload.geometry,
+        },
         pages: action.payload.pages || stateWindow.pages,
         focusedPage: action.payload.focusedPage || stateWindow.focusedPage,
-      });
+      };
     case types.WS_WORKSPACE_OPENED: {
       const newWindow = _.merge(stateWindow, action.payload.window);
       const windowPages = _.groupBy('windowId', action.payload.pages)[newWindow.uuid];
@@ -97,9 +101,10 @@ export default function window(stateWindow = initialState, action) {
       return _.set('focusedPage', newWindow.pages[0], newWindow);
     }
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
-      return Object.assign({}, stateWindow, {
+      return {
+        ...stateWindow,
         geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry),
-      });
+      };
     }
     case types.WS_WINDOW_UPDATE_TITLE: {
       return {
@@ -108,17 +113,19 @@ export default function window(stateWindow = initialState, action) {
       };
     }
     case types.WS_WINDOW_PAGE_FOCUS:
-      return Object.assign({}, stateWindow, {
+      return {
+        ...stateWindow,
         focusedPage: action.payload.pageId,
-      });
+      };
     case types.WS_WINDOW_PAGE_REORDER: {
       const { remaining, sorted } = _reduce(action.payload.pages, (acc, pageId) => ({
         remaining: _without(acc.remaining, pageId),
         sorted: (stateWindow.pages.indexOf(pageId) !== -1) ? [...acc.sorted, pageId] : acc.sorted,
       }), { remaining: stateWindow.pages, sorted: [] });
-      return Object.assign({}, stateWindow, {
+      return {
+        ...stateWindow,
         pages: [...sorted, ...remaining],
-      });
+      };
     }
     case types.WS_WINDOW_MOVE_TAB_ORDER: {
       const { keyFrom, keyTarget } = action.payload;
@@ -132,23 +139,28 @@ export default function window(stateWindow = initialState, action) {
       );
       const keyToRemove = keyFrom < keyTarget ? keyFrom : keyFrom + 1;
       _pullAt(newTabs, [keyToRemove]);
-      return Object.assign({}, stateWindow, {
+      return {
+        ...stateWindow,
         pages: newTabs,
-      });
+      };
     }
     case types.WS_WINDOW_MINIMIZE:
-      return Object.assign({}, stateWindow, {
+      return {
+        ...stateWindow,
         minimized: true,
-      });
+      };
     case types.WS_WINDOW_RESTORE:
-      return Object.assign({}, stateWindow, {
+      return {
+        ...stateWindow,
         minimized: false,
-      });
+      };
     case types.WS_WINDOW_SET_DISPLAY_HELP:
       return { ...stateWindow, displayHelp: action.payload.display };
-    case types.WS_WINDOW_SET_IS_LOADED: {
-      return Object.assign({}, stateWindow, { isLoaded: true });
-    }
+    case types.WS_WINDOW_SET_IS_LOADED:
+      return {
+        ...stateWindow,
+        isLoaded: true,
+      };
     default:
       return stateWindow;
   }

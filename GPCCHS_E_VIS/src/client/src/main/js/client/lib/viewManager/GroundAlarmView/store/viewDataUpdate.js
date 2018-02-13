@@ -52,7 +52,10 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
     const epName = epNames[i];
 
     // Update of EP data
-    newState.lines = Object.assign({}, newState.lines, payloads[epName]);
+    newState.lines = {
+      ...newState.lines,
+      ...payloads[epName],
+    };
     const oids = Object.keys(payloads[epName]);
 
     let lastIndex = -1;

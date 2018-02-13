@@ -13,7 +13,10 @@ import * as types from 'store/types';
 export default function hsc(state = {}, action) {
   switch (action.type) {
     case types.HSS_UPDATE_MASTER_SESSION:
-      return Object.assign({}, state, { sessionId: action.payload.masterSessionOid });
+      return {
+        ...state,
+        sessionId: action.payload.masterSessionOid,
+      };
     default:
       return state;
   }

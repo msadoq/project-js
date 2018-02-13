@@ -119,7 +119,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
       };
       newMap.plot1.entryPoints = {
         ...newMap.plot1.entryPoints,
-        ATT_BC_REVTCOUNT10: Object.assign({}, newMap.plot1.entryPoints.ATT_BC_REVTCOUNT1),
+        ATT_BC_REVTCOUNT10: { ...newMap.plot1.entryPoints.ATT_BC_REVTCOUNT1 },
       };
       newMap.plot1.entryPoints = _omit(newMap.plot1.entryPoints, 'ATT_BC_REVTCOUNT1');
       expect(cleanCurrentViewData(Object.freeze(state.PlotViewData.plot1), viewMap.plot1,

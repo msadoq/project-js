@@ -149,9 +149,7 @@ collection.removeLastQuery = (flatDataId, queryUuid, connectedData) => {
       return acc;
     }
     return {
-      ...acc,
-      [queryId]: interval,
-    };
+      ... acc,  [queryId]: interval, };
   }, {});
   return cd;
 };

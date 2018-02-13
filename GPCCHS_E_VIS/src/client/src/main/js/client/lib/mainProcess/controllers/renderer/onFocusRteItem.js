@@ -67,7 +67,7 @@ export default function ({ sessionId, domainId, catalog, version, namespace, nam
     });
   }
   if (catalog !== focusedInfo.catalog || version !== focusedInfo.version ||
-      namespace !== focusedInfo.namespace || name !== focusedInfo.name) {
+    namespace !== focusedInfo.namespace || name !== focusedInfo.name) {
     // focus catalog, request items
     requests.push((callback) => {
       rtd.getDatabase().getNamespaceList(catalog, version, (err, namespaceList) => {
@@ -92,10 +92,10 @@ export default function ({ sessionId, domainId, catalog, version, namespace, nam
             if (!value) {
               return previous;
             }
-            const item = Object.assign({}, previous, {
+            return {
+              ...previous,
               [value.ns]: value.itemList,
-            });
-            return item;
+            };
           }, {});
           const items = prepareDataToTree(itemMap);
           const namespaceIdx = _indexOf(Object.keys(itemMap), namespace);

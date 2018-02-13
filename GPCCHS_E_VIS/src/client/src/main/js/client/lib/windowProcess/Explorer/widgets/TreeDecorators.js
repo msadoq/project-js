@@ -14,7 +14,7 @@ import { NODE_TYPE_ARRAY as ARRAY, NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM, NODE_TYPE
 
 const Loading = props => (
   <div style={props.style}>
-      LOADING...
+    LOADING...
   </div>
 );
 
@@ -128,7 +128,7 @@ const createContainer = (func) => {
     const onMouseDown = event => func(event, node);
     const containerStyle = style.link;
     const activeStyle = (node.active)
-      ? Object.assign({}, style.link, style.activeLink)
+      ? { ...style.link, ...style.activeLink }
       : style.link;
     switch (node.type) {
       case OBJECT:

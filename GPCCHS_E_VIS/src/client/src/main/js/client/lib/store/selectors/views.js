@@ -125,8 +125,12 @@ export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPo
 );
 
 // composed
-export const getViewEntryPoint = (state, { viewId, epName }) =>
-  Object.assign({}, getViewEntryPoints(state, { viewId })[epName], { name: epName });
+export const getViewEntryPoint = (state, { viewId, epName }) => (
+  {
+    ...getViewEntryPoints(state, { viewId })[epName],
+    name: epName,
+  }
+);
 
 export const getWindowAllViewsIds = createSelector(
   getWindowPageIds,

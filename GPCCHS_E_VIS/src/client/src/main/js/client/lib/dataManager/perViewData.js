@@ -89,7 +89,10 @@ export default function makeGetPerViewData() {
             pageSessionName,
             workspaceSessionName
           );
-          return Object.assign({}, acc, val);
+          return {
+            ...acc,
+            ...val,
+          };
         }, {}
         ),
       };

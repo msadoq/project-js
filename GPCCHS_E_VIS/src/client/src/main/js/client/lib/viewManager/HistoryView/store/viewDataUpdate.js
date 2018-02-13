@@ -132,7 +132,7 @@ export function updateLines(state, epName, timestamp, colToSort, direction) {
     i += 1;
   }
 
-  const valueToInsert = epName.concat(' ').concat(timestamp);
+  let valueToInsert = epName.concat(' ').concat(timestamp);
   if (indexToInsert === -1) {
     const newState = state;
     newState.lines.push(valueToInsert);
@@ -142,7 +142,7 @@ export function updateLines(state, epName, timestamp, colToSort, direction) {
   return {
     ...state,
     lines: _concat(state.lines.slice(0, indexToInsert), valueToInsert,
-                   state.lines.slice(indexToInsert)),
+      state.lines.slice(indexToInsert)),
   };
 }
 
@@ -214,7 +214,10 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
       newState.indexes[epName] = [];
     }
     // Update of EP data
-    newState.data[epName] = Object.assign({}, newState.data[epName], payloads[epName]);
+    newState.data[epName] = {
+      ...newState.data[epName],
+      ...payloads[epName],
+    };
     const timestamps = Object.keys(payloads[epName]);
     let lastIndex = -1;
     let lastTime;
@@ -341,14 +344,17 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       continue;
     }
     const masterTime = timestamp + ep.offset;
-    const valueToInsert = {
+    let valueToInsert = {
       masterTime,
       epName,
       ...getStateColorObj(currentValue, ep.stateColors),
     };
     const fields = Object.keys(currentValue);
     for (let iField = 0; iField < fields.length; iField += 1) {
-      Object.assign(valueToInsert, { [fields[iField]]: convertData(currentValue[fields[iField]]) });
+      valueToInsert = {
+        ...valueToInsert,
+        [fields[iField]]: convertData(currentValue[fields[iField]])
+      };
       // Check if field names are already in cols table
       if (!newState.cols[fields[iField]]) {
         newState.cols[fields[iField]] = true;

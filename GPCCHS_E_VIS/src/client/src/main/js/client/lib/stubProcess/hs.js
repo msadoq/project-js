@@ -380,7 +380,7 @@ const sessionQueryMessageArgs = [
 
 
 const makeQueries = (parameter) => {
-  const dataId = Object.assign({}, myDataId);
+  const dataId = { ...myDataId };
   dataId.parameterName = parameter;
   // logger(dataId);
   return [
@@ -393,7 +393,9 @@ const makeQueries = (parameter) => {
 };
 
 const makeSub = (parameter) => {
-  const dataId = Object.assign({}, myDataId);
+  const dataId = {
+    ...myDataId,
+  };
   dataId.parameterName = parameter;
   return [
     encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),

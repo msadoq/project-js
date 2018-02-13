@@ -57,32 +57,53 @@ const initialState = {
 export default function hsc(state = initialState, action) {
   switch (action.type) {
     case types.HSC_PLAY:
-      return Object.assign({}, state, { playingTimebarId: action.payload.timebarUuid });
+      return {
+        ...state,
+        playingTimebarId: action.payload.timebarUuid,
+      };
     case types.HSC_PAUSE:
-      return Object.assign({}, state, { playingTimebarId: null });
+      return {
+        state,
+        playingTimebarId: null,
+      };
     case types.HSC_SET_WINDOWS_AS_OPENED:
     case types.WS_WINDOW_SET_IS_LOADED:
-      return Object.assign({}, state, { windowsOpened: true });
+      return {
+        ...state,
+        windowsOpened: true,
+      };
     case types.HSC_UPDATE_LAST_CACHE_INVALIDATION:
-      return Object.assign({}, state, { lastCacheInvalidation: action.payload.timestamp });
+      return {
+        ...state,
+        lastCacheInvalidation: action.payload.timestamp,
+      };
     case types.HSC_ISWORKSPACE_OPENING:
-      return Object.assign({}, state, { isWorkspaceOpening: action.payload.flag });
+      return {
+        ...state,
+        isWorkspaceOpening: action.payload.flag,
+      };
     case types.HSC_UPDATE_PATH:
-      return Object.assign({}, state, { folder: action.payload.folder, file: action.payload.file });
+      return {
+        ...state,
+        folder: action.payload.folder,
+        file: action.payload.file,
+      };
     case types.HSC_CLOSE_WORKSPACE:
       return _.pipe(
         _.omit(['file', 'folder']),
         _.set('isWorkspaceOpened', false)
       )(state);
     case types.HSC_FOCUS_WINDOW:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         focusWindow: action.payload.windowId,
-      });
+      };
     case types.HSC_BLUR_WINDOW:
       if (state.focusWindow === action.payload.windowId) {
-        return Object.assign({}, state, {
+        return {
+          ...state,
           focusWindow: null,
-        });
+        };
       }
       return state;
     case types.WS_TIMELINE_CREATE_NEW:
@@ -101,7 +122,8 @@ export default function hsc(state = initialState, action) {
       return _.set('isModified', action.payload.flag, state);
     }
     case types.WS_WORKSPACE_OPENED:
-      return { ...state,
+      return {
+        ...state,
         isWorkspaceOpened: true,
         isModified: !!action.payload.isModified,
         domainName: action.payload.domainName,
@@ -111,27 +133,48 @@ export default function hsc(state = initialState, action) {
     case types.WS_PAGE_OPENED:
     case types.WS_PAGE_ADD_BLANK:
     case types.WS_PAGE_CLOSE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         forecast: {},
         isModified: true,
-      });
+      };
     case types.WS_WINDOW_PAGE_FOCUS:
-      return Object.assign({}, state, { forecast: {} });
+      return {
+        ...state,
+        forecast: {},
+      };
     case types.HSC_UPDATE_FORECAST:
-      return Object.assign({}, state, { forecast: {
-        upper: action.payload.upper,
-        lower: action.payload.lower,
-      } });
+      return {
+        ...state,
+        forecast: {
+          upper: action.payload.upper,
+          lower: action.payload.lower,
+        },
+      };
     case types.WS_WORKSPACE_UPDATE_DOMAINNAME:
       if (action.payload.domainName) {
-        return { ...state, domainName: action.payload.domainName, isModified: true };
+        return {
+          ...state,
+          domainName: action.payload.domainName,
+          isModified: true,
+        };
       }
-      return Object.assign({}, _.omit('domainName', state), { isModified: true });
+      return {
+        ..._.omit('domainName', state),
+        isModified: true,
+      };
     case types.WS_WORKSPACE_UPDATE_SESSIONNAME:
       if (action.payload.sessionName) {
-        return { ...state, sessionName: action.payload.sessionName, isModified: true };
+        return {
+          ...state,
+          sessionName: action.payload.sessionName,
+          isModified: true,
+        };
       }
-      return Object.assign({}, _.omit('sessionName', state), { isModified: true });
+      return {
+        ..._.omit('sessionName', state),
+        isModified: true,
+      };
     case types.PAGE_DRAG_EVENT:
       return {
         ...state,

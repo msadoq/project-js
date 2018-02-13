@@ -17,17 +17,19 @@ export const getPageLayoutWithCollapsed = createSelector(
   layout => ({
     lg: _.map((geometry) => {
       if (geometry.collapsed) {
-        return (
-        Object.assign({
+        return {
           minW: 3,
           minH: 1,
-        }, geometry, { w: 3, h: 1 }));
+          ...geometry,
+          w: 3,
+          h: 1,
+        };
       }
-      return (
-      Object.assign({
+      return {
         minW: 3,
         minH: 3,
-      }, geometry));
+        ...geometry,
+      };
     }, layout),
   })
 );

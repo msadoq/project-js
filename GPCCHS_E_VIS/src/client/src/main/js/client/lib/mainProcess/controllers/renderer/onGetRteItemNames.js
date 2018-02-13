@@ -44,10 +44,10 @@ export default function ({ catalog, version }) {
         if (!value) {
           return previous;
         }
-        const item = Object.assign({}, previous, {
+        return {
+          ...previous,
           [value.namespace]: value.itemList,
-        });
-        return item;
+        };
       }, {});
       const items = prepareDataToTree(itemMap);
       dispatch(setRteItemNames(catalog, version, items));

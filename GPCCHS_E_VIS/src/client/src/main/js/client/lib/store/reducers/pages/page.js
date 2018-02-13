@@ -196,14 +196,28 @@ export default function pageReducer(statePage = initialState, action) {
       return { ...statePage, isModified: true };
     case types.WS_PAGE_UPDATE_DOMAINNAME:
       if (action.payload.domainName) {
-        return { ...statePage, domainName: action.payload.domainName, isModified: true };
+        return {
+          ...statePage,
+          domainName: action.payload.domainName,
+          isModified: true,
+        };
       }
-      return Object.assign({}, _.omit('domainName', statePage), { isModified: true });
+      return {
+        ..._.omit('domainName', statePage),
+        isModified: true,
+      };
     case types.WS_PAGE_UPDATE_SESSIONNAME:
       if (action.payload.sessionName) {
-        return { ...statePage, sessionName: action.payload.sessionName, isModified: true };
+        return {
+          ...statePage,
+          sessionName: action.payload.sessionName,
+          isModified: true
+        };
       }
-      return Object.assign({}, _.omit('sessionName', statePage), { isModified: true });
+      return {
+        ..._.omit('sessionName', statePage),
+        isModified: true,
+      };
     default:
       return statePage;
   }

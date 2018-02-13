@@ -62,7 +62,7 @@ describe('viewManager/HistoryView/store/cleanViewData', () => {
       const newMap = _cloneDeep(viewMap);
       newMap.hist1.entryPoints = {
         ...newMap.hist1.entryPoints,
-        ATT_BC_REVTCOUNT10: Object.assign({}, newMap.hist1.entryPoints.ATT_BC_REVTCOUNT1),
+        ATT_BC_REVTCOUNT10: { ...newMap.hist1.entryPoints.ATT_BC_REVTCOUNT1 },
       };
       newMap.hist1.entryPoints = _omit(newMap.hist1.entryPoints, 'ATT_BC_REVTCOUNT1');
       expect(cleanCurrentViewData(Object.freeze(state.HistoryViewData.hist1), viewMap.hist1,

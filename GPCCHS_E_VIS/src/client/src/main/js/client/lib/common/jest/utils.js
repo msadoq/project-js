@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStore } from 'redux';
-import { shallow } from 'enzyme';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import { reduxForm } from 'redux-form';
 import { Provider } from 'react-redux';
 
@@ -9,19 +9,20 @@ import { Provider } from 'react-redux';
  * @param propsStub
  * @param stateStub
  */
-export const shallowRenderSnapshotInReduxForm = (
+export const shallowRenderSnapshotInReduxFormInReduxForm = (
   obj, propsStub = {}, stateStub = {}
 ) => {
-  const Decorated = reduxForm({ form: 'testForm' })(obj);
+  const renderer = new ShallowRenderer();
+  const Decorated = reduxForm({ form: 'test' })(obj);
   const store = createStore(state => state, stateStub);
-  const tree = shallow(
+  renderer.render(
     <Provider store={store}>
       <Decorated
         {...propsStub}
       />
     </Provider>
   );
-  expect(tree).toMatchSnapshot();
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 };
 
 /**
@@ -29,10 +30,11 @@ export const shallowRenderSnapshotInReduxForm = (
  * @param propsStub
  */
 export const shallowRenderSnapshot = (Obj, propsStub = {}) => {
-  const tree = shallow(
+  const renderer = new ShallowRenderer();
+  renderer.render(
     <Obj
       {...propsStub}
     />
   );
-  expect(tree).toMatchSnapshot();
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 };

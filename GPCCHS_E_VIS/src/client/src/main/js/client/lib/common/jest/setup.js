@@ -14,6 +14,10 @@ import _, { difference, intersection } from 'lodash/fp';
 import { v4 } from 'uuid';
 import { resolve } from 'path';
 
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+
 import * as serializers from './serializers';
 
 /*
@@ -145,3 +149,6 @@ expect.extend({
   ...extendedAssertions,
   ...aliases,
 });
+
+configure({ adapter: new Adapter() });
+

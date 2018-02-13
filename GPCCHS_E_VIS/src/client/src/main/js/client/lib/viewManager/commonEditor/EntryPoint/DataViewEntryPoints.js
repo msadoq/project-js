@@ -1,4 +1,4 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import EntryPointActionsContainer from 'viewManager/commonEditor/EntryPoint/EntryPointActionsContainer';
 import EntryPointTreeContainer from 'viewManager/common/Components/Editor/EntryPointTreeContainer';

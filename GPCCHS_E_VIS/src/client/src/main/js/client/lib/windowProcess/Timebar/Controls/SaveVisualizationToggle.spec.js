@@ -1,5 +1,4 @@
 import React from 'react';
-import { stub } from 'sinon';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 import SaveVisualizationToggle from './SaveVisualizationToggle';
@@ -19,8 +18,8 @@ describe('SaveVisualizationToggle', () => {
   test('should call callback method when clicked', () => {
     const handleClick = jest.fn();
     const toggle = shallow(<SaveVisualizationToggle handleClick={handleClick} />);
-    expect(handleClick.mock.calls.length).toEqual(0);
+    expect(handleClick.mock.calls).toHaveLength(0);
     toggle.find('button').simulate('click');
-    expect(handleClick.mock.calls.length).toEqual(1);
+    expect(handleClick.mock.calls).toHaveLength(1);
   });
 });

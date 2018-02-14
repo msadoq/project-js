@@ -862,7 +862,6 @@ export class GrizzlyPlotView extends PureComponent {
         hideEp={this.hideEp}
         hideEpNames={hideEpNames}
         onContextMenu={this.onContextMenuLegend}
-        removeEntryPoint={this.removeEntryPoint}
       />);
 
     return (

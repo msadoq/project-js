@@ -12,12 +12,12 @@
 
 const _isBuffer = require('lodash/isBuffer');
 const _isEqual = require('lodash/isEqual');
-const { encode, decode } = require('../../../utils/adapters');
-const logger = require('../../../common/logManager')('controllers:onResponse');
-const globalConstants = require('../../../constants');
-const { pop } = require('../../../common/callbacks');
-const { add: addMessage } = require('../../../store/actions/messages');
-const { getStore } = require('../../store');
+const { encode, decode } = require('../../../../utils/adapters');
+const logger = require('../../../../common/logManager')('controllers:onResponse');
+const globalConstants = require('../../../../constants');
+const { pop } = require('../../../../common/callbacks');
+const { add: addMessage } = require('../../../../store/actions/messages');
+const { getStore } = require('../../../store');
 
 const protobufSuccess = encode('dc.dataControllerUtils.Status', {
   status: globalConstants.STATUS_SUCCESS,

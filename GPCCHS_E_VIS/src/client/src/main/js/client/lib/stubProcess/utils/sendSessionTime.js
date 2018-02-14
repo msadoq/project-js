@@ -10,14 +10,33 @@ const stubs = require('../../utils/stubs');
 
 const stubData = stubs.getStubData();
 
-module.exports = function sendSessionTime(queryId, sessionId, zmq) {
+const constants = require('../../constants');
+
+const V1 = (queryId, sessionTime) => [
+  null,
+  stubData.getSessionTimeDataHeaderProtobuf(),
+  stubData.getStringProtobuf(queryId),
+  stubData.getTimestampProtobuf({
+    ms: sessionTime, // now + (id as int) seconds
+  }),
+];
+
+const V2 = (queryId, sessionTime, rawBuffer) => [
+  null,
+  stubData.getSessionTimeDataHeaderProtobufADE(queryId),
+  rawBuffer,
+  stubData.getTimestampProtobuf({
+    ms: sessionTime, // now + (id as int) seconds
+  }),
+];
+
+const versionDCMap = {
+  [constants.DC_COM_V1]: V1,
+  [constants.DC_COM_V2]: V2,
+}
+
+module.exports = function sendSessionTime(queryId, rawBuffer, sessionId, zmq, versionDCCom) {
   const sessionTime = Date.now() + ((parseInt(sessionId, 10) + 1) * 1000);
-  zmq.push('stubData', [
-    null,
-    stubData.getSessionTimeDataHeaderProtobuf(),
-    stubData.getStringProtobuf(queryId),
-    stubData.getTimestampProtobuf({
-      ms: sessionTime, // now + (id as int) seconds
-    }),
-  ]);
+  
+  zmq.push('stubData', versionDCMap[versionDCCom](queryId, sessionTime, rawBuffer));
 };

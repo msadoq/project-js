@@ -28,7 +28,10 @@ const timestampStub = require('./dataControllerUtils/timestamp.stub');
 const groundMonitoringAlarmAckRequest = require('./dataControllerUtils/groundMonitoringAlarmAckRequest.stub');
 const onBoardAlarmAckRequest = require('./dataControllerUtils/onBoardAlarmAckRequest.stub');
 const onBoardAlarm = require('./dataControllerUtils/onBoardAlarm.stub');
-
+const ADEHeader = require('./dataControllerUtils/ADEHeader.stub');
+const ADEGenericPayload = require('./dataControllerUtils/ADEGenericPayload.stub');
+const ADEPayload = require('./dataControllerUtils/ADEPayload.stub');
+const ADEPayloadHeader = require('./dataControllerUtils/ADEPayloadHeader.stub');
 
 module.exports = Object.assign(
   {},
@@ -55,5 +58,9 @@ module.exports = Object.assign(
   timestampStub,
   groundMonitoringAlarmAckRequest,
   onBoardAlarmAckRequest,
-  onBoardAlarm
+  onBoardAlarm,
+  ADEHeader,
+  ADEGenericPayload,
+  ADEPayload,
+  ADEPayloadHeader
 );

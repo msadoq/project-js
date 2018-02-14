@@ -1,0 +1,8 @@
+package dataControllerUtils.protobuf;
+
+import "./ADESatellite.proto";
+
+message ADESatellites {
+extensions 2 to 102;
+    repeated ADESatellite satellites = 1;
+}

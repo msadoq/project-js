@@ -7,17 +7,28 @@
 // ====================================================================
 
 const stubs = require('../../utils/stubs');
-
 const stubData = stubs.getStubData();
+const constants = require('../../constants');
 
-const buffer = [
+const V1 = (queryId) => [
   null,
-  stubData.getDomainDataHeaderProtobuf(),
-  null,
+  stubData.getDomainDataHeaderProtobuf(queryId),
+  stubData.getStringProtobuf(queryId),
   stubData.getDomainsProtobuf(stubData.getDomains()),
 ];
 
-module.exports = function sendDomainData(queryId, zmq) {
-  buffer[2] = stubData.getStringProtobuf(queryId);
-  zmq.push('stubData', buffer);
+const V2 = (queryId, rawBuffer) => [
+  null,
+  stubData.getDomainDataHeaderProtobufADE(queryId),
+  rawBuffer,
+  stubData.getDomainsProtobuf(stubData.getDomains()),
+];
+
+const versionDCMap = {
+  [constants.DC_COM_V1]: V1,
+  [constants.DC_COM_V2]: V2,
+}
+
+module.exports = function sendDomainData(queryId, rawBuffer, zmq, versionDCCom) {
+  zmq.push('stubData', versionDCMap[versionDCCom](queryId, rawBuffer));
 };

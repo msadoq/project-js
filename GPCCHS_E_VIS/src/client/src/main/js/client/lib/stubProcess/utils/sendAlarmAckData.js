@@ -12,7 +12,7 @@ module.exports = function sendAlarmAckData(alarmAck, zmq) {
     stubData.getStringProtobuf(alarmAck.queryId),
     stubData.getDataIdProtobuf(alarmAck.dataId),
   ];
-
+  //TODO pgaucher set the version in getPayload
   alarmAck.alarms.forEach((alarm) => {
     const payload = getPayload(Date.now(), alarmAck.dataId.comObject, {
       setOid: alarm.oid,

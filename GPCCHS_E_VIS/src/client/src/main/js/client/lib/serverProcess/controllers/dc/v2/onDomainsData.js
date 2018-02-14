@@ -10,11 +10,11 @@
 // END-HISTORY
 // ====================================================================
 
-const { decode } = require('../../../utils/adapters');
-const logger = require('../../../common/logManager')('controllers:onDomainData');
-const { pop } = require('../../../common/callbacks');
-const { add: addMessage } = require('../../../store/actions/messages');
-const { getStore } = require('../../store');
+const { decode } = require('../../../../utils/adapters');
+const logger = require('../../../../common/logManager')('controllers:onDomainData');
+const { pop } = require('../../../../common/callbacks');
+const { add: addMessage } = require('../../../../store/actions/messages');
+const { getStore } = require('../../../store');
 
 /**
  * Triggered on DC domain request response.
@@ -30,7 +30,7 @@ module.exports = (args) => {
   const buffer = args[1];
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-  logger.silly('decoded queryId', queryId);
+  logger.info('decoded queryId', queryId);
   const callback = pop(queryId);
 
   try {

@@ -12,12 +12,12 @@
 // END-HISTORY
 // ====================================================================
 
-const { decode } = require('../../../utils/adapters');
-const logger = require('../../../common/logManager')('controllers:onFmdGetData');
-const globalConstants = require('../../../constants');
-const { pop } = require('../../../common/callbacks');
-const { add: addMessage } = require('../../../store/actions/messages');
-const { getStore } = require('../../store');
+const { decode } = require('../../../../utils/adapters');
+const logger = require('../../../../common/logManager')('controllers:onFmdGetData');
+const globalConstants = require('../../../../constants');
+const { pop } = require('../../../../common/callbacks');
+const { add: addMessage } = require('../../../../store/actions/messages');
+const { getStore } = require('../../../store');
 
 /**
  * Triggered on retrieve FMD document path response

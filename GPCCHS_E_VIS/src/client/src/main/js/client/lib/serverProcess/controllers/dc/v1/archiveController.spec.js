@@ -6,13 +6,13 @@
 
 import configureMockStore from 'redux-mock-store';
 
-const { mockRegister, mockLoadStubs } = require('../../../common/jest');
-const { getStubData } = require('../../../utils/stubs');
+const { mockRegister, mockLoadStubs } = require('../../../../common/jest');
+const { getStubData } = require('../../../../utils/stubs');
 
 mockRegister();
 mockLoadStubs();
 
-const { encode } = require('../../../utils/adapters');
+const { encode } = require('../../../../utils/adapters');
 const onArchiveData = require('./archiveController');
 
 const mockStore = configureMockStore();

@@ -12,14 +12,14 @@
 // END-HISTORY
 // ====================================================================
 
-const { mockRegister, mockLoadStubs } = require('../../../common/jest');
+const { mockRegister, mockLoadStubs } = require('../../../../common/jest');
 
 mockRegister();
 mockLoadStubs();
 
-const { getStubData, loadStubs } = require('../../../utils/stubs');
+const { getStubData, loadStubs } = require('../../../../utils/stubs');
 const onFmdCreateData = require('./onFmdCreateData');
-const { set } = require('../../../common/callbacks');
+const { set } = require('../../../../common/callbacks');
 
 loadStubs();
 const dataStub = getStubData();

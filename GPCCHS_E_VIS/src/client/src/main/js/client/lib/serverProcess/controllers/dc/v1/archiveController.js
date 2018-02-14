@@ -7,19 +7,17 @@
 // END-HISTORY
 // ====================================================================
 
-import _get from 'lodash/get';
+const { decode, encode } = require('../../../../utils/adapters');
+const executionMonitor = require('../../../../common/logManager/execution');
+const logger = require('../../../../common/logManager')('controllers:onTimebasedArchiveData');
+const { incomingRange, incomingLast } = require('../../../../store/actions/incomingData');
 
-const { decode, encode } = require('../../../utils/adapters');
-const executionMonitor = require('../../../common/logManager/execution');
-const logger = require('../../../common/logManager')('controllers:onTimebasedArchiveData');
-const { incomingRange, incomingLast } = require('../../../store/actions/incomingData');
 
 const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
-const PARAMETER_NAME = 'parameterName';
 
 const onArchiveData = (args, getStore, { get, remove }) => {
   const queryIdBuffer = args[0];
-  const dataIdBuffer = args[1];
+  // args[1] is dataIdBuffer (not used in current implementation)
   const isLastBuffer = args[2];
 
   const payloadBuffers = Array.prototype.slice.call(args, 3);
@@ -56,12 +54,6 @@ const onArchiveData = (args, getStore, { get, remove }) => {
   if (typeof dataId === 'undefined') {
     logger.error(`Unknown data id for request queryId: ${queryId}, tbdId: ${tbdId}, type: ${type}`);
     return;
-  }
-
-  // @see Mantis#9217 Ajouter une trace dans les logs quand des données reçues ont un dataId qui ne correspond pas au dataId attendue
-  const dataIdDecoded = decode('dc.dataControllerUtils.String', dataIdBuffer).string;
-  if (_get(dataId, PARAMETER_NAME, null) && dataId[PARAMETER_NAME] !== dataIdDecoded) {
-    logger.error(`dataId parameter received [${dataId[PARAMETER_NAME]}] is not the expected one [${dataIdDecoded}]`);
   }
 
   if (endOfQuery) {

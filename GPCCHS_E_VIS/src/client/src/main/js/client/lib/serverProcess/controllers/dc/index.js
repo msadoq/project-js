@@ -31,17 +31,27 @@ const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers/utils');
 const constants = require('../../../constants');
 
-const onResponse = require('./onResponse');
-const onDomainsData = require('./onDomainsData');
-const onSessionsData = require('./onSessionsData');
-const onFmdCreateData = require('./onFmdCreateData');
-const onFmdGetData = require('./onFmdGetData');
-const onSessionMasterData = require('./onSessionMasterData');
-const onSessionTimeData = require('./onSessionTimeData');
-const onDcStatus = require('./onDcStatus');
+const onResponse = require('./v1/onResponse');
+const onDomainsData = require('./v1/onDomainsData');
+const onSessionsData = require('./v1/onSessionsData');
+const onFmdCreateData = require('./v1/onFmdCreateData');
+const onFmdGetData = require('./v1/onFmdGetData');
+const onSessionMasterData = require('./v1/onSessionMasterData');
+const onSessionTimeData = require('./v1/onSessionTimeData');
 
-const archiveController = require('./archiveController');
-const makePubSubController = require('./pubSubController');
+const archiveController = require('./v1/archiveController');
+const makePubSubController = require('./v1/pubSubController');
+
+const onResponseADE = require('./v2/onResponse');
+const onDomainsDataADE = require('./v2/onDomainsData');
+const onSessionsDataADE = require('./v2/onSessionsData');
+const onFmdCreateDataADE = require('./v2/onFmdCreateData');
+const onFmdGetDataADE = require('./v2/onFmdGetData');
+const onSessionMasterDataADE = require('./v2/onSessionMasterData');
+const onSessionTimeDataADE = require('./v2/onSessionTimeData');
+
+const archiveControllerADE = require('./v2/archiveController');
+const makePubSubControllerADE = require('./v2/pubSubController');
 
 const { add: addMessage } = require('../../../store/actions/messages');
 
@@ -49,8 +59,9 @@ const { get, remove } = require('../../models/registeredArchiveQueriesSingleton'
 const { getStore } = require('../../store');
 
 const pubSubController = makePubSubController(getConf('PUBSUB_THROTTLE_TIMING'));
+const versionDCComProtocol = getConf('VERSION_DC_COM_PROTOCOL');
 
-const controllers = {
+const controllersV1 = {
   [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsData,
   [constants.MESSAGETYPE_RESPONSE]: onResponse,
   [constants.MESSAGETYPE_SESSION_DATA]: onSessionsData,
@@ -64,8 +75,39 @@ const controllers = {
   [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetData,
   [constants.MESSAGETYPE_SESSION_MASTER_DATA]: onSessionMasterData,
   [constants.MESSAGETYPE_SESSION_TIME_DATA]: onSessionTimeData,
-  [constants.MESSAGETYPE_DC_STATUS]: onDcStatus,
 };
+
+const controllersV2 = {
+  [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsDataADE,
+  [constants.MESSAGETYPE_RESPONSE]: onResponseADE,
+  [constants.MESSAGETYPE_SESSION_DATA]: onSessionsDataADE,
+  [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: (args) => {
+    archiveControllerADE(args, getStore, { get, remove });
+  },
+  [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (args) => {
+    pubSubControllerADE(args, getStore);
+  },
+  [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateDataADE,
+  [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetDataADE,
+  [constants.MESSAGETYPE_SESSION_MASTER_DATA]: onSessionMasterDataADE,
+  [constants.MESSAGETYPE_SESSION_TIME_DATA]: onSessionTimeDataADE,
+};
+
+const controllers = {
+  [constants.DC_COM_V1]: {
+    controller: controllersV1,
+    decoder: (buffer) => decode('dc.dataControllerUtils.Header', buffer)
+  },
+  [constants.DC_COM_V2]: {
+    controller: controllersV2,
+    decoder: (buffer) => {
+      const { method, requestId, isLast, isError } = decode('dc.dataControllerUtils.ADEHeader', buffer)
+
+      return { messageType: method, requestId, isLast, isError };
+    },
+  },
+};
+
 
 module.exports = function dcController() {
   /**
@@ -78,24 +120,25 @@ module.exports = function dcController() {
     // eslint-disable-next-line prefer-rest-params, "DV6 TBC_CNES LPISIS Avoid 'Maximum call stack size exceeded' with rest operators and .apply() usage"
   const args = arguments;
   // args[0] trash
+  console.log(args[1]);
   const headerBuffer = args[1];
   const buffers = Array.prototype.slice.call(args, 2);
 
   try {
-    const { messageType } = decode('dc.dataControllerUtils.Header', headerBuffer);
+    const { messageType, requestId, isLast, isError } = controllers[versionDCComProtocol].decoder(headerBuffer);
     if (!messageType) {
       return logger.warn('invalid message received (no messageType)');
     }
-    const fn = controllers[messageType];
+    const fn = controllers[versionDCComProtocol].controller[messageType];
     if (!fn) {
-      return logger.warning(`invalid message received (unknown messageType) '${messageType}'`);
+      return logger.warn(`invalid message received (unknown messageType) '${messageType}'`);
     }
 
     logger.silly(`running '${messageType}'`);
-    return fn(buffers);
+    return fn(buffers, requestId, isLast, isError);
   } catch (e) {
     getStore().dispatch(addMessage('global', 'warning',
       'error on processing header buffer '.concat(e)));
-    return logger.error('error on processing header buffer', e);
+    return logger.error('error on processing header buffer '.concat(e));
   }
 };

@@ -11,10 +11,11 @@ const { join, dirname, basename } = require('path');
 const { existsSync } = require('fs');
 const { get } = require('../../common/configurationManager');
 const stubs = require('../../utils/stubs');
+const constants = require('../../constants');
 
 const stubData = stubs.getStubData();
 
-module.exports = function sendFmdGet(queryId, oid, zmq) {
+const V1 = (queryId, oid, rawBuffer) => {
   const buffer = [
     null,
     stubData.getFmdGetDataHeaderProtobuf(),
@@ -40,5 +41,40 @@ module.exports = function sendFmdGet(queryId, oid, zmq) {
     });
   }
 
+  return buffer;
+}
+
+const V2 = (queryId, oid, rawBuffer) => {
+  const buffer = [];
+  const root = get('ISIS_DOCUMENTS_ROOT');
+  const path = oid.replace('oid:', '');
+  buffer.push(null);
+  if (!root) {
+    buffer.push(stubData.getFmdGetDataHeaderProtobufADE(queryId, false, true));
+    buffer.push(stubData.getADEErrorProtobuf({ code: 0, message: `Unable to resolve oid ${oid} due to no fmd support` }));
+  } else if (!existsSync(join(root, path))) {
+    buffer.push(stubData.getFmdGetDataHeaderProtobufADE(queryId, false, true));
+    buffer.push(stubData.getADEErrorProtobuf({ code: 0, message: `this file doesn't exist ${path}` }));
+  } else {
+    buffer.push(stubData.getFmdGetDataHeaderProtobufADE(queryId, false, false));
+    buffer.push(rawBuffer);
+    buffer.push(stubData.getFMDFileInfoProtobuf());
+    buffer.push(stubData.getDocumentProtobuf({
+      dirname: dirname(path),
+      basename: basename(path),
+    }));
+  }
+
+  return buffer;
+}
+
+const versionDCMap = {
+  [constants.DC_COM_V1]: V1,
+  [constants.DC_COM_V2]: V2,
+}
+
+module.exports = function sendFmdGet(queryId, rawBuffer, oid, zmq, versionDCCom) {
+  
+  const buffer = versionDCMap[versionDCCom](queryId, oid, rawBuffer);
   zmq.push('stubData', buffer);
 };

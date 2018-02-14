@@ -21,6 +21,39 @@ const thisIsTheEnd = stubData.getBooleanProtobuf(true);
 
 const queries = {};
 
+const V1 = (queryId, dataId, payloads) => {
+  const buffer = [
+    null,
+    stubData.getTimebasedArchiveDataHeaderProtobuf(),
+    stubData.getStringProtobuf(queryId),
+    stubData.getDataIdProtobuf(dataId),
+    thisIsTheEnd,
+  ];
+  _each(payloads, (payload) => {
+    buffer.push(payload.timestamp);
+    buffer.push(payload.payload);
+  });
+  return buffer;
+}
+
+const V2 = (queryId, dataId, payloads, rawBuffer) => {
+  const buffer = [
+    null,
+    stubData.getTimebasedArchiveDataHeaderProtobufADE(queryId, true, false),
+    rawBuffer
+  ];
+  _each(payloads, (payload) => {
+    buffer.push(payload.timestamp);
+    buffer.push(payload.payload);
+  });
+  return buffer;
+}
+
+const versionDCMap = {
+  [constants.DC_COM_V1]: V1,
+  [constants.DC_COM_V2]: V2,
+}
+
 function shouldPushANewValue(queryKey, timestamp) {
   if (timestamp > Date.now()) {
     return false; // stub never send value in the future
@@ -37,14 +70,15 @@ function shouldPushANewValue(queryKey, timestamp) {
   }
   return false;
 }
-
 module.exports = function sendArchiveData(
   queryKey,
   queryId,
   dataId,
   interval,
-  queryArguments,
-  zmq
+  isLast,
+  zmq,
+  versionDCCom,
+  rawBuffer
 ) {
   const from = interval.startTime.ms;
   const to = interval.endTime.ms;
@@ -60,7 +94,7 @@ module.exports = function sendArchiveData(
   const payloads = [];
   const now = Date.now();
 
-  if (queryArguments.getLastType === constants.GETLASTTYPE_GET_LAST) {
+  if (isLast) {
     // compute number of steps from lower time to current
     const n = Math.floor((to - from) / constants.DC_STUB_VALUE_TIMESTEP);
     let timestamp = from + (n * constants.DC_STUB_VALUE_TIMESTEP);
@@ -68,7 +102,7 @@ module.exports = function sendArchiveData(
       // stub never send value in the future
       timestamp = now - constants.DC_STUB_VALUE_TIMESTEP;
     }
-    const payload = getPayload(timestamp, dataId.comObject, { epName: dataId.parameterName });
+    const payload = getPayload(timestamp, dataId.comObject, versionDCCom, { epName: dataId.parameterName });
     if (payload !== null) {
       payloads.push(payload);
     }
@@ -76,7 +110,7 @@ module.exports = function sendArchiveData(
     // All toAck alarms are pushed by DC whatever the given alarm
     if (dataId.comObject.indexOf('Alarm') !== -1) {
       for (let timestamp = 1e4; timestamp < 12e3; timestamp += constants.DC_STUB_VALUE_TIMESTEP) {
-        const payload = getPayload(timestamp, dataId.comObject, {
+        const payload = getPayload(timestamp, dataId.comObject, versionDCCom, {
           epName: dataId.parameterName,
           withAckRequest: true,
           withAck: false,
@@ -92,7 +126,7 @@ module.exports = function sendArchiveData(
       timestamp += constants.DC_STUB_VALUE_TIMESTEP
     ) {
       if (shouldPushANewValue(queryKey, timestamp)) {
-        const payload = getPayload(timestamp, dataId.comObject, {
+        const payload = getPayload(timestamp, dataId.comObject, versionDCCom, {
           epName: dataId.parameterName,
           alarmFrequency: (1 / constants.DC_STUB_VALUE_ALARMTIMESTEP),
         });
@@ -106,18 +140,7 @@ module.exports = function sendArchiveData(
   if (!payloads.length) {
     return;
   }
-
-  const buffer = [
-    null,
-    header,
-    stubData.getStringProtobuf(queryId),
-    stubData.getDataIdProtobuf(dataId),
-    thisIsTheEnd,
-  ];
-  _each(payloads, (payload) => {
-    buffer.push(payload.timestamp);
-    buffer.push(payload.payload);
-  });
+  const buffer = versionDCMap[versionDCCom](queryId, dataId, payloads, rawBuffer);
 
   if (payloads.length !== 0) {
     zmq.push('stubData', buffer);

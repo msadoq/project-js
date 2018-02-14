@@ -29,6 +29,21 @@ const GroundMonitoringAlarmAckRequest = require('./groundMonitoringAlarmAckReque
 const OnBoardAlarmAckRequest = require('./onBoardAlarmAckRequest');
 const OnBoardAlarm = require('./onBoardAlarm');
 
+// ADE
+const ADEAck = require('./ADEAck');
+const ADEError = require('./ADEError');
+const ADEGenericPayload = require('./ADEGenericPayload');
+const ADEHeader = require('./ADEHeader');
+const ADEPayload = require('./ADEPayload');
+const ADEPayloadHeader = require('./ADEPayloadHeader');
+const ADESatellite = require('./ADESatellite');
+const ADESatellites = require('./ADESatellites');
+const ADESDBQuery = require('./ADESDBQuery');
+const ADEStringList = require('./ADEStringList');
+const ADETimebasedQuery = require('./ADETimebasedQuery');
+const ADETimebasedPubsub = require('./ADETimebasedPubsub');
+const ADETimebasedSubscription = require('./ADETimebasedSubscription');
+
 module.exports = { // TODO .proto should be collocated with adapters
   Action: { type: 'protobuf', adapter: Action },
   Boolean: { type: 'protobuf', adapter: Bool },
@@ -54,4 +69,17 @@ module.exports = { // TODO .proto should be collocated with adapters
   GroundMonitoringAlarmAckRequest: { type: 'protobuf', adapter: GroundMonitoringAlarmAckRequest },
   OnBoardAlarmAckRequest: { type: 'protobuf', adapter: OnBoardAlarmAckRequest },
   OnBoardAlarm: { type: 'protobuf', adapter: OnBoardAlarm },
+  ADEAck: { type: 'protobuf', adapter: ADEAck },
+  ADEError: { type: 'protobuf', adapter: ADEError },
+  ADEGenericPayload: { type: 'protobuf', adapter: ADEGenericPayload },
+  ADEHeader: { type: 'protobuf', adapter: ADEHeader },
+  ADEPayload: { type: 'protobuf', adapter: ADEPayload },
+  ADEPayloadHeader: { type: 'protobuf', adapter: ADEPayloadHeader },
+  ADESatellite: { type: 'protobuf', adapter: ADESatellite },
+  ADESatellites: { type: 'protobuf', adapter: ADESatellites },
+  ADESDBQuery: { type: 'protobuf', adapter: ADESDBQuery },
+  ADEStringList: { type: 'protobuf', adapter: ADEStringList },
+  ADETimebasedQuery: { type: 'protobuf', adapter: ADETimebasedQuery },
+  ADETimebasedPubsub: { type: 'protobuf', adapter: ADETimebasedPubsub },
+  ADETimebasedSubscription: { type: 'protobuf', adapter: ADETimebasedSubscription },
 };

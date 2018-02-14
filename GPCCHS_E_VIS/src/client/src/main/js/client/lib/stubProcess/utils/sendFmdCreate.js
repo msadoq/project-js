@@ -12,9 +12,9 @@ const { existsSync, writeFileSync } = require('fs');
 const { get } = require('../../common/configurationManager');
 const stubs = require('../../utils/stubs');
 
-const stubData = stubs.getStubData();
+const constants = require('../../constants');
 
-module.exports = function sendFmdCreate(queryId, { name, path }, zmq) {
+const V1 = (queryId, path, name) => {
   const buffer = [
     null,
     stubData.getFmdCreateDataHeaderProtobuf(),
@@ -36,7 +36,41 @@ module.exports = function sendFmdCreate(queryId, { name, path }, zmq) {
     });
   }
 
-  zmq.push('stubData', buffer);
+  return buffer;
+} 
+
+const V2 = (queryId, path, name, rawBuffer) => {
+  const buffer = [];
+  const fullPath = join(path, name);
+  const createPath = join(get('ISIS_DOCUMENTS_ROOT'), fullPath);
+  if (existsSync(createPath)) {
+    buffer.push(null);
+    buffer.push(stubData.getFmdCreateDataHeaderProtobufADE(queryId, false, true));
+    // buffer.push(rawBuffer);
+    // buffer[3] = stubData.getErrorStatusProtobuf();
+    buffer.push(stubData.getADEErrorProtobuf({ code: 0, message: `this file already exists: ${createPath}`}));
+  } else {
+    writeFileSync(createPath, '', 'utf8');
+    buffer.push(null);
+    buffer.push(stubData.getFmdCreateDataHeaderProtobufADE(queryId, false, false));
+    buffer.push(rawBuffer);
+    buffer.push(stubData.getFMDFileInfoProtobuf({
+      serializedOid: `oid:${fullPath}`,
+    }));
+  }
+
+  return buffer;
+}
+const versionDCMap = {
+  [constants.DC_COM_V1]: V1,
+  [constants.DC_COM_V2]: V2,
+}
+
+const stubData = stubs.getStubData();
+
+module.exports = function sendFmdCreate(queryId, rawBuffer, { name, path }, zmq, versionDCCom) {
+  const buffer = versionDCMap[versionDCCom](queryId, path, name, rawBuffer);
+  zmq.push('stubData', buffer); 
 };
 //
 // module.exports = function sendFmdGet(queryId, oid, zmq) {

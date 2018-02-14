@@ -17,6 +17,7 @@
 
 const stubs = require('../../utils/stubs');
 const predictibleRand = require('./predictibleRand');
+const constants = require('../../constants');
 
 const stubData = stubs.getStubData();
 
@@ -32,7 +33,7 @@ const stubData = stubs.getStubData();
 // }
 function getMonitoringState() {
   return predictibleRand.getBool(0.25) ? predictibleRand.getFrom([
-    'nominal', 'warning', 'danger', 'severe', 'critical', 'outOfRange',
+    'info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete', 'danger',
   ]) : undefined;
 }
 
@@ -208,13 +209,18 @@ const getComObject = (comObject, timestamp, options) => {
  * @param  {Object} options   Options for generation
  * @return {Object}           Generated payload
  */
-module.exports = function getPayload(timestamp, comObject, options = {}) {
+module.exports = function getPayload(timestamp, comObject, versionDCCom, options = {}) {
   const _options = options;
   _options.epName = (options.epName === undefined ? 'todo' : options.epName);
 
   predictibleRand.setSeed(timestamp);
 
-  const payload = getComObject(comObject, timestamp, _options);
+  let payload = getComObject(comObject, timestamp, _options);
+
+  //Decorate payload with ADEGenericPayload in case of proto ADE
+  if(versionDCCom === constants.DC_COM_V2) {
+    payload = stubData.getADEPayloadProtobuf({payload, providerId: 0, comObjectType: comObject});
+  }
 
   if (payload === null) {
     return null;

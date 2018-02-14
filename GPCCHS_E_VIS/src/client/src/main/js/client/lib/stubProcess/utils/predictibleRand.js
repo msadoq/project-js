@@ -41,7 +41,8 @@ function PredictibleRand() {
     Buffer.from(epName).forEach((val) => {
       offset += val;
     });
-    return (1 + Math.sin(((timestamp * offset) / 6000000) + (offset * 1000)) + (offset / 10));
+
+    return (1 + Math.sin(timestamp / 6000)) + (offset / 10);
   };
 
   /**

@@ -50,6 +50,8 @@ const sendMasterSession = require('./utils/sendMasterSession');
 
 process.title = 'gpcchs_dc_stub';
 
+const versionDCComProtocol = parameters.get('VERSION_DC_COM_PROTOCOL');
+
 let subscriptions = {};
 let queries = [];
 let alarmAcks = [];
@@ -74,19 +76,39 @@ const pushError = (queryId = '', reason = '') => {
   ]);
 };
 
+const pushSuccessADE = (queryId) => {
+  zmq.push('stubData', [
+    null,
+    stubData.getResponseHeaderProtobufADE(queryId),
+    stubData.getSuccessStatusProtobuf(),
+  ]);
+};
+const pushErrorADE = (queryId = '', reason = '') => {
+  logger.error('STUB ERROR', reason);
+  zmq.push('stubData', [
+    null,
+    stubData.getResponseHeaderProtobuf(queryId),
+    stubData.getErrorStatusProtobuf(),
+    stubData.getStringProtobuf(reason),
+  ]);
+};
 // Message Controller
 const onHssMessage = (...args) => {
   logger.debug('onHssMessage');
+  // const header = adapter.decode('dc.dataControllerUtils.ADEHeader', args[0]);
   const header = adapter.decode('dc.dataControllerUtils.Header', args[0]);
   const queryId = adapter.decode('dc.dataControllerUtils.String', args[1]).string;
-
+  console.log("Queryid is ", queryId);
+  console.log('header is -----------------------', header);
   switch (header.messageType) {
     case constants.MESSAGETYPE_FMD_GET_QUERY: {
       logger.info('push fmd get data');
       return sendFmdGet(
         queryId,
+        args[2],
         adapter.decode('dc.dataControllerUtils.FMDGet', args[2]).serializedOid,
-        zmq
+        zmq,
+        versionDCComProtocol
       );
     }
 
@@ -94,8 +116,10 @@ const onHssMessage = (...args) => {
       logger.info('handle create document');
       return sendFmdCreate(
         queryId,
+        args[2],
         adapter.decode('dc.dataControllerUtils.FMDCreateDocument', args[2]),
-        zmq
+        zmq,
+        versionDCComProtocol
       );
     }
 
@@ -110,24 +134,26 @@ const onHssMessage = (...args) => {
       logger.info('push session time');
       return sendSessionTime(
         queryId,
+        args[2],
         adapter.decode('dc.dataControllerUtils.SessionGetTime', args[2]).id,
-        zmq
+        zmq,
+        versionDCComProtocol
       );
     }
 
     case constants.MESSAGETYPE_SESSION_MASTER_QUERY: {
       logger.info('push master session');
-      return sendMasterSession(queryId, zmq);
+      return sendMasterSession(queryId, args[2], zmq, versionDCComProtocol);
     }
 
     case constants.MESSAGETYPE_DOMAIN_QUERY: {
       logger.info('push domains data');
-      return sendDomainData(queryId, zmq);
+      return sendDomainData(queryId, args[2], zmq, versionDCComProtocol);
     }
 
     case constants.MESSAGETYPE_SESSION_QUERY: {
       logger.info('push sessions data');
-      return sendSessionData(queryId, zmq);
+      return sendSessionData(queryId, args[2], zmq, versionDCComProtocol);
     }
 
     case constants.MESSAGETYPE_TIMEBASED_QUERY: {
@@ -143,8 +169,9 @@ const onHssMessage = (...args) => {
       const queryArguments = adapter.decode(
         'dc.dataControllerUtils.QueryArguments', args[4]
       );
+      const isLast = (queryArguments.getLastType === constants.GETLASTTYPE_GET_LAST);
       const queryKey = JSON.stringify({ dataId, queryArguments });
-      queries.push({ queryKey, queryId, dataId, interval, queryArguments });
+      queries.push({ queryKey, queryId, dataId, interval, isLast, versionDCCom: versionDCComProtocol });
       logger.silly('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);
     }
@@ -169,6 +196,7 @@ const onHssMessage = (...args) => {
         subscriptions[parameter] = {
           queryId,
           dataId,
+          versionDCCom: versionDCComProtocol
         };
         logger.debug('subscription added', parameter);
       }
@@ -199,6 +227,203 @@ const onHssMessage = (...args) => {
   }
 };
 
+const onHssMessageADE = (...args) => {
+  logger.debug('onHssMessage');
+  const { method, requestId, isLast, isError } = adapter.decode('dc.dataControllerUtils.ADEHeader', args[0]);
+  const methodBuffer = args[1];
+  // const header = adapter.decode('dc.dataControllerUtils.Header', args[0]);
+  // const queryId = adapter.decode('dc.dataControllerUtils.String', args[1]).string;
+  const queryId = requestId;
+  switch (method) {
+    case constants.MESSAGETYPE_FMD_GET_QUERY: {
+      logger.info('push fmd get data');
+      return sendFmdGet(
+        queryId,
+        args[1],
+        adapter.decode('dc.dataControllerUtils.FMDGet', args[1]).serializedOid,
+        zmq,
+        versionDCComProtocol
+      );
+    }
+
+    case constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY: {
+      logger.info('handle create document');
+      return sendFmdCreate(
+        queryId,
+        args[1],
+        adapter.decode('dc.dataControllerUtils.FMDCreateDocument', args[1]),
+        zmq,
+        versionDCComProtocol
+      );
+    }
+
+    case constants.MESSAGETYPE_LOG_SEND: {
+      logger.info('handle log');
+      const { uid, arguments: a } = adapter.decode('dc.dataControllerUtils.SendLog', args[2]);
+      // eslint-disable-next-line no-console, "DV6 TBC_CNES Stub file, output on console"
+      return console.log(`DC EMULATE LOG MANAGER: ${uid}`, a);
+    }
+
+    case constants.MESSAGETYPE_SESSION_TIME_QUERY: {
+      logger.info('push session time');
+      return sendSessionTime(
+        queryId,
+        args[1],
+        adapter.decode('dc.dataControllerUtils.SessionGetTime', args[1]).id,
+        zmq,
+        versionDCComProtocol
+      );
+    }
+
+    case constants.MESSAGETYPE_SESSION_MASTER_QUERY: {
+      logger.info('push master session');
+      logger.info('queryId', queryId);
+      return sendMasterSession(queryId, args[1], zmq, versionDCComProtocol);
+    }
+
+    case constants.MESSAGETYPE_DOMAIN_QUERY: {
+      logger.info('push domains data');
+      return sendDomainData(queryId, args[1], zmq, versionDCComProtocol);
+    }
+
+    case constants.MESSAGETYPE_SESSION_QUERY: {
+      logger.info('push sessions data');
+      return sendSessionData(queryId, args[1], zmq, versionDCComProtocol);
+    }
+
+    case constants.MESSAGETYPE_TIMEBASED_QUERY: {
+      const { 
+        sessionId,
+        domainId,
+        objectName,
+        catalogName,
+        itemName,
+        providerFlow,
+        timeInterval,
+        sortFieldName,
+        sortOrder,
+        getLastNumber,
+        filters
+      } = protobuf.decode('dc.dataControllerUtils.ADETimebasedQuery');
+
+    // optional string parameterName = 1;
+    // optional string oid = 2; // oid can't and isn't filled by GPCCHS.
+    // optional string sourceOid = 3;
+    // optional string catalog = 4;
+    // required string comObject = 5;
+    // required uint32 sessionId = 6; // should be uint16
+    // required uint32 domainId = 7;  // should be uint16
+    // optional string url = 8;       //for fds parameters
+    // optional string version = 9;   //for fds parameters
+
+      // const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
+      // if (!isParameterSupported(dataId)) {
+      //   logger.warn('query of unsupported parameter sent to DC stub', dataId);
+      //   return pushErrorADE(
+      //     queryId,
+      //     `parameter ${dataId.parameterName} not yet supported by stub`
+      //   );
+      // }
+
+      const dataId = {
+        sessionId,
+        domainId,
+        catalog: catalogName,
+        comObject: objectName,
+        parameterName: itemName,
+      };
+
+      // optional string sortFieldName = 1;
+      //   enum SORT_ORDER {
+      //       ASC = 0;
+      //       DESC = 1;
+      //   }
+      // optional SORT_ORDER sortOrder = 2;
+      // optional uint32 limitStart = 3;
+      // optional uint32 limitNumber = 4;
+      //   enum GET_LAST_TYPE {
+      //     GET_LAST = 0;
+      //     GET_N_LAST = 1;
+      //   }
+      // optional GET_LAST_TYPE getLastType = 5;
+      // optional Timestamp getLastFromTime = 6;
+      // optional uint32 getLastNumber = 7;
+      // repeated Filter filters = 8;
+      // optional AlarmMode alarmMode = 9;
+
+      const queryArguments = {
+        sortFieldName,
+        sortOrder,
+        filters,
+        getLastNumber,
+
+      }
+      const isLast = (getLastNumber && getLastNumber === 1);
+      const interval = adapter.decode('dc.dataControllerUtils.TimeInterval', timeInterval);
+
+      const queryKey = JSON.stringify({ dataId, queryArguments });
+      queries.push({ queryKey, queryId, dataId, interval, isLast, versionDCCom: versionDCComProtocol, rawBuffer: args[1] });
+      logger.silly('query registered', dataId.parameterName, interval);
+      return pushSuccessADE(queryId);
+    }
+
+    case constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
+      const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
+      let parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
+      if (!isParameterSupported(dataId)) {
+        if (!dataId.catalog && !dataId.parameterName && dataId.comObject) {
+          // TODO To improve : Special case, subscription for a whole com object
+          parameter = 'Reporting.GENE_AM_CCSDSAPID<ReportingParameter>';
+        } else {
+          logger.warn('subscription of unsupported parameter sent to DC stub', dataId);
+          return pushErrorADE(
+            queryId,
+            `parameter ${dataId.parameterName} not yet supported by stub`
+          );
+        }
+      }
+      const action = protobuf.decode('dc.dataControllerUtils.Action', args[3]).action;
+      if (action === constants.SUBSCRIPTIONACTION_ADD) {
+        subscriptions[parameter] = {
+          queryId,
+          dataId,
+        };
+        logger.debug('subscription added', parameter);
+      }
+      if (action === constants.SUBSCRIPTIONACTION_DELETE) {
+        subscriptions = _omit(subscriptions, parameter);
+        logger.debug('subscription removed', parameter);
+      }
+      return pushSuccessADE(queryId);
+    }
+
+    case constants.MESSAGETYPE_ALARM_ACK: {
+      const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
+      const comObject = dataId.comObject;
+      const alarms = args.slice(3).map(rawAlarm => (
+        adapter.decode(
+          `dc.dataControllerUtils.${comObject}`, rawAlarm
+        )
+      ));
+
+      alarmAcks.push({ dataId, queryId, alarms });
+      logger.silly('alarmAck registered', comObject, '(', alarms.length, ')');
+
+      return pushSuccessADE(queryId);
+    }
+
+    default:
+      return pushErrorADE(queryId, `Unknown message type ${header.messageType}`);
+  }
+};
+
+const onHssMessageVersion = {
+  [constants.DC_COM_V1]: onHssMessage,
+  [constants.DC_COM_V2]: onHssMessageADE
+}
+
+
+
 function dcCall() {
   logger.silly('dcCall call', Object.keys(subscriptions).length, queries.length);
 
@@ -207,7 +432,7 @@ function dcCall() {
   // pub/sub
   _each(subscriptions, (subscription) => {
     logger.debug(`push pub/sub data for ${subscription.dataId.parameterName}`);
-    sendPubSubData(subscription.queryId, subscription.dataId, zmq);
+    sendPubSubData(subscription.queryId, subscription.dataId, zmq, subscription.versionDCCom);
   });
 
   // queries
@@ -218,19 +443,11 @@ function dcCall() {
       query.queryId,
       query.dataId,
       query.interval,
-      query.queryArguments,
-      zmq
+      query.isLast,
+      zmq,
+      query.versionDCCom,
+      query.rawBuffer
     );
-    /* setTimeout(() => {
-      sendArchiveData(
-      query.queryKey,
-      query.queryId,
-      query.dataId,
-      query.interval,
-      query.queryArguments,
-      zmq
-    );
-    }, Math.random() * 3000); */
   });
   queries = [];
 
@@ -254,7 +471,7 @@ zmq.open(
       type: 'pull',
       role: 'server',
       url: parameters.get('ZMQ_GPCCDC_PUSH'),
-      handler: onHssMessage,
+      handler: onHssMessageVersion[versionDCComProtocol],
     },
     stubData: {
       type: 'push',

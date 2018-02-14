@@ -9,18 +9,35 @@
 // ====================================================================
 
 const stubs = require('../../utils/stubs');
-
+const constants = require('../../constants');
 stubs.loadStubs();
 const stubData = stubs.getStubData();
 const { encode, getType } = require('../../utils/adapters');
 
 const MASTER_SESSION_ID = 42;
 
-module.exports = function sendMasterSession(queryId, zmq) {
-  zmq.push('stubData', [
-    null,
-    stubData.getSessionMasterDataHeaderProtobuf(),
-    stubData.getStringProtobuf(queryId),
-    encode(getType('UINTEGER'), MASTER_SESSION_ID),
-  ]);
+const V1 = (queryId) => [
+  null,
+  stubData.getSessionMasterDataHeaderProtobuf(),
+  stubData.getStringProtobuf(queryId),
+  encode(getType('UINTEGER'), MASTER_SESSION_ID),
+];
+
+const V2 = (queryId, rawBuffer) => [
+  null,
+  stubData.getSessionMasterDataHeaderProtobufADE(queryId),
+  rawBuffer,
+  encode(getType('UINTEGER'), MASTER_SESSION_ID),
+];
+
+const versionDCMap = {
+  [constants.DC_COM_V1]: V1,
+  [constants.DC_COM_V2]: V2,
+}
+module.exports = function sendMasterSession(queryId, rawBuffer, zmq, versionDCCom) {
+  console.log(versionDCMap[versionDCCom](queryId));
+  console.log(queryId);
+  console.log(stubData.test(queryId));
+  console.log(stubData.getSessionMasterDataHeaderProtobufADE.toString());
+  zmq.push('stubData', versionDCMap[versionDCCom](queryId, rawBuffer));
 };

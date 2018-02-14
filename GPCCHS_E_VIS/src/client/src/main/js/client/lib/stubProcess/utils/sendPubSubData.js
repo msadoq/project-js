@@ -17,10 +17,10 @@ const getPayload = require('./getPayload');
 
 const header = stubData.getTimebasedPubSubDataHeaderProtobuf();
 
-function getPayloads(comObject, parameterName) {
+function getPayloads(comObject, parameterName, versionDCCom) {
   const payloads = [];
   for (let i = 0; i < _random(1, constants.DC_STUB_MAX_SUBSCRIPTION_VALUES); i += 1) {
-    const payload = getPayload(Date.now(), comObject, {
+    const payload = getPayload(Date.now(), comObject, versionDCCom, {
       epName: parameterName,
       alarmFrequency: (1 / constants.DC_STUB_VALUE_ALARMTIMESTEP),
     });
@@ -32,7 +32,7 @@ function getPayloads(comObject, parameterName) {
   return payloads;
 }
 
-module.exports = (queryId, dataId, zmq) => {
+module.exports = (queryId, dataId, zmq, versionDCCom) => {
   const buffer = [
     null,
     header,
@@ -40,7 +40,7 @@ module.exports = (queryId, dataId, zmq) => {
     stubData.getDataIdProtobuf(dataId),
   ];
 
-  const payloads = getPayloads(dataId.comObject, dataId.parameterName);
+  const payloads = getPayloads(dataId.comObject, dataId.parameterName, versionDCCom);
   _each(payloads, (payload) => {
     buffer.push(payload.timestamp);
     buffer.push(payload.payload);

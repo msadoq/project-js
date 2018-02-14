@@ -1,0 +1,22 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/Filter.proto";
+
+message ADETimebasedSubscription {
+    extensions 9 to 109;
+
+    enum ACTION
+    {
+        ADD    = 0;
+        DELETE = 1;
+
+    }
+    required ACTION action = 1;
+    required uint32 sessionId = 2;
+    required uint32 domainId = 3;
+    required string objectName = 4;
+    optional string catalogName = 5;
+    optional string providerFlow = 6;
+    optional string itemName = 7;
+    repeated Filter filters = 8;
+}

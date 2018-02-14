@@ -12,10 +12,29 @@ const logger = require('../../common/logManager')('stubs:utils');
 const stubs = require('../../utils/stubs');
 
 const stubData = stubs.getStubData();
+const constants = require('../../constants');
 
-const header = stubData.getDcStatusHeaderProtobuf();
 const healthy = stubData.getHealthyDcStatusProtobuf();
 const congestion = stubData.getCongestionDcStatusProtobuf();
+
+const V1 = (queryId, congestionStatus) => [
+  null,
+  stubData.getDcStatusHeaderProtobuf(),
+  congestionStatus,
+];;
+
+const V2 = (queryId, congestionStatus, rawBuffer) =>[
+  null,
+  stubData.getDcStatusHeaderProtobufADE(queryId),
+  rawBuffer,
+  congestionStatus,
+];;
+
+const versionDCMap = {
+  [constants.DC_COM_V1]: V1,
+  [constants.DC_COM_V2]: V2,
+}
+
 const current = {
   isCongestionned: false,
   from: Date.now(),
@@ -23,7 +42,7 @@ const current = {
 
 const DC_STUB_CONGESTION_FREQUENCY = 12e4; // 2mn
 
-module.exports = function sendDcStatus(zmq) {
+module.exports = function sendDcStatus(queryId, rawBuffer, zmq, versionDCCom) {
   const now = Date.now();
   const { from, isCongestionned } = current;
 
@@ -31,11 +50,13 @@ module.exports = function sendDcStatus(zmq) {
   if ((now - from) > DC_STUB_CONGESTION_FREQUENCY) {
     current.isCongestionned = !isCongestionned;
     current.from = now;
-    const buffer = [
-      null,
-      header,
-      isCongestionned ? congestion : healthy,
-    ];
+    // const buffer = [
+    //   null,
+    //   header,
+    //   isCongestionned ? congestion : healthy,
+    // ];
+    const congestionStatus = isCongestionned ? congestion : healthy;
+    const buffer = versionDCMap[versionDCCom](queryId, congestionStatus, rawBuffer);
     zmq.push('stubData', buffer);
     logger.debug(isCongestionned ? 'congestion' : 'healthy');
   }

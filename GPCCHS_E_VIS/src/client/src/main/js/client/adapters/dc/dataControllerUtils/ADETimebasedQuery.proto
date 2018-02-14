@@ -1,10 +1,10 @@
 package dataControllerUtils.protobuf;
 
-import "./TimeInterval.proto";
-import "./Filter.proto";
+import "dataControllerUtils/TimeInterval.proto";
+import "dataControllerUtils/Filter.proto";
 
 message ADETimebasedQuery {
-    extensions 11 to 111;
+    extensions 12 to 112;
 
     enum SORT_ORDER
     {
@@ -16,9 +16,10 @@ message ADETimebasedQuery {
     required string       objectName = 3;
     optional string       catalogName = 4;
     optional string       itemName = 5;
-    optional TimeInterval timeInterval = 6;
-    optional string       sortFieldName = 7;
-    optional SORT_ORDER   sortOrder = 8;
-    optional uint32       getLastNumber = 9;
-    repeated Filter       filters = 10;
+    optional string       providerFlow = 6;
+    optional TimeInterval timeInterval = 7;
+    optional string       sortFieldName = 8;
+    optional SORT_ORDER   sortOrder = 9;
+    optional uint32       getLastNumber = 10;
+    repeated Filter       filters = 11;
 }

@@ -36,7 +36,6 @@ RUNDIR=target/run
 buildRunDir $RUNDIR
 
 # Source container utlis functions : checkProcess, checkResult, replace_ISIS_WORK_DIR
-echo "TA MERE LA TCHOIN A MERE LA TCHOIN A MERE LA TCHOIN A MERE LA TCHOIN A MERE LA TCHOIN A MERE LA TCHOIN V A MERE LA TCHOIN V =========================================================================================================================================================="
 echo `pwd`
 . containerUtils.env
 echo `which startContainer`

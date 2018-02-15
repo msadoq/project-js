@@ -51,12 +51,12 @@ const convertData = (toConvertMap, dataToInject, cb) => {
         arrayToConvert.forEach(({ field, convertFrom, convertTo }) => {
           const value = timestampMap[timestamp][field];
           asyncMap[`${tbdIdKey}${field}${convertFrom}${convertTo}${timestamp}`] = ((callbackAsync) => {
-            passerelle.caller('gpinuc',
+            passerelle.caller('convertUnit',
               {
                 // TODO, add the real valu = value: value.symbol,
                 value: '123',
-                unitesource: convertFrom,
-                unitectible: convertTo,
+                unitesource: 'km',
+                unitectible: 'm',
               },
               (response) => {
                 callbackAsync(null,

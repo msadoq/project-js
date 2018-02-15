@@ -1,6 +1,6 @@
 {
   "PROFILING": "off",
-  "PYTHON_EXEC_PATH": "/usr/bin/python",
+  "PYTHON_EXEC_PATH": "/usr/share/isis/bin/python3",
   "SERVER_HEALTH_CRITICAL_DELAY": 500,
   "MAIN_HEALTH_CRITICAL_DELAY": 500,
   "RENDERER_HEALTH_CRITICAL_DELAY": 250,

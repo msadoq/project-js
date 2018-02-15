@@ -16,6 +16,7 @@
     <module>src/impl/system</module>
     <module>src/impl/resources</module>
     <module>src/impl/parent</module>
+    <module>GPCCHS_L_IFL/src/impl/parent</module>
   </modules>
   <build>
     <plugins>

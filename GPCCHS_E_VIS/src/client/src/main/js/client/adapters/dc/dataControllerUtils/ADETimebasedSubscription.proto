@@ -1,6 +1,6 @@
 package dataControllerUtils.protobuf;
 
-import "dataControllerUtils/Filter.proto";
+import "./Filter.proto";
 
 message ADETimebasedSubscription {
     extensions 9 to 109;

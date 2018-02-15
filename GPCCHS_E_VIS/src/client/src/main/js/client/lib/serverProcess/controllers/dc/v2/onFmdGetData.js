@@ -27,42 +27,37 @@ const { getStore } = require('../../../store');
  * @param reply function
  * @param args array
  */
-module.exports = (args) => {
+module.exports = (buffers, requestId, isLast, isError) => {
   logger.silly('called');
 
-  const queryIdBuffer = args[0];
-  const statusBuffer = args[1];
-  const buffer = args[2];
-  const secondBuffer = args[3];
+  const requestCloneBuffer = buffers[0];
 
-  const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-  logger.silly('decoded queryId', queryId);
+  const callback = pop(requestId);
 
-  const callback = pop(queryId);
+  const blob = buffers[2];
 
   try {
-    const { status } = decode('dc.dataControllerUtils.Status', statusBuffer);
-    if (status !== globalConstants.STATUS_SUCCESS) {
-      const { string: reason } = decode('dc.dataControllerUtils.String', buffer);
-      callback({ err: reason });
+
+    if (isError) {
+      callback({ err: decode('dc.dataControllerUtils.FMDFileInfo', buffers[1]) });
     } else {
       const { type, serializedOid } = decode('dc.dataControllerUtils.FMDFileInfo', buffer);
       let detail;
       switch (type) {
         case globalConstants.FMDFILETYPE_COLLECTION: {
-          detail = decode('isis.file.Collection', secondBuffer);
+          detail = decode('isis.file.Collection', blob);
           break;
         }
         case globalConstants.FMDFILETYPE_COLLECTION_DOCUMENT: {
-          detail = decode('isis.file.CollectionDocument', secondBuffer);
+          detail = decode('isis.file.CollectionDocument', blob);
           break;
         }
         case globalConstants.FMDFILETYPE_DOCUMENT: {
-          detail = decode('isis.file.Document', secondBuffer);
+          detail = decode('isis.file.Document', blob);
           break;
         }
         case globalConstants.FMDFILETYPE_FOLDER: {
-          detail = decode('isis.file.Folder', secondBuffer);
+          detail = decode('isis.file.Folder', blob);
           break;
         }
         default:

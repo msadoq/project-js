@@ -15,7 +15,23 @@ const stubs = require('../../utils/stubs');
 const stubData = stubs.getStubData();
 const getPayload = require('./getPayload');
 
-const header = stubData.getTimebasedPubSubDataHeaderProtobuf();
+const V1 = (queryId) => [
+  null,
+  stubData.getTimebasedPubSubDataHeaderProtobuf(),
+  stubData.getStringProtobuf(queryId),
+  stubData.getSessionsProtobuf(stubData.getSessions()),
+];
+
+const V2 = (queryId, rawBuffer) => [
+  null,
+  stubData.getTimebasedPubSubDataHeaderProtobufADE(queryId),
+  rawBuffer,
+];
+
+const versionDCMap = {
+  [constants.DC_COM_V1]: V1,
+  [constants.DC_COM_V2]: V2,
+}
 
 function getPayloads(comObject, parameterName, versionDCCom) {
   const payloads = [];
@@ -32,14 +48,9 @@ function getPayloads(comObject, parameterName, versionDCCom) {
   return payloads;
 }
 
-module.exports = (queryId, dataId, zmq, versionDCCom) => {
-  const buffer = [
-    null,
-    header,
-    stubData.getStringProtobuf(queryId),
-    stubData.getDataIdProtobuf(dataId),
-  ];
-
+module.exports = (queryId, dataId, zmq, versionDCCom, rawBuffer) => {
+  const buffer = versionDCMap[versionDCCom](queryId, rawBuffer);
+  console.log(buffer);
   const payloads = getPayloads(dataId.comObject, dataId.parameterName, versionDCCom);
   _each(payloads, (payload) => {
     buffer.push(payload.timestamp);

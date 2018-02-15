@@ -1,6 +1,6 @@
 package dataControllerUtils.protobuf;
 
-import "dataControllerUtils/ADEGenericPayload.proto";
+import "./ADEGenericPayload.proto";
 
 message ADEPayload {
     extensions 2 to 102;

@@ -2,11 +2,11 @@ const ADEPayloadHeader = require('./ADEPayloadHeader');
 
 module.exports = {
   encode: data => ({
-    header: data.header,
-    payload: ADEPayloadHeader.encode(data.payload),
+    header: ADEPayloadHeader.encode(data.header),
+    payload: data.payload,
   }),
   decode: data => ({
-    header: data.header,
-    payload: ADEPayloadHeader.decode(data.payload),
+    header: ADEPayloadHeader.decode(data.header),
+    payload: data.payload,
   }),
 };

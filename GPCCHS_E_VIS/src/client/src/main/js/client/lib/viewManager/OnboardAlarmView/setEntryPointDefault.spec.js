@@ -19,5 +19,17 @@ describe('viewManager', () => {
         stateColors: [],
       });
     });
+    test('viewManager :: OnboardAlarmView :: setEntryPointDefault with nested data', () => {
+      expect(setEntryPointDefault({ connectedData: { timeline: 'Youhouh !' } })).toEqual({
+        name: 'onboardAlarmEP',
+        id: 'MY_UUID',
+        connectedData: {
+          domain: get('WILDCARD_CHARACTER'),
+          timeline: 'Youhouh !',
+          mode: constants.ALARM_MODE_ALL,
+        },
+        stateColors: [],
+      });
+    });
   });
 });

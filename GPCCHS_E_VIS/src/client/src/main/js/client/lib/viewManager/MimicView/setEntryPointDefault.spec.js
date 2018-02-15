@@ -21,5 +21,23 @@ describe('viewManager', () => {
         stateColors: [],
       });
     });
+    test('viewManager :: MimicView :: setEntryPointDefault with nested data', () => {
+      expect(setEntryPointDefault({ name: 'truc', connectedData: { filter: [1, 2] } })).toEqual({
+        name: 'truc',
+        connectedData: {
+          formula: '',
+          unit: 's',
+          digits: 5,
+          format: 'decimal',
+          filter: [1, 2],
+          domain: get('WILDCARD_CHARACTER'),
+          timeline: get('WILDCARD_CHARACTER'),
+          convertFrom: '',
+          convertTo: '',
+          provider: get('WILDCARD_CHARACTER'),
+        },
+        stateColors: [],
+      });
+    });
   });
 });

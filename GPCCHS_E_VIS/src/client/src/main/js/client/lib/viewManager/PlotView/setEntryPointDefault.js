@@ -9,9 +9,10 @@
 
 import { get } from 'common/configurationManager';
 import { getRandomColor } from 'windowProcess/common/colors';
+import { applyDefaultValues } from 'utils/views';
 
 export default function (entryPoint) {
-  return Object.assign({}, getNewPlotEntryPoint(), entryPoint);
+  return applyDefaultValues(entryPoint, getNewPlotEntryPoint());
 }
 
 const getNewPlotEntryPoint = () => ({

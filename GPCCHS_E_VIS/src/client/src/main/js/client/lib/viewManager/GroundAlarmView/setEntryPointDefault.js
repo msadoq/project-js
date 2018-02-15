@@ -1,9 +1,10 @@
 import { v4 } from 'uuid';
 import { get } from 'common/configurationManager';
 import constants from 'constants';
+import { applyDefaultValues } from 'utils/views';
 
 export default function (entryPoint) {
-  return Object.assign({}, getNewGroundAlarmEntryPoint(), entryPoint);
+  return applyDefaultValues(entryPoint, getNewGroundAlarmEntryPoint());
 }
 
 const getNewGroundAlarmEntryPoint = () => ({

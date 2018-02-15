@@ -14,5 +14,17 @@ describe('viewManager', () => {
         stateColors: [],
       });
     });
+
+    test('viewManager :: DynamicView :: setEntryPointDefault with nested data', () => {
+      expect(setEntryPointDefault({ connectedData: { domain: 'Niobé' } })).toEqual({
+        name: 'dynamicEP',
+        connectedData: {
+          domain: 'Niobé',
+          timeline: get('WILDCARD_CHARACTER'),
+          formula: '',
+        },
+        stateColors: [],
+      });
+    });
   });
 });

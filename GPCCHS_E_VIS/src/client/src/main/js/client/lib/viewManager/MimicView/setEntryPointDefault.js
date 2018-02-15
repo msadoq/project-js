@@ -7,9 +7,10 @@
 // ====================================================================
 
 import { get } from 'common/configurationManager';
+import { applyDefaultValues } from 'utils/views';
 
 export default function (entryPoint) {
-  return Object.assign({}, getNewMimicEntryPoint(), entryPoint);
+  return applyDefaultValues(entryPoint, getNewMimicEntryPoint());
 }
 
 const getNewMimicEntryPoint = () => ({

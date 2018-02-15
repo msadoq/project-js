@@ -19,5 +19,18 @@ describe('viewManager', () => {
         stateColors: [],
       });
     });
+
+    test('viewManager :: GroundAlarmView :: setEntryPointDefault with nested data', () => {
+      expect(setEntryPointDefault({ connectedData: { domain: 'Niobé' } })).toEqual({
+        name: 'groundAlarmEP',
+        id: 'MY_UUID',
+        connectedData: {
+          domain: 'Niobé',
+          timeline: get('WILDCARD_CHARACTER'),
+          mode: constants.ALARM_MODE_ALL,
+        },
+        stateColors: [],
+      });
+    });
   });
 });

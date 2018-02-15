@@ -21,5 +21,23 @@ describe('viewManager', () => {
         stateColors: [],
       });
     });
+    test('viewManager :: TextView :: setEntryPointDefault with nested data', () => {
+      expect(setEntryPointDefault({ name: 'truc', connectedData: { format: 'float' } })).toEqual({
+        name: 'truc',
+        connectedData: {
+          formula: '',
+          unit: 's',
+          digits: 5,
+          format: 'float',
+          filter: [],
+          domain: get('WILDCARD_CHARACTER'),
+          timeline: get('WILDCARD_CHARACTER'),
+          convertFrom: '',
+          convertTo: '',
+          provider: get('WILDCARD_CHARACTER'),
+        },
+        stateColors: [],
+      });
+    });
   });
 });

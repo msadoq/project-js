@@ -27,24 +27,17 @@ const { getStore } = require('../../../store');
  * @param reply function
  * @param args array
  */
-module.exports = (args) => {
+module.exports = (buffers, requestId, isLast, isError) => {
   logger.silly('called');
+  const requestCloneBuffer = buffers[0];
 
-  const queryIdBuffer = args[0];
-  const statusBuffer = args[1];
-  const buffer = args[2];
-
-  const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-  const callback = pop(queryId);
+  const callback = pop(requestId);
   logger.silly('decoded queryId', queryId);
-
   try {
-    const { status } = decode('dc.dataControllerUtils.Status', statusBuffer);
-    if (status !== globalConstants.STATUS_SUCCESS) {
-      const { string: reason } = decode('dc.dataControllerUtils.String', buffer);
-      callback({ err: reason });
+    if (isError) {
+      callback({ err: decode('dc.dataControllerUtils.FMDFileInfo', buffers[1]) });
     } else {
-      callback(decode('dc.dataControllerUtils.FMDFileInfo', buffer));
+      callback(decode('dc.dataControllerUtils.FMDFileInfo', buffers[1]));
     }
   } catch (e) {
     logger.error('error on processing buffer', e);

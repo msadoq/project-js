@@ -216,14 +216,13 @@ module.exports = function getPayload(timestamp, comObject, versionDCCom, options
   predictibleRand.setSeed(timestamp);
 
   let payload = getComObject(comObject, timestamp, _options);
-
-  //Decorate payload with ADEGenericPayload in case of proto ADE
-  if(versionDCCom === constants.DC_COM_V2) {
-    payload = stubData.getADEPayloadProtobuf({payload, providerId: 0, comObjectType: comObject});
-  }
-
+  
   if (payload === null) {
     return null;
+  }
+  //Decorate payload with ADEGenericPayload in case of proto ADE
+  if(versionDCCom === constants.DC_COM_V2) {
+    payload = stubData.getADEPayloadProtobuf({ payload, providerId: 0, comObjectType: comObject, instanceOid: 0 });
   }
 
   return {

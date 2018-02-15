@@ -1,3 +1,5 @@
+const _map = require('lodash/map');
+
 const Filter = require('./filter');
 const TimeInterval = require('./timeInterval');
 

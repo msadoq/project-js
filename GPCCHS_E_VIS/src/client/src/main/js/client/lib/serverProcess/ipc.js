@@ -170,6 +170,26 @@ const dcVersionMap = {
         getStaticProtobuf('delete'),
       ], err => (onDcResponseCallback(err, flatDataId)));
     },
+    /*requestTimebasedQuery: (flatDataId, dataId, interval, args) => commands.dc.rpc(
+      constants.MESSAGETYPE_TIMEBASED_QUERY,
+      [
+        getDcDataId(flatDataId, dataId),
+        encode('dc.dataControllerUtils.TimeInterval', {
+          startTime: { ms: interval[0] },
+          endTime: { ms: interval[1] },
+        }),
+        encode('dc.dataControllerUtils.QueryArguments',
+          {
+            ...args,
+            filters: _map(args.filters, filter => ({
+              ...filter,
+              operator: operators[filter.operator],
+            })),
+          }
+        ),
+      ],
+      err => (onDcResponseCallback(err, flatDataId))
+    ),*/
   },
   [constants.DC_COM_V2] : {
     rpc: (method, trames, callback) => {
@@ -234,33 +254,48 @@ const dcVersionMap = {
     requestTimebasedQuery: (flatDataId, dataId, interval, args) => commands.dc.rpc(
       constants.MESSAGETYPE_TIMEBASED_QUERY,
       [
-        getDcDataId(flatDataId, dataId),
-        encode('dc.dataControllerUtils.TimeInterval', {
-          startTime: { ms: interval[0] },
-          endTime: { ms: interval[1] },
-        }),
-        encode('dc.dataControllerUtils.QueryArguments',
-          {
-            ...args,
-            filters: _map(args.filters, filter => ({
-              ...filter,
-              operator: operators[filter.operator],
-            })),
-          }
-        ),
+        // encode(flatDataId, dataId),
+        encode('dc.dataControllerUtils.ADETimebasedQuery', {
+          sessionId: dataId.sessionId,
+          domainId: dataId.domainId,
+          objectName: dataId.comObject,
+          catalogName: dataId.catalog,
+          itemName: dataId.parameterName,
+          timeInterval: {
+            startTime: { ms: interval[0] },
+            endTime: { ms: interval[1] },
+          },
+          filters: _map(args.filters, filter => ({
+            ...filter,
+            operator: operators[filter.operator],
+          })),
+          ...args
+        })
       ],
       err => (onDcResponseCallback(err, flatDataId))
     ),
     requestSubscriptionAdd: (flatDataId, dataId) => {
       commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
-        getDcDataId(flatDataId, dataId),
-        getStaticProtobuf('add'),
+        encode('dc.dataControllerUtils.ADETimebasedSubscription', {
+          sessionId: dataId.sessionId,
+          domainId: dataId.domainId,
+          objectName: dataId.comObject,
+          catalogName: dataId.catalog,
+          itemName: dataId.parameterName,
+          action: constants.SUBSCRIPTIONACTION_ADD,
+        }),
       ], err => (onDcResponseCallback(err, flatDataId)));
     },
     requestSubscriptionDelete: (flatDataId, dataId) => {
       commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
-        getDcDataId(flatDataId, dataId),
-        getStaticProtobuf('delete'),
+        encode('dc.dataControllerUtils.ADETimebasedSubscription', {
+          sessionId: dataId.sessionId,
+          domainId: dataId.domainId,
+          objectName: dataId.comObject,
+          catalogName: dataId.catalog,
+          itemName: dataId.parameterName,
+          action: constants.SUBSCRIPTIONACTION_DELETE,
+        }),
       ], err => (onDcResponseCallback(err, flatDataId)));
     },
   },

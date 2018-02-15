@@ -11,7 +11,7 @@ import _ from 'lodash/fp';
 import flattenDataId from 'common/flattenDataId';
 
 const { incomingPubSub } = require('../../../../store/actions/incomingData');
-const logger = require('../../../../common/logManager')('controllers:onTimebasedPubSubData');
+const logger = require('../../../../common/logManager')('controllers:onTimebasedPubSubDataADE');
 const { decode } = require('../../../../utils/adapters');
 const { add: addMessage } = require('../../../../store/actions/messages');
 
@@ -41,19 +41,35 @@ const makeOnPubSubData = (timing) => {
     }
   };
 
-  return (args, getStore) => {
+  return (buffers, getStore) => {
     // args[0] is queryIdBuffer
-    const dataIdBuffer = args[1];
-    let dataIdDecoded;
+    const requestCloneBuffer = buffers[0];
     try {
-      dataIdDecoded = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
-    } catch (e) {
+      const { 
+        sessionId,
+        domainId,
+        objectName,
+        catalogName,
+        itemName,
+        providerFlow,
+        filters,
+        itemOid,
+        action,
+      } = protobuf.decode('dc.dataControllerUtils.ADETimebasedSubscription', buffers);
+
+      const dataId = {
+        sessionId,
+        domainId,
+        catalog: catalogName,
+        comObject: objectName,
+        parameterName: itemName,
+      };    } catch (e) {
       logger.error('error on processing buffer', e);
       getStore().dispatch(addMessage('global', 'warning',
         'error on processing header buffer '.concat(e)));
       return;
     }
-    const payloadBuffers = Array.prototype.slice.call(args, 2);
+    const payloadBuffers = Array.prototype.slice.call(buffers, 1);
     // check payloads parity
     if (payloadBuffers.length % 2 !== 0) {
       logger.warn('payloads should be sent by (timestamp, payloads) peers');

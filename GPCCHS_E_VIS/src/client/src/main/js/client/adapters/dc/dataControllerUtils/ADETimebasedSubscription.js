@@ -1,3 +1,4 @@
+const _map = require('lodash/map');
 const Filter = require('./filter');
 
 module.exports = {
@@ -9,7 +10,6 @@ module.exports = {
     catalogName: data.catalogName,
     itemName: data.itemName,
     providerFlow: data.providerFlow,
-    filters:  _map(data.filters, p => Filter.encode(p)),
   }),
   decode: data => ({
     action: data.action,
@@ -19,6 +19,5 @@ module.exports = {
     catalogName: data.catalogName,
     itemName: data.itemName,
     providerFlow: data.providerFlow,
-    filters:  _map(data.filters, p => Filter.decode(p)),
   }),
 };

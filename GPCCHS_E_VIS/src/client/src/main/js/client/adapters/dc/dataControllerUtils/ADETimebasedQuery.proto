@@ -1,7 +1,7 @@
 package dataControllerUtils.protobuf;
 
-import "dataControllerUtils/TimeInterval.proto";
-import "dataControllerUtils/Filter.proto";
+import "./TimeInterval.proto";
+import "./Filter.proto";
 
 message ADETimebasedQuery {
     extensions 12 to 112;

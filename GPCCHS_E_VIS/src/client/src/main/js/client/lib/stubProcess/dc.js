@@ -304,8 +304,9 @@ const onHssMessageADE = (...args) => {
         sortOrder,
         getLastNumber,
         filters
-      } = protobuf.decode('dc.dataControllerUtils.ADETimebasedQuery');
+      } = protobuf.decode('dc.dataControllerUtils.ADETimebasedQuery', args[1]);
 
+      // console.log('------------------------',timeInterval);
     // optional string parameterName = 1;
     // optional string oid = 2; // oid can't and isn't filled by GPCCHS.
     // optional string sourceOid = 3;
@@ -359,16 +360,36 @@ const onHssMessageADE = (...args) => {
 
       }
       const isLast = (getLastNumber && getLastNumber === 1);
-      const interval = adapter.decode('dc.dataControllerUtils.TimeInterval', timeInterval);
 
       const queryKey = JSON.stringify({ dataId, queryArguments });
-      queries.push({ queryKey, queryId, dataId, interval, isLast, versionDCCom: versionDCComProtocol, rawBuffer: args[1] });
-      logger.silly('query registered', dataId.parameterName, interval);
+      queries.push({ queryKey, queryId, dataId, timeInterval, isLast, versionDCCom: versionDCComProtocol, rawBuffer: args[1] });
+      logger.silly('query registered', dataId.parameterName, timeInterval);
       return pushSuccessADE(queryId);
     }
 
     case constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
-      const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
+
+      const { 
+        sessionId,
+        domainId,
+        objectName,
+        catalogName,
+        itemName,
+        providerFlow,
+        filters,
+        itemOid,
+        action,
+      } = protobuf.decode('dc.dataControllerUtils.ADETimebasedSubscription', args[1]);
+
+      const dataId = {
+        sessionId,
+        domainId,
+        catalog: catalogName,
+        comObject: objectName,
+        parameterName: itemName,
+      };
+
+      /*const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       let parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
       if (!isParameterSupported(dataId)) {
         if (!dataId.catalog && !dataId.parameterName && dataId.comObject) {
@@ -381,12 +402,15 @@ const onHssMessageADE = (...args) => {
             `parameter ${dataId.parameterName} not yet supported by stub`
           );
         }
-      }
-      const action = protobuf.decode('dc.dataControllerUtils.Action', args[3]).action;
+      }*/
+      console.log('-*/-*/*-/*-/*-/ ', catalogName, itemName);
+      let parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
       if (action === constants.SUBSCRIPTIONACTION_ADD) {
         subscriptions[parameter] = {
           queryId,
           dataId,
+          rawBuffer: args[1],
+          versionDCCom: versionDCComProtocol
         };
         logger.debug('subscription added', parameter);
       }
@@ -432,17 +456,19 @@ function dcCall() {
   // pub/sub
   _each(subscriptions, (subscription) => {
     logger.debug(`push pub/sub data for ${subscription.dataId.parameterName}`);
-    sendPubSubData(subscription.queryId, subscription.dataId, zmq, subscription.versionDCCom);
+    console.log('send pub sub data with', subscription.rawBuffer);
+    sendPubSubData(subscription.queryId, subscription.dataId, zmq,subscription.versionDCCom, subscription.rawBuffer );
   });
 
   // queries
   _each(queries, (query) => {
+    // console.log('--------------*****************', query);
     logger.debug(`push archive data for ${query.dataId.parameterName}`);
     sendArchiveData(
       query.queryKey,
       query.queryId,
       query.dataId,
-      query.interval,
+      query.timeInterval,
       query.isLast,
       zmq,
       query.versionDCCom,

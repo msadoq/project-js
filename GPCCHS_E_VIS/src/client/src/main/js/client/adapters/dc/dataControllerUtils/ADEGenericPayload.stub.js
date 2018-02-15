@@ -6,9 +6,12 @@ const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/ADEGenericPayload.pro
 
 const { getADEPayloadHeader } = require('./ADEPayloadHeader.stub');
 
-const getADEGenericPayload = (payload, providerId, comObjectType) => {
-  header: getADEPayloadHeader(providerId, comObjectType),
-  payload
+const getADEGenericPayload = (payload, providerId, comObjectType, instanceOid) => {
+  return {
+    header: getADEPayloadHeader(providerId, comObjectType, instanceOid),
+    payload
+  }
+  
 };
 
 module.exports = {

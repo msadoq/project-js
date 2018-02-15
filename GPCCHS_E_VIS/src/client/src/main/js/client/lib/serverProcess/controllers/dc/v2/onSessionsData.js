@@ -28,11 +28,12 @@ const { getStore } = require('../../../store');
  *
  * @param args array
  */
-module.exports = (args, queryId) => {
+module.exports = (buffers, requestId, isLast, isError) => {
   logger.silly('called');
-  const buffer = args[0];
+  const requestCloneBuffer = buffers[0];
+  const buffer = buffers[1];
 
-  const callback = pop(queryId);
+  const callback = pop(requestId);
   try {
     const { sessions } = decode('dc.dataControllerUtils.Sessions', buffer);
     callback(null, sessions);

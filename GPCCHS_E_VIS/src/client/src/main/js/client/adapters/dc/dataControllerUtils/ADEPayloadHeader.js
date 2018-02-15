@@ -1,12 +1,12 @@
 module.exports = {
-  encode: ({providerId, comObjectType, instanceOid}) => ({
-    providerId,
-    comObjectType,
-    instanceOid,
+  encode: (data) => ({
+    providerId: data.providerId,
+    comObjectType: data.comObjectType,
+    instanceOid: data.instanceOid,
   }),
-  decode: ({providerId, comObjectType, instanceOid}) => ({
-    providerId,
-    comObjectType,
-    instanceOid,
+  decode: (data) => ({
+    providerId: data.providerId,
+    comObjectType: data.comObjectType,
+    instanceOid: data.instanceOid,
   }),
 };

@@ -23,18 +23,17 @@ const { getStore } = require('../../../store');
  *
  * @param args array
  */
-module.exports = (args) => {
+module.exports = (buffers, requestId, isLast, isError) => {
   logger.silly('called');
 
-  const queryIdBuffer = args[0];
-  const buffer = args[1];
-
-  const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-  logger.info('decoded queryId', queryId);
-  const callback = pop(queryId);
+  const requestCloneBuffer = buffers[0];
+  const buffer = buffers[1];
+  
+  const callback = pop(requestId);
 
   try {
     const { domains } = decode('dc.dataControllerUtils.Domains', buffer);
+    logger.info(domains);
     callback(null, domains);
   } catch (e) {
     logger.error('error on processing buffer', e);

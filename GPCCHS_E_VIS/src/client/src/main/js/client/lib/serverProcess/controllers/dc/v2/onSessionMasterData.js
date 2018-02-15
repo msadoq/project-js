@@ -23,10 +23,11 @@ const { getStore } = require('../../../store');
  *
  * @param args array
  */
-module.exports = (args, requestId) => {
+module.exports = (buffers, requestId, isLast, isError) => {
   logger.silly('called');
 
-  const buffer = args[0];
+  const requestCloneBuffer = buffers[0];
+  const buffer = buffers[1];
   const callback = pop(requestId);
 
   try {

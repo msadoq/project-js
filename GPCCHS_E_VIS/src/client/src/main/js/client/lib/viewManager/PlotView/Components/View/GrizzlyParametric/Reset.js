@@ -101,7 +101,7 @@ export default class Reset extends React.Component {
             top: xAxisAt === 'top' ? (divStyle.top) + 5 : 5,
           }}
         >
-          <Button bsStyle="danger" bsSize="xs" onClick={this.props.resetPanAndZoom}>Reset all</Button>
+          <Button bsStyle="danger" bsSize="xs" onClick={this.props.resetPanAndZoom}>Zoom: reset all</Button>
         </div>
       );
     }

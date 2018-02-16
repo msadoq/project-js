@@ -54,9 +54,9 @@ const convertData = (toConvertMap, dataToInject, cb) => {
             passerelle.caller('convertUnit',
               {
                 // TODO, add the real valu = value: value.symbol,
-                value: '123',
-                unitesource: 'km',
-                unitectible: 'm',
+                value: '123.15',
+                unitesource: 'm',
+                unitectible: 'km',
               },
               (response) => {
                 callbackAsync(null,

@@ -1,4 +1,5 @@
 import zmq
+import json
 from GPINUC_L_UCL.unitConverterLibrary.unitConverter import  UnitConverter
 from bridge.ConvertUnitValues_pb2 import ConvertUnitValues
 from GPCC.communicationLibrary.isisMessage import IsisMessage
@@ -9,7 +10,7 @@ class Bridge():
     '''
     @brief : Bridge used by GPCCHS to process data
     '''
-    def __init__(self, actorContext=None, requestUrl=None, responseUrl=None):
+    def __init__(self, actorContext=None, requestUrl=None, responseUrl=None, queue=None):
         '''
         @brief : Initialize and configure the server
         @param : actorContext (GPCC.container.isisActorContext) Context of the actor using the bridge
@@ -20,6 +21,7 @@ class Bridge():
         self._requestUrl = requestUrl
         self._responseUrl = responseUrl
         self._actorContext = actorContext
+        self._queue = queue
         self._ucLib = None
         self._pushChannel = None
         
@@ -32,10 +34,6 @@ class Bridge():
         
         # Create the unit converter library
         ucLib = UnitConverter()
-        
-        # Initialize the listening socket
-        # pullChannel = IsisSocket(self._actorContext, ZMQ.PULL)
-        # pullChannel.connect(self._requestUrl)
 
         context = zmq.Context()
         pullChannel = context.socket(zmq.SUB)
@@ -45,22 +43,28 @@ class Bridge():
         # Start the listening loop
         while doLooping == True:
             # Receive the next conversion request
-            method, transactionID, value, unitesource, unitecible = pullChannel.recv_multipart()
+            message = pullChannel.recv()
+            j = json.loads(message.decode());
+            uuid = j['header']['transactionID']
+            method = j['header']['method']
+            unitesource = j['payload']['unitesource']
+            unitecible = j['payload']['unitectible']
+            value = j['payload']['value']
 
             # Check if there is a conversion to do
             if unitesource is not None and unitecible is not None and value is not None:
                 # Test if the bridge execution shall end
-                if method.decode('utf-8') ==  "STOP":
+                if method ==  "STOP":
                     doLooping = False
                 else:
                     # compute the handler class name
-                    handlerClassName = method.decode('utf-8') + "Handler"
+                    handlerClassName = method + "Handler"
                     # Get the request ID
-                    requestID = transactionID.decode('utf-8')
+                    requestID = uuid
                     # Decode informations for conversion
-                    unitesourceDecode = unitesource.decode('utf-8')
-                    unitecibleDecode = unitecible.decode('utf-8')
-                    valueDecode = float(value.decode('utf-8'))             
+                    unitesourceDecode = unitesource
+                    unitecibleDecode = unitecible
+                    valueDecode = float(value)             
 
                     unitConv = ConvertUnitValues()
                     unitConv.fromUnit = unitesourceDecode
@@ -73,7 +77,7 @@ class Bridge():
                     msg.addFrame(1 ,handlerFrame)
 
                     # Then create and start the processing thread
-                    newHandler = BridgeHandler(self._actorContext,self._responseUrl,requestID,ucLib,handlerClassName,msg)
+                    newHandler = BridgeHandler(self._actorContext,self._responseUrl,requestID,ucLib,handlerClassName,msg, self._queue)
                     newHandler.start()
                     
         

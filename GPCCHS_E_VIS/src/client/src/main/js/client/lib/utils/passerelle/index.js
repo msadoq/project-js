@@ -3,7 +3,6 @@ import { realZmq } from 'common/zmq';
 import { v4 } from 'uuid';
 import parameters from '../../common/configurationManager';
 import getLogger from '../../common/logManager';
-import { request } from 'https';
 
 const logger = getLogger('Passerelle');
 const spawn = require('child_process').spawn;
@@ -43,26 +42,19 @@ exports.init = () => {
   const zmqPub = parameters.get('ZMQ_PASSERELLE_PUB');
   const zmqSub = parameters.get('ZMQ_PASSERELLE_SUB');
 
-  requester = realZmq.socket('pub');
-  requester.bind(zmqPub);
-  // requester.bindSync('tcp://*:5555');
-
   subscriber = realZmq.socket('sub');
   subscriber.subscribe('');
   subscriber.connect(zmqSub);
 
+  requester = realZmq.socket('pub');
+  requester.bind(zmqPub);
+
   subscriber.on('message', (data) => {
-    console.log('JE PASSE PAS LAAAAAAAAAAAAAAAAAA ');
-    console.log(data);
-
-    /* const message = data.toString();
-
+    const message = data.toString();
     const header = decodeHeaderFromResponse(message);
-
-    const payload = decodePayloadFromResponse(message); */
-
-    // callbackMap[header.transactionID](payload);
-    // delete callbackMap[header.transactionID];
+    const payload = decodePayloadFromResponse(message);
+    callbackMap[header.transactionID](payload);
+    delete callbackMap[header.transactionID];
   });
 };
 
@@ -78,28 +70,17 @@ exports.caller = (method, parametersObject, callbackReponseMethod) => {
   callbackMap[uid] = callbackReponseMethod;
 
   // Encode Header
-  // const header = encodeH(method, uid);
+  const header = encodeH(method, uid);
 
   // Encode Payload
-  // const payload = encodeP(parametersObject);
+  const payload = encodeP(parametersObject);
 
   // Encode message
-  // const message = encodeMessage(header, payload);
-
-  requester.send(
-    [
-      method,
-      uid,
-      parametersObject.value,
-      parametersObject.unitesource,
-      parametersObject.unitectible,
-    ]
-  );
-  console.log('Message send !!');
+  const message = encodeMessage(header, payload);
 
   // Make the call
   // console.log('Message send : '+ JSON.stringify(message));
-  // requester.send(JSON.stringify(message));
+  requester.send(JSON.stringify(message));
 };
 
 // ------------------------------------------------------------------------------------------

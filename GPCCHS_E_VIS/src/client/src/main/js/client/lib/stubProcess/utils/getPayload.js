@@ -199,7 +199,54 @@ const getComObject = (dataId, timestamp, options) => {
       return stubData.getPus012ModelProtobuf({
         groundDate: timestamp,
       });
-
+    case 'OperationParameter':
+      return stubData.getOperationParameterProtobuf();
+    case 'ComputedEvent':
+      return stubData.getComputedEventProtobuf();
+    case 'COP1Context':
+      return stubData.getCOP1ContextProtobuf();
+    case 'ClcwPacket':
+      return stubData.getClcwPacketProtobuf();
+    case 'IsisAggregation':
+      return stubData.getIsisAggregationProtobuf();
+    case 'RmPacket':
+      return stubData.getRmPacketProtobuf();
+    case 'TmPacket':
+      return stubData.getTmPacketProtobuf();
+    case 'GroundMonitoringAlarm':
+      return stubData.getGroundMonitoringAlarmProtobuf();
+    case 'LogbookEvent':
+      return stubData.getLogbookEventProtobuf();
+    case 'ExternalEvent':
+      return stubData.getExternalEventProtobuf();
+    case 'UserEvent':
+      return stubData.getUserEventProtobuf();
+    case 'Pus011Command':
+      return stubData.getPus011CommandProtobuf();
+    case 'Pus011Model':
+      return stubData.getPus011ModelProtobuf();
+    case 'Pus011SubSchedule':
+      return stubData.getPus011SubScheduleProtobuf();
+    case 'Pus011SyncPoint':
+      return stubData.getPus011SyncPointProtobuf();
+    case 'Pus013Model':
+      return stubData.getPus013ModelProtobuf();
+    case 'Pus014Model':
+      return stubData.getPus014ModelProtobuf();
+    case 'Pus015Model':
+      return stubData.getPus015ModelProtobuf();
+    case 'Pus018Model':
+      return stubData.getPus018ModelProtobuf();
+    case 'Pus019Model':
+      return stubData.getPus019ModelProtobuf();
+    case 'Pus140Model':
+      return stubData.getPus140ModelProtobuf();
+    case 'Pus142Model':
+      return stubData.getPus142ModelProtobuf();
+    case 'Pus144Model':
+      return stubData.getPus144ModelProtobuf();
+    case 'StatValue':
+      return stubData.getStatisticValueProtobuf();
     default: {
       return undefined;
     }

@@ -1,5 +1,4 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PropTypes, PureComponent } from 'react';
 import { Field } from 'redux-form';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
@@ -32,7 +31,7 @@ export default class AlarmViewEntryPoints extends PureComponent {
   };
 
   static contextTypes = {
-    windowId: PropTypes.string,
+    windowId: React.PropTypes.string,
   };
 
   render() {

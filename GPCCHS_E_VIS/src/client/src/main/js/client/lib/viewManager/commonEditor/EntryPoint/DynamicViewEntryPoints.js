@@ -1,5 +1,4 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PropTypes, PureComponent } from 'react';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
 import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
@@ -37,7 +36,7 @@ export default class DynamicViewEntryPoints extends PureComponent {
   };
 
   static contextTypes = {
-    windowId: PropTypes.string,
+    windowId: React.PropTypes.string,
   };
 
   render() {

@@ -132,7 +132,7 @@ export function updateLines(state, epName, timestamp, colToSort, direction) {
     i += 1;
   }
 
-  let valueToInsert = epName.concat(' ').concat(timestamp);
+  const valueToInsert = epName.concat(' ').concat(timestamp);
   if (indexToInsert === -1) {
     const newState = state;
     newState.lines.push(valueToInsert);
@@ -353,7 +353,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     for (let iField = 0; iField < fields.length; iField += 1) {
       valueToInsert = {
         ...valueToInsert,
-        [fields[iField]]: convertData(currentValue[fields[iField]])
+        [fields[iField]]: convertData(currentValue[fields[iField]]),
       };
       // Check if field names are already in cols table
       if (!newState.cols[fields[iField]]) {

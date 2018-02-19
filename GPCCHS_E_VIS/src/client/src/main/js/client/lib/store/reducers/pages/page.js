@@ -211,7 +211,7 @@ export default function pageReducer(statePage = initialState, action) {
         return {
           ...statePage,
           sessionName: action.payload.sessionName,
-          isModified: true
+          isModified: true,
         };
       }
       return {

@@ -180,7 +180,7 @@ export default function rte(state = initialState, action) {
         {
           ...state,
           catalogs: recursiveAssignNodeField(state.catalogs, 'active', false),
-        },
+        }
       );
     case types.HSC_IS_RTE_ITEM_NAME_NODE_ACTIVE:
       return u.updateIn(
@@ -189,7 +189,7 @@ export default function rte(state = initialState, action) {
         {
           ...state,
           itemNames: recursiveAssignNodeField(state.itemNames, 'active', false),
-        },
+        }
       );
     default:
       return state;

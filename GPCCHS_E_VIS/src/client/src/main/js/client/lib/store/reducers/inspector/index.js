@@ -70,7 +70,7 @@ export default function inspector(state = initialState, action) {
     case types.HSC_SET_INSPECTOR_STATIC_DATA:
       return {
         ...state,
-        staticData: action.payload.data
+        staticData: action.payload.data,
       };
     case types.HSC_IS_INSPECTOR_STATIC_DATA_LOADING:
       return {

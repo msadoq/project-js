@@ -5,7 +5,7 @@
 // ====================================================================
 
 import { createStructuredSelector } from 'reselect';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getViewPanels, getViewTab } from 'store/reducers/ui/editor';

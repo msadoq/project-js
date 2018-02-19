@@ -1,5 +1,8 @@
 from threading import Thread
 from bridge_v2 import Bridge
+from queue import PileSingleton
+import zmq
+import time
 
 class BridgeServer(Thread):
     '''
@@ -18,14 +21,34 @@ class BridgeServer(Thread):
         self._requestUrl = requestUrl
         self._responseUrl = responseUrl
         self._actorContext = actorContext
-        
-    def run(self):
-        '''
-        @brief : Server listening thread
-        '''
+
+    def run(self):    
+        queue = PileSingleton()
+        # Thread which handle response sending message
+        sendResponse = SendResponseThread(self._responseUrl, queue)
+        sendResponse.start()
+
         # Create Bridge Api
-        bridgeLib = Bridge(self._actorContext,self._requestUrl,self._responseUrl)
+        bridgeLib = Bridge(self._actorContext,self._requestUrl,self._responseUrl, queue)
         
         # Perform the blocking call to Bridge Api
         bridgeLib.perform()
+
+class SendResponseThread(Thread):
+    def __init__(self, responseUrl=None, queue= None):
+        # First call the parent class initialization
+        Thread.__init__(self)
+        # Then initialize this class specific fields
+        self._responseUrl = responseUrl
+        self._queue = queue
+    def run(self):
+        context = zmq.Context()
+        responseChannel = context.socket(zmq.PUB)
+        responseChannel.bind(self._responseUrl)
+
+        while True:
+          if int(format(self._queue.size())) > 0:
+            message = self._queue.process()
+            time.sleep(0.05)
+            responseChannel.send_string(message)
         

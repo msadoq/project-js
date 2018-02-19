@@ -3,7 +3,6 @@ import { realZmq } from 'common/zmq';
 import { v4 } from 'uuid';
 import parameters from '../../common/configurationManager';
 import getLogger from '../../common/logManager';
-import { request } from 'https';
 
 const logger = getLogger('Passerelle');
 const spawn = require('child_process').spawn;
@@ -12,10 +11,11 @@ const callbackMap = {};
 
 let requester;
 let subscriber;
+let spawned;
 
-exports.spawnPasserelle = () => {
-  const PYTHON_EXEC_PATH = (parameters.get('PYTHON_EXEC_PATH'));
-  const spawned = spawn(PYTHON_EXEC_PATH, [`${__dirname}/../../../scripts/gpvi_interfacelayer_server.py`]);
+exports.spawnPasserelle = function spawnPasserelle() {
+  const PYTHON_EXEC_PATH = parameters.get('PYTHON_EXEC_PATH');
+  spawned = spawn(PYTHON_EXEC_PATH, [`${__dirname}/../../../scripts/gpvi_interfacelayer_server.py`]);  
 
   spawned.on('error', (err) => {
     logger.error('Failed to start subprocess.');
@@ -38,31 +38,22 @@ exports.spawnPasserelle = () => {
 // Create the 0MQ socket in order to establish the communication between client and server
 // ------------------------------------------------------------------------------------------
 exports.init = () => {
-  // spawnPasserelle();
-
   const zmqPub = parameters.get('ZMQ_PASSERELLE_PUB');
   const zmqSub = parameters.get('ZMQ_PASSERELLE_SUB');
-
-  requester = realZmq.socket('pub');
-  requester.bind(zmqPub);
-  // requester.bindSync('tcp://*:5555');
 
   subscriber = realZmq.socket('sub');
   subscriber.subscribe('');
   subscriber.connect(zmqSub);
 
+  requester = realZmq.socket('pub');
+  requester.bind(zmqPub);
+
   subscriber.on('message', (data) => {
-    console.log('JE PASSE PAS LAAAAAAAAAAAAAAAAAA ');
-    console.log(data);
-
-    /* const message = data.toString();
-
+    const message = data.toString();
     const header = decodeHeaderFromResponse(message);
-
-    const payload = decodePayloadFromResponse(message); */
-
-    // callbackMap[header.transactionID](payload);
-    // delete callbackMap[header.transactionID];
+    const payload = decodePayloadFromResponse(message);
+    callbackMap[header.transactionID](payload);
+    delete callbackMap[header.transactionID];
   });
 };
 
@@ -78,28 +69,17 @@ exports.caller = (method, parametersObject, callbackReponseMethod) => {
   callbackMap[uid] = callbackReponseMethod;
 
   // Encode Header
-  // const header = encodeH(method, uid);
+  const header = encodeH(method, uid);
 
   // Encode Payload
-  // const payload = encodeP(parametersObject);
+  const payload = encodeP(parametersObject);
 
   // Encode message
-  // const message = encodeMessage(header, payload);
-
-  requester.send(
-    [
-      method,
-      uid,
-      parametersObject.value,
-      parametersObject.unitesource,
-      parametersObject.unitectible,
-    ]
-  );
-  console.log('Message send !!');
+  const message = encodeMessage(header, payload);
 
   // Make the call
   // console.log('Message send : '+ JSON.stringify(message));
-  // requester.send(JSON.stringify(message));
+  requester.send(JSON.stringify(message));
 };
 
 // ------------------------------------------------------------------------------------------
@@ -154,10 +134,18 @@ function decodePayloadFromResponse(response) {
 // ------------------------------------------------------------------------------------------
 // MAIN
 // ------------------------------------------------------------------------------------------
+process.once('SIGINT', () => {
+  // close zmq sockets
+  requester.close();
+  subscriber.close();
+  // kill the python process
+  spawned.kill();
+});
 
-
-/* process.on('SIGINT', () => {
-console.log('salam');
-requester.close();
-subscriber.close();
-}); */
+process.once('SIGTERM', () => {
+  // close zmq sockets
+  requester.close();
+  subscriber.close();
+  // kill the python process
+  spawned.kill();
+});

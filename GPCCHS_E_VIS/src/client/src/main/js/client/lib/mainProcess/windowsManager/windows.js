@@ -65,7 +65,7 @@ export function noWindowOpened() {
 }
 
 export function open(windowId, data, callback) {
-  logger.warn(`opening window ${windowId}`);
+  logger.debug(`opening window ${windowId}`);
   const window = new BrowserWindow({
     x: data.geometry.x,
     y: data.geometry.y,

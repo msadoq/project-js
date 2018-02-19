@@ -23,7 +23,9 @@ const onArchiveData = ({ buffers, requestId, isLast, isError }, getStore, { get,
   // const payloadBuffers = Array.prototype.slice.call(args, 3);
   // const endOfQuery = protobufTrue.equals(isLastBuffer);
   // check payloads parity
-  if (buffers.length % 2 !== 0) {
+  const requestCloneBuffer = buffers[0];
+  const payloadBuffer = Array.prototype.slice.call(buffers, 1);
+  if (payloadBuffer.length % 2 !== 0) {
     logger.warn('payloads should be sent by (timestamp, payloads) peers');
     return;
   }
@@ -45,19 +47,20 @@ const onArchiveData = ({ buffers, requestId, isLast, isError }, getStore, { get,
   }
 
   if (typeof dataId === 'undefined') {
-    logger.error(`Unknown data id for request queryId: ${queryId}, tbdId: ${tbdId}, type: ${type}`);
+    logger.error(`Unknown data id for request queryId: ${requestId}, tbdId: ${tbdId}, type: ${type}`);
     return;
   }
 
   if (isLast) {
-    remove(queryId);
+    remove(requestId);
   }
+  console.log(type);
   switch (type) {
     case 'RANGE' :
-      store.dispatch(incomingRange(tbdId, buffers, dataId));
+      store.dispatch(incomingRange(tbdId, payloadBuffer, dataId));
       break;
     case 'LAST' :
-      store.dispatch(incomingLast(tbdId, buffers, dataId));
+      store.dispatch(incomingLast(tbdId, payloadBuffer, dataId));
       break;
     default:
       logger.warn('Unkwnown type of request');

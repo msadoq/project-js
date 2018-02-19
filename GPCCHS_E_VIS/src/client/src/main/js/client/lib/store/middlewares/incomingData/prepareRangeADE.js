@@ -1,14 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
-// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
-// VERSION : 1.1.2 : DM : #6700 : 22/08/2017 : Add robustness test on rangeData (try/catch)
-// VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
-// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add execution map trace in three middlewares to make performance analysis easier
-// VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : move dumpBuffer use in a specific middleware
-// END-HISTORY
-// ====================================================================
-
 import _isEmpty from 'lodash/isEmpty';
 import _isBuffer from 'lodash/isBuffer';
 import * as types from 'store/types';
@@ -21,7 +10,7 @@ import executionMonitor from 'common/logManager/execution';
 import { add as addMessage } from 'store/actions/messages';
 
 
-const logger = require('../../../common/logManager')('middleware:prepareRange');
+const logger = require('../../../common/logManager')('middleware:prepareRangeADE');
 
 const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
@@ -29,20 +18,13 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
     return nextAction;
   }
 
-  const execution = executionMonitor('middleware:prepareRange');
+  const execution = executionMonitor('middleware:prepareRangeADE');
   execution.start('global');
 
   const tbdId = action.payload.tbdId;
   const dataId = action.payload.dataId;
   const peers = action.payload.peers;
-  const payloadProtobufType = getType(dataId.comObject);
   add(tbdId, dataId);
-  if (typeof payloadProtobufType === 'undefined') {
-    logger.error('protobufType unknown');
-    execution.stop('global');
-    execution.print();
-    return nextAction;
-  }
 
   const payloadsJson = { [tbdId]: {} };
 
@@ -63,10 +45,13 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
         execution.stop('decode timestamp');
 
         execution.start('decode payload');
-        const payload = decode(payloadProtobufType, peers[index + 1]);
+        const decoded = decode('dc.dataControllerUtils.ADEPayload', peers[index + 1]);
+        const decodedPayload = decode(getType(decoded.header.comObjectType), decoded.payload);
+        // console.log(JSON.stringify(decodedPayload, null, 2));
         execution.stop('decode payload');
+
         execution.start('addRecord');
-        lokiManager.addRecord(tbdId, { timestamp, payload });
+        lokiManager.addRecord(tbdId, { timestamp, payload: decodedPayload });
         execution.stop('addRecord');
 
         execution.start('persist');
@@ -75,7 +60,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
          * isTimestampInLastInterval(...): specific treatment for forecast & last data
          */
         if (isIn || isTimestampInLastInterval(dataMap, { tbdId, timestamp })) {
-          payloadsJson[tbdId][timestamp] = payload;
+          payloadsJson[tbdId][timestamp] = decodedPayload;
         }
         execution.stop('persist');
       } catch (e) {

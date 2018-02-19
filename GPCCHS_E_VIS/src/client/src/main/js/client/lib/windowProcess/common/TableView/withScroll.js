@@ -30,13 +30,14 @@ const withScroll = _.compose(
       }
 
       state = initialState
-
       componentWillMount() {
         this.getWrappedInstance = () => this;
       }
 
       componentWillReceiveProps(nextProps) {
-        if (this.state.position >= this.getLastPosition(nextProps)) {
+        const { state } = this;
+
+        if (state >= this.getLastPosition(nextProps)) {
           this.setState(_.set('position', this.getLastPosition(nextProps)));
         }
       }

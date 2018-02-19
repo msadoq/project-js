@@ -63,7 +63,7 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
@@ -402,7 +402,7 @@ const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
 const { shape, string, arrayOf, number, func, object, array, bool } = PropTypes;
 
-export class GrizzlyPlotView extends PureComponent {
+export class GrizzlyPlotView extends React.Component {
   static propTypes = {
     containerWidth: number.isRequired,
     containerHeight: number.isRequired,

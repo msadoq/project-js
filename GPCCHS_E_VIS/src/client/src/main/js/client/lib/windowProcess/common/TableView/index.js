@@ -123,7 +123,7 @@ export const Table = ({
           getColumns(cols).map(col => (
             <th
               key={col}
-              className={col !== '' && styles.search}
+              className={col !== '' ? styles.search : undefined}
             >
               {
                 col !== ''

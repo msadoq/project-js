@@ -41,9 +41,9 @@ const makeOnPubSubData = (timing) => {
     }
   };
 
-  return (buffers, getStore) => {
+  return ({ buffers, requestId, isLast, isError }, getStore) => {
     // args[0] is queryIdBuffer
-    const requestCloneBuffer = buffers[0];
+    // const requestCloneBuffer = buffers[0];
     try {
       const { 
         sessionId,
@@ -55,7 +55,7 @@ const makeOnPubSubData = (timing) => {
         filters,
         itemOid,
         action,
-      } = protobuf.decode('dc.dataControllerUtils.ADETimebasedSubscription', buffers);
+      } = decode('dc.dataControllerUtils.ADETimebasedSubscription', buffers[0]);
 
       const dataId = {
         sessionId,
@@ -63,21 +63,24 @@ const makeOnPubSubData = (timing) => {
         catalog: catalogName,
         comObject: objectName,
         parameterName: itemName,
-      };    } catch (e) {
-      logger.error('error on processing buffer', e);
+      };
+      
+      const payloadBuffers = Array.prototype.slice.call(buffers, 1);
+      // check payloads parity
+      if (payloadBuffers.length % 2 !== 0) {
+        logger.warn('payloads should be sent by (timestamp, payloads) peers');
+        return;
+      }
+      addToQueue(dataId, payloadBuffers);
+      // dispatch pubsub data
+      throttledDispatch(getStore());
+    } catch (e) {
+      logger.error(`error on processing buffer ${e}`);
       getStore().dispatch(addMessage('global', 'warning',
         'error on processing header buffer '.concat(e)));
       return;
     }
-    const payloadBuffers = Array.prototype.slice.call(buffers, 1);
-    // check payloads parity
-    if (payloadBuffers.length % 2 !== 0) {
-      logger.warn('payloads should be sent by (timestamp, payloads) peers');
-      return;
-    }
-    addToQueue(dataIdDecoded, payloadBuffers);
-    // dispatch pubsub data
-    throttledDispatch(getStore());
+    
   };
 };
 

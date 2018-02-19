@@ -8,10 +8,17 @@
 
 import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
 import prepareRange from './prepareRange';
+import prepareRangeADE from './prepareRangeADE';
 import prepareLast from './prepareLast';
+import prepareLastADE from './prepareLastADE';
 import preparePubSub from './preparePubSub';
+import preparePubSubADE from './preparePubSubADE';
 import injectData from './injectData';
 import pubSubMonitor from './pubSubMonitor';
+import constants from '../../../constants';
+import { get as getConf } from 'common/configurationManager';
+
+const versionDCComProtocol = getConf('VERSION_DC_COM_PROTOCOL');
 
 const createIncomingDataMiddleware = (lokiManager,
                                       timingInjectData,
@@ -23,4 +30,19 @@ const createIncomingDataMiddleware = (lokiManager,
   pubSubMonitor(timingPubSubMonitor)
 );
 
-export default createIncomingDataMiddleware;
+const createIncomingDataMiddlewareADE = (lokiManager,
+                                         timingInjectData,
+                                         timingPubSubMonitor) => pipeMiddlewares(
+  preparePubSubADE(lokiManager),
+  prepareRangeADE(lokiManager),
+  prepareLastADE(lokiManager),
+  injectData(timingInjectData),
+  pubSubMonitor(timingPubSubMonitor)
+);
+
+const versionMap = {
+  [constants.DC_COM_V1]: createIncomingDataMiddleware,
+  [constants.DC_COM_V2]: createIncomingDataMiddlewareADE,
+};
+
+export default versionMap[versionDCComProtocol];

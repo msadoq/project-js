@@ -70,6 +70,7 @@ function shouldPushANewValue(queryKey, timestamp) {
   }
   return false;
 }
+
 module.exports = function sendArchiveData(
   queryKey,
   queryId,
@@ -141,7 +142,6 @@ module.exports = function sendArchiveData(
     return;
   }
   const buffer = versionDCMap[versionDCCom](queryId, dataId, payloads, rawBuffer);
-
   if (payloads.length !== 0) {
     zmq.push('stubData', buffer);
   }

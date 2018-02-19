@@ -82,11 +82,11 @@ const controllersV2 = {
   [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsDataADE, // Done
   [constants.MESSAGETYPE_RESPONSE]: onResponseADE,
   [constants.MESSAGETYPE_SESSION_DATA]: onSessionsDataADE, // Done
-  [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: (args) => {
-    archiveControllerADE(args, getStore, { get, remove });
+  [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: (buffers, requestId, isLast, isError) => {
+    archiveControllerADE({ buffers, requestId, isLast, isError }, getStore, { get, remove });
   },
-  [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (args) => {
-    pubSubControllerADE(args, getStore);
+  [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (buffers, requestId, isLast, isError) => {
+    pubSubControllerADE({ buffers, requestId, isLast, isError }, getStore);
   },
   [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateDataADE,
   [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetDataADE,
@@ -102,7 +102,7 @@ const controllers = {
   [constants.DC_COM_V2]: {
     controller: controllersV2,
     decoder: (buffer) => {
-      const { method, requestId, isLast, isError } = decode('dc.dataControllerUtils.ADEHeader', buffer)
+      const { method, requestId, isLast, isError } = decode('dc.dataControllerUtils.ADEHeader', buffer);
       return { messageType: method, requestId, isLast, isError };
     },
   },
@@ -120,9 +120,7 @@ module.exports = function dcController() {
     // eslint-disable-next-line prefer-rest-params, "DV6 TBC_CNES LPISIS Avoid 'Maximum call stack size exceeded' with rest operators and .apply() usage"
   const args = arguments;
   // args[0] trash
-  console.log('------------------------------------ RECEIVED');
-  console.log(args[1]);
-  console.log(args[2]);
+
   const headerBuffer = args[1];
   const buffers = Array.prototype.slice.call(args, 2);
 
@@ -131,7 +129,6 @@ module.exports = function dcController() {
     if (!messageType) {
       return logger.warn('invalid message received (no messageType)');
     }
-    console.log(messageType);
     const fn = controllers[versionDCComProtocol].controller[messageType];
     if (!fn) {
       return logger.warn(`invalid message received (unknown messageType) '${messageType}'`);
@@ -143,6 +140,6 @@ module.exports = function dcController() {
     getStore().dispatch(addMessage('global', 'warning',
       'error on processing header buffer '.concat(e)));
     
-    return logger.error('error on processing header buffer bla bla '.concat(e));
+    // return logger.error('error on processing header buffer bla bla '.concat(e));
   }
 };

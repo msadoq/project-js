@@ -251,7 +251,9 @@ const dcVersionMap = {
 
       commands.dc.rpc(constants.MESSAGETYPE_ALARM_ACK, trames, callback);
     },
-    requestTimebasedQuery: (flatDataId, dataId, interval, args) => commands.dc.rpc(
+    requestTimebasedQuery: (flatDataId, dataId, interval, args) => {
+      
+      return commands.dc.rpc(
       constants.MESSAGETYPE_TIMEBASED_QUERY,
       [
         // encode(flatDataId, dataId),
@@ -259,23 +261,25 @@ const dcVersionMap = {
           sessionId: dataId.sessionId,
           domainId: dataId.domainId,
           objectName: dataId.comObject,
+          providerFlow: '0',
           catalogName: dataId.catalog,
           itemName: dataId.parameterName,
           timeInterval: {
             startTime: { ms: interval[0] },
             endTime: { ms: interval[1] },
           },
-          filters: _map(args.filters, filter => ({
-            ...filter,
-            operator: operators[filter.operator],
-          })),
-          ...args
+          // filters: _map(args.filters, filter => ({
+          //   ...filter,
+          //   operator: operators[filter.operator],
+          // })),
+          filters: [],
         })
       ],
       err => (onDcResponseCallback(err, flatDataId))
-    ),
+    )},
     requestSubscriptionAdd: (flatDataId, dataId) => {
-      commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
+      console.log(dataId);
+      return commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
         encode('dc.dataControllerUtils.ADETimebasedSubscription', {
           sessionId: dataId.sessionId,
           domainId: dataId.domainId,
@@ -283,11 +287,12 @@ const dcVersionMap = {
           catalogName: dataId.catalog,
           itemName: dataId.parameterName,
           action: constants.SUBSCRIPTIONACTION_ADD,
+          providerFlow: 'myProviderFLow',
         }),
       ], err => (onDcResponseCallback(err, flatDataId)));
     },
     requestSubscriptionDelete: (flatDataId, dataId) => {
-      commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
+      return commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
         encode('dc.dataControllerUtils.ADETimebasedSubscription', {
           sessionId: dataId.sessionId,
           domainId: dataId.domainId,
@@ -295,6 +300,7 @@ const dcVersionMap = {
           catalogName: dataId.catalog,
           itemName: dataId.parameterName,
           action: constants.SUBSCRIPTIONACTION_DELETE,
+          providerFlow: 'myProviderFLow',
         }),
       ], err => (onDcResponseCallback(err, flatDataId)));
     },

@@ -171,7 +171,7 @@ const onHssMessage = (...args) => {
       );
       const isLast = (queryArguments.getLastType === constants.GETLASTTYPE_GET_LAST);
       const queryKey = JSON.stringify({ dataId, queryArguments });
-      queries.push({ queryKey, queryId, dataId, interval, isLast, versionDCCom: versionDCComProtocol });
+      queries.push({ queryKey, queryId, dataId, timeInterval: interval, isLast, versionDCCom: versionDCComProtocol });
       logger.silly('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);
     }
@@ -228,8 +228,9 @@ const onHssMessage = (...args) => {
 };
 
 const onHssMessageADE = (...args) => {
-  logger.debug('onHssMessage');
+  logger.debug('onHssMessageADE');
   const { method, requestId, isLast, isError } = adapter.decode('dc.dataControllerUtils.ADEHeader', args[0]);
+  console.log(method, requestId, isLast, isError);
   const methodBuffer = args[1];
   // const header = adapter.decode('dc.dataControllerUtils.Header', args[0]);
   // const queryId = adapter.decode('dc.dataControllerUtils.String', args[1]).string;
@@ -364,48 +365,38 @@ const onHssMessageADE = (...args) => {
       const queryKey = JSON.stringify({ dataId, queryArguments });
       queries.push({ queryKey, queryId, dataId, timeInterval, isLast, versionDCCom: versionDCComProtocol, rawBuffer: args[1] });
       logger.silly('query registered', dataId.parameterName, timeInterval);
-      return pushSuccessADE(queryId);
+      // return pushSuccessADE(queryId);
+      return console.log('test');
     }
 
     case constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
-
-      const { 
-        sessionId,
-        domainId,
-        objectName,
-        catalogName,
-        itemName,
-        providerFlow,
-        filters,
-        itemOid,
-        action,
-      } = protobuf.decode('dc.dataControllerUtils.ADETimebasedSubscription', args[1]);
-
+      console.log('DECODED DECODED DECODED', args[1]);
+      const decoded = protobuf.decode('dc.dataControllerUtils.ADETimebasedSubscription', args[1]);
+      
       const dataId = {
-        sessionId,
-        domainId,
-        catalog: catalogName,
-        comObject: objectName,
-        parameterName: itemName,
+        sessionId: decoded.sessionId,
+        domainId: decoded.domainId,
+        catalog: decoded.catalogName,
+        comObject: decoded.objectName,
+        parameterName: decoded.itemName,
       };
 
-      /*const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       let parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
       if (!isParameterSupported(dataId)) {
         if (!dataId.catalog && !dataId.parameterName && dataId.comObject) {
           // TODO To improve : Special case, subscription for a whole com object
           parameter = 'Reporting.GENE_AM_CCSDSAPID<ReportingParameter>';
         } else {
+          return;
           logger.warn('subscription of unsupported parameter sent to DC stub', dataId);
-          return pushErrorADE(
+          /*return pushErrorADE(
             queryId,
             `parameter ${dataId.parameterName} not yet supported by stub`
-          );
+          );*/
         }
-      }*/
-      console.log('-*/-*/*-/*-/*-/ ', catalogName, itemName);
-      let parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
-      if (action === constants.SUBSCRIPTIONACTION_ADD) {
+      }
+      
+      if (decoded.action === constants.SUBSCRIPTIONACTION_ADD) {
         subscriptions[parameter] = {
           queryId,
           dataId,
@@ -414,15 +405,15 @@ const onHssMessageADE = (...args) => {
         };
         logger.debug('subscription added', parameter);
       }
-      if (action === constants.SUBSCRIPTIONACTION_DELETE) {
+      if (decoded.action === constants.SUBSCRIPTIONACTION_DELETE) {
         subscriptions = _omit(subscriptions, parameter);
         logger.debug('subscription removed', parameter);
       }
-      return pushSuccessADE(queryId);
+      return console.log('test');
     }
 
     case constants.MESSAGETYPE_ALARM_ACK: {
-      const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
+      /* const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       const comObject = dataId.comObject;
       const alarms = args.slice(3).map(rawAlarm => (
         adapter.decode(
@@ -431,13 +422,13 @@ const onHssMessageADE = (...args) => {
       ));
 
       alarmAcks.push({ dataId, queryId, alarms });
-      logger.silly('alarmAck registered', comObject, '(', alarms.length, ')');
+      logger.silly('alarmAck registered', comObject, '(', alarms.length, ')'); */
 
-      return pushSuccessADE(queryId);
+      // return pushSuccessADE(queryId);
     }
 
     default:
-      return pushErrorADE(queryId, `Unknown message type ${header.messageType}`);
+      // return pushErrorADE(queryId, `Unknown message type ${header.messageType}`);
   }
 };
 
@@ -455,8 +446,8 @@ function dcCall() {
 
   // pub/sub
   _each(subscriptions, (subscription) => {
-    logger.debug(`push pub/sub data for ${subscription.dataId.parameterName}`);
-    console.log('send pub sub data with', subscription.rawBuffer);
+    // logger.debug(`push pub/sub data for ${subscription.dataId.parameterName}`);
+    // console.log('send pub sub data with', subscription.rawBuffer);
     sendPubSubData(subscription.queryId, subscription.dataId, zmq,subscription.versionDCCom, subscription.rawBuffer );
   });
 

@@ -37,7 +37,7 @@ import parameters from 'common/configurationManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import _findIndex from 'lodash/findIndex';
 
-const logger = getLogger('data:rangeValues');
+const logger = getLogger('data:rangeValues:PlotView');
 
 export function getExtremValue(state, epName, minOrMax, minOrMaxTime, isMin) {
   let stateMinOrMax;

@@ -1,7 +1,5 @@
 from threading import Thread
 import zmq
-import json
-import time
 from GPCC.communicationLibrary.isisSocket import IsisSocket
 from GPCC.core.zmq import ZMQ
 from GPCC.core.messageFrame import MessageFrame
@@ -16,7 +14,7 @@ class BridgeHandler(Thread):
     '''
     @brief : Thread executing the requested handler to process a given message and send results
     '''
-    def __init__(self, actorContext=None, responseUrl=None, requestID=None, unitConverterLib=None, handlerClassName=None, msg=None, queue=None):
+    def __init__(self, actorContext=None, responseUrl=None, requestID=None, unitConverterLib=None, handlerClassName=None, msg=None):
         '''
         @brief : Initialize and configure the handler
         @param : actorContext (GPCC.container.isisActorContext) Context of the actor using the bridge
@@ -35,12 +33,11 @@ class BridgeHandler(Thread):
         self._ucLib = unitConverterLib
         self._handlerClassName = handlerClassName
         self._msg = msg
-        self._queue = queue
-
+        
     def run(self):
         '''
         @brief : Handler thread
-        '''      
+        '''
         # Initialize error status
         errorMsg = None
         # Compute the module name
@@ -68,13 +65,17 @@ class BridgeHandler(Thread):
         valuesList = []
         for value in results.values:
           valuesList.append(value._float.value)
+        
 
-        #responseChannel.send_multipart([self._requestID.encode('utf-8'), str(valuesList[0]).encode('utf-8')])
-        message_response = dict()
-        message_response['header'] = {};
-        message_response['header']['transactionID'] = self._requestID;
-        message_response['header']['method'] = self._handlerClassName;
-        message_response['payload'] = valuesList[0];
-        self._queue.add_message(json.dumps(message_response))
+        # Initialize the socket to send results
+        context = zmq.Context()
+        responseChannel = context.socket(zmq.PUB)
+        responseChannel.bind(self._responseUrl)       
+
+
+        responseChannel.send_multipart([self._requestID.encode('utf-8'), str(valuesList[0]).encode('utf-8')])
+        print('############################')
+        print('RESPONSE SEND')
+        print('############################')
         # End of work, the thread can end
         

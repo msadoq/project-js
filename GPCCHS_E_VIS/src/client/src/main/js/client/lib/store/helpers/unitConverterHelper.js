@@ -53,10 +53,10 @@ const convertData = (toConvertMap, dataToInject, cb) => {
           asyncMap[`${tbdIdKey}${field}${convertFrom}${convertTo}${timestamp}`] = ((callbackAsync) => {
             passerelle.caller('convertUnit',
               {
-                // TODO, add the real value = value: value.symbol,
-                value: value.symbol,
-                unitesource: convertFrom,
-                unitectible: convertTo,
+                // TODO, add the real valu = value: value.symbol,
+                value: '123.15',
+                unitesource: 'm',
+                unitectible: 'km',
               },
               (response) => {
                 callbackAsync(null,

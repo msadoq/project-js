@@ -12,10 +12,10 @@ const callbackMap = {};
 let requester;
 let subscriber;
 
-const PYTHON_EXEC_PATH = (parameters.get('PYTHON_EXEC_PATH'));
-const spawned = spawn(PYTHON_EXEC_PATH, [`${__dirname}/../../../scripts/gpvi_interfacelayer_server.py`]);
-
 exports.spawnPasserelle = () => {
+  const PYTHON_EXEC_PATH = (parameters.get('PYTHON_EXEC_PATH'));
+  const spawned = spawn(PYTHON_EXEC_PATH, [`${__dirname}/../../../scripts/gpvi_interfacelayer_server.py`]);
+
   spawned.on('error', (err) => {
     logger.error('Failed to start subprocess.');
     logger.error(err);
@@ -28,11 +28,17 @@ exports.spawnPasserelle = () => {
   spawned.stderr.on('data', (data) => {
     logger.info(`stderr: ${data}`);
   });
+
+  spawned.on('close', (code) => {
+    logger.info(`child process exited with code ${code}`);
+  });
 };
 // ------------------------------------------------------------------------------------------
 // Create the 0MQ socket in order to establish the communication between client and server
 // ------------------------------------------------------------------------------------------
 exports.init = () => {
+  // spawnPasserelle();
+
   const zmqPub = parameters.get('ZMQ_PASSERELLE_PUB');
   const zmqSub = parameters.get('ZMQ_PASSERELLE_SUB');
 
@@ -129,18 +135,10 @@ function decodePayloadFromResponse(response) {
 // ------------------------------------------------------------------------------------------
 // MAIN
 // ------------------------------------------------------------------------------------------
-process.once('SIGINT', () => {
-  // close zmq sockets
-  requester.close();
-  subscriber.close();
-  // kill the python process
-  spawned.kill();
-});
 
-process.once('SIGTERM', () => {
-  // close zmq sockets
-  requester.close();
-  subscriber.close();
-  // kill the python process
-  spawned.kill();
-});
+
+/* process.on('SIGINT', () => {
+console.log('salam');
+requester.close();
+subscriber.close();
+}); */

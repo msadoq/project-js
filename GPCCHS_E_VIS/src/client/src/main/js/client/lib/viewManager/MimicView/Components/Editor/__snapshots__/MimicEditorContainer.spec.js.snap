@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MimicEditorContainer :: render MimicEditorContainer :: render 1`] = `
+exports[`MimicEditorContainer :: render snapshot 1`] = `
 <ReduxForm
   configuration={Object {}}
   currentDisplay={0}

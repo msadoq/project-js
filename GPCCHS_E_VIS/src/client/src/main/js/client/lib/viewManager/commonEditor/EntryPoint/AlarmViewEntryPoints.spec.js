@@ -1,6 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import AlarmViewEntryPoints from './AlarmViewEntryPoints';
 
 const propsStub = {
@@ -23,13 +22,20 @@ const propsStub = {
   domainName: 'fr.cnes.test',
 };
 
-describe('AlarmViewEntryPoints :: render', () => {
-  test('AlarmViewEntryPoints :: render', () => {
-    const tree = shallow(
-      <AlarmViewEntryPoints
-        {...propsStub}
-      />
-    );
-    expect(toJson(tree)).toMatchSnapshot();
+describe('viewManager', () => {
+  describe('viewManager :: commonEditor', () => {
+    describe('viewManager :: commonEditor :: EntryPoint', () => {
+      describe('viewManager :: commonEditor :: EntryPoint :: AlarmViewEntryPoints', () => {
+        test('snapshot', () => {
+          const renderer = new ShallowRenderer();
+          renderer.render(
+            <AlarmViewEntryPoints
+              {...propsStub}
+            />
+          );
+          expect(renderer.getRenderOutput()).toMatchSnapshot();
+        });
+      });
+    });
   });
 });

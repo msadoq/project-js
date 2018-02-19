@@ -1,6 +1,4 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 import DynamicViewEntryPoints from './DynamicViewEntryPoints';
 
 const propsStub = {
@@ -26,13 +24,14 @@ const propsStub = {
   form: 'form',
 };
 
-describe('DynamicViewEntryPoints :: render', () => {
-  test('DynamicViewEntryPoints :: render', () => {
-    const tree = shallow(
-      <DynamicViewEntryPoints
-        {...propsStub}
-      />
-    );
-    expect(toJson(tree)).toMatchSnapshot();
+describe('viewManager', () => {
+  describe('viewManager :: commonEditor', () => {
+    describe('viewManager :: commonEditor :: EntryPoint', () => {
+      describe('viewManager :: commonEditor :: EntryPoint :: DynamicViewEntryPoints', () => {
+        test('snapshot', () => {
+          shallowRenderSnapshotInReduxForm(DynamicViewEntryPoints, propsStub, {});
+        });
+      });
+    });
   });
 });

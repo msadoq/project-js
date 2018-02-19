@@ -1,9 +1,4 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import { reduxForm } from 'redux-form';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 import DataViewEntryPointsContainer from './DataViewEntryPointsContainer';
 
 const propsStub = {
@@ -30,17 +25,14 @@ const propsStub = {
   viewType: 'TextView',
 };
 
-describe('DataViewEntryPointsContainer :: render', () => {
-  test('DataViewEntryPointsContainer :: render', () => {
-    const Decorated = reduxForm({ form: 'testForm' })(DataViewEntryPointsContainer);
-    const store = createStore(state => state, {});
-    const tree = shallow(
-      <Provider store={store}>
-        <Decorated
-          {...propsStub}
-        />
-      </Provider>
-    );
-    expect(toJson(tree)).toMatchSnapshot();
+describe('viewManager', () => {
+  describe('viewManager :: commonEditor', () => {
+    describe('viewManager :: commonEditor :: EntryPoint', () => {
+      describe('viewManager :: commonEditor :: EntryPoint :: DataViewEntryPointsContainer', () => {
+        test('snapshot', () => {
+          shallowRenderSnapshotInReduxForm(DataViewEntryPointsContainer, propsStub, {});
+        });
+      });
+    });
   });
 });

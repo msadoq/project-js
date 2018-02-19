@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EntryPointActions :: render EntryPointActions :: render 1`] = `
+exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: EntryPointActions snapshot 1`] = `
 <div>
   <FormGroup
     bsClass="form-group"

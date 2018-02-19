@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AlarmViewEntryPoints :: render AlarmViewEntryPoints :: render 1`] = `
+exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: AlarmViewEntryPoints snapshot 1`] = `
 <div>
   <HorizontalFormGroup
     label="Domain"
@@ -14,6 +14,7 @@ exports[`AlarmViewEntryPoints :: render AlarmViewEntryPoints :: render 1`] = `
   >
     <Connect(TimelineField)
       timelineName={null}
+      windowId={undefined}
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup

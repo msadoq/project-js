@@ -1,8 +1,4 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import { reduxForm } from 'redux-form';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 import EntryPointConnectedDataFieldsContainer from './EntryPointConnectedDataFieldsContainer';
 
 const propsStub = {
@@ -22,17 +18,17 @@ const propsStub = {
   form: 'form',
   domains: [],
 };
-describe('EntryPointConnectedDataFieldsContainer :: render', () => {
-  test('EntryPointConnectedDataFieldsContainer :: render', () => {
-    const Decorated = reduxForm({ form: 'testForm' })(EntryPointConnectedDataFieldsContainer);
-    const store = createStore(state => state, {});
-    const tree = shallow(
-      <Provider store={store}>
-        <Decorated
-          {...propsStub}
-        />
-      </Provider>
-    );
-    expect(tree).toMatchSnapshot();
+
+describe('viewManager', () => {
+  describe('viewManager :: common', () => {
+    describe('viewManager :: common :: Components', () => {
+      describe('viewManager :: common :: Components :: Editor', () => {
+        describe('viewManager :: common :: Components :: Editor :: EntryPointConnectedDataFieldsContainer', () => {
+          test('snapshot', () => {
+            shallowRenderSnapshotInReduxForm(EntryPointConnectedDataFieldsContainer, propsStub, {});
+          });
+        });
+      });
+    });
   });
 });

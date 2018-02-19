@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DataViewEntryPointsContainer :: render DataViewEntryPointsContainer :: render 1`] = `
+exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: DataViewEntryPointsContainer snapshot 1`] = `
 <ReduxForm
   domainName="fr.cnes.test"
   domains={

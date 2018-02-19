@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
 const propsStub = {
@@ -19,13 +19,22 @@ const propsStub = {
   form: 'form',
   domains: [],
 };
-describe('EntryPointConnectedDataFields :: render', () => {
-  test('EntryPointConnectedDataFields :: render', () => {
-    const tree = shallow(
-      <EntryPointConnectedDataFields
-        {...propsStub}
-      />
-    );
-    expect(tree).toMatchSnapshot();
+describe('viewManager', () => {
+  describe('viewManager :: common', () => {
+    describe('viewManager :: common :: Components', () => {
+      describe('viewManager :: common :: Components :: Editor', () => {
+        describe('viewManager :: common :: Components :: Editor :: EntryPointConnectedDataFields', () => {
+          test('snapshot', () => {
+            const renderer = new ShallowRenderer();
+            renderer.render(
+              <EntryPointConnectedDataFields
+                {...propsStub}
+              />
+            );
+            expect(renderer.getRenderOutput()).toMatchSnapshot();
+          });
+        });
+      });
+    });
   });
 });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TextEditor :: render TextEditor :: render 1`] = `
+exports[`TextEditor :: render snapshot 1`] = `
 <div
   className="contentWrapper"
 >
@@ -36,6 +36,7 @@ exports[`TextEditor :: render TextEditor :: render 1`] = `
   >
     <div>
       <Connect(DataViewEntryPoints)
+        entryPoints={undefined}
         pageId="pageId"
         search="search"
         viewId="view-id"

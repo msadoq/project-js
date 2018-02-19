@@ -1,9 +1,4 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import { reduxForm } from 'redux-form';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 import TextEditorContainer from 'viewManager/TextView/Components/Editor/TextEditorContainer';
 
 const propsStub = {
@@ -22,16 +17,7 @@ const propsStub = {
 };
 
 describe('TextEditorContainer :: render', () => {
-  test('TextEditorContainer :: render', () => {
-    const Decorated = reduxForm({ form: 'testForm' })(TextEditorContainer);
-    const store = createStore(state => state, {});
-    const tree = shallow(
-      <Provider store={store}>
-        <Decorated
-          {...propsStub}
-        />
-      </Provider>
-    );
-    expect(toJson(tree)).toMatchSnapshot();
+  test('snapshot', () => {
+    shallowRenderSnapshotInReduxForm(TextEditorContainer, propsStub, {});
   });
 });

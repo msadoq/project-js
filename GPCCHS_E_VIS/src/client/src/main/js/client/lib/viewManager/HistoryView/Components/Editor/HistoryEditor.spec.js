@@ -1,6 +1,4 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallowRenderSnapshot } from 'common/jest/utils';
 import HistoryEditor from 'viewManager/HistoryView/Components/Editor/HistoryEditor';
 
 const propsStub = {
@@ -19,12 +17,7 @@ const propsStub = {
 };
 
 describe('HistoryEditor :: render', () => {
-  test('HistoryEditor :: render', () => {
-    const tree = shallow(
-      <HistoryEditor
-        {...propsStub}
-      />
-    );
-    expect(toJson(tree)).toMatchSnapshot();
+  test('snapshot', () => {
+    shallowRenderSnapshot(HistoryEditor, propsStub, {});
   });
 });

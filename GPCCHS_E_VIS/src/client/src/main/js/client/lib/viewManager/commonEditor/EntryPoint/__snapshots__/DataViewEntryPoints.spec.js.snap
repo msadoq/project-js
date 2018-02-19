@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DataViewEntryPoints :: render DataViewEntryPoints :: render 1`] = `
+exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: DataViewEntryPoints snapshot 1`] = `
 <div>
   <Connect(EntryPointActions)
     search={null}

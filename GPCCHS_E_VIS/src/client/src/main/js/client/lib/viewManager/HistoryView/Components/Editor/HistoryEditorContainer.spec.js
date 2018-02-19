@@ -1,10 +1,5 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import { reduxForm } from 'redux-form';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 import HistoryEditorContainer from 'viewManager/HistoryView/Components/Editor/HistoryEditorContainer';
+import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 
 const propsStub = {
   viewId: 'view-id',
@@ -22,16 +17,7 @@ const propsStub = {
 };
 
 describe('HistoryEditorContainer :: render', () => {
-  test('HistoryEditorContainer :: render', () => {
-    const Decorated = reduxForm({ form: 'testForm' })(HistoryEditorContainer);
-    const store = createStore(state => state, {});
-    const tree = shallow(
-      <Provider store={store}>
-        <Decorated
-          {...propsStub}
-        />
-      </Provider>
-    );
-    expect(toJson(tree)).toMatchSnapshot();
+  test('snapshot', () => {
+    shallowRenderSnapshotInReduxForm(HistoryEditorContainer, propsStub, {});
   });
 });

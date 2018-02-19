@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GroundAlarmEditorForm :: render GroundAlarmEditorForm :: render 1`] = `
+exports[`GroundAlarmEditorForm :: render snapshot 1`] = `
 <ReduxForm
   handleSubmit={[Function]}
   initialValues={Object {}}

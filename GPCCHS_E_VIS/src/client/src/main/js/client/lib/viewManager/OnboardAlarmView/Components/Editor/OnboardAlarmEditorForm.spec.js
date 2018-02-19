@@ -1,6 +1,4 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallowRenderSnapshot } from 'common/jest/utils';
 import OnboardAlarmEditorForm from './OnboardAlarmEditorForm';
 
 const propsStub = {
@@ -13,12 +11,7 @@ const propsStub = {
 };
 
 describe('OnboardAlarmEditorForm :: render', () => {
-  test('OnboardAlarmEditorForm :: render', () => {
-    const tree = shallow(
-      <OnboardAlarmEditorForm
-        {...propsStub}
-      />
-    );
-    expect(toJson(tree)).toMatchSnapshot();
+  test('snapshot', () => {
+    shallowRenderSnapshot(OnboardAlarmEditorForm, propsStub, {});
   });
 });

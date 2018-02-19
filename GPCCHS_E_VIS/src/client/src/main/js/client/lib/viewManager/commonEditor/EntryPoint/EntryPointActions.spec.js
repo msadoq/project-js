@@ -1,6 +1,4 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallowRenderSnapshot } from 'common/jest/utils';
 import EntryPointActions from './EntryPointActions';
 
 const propsStub = {
@@ -12,13 +10,14 @@ const propsStub = {
   openModal: () => null,
 };
 
-describe('EntryPointActions :: render', () => {
-  test('EntryPointActions :: render', () => {
-    const tree = shallow(
-      <EntryPointActions
-        {...propsStub}
-      />
-    );
-    expect(toJson(tree)).toMatchSnapshot();
+describe('viewManager', () => {
+  describe('viewManager :: commonEditor', () => {
+    describe('viewManager :: commonEditor :: EntryPoint', () => {
+      describe('viewManager :: commonEditor :: EntryPoint :: EntryPointActions', () => {
+        test('snapshot', () => {
+          shallowRenderSnapshot(EntryPointActions, propsStub, {});
+        });
+      });
+    });
   });
 });

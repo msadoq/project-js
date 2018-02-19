@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HistoryEditorContainer :: render HistoryEditorContainer :: render 1`] = `
+exports[`HistoryEditorContainer :: render snapshot 1`] = `
 <ReduxForm
   configuration={Object {}}
   currentDisplay={0}

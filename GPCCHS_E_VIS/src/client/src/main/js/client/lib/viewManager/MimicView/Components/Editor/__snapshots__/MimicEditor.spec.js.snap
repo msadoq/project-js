@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MimicEditor :: render MimicEditor :: render 1`] = `
+exports[`HistoryEditor :: render snapshot 1`] = `
 <div
   className="contentWrapper"
 >
@@ -36,6 +36,7 @@ exports[`MimicEditor :: render MimicEditor :: render 1`] = `
   >
     <div>
       <Connect(DataViewEntryPoints)
+        entryPoints={undefined}
         pageId="pageId"
         search="search"
         viewId="view-id"

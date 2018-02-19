@@ -1,8 +1,4 @@
-import React from 'react';
-import { reduxForm } from 'redux-form';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { shallow } from 'enzyme';
+import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
 
 const propsStub = {
@@ -14,17 +10,14 @@ const propsStub = {
   itemName: 'itemName',
 };
 
-describe('ComObjectContainer :: render', () => {
-  test('ComObjectContainer :: render', () => {
-    const Decorated = reduxForm({ form: 'testForm' })(ComObjectContainer);
-    const store = createStore(state => state, {});
-    const tree = shallow(
-      <Provider store={store}>
-        <Decorated
-          {...propsStub}
-        />
-      </Provider>
-    );
-    expect(tree).toMatchSnapshot();
+describe('viewManager', () => {
+  describe('viewManager :: commonEditor', () => {
+    describe('viewManager :: commonEditor :: Fields', () => {
+      describe('viewManager :: commonEditor :: Fields :: ComObjectContainer', () => {
+        test('snapshot', () => {
+          shallowRenderSnapshotInReduxForm(ComObjectContainer, propsStub, {});
+        });
+      });
+    });
   });
 });

@@ -1,6 +1,4 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallowRenderSnapshot } from 'common/jest/utils';
 import GroundAlarmEditorForm from './GroundAlarmEditorForm';
 
 const propsStub = {
@@ -13,12 +11,7 @@ const propsStub = {
 };
 
 describe('GroundAlarmEditorForm :: render', () => {
-  test('GroundAlarmEditorForm :: render', () => {
-    const tree = shallow(
-      <GroundAlarmEditorForm
-        {...propsStub}
-      />
-    );
-    expect(toJson(tree)).toMatchSnapshot();
+  test('snapshot', () => {
+    shallowRenderSnapshot(GroundAlarmEditorForm, propsStub, {});
   });
 });

@@ -1,12 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ComObjectFieldContainer :: render should render correctly with valid data 1`] = `
-<Field
-  clearable={true}
-  component={[Function]}
-  disabled={true}
-  format={null}
-  name="comObjectField"
-  options={Array []}
+exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: Fields viewManager :: commonEditor :: Fields :: ComObjectFieldContainer snapshot 1`] = `
+<ReduxForm
+  domainId="domain-id"
+  timelineId="timeline-id"
 />
 `;

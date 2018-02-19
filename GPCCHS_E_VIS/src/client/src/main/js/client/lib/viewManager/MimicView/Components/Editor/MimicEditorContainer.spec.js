@@ -1,9 +1,4 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import { reduxForm } from 'redux-form';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 import MimicEditorContainer from 'viewManager/MimicView/Components/Editor/MimicEditorContainer';
 
 const propsStub = {
@@ -22,16 +17,7 @@ const propsStub = {
 };
 
 describe('MimicEditorContainer :: render', () => {
-  test('MimicEditorContainer :: render', () => {
-    const Decorated = reduxForm({ form: 'testForm' })(MimicEditorContainer);
-    const store = createStore(state => state, {});
-    const tree = shallow(
-      <Provider store={store}>
-        <Decorated
-          {...propsStub}
-        />
-      </Provider>
-    );
-    expect(toJson(tree)).toMatchSnapshot();
+  test('snapshot', () => {
+    shallowRenderSnapshotInReduxForm(MimicEditorContainer, propsStub, {});
   });
 });

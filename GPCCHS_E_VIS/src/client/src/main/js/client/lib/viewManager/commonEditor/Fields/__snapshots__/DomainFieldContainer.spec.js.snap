@@ -1,23 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DomainFieldContainer :: render should render correctly with valid data 1`] = `
-<Field
-  clearable={true}
-  component={[Function]}
-  format={null}
-  name="domain"
-  onChange={null}
-  options={
-    Array [
-      Object {
-        "label": undefined,
-        "value": undefined,
-      },
-      Object {
-        "label": "*",
-        "value": "*",
-      },
-    ]
-  }
+exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: Fields viewManager :: commonEditor :: Fields :: DomainFieldContainer snapshot 1`] = `
+<ReduxForm
+  domainId="domain-id"
+  timelineId="timeline-id"
 />
 `;

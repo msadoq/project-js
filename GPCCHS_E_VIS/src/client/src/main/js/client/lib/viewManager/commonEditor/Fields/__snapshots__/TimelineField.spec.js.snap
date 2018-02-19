@@ -1,84 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TimelineField :: render TimelineField :: render 1`] = `
-ShallowWrapper {
-  "length": 1,
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Provider
-    store={
+exports[`TimelineField :: render snapshot 1`] = `
+<div>
+  <Field
+    clearable={true}
+    component={[Function]}
+    format={null}
+    name="timeline"
+    onChange={[Function]}
+    options={
+      Array [
         Object {
-            "dispatch": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-            Symbol(Symbol.observable): [Function],
-          }
-    }
->
-    <ReduxForm
-        onChange={[Function]}
-        timelineName="timeline"
-        timelines={
-            Array [
-                Object {
-                  "items": Array [],
-                  "name": "timeline",
-                },
-              ]
-        }
-    />
-</Provider>,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": undefined,
-    "nodeType": "class",
-    "props": Object {
-      "onChange": [Function],
-      "timelineName": "timeline",
-      "timelines": Array [
-        Object {
-          "items": Array [],
-          "name": "timeline",
+          "label": "timeline",
+          "value": "timeline",
         },
-      ],
-    },
-    "ref": null,
-    "rendered": null,
-    "type": [Function],
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "class",
-      "props": Object {
-        "onChange": [Function],
-        "timelineName": "timeline",
-        "timelines": Array [
-          Object {
-            "items": Array [],
-            "name": "timeline",
-          },
-        ],
-      },
-      "ref": null,
-      "rendered": null,
-      "type": [Function],
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactFifteenFourAdapter {
-      "options": Object {
-        "supportPrevContextArgumentOfComponentDidUpdate": true,
-      },
-    },
-  },
-}
+        Object {
+          "label": "*",
+          "value": "*",
+        },
+      ]
+    }
+  />
+</div>
 `;

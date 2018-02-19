@@ -1,4 +1,5 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
@@ -40,7 +41,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
   };
 
   static contextTypes = {
-    windowId: React.PropTypes.string,
+    windowId: PropTypes.string,
   };
 
   render() {

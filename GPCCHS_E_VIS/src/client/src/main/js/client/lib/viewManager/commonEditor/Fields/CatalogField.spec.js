@@ -1,9 +1,5 @@
-import React from 'react';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { reduxForm } from 'redux-form';
 import CatalogField from 'viewManager/commonEditor/Fields/CatalogField';
-import { shallow } from 'enzyme';
+import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 
 const propsStub = {
   timelineId: 'timelineId',
@@ -15,30 +11,18 @@ const propsStub = {
   domainId: 1,
   askCatalogs: () => null,
 };
-describe('CatalogField :: render', () => {
-  test('CatalogField :: render', () => {
-    const Decorated = reduxForm({ form: 'testForm' })(CatalogField);
-    const store = createStore(state => state, {});
-    const tree = shallow(
-      <Provider store={store}>
-        <Decorated
-          {...propsStub}
-        />
-      </Provider>
-    );
-    expect(tree).toMatchSnapshot();
-  });
-  test('CatalogField :: render requesting', () => {
-    const Decorated = reduxForm({ form: 'testForm' })(CatalogField);
-    const store = createStore(state => state, {});
-    const propsStub2 = { ...propsStub, catalogs: 'requesting' };
-    const tree = shallow(
-      <Provider store={store}>
-        <Decorated
-          {...propsStub2}
-        />
-      </Provider>
-    );
-    expect(tree).toMatchSnapshot();
+describe('viewManager', () => {
+  describe('viewManager :: commonEditor', () => {
+    describe('viewManager :: commonEditor :: Fields', () => {
+      describe('viewManager :: commonEditor :: Fields :: CatalogField', () => {
+        test('snapshot', () => {
+          shallowRenderSnapshotInReduxForm(CatalogField, propsStub, {});
+        });
+        test('snapshot 2', () => {
+          const propsStub2 = { ...propsStub, catalogs: 'requesting' };
+          shallowRenderSnapshotInReduxForm(CatalogField, propsStub2, {});
+        });
+      });
+    });
   });
 });

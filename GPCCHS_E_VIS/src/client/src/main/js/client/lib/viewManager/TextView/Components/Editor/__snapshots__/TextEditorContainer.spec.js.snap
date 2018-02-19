@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TextEditorContainer :: render TextEditorContainer :: render 1`] = `
+exports[`TextEditorContainer :: render snapshot 1`] = `
 <ReduxForm
   configuration={Object {}}
   currentDisplay={0}

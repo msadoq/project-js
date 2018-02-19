@@ -45,6 +45,7 @@
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
 
+import { add as addMessage } from 'store/actions/messages';
 import { getViewModule } from 'viewManager';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
@@ -82,7 +83,7 @@ export const toggleLegend = simple(types.WS_VIEW_TOGGLE_LEGEND, 'viewId', 'flag'
 export const updateLink = simple(types.WS_VIEW_UPDATE_LINK, 'viewId', 'index', 'link');
 export const updateMarker = simple(types.WS_VIEW_UPDATE_MARKER, 'viewId', 'index', 'marker');
 export const updateProcedure = simple(types.WS_VIEW_UPDATE_PROCEDURE, 'viewId', 'index',
- 'procedure');
+  'procedure');
 
 export const updateRatio = simple(types.WS_VIEW_UPDATE_RATIO, 'viewId', 'ratio');
 export const updateTitle = simple(types.WS_VIEW_UPDATE_TITLE, 'viewId', 'title');
@@ -97,7 +98,30 @@ export const updateEditorSearch = simple(types.WS_VIEW_UPDATE_EDITOR_SEARCH, 'vi
 
 // ************ Axis
 export const addAxis = simple(types.WS_VIEW_ADD_AXIS, 'viewId', 'axis');
-export const removeAxis = simple(types.WS_VIEW_REMOVE_AXIS, 'viewId', 'axisId');
+
+export const isAxisReferencedByEntryPoint = (axisId, entryPointCollection) =>
+  Object
+    .keys(entryPointCollection)
+    .map(key => entryPointCollection[key])
+    .filter(entryPoint => (entryPoint.connectedData && entryPoint.connectedData.axisId === axisId))
+    .length > 0;
+
+export const removeAxisAction = simple(types.WS_VIEW_REMOVE_AXIS, 'viewId', 'axisId');
+
+export function removeAxis(viewId, axisId, entryPointCollection) {
+  return (dispatch) => {
+    if (!isAxisReferencedByEntryPoint(axisId, entryPointCollection)) {
+      return dispatch(removeAxisAction(viewId, axisId));
+    }
+
+    return dispatch(addMessage(
+      'global',
+      'danger',
+      'Cannot remove an axis referenced by at least one entry point'
+    ));
+  };
+}
+
 export const updateAxis = simple(types.WS_VIEW_UPDATE_AXIS, 'viewId', 'axisId', 'axis');
 
 // ************ Grids

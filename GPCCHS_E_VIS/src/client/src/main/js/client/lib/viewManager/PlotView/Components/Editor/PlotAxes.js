@@ -69,11 +69,11 @@ export default class PlotAxes extends Component {
     updateViewSubPanels(viewId, 'panels', 'axes', openPanels);
   }
 
-  handleRemovePlotAxis = (e, key) => {
-    const { removeAxis, viewId } = this.props;
+  handleRemovePlotAxis = (e, axisId) => {
+    const { removeAxis, entryPoints, viewId } = this.props;
     e.preventDefault();
     e.stopPropagation();
-    removeAxis(viewId, key);
+    removeAxis(viewId, axisId, entryPoints);
   }
 
   handleCreateAxis = (values) => {

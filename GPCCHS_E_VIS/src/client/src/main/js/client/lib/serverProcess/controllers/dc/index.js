@@ -97,7 +97,7 @@ const controllersV2 = {
 const controllers = {
   [constants.DC_COM_V1]: {
     controller: controllersV1,
-    decoder: (buffer) => decode('dc.dataControllerUtils.Header', buffer)
+    decoder: buffer => decode('dc.dataControllerUtils.Header', buffer),
   },
   [constants.DC_COM_V2]: {
     controller: controllersV2,
@@ -125,21 +125,29 @@ module.exports = function dcController() {
   const buffers = Array.prototype.slice.call(args, 2);
 
   try {
-    const { messageType, requestId, isLast, isError } = controllers[versionDCComProtocol].decoder(headerBuffer);
+    const {
+      messageType,
+      requestId,
+      isLast,
+      isError } = controllers[versionDCComProtocol].decoder(headerBuffer);
     if (!messageType) {
       return logger.warn('invalid message received (no messageType)');
+    }
+    if (isError) {
+      const decodedError = decode('dc.dataControllerUtils.ADEError', args[2]);
+      getStore().dispatch(addMessage('global', 'warning',
+      'error on processing header buffer '.concat(decodedError.message)));
+      return logger.error('error on processing header buffer '.concat(decodedError.message));
     }
     const fn = controllers[versionDCComProtocol].controller[messageType];
     if (!fn) {
       return logger.warn(`invalid message received (unknown messageType) '${messageType}'`);
     }
-
     logger.silly(`running '${messageType}'`);
-    return fn(buffers, requestId, isLast, isError);
+    return fn(buffers, requestId, isLast);
   } catch (e) {
     getStore().dispatch(addMessage('global', 'warning',
       'error on processing header buffer '.concat(e)));
-    
-    // return logger.error('error on processing header buffer bla bla '.concat(e));
+    return logger.error('error on processing header buffer '.concat(e));
   }
 };

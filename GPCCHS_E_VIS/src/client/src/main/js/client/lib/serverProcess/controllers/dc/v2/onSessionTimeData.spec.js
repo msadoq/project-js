@@ -27,7 +27,6 @@ const dataStub = getStubData();
 describe('controllers/client/onSessionTimeData', () => {
   test('should returns session time', () => {
     const myQueryId = 'myQueryId';
-    const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myTimestamp = 42;
     const myTimestampProto = dataStub.getTimestampProtobuf({ ms: myTimestamp });
 
@@ -35,6 +34,6 @@ describe('controllers/client/onSessionTimeData', () => {
       expect(expected.timestamp).toBe(myTimestamp);
     });
 
-    onSessionTimeData([myQueryIdProto, myTimestampProto]);
+    onSessionTimeData([{}, myTimestampProto], myQueryId);
   });
 });

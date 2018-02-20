@@ -21,19 +21,19 @@ const V1 = (queryId, congestionStatus) => [
   null,
   stubData.getDcStatusHeaderProtobuf(),
   congestionStatus,
-];;
+];
 
-const V2 = (queryId, congestionStatus, rawBuffer) =>[
+const V2 = (queryId, congestionStatus, rawBuffer) => [
   null,
   stubData.getDcStatusHeaderProtobufADE(queryId),
   rawBuffer,
   congestionStatus,
-];;
+];
 
 const versionDCMap = {
   [constants.DC_COM_V1]: V1,
   [constants.DC_COM_V2]: V2,
-}
+};
 
 const current = {
   isCongestionned: false,
@@ -50,11 +50,6 @@ module.exports = function sendDcStatus(queryId, rawBuffer, zmq, versionDCCom) {
   if ((now - from) > DC_STUB_CONGESTION_FREQUENCY) {
     current.isCongestionned = !isCongestionned;
     current.from = now;
-    // const buffer = [
-    //   null,
-    //   header,
-    //   isCongestionned ? congestion : healthy,
-    // ];
     const congestionStatus = isCongestionned ? congestion : healthy;
     const buffer = versionDCMap[versionDCCom](queryId, congestionStatus, rawBuffer);
     zmq.push('stubData', buffer);

@@ -12,7 +12,6 @@ const { getStubData } = require('../../../../utils/stubs');
 mockRegister();
 mockLoadStubs();
 
-const { encode } = require('../../../../utils/adapters');
 const onArchiveData = require('./archiveController');
 
 const mockStore = configureMockStore();
@@ -21,16 +20,12 @@ const mockStore = configureMockStore();
 const { add,
   get,
   remove,
-  clear } = require('../../models/registeredArchiveQueriesSingleton');
+  clear } = require('../../../models/registeredArchiveQueriesSingleton');
 
 const dataStub = getStubData();
 
 
-describe('controllers/archive', () => {
-  const myQueryProto = encode('dc.dataControllerUtils.String', { string: 'myQueryId' });
-  const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
-  const protobufFalse = encode('dc.dataControllerUtils.Boolean', { boolean: false });
-
+describe('controllers/archiveADE', () => {
   const t1 = 1420106790820;
   const t2 = 1420106790830;
 
@@ -49,8 +44,14 @@ describe('controllers/archive', () => {
     const store = mockStore({});
     const getStore = () => store;
 
-    const args = [myQueryProto, {}, protobufFalse, timestamp1, protoRp1, timestamp2, protoRp2];
-    onArchiveData(args, getStore, { get, remove });
+    const buffers = [
+      {}, // ADETimebasedQuery
+      timestamp1,
+      {}, // ADEPayload
+      timestamp2,
+      {}, // ADEPayload
+    ];
+    onArchiveData({ buffers, requestId: 'myQueryId' }, getStore, { get, remove });
 
     const actions = store.getActions();
     const data = {};
@@ -61,7 +62,7 @@ describe('controllers/archive', () => {
       payload: {
         tbdId: 'myTbdId',
         dataId: 'myDataId',
-        peers: [timestamp1, protoRp1, timestamp2, protoRp2],
+        peers: [timestamp1, {}, timestamp2, {}],
       },
     };
     expect(actions).toContainEqual(expectedPayload);
@@ -73,8 +74,14 @@ describe('controllers/archive', () => {
     const store = mockStore({});
     const getStore = () => store;
 
-    const args = [myQueryProto, {}, protobufTrue, timestamp1, protoRp1, timestamp2, protoRp2];
-    onArchiveData(args, getStore, { get, remove });
+    const buffers = [
+      {}, // ADETimebasedQuery
+      timestamp1,
+      {}, // ADEPayload
+      timestamp2,
+      {}, // ADEPayload
+    ];
+    onArchiveData({ buffers, requestId: 'myQueryId', isLast: true }, getStore, { get, remove });
 
     const actions = store.getActions();
     const data = {};
@@ -85,7 +92,7 @@ describe('controllers/archive', () => {
       payload: {
         tbdId: 'myTbdId',
         dataId: 'myDataId',
-        peers: [timestamp1, protoRp1, timestamp2, protoRp2],
+        peers: [timestamp1, {}, timestamp2, {}],
       },
     };
     expect(actions).toContainEqual(expectedPayload);
@@ -97,8 +104,14 @@ describe('controllers/archive', () => {
     const store = mockStore({});
     const getStore = () => store;
 
-    const args = [myQueryProto, {}, protobufTrue, timestamp1, protoRp1, timestamp2, protoRp2];
-    onArchiveData(args, getStore, { get, remove });
+    const buffers = [
+      {}, // ADETimebasedQuery
+      timestamp1,
+      {}, // ADEPayload
+      timestamp2,
+      {}, // ADEPayload
+    ];
+    onArchiveData({ buffers, requestId: 'myQueryId', isLast: true }, getStore, { get, remove });
 
     const actions = store.getActions();
     const data = {};
@@ -109,7 +122,7 @@ describe('controllers/archive', () => {
       payload: {
         tbdId: 'myTbdId',
         dataId: 'myDataId',
-        peers: [timestamp1, protoRp1, timestamp2, protoRp2],
+        peers: [timestamp1, {}, timestamp2, {}],
       },
     };
     expect(actions).toContainEqual(expectedPayload);
@@ -121,8 +134,14 @@ describe('controllers/archive', () => {
     const store = mockStore({});
     const getStore = () => store;
 
-    const args = [myQueryProto, {}, protobufFalse, timestamp1, protoRp1, timestamp2, protoRp2];
-    onArchiveData(args, getStore, { get, remove });
+    const buffers = [
+      {}, // ADETimebasedQuery
+      timestamp1,
+      {}, // ADEPayload
+      timestamp2,
+      {}, // ADEPayload
+    ];
+    onArchiveData({ buffers, requestId: 'myQueryId' }, getStore, { get, remove });
 
     const actions = store.getActions();
     const data = {};
@@ -133,7 +152,7 @@ describe('controllers/archive', () => {
       payload: {
         tbdId: 'myTbdId',
         dataId: 'myDataId',
-        peers: [timestamp1, protoRp1, timestamp2, protoRp2],
+        peers: [timestamp1, {}, timestamp2, {}],
       },
     };
     expect(actions).toContainEqual(expectedPayload);

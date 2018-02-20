@@ -31,7 +31,7 @@ const V2 = (queryId, dataId, rawBuffer) => [
 const versionDCMap = {
   [constants.DC_COM_V1]: V1,
   [constants.DC_COM_V2]: V2,
-}
+};
 
 function getPayloads(comObject, parameterName, versionDCCom) {
   const payloads = [];

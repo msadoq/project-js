@@ -13,7 +13,6 @@
 
 const { decode } = require('../../../../utils/adapters');
 const logger = require('../../../../common/logManager')('controllers:onFmdCreateData');
-const globalConstants = require('../../../../constants');
 
 const { pop } = require('../../../../common/callbacks');
 const { add: addMessage } = require('../../../../store/actions/messages');
@@ -27,18 +26,13 @@ const { getStore } = require('../../../store');
  * @param reply function
  * @param args array
  */
-module.exports = (buffers, requestId, isLast, isError) => {
+module.exports = (buffers, requestId) => {
   logger.silly('called');
-  const requestCloneBuffer = buffers[0];
 
   const callback = pop(requestId);
-  logger.silly('decoded queryId', queryId);
+  logger.silly('decoded queryId', requestId);
   try {
-    if (isError) {
-      callback({ err: decode('dc.dataControllerUtils.FMDFileInfo', buffers[1]) });
-    } else {
-      callback(decode('dc.dataControllerUtils.FMDFileInfo', buffers[1]));
-    }
+    callback(decode('dc.dataControllerUtils.FMDFileInfo', buffers[1]));
   } catch (e) {
     logger.error('error on processing buffer', e);
     getStore().dispatch(addMessage('global', 'warning',

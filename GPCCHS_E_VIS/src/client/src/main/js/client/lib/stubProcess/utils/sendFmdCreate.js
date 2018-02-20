@@ -12,6 +12,7 @@ const { existsSync, writeFileSync } = require('fs');
 const { get } = require('../../common/configurationManager');
 const stubs = require('../../utils/stubs');
 
+const stubData = stubs.getStubData();
 const constants = require('../../constants');
 
 const V1 = (queryId, path, name) => {
@@ -37,7 +38,7 @@ const V1 = (queryId, path, name) => {
   }
 
   return buffer;
-} 
+};
 
 const V2 = (queryId, path, name, rawBuffer) => {
   const buffer = [];
@@ -48,7 +49,7 @@ const V2 = (queryId, path, name, rawBuffer) => {
     buffer.push(stubData.getFmdCreateDataHeaderProtobufADE(queryId, false, true));
     // buffer.push(rawBuffer);
     // buffer[3] = stubData.getErrorStatusProtobuf();
-    buffer.push(stubData.getADEErrorProtobuf({ code: 0, message: `this file already exists: ${createPath}`}));
+    buffer.push(stubData.getADEErrorProtobuf({ code: 0, message: `this file already exists: ${createPath}` }));
   } else {
     writeFileSync(createPath, '', 'utf8');
     buffer.push(null);
@@ -60,40 +61,14 @@ const V2 = (queryId, path, name, rawBuffer) => {
   }
 
   return buffer;
-}
+};
+
 const versionDCMap = {
   [constants.DC_COM_V1]: V1,
   [constants.DC_COM_V2]: V2,
-}
-
-const stubData = stubs.getStubData();
+};
 
 module.exports = function sendFmdCreate(queryId, rawBuffer, { name, path }, zmq, versionDCCom) {
   const buffer = versionDCMap[versionDCCom](queryId, path, name, rawBuffer);
-  zmq.push('stubData', buffer); 
+  zmq.push('stubData', buffer);
 };
-//
-// module.exports = function sendFmdGet(queryId, oid, zmq) {
-//   const buffer = [
-//     null,
-//     stubData.getFmdGetDataHeaderProtobuf(),
-//     stubData.getStringProtobuf(queryId),
-//     null,
-//     null,
-//   ];
-//
-//   const path = oid.replace('oid:', '');
-//   if (!existsSync(join(get('ISIS_DOCUMENTS_ROOT'), path))) {
-//     buffer[3] = stubData.getErrorStatusProtobuf();
-//     buffer[4] = stubData.getStringProtobuf(`this file doesn't exist ${path}`);
-//   } else {
-//     buffer[3] = stubData.getSuccessStatusProtobuf();
-//     buffer[4] = stubData.getFMDFileInfoProtobuf();
-//     buffer[5] = stubData.getDocumentProtobuf({
-//       dirname: dirname(path),
-//       basename: basename(path),
-//     });
-//   }
-//
-//   zmq.push('stubData', buffer);
-// };

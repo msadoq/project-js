@@ -12,7 +12,7 @@ import { LOG_DOCUMENT_SAVE } from 'constants';
 import { createFolder } from 'common/fs';
 import { getPage, getPageAbsolutePath } from 'store/reducers/pages';
 import { getView } from 'store/reducers/views';
-import { dc } from '../ipc';
+import ipc from '../ipc';
 
 import { writeDocument } from './io';
 import validation from './validation';
@@ -67,7 +67,7 @@ const writePageAs = (state, pageId, path, callback) => {
         callback(errfs);
         return;
       }
-      dc.sendProductLog(LOG_DOCUMENT_SAVE, 'page', path);
+      ipc.dc.sendProductLog(LOG_DOCUMENT_SAVE, 'page', path);
       callback(null, oid);
     });
   });

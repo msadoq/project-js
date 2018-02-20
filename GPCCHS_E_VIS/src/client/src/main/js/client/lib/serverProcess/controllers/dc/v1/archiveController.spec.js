@@ -21,7 +21,7 @@ const mockStore = configureMockStore();
 const { add,
   get,
   remove,
-  clear } = require('../../models/registeredArchiveQueriesSingleton');
+  clear } = require('../../../models/registeredArchiveQueriesSingleton');
 
 const dataStub = getStubData();
 

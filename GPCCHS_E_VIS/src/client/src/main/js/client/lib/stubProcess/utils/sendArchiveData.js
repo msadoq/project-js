@@ -16,7 +16,6 @@ const getPayload = require('./getPayload');
 const stubs = require('../../utils/stubs');
 
 const stubData = stubs.getStubData();
-const header = stubData.getTimebasedArchiveDataHeaderProtobuf();
 const thisIsTheEnd = stubData.getBooleanProtobuf(true);
 
 const queries = {};
@@ -34,25 +33,25 @@ const V1 = (queryId, dataId, payloads) => {
     buffer.push(payload.payload);
   });
   return buffer;
-}
+};
 
 const V2 = (queryId, dataId, payloads, rawBuffer) => {
   const buffer = [
     null,
     stubData.getTimebasedArchiveDataHeaderProtobufADE(queryId, true, false),
-    rawBuffer
+    rawBuffer,
   ];
   _each(payloads, (payload) => {
     buffer.push(payload.timestamp);
     buffer.push(payload.payload);
   });
   return buffer;
-}
+};
 
 const versionDCMap = {
   [constants.DC_COM_V1]: V1,
   [constants.DC_COM_V2]: V2,
-}
+};
 
 function shouldPushANewValue(queryKey, timestamp) {
   if (timestamp > Date.now()) {
@@ -103,7 +102,12 @@ module.exports = function sendArchiveData(
       // stub never send value in the future
       timestamp = now - constants.DC_STUB_VALUE_TIMESTEP;
     }
-    const payload = getPayload(timestamp, dataId.comObject, versionDCCom, { epName: dataId.parameterName });
+    const payload = getPayload(
+      timestamp,
+      dataId.comObject,
+      versionDCCom,
+      { epName: dataId.parameterName }
+    );
     if (payload !== null) {
       payloads.push(payload);
     }

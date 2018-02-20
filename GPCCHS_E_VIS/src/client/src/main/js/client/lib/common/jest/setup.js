@@ -28,6 +28,7 @@ global.testConfig = {
   WILDCARD_CHARACTER: '*',
   VISUWINDOW_MAX_LENGTH: 42,
   VISUWINDOW_CURRENT_UPPER_MIN_MARGIN: 0.1,
+  VERSION_DC_COM_PROTOCOL: 'DC_COM_V2',
   STATE_COLORS: {
     nominal: [
       { obsolete: true, significant: true, color: '#3498db' },

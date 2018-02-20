@@ -7,23 +7,12 @@
 // END-HISTORY
 // ====================================================================
 
-const { decode, encode } = require('../../../../utils/adapters');
 const executionMonitor = require('../../../../common/logManager/execution');
 const logger = require('../../../../common/logManager')('controllers:onTimebasedArchiveData');
 const { incomingRange, incomingLast } = require('../../../../store/actions/incomingData');
 
 
-const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
-
-const onArchiveData = ({ buffers, requestId, isLast, isError }, getStore, { get, remove }) => {
-  // const queryIdBuffer = args[0];
-  // args[1] is dataIdBuffer (not used in current implementation)
-  // const isLastBuffer = args[2];
-
-  // const payloadBuffers = Array.prototype.slice.call(args, 3);
-  // const endOfQuery = protobufTrue.equals(isLastBuffer);
-  // check payloads parity
-  const requestCloneBuffer = buffers[0];
+const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }) => {
   const payloadBuffer = Array.prototype.slice.call(buffers, 1);
   if (payloadBuffer.length % 2 !== 0) {
     logger.warn('payloads should be sent by (timestamp, payloads) peers');
@@ -31,9 +20,7 @@ const onArchiveData = ({ buffers, requestId, isLast, isError }, getStore, { get,
   }
 
   const execution = executionMonitor('archiveData');
-  // if queryId not in registeredQueries, stop logic
   execution.start('register query');
-  // TODO remove and implement a clean RPC with DC that take all query response chunk in one line
   const requestData = get(requestId);
   // JUst to ensure the request exists in the singleton
   if (!requestData) {
@@ -54,7 +41,6 @@ const onArchiveData = ({ buffers, requestId, isLast, isError }, getStore, { get,
   if (isLast) {
     remove(requestId);
   }
-  console.log(type);
   switch (type) {
     case 'RANGE' :
       store.dispatch(incomingRange(tbdId, payloadBuffer, dataId));

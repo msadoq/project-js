@@ -29,8 +29,6 @@ const dataStub = getStubData();
 describe('controllers/client/onFmdGetData', () => {
   test('should supports collection request', () => {
     const myQueryId = 'myQueryId1';
-    const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const mySuccessProto = dataStub.getSuccessStatusProtobuf();
     const myFileInfo = dataStub.getFMDFileInfo({ type: globalConstants.FMDFILETYPE_COLLECTION });
     const myFileInfoProto = dataStub.getFMDFileInfoProtobuf(myFileInfo);
     const myCollection = dataStub.getCollection();
@@ -44,12 +42,10 @@ describe('controllers/client/onFmdGetData', () => {
       });
     });
 
-    onFmdGetData([myQueryIdProto, mySuccessProto, myFileInfoProto, myCollectionProto]);
+    onFmdGetData([{}, myFileInfoProto, myCollectionProto], myQueryId);
   });
   test('should supports collection document request', () => {
     const myQueryId = 'myQueryId2';
-    const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const mySuccessProto = dataStub.getSuccessStatusProtobuf();
     const myFileInfo = dataStub.getFMDFileInfo({
       type: globalConstants.FMDFILETYPE_COLLECTION_DOCUMENT,
     });
@@ -67,16 +63,13 @@ describe('controllers/client/onFmdGetData', () => {
     });
 
     onFmdGetData([
-      myQueryIdProto,
-      mySuccessProto,
+      {},
       myFileInfoProto,
       myCollectionDocumentProto,
-    ]);
+    ], myQueryId);
   });
   test('should supports document request', () => {
     const myQueryId = 'myQueryId3';
-    const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const mySuccessProto = dataStub.getSuccessStatusProtobuf();
     const myFileInfo = dataStub.getFMDFileInfo({
       type: globalConstants.FMDFILETYPE_DOCUMENT,
     });
@@ -94,16 +87,13 @@ describe('controllers/client/onFmdGetData', () => {
     });
 
     onFmdGetData([
-      myQueryIdProto,
-      mySuccessProto,
+      {},
       myFileInfoProto,
       myDocumentProto,
-    ]);
+    ], myQueryId);
   });
   test('should supports folder request', () => {
     const myQueryId = 'myQueryId4';
-    const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const mySuccessProto = dataStub.getSuccessStatusProtobuf();
     const myFileInfo = dataStub.getFMDFileInfo({
       type: globalConstants.FMDFILETYPE_FOLDER,
     });
@@ -121,24 +111,9 @@ describe('controllers/client/onFmdGetData', () => {
     });
 
     onFmdGetData([
-      myQueryIdProto,
-      mySuccessProto,
+      {},
       myFileInfoProto,
       myFolderProto,
-    ]);
-  });
-  test('should returns error if request failed', () => {
-    const myQueryId = 'myQueryId5';
-    const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const myErrorProto = dataStub.getErrorStatusProtobuf();
-    const myReason = 'myReason';
-    const myReasonProto = dataStub.getStringProtobuf(myReason);
-    set(myQueryId, (expected) => {
-      expect(expected).toMatchObject({
-        err: myReason,
-      });
-    });
-
-    onFmdGetData([myQueryIdProto, myErrorProto, myReasonProto]);
+    ], myQueryId);
   });
 });

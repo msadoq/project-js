@@ -10,13 +10,14 @@
 
 const stubs = require('../../utils/stubs');
 const constants = require('../../constants');
-stubs.loadStubs();
-const stubData = stubs.getStubData();
 const { encode, getType } = require('../../utils/adapters');
+
+// stubs.loadStubs();
+const stubData = stubs.getStubData();
 
 const MASTER_SESSION_ID = 42;
 
-const V1 = (queryId) => [
+const V1 = queryId => [
   null,
   stubData.getSessionMasterDataHeaderProtobuf(),
   stubData.getStringProtobuf(queryId),
@@ -33,11 +34,8 @@ const V2 = (queryId, rawBuffer) => [
 const versionDCMap = {
   [constants.DC_COM_V1]: V1,
   [constants.DC_COM_V2]: V2,
-}
+};
+
 module.exports = function sendMasterSession(queryId, rawBuffer, zmq, versionDCCom) {
-  console.log(versionDCMap[versionDCCom](queryId));
-  console.log(queryId);
-  console.log(stubData.test(queryId));
-  console.log(stubData.getSessionMasterDataHeaderProtobufADE.toString());
   zmq.push('stubData', versionDCMap[versionDCCom](queryId, rawBuffer));
 };

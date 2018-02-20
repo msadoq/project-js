@@ -1,6 +1,6 @@
 .container {
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
 
   .prevCurrent td, .prevCurrent th {
     border-bottom: none;

@@ -24,7 +24,7 @@ class HtmlSourceForm extends Component {
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
     closeCodeEditor: PropTypes.func.isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.string),
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
     viewType: PropTypes.string.isRequired,
   }
   static defaultProps = {
@@ -65,7 +65,7 @@ class HtmlSourceForm extends Component {
           name="html"
           className={styles.CodeMirrorField}
           component={CodeMirrorField}
-          autocompleteList={entryPoints}
+          autocompleteList={entryPoints.map(ep => ep.name)}
           type="test"
         />
         { viewType === 'MimicView_' &&

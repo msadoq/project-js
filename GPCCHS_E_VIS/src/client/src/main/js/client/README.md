@@ -28,6 +28,13 @@ Launch webpack server (in a separate terminal):
 Launch client with hot reload:
 > npm run start-hot
 
+Enable dev tools:
+> in main.development.js, disable the following line:
+```app.commandLine.appendSwitch('no-proxy-server');```
+> npm run start-hot 
+=> will download the devtool extensions, which are visible in VIMA on ctrl+shift+i
+> restore main.development.js
+
 ## Package and run bundled project
 
 See PACKAGE.md.

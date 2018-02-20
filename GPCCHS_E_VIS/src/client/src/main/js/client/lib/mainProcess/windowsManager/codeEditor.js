@@ -30,6 +30,7 @@ import { closeCodeEditor } from 'store/actions/editor';
 import { getStore } from '../store';
 import getCenteredPosition from './common/getCenteredPosition';
 import getHtmlPath from './getHtmlPath';
+import getDevToolsMenu from '../menuManager/devToolsMenu';
 
 const logger = getLogger('main:windowsManager:codeEditor');
 
@@ -54,7 +55,8 @@ export function open(callback) {
     height: DEFAULT_HEIGHT,
     show: false,
   });
-  win.setMenu(null);
+  win.setMenu(getDevToolsMenu());
+  win.setMenuBarVisibility(false);
 
   const htmlPath = getHtmlPath('code');
   logger.debug('opening', htmlPath);

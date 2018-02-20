@@ -23,7 +23,7 @@ export default class Source extends PureComponent {
     closeCodeEditor: PropTypes.func.isRequired,
     viewId: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.string),
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
     type: PropTypes.string.isRequired,
   };
   static defaultProps = {

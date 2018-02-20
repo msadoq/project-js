@@ -155,8 +155,8 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
       id: axis.id,
       extents:
         axis.autoLimits === true ?
-        [min, max]
-        :
+          [min, max]
+          :
         [
           min < axis.min ? min : axis.min,
           max > axis.max ? max : axis.max,
@@ -221,8 +221,8 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
       id: axis.id,
       extents:
         axis.autoLimits === true ?
-        [min, max]
-        :
+          [min, max]
+          :
         [
           min < axis.min ? min : axis.min,
           max > axis.max ? max : axis.max,
@@ -311,8 +311,8 @@ export const defaultAxisConfig = (axis, grid, min, max) => ({
           ? min
           : axis.min,
         max > axis.max
-            ? max
-            : axis.max,
+          ? max
+          : axis.max,
       ],
   orient: 'top',
   format: '.3f',
@@ -473,15 +473,7 @@ export class GrizzlyPlotView extends React.Component {
     });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    let shouldRender = false;
-    const attrs = ['data', 'entryPoints', 'visuWindow', 'configuration',
-      'containerWidth', 'containerHeight'];
-    for (let i = 0; i < attrs.length; i += 1) {
-      if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
-        shouldRender = true;
-      }
-    }
+  componentWillReceiveProps(nextProps) {
     if (
       nextProps.configuration.entryPoints !== this.props.configuration.entryPoints ||
       nextProps.configuration.axes !== this.props.configuration.axes ||
@@ -499,19 +491,26 @@ export class GrizzlyPlotView extends React.Component {
       this.xAxes = processedAxes.xAxes;
       this.yAxes = processedAxes.yAxes;
     }
-    if (shouldRender) {
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextProps.showLinks !== this.props.showLinks ||
+      nextState.showEpNames !== this.state.showEpNames ||
+      nextState.hideEpNames !== this.state.hideEpNames
+    ) {
       return true;
     }
-    if (nextProps.showLinks !== this.props.showLinks) {
-      return true;
+
+    const attrs = ['data', 'entryPoints', 'visuWindow', 'configuration',
+      'containerWidth', 'containerHeight'];
+    for (let i = 0; i < attrs.length; i += 1) {
+      if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
+        return true;
+      }
     }
-    if (nextState.showEpNames !== this.state.showEpNames) {
-      return true;
-    }
-    if (nextState.hideEpNames !== this.state.hideEpNames) {
-      return true;
-    }
-    return shouldRender;
+
+    return false;
   }
 
   onContextMenuLegend = (event, name) => {
@@ -873,7 +872,7 @@ export class GrizzlyPlotView extends React.Component {
         style={mainStyle}
       >
         { (legend.location === 'top' || legend.location === 'left') &&
-          legendComponent
+        legendComponent
         }
         <GrizzlyChart
           height={plotHeight}
@@ -926,7 +925,7 @@ export class GrizzlyPlotView extends React.Component {
           }
         />
         { (legend.location === 'bottom' || legend.location === 'right') &&
-          legendComponent
+        legendComponent
         }
         <LinksContainer
           show={showLinks}

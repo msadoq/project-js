@@ -33,10 +33,9 @@ const V2 = (queryId, sessionTime, rawBuffer) => [
 const versionDCMap = {
   [constants.DC_COM_V1]: V1,
   [constants.DC_COM_V2]: V2,
-}
+};
 
 module.exports = function sendSessionTime(queryId, rawBuffer, sessionId, zmq, versionDCCom) {
   const sessionTime = Date.now() + ((parseInt(sessionId, 10) + 1) * 1000);
-  
   zmq.push('stubData', versionDCMap[versionDCCom](queryId, sessionTime, rawBuffer));
 };

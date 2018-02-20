@@ -15,7 +15,7 @@ const constants = require('../../constants');
 
 const stubData = stubs.getStubData();
 
-const V1 = (queryId, oid, rawBuffer) => {
+const V1 = (queryId, oid) => {
   const buffer = [
     null,
     stubData.getFmdGetDataHeaderProtobuf(),
@@ -42,7 +42,7 @@ const V1 = (queryId, oid, rawBuffer) => {
   }
 
   return buffer;
-}
+};
 
 const V2 = (queryId, oid, rawBuffer) => {
   const buffer = [];
@@ -66,15 +66,14 @@ const V2 = (queryId, oid, rawBuffer) => {
   }
 
   return buffer;
-}
+};
 
 const versionDCMap = {
   [constants.DC_COM_V1]: V1,
   [constants.DC_COM_V2]: V2,
-}
+};
 
 module.exports = function sendFmdGet(queryId, rawBuffer, oid, zmq, versionDCCom) {
-  
   const buffer = versionDCMap[versionDCCom](queryId, oid, rawBuffer);
   zmq.push('stubData', buffer);
 };

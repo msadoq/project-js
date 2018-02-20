@@ -75,31 +75,11 @@ const pushError = (queryId = '', reason = '') => {
     stubData.getStringProtobuf(reason),
   ]);
 };
-
-const pushSuccessADE = (queryId) => {
-  zmq.push('stubData', [
-    null,
-    stubData.getResponseHeaderProtobufADE(queryId),
-    stubData.getSuccessStatusProtobuf(),
-  ]);
-};
-const pushErrorADE = (queryId = '', reason = '') => {
-  logger.error('STUB ERROR', reason);
-  zmq.push('stubData', [
-    null,
-    stubData.getResponseHeaderProtobuf(queryId),
-    stubData.getErrorStatusProtobuf(),
-    stubData.getStringProtobuf(reason),
-  ]);
-};
 // Message Controller
 const onHssMessage = (...args) => {
   logger.debug('onHssMessage');
-  // const header = adapter.decode('dc.dataControllerUtils.ADEHeader', args[0]);
   const header = adapter.decode('dc.dataControllerUtils.Header', args[0]);
   const queryId = adapter.decode('dc.dataControllerUtils.String', args[1]).string;
-  console.log("Queryid is ", queryId);
-  console.log('header is -----------------------', header);
   switch (header.messageType) {
     case constants.MESSAGETYPE_FMD_GET_QUERY: {
       logger.info('push fmd get data');
@@ -171,7 +151,14 @@ const onHssMessage = (...args) => {
       );
       const isLast = (queryArguments.getLastType === constants.GETLASTTYPE_GET_LAST);
       const queryKey = JSON.stringify({ dataId, queryArguments });
-      queries.push({ queryKey, queryId, dataId, timeInterval: interval, isLast, versionDCCom: versionDCComProtocol });
+      queries.push({
+        queryKey,
+        queryId,
+        dataId,
+        timeInterval: interval,
+        isLast,
+        versionDCCom: versionDCComProtocol,
+      });
       logger.silly('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);
     }
@@ -196,7 +183,7 @@ const onHssMessage = (...args) => {
         subscriptions[parameter] = {
           queryId,
           dataId,
-          versionDCCom: versionDCComProtocol
+          versionDCCom: versionDCComProtocol,
         };
         logger.debug('subscription added', parameter);
       }
@@ -229,9 +216,7 @@ const onHssMessage = (...args) => {
 
 const onHssMessageADE = (...args) => {
   logger.debug('onHssMessageADE');
-  const { method, requestId, isLast, isError } = adapter.decode('dc.dataControllerUtils.ADEHeader', args[0]);
-  console.log(method, requestId, isLast, isError);
-  const methodBuffer = args[1];
+  const { method, requestId } = adapter.decode('dc.dataControllerUtils.ADEHeader', args[0]);
   // const header = adapter.decode('dc.dataControllerUtils.Header', args[0]);
   // const queryId = adapter.decode('dc.dataControllerUtils.String', args[1]).string;
   const queryId = requestId;
@@ -293,30 +278,29 @@ const onHssMessageADE = (...args) => {
     }
 
     case constants.MESSAGETYPE_TIMEBASED_QUERY: {
-      const { 
+      const {
         sessionId,
         domainId,
         objectName,
         catalogName,
         itemName,
-        providerFlow,
         timeInterval,
         sortFieldName,
         sortOrder,
         getLastNumber,
-        filters
+        filters,
       } = protobuf.decode('dc.dataControllerUtils.ADETimebasedQuery', args[1]);
 
       // console.log('------------------------',timeInterval);
-    // optional string parameterName = 1;
-    // optional string oid = 2; // oid can't and isn't filled by GPCCHS.
-    // optional string sourceOid = 3;
-    // optional string catalog = 4;
-    // required string comObject = 5;
-    // required uint32 sessionId = 6; // should be uint16
-    // required uint32 domainId = 7;  // should be uint16
-    // optional string url = 8;       //for fds parameters
-    // optional string version = 9;   //for fds parameters
+      // optional string parameterName = 1;
+      // optional string oid = 2; // oid can't and isn't filled by GPCCHS.
+      // optional string sourceOid = 3;
+      // optional string catalog = 4;
+      // required string comObject = 5;
+      // required uint32 sessionId = 6; // should be uint16
+      // required uint32 domainId = 7;  // should be uint16
+      // optional string url = 8;       //for fds parameters
+      // optional string version = 9;   //for fds parameters
 
       // const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       // if (!isParameterSupported(dataId)) {
@@ -358,21 +342,28 @@ const onHssMessageADE = (...args) => {
         sortOrder,
         filters,
         getLastNumber,
+      };
 
-      }
       const isLast = (getLastNumber && getLastNumber === 1);
 
       const queryKey = JSON.stringify({ dataId, queryArguments });
-      queries.push({ queryKey, queryId, dataId, timeInterval, isLast, versionDCCom: versionDCComProtocol, rawBuffer: args[1] });
+      queries.push({
+        queryKey,
+        queryId,
+        dataId,
+        timeInterval,
+        isLast,
+        versionDCCom: versionDCComProtocol,
+        rawBuffer: args[1],
+      });
       logger.silly('query registered', dataId.parameterName, timeInterval);
       // return pushSuccessADE(queryId);
-      return console.log('test');
+      return logger.debug(`Send dc : ${constants.MESSAGETYPE_TIMEBASED_QUERY}`);
     }
 
     case constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
-      console.log('DECODED DECODED DECODED', args[1]);
       const decoded = protobuf.decode('dc.dataControllerUtils.ADETimebasedSubscription', args[1]);
-      
+
       const dataId = {
         sessionId: decoded.sessionId,
         domainId: decoded.domainId,
@@ -387,21 +378,16 @@ const onHssMessageADE = (...args) => {
           // TODO To improve : Special case, subscription for a whole com object
           parameter = 'Reporting.GENE_AM_CCSDSAPID<ReportingParameter>';
         } else {
-          return;
-          logger.warn('subscription of unsupported parameter sent to DC stub', dataId);
-          /*return pushErrorADE(
-            queryId,
-            `parameter ${dataId.parameterName} not yet supported by stub`
-          );*/
+          return logger.warn('subscription of unsupported parameter sent to DC stub', dataId);
         }
       }
-      
+
       if (decoded.action === constants.SUBSCRIPTIONACTION_ADD) {
         subscriptions[parameter] = {
           queryId,
           dataId,
           rawBuffer: args[1],
-          versionDCCom: versionDCComProtocol
+          versionDCCom: versionDCComProtocol,
         };
         logger.debug('subscription added', parameter);
       }
@@ -409,7 +395,7 @@ const onHssMessageADE = (...args) => {
         subscriptions = _omit(subscriptions, parameter);
         logger.debug('subscription removed', parameter);
       }
-      return console.log('test');
+      return logger.debug(`Dc sent: ${constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION}`);
     }
 
     case constants.MESSAGETYPE_ALARM_ACK: {
@@ -424,20 +410,18 @@ const onHssMessageADE = (...args) => {
       alarmAcks.push({ dataId, queryId, alarms });
       logger.silly('alarmAck registered', comObject, '(', alarms.length, ')'); */
 
-      // return pushSuccessADE(queryId);
+      return logger.silly('MESSAGETYPE ALARM ACK');
     }
 
     default:
-      // return pushErrorADE(queryId, `Unknown message type ${header.messageType}`);
+      return logger.error(queryId, `Unknown message type ${method}`);
   }
 };
 
 const onHssMessageVersion = {
   [constants.DC_COM_V1]: onHssMessage,
-  [constants.DC_COM_V2]: onHssMessageADE
-}
-
-
+  [constants.DC_COM_V2]: onHssMessageADE,
+};
 
 function dcCall() {
   logger.silly('dcCall call', Object.keys(subscriptions).length, queries.length);
@@ -446,14 +430,17 @@ function dcCall() {
 
   // pub/sub
   _each(subscriptions, (subscription) => {
-    // logger.debug(`push pub/sub data for ${subscription.dataId.parameterName}`);
-    // console.log('send pub sub data with', subscription.rawBuffer);
-    sendPubSubData(subscription.queryId, subscription.dataId, zmq,subscription.versionDCCom, subscription.rawBuffer );
+    logger.debug(`push pub/sub data for ${subscription.dataId.parameterName}`);
+    sendPubSubData(
+      subscription.queryId,
+      subscription.dataId, zmq,
+      subscription.versionDCCom,
+      subscription.rawBuffer
+    );
   });
 
   // queries
   _each(queries, (query) => {
-    // console.log('--------------*****************', query);
     logger.debug(`push archive data for ${query.dataId.parameterName}`);
     sendArchiveData(
       query.queryKey,

@@ -22,7 +22,7 @@ import {
 } from 'store/reducers/hsc';
 
 import { createFolder } from 'common/fs';
-import { dc } from '../ipc';
+import ipc from '../ipc';
 import validation from './validation';
 import { writeDocument } from './io';
 
@@ -97,7 +97,7 @@ const writeWorkspaceAs = (state, path, callback) => {
       if (err) {
         return callback(err);
       }
-      dc.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
+      ipc.dc.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
       return callback(null);
     });
   });

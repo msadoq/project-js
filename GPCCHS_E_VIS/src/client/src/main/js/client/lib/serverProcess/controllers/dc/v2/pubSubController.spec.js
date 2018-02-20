@@ -16,7 +16,6 @@ mockRegister();
 mockLoadStubs();
 
 const mockStore = configureMockStore();
-const { encode, decode } = require('../../../../utils/adapters');
 const makeOnPubSubData = require('./pubSubController');
 
 const onPubSubData = makeOnPubSubData(500);
@@ -27,8 +26,13 @@ describe('controllers/pubSub', () => {
   const getStore = () => store;
   const myDataId = dataStub.getDataId();
 
-  const myDataIdProto = encode('dc.dataControllerUtils.DataId', myDataId);
-  const myDataIdDecoded = decode('dc.dataControllerUtils.DataId', myDataIdProto);
+  const ADETimebasedSubscription = dataStub.getADETimebasedSubscriptionProtobuf({
+    objectName: myDataId.comObject,
+    catalogName: myDataId.catalog,
+    sessionId: myDataId.sessionId,
+    domainId: myDataId.domainId,
+    itemName: myDataId.parameterName,
+  });
 
   const t1 = 1420106790820;
   const t2 = 1420106790830;
@@ -42,10 +46,30 @@ describe('controllers/pubSub', () => {
   const protoRp1 = dataStub.getReportingParameterProtobuf(rp1);
   const protoRp2 = dataStub.getReportingParameterProtobuf(rp2);
 
+  const protoADEPayload1 = dataStub.getADEPayloadProtobuf({
+    payload: protoRp1,
+    providerId: 0,
+    comObjectType: myDataId.comObject,
+    instanceOid: 0,
+  });
+
+  const protoADEPayload2 = dataStub.getADEPayloadProtobuf({
+    payload: protoRp2,
+    providerId: 0,
+    comObjectType: myDataId.comObject,
+    instanceOid: 0,
+  });
+
   test('Received pubSub data', () => {
     store = mockStore({});
-    const args = [{}, myDataIdProto, timestamp1, protoRp1, timestamp2, protoRp2];
-    onPubSubData(args, getStore);
+    const buffers = [
+      ADETimebasedSubscription,
+      timestamp1,
+      protoADEPayload1,
+      timestamp2,
+      protoADEPayload2,
+    ];
+    onPubSubData({ buffers }, getStore);
 
     const actions = store.getActions();
     const expectedPayload = {
@@ -53,8 +77,8 @@ describe('controllers/pubSub', () => {
       payload: {
         data: {
           [flattenDataId(myDataId)]: {
-            dataId: myDataIdDecoded,
-            payloadBuffers: [timestamp1, protoRp1, timestamp2, protoRp2],
+            dataId: myDataId,
+            payloadBuffers: [timestamp1, protoADEPayload1, timestamp2, protoADEPayload2],
           },
         },
       },
@@ -64,8 +88,14 @@ describe('controllers/pubSub', () => {
 
   test('Received odd-numbered pubSub data', () => {
     store = mockStore({});
-    const args = [{}, myDataIdProto, timestamp1, protoRp1, timestamp2, protoRp2, timestamp1];
-    onPubSubData(args, getStore);
+    const buffers = [
+      ADETimebasedSubscription,
+      timestamp1,
+      protoADEPayload1,
+      timestamp2,
+      protoADEPayload2,
+    ];
+    onPubSubData({ buffers }, getStore);
 
     const actions = store.getActions();
     expect(actions).toEqual([]);

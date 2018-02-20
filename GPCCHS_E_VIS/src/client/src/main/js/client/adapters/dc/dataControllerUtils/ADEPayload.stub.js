@@ -9,7 +9,7 @@ const { getADEGenericPayload } = require('./ADEGenericPayload.stub');
 const getADEPayload = ({ payload, providerId, comObjectType, instanceOid }) => {  
   return {
     genericPayload: [
-      getADEGenericPayload(payload, providerId, comObjectType, instanceOid);,
+      getADEGenericPayload(payload, providerId, comObjectType, instanceOid),
     ]
   };
 };

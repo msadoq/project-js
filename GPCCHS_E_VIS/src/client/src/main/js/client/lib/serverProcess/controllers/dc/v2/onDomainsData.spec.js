@@ -28,12 +28,11 @@ const dataStub = getStubData();
 describe('controllers/utils/onDomainsData', () => {
   test('should returns domains data', () => {
     const myQueryId = 'myQueryId';
-    const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
     const myDomains = dataStub.getDomains();
     const myDomainsProto = dataStub.getDomainsProtobuf(myDomains);
     set(myQueryId, (error, expected) => {
       expect(expected).toMatchObject(myDomains.domains);
     });
-    onDomainsData([myQueryIdProto, myDomainsProto]);
+    onDomainsData([{}, myDomainsProto], myQueryId);
   });
 });

@@ -12,7 +12,7 @@ const stubData = stubs.getStubData();
 
 const constants = require('../../constants');
 
-const V1 = (queryId, rawBuffer) => [
+const V1 = queryId => [
   null,
   stubData.getSessionDataHeaderProtobuf(),
   stubData.getStringProtobuf(queryId),
@@ -29,7 +29,7 @@ const V2 = (queryId, rawBuffer) => [
 const versionDCMap = {
   [constants.DC_COM_V1]: V1,
   [constants.DC_COM_V2]: V2,
-}
+};
 
 module.exports = function sendSessionData(queryId, rawBuffer, zmq, versionDCCom) {
   zmq.push('stubData', versionDCMap[versionDCCom](queryId, rawBuffer));

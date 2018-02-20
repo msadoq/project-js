@@ -27,50 +27,43 @@ const { getStore } = require('../../../store');
  * @param reply function
  * @param args array
  */
-module.exports = (buffers, requestId, isLast, isError) => {
+module.exports = (buffers, requestId) => {
   logger.silly('called');
-
-  const requestCloneBuffer = buffers[0];
 
   const callback = pop(requestId);
 
   const blob = buffers[2];
 
   try {
-
-    if (isError) {
-      callback({ err: decode('dc.dataControllerUtils.FMDFileInfo', buffers[1]) });
-    } else {
-      const { type, serializedOid } = decode('dc.dataControllerUtils.FMDFileInfo', buffer);
-      let detail;
-      switch (type) {
-        case globalConstants.FMDFILETYPE_COLLECTION: {
-          detail = decode('isis.file.Collection', blob);
-          break;
-        }
-        case globalConstants.FMDFILETYPE_COLLECTION_DOCUMENT: {
-          detail = decode('isis.file.CollectionDocument', blob);
-          break;
-        }
-        case globalConstants.FMDFILETYPE_DOCUMENT: {
-          detail = decode('isis.file.Document', blob);
-          break;
-        }
-        case globalConstants.FMDFILETYPE_FOLDER: {
-          detail = decode('isis.file.Folder', blob);
-          break;
-        }
-        default:
-          callback({ err: `received unknown file type '${type}'` });
-          return;
+    const { type, serializedOid } = decode('dc.dataControllerUtils.FMDFileInfo', buffers[1]);
+    let detail;
+    switch (type) {
+      case globalConstants.FMDFILETYPE_COLLECTION: {
+        detail = decode('isis.file.Collection', blob);
+        break;
       }
-
-      callback({
-        type,
-        oId: serializedOid,
-        detail,
-      });
+      case globalConstants.FMDFILETYPE_COLLECTION_DOCUMENT: {
+        detail = decode('isis.file.CollectionDocument', blob);
+        break;
+      }
+      case globalConstants.FMDFILETYPE_DOCUMENT: {
+        detail = decode('isis.file.Document', blob);
+        break;
+      }
+      case globalConstants.FMDFILETYPE_FOLDER: {
+        detail = decode('isis.file.Folder', blob);
+        break;
+      }
+      default:
+        callback({ err: `received unknown file type '${type}'` });
+        return;
     }
+
+    callback({
+      type,
+      oId: serializedOid,
+      detail,
+    });
   } catch (e) {
     logger.error('error on processing buffer', e);
     getStore().dispatch(addMessage('global', 'warning',

@@ -41,20 +41,16 @@ const makeOnPubSubData = (timing) => {
     }
   };
 
-  return ({ buffers, requestId, isLast, isError }, getStore) => {
+  return ({ buffers, requestId }, getStore) => {
     // args[0] is queryIdBuffer
     // const requestCloneBuffer = buffers[0];
     try {
-      const { 
+      const {
         sessionId,
         domainId,
         objectName,
         catalogName,
         itemName,
-        providerFlow,
-        filters,
-        itemOid,
-        action,
       } = decode('dc.dataControllerUtils.ADETimebasedSubscription', buffers[0]);
 
       const dataId = {
@@ -64,7 +60,6 @@ const makeOnPubSubData = (timing) => {
         comObject: objectName,
         parameterName: itemName,
       };
-      
       const payloadBuffers = Array.prototype.slice.call(buffers, 1);
       // check payloads parity
       if (payloadBuffers.length % 2 !== 0) {
@@ -75,12 +70,9 @@ const makeOnPubSubData = (timing) => {
       // dispatch pubsub data
       throttledDispatch(getStore());
     } catch (e) {
-      logger.error(`error on processing buffer ${e}`);
       getStore().dispatch(addMessage('global', 'warning',
         'error on processing header buffer '.concat(e)));
-      return;
     }
-    
   };
 };
 

@@ -7,6 +7,7 @@
 // ====================================================================
 
 import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
+import { get as getConf } from 'common/configurationManager';
 import prepareRange from './prepareRange';
 import prepareRangeADE from './prepareRangeADE';
 import prepareLast from './prepareLast';
@@ -16,7 +17,6 @@ import preparePubSubADE from './preparePubSubADE';
 import injectData from './injectData';
 import pubSubMonitor from './pubSubMonitor';
 import constants from '../../../constants';
-import { get as getConf } from 'common/configurationManager';
 
 const versionDCComProtocol = getConf('VERSION_DC_COM_PROTOCOL');
 

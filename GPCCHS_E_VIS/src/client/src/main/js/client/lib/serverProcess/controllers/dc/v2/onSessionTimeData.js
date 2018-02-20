@@ -23,12 +23,11 @@ const { getStore } = require('../../../store');
  *
  * @param args array
  */
-module.exports = (buffers, requestId, isLast, isError) => {
+module.exports = (buffers, requestId) => {
   logger.silly('called');
 
-  const requestCloneBuffer = buffers[0];
   const buffer = buffers[1];
-  
+
   const callback = pop(requestId);
   try {
     callback({ timestamp: decode('dc.dataControllerUtils.Timestamp', buffer).ms });

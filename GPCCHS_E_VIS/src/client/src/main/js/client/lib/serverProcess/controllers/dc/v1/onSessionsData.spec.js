@@ -12,14 +12,14 @@
 // END-HISTORY
 // ====================================================================
 
-const { mockRegister, mockLoadStubs } = require('../../../common/jest');
-const { set } = require('../../../common/callbacks');
+const { mockRegister, mockLoadStubs } = require('../../../../common/jest');
+const { set } = require('../../../../common/callbacks');
 
 mockRegister();
 mockLoadStubs();
 
 const onSessionsData = require('./onSessionsData');
-const { getStubData } = require('../../../utils/stubs');
+const { getStubData } = require('../../../../utils/stubs');
 
 const dataStub = getStubData();
 describe('controllers/utils/onSessionData', () => {

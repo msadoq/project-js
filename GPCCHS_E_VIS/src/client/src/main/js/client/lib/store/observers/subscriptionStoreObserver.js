@@ -8,20 +8,22 @@
 // END-HISTORY
 // ====================================================================
 
-import _differenceWith from 'lodash/differenceWith';
-import _difference from 'lodash/difference';
-import _differenceBy from 'lodash/differenceBy';
-import _uniq from 'lodash/uniq';
-import _intersection from 'lodash/intersection';
-import _findIndex from 'lodash/findIndex';
+
+import _ from 'lodash/fp';
+
 import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
 import { dc } from 'serverProcess/ipc';
-import { getPerLastTbdIdMap } from 'dataManager/map';
-import getLogger from 'common/logManager';
-import { getTbdIdsAndDataIdList } from '../reducers/knownRanges';
+import { getPerLastTbdIdMap, getPerRangeTbdIdMap } from 'dataManager/map';
 
-const log = getLogger('server:storeObserver:subscription');
 const { requestSubscriptionAdd, requestSubscriptionDelete } = dc;
+
+/**
+ * Prevents argument capping in iteratee function
+ * @see https://github.com/lodash/lodash/issues/1781
+ */
+const __ = _.convert({
+  cap: false,
+});
 
 /**
  * Store observer that reacts on store updates to dispatch needed data.
@@ -29,138 +31,64 @@ const { requestSubscriptionAdd, requestSubscriptionDelete } = dc;
  * @return {function} The new state.
  */
 export default function makeSubscriptionStoreObserver(store) {
-  let previousKnownRanges;
-  let previousLastTbdId = {};
-  const subscriptionRange = [];
-  const subscriptionLast = [];
-  const compareRangeWithLast = (range, last) => range.tbdId === last;
-  const compareLastWithRange = (last, range) => last === range.tbdId;
+  const savedSubscriptions = {};
+
+  const subscriptionActions = {
+    add: (tbdId, dataId) => {
+      requestSubscriptionAdd(tbdId, dataId);
+      savedSubscriptions[tbdId] = dataId;
+    },
+    remove: (tbdId, dataId) => {
+      requestSubscriptionDelete(tbdId, dataId);
+      delete savedSubscriptions[tbdId];
+    },
+  };
+
+  /**
+   * Returns a difference between a `source` object and an `exclude` object according to their keys
+   *
+   * @param {object} source
+   * @param {object} exclude
+   * @return {object} a copy of `source` without the keys of `exclude`
+   */
+  function objDiff(source, exclude) {
+    return __.reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: source[key],
+      }), {}, __.difference(__.keys(source), __.keys(exclude)));
+  }
+
+  /**
+   * Sends subscription requests and update `savedSubscriptions` according to displayed tbdIds,
+   * _i.e_ the tbdIds that are present in the DataMap
+   *
+   * @param displayedTbdIds
+   */
+  function updateSubscriptions(displayedTbdIds) {
+    const subscriptionDiffs = {
+      remove: objDiff(savedSubscriptions, displayedTbdIds),
+      add: objDiff(displayedTbdIds, savedSubscriptions),
+    };
+
+    __.each((diff, actionKey) => {
+      __.each((tbdIdObj, tbdId) => {
+        subscriptionActions[actionKey](tbdId, tbdIdObj.dataId);
+      }, diff);
+    }, subscriptionDiffs);
+  }
 
   return function subscriptionStoreObserver() {
     const state = store.getState();
-    // skip is workspace is loading or no windows was already loaded
+
+    // do nothing if workspace is loading or no windows has already been loaded
     if (getIsWorkspaceOpening(state) === true && getWindowsOpened(state) === false) {
       return;
     }
-    // List of knowns ranges
-    const allKnownRanges = getTbdIdsAndDataIdList(state);
-    // List of last in views ( extract from dataMap )
-    const lastTbdId = getPerLastTbdIdMap(state);
 
-    // Get list of tbdIds in last data in views
-    const lastTbdIdKeys = Object.keys(lastTbdId);
-    const previousLastTbdIdKeys = Object.keys(previousLastTbdId);
-
-    // Find new tbdId in known ranges
-    const newRanges = _differenceBy(allKnownRanges, previousKnownRanges, 'tbdId');
-    // Find tbdId to remove in known Ranges
-    const removedRanges = _differenceBy(previousKnownRanges, allKnownRanges, 'tbdId');
-    // Find new last in dataMap
-    const newLast = _difference(lastTbdIdKeys, previousLastTbdIdKeys);
-    // Find last to remove in dataMap
-    const removedLast = _difference(previousLastTbdIdKeys, lastTbdIdKeys);
-
-    // Find the new data in knownRanges/last to subscribe :
-    // - (sub) if is in new Ranges and is not present in subscription last ( not registered twice )
-    // - (unsub) if is in new last and is not present in subscription range ( not registered twice )
-    const toSubscribeRange = _differenceWith(newRanges, subscriptionLast, compareRangeWithLast);
-    const toSubscribeLast = _differenceWith(newLast, subscriptionRange, compareLastWithRange);
-
-    // - (sub) If tbdId is in new range and is present in sub last => move subscription from last to range
-    const moveSubFromLastToRange = _intersection(newRanges, subscriptionLast);
-
-    // Find the data to removes in knownRanges/last :
-    // - (sub) If is in removedRange and is not present in sub last
-    // - (unsub) If is in removesLast and is not present in sub range
-    const toUnsubscribeRange = _differenceWith(
-      removedRanges,
-      subscriptionLast,
-      compareRangeWithLast
-    );
-    const toUnsubscribeLast = _differenceWith(removedLast, subscriptionRange, compareLastWithRange);
-
-    const moveSubFromRangeToLast = _intersection(removedRanges, subscriptionLast);
-
-    // DO the subscription/ unsubscprition
-    for (let i = 0; i < toSubscribeRange.length; i += 1) {
-      const { tbdId, dataId } = toSubscribeRange[i];
-      requestSubscriptionAdd(tbdId, dataId);
-      log.info(`Subscribe range ${tbdId}`);
-      subscriptionRange.push(tbdId);
-    }
-
-    for (let j = 0; j < toUnsubscribeRange.length; j += 1) {
-      const { tbdId, dataId } = toUnsubscribeRange[j];
-      requestSubscriptionDelete(tbdId, dataId);
-      log.info(`Unsubscribe range ${tbdId}`);
-      const index = _findIndex(subscriptionRange, tbdId);
-      subscriptionRange.splice(index, 1);
-    }
-
-    for (let k = 0; k < toSubscribeLast.length; k += 1) {
-      const tbdId = toSubscribeLast[k];
-      const { dataId } = lastTbdId[tbdId];
-      requestSubscriptionAdd(tbdId, dataId);
-      log.info(`Subscribe last ${tbdId}`);
-      subscriptionLast.push(tbdId);
-    }
-
-    for (let l = 0; l < toUnsubscribeLast.length; l += 1) {
-      const tbdId = toUnsubscribeLast[l];
-      const tbdIdObject = previousLastTbdId[tbdId];
-      const { dataId } = tbdIdObject;
-      requestSubscriptionDelete(tbdId, dataId);
-      log.info(`Unsubscribe last ${tbdId}`);
-      const index = _findIndex(subscriptionLast, tbdId);
-      subscriptionLast.splice(index, 1);
-    }
-
-    // Update previousMap
-    previousKnownRanges = allKnownRanges;
-    previousLastTbdId = lastTbdId;
-
-    // Move subscription from last to range
-    for (let i = 0; i < moveSubFromLastToRange.length; i += 1) {
-      const index = _findIndex(subscriptionLast, moveSubFromLastToRange[i]);
-      const toBeMoved = subscriptionLast[index];
-      subscriptionRange.push(toBeMoved);
-      subscriptionLast.splice(index, 1);
-    }
-
-    // Move subscription from range to last
-    for (let j = 0; j < moveSubFromRangeToLast.length; j += 1) {
-      const index = _findIndex(subscriptionRange, moveSubFromRangeToLast[j]);
-      const toBeMoved = subscriptionRange[index];
-      subscriptionLast.push(toBeMoved);
-      subscriptionRange.splice(index, 1);
-    }
+    updateSubscriptions({
+      ...getPerLastTbdIdMap(state),
+      ...getPerRangeTbdIdMap(state),
+    });
   };
 }
-
-/**
-   * Function that computes the difference of the first array and the second array, and also computes the intersection of the two arrays.
-   * @param {array} firstArray - The first array.
-   * @param {array} secondArray - The second array.
-   * @param {function} comparator - The comparator used to compare the two arrays.
-   * @return {function} The new state.
-   */
-export const differenceIntersection = (firstArray, secondArray, comparator) => {
-  const intersectionArray = [];
-  const differenceArray = [];
-  for (let i = 0; i < firstArray.length; i += 1) {
-    const elementToCompare = firstArray[i];
-    for (let j = 0; j < secondArray.length; j += 1) {
-      const elementCompared = secondArray[j];
-      const comparison = comparator(elementToCompare, elementCompared);
-      if (comparison) {
-        intersectionArray.push(elementToCompare);
-      } else {
-        differenceArray.push(elementToCompare);
-      }
-    }
-  }
-  return {
-    intersectionArray: _uniq(intersectionArray),
-    differenceArray: _uniq(differenceArray),
-  };
-};

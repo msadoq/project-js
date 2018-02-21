@@ -13,12 +13,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { UnControlled as CodeMirror } from 'react-codemirror2';
-// import CodeMirrorLib from 'codemirror';
+import CodeMirrorStatic from 'codemirror';
 import '!style!css!codemirror/theme/material.css';
 import '!style!css!codemirror/theme/neat.css';
 import 'codemirror/mode/xml/xml';
 import 'codemirror/mode/javascript/javascript';
-
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/html-hint';
@@ -30,7 +29,7 @@ import '!style!css!codemirror/addon/hint/show-hint.css';
 import { Alert } from 'react-bootstrap';
 // import { lint } from 'common/htmllint';
 import handleContextMenu from '../common/handleContextMenu';
-import './CodeMirrorField.css';
+import styles from './CodeMirrorField.css';
 
 export default class CodeMirrorField extends React.Component {
   static propTypes = {
@@ -81,7 +80,7 @@ export default class CodeMirrorField extends React.Component {
   }
 
   onContextMenuClick = (e) => {
-    const doc = this.codeMirror.getDoc();
+    const doc = this.codeMirrorInstance.getDoc();
     const cursor = doc.getCursor();
     const line = doc.getLine(cursor.line);
     const pos = {
@@ -108,7 +107,7 @@ export default class CodeMirrorField extends React.Component {
 
   editorDidMount = (editor) => {
     this.codeMirrorInstance = editor;
-    // CodeMirrorLib.registerHelper('lint', 'html', (text) => {
+    // CodeMirrorStatic.registerHelper('lint', 'html', (text) => {
     //   const found = [];
     //   const errors = lint(text);
     //   for (let i = 0; i < errors.length; i += 1) {
@@ -144,12 +143,10 @@ export default class CodeMirrorField extends React.Component {
     setTimeout(() => this.forceUpdate());
   };
   codeMirrorInstance;
-  codeMirror;
 
   autocomplete = (cm) => {
     const { autocompleteList } = this.props;
-    const codeMirror = this.codeMirrorInstance;
-    codeMirror.showHint(cm, cmd => ({
+    CodeMirrorStatic.showHint(cm, cmd => ({
       from: cmd.getCursor(), to: cmd.getCursor(), list: autocompleteList,
     }));
   };
@@ -192,6 +189,7 @@ export default class CodeMirrorField extends React.Component {
           options={codeMirrorOptions}
           editorDidMount={this.editorDidMount}
           onChange={this.handleOnChange}
+          className={styles['codemirror-container']}
         />
         {error && <Alert bsStyle="danger" className="m0">
           {error}

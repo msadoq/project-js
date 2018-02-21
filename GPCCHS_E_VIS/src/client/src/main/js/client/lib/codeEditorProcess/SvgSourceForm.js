@@ -33,7 +33,7 @@ import translateX from '../viewManager/MimicView/Components/Animation/translateX
 import translateY from '../viewManager/MimicView/Components/Animation/translateY';
 import transistor from '../viewManager/MimicView/Components/Collection/transistor';
 
-const { string, func, arrayOf, bool } = PropTypes;
+const { string, func, arrayOf, bool, object } = PropTypes;
 
 class SvgSourceForm extends PureComponent {
   static propTypes = {
@@ -43,7 +43,7 @@ class SvgSourceForm extends PureComponent {
     submitting: bool.isRequired,
     valid: bool.isRequired,
     closeCodeEditor: func.isRequired,
-    entryPoints: arrayOf(string),
+    entryPoints: arrayOf(object),
     viewType: string.isRequired,
   };
   static defaultProps = {
@@ -91,7 +91,7 @@ class SvgSourceForm extends PureComponent {
           name="html"
           className={styles.CodeMirrorField}
           component={CodeMirrorField}
-          autocompleteList={entryPoints}
+          autocompleteList={entryPoints.map(e => e.name)}
           collection={getMainContextMenu(entryPoints)}
           cmOptions={options}
         />
@@ -99,7 +99,6 @@ class SvgSourceForm extends PureComponent {
           <ButtonGroup>
             <Button
               type="button"
-              disabled={pristine || submitting}
               onClick={this.resetAndClose}
               className={styles.footerButton}
             >

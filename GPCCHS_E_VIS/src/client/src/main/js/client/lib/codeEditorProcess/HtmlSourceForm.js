@@ -82,7 +82,6 @@ class HtmlSourceForm extends Component {
           <ButtonGroup>
             <Button
               type="button"
-              disabled={pristine || submitting}
               onClick={this.resetAndClose}
               className={styles.footerButton}
             >

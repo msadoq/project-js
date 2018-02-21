@@ -4,6 +4,7 @@
   "titleStyle": {
     "align": "left",
     "bold": false,
+    "color": "#000",
     "font": "Arial",
     "italic": false,
     "size": 12,
@@ -139,11 +140,10 @@
         "filter": [],
         "format": "decimal",
         "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
-        "provider": "",
         "stringParameter": false,
         "timeline": "Session 1",
         "unit": "V",
-        "provider": ""
+        "provider": "*"
       },
       "connectedDataParametric": {
         "domainX": "",
@@ -185,7 +185,7 @@
         "axisId": "VBat",
         "stringParameter": false,
         "defaultY": 1,
-        "provider": "",
+        "provider": "*",
         "convertFrom": "",
         "convertTo": ""
       },

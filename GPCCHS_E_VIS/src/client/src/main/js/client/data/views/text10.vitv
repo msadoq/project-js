@@ -4,6 +4,7 @@
   "titleStyle": {
     "align": "left",
     "bold": false,
+    "color": "#000",
     "font": "Arial",
     "italic": false,
     "size": 12,
@@ -33,9 +34,11 @@
         "formula": "Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
         "unit": "V",
-        "provider": ""
+        "provider": "*"
       },
-      "name": "AGA_AM_ACQPRIORITY"
+      "customColors": [],
+      "name": "AGA_AM_ACQPRIORITY",
+      "stateColors": []
     },
     {
       "name": "AGA_AM_CCSDSAPID",
@@ -49,7 +52,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": ""
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -65,7 +68,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": ""
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -81,7 +84,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": ""
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -97,7 +100,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": ""
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -113,7 +116,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": ""
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -129,7 +132,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": ""
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -145,8 +148,9 @@
         "unit": "V",
         "convertFrom": "",
         "convertTo": "",
-        "provider": ""
-      }
+        "provider": "*"
+      },
+      "stateColors": []
     },
     {
       "name": "AGA_AM_FID",
@@ -160,7 +164,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": ""
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -176,7 +180,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": ""
+        "provider": "*"
       },
       "stateColors": []
     }

@@ -8,7 +8,8 @@
     "italic": false,
     "underline": true,
     "strikeOut": false,
-    "align": "center"
+    "align": "center",
+    "color": "#000"
   },
   "links": [
     {
@@ -31,11 +32,10 @@
         "convertFrom": "",
         "convertTo": "",
         "digits": 5,
-        "domain": "fr.cnes.isis",
+        "domain": "fr.cnes.isis.simupus",
         "filter": [],
         "format": "decimal",
         "formula": "Reporting.AGA_AM_PRIORITY<ReportingParameter>.extractedValue",
-        "provider": "",
         "timeline": "Session 1",
         "unit": "V"
       },
@@ -102,8 +102,7 @@
         "format": "decimal",
         "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
         "timeline": "Session 1",
-        "unit": "V",
-        "provider": ""
+        "unit": "V"
       },
       "stateColors": [
         {
@@ -152,6 +151,68 @@
             "field": "monitoringState",
             "operand": "warning",
             "operator": "="
+          }
+        }
+      ]
+    },
+    {
+      "name": "TMMGT_AC_APP",
+      "connectedData": {
+        "formula": "",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "*",
+        "timeline": "*"
+      },
+      "stateColors": [
+        {
+          "color": "darkorange",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "alarm"
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "critical"
+          }
+        },
+        {
+          "color": "darkred",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "outOfRange"
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "severe"
+          }
+        },
+        {
+          "color": "#FF0000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "danger"
+          }
+        },
+        {
+          "color": "#FFFF00",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "warning"
           }
         }
       ]

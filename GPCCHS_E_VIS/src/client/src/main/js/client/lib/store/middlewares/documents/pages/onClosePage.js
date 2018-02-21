@@ -52,6 +52,7 @@ const makeOnClosePage = () => withListenAction(
           ],
         }));
         listenAction(types.WS_MODAL_CLOSE, (closeAction) => {
+          // if choice is 'close' it means that the user clicks on the modal button 'close without saving'
           if (closeAction.payload.choice === 'close') {
             dispatch(closePage(pageId));
           }

@@ -16,7 +16,7 @@
 // ====================================================================
 
 const { decode } = require('../../../../utils/adapters');
-const logger = require('../../../../common/logManager')('controllers:onSessionData');
+const logger = require('../../../../common/logManager')('controllers:onSessionDataADE');
 const { pop } = require('../../../../common/callbacks');
 const { add: addMessage } = require('../../../../store/actions/messages');
 const { getStore } = require('../../../store');

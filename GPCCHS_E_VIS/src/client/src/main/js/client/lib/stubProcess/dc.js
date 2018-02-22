@@ -26,7 +26,6 @@ const parameters = require('../common/configurationManager');
 parameters.init(resolve(__dirname, '../..'));
 adapter.registerGlobal();
 stubs.loadStubs();
-
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
 
@@ -47,6 +46,7 @@ const sendFmdGet = require('./utils/sendFmdGet');
 const sendFmdCreate = require('./utils/sendFmdCreate');
 const sendSessionTime = require('./utils/sendSessionTime');
 const sendMasterSession = require('./utils/sendMasterSession');
+const sendSDBData = require('./utils/sendSDBData');
 
 process.title = 'gpcchs_dc_stub';
 
@@ -219,9 +219,10 @@ const onHssMessageADE = (...args) => {
   const { method, requestId } = adapter.decode('dc.dataControllerUtils.ADEHeader', args[0]);
   // const header = adapter.decode('dc.dataControllerUtils.Header', args[0]);
   // const queryId = adapter.decode('dc.dataControllerUtils.String', args[1]).string;
+  logger.info(method);
   const queryId = requestId;
   switch (method) {
-    case constants.MESSAGETYPE_FMD_GET_QUERY: {
+    case constants.ADE_FMD_GET: {
       logger.info('push fmd get data');
       return sendFmdGet(
         queryId,
@@ -232,7 +233,7 @@ const onHssMessageADE = (...args) => {
       );
     }
 
-    case constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY: {
+    case constants.ADE_FMD_CREATE_DOCUMENT: {
       logger.info('handle create document');
       return sendFmdCreate(
         queryId,
@@ -243,14 +244,14 @@ const onHssMessageADE = (...args) => {
       );
     }
 
-    case constants.MESSAGETYPE_LOG_SEND: {
+    case constants.ADE_LOG: {
       logger.info('handle log');
       const { uid, arguments: a } = adapter.decode('dc.dataControllerUtils.SendLog', args[2]);
       // eslint-disable-next-line no-console, "DV6 TBC_CNES Stub file, output on console"
       return console.log(`DC EMULATE LOG MANAGER: ${uid}`, a);
     }
 
-    case constants.MESSAGETYPE_SESSION_TIME_QUERY: {
+    case constants.ADE_SESSION_TIME: {
       logger.info('push session time');
       return sendSessionTime(
         queryId,
@@ -261,23 +262,23 @@ const onHssMessageADE = (...args) => {
       );
     }
 
-    case constants.MESSAGETYPE_SESSION_MASTER_QUERY: {
+    case constants.ADE_SESSION_MASTER: {
       logger.info('push master session');
       logger.info('queryId', queryId);
       return sendMasterSession(queryId, args[1], zmq, versionDCComProtocol);
     }
 
-    case constants.MESSAGETYPE_DOMAIN_QUERY: {
+    case constants.ADE_DOMAIN_QUERY: {
       logger.info('push domains data');
       return sendDomainData(queryId, args[1], zmq, versionDCComProtocol);
     }
 
-    case constants.MESSAGETYPE_SESSION_QUERY: {
+    case constants.ADE_SESSION: {
       logger.info('push sessions data');
       return sendSessionData(queryId, args[1], zmq, versionDCComProtocol);
     }
 
-    case constants.MESSAGETYPE_TIMEBASED_QUERY: {
+    case constants.ADE_TIMEBASED_QUERY: {
       const {
         sessionId,
         domainId,
@@ -290,26 +291,6 @@ const onHssMessageADE = (...args) => {
         getLastNumber,
         filters,
       } = protobuf.decode('dc.dataControllerUtils.ADETimebasedQuery', args[1]);
-
-      // console.log('------------------------',timeInterval);
-      // optional string parameterName = 1;
-      // optional string oid = 2; // oid can't and isn't filled by GPCCHS.
-      // optional string sourceOid = 3;
-      // optional string catalog = 4;
-      // required string comObject = 5;
-      // required uint32 sessionId = 6; // should be uint16
-      // required uint32 domainId = 7;  // should be uint16
-      // optional string url = 8;       //for fds parameters
-      // optional string version = 9;   //for fds parameters
-
-      // const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
-      // if (!isParameterSupported(dataId)) {
-      //   logger.warn('query of unsupported parameter sent to DC stub', dataId);
-      //   return pushErrorADE(
-      //     queryId,
-      //     `parameter ${dataId.parameterName} not yet supported by stub`
-      //   );
-      // }
 
       const dataId = {
         sessionId,
@@ -361,7 +342,7 @@ const onHssMessageADE = (...args) => {
       return logger.debug(`Send dc : ${constants.MESSAGETYPE_TIMEBASED_QUERY}`);
     }
 
-    case constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
+    case constants.ADE_TIMEBASED_SUBSCRIPTION: {
       const decoded = protobuf.decode('dc.dataControllerUtils.ADETimebasedSubscription', args[1]);
 
       const dataId = {
@@ -398,7 +379,7 @@ const onHssMessageADE = (...args) => {
       return logger.debug(`Dc sent: ${constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION}`);
     }
 
-    case constants.MESSAGETYPE_ALARM_ACK: {
+    case constants.ADE_ALARM_ACK: {
       /* const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       const comObject = dataId.comObject;
       const alarms = args.slice(3).map(rawAlarm => (
@@ -411,6 +392,12 @@ const onHssMessageADE = (...args) => {
       logger.silly('alarmAck registered', comObject, '(', alarms.length, ')'); */
 
       return logger.silly('MESSAGETYPE ALARM ACK');
+    }
+
+    case constants.ADE_SDB_QUERY: {
+      const decoded = protobuf.decode('dc.dataControllerUtils.ADESDBQuery', args[1]);
+      logger.info(decoded);
+      return sendSDBData(queryId, args[1], zmq, decoded);
     }
 
     default:

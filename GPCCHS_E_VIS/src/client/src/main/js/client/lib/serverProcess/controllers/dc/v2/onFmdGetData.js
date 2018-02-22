@@ -13,7 +13,7 @@
 // ====================================================================
 
 const { decode } = require('../../../../utils/adapters');
-const logger = require('../../../../common/logManager')('controllers:onFmdGetData');
+const logger = require('../../../../common/logManager')('controllers:onFmdGetDataADE');
 const globalConstants = require('../../../../constants');
 const { pop } = require('../../../../common/callbacks');
 const { add: addMessage } = require('../../../../store/actions/messages');

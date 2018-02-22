@@ -11,7 +11,7 @@
 // ====================================================================
 
 const { decode } = require('../../../../utils/adapters');
-const logger = require('../../../../common/logManager')('controllers:onDomainData');
+const logger = require('../../../../common/logManager')('controllers:onDomainDataADE');
 const { pop } = require('../../../../common/callbacks');
 const { add: addMessage } = require('../../../../store/actions/messages');
 const { getStore } = require('../../../store');

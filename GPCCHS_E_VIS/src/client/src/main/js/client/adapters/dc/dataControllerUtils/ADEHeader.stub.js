@@ -9,162 +9,155 @@ const Adapter = require('./ADEHeader');
 
 const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/ADEHeader.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.ADEHeader');
 
-const MESSAGETYPE_DOMAIN_QUERY = 0;
-const MESSAGETYPE_TIMEBASED_QUERY = 1;
-const MESSAGETYPE_TIMEBASED_SUBSCRIPTION = 2;
-const MESSAGETYPE_RESPONSE = 3;
-const MESSAGETYPE_DOMAIN_DATA = 4;
-const MESSAGETYPE_TIMEBASED_ARCHIVE_DATA = 5;
-const MESSAGETYPE_TIMEBASED_PUBSUB_DATA = 6;
-const MESSAGETYPE_SESSION_QUERY = 7;
-const MESSAGETYPE_SESSION_DATA = 8;
-const MESSAGETYPE_SESSION_TIME_QUERY = 9;
-const MESSAGETYPE_SESSION_TIME_DATA = 10;
-const MESSAGETYPE_LOG_SEND = 12;
-const MESSAGETYPE_FMD_GET_QUERY = 13;
-const MESSAGETYPE_FMD_GET_DATA = 14;
-const MESSAGETYPE_FMD_CREATE_QUERY = 15;
-const MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY = 16;
-const MESSAGETYPE_FMD_CREATE_DATA = 17;
-const MESSAGETYPE_SESSION_MASTER_QUERY = 18;
-const MESSAGETYPE_SESSION_MASTER_DATA = 19;
-const MESSAGETYPE_DC_STATUS_QUERY = 20;
-const MESSAGETYPE_DC_STATUS_DATA = 21;
-const MESSAGETYPE_ALARM_ACK = 26;
+const ADE_DOMAIN_QUERY = 0;
+const ADE_TIMEBASED_QUERY = 1;
+const ADE_TIMEBASED_SUBSCRIPTION = 2;
+const ADE_SESSION = 3;
+const ADE_SESSION_TIME = 4;
+const ADE_LOG = 5;
+const ADE_FMD_GET = 6;
+const ADE_FMD_CREATE = 7;
+const ADE_FMD_CREATE_DOCUMENT = 8;
+const ADE_SESSION_MASTER = 9;
+const ADE_DC_STATUS = 10;
+const ADE_TIMEOUT = 11;
+const ADE_SESSION_UPDATE = 12;
+const ADE_ALARM_ACK = 13;
+const ADE_ALARM_ACK_DATA = 14;
+const ADE_SDB_QUERY = 15;
 
 const getDcAlarmAckHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_ALARM_ACK,
+  method: ADE_ALARM_ACK,
   isLast,
   isError,
 });
 const getDcStatusQueryHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_DC_STATUS_QUERY,
+  method: ADE_DC_STATUS,
   isLast,
   isError,
 });
 const getDcStatusHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_DC_STATUS_DATA,
+  method: ADE_DC_STATUS,
   isLast,
   isError,
 });
 const getDomainQueryHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_DOMAIN_QUERY,
+  method: ADE_DOMAIN_QUERY,
   isLast,
   isError,
 });
 const getTimebasedQueryHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_TIMEBASED_QUERY,
+  method: ADE_TIMEBASED_QUERY,
   isLast,
   isError,
 });
 const getTimebasedSubscriptionHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
-  isLast,
-  isError,
-});
-const getResponseHeaderADE = (requestId, isLast, isError) => ({
-  requestId,
-  method: MESSAGETYPE_RESPONSE,
+  method: ADE_TIMEBASED_SUBSCRIPTION,
   isLast,
   isError,
 });
 const getDomainDataHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_DOMAIN_DATA,
+  method: ADE_DOMAIN_QUERY,
   isLast,
   isError,
 });
 const getTimebasedArchiveDataHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_TIMEBASED_ARCHIVE_DATA,
+  method: ADE_TIMEBASED_QUERY,
   isLast,
   isError,
 });
 const getTimebasedPubSubDataHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
+  method: ADE_TIMEBASED_SUBSCRIPTION,
   isLast,
   isError,
 });
 const getSessionQueryHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_SESSION_QUERY,
+  method: ADE_SESSION,
   isLast,
   isError,
 });
 const getSessionDataHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_SESSION_DATA,
+  method: ADE_SESSION,
   isLast,
   isError,
 });
 const getSessionTimeQueryHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_SESSION_TIME_QUERY,
+  method: ADE_SESSION_TIME,
   isLast,
   isError,
 });
 const getSessionTimeDataHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_SESSION_TIME_DATA,
+  method: ADE_SESSION_TIME,
   isLast,
   isError,
 });
 const getLogSendHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_LOG_SEND,
+  method: ADE_LOG,
   isLast,
   isError,
 });
 const getFmdGetQueryHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_FMD_GET_QUERY,
+  method: ADE_FMD_GET,
   isLast,
   isError,
 });
 const getFmdGetDataHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_FMD_GET_DATA,
+  method: ADE_FMD_GET,
   isLast,
   isError,
 });
 const getFmdCreateQueryHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_FMD_CREATE_QUERY,
+  method: ADE_FMD_CREATE,
   isLast,
   isError,
 });
 const getFmdCreateDocumentQueryHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY,
+  method: ADE_FMD_CREATE_DOCUMENT,
   isLast,
   isError,
 });
 const getFmdCreateDataHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_FMD_CREATE_DATA,
+  method: ADE_FMD_CREATE_DOCUMENT,
   isLast,
   isError,
 });
 const getSessionMasterQueryHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_SESSION_MASTER_QUERY,
+  method: ADE_SESSION_MASTER,
   isLast,
   isError,
 });
 const getSessionMasterDataHeaderADE = (requestId, isLast, isError) => ({
   requestId,
-  method: MESSAGETYPE_SESSION_MASTER_DATA,
+  method: ADE_SESSION_MASTER,
   isLast,
   isError,
 });
-
+const getSDBQueryHeaderADE = (requestId, isLast, isError) => ({
+  requestId,
+  method: ADE_SDB_QUERY,
+  isLast,
+  isError,
+});
 /* eslint-disable max-len, "Long lines are more readable here" */
 const getDcAlarmAckHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getDcAlarmAckHeaderADE(requestId, isLast, isError))).finish();
 const getDcStatusQueryHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getDcStatusQueryHeaderADE(requestId, isLast, isError))).finish();
@@ -172,7 +165,6 @@ const getDcStatusHeaderProtobufADE = (requestId, isLast, isError) => Builder.enc
 const getDomainQueryHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getDomainQueryHeaderADE(requestId, isLast, isError))).finish();
 const getTimebasedQueryHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getTimebasedQueryHeaderADE(requestId, isLast, isError))).finish();
 const getTimebasedSubscriptionHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getTimebasedSubscriptionHeaderADE(requestId, isLast, isError))).finish();
-const getResponseHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getResponseHeaderADE(requestId, isLast, isError))).finish();
 const getDomainDataHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getDomainDataHeaderADE(requestId, isLast, isError))).finish();
 const getTimebasedArchiveDataHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getTimebasedArchiveDataHeaderADE(requestId, isLast, isError))).finish();
 const getTimebasedPubSubDataHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getTimebasedPubSubDataHeaderADE(requestId, isLast, isError))).finish();
@@ -188,10 +180,7 @@ const getFmdCreateDocumentQueryHeaderProtobufADE = (requestId, isLast, isError) 
 const getFmdCreateDataHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getFmdCreateDataHeaderADE(requestId, isLast, isError))).finish();
 const getSessionMasterQueryHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getSessionMasterQueryHeaderADE(requestId, isLast, isError))).finish();
 const getSessionMasterDataHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getSessionMasterDataHeaderADE(requestId, isLast, isError))).finish();
-
-const test = (requestId) => {
-  return Adapter.encode(getSessionMasterDataHeaderADE(requestId));
-}
+const getSDBQueryHeaderProtobufADE = (requestId, isLast, isError) => Builder.encode(Adapter.encode(getSDBQueryHeaderADE(requestId, isLast, isError))).finish();
 
 module.exports = {
   getDcStatusQueryHeaderADE,
@@ -204,8 +193,6 @@ module.exports = {
   getTimebasedQueryHeaderProtobufADE,
   getTimebasedSubscriptionHeaderADE,
   getTimebasedSubscriptionHeaderProtobufADE,
-  getResponseHeaderADE,
-  getResponseHeaderProtobufADE,
   getDomainDataHeaderADE,
   getDomainDataHeaderProtobufADE,
   getTimebasedArchiveDataHeaderADE,
@@ -237,5 +224,5 @@ module.exports = {
   getSessionMasterDataHeaderADE,
   getSessionMasterDataHeaderProtobufADE,
   getDcAlarmAckHeaderProtobufADE,
-  test
+  getSDBQueryHeaderProtobufADE,
 };

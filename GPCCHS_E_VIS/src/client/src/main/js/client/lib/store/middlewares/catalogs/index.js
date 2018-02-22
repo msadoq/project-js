@@ -9,26 +9,39 @@ import {
   addCatalogItems,
   addComObjects,
 } from 'store/actions/catalogs';
+import { dc } from '../../../serverProcess/ipc';
 
 const asyncCatalogFetcher = (sessionId, domainId, cb) => {
-  setTimeout(
+  dc.retrieveSDBCatalogs({ sessionId, domainId }, cb);
+  /* dc.retrieveSDBCatalogs({ sessionId, domainId }, (decoded) => {
+    console.log('retrieveSDBCatalogs', decoded);
+  }); */
+  /* setTimeout(
     () => { cb([{ name: 'TelemetryPacket' }]); },
     1000
-  );
+  ); */
 };
 
-const asyncCatalogItemFetcher = (sessionId, domainId, catalogName, cb) => (
-  setTimeout(
+const asyncCatalogItemFetcher = (sessionId, domainId, catalogName, cb) => {
+  dc.retrieveSDBCatalogsItems({ sessionId, domainId, catalogName }, cb);
+  /* dc.retrieveSDBCatalogsItems({ sessionId, domainId, catalogName }, (decoded) => {
+    console.log('retrieveSDBCatalogsItems', decoded);
+  }); */
+  /* setTimeout(
     () => { cb([{ name: 'CLCW_TM_NOMINAL' }]); },
     1000
-  )
-);
+  ) */
+};
 
-const asyncComObjectsFetcher = (sessionId, domainId, catalogName, CatalogItemName, cb) => {
-  setTimeout(
+const asyncComObjectsFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) => {
+  dc.retrieveSDBCatalogsItemComObject({ sessionId, domainId, catalogName, catalogItemName }, cb);
+  /* dc.retrieveSDBCatalogsItemComObject({ sessionId, domainId, catalogName, catalogItemName }, (decoded) => {
+    console.log('retrieveSDBCatalogsItemComObject', decoded);
+  }); */
+  /* setTimeout(
     () => { cb([{ name: 'DecommutedPacket' }]); },
     1000
-  );
+  ); */
 };
 
 const catalogMiddleware = ({ dispatch }) => next => (action) => {

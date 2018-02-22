@@ -12,7 +12,7 @@
 // ====================================================================
 
 const { decode } = require('../../../../utils/adapters');
-const logger = require('../../../../common/logManager')('controllers:onFmdCreateData');
+const logger = require('../../../../common/logManager')('controllers:onFmdCreateDataADE');
 
 const { pop } = require('../../../../common/callbacks');
 const { add: addMessage } = require('../../../../store/actions/messages');
@@ -34,7 +34,7 @@ module.exports = (buffers, requestId) => {
   try {
     callback(decode('dc.dataControllerUtils.FMDFileInfo', buffers[1]));
   } catch (e) {
-    logger.error('error on processing buffer', e);
+    logger.error(`error on processing buffer ${e}`);
     getStore().dispatch(addMessage('global', 'warning',
       'error on processing header buffer '.concat(e)));
     callback({ err: e });

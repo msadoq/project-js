@@ -8,7 +8,7 @@
 // ====================================================================
 
 const executionMonitor = require('../../../../common/logManager/execution');
-const logger = require('../../../../common/logManager')('controllers:onTimebasedArchiveData');
+const logger = require('../../../../common/logManager')('controllers:onTimebasedArchiveDataADE');
 const { incomingRange, incomingLast } = require('../../../../store/actions/incomingData');
 
 

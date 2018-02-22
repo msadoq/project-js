@@ -191,32 +191,32 @@ const dcVersionMap = {
       ].concat(trames));
     },
     requestMasterSession: (callback) => {
-      commands.dc.rpc(constants.MESSAGETYPE_SESSION_MASTER_QUERY, undefined, callback);
+      commands.dc.rpc(constants.ADE_SESSION_MASTER, undefined, callback);
     },
     requestSessionTime: (sessionId, callback) => { // unused, TO DELETE ?
-      commands.dc.rpc(constants.MESSAGETYPE_SESSION_TIME_QUERY, [
+      commands.dc.rpc(constants.ADE_SESSION_TIME, [
         encode('dc.dataControllerUtils.SessionGetTime', { id: sessionId }),
       ], callback);
     },
     requestSessions: (callback) => {
-      commands.dc.rpc(constants.MESSAGETYPE_SESSION_QUERY, undefined, callback);
+      commands.dc.rpc(constants.ADE_SESSION, undefined, callback);
     },
     requestDomains: (callback) => {
-      commands.dc.rpc(constants.MESSAGETYPE_DOMAIN_QUERY, undefined, callback);
+      commands.dc.rpc(constants.ADE_DOMAIN_QUERY, undefined, callback);
     },
     sendProductLog: (uid, args) => {
-      commands.dc.message(constants.MESSAGETYPE_LOG_SEND, [
+      commands.dc.message(constants.ADE_LOG, [
         encode('dc.dataControllerUtils.String', { string: _uniqueId('log_') }),
         encode('dc.dataControllerUtils.SendLog', { uid, arguments: args }),
       ]);
     },
     requestFmdGet: (oid, callback) => {
-      commands.dc.rpc(constants.MESSAGETYPE_FMD_GET_QUERY, [
+      commands.dc.rpc(constants.ADE_FMD_GET, [
         encode('dc.dataControllerUtils.FMDGet', { serializedOid: oid }),
       ], callback);
     },
     requestFmdCreate: (name, path, mimeType, callback) => {
-      commands.dc.rpc(constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY, [
+      commands.dc.rpc(constants.ADE_FMD_CREATE_DOCUMENT, [
         encode('dc.dataControllerUtils.FMDCreateDocument', { name, path, mimeType }),
       ], callback);
     },
@@ -234,7 +234,7 @@ const dcVersionMap = {
     },
     requestTimebasedQuery: (flatDataId, dataId, interval /* , args */) => (
       commands.dc.rpc(
-      constants.MESSAGETYPE_TIMEBASED_QUERY,
+      constants.ADE_TIMEBASED_QUERY,
         [
           encode('dc.dataControllerUtils.ADETimebasedQuery', {
             sessionId: dataId.sessionId,
@@ -258,7 +258,7 @@ const dcVersionMap = {
       )
     ),
     requestSubscriptionAdd: (flatDataId, dataId) => (
-      commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
+      commands.dc.rpc(constants.ADE_TIMEBASED_SUBSCRIPTION, [
         encode('dc.dataControllerUtils.ADETimebasedSubscription', {
           sessionId: dataId.sessionId,
           domainId: dataId.domainId,
@@ -271,7 +271,7 @@ const dcVersionMap = {
       ], err => (onDcResponseCallback(err, flatDataId)))
     ),
     requestSubscriptionDelete: (flatDataId, dataId) => (
-      commands.dc.rpc(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION, [
+      commands.dc.rpc(constants.ADE_TIMEBASED_SUBSCRIPTION, [
         encode('dc.dataControllerUtils.ADETimebasedSubscription', {
           sessionId: dataId.sessionId,
           domainId: dataId.domainId,
@@ -282,6 +282,66 @@ const dcVersionMap = {
           providerFlow: 'myProviderFLow',
         }),
       ], err => (onDcResponseCallback(err, flatDataId)))
+    ),
+    /* enum  METHOD
+    {
+        RETRIEVE_CATALOGS                = 0;
+        RETRIEVE_CATALOG_ITEMS           = 1;
+        RETRIEVE_CATALOG_ITEM_COMOBJECT  = 2;
+        RETRIEVE_CATALOG_ITEM_FIELD_UNIT = 3;
+        RETRIEVE_CATALOG_ITEM_EXISTS     = 4;
+        RETRIEVE_SATELLITE_ITEMS         = 5;
+    }
+    required METHOD method = 1;
+    optional uint32 sessionId = 2;
+    optional uint32 domainId = 3;
+    optional string catalogName = 4;
+// mandatory except for RETRIEVE_CATALOGS
+    optional string catalogItemName = 5;
+// mandatory except for RETRIEVE_CATALOGS and RETRIEVE_CATALOG_ITEMS
+    optional string comObject = 6;
+// mandatory for RETRIEVE_CATALOG_ITEM_FIELD_UNIT
+// and RETRIEVE_CATALOG_ITEM_EXISTS
+    optional string fieldName = 7;
+// mandatory for RETRIEVE_CATALOG_ITEM_FIELD_UNIT */
+    retrieveSDBCatalogs: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_CATALOGS,
+      args,
+      callback),
+    retrieveSDBCatalogsItems: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_CATALOG_ITEMS,
+      args,
+      callback),
+    retrieveSDBCatalogsItemComObject: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_COMOBJECT,
+      args,
+      callback),
+    retrieveSDBCatalogItemFieldUnit: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_FIELD_UNIT,
+      args,
+      callback),
+    retrieveSDBCatalogItemExists: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_EXISTS,
+      args,
+      callback),
+    retrieveSatelliteItems: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_SATELLITE_ITEMS,
+      args,
+      callback),
+    requestSDBQuery: (method, args, callback) => (
+      commands.dc.rpc(constants.ADE_SDB_QUERY, [
+        encode('dc.dataControllerUtils.ADESDBQuery', {
+          method,
+          sessionsId: args.sessionId,
+          domainId: args.domainId,
+          catalogName: args.catalogName,
+          catalogItemName: args.catalogItemName,
+          comObject: args.comObject,
+          fieldName: args.fieldName,
+        }),
+      ],
+        callback
+      )
     ),
   },
 };

@@ -10,7 +10,7 @@
 // END-HISTORY
 // ====================================================================
 
-const logger = require('../../../../common/logManager')('controllers:onSessionMasterData');
+const logger = require('../../../../common/logManager')('controllers:onSessionMasterDataADE');
 const { decode, getType } = require('../../../../utils/adapters');
 const { pop } = require('../../../../common/callbacks');
 const { add: addMessage } = require('../../../../store/actions/messages');

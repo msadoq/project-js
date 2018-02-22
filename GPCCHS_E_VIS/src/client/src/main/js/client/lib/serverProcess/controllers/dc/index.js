@@ -42,14 +42,13 @@ const onSessionTimeData = require('./v1/onSessionTimeData');
 const archiveController = require('./v1/archiveController');
 const makePubSubController = require('./v1/pubSubController');
 
-const onResponseADE = require('./v2/onResponse');
 const onDomainsDataADE = require('./v2/onDomainsData');
 const onSessionsDataADE = require('./v2/onSessionsData');
 const onFmdCreateDataADE = require('./v2/onFmdCreateData');
 const onFmdGetDataADE = require('./v2/onFmdGetData');
 const onSessionMasterDataADE = require('./v2/onSessionMasterData');
 const onSessionTimeDataADE = require('./v2/onSessionTimeData');
-
+const onSDBQueryData = require('./v2/onSDBQueryData');
 const archiveControllerADE = require('./v2/archiveController');
 const makePubSubControllerADE = require('./v2/pubSubController');
 
@@ -79,19 +78,20 @@ const controllersV1 = {
 };
 
 const controllersV2 = {
-  [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsDataADE, // Done
-  [constants.MESSAGETYPE_RESPONSE]: onResponseADE,
-  [constants.MESSAGETYPE_SESSION_DATA]: onSessionsDataADE, // Done
-  [constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: (buffers, requestId, isLast, isError) => {
+  [constants.ADE_DOMAIN_QUERY]: onDomainsDataADE, // Done
+  // [constants.MESSAGETYPE_RESPONSE]: onResponseADE,
+  [constants.ADE_SESSION]: onSessionsDataADE, // Done
+  [constants.ADE_TIMEBASED_QUERY]: (buffers, requestId, isLast, isError) => {
     archiveControllerADE({ buffers, requestId, isLast, isError }, getStore, { get, remove });
   },
-  [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (buffers, requestId, isLast, isError) => {
+  [constants.ADE_TIMEBASED_SUBSCRIPTION]: (buffers, requestId, isLast, isError) => {
     pubSubControllerADE({ buffers, requestId, isLast, isError }, getStore);
   },
-  [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateDataADE,
-  [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetDataADE,
-  [constants.MESSAGETYPE_SESSION_MASTER_DATA]: onSessionMasterDataADE,
-  [constants.MESSAGETYPE_SESSION_TIME_DATA]: onSessionTimeDataADE,
+  [constants.ADE_FMD_CREATE_DOCUMENT]: onFmdCreateDataADE,
+  [constants.ADE_FMD_GET]: onFmdGetDataADE,
+  [constants.ADE_SESSION_MASTER]: onSessionMasterDataADE,
+  [constants.ADE_SESSION_TIME]: onSessionTimeDataADE,
+  [constants.ADE_SDB_QUERY]: onSDBQueryData,
 };
 
 const controllers = {
@@ -130,7 +130,7 @@ module.exports = function dcController() {
       requestId,
       isLast,
       isError } = controllers[versionDCComProtocol].decoder(headerBuffer);
-    if (!messageType) {
+    if (messageType === undefined || messageType === null) {
       return logger.warn('invalid message received (no messageType)');
     }
     if (isError) {

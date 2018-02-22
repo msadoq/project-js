@@ -1,0 +1,60 @@
+{
+    "TelemetryPacket": [
+        "DecommutedPacket",
+        "ClcwPacket",
+        "IsisAggregation",
+        "RmPacket",
+        "TmPacket"
+    ],
+    "Reporting": [
+        "ReportingParameter"
+    ],
+    "Monitoring": [
+        "GroundMonitoringAlarm"
+    ],
+    "OperationParameter": [
+        "OperationParameter"
+    ],
+    "ComputedEventDefinition": [
+        "ComputedEvent"
+    ],
+    "LogbookEventDefinition": [
+        "LogbookEvent"
+    ],
+    "UserEventDefinition": [
+        "ExternalEvent",
+        "UserEvent"
+    ],
+    "Pus003": [
+        "Pus003Model"
+    ],
+    "Pus005": [
+        "Pus005Model"
+    ],
+    "Pus012": [
+        "Pus012Model"
+    ],
+    "PusGroundModelDefinition": [
+        "Pus003Model",
+        "Pus005Model",
+        "Pus011Command",
+        "Pus011Model",
+        "Pus011SubSchedule",
+        "Pus011SyncPoint",
+        "Pus012Model",
+        "Pus013Model",
+        "Pus014Model",
+        "Pus015Model",
+        "Pus018Model",
+        "Pus019Model",
+        "Pus140Model",
+        "Pus142Model",
+        "Pus144Model"
+    ],
+    "StatAggregationDefinition": [
+        "StatAggregation"
+    ],
+    "StatValuesDefinition": [
+        "StatValue"
+    ]
+}

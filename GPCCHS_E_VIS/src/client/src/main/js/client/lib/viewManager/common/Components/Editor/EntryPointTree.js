@@ -52,6 +52,7 @@ export default class EntryPointTree extends Component {
     })),
     // from container mapDispatchToProps
     removeEntryPoint: func.isRequired,
+    updateEntryPoint: func.isRequired,
     updateViewPanels: func.isRequired,
     // from container mapStateToProps
     entryPointsPanels: shape({}).isRequired,
@@ -73,6 +74,28 @@ export default class EntryPointTree extends Component {
     e.preventDefault();
     e.stopPropagation();
     this.props.removeEntryPoint(this.props.viewId, key);
+  };
+
+  /**
+   * @param entryPoint
+   * @param values
+   */
+  handleSubmit = (entryPoint, values) => {
+    const { updateEntryPoint, viewId } = this.props;
+    updateEntryPoint(viewId, entryPoint.id, {
+      ...entryPoint,
+      ...values,
+      connectedData: {
+        ...entryPoint.connectedData,
+        ...values.connectedData,
+    //     // formula: buildFormula( // @todo uncomment and remove formula field
+    //     //   values.connectedData.catalog,
+    //     //   values.connectedData.catalogItem,
+    //     //   values.connectedData.comObject,
+    //     //   values.connectedData.comObjectField
+    //     // ),
+      },
+    });
   };
 
   render() {
@@ -136,6 +159,9 @@ export default class EntryPointTree extends Component {
                 viewId={viewId}
                 pageId={pageId}
                 entryPoint={entryPoint}
+                onSubmit={values => this.handleSubmit(entryPoint, values)}
+                initialValues={entryPoint}
+                form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
               />}
             </Panel>
           );

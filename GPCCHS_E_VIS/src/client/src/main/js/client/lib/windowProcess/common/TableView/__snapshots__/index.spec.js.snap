@@ -13,7 +13,7 @@ exports[`TableView renders correctly 1`] = `
       }
     >
       <th
-        className={false}
+        className={undefined}
       >
         <span
           className="clickableMargin label label-default"

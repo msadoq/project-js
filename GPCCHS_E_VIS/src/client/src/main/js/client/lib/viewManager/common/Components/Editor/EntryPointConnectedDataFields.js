@@ -60,7 +60,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
       <div>
         <HorizontalFormGroup label="Formula">
           <Field
-            name="formula"
+            name="connectedData.formula"
             component={TextareaField}
             rows="4"
             className="form-control input-sm"
@@ -69,12 +69,14 @@ export default class EntryPointConnectedDataFields extends PureComponent {
 
         <HorizontalFormGroup label="Domain">
           <DomainFieldContainer
+            name="connectedData.domain"
             domainName={selectedDomainName}
           />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Timeline">
           <TimelineFieldContainer
+            name="connectedData.timeline"
             windowId={windowId}
             timelineName={selectedTimelineId}
           />

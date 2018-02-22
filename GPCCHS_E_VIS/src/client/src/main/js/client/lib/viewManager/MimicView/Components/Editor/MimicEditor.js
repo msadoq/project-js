@@ -91,7 +91,7 @@ export default class Editor extends Component {
               viewId={viewId}
               pageId={pageId}
               search={search}
-              viewType={'TextView'}
+              viewType={'MimicView'}
             />
           </div>}
           {

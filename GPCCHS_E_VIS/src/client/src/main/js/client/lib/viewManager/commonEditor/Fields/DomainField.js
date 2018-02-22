@@ -5,24 +5,26 @@ import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 import { domainsType } from './types';
 
-const { func } = PropTypes;
+const { func, string } = PropTypes;
 
 export default class DomainField extends PureComponent {
   static propTypes = {
     onChange: func,
+    name: string,
     // from container mapStateToProps
     domains: domainsType.isRequired,
   };
 
   static defaultProps = {
     onChange: null,
+    name: 'domain',
   };
 
   render() {
     return (
       <Field
         format={null}
-        name="domain"
+        name={this.props.name}
         component={ReactSelectField}
         clearable
         options={computeOptions(this.props.domains, true)}

@@ -32,7 +32,7 @@ export default class EntryPointUnit extends PureComponent {
         <HorizontalFormGroup label="Convert from">
           <Field
             format={null}
-            name="convertFrom"
+            name="connectedData.convertFrom"
             type="text"
             className="form-control input-sm"
             component={InputField}
@@ -43,7 +43,7 @@ export default class EntryPointUnit extends PureComponent {
         <HorizontalFormGroup label="Convert to">
           <Field
             format={null}
-            name="convertTo"
+            name="connectedData.convertTo"
             type="text"
             className="form-control input-sm"
             component={InputField}

@@ -177,9 +177,9 @@ export default class StateColorsFields extends React.Component {
           {
             ['true', 'false'].map(obsolete =>
               ['true', 'false'].map(significant =>
-                <tr>
-                  <td>{ obsolete === 'true' ? 'Yes' : 'No' }</td>
-                  <td>{ significant === 'true' ? 'Yes' : 'No' }</td>
+                <tr key={`table-row-${obsolete}-${significant}`}>
+                  <td key={`table-row-${obsolete}-${significant}-obs`}>{ obsolete === 'true' ? 'Yes' : 'No' }</td>
+                  <td key={`table-row-${obsolete}-${significant}-sign`}>{ significant === 'true' ? 'Yes' : 'No' }</td>
                   {_each(monitoringStateColors[`${obsolete}-${significant}`], (o, k) => (
                     <td
                       key={`table-row-${obsolete}-${significant}-${k}`}

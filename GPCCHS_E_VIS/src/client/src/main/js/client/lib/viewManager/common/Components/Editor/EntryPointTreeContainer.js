@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import EntryPointTree from 'viewManager/common/Components/Editor/EntryPointTree';
-import { removeEntryPoint } from 'store/actions/views';
+import { removeEntryPoint, updateEntryPoint } from 'store/actions/views';
 import { updateViewPanels } from 'store/actions/ui';
 import { getViewEntryPointsPanels } from 'store/reducers/ui/editor';
 
@@ -13,6 +13,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   removeEntryPoint,
+  updateEntryPoint,
   updateViewPanels,
 }, dispatch);
 

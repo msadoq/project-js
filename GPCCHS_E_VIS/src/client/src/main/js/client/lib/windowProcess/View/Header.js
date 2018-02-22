@@ -43,6 +43,7 @@ import { Button, Glyphicon } from 'react-bootstrap';
 import _uniqBy from 'lodash/uniqBy';
 import { get } from 'common/configurationManager';
 import styles from './Header.css';
+import { COLOR_ISIS_SAT, COLOR_SIMUPUS_SAT, COLOR_MULTIPLE_SAT, DOMAIN_SIMUPUS, DOMAIN_ISIS } from '../../constants';
 
 export default class Header extends PureComponent {
   static propTypes = {

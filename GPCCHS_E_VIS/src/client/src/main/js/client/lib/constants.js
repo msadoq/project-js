@@ -265,4 +265,13 @@ module.exports = {
   PROVIDER_FLOW_HKTMR: 'HKTMR',
   PROVIDER_FLOW_HKTMP: 'HKTMP',
   PROVIDER_FLOW_ALL: '',
+
+  // Code couleur for views
+  COLOR_ISIS_SAT: '#0066ff',
+  COLOR_SIMUPUS_SAT: '#339933',
+  COLOR_MULTIPLE_SAT: '#ff3300',
+
+  // list of domains
+  DOMAIN_SIMUPUS: 'fr.cnes.isis.simupus',
+  DOMAIN_ISIS: 'fr.cnes.isis',
 };

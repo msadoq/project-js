@@ -15,7 +15,7 @@ import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
 import { dc } from 'serverProcess/ipc';
 import { getPerLastTbdIdMap, getPerRangeTbdIdMap } from 'dataManager/map';
 
-const { requestSubscriptionAdd, requestSubscriptionDelete } = dc;
+const { requestSubscriptionAdd } = dc;
 
 /**
  * Prevents argument capping in iteratee function
@@ -37,10 +37,6 @@ export default function makeSubscriptionStoreObserver(store) {
     add: (tbdId, dataId) => {
       requestSubscriptionAdd(tbdId, dataId);
       savedSubscriptions[tbdId] = dataId;
-    },
-    remove: (tbdId, dataId) => {
-      requestSubscriptionDelete(tbdId, dataId);
-      delete savedSubscriptions[tbdId];
     },
   };
 
@@ -67,7 +63,6 @@ export default function makeSubscriptionStoreObserver(store) {
    */
   function updateSubscriptions(displayedTbdIds) {
     const subscriptionDiffs = {
-      remove: objDiff(savedSubscriptions, displayedTbdIds),
       add: objDiff(displayedTbdIds, savedSubscriptions),
     };
 

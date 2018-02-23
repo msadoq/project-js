@@ -23,7 +23,7 @@
 
 import { mockStore, freezeMe } from 'common/jest';
 import * as actions from './views';
-import { isAxisReferencedByEntryPoint } from './views';
+
 
 const defaultStateColor = [
   {
@@ -191,12 +191,12 @@ describe('store:actions:views', () => {
   describe('isAxisReferencedByEntryPoint', () => {
     test('should return false if axis is referenced by no entrypoint', () => {
       expect(
-        isAxisReferencedByEntryPoint('axis_2', referenceStore.getState().entryPoints)
+        actions.isAxisReferencedByEntryPoint('axis_2', referenceStore.getState().entryPoints)
       ).toBeFalsy();
     });
     test('should return true if axis is referenced by at least one entrypoint', () => {
       expect(
-        isAxisReferencedByEntryPoint('axis_1', referenceStore.getState().entryPoints)
+        actions.isAxisReferencedByEntryPoint('axis_1', referenceStore.getState().entryPoints)
       ).toBeTruthy();
     });
   });

@@ -51,7 +51,7 @@ export default class EntryPointTree extends Component {
       }),
     })),
     // from container mapDispatchToProps
-    removeEntryPoint: func.isRequired,
+    askRemoveEntryPoint: func.isRequired,
     updateEntryPoint: func.isRequired,
     updateViewPanels: func.isRequired,
     // from container mapStateToProps
@@ -70,10 +70,15 @@ export default class EntryPointTree extends Component {
     updateViewPanels(viewId, 'entryPoints', openPanels);
   };
 
+  getEntryPointByKey(key) {
+    const entryPoints = this.props.entryPoints;
+    return entryPoints.find(ep => ep.id === key);
+  }
+
   handleRemove = (e, key) => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.removeEntryPoint(this.props.viewId, key);
+    this.props.askRemoveEntryPoint(this.props.viewId, this.getEntryPointByKey(key));
   };
 
   /**
@@ -88,12 +93,12 @@ export default class EntryPointTree extends Component {
       connectedData: {
         ...entryPoint.connectedData,
         ...values.connectedData,
-    //     // formula: buildFormula( // @todo uncomment and remove formula field
-    //     //   values.connectedData.catalog,
-    //     //   values.connectedData.catalogItem,
-    //     //   values.connectedData.comObject,
-    //     //   values.connectedData.comObjectField
-    //     // ),
+        //     // formula: buildFormula( // @todo uncomment and remove formula field
+        //     //   values.connectedData.catalog,
+        //     //   values.connectedData.catalogItem,
+        //     //   values.connectedData.comObject,
+        //     //   values.connectedData.comObjectField
+        //     // ),
       },
     });
   };
@@ -130,12 +135,12 @@ export default class EntryPointTree extends Component {
               header={
                 <div className={classnames('rc-collapse-header-inner', styles.collapseHeader)}>
                   {entryPoint.objectStyle && entryPoint.objectStyle.curveColor &&
-                    <div
-                      className={styles.colorSquare}
-                      style={{
-                        backgroundColor: entryPoint.objectStyle.curveColor,
-                      }}
-                    />
+                  <div
+                    className={styles.colorSquare}
+                    style={{
+                      backgroundColor: entryPoint.objectStyle.curveColor,
+                    }}
+                  />
                   }
                   <span className="flex">&nbsp;&nbsp;&nbsp;{entryPoint.name}</span>
                   <div>

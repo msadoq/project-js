@@ -33,7 +33,7 @@ import { updateViewPanels, updateViewEntryPointsPanels, updateViewTab }
   from 'store/actions/ui';
 import { getViewTitle, getViewTitleStyle } from 'store/reducers/views';
 import {
-  removeEntryPoint,
+  askRemoveEntryPoint,
   updateEditorSearch,
 } from 'store/actions/views';
 import PlotEditor from './PlotEditor';
@@ -49,7 +49,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   openModal,
-  removeEntryPoint,
+  askRemoveEntryPoint,
   updateViewPanels,
   updateViewTab,
   updateViewEntryPointsPanels,

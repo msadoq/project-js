@@ -39,7 +39,7 @@ export default class PlotEditor extends Component {
     openModal: PropTypes.func.isRequired,
     updateViewTab: PropTypes.func.isRequired,
     updateViewPanels: PropTypes.func.isRequired,
-    removeEntryPoint: PropTypes.func.isRequired,
+    askRemoveEntryPoint: PropTypes.func.isRequired,
     updateEditorSearch: PropTypes.func.isRequired,
     panels: PropTypes.shape({}).isRequired,
     entryPointsPanels: PropTypes.shape({}).isRequired,
@@ -65,9 +65,14 @@ export default class PlotEditor extends Component {
     title: '',
   }
 
+  getEntryPointByKey(key) {
+    const entryPoints = this.props.configuration.entryPoints;
+    return entryPoints.find(ep => ep.id === key);
+  }
+
   removeEntryPoint = (key) => {
-    const { removeEntryPoint, viewId } = this.props;
-    removeEntryPoint(viewId, key);
+    const { askRemoveEntryPoint, viewId } = this.props;
+    askRemoveEntryPoint(viewId, this.getEntryPointByKey(key));
   }
 
   changeSearch = s => this.props.updateEditorSearch(s);
@@ -147,12 +152,12 @@ export default class PlotEditor extends Component {
             />
           }
           {tab === 2 &&
-            <Misc
-              updateViewPanels={updateViewPanels}
-              viewId={viewId}
-              panels={panels}
-              openModal={openModal}
-            />}
+          <Misc
+            updateViewPanels={updateViewPanels}
+            viewId={viewId}
+            panels={panels}
+            openModal={openModal}
+          />}
         </div>
       </div>
     );

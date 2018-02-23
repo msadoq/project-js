@@ -60,6 +60,7 @@ import windowSessionOrDomainUpdated from '../store/middlewares/windows/windowSes
 import getLogger from '../common/logManager';
 import makePlayerMiddleware from '../store/middlewares/player';
 import catalogMiddleware from '../store/middlewares/catalogs';
+import makeOnUserAction from '../store/middlewares/user/makeOnUserAction';
 
 const log = getLogger('server:store:enhancer');
 
@@ -83,6 +84,7 @@ const createMiddlewares = (identity, isDebugOn) => {
     makeViewNeededData(),
     pageSessionOrDomainUpdated,
     windowSessionOrDomainUpdated,
+    makeOnUserAction(),
     makePatchGenerator(ipc.main.sendReduxPatch, identity, log, isDebugOn, get('PATCH_THROTTLE_TIMING')),
   ];
   if (isDumpActivated()) {

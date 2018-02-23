@@ -29,7 +29,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
-import { addEntryPoint, removeEntryPoint, saveLiveExtents,
+import { addEntryPoint, askRemoveEntryPoint, saveLiveExtents,
   removeLink, updateShowLinks, toggleLegend } from 'store/actions/views';
 import { pause } from 'store/actions/hsc';
 import { getViewEntryPoints } from 'store/selectors/views';
@@ -69,7 +69,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   saveLiveExtents,
   pause,
   addEntryPoint,
-  removeEntryPoint,
+  askRemoveEntryPoint,
   removeLink,
   updateShowLinks,
   toggleLegend,

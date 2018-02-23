@@ -151,6 +151,9 @@ export const askSaveViewAsModel = simple(types.WS_ASK_SAVE_VIEW_AS_MODEL, 'viewI
 // ************ EntryPoint
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'entryPointId', 'entryPoint');
 export const removeEntryPoint = simple(types.WS_VIEW_REMOVE_ENTRYPOINT, 'viewId', 'entryPointId');
+
+export const askRemoveEntryPoint = simple(types.WS_VIEW_ASK_REMOVE_ENTRYPOINT, 'viewId', 'entryPoint');
+
 const simpleAddEntryPoint = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entryPoint');
 
 export function addEntryPoint(viewId, entryPoint) {

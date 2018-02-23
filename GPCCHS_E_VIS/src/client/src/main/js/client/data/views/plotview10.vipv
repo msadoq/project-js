@@ -8,9 +8,7 @@
     "italic": false,
     "underline": true,
     "strikeOut": false,
-    "align": "center",
-    "color": "#FFFFFF",
-    "bgColor": "#111155"
+    "align": "center"
   },
   "backgroundColor": "#FFFFFF",
   "links": [

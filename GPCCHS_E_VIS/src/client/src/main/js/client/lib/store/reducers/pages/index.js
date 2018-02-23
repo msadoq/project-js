@@ -26,9 +26,11 @@
 
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
+import _map from 'lodash/map';
 
 import * as types from 'store/types';
 import page from './page';
+import { getConfigurationByViewId } from '../../../viewManager/selectors';
 
 /* --- Reducer -------------------------------------------------------------- */
 
@@ -153,4 +155,13 @@ export const getPageIdByViewId = createSelector(
     )),
     _.get('uuid')
   )(pages)
+);
+
+export const getPageViewsConfiguration = createSelector(
+  state => state,
+  getPageViewsIds,
+  (state, viewIds) => _map(
+    viewIds,
+    viewId => getConfigurationByViewId(state, { viewId })
+  )
 );

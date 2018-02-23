@@ -238,8 +238,7 @@
     "italic": false,
     "underline": true,
     "strikeOut": false,
-    "align": "center",
-    "color": "#000000"
+    "align": "center"
   },
   "plotBackgroundColor": "#FFFFFF",
   "showYAxes": "left",

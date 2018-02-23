@@ -2,10 +2,8 @@
   "type": "TextView",
   "title": "TextView 10 parameters",
   "titleStyle": {
-    "align": "center",
-    "bgColor": "#3f51b5",
+    "align": "left",
     "bold": false,
-    "color": "#ffffff",
     "font": "Arial",
     "italic": false,
     "size": 12,
@@ -34,10 +32,12 @@
         "format": "",
         "formula": "Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "provider": "*"
       },
       "customColors": [],
-      "name": "AGA_AM_ACQPRIORITY"
+      "name": "AGA_AM_ACQPRIORITY",
+      "stateColors": []
     },
     {
       "name": "AGA_AM_CCSDSAPID",
@@ -48,7 +48,10 @@
         "format": "",
         "filter": [],
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
+        "timeline": "Session 1",
+        "convertFrom": "",
+        "convertTo": "",
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -61,7 +64,10 @@
         "format": "",
         "filter": [],
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
+        "timeline": "Session 1",
+        "convertFrom": "",
+        "convertTo": "",
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -74,7 +80,10 @@
         "format": "",
         "filter": [],
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
+        "timeline": "Session 1",
+        "convertFrom": "",
+        "convertTo": "",
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -87,7 +96,10 @@
         "format": "",
         "filter": [],
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
+        "timeline": "Session 1",
+        "convertFrom": "",
+        "convertTo": "",
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -100,7 +112,10 @@
         "format": "",
         "filter": [],
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
+        "timeline": "Session 1",
+        "convertFrom": "",
+        "convertTo": "",
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -113,7 +128,10 @@
         "format": "",
         "filter": [],
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
+        "timeline": "Session 1",
+        "convertFrom": "",
+        "convertTo": "",
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -126,8 +144,12 @@
         "format": "",
         "formula": "Reporting.AGA_AM_ENABLED<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
-        "unit": "V"
-      }
+        "unit": "V",
+        "convertFrom": "",
+        "convertTo": "",
+        "provider": "*"
+      },
+      "stateColors": []
     },
     {
       "name": "AGA_AM_FID",
@@ -138,7 +160,10 @@
         "format": "",
         "filter": [],
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
+        "timeline": "Session 1",
+        "convertFrom": "",
+        "convertTo": "",
+        "provider": "*"
       },
       "stateColors": []
     },
@@ -151,7 +176,10 @@
         "format": "",
         "filter": [],
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 1"
+        "timeline": "Session 1",
+        "convertFrom": "",
+        "convertTo": "",
+        "provider": "*"
       },
       "stateColors": []
     }

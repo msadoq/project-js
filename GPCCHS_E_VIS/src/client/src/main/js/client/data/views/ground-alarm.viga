@@ -4,7 +4,6 @@
   "titleStyle": {
     "align": "left",
     "bold": false,
-    "color": "#000000",
     "font": "Arial",
     "italic": false,
     "size": 12,
@@ -30,11 +29,12 @@
     "enabled": true
   },
   "entryPoint": {
-    "name": "groundAlarmEP",
     "connectedData": {
-      "domain": "*",
-      "timeline": "*",
-      "mode": 0
-    }
+      "domain": "fr.cnes.isis",
+      "mode": 0,
+      "timeline": "*"
+    },
+    "name": "groundAlarmEP",
+    "stateColors": []
   }
 }

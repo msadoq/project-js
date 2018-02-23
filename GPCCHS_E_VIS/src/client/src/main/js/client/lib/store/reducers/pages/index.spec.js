@@ -38,6 +38,7 @@ import pagesReducer, {
   getPageIsModified,
   getPageDomainName,
   getPageSessionName,
+  getPageViewsConfiguration,
 } from '.';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -234,6 +235,101 @@ describe('store:page:selectors', () => {
     });
     test('should support empty state', () => {
       expect(getPageSessionName({ pages: { p1: {} } }, { pageId: 'p1' })).toBeFalsy();
+    });
+  });
+  describe('getPageViewsConfiguration', () => {
+    test('should return page configuration', () => {
+      const state = {
+        pages: {
+          myPageId: {
+            views: ['view1', 'view2', 'view3'],
+          },
+        },
+        views: {
+          view1: {
+            type: 'TextView',
+          },
+          view2: {
+            type: 'TextView',
+          },
+          view3: {
+            type: 'TextView',
+          },
+        },
+        TextViewConfiguration: {
+          view1: {
+            entryPoints: [
+              {
+                entryPoint1: {
+                  connectedData: {
+                    domain: 'domain1',
+                  },
+                },
+              },
+            ],
+          },
+          view2: {
+            entryPoints: [
+              {
+                entryPoint1: {
+                  connectedData: {
+                    domain: 'domain1',
+                  },
+                },
+              },
+            ],
+          },
+          view3: {
+            entryPoints: [
+              {
+                entryPoint1: {
+                  connectedData: {
+                    domain: 'domain1',
+                  },
+                },
+              },
+            ],
+          },
+        },
+      };
+
+      expect(getPageViewsConfiguration(state, { pageId: 'myPageId' })).toEqual(
+        [
+          {
+            entryPoints: [
+              {
+                entryPoint1: {
+                  connectedData: {
+                    domain: 'domain1',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            entryPoints: [
+              {
+                entryPoint1: {
+                  connectedData: {
+                    domain: 'domain1',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            entryPoints: [
+              {
+                entryPoint1: {
+                  connectedData: {
+                    domain: 'domain1',
+                  },
+                },
+              },
+            ],
+          },
+        ]
+      );
     });
   });
 });

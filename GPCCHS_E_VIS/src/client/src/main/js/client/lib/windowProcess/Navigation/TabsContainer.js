@@ -16,18 +16,21 @@
 import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getWindowPages } from 'store/selectors/windows';
+import { getWindowPagesWithConfiguration } from 'store/selectors/windows';
 import { focusPage, moveTabOrder, movePageToWindow, pageDragEvent } from 'store/actions/windows';
 import { askClosePage } from 'store/actions/pages';
 import { close as closeModal } from 'store/actions/modals';
 import Tabs from './Tabs';
 
-const mapStateToProps = (state, { windowId }) => ({
-  pages: getWindowPages(state, { windowId }),
-  windowId,
-  detachWindow: state.hsc.detachWindow,
-  attachWindow: state.hsc.attachWindow,
-});
+const mapStateToProps = () => (state, { windowId }) => {
+  const pages = getWindowPagesWithConfiguration(state, { windowId });
+  return {
+    pages,
+    windowId,
+    detachWindow: state.hsc.detachWindow,
+    attachWindow: state.hsc.attachWindow,
+  };
+};
 
 function mapDispatchToProps(dispatch, { windowId }) {
   return bindActionCreators({

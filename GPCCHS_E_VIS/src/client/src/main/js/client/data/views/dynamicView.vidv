@@ -2,15 +2,13 @@
   "type": "DynamicView",
   "title": "Dynamic view",
   "titleStyle": {
-    "font": "Arial",
-    "size": 12,
+    "align": "left",
     "bold": false,
+    "font": "Arial",
     "italic": false,
-    "underline": true,
+    "size": 12,
     "strikeOut": false,
-    "align": "center",
-    "color": "#ffffff",
-    "bgColor": "#E91E63"
+    "underline": false
   },
   "links": [],
   "defaultRatio": {
@@ -24,7 +22,7 @@
       "catalog": "TelemetryPacket",
       "catalogItem": "CLCW_TM_NOMINAL",
       "comObject": "DecommutedPacket",
-      "domain": "*",
+      "domain": "fr.cnes.isis.simupus",
       "filter": [],
       "formula": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>",
       "timeline": "*"

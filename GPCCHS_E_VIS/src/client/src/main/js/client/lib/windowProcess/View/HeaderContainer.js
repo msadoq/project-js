@@ -11,12 +11,13 @@
 // END-HISTORY
 // ====================================================================
 
+import _each from 'lodash/each';
+import _get from 'lodash/get';
+import _uniqBy from 'lodash/uniqBy';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getView } from 'store/reducers/views';
 import { getPage, getPanels } from 'store/reducers/pages';
-import { getDataSelectors } from 'viewManager';
-
+import { getDataSelectors, getViewWithConfiguration } from 'viewManager';
 import Header from './Header';
 
 const makeMapStateToProps = () => (state, { pageId, viewId }) => {
@@ -25,7 +26,18 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
     isModified,
     backgroundColor,
     titleStyle,
-  } = getView(state, { viewId });
+    configuration,
+  } = getViewWithConfiguration(state, { viewId });
+
+  let domains = [];
+  _each(_get(configuration, 'entryPoints', []), (entryPoint) => {
+    const domain = _get(entryPoint, 'connectedData.domain', null);
+    if (domain !== null) {
+      domains.push(domain);
+    }
+  });
+
+  domains = _uniqBy(domains);
 
   const { getFullTitle } = getDataSelectors(type);
   const title = getFullTitle(state, { viewId });
@@ -38,6 +50,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
     title,
     titleStyle,
     isModified,
+    domains,
     isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
     collapsed:
       !!(page.layout.find(e => e.i === viewId && e.collapsed)), // TODO boxmodel factorize

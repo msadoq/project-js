@@ -2,9 +2,8 @@
   "type": "MimicView",
   "title": "New Mimic View",
   "titleStyle": {
-    "color": "#FFF",
+    "color": "#000",
     "underline": true,
-    "bgColor": "#2196f3",
     "align": "center"
   },
   "links": [],

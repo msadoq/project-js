@@ -2,15 +2,13 @@
   "type": "PlotView",
   "title": "Plotview One parameter",
   "titleStyle": {
-    "font": "Arial",
-    "size": 12,
+    "align": "left",
     "bold": false,
+    "font": "Arial",
     "italic": false,
-    "underline": true,
+    "size": 12,
     "strikeOut": false,
-    "align": "center",
-    "color": "#ffffff",
-    "bgColor": "#111111"
+    "underline": false
   },
   "backgroundColor": "#FFFFFF",
   "links": [
@@ -143,7 +141,8 @@
         "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
         "stringParameter": false,
         "timeline": "Session 1",
-        "unit": "V"
+        "unit": "V",
+        "provider": "*"
       },
       "connectedDataParametric": {
         "domainX": "",
@@ -184,7 +183,10 @@
         "timeline": "Session 1",
         "axisId": "VBat",
         "stringParameter": false,
-        "defaultY": 1
+        "defaultY": 1,
+        "provider": "*",
+        "convertFrom": "",
+        "convertTo": ""
       },
       "connectedDataParametric": {
         "formulaX": "",

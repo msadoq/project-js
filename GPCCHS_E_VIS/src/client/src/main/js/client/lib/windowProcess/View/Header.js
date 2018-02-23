@@ -40,6 +40,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { Button, Glyphicon } from 'react-bootstrap';
 import styles from './Header.css';
+import { COLOR_ISIS_SAT, COLOR_SIMUPUS_SAT, COLOR_MULTIPLE_SAT, DOMAIN_SIMUPUS, DOMAIN_ISIS } from '../../constants';
 
 export default class Header extends PureComponent {
   static propTypes = {
@@ -60,6 +61,7 @@ export default class Header extends PureComponent {
     saveView: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
     onContextMenu: PropTypes.func.isRequired,
+    domains: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
@@ -67,19 +69,36 @@ export default class Header extends PureComponent {
     titleStyle: {},
   };
 
+  getBackgroundColorByViewDomains() {
+    const { domains } = this.props;
+    if (domains.length > 1) {
+      return COLOR_MULTIPLE_SAT;
+    } else if (domains[0] === DOMAIN_SIMUPUS) {
+      return COLOR_SIMUPUS_SAT;
+    } else if (domains[0] === DOMAIN_ISIS) {
+      return COLOR_ISIS_SAT;
+    }
+    return null;
+  }
+
   getTitleStyle() {
     const { titleStyle, isViewsEditorOpen } = this.props;
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
+      background: titleStyle.bgColor ? titleStyle.bgColor :
+        this.getBackgroundColorByViewDomains(),
       color: titleStyle.color ? titleStyle.color : null,
-      background: titleStyle.bgColor ? titleStyle.bgColor : null,
       fontWeight: isViewsEditorOpen ? 'bold' : 'normal',
       fontStyle: 'normal',
       textDecoration: 'none',
       paddingRight: '57px',
     };
+
+    if (style.background !== null) {
+      style.color = titleStyle.color ? titleStyle.color : '#FFF';
+    }
 
     if (titleStyle.bold) {
       style.fontWeight = 'bold';

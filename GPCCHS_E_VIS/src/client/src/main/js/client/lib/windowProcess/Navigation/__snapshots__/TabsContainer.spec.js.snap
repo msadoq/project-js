@@ -8,7 +8,12 @@ exports[`windowProcess windowProcess :: Navigation windowProcess :: Navigation :
   <li
     className=""
     role="presentation"
-    style={undefined}
+    style={
+      Object {
+        "borderBottom": "8px solid",
+        "borderColor": null,
+      }
+    }
   >
     <a
       href="#"

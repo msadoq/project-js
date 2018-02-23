@@ -24,7 +24,6 @@ const getDefaultView = _.merge({
   titleStyle: {
     color: '#FFF',
     underline: true,
-    bgColor: '#78A155',
     align: 'center',
   },
 });

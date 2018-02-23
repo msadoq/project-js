@@ -8,9 +8,7 @@
     "italic": false,
     "underline": false,
     "strikeOut": false,
-    "align": "left",
-    "color": "#ffffff",
-    "bgColor": "#f44336"
+    "align": "left"
   },
   "links": [],
   "defaultRatio": {

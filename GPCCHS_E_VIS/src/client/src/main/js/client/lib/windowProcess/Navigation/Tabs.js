@@ -26,9 +26,15 @@ import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
 import classnames from 'classnames';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
+import _ from 'lodash';
 import { get } from 'common/configurationManager';
 import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
+import {
+  COLOR_ISIS_SAT, COLOR_MULTIPLE_SAT, COLOR_SIMUPUS_SAT, DOMAIN_ISIS,
+  DOMAIN_SIMUPUS,
+} from '../../constants';
+
 
 const popoverDraggingStyle = { display: 'none' };
 
@@ -164,46 +170,77 @@ export default class Tabs extends PureComponent {
         )}
       >
         {
-          pages.map((page, key) =>
-            <NavItem
-              key={page.pageId}
-              eventKey={page.pageId}
-              onDragOver={this.handleDragOver}
-              onDragLeave={this.handleDragLeave}
-              onDrop={(e) => { this.handleDrop(e, page.title, key); }}
-            >
-              <div
-                draggable
-                onDragStart={(e) => { this.handleDragStart(e, page.title, key); }}
-                onDragEnd={(e) => { this.handleDragStop(e, page.pageId); }}
-                onDrag={this.handleDrag}
+          pages.map((page, key) => {
+            // get the style for tabs
+            // color of tabs depends on domains of each view contained in the page
+            const { configurations } = page;
+            const domains = _.pull(_.uniqBy(
+              [].concat(
+                [],
+                ...configurations.map(configuration =>
+                  configuration.entryPoints.map(
+                    entryPoint => entryPoint.connectedData.domain
+                  )
+                )
+              )
+            ), '*');
+
+            let borderColorForTab = null;
+            if (domains.length > 1) {
+              borderColorForTab = COLOR_MULTIPLE_SAT;
+            } else if (domains[0] === DOMAIN_SIMUPUS) {
+              borderColorForTab = COLOR_SIMUPUS_SAT;
+            } else if (domains[0] === DOMAIN_ISIS) {
+              borderColorForTab = COLOR_ISIS_SAT;
+            }
+
+            const style = {
+              borderBottom: '8px solid',
+              borderColor: borderColorForTab,
+            };
+            // end of get the style for tabs
+            return (
+              <NavItem
+                key={page.pageId}
+                eventKey={page.pageId}
+                onDragOver={this.handleDragOver}
+                onDragLeave={this.handleDragLeave}
+                onDrop={(e) => { this.handleDrop(e, page.title, key); }}
+                style={style}
               >
-                <OverlayTrigger
-                  className={styles.title}
-                  overlay={
-                    this.state &&
-                    this.state.dragging ?
-                      popoverHoverDragging(page, this.state.dragging) :
-                      popoverHoverFocus(page)
-                  }
+                <div
+                  draggable
+                  onDragStart={(e) => { this.handleDragStart(e, page.title, key); }}
+                  onDragEnd={(e) => { this.handleDragStop(e, page.pageId); }}
+                  onDrag={this.handleDrag}
                 >
-                  <div>
-                    <span>{page.isModified ? page.title.concat(' *') : page.title}</span>
-                    <Button
-                      bsStyle="link"
-                      onClick={e => this.handleClose(e, page.pageId)}
-                      className={styles.button}
-                    >
-                      <Glyphicon
-                        glyph="remove-circle"
-                        className="text-danger"
-                      />
-                    </Button>
-                  </div>
-                </OverlayTrigger>
-              </div>
-            </NavItem>
-          )
+                  <OverlayTrigger
+                    className={styles.title}
+                    overlay={
+                      this.state &&
+                      this.state.dragging ?
+                        popoverHoverDragging(page, this.state.dragging) :
+                        popoverHoverFocus(page)
+                    }
+                  >
+                    <div>
+                      <span>{page.isModified ? page.title.concat(' *') : page.title}</span>
+                      <Button
+                        bsStyle="link"
+                        onClick={e => this.handleClose(e, page.pageId)}
+                        className={styles.button}
+                      >
+                        <Glyphicon
+                          glyph="remove-circle"
+                          className="text-danger"
+                        />
+                      </Button>
+                    </div>
+                  </OverlayTrigger>
+                </div>
+              </NavItem>
+            );
+          })
         }
         <DummyDrag />
       </Nav>

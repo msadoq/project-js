@@ -35,7 +35,7 @@ import _get from 'lodash/get';
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 
 import { getFocusedWindowId } from '../reducers/hsc';
-import { getPages, getPageIdByViewId } from '../reducers/pages';
+import { getPages, getPageIdByViewId, getPageViewsConfiguration } from '../reducers/pages';
 import {
   getWindows,
   getWindowPageIds,
@@ -44,7 +44,6 @@ import {
   getWindowIdByPageId,
 } from '../reducers/windows';
 import { getViews } from '../reducers/views';
-
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -67,6 +66,20 @@ export const getWindowPages = createSelector(
   getPages,
   (ids = [], pages) => ids.map(id => ({ ...pages[id], pageId: id }))
 );
+
+export const getWindowPagesWithConfiguration = createSelector(
+  state => state,
+  getWindowPageIds,
+  getPages,
+  (state, ids = [], pages) =>
+    ids.map(id => (
+      {
+        ...pages[id],
+        pageId: id,
+        configurations: getPageViewsConfiguration(state, { pageId: id }),
+      }))
+);
+
 
 // composed
 export const getWindowFocusedPageSelector = createSelector(

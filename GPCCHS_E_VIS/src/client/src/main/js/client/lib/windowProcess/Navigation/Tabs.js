@@ -31,6 +31,11 @@ import _ from 'lodash';
 import { get } from 'common/configurationManager';
 import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
+import {
+  COLOR_ISIS_SAT, COLOR_MULTIPLE_SAT, COLOR_SIMUPUS_SAT, DOMAIN_ISIS,
+  DOMAIN_SIMUPUS,
+} from '../../constants';
+
 
 const popoverDraggingStyle = { display: 'none' };
 

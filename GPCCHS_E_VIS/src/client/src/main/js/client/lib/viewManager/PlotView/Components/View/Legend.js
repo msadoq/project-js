@@ -31,6 +31,7 @@ export default class Legend extends Component {
     legendLocation: PropTypes.string,
     plotHeight: PropTypes.number.isRequired,
     toggleShowLegend: PropTypes.func.isRequired,
+    removeEntryPoint: PropTypes.func.isRequired,
     hideEp: PropTypes.func.isRequired,
     hideEpNames: PropTypes.arrayOf(PropTypes.string).isRequired,
     showEp: PropTypes.func.isRequired,
@@ -67,6 +68,7 @@ export default class Legend extends Component {
       hideEp,
       hideEpNames,
       legendLocation,
+      removeEntryPoint,
       onContextMenu,
       plotHeight,
     } = this.props;
@@ -159,6 +161,17 @@ export default class Legend extends Component {
                               [styles.hideEyeSelected]: hideEpNames.includes(line.id),
                             },
                             styles.eyeButton
+                          )
+                        }
+                      />
+
+                      <Glyphicon
+                        glyph="remove"
+                        onClick={e => removeEntryPoint(e, line.id)}
+                        className={
+                          classnames(
+                            styles.removeButton,
+                            'text-danger'
                           )
                         }
                       />

@@ -861,6 +861,7 @@ export class GrizzlyPlotView extends React.Component {
         hideEp={this.hideEp}
         hideEpNames={hideEpNames}
         onContextMenu={this.onContextMenuLegend}
+        removeEntryPoint={this.removeEntryPoint}
       />);
 
     return (

@@ -747,10 +747,8 @@ export class GrizzlyPlotView extends React.Component {
     const {
       removeEntryPoint,
       viewId,
-      configuration: { entryPoints },
     } = this.props;
-    const index = entryPoints.findIndex(a => a.id === id);
-    removeEntryPoint(viewId, index);
+    removeEntryPoint(viewId, id);
   };
   removeLink = (e, index) => {
     e.preventDefault();

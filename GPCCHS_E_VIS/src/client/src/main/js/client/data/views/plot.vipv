@@ -54,7 +54,7 @@
       "showLabels": true
     },
     {
-      "autoLimits": false,
+      "autoLimits": true,
       "autoTick": true,
       "id": "VBat",
       "label": "VBat",

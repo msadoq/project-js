@@ -114,15 +114,6 @@ Array [
   },
   Object {
     "payload": Object {
-      "pages": Array [
-        "p1",
-        "p2",
-      ],
-      "views": Array [
-        "v1",
-        "v2",
-        "v3",
-      ],
       "windowId": "w1",
     },
     "type": "WS_WINDOW_CLOSE",

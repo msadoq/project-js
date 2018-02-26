@@ -436,7 +436,7 @@ export class GrizzlyPlotView extends React.Component {
     inspectorEpId: string,
     openEditor: func.isRequired,
     closeEditor: func.isRequired,
-    removeEntryPoint: func.isRequired,
+    askRemoveEntryPoint: func.isRequired,
     isViewsEditorOpen: bool.isRequired,
     mainMenu: arrayOf(object).isRequired,
     defaultTimelineId: string.isRequired,
@@ -745,10 +745,19 @@ export class GrizzlyPlotView extends React.Component {
   removeEntryPoint = (e, id) => {
     e.preventDefault();
     const {
-      removeEntryPoint,
+      askRemoveEntryPoint,
+      entryPoints,
       viewId,
     } = this.props;
-    removeEntryPoint(viewId, id);
+    const entryPointToRemove = Object.values(entryPoints).find(epk => epk.id === id);
+    if (entryPointToRemove) {
+      askRemoveEntryPoint(viewId, {
+        ...entryPointToRemove,
+        name: entryPointToRemove.dataId.parameterName,
+      });
+    } else {
+      logger.error('No entry point found for id', id);
+    }
   };
   removeLink = (e, index) => {
     e.preventDefault();

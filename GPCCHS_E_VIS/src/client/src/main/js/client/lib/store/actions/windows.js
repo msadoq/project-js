@@ -36,7 +36,6 @@ import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import { getPage } from '../reducers/pages';
 import { getWindowPages } from '../selectors/windows';
-import { getWindowAllViewsIds } from '../selectors/views';
 import { getWindowPageIds, getWindowFocusedPageId } from '../reducers/windows';
 
 
@@ -48,19 +47,7 @@ export const addWindow = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geome
 export const askCloseWindow = simple(types.WS_ASK_CLOSE_WINDOW, 'windowId');
 const pageMoveToWindow = simple(types.WS_PAGE_MOVE_TO_WINDOW, 'fromWindowId', 'toWindowId', 'pageId');
 
-export const closeWindow = windowId => (dispatch, getState) => {
-  const state = getState();
-  const pages = getWindowPageIds(state, { windowId });
-  const views = getWindowAllViewsIds(state, { windowId });
-  dispatch({
-    type: types.WS_WINDOW_CLOSE,
-    payload: {
-      windowId,
-      views,
-      pages,
-    },
-  });
-};
+export const closeWindow = simple(types.WS_WINDOW_CLOSE, 'windowId');
 
 // export const closeWindow = simple(types.WS_WINDOW_CLOSE, 'windowId');
 export const setIsLoaded = simple(types.WS_WINDOW_SET_IS_LOADED, 'windowId');

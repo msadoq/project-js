@@ -177,7 +177,7 @@ export const Table = ({
                   tableSubRow: row.type === 'subrow',
                   tableRow: row.type === 'row',
                   selected: getIsSelected(row),
-                })}
+                }, row.type)}
                 style={{ width: '100%', height: `${rowHeight}px` }}
               >
                 {
@@ -216,7 +216,7 @@ export const Table = ({
                 [styles.hover]: getIsHovered(row),
                 tableSubRow: true,
                 selected: getIsSelected(row),
-              })}
+              }, row.type)}
               key={key}
             >
               {

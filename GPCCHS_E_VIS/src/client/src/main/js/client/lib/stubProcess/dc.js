@@ -219,7 +219,6 @@ const onHssMessageADE = (...args) => {
   const { method, requestId } = adapter.decode('dc.dataControllerUtils.ADEHeader', args[0]);
   // const header = adapter.decode('dc.dataControllerUtils.Header', args[0]);
   // const queryId = adapter.decode('dc.dataControllerUtils.String', args[1]).string;
-  logger.info(method);
   const queryId = requestId;
   switch (method) {
     case constants.ADE_FMD_GET: {

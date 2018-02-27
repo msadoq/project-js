@@ -30,7 +30,6 @@ module.exports = (buffers, requestId) => {
 
   try {
     const { domains } = decode('dc.dataControllerUtils.Domains', buffer);
-    logger.info(domains);
     callback(null, domains);
   } catch (e) {
     logger.error('error on processing buffer', e);

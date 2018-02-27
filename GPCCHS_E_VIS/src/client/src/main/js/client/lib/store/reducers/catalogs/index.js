@@ -10,6 +10,7 @@ import {
   WS_CATALOG_ITEMS_ADD,
   WS_COM_OBJECTS_ASK,
   WS_COM_OBJECTS_ADD,
+  WS_UNIT_ADD,
 } from 'store/types';
 
 // eslint-disable-next-line complexity
@@ -135,6 +136,38 @@ export default function catalogsReducer(state = {}, action) {
         state
       );
     }
+    case WS_UNIT_ADD: {
+      if (!Array.isArray(state[action.payload.tupleId])) {
+        return state;
+      }
+
+      const index = getCatalogIndexByName(state, {
+        tupleId: action.payload.tupleId,
+        name: action.payload.name,
+      });
+      if (index === -1) {
+        return state;
+      }
+
+      const indexItem = getCatalogItemIndexByName(
+        state,
+        {
+          tupleId: action.payload.tupleId,
+          name: action.payload.name,
+          itemName: action.payload.itemName,
+        }
+      );
+
+      if (indexItem === -1) {
+        return state;
+      }
+      const path = `[${action.payload.tupleId}][${index}].items[${indexItem}].unit`;
+      return _set(
+        path,
+        action.payload.unit,
+        state
+      );
+    }
     default:
       return state;
   }
@@ -163,6 +196,7 @@ export const getTupleId = (domainId, sessionId) => `${domainId}-${sessionId}`;
 export const getPathToCatalogs = (state, tupleId) => _getOr(null, tupleId, state);
 export const getPathToCatalogItems = catalog => _getOr(undefined, 'items', catalog);
 export const getPathToCatalogItemComObjects = catalogItem => _getOr(undefined, 'comObjects', catalogItem);
+export const getPathToCatalogItemUnit = catalogItem => _getOr(undefined, 'unit', catalogItem);
 
 /**
  * @param state
@@ -231,4 +265,15 @@ export const getCatalogItems = createSelector(
 export const getCatalogItemComObjects = createSelector(
   getCatalogItemByName,
   item => getPathToCatalogItemComObjects(item)
+);
+
+/**
+ * @param state
+ * @param tupleId
+ * @param name
+ * @param itemName
+ */
+export const getUnitByItemName = createSelector(
+  getCatalogItemByName,
+  item => getPathToCatalogItemUnit(item)
 );

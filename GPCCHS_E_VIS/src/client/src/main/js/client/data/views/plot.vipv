@@ -139,6 +139,7 @@
         "filter": [],
         "format": "decimal",
         "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
+        "provider": "*",
         "stringParameter": false,
         "timeline": "Session 1",
         "unit": "V",

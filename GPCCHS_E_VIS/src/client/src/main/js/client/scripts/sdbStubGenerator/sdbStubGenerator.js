@@ -3,6 +3,8 @@ const path = require('path');
 
 const sdbStructure = {};
 
+const unitArray = ['g', 'V', 'm', 'J', 'T'];
+
 const catalogsPath = path.resolve(__dirname, 'catalogs');
 const catalogComObjectFilePath = path.resolve(__dirname, 'catalogToComObjectMap.json');
 
@@ -22,13 +24,19 @@ fs.readdir(catalogsPath, (err, fileArray) => {
 const parseStructure = (json) => {
   const name = json.Catalog.Name;
   sdbStructure[name] = {
-    items: [],
+    items: {},
     comObject: catalogComObjectMap[name],
   };
-  json.Catalog.Items.forEach(item => sdbStructure[name].items.push(item.Name));
+  json.Catalog.Items.forEach((item) => {
+    sdbStructure[name].items[item.Name] = {
+      unit: getRandomUnit(),
+    };
+  });
 };
 
 const getExtension = (element) => {
   const extName = path.extname(element);
   return extName === '.json';
 };
+
+const getRandomUnit = () => unitArray[Math.floor(Math.random() * unitArray.length)];

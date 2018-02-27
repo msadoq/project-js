@@ -5,7 +5,7 @@ import { getCatalogItems, getTupleId } from 'store/reducers/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
 import { getTimelineById } from 'store/reducers/timelines';
-import { askCatalogItems } from 'store/actions/catalogs';
+import { askCatalogItems, askUnit } from 'store/actions/catalogs';
 import { get } from 'common/configurationManager';
 import CatalogItemField from 'viewManager/commonEditor/Fields/CatalogItemField';
 
@@ -35,6 +35,7 @@ const mapStateToProps = (state, { domainName, timelineId, viewId, pageId, catalo
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   askCatalogItems,
+  askUnit,
 }, dispatch);
 
 const CatalogItemFieldContainer = connect(mapStateToProps, mapDispatchToProps)(CatalogItemField);

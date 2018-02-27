@@ -101,7 +101,6 @@ export default class EntryPointDetails extends PureComponent {
       pageId,
       panels,
     } = this.props;
-
     return (
       <Collapse
         accordion={false}
@@ -143,6 +142,7 @@ export default class EntryPointDetails extends PureComponent {
             initialValues={units(entryPoint)}
             viewId={viewId}
             pageId={pageId}
+            connectedData={entryPoint.connectedData}
           />}
         </Panel>
         <Panel

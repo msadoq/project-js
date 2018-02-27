@@ -3,11 +3,13 @@ import {
   WS_CATALOGS_ASK,
   WS_CATALOG_ITEMS_ASK,
   WS_COM_OBJECTS_ASK,
+  WS_UNIT_ASK,
 } from 'store/types';
 import {
   addCatalogs,
   addCatalogItems,
   addComObjects,
+  addUnit,
 } from 'store/actions/catalogs';
 import { dc } from '../../../serverProcess/ipc';
 
@@ -42,6 +44,16 @@ const asyncComObjectsFetcher = (sessionId, domainId, catalogName, catalogItemNam
     () => { cb([{ name: 'DecommutedPacket' }]); },
     1000
   ); */
+};
+
+const asyncUnitFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) => {
+  dc.retrieveSDBCatalogItemFieldUnit(
+    {
+      sessionId,
+      domainId,
+      catalogName,
+      catalogItemName,
+    }, cb);
 };
 
 const catalogMiddleware = ({ dispatch }) => next => (action) => {
@@ -88,6 +100,24 @@ const catalogMiddleware = ({ dispatch }) => next => (action) => {
       )
     );
   }
+
+  if (action.type === WS_UNIT_ASK) {
+    asyncUnitFetcher(
+      action.payload.sessionId,
+      action.payload.domainId,
+      action.payload.name,
+      action.payload.itemName,
+      unit => dispatch(
+        addUnit(
+          getTupleId(action.payload.domainId, action.payload.sessionId),
+          action.payload.name,
+          action.payload.itemName,
+          unit
+        )
+      )
+    );
+  }
+
   return nextAction;
 };
 

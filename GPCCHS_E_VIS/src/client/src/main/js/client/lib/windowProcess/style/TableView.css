@@ -46,6 +46,7 @@
 }
 
 .TableView .tableSubRow.subrow_header_title > th {
+  border-top: 1px solid black;
   border-bottom: 1px solid black;
   border-right: 1px solid black;
 }
@@ -62,10 +63,24 @@
 }
 
 .TableView .tableSubRow.subrow_header_title > th:first-child {
+  border-top: 1px solid transparent;
   border-bottom: none;
   padding-top: 10px;
 }
 
 .TableView .tableSubRow.selected > th {
   background-color: #63708C;
+}
+
+.TableView .dummyRow, .TableView .dummyCol {
+  font-size: 10px;
+  color: transparent;
+}
+
+.TableView .dummyCol {
+  width: 10px;
+}
+
+.TableView .lastSubrowFromRange > td:not(:first-child) {
+  border-bottom: 1px solid black;
 }

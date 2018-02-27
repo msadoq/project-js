@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import classnames from 'classnames';
 import { Form } from 'react-bootstrap';

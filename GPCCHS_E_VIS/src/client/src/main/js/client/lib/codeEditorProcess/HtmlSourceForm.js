@@ -11,10 +11,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { ButtonGroup, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { lint } from '../common/htmllint';
 import CodeMirrorField from '../windowProcess/commonReduxForm/CodeMirrorField';
 import styles from './Source.css';
+import EditorButtonsBar from './EditorButtonsBar';
 
 class HtmlSourceForm extends Component {
   static propTypes = {
@@ -29,18 +30,9 @@ class HtmlSourceForm extends Component {
   }
   static defaultProps = {
     entryPoints: [],
-  }
+  };
 
   onChange = editorState => this.setState({ editorState });
-
-  resetAndClose = () => {
-    this.props.reset();
-    this.props.closeCodeEditor();
-  }
-  saveAndClose = () => {
-    this.props.handleSubmit();
-    this.props.closeCodeEditor();
-  }
 
   render() {
     const {
@@ -51,6 +43,7 @@ class HtmlSourceForm extends Component {
       valid,
       entryPoints,
       viewType,
+      closeCodeEditor,
     } = this.props;
 
     return (
@@ -78,43 +71,14 @@ class HtmlSourceForm extends Component {
             <Button>Digital display</Button>
           </div>
         }
-        <div className={styles.footer}>
-          <ButtonGroup>
-            <Button
-              type="button"
-              onClick={this.resetAndClose}
-              className={styles.footerButton}
-            >
-              Cancel
-            </Button>
-            <Button
-              bsStyle="warning"
-              type="button"
-              disabled={pristine || submitting}
-              onClick={reset}
-              className={styles.footerButton}
-            >
-              Reset
-            </Button>
-            <Button
-              bsStyle="success"
-              type="submit"
-              disabled={pristine || submitting || !valid}
-              className={styles.footerButton}
-            >
-              Save
-            </Button>
-            <Button
-              bsStyle="success"
-              type="button"
-              disabled={pristine || submitting || !valid}
-              className={styles.footerButton}
-              onClick={this.saveAndClose}
-            >
-              Save & Close
-            </Button>
-          </ButtonGroup>
-        </div>
+        <EditorButtonsBar
+          pristine={pristine}
+          submitting={submitting}
+          valid={valid}
+          reset={reset}
+          closeCodeEditor={closeCodeEditor}
+          handleSubmit={handleSubmit}
+        />
       </form>
     );
   }
@@ -136,7 +100,6 @@ const validate = (values = {}, props) => {
   if (htmlErrors.length) {
     errors.html = `You have ${htmlErrors.length} errors`;
   }
-
   return errors;
 };
 

@@ -8,7 +8,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { ButtonGroup, Button } from 'react-bootstrap';
 import _map from 'lodash/map';
 import { lint } from '../common/htmllint';
 import knobe from '../viewManager/MimicView/Components/Collection/knobe';
@@ -32,6 +31,7 @@ import textBox from '../viewManager/MimicView/Components/Animation/textBox';
 import translateX from '../viewManager/MimicView/Components/Animation/translateX';
 import translateY from '../viewManager/MimicView/Components/Animation/translateY';
 import transistor from '../viewManager/MimicView/Components/Collection/transistor';
+import EditorButtonsBar from './EditorButtonsBar';
 
 const { string, func, arrayOf, bool, object } = PropTypes;
 
@@ -50,14 +50,7 @@ class SvgSourceForm extends PureComponent {
     entryPoints: [],
   };
   onChange = editorState => this.setState({ editorState });
-  resetAndClose = () => {
-    this.props.reset();
-    this.props.closeCodeEditor();
-  };
-  saveAndClose = () => {
-    this.props.handleSubmit();
-    this.props.closeCodeEditor();
-  };
+
   render() {
     const {
       handleSubmit,
@@ -67,6 +60,7 @@ class SvgSourceForm extends PureComponent {
       valid,
       entryPoints,
       viewType,
+      closeCodeEditor,
     } = this.props;
 
     const options = [{ name: 'contextmenu', func: (a, b) => this.onContextMenu(a, b) }];
@@ -95,66 +89,18 @@ class SvgSourceForm extends PureComponent {
           collection={getMainContextMenu(entryPoints)}
           cmOptions={options}
         />
-        <div className={styles.footer}>
-          <ButtonGroup>
-            <Button
-              type="button"
-              onClick={this.resetAndClose}
-              className={styles.footerButton}
-            >
-              Cancel
-            </Button>
-            <Button
-              bsStyle="warning"
-              type="button"
-              disabled={pristine || submitting}
-              onClick={reset}
-              className={styles.footerButton}
-            >
-              Reset
-            </Button>
-            <Button
-              bsStyle="success"
-              type="submit"
-              disabled={pristine || submitting || !valid}
-              className={styles.footerButton}
-            >
-              Save
-            </Button>
-            <Button
-              bsStyle="success"
-              type="button"
-              disabled={pristine || submitting || !valid}
-              className={styles.footerButton}
-              onClick={this.saveAndClose}
-            >
-              Save & Close
-            </Button>
-          </ButtonGroup>
-        </div>
+        <EditorButtonsBar
+          pristine={pristine}
+          submitting={submitting}
+          valid={valid}
+          reset={reset}
+          closeCodeEditor={closeCodeEditor}
+          handleSubmit={handleSubmit}
+        />
       </form>
     );
   }
 }
-
-const requiredFields = ['html'];
-const validate = (values = {}, props) => {
-  const errors = {};
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-
-  const htmlErrors = props.viewType === 'MimicView' ?
-    lint(values.html, { 'spec-char-escape': false }) :
-    lint(values.html);
-
-  if (htmlErrors.length) {
-    errors.html = `You have ${htmlErrors.length} errors`;
-  }
-  return errors;
-};
 
 /**
  * @param entryPoints
@@ -269,6 +215,25 @@ export const getMainContextMenu = (entryPoints) => {
   }
 
   return menu;
+};
+
+const requiredFields = ['html'];
+const validate = (values = {}, props) => {
+  const errors = {};
+  requiredFields.forEach((field) => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
+
+  const htmlErrors = props.viewType === 'MimicView' ?
+    lint(values.html, { 'spec-char-escape': false }) :
+    lint(values.html);
+
+  if (htmlErrors.length) {
+    errors.html = `You have ${htmlErrors.length} errors`;
+  }
+  return errors;
 };
 
 export default reduxForm({

@@ -27,7 +27,7 @@ import '!style!css!codemirror/lib/codemirror.css';
 import '!style!css!codemirror/addon/lint/lint.css';
 import '!style!css!codemirror/addon/hint/show-hint.css';
 import { Alert } from 'react-bootstrap';
-// import { lint } from 'common/htmllint';
+import { lint } from 'common/htmllint';
 import handleContextMenu from '../common/handleContextMenu';
 import styles from './CodeMirrorField.css';
 
@@ -105,26 +105,31 @@ export default class CodeMirrorField extends React.Component {
     );
   };
 
+  codeMirrorInstance;
+  currentPosition;
+
   editorDidMount = (editor) => {
     this.codeMirrorInstance = editor;
-    // CodeMirrorStatic.registerHelper('lint', 'html', (text) => {
-    //   const found = [];
-    //   const errors = lint(text);
-    //   for (let i = 0; i < errors.length; i += 1) {
-    //     const message = errors[i];
-    //     const startLine = message.line - 1;
-    //     const endLine = message.line - 1;
-    //     const startCol = message.col - 1;
-    //     const endCol = message.col;
-    //     found.push({
-    //       from: this.codeMirrorInstance.Pos(startLine, startCol),
-    //       to: this.codeMirrorInstance.Pos(endLine, endCol),
-    //       message: message.message,
-    //       severity: message.type,
-    //     });
-    //   }
-    //   return found;
-    // });
+    CodeMirrorStatic.registerHelper('lint', 'html', (text) => {
+      const found = [];
+      const errors = lint(text);
+      for (let i = 0; i < errors.length; i += 1) {
+        const message = errors[i];
+        const startLine = message.line - 1;
+        const endLine = message.line - 1;
+        const startCol = message.col - 1;
+        const endCol = message.col;
+
+        // displays an icon in the left bar for each lint error
+        found.push({
+          from: CodeMirrorStatic.Pos(startLine, startCol),
+          to: CodeMirrorStatic.Pos(endLine, endCol),
+          message: message.message,
+          severity: message.type,
+        });
+      }
+      return found;
+    });
     /*
       linting is disabled by default, and will be activated only if
       component receives error(s) from redux-form (componentWillReceiveProps)
@@ -142,19 +147,30 @@ export default class CodeMirrorField extends React.Component {
     // Fix display bug with CodeMirror
     setTimeout(() => this.forceUpdate());
   };
-  codeMirrorInstance;
 
   autocomplete = (cm) => {
     const { autocompleteList } = this.props;
     CodeMirrorStatic.showHint(cm, cmd => ({
-      from: cmd.getCursor(), to: cmd.getCursor(), list: autocompleteList,
+      from: cmd.getCursor(),
+      to: cmd.getCursor(),
+      list: autocompleteList,
     }));
   };
 
+  // handleOnBeforeChange = (editor, data, value) => {
+  //   console.log('onBeforeChange', editor, data, value, next);
+  //   const { input } = this.props;
+  // };
+
   handleOnChange = _debounce((editor, data, value) => {
     const { input: { onChange } } = this.props;
+    /*
+     * for any reason, each time redux-form validation is called (and CodeMirrorField is rerendered
+     * to display possible errors), CodeMirror component resets cursor position to the very end of the field).
+     * the following trick keeps cursor position when validation occurs.
+     */
+    this.currentPosition = editor.doc.getCursor();
     onChange(value);
-    // asyncValidate();
   }, 500);
 
   render() {
@@ -177,7 +193,6 @@ export default class CodeMirrorField extends React.Component {
       lint: true,
       ...options,
     };
-
     return (
       <div
         className={classnames({
@@ -190,8 +205,9 @@ export default class CodeMirrorField extends React.Component {
           editorDidMount={this.editorDidMount}
           onChange={this.handleOnChange}
           className={styles['codemirror-container']}
+          cursor={this.currentPosition}
         />
-        {error && <Alert bsStyle="danger" className="m0">
+        {error && <Alert bsStyle="danger" className={classnames('m0', styles.error)}>
           {error}
         </Alert>}
       </div>

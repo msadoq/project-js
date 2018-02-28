@@ -1,5 +1,4 @@
 import React from 'react';
-import { stub } from 'sinon';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 import SaveVisualizationToggle from './SaveVisualizationToggle';

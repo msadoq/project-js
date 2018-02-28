@@ -182,6 +182,25 @@ export function onStart() {
         callback(null);
       }
     },
+    function loadColorsConfigurationFile(callback) {
+      const confPath = parameters.get('COLORS_CONFIGURATION');
+      if (confPath) {
+        logger.info(` --COLORS_CONFIGURATION parameter found at ${confPath} `);
+        read(confPath, (error, content) => {
+          callback(error, content);
+          try {
+            const parsedContent = JSON.parse(content);
+            parameters.setColorsConfiguration(parsedContent);
+          } catch (e) {
+            logger.error('Error while parsing configuration file');
+            logger.error(e);
+          }
+        });
+      } else {
+        logger.error('No --COLORS_CONFIGURATION parameters found');
+        callback(null);
+      }
+    },
     function openSplashScreen(callback) {
       splashScreen.open(callback);
     },

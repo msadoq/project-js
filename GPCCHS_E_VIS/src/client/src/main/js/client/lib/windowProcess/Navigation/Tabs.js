@@ -30,11 +30,6 @@ import _ from 'lodash';
 import { get } from 'common/configurationManager';
 import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
-import {
-  COLOR_ISIS_SAT, COLOR_MULTIPLE_SAT, COLOR_SIMUPUS_SAT, DOMAIN_ISIS,
-  DOMAIN_SIMUPUS,
-} from '../../constants';
-
 
 const popoverDraggingStyle = { display: 'none' };
 
@@ -185,14 +180,10 @@ export default class Tabs extends PureComponent {
               )
             ), '*');
 
-            let borderColorForTab = null;
-            if (domains.length > 1) {
-              borderColorForTab = COLOR_MULTIPLE_SAT;
-            } else if (domains[0] === DOMAIN_SIMUPUS) {
-              borderColorForTab = COLOR_SIMUPUS_SAT;
-            } else if (domains[0] === DOMAIN_ISIS) {
-              borderColorForTab = COLOR_ISIS_SAT;
-            }
+            const colors = get('DOMAINS_COLORS');
+            const domain = domains.length > 1 ? 'multi' : domains[0];
+            const colorObject = colors.find(obj => Object.keys(obj)[0] === domain);
+            const borderColorForTab = colorObject !== undefined ? colorObject[domain] : null;
 
             const style = {
               borderBottom: '8px solid',

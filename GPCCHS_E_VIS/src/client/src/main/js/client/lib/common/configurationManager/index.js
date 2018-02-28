@@ -25,6 +25,7 @@ const DEFAULT = 'config.default.json'; // mandatory
 const LOCAL = 'config.local.json'; // optional
 
 let fmdConfig = {};
+let colorsConfig;
 let argv;
 let defaultConfig;
 let localConfig;
@@ -36,6 +37,17 @@ function setFmdConfiguration(config) {
 
 function getFmdConfiguration(name) {
   return fmdConfig[name];
+}
+
+function setColorsConfiguration(config) {
+  fmdConfig = config;
+}
+
+function getColorsConfiguration(name) {
+  if (!colorsConfig) {
+    return undefined;
+  }
+  return colorsConfig[name];
 }
 
 function getAllArgv() {
@@ -91,7 +103,10 @@ function get(name) {
   if (hasValue()) {
     return value;
   }
-
+  value = getColorsConfiguration(name);
+  if (hasValue()) {
+    return value;
+  }
   value = getArgv(name);
   if (hasValue()) {
     return value;
@@ -123,7 +138,8 @@ function getAll() {
     getAllEnv(),
     localConfig,
     getAllArgv(),
-    fmdConfig
+    fmdConfig,
+    colorsConfig
   );
   return _omit(all, ['_', 'r']);
 }
@@ -176,4 +192,4 @@ function universalGet(name) {
   return _get(global, ['parameters', 'get'], get)(name);
 }
 
-module.exports = { init, get: universalGet, getAll, setFmdConfiguration };
+module.exports = { init, get: universalGet, getAll, setFmdConfiguration, setColorsConfiguration };

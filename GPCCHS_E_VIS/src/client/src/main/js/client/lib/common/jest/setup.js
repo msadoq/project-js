@@ -69,6 +69,11 @@ global.testConfig = {
   DEFAULT_FIELD: {
     ReportingParameter: 'extractedValue',
   },
+  DOMAINS_COLORS: [
+    { 'fr.cnes.isis.simupus': '#339933' },
+    { 'fr.cnes.isis': '#0066ff' },
+    { multi: '#ff3300' },
+  ],
 };
 
 Enzyme.configure({ adapter: new Adapter() });

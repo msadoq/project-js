@@ -232,13 +232,4 @@ module.exports = {
   ALARM_ACKSTATE_ACQUITED: 'ACKNOWLEDGED',
   ALARM_ACKSTATE_REQUIREACK: 'REQUIRE ACKNOWLEDGE',
   ALARM_ACKSTATE_NOACK: 'NO ACKNOWLEDGE',
-
-  // Code couleur for views
-  COLOR_ISIS_SAT: '#0066ff',
-  COLOR_SIMUPUS_SAT: '#339933',
-  COLOR_MULTIPLE_SAT: '#ff3300',
-
-  // list of domains
-  DOMAIN_SIMUPUS: 'fr.cnes.isis.simupus',
-  DOMAIN_ISIS: 'fr.cnes.isis',
 };

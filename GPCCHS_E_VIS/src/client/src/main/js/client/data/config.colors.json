@@ -1,0 +1,7 @@
+{
+  "DOMAINS_COLORS" : [
+    { "fr.cnes.isis.simupus": "#339933" },
+    { "fr.cnes.isis": "#0066ff" },
+    { "multi": "#ff3300" }
+  ]
+}

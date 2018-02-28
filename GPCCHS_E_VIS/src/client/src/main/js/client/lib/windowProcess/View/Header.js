@@ -39,8 +39,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { Button, Glyphicon } from 'react-bootstrap';
+import { get } from 'common/configurationManager';
 import styles from './Header.css';
-import { COLOR_ISIS_SAT, COLOR_SIMUPUS_SAT, COLOR_MULTIPLE_SAT, DOMAIN_SIMUPUS, DOMAIN_ISIS } from '../../constants';
 
 export default class Header extends PureComponent {
   static propTypes = {
@@ -71,14 +71,10 @@ export default class Header extends PureComponent {
 
   getBackgroundColorByViewDomains() {
     const { domains } = this.props;
-    if (domains.length > 1) {
-      return COLOR_MULTIPLE_SAT;
-    } else if (domains[0] === DOMAIN_SIMUPUS) {
-      return COLOR_SIMUPUS_SAT;
-    } else if (domains[0] === DOMAIN_ISIS) {
-      return COLOR_ISIS_SAT;
-    }
-    return null;
+    const colors = get('DOMAINS_COLORS');
+    const domain = domains.length > 1 ? 'multi' : domains[0];
+    const colorObject = colors.find(obj => Object.keys(obj)[0] === domain);
+    return colorObject !== undefined ? colorObject[domain] : null;
   }
 
   getTitleStyle() {

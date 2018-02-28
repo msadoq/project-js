@@ -15,7 +15,16 @@ let spawned;
 
 exports.spawnPasserelle = function spawnPasserelle() {
   const PYTHON_EXEC_PATH = parameters.get('PYTHON_EXEC_PATH');
-  spawned = spawn(PYTHON_EXEC_PATH, [`${__dirname}/../../../scripts/gpvi_interfacelayer_server.py`]);  
+  const PYTHONPATH = parameters.get('PYTHONPATH');
+  if (!PYTHONPATH) {
+    logger.error('No PYTHONPATH found, please provider one.');
+    return;
+  }
+  spawned = spawn(PYTHON_EXEC_PATH, [`${__dirname}/../../../scripts/gpvi_interfacelayer_server.py`], {
+    env: {
+      PYTHONPATH,
+    },
+  });
 
   spawned.on('error', (err) => {
     logger.error('Failed to start subprocess.');

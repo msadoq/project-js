@@ -204,3 +204,15 @@ In case of error 'ImportError: No module named GPINUC_L_UCL.unitConverterLibrary
 
 ```
 ```
+
+------------------------------------------------------------------
+
+# Doxygen tags / Unit tests
+@see http://isis.cnes-isis.toulouse.atos.net/plugins/docman/?group_id=111&action=show&id=8533
+
+```javascript
+/** 
+ * @brief test description
+ * @ElementUnderTest /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/adapters/isis/userEvent/userEvent.spec.js
+**/ 
+```

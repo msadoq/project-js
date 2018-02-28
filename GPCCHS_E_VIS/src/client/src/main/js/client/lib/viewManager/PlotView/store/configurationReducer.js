@@ -54,6 +54,7 @@ export default (stateConf = { search: '', showLegend: true }, action) => {
           ...stateConf.entryPoints,
           {
             ...action.payload.entryPoint,
+            axisId: axisY.id,
             connectedData: {
               ...(action.payload.entryPoint.connectedData),
               axisId: axisY.id,

@@ -187,7 +187,7 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
       return xAxes.push({
         id: 'time',
         orient: 'top',
-        extents: [visuWindow.lower, visuWindow.upper],
+        extents: [visuWindow && visuWindow.lower, visuWindow && visuWindow.upper],
         autoLimits: false,
         showAxis: true,
         showLabels: true,

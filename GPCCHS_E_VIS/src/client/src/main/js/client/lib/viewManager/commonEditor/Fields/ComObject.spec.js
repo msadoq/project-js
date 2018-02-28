@@ -1,5 +1,5 @@
 import ComObject from 'viewManager/commonEditor/Fields/ComObject';
-import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
+import { shallowRenderSnapshotInReduxForm } from '../../../common/jest/utils';
 
 const propsStub = {
   timelineId: 'timelineId',

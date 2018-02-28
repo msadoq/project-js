@@ -1,4 +1,4 @@
-import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
+import { shallowRenderSnapshotInReduxForm } from '../../../common/jest/utils';
 import DynamicViewEntryPoints from './DynamicViewEntryPoints';
 
 const propsStub = {

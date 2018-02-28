@@ -1,5 +1,5 @@
 import DomainField from 'viewManager/commonEditor/Fields/DomainField';
-import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
+import { shallowRenderSnapshotInReduxForm } from '../../../common/jest/utils';
 
 const propsStub = {
   domainName: 'domain',

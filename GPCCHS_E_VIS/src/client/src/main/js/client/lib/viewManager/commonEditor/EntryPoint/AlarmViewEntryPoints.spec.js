@@ -1,6 +1,5 @@
-import React from 'react';
-import ShallowRenderer from 'react-test-renderer/shallow';
 import AlarmViewEntryPoints from './AlarmViewEntryPoints';
+import { shallowRenderSnapshot } from '../../../common/jest/utils';
 
 const propsStub = {
   domains: [
@@ -27,13 +26,7 @@ describe('viewManager', () => {
     describe('viewManager :: commonEditor :: EntryPoint', () => {
       describe('viewManager :: commonEditor :: EntryPoint :: AlarmViewEntryPoints', () => {
         test('snapshot', () => {
-          const renderer = new ShallowRenderer();
-          renderer.render(
-            <AlarmViewEntryPoints
-              {...propsStub}
-            />
-          );
-          expect(renderer.getRenderOutput()).toMatchSnapshot();
+          shallowRenderSnapshot(AlarmViewEntryPoints, propsStub, {});
         });
       });
     });

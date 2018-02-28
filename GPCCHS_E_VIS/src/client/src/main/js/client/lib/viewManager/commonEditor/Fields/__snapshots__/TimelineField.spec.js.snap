@@ -1,25 +1,142 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TimelineField :: render snapshot 1`] = `
-<div>
-  <Field
-    clearable={true}
-    component={[Function]}
-    format={null}
-    name="timeline"
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <TimelineField
     onChange={[Function]}
-    options={
-      Array [
-        Object {
-          "label": "timeline",
-          "value": "timeline",
-        },
-        Object {
-          "label": "*",
-          "value": "*",
-        },
-      ]
+    timelineName="timeline"
+    timelines={
+        Array [
+            Object {
+              "items": Array [],
+              "name": "timeline",
+            },
+          ]
     }
-  />
-</div>
+/>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <Field
+        clearable={true}
+        component={[Function]}
+        format={null}
+        name="timeline"
+        onChange={[Function]}
+        options={
+                Array [
+                        Object {
+                          "label": "timeline",
+                          "value": "timeline",
+                        },
+                        Object {
+                          "label": "*",
+                          "value": "*",
+                        },
+                      ]
+        }
+/>,
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "clearable": true,
+        "component": [Function],
+        "format": null,
+        "name": "timeline",
+        "onChange": [Function],
+        "options": Array [
+          Object {
+            "label": "timeline",
+            "value": "timeline",
+          },
+          Object {
+            "label": "*",
+            "value": "*",
+          },
+        ],
+      },
+      "ref": null,
+      "rendered": null,
+      "type": [Function],
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <Field
+          clearable={true}
+          component={[Function]}
+          format={null}
+          name="timeline"
+          onChange={[Function]}
+          options={
+                    Array [
+                              Object {
+                                "label": "timeline",
+                                "value": "timeline",
+                              },
+                              Object {
+                                "label": "*",
+                                "value": "*",
+                              },
+                            ]
+          }
+/>,
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "clearable": true,
+          "component": [Function],
+          "format": null,
+          "name": "timeline",
+          "onChange": [Function],
+          "options": Array [
+            Object {
+              "label": "timeline",
+              "value": "timeline",
+            },
+            Object {
+              "label": "*",
+              "value": "*",
+            },
+          ],
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactFifteenFourAdapter {
+      "options": Object {
+        "supportPrevContextArgumentOfComponentDidUpdate": true,
+      },
+    },
+  },
+}
 `;

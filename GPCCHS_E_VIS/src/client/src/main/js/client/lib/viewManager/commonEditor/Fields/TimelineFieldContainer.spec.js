@@ -1,4 +1,4 @@
-import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
+import { shallowRenderSnapshotInReduxForm } from '../../../common/jest/utils';
 import TimelineFieldContainer from './TimelineFieldContainer';
 
 const propsStub = {

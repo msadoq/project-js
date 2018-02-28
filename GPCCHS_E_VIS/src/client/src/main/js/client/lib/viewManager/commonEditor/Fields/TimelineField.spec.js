@@ -1,5 +1,5 @@
 import TimelineField from 'viewManager/commonEditor/Fields/TimelineField';
-import { shallowRenderSnapshot } from 'common/jest/utils';
+import { shallowRenderSnapshot } from '../../../common/jest/utils';
 
 const propsStub = {
   timelineName: 'timeline',

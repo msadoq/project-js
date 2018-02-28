@@ -1,5 +1,5 @@
 import HistoryEditorContainer from 'viewManager/HistoryView/Components/Editor/HistoryEditorContainer';
-import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
+import { shallowRenderSnapshotInReduxForm } from '../../../../common/jest/utils';
 
 const propsStub = {
   viewId: 'view-id',

@@ -1,29 +1,123 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: DataViewEntryPointsContainer snapshot 1`] = `
-<ReduxForm
-  domainName="fr.cnes.test"
-  domains={
-    Array [
-      Object {
-        "domainId": 1,
-        "itemNamespace": "Domains",
-        "name": "fr.cnes.isis",
-        "oid": "0051525005151000565215465660515",
-        "parentDomainId": 0,
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Provider
+    store={
+        Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(Symbol.observable): [Function],
+          }
+    }
+>
+    <ReduxForm
+        domainName="fr.cnes.test"
+        domains={
+            Array [
+                Object {
+                  "domainId": 1,
+                  "itemNamespace": "Domains",
+                  "name": "fr.cnes.isis",
+                  "oid": "0051525005151000565215465660515",
+                  "parentDomainId": 0,
+                },
+                Object {
+                  "domainId": 2,
+                  "itemNamespace": "Domains",
+                  "name": "fr.cnes.isis.simupus",
+                  "oid": "0051525005151000565215465660515",
+                  "parentDomainId": 1,
+                },
+              ]
+        }
+        form="form"
+        pageId="pageId"
+        viewId="viewId"
+        viewType="TextView"
+    />
+</Provider>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "class",
+    "props": Object {
+      "domainName": "fr.cnes.test",
+      "domains": Array [
+        Object {
+          "domainId": 1,
+          "itemNamespace": "Domains",
+          "name": "fr.cnes.isis",
+          "oid": "0051525005151000565215465660515",
+          "parentDomainId": 0,
+        },
+        Object {
+          "domainId": 2,
+          "itemNamespace": "Domains",
+          "name": "fr.cnes.isis.simupus",
+          "oid": "0051525005151000565215465660515",
+          "parentDomainId": 1,
+        },
+      ],
+      "form": "form",
+      "pageId": "pageId",
+      "viewId": "viewId",
+      "viewType": "TextView",
+    },
+    "ref": null,
+    "rendered": null,
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "domainName": "fr.cnes.test",
+        "domains": Array [
+          Object {
+            "domainId": 1,
+            "itemNamespace": "Domains",
+            "name": "fr.cnes.isis",
+            "oid": "0051525005151000565215465660515",
+            "parentDomainId": 0,
+          },
+          Object {
+            "domainId": 2,
+            "itemNamespace": "Domains",
+            "name": "fr.cnes.isis.simupus",
+            "oid": "0051525005151000565215465660515",
+            "parentDomainId": 1,
+          },
+        ],
+        "form": "form",
+        "pageId": "pageId",
+        "viewId": "viewId",
+        "viewType": "TextView",
       },
-      Object {
-        "domainId": 2,
-        "itemNamespace": "Domains",
-        "name": "fr.cnes.isis.simupus",
-        "oid": "0051525005151000565215465660515",
-        "parentDomainId": 1,
+      "ref": null,
+      "rendered": null,
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactFifteenFourAdapter {
+      "options": Object {
+        "supportPrevContextArgumentOfComponentDidUpdate": true,
       },
-    ]
-  }
-  form="form"
-  pageId="pageId"
-  viewId="viewId"
-  viewType="TextView"
-/>
+    },
+  },
+}
 `;

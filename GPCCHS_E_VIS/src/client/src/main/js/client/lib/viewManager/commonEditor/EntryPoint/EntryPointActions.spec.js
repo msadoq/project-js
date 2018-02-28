@@ -1,4 +1,4 @@
-import { shallowRenderSnapshot } from 'common/jest/utils';
+import { shallowRenderSnapshot } from '../../../common/jest/utils';
 import EntryPointActions from './EntryPointActions';
 
 const propsStub = {

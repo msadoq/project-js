@@ -95,7 +95,7 @@ exports[`TableView renders correctly 1`] = `
   </thead>
   <tbody>
     <tr
-      className="tableRow"
+      className="tableRow row-typeof-row"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -137,7 +137,12 @@ exports[`TableView renders correctly 1`] = `
       </td>
     </tr>
     <tr
-      className="tableSubRow"
+      className="dummyRow"
+    >
+      o
+    </tr>
+    <tr
+      className="tableSubRow row-typeof-subrow_header_title"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -163,7 +168,7 @@ exports[`TableView renders correctly 1`] = `
       </th>
     </tr>
     <tr
-      className="tableSubRow"
+      className="tableSubRow row-typeof-subrow_header"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -196,7 +201,7 @@ exports[`TableView renders correctly 1`] = `
       </th>
     </tr>
     <tr
-      className="tableSubRow"
+      className="tableSubRow row-typeof-subrow"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -228,7 +233,7 @@ exports[`TableView renders correctly 1`] = `
       </td>
     </tr>
     <tr
-      className="tableSubRow"
+      className="tableSubRow lastSubrowFromRange row-typeof-subrow"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -260,7 +265,12 @@ exports[`TableView renders correctly 1`] = `
       </td>
     </tr>
     <tr
-      className="tableRow"
+      className="dummyRow"
+    >
+      o
+    </tr>
+    <tr
+      className="tableRow row-typeof-row"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -302,7 +312,12 @@ exports[`TableView renders correctly 1`] = `
       </td>
     </tr>
     <tr
-      className="tableSubRow"
+      className="dummyRow"
+    >
+      o
+    </tr>
+    <tr
+      className="tableSubRow row-typeof-subrow_header_title"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -328,7 +343,7 @@ exports[`TableView renders correctly 1`] = `
       </th>
     </tr>
     <tr
-      className="tableSubRow"
+      className="tableSubRow row-typeof-subrow_header"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -361,7 +376,7 @@ exports[`TableView renders correctly 1`] = `
       </th>
     </tr>
     <tr
-      className="tableSubRow"
+      className="tableSubRow row-typeof-subrow"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
@@ -393,7 +408,7 @@ exports[`TableView renders correctly 1`] = `
       </td>
     </tr>
     <tr
-      className="tableSubRow"
+      className="tableSubRow row-typeof-subrow"
       onClick={[Function]}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}

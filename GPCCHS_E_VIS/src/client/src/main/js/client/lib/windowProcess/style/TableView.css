@@ -39,3 +39,11 @@
   background-color: var(--gray-lighter);
   color: var(--gray-darker);
 }
+
+.TableView .tableRow:nth-of-type(2n) > td {
+  background-color: #999999;
+}
+
+.TableView .tableRow:nth-of-type(2n+1) > td {
+  background-color: #777777;
+}

@@ -12,7 +12,7 @@ describe('buildFormula', () => {
             if (catalog && catalogItem && comObject && field) {
               expect(formula).toEqual('Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.convertedValue');
             } else if (catalog && catalogItem && comObject) {
-              expect(formula).toEqual('Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>');
+              expect(formula).toEqual('Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.convertedValue');
             } else if (catalog && catalogItem) {
               expect(formula).toEqual('Reporting.AGA_AM_ACQPRIORITY');
             } else if (catalog) {

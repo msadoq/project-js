@@ -16,12 +16,12 @@ import _get from 'lodash/get';
 import _each from 'lodash/each';
 import classnames from 'classnames';
 import getLogger from 'common/logManager';
-import { get } from 'common/configurationManager';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import TextView from './TextView';
 import styles from './TextView.css';
+import { buildFormula } from '../../../common';
 
 const logger = getLogger('view:text');
 
@@ -29,10 +29,13 @@ const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
 
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
+  const formula =
+    buildFormula(data.catalogName, data.item, getComObject(data.comObjects), data.comObjectFields);
+
   return {
     name: data.item,
     connectedData: {
-      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
+      formula,
     },
   };
 }

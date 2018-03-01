@@ -256,7 +256,7 @@ describe('PlotView :: parseDragData', () => {
     expect(newId).toEqual({
       name: 'Session 1',
       connectedData: {
-        formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
+        formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedValue',
         fieldX: 'onboardDate',
         timeline: 'entryPoint',
         unit: 'V',

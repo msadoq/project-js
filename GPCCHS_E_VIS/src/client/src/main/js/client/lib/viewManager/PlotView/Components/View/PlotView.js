@@ -71,11 +71,10 @@ import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';
-import _result from 'lodash/result';
+import _ from 'lodash/fp';
 import classnames from 'classnames';
 import moment from 'moment';
 import LinksContainer from 'windowProcess/View/LinksContainer';
-import { get } from 'common/configurationManager';
 import withDimensions from 'windowProcess/common/hoc/withDimensions';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
@@ -86,6 +85,7 @@ import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
+import { buildFormula } from '../../../common';
 
 const logger = getLogger('view:plot');
 
@@ -381,11 +381,13 @@ const tooltipFormatter = (id, foundColor, color, value, x, formattedValue, forma
  * @pure
  */
 export const parseDragData = (data, id, defaultTimelineId) => {
-  const val = _result(data, 'comObjects[0]', 'UNKNOWN_COM_OBJECT');
+  const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
+  const formula =
+    buildFormula(data.catalogName, data.item, getComObject(data.comObjects), data.comObjectFields);
   return {
     name: id,
     connectedData: {
-      formula: `${data.catalogName}.${data.item}<${val}>.${get('DEFAULT_FIELD')[val]}`,
+      formula,
       fieldX: 'onboardDate',
       unit: 'V',
       domain: '*',

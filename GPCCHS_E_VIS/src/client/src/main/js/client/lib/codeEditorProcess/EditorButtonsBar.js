@@ -47,7 +47,6 @@ export default class EditorButtonsBar extends React.PureComponent {
           <Button
             bsStyle="warning"
             type="button"
-            disabled={pristine || submitting}
             onClick={reset}
             className={styles.footerButton}
           >

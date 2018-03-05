@@ -245,7 +245,7 @@ const onHssMessageADE = (...args) => {
 
     case constants.ADE_LOG: {
       logger.info('handle log');
-      const { uid, arguments: a } = adapter.decode('dc.dataControllerUtils.SendLog', args[2]);
+      const { uid, arguments: a } = adapter.decode('dc.dataControllerUtils.SendLog', args[1]);
       // eslint-disable-next-line no-console, "DV6 TBC_CNES Stub file, output on console"
       return console.log(`DC EMULATE LOG MANAGER: ${uid}`, a);
     }

@@ -13,40 +13,16 @@ import {
 } from 'store/actions/catalogs';
 import { dc } from '../../../serverProcess/ipc';
 
-const asyncCatalogFetcher = (sessionId, domainId, cb) => {
+const asyncCatalogFetcher = (sessionId, domainId, cb) =>
   dc.retrieveSDBCatalogs({ sessionId, domainId }, cb);
-  /* dc.retrieveSDBCatalogs({ sessionId, domainId }, (decoded) => {
-    console.log('retrieveSDBCatalogs', decoded);
-  }); */
-  /* setTimeout(
-    () => { cb([{ name: 'TelemetryPacket' }]); },
-    1000
-  ); */
-};
 
-const asyncCatalogItemFetcher = (sessionId, domainId, catalogName, cb) => {
+const asyncCatalogItemFetcher = (sessionId, domainId, catalogName, cb) =>
   dc.retrieveSDBCatalogsItems({ sessionId, domainId, catalogName }, cb);
-  /* dc.retrieveSDBCatalogsItems({ sessionId, domainId, catalogName }, (decoded) => {
-    console.log('retrieveSDBCatalogsItems', decoded);
-  }); */
-  /* setTimeout(
-    () => { cb([{ name: 'CLCW_TM_NOMINAL' }]); },
-    1000
-  ) */
-};
 
-const asyncComObjectsFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) => {
+const asyncComObjectsFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
   dc.retrieveSDBCatalogsItemComObject({ sessionId, domainId, catalogName, catalogItemName }, cb);
-  /* dc.retrieveSDBCatalogsItemComObject({ sessionId, domainId, catalogName, catalogItemName }, (decoded) => {
-    console.log('retrieveSDBCatalogsItemComObject', decoded);
-  }); */
-  /* setTimeout(
-    () => { cb([{ name: 'DecommutedPacket' }]); },
-    1000
-  ); */
-};
 
-const asyncUnitFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) => {
+const asyncUnitFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
   dc.retrieveSDBCatalogItemFieldUnit(
     {
       sessionId,
@@ -54,7 +30,6 @@ const asyncUnitFetcher = (sessionId, domainId, catalogName, catalogItemName, cb)
       catalogName,
       catalogItemName,
     }, cb);
-};
 
 const catalogMiddleware = ({ dispatch }) => next => (action) => {
   const nextAction = next(action);
@@ -62,12 +37,14 @@ const catalogMiddleware = ({ dispatch }) => next => (action) => {
     asyncCatalogFetcher(
       action.payload.sessionId,
       action.payload.domainId,
-      catalogs => dispatch(
-        addCatalogs(
-          getTupleId(action.payload.domainId, action.payload.sessionId),
-          catalogs
-        )
-      )
+      (catalogs) => {
+        dispatch(
+          addCatalogs(
+            getTupleId(action.payload.domainId, action.payload.sessionId),
+            catalogs
+          )
+        );
+      }
     );
   }
   if (action.type === WS_CATALOG_ITEMS_ASK) {

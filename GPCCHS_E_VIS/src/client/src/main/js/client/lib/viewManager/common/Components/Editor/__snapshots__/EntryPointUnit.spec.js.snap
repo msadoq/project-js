@@ -9,6 +9,27 @@ exports[`EntryPointUnit :: render EntryPointUnit :: render 1`] = `
       className="col-xs-4 control-label"
       htmlFor="formHorizontalName"
     >
+      Default unit
+    </label>
+    <div
+      className="col-xs-8"
+    >
+      <div
+        className="plaintTextPadded"
+      >
+        <i>
+          Unknown
+        </i>
+      </div>
+    </div>
+  </div>
+  <div
+    className="form-group"
+  >
+    <label
+      className="col-xs-4 control-label"
+      htmlFor="formHorizontalName"
+    >
       Convert from
     </label>
     <div

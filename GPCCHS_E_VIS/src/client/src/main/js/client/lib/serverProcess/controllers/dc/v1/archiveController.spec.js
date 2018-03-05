@@ -26,7 +26,7 @@ const { add,
 const dataStub = getStubData();
 
 
-describe('controllers/archive', () => {
+describe.skip('controllers/archive', () => {
   const myQueryProto = encode('dc.dataControllerUtils.String', { string: 'myQueryId' });
   const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
   const protobufFalse = encode('dc.dataControllerUtils.Boolean', { boolean: false });

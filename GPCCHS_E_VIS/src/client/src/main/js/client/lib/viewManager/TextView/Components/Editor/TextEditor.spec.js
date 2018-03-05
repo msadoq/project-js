@@ -1,5 +1,5 @@
-import { shallowRenderSnapshot } from 'common/jest/utils';
 import TextEditor from 'viewManager/TextView/Components/Editor/TextEditor';
+import { shallowRenderSnapshot } from '../../../../common/jest/utils';
 
 const propsStub = {
   viewId: 'view-id',

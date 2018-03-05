@@ -1,5 +1,5 @@
 import CatalogField from 'viewManager/commonEditor/Fields/CatalogField';
-import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
+import { shallowRenderSnapshotInReduxForm } from '../../../common/jest/utils';
 
 const propsStub = {
   timelineId: 'timelineId',

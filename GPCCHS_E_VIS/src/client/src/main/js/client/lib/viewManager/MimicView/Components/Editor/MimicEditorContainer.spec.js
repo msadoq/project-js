@@ -1,5 +1,5 @@
-import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 import MimicEditorContainer from 'viewManager/MimicView/Components/Editor/MimicEditorContainer';
+import { shallowRenderSnapshotInReduxForm } from '../../../../common/jest/utils';
 
 const propsStub = {
   viewId: 'view-id',

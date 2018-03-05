@@ -1,5 +1,4 @@
-import React from 'react';
-import ShallowRenderer from 'react-test-renderer/shallow';
+import { shallowRenderSnapshot } from '../../../../common/jest/utils';
 import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
 const propsStub = {
@@ -25,13 +24,7 @@ describe('viewManager', () => {
       describe('viewManager :: common :: Components :: Editor', () => {
         describe('viewManager :: common :: Components :: Editor :: EntryPointConnectedDataFields', () => {
           test('snapshot', () => {
-            const renderer = new ShallowRenderer();
-            renderer.render(
-              <EntryPointConnectedDataFields
-                {...propsStub}
-              />
-            );
-            expect(renderer.getRenderOutput()).toMatchSnapshot();
+            shallowRenderSnapshot(EntryPointConnectedDataFields, propsStub, {});
           });
         });
       });

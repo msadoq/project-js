@@ -1,5 +1,5 @@
-import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
+import { shallowRenderSnapshotInReduxForm } from '../../../common/jest/utils';
 
 const propsStub = {
   domainName: 'domainName',

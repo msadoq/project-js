@@ -272,7 +272,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         payload['Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100'][j];
     }
 
-    describe('selectDataPerView', () => {
+    describe.skip('selectDataPerView', () => {
       test('empty state', () => {
         const bag =
           selectDataPerView(dataMap.perView.plot1, dataMap.expectedRangeIntervals, payload);

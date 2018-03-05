@@ -1,4 +1,4 @@
-import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
+import { shallowRenderSnapshotInReduxForm } from '../../../../common/jest/utils';
 import EntryPointConnectedDataFieldsContainer from './EntryPointConnectedDataFieldsContainer';
 
 const propsStub = {

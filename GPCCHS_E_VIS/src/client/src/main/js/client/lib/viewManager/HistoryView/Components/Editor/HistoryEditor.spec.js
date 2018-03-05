@@ -1,5 +1,5 @@
-import { shallowRenderSnapshot } from 'common/jest/utils';
 import HistoryEditor from 'viewManager/HistoryView/Components/Editor/HistoryEditor';
+import { shallowRenderSnapshot } from '../../../../common/jest/utils';
 
 const propsStub = {
   viewId: 'view-id',

@@ -1,5 +1,5 @@
 import CatalogItemField from 'viewManager/commonEditor/Fields/CatalogItemField';
-import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
+import { shallowRenderSnapshotInReduxForm } from '../../../common/jest/utils';
 
 const propsStub = {
   catalogItems: [{

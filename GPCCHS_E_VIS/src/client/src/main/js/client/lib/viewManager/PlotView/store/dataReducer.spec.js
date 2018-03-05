@@ -76,7 +76,7 @@ describe('viewManager/PlotView/store/dataReducer', () => {
       indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} } });
     expect(plotViewData(freezeMe(frozen), action)).toBe(frozen);
   });
-  describe('INJECT_DATA_RANGE', () => {
+  describe.skip('INJECT_DATA_RANGE', () => {
     const dataMap = dataMapGenerator(state);
     const payload = {
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100': {},

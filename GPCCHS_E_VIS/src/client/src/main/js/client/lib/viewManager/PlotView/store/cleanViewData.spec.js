@@ -27,7 +27,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
   const dataMap = dataMapGenerator(state);
   const viewMap = dataMap.perView;
 
-  describe('cleanCurrentViewData', () => {
+  describe.skip('cleanCurrentViewData', () => {
     test('no update', () => {
       const frozen = freezeMe(state.PlotViewData.plot1);
       expect(

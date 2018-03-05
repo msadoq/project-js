@@ -44,6 +44,9 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
   const page = getPage(state, { pageId });
   const { editorIsMinimized, editorViewId } = getPanels(state, { pageId });
 
+  const pageDomain = state.pages[pageId].domainName;
+  const workspaceDomain = state.hsc.domainName;
+
   return {
     backgroundColor,
     type,
@@ -51,6 +54,8 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
     titleStyle,
     isModified,
     domains,
+    pageDomain,
+    workspaceDomain,
     isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
     collapsed:
       !!(page.layout.find(e => e.i === viewId && e.collapsed)), // TODO boxmodel factorize

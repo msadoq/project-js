@@ -255,8 +255,8 @@ const dcVersionMap = {
         err => (onDcResponseCallback(err, flatDataId))
       )
     ),
-    requestSubscriptionAdd: (flatDataId, dataId) => (
-      commands.dc.rpc(constants.ADE_TIMEBASED_SUBSCRIPTION, [
+    requestSubscriptionAdd: (flatDataId, dataId) => {
+      return commands.dc.rpc(constants.ADE_TIMEBASED_SUBSCRIPTION, [
         encode('dc.dataControllerUtils.ADETimebasedSubscription', {
           sessionId: dataId.sessionId,
           domainId: dataId.domainId,
@@ -264,10 +264,10 @@ const dcVersionMap = {
           catalogName: dataId.catalog,
           itemName: dataId.parameterName,
           action: constants.SUBSCRIPTIONACTION_ADD,
-          providerFlow: 'myProviderFLow',
+          // providerFlow: 'myProviderFLow',
         }),
-      ], err => (onDcResponseCallback(err, flatDataId)))
-    ),
+      ], err => (onDcResponseCallback(err, flatDataId)));
+    },
     requestSubscriptionDelete: (flatDataId, dataId) => (
       commands.dc.rpc(constants.ADE_TIMEBASED_SUBSCRIPTION, [
         encode('dc.dataControllerUtils.ADETimebasedSubscription', {
@@ -277,7 +277,7 @@ const dcVersionMap = {
           catalogName: dataId.catalog,
           itemName: dataId.parameterName,
           action: constants.SUBSCRIPTIONACTION_DELETE,
-          providerFlow: 'myProviderFLow',
+          // providerFlow: 'myProviderFLow',
         }),
       ], err => (onDcResponseCallback(err, flatDataId)))
     ),

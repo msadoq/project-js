@@ -15,6 +15,7 @@ module.exports = {
     sortFieldName: data.sortFieldName,
     sortOrder: data.sortOrder,
     getLastNumber: data.getLastNumber,
+    filters: data.filters.map((value) => Filter.encode(value)),
   }),
   decode: data => ({
     sessionId : data.sessionId,
@@ -27,5 +28,6 @@ module.exports = {
     sortFieldName: data.sortFieldName,
     sortOrder: data.sortOrder,
     getLastNumber: data.getLastNumber,
+    filters: data.filters.map((value) => Filter.decode(value)),
   }),
 };

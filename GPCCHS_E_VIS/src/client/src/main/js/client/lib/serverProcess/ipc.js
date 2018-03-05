@@ -206,7 +206,6 @@ const dcVersionMap = {
     },
     sendProductLog: (uid, args) => {
       commands.dc.message(constants.ADE_LOG, [
-        encode('dc.dataControllerUtils.String', { string: _uniqueId('log_') }),
         encode('dc.dataControllerUtils.SendLog', { uid, arguments: args }),
       ]);
     },
@@ -232,7 +231,7 @@ const dcVersionMap = {
 
       commands.dc.rpc(constants.MESSAGETYPE_ALARM_ACK, trames, callback);
     },
-    requestTimebasedQuery: (flatDataId, dataId, interval /* , args */) => (
+    requestTimebasedQuery: (flatDataId, dataId, interval, args) => (
       commands.dc.rpc(
       constants.ADE_TIMEBASED_QUERY,
         [
@@ -247,11 +246,10 @@ const dcVersionMap = {
               startTime: { ms: interval[0] },
               endTime: { ms: interval[1] },
             },
-            // filters: _map(args.filters, filter => ({
-            //   ...filter,
-            //   operator: operators[filter.operator],
-            // })),
-            filters: [],
+            filters: _map(args.filters, filter => ({
+              ...filter,
+              operator: operators[filter.operator],
+            })),
           }),
         ],
         err => (onDcResponseCallback(err, flatDataId))

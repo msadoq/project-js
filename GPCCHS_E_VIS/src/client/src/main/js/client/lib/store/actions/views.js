@@ -44,7 +44,7 @@
 
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
-
+import { change, formValueSelector } from 'redux-form';
 import { add as addMessage } from 'store/actions/messages';
 import { getViewModule } from 'viewManager';
 import ifPathChanged from './enhancers/ifPathChanged';
@@ -156,6 +156,22 @@ export const askRemoveEntryPoint = simple(types.WS_VIEW_ASK_REMOVE_ENTRYPOINT, '
 
 const simpleAddEntryPoint = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entryPoint');
 
+/**
+ * In case TextView HTML Editor is open, updates the field value
+ * @param viewId
+ * @param entryPointName
+ * @returns {function(*, *)}
+ */
+function appendEntryPointToHtmlEditorForm(viewId, entryPointName) {
+  return (dispatch, getState) => {
+    const formName = `textView-form-${viewId}`;
+    const selector = formValueSelector(formName);
+    const currentValue = selector(getState(), 'html');
+    const newEndPointHtml = `\n<div><span class='name'>${entryPointName}</span><span class='value'>{{${entryPointName}}}</span></div>`;
+    dispatch(change(formName, 'html', currentValue + newEndPointHtml));
+  };
+}
+
 export function addEntryPoint(viewId, entryPoint) {
   return (dispatch, getState) => {
     const state = getState();
@@ -163,6 +179,10 @@ export function addEntryPoint(viewId, entryPoint) {
     const ep = getViewModule(currentView.type).setEntryPointDefault(entryPoint);
     const injectUuid = _.update('id', v4);
     dispatch(simpleAddEntryPoint(viewId, injectUuid(ep)));
+
+    if (currentView.type === 'TextView') {
+      dispatch(appendEntryPointToHtmlEditorForm(viewId, entryPoint.name));
+    }
   };
 }
 

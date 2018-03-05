@@ -15,7 +15,11 @@ export default (stateConf = { content: '', search: '' }, action) => {
     case types.WS_VIEW_UPDATE_CONTENT:
       return _.set('content', action.payload.content, stateConf);
     case types.WS_VIEW_ADD_ENTRYPOINT: {
-      return _.update('entryPoints', _.concat(_, action.payload.entryPoint), stateConf);
+      const newEndPointHtml = `\n<div><span class='name'>${action.payload.entryPoint.name}</span><span class='value'>{{${action.payload.entryPoint.name}}}</span></div>`;
+      return {
+        ..._.update('entryPoints', _.concat(_, action.payload.entryPoint), stateConf),
+        content: stateConf.content + newEndPointHtml,
+      };
     }
     case types.WS_VIEW_UPDATE_EDITOR_SEARCH:
       if (action.payload.search !== stateConf.search) {

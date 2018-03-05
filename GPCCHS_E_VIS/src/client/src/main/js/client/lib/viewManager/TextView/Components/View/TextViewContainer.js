@@ -30,7 +30,6 @@
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import { createStructuredSelector } from 'reselect';
 import _ from 'lodash/fp';
 import {
   addEntryPoint,

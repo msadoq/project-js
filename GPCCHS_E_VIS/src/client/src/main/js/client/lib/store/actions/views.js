@@ -166,7 +166,7 @@ function appendEntryPointToHtmlEditorForm(viewId, entryPointName) {
   return (dispatch, getState) => {
     const formName = `textView-form-${viewId}`;
     const selector = formValueSelector(formName);
-    const currentValue = selector(getState(), 'html');
+    const currentValue = selector(getState(), 'html') || '';
     const newEndPointHtml = `\n<div><span class='name'>${entryPointName}</span><span class='value'>{{${entryPointName}}}</span></div>`;
     dispatch(change(formName, 'html', currentValue + newEndPointHtml));
   };

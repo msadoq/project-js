@@ -278,7 +278,7 @@ describe('store:actions:views', () => {
     });
   });
   describe('addEntryPoint', () => {
-    test.skip('should works with a TexView, with empty entryPoint', () => {
+    test('should works with a TextView, with empty entryPoint', () => {
       referenceStore.dispatch(actions.addEntryPoint('textview', emptyEntryPoint));
       expect(referenceStore.getActions()).toMatchObject([
         {
@@ -286,7 +286,8 @@ describe('store:actions:views', () => {
           payload: {
             viewId: 'textview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'textEP',
+              stateColors: [],
               connectedData: {
                 formula: '',
                 unit: 's',
@@ -295,14 +296,21 @@ describe('store:actions:views', () => {
                 filter: [],
                 domain: '*',
                 timeline: '*',
+                provider: '*',
+                convertFrom: '',
+                convertTo: '',
               },
             },
           },
         },
+        {
+          type: '@@redux-form/CHANGE',
+        },
       ]);
       expect(referenceStore.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
-    test.skip('should works with a TexView, with entryPoint', () => {
+
+    test('should works with a TextView, with entryPoint', () => {
       referenceStore.dispatch(actions.addEntryPoint('textview', entryPoint));
       expect(referenceStore.getActions()).toMatchObject([
         {
@@ -310,7 +318,8 @@ describe('store:actions:views', () => {
           payload: {
             viewId: 'textview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'textEP',
+              stateColors: [],
               connectedData: {
                 formula: '',
                 unit: 's',
@@ -319,9 +328,15 @@ describe('store:actions:views', () => {
                 filter: [],
                 domain: 2,
                 timeline: 1,
+                provider: '*',
+                convertFrom: '',
+                convertTo: '',
               },
             },
           },
+        },
+        {
+          type: '@@redux-form/CHANGE',
         },
       ]);
       expect(referenceStore.getActions()[0].payload.entryPoint.id).toBeAnUuid();
@@ -334,7 +349,7 @@ describe('store:actions:views', () => {
           payload: {
             viewId: 'plotview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'plotEP',
               connectedData: {
                 domain: '*',
                 timeline: '*',
@@ -358,7 +373,7 @@ describe('store:actions:views', () => {
       expect(firstAction.payload.entryPoint.id).toBeAnUuid();
       expect(firstAction.payload.entryPoint.objectStyle.curveColor).toBeAnHexadecimalValue();
     });
-    test.skip('should works with a TexView, with entryPoint', () => {
+    test.skip('should works with a PlotView, with entryPoint', () => {
       referenceStore.dispatch(actions.addEntryPoint('plotview', entryPoint));
       expect(referenceStore.getActions()).toMatchObject([
         {
@@ -366,7 +381,7 @@ describe('store:actions:views', () => {
           payload: {
             viewId: 'plotview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'plotEP',
               connectedData: {
                 domain: 2,
                 timeline: 1,
@@ -392,7 +407,7 @@ describe('store:actions:views', () => {
     });
   });
   describe('dropEntryPoint', () => {
-    test.skip('should works with a TexView, with empty entryPoint', () => {
+    test('should works with a TextView, with empty entryPoint', () => {
       referenceStore.dispatch(actions.dropEntryPoint('textview', emptyEntryPoint));
       expect(referenceStore.getActions()).toMatchObject([
         {
@@ -400,7 +415,8 @@ describe('store:actions:views', () => {
           payload: {
             viewId: 'textview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'textEP',
+              stateColors: [],
               connectedData: {
                 formula: '',
                 unit: 's',
@@ -409,9 +425,15 @@ describe('store:actions:views', () => {
                 filter: [],
                 domain: '*',
                 timeline: '*',
+                provider: '*',
+                convertFrom: '',
+                convertTo: '',
               },
             },
           },
+        },
+        {
+          type: '@@redux-form/CHANGE',
         },
         {
           type: 'WS_PAGE_PANELS_MINIMIZE_EDITOR',
@@ -428,7 +450,7 @@ describe('store:actions:views', () => {
       ]);
       expect(referenceStore.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
-    test.skip('should works with a TexView, with entryPoint', () => {
+    test('should works with a TextView, with entryPoint', () => {
       referenceStore.dispatch(actions.dropEntryPoint('textview', entryPoint));
       expect(referenceStore.getActions()).toMatchObject([
         {
@@ -436,7 +458,8 @@ describe('store:actions:views', () => {
           payload: {
             viewId: 'textview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'textEP',
+              stateColors: [],
               connectedData: {
                 formula: '',
                 unit: 's',
@@ -445,9 +468,15 @@ describe('store:actions:views', () => {
                 filter: [],
                 domain: 2,
                 timeline: 1,
+                convertFrom: '',
+                convertTo: '',
+                provider: '*',
               },
             },
           },
+        },
+        {
+          type: '@@redux-form/CHANGE',
         },
         {
           type: 'WS_PAGE_PANELS_MINIMIZE_EDITOR',
@@ -472,7 +501,7 @@ describe('store:actions:views', () => {
           payload: {
             viewId: 'plotview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'plotEP',
               connectedData: {
                 domain: '*',
                 timeline: '*',
@@ -508,7 +537,7 @@ describe('store:actions:views', () => {
       expect(firstAction.payload.entryPoint.id).toBeAnUuid();
       expect(firstAction.payload.entryPoint.objectStyle.curveColor).toBeAnHexadecimalValue();
     });
-    test.skip('should works with a TexView, with entryPoint', () => {
+    test.skip('should works with a PlotView, with entryPoint', () => {
       referenceStore.dispatch(actions.dropEntryPoint('plotview', entryPoint));
       expect(referenceStore.getActions()).toMatchObject([
         {
@@ -516,7 +545,7 @@ describe('store:actions:views', () => {
           payload: {
             viewId: 'plotview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'plotEP',
               connectedData: {
                 domain: 2,
                 timeline: 1,

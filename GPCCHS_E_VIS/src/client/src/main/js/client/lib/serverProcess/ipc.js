@@ -239,7 +239,7 @@ const dcVersionMap = {
             sessionId: dataId.sessionId,
             domainId: dataId.domainId,
             objectName: dataId.comObject,
-            providerFlow: '0',
+            providerFlow: '',
             catalogName: dataId.catalog,
             itemName: dataId.parameterName,
             timeInterval: {
@@ -255,8 +255,8 @@ const dcVersionMap = {
         err => (onDcResponseCallback(err, flatDataId))
       )
     ),
-    requestSubscriptionAdd: (flatDataId, dataId) => {
-      return commands.dc.rpc(constants.ADE_TIMEBASED_SUBSCRIPTION, [
+    requestSubscriptionAdd: (flatDataId, dataId) => (
+      commands.dc.rpc(constants.ADE_TIMEBASED_SUBSCRIPTION, [
         encode('dc.dataControllerUtils.ADETimebasedSubscription', {
           sessionId: dataId.sessionId,
           domainId: dataId.domainId,
@@ -264,10 +264,10 @@ const dcVersionMap = {
           catalogName: dataId.catalog,
           itemName: dataId.parameterName,
           action: constants.SUBSCRIPTIONACTION_ADD,
-          // providerFlow: 'myProviderFLow',
+          providerFlow: '',
         }),
-      ], err => (onDcResponseCallback(err, flatDataId)));
-    },
+      ], err => (onDcResponseCallback(err, flatDataId)))
+    ),
     requestSubscriptionDelete: (flatDataId, dataId) => (
       commands.dc.rpc(constants.ADE_TIMEBASED_SUBSCRIPTION, [
         encode('dc.dataControllerUtils.ADETimebasedSubscription', {
@@ -277,7 +277,7 @@ const dcVersionMap = {
           catalogName: dataId.catalog,
           itemName: dataId.parameterName,
           action: constants.SUBSCRIPTIONACTION_DELETE,
-          // providerFlow: 'myProviderFLow',
+          providerFlow: '',
         }),
       ], err => (onDcResponseCallback(err, flatDataId)))
     ),

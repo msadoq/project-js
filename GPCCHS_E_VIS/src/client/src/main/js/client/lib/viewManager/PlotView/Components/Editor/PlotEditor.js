@@ -125,7 +125,7 @@ export default class PlotEditor extends Component {
                   viewType="PlotView"
                   openModal={openModal}
                   changeSearch={this.changeSearch}
-                  search={search}
+                  search={search || undefined} // will use EntryPointActions' default value if null
                 />,
                 <EntryPointTree
                   key="EntryPointTree"

@@ -37,7 +37,7 @@ export default class DataViewEntryPoints extends PureComponent {
       <div>
         <EntryPointActionsContainer
           viewId={viewId}
-          search={search}
+          search={search || undefined} // will use EntryPointActions' default value if null
           viewType={viewType}
         />
         <EntryPointTreeContainer

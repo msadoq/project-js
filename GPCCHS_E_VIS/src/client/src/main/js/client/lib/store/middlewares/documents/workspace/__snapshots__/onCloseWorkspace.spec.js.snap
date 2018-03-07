@@ -276,19 +276,30 @@ Array [
     "type": "WS_ASK_CLOSE_WINDOW",
   },
   Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
     "payload": Object {
-      "pages": Array [
-        "p1",
-        "p2",
-      ],
-      "views": Array [
-        "v1",
-        "v2",
-        "v3",
-      ],
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Yes, close window",
+            "type": "primary",
+            "value": "quit",
+          },
+          Object {
+            "label": "Cancel",
+            "type": "default",
+            "value": "cancel",
+          },
+        ],
+        "message": "Are you sure you want to quit window",
+        "title": "Confirmation",
+        "type": "dialog",
+      },
       "windowId": "w1",
     },
-    "type": "WS_WINDOW_CLOSE",
+    "type": "WS_MODAL_OPEN",
   },
 ]
 `;
@@ -570,10 +581,68 @@ Array [
     "type": "WS_ASK_CLOSE_WORKSPACE",
   },
   Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Yes, close workspace",
+            "type": "primary",
+            "value": "quit",
+          },
+          Object {
+            "label": "Cancel",
+            "type": "default",
+            "value": "cancel",
+          },
+        ],
+        "message": "Are you sure you want to quit workspace",
+        "title": "Confirmation",
+        "type": "dialog",
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+]
+`;
+
+exports[`store:serverProcess:middlewares:documents:onOpenWorkspace display close confirmation when workspace has not changed 1`] = `
+Array [
+  Object {
     "payload": Object {
       "keepMessages": false,
+      "windowId": "w1",
     },
-    "type": "HSC_CLOSE_WORKSPACE",
+    "type": "WS_ASK_CLOSE_WORKSPACE",
+  },
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Yes, close workspace",
+            "type": "primary",
+            "value": "quit",
+          },
+          Object {
+            "label": "Cancel",
+            "type": "default",
+            "value": "cancel",
+          },
+        ],
+        "message": "Are you sure you want to quit workspace",
+        "title": "Confirmation",
+        "type": "dialog",
+      },
+      "windowId": "w1",
+    },
+    "type": "WS_MODAL_OPEN",
   },
 ]
 `;

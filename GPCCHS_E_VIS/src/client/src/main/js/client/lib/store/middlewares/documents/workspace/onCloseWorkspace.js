@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : #7235 : 18/07/2017 : Fix mechansim for open/save/close workspace
@@ -51,8 +52,8 @@ const makeOnCloseWorkspace = () => withListenAction(
       const isLastWindow = (allWindowIds.length === 1 && allWindowIds[0] === windowId);
       const documentType = (
         (isClosingWorkspace(action) || isLastWindow)
-        ? 'workspace'
-        : 'window'
+          ? 'workspace'
+          : 'window'
       );
 
       const workspaceNeedSave = (title) => {
@@ -80,6 +81,27 @@ const makeOnCloseWorkspace = () => withListenAction(
         });
       };
 
+      const askCloseConfirmation = (windowOrWorkspace) => {
+        dispatch(openModal(windowId, {
+          type: 'dialog',
+          title: 'Confirmation',
+          message: `Are you sure you want to quit ${windowOrWorkspace}`,
+          buttons: [
+            { label: `Yes, close ${windowOrWorkspace}`, value: 'quit', type: 'primary' },
+            { label: 'Cancel', value: 'cancel', type: 'default' },
+          ],
+        }));
+        listenAction(types.WS_MODAL_CLOSE, (closeAction) => {
+          if (closeAction.payload.choice === 'quit') {
+            if (windowOrWorkspace === 'window') {
+              dispatch(closeWindow(windowId));
+            } else if (windowOrWorkspace === 'workspace') {
+              dispatch(closeWorkspace(keepMessages));
+            }
+          }
+        });
+      };
+
       if (!isViewsSaved && !isPagesSaved) {
         workspaceNeedSave('Page and views are modified');
       } else if (!isPagesSaved) {
@@ -89,9 +111,9 @@ const makeOnCloseWorkspace = () => withListenAction(
       } else if (getWorkspaceIsModified(state) && (isClosingWorkspace(action) || isLastWindow)) {
         workspaceNeedSave('Workspace is modified');
       } else if (isClosingWindow(action)) {
-        dispatch(closeWindow(windowId));
+        askCloseConfirmation('window');
       } else if (isClosingWorkspace(action)) {
-        dispatch(closeWorkspace(keepMessages));
+        askCloseConfirmation('workspace');
       }
     }
     return nextAction;

@@ -31,6 +31,12 @@ describe('store:serverProcess:middlewares:documents:onOpenWorkspace', () => {
     expect(store.getActions()).toMatchSnapshot();
   });
 
+  test('display close confirmation when workspace has not changed', () => {
+    const store = mockStore({ hsc: { isModified: false } });
+    store.dispatch(askCloseWorkspace('w1'));
+    expect(store.getActions()).toMatchSnapshot();
+  });
+
   _.each((askClose) => {
     const docType = askClose === askCloseWorkspace ? 'workspace' : 'window';
     describe(`close ${docType}`, () => {

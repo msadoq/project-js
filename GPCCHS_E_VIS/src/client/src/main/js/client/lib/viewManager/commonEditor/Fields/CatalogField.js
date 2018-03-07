@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
@@ -7,7 +7,7 @@ import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 
 const { string, arrayOf, oneOfType, func, number } = PropTypes;
 
-export default class CatalogField extends PureComponent {
+export default class CatalogField extends Component {
   static propTypes = {
     timelineId: string,
     // from container mapStateToProps
@@ -28,19 +28,21 @@ export default class CatalogField extends PureComponent {
     timelineId: null,
   };
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      domainId,
-      timelineId,
-      sessionId,
-      catalogs,
-      askCatalogs,
-    } = nextProps;
 
+  componentDidMount() {
+    this.requestCatalogs(this.props);
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    this.requestCatalogs(nextProps);
+  }
+
+  requestCatalogs = ({ domainId, timelineId, sessionId, catalogs, askCatalogs }) => {
     if (!!(domainId && timelineId) && catalogs === null) {
       askCatalogs(domainId, sessionId);
     }
-  }
+  };
 
   render() {
     const { catalogs, domainId, timelineId } = this.props;

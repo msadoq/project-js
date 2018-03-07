@@ -8,7 +8,7 @@ import styles from './EntryPointUnit.css';
 const { string } = PropTypes;
 
 export default class EntryPointUnit extends PureComponent {
-  static propTypes = {
+  static propTypes = { // FIXME: is this really needed ?
     convertFrom: string,
     convertTo: string,
     unit: string,

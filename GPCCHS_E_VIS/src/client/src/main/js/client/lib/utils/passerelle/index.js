@@ -6,9 +6,10 @@ import getLogger from '../../common/logManager';
 
 const logger = getLogger('Passerelle');
 const spawn = require('child_process').spawn;
+const resolve = require('path').resolve;
 
 const callbackMap = {};
-
+const rootVimaFolder = process.env.IS_BUNDLED === 'on' ? __dirname : resolve(__dirname, '../../..');
 let requester;
 let subscriber;
 let spawned;
@@ -20,7 +21,7 @@ exports.spawnPasserelle = function spawnPasserelle() {
     logger.error('No PYTHONPATH found, please provider one.');
     return;
   }
-  spawned = spawn(PYTHON_EXEC_PATH, [`${__dirname}/../../../scripts/gpvi_interfacelayer_server.py`], {
+  spawned = spawn(PYTHON_EXEC_PATH, [resolve(rootVimaFolder, 'passerelle/gpvi_interfacelayer_server.py')], {
     env: {
       PYTHONPATH,
     },

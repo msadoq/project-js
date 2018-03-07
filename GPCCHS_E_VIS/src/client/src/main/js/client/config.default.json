@@ -212,5 +212,5 @@
   "DISABLE_LOKI_CACHE": false,
   "ZMQ_PASSERELLE_PUB": "tcp://127.0.0.1:5052",
   "ZMQ_PASSERELLE_SUB": "tcp://127.0.0.1:5053",
-  "COLORS_CONFIGURATION": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/config.colors.json"
+  "COLORS_CONFIGURATION": "config.colors.json"
 }

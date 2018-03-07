@@ -46,6 +46,7 @@ export default merge(baseConfig, {
       { from: 'package.json' },
       { from: 'config.default.json' },
       { from: 'config.required.json' },
+      { from: 'config.colors.json' },
       { from: 'node_modules/source-map/**/*' },
       { from: 'node_modules/source-map-support/**/*' },
     ]),

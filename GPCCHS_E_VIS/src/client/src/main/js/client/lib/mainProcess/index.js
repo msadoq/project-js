@@ -134,6 +134,10 @@ import { updateMainStatus } from '../store/actions/health';
 import makeElectronObserver from './electronManager';
 import { sendProductLog } from '../store/actions/hsc';
 
+const resolve = require('path').resolve;
+
+const rootVimaFolder = process.env.IS_BUNDLED === 'on' ? __dirname : resolve(__dirname, '../..');
+
 let monitoring = {};
 const HEALTH_CRITICAL_DELAY = parameters.get('MAIN_HEALTH_CRITICAL_DELAY');
 const logger = getLogger('main:index');
@@ -183,13 +187,15 @@ export function onStart() {
       }
     },
     function loadColorsConfigurationFile(callback) {
-      const confPath = parameters.get('COLORS_CONFIGURATION');
-      if (confPath) {
+      const confFileName = parameters.get('COLORS_CONFIGURATION');
+      if (confFileName) {
+        const confPath = resolve(rootVimaFolder, confFileName);
         logger.info(` --COLORS_CONFIGURATION parameter found at ${confPath} `);
         read(confPath, (error, content) => {
           callback(error, content);
           try {
             const parsedContent = JSON.parse(content);
+            logger.info('COLOR CONFIGURATION file parsed succesfully');
             parameters.setColorsConfiguration(parsedContent);
           } catch (e) {
             logger.error('Error while parsing configuration file');

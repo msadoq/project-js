@@ -65,20 +65,20 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
           execution.stop('Merge intervals');
           for (let k = 0; k < mergedInterval.length; k += 1) {
             const dataId = get(currentTbdId);
-            const filters = getFilters(currentTbdId);
-            const missingIntervals = getMissingIntervals(state,
-              { tbdId: currentTbdId,
-                queryInterval: mergedInterval[k],
-              });
-              // TODO get filters
-            for (let l = 0; l < missingIntervals.length; l += 1) {
-              const queryId = ipc.dc.requestTimebasedQuery(currentTbdId,
-                                                          dataId,
-                                                          missingIntervals[l],
-                                                          { filters });
-              add(queryId, currentTbdId, type, dataId);
-            }
+            // TODO pgaucher dirty quickfix
             if (dataId) {
+              const filters = getFilters(currentTbdId);
+              const missingIntervals = getMissingIntervals(state,
+                { tbdId: currentTbdId,
+                  queryInterval: mergedInterval[k],
+                });
+              for (let l = 0; l < missingIntervals.length; l += 1) {
+                const queryId = ipc.dc.requestTimebasedQuery(currentTbdId,
+                                                            dataId,
+                                                            missingIntervals[l],
+                                                            { filters });
+                add(queryId, currentTbdId, type, dataId);
+              }
               dispatch(sendArchiveQuery(currentTbdId, dataId, missingIntervals, filters));
             }
           }

@@ -13,6 +13,7 @@
     <relativePath/>
   </parent>
   <modules>
+    <module>GPCCHS_L_IFL/src/api/python/bridge</module>
     <module>GPCCHS_E_VIS/src/common</module>
     <module>GPCCHS_E_VIS/src/client</module>
     <module>GPCCHS_E_VIS/src/launcher</module>

@@ -46,4 +46,63 @@ describe('documents/validation', () => {
     expect(validate('page', pageInvalid)).toBeInstanceOf(Error);
     expect(validate('page', {})).toBeInstanceOf(Error);
   });
+
+  const workspaceToValidate = {
+    type: 'WorkSpace',
+    windows: [
+      {
+        type: 'documentWindow',
+        title: 'Development workspace',
+        geometry: {
+          w: 1536,
+          h: 851,
+          x: 1612,
+          y: 45,
+          kind: 'Absolute',
+        },
+        pages: [
+          {
+            path: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg',
+            timebarId: 'TB1',
+          },
+          {
+            path: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg',
+          },
+        ],
+      },
+    ],
+    timebars: [
+      {
+        id: 'TB1',
+        type: 'timeBarConfiguration',
+        rulerResolution: 1776.6027759418373,
+        speed: 0.15,
+        masterId: 'Session 1',
+        mode: 'Normal',
+        visuWindow: {
+          defaultWidth: 60000,
+        },
+        timelines: [
+          {
+            id: 'Session 1',
+            offset: 0,
+            kind: 'Session',
+            sessionName: 'Master',
+            color: null,
+          },
+        ],
+      },
+    ],
+  };
+
+  test('errors format', () => {
+    const validationErrors = validate('workspace', workspaceToValidate);
+    expect(validationErrors.message).toEqual(
+      'Local page should have required property \'timebarId\'\n' +
+      'Development workspace should NOT have additional properties\n' +
+      'documentWindow should be equal to constant\n' +
+      'Development workspace should have required property \'kind\'\n' +
+      'Development workspace should have required property \'timebarId\'\n' +
+      'Development workspace should match exactly one schema in oneOf');
+  });
 });

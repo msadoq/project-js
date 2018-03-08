@@ -93,38 +93,40 @@ export default class Messages extends PureComponent {
     // TODO dbrugne : fix react warning about choice prop
     return (
       <div className={classnames('btn-group', styles.messages)}>
-        <Button onClick={this.collapse} bsSize="sm">
-          { this.state.collapsed ? 'show messages' : 'hide messages' }
-        </Button>
-        {types.map((t) => {
-          let nb = messages.filter(w => w.type === t).length;
+        <div>
+          <Button onClick={this.collapse} bsSize="sm">
+            { this.state.collapsed ? 'show messages' : 'hide messages' }
+          </Button>
+          {types.map((t) => {
+            let nb = messages.filter(w => w.type === t).length;
 
-          if (nb < 1) {
-            return '';
-          }
+            if (nb < 1) {
+              return '';
+            }
 
-          if (nb > 100) {
-            nb = '100+';
-          } else if (nb > 50) {
-            nb = '50+';
-          } else if (nb > 10) {
-            nb = '10+';
-          }
-          const cssClasses = classnames(
-            { [styles.active]: this.state.filter === t }
-          );
-          return (
-            <Button
-              key={t}
-              bsStyle={t}
-              bsSize="sm"
-              className={cssClasses}
-              onClick={e => this.updateFilter(e, t)}
-            >
-              {nb}
-            </Button>
-          );
-        })}
+            if (nb > 100) {
+              nb = '100+';
+            } else if (nb > 50) {
+              nb = '50+';
+            } else if (nb > 10) {
+              nb = '10+';
+            }
+            const cssClasses = classnames(
+              { [styles.active]: this.state.filter === t }
+            );
+            return (
+              <Button
+                key={t}
+                bsStyle={t}
+                bsSize="sm"
+                className={cssClasses}
+                onClick={e => this.updateFilter(e, t)}
+              >
+                {nb}
+              </Button>
+            );
+          })}
+        </div>
         <div className={styles.container}>
           {children}
         </div>

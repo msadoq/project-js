@@ -274,4 +274,7 @@ module.exports = {
   // list of domains
   DOMAIN_SIMUPUS: 'fr.cnes.isis.simupus',
   DOMAIN_ISIS: 'fr.cnes.isis',
+
+  // time format
+  DATETIME_TILL_MS_FORMAT: 'DD/MM/YYYY HH:mm:ss.SSS',
 };

@@ -12,6 +12,7 @@
 
 import _omit from 'lodash/omit';
 import _assign from 'lodash/assign';
+import moment from 'moment';
 
 import { applyFilters, applyFilter } from './applyFilters';
 
@@ -283,6 +284,89 @@ describe('utils/filters', () => {
       expect(applyFilters(data, [filter])).toBe(true);
       filter.operator = '<';
       expect(applyFilters(data, [filter])).toBe(false);
+    });
+
+    describe('time value', () => {
+      test('valid equality', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2014-03-05 14:22:00') } };
+        const filter = { field: 'onboardDate', operator: '=', operand: '05/03/2014 14:22:00.000' };
+        expect(applyFilters(data, [filter])).toBe(true);
+      });
+      test('invalid equality', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2014-03-05 15:20:01') } };
+        const filter = { field: 'onboardDate', operator: '=', operand: '05/03/2014 15:20:00.000' };
+        expect(applyFilters(data, [filter])).toBe(false);
+      });
+
+      test('valid inequality', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2014-03-05 15:20:00') } };
+        const filter = { field: 'onboardDate', operator: '!=', operand: '05/03/2014 15:20:01.000' };
+        expect(applyFilters(data, [filter])).toBe(true);
+      });
+      test('invalid inequality', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2014-03-05 14:22:00') } };
+        const filter = { field: 'onboardDate', operator: '!=', operand: '05/03/2014 14:22:00.000' };
+        expect(applyFilters(data, [filter])).toBe(false);
+      });
+
+      test('valid strict inferiority', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2014-03-05 14:22') } };
+        const filter = { field: 'onboardDate', operator: '<', operand: '05/03/2014 14:23:00.000' };
+        expect(applyFilters(data, [filter])).toBe(true);
+      });
+      test('invalid strict inferiority', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2017-01-03 10:20') } };
+        const filter = { field: 'onboardDate', operator: '<', operand: '05/03/2014 00:00:00.000' };
+        expect(applyFilters(data, [filter])).toBe(false);
+      });
+
+      test('valid non-strict inferiority when value before expected', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2010-09-10 11:22:45') } };
+        const filter = { field: 'onboardDate', operator: '<=', operand: '05/03/2014 00:00:00.000' };
+        expect(applyFilters(data, [filter])).toBe(true);
+      });
+      test('invalid non-strict inferiority when same second but with milliseconds', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2014-03-05 14:22:00:450') } };
+        const filter = { field: 'onboardDate', operator: '<=', operand: '05/03/2014 14:22:00.000' };
+        expect(applyFilters(data, [filter])).toBe(false);
+      });
+      test('invalid non-strict inferiority', () => {
+        const data = { onboardDate: { type: 'time', value: moment() } };
+        const filter = { field: 'onboardDate', operator: '<=', operand: '05/03/2014 00:00:00.000' };
+        expect(applyFilters(data, [filter])).toBe(false);
+      });
+
+      test('valid strict superiority', () => {
+        const data = { onboardDate: { type: 'time', value: moment() } };
+        const filter = { field: 'onboardDate', operator: '>', operand: '05/03/2014 00:00:00.000' };
+        expect(applyFilters(data, [filter])).toBe(true);
+      });
+      test('valid strict superiority when second', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2014-03-05 14:22:00.432') } };
+        const filter = { field: 'onboardDate', operator: '>', operand: '05/03/2014 14:22:00.000' };
+        expect(applyFilters(data, [filter])).toBe(true);
+      });
+      test('invalid strict superiority', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2011-01-03 10:20') } };
+        const filter = { field: 'onboardDate', operator: '>', operand: '05/03/2014 00:00:00.000' };
+        expect(applyFilters(data, [filter])).toBe(false);
+      });
+
+      test('valid non-strict superiority when value after expected', () => {
+        const data = { onboardDate: { type: 'time', value: moment() } };
+        const filter = { field: 'onboardDate', operator: '>=', operand: '05/03/2014 00:00:00.000' };
+        expect(applyFilters(data, [filter])).toBe(true);
+      });
+      test('valid non-strict superiority when same day (whatever the value\'s time)', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2014-03-05 14:22:00') } };
+        const filter = { field: 'onboardDate', operator: '>=', operand: '05/03/2014 14:22:00.000' };
+        expect(applyFilters(data, [filter])).toBe(true);
+      });
+      test('invalid non-strict superiority', () => {
+        const data = { onboardDate: { type: 'time', value: moment('2011-01-01 09:45') } };
+        const filter = { field: 'onboardDate', operator: '>=', operand: '05/03/2014 00:00:00.000' };
+        expect(applyFilters(data, [filter])).toBe(false);
+      });
     });
   });
 });

@@ -38,7 +38,8 @@ export default class CatalogField extends Component {
     this.requestCatalogs(nextProps);
   }
 
-  requestCatalogs = ({ domainId, timelineId, sessionId, catalogs, askCatalogs }) => {
+  requestCatalogs = (props) => {
+    const { domainId, timelineId, sessionId, catalogs, askCatalogs } = props;
     if (!!(domainId && timelineId) && catalogs === null) {
       askCatalogs(domainId, sessionId);
     }

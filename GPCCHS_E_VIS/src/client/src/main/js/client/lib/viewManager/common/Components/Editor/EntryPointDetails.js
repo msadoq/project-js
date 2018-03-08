@@ -10,25 +10,19 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Collapse from 'rc-collapse';
+import { Field, FieldArray } from 'redux-form';
 import { entryPointType } from 'viewManager/common/Components/types';
 import EntryPointConnectedDataFieldsContainer from 'viewManager/common/Components/Editor/EntryPointConnectedDataFieldsContainer';
-import EntryPointUnitContainer from 'viewManager/common/Components/Editor/EntryPointUnitContainer';
-import WithForm from 'viewManager/common/Hoc/WithForm';
-import WithFormFieldArray from 'viewManager/common/Hoc/WithFormFieldArray';
+import EntryPointUnit from 'viewManager/common/Components/Editor/EntryPointUnit';
 // import { buildFormula } from 'viewManager/common'; // @todo uncomment
-import AddEntryPoint from 'viewManager/common/Components/Editor/AddEntryPoint';
 import StateColorsFields from 'viewManager/commonEditor/Fields/StateColorsFields';
-import FiltersFields from 'viewManager/commonEditor/Fields/FiltersFields';
+import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import InputField from 'windowProcess/commonReduxForm/InputField';
+import FiltersFieldsContainer from 'viewManager/commonEditor/Fields/FiltersFieldsContainer';
 
 const { Panel } = Collapse;
 const { string, arrayOf, oneOfType, func, bool } = PropTypes;
 const emptyArray = [];
-const EntryPointConnectedDataFieldsContainerWithForm =
-  WithForm(EntryPointConnectedDataFieldsContainer);
-const StateColorsFieldsWithForm = WithFormFieldArray(StateColorsFields, 'stateColors');
-const EntryPointUnitWithForm = WithForm(EntryPointUnitContainer);
-const EntryPointFilterWithForm = WithFormFieldArray(FiltersFields, 'connectedData.filter');
-
 /*
   EntryPointDetails représente un Point d'entrée,
   c'est à dire à une branche de l'arbre d'entryPoints.
@@ -36,7 +30,6 @@ const EntryPointFilterWithForm = WithFormFieldArray(FiltersFields, 'connectedDat
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: string.isRequired,
-    pageId: string.isRequired,
     entryPoint: entryPointType.isRequired,
     // From container mapStateToProps
     panels: oneOfType([
@@ -44,7 +37,6 @@ export default class EntryPointDetails extends PureComponent {
       bool,
     ]).isRequired,
     // From container mapDispatchToProps
-    updateEntryPoint: func.isRequired,
     updateViewSubPanels: func.isRequired,
   };
 
@@ -61,39 +53,29 @@ export default class EntryPointDetails extends PureComponent {
     updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
   };
 
-  /**
-   * @param values
-   */
-  handleSubmit = (values) => {
-    const { entryPoint, updateEntryPoint, viewId } = this.props;
-    updateEntryPoint(viewId, entryPoint.id, {
-      ...entryPoint,
-      ...values,
-      connectedData: {
-        ...values.connectedData,
-        // formula: buildFormula( // @todo uncomment and remove formula field
-        //   values.connectedData.catalog,
-        //   values.connectedData.catalogItem,
-        //   values.connectedData.comObject,
-        //   values.connectedData.comObjectField
-        // ),
-      },
-    });
-  };
-
-  /**
-   * @param values
-   */
-  handleSubmitUnit = (values) => {
-    const { entryPoint, updateEntryPoint, viewId } = this.props;
-    updateEntryPoint(viewId, entryPoint.id, {
-      ...entryPoint,
-      connectedData: {
-        ...entryPoint.connectedData,
-        ...values.unit,
-      },
-    });
-  };
+  // /**
+  //  * @param values
+  //  */
+  // handleSubmit = (values) => {
+  //   const { entryPoint, updateEntryPoint, viewId } = this.props;
+  //   updateEntryPoint(viewId, entryPoint.id, _defaultsDeep(
+  //     values,
+  //     entryPoint
+  //   ));
+  //   // updateEntryPoint(viewId, entryPoint.id, {
+  //   //   ...entryPoint,
+  //   //   ...values,
+  //   //   connectedData: {
+  //   //     ...values.connectedData,
+  //   //     // formula: buildFormula( // @todo uncomment and remove formula field
+  //   //     //   values.connectedData.catalog,
+  //   //     //   values.connectedData.catalogItem,
+  //   //     //   values.connectedData.comObject,
+  //   //     //   values.connectedData.comObjectField
+  //   //     // ),
+  //   //   },
+  //   // });
+  // };
 
   render() {
     const {
@@ -102,6 +84,7 @@ export default class EntryPointDetails extends PureComponent {
       pageId,
       panels,
     } = this.props;
+
     return (
       <Collapse
         accordion={false}
@@ -112,61 +95,60 @@ export default class EntryPointDetails extends PureComponent {
           key="name"
           header="Name"
         >
-          {Array.isArray(panels) && panels.includes('name') && <AddEntryPoint
-            onSubmit={this.handleSubmit}
-            form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
-            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
-            initialValues={{
-              name: entryPoint.name,
-            }}
-          />}
+          {Array.isArray(panels) && panels.includes('name') &&
+            <HorizontalFormGroup label="Label">
+              <Field
+                name="name"
+                component={InputField}
+                className="form-control input-sm"
+                type="text"
+              />
+            </HorizontalFormGroup>
+          }
         </Panel>
         <Panel
           key="ConnData"
           header="Connected data"
         >
-          {Array.isArray(panels) && panels.includes('ConnData') && <EntryPointConnectedDataFieldsContainerWithForm
-            form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
-            onSubmit={values => this.handleSubmit({ connectedData: values })}
-            initialValues={entryPoint.connectedData}
-            viewId={viewId}
-            pageId={pageId}
-          />}
+          {Array.isArray(panels) && panels.includes('ConnData') &&
+            <EntryPointConnectedDataFieldsContainer
+              {...this.props}
+            />
+          }
         </Panel>
         <Panel
           key="Unit"
           header="Unit"
         >
-          {Array.isArray(panels) && panels.includes('Unit') && <EntryPointUnitWithForm
-            form={`entrypoint-unit-form-${entryPoint.id}-${viewId}`}
-            onSubmit={values => this.handleSubmitUnit({ unit: values })}
-            initialValues={units(entryPoint)}
-            viewId={viewId}
-            pageId={pageId}
-            connectedData={entryPoint.connectedData}
-          />}
+          {Array.isArray(panels) && panels.includes('Unit') &&
+            <EntryPointUnit
+              {...this.props}
+            />
+          }
         </Panel>
         <Panel
           key="Filter"
           header="Filter"
         >
-          {Array.isArray(panels) && panels.includes('Filter') && <EntryPointFilterWithForm
-            form={`entrypoint-filter-form-${entryPoint.id}-${viewId}`}
-            onSubmit={values => this.handleSubmit(values)}
-            initialValues={entryPoint}
-            viewId={viewId}
-            pageId={pageId}
-          />}
+          {Array.isArray(panels) && panels.includes('Filter') &&
+            <FieldArray
+              name={'connectedData.filter'}
+              component={FiltersFieldsContainer}
+              {...this.props}
+            />
+          }
         </Panel>
         <Panel
           key="stateColors"
           header="State colors"
         >
-          {Array.isArray(panels) && panels.includes('stateColors') && <StateColorsFieldsWithForm
-            initialValues={stateColor(entryPoint)}
-            form={`entrypoint-stateColors-form-${entryPoint.id}-${viewId}`}
-            onSubmit={this.handleSubmit}
-          />}
+          {Array.isArray(panels) && panels.includes('stateColors') &&
+            <FieldArray
+              name={'stateColors'}
+              component={StateColorsFields}
+              {...this.props}
+            />
+          }
         </Panel>
       </Collapse>
     );

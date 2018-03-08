@@ -30,7 +30,7 @@ import InputField from 'windowProcess/commonReduxForm/InputField';
 import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
-import FiltersFields from 'viewManager/commonEditor/Fields/FiltersFields';
+import FiltersFieldsContainer from 'viewManager/commonEditor/Fields/FiltersFieldsContainer';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
 import styles from './EntryPointConnectedData.css';
 
@@ -412,7 +412,7 @@ class EntryPointConnectedData extends Component {
 
           <FieldArray
             name="connectedData.filter"
-            component={FiltersFields}
+            component={FiltersFieldsContainer}
           />
         </div>
       </Form>

@@ -13,6 +13,7 @@
 import _isEmpty from 'lodash/isEmpty';
 import Long from 'long';
 import Decimal from 'decimal.js';
+import moment from 'moment';
 import getLogger from 'common/logManager';
 import globalConstants from 'constants';
 import { operators } from 'common/operators';
@@ -115,6 +116,25 @@ function stringFilter(value, operator, expected) {
   }
 }
 
+function timeFilter(value, operator, expected) {
+  switch (operators[operator]) {
+    case globalConstants.FILTERTYPE_EQ:
+      return value.isSame(expected);
+    case globalConstants.FILTERTYPE_NE:
+      return !value.isSame(expected);
+    case globalConstants.FILTERTYPE_LT:
+      return value.isBefore(expected);
+    case globalConstants.FILTERTYPE_LE:
+      return value.isBefore(expected) || value.isSame(expected);
+    case globalConstants.FILTERTYPE_GT:
+      return value.isAfter(expected);
+    case globalConstants.FILTERTYPE_GE:
+      return value.isAfter(expected) || value.isSame(expected);
+    default:
+      return false;
+  }
+}
+
 /* eslint-disable complexity, "DV6 TBC_CNES Filter need check differents cases" */
 function applyFilter(data, filter) {
   if (!filter.operator
@@ -124,7 +144,9 @@ function applyFilter(data, filter) {
     || typeof data[filter.field] === 'undefined') {
     return true;
   }
-  logger.debug(`applying filter ${filter} to data ${data[filter.field]}`);
+  logger.debug(
+    `applying filter ${JSON.stringify(filter)} to data ${JSON.stringify(data[filter.field])}`
+  );
   // get value considering data type
   const type = data[filter.field].type;
   if (type === 'long' || type === 'ulong') {
@@ -140,6 +162,10 @@ function applyFilter(data, filter) {
     return booleanFilter(data[filter.field].value, filter.operator, filter.operand);
   } else if (type === 'string') {
     return stringFilter(data[filter.field].value, filter.operator, filter.operand);
+  } else if (type === 'time') {
+    const dataTime = moment(data[filter.field].value);
+    const operandTime = moment(filter.operand, globalConstants.DATETIME_TILL_MS_FORMAT);
+    return timeFilter(dataTime, filter.operator, operandTime);
   }
   // Other case of number
   const value = data[filter.field].value;

@@ -115,7 +115,6 @@ export default class ReactSelectField extends React.Component {
           onBlur={this.onBlur}
           options={options}
           onChange={this.onChange}
-          onInputChange={this.onInputChange}
           className={className}
           placeholder={placeholder}
           clearable={clearable}

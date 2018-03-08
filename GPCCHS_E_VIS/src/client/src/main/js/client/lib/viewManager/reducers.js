@@ -25,6 +25,7 @@ import groundAlarmViewConfigurationReducer from './GroundAlarmView/store/configu
 import onboardAlarmViewConfigurationReducer from './OnboardAlarmView/store/configurationReducer';
 import * as constants from './constants';
 
+import textViewDataReducer from './TextView/store/dataReducer';
 import plotViewDataReducer from './PlotView/store/dataReducer';
 import dynamicViewDataReducer from './DynamicView/store/dataReducer';
 import mimicViewDataReducer from './MimicView/store/dataReducer';
@@ -72,8 +73,7 @@ export const getConfigurationReducers = () => createConfigurationReducers({
 });
 
 export const getDataReducers = () => createDataReducers({
-  // eslint-disable-next-line global-require, "DV6 TBC_CNES Because its like that"
-  [constants.VM_VIEW_TEXT]: require('./TextView/store/dataReducer'),
+  [constants.VM_VIEW_TEXT]: textViewDataReducer,
   [constants.VM_VIEW_PLOT]: plotViewDataReducer,
   [constants.VM_VIEW_DYNAMIC]: dynamicViewDataReducer,
   [constants.VM_VIEW_MIMIC]: mimicViewDataReducer,

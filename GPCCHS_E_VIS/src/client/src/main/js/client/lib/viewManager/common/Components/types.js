@@ -79,3 +79,8 @@ export const catalogType = shape({
 export const reduxFormFieldsType = {
   form: string.isRequired,
 };
+
+export const comObjectType = shape({
+  name: string.isRequired,
+  type: string.isRequired,
+});

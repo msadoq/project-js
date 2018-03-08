@@ -3,7 +3,7 @@
 exports[`data:map should compute dataMap 1`] = `
 Object {
   "expectedLastIntervals": Object {
-    "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4": Object {
+    "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::": Object {
       "extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           100000,
@@ -23,7 +23,7 @@ Object {
         ],
       },
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::": Object {
       "extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           100000,
@@ -31,7 +31,7 @@ Object {
         ],
       },
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::raw.>.100:": Object {
       "extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           100000,
@@ -39,7 +39,7 @@ Object {
         ],
       },
     },
-    "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4": Object {
+    "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4:::": Object {
       "undefined.tb1:0": Object {
         "expectedInterval": Array [
           100000,
@@ -49,7 +49,7 @@ Object {
     },
   },
   "expectedRangeIntervals": Object {
-    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1": Object {
+    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
       "groundDate/extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           100000,
@@ -69,7 +69,7 @@ Object {
         ],
       },
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:": Object {
       "groundDate/extractedValue.tb1:0:#000000.monitoringState.=.waiting": Object {
         "expectedInterval": Array [
           100000,
@@ -77,7 +77,7 @@ Object {
         ],
       },
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:rawValue.>.100": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::rawValue.>.100:": Object {
       "undefined.tb1:0": Object {
         "expectedInterval": Array [
           100000,
@@ -87,7 +87,7 @@ Object {
     },
   },
   "forecastIntervals": Object {
-    "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4": Object {
+    "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::": Object {
       "extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           400000,
@@ -107,7 +107,7 @@ Object {
         ],
       },
     },
-    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1": Object {
+    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
       "groundDate/extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           500000,
@@ -127,7 +127,7 @@ Object {
         ],
       },
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::": Object {
       "extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           400000,
@@ -135,7 +135,7 @@ Object {
         ],
       },
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:": Object {
       "groundDate/extractedValue.tb1:0:#000000.monitoringState.=.waiting": Object {
         "expectedInterval": Array [
           500000,
@@ -143,7 +143,7 @@ Object {
         ],
       },
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::raw.>.100:": Object {
       "extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           400000,
@@ -151,7 +151,7 @@ Object {
         ],
       },
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:rawValue.>.100": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::rawValue.>.100:": Object {
       "undefined.tb1:0": Object {
         "expectedInterval": Array [
           500000,
@@ -159,7 +159,7 @@ Object {
         ],
       },
     },
-    "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4": Object {
+    "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4:::": Object {
       "undefined.tb1:0": Object {
         "expectedInterval": Array [
           400000,
@@ -169,7 +169,7 @@ Object {
     },
   },
   "perLastTbdId": Object {
-    "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4": Object {
+    "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::": Object {
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -206,7 +206,7 @@ Object {
         "mimic1",
       ],
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::": Object {
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -230,7 +230,7 @@ Object {
         "text1",
       ],
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::raw.>.100:": Object {
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -260,7 +260,7 @@ Object {
         "mimic1",
       ],
     },
-    "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4": Object {
+    "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4:::": Object {
       "dataId": Object {
         "catalog": "TelemetryPacket",
         "comObject": "DecommutedPacket",
@@ -286,7 +286,7 @@ Object {
     },
   },
   "perRangeTbdId": Object {
-    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1": Object {
+    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -324,7 +324,7 @@ Object {
         "hist1",
       ],
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:": Object {
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -355,7 +355,7 @@ Object {
         "plot1",
       ],
     },
-    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:rawValue.>.100": Object {
+    "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::rawValue.>.100:": Object {
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
@@ -401,7 +401,7 @@ Object {
           "id": "dynamic1ep1",
           "localId": "undefined.tb1:0",
           "offset": 0,
-          "tbdId": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4",
+          "tbdId": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4:::",
           "timebarUuid": "tb1",
           "type": "DynamicView",
         },
@@ -425,7 +425,7 @@ Object {
           "localId": "undefined.tb1:0",
           "offset": 0,
           "stateColors": Array [],
-          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1",
+          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::",
           "timebarUuid": "tb1",
           "type": "HistoryView",
         },
@@ -450,7 +450,7 @@ Object {
           "localId": "undefined.tb1:0",
           "offset": 0,
           "stateColors": Array [],
-          "tbdId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:rawValue.>.100",
+          "tbdId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::rawValue.>.100:",
           "timebarUuid": "tb1",
           "type": "HistoryView",
         },
@@ -476,7 +476,7 @@ Object {
           "id": "mimic1ep2",
           "localId": "extractedValue.tb1:0",
           "offset": 0,
-          "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4",
+          "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "MimicView",
         },
@@ -497,7 +497,7 @@ Object {
           "id": "mimic1ep3",
           "localId": "monitoringState.tb1:0",
           "offset": 0,
-          "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4",
+          "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "MimicView",
         },
@@ -524,7 +524,7 @@ Object {
           "id": "mimic1ep1",
           "localId": "extractedValue.tb1:0",
           "offset": 0,
-          "tbdId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100",
+          "tbdId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::raw.>.100:",
           "timebarUuid": "tb1",
           "type": "MimicView",
         },
@@ -552,7 +552,7 @@ Object {
           "localId": "groundDate/extractedValue.tb1:0",
           "offset": 0,
           "stateColors": Array [],
-          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1",
+          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::",
           "timebarUuid": "tb1",
           "type": "PlotView",
         },
@@ -575,7 +575,7 @@ Object {
           "localId": "groundDate/extractedValue.tb1:10000",
           "offset": 10000,
           "stateColors": Array [],
-          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1",
+          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::",
           "timebarUuid": "tb1",
           "type": "PlotView",
         },
@@ -613,7 +613,7 @@ Object {
               },
             },
           ],
-          "tbdId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100",
+          "tbdId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:",
           "timebarUuid": "tb1",
           "type": "PlotView",
         },
@@ -639,7 +639,7 @@ Object {
           "id": "text1ep1",
           "localId": "extractedValue.tb1:0",
           "offset": 0,
-          "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4",
+          "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "TextView",
         },
@@ -660,7 +660,7 @@ Object {
           "id": "text1ep10",
           "localId": "extractedValue.tb1:10000",
           "offset": 10000,
-          "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4",
+          "tbdId": "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "TextView",
         },
@@ -684,7 +684,7 @@ Object {
           "id": "text1ep2",
           "localId": "extractedValue.tb1:0",
           "offset": 0,
-          "tbdId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+          "tbdId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "TextView",
         },

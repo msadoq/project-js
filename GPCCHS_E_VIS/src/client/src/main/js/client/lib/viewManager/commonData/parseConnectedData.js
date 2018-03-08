@@ -26,7 +26,8 @@ export default function parseConnectedData(
   workspaceDomain,
   viewSessionName,
   pageSessionName,
-  workspaceSessionName
+  workspaceSessionName,
+  provider
 ) {
   const { formula, domain, timeline, filter, convertTo, convertFrom } = connectedData;
   // formula
@@ -59,13 +60,16 @@ export default function parseConnectedData(
   if (session.error) {
     return session;
   }
-  const dataId = { catalog,
+  const dataId = {
+    catalog,
     parameterName,
     comObject,
     domainId,
     domain: domainSearch.domainName,
     sessionName: session.name,
-    sessionId: session.id };
+    sessionId: session.id,
+    provider,
+  };
 
   return {
     dataId,

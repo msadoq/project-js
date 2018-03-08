@@ -2,7 +2,7 @@
 
 exports[`dataManager/perRangeTbdIdData perRangeTbdIdMap 1`] = `
 Object {
-  "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1": Object {
+  "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
     "dataId": Object {
       "catalog": "Reporting",
       "comObject": "ReportingParameter",
@@ -40,7 +40,7 @@ Object {
       "hist1",
     ],
   },
-  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100": Object {
+  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:": Object {
     "dataId": Object {
       "catalog": "Reporting",
       "comObject": "ReportingParameter",
@@ -71,7 +71,7 @@ Object {
       "plot1",
     ],
   },
-  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:rawValue.>.100": Object {
+  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::rawValue.>.100:": Object {
     "dataId": Object {
       "catalog": "Reporting",
       "comObject": "ReportingParameter",

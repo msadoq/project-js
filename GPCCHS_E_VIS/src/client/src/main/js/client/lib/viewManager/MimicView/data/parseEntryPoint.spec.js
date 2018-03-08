@@ -85,7 +85,7 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
         filters: [],
         localId: 'extractedValue.TB1:0',
         timebarUuid: 'TB1',
-        tbdId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1',
+        tbdId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1:::',
         type: 'MimicView',
       },
     });
@@ -112,7 +112,7 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
         filters: [{ field: 'raw', operator: '=', operand: '2' }],
         localId: 'extractedValue.TB1:0',
         timebarUuid: 'TB1',
-        tbdId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1:raw.=.2',
+        tbdId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>:1:d1::raw.=.2:',
         type: 'MimicView',
       },
     });

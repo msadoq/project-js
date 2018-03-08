@@ -758,8 +758,8 @@ export default {
     staticData: null,
   },
   knownRanges: {
-    'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100': {
-      flatDataId: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4',
+    'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:': {
+      flatDataId: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:',
       filters: [{
         field: 'extractedValue',
         operand: '100',
@@ -767,13 +767,12 @@ export default {
       }],
       intervals: [[2, 6], [100000, 500000]],
     },
-    'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4': {
-      flatDataId: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4',
-      filters: [],
+    'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::': {
+      flatDataId: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::',
       intervals: [[90000, 490000]],
     },
-    'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': {
-      flatDataId: 'catalog.paramName2<comObject>:2:1',
+    'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': {
+      flatDataId: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1::extractedValue.=.2:',
       filters: [{ field: 'extractedValue', operator: '=', operand: '2' }],
       intervals: [[0, 60], [100000, 500000]],
     },

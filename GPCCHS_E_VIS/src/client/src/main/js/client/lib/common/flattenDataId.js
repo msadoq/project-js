@@ -5,20 +5,28 @@
 // END-HISTORY
 // ====================================================================
 
+import _get from 'lodash/get';
+import _map from 'lodash/map';
+
 /**
  * Generate a predictable flat dataId for a given dataId Object
  * @param dataId {catalog, parameterName, comObject, sessionId, domainId }
+ * @param filters
+ * @param mode
+ * @returns {string} tbdId
  */
-module.exports = (dataId, filters = [], mode) => {
+export default (dataId, filters = [], mode = '') => {
   const {
     catalog,
     parameterName,
     comObject,
     sessionId,
     domainId,
+    provider,
   } = dataId;
-  const _mode = mode ? `:${mode}` : '';
-  return `${catalog}.${parameterName}<${comObject}>:${sessionId}:${domainId}${flattenFilters(filters)}${_mode}`;
+  const _provider = provider || '';
+  const _mode = mode || '';
+  return `${catalog}.${parameterName}<${comObject}>:${sessionId}:${domainId}:${_provider}:${flattenFilters(filters)}:${_mode}`;
 };
 
 function flattenFilters(filters = []) {
@@ -26,5 +34,62 @@ function flattenFilters(filters = []) {
     return '';
   }
   const filterStr = filters.map(({ field, operator, operand }) => `${field}.${operator}.${operand}`);
-  return ':'.concat(filterStr.join());
+  return filterStr.join();
 }
+
+/**
+ * @param tbdId
+ * @returns {RegExpExecArray | null}
+ */
+export const explodeTbdId = (tbdId) => {
+  const regex = /^([^.]*)\.([^<]*)<([^>]*)>:([^:]*):([^:]*):([^:]*):([^:]*):(.*)/i;
+  return regex.exec(tbdId);
+};
+
+/**
+ * @param tbdId
+ * @returns {{catalog: *, parameterName: *, comObject: *, sessionId: *, domainId: *, provider: *}}
+ */
+export const getDataId = (tbdId) => {
+  const match = explodeTbdId(tbdId);
+  return {
+    catalog: _get(match, 1, ''),
+    parameterName: _get(match, 2, ''),
+    comObject: _get(match, 3, ''),
+    sessionId: parseInt(_get(match, 4, ''), 10),
+    domainId: parseInt(_get(match, 5, ''), 10),
+    provider: _get(match, 6, ''),
+  };
+};
+
+/**
+ * @param tbdId
+ * @returns {*}
+ */
+export const getFilters = (tbdId) => {
+  const match = explodeTbdId(tbdId);
+  const splitted = _get(match, 7, '');
+  const arrayFilters = [];
+
+  _map(splitted.split(','), (filters) => {
+    const filter = filters.split('.');
+    if (filter.length === 3) {
+      arrayFilters.push({
+        field: filter[0],
+        operator: filter[1],
+        operand: filter[2],
+      });
+    }
+  });
+
+  return arrayFilters;
+};
+
+/**
+ * @param tbdId
+ * @returns {*}
+ */
+export const getMode = (tbdId) => {
+  const match = explodeTbdId(tbdId);
+  return _get(match, 8, '');
+};

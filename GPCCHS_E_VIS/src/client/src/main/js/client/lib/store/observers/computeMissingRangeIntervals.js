@@ -10,6 +10,7 @@ import _isEqual from 'lodash/isEqual';
 import _intersection from 'lodash/intersection';
 import { retrieveNeededIntervals } from 'viewManager/commonData/intervalManagement';
 import mergeInterval from 'common/intervals/merge';
+import { getFilters } from '../../common/flattenDataId';
 
 /**
  * Return the current missing intervals requests list
@@ -17,7 +18,7 @@ import mergeInterval from 'common/intervals/merge';
  * {
  *   'tbdId': {
  *     dataId: {},
- *     filter: {},
+ *     filters: [],
  *     localIds: {
  *       'localId': {
  *          viewType: string,
@@ -67,14 +68,19 @@ export default function computeMissingRangeIntervals(dataMap, lastMap) {
       }
 
       if (!queries[tbdId]) {
+        const f = getFilters(tbdId);
         // save filters if they are stored in remoteId
-        const elements = tbdId.split(':');
-        queries[tbdId] = {
-          mode,
+        let query = {
           dataId,
-          filters: elements.length === 4 ? filters : undefined,
           intervals: [],
         };
+        if (mode) {
+          query = { ...query, mode };
+        }
+        if (f.length > 0) {
+          query = { ...query, filters: f };
+        }
+        queries[tbdId] = query;
       }
 
       _each(needed, (m) => {

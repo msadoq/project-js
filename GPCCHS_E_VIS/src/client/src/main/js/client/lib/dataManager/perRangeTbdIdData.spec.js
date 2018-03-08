@@ -26,19 +26,19 @@ describe('dataManager/perRangeTbdIdData', () => {
     filters: [],
     localId: 'groundDate/extractedValue.tb1:0/0',
     timebarUuid: 'tb1',
-    tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+    tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4:::',
     type: 'PlotView',
   };
   const epValid2 = cloneDeep(epValid);
   epValid2.dataId.parameterName = 'STAT_SU_NEW';
   epValid2.fieldY = 'rawValue';
   epValid2.localId = 'groundDate/rawValue.tb1:0/0';
-  epValid2.tbdId = 'Reporting.STAT_SU_NEW<ReportingParameter>:181:4';
+  epValid2.tbdId = 'Reporting.STAT_SU_NEW<ReportingParameter>:181:4:::';
 
   const epValid3 = cloneDeep(epValid2);
   epValid3.fieldY = 'extractedValue';
   epValid3.localId = 'groundDate/extractedValue.tb1:0/0';
-  epValid3.tbdId = 'Reporting.STAT_SU_NEW<ReportingParameter>:181:4';
+  epValid3.tbdId = 'Reporting.STAT_SU_NEW<ReportingParameter>:181:4:::';
 
   const epError = { error: 'invalid entryPoint' };
   const epTextValid = {
@@ -55,12 +55,12 @@ describe('dataManager/perRangeTbdIdData', () => {
     filters: [],
     localId: 'extractedValue.tb1:0',
     timebarUuid: 'tb1',
-    tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+    tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4:::',
     type: 'TextView',
   };
   const epTextValid2 = cloneDeep(epTextValid);
   epTextValid2.filters.push({ field: 'raw', operator: '=', operand: '12' });
-  epTextValid2.tbdId = 'Reporting.STAT_SU_PID<ReportingParameter>:181:4:raw.=.12';
+  epTextValid2.tbdId = 'Reporting.STAT_SU_PID<ReportingParameter>:181:4::raw.=.12:';
   test('addEpInRangeTbdIdMap: map empty, ep valid for plot', () => {
     expect(addEpInRangeTbdIdMap({}, epValid, 'plot1')).toEqual({
       [epValid.tbdId]: {
@@ -161,96 +161,7 @@ describe('dataManager/perRangeTbdIdData', () => {
     });
   });
   test('perRangeTbdIdMap', () => {
-    // const perViewMap = {
-    //   text: {
-    //     type: 'TextView',
-    //     entryPoints: {
-    //       STAT_SU_PID: {
-    //         id: 'id1',
-    //         dataId: {
-    //           catalog: 'Reporting',
-    //           parameterName: 'STAT_SU_PID',
-    //           comObject: 'ReportingParameter',
-    //           domainId: 4,
-    //           sessionId: 181,
-    //         },
-    //         field: 'extractedValue',
-    //         offset: 0,
-    //         filters: [],
-    //         localId: 'extractedValue.tb1:0',
-    //         timebarUuid: 'tb1',
-    //         tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-    //         type: 'TextView',
-    //       },
-    //       STAT_WILDCARD_TIMELINE: {
-    //         id: 'id46',
-    //         dataId: {
-    //           catalog: 'Reporting',
-    //           parameterName: 'STAT_WILDCARD_TIMELINE',
-    //           comObject: 'ReportingParameter',
-    //           domainId: 4,
-    //           sessionId: 10,
-    //         },
-    //         field: 'extractedValue',
-    //         offset: 0,
-    //         filters: [],
-    //         localId: 'extractedValue.tb1:0',
-    //         timebarUuid: 'tb1',
-    //         tbdId: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
-    //         type: 'TextView',
-    //       },
-    //       STAT_UNKNOW_DOMAIN: { error: 'invalid entry point, no domain matches' },
-    //     },
-    //   },
-    //   plot: {
-    //     type: 'PlotView',
-    //     masterSessionId: 10,
-    //     entryPoints: {
-    //       STAT_SU_PID: {
-    //         id: 'id60',
-    //         dataId: {
-    //           catalog: 'Reporting',
-    //           parameterName: 'STAT_SU_PID',
-    //           comObject: 'ReportingParameter',
-    //           domainId: 4,
-    //           sessionId: 181,
-    //         },
-    //         fieldX: 'groundDate',
-    //         fieldY: 'extractedValue',
-    //         offset: 0,
-    //         filters: [],
-    //         localId: 'groundDate/extractedValue.tb1:0/0',
-    //         timebarUuid: 'tb1',
-    //         tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-    //         type: 'PlotView',
-    //       },
-    //       STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
-    //     },
-    //   },
-    // };
     const dataMap = dataMapGenerator(state);
     expect(perRangeTbdIdMap(dataMap.perView)).toMatchSnapshot();
-    // toEqual({
-    //   'Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
-    //     dataId: {
-    //       catalog: 'Reporting',
-    //       parameterName: 'STAT_SU_PID',
-    //       comObject: 'ReportingParameter',
-    //       domainId: 4,
-    //       sessionId: 181,
-    //     },
-    //     filters: [],
-    //     localIds: {
-    //       'groundDate/extractedValue.tb1:0/0': {
-    //         fieldX: 'groundDate',
-    //         fieldY: 'extractedValue',
-    //         offset: 0,
-    //         timebarUuid: 'tb1',
-    //         viewType: 'PlotView',
-    //       },
-    //     },
-    //     views: ['plot'],
-    //   },
-    // });
   });
 });

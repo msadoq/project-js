@@ -199,3 +199,8 @@ In case of error 'ENOSPC' when run 'npm run test:watch' :
 su root
 echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
 ```
+
+In case of error 'ImportError: No module named GPINUC_L_UCL.unitConverterLibrary.unitConverter'
+
+```
+```

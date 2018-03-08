@@ -46,33 +46,33 @@ describe('store:knownRanges:reducer', () => {
   test('Should add tbdId known interval: one interval', () => {
     const nextState = reducer({}, actions.sendArchiveQuery('myTbdId1', dataId, [15, 25], []));
     expect(nextState).toEqual({ myTbdId1: {
-      flatDataId: 'catalog.paramName<comObject>:181:4',
+      flatDataId: 'catalog.paramName<comObject>:181:4:::',
       filters: [],
       intervals: [[15, 25]],
       dataId } });
     const nextState2 =
       reducer(nextState, actions.sendArchiveQuery('myTbdId1', dataId, [[10, 20], [50, 60]]));
     expect(nextState2).toEqual({ myTbdId1: {
-      flatDataId: 'catalog.paramName<comObject>:181:4',
+      flatDataId: 'catalog.paramName<comObject>:181:4:::',
       filters: [],
       intervals: [[10, 25], [50, 60]],
       dataId } });
   });
   test('Should add tbdId known interval: multi intervals', () => {
     const nextState = reducer({ myTbdId0: {
-      flatDataId: 'catalog.paramName0<comObject>:181:4',
+      flatDataId: 'catalog.paramName0<comObject>:181:4:::',
       filters: [],
       intervals: [[15, 25]],
       dataId } },
       actions.sendArchiveQuery('myTbdId1', dataId, [[2, 6], [15, 25]]));
     expect(nextState).toEqual({
       myTbdId0: {
-        flatDataId: 'catalog.paramName0<comObject>:181:4',
+        flatDataId: 'catalog.paramName0<comObject>:181:4:::',
         filters: [],
         intervals: [[15, 25]],
         dataId },
       myTbdId1: {
-        flatDataId: 'catalog.paramName<comObject>:181:4',
+        flatDataId: 'catalog.paramName<comObject>:181:4:::',
         filters: [],
         intervals: [[2, 6], [15, 25]],
         dataId } });
@@ -148,13 +148,13 @@ describe('store:knownRanges:reducer', () => {
 describe('store:knownRanges:selectors', () => {
   const state = {
     knownRanges: {
-      'catalog.paramName1<comObject>:2:1': {
-        flatDataId: 'catalog.paramName1<comObject>:2:1',
+      'catalog.paramName1<comObject>:2:1:::': {
+        flatDataId: 'catalog.paramName1<comObject>:2:1:::',
         filters: [],
         intervals: [[2, 6], [15, 25]],
       },
-      'catalog.paramName2<comObject>:2:1:extractedValue.=.2': {
-        flatDataId: 'catalog.paramName2<comObject>:2:1',
+      'catalog.paramName2<comObject>:2:1::extractedValue.=.2:': {
+        flatDataId: 'catalog.paramName2<comObject>:2:1:::',
         filters: [{ field: 'extractedValue', operator: '=', operand: '2' }],
         intervals: [[0, 60], [115, 125]],
       },
@@ -162,20 +162,20 @@ describe('store:knownRanges:selectors', () => {
   };  // GENERAL
   describe('getKnownRanges', () => {
     test('should return knownRanges', () => {
-      expect(getKnownRanges(state, { tbdId: 'catalog.paramName1<comObject>:2:1' }))
-        .toEqual(state.knownRanges['catalog.paramName1<comObject>:2:1']);
+      expect(getKnownRanges(state, { tbdId: 'catalog.paramName1<comObject>:2:1:::' }))
+        .toEqual(state.knownRanges['catalog.paramName1<comObject>:2:1:::']);
     });
   });
   describe('getMissingIntervals', () => {
     test('unknown tbdId', () => {
       expect(getMissingIntervals(state, {
-        tbdId: 'catalog.paramName3<comObject>:2:1',
+        tbdId: 'catalog.paramName3<comObject>:2:1:::',
         queryInterval: [5, 10] }))
       .toEqual([[5, 10]]);
     });
     test('known tbdId, complete interval', () => {
       expect(getMissingIntervals(state, {
-        tbdId: 'catalog.paramName1<comObject>:2:1',
+        tbdId: 'catalog.paramName1<comObject>:2:1:::',
         queryInterval: [50, 60] }))
       .toEqual([[50, 60]]);
     });
@@ -194,12 +194,12 @@ describe('store:knownRanges:selectors', () => {
     });
     test('known dataId without filter', () => {
       dataId.parameterName = 'paramName1';
-      expect(isDataIdInCache(state, { dataId })).toEqual(['catalog.paramName1<comObject>:2:1']);
+      expect(isDataIdInCache(state, { dataId })).toEqual(['catalog.paramName1<comObject>:2:1:::']);
     });
     test('known dataId with filter', () => {
       dataId.parameterName = 'paramName2';
       expect(isDataIdInCache(state, { dataId }))
-      .toEqual(['catalog.paramName2<comObject>:2:1:extractedValue.=.2']);
+      .toEqual(['catalog.paramName2<comObject>:2:1::extractedValue.=.2:']);
     });
   });
   describe('isTimestampInKnownRanges', () => {

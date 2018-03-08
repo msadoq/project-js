@@ -33,12 +33,12 @@ const store1 = {
   },
   knownRanges: {
     'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {
-      flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+      flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::',
       filters: [],
       intervals: [[10, 20], [30, 40]],
     },
     'Reporting.STAT_SU_PID<ReportingParameter>:1:1:extracted.>.1': {
-      flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+      flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::',
       filters: [],
       intervals: [[10, 20], [50, 60]],
     },
@@ -160,26 +160,6 @@ const store1 = {
             },
           ],
         },
-        // {
-        //   name: 'STAT_PARAMETRIC',
-        //   connectedData: {
-        //     formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-        //     fieldX: 'groundDate',
-        //     filter: [],
-        //     domain: 'fr.cnes.isis',
-        //     timeline: 'Session 1',
-        //   },
-        //   stateColors: [
-        //     {
-        //       color: '#000000',
-        //       condition: {
-        //         field: 'monitoringState',
-        //         operator: '=',
-        //         operand: 'waiting',
-        //       },
-        //     },
-        //   ],
-        // },
       ],
       title: 'Plotview Sup/Sup workspace',
     },
@@ -273,9 +253,9 @@ describe('cacheCleanup', () => {
     payload: 'payload',
   }];
   test('cacheClean', () => {
-    lokiManager.addRecords('Reporting.STAT_SU_PID<ReportingParameter>:1:1', data);
+    lokiManager.addRecords('Reporting.STAT_SU_PID<ReportingParameter>:1:1:::', data);
     store.dispatch(lambdaAction());
-    expect(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1'))
+    expect(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'))
     .toMatchObject([
       {
         timestamp: 12,

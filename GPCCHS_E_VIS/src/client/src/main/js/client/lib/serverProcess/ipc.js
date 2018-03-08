@@ -23,6 +23,7 @@
 import v4 from 'uuid';
 import _memoize from 'lodash/fp/memoize';
 import _uniqueId from 'lodash/fp/uniqueId';
+import _get from 'lodash/get';
 import zmq from 'common/zmq';
 import { encode } from '../utils/adapters';
 import { getStore } from './store';
@@ -239,7 +240,7 @@ const dcVersionMap = {
             sessionId: dataId.sessionId,
             domainId: dataId.domainId,
             objectName: dataId.comObject,
-            providerFlow: '',
+            providerFlow: _get(dataId, 'provider', ''),
             catalogName: dataId.catalog,
             itemName: dataId.parameterName,
             timeInterval: {
@@ -264,7 +265,7 @@ const dcVersionMap = {
           catalogName: dataId.catalog,
           itemName: dataId.parameterName,
           action: constants.SUBSCRIPTIONACTION_ADD,
-          providerFlow: '',
+          providerFlow: _get(dataId, 'provider', ''),
         }),
       ], err => (onDcResponseCallback(err, flatDataId)))
     ),
@@ -277,7 +278,7 @@ const dcVersionMap = {
           catalogName: dataId.catalog,
           itemName: dataId.parameterName,
           action: constants.SUBSCRIPTIONACTION_DELETE,
-          providerFlow: '',
+          providerFlow: _get(dataId, 'provider', ''),
         }),
       ], err => (onDcResponseCallback(err, flatDataId)))
     ),

@@ -46,7 +46,7 @@ describe('store:views:selectors', () => {
       filters: [],
       localId: 'extractedValue.tb1:0',
       timebarUuid: 'tb1',
-      tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
+      tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
       type: 'TextView',
       name: 'AGA_AM_PRIORITY',
     });

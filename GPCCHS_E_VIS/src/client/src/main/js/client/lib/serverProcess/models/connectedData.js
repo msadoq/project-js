@@ -12,6 +12,8 @@
 // END-HISTORY
 // ====================================================================
 
+import flattenDataId from '../../common/flattenDataId';
+
 const _remove = require('lodash/remove');
 const _values = require('lodash/values');
 const _filter = require('lodash/filter');
@@ -21,7 +23,6 @@ const _has = require('lodash/has');
 const _set = require('lodash/set');
 const _reduce = require('lodash/reduce');
 const logger = require('../../common/logManager')('models:connectedData');
-const flattenDataId = require('../../common/flattenDataId');
 const intervalManager = require('../../common/intervals');
 
 const database = require('./loki');

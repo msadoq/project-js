@@ -21,6 +21,7 @@ describe('dataManager/mapSelector', () => {
       comObject: 'ReportingParameter',
       domainId: 4,
       sessionId: 0,
+      provider: '',
     };
   });
 
@@ -35,8 +36,8 @@ describe('dataManager/mapSelector', () => {
   test('isDataIdInDatamapLast: known dataId', () => {
     dataId.parameterName = 'TMMGT_BC_VIRTCHAN3';
     expect(isDataIdInDatamapLast(state, dataId)).toEqual([
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4',
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100',
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::',
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::raw.>.100:',
     ]);
   });
   test('isTimestampInLastInterval: empty dataMap', () => {

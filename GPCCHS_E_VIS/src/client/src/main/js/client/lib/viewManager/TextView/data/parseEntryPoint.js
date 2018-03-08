@@ -36,7 +36,8 @@ function parseEntryPoint(
   workspaceDomain,
   viewSessionName,
   pageSessionName,
-  workspaceSessionName
+  workspaceSessionName,
+  provider
 ) {
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
@@ -56,7 +57,8 @@ function parseEntryPoint(
     workspaceDomain,
     viewSessionName,
     pageSessionName,
-    workspaceSessionName
+    workspaceSessionName,
+    provider
   );
   if (cd.error) {
     logger.info('invalid entryPoint', name, cd.error);
@@ -65,6 +67,7 @@ function parseEntryPoint(
   const { dataId, field, offset, filters, convert } = cd;
   // compute tbdId with filters to use them with getLast
   const tbdId = flattenDataId(dataId, filters);
+  console.log('tbdId', tbdId);
   let localId = `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`;
   if (convert && convert.from && convert.to) {
     localId = `${localId}#${convert.from}#${convert.to}`;

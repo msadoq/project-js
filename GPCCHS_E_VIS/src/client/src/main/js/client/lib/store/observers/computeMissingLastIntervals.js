@@ -10,6 +10,7 @@ import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _intersection from 'lodash/intersection';
 import _findIndex from 'lodash/findIndex';
+import { getFilters } from '../../common/flattenDataId';
 
 /**
  * Return the current missing intervals requests list
@@ -80,15 +81,21 @@ export default function computeMissingLastIntervals(dataMap, lastMap) {
       }
 
       if (!queries[tbdId]) {
+        const f = getFilters(tbdId);
         // save filters if they are stored in remoteId
-        const elements = tbdId.split(':');
-        queries[tbdId] = {
-          mode,
+        let query = {
           dataId,
-          filters: elements.length === 4 ? filters : undefined,
           intervals: [],
         };
+        if (mode) {
+          query = { ...query, mode };
+        }
+        if (f.length > 0) {
+          query = { ...query, filters: f };
+        }
+        queries[tbdId] = query;
       }
+
       // Check if interval is not already in queries
       const index = _findIndex(queries[tbdId].intervals,
         interval => interval[0] === needed[0] && interval[1] === needed[1]);

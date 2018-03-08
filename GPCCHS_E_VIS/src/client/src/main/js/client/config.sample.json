@@ -16,5 +16,5 @@
   "STUB_RTD_ON": "on",
   "RTD_ON": "on",
   "RTD_UNIX_SOCKET": "/data/isis/work/redis/rtdRedisDb.sock",
-  "PYTHON_EXEC_PATH": "/usr/bin/python"
+  "PYTHON_EXEC_PATH": "/usr/share/isis/bin/python3"
 }

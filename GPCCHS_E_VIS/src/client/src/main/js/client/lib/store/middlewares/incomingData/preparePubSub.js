@@ -152,17 +152,15 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
 
 /**
  * Add a set of values in a collection for a given tbdId
- * @param {Object} state
- * @param {Object}
-            {string} tbdId: tbdId of data to check
-            {number} timestamp: timestamp to check in ms
-            {Object} decodedPayload: the decoded payload
-            {function} isInIntervals: check if data is in intervals (state, { tbdId, timestamp })
-            {function} isInInterval
-            {Array} filters
-            {function} addRecord: function to add record in cache. Can be undefined
- * @param {Object} finalPayloads
- * @return {Object} updated finalPayload
+ * @param state state {string} tbdId: tbdId of data to check
+ * @param tbdId {number} timestamp: timestamp to check in ms
+ * @param timestamp {Object} decodedPayload: the decoded payload
+ * @param decodedPayload {function} isInIntervals: check if data is in intervals (state, { tbdId, timestamp })
+ * @param isInIntervals {function} isInInterval
+ * @param filters {Array} filters
+ * @param addRecord {function} addRecord: function to add record in cache. Can be undefined
+ * @param finalPayloads
+ * @returns {*} {Object} updated finalPayload
  */
 export const updateFinalPayload = (
   state,

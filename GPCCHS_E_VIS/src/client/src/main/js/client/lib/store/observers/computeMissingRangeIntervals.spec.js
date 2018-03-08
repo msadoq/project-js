@@ -11,7 +11,6 @@ import state from 'common/jest/stateTest';
 import dataMapGenerator from 'dataManager/map';
 import computeMissingRangeIntervals from './computeMissingRangeIntervals';
 
-
 describe('store/observers/computeMissingRangeIntervals', () => {
   const dataId_TMMGT_BC_VIRTCHAN3 = {
     catalog: 'Reporting',
@@ -58,7 +57,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingRangeIntervals(newMap, lastMap)).toEqual({
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
           field: 'extractedValue',
@@ -68,7 +67,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         intervals:
           [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
       },
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:rawValue.>.100': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::rawValue.>.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
           field: 'rawValue',
@@ -78,12 +77,15 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         intervals:
           [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
       },
-      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': {
+      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': {
         dataId: dataId_ATT_BC_REVTCOUNT1,
-        intervals:
-        [[state.timebars.tb1.visuWindow.upper - offset,
-          state1.timebars.tb1.visuWindow.upper - offset],
-        [state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
+        intervals: [
+          [
+            state.timebars.tb1.visuWindow.upper - offset,
+            state1.timebars.tb1.visuWindow.upper - offset,
+          ],
+          [state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper],
+        ],
       },
     });
   });
@@ -95,7 +97,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingRangeIntervals(newMap, lastMap)).toEqual({
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
           field: 'extractedValue',
@@ -105,7 +107,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         intervals:
           [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],
       },
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:rawValue.>.100': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::rawValue.>.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
           field: 'rawValue',
@@ -115,7 +117,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         intervals:
           [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],
       },
-      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': {
+      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': {
         dataId: dataId_ATT_BC_REVTCOUNT1,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower - offset,

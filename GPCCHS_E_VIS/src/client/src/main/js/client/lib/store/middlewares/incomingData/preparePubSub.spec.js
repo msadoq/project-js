@@ -32,7 +32,7 @@ describe('store:middlewares:preparePubSub', () => {
   describe('updateFinalPayload', () => {
     test('in store, tbdId in store, timestamp ok, empty finalPayloads', () => {
       const store = mockStore(state);
-      const tbdId = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1';
+      const tbdId = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::';
       const finalPayloads = updateFinalPayload(store.getState(),
         { tbdId,
           timestamp: 320000,
@@ -47,7 +47,7 @@ describe('store:middlewares:preparePubSub', () => {
     test('in store, tbdId in store, timestamp nok, empty finalPayloads', () => {
       const store = mockStore(state);
       const finalPayloads = updateFinalPayload(store.getState(),
-        { tbdId: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1',
+        { tbdId: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::',
           timestamp: 150,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
@@ -56,12 +56,12 @@ describe('store:middlewares:preparePubSub', () => {
         {});
       expect(finalPayloads).toEqual({ });
       expect(lokiManager.listCollections()).toEqual([]);
-      expect(lokiManager.displayCollection('Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1'))
+      expect(lokiManager.displayCollection('Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::'))
       .toEqual([]);
     });
     test('in store, tbdId not in store, empty finalPayloads', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1',
+        { tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1:::',
           timestamp: 15,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
@@ -73,20 +73,20 @@ describe('store:middlewares:preparePubSub', () => {
     });
     test('in store, tbdId not in store, finalPayloads not empty', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1',
+        { tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1:::',
           timestamp: 15,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
           addRecord: lokiManager.addRecord },
-        { 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': { 15: decodedPayload } });
+        { 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 15: decodedPayload } });
       expect(finalPayloads)
-      .toEqual({ 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': { 15: decodedPayload } });
+      .toEqual({ 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 15: decodedPayload } });
       expect(lokiManager.listCollections()).toEqual([]);
     });
     test('in store, tbdId in store, timestamp ok, finalPayloads not empty', () => {
-      const tbdId1 = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1';
-      const tbdId2 = 'Reporting.OTHER_PID<ReportingParameter>:1:1';
+      const tbdId1 = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::';
+      const tbdId2 = 'Reporting.OTHER_PID<ReportingParameter>:1:1:::';
       const finalPayloads = updateFinalPayload(state,
         { tbdId: tbdId1,
           timestamp: 320000,
@@ -113,32 +113,32 @@ describe('store:middlewares:preparePubSub', () => {
     });
     test('in dataMap, tbdId not in last', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1',
+        { tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1:::',
           timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInLastDatamapInterval,
           filters: [] },
-        { 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': { 320000: decodedPayload } });
+        { 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 320000: decodedPayload } });
       expect(finalPayloads)
-      .toEqual({ 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': { 320000: decodedPayload } });
+      .toEqual({ 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 320000: decodedPayload } });
       expect(lokiManager.listCollections()).toEqual([]);
     });
     test('in dataMap, tbdId in last', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
+        { tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
           timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInLastDatamapInterval,
           filters: [] },
         { });
       expect(finalPayloads).toEqual({
-        'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': { 320000: decodedPayload },
+        'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': { 320000: decodedPayload },
       });
       expect(lokiManager.listCollections()).toEqual([]);
     });
     test('in dataMap, tbdId in last but does not validate filters', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
+        { tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
           timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInLastDatamapInterval,
@@ -187,7 +187,7 @@ describe('store:middlewares:preparePubSub', () => {
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
         data: {
-          'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4': {
+          'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::': {
             dataId,
             payloadBuffers: [timestamp1, protoRp1, timestamp2, protoRp2],
           },
@@ -199,7 +199,7 @@ describe('store:middlewares:preparePubSub', () => {
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
         data: {
-          'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': {
+          'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': {
             dataId,
             payloadBuffers: [
               timestampNotInLast1Proto,
@@ -216,7 +216,7 @@ describe('store:middlewares:preparePubSub', () => {
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
         data: {
-          'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': {
+          'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': {
             dataId,
             payloadBuffers: [timestampNotInLast1Proto, protoRp1, timestampInLast1Proto, protoRp2],
           },
@@ -228,7 +228,7 @@ describe('store:middlewares:preparePubSub', () => {
       type: types.INCOMING_PUBSUB_DATA,
       payload: {
         data: {
-          'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': {
+          'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': {
             dataId,
             payloadBuffers: [timestampInLast1Proto, protoRp1, timestampInLast2Proto, protoRp2],
           },

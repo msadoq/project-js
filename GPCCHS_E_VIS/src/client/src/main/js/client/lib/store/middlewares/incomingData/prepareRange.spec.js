@@ -35,13 +35,13 @@ describe('store:middlewares:prepareRange', () => {
       },
     },
     knownRanges: {
-      'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {
-        flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+      'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {
+        flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::',
         filters: [],
         intervals: [[10, 20], [1420106790800, 1420106790850]],
       },
-      'Reporting.STAT_SU_PID<ReportingParameter>:1:1:extracted.>.1': {
-        flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+      'Reporting.STAT_SU_PID<ReportingParameter>:1:1:extracted.>.1:::': {
+        flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::',
         filters: [],
         intervals: [[10, 20], [1420106790800, 1420106790850]],
       },
@@ -163,26 +163,6 @@ describe('store:middlewares:prepareRange', () => {
               },
             ],
           },
-          // {
-          //   name: 'STAT_PARAMETRIC',
-          //   connectedData: {
-          //     formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-          //     fieldX: 'groundDate',
-          //     filter: [],
-          //     domain: 'fr.cnes.isis',
-          //     timeline: 'Session 1',
-          //   },
-          //   stateColors: [
-          //     {
-          //       color: '#000000',
-          //       condition: {
-          //         field: 'monitoringState',
-          //         operator: '=',
-          //         operand: 'waiting',
-          //       },
-          //     },
-          //   ],
-          // },
         ],
         title: 'Plotview Sup/Sup workspace',
       },
@@ -266,13 +246,13 @@ describe('store:middlewares:prepareRange', () => {
       },
     },
     knownRanges: {
-      'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {
-        flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+      'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {
+        flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::',
         filters: [],
         intervals: [[10, 20], [1420106790800, 1420106790850]],
       },
-      'Reporting.STAT_SU_PID<ReportingParameter>:1:1:extracted.>.1': {
-        flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+      'Reporting.STAT_SU_PID<ReportingParameter>:1:1:extracted.>.1:::': {
+        flatDataId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::',
         filters: [],
         intervals: [[10, 20], [1420106790800, 1420106790850]],
       },
@@ -411,7 +391,7 @@ describe('store:middlewares:prepareRange', () => {
   const incomingRangeData = () => ({
     type: types.INCOMING_RANGE_DATA,
     payload: {
-      tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+      tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::',
       dataId: { comObject: 'ReportingParameter' },
       peers: [timestamp1, protoRp1, timestamp2, protoRp2],
     },
@@ -420,7 +400,7 @@ describe('store:middlewares:prepareRange', () => {
   const incomingDataNotInLast = () => ({
     type: types.INCOMING_RANGE_DATA,
     payload: {
-      tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+      tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::',
       dataId: { comObject: 'ReportingParameter' },
       peers: [timestampNotInLast1Proto, protoRp1, timestampNotInLast2Proto, protoRp2],
     },
@@ -429,7 +409,7 @@ describe('store:middlewares:prepareRange', () => {
   const incomingDataOneInLast = () => ({
     type: types.INCOMING_RANGE_DATA,
     payload: {
-      tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+      tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::',
       dataId: { comObject: 'ReportingParameter' },
       peers: [timestampNotInLast1Proto, protoRp1, timestampInLast1Proto, protoRp2],
     },
@@ -438,7 +418,7 @@ describe('store:middlewares:prepareRange', () => {
   const incomingDataAllInLast = () => ({
     type: types.INCOMING_RANGE_DATA,
     payload: {
-      tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1',
+      tbdId: 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::',
       dataId: { comObject: 'ReportingParameter' },
       peers: [timestampInLast1Proto, protoRp1, timestampInLast2Proto, protoRp2],
     },
@@ -447,7 +427,7 @@ describe('store:middlewares:prepareRange', () => {
   test('tbdId is in dataMap.expectedRange', () => {
     const store = mockStore(store1);
     store.dispatch(incomingRangeData());
-    expect(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1')).toMatchObject(
+    expect(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1:::')).toMatchObject(
       [{
         timestamp: 1420106790820,
         payload: deprotoRp1,
@@ -457,9 +437,9 @@ describe('store:middlewares:prepareRange', () => {
         payload: deprotoRp2,
       }]);
     const actions = store.getActions();
-    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {} };
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][t1] = deprotoRp1;
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][t2] = deprotoRp2;
+    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {} };
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][t1] = deprotoRp1;
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][t2] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
@@ -483,8 +463,8 @@ describe('store:middlewares:prepareRange', () => {
     const store = mockStore(store2);
     store.dispatch(incomingDataOneInLast());
     const actions = store.getActions();
-    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {} };
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][timestampInLast1] = deprotoRp2;
+    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {} };
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast1] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
@@ -499,9 +479,9 @@ describe('store:middlewares:prepareRange', () => {
     store.dispatch(incomingDataAllInLast());
 
     const actions = store.getActions();
-    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {} };
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][timestampInLast1] = deprotoRp1;
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][timestampInLast2] = deprotoRp2;
+    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {} };
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast1] = deprotoRp1;
+    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast2] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {

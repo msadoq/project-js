@@ -25,7 +25,7 @@ describe('dataManager/expectedLastIntervalMap', () => {
     filter: [],
     localId: 'extractedValue.tb1:0',
     timebarUuid: 'tb1',
-    tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
+    tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
     type: 'TextView',
   };
   const epValidData = {
@@ -48,7 +48,7 @@ describe('dataManager/expectedLastIntervalMap', () => {
     views: ['text1'],
   };
   const perLastTbdIdMap = {
-    'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': {
+    'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': {
       dataId: {
         catalog: 'Reporting',
         parameterName: 'AGA_AM_PRIORITY',
@@ -69,7 +69,7 @@ describe('dataManager/expectedLastIntervalMap', () => {
       },
       views: ['text'],
     },
-    'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
+    'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4:::': {
       dataId: {
         catalog: 'Reporting',
         parameterName: 'STAT_WILDCARD_TIMELINE',
@@ -95,7 +95,7 @@ describe('dataManager/expectedLastIntervalMap', () => {
     const { localIdIntervals, forecastIntervals }
       = intervalPerLastTbdId(
         state.timebars,
-        'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
+        'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
         epValidData,
         {},
         10000);
@@ -108,7 +108,7 @@ describe('dataManager/expectedLastIntervalMap', () => {
       },
     });
     expect(forecastIntervals).toEqual({
-      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': {
+      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': {
         'extractedValue.tb1:0': {
           expectedInterval: [400000, 410000],
         },
@@ -130,7 +130,7 @@ describe('dataManager/expectedLastIntervalMap', () => {
     const { localIdIntervals, forecastIntervals }
       = intervalPerLastTbdId(
         state.timebars,
-        'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
+        'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
         epValidData,
         fIntervals,
         10000);
@@ -148,7 +148,7 @@ describe('dataManager/expectedLastIntervalMap', () => {
           expectedInterval: [400000, 410000],
         },
       },
-      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': {
+      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': {
         'extractedValue.tb1:0': {
           expectedInterval: [400000, 410000],
         },
@@ -163,7 +163,7 @@ describe('dataManager/expectedLastIntervalMap', () => {
     const { localIdIntervals, forecastIntervals } =
       intervalPerLastTbdId(
         state.timebars,
-        'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4',
+        'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
         epValidData,
         {},
         10000);
@@ -176,7 +176,7 @@ describe('dataManager/expectedLastIntervalMap', () => {
       },
     });
     expect(forecastIntervals).toEqual({
-      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': {
+      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': {
         'extractedValue.tb1:0': {
           expectedInterval: [400000, 410000],
         },
@@ -197,12 +197,12 @@ describe('dataManager/expectedLastIntervalMap', () => {
       );
 
     expect(expectedLastIntervals).toEqual({
-      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': {
+      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': {
         'extractedValue.tb1:0': {
           expectedInterval: [100000, 400000],
         },
       },
-      'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
+      'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4:::': {
         'extractedValue.tb1:0': {
           expectedInterval: [100000, 400000],
         },
@@ -210,12 +210,12 @@ describe('dataManager/expectedLastIntervalMap', () => {
     });
     expect(forecastIntervals).toEqual({
       myFirstForecast: {},
-      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': {
+      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': {
         'extractedValue.tb1:0': {
           expectedInterval: [400000, 410000],
         },
       },
-      'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
+      'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4:::': {
         'extractedValue.tb1:0': {
           expectedInterval: [400000, 410000],
         },

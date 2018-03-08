@@ -5,38 +5,108 @@
 // END-HISTORY
 // ====================================================================
 
-const flattenDataId = require('./flattenDataId');
+import _map from 'lodash/map';
+import { PROVIDER_FLOW_HKTMR, PROVIDER_FLOW_HKTMP } from '../constants';
 
-describe('models/getLocalId', () => {
-  test('works without filter', () => {
-    expect(flattenDataId({
-      parameterName: 'ATT_BC_STR1STRRFQ1',
-      catalog: 'Reporting',
-      comObject: 'ReportingParameter',
-      sessionId: 100,
-      domainId: 200,
-    })).toEqual('Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
-  });
-  test('works with one filter', () => {
-    expect(flattenDataId({
-      parameterName: 'ATT_BC_STR1STRRFQ1',
-      catalog: 'Reporting',
-      comObject: 'ReportingParameter',
-      sessionId: 100,
-      domainId: 200,
-    }, [{ operand: '2', operator: '=', field: 'extracted' }]))
-    .toEqual('Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:extracted.=.2');
-  });
-  test('works with two filters', () => {
-    expect(flattenDataId({
-      parameterName: 'ATT_BC_STR1STRRFQ1',
-      catalog: 'Reporting',
-      comObject: 'ReportingParameter',
-      sessionId: 100,
-      domainId: 200,
-    }, [
-      { operand: '2', operator: '=', field: 'extracted' },
-      { operand: '3', operator: '!=', field: 'raw' }]))
-    .toEqual('Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:extracted.=.2,raw.!=.3');
+import flattenDataId, { getDataId, getFilters, getMode } from './flattenDataId';
+
+const data = {
+  parameterName: 'ATT_BC_STR1STRRFQ1',
+  catalog: 'Reporting',
+  comObject: 'ReportingParameter',
+  sessionId: 100,
+  domainId: 200,
+};
+const filters = {
+  'no filter': [],
+  'single filter': [
+    { operand: '2', operator: '=', field: 'extracted' },
+  ],
+  'dual filters': [
+    { operand: '2', operator: '=', field: 'extracted' },
+    { operand: '3', operator: '!=', field: 'raw' },
+  ],
+};
+const modes = {
+  'no mode': '',
+  'mode defined': 'mode',
+};
+const providers = {
+  'no provider': '',
+  HKTMR: PROVIDER_FLOW_HKTMR,
+  HKTMP: PROVIDER_FLOW_HKTMP,
+};
+
+const results = {
+  'no filter': {
+    'no mode': {
+      'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:::',
+      HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR::',
+      HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP::',
+    },
+    'mode defined': {
+      'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:::mode',
+      HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR::mode',
+      HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP::mode',
+    },
+  },
+  'single filter': {
+    'no mode': {
+      'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200::extracted.=.2:',
+      HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR:extracted.=.2:',
+      HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP:extracted.=.2:',
+    },
+    'mode defined': {
+      'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200::extracted.=.2:mode',
+      HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR:extracted.=.2:mode',
+      HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP:extracted.=.2:mode',
+    },
+  },
+  'dual filters': {
+    'no mode': {
+      'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200::extracted.=.2,raw.!=.3:',
+      HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR:extracted.=.2,raw.!=.3:',
+      HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP:extracted.=.2,raw.!=.3:',
+    },
+    'mode defined': {
+      'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200::extracted.=.2,raw.!=.3:mode',
+      HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR:extracted.=.2,raw.!=.3:mode',
+      HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP:extracted.=.2,raw.!=.3:mode',
+    },
+  },
+};
+
+describe('/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/flattenDataId', () => {
+  _map(filters, (f, filterKey) => {
+    _map(modes, (m, modeKey) => {
+      _map(providers, (p, providerKey) => {
+        test(`test flattenDataId ${filterKey}:${modeKey}:${providerKey}`, () => {
+          expect(flattenDataId({
+            ...data,
+            provider: p,
+          }, f, m)).toEqual(results[filterKey][modeKey][providerKey]);
+        });
+        test(`test getDataId ${filterKey}:${modeKey}:${providerKey}`, () => {
+          expect(getDataId(results[filterKey][modeKey][providerKey]))
+            .toEqual({
+              parameterName: 'ATT_BC_STR1STRRFQ1',
+              catalog: 'Reporting',
+              comObject: 'ReportingParameter',
+              sessionId: 100,
+              domainId: 200,
+              provider: p,
+            });
+        });
+        test(`test getFilters ${filterKey}:${modeKey}:${providerKey}`, () => {
+          expect(getFilters(results[filterKey][modeKey][providerKey]))
+            .toEqual(f);
+        });
+        test(`test getMode ${filterKey}:${modeKey}:${providerKey}`, () => {
+          expect(getMode(results[filterKey][modeKey][providerKey]))
+            .toEqual(m);
+        });
+      });
+    });
   });
 });
+

@@ -61,24 +61,24 @@ describe('store/observers/computeMissingLastIntervals', () => {
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingLastIntervals(newMap, lastMap)).toEqual({
-      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4': {
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4:::': {
         dataId: dataId_CLCW_TM_NOMINAL,
         intervals:
           [[state.timebars.tb1.visuWindow.current, state1.timebars.tb1.visuWindow.current]],
       },
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         intervals:
           [[state.timebars.tb1.visuWindow.current, state1.timebars.tb1.visuWindow.current]],
       },
-      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': {
+      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': {
         dataId: dataId_AGA_AM_PRIORITY,
         intervals:
         [[state.timebars.tb1.visuWindow.current, state1.timebars.tb1.visuWindow.current],
           [state.timebars.tb1.visuWindow.current - offset,
             state1.timebars.tb1.visuWindow.current - offset]],
       },
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::raw.>.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
           field: 'raw',
@@ -98,24 +98,24 @@ describe('store/observers/computeMissingLastIntervals', () => {
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingLastIntervals(newMap, lastMap)).toEqual({
-      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4': {
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4:::': {
         dataId: dataId_CLCW_TM_NOMINAL,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower, state1.timebars.tb1.visuWindow.current]],
       },
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower, state1.timebars.tb1.visuWindow.current]],
       },
-      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': {
+      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': {
         dataId: dataId_AGA_AM_PRIORITY,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower, state1.timebars.tb1.visuWindow.current],
           [state1.timebars.tb1.visuWindow.lower - offset,
             state1.timebars.tb1.visuWindow.current - offset]],
       },
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::raw.>.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
           field: 'raw',
@@ -135,19 +135,19 @@ describe('store/observers/computeMissingLastIntervals', () => {
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingLastIntervals(newMap, lastMap)).toEqual({
-      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4': {
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4:::': {
         dataId: dataId_CLCW_TM_NOMINAL,
         intervals: [[10000, 14000]],
       },
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         intervals: [[10000, 14000]],
       },
-      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': {
+      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': {
         dataId: dataId_AGA_AM_PRIORITY,
         intervals: [[10000, 14000], [10000 - offset, 14000 - offset]],
       },
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::raw.>.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
           field: 'raw',
@@ -166,24 +166,24 @@ describe('store/observers/computeMissingLastIntervals', () => {
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingLastIntervals(newMap, lastMap)).toEqual({
-      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4': {
+      'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4:::': {
         dataId: dataId_CLCW_TM_NOMINAL,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower, state1.timebars.tb1.visuWindow.current]],
       },
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower, state1.timebars.tb1.visuWindow.current]],
       },
-      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4': {
+      'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': {
         dataId: dataId_AGA_AM_PRIORITY,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower, state1.timebars.tb1.visuWindow.current],
           [state1.timebars.tb1.visuWindow.lower - offset,
             state1.timebars.tb1.visuWindow.current - offset]],
       },
-      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100': {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::raw.>.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
           field: 'raw',

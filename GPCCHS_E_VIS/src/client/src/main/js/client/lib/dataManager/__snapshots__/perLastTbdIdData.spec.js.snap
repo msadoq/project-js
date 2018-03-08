@@ -2,7 +2,7 @@
 
 exports[`dataManager/perLastTbdIdData perLastTbdIdMap 1`] = `
 Object {
-  "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4": Object {
+  "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::": Object {
     "dataId": Object {
       "catalog": "Reporting",
       "comObject": "ReportingParameter",
@@ -39,7 +39,7 @@ Object {
       "mimic1",
     ],
   },
-  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4": Object {
+  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::": Object {
     "dataId": Object {
       "catalog": "Reporting",
       "comObject": "ReportingParameter",
@@ -63,7 +63,7 @@ Object {
       "text1",
     ],
   },
-  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:raw.>.100": Object {
+  "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::raw.>.100:": Object {
     "dataId": Object {
       "catalog": "Reporting",
       "comObject": "ReportingParameter",
@@ -93,7 +93,7 @@ Object {
       "mimic1",
     ],
   },
-  "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4": Object {
+  "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:0:4:::": Object {
     "dataId": Object {
       "catalog": "TelemetryPacket",
       "comObject": "DecommutedPacket",

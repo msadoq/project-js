@@ -24,6 +24,14 @@
   background-color: #999999;
 }
 
+.TableView .tableRow:nth-of-type(2n) > td {
+  background-color: #999999;
+}
+
+.TableView .tableRow:nth-of-type(2n+1) > td {
+  background-color: #777777;
+}
+
 .TableView .tableRow.selected > td {
   background-color: #63708C;
 }
@@ -83,12 +91,4 @@
 
 .TableView .lastSubrowFromRange > td:not(:first-child) {
   border-bottom: 1px solid black;
-}
-
-.TableView .tableRow:nth-of-type(2n) > td {
-  background-color: #999999;
-}
-
-.TableView .tableRow:nth-of-type(2n+1) > td {
-  background-color: #777777;
 }

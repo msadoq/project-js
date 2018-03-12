@@ -210,7 +210,7 @@
     }
   ],
   "DISABLE_LOKI_CACHE": false,
-  "ZMQ_PASSERELLE_PUB": "tcp://127.0.0.1:5052",
-  "ZMQ_PASSERELLE_SUB": "tcp://127.0.0.1:5053",
+  "ZMQ_PASSERELLE_PUB": "ipc://convertUnitRequest.ipc",
+  "ZMQ_PASSERELLE_SUB": "ipc://convertUnitResponse.ipc",
   "COLORS_CONFIGURATION": "config.colors.json"
 }

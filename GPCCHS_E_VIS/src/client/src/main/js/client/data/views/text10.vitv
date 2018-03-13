@@ -33,7 +33,7 @@
         "formula": "Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.convertedValue",
         "timeline": "Session 1",
         "unit": "V",
-        "provider": "*"
+        "provider": ""
       },
       "customColors": [],
       "name": "AGA_AM_ACQPRIORITY",
@@ -51,7 +51,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     },
@@ -67,7 +67,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     },
@@ -83,7 +83,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     },
@@ -99,7 +99,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     },
@@ -115,7 +115,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     },
@@ -131,7 +131,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     },
@@ -147,7 +147,7 @@
         "unit": "V",
         "convertFrom": "",
         "convertTo": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     },
@@ -163,7 +163,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     },
@@ -179,7 +179,7 @@
         "timeline": "Session 1",
         "convertFrom": "",
         "convertTo": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     }

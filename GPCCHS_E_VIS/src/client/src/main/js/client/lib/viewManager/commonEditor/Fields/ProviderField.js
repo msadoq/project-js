@@ -1,11 +1,13 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Field } from 'redux-form';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
+import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 
 const { func, shape, arrayOf, string } = PropTypes;
 
 export default class ProviderField extends PureComponent {
   static propTypes = {
+    // own props
     onChange: func,
     // from container mapStateToProps
     providers: arrayOf(shape({ name: string })).isRequired,
@@ -21,17 +23,11 @@ export default class ProviderField extends PureComponent {
         <Field
           format={null}
           name="provider"
-          component="select"
-          className="form-control"
+          component={ReactSelectField}
+          clearable
+          options={computeOptions(this.props.providers, false)}
           onChange={this.props.onChange}
-        >
-          {
-            computeOptions(this.props.providers, true)
-            .map(provider =>
-              <option key={provider.value} value={provider.value}>{provider.label}</option>
-            )
-          }
-        </Field>
+        />
       </div>
     );
   }

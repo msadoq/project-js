@@ -10,6 +10,7 @@
 import { get } from 'common/configurationManager';
 import { getRandomColor } from 'windowProcess/common/colors';
 import { applyDefaultValues } from 'utils/views';
+import { PROVIDER_FLOW_ALL } from '../../constants';
 
 export default function (entryPoint) {
   return applyDefaultValues(entryPoint, getNewPlotEntryPoint());
@@ -21,7 +22,7 @@ const getNewPlotEntryPoint = () => ({
   connectedData: {
     domain: get('WILDCARD_CHARACTER'),
     timeline: get('WILDCARD_CHARACTER'),
-    provider: get('WILDCARD_CHARACTER'),
+    provider: PROVIDER_FLOW_ALL,
     formula: '',
     fieldX: 'onboardDate',
     unit: 'V',

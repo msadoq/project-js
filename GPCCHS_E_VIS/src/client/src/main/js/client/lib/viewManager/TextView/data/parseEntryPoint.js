@@ -20,6 +20,8 @@ import getLogger from 'common/logManager';
 import flattenDataId from 'common/flattenDataId';
 import parseConnectedData from 'viewManager/commonData/parseConnectedData';
 import flattenStateColors from 'viewManager/commonData/flattenStateColors';
+import _get from 'lodash/get';
+import { PROVIDER_FLOW_ALL } from '../../../constants';
 
 const logger = getLogger('data:TextView:parseEntryPoint');
 
@@ -36,8 +38,7 @@ function parseEntryPoint(
   workspaceDomain,
   viewSessionName,
   pageSessionName,
-  workspaceSessionName,
-  provider
+  workspaceSessionName
 ) {
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
@@ -58,7 +59,7 @@ function parseEntryPoint(
     viewSessionName,
     pageSessionName,
     workspaceSessionName,
-    provider
+    _get(entryPoint, 'connectedData.provider', PROVIDER_FLOW_ALL)
   );
   if (cd.error) {
     logger.info('invalid entryPoint', name, cd.error);
@@ -67,7 +68,6 @@ function parseEntryPoint(
   const { dataId, field, offset, filters, convert } = cd;
   // compute tbdId with filters to use them with getLast
   const tbdId = flattenDataId(dataId, filters);
-  console.log('tbdId', tbdId);
   let localId = `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`;
   if (convert && convert.from && convert.to) {
     localId = `${localId}#${convert.from}#${convert.to}`;

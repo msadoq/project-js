@@ -1,6 +1,7 @@
 
 import { get } from 'common/configurationManager';
 import setEntryPointDefault from 'viewManager/PlotView/setEntryPointDefault';
+import { PROVIDER_FLOW_ALL } from '../../constants';
 
 jest.mock('windowProcess/common/colors', () => ({
   getRandomColor: () => '#00FF00',
@@ -14,7 +15,7 @@ describe('viewManager', () => {
         connectedData: {
           domain: get('WILDCARD_CHARACTER'),
           timeline: get('WILDCARD_CHARACTER'),
-          provider: get('WILDCARD_CHARACTER'),
+          provider: PROVIDER_FLOW_ALL,
           formula: '',
           fieldX: 'onboardDate',
           unit: 'V',
@@ -58,7 +59,7 @@ describe('viewManager', () => {
         connectedData: {
           domain: get('WILDCARD_CHARACTER'),
           timeline: get('WILDCARD_CHARACTER'),
-          provider: get('WILDCARD_CHARACTER'),
+          provider: PROVIDER_FLOW_ALL,
           formula: '',
           fieldX: 'onboardDate',
           unit: 'V',
@@ -102,7 +103,7 @@ describe('viewManager', () => {
         connectedData: {
           domain: get('WILDCARD_CHARACTER'),
           timeline: get('WILDCARD_CHARACTER'),
-          provider: get('WILDCARD_CHARACTER'),
+          provider: PROVIDER_FLOW_ALL,
           formula: '',
           fieldX: 'onboardDate',
           unit: 'T',

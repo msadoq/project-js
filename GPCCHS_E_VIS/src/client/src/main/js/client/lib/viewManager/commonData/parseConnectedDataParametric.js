@@ -22,7 +22,8 @@ export default function parseConnectedDataParametric(
   workspaceDomain,
   viewSessionName,
   pageSessionName,
-  workspaceSessionName
+  workspaceSessionName,
+  provider
 ) {
   const dataId = {};
   const { formulaX, domainX, formulaY, domainY, filter } = connectedDataParametric;
@@ -72,6 +73,7 @@ export default function parseConnectedDataParametric(
     field: expectedFieldX,
     sessionName: session.name,
     sessionId: session.id,
+    provider,
   };
 
   // =======
@@ -97,6 +99,7 @@ export default function parseConnectedDataParametric(
     field: expectedFieldY,
     sessionName: session.name,
     sessionId: session.id,
+    provider,
   };
 
   return {

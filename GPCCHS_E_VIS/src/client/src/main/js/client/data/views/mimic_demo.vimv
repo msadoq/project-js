@@ -23,7 +23,7 @@
         "filter": [],
         "format": "decimal",
         "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
-        "provider": "*",
+        "provider": "",
         "timeline": "Session 1",
         "unit": "V"
       },
@@ -42,7 +42,7 @@
         "timeline": "Session 1",
         "convertTo": "",
         "convertFrom": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     },
@@ -58,7 +58,7 @@
         "timeline": "Session 1",
         "convertTo": "",
         "convertFrom": "",
-        "provider": "*"
+        "provider": ""
       },
       "stateColors": []
     },
@@ -73,7 +73,7 @@
         "unit": "V",
         "convertTo": "",
         "convertFrom": "",
-        "provider": "*"
+        "provider": ""
       },
       "name": "AGA_AM_OWNERID",
       "stateColors": []
@@ -89,7 +89,7 @@
         "unit": "V",
         "convertTo": "",
         "convertFrom": "",
-        "provider": "*"
+        "provider": ""
       },
       "name": "AGA_AM_QP2",
       "stateColors": []
@@ -105,7 +105,7 @@
         "unit": "V",
         "convertTo": "",
         "convertFrom": "",
-        "provider": "*"
+        "provider": ""
       },
       "name": "AGA_AM_STATIONID",
       "stateColors": []
@@ -121,7 +121,7 @@
         "unit": "V",
         "convertTo": "",
         "convertFrom": "",
-        "provider": "*"
+        "provider": ""
       },
       "name": "AGA_AM_VALMASK",
       "stateColors": []
@@ -137,7 +137,7 @@
         "unit": "V",
         "convertTo": "",
         "convertFrom": "",
-        "provider": "*"
+        "provider": ""
       },
       "name": "ATT_BC_QUATSATREF",
       "stateColors": []
@@ -153,7 +153,7 @@
         "unit": "V",
         "convertTo": "",
         "convertFrom": "",
-        "provider": "*"
+        "provider": ""
       },
       "name": "GENE_AM_144PARINT",
       "stateColors": []
@@ -169,7 +169,7 @@
         "unit": "V",
         "convertTo": "",
         "convertFrom": "",
-        "provider": "*"
+        "provider": ""
       },
       "name": "GENE_AM_144PARUSHT",
       "stateColors": []

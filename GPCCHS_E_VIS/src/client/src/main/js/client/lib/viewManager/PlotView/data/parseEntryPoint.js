@@ -22,6 +22,8 @@ import flattenDataId from 'common/flattenDataId';
 import parseConnectedData from 'viewManager/commonData/parseConnectedData';
 import parseConnectedDataParametric from 'viewManager/commonData/parseConnectedDataParametric';
 import flattenStateColors from 'viewManager/commonData/flattenStateColors';
+import _get from 'lodash/get';
+import { PROVIDER_FLOW_ALL } from '../../../constants';
 
 const logger = getLogger('data:PLotView:parseEntryPoint');
 
@@ -68,7 +70,8 @@ export default function parseEntryPoint(
       workspaceDomain,
       viewSessionName,
       pageSessionName,
-      workspaceSessionName
+      workspaceSessionName,
+      _get(entryPoint, 'connectedData.provider', PROVIDER_FLOW_ALL)
     );
 
     if (cd.error) {

@@ -88,9 +88,10 @@ exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: 
   <HorizontalFormGroup
     label="field"
   >
-    <input
-      className="form-control"
+    <Connect(ComObjectFilterField)
+      formName={undefined}
       onChange={[Function]}
+      value=""
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
@@ -147,6 +148,7 @@ exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: 
     <input
       className="form-control"
       onChange={[Function]}
+      placeholder={null}
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup

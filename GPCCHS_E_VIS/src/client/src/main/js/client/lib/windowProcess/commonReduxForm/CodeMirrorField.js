@@ -157,11 +157,6 @@ export default class CodeMirrorField extends React.Component {
     }));
   };
 
-  // handleOnBeforeChange = (editor, data, value) => {
-  //   console.log('onBeforeChange', editor, data, value, next);
-  //   const { input } = this.props;
-  // };
-
   handleOnChange = _debounce((editor, data, value) => {
     const { input: { onChange } } = this.props;
     /*

@@ -65,16 +65,24 @@ class BridgeHandler(Thread):
             # Otherwise create results object
             results = ResultValues()
 
-        valuesList = []
-        for value in results.values:
-          valuesList.append(value._float.value)
+        if not results.values:
+            message_response = dict()
+            message_response['header'] = {};
+            message_response['header']['transactionID'] = self._requestID;
+            message_response['header']['method'] = self._handlerClassName;
+            message_response['payload'] = None;
+            self._queue.add_message(json.dumps(message_response))
+        else:
+            valuesList = []
+            for value in results.values:
+                valuesList.append(value._float.value)
 
-        #responseChannel.send_multipart([self._requestID.encode('utf-8'), str(valuesList[0]).encode('utf-8')])
-        message_response = dict()
-        message_response['header'] = {};
-        message_response['header']['transactionID'] = self._requestID;
-        message_response['header']['method'] = self._handlerClassName;
-        message_response['payload'] = valuesList[0];
-        self._queue.add_message(json.dumps(message_response))
-        # End of work, the thread can end
+            #responseChannel.send_multipart([self._requestID.encode('utf-8'), str(valuesList[0]).encode('utf-8')])
+            message_response = dict()
+            message_response['header'] = {};
+            message_response['header']['transactionID'] = self._requestID;
+            message_response['header']['method'] = self._handlerClassName;
+            message_response['payload'] = valuesList[0];
+            self._queue.add_message(json.dumps(message_response))
+            # End of work, the thread can end
         

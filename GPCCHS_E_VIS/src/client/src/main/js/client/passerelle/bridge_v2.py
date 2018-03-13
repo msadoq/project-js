@@ -5,6 +5,7 @@ from bridge.ConvertUnitValues_pb2 import ConvertUnitValues
 from GPCC.communicationLibrary.isisMessage import IsisMessage
 from GPCC.ccsds_mal.cOMPOSITE import COMPOSITE
 from bridgeHandler_v2 import BridgeHandler
+import time
 
 class Bridge():
     '''
@@ -79,5 +80,5 @@ class Bridge():
                     # Then create and start the processing thread
                     newHandler = BridgeHandler(self._actorContext,self._responseUrl,requestID,ucLib,handlerClassName,msg, self._queue)
                     newHandler.start()
-                    
+            time.sleep(0.05)
         

@@ -47,8 +47,8 @@ class SendResponseThread(Thread):
         responseChannel.bind(self._responseUrl)
 
         while True:
-          if int(format(self._queue.size())) > 0:
-            message = self._queue.process()
+            if int(format(self._queue.size())) > 0:
+                message = self._queue.process()
+                responseChannel.send_string(message)
             time.sleep(0.05)
-            responseChannel.send_string(message)
         

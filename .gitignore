@@ -8,3 +8,4 @@ __pycache__
 node_modules
 *.idea
 *.pyc
+*ECLIPSE_ACCELEO

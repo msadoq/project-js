@@ -1,0 +1,30 @@
+{
+  "name": "model-updater",
+  "version": "1.0.0",
+  "description": "Update RSA model of LPISIS",
+  "main": "updateModel.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/rest": "^15.1.7",
+    "async": "^2.6.0",
+    "chalk": "^2.3.2",
+    "clear": "^0.1.0",
+    "clui": "^0.3.6",
+    "configstore": "^3.1.1",
+    "figlet": "^1.2.0",
+    "inquirer": "^5.1.0",
+    "lodash": "^4.17.5",
+    "marked": "^0.3.17",
+    "marked-terminal": "^2.0.0",
+    "minimist": "^1.2.0",
+    "nd": "^1.2.0",
+    "shelljs": "^0.8.1",
+    "showdown": "^1.8.6",
+    "simple-git": "^1.92.0",
+    "touch": "^3.1.0"
+  }
+}

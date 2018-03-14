@@ -58,12 +58,6 @@ const listOfRepos = [
         name: "GPCC_RSA",
         path: '../GPCC_RSA',
         remote: 'gitolite@isis.cnes-isis.toulouse.atos.net:gpcc/LPISIS/GPCC_RSA.git',
-    },
-    {
-        name: "GPDS",
-        path: '../GPDS',
-        remote: 'gitolite@isis.cnes-isis.toulouse.atos.net:gpds/LPISIS/GPDS.git',
-        
     },{
         name: "GPDS_RSA",
         path: '../GPDS_RSA',
@@ -86,7 +80,11 @@ const listOfRepos = [
        remote: 'gitolite@isis.cnes-isis.toulouse.atos.net:gpvi/LPISIS/GPVI_RSA.git',
     }
 ];
-
+const GENERATORS = {
+    name: 'GENERATORS',
+    remote: 'gitolite@isis.cnes-isis.toulouse.atos.net:gpvi/TOOLS/GENERATORS.git',
+    branch: 'R8',
+};
 const marked = require('marked');
 const TerminalRenderer = require('marked-terminal');
 
@@ -97,7 +95,7 @@ const GENERATE_VERSION = 2;
 const checkVersion = (callback) => {
    const asyncCb = listOfRepos.map(({ name, path }) => {
        return (cb) => {
-        const correctPath = `${RSA_WORKSPACE}/${name}`;
+        const correctPath = `${RSA_WORKSPACE}/RSA/${name}`;
         exec(`git symbolic-ref --short HEAD`, {
             cwd: correctPath,
         }, (error, stdout, stderr) => {
@@ -131,7 +129,7 @@ const updateVersion = (callback) => {
             message: 'Quelle branche choisir ?',
             choices: () => {
                 return new Promise((resolve, reject) => {
-                    const correctPath = `${RSA_WORKSPACE}/${name}`;
+                    const correctPath = `${RSA_WORKSPACE}/RSA/${name}`;
                     exec(`for branch in \`git branch -r | grep -v HEAD\`;do echo -e \`git show --format="%ci %cr" $branch | head -n 1\` \\\t$branch; done | sort -r`, {
                         cwd: correctPath,
                     }, (error, stdout, stderr) => {
@@ -161,7 +159,7 @@ const updateVersion = (callback) => {
                 const status = new Spinner(`Pulling ${branch} for ${name}`);
                 status.start();
                 exec(`git checkout ${branch} && git pull`, {
-                    cwd: `${RSA_WORKSPACE}/${name}`,
+                    cwd: `${RSA_WORKSPACE}/RSA/${name}`,
                 }, (error, stdout, stderr) => {
                     status.stop();
                     cb(null, {
@@ -371,12 +369,29 @@ console.log(
 
 const run = () => {
   const asyncArray = [];
+  if(!fs.existsSync(`${RSA_WORKSPACE}/RSA`)){
+    fs.mkdirSync(`${RSA_WORKSPACE}/RSA`);
+  }
+  console.log('Checking GENERATORS repositories');
+  if(!fs.existsSync(`${RSA_WORKSPACE}/RSA/${GENERATORS.name}`)){
+    const statusGen = new Spinner(`Cloning GENERATORS`);
+    statusGen.start();
+    execSync(`git clone ${GENERATORS.remote}`,{
+        cwd: `${RSA_WORKSPACE}/RSA`,
+    });
+    execSync(`git checkout ${GENERATORS.branch}`,{
+        cwd: `${RSA_WORKSPACE}/RSA/${GENERATORS.name}`,
+    });
+    statusGen.stop();
+  } else {
+    console.log(chalk.green("GENERATORS repo present.\n"));
+  }
   console.log("Checking RSA git repositories");
   const status = new Spinner(`Checking git repositories`);
   status.start();
   listOfRepos.forEach(({name, parent, remote}) => {
-    if(!fs.existsSync(`${RSA_WORKSPACE}/${name}`)){
-        let realPath = RSA_WORKSPACE;
+    if(!fs.existsSync(`${RSA_WORKSPACE}/RSA/${name}`)){
+        let realPath = `${RSA_WORKSPACE}/RSA`;
         if(parent) {
             realPath = `${realPath}/${parent}`;
             shell.mkdir('-p', realPath);
@@ -398,9 +413,7 @@ const run = () => {
     console.log(chalk.red("Cloning missing repositories"));
     asyncLib.series(asyncArray, (truc, results) => {
         results.forEach(({error, stdout, stderr}) => {
-            console.log('error', error);
-            console.log('stdout', stdout);
-            console.log('stderr', stderr);
+
         })
         askDoYouWantToDo().then(({ menuChoice }) => {
             menu[menuChoice]();

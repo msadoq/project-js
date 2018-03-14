@@ -11,9 +11,20 @@
 <html>
     <h2 id="generationdesadaptersprotoviaeclipse">Generation des adapters/proto via eclipse</h2>
     <p><a href="https://www.eclipse.org/acceleo/">Lien vers Acceleo</a></p>
-    <p>La configuration doit etre la suivante.</p>
+    <h3>Eclipse opening</h3>
+    <p>Set the workspace like the following</p>
+    <img src='ws.png'>
+    <h3>Open project</h3>
+    <ul>
+        <li>Go to <i>File > Import > General > Existing Projects Into Workspace</i></li>
+        <li>Select root directory like he following </li>
+        <li><img src='config.png'></li>
+        <li>Click <i>Finish</i></li>
+    </ul>
+    <h3>Configure build</h3>
+    <p>Go to <i>Run > Run Configurations</i> and fill like the following</p>
     <img src='AcceloCOnf.jpg'>
-    <p>Afin de generer les adapateurs/proto, lancer la generation en cliquant sur <i>Run</i> </p>
-    <p>Les fichiers generes se trouvent dans le chemin renseigne par le champ <i>Target</i> de la configuration</p>
-    <p>Une fois genere, il suffit de copier le contenu de l'output dans le dossier adapters a la racine du projet GPCCHS</p>
+    <p>Click <i>Run</i> to generate proto/adapters </p>
+    <p>The outputs files are located in the path provided by <i>Target</i> in the configuration above</p>
+    <p>Once generated, ths output folder goes to the adapters files a the root of client's GPCCHS repo</p>
 </html>

@@ -1,7 +1,14 @@
-## Generation des adapters/proto via eclipse
+# Adapters/proto generation
 
-[Lien vers Acceleo](https://www.eclipse.org/acceleo/)
+## Prerequisites
+
 ```
-Bonjour les amis
+npm i
 ```
-![alt text](doc/AcceloCOnf.jpg "Title")
+## Usage
+```
+node updateModel.js
+```
+That's all folks, let the CLI guide you through all the steps !
+
+Created by pgaucher

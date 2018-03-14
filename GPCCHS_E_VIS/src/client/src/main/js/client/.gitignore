@@ -58,3 +58,7 @@ release
 .env
 stats.json
 benchmarks/vima/*.js
+
+# Generateur
+
+*ECLIPSE_ACCELEO

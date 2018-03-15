@@ -77,8 +77,8 @@ function getNamedValue() {
 }
 
 /* eslint-disable complexity, switch case function */
-const getComObject = (comObject, timestamp, options) => {
-  switch (comObject) {
+const getComObject = (dataId, timestamp, options) => {
+  switch (dataId.comObject) {
     case 'OnBoardAlarmAckRequest': {
       if (!predictibleRand.getBool(options.alarmFrequency || 1)) {
         return null;
@@ -148,8 +148,12 @@ const getComObject = (comObject, timestamp, options) => {
     }
 
     case 'ReportingParameter': {
-      const value = predictibleRand.getSinValue(timestamp, options.epName);
+      const scale =
+        dataId.provider === constants.PROVIDER_FLOW_HKTMR ? 0.5 : 1;
 
+      const value = scale * predictibleRand.getSinValue(timestamp, options.epName);
+
+      // TODO: add offset depending on provider field
       return stubData.getReportingParameterProtobuf({
         groundDate: timestamp + 20,
         onboardDate: timestamp,
@@ -205,27 +209,28 @@ const getComObject = (comObject, timestamp, options) => {
 /**
  * Generate payload for stubs
  * @param  {number} timestamp Timestamp for the generated payload
- * @param  {string} comObject Type of the geneerated patyload
+ * @param  {object} dataId
  * @param  {Object} options   Options for generation
  * @return {Object}           Generated payload
  */
-module.exports = function getPayload(timestamp, comObject, versionDCCom, options = {}) {
+module.exports = function getPayload(timestamp, dataId, versionDCCom, options = {}) {
   const _options = options;
   _options.epName = (options.epName === undefined ? 'todo' : options.epName);
 
   predictibleRand.setSeed(timestamp);
 
-  let payload = getComObject(comObject, timestamp, _options);
+  let payload = getComObject(dataId, timestamp, _options);
 
   if (payload === null) {
     return null;
   }
+
   // Decorate payload with ADEGenericPayload in case of proto ADE
   if (versionDCCom === constants.DC_COM_V2) {
     payload = stubData.getADEPayloadProtobuf({
       payload,
       providerId: 0,
-      comObjectType: comObject,
+      comObjectType: dataId.comObject,
       instanceOid: 0,
     });
   }

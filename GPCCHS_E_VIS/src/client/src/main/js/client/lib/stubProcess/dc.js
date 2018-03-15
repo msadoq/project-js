@@ -289,6 +289,7 @@ const onHssMessageADE = (...args) => {
         sortOrder,
         getLastNumber,
         filters,
+        providerFlow: provider,
       } = protobuf.decode('dc.dataControllerUtils.ADETimebasedQuery', args[1]);
 
       const dataId = {
@@ -297,6 +298,7 @@ const onHssMessageADE = (...args) => {
         catalog: catalogName,
         comObject: objectName,
         parameterName: itemName,
+        provider,
       };
 
       // optional string sortFieldName = 1;

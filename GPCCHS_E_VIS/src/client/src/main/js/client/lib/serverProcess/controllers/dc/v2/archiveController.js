@@ -22,6 +22,7 @@ const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }
   const execution = executionMonitor('archiveData');
   execution.start('register query');
   const requestData = get(requestId);
+
   // JUst to ensure the request exists in the singleton
   if (!requestData) {
     logger.error('Already received isLast for this given queryId');
@@ -41,6 +42,7 @@ const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }
   if (isLast) {
     remove(requestId);
   }
+
   switch (type) {
     case 'RANGE' :
       store.dispatch(incomingRange(tbdId, payloadBuffer, dataId));

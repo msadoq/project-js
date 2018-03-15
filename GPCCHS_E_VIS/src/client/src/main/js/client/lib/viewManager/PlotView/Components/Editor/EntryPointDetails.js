@@ -87,13 +87,17 @@ export default class EntryPointDetails extends PureComponent {
       updateEntryPoint,
       viewId,
     } = this.props;
+
     updateEntryPoint(
       viewId,
       entryPoint.id,
       {
         ...entryPoint,
         parametric: values.parametric,
-        connectedData: values.connectedData,
+        connectedData: {
+          ...values.connectedData,
+          provider: values.provider,
+        },
         connectedDataParametric: values.connectedDataParametric,
       }
     );

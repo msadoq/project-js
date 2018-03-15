@@ -51,6 +51,7 @@ const makeOnPubSubData = (timing) => {
         objectName,
         catalogName,
         itemName,
+        providerFlow,
       } = decode('dc.dataControllerUtils.ADETimebasedSubscription', buffers[0]);
 
       const dataId = {
@@ -59,6 +60,7 @@ const makeOnPubSubData = (timing) => {
         catalog: catalogName,
         comObject: objectName,
         parameterName: itemName,
+        provider: providerFlow,
       };
       const payloadBuffers = Array.prototype.slice.call(buffers, 1);
       // check payloads parity

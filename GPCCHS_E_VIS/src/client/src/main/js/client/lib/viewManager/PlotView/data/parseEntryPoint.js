@@ -70,9 +70,7 @@ export default function parseEntryPoint(
       workspaceDomain,
       viewSessionName,
       pageSessionName,
-      workspaceSessionName,
-      _get(entryPoint, 'connectedData.provider', PROVIDER_FLOW_ALL)
-    );
+      workspaceSessionName);
 
     if (cd.error) {
       logger.info('invalid entryPoint', name, cd.error);
@@ -128,7 +126,8 @@ export default function parseEntryPoint(
       workspaceDomain,
       viewSessionName,
       pageSessionName,
-      workspaceSessionName
+      workspaceSessionName,
+      _get(entryPoint, 'connectedData.provider', PROVIDER_FLOW_ALL)
     );
 
   if (cd.error) {

@@ -33,11 +33,11 @@ const versionDCMap = {
   [constants.DC_COM_V2]: V2,
 };
 
-function getPayloads(comObject, parameterName, versionDCCom) {
+function getPayloads(dataId, versionDCCom) {
   const payloads = [];
   for (let i = 0; i < _random(1, constants.DC_STUB_MAX_SUBSCRIPTION_VALUES); i += 1) {
-    const payload = getPayload(Date.now(), comObject, versionDCCom, {
-      epName: parameterName,
+    const payload = getPayload(Date.now(), dataId, versionDCCom, {
+      epName: dataId.parameterName,
       alarmFrequency: (1 / constants.DC_STUB_VALUE_ALARMTIMESTEP),
     });
     if (payload !== null) {
@@ -50,7 +50,7 @@ function getPayloads(comObject, parameterName, versionDCCom) {
 
 module.exports = (queryId, dataId, zmq, versionDCCom, rawBuffer) => {
   const buffer = versionDCMap[versionDCCom](queryId, dataId, rawBuffer);
-  const payloads = getPayloads(dataId.comObject, dataId.parameterName, versionDCCom);
+  const payloads = getPayloads(dataId, versionDCCom);
   _each(payloads, (payload) => {
     buffer.push(payload.timestamp);
     buffer.push(payload.payload);

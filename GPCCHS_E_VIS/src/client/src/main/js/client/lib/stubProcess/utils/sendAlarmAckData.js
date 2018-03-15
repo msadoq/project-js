@@ -14,7 +14,7 @@ module.exports = function sendAlarmAckData(alarmAck, zmq) {
   ];
   // TODO pgaucher set the version in getPayload
   alarmAck.alarms.forEach((alarm) => {
-    const payload = getPayload(Date.now(), alarmAck.dataId.comObject, {
+    const payload = getPayload(Date.now(), alarmAck.dataId, {
       setOid: alarm.oid,
       setComment: alarm.ackRequest.comment.value,
       withAckRequest: true,

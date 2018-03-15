@@ -54,7 +54,7 @@ export default class ComObject extends PureComponent {
     return (
       <Field
         format={null}
-        name="comObject"
+        name="connectedData.comObject"
         component={ReactSelectField}
         clearable
         disabled={disabled}

@@ -53,30 +53,6 @@ export default class EntryPointDetails extends PureComponent {
     updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
   };
 
-  // /**
-  //  * @param values
-  //  */
-  // handleSubmit = (values) => {
-  //   const { entryPoint, updateEntryPoint, viewId } = this.props;
-  //   updateEntryPoint(viewId, entryPoint.id, _defaultsDeep(
-  //     values,
-  //     entryPoint
-  //   ));
-  //   // updateEntryPoint(viewId, entryPoint.id, {
-  //   //   ...entryPoint,
-  //   //   ...values,
-  //   //   connectedData: {
-  //   //     ...values.connectedData,
-  //   //     // formula: buildFormula( // @todo uncomment and remove formula field
-  //   //     //   values.connectedData.catalog,
-  //   //     //   values.connectedData.catalogItem,
-  //   //     //   values.connectedData.comObject,
-  //   //     //   values.connectedData.comObjectField
-  //   //     // ),
-  //   //   },
-  //   // });
-  // };
-
   render() {
     const {
       entryPoint,

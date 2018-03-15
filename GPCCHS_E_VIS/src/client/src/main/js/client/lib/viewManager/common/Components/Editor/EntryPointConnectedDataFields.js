@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
 import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
@@ -9,7 +8,6 @@ import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogIt
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
 import ComObjectFieldContainer from 'viewManager/commonEditor/Fields/ComObjectFieldContainer';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
-import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import { reduxFormFieldsType } from '../types';
 
 const { string } = PropTypes;
@@ -58,15 +56,6 @@ export default class EntryPointConnectedDataFields extends PureComponent {
 
     return (
       <div>
-        <HorizontalFormGroup label="Formula">
-          <Field
-            name="connectedData.formula"
-            component={TextareaField}
-            rows="4"
-            className="form-control input-sm"
-          />
-        </HorizontalFormGroup>
-
         <HorizontalFormGroup label="Domain">
           <DomainFieldContainer
             name="connectedData.domain"

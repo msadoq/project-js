@@ -17,7 +17,7 @@ export default class DomainField extends PureComponent {
 
   static defaultProps = {
     onChange: null,
-    name: 'domain',
+    name: 'connectedData.domain',
   };
 
   render() {

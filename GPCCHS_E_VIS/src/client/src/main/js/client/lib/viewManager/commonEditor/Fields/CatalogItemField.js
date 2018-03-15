@@ -50,7 +50,7 @@ export default class CatalogItemField extends PureComponent {
     return (
       <Field
         format={null}
-        name="catalogItem"
+        name="connectedData.catalogItem"
         component={ReactSelectField}
         clearable
         disabled={disabled}

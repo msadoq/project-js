@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 import { getFieldsListByComObjectName } from 'store/reducers/comObjectMap';
 import FiltersFields from './FiltersFields';
+import { getSelectedComObjectName } from './selectors';
 
 const mapStateToProps = (state, { form }) => {
-  const comObjectName = formValueSelector(form)(state, 'comObject');
+  const comObjectName = getSelectedComObjectName(form, state);
   return {
     comObjectFields: getFieldsListByComObjectName(state, comObjectName),
   };

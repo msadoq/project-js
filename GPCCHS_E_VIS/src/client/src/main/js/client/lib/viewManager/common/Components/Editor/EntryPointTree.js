@@ -18,6 +18,7 @@ import Collapse, { Panel } from 'rc-collapse';
 import classnames from 'classnames';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 import styles from './EntryPointTree.css';
+import { buildFormula } from '../../index';
 
 const emptyArray = [];
 
@@ -93,12 +94,12 @@ export default class EntryPointTree extends Component {
       connectedData: {
         ...entryPoint.connectedData,
         ...values.connectedData,
-        //     // formula: buildFormula( // @todo uncomment and remove formula field
-        //     //   values.connectedData.catalog,
-        //     //   values.connectedData.catalogItem,
-        //     //   values.connectedData.comObject,
-        //     //   values.connectedData.comObjectField
-        //     // ),
+        formula: buildFormula(
+          values.connectedData.catalog,
+          values.connectedData.catalogItem,
+          values.connectedData.comObject,
+          values.connectedData.comObjectField
+        ),
       },
     });
   };

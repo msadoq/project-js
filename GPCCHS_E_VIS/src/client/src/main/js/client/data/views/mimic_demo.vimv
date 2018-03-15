@@ -2,6 +2,7 @@
   "type": "MimicView",
   "title": "MimicView - DEMO",
   "titleStyle": {
+    "color": "#FFF",
     "underline": false,
     "align": "left",
     "font": "Arial"
@@ -16,13 +17,17 @@
   "entryPoints": [
     {
       "connectedData": {
+        "catalog": "TelemetryPacket",
+        "catalogItem": "ATT_TM_AKEXENOK42",
+        "comObject": "IsisAggregation",
+        "comObjectField": "deltaTime",
         "convertFrom": "",
         "convertTo": "",
         "digits": 5,
         "domain": "fr.cnes.isis",
         "filter": [],
         "format": "decimal",
-        "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
+        "formula": "TelemetryPacket.ATT_TM_AKEXENOK42<IsisAggregation>.deltaTime",
         "provider": "*",
         "timeline": "Session 1",
         "unit": "V"
@@ -144,16 +149,20 @@
     },
     {
       "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC15",
+        "comObject": "ReportingParameter",
+        "comObjectField": "convertedValue",
+        "convertFrom": "",
+        "convertTo": "",
         "digits": 5,
         "domain": "fr.cnes.isis.simupus",
         "filter": [],
         "format": "decimal",
-        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.convertedValue",
+        "formula": "Reporting.SAT_BC_NUMTC15<ReportingParameter>.convertedValue",
+        "provider": "*",
         "timeline": "Session 1",
-        "unit": "V",
-        "convertTo": "",
-        "convertFrom": "",
-        "provider": "*"
+        "unit": "V"
       },
       "name": "GENE_AM_144PARINT",
       "stateColors": []

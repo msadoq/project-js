@@ -24,7 +24,7 @@ import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import WithForm from 'viewManager/common/Hoc/WithForm';
 import DynamicViewEntryPointsContainer from 'viewManager/commonEditor/EntryPoint/DynamicViewEntryPointsContainer';
-// import { buildFormula } from 'viewManager/common';
+import { buildFormula } from 'viewManager/common';
 import styles from 'viewManager/commonEditor/Editor.css';
 import DynamicTab from 'viewManager/DynamicView/Components/Editor/DynamicTab';
 
@@ -73,19 +73,20 @@ export default class DynamicEditor extends Component {
   handleSubmit = (values) => {
     const { configuration, updateEntryPoint, viewId } = this.props;
     const entryPoint = _get(configuration, ['entryPoints', 0]);
-    updateEntryPoint(viewId, entryPoint.id, {
+    const updatedEntryPoint = {
       ...entryPoint,
       ...values,
       connectedData: {
         ...values.connectedData,
-        // formula: buildFormula( // @todo uncomment and remove formula field
-        //   values.connectedData.catalog,
-        //   values.connectedData.catalogItem,
-        //   values.connectedData.comObject,
-        //   values.connectedData.comObjectField
-        // ),
+        formula: buildFormula(
+          values.connectedData.catalog,
+          values.connectedData.catalogItem,
+          values.connectedData.comObject,
+          values.connectedData.comObjectField
+        ),
       },
-    });
+    };
+    updateEntryPoint(viewId, entryPoint.id, updatedEntryPoint);
   };
 
   render() {
@@ -121,8 +122,8 @@ export default class DynamicEditor extends Component {
               viewId={viewId}
               pageId={pageId}
               form={`entrypoint-connectedData-form-${viewId}`}
-              onSubmit={values => this.handleSubmit({ connectedData: values })}
-              initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
+              onSubmit={this.handleSubmit}
+              initialValues={entryPoints.length ? entryPoints[0] : nullObject}
             />
           </div>}
           {tab === 1 && <DynamicTab />}

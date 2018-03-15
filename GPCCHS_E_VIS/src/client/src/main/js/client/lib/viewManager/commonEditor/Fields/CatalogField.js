@@ -51,7 +51,7 @@ export default class CatalogField extends Component {
     return (
       <Field
         format={null}
-        name="catalog"
+        name="connectedData.catalog"
         component={ReactSelectField}
         clearable
         disabled={disabled}

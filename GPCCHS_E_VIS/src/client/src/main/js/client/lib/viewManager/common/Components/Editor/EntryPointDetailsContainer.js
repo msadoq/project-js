@@ -12,7 +12,6 @@ const mapStateToProps = (state, { viewId, entryPoint }) => ({
 });
 
 const EntryPointDetailsContainer = connect(mapStateToProps, {
-  // updateEntryPoint,
   updateViewSubPanels,
 })(WithForm(EntryPointDetails));
 

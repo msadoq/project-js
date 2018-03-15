@@ -1,15 +1,21 @@
 import { connect } from 'react-redux';
 import { getFieldsListByComObjectName } from 'store/reducers/comObjectMap';
-import { formValueSelector } from 'redux-form';
 import ComObjectFilterField from './ComObjectFilterField';
+import {
+  getSelectedCatalogName,
+  getSelectedComObjectName,
+  getSelectedDomainInForm,
+  getSelectedItemName,
+  getSelectedTimelineId,
+} from './selectors';
 
 const mapStateToProps = (state, { formName }) => {
-  const comObjectName = formValueSelector(formName)(state, 'comObject');
+  const comObjectName = getSelectedComObjectName(formName, state);
   return {
-    domainName: formValueSelector(formName)(state, 'connectedData.domain'),
-    timelineId: formValueSelector(formName)(state, 'connectedData.timeline'),
-    catalogName: formValueSelector(formName)(state, 'catalog'),
-    itemName: formValueSelector(formName)(state, 'catalogItem'),
+    domainName: getSelectedDomainInForm(formName, state),
+    timelineId: getSelectedTimelineId(formName, state),
+    catalogName: getSelectedCatalogName(formName, state),
+    itemName: getSelectedItemName(formName, state),
     comObjectName,
     comObjectFields: getFieldsListByComObjectName(state, comObjectName),
   };

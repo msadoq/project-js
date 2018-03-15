@@ -17,7 +17,7 @@ export default class TimelineField extends PureComponent {
 
   static defaultProps = {
     onChange: null,
-    name: 'timeline',
+    name: 'connectedData.timeline',
   };
 
   render() {

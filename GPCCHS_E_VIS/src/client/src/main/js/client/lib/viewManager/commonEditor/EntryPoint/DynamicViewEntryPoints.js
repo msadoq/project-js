@@ -7,8 +7,6 @@ import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldC
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
 import { reduxFormFieldsType } from 'viewManager/common/Components/types';
-import { Field } from 'redux-form';
-import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
 
 
@@ -53,15 +51,6 @@ export default class DynamicViewEntryPoints extends PureComponent {
 
     return (
       <div>
-        <HorizontalFormGroup label="Formula">
-          <Field
-            name="formula"
-            component={TextareaField}
-            rows="4"
-            className="form-control input-sm"
-          />
-        </HorizontalFormGroup>
-
         <HorizontalFormGroup label="Domain">
           <DomainFieldContainer
             domainName={selectedDomainName}

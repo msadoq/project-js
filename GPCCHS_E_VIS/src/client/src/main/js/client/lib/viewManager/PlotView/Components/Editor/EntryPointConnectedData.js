@@ -69,14 +69,14 @@ class EntryPointConnectedData extends Component {
     let filteredAxes = [];
     if (axes) {
       filteredAxes = Object.keys(axes)
-      .map(key => ({
-        ...axes[key],
-        axisId: key,
-      }))
-      .filter(axis =>
-        [unitX, unitY, unit].includes(axis.unit) ||
-        axis.id === xAxisId || axis.id === yAxisId || axis.id === axisId
-      );
+        .map(key => ({
+          ...axes[key],
+          axisId: key,
+        }))
+        .filter(axis =>
+          [unitX, unitY, unit].includes(axis.unit) ||
+          axis.id === xAxisId || axis.id === yAxisId || axis.id === axisId
+        );
     }
 
     // Determine elligible axes : must match the unit
@@ -92,7 +92,7 @@ class EntryPointConnectedData extends Component {
       });
     if (noCorrespondingAxis) {
       connectedDataUnitFilteredAxis = connectedDataUnitFilteredAxis
-      .concat({ label: axisId, value: axisId, disabled: true });
+        .concat({ label: axisId, value: axisId, disabled: true });
     }
 
     // Determine elligible axes for X and Y : must match the unit
@@ -114,7 +114,7 @@ class EntryPointConnectedData extends Component {
         });
       if (noCorrespondingAxisX && xAxisId !== '-') {
         connectedDataParametricFilteredAxisX = connectedDataParametricFilteredAxisX
-        .concat({ label: xAxisId, value: xAxisId, disabled: true });
+          .concat({ label: xAxisId, value: xAxisId, disabled: true });
       }
       // Y
       noCorrespondingAxisY = !connectedDataParametricFilteredAxisY
@@ -129,7 +129,7 @@ class EntryPointConnectedData extends Component {
         });
       if (noCorrespondingAxisY && yAxisId !== '-') {
         connectedDataParametricFilteredAxisY = connectedDataParametricFilteredAxisY
-        .concat({ label: yAxisId, value: yAxisId, disabled: true });
+          .concat({ label: yAxisId, value: yAxisId, disabled: true });
       }
     }
 
@@ -145,10 +145,10 @@ class EntryPointConnectedData extends Component {
         label: '*',
         value: '*',
       })
-      .concat(
-        noCorrespondingTimeline ?
-        { label: timeline, value: timeline, disabled: true } : []
-      );
+        .concat(
+          noCorrespondingTimeline ?
+            { label: timeline, value: timeline, disabled: true } : []
+        );
     }
 
     return (
@@ -196,11 +196,11 @@ class EntryPointConnectedData extends Component {
                     className="form-control input-sm"
                   />
                   {axes &&
-                    <p
-                      style={{ fontSize: '0.9em', paddingTop: '2px' }}
-                    >
-                      { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-                    </p>
+                  <p
+                    style={{ fontSize: '0.9em', paddingTop: '2px' }}
+                  >
+                    { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+                  </p>
                   }
                 </HorizontalFormGroup>
                 <HorizontalFormGroup label="Axis X">
@@ -250,11 +250,11 @@ class EntryPointConnectedData extends Component {
                     className="form-control input-sm"
                   />
                   {axes &&
-                    <p
-                      style={{ fontSize: '0.9em', paddingTop: '2px' }}
-                    >
-                      { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-                    </p>
+                  <p
+                    style={{ fontSize: '0.9em', paddingTop: '2px' }}
+                  >
+                    { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+                  </p>
                   }
                 </HorizontalFormGroup>
                 <HorizontalFormGroup label="Axis Y">
@@ -338,11 +338,11 @@ class EntryPointConnectedData extends Component {
                   className="form-control input-sm"
                 />
                 {axes &&
-                  <p
-                    style={{ fontSize: '0.9em', paddingTop: '2px' }}
-                  >
-                    { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-                  </p>
+                <p
+                  style={{ fontSize: '0.9em', paddingTop: '2px' }}
+                >
+                  { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+                </p>
                 }
               </HorizontalFormGroup>
               <HorizontalFormGroup label="Convert">
@@ -471,24 +471,28 @@ const validate = (values = {}) => {
   return errors;
 };
 
+
+const mapStateToProps = (state, props) => {
+  const selector = formValueSelector(props.form);
+  return {
+    parametric: selector(state, 'parametric'),
+    axisId: selector(state, 'connectedData.axisId') || _get(props, 'initialValues.connectedData.axisId'),
+    timeline: _get(props, 'initialValues.connectedData.timeline'),
+    stringParameter: selector(state, 'connectedData.stringParameter'),
+    provider: selector(state, 'connectedData.provider') || _get(props, 'initialValues.connectedData.provider'),
+    unit: selector(state, 'connectedData.unit') || _get(props, 'initialValues.connectedData.unit'),
+    unitX: selector(state, 'connectedDataParametric.unitX') || _get(props, 'initialValues.connectedDataParametric.unitX'),
+    unitY: selector(state, 'connectedDataParametric.unitY') || _get(props, 'initialValues.connectedDataParametric.unitY'),
+    xAxisId: selector(state, 'connectedDataParametric.xAxisId') || _get(props, 'initialValues.connectedDataParametric.xAxisId'),
+    yAxisId: selector(state, 'connectedDataParametric.yAxisId') || _get(props, 'initialValues.connectedDataParametric.yAxisId'),
+  };
+};
+
 export default reduxForm({
   validate,
   enableReinitialize: true,
 })(
   connect(
-    (state, props) => {
-      const selector = formValueSelector(props.form);
-      return {
-        parametric: selector(state, 'parametric'),
-        axisId: selector(state, 'connectedData.axisId') || _get(props, 'initialValues.connectedData.axisId'),
-        timeline: _get(props, 'initialValues.connectedData.timeline'),
-        stringParameter: selector(state, 'connectedData.stringParameter'),
-        unit: selector(state, 'connectedData.unit') || _get(props, 'initialValues.connectedData.unit'),
-        unitX: selector(state, 'connectedDataParametric.unitX') || _get(props, 'initialValues.connectedDataParametric.unitX'),
-        unitY: selector(state, 'connectedDataParametric.unitY') || _get(props, 'initialValues.connectedDataParametric.unitY'),
-        xAxisId: selector(state, 'connectedDataParametric.xAxisId') || _get(props, 'initialValues.connectedDataParametric.xAxisId'),
-        yAxisId: selector(state, 'connectedDataParametric.yAxisId') || _get(props, 'initialValues.connectedDataParametric.yAxisId'),
-      };
-    }
+    mapStateToProps
   )(EntryPointConnectedData)
 );

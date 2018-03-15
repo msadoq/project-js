@@ -78,7 +78,11 @@ const listOfRepos = [
        name: "GPVI_RSA",
        path: '../GPVI_RSA',
        remote: 'gitolite@isis.cnes-isis.toulouse.atos.net:gpvi/LPISIS/GPVI_RSA.git',
-    }
+    },{
+        name: "LPISIS",
+        path: '../LPISIS',
+        remote: 'gitolite@isis.cnes-isis.toulouse.atos.net:lpisis/LPISIS.git',
+     }
 ];
 const GENERATORS = {
     name: 'GENERATORS',

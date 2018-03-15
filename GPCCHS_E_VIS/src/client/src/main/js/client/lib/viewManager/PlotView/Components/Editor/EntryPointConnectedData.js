@@ -479,7 +479,7 @@ const mapStateToProps = (state, props) => {
     axisId: selector(state, 'connectedData.axisId') || _get(props, 'initialValues.connectedData.axisId'),
     timeline: _get(props, 'initialValues.connectedData.timeline'),
     stringParameter: selector(state, 'connectedData.stringParameter'),
-    provider: selector(state, 'connectedData.provider') || _get(props, 'initialValues.connectedData.provider'),
+    provider: selector(state, 'provider') || _get(props, 'initialValues.provider'),
     unit: selector(state, 'connectedData.unit') || _get(props, 'initialValues.connectedData.unit'),
     unitX: selector(state, 'connectedDataParametric.unitX') || _get(props, 'initialValues.connectedDataParametric.unitX'),
     unitY: selector(state, 'connectedDataParametric.unitY') || _get(props, 'initialValues.connectedDataParametric.unitY'),

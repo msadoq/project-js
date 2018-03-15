@@ -22,7 +22,7 @@ export default class ProviderField extends PureComponent {
       <div>
         <Field
           format={null}
-          name="connectedData.provider"
+          name="provider"
           component={ReactSelectField}
           clearable
           options={computeOptions(this.props.providers, false)}

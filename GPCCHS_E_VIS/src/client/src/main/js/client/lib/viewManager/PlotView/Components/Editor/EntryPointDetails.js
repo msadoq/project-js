@@ -48,6 +48,7 @@ export default class EntryPointDetails extends PureComponent {
     ]).isRequired,
     updateViewSubPanels: func.isRequired,
     domains: arrayOf(shape({})).isRequired,
+    form: shape({}).isRequired,
   };
 
   static defaultProps = {
@@ -148,7 +149,6 @@ export default class EntryPointDetails extends PureComponent {
         >
           {Array.isArray(panels) && panels.includes('parameters') && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
-            form={`entrypoint-parameters-form-${entryPoint.id}-${viewId}`}
             initialValues={initialValuesParameters}
           />}
         </Panel>
@@ -162,9 +162,9 @@ export default class EntryPointDetails extends PureComponent {
             timelines={timelines}
             domains={domains}
             viewId={viewId}
-            form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
             onSubmit={this.handleConnectedDataSubmit}
             initialValues={initialValuesConnectedData}
+            form={this.props.form}
           />}
         </Panel>
         <Panel
@@ -173,7 +173,6 @@ export default class EntryPointDetails extends PureComponent {
         >
           {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
             initialValues={initialValuesStateColors}
-            form={`entrypoint-stateColors-form-${entryPoint.id}-${viewId}`}
             onSubmit={this.handleSubmit}
           />}
         </Panel>

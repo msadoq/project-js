@@ -10,14 +10,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import {
-  Form,
-} from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { Field, formValueSelector, reduxForm } from 'redux-form';
+import { Field } from 'redux-form';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
-import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
@@ -63,30 +57,12 @@ class EntryPointParameters extends React.Component {
 
   render() {
     const {
-      handleSubmit,
-      pristine,
-      reset,
-      submitting,
-      valid,
       displayLine,
       displayPoints,
     } = this.props;
 
     return (
-      <Form
-        horizontal
-        onSubmit={handleSubmit}
-        className={classnames(
-          { 'redux-form-dirty': !pristine },
-          'redux-form-padded'
-        )}
-      >
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
+      <React.Fragment>
         <div className="page-header">
           <h4>Name</h4>
         </div>
@@ -171,34 +147,37 @@ class EntryPointParameters extends React.Component {
             />
           </HorizontalFormGroup>
         }
-      </Form>
+      </React.Fragment>
     );
   }
 }
 
-const requiredFields = ['name'];
-const validate = (values = {}) => {
-  const errors = {};
+// const requiredFields = ['name'];
+// const validate = (values = {}) => {
+//   const errors = {};
+//
+//   requiredFields.forEach((field) => {
+//     if (!values[field]) {
+//       errors[field] = 'Required';
+//     }
+//   });
+//   return errors;
+// };
 
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-  return errors;
-};
-
-export default reduxForm({
-  validate,
-  enableReinitialize: true,
-})(
-  connect(
-    (state, props) => {
-      const selector = formValueSelector(props.form);
-      return {
-        displayLine: selector(state, 'displayLine'),
-        displayPoints: selector(state, 'displayPoints'),
-      };
-    }
-  )(EntryPointParameters)
-);
+export default
+// reduxForm({
+//   validate,
+//   enableReinitialize: true,
+// })(
+//   connect(
+//     (state, props) => {
+//       const selector = formValueSelector(props.form);
+//       return {
+//         displayLine: selector(state, 'displayLine'),
+//         displayPoints: selector(state, 'displayPoints'),
+//       };
+//     }
+//   )(
+    EntryPointParameters
+  // ))
+;

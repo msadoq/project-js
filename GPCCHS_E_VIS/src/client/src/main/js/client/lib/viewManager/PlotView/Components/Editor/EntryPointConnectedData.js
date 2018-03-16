@@ -13,18 +13,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import _get from 'lodash/get';
-import _set from 'lodash/set';
-import { Form } from 'react-bootstrap';
-import { connect } from 'react-redux';
 import {
-  reduxForm,
+  // reduxForm,
   Field,
   FieldArray,
-  formValueSelector,
+  // formValueSelector,
 } from 'redux-form';
-import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
@@ -42,17 +36,9 @@ import styles from './EntryPointConnectedData.css';
   https://github.com/JedWatson/react-select
 */
 class EntryPointConnectedData extends Component {
-  componentDidMount() {
-    setTimeout(this.props.reset, 0);
-  }
 
   render() {
     const {
-      handleSubmit,
-      pristine,
-      reset,
-      submitting,
-      valid,
       axes,
       timelines,
       unitX,
@@ -146,194 +132,37 @@ class EntryPointConnectedData extends Component {
         label: '*',
         value: '*',
       })
-        .concat(
-          noCorrespondingTimeline ?
-            { label: timeline, value: timeline, disabled: true } : []
-        );
+      .concat(
+        noCorrespondingTimeline ?
+          { label: timeline, value: timeline, disabled: true } : []
+      );
     }
 
     return (
-      <Form
-        horizontal
-        onSubmit={handleSubmit}
-        className={classnames(
-          { 'redux-form-dirty': !pristine },
-          'redux-form-padded'
-        )}
-      >
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
-        <br />
-        <div>
-          <HorizontalFormGroup label="Parametric">
-            <Field
-              name="parametric"
-              component={ButtonToggleField}
-              styleOff="warning"
-            />
-          </HorizontalFormGroup>
-          {
-            parametric &&
-            <div>
-              <div className={styles.xDiv}>
-                <h4>X</h4>
-                <HorizontalFormGroup label="Formula X">
-                  <Field
-                    name="connectedDataParametric.formulaX"
-                    component={TextareaField}
-                    rows="4"
-                    className="form-control input-sm"
-                  />
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Unit X">
-                  <Field
-                    name="connectedDataParametric.unitX"
-                    component={InputField}
-                    type="text"
-                    className="form-control input-sm"
-                  />
-                  {axes &&
-                  <p
-                    style={{ fontSize: '0.9em', paddingTop: '2px' }}
-                  >
-                    { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-                  </p>
-                  }
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Axis X">
-                  <Field
-                    name="connectedDataParametric.xAxisId"
-                    clearable={false}
-                    component={ReactSelectField}
-                    options={connectedDataParametricFilteredAxisX}
-                  />
-                  {
-                    noCorrespondingAxisX &&
-                    <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
-                  }
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Domain X">
-                  <Field
-                    name="connectedDataParametric.domainX"
-                    clearable={false}
-                    component={ReactSelectField}
-                    options={domains.map(d =>
-                      ({
-                        label: d.name,
-                        value: d.name,
-                      })
-                    ).concat({
-                      label: '*',
-                      value: '*',
-                    })}
-                  />
-                </HorizontalFormGroup>
-              </div>
-              <div className={styles.yDiv}>
-                <h4>Y</h4>
-                <HorizontalFormGroup label="Formula Y">
-                  <Field
-                    name="connectedDataParametric.formulaY"
-                    component={TextareaField}
-                    rows="4"
-                    className="form-control input-sm"
-                  />
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Unit Y">
-                  <Field
-                    name="connectedDataParametric.unitY"
-                    component={InputField}
-                    type="text"
-                    className="form-control input-sm"
-                  />
-                  {axes &&
-                  <p
-                    style={{ fontSize: '0.9em', paddingTop: '2px' }}
-                  >
-                    { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-                  </p>
-                  }
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Axis Y">
-                  <Field
-                    name="connectedDataParametric.yAxisId"
-                    clearable={false}
-                    component={ReactSelectField}
-                    options={connectedDataParametricFilteredAxisY}
-                  />
-                  {
-                    noCorrespondingAxisY &&
-                    <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
-                  }
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Domain Y">
-                  <Field
-                    name="connectedDataParametric.domainY"
-                    clearable={false}
-                    component={ReactSelectField}
-                    options={domains.map(d =>
-                      ({
-                        label: d.name,
-                        value: d.name,
-                      })
-                    ).concat({
-                      label: '*',
-                      value: '*',
-                    })}
-                  />
-                </HorizontalFormGroup>
-              </div>
-            </div>
-          }
-          {
-            !parametric &&
-            <div>
-              <HorizontalFormGroup label="Formula">
+      <React.Fragment>
+        <HorizontalFormGroup label="Parametric">
+          <Field
+            name="parametric"
+            component={ButtonToggleField}
+            styleOff="warning"
+          />
+        </HorizontalFormGroup>
+        {
+          parametric &&
+          <div>
+            <div className={styles.xDiv}>
+              <h4>X</h4>
+              <HorizontalFormGroup label="Formula X">
                 <Field
-                  name="connectedData.formula"
+                  name="connectedDataParametric.formulaX"
                   component={TextareaField}
                   rows="4"
                   className="form-control input-sm"
                 />
               </HorizontalFormGroup>
-
-              <HorizontalFormGroup label="Field X">
+              <HorizontalFormGroup label="Unit X">
                 <Field
-                  name="connectedData.fieldX"
-                  component={InputField}
-                  type="text"
-                  className="form-control input-sm"
-                />
-              </HorizontalFormGroup>
-
-              <HorizontalFormGroup label="String parameter">
-                <Field
-                  name="connectedData.stringParameter"
-                  component={ButtonToggleField}
-                  textOn="YES"
-                  textOff="NO"
-                  styleOff="warning"
-                />
-              </HorizontalFormGroup>
-              {
-                stringParameter &&
-                <HorizontalFormGroup label="Y value">
-                  <Field
-                    name="connectedData.defaultY"
-                    component={InputField}
-                    normalize={val => parseInt(val, 10)}
-                    type="text"
-                    className="form-control input-sm"
-                  />
-                </HorizontalFormGroup>
-              }
-              <HorizontalFormGroup label="Unit">
-                <Field
-                  name="connectedData.unit"
+                  name="connectedDataParametric.unitX"
                   component={InputField}
                   type="text"
                   className="form-control input-sm"
@@ -342,41 +171,25 @@ class EntryPointConnectedData extends Component {
                 <p
                   style={{ fontSize: '0.9em', paddingTop: '2px' }}
                 >
-                  { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+                  {Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ')}
                 </p>
                 }
               </HorizontalFormGroup>
-              <HorizontalFormGroup label="Convert">
-                From
+              <HorizontalFormGroup label="Axis X">
                 <Field
-                  name="connectedData.convertFrom"
-                  type="text"
-                  className="form-control input-sm"
-                  component={InputField}
-                />
-                To
-                <Field
-                  name="connectedData.convertTo"
-                  type="text"
-                  className="form-control input-sm"
-                  component={InputField}
-                />
-              </HorizontalFormGroup>
-              <HorizontalFormGroup label="Axis">
-                <Field
-                  name="connectedData.axisId"
+                  name="connectedDataParametric.xAxisId"
                   clearable={false}
                   component={ReactSelectField}
-                  options={connectedDataUnitFilteredAxis}
+                  options={connectedDataParametricFilteredAxisX}
                 />
                 {
-                  noCorrespondingAxis &&
+                  noCorrespondingAxisX &&
                   <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
                 }
               </HorizontalFormGroup>
-              <HorizontalFormGroup label="Domain">
+              <HorizontalFormGroup label="Domain X">
                 <Field
-                  name="connectedData.domain"
+                  name="connectedDataParametric.domainX"
                   clearable={false}
                   component={ReactSelectField}
                   options={domains.map(d =>
@@ -391,31 +204,189 @@ class EntryPointConnectedData extends Component {
                 />
               </HorizontalFormGroup>
             </div>
-          }
+            <div className={styles.yDiv}>
+              <h4>Y</h4>
+              <HorizontalFormGroup label="Formula Y">
+                <Field
+                  name="connectedDataParametric.formulaY"
+                  component={TextareaField}
+                  rows="4"
+                  className="form-control input-sm"
+                />
+              </HorizontalFormGroup>
+              <HorizontalFormGroup label="Unit Y">
+                <Field
+                  name="connectedDataParametric.unitY"
+                  component={InputField}
+                  type="text"
+                  className="form-control input-sm"
+                />
+                {axes &&
+                <p
+                  style={{ fontSize: '0.9em', paddingTop: '2px' }}
+                >
+                  {Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ')}
+                </p>
+                }
+              </HorizontalFormGroup>
+              <HorizontalFormGroup label="Axis Y">
+                <Field
+                  name="connectedDataParametric.yAxisId"
+                  clearable={false}
+                  component={ReactSelectField}
+                  options={connectedDataParametricFilteredAxisY}
+                />
+                {
+                  noCorrespondingAxisY &&
+                  <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
+                }
+              </HorizontalFormGroup>
+              <HorizontalFormGroup label="Domain Y">
+                <Field
+                  name="connectedDataParametric.domainY"
+                  clearable={false}
+                  component={ReactSelectField}
+                  options={domains.map(d =>
+                    ({
+                      label: d.name,
+                      value: d.name,
+                    })
+                  ).concat({
+                    label: '*',
+                    value: '*',
+                  })}
+                />
+              </HorizontalFormGroup>
+            </div>
+          </div>
+        }
+        {
+          !parametric &&
+          <div>
+            <HorizontalFormGroup label="Formula">
+              <Field
+                name="connectedData.formula"
+                component={TextareaField}
+                rows="4"
+                className="form-control input-sm"
+              />
+            </HorizontalFormGroup>
 
-          <HorizontalFormGroup label="Timeline">
-            <Field
-              name="connectedData.timeline"
-              clearable={false}
-              component={ReactSelectField}
-              options={availableTimelines}
-            />
+            <HorizontalFormGroup label="Field X">
+              <Field
+                name="connectedData.fieldX"
+                component={InputField}
+                type="text"
+                className="form-control input-sm"
+              />
+            </HorizontalFormGroup>
+
+            <HorizontalFormGroup label="String parameter">
+              <Field
+                name="connectedData.stringParameter"
+                component={ButtonToggleField}
+                textOn="YES"
+                textOff="NO"
+                styleOff="warning"
+              />
+            </HorizontalFormGroup>
             {
-              noCorrespondingTimeline &&
-              <span className="text-danger">No corresponding timeline, create it or change it</span>
+              stringParameter &&
+              <HorizontalFormGroup label="Y value">
+                <Field
+                  name="connectedData.defaultY"
+                  component={InputField}
+                  normalize={val => parseInt(val, 10)}
+                  type="text"
+                  className="form-control input-sm"
+                />
+              </HorizontalFormGroup>
             }
-          </HorizontalFormGroup>
+            <HorizontalFormGroup label="Unit">
+              <Field
+                name="connectedData.unit"
+                component={InputField}
+                type="text"
+                className="form-control input-sm"
+              />
+              {axes &&
+              <p
+                style={{ fontSize: '0.9em', paddingTop: '2px' }}
+              >
+                {Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ')}
+              </p>
+              }
+            </HorizontalFormGroup>
+            <HorizontalFormGroup label="Convert">
+              From
+              <Field
+                name="connectedData.convertFrom"
+                type="text"
+                className="form-control input-sm"
+                component={InputField}
+              />
+              To
+              <Field
+                name="connectedData.convertTo"
+                type="text"
+                className="form-control input-sm"
+                component={InputField}
+              />
+            </HorizontalFormGroup>
+            <HorizontalFormGroup label="Axis">
+              <Field
+                name="connectedData.axisId"
+                clearable={false}
+                component={ReactSelectField}
+                options={connectedDataUnitFilteredAxis}
+              />
+              {
+                noCorrespondingAxis &&
+                <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
+              }
+            </HorizontalFormGroup>
+            <HorizontalFormGroup label="Domain">
+              <Field
+                name="connectedData.domain"
+                clearable={false}
+                component={ReactSelectField}
+                options={domains.map(d =>
+                  ({
+                    label: d.name,
+                    value: d.name,
+                  })
+                ).concat({
+                  label: '*',
+                  value: '*',
+                })}
+              />
+            </HorizontalFormGroup>
+          </div>
+        }
 
-          <HorizontalFormGroup label="Provider">
-            <ProviderFieldContainer />
-          </HorizontalFormGroup>
-
-          <FieldArray
-            name="connectedData.filter"
-            component={FiltersFieldsContainer}
+        <HorizontalFormGroup label="Timeline">
+          <Field
+            name="connectedData.timeline"
+            clearable={false}
+            component={ReactSelectField}
+            options={availableTimelines}
           />
-        </div>
-      </Form>
+          {
+            noCorrespondingTimeline &&
+            <span className="text-danger">No corresponding timeline, create it or change it</span>
+          }
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Provider">
+          <ProviderFieldContainer />
+        </HorizontalFormGroup>
+
+        <FieldArray
+          name="connectedData.filter"
+          component={FiltersFieldsContainer}
+          form={this.props.form}
+        />
+      </React.Fragment>
     );
   }
 }
@@ -425,11 +396,6 @@ EntryPointConnectedData.propTypes = {
   initialValues: PropTypes.shape().isRequired,
   axes: PropTypes.shape({}).isRequired,
   timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  pristine: PropTypes.bool.isRequired,
-  reset: PropTypes.func.isRequired,
-  submitting: PropTypes.bool,
-  valid: PropTypes.bool.isRequired,
   axisId: PropTypes.string,
   xAxisId: PropTypes.string,
   yAxisId: PropTypes.string,
@@ -440,6 +406,7 @@ EntryPointConnectedData.propTypes = {
   parametric: PropTypes.bool,
   stringParameter: PropTypes.bool,
   domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  form: PropTypes.shape({}).isRequired,
 };
 
 EntryPointConnectedData.defaultProps = {
@@ -455,45 +422,43 @@ EntryPointConnectedData.defaultProps = {
   stringParameter: false,
 };
 
-const requiredFields = [
-  // 'fieldX',
-  // 'formula',
-  // 'timeline',
-];
+// const requiredFields = [
+//   // 'fieldX',
+//   // 'formula',
+//   // 'timeline',
+// ];
 
-const validate = (values = {}) => {
-  const errors = {};
-  requiredFields.forEach((fieldPath) => {
-    if (!_get(values, fieldPath)) {
-      _set(errors, fieldPath, 'Required');
-    }
-  });
+// const validate = (values = {}) => {
+//   const errors = {};
+//   requiredFields.forEach((fieldPath) => {
+//     if (!_get(values, fieldPath)) {
+//       _set(errors, fieldPath, 'Required');
+//     }
+//   });
+//
+//   return errors;
+// };
 
-  return errors;
-};
-
-
-const mapStateToProps = (state, props) => {
-  const selector = formValueSelector(props.form);
-  return {
-    parametric: selector(state, 'parametric'),
-    axisId: selector(state, 'connectedData.axisId') || _get(props, 'initialValues.connectedData.axisId'),
-    timeline: _get(props, 'initialValues.connectedData.timeline'),
-    stringParameter: selector(state, 'connectedData.stringParameter'),
-    provider: selector(state, 'provider') || _get(props, 'initialValues.connectedData.provider'),
-    unit: selector(state, 'connectedData.unit') || _get(props, 'initialValues.connectedData.unit'),
-    unitX: selector(state, 'connectedDataParametric.unitX') || _get(props, 'initialValues.connectedDataParametric.unitX'),
-    unitY: selector(state, 'connectedDataParametric.unitY') || _get(props, 'initialValues.connectedDataParametric.unitY'),
-    xAxisId: selector(state, 'connectedDataParametric.xAxisId') || _get(props, 'initialValues.connectedDataParametric.xAxisId'),
-    yAxisId: selector(state, 'connectedDataParametric.yAxisId') || _get(props, 'initialValues.connectedDataParametric.yAxisId'),
-  };
-};
-
-export default reduxForm({
-  validate,
-  enableReinitialize: true,
-})(
-  connect(
-    mapStateToProps
-  )(EntryPointConnectedData)
-);
+export default // reduxForm({
+//   validate,
+//   enableReinitialize: true,
+// })(
+//   connect(
+//     (state, props) => {
+//       const selector = formValueSelector(props.form);
+//       return {
+//         parametric: selector(state, 'parametric'),
+//         axisId: selector(state, 'connectedData.axisId') || _get(props, 'initialValues.connectedData.axisId'),
+//         timeline: _get(props, 'initialValues.connectedData.timeline'),
+//         stringParameter: selector(state, 'connectedData.stringParameter'),
+//         unit: selector(state, 'connectedData.unit') || _get(props, 'initialValues.connectedData.unit'),
+//         unitX: selector(state, 'connectedDataParametric.unitX') || _get(props, 'initialValues.connectedDataParametric.unitX'),
+//         unitY: selector(state, 'connectedDataParametric.unitY') || _get(props, 'initialValues.connectedDataParametric.unitY'),
+//         xAxisId: selector(state, 'connectedDataParametric.xAxisId') || _get(props, 'initialValues.connectedDataParametric.xAxisId'),
+//         yAxisId: selector(state, 'connectedDataParametric.yAxisId') || _get(props, 'initialValues.connectedDataParametric.yAxisId'),
+//       };
+//     }
+//   )(
+EntryPointConnectedData
+// ))
+;

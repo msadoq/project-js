@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { updateEntryPoint } from 'store/actions/views';
 import { getViewEntryPointsSubPanels } from 'store/reducers/ui/editor';
 import { updateViewSubPanels } from 'store/actions/ui';
 import EntryPointDetails from './EntryPointDetails';

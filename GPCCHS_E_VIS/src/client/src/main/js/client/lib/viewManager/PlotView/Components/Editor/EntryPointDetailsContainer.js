@@ -28,6 +28,7 @@ import {
   removeEntryPoint,
 } from 'store/actions/views';
 import EntryPointDetails from './EntryPointDetails';
+import WithForm from '../../../common/Hoc/WithForm';
 
 const mapStateToProps = createStructuredSelector({
   axes: getAxes,
@@ -42,7 +43,9 @@ const mapDispatchToProps = {
   removeEntryPoint,
 };
 
-const EntryPointDetailsContainer = connect(mapStateToProps, mapDispatchToProps)(EntryPointDetails);
+const EntryPointDetailsContainer = connect(mapStateToProps, mapDispatchToProps)(
+  WithForm(EntryPointDetails)
+);
 
 EntryPointDetailsContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

@@ -29,7 +29,7 @@ import { Misc } from 'viewManager/commonEditor/Misc';
 import EntryPointActions from 'viewManager/commonEditor/EntryPoint/EntryPointActions';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import PlotTab from './PlotTab';
-import EntryPointTree from './EntryPointTree';
+import EntryPointTreeContainer from './EntryPointTreeContainer';
 import styles from '../../../commonEditor/Editor.css';
 
 const navbarItems = ['Entry Points', 'Plot', 'Misc'];
@@ -127,7 +127,7 @@ export default class PlotEditor extends Component {
                   changeSearch={this.changeSearch}
                   search={search || undefined} // will use EntryPointActions' default value if null
                 />,
-                <EntryPointTree
+                <EntryPointTreeContainer
                   key="EntryPointTree"
                   entryPoints={entryPoints}
                   entryPointsPanels={entryPointsPanels}

@@ -34,7 +34,7 @@ export default class DataViewEntryPoints extends PureComponent {
       viewType,
     } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <EntryPointActionsContainer
           viewId={viewId}
           search={search || undefined} // will use EntryPointActions' default value if null
@@ -46,7 +46,7 @@ export default class DataViewEntryPoints extends PureComponent {
           entryPoints={entryPoints}
           search={search}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

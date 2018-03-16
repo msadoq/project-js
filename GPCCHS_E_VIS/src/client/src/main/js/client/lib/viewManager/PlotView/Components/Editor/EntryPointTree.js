@@ -23,6 +23,7 @@ import classnames from 'classnames';
 import Collapse from 'rc-collapse';
 import styles from './EntryPointTree.css';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
+import { buildFormula } from '../../../common';
 /*
   EntryPointTree liste les EntryPoints à afficher.
   Permet également d'appliquer un filtre sur le nom
@@ -35,8 +36,11 @@ export default class EntryPointTree extends PureComponent {
     entryPoints: PropTypes.arrayOf(PropTypes.object),
     search: PropTypes.string,
     viewId: PropTypes.string.isRequired,
-    remove: PropTypes.func.isRequired,
+    // from container mapDispatchToProps
+    askRemoveEntryPoint: PropTypes.func.isRequired,
+    updateEntryPoint: PropTypes.func.isRequired,
     updateViewPanels: PropTypes.func.isRequired,
+    // from container mapStateToProps
     entryPointsPanels: PropTypes.shape({}).isRequired,
   }
 
@@ -57,8 +61,31 @@ export default class EntryPointTree extends PureComponent {
   handleRemove = (e, key) => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.remove(key);
+    this.props.askRemoveEntryPoint(this.props.viewId, this.getEntryPointByKey(key));
   }
+
+
+  /**
+   * @param entryPoint
+   * @param values
+   */
+  handleSubmit = (entryPoint, values) => {
+    const { updateEntryPoint, viewId } = this.props;
+    updateEntryPoint(viewId, entryPoint.id, {
+      ...entryPoint,
+      ...values,
+      connectedData: {
+        ...entryPoint.connectedData,
+        ...values.connectedData,
+        formula: buildFormula(
+          values.connectedData.catalog,
+          values.connectedData.catalogItem,
+          values.connectedData.comObject,
+          values.connectedData.comObjectField
+        ),
+      },
+    });
+  };
 
   render() {
     const { windowId } = this.context;
@@ -114,10 +141,13 @@ export default class EntryPointTree extends PureComponent {
               }
             >
               {isOpen && <EntryPointDetailsContainer
-                key={`${entryPoint.id}#details`}
+                key={`${entryPoint.id}#detailsContainer`}
                 windowId={windowId}
                 viewId={viewId}
                 entryPoint={entryPoint}
+                onSubmit={values => this.handleSubmit(entryPoint, values)}
+                initialValues={entryPoint}
+                form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
               />}
             </Panel>
           );

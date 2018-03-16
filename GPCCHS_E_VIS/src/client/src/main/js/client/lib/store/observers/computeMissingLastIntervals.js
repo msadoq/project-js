@@ -87,6 +87,7 @@ export default function computeMissingLastIntervals(dataMap, lastMap) {
           dataId,
           intervals: [],
         };
+
         if (mode) {
           query = { ...query, mode };
         }

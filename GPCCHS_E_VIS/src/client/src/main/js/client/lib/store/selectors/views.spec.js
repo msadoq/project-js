@@ -35,6 +35,7 @@ describe('store:views:selectors', () => {
       dataId: {
         catalog: 'Reporting',
         parameterName: 'AGA_AM_PRIORITY',
+        provider: '',
         comObject: 'ReportingParameter',
         domainId: 4,
         domain: 'fr.cnes.isis.simupus',

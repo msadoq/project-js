@@ -17,14 +17,19 @@ describe('store/observers/computeMissingLastIntervals', () => {
     domain: 'fr.cnes.isis.simupus',
     domainId: 4,
     parameterName: 'CLCW_TM_NOMINAL',
+    provider: '',
     sessionId: 0,
     sessionName: 'Master' };
-  const dataId_TMMGT_BC_VIRTCHAN3 = { ...dataId_CLCW_TM_NOMINAL,
+  const dataId_TMMGT_BC_VIRTCHAN3 = {
+    ...dataId_CLCW_TM_NOMINAL,
     catalog: 'Reporting',
     comObject: 'ReportingParameter',
-    parameterName: 'TMMGT_BC_VIRTCHAN3' };
-  const dataId_AGA_AM_PRIORITY = { ...dataId_TMMGT_BC_VIRTCHAN3,
-    parameterName: 'AGA_AM_PRIORITY' };
+    parameterName: 'TMMGT_BC_VIRTCHAN3',
+  };
+  const dataId_AGA_AM_PRIORITY = {
+    ...dataId_TMMGT_BC_VIRTCHAN3,
+    parameterName: 'AGA_AM_PRIORITY',
+  };
   const offset = state.timelines.tlOffset.offset;
 
   test('no change for last entry points', () => {

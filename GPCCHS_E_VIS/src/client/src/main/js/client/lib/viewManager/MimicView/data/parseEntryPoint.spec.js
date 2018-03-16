@@ -74,6 +74,7 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
+          provider: '',
           comObject: 'ReportingParameter',
           domainId: 'd1',
           domain: 'cnes',
@@ -101,6 +102,7 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
+          provider: '',
           comObject: 'ReportingParameter',
           domainId: 'd1',
           domain: 'cnes',

@@ -20,6 +20,8 @@ import getLogger from 'common/logManager';
 import flattenDataId from 'common/flattenDataId';
 import parseConnectedData from 'viewManager/commonData/parseConnectedData';
 import flattenStateColors from 'viewManager/commonData/flattenStateColors';
+import { PROVIDER_FLOW_ALL } from '../../../constants';
+import _get from 'lodash/get';
 
 const logger = getLogger('data:DynamicView:parseEntryPoint');
 
@@ -43,6 +45,8 @@ function parseEntryPoint(
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
   }
   const { connectedData, name, id, stateColors } = entryPoint;
+  const provider = _get(entryPoint, 'connectedData.provider', PROVIDER_FLOW_ALL);
+
   const cd = parseConnectedData(
     domains,
     sessions,
@@ -54,7 +58,8 @@ function parseEntryPoint(
     workspaceDomain,
     viewSessionName,
     pageSessionName,
-    workspaceSessionName
+    workspaceSessionName,
+    provider
   );
 
   if (cd.error) {
@@ -79,6 +84,7 @@ function parseEntryPoint(
   if (stateColors) {
     ep[name].stateColors = stateColors;
   }
+
   return ep;
 }
 module.exports = parseEntryPoint;

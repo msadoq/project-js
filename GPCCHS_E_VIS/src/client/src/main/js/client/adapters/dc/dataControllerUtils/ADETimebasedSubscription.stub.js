@@ -16,9 +16,8 @@ const getADETimebasedSubscription = override => applyOverride({
 
 const getADETimebasedSubscriptionProtobuf = override => {
   const toEncode = getADETimebasedSubscription(override);
-  // console.log(toEncode);
   return Builder.encode(Adapter.encode(toEncode)).finish();
-}
+};
 
 module.exports = {
   getADETimebasedSubscription,

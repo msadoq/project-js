@@ -42,6 +42,8 @@ export default function parseEntryPoint(
   pageSessionName,
   workspaceSessionName
 ) {
+  const provider = _get(entryPoint, 'connectedData.provider', PROVIDER_FLOW_ALL);
+
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
@@ -70,7 +72,9 @@ export default function parseEntryPoint(
       workspaceDomain,
       viewSessionName,
       pageSessionName,
-      workspaceSessionName);
+      workspaceSessionName,
+      provider
+    );
 
     if (cd.error) {
       logger.info('invalid entryPoint', name, cd.error);
@@ -127,7 +131,7 @@ export default function parseEntryPoint(
       viewSessionName,
       pageSessionName,
       workspaceSessionName,
-      _get(entryPoint, 'connectedData.provider', PROVIDER_FLOW_ALL)
+      provider
     );
 
   if (cd.error) {
@@ -165,5 +169,6 @@ export default function parseEntryPoint(
   if (stateColors) {
     ep[name].stateColors = stateColors;
   }
+
   return ep;
 }

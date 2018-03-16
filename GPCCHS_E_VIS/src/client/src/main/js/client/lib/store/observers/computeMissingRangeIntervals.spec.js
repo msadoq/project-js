@@ -15,11 +15,13 @@ describe('store/observers/computeMissingRangeIntervals', () => {
   const dataId_TMMGT_BC_VIRTCHAN3 = {
     catalog: 'Reporting',
     comObject: 'ReportingParameter',
-    parameterName: 'TMMGT_BC_VIRTCHAN3',
     domain: 'fr.cnes.isis.simupus',
     domainId: 4,
     sessionId: 0,
-    sessionName: 'Master' };
+    sessionName: 'Master',
+    parameterName: 'TMMGT_BC_VIRTCHAN3',
+    provider: '',
+  };
   const dataId_ATT_BC_REVTCOUNT1 = {
     catalog: 'Reporting',
     comObject: 'ReportingParameter',
@@ -27,7 +29,9 @@ describe('store/observers/computeMissingRangeIntervals', () => {
     domainId: 1,
     sessionId: 0,
     sessionName: 'Master',
-    parameterName: 'ATT_BC_REVTCOUNT1' };
+    parameterName: 'ATT_BC_REVTCOUNT1',
+    provider: '',
+  };
   const offset = state.timelines.tlOffset.offset;
 
   test('no change for range entry points', () => {

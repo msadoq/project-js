@@ -76,6 +76,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'TelemetryPacket',
           parameterName: 'CLCW_TM_NOMINAL',
+          provider: '',
           comObject: 'DecommutedPacket',
           domainId: 'd1',
           domain: 'cnes',
@@ -102,6 +103,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'TelemetryPacket',
           parameterName: 'CLCW_TM_NOMINAL',
+          provider: '',
           comObject: 'DecommutedPacket',
           domainId: 'd2',
           domain: 'cnes.isis',
@@ -128,6 +130,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'TelemetryPacket',
           parameterName: 'CLCW_TM_NOMINAL',
+          provider: '',
           comObject: 'DecommutedPacket',
           domainId: 'd2',
           domain: 'cnes.isis',
@@ -154,6 +157,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'TelemetryPacket',
           parameterName: 'CLCW_TM_NOMINAL',
+          provider: '',
           comObject: 'DecommutedPacket',
           domainId: 'd2',
           domain: 'cnes.isis',

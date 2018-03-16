@@ -16,6 +16,7 @@ const getDataId = override => applyOverride({
   comObject: 'ReportingParameter',
   sessionId: 100,
   domainId: 200,
+  provider: 'myProvider'
 }, override);
 
 const getDataIdProtobuf = override => Builder.encode(Adapter.encode(getDataId(override))).finish();

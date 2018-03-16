@@ -26,13 +26,15 @@ describe('controllers/pubSub', () => {
   const getStore = () => store;
   const myDataId = dataStub.getDataId();
 
-  const ADETimebasedSubscription = dataStub.getADETimebasedSubscriptionProtobuf({
+  const override = {
     objectName: myDataId.comObject,
     catalogName: myDataId.catalog,
     sessionId: myDataId.sessionId,
     domainId: myDataId.domainId,
     itemName: myDataId.parameterName,
-  });
+  };
+
+  const ADETimebasedSubscription = dataStub.getADETimebasedSubscriptionProtobuf(override);
 
   const t1 = 1420106790820;
   const t2 = 1420106790830;

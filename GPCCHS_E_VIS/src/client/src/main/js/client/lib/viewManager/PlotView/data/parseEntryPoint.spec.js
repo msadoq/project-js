@@ -83,6 +83,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
+          provider: '',
           comObject: 'ReportingParameter',
           domainId: 'd1',
           domain: 'cnes',
@@ -122,6 +123,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
+          provider: '',
           comObject: 'ReportingParameter',
           domainId: 'd2',
           domain: 'cnes.isis',
@@ -161,6 +163,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
+          provider: '',
           comObject: 'ReportingParameter',
           domainId: 'd2',
           domain: 'cnes.isis',
@@ -200,6 +203,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
+          provider: '',
           comObject: 'ReportingParameter',
           domainId: 'd2',
           domain: 'cnes.isis',

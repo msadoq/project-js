@@ -64,6 +64,7 @@ export default class EntryPointDetails extends PureComponent {
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId } = this.props;
+
     updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       ...values,
@@ -129,6 +130,7 @@ export default class EntryPointDetails extends PureComponent {
       connectedData: entryPoint.connectedData,
       connectedDataParametric: entryPoint.connectedDataParametric,
       parametric: entryPoint.parametric,
+      provider: entryPoint.connectedData.provider,
     };
     // TODO Rerender (new ref)
     const initialValuesStateColors = { stateColors: entryPoint.stateColors || [] };

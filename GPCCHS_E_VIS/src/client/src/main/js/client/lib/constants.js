@@ -217,8 +217,8 @@ module.exports = {
     MimicView: 'MimicViewDoc',
     PacketView: 'PacketViewDoc',
     HistoryView: 'HistoryViewDoc',
-    GroundAlarmView: 'GroundAlarmDoc',
-    OnboardAlarmView: 'OnboardAlarmViewDoc',
+    GroundAlarmView: 'GrounAlarmViewDoc',
+    OnboardAlarmView: 'OnBoardAlarmViewDoc',
   },
   EXTENSIONS: {
     WorkSpace: 'viws',

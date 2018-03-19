@@ -17,11 +17,13 @@
 // ====================================================================
 
 import getLogger from 'common/logManager';
+import _get from 'lodash/get';
+
 import flattenDataId from 'common/flattenDataId';
 import parseConnectedData from 'viewManager/commonData/parseConnectedData';
 import flattenStateColors from 'viewManager/commonData/flattenStateColors';
+
 import { PROVIDER_FLOW_ALL } from '../../../constants';
-import _get from 'lodash/get';
 
 const logger = getLogger('data:DynamicView:parseEntryPoint');
 

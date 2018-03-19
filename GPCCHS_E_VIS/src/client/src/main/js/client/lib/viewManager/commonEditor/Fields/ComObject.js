@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 
-const { string, arrayOf, oneOfType, func, number, shape } = PropTypes;
+const { bool, string, arrayOf, oneOfType, func, number, shape } = PropTypes;
 
 export default class ComObject extends PureComponent {
   static propTypes = {
@@ -18,6 +18,7 @@ export default class ComObject extends PureComponent {
     domainId: number,
     catalogName: string,
     itemName: string,
+    catalogItemsLoaded: bool,
     // from container mapDispatchToProps
     askComObjects: func.isRequired,
   };
@@ -28,10 +29,19 @@ export default class ComObject extends PureComponent {
     domainId: null,
     timelineId: null,
     catalogName: null,
+    catalogItemsLoaded: false,
     itemName: null,
   };
 
+  componentWillMount() {
+    this.tryToLoadComObjects(this.props);
+  }
+
   componentWillReceiveProps(nextProps) {
+    this.tryToLoadComObjects(nextProps);
+  }
+
+  tryToLoadComObjects = (props) => {
     const {
       domainId,
       timelineId,
@@ -40,13 +50,17 @@ export default class ComObject extends PureComponent {
       catalogName,
       itemName,
       comObjects,
-    } = nextProps;
+      catalogItemsLoaded,
+    } = props;
 
-    if (!!(domainId && timelineId && catalogName && itemName) && comObjects === null
+    if (
+      !!(domainId && timelineId && catalogName && itemName)
+      && comObjects === null
+      && catalogItemsLoaded
     ) {
       askComObjects(domainId, sessionId, catalogName, itemName);
     }
-  }
+  };
 
   render() {
     const { comObjects, domainId, timelineId, catalogName, itemName } = this.props;

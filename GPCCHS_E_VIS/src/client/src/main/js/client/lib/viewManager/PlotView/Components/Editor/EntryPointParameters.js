@@ -24,7 +24,7 @@ const lineStyleButtons = [
   { label: 'Dotted', icon: 'doted' },
 ];
 
-const { shape, string, number, bool, func } = PropTypes;
+const { shape, string, number, bool } = PropTypes;
 
 class EntryPointParameters extends React.Component {
   static propTypes = {
@@ -40,17 +40,10 @@ class EntryPointParameters extends React.Component {
       }).isRequired,
       curveColor: string,
     }).isRequired,
-    handleSubmit: func.isRequired,
-    pristine: bool.isRequired,
-    reset: func.isRequired,
-    submitting: bool,
-    valid: bool,
     displayLine: bool,
     displayPoints: bool,
   };
   static defaultProps = {
-    submitting: false,
-    valid: false,
     displayLine: true,
     displayPoints: true,
   };
@@ -152,32 +145,4 @@ class EntryPointParameters extends React.Component {
   }
 }
 
-// const requiredFields = ['name'];
-// const validate = (values = {}) => {
-//   const errors = {};
-//
-//   requiredFields.forEach((field) => {
-//     if (!values[field]) {
-//       errors[field] = 'Required';
-//     }
-//   });
-//   return errors;
-// };
-
-export default
-// reduxForm({
-//   validate,
-//   enableReinitialize: true,
-// })(
-//   connect(
-//     (state, props) => {
-//       const selector = formValueSelector(props.form);
-//       return {
-//         displayLine: selector(state, 'displayLine'),
-//         displayPoints: selector(state, 'displayPoints'),
-//       };
-//     }
-//   )(
-    EntryPointParameters
-  // ))
-;
+export default EntryPointParameters;

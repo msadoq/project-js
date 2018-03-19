@@ -9,47 +9,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  reduxForm,
   FieldArray,
 } from 'redux-form';
-import classnames from 'classnames';
-import { Form } from 'react-bootstrap';
-import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import StateColorsFields from 'viewManager/commonEditor/Fields/StateColorsFields';
 
-const EntryPointStateColors = (props) => {
-  const {
-    pristine,
-    reset,
-    submitting,
-    valid,
-    handleSubmit,
-  } = props;
-
-  return (
-    <div>
-      <Form
-        horizontal
-        onSubmit={handleSubmit}
-        className={classnames(
-          { 'redux-form-dirty': !pristine },
-          'redux-form-padded'
-        )}
-      >
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
-        <FieldArray
-          name="stateColors"
-          component={StateColorsFields}
-        />
-      </Form>
-    </div>
-  );
-};
+const EntryPointStateColors = () => (
+  <FieldArray
+    name="stateColors"
+    component={StateColorsFields}
+  />
+);
 
 EntryPointStateColors.propTypes = {
   pristine: PropTypes.bool.isRequired,
@@ -59,6 +28,4 @@ EntryPointStateColors.propTypes = {
   valid: PropTypes.bool.isRequired,
 };
 
-export default reduxForm({
-  enableReinitialize: true,
-})(EntryPointStateColors);
+export default EntryPointStateColors;

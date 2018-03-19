@@ -24,12 +24,14 @@ const mapStateToProps = (state, { domainName, timelineId, viewId, pageId, catalo
   const sessionId = selectedSession ? selectedSession.id : null;
   const tupleId = getTupleId(domainId, sessionId);
   const catalogItems = getCatalogItems(state.catalogs, { tupleId, name: catalogName });
+  const catalogsLoaded = !!Object.keys(state.catalogs).length;
 
   return {
     catalogItems,
     sessionId,
     domainId,
     catalogName,
+    catalogsLoaded,
   };
 };
 

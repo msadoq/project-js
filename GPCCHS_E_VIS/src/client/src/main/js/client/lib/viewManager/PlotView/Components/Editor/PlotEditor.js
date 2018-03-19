@@ -45,6 +45,7 @@ export default class PlotEditor extends Component {
     entryPointsPanels: PropTypes.shape({}).isRequired,
     tab: PropTypes.number,
     viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     title: PropTypes.string,
     titleStyle: PropTypes.shape(),
     configuration: PropTypes.shape({
@@ -89,6 +90,7 @@ export default class PlotEditor extends Component {
       panels,
       entryPointsPanels,
       viewId,
+      pageId,
       updateViewPanels,
       title,
       titleStyle,
@@ -135,6 +137,7 @@ export default class PlotEditor extends Component {
                   search={search}
                   remove={this.removeEntryPoint}
                   viewId={viewId}
+                  pageId={pageId}
                 />,
               ]
           }

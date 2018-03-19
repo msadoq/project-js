@@ -18,6 +18,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { FieldArray } from 'redux-form';
 import Collapse from 'rc-collapse';
 import _get from 'lodash/get';
 import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
@@ -25,6 +26,7 @@ import EntryPointParameters from './EntryPointParameters';
 import EntryPointConnectedData from './EntryPointConnectedData';
 
 import { entryPointType } from '../../../common/Components/types';
+import FiltersFieldsContainer from '../../../commonEditor/Fields/FiltersFieldsContainer';
 
 const { Panel } = Collapse;
 const emptyArray = [];
@@ -38,6 +40,7 @@ const { string, shape, arrayOf, bool, func, oneOfType } = PropTypes;
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: string.isRequired,
+    pageId: string.isRequired,
     timelines: arrayOf(shape({})).isRequired,
     axes: shape({}).isRequired,
     entryPoint: entryPointType.isRequired,
@@ -48,11 +51,22 @@ export default class EntryPointDetails extends PureComponent {
     ]).isRequired,
     updateViewSubPanels: func.isRequired,
     domains: arrayOf(shape({})).isRequired,
-    form: shape({}).isRequired,
+    form: string.isRequired,
+    selectedDomainName: string,
+    selectedTimelineId: string,
+    selectedCatalogName: string,
+    selectedItemName: string,
+    selectedComObjectName: string,
+
   };
 
   static defaultProps = {
     panels: [],
+    selectedDomainName: null,
+    selectedTimelineId: null,
+    selectedCatalogName: null,
+    selectedItemName: null,
+    selectedComObjectName: null,
   };
 
   onChange = (openPanels) => {
@@ -109,11 +123,17 @@ export default class EntryPointDetails extends PureComponent {
   render() {
     const {
       entryPoint,
+      pageId,
       viewId,
       axes,
       timelines,
       panels,
       domains,
+      selectedDomainName,
+      selectedTimelineId,
+      selectedCatalogName,
+      selectedItemName,
+      selectedComObjectName,
     } = this.props;
 
     // TODO Rerender (new ref)
@@ -162,11 +182,31 @@ export default class EntryPointDetails extends PureComponent {
             timelines={timelines}
             domains={domains}
             viewId={viewId}
+            pageId={pageId}
             onSubmit={this.handleConnectedDataSubmit}
             initialValues={initialValuesConnectedData}
             form={this.props.form}
+            selectedDomainName={selectedDomainName}
+            selectedTimelineId={selectedTimelineId}
+            selectedCatalogName={selectedCatalogName}
+            selectedItemName={selectedItemName}
+            selectedComObjectName={selectedComObjectName}
           />}
         </Panel>
+
+        <Panel
+          key="Filter"
+          header="Filter"
+        >
+          {Array.isArray(panels) && panels.includes('Filter') &&
+          <FieldArray
+            name={'connectedData.filter'}
+            component={FiltersFieldsContainer}
+            {...this.props}
+          />
+          }
+        </Panel>
+
         <Panel
           key="stateColors"
           header="State colors"

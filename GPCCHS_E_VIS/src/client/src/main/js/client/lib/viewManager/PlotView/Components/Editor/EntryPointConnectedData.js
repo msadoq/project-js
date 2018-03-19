@@ -11,21 +11,21 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  // reduxForm,
   Field,
-  FieldArray,
-  // formValueSelector,
 } from 'redux-form';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
-import FiltersFieldsContainer from 'viewManager/commonEditor/Fields/FiltersFieldsContainer';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
+import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
+import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
+import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
+import ComObjectFieldContainer from 'viewManager/commonEditor/Fields/ComObjectFieldContainer';
 import styles from './EntryPointConnectedData.css';
 
 /*
@@ -35,27 +35,76 @@ import styles from './EntryPointConnectedData.css';
   Composant react-select :
   https://github.com/JedWatson/react-select
 */
-class EntryPointConnectedData extends Component {
+class EntryPointConnectedData extends React.Component {
 
-  render() {
-    const {
-      axes,
-      timelines,
-      unitX,
-      unitY,
-      unit,
-      xAxisId,
-      yAxisId,
-      axisId,
-      domains,
-      parametric,
-      timeline,
-      stringParameter,
-    } = this.props;
+  static propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
+    initialValues: PropTypes.shape().isRequired,
+    axes: PropTypes.shape({}).isRequired,
+    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    axisId: PropTypes.string,
+    xAxisId: PropTypes.string,
+    yAxisId: PropTypes.string,
+    unitX: PropTypes.string,
+    unitY: PropTypes.string,
+    unit: PropTypes.string,
+    timeline: PropTypes.string,
+    parametric: PropTypes.bool,
+    stringParameter: PropTypes.bool,
+    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    selectedDomainName: PropTypes.string,
+    selectedTimelineId: PropTypes.string,
+    selectedCatalogName: PropTypes.string,
+    selectedItemName: PropTypes.string,
+    selectedComObjectName: PropTypes.string,
+  };
 
-    let filteredAxes = [];
-    if (axes) {
-      filteredAxes = Object.keys(axes)
+  static defaultProps = {
+    submitting: false,
+    parametric: false,
+    axisId: null,
+    xAxisId: null,
+    yAxisId: null,
+    unitX: null,
+    unitY: null,
+    unit: null,
+    timeline: null,
+    stringParameter: false,
+    selectedDomainName: null,
+    selectedTimelineId: null,
+    selectedCatalogName: null,
+    selectedItemName: null,
+    selectedComObjectName: null,
+  };
+
+  state = {
+    parametric: this.props.parametric,
+  };
+
+  getAvailableTimelines = (noCorrespondingTimeline, timeline) => {
+    const { timelines } = this.props;
+    return timelines ? timelines.map(t =>
+        ({
+          label: t.id,
+          value: t.id,
+        })
+      ).concat({
+        label: '*',
+        value: '*',
+      })
+        .concat(
+          noCorrespondingTimeline ?
+            { label: timeline, value: timeline, disabled: true } : []
+        )
+      : [];
+  };
+
+  getFilteredAxes = () => {
+    const { axes, unitX, unitY, unit, xAxisId, yAxisId, axisId } = this.props;
+
+    return axes ? Object.keys(axes)
         .map(key => ({
           ...axes[key],
           axisId: key,
@@ -63,8 +112,52 @@ class EntryPointConnectedData extends Component {
         .filter(axis =>
           [unitX, unitY, unit].includes(axis.unit) ||
           axis.id === xAxisId || axis.id === yAxisId || axis.id === axisId
-        );
-    }
+        )
+      : [];
+  };
+
+  getNoCorrespondingAxisX = (connectedDataParametricFilteredAxisX) => {
+    const { parametric } = this.state;
+    const { xAxisId } = this.props;
+    return parametric && !connectedDataParametricFilteredAxisX.find(axis => axis.id === xAxisId);
+  };
+
+  getNoCorrespondingAxisY = (connectedDataParametricFilteredAxisY) => {
+    const { parametric } = this.state;
+    const { yAxisId } = this.props;
+    return parametric && !connectedDataParametricFilteredAxisY.find(axis => axis.id === yAxisId);
+  };
+
+  toggleParametric = (event) => {
+    // prevent from toggling to parametric. To be removed with all parametric part
+    // this.setState({ parametric: !this.state.parametric });
+    event.preventDefault();
+  };
+
+  render() {
+    const {
+      axes,
+      unitX,
+      unitY,
+      unit,
+      xAxisId,
+      yAxisId,
+      axisId,
+      timelines,
+      domains,
+      timeline,
+      stringParameter,
+      pageId,
+      viewId,
+      selectedDomainName,
+      selectedTimelineId,
+      selectedCatalogName,
+      selectedItemName,
+      selectedComObjectName,
+    } = this.props;
+
+    const { parametric } = this.state;
+    const filteredAxes = this.getFilteredAxes();
 
     // Determine elligible axes : must match the unit
     let connectedDataUnitFilteredAxis = filteredAxes.filter(a => a.unit === unit);
@@ -73,7 +166,8 @@ class EntryPointConnectedData extends Component {
       .map(axis => ({
         label: axis.label,
         value: axis.axisId,
-      })).concat({
+      }))
+      .concat({
         label: '-',
         value: '-',
       });
@@ -85,17 +179,16 @@ class EntryPointConnectedData extends Component {
     // Determine elligible axes for X and Y : must match the unit
     let connectedDataParametricFilteredAxisX = filteredAxes.filter(a => a.unit === unitX);
     let connectedDataParametricFilteredAxisY = filteredAxes.filter(a => a.unit === unitY);
-    let noCorrespondingAxisX = false;
-    let noCorrespondingAxisY = false;
+    const noCorrespondingAxisX = this.getNoCorrespondingAxisX(connectedDataParametricFilteredAxisX);
+    const noCorrespondingAxisY = this.getNoCorrespondingAxisY(connectedDataParametricFilteredAxisY);
     if (parametric) {
       // X
-      noCorrespondingAxisX = !connectedDataParametricFilteredAxisX
-        .find(axis => axis.id === xAxisId);
       connectedDataParametricFilteredAxisX = connectedDataParametricFilteredAxisX
         .map(axis => ({
           label: axis.label,
           value: axis.axisId,
-        })).concat({
+        }))
+        .concat({
           label: '-',
           value: '-',
         });
@@ -104,8 +197,6 @@ class EntryPointConnectedData extends Component {
           .concat({ label: xAxisId, value: xAxisId, disabled: true });
       }
       // Y
-      noCorrespondingAxisY = !connectedDataParametricFilteredAxisY
-        .find(axis => axis.id === yAxisId);
       connectedDataParametricFilteredAxisY = connectedDataParametricFilteredAxisY
         .map(axis => ({
           label: axis.label,
@@ -120,23 +211,8 @@ class EntryPointConnectedData extends Component {
       }
     }
 
-    let availableTimelines = [];
     const noCorrespondingTimeline = !timelines.find(t => t.id === timeline) && timeline !== '*';
-    if (timelines) {
-      availableTimelines = timelines.map(t =>
-        ({
-          label: t.id,
-          value: t.id,
-        })
-      ).concat({
-        label: '*',
-        value: '*',
-      })
-      .concat(
-        noCorrespondingTimeline ?
-          { label: timeline, value: timeline, disabled: true } : []
-      );
-    }
+    const availableTimelines = this.getAvailableTimelines(noCorrespondingTimeline, timeline);
 
     return (
       <React.Fragment>
@@ -145,6 +221,7 @@ class EntryPointConnectedData extends Component {
             name="parametric"
             component={ButtonToggleField}
             styleOff="warning"
+            onChange={this.toggleParametric}
           />
         </HorizontalFormGroup>
         {
@@ -263,15 +340,6 @@ class EntryPointConnectedData extends Component {
         {
           !parametric &&
           <div>
-            <HorizontalFormGroup label="Formula">
-              <Field
-                name="connectedData.formula"
-                component={TextareaField}
-                rows="4"
-                className="form-control input-sm"
-              />
-            </HorizontalFormGroup>
-
             <HorizontalFormGroup label="Field X">
               <Field
                 name="connectedData.fieldX"
@@ -377,88 +445,55 @@ class EntryPointConnectedData extends Component {
           }
         </HorizontalFormGroup>
 
+
+        <HorizontalFormGroup label="Catalog">
+          <CatalogFieldContainer
+            domainName={selectedDomainName}
+            timelineId={selectedTimelineId}
+            viewId={viewId}
+            pageId={pageId}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Catalog item">
+          <CatalogItemFieldContainer
+            domainName={selectedDomainName}
+            timelineId={selectedTimelineId}
+            catalogName={selectedCatalogName}
+            viewId={viewId}
+            pageId={pageId}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Com object">
+          <ComObjectContainer
+            domainName={selectedDomainName}
+            timelineId={selectedTimelineId}
+            catalogName={selectedCatalogName}
+            itemName={selectedItemName}
+            viewId={viewId}
+            pageId={pageId}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Com object Field">
+          <ComObjectFieldContainer
+            domainName={selectedDomainName}
+            timelineId={selectedTimelineId}
+            catalogName={selectedCatalogName}
+            itemName={selectedItemName}
+            comObjectName={selectedComObjectName}
+          />
+        </HorizontalFormGroup>
+
+
         <HorizontalFormGroup label="Provider">
           <ProviderFieldContainer />
         </HorizontalFormGroup>
 
-        <FieldArray
-          name="connectedData.filter"
-          component={FiltersFieldsContainer}
-          form={this.props.form}
-        />
       </React.Fragment>
     );
   }
 }
 
-EntryPointConnectedData.propTypes = {
-  // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
-  initialValues: PropTypes.shape().isRequired,
-  axes: PropTypes.shape({}).isRequired,
-  timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  axisId: PropTypes.string,
-  xAxisId: PropTypes.string,
-  yAxisId: PropTypes.string,
-  unitX: PropTypes.string,
-  unitY: PropTypes.string,
-  unit: PropTypes.string,
-  timeline: PropTypes.string,
-  parametric: PropTypes.bool,
-  stringParameter: PropTypes.bool,
-  domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  form: PropTypes.shape({}).isRequired,
-};
-
-EntryPointConnectedData.defaultProps = {
-  submitting: false,
-  parametric: false,
-  axisId: null,
-  xAxisId: null,
-  yAxisId: null,
-  unitX: null,
-  unitY: null,
-  unit: null,
-  timeline: null,
-  stringParameter: false,
-};
-
-// const requiredFields = [
-//   // 'fieldX',
-//   // 'formula',
-//   // 'timeline',
-// ];
-
-// const validate = (values = {}) => {
-//   const errors = {};
-//   requiredFields.forEach((fieldPath) => {
-//     if (!_get(values, fieldPath)) {
-//       _set(errors, fieldPath, 'Required');
-//     }
-//   });
-//
-//   return errors;
-// };
-
-export default // reduxForm({
-//   validate,
-//   enableReinitialize: true,
-// })(
-//   connect(
-//     (state, props) => {
-//       const selector = formValueSelector(props.form);
-//       return {
-//         parametric: selector(state, 'parametric'),
-//         axisId: selector(state, 'connectedData.axisId') || _get(props, 'initialValues.connectedData.axisId'),
-//         timeline: _get(props, 'initialValues.connectedData.timeline'),
-//         stringParameter: selector(state, 'connectedData.stringParameter'),
-//         unit: selector(state, 'connectedData.unit') || _get(props, 'initialValues.connectedData.unit'),
-//         unitX: selector(state, 'connectedDataParametric.unitX') || _get(props, 'initialValues.connectedDataParametric.unitX'),
-//         unitY: selector(state, 'connectedDataParametric.unitY') || _get(props, 'initialValues.connectedDataParametric.unitY'),
-//         xAxisId: selector(state, 'connectedDataParametric.xAxisId') || _get(props, 'initialValues.connectedDataParametric.xAxisId'),
-//         yAxisId: selector(state, 'connectedDataParametric.yAxisId') || _get(props, 'initialValues.connectedDataParametric.yAxisId'),
-//       };
-//     }
-//   )(
-EntryPointConnectedData
-// ))
-;
+export default EntryPointConnectedData;

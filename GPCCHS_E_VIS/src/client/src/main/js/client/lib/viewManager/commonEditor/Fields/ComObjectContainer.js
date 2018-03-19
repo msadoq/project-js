@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCatalogItemComObjects, getTupleId } from 'store/reducers/catalogs';
+import {
+getCatalogByName,
+getCatalogItemComObjects,
+getTupleId,
+} from 'store/reducers/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
 import { getTimelineById } from 'store/reducers/timelines';
 import { askComObjects } from 'store/actions/catalogs';
+import _get from 'lodash/get';
 import { get } from 'common/configurationManager';
 import ComObject from './ComObject';
 
@@ -30,6 +35,8 @@ const mapStateToProps = (state, {
   const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
   const sessionId = selectedSession ? selectedSession.id : null;
   const tupleId = getTupleId(domainId, sessionId);
+  const catalog = getCatalogByName(state.catalogs, { tupleId, name: catalogName });
+  const catalogItemsLoaded = !!Object.keys(_get(catalog, 'items', {})).length;
 
   return {
     comObjects: getCatalogItemComObjects(state.catalogs, { tupleId, name: catalogName, itemName }),
@@ -37,6 +44,7 @@ const mapStateToProps = (state, {
     domainId,
     catalogName,
     itemName,
+    catalogItemsLoaded,
   };
 };
 

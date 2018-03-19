@@ -130,19 +130,29 @@
     {
       "connectedData": {
         "axisId": "VBat",
+        "catalog": "Reporting",
+        "catalogItem": "TMMGT_BC_VIRTCHAN0",
+        "comObject": "ReportingParameter",
+        "comObjectField": "convertedValue",
         "convertFrom": "",
         "convertTo": "",
         "defaultY": 1,
         "digits": 5,
         "domain": "fr.cnes.isis.simupus",
         "fieldX": "groundDate",
-        "filter": [],
+        "filter": [
+          {
+            "field": "convertedValue",
+            "operand": "138",
+            "operator": ">"
+          }
+        ],
         "format": "decimal",
-        "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
+        "formula": "Reporting.TMMGT_BC_VIRTCHAN0<ReportingParameter>.convertedValue",
+        "provider": "*",
         "stringParameter": false,
         "timeline": "Session 1",
-        "unit": "V",
-        "provider": "*"
+        "unit": "V"
       },
       "connectedDataParametric": {
         "domainX": "",

@@ -36,6 +36,7 @@ export default class EntryPointTree extends PureComponent {
     entryPoints: PropTypes.arrayOf(PropTypes.object),
     search: PropTypes.string,
     viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     // from container mapDispatchToProps
     askRemoveEntryPoint: PropTypes.func.isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
@@ -90,7 +91,7 @@ export default class EntryPointTree extends PureComponent {
   render() {
     const { windowId } = this.context;
     const mask = `${this.props.search}.*`;
-    const { entryPoints, entryPointsPanels, viewId } = this.props;
+    const { entryPoints, entryPointsPanels, viewId, pageId } = this.props;
     const list = entryPoints
       .filter(entryPoint => entryPoint.name.toLowerCase().match(mask.toLowerCase()));
 
@@ -144,6 +145,7 @@ export default class EntryPointTree extends PureComponent {
                 key={`${entryPoint.id}#detailsContainer`}
                 windowId={windowId}
                 viewId={viewId}
+                pageId={pageId}
                 entryPoint={entryPoint}
                 onSubmit={values => this.handleSubmit(entryPoint, values)}
                 initialValues={entryPoint}

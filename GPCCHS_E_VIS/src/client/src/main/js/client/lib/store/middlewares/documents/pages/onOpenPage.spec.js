@@ -54,4 +54,19 @@ describe('store:serverProcess:middlewares:documents/makeOnOpenPage', () => {
     store.dispatch({ type: 'HSC_DIALOG_CLOSED', payload: { dialogId } });
     expect(store.getActions()).toMatchSnapshot();
   });
+
+  test('ask for confirmation before opening a page that has already been opened', () => {
+    const stateWithOpenPage = {
+      pages: {
+        dummyId: {
+          absolutePath: 'dummyPath',
+        },
+      },
+    };
+
+    const storeWithOpenPage = mockStore(stateWithOpenPage);
+
+    store.dispatch(askOpenPage('windowDummyId', 'dummyPath'));
+    expect(storeWithOpenPage.getActions()).toMatchSnapshot();
+  });
 });

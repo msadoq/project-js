@@ -72,7 +72,6 @@ export default class ControlsLeft extends PureComponent {
       play,
     } = this.props;
     const dir = e.currentTarget.getAttribute('direction');
-
     let newSpeed = dir === 'up' ? 2 * timebarSpeed : timebarSpeed / 2;
 
     if (timebarSpeed === 0.1 && dir === 'up') {
@@ -226,6 +225,7 @@ export default class ControlsLeft extends PureComponent {
             className={allButtonsKlasses}
             onClick={this.changeSpeed}
             title="Decrease speed"
+            direction="down"
           >
             <Glyphicon className={styles.glyphIcon} glyph="backward" />
           </button>
@@ -252,6 +252,7 @@ export default class ControlsLeft extends PureComponent {
             className={allButtonsKlasses}
             onClick={this.changeSpeed}
             title="Increase speed"
+            direction="up"
           >
             <Glyphicon className={styles.glyphIcon} glyph="forward" />
           </button>

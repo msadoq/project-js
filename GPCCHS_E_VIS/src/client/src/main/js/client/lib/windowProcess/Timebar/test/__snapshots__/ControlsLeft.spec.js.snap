@@ -23,6 +23,7 @@ exports[`Controls renders correctly 1`] = `
   >
     <button
       className="btn btn-xs btn-control"
+      direction="down"
       onClick={[Function]}
       title="Decrease speed"
     >
@@ -47,6 +48,7 @@ exports[`Controls renders correctly 1`] = `
   >
     <button
       className="btn btn-xs btn-control"
+      direction="up"
       onClick={[Function]}
       title="Increase speed"
     >

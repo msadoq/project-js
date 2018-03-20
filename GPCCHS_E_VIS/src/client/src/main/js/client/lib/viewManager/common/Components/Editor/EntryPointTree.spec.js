@@ -11,11 +11,10 @@ beforeEach(() => {
 
 const entryPointEmpty = {
   id: 'e484fb2d-88f7-4327-95dc-3458ef381ea6',
-  connectedData: {
-    formula: 'Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.convertedValue',
-  },
   stateColors: [],
   filter: [],
+  connectedData: {},
+
 };
 
 const propsStub = {
@@ -33,172 +32,175 @@ const propsStub = {
   entryPointsPanels: {},
 };
 
-describe('viewManager', () => {
-  describe('viewManager/common', () => {
-    describe('viewManager/common/Components', () => {
-      describe('viewManager/common/Components/Editor', () => {
-        describe('viewManager/common/Components/Editor/EntryPointTree', () => {
-          test('EntryPointTree :: snapshot', () => {
-            shallowRenderSnapshot(EntryPointTree, propsStub, {});
-          });
-          test('EntryPointTree :: handleSubmit name', () => {
-            const wrapper = shallow(
-              <EntryPointTree
-                {...propsStub}
-              />
-            );
-            const entryPointUpdated = {
-              ...entryPointEmpty,
-              name: 'YOLO',
-            };
-            wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
-            expect(entryPoint).toEqual(entryPointUpdated);
-          });
-          test('EntryPointTree :: handleSubmit stateColor add', () => {
-            const wrapper = shallow(
-              <EntryPointTree
-                {...propsStub}
-              />
-            );
-            const entryPointUpdated = {
-              ...entryPointEmpty,
-              entryPoint: {
-                stateColors: [{
-                  color: '#FFFFFF',
-                  condition: {
-                    field: 'convertedValue',
-                    operand: '10',
-                    operator: '=',
-                  },
-                }],
-              },
-            };
-            wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
-            expect(entryPoint).toEqual(entryPointUpdated);
-          });
-          test('EntryPointTree :: handleSubmit stateColor remove', () => {
-            // expect state to have some state colors defined
-            const propsStub2 = {
-              ...propsStub,
-              entryPoint: {
-                ...propsStub.entryPoint,
-                connectedData: {
-                  ...propsStub.entryPoint.connectedData,
-                  stateColors: [{
-                    color: '#FFFFFF',
-                    condition: {
-                      field: 'convertedValue',
-                      operand: '10',
-                      operator: '=',
-                    },
-                  }],
-                },
-              },
-            };
-            const wrapper = shallow(
-              <EntryPointTree
-                {...propsStub2}
-              />
-            );
-            const entryPointUpdated = {
-              ...entryPointEmpty,
-              entryPoint: {
-                stateColors: [],
-              },
-            };
-            wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
-            expect(entryPoint).toEqual(entryPointUpdated);
-          });
-          test('EntryPointTree :: handleSubmit connectedData', () => {
-            const wrapper = shallow(
-              <EntryPointTree
-                {...propsStub}
-              />
-            );
-            const entryPointUpdated = {
-              ...entryPointEmpty,
-              entryPoint: {
-                ...propsStub.entryPoint,
-                connectedData: {
-                  ...propsStub.entryPoint.connectedData,
-                  formula: 'Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.extractedValue',
-                },
-              },
-            };
-            wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
-            expect(entryPoint).toEqual(entryPointUpdated);
-          });
-          test('EntryPointTree :: handleSubmit filter add', () => {
-            const wrapper = shallow(
-              <EntryPointTree
-                {...propsStub}
-              />
-            );
-
-            const entryPointUpdated = {
-              ...entryPointEmpty,
-              entryPoint: {
-                ...propsStub.entryPoint,
-                connectedData: {
-                  ...propsStub.entryPoint.connectedData,
-                  filter: [{ field: 'extractedValue', operand: 10, operator: '=' }],
-                },
-              },
-            };
-            wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
-            expect(entryPoint).toEqual(entryPointUpdated);
-          });
-          test('EntryPointTree :: handleSubmit filter delete', () => {
-            const propsStub2 = {
-              ...propsStub,
-              entryPoint: {
-                ...propsStub.entryPoint,
-                connectedData: {
-                  ...propsStub.entryPoint.connectedData,
-                  filter: [{ field: 'extractedValue', operand: 10, operator: '=' }],
-                },
-              },
-            };
-            const wrapper = shallow(
-              <EntryPointTree
-                {...propsStub2}
-              />
-            );
-
-            const entryPointUpdated = {
-              ...entryPointEmpty,
-              entryPoint: {
-                ...propsStub.entryPoint,
-                connectedData: {
-                  ...propsStub.entryPoint.connectedData,
-                  filter: [],
-                },
-              },
-            };
-            wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
-            expect(entryPoint).toEqual(entryPointUpdated);
-          });
-          test('EntryPointTree :: handleSubmit unit', () => {
-            const wrapper = shallow(
-              <EntryPointTree
-                {...propsStub}
-              />
-            );
-            const entryPointUpdated = {
-              ...propsStub.entryPoint,
-              connectedData: {
-                ...propsStub.entryPoint.connectedData,
-                unit: {
-                  convertFrom: 'V',
-                  convertTo: 'mV',
-                },
-              },
-            };
-            wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
-            expect(entryPoint).toEqual(entryPointUpdated);
-          });
-        });
-      });
+describe('viewManager/common/Components/Editor/EntryPointTree', () => {
+  test('EntryPointTree :: snapshot', () => {
+    shallowRenderSnapshot(EntryPointTree, propsStub, {});
+  });
+  test('EntryPointTree :: handleSubmit name', () => {
+    const wrapper = shallow(
+      <EntryPointTree
+        {...propsStub}
+      />
+    );
+    const entryPointUpdated = {
+      ...entryPointEmpty,
+      name: 'YOLO',
+      connectedData: { formula: '' },
+    };
+    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    expect(entryPoint).toEqual(entryPointUpdated);
+  });
+  test('EntryPointTree :: handleSubmit stateColor add', () => {
+    const wrapper = shallow(
+      <EntryPointTree
+        {...propsStub}
+      />
+    );
+    const entryPointUpdated = {
+      ...entryPointEmpty,
+      entryPoint: {
+        stateColors: [{
+          color: '#FFFFFF',
+          condition: {
+            field: 'convertedValue',
+            operand: '10',
+            operator: '=',
+          },
+        }],
+      },
+      connectedData: { formula: '' },
+    };
+    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    expect(entryPoint).toEqual(entryPointUpdated);
+  });
+  test('EntryPointTree :: handleSubmit stateColor remove', () => {
+    // expect state to have some state colors defined
+    const propsStub2 = {
+      ...propsStub,
+      entryPoint: {
+        ...propsStub.entryPoint,
+        connectedData: {
+          ...propsStub.entryPoint.connectedData,
+          stateColors: [{
+            color: '#FFFFFF',
+            condition: {
+              field: 'convertedValue',
+              operand: '10',
+              operator: '=',
+            },
+          }],
+        },
+      },
+    };
+    const wrapper = shallow(
+      <EntryPointTree
+        {...propsStub2}
+      />
+    );
+    const entryPointUpdated = {
+      ...entryPointEmpty,
+      connectedData: {
+        ...entryPointEmpty.connectedData,
+        formula: '',
+      },
+      entryPoint: {
+        stateColors: [],
+      },
+    };
+    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    expect(entryPoint).toEqual(entryPointUpdated);
+  });
+  test('EntryPointTree :: handleSubmit connectedData', () => {
+    const wrapper = shallow(
+      <EntryPointTree
+        {...propsStub}
+      />
+    );
+    wrapper.instance().handleSubmit(entryPointEmpty, {
+      connectedData: {
+        catalog: 'Reporting',
+        catalogItem: 'AGA_AM_ACQPRIORITY',
+        comObject: 'ReportingParameter',
+        comObjectField: 'extractedValue',
+      },
     });
+    const entryPointUpdated = {
+      ...entryPointEmpty,
+      connectedData: {
+        ...propsStub.entryPoint.connectedData,
+        formula: 'Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.extractedValue',
+        catalog: 'Reporting',
+        catalogItem: 'AGA_AM_ACQPRIORITY',
+        comObject: 'ReportingParameter',
+        comObjectField: 'extractedValue',
+      },
+    };
+    expect(entryPoint).toEqual(entryPointUpdated);
+  });
+  test('EntryPointTree :: handleSubmit filter add', () => {
+    const wrapper = shallow(
+      <EntryPointTree
+        {...propsStub}
+      />
+    );
+
+    const entryPointUpdated = {
+      ...entryPointEmpty,
+      connectedData: {
+        ...propsStub.entryPoint.connectedData,
+        formula: '',
+        filter: [{ field: 'extractedValue', operand: 10, operator: '=' }],
+      },
+    };
+    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    expect(entryPoint).toEqual(entryPointUpdated);
+  });
+  test('EntryPointTree :: handleSubmit filter delete', () => {
+    const propsStub2 = {
+      ...propsStub,
+      entryPoint: {
+        ...propsStub.entryPoint,
+        connectedData: {
+          ...propsStub.entryPoint.connectedData,
+          filter: [{ field: 'extractedValue', operand: 10, operator: '=' }],
+        },
+      },
+    };
+    const wrapper = shallow(
+      <EntryPointTree
+        {...propsStub2}
+      />
+    );
+
+    const entryPointUpdated = {
+      ...entryPointEmpty,
+      connectedData: {
+        ...propsStub.entryPoint.connectedData,
+        filter: [],
+        formula: '',
+      },
+    };
+    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    expect(entryPoint).toEqual(entryPointUpdated);
+  });
+  test('EntryPointTree :: handleSubmit unit', () => {
+    const wrapper = shallow(
+      <EntryPointTree
+        {...propsStub}
+      />
+    );
+    const entryPointUpdated = {
+      ...propsStub.entryPoint,
+      connectedData: {
+        ...propsStub.entryPoint.connectedData,
+        formula: '',
+        unit: {
+          convertFrom: 'V',
+          convertTo: 'mV',
+        },
+      },
+    };
+    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    expect(entryPoint).toEqual(entryPointUpdated);
   });
 });

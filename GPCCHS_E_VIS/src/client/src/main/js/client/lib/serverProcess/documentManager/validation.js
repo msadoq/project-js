@@ -35,7 +35,7 @@ function formatError(err) {
   return err.dataName
     .concat(' ')
     .concat(err.message.concat(_isArray(param) ? ' : '.concat(_join(param, ', ')) : ''));
-};
+}
 
 function verboseFormatError(err) {
   return '\nValidation error: '
@@ -44,7 +44,7 @@ function verboseFormatError(err) {
     .concat(err.message)
     .concat(Object.keys(err.params) ? `\nparams: ${JSON.stringify(err.params)}` : '') // any param ?
     .concat(`\ndata: ${JSON.stringify(err.data, null, 2)}`);
-};
+}
 
 const VERBOSE = true;
 

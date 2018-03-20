@@ -8,7 +8,7 @@ const { string, arrayOf, oneOfType, shape, func } = PropTypes;
 export default class ComObjectFilterField extends PureComponent {
   static propTypes = {
     onChange: func.isRequired,
-    value: PropTypes.object,
+    value: PropTypes.string.isRequired,
     // from container
     domainName: string,
     timelineId: string,
@@ -31,8 +31,7 @@ export default class ComObjectFilterField extends PureComponent {
   };
 
   handleChange = (selectedOption) => {
-    const { onChange } = this.props;
-    onChange && onChange(selectedOption ? selectedOption.value : null);
+    this.props.onChange(selectedOption ? selectedOption.value : null);
   };
 
   render() {

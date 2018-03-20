@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`viewManager viewManager/common viewManager/common/Components viewManager/common/Components/Editor viewManager/common/Components/Editor/EntryPointTree EntryPointTree :: snapshot 1`] = `
+exports[`viewManager/common/Components/Editor/EntryPointTree EntryPointTree :: snapshot 1`] = `
 <Alert
   bsClass="alert"
   bsStyle="info"

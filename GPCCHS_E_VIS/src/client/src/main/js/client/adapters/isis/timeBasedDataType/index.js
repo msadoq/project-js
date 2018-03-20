@@ -7,40 +7,40 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const TimeBasedDataBoolean = require('./timeBasedDataBoolean');
-const TimeBasedDataUByte = require('./timeBasedDataUByte');
-const TimeBasedDataUInteger = require('./timeBasedDataUInteger');
-const TimeBasedDataDouble = require('./timeBasedDataDouble');
-const TimeBasedDataULong = require('./timeBasedDataULong');
-const TimeBasedDataURI = require('./timeBasedDataURI');
-const TimeBasedDataUShort = require('./timeBasedDataUShort');
-const TimeBasedDataString = require('./timeBasedDataString');
-const TimeBasedDataTime = require('./timeBasedDataTime');
-const TimeBasedDataDuration = require('./timeBasedDataDuration');
+const TimeBasedDataFloat = require('./timeBasedDataFloat');
 const TimeBasedDataInteger = require('./timeBasedDataInteger');
 const TimeBasedDataLong = require('./timeBasedDataLong');
-const TimeBasedDataByte = require('./timeBasedDataByte');
-const TimeBasedDataFloat = require('./timeBasedDataFloat');
+const TimeBasedDataTime = require('./timeBasedDataTime');
 const TimeBasedDataIdentifier = require('./timeBasedDataIdentifier');
+const TimeBasedDataString = require('./timeBasedDataString');
+const TimeBasedDataUInteger = require('./timeBasedDataUInteger');
+const TimeBasedDataURI = require('./timeBasedDataURI');
 const TimeBasedDataFinetime = require('./timeBasedDataFinetime');
+const TimeBasedDataByte = require('./timeBasedDataByte');
+const TimeBasedDataUByte = require('./timeBasedDataUByte');
+const TimeBasedDataBoolean = require('./timeBasedDataBoolean');
 const TimeBasedDataShort = require('./timeBasedDataShort');
+const TimeBasedDataDouble = require('./timeBasedDataDouble');
+const TimeBasedDataULong = require('./timeBasedDataULong');
+const TimeBasedDataUShort = require('./timeBasedDataUShort');
+const TimeBasedDataDuration = require('./timeBasedDataDuration');
 
 module.exports = {
-  TimeBasedDataBoolean: { type: 'raw', adapter: TimeBasedDataBoolean },
-  TimeBasedDataUByte: { type: 'raw', adapter: TimeBasedDataUByte },
-  TimeBasedDataUInteger: { type: 'raw', adapter: TimeBasedDataUInteger },
-  TimeBasedDataDouble: { type: 'raw', adapter: TimeBasedDataDouble },
-  TimeBasedDataULong: { type: 'raw', adapter: TimeBasedDataULong },
-  TimeBasedDataURI: { type: 'raw', adapter: TimeBasedDataURI },
-  TimeBasedDataUShort: { type: 'raw', adapter: TimeBasedDataUShort },
-  TimeBasedDataString: { type: 'raw', adapter: TimeBasedDataString },
-  TimeBasedDataTime: { type: 'raw', adapter: TimeBasedDataTime },
-  TimeBasedDataDuration: { type: 'raw', adapter: TimeBasedDataDuration },
+  TimeBasedDataFloat: { type: 'raw', adapter: TimeBasedDataFloat },
   TimeBasedDataInteger: { type: 'raw', adapter: TimeBasedDataInteger },
   TimeBasedDataLong: { type: 'raw', adapter: TimeBasedDataLong },
-  TimeBasedDataByte: { type: 'raw', adapter: TimeBasedDataByte },
-  TimeBasedDataFloat: { type: 'raw', adapter: TimeBasedDataFloat },
+  TimeBasedDataTime: { type: 'raw', adapter: TimeBasedDataTime },
   TimeBasedDataIdentifier: { type: 'raw', adapter: TimeBasedDataIdentifier },
+  TimeBasedDataString: { type: 'raw', adapter: TimeBasedDataString },
+  TimeBasedDataUInteger: { type: 'raw', adapter: TimeBasedDataUInteger },
+  TimeBasedDataURI: { type: 'raw', adapter: TimeBasedDataURI },
   TimeBasedDataFinetime: { type: 'raw', adapter: TimeBasedDataFinetime },
+  TimeBasedDataByte: { type: 'raw', adapter: TimeBasedDataByte },
+  TimeBasedDataUByte: { type: 'raw', adapter: TimeBasedDataUByte },
+  TimeBasedDataBoolean: { type: 'raw', adapter: TimeBasedDataBoolean },
   TimeBasedDataShort: { type: 'raw', adapter: TimeBasedDataShort },
+  TimeBasedDataDouble: { type: 'raw', adapter: TimeBasedDataDouble },
+  TimeBasedDataULong: { type: 'raw', adapter: TimeBasedDataULong },
+  TimeBasedDataUShort: { type: 'raw', adapter: TimeBasedDataUShort },
+  TimeBasedDataDuration: { type: 'raw', adapter: TimeBasedDataDuration },
 };

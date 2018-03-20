@@ -11,7 +11,7 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 
 
 const sentQueueElement = {
-  retransmit_flag: 1,
+  retransmit_flag: 100,
   internal_id: 100,
   num_farm: 100,
   date: 'mySTRING',

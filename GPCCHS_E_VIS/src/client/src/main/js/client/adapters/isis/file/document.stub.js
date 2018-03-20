@@ -9,18 +9,16 @@
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _defaultsDeep = require('lodash/defaultsDeep');
 const getNamedValue = require('../ccsds_mal/namedValue.stub');
-const getProfileRight = require('./profileRight.stub');
-const getUser = require('../ccsds_cs/user.stub');
 const getUserRight = require('./userRight.stub');
 
 const document = {
-  lockedBy: getUser(),
+  lockedBy: 'mySTRING',
   dirname: 'myURI',
   properties: [getNamedValue(), getNamedValue()],
-  usersAccess: [getUserRight(), getUserRight()],
-  profilesAccess: [getProfileRight(), getProfileRight()],
+  usersAccess: getUserRight(),
   basename: 'mySTRING',
-  confidentiality: 1,
+  creatorUser: 'mySTRING',
+  filesize: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, document) : document);

@@ -18,12 +18,17 @@ const pus011Model = {
   maxNoTc: 100,
   scheduleStatus: 100,
   apid: 100,
-  noCommands: 100,
+  noFreeCommands: 100,
+  lastUpdateTimeNoFreeCommands: now,
+  freeSpace: 100,
+  lastUpdateTimeFreeSpace: now,
+  spaceInNumberOfCommands: true,
   noSubSchedule: 100,
   pusElement: getPusElement(),
   groundDate: now,
   status: 100,
   pus011Apid: [getPus011Apid(), getPus011Apid()],
+  useTimeShifts: true,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus011Model) : pus011Model);

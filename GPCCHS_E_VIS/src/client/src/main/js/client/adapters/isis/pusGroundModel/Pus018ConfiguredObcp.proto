@@ -21,8 +21,8 @@ extensions 11 to 111;
   optional ccsds_mal.protobuf.STRING hkParamNameForStatus = 4;
   optional ccsds_mal.protobuf.STRING hkParamNameForPriority = 5;
   optional ccsds_mal.protobuf.STRING hkParamNameForStepId = 6;
-  optional ccsds_mal.protobuf.UINTEGER status = 7;
-  optional ccsds_mal.protobuf.UINTEGER stepId = 8;
-  optional ccsds_mal.protobuf.UINTEGER priority = 9;
+  optional ccsds_mal.protobuf.STRING status = 7;
+  optional ccsds_mal.protobuf.STRING stepId = 8;
+  optional ccsds_mal.protobuf.STRING priority = 9;
   optional pusGroundModel.protobuf.PusElement pusElement = 10;
 }

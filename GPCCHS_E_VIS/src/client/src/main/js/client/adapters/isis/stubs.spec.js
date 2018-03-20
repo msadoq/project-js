@@ -12,8 +12,6 @@ describe('adapters/isis stubs', () => {
     if (key.includes('DeProtobuf')) {
       return undefined;
     }
-    return test(`should run ${key} without error`, () => {
-      expect(() => data[key]()).not.toThrow();
-    });
+    return it(`should run ${key} without error`, () => data[key]());
   });
 });

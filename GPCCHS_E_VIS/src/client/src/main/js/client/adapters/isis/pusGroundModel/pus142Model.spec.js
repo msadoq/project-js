@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./pus142Model');
-const stub = require('./pus142Model.stub')();
+const { getPus142Model } = require('../stubs');
 
 
 
@@ -17,46 +18,49 @@ describe('protobuf/isis/pusGroundModel/Pus142Model', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus142Model.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus142Model');
+  const fixture = getPus142Model();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      serviceStatus: { type: 'uinteger', value: stub.serviceStatus },
-      noOfFunctionalMonitoring: { type: 'uinteger', value: stub.noOfFunctionalMonitoring },
-      groundDate: { type: 'time', value: stub.groundDate },
-      apid: { type: 'uinteger', value: stub.apid },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      serviceStatus: { type: 'uinteger', value: fixture.serviceStatus },
+      lastUpdateTimeServiceStatus: { type: 'time', value: fixture.lastUpdateTimeServiceStatus },
+      noOfFunctionalMonitoring: { type: 'uinteger', value: fixture.noOfFunctionalMonitoring },
+      groundDate: { type: 'time', value: fixture.groundDate },
+      apid: { type: 'uinteger', value: fixture.apid },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
       },
-      status: { type: 'uinteger', value: stub.status },
+      status: { type: 'uinteger', value: fixture.status },
     });
-    expect(decoded.pus142FunctionalMonitoring).toHaveLength(stub.pus142FunctionalMonitoring.length);
-    for (let i = 0; i < stub.pus142FunctionalMonitoring.length; i += 1) {
-      expect(decoded.pus142FunctionalMonitoring[i]).toMatchObject({
-        fmonId: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].fmonId },
-        protectionStatus: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].protectionStatus },
-        status: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].status },
-        checkingStatus: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].checkingStatus },
-        rid: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].rid },
-        validityParameterId: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].validityParameterId },
-        validityParameterMask: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].validityParameterMask },
-        validityParameterExpectedValue: { type: 'double', symbol: stub.pus142FunctionalMonitoring[i].validityParameterExpectedValue.toString() },
+    
+    json.pus142FunctionalMonitoring.should.be.an('array').that.have.lengthOf(fixture.pus142FunctionalMonitoring.length);
+    for (let i = 0; i < fixture.pus142FunctionalMonitoring.length; i += 1) {
+      json.pus142FunctionalMonitoring[i].should.be.an('object').that.have.properties({
+        fmonId: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].fmonId },
+        protectionStatus: { type: 'string', value: fixture.pus142FunctionalMonitoring[i].protectionStatus },
+        status: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].status },
+        checkingStatus: { type: 'string', value: fixture.pus142FunctionalMonitoring[i].checkingStatus },
+        rid: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].rid },
+        validityParameterId: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].validityParameterId },
+        validityParameterMask: { type: 'string', value: fixture.pus142FunctionalMonitoring[i].validityParameterMask },
+        validityParameterExpectedValue: { type: 'string', value: fixture.pus142FunctionalMonitoring[i].validityParameterExpectedValue },
         pusElement: {
-          lastUpdateMode: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].pusElement.lastUpdateMode },
-          lastUpdateTime: { type: 'time', value: stub.pus142FunctionalMonitoring[i].pusElement.lastUpdateTime },
+          lastUpdateMode: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].pusElement.lastUpdateMode },
+          lastUpdateTime: { type: 'time', value: fixture.pus142FunctionalMonitoring[i].pusElement.lastUpdateTime },
         },
-        ridLabel: { type: 'string', value: stub.pus142FunctionalMonitoring[i].ridLabel },
-        fmonIdLabel: { type: 'string', value: stub.pus142FunctionalMonitoring[i].fmonIdLabel },
+        ridLabel: { type: 'string', value: fixture.pus142FunctionalMonitoring[i].ridLabel },
+        fmonIdLabel: { type: 'string', value: fixture.pus142FunctionalMonitoring[i].fmonIdLabel },
       });
-      expect(decoded.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition).toHaveLength(stub.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition.length);
-      for (let ii = 0; ii < stub.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition.length; ii += 1) {
-        expect(decoded.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii]).toMatchObject({
-          paramMonId: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii].paramMonId },
+      json.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition.should.be.an('array').that.have.lengthOf(fixture.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition.length);
+      for (let ii = 0; ii < fixture.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition.length; ii += 1) {
+        json.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii].should.be.an('object').that.have.properties({
+          paramMonId: { type: 'uinteger', value: fixture.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii].paramMonId },
         });
         
       }

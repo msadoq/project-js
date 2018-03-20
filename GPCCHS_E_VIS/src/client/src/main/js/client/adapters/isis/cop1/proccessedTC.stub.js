@@ -16,9 +16,14 @@ const now = _now();
 const proccessedTC = {
   tCID: 'myIDENTIFIER',
   receivedDate: now,
-  mnemo: 1,
-  segment_id: [100, 100],
+  mnemo: 'myIDENTIFIER',
+  segment_id: 100,
   rawtc_data: Buffer.alloc(4, 1),
+  aPID: 100,
+  definitionID: 100,
+  sourceID: -100,
+  delay: 1.100000023841858,
+  mapID: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, proccessedTC) : proccessedTC);

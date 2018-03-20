@@ -15,8 +15,8 @@ const now = _now();
 
 const timeTaggedTC = {
   encodingDate: now,
-  date: now,
   pusHeader: getPusHeader(),
+  date: now,
   rawPacket: Buffer.alloc(4, 1),
   tcId: -100,
   tcSourceId: 100,

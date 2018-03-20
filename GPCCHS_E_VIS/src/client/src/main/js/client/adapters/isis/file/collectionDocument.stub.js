@@ -12,9 +12,11 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 
 const collectionDocument = {
   name: 'mySTRING',
-  version: 'mySTRING',
+  externalVersion: 'mySTRING',
+  internalVersion: 1000,
   uri: 'myURI',
   brokenLink: true,
+  isVersion: true,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, collectionDocument) : collectionDocument);

@@ -8,15 +8,13 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _map = require('lodash/map');
-const bLOB = require('../ccsds_mal/bLOB');
 const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const collectionDocument = require('./collectionDocument');
 const collectionVirtualFolder = require('./collectionVirtualFolder');
 const lONG = require('../ccsds_mal/lONG');
-const profileRight = require('./profileRight');
+const namedValue = require('../ccsds_mal/namedValue');
 const sTRING = require('../ccsds_mal/sTRING');
 const uRI = require('../ccsds_mal/uRI');
-const user = require('../ccsds_cs/user');
 const userRight = require('./userRight');
 
 module.exports = {
@@ -38,13 +36,18 @@ module.exports = {
       : null,
     documents: _map(data.documents, d => (collectionDocument.encode(d))),
     virtualFolders: _map(data.virtualFolders, d => (collectionVirtualFolder.encode(d))),
-    profilesAccess: _map(data.profilesAccess, d => (profileRight.encode(d))),
-    usersAccess: _map(data.usersAccess, d => (userRight.encode(d))),
-    user: (data.user !== null && typeof data.user !== 'undefined')
-      ? bLOB.encode(user.encodeRaw(data.user))
+    usersAccess: (data.usersAccess !== null && typeof data.usersAccess !== 'undefined')
+      ? userRight.encode(data.usersAccess)
       : null,
     lockedBy: (data.lockedBy !== null && typeof data.lockedBy !== 'undefined')
-      ? bLOB.encode(user.encodeRaw(data.lockedBy))
+      ? sTRING.encode(data.lockedBy)
+      : null,
+    properties: _map(data.properties, d => (namedValue.encode(d))),
+    creatorUser: (data.creatorUser !== null && typeof data.creatorUser !== 'undefined')
+      ? sTRING.encode(data.creatorUser)
+      : null,
+    accessRightsPropagation: (data.accessRightsPropagation !== null && typeof data.accessRightsPropagation !== 'undefined')
+      ? bOOLEAN.encode(data.accessRightsPropagation)
       : null,
   }),
   decode: data => ({
@@ -65,13 +68,18 @@ module.exports = {
       : undefined,
     documents: _map(data.documents, d => (collectionDocument.decode(d))),
     virtualFolders: _map(data.virtualFolders, d => (collectionVirtualFolder.decode(d))),
-    profilesAccess: _map(data.profilesAccess, d => (profileRight.decode(d))),
-    usersAccess: _map(data.usersAccess, d => (userRight.decode(d))),
-    user: (data.user !== null && typeof data.user !== 'undefined')
-      ? user.decodeRaw(bLOB.decode(data.user).value)
+    usersAccess: (data.usersAccess !== null && typeof data.usersAccess !== 'undefined')
+      ? userRight.decode(data.usersAccess)
       : undefined,
     lockedBy: (data.lockedBy !== null && typeof data.lockedBy !== 'undefined')
-      ? user.decodeRaw(bLOB.decode(data.lockedBy).value)
+      ? sTRING.decode(data.lockedBy)
+      : undefined,
+    properties: _map(data.properties, d => (namedValue.decode(d))),
+    creatorUser: (data.creatorUser !== null && typeof data.creatorUser !== 'undefined')
+      ? sTRING.decode(data.creatorUser)
+      : undefined,
+    accessRightsPropagation: (data.accessRightsPropagation !== null && typeof data.accessRightsPropagation !== 'undefined')
+      ? bOOLEAN.decode(data.accessRightsPropagation)
       : undefined,
   }),
 };

@@ -15,7 +15,7 @@ const pus015PacketStore = {
   name: 'mySTRING',
   id: 100,
   status: 100,
-  storageType: 100,
+  storageType: 'mySTRING',
   dumpEnabled: true,
   pus015Packet: [getPus015Packet(), getPus015Packet()],
   pusElement: getPusElement(),

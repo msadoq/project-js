@@ -12,23 +12,20 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 const getNamedValue = require('../ccsds_mal/namedValue.stub');
 const getOpAlertClosingData = require('./opAlertClosingData.stub');
 const getOpAlertConfiguration = require('./opAlertConfiguration.stub');
-const getUser = require('../ccsds_cs/user.stub');
 
 const now = _now();
 
 const opAlert = {
-  alertDate: now,
-  target: getUser(),
+  onCallOperator: 'mySTRING',
   specificAttributes: getNamedValue(),
   closingNeeded: true,
-  callingUser: getUser(),
-  systemDate: now,
-  mission: 'mySTRING',
-  satellite: 1000,
-  opAlertConfiguration: [getOpAlertConfiguration(), getOpAlertConfiguration()],
+  alertConfiguration: getOpAlertConfiguration(),
   status: 0,
   lastCallDate: now,
-  opAlertClosingData: getOpAlertClosingData(),
+  alertClosingData: getOpAlertClosingData(),
+  numberCalls: -100,
+  creationDate: now,
+  satellite: 1000,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, opAlert) : opAlert);

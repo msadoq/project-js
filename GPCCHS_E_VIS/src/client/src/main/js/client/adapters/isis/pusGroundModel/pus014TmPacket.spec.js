@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./pus014TmPacket');
-const stub = require('./pus014TmPacket.stub')();
+const { getPus014TmPacket } = require('../stubs');
 
 
 
@@ -17,25 +18,27 @@ describe('protobuf/isis/pusGroundModel/Pus014TmPacket', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus014TmPacket.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus014TmPacket');
+  const fixture = getPus014TmPacket();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      serviceTpe: { type: 'uinteger', value: stub.serviceTpe },
-      serviceSubType: { type: 'uinteger', value: stub.serviceSubType },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      serviceTpe: { type: 'uinteger', value: fixture.serviceTpe },
+      serviceSubType: { type: 'uinteger', value: fixture.serviceSubType },
       pus014ForwardedPacket: {
-        apid: { type: 'uinteger', value: stub.pus014ForwardedPacket.apid },
-        forwardingStatus: { type: 'boolean', value: stub.pus014ForwardedPacket.forwardingStatus },
+        apid: { type: 'uinteger', value: fixture.pus014ForwardedPacket.apid },
+        forwardingStatus: { type: 'boolean', value: fixture.pus014ForwardedPacket.forwardingStatus },
         pusElement: {
-          lastUpdateMode: { type: 'uinteger', value: stub.pus014ForwardedPacket.pusElement.lastUpdateMode },
-          lastUpdateTime: { type: 'time', value: stub.pus014ForwardedPacket.pusElement.lastUpdateTime },
+          lastUpdateMode: { type: 'uinteger', value: fixture.pus014ForwardedPacket.pusElement.lastUpdateMode },
+          lastUpdateTime: { type: 'time', value: fixture.pus014ForwardedPacket.pusElement.lastUpdateTime },
         },
       },
     });
+    
     
   });
 });

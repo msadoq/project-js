@@ -7,55 +7,61 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const dURATION = require('../ccsds_mal/dURATION');
+const iDENTIFIER = require('../ccsds_mal/iDENTIFIER');
 const iNTEGER = require('../ccsds_mal/iNTEGER');
 
 module.exports = {
   encode: data => ({
-    numberCalls: (data.numberCalls !== null && typeof data.numberCalls !== 'undefined')
-      ? iNTEGER.encode(data.numberCalls)
+    maxNumberRetriesPhone: (data.maxNumberRetriesPhone !== null && typeof data.maxNumberRetriesPhone !== 'undefined')
+      ? iNTEGER.encode(data.maxNumberRetriesPhone)
       : null,
-    alertByPHONE: (data.alertByPHONE !== null && typeof data.alertByPHONE !== 'undefined')
-      ? bOOLEAN.encode(data.alertByPHONE)
+    delayRetriesPhone: (data.delayRetriesPhone !== null && typeof data.delayRetriesPhone !== 'undefined')
+      ? dURATION.encode(data.delayRetriesPhone)
       : null,
-    alertByAUDIO: (data.alertByAUDIO !== null && typeof data.alertByAUDIO !== 'undefined')
-      ? bOOLEAN.encode(data.alertByAUDIO)
+    maxNumberRetriesAudio: (data.maxNumberRetriesAudio !== null && typeof data.maxNumberRetriesAudio !== 'undefined')
+      ? iDENTIFIER.encode(data.maxNumberRetriesAudio)
       : null,
-    alertByEMAIL: (data.alertByEMAIL !== null && typeof data.alertByEMAIL !== 'undefined')
-      ? bOOLEAN.encode(data.alertByEMAIL)
+    delayRetriesAudio: (data.delayRetriesAudio !== null && typeof data.delayRetriesAudio !== 'undefined')
+      ? dURATION.encode(data.delayRetriesAudio)
       : null,
-    alertBySMS: (data.alertBySMS !== null && typeof data.alertBySMS !== 'undefined')
-      ? bOOLEAN.encode(data.alertBySMS)
+    maxNumberRetriesEmail: (data.maxNumberRetriesEmail !== null && typeof data.maxNumberRetriesEmail !== 'undefined')
+      ? iNTEGER.encode(data.maxNumberRetriesEmail)
       : null,
-    maxNumberRetries: (data.maxNumberRetries !== null && typeof data.maxNumberRetries !== 'undefined')
-      ? iNTEGER.encode(data.maxNumberRetries)
+    delayRetriesEmail: (data.delayRetriesEmail !== null && typeof data.delayRetriesEmail !== 'undefined')
+      ? dURATION.encode(data.delayRetriesEmail)
       : null,
-    delayRetries: (data.delayRetries !== null && typeof data.delayRetries !== 'undefined')
-      ? dURATION.encode(data.delayRetries)
+    maxNumberRetriesSms: (data.maxNumberRetriesSms !== null && typeof data.maxNumberRetriesSms !== 'undefined')
+      ? iNTEGER.encode(data.maxNumberRetriesSms)
+      : null,
+    delayRetriesSms: (data.delayRetriesSms !== null && typeof data.delayRetriesSms !== 'undefined')
+      ? dURATION.encode(data.delayRetriesSms)
       : null,
   }),
   decode: data => ({
-    numberCalls: (data.numberCalls !== null && typeof data.numberCalls !== 'undefined')
-      ? iNTEGER.decode(data.numberCalls)
+    maxNumberRetriesPhone: (data.maxNumberRetriesPhone !== null && typeof data.maxNumberRetriesPhone !== 'undefined')
+      ? iNTEGER.decode(data.maxNumberRetriesPhone)
       : undefined,
-    alertByPHONE: (data.alertByPHONE !== null && typeof data.alertByPHONE !== 'undefined')
-      ? bOOLEAN.decode(data.alertByPHONE)
+    delayRetriesPhone: (data.delayRetriesPhone !== null && typeof data.delayRetriesPhone !== 'undefined')
+      ? dURATION.decode(data.delayRetriesPhone)
       : undefined,
-    alertByAUDIO: (data.alertByAUDIO !== null && typeof data.alertByAUDIO !== 'undefined')
-      ? bOOLEAN.decode(data.alertByAUDIO)
+    maxNumberRetriesAudio: (data.maxNumberRetriesAudio !== null && typeof data.maxNumberRetriesAudio !== 'undefined')
+      ? iDENTIFIER.decode(data.maxNumberRetriesAudio)
       : undefined,
-    alertByEMAIL: (data.alertByEMAIL !== null && typeof data.alertByEMAIL !== 'undefined')
-      ? bOOLEAN.decode(data.alertByEMAIL)
+    delayRetriesAudio: (data.delayRetriesAudio !== null && typeof data.delayRetriesAudio !== 'undefined')
+      ? dURATION.decode(data.delayRetriesAudio)
       : undefined,
-    alertBySMS: (data.alertBySMS !== null && typeof data.alertBySMS !== 'undefined')
-      ? bOOLEAN.decode(data.alertBySMS)
+    maxNumberRetriesEmail: (data.maxNumberRetriesEmail !== null && typeof data.maxNumberRetriesEmail !== 'undefined')
+      ? iNTEGER.decode(data.maxNumberRetriesEmail)
       : undefined,
-    maxNumberRetries: (data.maxNumberRetries !== null && typeof data.maxNumberRetries !== 'undefined')
-      ? iNTEGER.decode(data.maxNumberRetries)
+    delayRetriesEmail: (data.delayRetriesEmail !== null && typeof data.delayRetriesEmail !== 'undefined')
+      ? dURATION.decode(data.delayRetriesEmail)
       : undefined,
-    delayRetries: (data.delayRetries !== null && typeof data.delayRetries !== 'undefined')
-      ? dURATION.decode(data.delayRetries)
+    maxNumberRetriesSms: (data.maxNumberRetriesSms !== null && typeof data.maxNumberRetriesSms !== 'undefined')
+      ? iNTEGER.decode(data.maxNumberRetriesSms)
+      : undefined,
+    delayRetriesSms: (data.delayRetriesSms !== null && typeof data.delayRetriesSms !== 'undefined')
+      ? dURATION.decode(data.delayRetriesSms)
       : undefined,
   }),
 };

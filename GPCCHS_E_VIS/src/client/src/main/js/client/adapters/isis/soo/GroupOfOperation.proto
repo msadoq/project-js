@@ -1,0 +1,46 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
+// END-HISTORY
+// ====================================================================
+
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/DURATION.proto";
+import "../ccsds_mal/LONG.proto";
+import "../ccsds_mal/NamedValue.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
+import "./Result.proto";
+import "./Status.proto";
+import "./ActivityRequest.proto";
+import "./OperationCriticality.proto";
+import "./OperationStatus.proto";
+
+package soo.protobuf;
+
+message GroupOfOperation {
+extensions 22 to 122;
+
+  optional ccsds_mal.protobuf.LONG operationId = 1;
+  optional ccsds_mal.protobuf.TIME earliest_start_date = 2;
+  optional ccsds_mal.protobuf.TIME latest_start_date = 3;
+  optional ccsds_mal.protobuf.DURATION expected_duration = 4;
+  optional ccsds_mal.protobuf.TIME foreseenDate = 5;
+  optional ccsds_mal.protobuf.STRING label = 6;
+  optional ccsds_mal.protobuf.STRING description = 7;
+  optional ccsds_mal.protobuf.STRING target = 8;
+  optional ccsds_mal.protobuf.STRING domain = 9;
+  optional ccsds_mal.protobuf.STRING executor = 10;
+  optional soo.protobuf.OperationCriticality criticality = 11;
+  optional soo.protobuf.OperationStatus operationStatus = 12;
+  repeated ccsds_mal.protobuf.STRING arguments = 13;
+  repeated ccsds_mal.protobuf.NamedValue options = 14;
+  optional soo.protobuf.Result result = 15;
+  optional ccsds_mal.protobuf.STRING hostname = 16;
+  optional ccsds_mal.protobuf.BLOB functionalChain = 17;
+  repeated soo.protobuf.Status statuses = 18;
+  optional soo.protobuf.ActivityRequest activity = 19;
+  repeated ccsds_mal.protobuf.BLOB operation = 20;
+  optional ccsds_mal.protobuf.STRING layer = 21;
+}

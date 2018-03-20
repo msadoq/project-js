@@ -8,11 +8,6 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 /* eslint-disable camelcase, "DV6 TBC_CNES generated code" */
-const accessControlModel = require('./accessControlModel');
-const sessionModel = require('./sessionModel');
-const briefcase = require('./briefcase');
-const memoryImage = require('./memoryImage');
-const opAlert = require('./opAlert');
 const pusGroundModel = require('./pusGroundModel');
 const connection = require('./connection');
 const cop1 = require('./cop1');
@@ -22,8 +17,6 @@ const encode = require('./encode');
 const groundAlarm = require('./groundAlarm');
 const packet = require('./packet');
 const rawData = require('./rawData');
-const queries = require('./queries');
-const timeBasedDataType = require('./timeBasedDataType');
 const ackRequest = require('./ackRequest');
 const ccsds_com = require('./ccsds_com');
 const ccsds_cs = require('./ccsds_cs');
@@ -39,21 +32,19 @@ const lifeCycle = require('./lifeCycle');
 const logbookEvent = require('./logbookEvent');
 const modelTimebar = require('./modelTimebar');
 const operationParameter = require('./operationParameter');
+const statAggregation = require('./statAggregation');
 const tcHistory = require('./tcHistory');
 const userEvent = require('./userEvent');
 const logModel = require('./logModel');
+const soo = require('./soo');
+const queries = require('./queries');
+const timeBasedDataType = require('./timeBasedDataType');
+const briefcase = require('./briefcase');
+const memoryImage = require('./memoryImage');
+const opAlert = require('./opAlert');
+const sessionModel = require('./sessionModel');
 
 module.exports = {
-  accessControlModel,
-  
-  sessionModel,
-  
-  briefcase,
-  
-  memoryImage,
-  
-  opAlert,
-  
   pusGroundModel,
   
   connection,
@@ -71,10 +62,6 @@ module.exports = {
   packet,
   
   rawData,
-  
-  queries,
-  
-  timeBasedDataType,
   
   ackRequest,
   
@@ -106,10 +93,26 @@ module.exports = {
   
   operationParameter,
   
+  statAggregation,
+  
   tcHistory,
   
   userEvent,
   
   logModel,
+  
+  soo,
+  
+  queries,
+  
+  timeBasedDataType,
+  
+  briefcase,
+  
+  memoryImage,
+  
+  opAlert,
+  
+  sessionModel,
   
 };

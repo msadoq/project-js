@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./execution');
-const stub = require('./execution.stub')();
+const { getExecution } = require('../stubs');
 
 
 
@@ -17,21 +18,23 @@ describe('protobuf/isis/execution/Execution', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Execution.proto`, { keepCase: true })
     .lookup('execution.protobuf.Execution');
+  const fixture = getExecution();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      launchingTime: { type: 'time', value: stub.launchingTime },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      launchingTime: { type: 'time', value: fixture.launchingTime },
     });
-    expect(decoded.launchingParameter).toHaveLength(stub.launchingParameter.length);
-    for (let i = 0; i < stub.launchingParameter.length; i += 1) {
-      expect(decoded.launchingParameter[i]).toMatchObject({
-        name: { type: 'identifier', value: stub.launchingParameter[i].name },
-        value: { type: 'double', symbol: stub.launchingParameter[i].value.toString() },
+    
+    json.launchingParameter.should.be.an('array').that.have.lengthOf(fixture.launchingParameter.length);
+    for (let i = 0; i < fixture.launchingParameter.length; i += 1) {
+      json.launchingParameter[i].should.be.an('object').that.have.properties({
+        name: { type: 'identifier', value: fixture.launchingParameter[i].name },
+        value: { type: 'double', symbol: fixture.launchingParameter[i].value.toString() },
       });
       
     }

@@ -7,8 +7,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const aTTRIBUTE = require('../ccsds_mal/aTTRIBUTE');
-const dURATION = require('../ccsds_mal/dURATION');
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
@@ -25,10 +24,10 @@ module.exports = {
       ? sTRING.encode(data.validityParameterMask)
       : null,
     validityParameterExpectedValue: (data.validityParameterExpectedValue !== null && typeof data.validityParameterExpectedValue !== 'undefined')
-      ? aTTRIBUTE.encode(data.validityParameterExpectedValue)
+      ? sTRING.encode(data.validityParameterExpectedValue)
       : null,
     collectionInterval: (data.collectionInterval !== null && typeof data.collectionInterval !== 'undefined')
-      ? dURATION.encode(data.collectionInterval)
+      ? uINTEGER.encode(data.collectionInterval)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.encode(data.status)
@@ -38,6 +37,9 @@ module.exports = {
       : null,
     sidLabel: (data.sidLabel !== null && typeof data.sidLabel !== 'undefined')
       ? sTRING.encode(data.sidLabel)
+      : null,
+    isCollectionIntervalSet: (data.isCollectionIntervalSet !== null && typeof data.isCollectionIntervalSet !== 'undefined')
+      ? bOOLEAN.encode(data.isCollectionIntervalSet)
       : null,
   }),
   decode: data => ({
@@ -51,10 +53,10 @@ module.exports = {
       ? sTRING.decode(data.validityParameterMask)
       : undefined,
     validityParameterExpectedValue: (data.validityParameterExpectedValue !== null && typeof data.validityParameterExpectedValue !== 'undefined')
-      ? aTTRIBUTE.decode(data.validityParameterExpectedValue)
+      ? sTRING.decode(data.validityParameterExpectedValue)
       : undefined,
     collectionInterval: (data.collectionInterval !== null && typeof data.collectionInterval !== 'undefined')
-      ? dURATION.decode(data.collectionInterval)
+      ? uINTEGER.decode(data.collectionInterval)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.decode(data.status)
@@ -64,6 +66,9 @@ module.exports = {
       : undefined,
     sidLabel: (data.sidLabel !== null && typeof data.sidLabel !== 'undefined')
       ? sTRING.decode(data.sidLabel)
+      : undefined,
+    isCollectionIntervalSet: (data.isCollectionIntervalSet !== null && typeof data.isCollectionIntervalSet !== 'undefined')
+      ? bOOLEAN.decode(data.isCollectionIntervalSet)
       : undefined,
   }),
 };

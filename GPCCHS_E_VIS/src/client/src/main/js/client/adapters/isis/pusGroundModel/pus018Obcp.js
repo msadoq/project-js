@@ -10,6 +10,7 @@
 const _map = require('lodash/map');
 const pusElement = require('./pusElement');
 const pusParameter = require('./pusParameter');
+const sTRING = require('../ccsds_mal/sTRING');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 
 module.exports = {
@@ -18,19 +19,19 @@ module.exports = {
       ? uINTEGER.encode(data.id)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uINTEGER.encode(data.status)
+      ? sTRING.encode(data.status)
       : null,
     stepId: (data.stepId !== null && typeof data.stepId !== 'undefined')
-      ? uINTEGER.encode(data.stepId)
+      ? sTRING.encode(data.stepId)
       : null,
     partitionId: (data.partitionId !== null && typeof data.partitionId !== 'undefined')
-      ? uINTEGER.encode(data.partitionId)
+      ? sTRING.encode(data.partitionId)
       : null,
     observabilityLevel: (data.observabilityLevel !== null && typeof data.observabilityLevel !== 'undefined')
-      ? uINTEGER.encode(data.observabilityLevel)
+      ? sTRING.encode(data.observabilityLevel)
       : null,
     priority: (data.priority !== null && typeof data.priority !== 'undefined')
-      ? uINTEGER.encode(data.priority)
+      ? sTRING.encode(data.priority)
       : null,
     pus18Parameter: _map(data.pus18Parameter, d => (pusParameter.encode(d))),
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')
@@ -42,19 +43,19 @@ module.exports = {
       ? uINTEGER.decode(data.id)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uINTEGER.decode(data.status)
+      ? sTRING.decode(data.status)
       : undefined,
     stepId: (data.stepId !== null && typeof data.stepId !== 'undefined')
-      ? uINTEGER.decode(data.stepId)
+      ? sTRING.decode(data.stepId)
       : undefined,
     partitionId: (data.partitionId !== null && typeof data.partitionId !== 'undefined')
-      ? uINTEGER.decode(data.partitionId)
+      ? sTRING.decode(data.partitionId)
       : undefined,
     observabilityLevel: (data.observabilityLevel !== null && typeof data.observabilityLevel !== 'undefined')
-      ? uINTEGER.decode(data.observabilityLevel)
+      ? sTRING.decode(data.observabilityLevel)
       : undefined,
     priority: (data.priority !== null && typeof data.priority !== 'undefined')
-      ? uINTEGER.decode(data.priority)
+      ? sTRING.decode(data.priority)
       : undefined,
     pus18Parameter: _map(data.pus18Parameter, d => (pusParameter.decode(d))),
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')

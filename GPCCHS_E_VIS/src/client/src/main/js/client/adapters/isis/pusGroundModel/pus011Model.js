@@ -8,6 +8,7 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _map = require('lodash/map');
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const pus011Apid = require('./pus011Apid');
 const pusElement = require('./pusElement');
 const tIME = require('../ccsds_mal/tIME');
@@ -24,8 +25,20 @@ module.exports = {
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? uINTEGER.encode(data.apid)
       : null,
-    noCommands: (data.noCommands !== null && typeof data.noCommands !== 'undefined')
-      ? uINTEGER.encode(data.noCommands)
+    noFreeCommands: (data.noFreeCommands !== null && typeof data.noFreeCommands !== 'undefined')
+      ? uINTEGER.encode(data.noFreeCommands)
+      : null,
+    lastUpdateTimeNoFreeCommands: (data.lastUpdateTimeNoFreeCommands !== null && typeof data.lastUpdateTimeNoFreeCommands !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeNoFreeCommands)
+      : null,
+    freeSpace: (data.freeSpace !== null && typeof data.freeSpace !== 'undefined')
+      ? uINTEGER.encode(data.freeSpace)
+      : null,
+    lastUpdateTimeFreeSpace: (data.lastUpdateTimeFreeSpace !== null && typeof data.lastUpdateTimeFreeSpace !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeFreeSpace)
+      : null,
+    spaceInNumberOfCommands: (data.spaceInNumberOfCommands !== null && typeof data.spaceInNumberOfCommands !== 'undefined')
+      ? bOOLEAN.encode(data.spaceInNumberOfCommands)
       : null,
     noSubSchedule: (data.noSubSchedule !== null && typeof data.noSubSchedule !== 'undefined')
       ? uINTEGER.encode(data.noSubSchedule)
@@ -40,6 +53,9 @@ module.exports = {
       ? uINTEGER.encode(data.status)
       : null,
     pus011Apid: _map(data.pus011Apid, d => (pus011Apid.encode(d))),
+    useTimeShifts: (data.useTimeShifts !== null && typeof data.useTimeShifts !== 'undefined')
+      ? bOOLEAN.encode(data.useTimeShifts)
+      : null,
   }),
   decode: data => ({
     maxNoTc: (data.maxNoTc !== null && typeof data.maxNoTc !== 'undefined')
@@ -51,8 +67,20 @@ module.exports = {
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? uINTEGER.decode(data.apid)
       : undefined,
-    noCommands: (data.noCommands !== null && typeof data.noCommands !== 'undefined')
-      ? uINTEGER.decode(data.noCommands)
+    noFreeCommands: (data.noFreeCommands !== null && typeof data.noFreeCommands !== 'undefined')
+      ? uINTEGER.decode(data.noFreeCommands)
+      : undefined,
+    lastUpdateTimeNoFreeCommands: (data.lastUpdateTimeNoFreeCommands !== null && typeof data.lastUpdateTimeNoFreeCommands !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeNoFreeCommands)
+      : undefined,
+    freeSpace: (data.freeSpace !== null && typeof data.freeSpace !== 'undefined')
+      ? uINTEGER.decode(data.freeSpace)
+      : undefined,
+    lastUpdateTimeFreeSpace: (data.lastUpdateTimeFreeSpace !== null && typeof data.lastUpdateTimeFreeSpace !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeFreeSpace)
+      : undefined,
+    spaceInNumberOfCommands: (data.spaceInNumberOfCommands !== null && typeof data.spaceInNumberOfCommands !== 'undefined')
+      ? bOOLEAN.decode(data.spaceInNumberOfCommands)
       : undefined,
     noSubSchedule: (data.noSubSchedule !== null && typeof data.noSubSchedule !== 'undefined')
       ? uINTEGER.decode(data.noSubSchedule)
@@ -67,6 +95,9 @@ module.exports = {
       ? uINTEGER.decode(data.status)
       : undefined,
     pus011Apid: _map(data.pus011Apid, d => (pus011Apid.decode(d))),
+    useTimeShifts: (data.useTimeShifts !== null && typeof data.useTimeShifts !== 'undefined')
+      ? bOOLEAN.decode(data.useTimeShifts)
+      : undefined,
     referenceTimestamp: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
         ? { type: 'time', value: data.groundDate.value.toNumber() }
         : undefined,

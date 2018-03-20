@@ -7,6 +7,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+require('../../../utils/test');
 const { encodeRaw, decodeRaw } = require('./archiveQuery');
 const { getArchiveQuery } = require('../stubs');
 
@@ -15,13 +16,13 @@ const { getArchiveQuery } = require('../stubs');
 describe('protobuf/isis/ccsds_com/ArchiveQuery', () => {
   const fixture = getArchiveQuery();
   let buffer;
-  test('encode', () => {
+  it('encode', () => {
     buffer = encodeRaw(fixture);
-    expect(buffer.constructor).toBe(Buffer);
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
+  it('decode', () => {
     const json = decodeRaw(buffer);
-    expect(json).toMatchObject({
+    json.should.be.an('object').that.have.properties({
       domainID: { type: 'ushort', value: fixture.domainID },
       slotId: { type: 'ushort', value: fixture.slotId },
       providerId: { type: 'ushort', value: fixture.providerId },
@@ -43,5 +44,6 @@ describe('protobuf/isis/ccsds_com/ArchiveQuery', () => {
       sortOrder: { type: 'boolean', value: fixture.sortOrder },
       sortFieldName: { type: 'string', value: fixture.sortFieldName },
     });
+    
   });
 });

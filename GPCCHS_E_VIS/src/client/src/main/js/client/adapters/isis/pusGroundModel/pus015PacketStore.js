@@ -26,7 +26,7 @@ module.exports = {
       ? uINTEGER.encode(data.status)
       : null,
     storageType: (data.storageType !== null && typeof data.storageType !== 'undefined')
-      ? uINTEGER.encode(data.storageType)
+      ? sTRING.encode(data.storageType)
       : null,
     dumpEnabled: (data.dumpEnabled !== null && typeof data.dumpEnabled !== 'undefined')
       ? bOOLEAN.encode(data.dumpEnabled)
@@ -50,7 +50,7 @@ module.exports = {
       ? uINTEGER.decode(data.status)
       : undefined,
     storageType: (data.storageType !== null && typeof data.storageType !== 'undefined')
-      ? uINTEGER.decode(data.storageType)
+      ? sTRING.decode(data.storageType)
       : undefined,
     dumpEnabled: (data.dumpEnabled !== null && typeof data.dumpEnabled !== 'undefined')
       ? bOOLEAN.decode(data.dumpEnabled)

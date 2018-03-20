@@ -13,11 +13,11 @@ const getPusParameter = require('./pusParameter.stub');
 
 const pus018Obcp = {
   id: 100,
-  status: 100,
-  stepId: 100,
-  partitionId: 100,
-  observabilityLevel: 100,
-  priority: 100,
+  status: 'mySTRING',
+  stepId: 'mySTRING',
+  partitionId: 'mySTRING',
+  observabilityLevel: 'mySTRING',
+  priority: 'mySTRING',
   pus18Parameter: [getPusParameter(), getPusParameter()],
   pusElement: getPusElement(),
 };

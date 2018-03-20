@@ -15,10 +15,10 @@ const now = _now();
 
 const tC11 = {
   encodingDate: now,
-  timeTaggedTC: [Buffer.alloc(4, 1), Buffer.alloc(4, 1)],
   pusHeader: getPusHeader(),
-  rawPacket: Buffer.alloc(4, 1),
+  timeTaggedTC: [Buffer.alloc(4, 1), Buffer.alloc(4, 1)],
   subscheduleId: 100,
+  rawPacket: Buffer.alloc(4, 1),
   tcId: -100,
   tcSourceId: 100,
   sequenceCount: 1000,

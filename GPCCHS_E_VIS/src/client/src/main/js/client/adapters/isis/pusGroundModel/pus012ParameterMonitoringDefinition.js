@@ -7,7 +7,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const aTTRIBUTE = require('../ccsds_mal/aTTRIBUTE');
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const pus012MonitoringCheckProperties = require('./pus012MonitoringCheckProperties');
 const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
@@ -28,10 +28,10 @@ module.exports = {
       ? sTRING.encode(data.validityParameterMask)
       : null,
     parameterCurrentValue: (data.parameterCurrentValue !== null && typeof data.parameterCurrentValue !== 'undefined')
-      ? aTTRIBUTE.encode(data.parameterCurrentValue)
+      ? sTRING.encode(data.parameterCurrentValue)
       : null,
     validityParameterExpectedValue: (data.validityParameterExpectedValue !== null && typeof data.validityParameterExpectedValue !== 'undefined')
-      ? aTTRIBUTE.encode(data.validityParameterExpectedValue)
+      ? sTRING.encode(data.validityParameterExpectedValue)
       : null,
     monitoringInterval: (data.monitoringInterval !== null && typeof data.monitoringInterval !== 'undefined')
       ? uINTEGER.encode(data.monitoringInterval)
@@ -60,6 +60,15 @@ module.exports = {
     monitoringIdLabel: (data.monitoringIdLabel !== null && typeof data.monitoringIdLabel !== 'undefined')
       ? sTRING.encode(data.monitoringIdLabel)
       : null,
+    protectionStatus: (data.protectionStatus !== null && typeof data.protectionStatus !== 'undefined')
+      ? sTRING.encode(data.protectionStatus)
+      : null,
+    isMonitoringIntervalSet: (data.isMonitoringIntervalSet !== null && typeof data.isMonitoringIntervalSet !== 'undefined')
+      ? bOOLEAN.encode(data.isMonitoringIntervalSet)
+      : null,
+    isRepetitionNumberSet: (data.isRepetitionNumberSet !== null && typeof data.isRepetitionNumberSet !== 'undefined')
+      ? bOOLEAN.encode(data.isRepetitionNumberSet)
+      : null,
   }),
   decode: data => ({
     monitoringId: (data.monitoringId !== null && typeof data.monitoringId !== 'undefined')
@@ -75,10 +84,10 @@ module.exports = {
       ? sTRING.decode(data.validityParameterMask)
       : undefined,
     parameterCurrentValue: (data.parameterCurrentValue !== null && typeof data.parameterCurrentValue !== 'undefined')
-      ? aTTRIBUTE.decode(data.parameterCurrentValue)
+      ? sTRING.decode(data.parameterCurrentValue)
       : undefined,
     validityParameterExpectedValue: (data.validityParameterExpectedValue !== null && typeof data.validityParameterExpectedValue !== 'undefined')
-      ? aTTRIBUTE.decode(data.validityParameterExpectedValue)
+      ? sTRING.decode(data.validityParameterExpectedValue)
       : undefined,
     monitoringInterval: (data.monitoringInterval !== null && typeof data.monitoringInterval !== 'undefined')
       ? uINTEGER.decode(data.monitoringInterval)
@@ -106,6 +115,15 @@ module.exports = {
       : undefined,
     monitoringIdLabel: (data.monitoringIdLabel !== null && typeof data.monitoringIdLabel !== 'undefined')
       ? sTRING.decode(data.monitoringIdLabel)
+      : undefined,
+    protectionStatus: (data.protectionStatus !== null && typeof data.protectionStatus !== 'undefined')
+      ? sTRING.decode(data.protectionStatus)
+      : undefined,
+    isMonitoringIntervalSet: (data.isMonitoringIntervalSet !== null && typeof data.isMonitoringIntervalSet !== 'undefined')
+      ? bOOLEAN.decode(data.isMonitoringIntervalSet)
+      : undefined,
+    isRepetitionNumberSet: (data.isRepetitionNumberSet !== null && typeof data.isRepetitionNumberSet !== 'undefined')
+      ? bOOLEAN.decode(data.isRepetitionNumberSet)
       : undefined,
   }),
 };

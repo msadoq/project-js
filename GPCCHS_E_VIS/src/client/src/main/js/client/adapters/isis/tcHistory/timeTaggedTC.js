@@ -21,11 +21,11 @@ module.exports = {
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
       ? tIME.encode(data.encodingDate)
       : null,
-    date: (data.date !== null && typeof data.date !== 'undefined')
-      ? tIME.encode(data.date)
-      : null,
     pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
       ? pusHeader.encode(data.pusHeader)
+      : null,
+    date: (data.date !== null && typeof data.date !== 'undefined')
+      ? tIME.encode(data.date)
       : null,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? bLOB.encode(data.rawPacket)
@@ -45,11 +45,11 @@ module.exports = {
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
       ? tIME.decode(data.encodingDate)
       : undefined,
-    date: (data.date !== null && typeof data.date !== 'undefined')
-      ? tIME.decode(data.date)
-      : undefined,
     pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
       ? pusHeader.decode(data.pusHeader)
+      : undefined,
+    date: (data.date !== null && typeof data.date !== 'undefined')
+      ? tIME.decode(data.date)
       : undefined,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? bLOB.decode(data.rawPacket)

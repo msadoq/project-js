@@ -9,7 +9,6 @@ import "../ccsds_mal/BLOB.proto";
 import "../ccsds_mal/FLOAT.proto";
 import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/UINTEGER.proto";
-import "../ccsds_mal/UOCTET.proto";
 
 
 package cop1.protobuf;
@@ -17,7 +16,7 @@ package cop1.protobuf;
 message SentQueueElement {
 extensions 7 to 107;
 
-  optional ccsds_mal.protobuf.UOCTET retransmit_flag = 1;
+  optional ccsds_mal.protobuf.UINTEGER retransmit_flag = 1;
   optional ccsds_mal.protobuf.UINTEGER internal_id = 2;
   optional ccsds_mal.protobuf.UINTEGER num_farm = 3;
   optional ccsds_mal.protobuf.STRING date = 4;

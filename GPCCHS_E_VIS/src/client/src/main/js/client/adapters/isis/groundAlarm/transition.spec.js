@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./transition');
-const stub = require('./transition.stub')();
+const { getTransition } = require('../stubs');
 
 
 
@@ -17,21 +18,23 @@ describe('protobuf/isis/groundAlarm/Transition', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Transition.proto`, { keepCase: true })
     .lookup('groundAlarm.protobuf.Transition');
+  const fixture = getTransition();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      onboardDate: { type: 'time', value: stub.onboardDate },
-      groundDate: { type: 'time', value: stub.groundDate },
-      convertedValue: { type: 'double', symbol: stub.convertedValue.toString() },
-      extractedValue: { type: 'double', symbol: stub.extractedValue.toString() },
-      rawValue: { type: 'double', symbol: stub.rawValue.toString() },
-      monitoringState: { type: 'string', value: stub.monitoringState },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      onboardDate: { type: 'time', value: fixture.onboardDate },
+      groundDate: { type: 'time', value: fixture.groundDate },
+      convertedValue: { type: 'double', symbol: fixture.convertedValue.toString() },
+      extractedValue: { type: 'double', symbol: fixture.extractedValue.toString() },
+      rawValue: { type: 'double', symbol: fixture.rawValue.toString() },
+      monitoringState: { type: 'string', value: fixture.monitoringState },
     });
+    
     
   });
 });

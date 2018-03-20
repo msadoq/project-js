@@ -7,9 +7,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const bLOB = require('../ccsds_mal/bLOB');
 const bOOLEAN = require('../ccsds_mal/bOOLEAN');
-const user = require('../ccsds_cs/user');
 
 module.exports = {
   encode: data => ({
@@ -22,8 +20,8 @@ module.exports = {
     write: (data.write !== null && typeof data.write !== 'undefined')
       ? bOOLEAN.encode(data.write)
       : null,
-    user: (data.user !== null && typeof data.user !== 'undefined')
-      ? bLOB.encode(user.encodeRaw(data.user))
+    execute: (data.execute !== null && typeof data.execute !== 'undefined')
+      ? bOOLEAN.encode(data.execute)
       : null,
   }),
   decode: data => ({
@@ -36,8 +34,8 @@ module.exports = {
     write: (data.write !== null && typeof data.write !== 'undefined')
       ? bOOLEAN.decode(data.write)
       : undefined,
-    user: (data.user !== null && typeof data.user !== 'undefined')
-      ? user.decodeRaw(bLOB.decode(data.user).value)
+    execute: (data.execute !== null && typeof data.execute !== 'undefined')
+      ? bOOLEAN.decode(data.execute)
       : undefined,
   }),
 };

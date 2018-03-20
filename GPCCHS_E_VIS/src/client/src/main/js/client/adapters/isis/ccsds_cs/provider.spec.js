@@ -7,6 +7,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+require('../../../utils/test');
 const { encodeRaw, decodeRaw } = require('./provider');
 const { getProvider } = require('../stubs');
 
@@ -15,13 +16,13 @@ const { getProvider } = require('../stubs');
 describe('protobuf/isis/ccsds_cs/Provider', () => {
   const fixture = getProvider();
   let buffer;
-  test('encode', () => {
+  it('encode', () => {
     buffer = encodeRaw(fixture);
-    expect(buffer.constructor).toBe(Buffer);
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
+  it('decode', () => {
     const json = decodeRaw(buffer);
-    expect(json).toMatchObject({
+    json.should.be.an('object').that.have.properties({
       slotID: { type: 'ushort', value: fixture.slotID },
       factoryID: { type: 'ushort', value: fixture.factoryID },
       providerName: { type: 'string', value: fixture.providerName },
@@ -40,5 +41,6 @@ describe('protobuf/isis/ccsds_cs/Provider', () => {
       providerProperties: { type: 'string', value: fixture.providerProperties },
       providerTime: { type: 'time', value: fixture.providerTime },
     });
+    
   });
 });

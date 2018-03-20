@@ -21,15 +21,15 @@ module.exports = {
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
       ? tIME.encode(data.encodingDate)
       : null,
-    timeTaggedTC: _map(data.timeTaggedTC, d => (bLOB.encode(d))),
     pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
       ? pusHeader.encode(data.pusHeader)
       : null,
-    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? bLOB.encode(data.rawPacket)
-      : null,
+    timeTaggedTC: _map(data.timeTaggedTC, d => (bLOB.encode(d))),
     subscheduleId: (data.subscheduleId !== null && typeof data.subscheduleId !== 'undefined')
       ? uINTEGER.encode(data.subscheduleId)
+      : null,
+    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
+      ? bLOB.encode(data.rawPacket)
       : null,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.encode(data.tcId)
@@ -46,15 +46,15 @@ module.exports = {
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
       ? tIME.decode(data.encodingDate)
       : undefined,
-    timeTaggedTC: _map(data.timeTaggedTC, d => (bLOB.decode(d))),
     pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
       ? pusHeader.decode(data.pusHeader)
       : undefined,
-    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? bLOB.decode(data.rawPacket)
-      : undefined,
+    timeTaggedTC: _map(data.timeTaggedTC, d => (bLOB.decode(d))),
     subscheduleId: (data.subscheduleId !== null && typeof data.subscheduleId !== 'undefined')
       ? uINTEGER.decode(data.subscheduleId)
+      : undefined,
+    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
+      ? bLOB.decode(data.rawPacket)
       : undefined,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.decode(data.tcId)

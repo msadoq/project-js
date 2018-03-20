@@ -12,13 +12,14 @@ const getPusElement = require('./pusElement.stub');
 
 const pus015Packet = {
   apid: 100,
-  serviceTpe: 100,
+  serviceType: 100,
   serviceSubType: 100,
   sid: 100,
   subsamplingRatio: 100,
   pusElement: getPusElement(),
   packetType: 100,
   sidLabel: 'mySTRING',
+  isSubsamplingRatioSet: true,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus015Packet) : pus015Packet);

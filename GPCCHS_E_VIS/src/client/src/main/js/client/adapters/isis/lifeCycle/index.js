@@ -7,8 +7,10 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const LifeCycle = require('./lifeCycle');
 const LifeCycleStatus = require('./lifeCycleStatus');
 
 module.exports = {
+  LifeCycle: { type: 'protobuf', adapter: LifeCycle },
   LifeCycleStatus: { type: 'raw', adapter: LifeCycleStatus },
 };

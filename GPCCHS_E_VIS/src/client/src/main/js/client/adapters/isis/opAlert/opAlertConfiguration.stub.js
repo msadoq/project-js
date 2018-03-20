@@ -11,13 +11,14 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 
 
 const opAlertConfiguration = {
-  numberCalls: -100,
-  alertByPHONE: true,
-  alertByAUDIO: true,
-  alertByEMAIL: true,
-  alertBySMS: true,
-  maxNumberRetries: -100,
-  delayRetries: 42.5,
+  maxNumberRetriesPhone: -100,
+  delayRetriesPhone: 42.5,
+  maxNumberRetriesAudio: 'myIDENTIFIER',
+  delayRetriesAudio: 42.5,
+  maxNumberRetriesEmail: -100,
+  delayRetriesEmail: 42.5,
+  maxNumberRetriesSms: -100,
+  delayRetriesSms: 42.5,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, opAlertConfiguration) : opAlertConfiguration);

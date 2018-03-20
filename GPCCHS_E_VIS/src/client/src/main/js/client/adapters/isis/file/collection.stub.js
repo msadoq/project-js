@@ -10,8 +10,7 @@
 const _defaultsDeep = require('lodash/defaultsDeep');
 const getCollectionDocument = require('./collectionDocument.stub');
 const getCollectionVirtualFolder = require('./collectionVirtualFolder.stub');
-const getProfileRight = require('./profileRight.stub');
-const getUser = require('../ccsds_cs/user.stub');
+const getNamedValue = require('../ccsds_mal/namedValue.stub');
 const getUserRight = require('./userRight.stub');
 
 const collection = {
@@ -22,10 +21,11 @@ const collection = {
   collectionRefForVf: -1000,
   documents: [getCollectionDocument(), getCollectionDocument()],
   virtualFolders: [getCollectionVirtualFolder(), getCollectionVirtualFolder()],
-  profilesAccess: [getProfileRight(), getProfileRight()],
-  usersAccess: [getUserRight(), getUserRight()],
-  user: getUser(),
-  lockedBy: getUser(),
+  usersAccess: getUserRight(),
+  lockedBy: 'mySTRING',
+  properties: [getNamedValue(), getNamedValue()],
+  creatorUser: 'mySTRING',
+  accessRightsPropagation: true,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, collection) : collection);

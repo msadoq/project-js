@@ -27,8 +27,8 @@ module.exports = {
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? uINTEGER.encode(data.apid)
       : null,
-    noOnGoingUplinkLDT: (data.noOnGoingUplinkLDT !== null && typeof data.noOnGoingUplinkLDT !== 'undefined')
-      ? uINTEGER.encode(data.noOnGoingUplinkLDT)
+    noOnGoingUplinkLDTFile: (data.noOnGoingUplinkLDTFile !== null && typeof data.noOnGoingUplinkLDTFile !== 'undefined')
+      ? uINTEGER.encode(data.noOnGoingUplinkLDTFile)
       : null,
     noOnGoingDownlinkLDTFile: (data.noOnGoingDownlinkLDTFile !== null && typeof data.noOnGoingDownlinkLDTFile !== 'undefined')
       ? uINTEGER.encode(data.noOnGoingDownlinkLDTFile)
@@ -41,6 +41,9 @@ module.exports = {
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.encode(data.status)
+      : null,
+    noOnGoingUplinkLDTPacket: (data.noOnGoingUplinkLDTPacket !== null && typeof data.noOnGoingUplinkLDTPacket !== 'undefined')
+      ? uINTEGER.encode(data.noOnGoingUplinkLDTPacket)
       : null,
   }),
   decode: data => ({
@@ -55,8 +58,8 @@ module.exports = {
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? uINTEGER.decode(data.apid)
       : undefined,
-    noOnGoingUplinkLDT: (data.noOnGoingUplinkLDT !== null && typeof data.noOnGoingUplinkLDT !== 'undefined')
-      ? uINTEGER.decode(data.noOnGoingUplinkLDT)
+    noOnGoingUplinkLDTFile: (data.noOnGoingUplinkLDTFile !== null && typeof data.noOnGoingUplinkLDTFile !== 'undefined')
+      ? uINTEGER.decode(data.noOnGoingUplinkLDTFile)
       : undefined,
     noOnGoingDownlinkLDTFile: (data.noOnGoingDownlinkLDTFile !== null && typeof data.noOnGoingDownlinkLDTFile !== 'undefined')
       ? uINTEGER.decode(data.noOnGoingDownlinkLDTFile)
@@ -69,6 +72,9 @@ module.exports = {
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.decode(data.status)
+      : undefined,
+    noOnGoingUplinkLDTPacket: (data.noOnGoingUplinkLDTPacket !== null && typeof data.noOnGoingUplinkLDTPacket !== 'undefined')
+      ? uINTEGER.decode(data.noOnGoingUplinkLDTPacket)
       : undefined,
     referenceTimestamp: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
         ? { type: 'time', value: data.groundDate.value.toNumber() }

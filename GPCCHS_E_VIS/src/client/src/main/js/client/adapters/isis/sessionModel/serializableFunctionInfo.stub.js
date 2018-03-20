@@ -20,7 +20,7 @@ const serializableFunctionInfo = {
   state: 100,
   confId: 10,
   autostart: true,
-  type: 1,
+  funcType: 1,
   instanceNumber: 10,
   lastStateUpdateTime: 1000,
   availability: true,

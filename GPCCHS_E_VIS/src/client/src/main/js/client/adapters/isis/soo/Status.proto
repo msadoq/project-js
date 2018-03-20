@@ -1,0 +1,18 @@
+// ====================================================================
+// HISTORY
+// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
+// END-HISTORY
+// ====================================================================
+
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/TIME.proto";
+import "./OperationStatus.proto";
+
+package soo.protobuf;
+
+message Status {
+extensions 3 to 103;
+
+  optional soo.protobuf.OperationStatus operationStatus = 1;
+  optional ccsds_mal.protobuf.TIME occurenceDate = 2;
+}

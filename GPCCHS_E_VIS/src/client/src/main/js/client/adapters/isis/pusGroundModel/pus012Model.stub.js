@@ -19,6 +19,7 @@ const pus012Model = {
   pus012ParameterMonitoringDefinition: [getPus012ParameterMonitoringDefinition(), getPus012ParameterMonitoringDefinition()],
   noOfParameterMonitoringDefinition: 100,
   serviceStatus: 100,
+  lastUpdateTimeServiceStatus: now,
   groundDate: now,
   pusElement: getPusElement(),
   status: 100,

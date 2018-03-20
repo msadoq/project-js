@@ -7,6 +7,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
@@ -16,8 +17,8 @@ module.exports = {
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? uINTEGER.encode(data.apid)
       : null,
-    serviceTpe: (data.serviceTpe !== null && typeof data.serviceTpe !== 'undefined')
-      ? uINTEGER.encode(data.serviceTpe)
+    serviceType: (data.serviceType !== null && typeof data.serviceType !== 'undefined')
+      ? uINTEGER.encode(data.serviceType)
       : null,
     serviceSubType: (data.serviceSubType !== null && typeof data.serviceSubType !== 'undefined')
       ? uINTEGER.encode(data.serviceSubType)
@@ -37,13 +38,16 @@ module.exports = {
     sidLabel: (data.sidLabel !== null && typeof data.sidLabel !== 'undefined')
       ? sTRING.encode(data.sidLabel)
       : null,
+    isSubsamplingRatioSet: (data.isSubsamplingRatioSet !== null && typeof data.isSubsamplingRatioSet !== 'undefined')
+      ? bOOLEAN.encode(data.isSubsamplingRatioSet)
+      : null,
   }),
   decode: data => ({
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? uINTEGER.decode(data.apid)
       : undefined,
-    serviceTpe: (data.serviceTpe !== null && typeof data.serviceTpe !== 'undefined')
-      ? uINTEGER.decode(data.serviceTpe)
+    serviceType: (data.serviceType !== null && typeof data.serviceType !== 'undefined')
+      ? uINTEGER.decode(data.serviceType)
       : undefined,
     serviceSubType: (data.serviceSubType !== null && typeof data.serviceSubType !== 'undefined')
       ? uINTEGER.decode(data.serviceSubType)
@@ -62,6 +66,9 @@ module.exports = {
       : undefined,
     sidLabel: (data.sidLabel !== null && typeof data.sidLabel !== 'undefined')
       ? sTRING.decode(data.sidLabel)
+      : undefined,
+    isSubsamplingRatioSet: (data.isSubsamplingRatioSet !== null && typeof data.isSubsamplingRatioSet !== 'undefined')
+      ? bOOLEAN.decode(data.isSubsamplingRatioSet)
       : undefined,
   }),
 };

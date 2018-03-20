@@ -20,6 +20,7 @@ const ackStub = require('./ackRequest/ack.stub');
 const actionAdapter = require('./ccsds_mc/action');
 const actionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/ccsds_mc/Action.proto`, { keepCase: true }).lookup('ccsds_mc.protobuf.Action');
 const actionStub = require('./ccsds_mc/action.stub');
+const apidStub = require('./pusGroundModel/apid.stub');
 const archiveDetailsStub = require('./ccsds_com/archiveDetails.stub');
 const archiveQueryStub = require('./ccsds_com/archiveQuery.stub');
 const attributeValueAdapter = require('./ccsds_mc/attributeValue');
@@ -185,9 +186,15 @@ const flowStatusStub = require('./connection/flowStatus.stub');
 const folderAdapter = require('./file/folder');
 const folderBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/file/Folder.proto`, { keepCase: true }).lookup('file.protobuf.Folder');
 const folderStub = require('./file/folder.stub');
+const functionalChainAdapter = require('./soo/functionalChain');
+const functionalChainBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/soo/FunctionalChain.proto`, { keepCase: true }).lookup('soo.protobuf.FunctionalChain');
+const functionalChainStub = require('./soo/functionalChain.stub');
 const gPMCC1StateAdapter = require('./cop1/gPMCC1State');
 const gPMCC1StateBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/cop1/GPMCC1State.proto`, { keepCase: true }).lookup('cop1.protobuf.GPMCC1State');
 const gPMCC1StateStub = require('./cop1/gPMCC1State.stub');
+const genericOperationAdapter = require('./soo/genericOperation');
+const genericOperationBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/soo/GenericOperation.proto`, { keepCase: true }).lookup('soo.protobuf.GenericOperation');
+const genericOperationStub = require('./soo/genericOperation.stub');
 const genericTCAdapter = require('./tcHistory/genericTC');
 const genericTCBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/tcHistory/GenericTC.proto`, { keepCase: true }).lookup('tcHistory.protobuf.GenericTC');
 const genericTCStub = require('./tcHistory/genericTC.stub');
@@ -198,6 +205,9 @@ const groundMonitoringAlarmStub = require('./groundAlarm/groundMonitoringAlarm.s
 const groupDefinitionAdapter = require('./ccsds_mc/groupDefinition');
 const groupDefinitionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/ccsds_mc/GroupDefinition.proto`, { keepCase: true }).lookup('ccsds_mc.protobuf.GroupDefinition');
 const groupDefinitionStub = require('./ccsds_mc/groupDefinition.stub');
+const groupOfOperationAdapter = require('./soo/groupOfOperation');
+const groupOfOperationBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/soo/GroupOfOperation.proto`, { keepCase: true }).lookup('soo.protobuf.GroupOfOperation');
+const groupOfOperationStub = require('./soo/groupOfOperation.stub');
 const ifQueueElementAdapter = require('./cop1/ifQueueElement');
 const ifQueueElementBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/cop1/IfQueueElement.proto`, { keepCase: true }).lookup('cop1.protobuf.IfQueueElement');
 const ifQueueElementStub = require('./cop1/ifQueueElement.stub');
@@ -220,7 +230,10 @@ const isisAggregationStub = require('./ccsds_mc_aggregation/isisAggregation.stub
 const isisFilterSetAdapter = require('./queries/isisFilterSet');
 const isisFilterSetBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/queries/IsisFilterSet.proto`, { keepCase: true }).lookup('queries.protobuf.IsisFilterSet');
 const isisFilterSetStub = require('./queries/isisFilterSet.stub');
+const lifeCycleAdapter = require('./lifeCycle/lifeCycle');
+const lifeCycleBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/lifeCycle/LifeCycle.proto`, { keepCase: true }).lookup('lifeCycle.protobuf.LifeCycle');
 const lifeCycleStatusStub = require('./lifeCycle/lifeCycleStatus.stub');
+const lifeCycleStub = require('./lifeCycle/lifeCycle.stub');
 const locationAdapter = require('./memoryImage/location');
 const locationBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/memoryImage/Location.proto`, { keepCase: true }).lookup('memoryImage.protobuf.Location');
 const locationStub = require('./memoryImage/location.stub');
@@ -256,12 +269,15 @@ const opAlertConfigurationAdapter = require('./opAlert/opAlertConfiguration');
 const opAlertConfigurationBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/opAlert/OpAlertConfiguration.proto`, { keepCase: true }).lookup('opAlert.protobuf.OpAlertConfiguration');
 const opAlertConfigurationStub = require('./opAlert/opAlertConfiguration.stub');
 const opAlertStub = require('./opAlert/opAlert.stub');
+const operationAdapter = require('./soo/operation');
+const operationBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/soo/Operation.proto`, { keepCase: true }).lookup('soo.protobuf.Operation');
 const operationDefinitionAdapter = require('./connection/operationDefinition');
 const operationDefinitionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/connection/OperationDefinition.proto`, { keepCase: true }).lookup('connection.protobuf.OperationDefinition');
 const operationDefinitionStub = require('./connection/operationDefinition.stub');
 const operationParameterAdapter = require('./operationParameter/operationParameter');
 const operationParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/operationParameter/OperationParameter.proto`, { keepCase: true }).lookup('operationParameter.protobuf.OperationParameter');
 const operationParameterStub = require('./operationParameter/operationParameter.stub');
+const operationStub = require('./soo/operation.stub');
 const packetAdapter = require('./packet/packet');
 const packetBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/packet/Packet.proto`, { keepCase: true }).lookup('packet.protobuf.Packet');
 const packetStub = require('./packet/packet.stub');
@@ -283,9 +299,6 @@ const processIdentifierStub = require('./connection/processIdentifier.stub');
 const processInfoAdapter = require('./connection/processInfo');
 const processInfoBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/connection/ProcessInfo.proto`, { keepCase: true }).lookup('connection.protobuf.ProcessInfo');
 const processInfoStub = require('./connection/processInfo.stub');
-const profileRightAdapter = require('./file/profileRight');
-const profileRightBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/file/ProfileRight.proto`, { keepCase: true }).lookup('file.protobuf.ProfileRight');
-const profileRightStub = require('./file/profileRight.stub');
 const providerDefinitionStub = require('./ccsds_cs/providerDefinition.stub');
 const providerStub = require('./ccsds_cs/provider.stub');
 const pus003DiagnosticPacketAdapter = require('./pusGroundModel/pus003DiagnosticPacket');
@@ -435,6 +448,9 @@ const rawDataStub = require('./rawData/rawData.stub');
 const reportingParameterAdapter = require('./decommutedParameter/reportingParameter');
 const reportingParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/decommutedParameter/ReportingParameter.proto`, { keepCase: true }).lookup('decommutedParameter.protobuf.ReportingParameter');
 const reportingParameterStub = require('./decommutedParameter/reportingParameter.stub');
+const resultAdapter = require('./soo/result');
+const resultBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/soo/Result.proto`, { keepCase: true }).lookup('soo.protobuf.Result');
+const resultStub = require('./soo/result.stub');
 const rmPacketAdapter = require('./packet/rmPacket');
 const rmPacketBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/packet/RmPacket.proto`, { keepCase: true }).lookup('packet.protobuf.RmPacket');
 const rmPacketStub = require('./packet/rmPacket.stub');
@@ -445,9 +461,18 @@ const serializableFunctionInfoStub = require('./sessionModel/serializableFunctio
 const serializableSessionInfoStub = require('./sessionModel/serializableSessionInfo.stub');
 const serviceAddressStub = require('./ccsds_cs/serviceAddress.stub');
 const serviceFilterStub = require('./ccsds_cs/serviceFilter.stub');
+const sessionAdapter = require('./soo/session');
+const sessionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/soo/Session.proto`, { keepCase: true }).lookup('soo.protobuf.Session');
+const sessionStub = require('./soo/session.stub');
 const specificAttributeDefinitionAdapter = require('./event/specificAttributeDefinition');
 const specificAttributeDefinitionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/event/SpecificAttributeDefinition.proto`, { keepCase: true }).lookup('event.protobuf.SpecificAttributeDefinition');
 const specificAttributeDefinitionStub = require('./event/specificAttributeDefinition.stub');
+const statAggregationAdapter = require('./statAggregation/statAggregation');
+const statAggregationBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/statAggregation/StatAggregation.proto`, { keepCase: true }).lookup('statAggregation.protobuf.StatAggregation');
+const statAggregationStub = require('./statAggregation/statAggregation.stub');
+const statValueAdapter = require('./statAggregation/statValue');
+const statValueBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/statAggregation/StatValue.proto`, { keepCase: true }).lookup('statAggregation.protobuf.StatValue');
+const statValueStub = require('./statAggregation/statValue.stub');
 const stationElmtAdapter = require('./connection/stationElmt');
 const stationElmtBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/connection/StationElmt.proto`, { keepCase: true }).lookup('connection.protobuf.StationElmt');
 const stationElmtStub = require('./connection/stationElmt.stub');
@@ -483,6 +508,9 @@ const statisticValueStructAdapter = require('./ccsds_mc/statisticValueStruct');
 const statisticValueStructBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/ccsds_mc/StatisticValueStruct.proto`, { keepCase: true }).lookup('ccsds_mc.protobuf.StatisticValueStruct');
 const statisticValueStructStub = require('./ccsds_mc/statisticValueStruct.stub');
 const statisticValueStub = require('./ccsds_mc/statisticValue.stub');
+const statusAdapter = require('./soo/status');
+const statusBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/soo/Status.proto`, { keepCase: true }).lookup('soo.protobuf.Status');
+const statusStub = require('./soo/status.stub');
 const successiveAckAdapter = require('./tcHistory/successiveAck');
 const successiveAckBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/tcHistory/SuccessiveAck.proto`, { keepCase: true }).lookup('tcHistory.protobuf.SuccessiveAck');
 const successiveAckStub = require('./tcHistory/successiveAck.stub');
@@ -552,7 +580,6 @@ const uCPParameterStub = require('./connection/uCPParameter.stub');
 const uCPReportAdapter = require('./connection/uCPReport');
 const uCPReportBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/connection/UCPReport.proto`, { keepCase: true }).lookup('connection.protobuf.UCPReport');
 const uCPReportStub = require('./connection/uCPReport.stub');
-const userConnectionStub = require('./accessControlModel/userConnection.stub');
 const userContextStub = require('./ccsds_cs/userContext.stub');
 const userEventAdapter = require('./userEvent/userEvent');
 const userEventBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/userEvent/UserEvent.proto`, { keepCase: true }).lookup('userEvent.protobuf.UserEvent');
@@ -573,6 +600,7 @@ module.exports = {
   getAction: actionStub,
   getActionDeProtobuf: proto => actionAdapter.decode(actionBuilder.decode(proto)),
   getActionProtobuf: override => actionBuilder.encode(actionAdapter.encode(actionStub(override))).finish(),
+  getApid: apidStub,
   getArchiveDetails: archiveDetailsStub,
   getArchiveQuery: archiveQueryStub,
   getAttributeValue: attributeValueStub,
@@ -738,9 +766,15 @@ module.exports = {
   getFolder: folderStub,
   getFolderDeProtobuf: proto => folderAdapter.decode(folderBuilder.decode(proto)),
   getFolderProtobuf: override => folderBuilder.encode(folderAdapter.encode(folderStub(override))).finish(),
+  getFunctionalChain: functionalChainStub,
+  getFunctionalChainDeProtobuf: proto => functionalChainAdapter.decode(functionalChainBuilder.decode(proto)),
+  getFunctionalChainProtobuf: override => functionalChainBuilder.encode(functionalChainAdapter.encode(functionalChainStub(override))).finish(),
   getGPMCC1State: gPMCC1StateStub,
   getGPMCC1StateDeProtobuf: proto => gPMCC1StateAdapter.decode(gPMCC1StateBuilder.decode(proto)),
   getGPMCC1StateProtobuf: override => gPMCC1StateBuilder.encode(gPMCC1StateAdapter.encode(gPMCC1StateStub(override))).finish(),
+  getGenericOperation: genericOperationStub,
+  getGenericOperationDeProtobuf: proto => genericOperationAdapter.decode(genericOperationBuilder.decode(proto)),
+  getGenericOperationProtobuf: override => genericOperationBuilder.encode(genericOperationAdapter.encode(genericOperationStub(override))).finish(),
   getGenericTC: genericTCStub,
   getGenericTCDeProtobuf: proto => genericTCAdapter.decode(genericTCBuilder.decode(proto)),
   getGenericTCProtobuf: override => genericTCBuilder.encode(genericTCAdapter.encode(genericTCStub(override))).finish(),
@@ -751,6 +785,9 @@ module.exports = {
   getGroupDefinition: groupDefinitionStub,
   getGroupDefinitionDeProtobuf: proto => groupDefinitionAdapter.decode(groupDefinitionBuilder.decode(proto)),
   getGroupDefinitionProtobuf: override => groupDefinitionBuilder.encode(groupDefinitionAdapter.encode(groupDefinitionStub(override))).finish(),
+  getGroupOfOperation: groupOfOperationStub,
+  getGroupOfOperationDeProtobuf: proto => groupOfOperationAdapter.decode(groupOfOperationBuilder.decode(proto)),
+  getGroupOfOperationProtobuf: override => groupOfOperationBuilder.encode(groupOfOperationAdapter.encode(groupOfOperationStub(override))).finish(),
   getIfQueueElement: ifQueueElementStub,
   getIfQueueElementDeProtobuf: proto => ifQueueElementAdapter.decode(ifQueueElementBuilder.decode(proto)),
   getIfQueueElementProtobuf: override => ifQueueElementBuilder.encode(ifQueueElementAdapter.encode(ifQueueElementStub(override))).finish(),
@@ -773,6 +810,9 @@ module.exports = {
   getIsisFilterSet: isisFilterSetStub,
   getIsisFilterSetDeProtobuf: proto => isisFilterSetAdapter.decode(isisFilterSetBuilder.decode(proto)),
   getIsisFilterSetProtobuf: override => isisFilterSetBuilder.encode(isisFilterSetAdapter.encode(isisFilterSetStub(override))).finish(),
+  getLifeCycle: lifeCycleStub,
+  getLifeCycleDeProtobuf: proto => lifeCycleAdapter.decode(lifeCycleBuilder.decode(proto)),
+  getLifeCycleProtobuf: override => lifeCycleBuilder.encode(lifeCycleAdapter.encode(lifeCycleStub(override))).finish(),
   getLifeCycleStatus: lifeCycleStatusStub,
   getLocation: locationStub,
   getLocationDeProtobuf: proto => locationAdapter.decode(locationBuilder.decode(proto)),
@@ -809,12 +849,15 @@ module.exports = {
   getOpAlertConfigurationProtobuf: override => opAlertConfigurationBuilder.encode(opAlertConfigurationAdapter.encode(opAlertConfigurationStub(override))).finish(),
   getOpAlertDeProtobuf: proto => opAlertAdapter.decode(opAlertBuilder.decode(proto)),
   getOpAlertProtobuf: override => opAlertBuilder.encode(opAlertAdapter.encode(opAlertStub(override))).finish(),
+  getOperation: operationStub,
+  getOperationDeProtobuf: proto => operationAdapter.decode(operationBuilder.decode(proto)),
   getOperationDefinition: operationDefinitionStub,
   getOperationDefinitionDeProtobuf: proto => operationDefinitionAdapter.decode(operationDefinitionBuilder.decode(proto)),
   getOperationDefinitionProtobuf: override => operationDefinitionBuilder.encode(operationDefinitionAdapter.encode(operationDefinitionStub(override))).finish(),
   getOperationParameter: operationParameterStub,
   getOperationParameterDeProtobuf: proto => operationParameterAdapter.decode(operationParameterBuilder.decode(proto)),
   getOperationParameterProtobuf: override => operationParameterBuilder.encode(operationParameterAdapter.encode(operationParameterStub(override))).finish(),
+  getOperationProtobuf: override => operationBuilder.encode(operationAdapter.encode(operationStub(override))).finish(),
   getPacket: packetStub,
   getPacketDeProtobuf: proto => packetAdapter.decode(packetBuilder.decode(proto)),
   getPacketProtobuf: override => packetBuilder.encode(packetAdapter.encode(packetStub(override))).finish(),
@@ -836,9 +879,6 @@ module.exports = {
   getProcessInfo: processInfoStub,
   getProcessInfoDeProtobuf: proto => processInfoAdapter.decode(processInfoBuilder.decode(proto)),
   getProcessInfoProtobuf: override => processInfoBuilder.encode(processInfoAdapter.encode(processInfoStub(override))).finish(),
-  getProfileRight: profileRightStub,
-  getProfileRightDeProtobuf: proto => profileRightAdapter.decode(profileRightBuilder.decode(proto)),
-  getProfileRightProtobuf: override => profileRightBuilder.encode(profileRightAdapter.encode(profileRightStub(override))).finish(),
   getProvider: providerStub,
   getProviderDefinition: providerDefinitionStub,
   getPus003DiagnosticPacket: pus003DiagnosticPacketStub,
@@ -988,6 +1028,9 @@ module.exports = {
   getReportingParameter: reportingParameterStub,
   getReportingParameterDeProtobuf: proto => reportingParameterAdapter.decode(reportingParameterBuilder.decode(proto)),
   getReportingParameterProtobuf: override => reportingParameterBuilder.encode(reportingParameterAdapter.encode(reportingParameterStub(override))).finish(),
+  getResult: resultStub,
+  getResultDeProtobuf: proto => resultAdapter.decode(resultBuilder.decode(proto)),
+  getResultProtobuf: override => resultBuilder.encode(resultAdapter.encode(resultStub(override))).finish(),
   getRmPacket: rmPacketStub,
   getRmPacketDeProtobuf: proto => rmPacketAdapter.decode(rmPacketBuilder.decode(proto)),
   getRmPacketProtobuf: override => rmPacketBuilder.encode(rmPacketAdapter.encode(rmPacketStub(override))).finish(),
@@ -998,9 +1041,18 @@ module.exports = {
   getSerializableSessionInfo: serializableSessionInfoStub,
   getServiceAddress: serviceAddressStub,
   getServiceFilter: serviceFilterStub,
+  getSession: sessionStub,
+  getSessionDeProtobuf: proto => sessionAdapter.decode(sessionBuilder.decode(proto)),
+  getSessionProtobuf: override => sessionBuilder.encode(sessionAdapter.encode(sessionStub(override))).finish(),
   getSpecificAttributeDefinition: specificAttributeDefinitionStub,
   getSpecificAttributeDefinitionDeProtobuf: proto => specificAttributeDefinitionAdapter.decode(specificAttributeDefinitionBuilder.decode(proto)),
   getSpecificAttributeDefinitionProtobuf: override => specificAttributeDefinitionBuilder.encode(specificAttributeDefinitionAdapter.encode(specificAttributeDefinitionStub(override))).finish(),
+  getStatAggregation: statAggregationStub,
+  getStatAggregationDeProtobuf: proto => statAggregationAdapter.decode(statAggregationBuilder.decode(proto)),
+  getStatAggregationProtobuf: override => statAggregationBuilder.encode(statAggregationAdapter.encode(statAggregationStub(override))).finish(),
+  getStatValue: statValueStub,
+  getStatValueDeProtobuf: proto => statValueAdapter.decode(statValueBuilder.decode(proto)),
+  getStatValueProtobuf: override => statValueBuilder.encode(statValueAdapter.encode(statValueStub(override))).finish(),
   getStationElmt: stationElmtStub,
   getStationElmtDeProtobuf: proto => stationElmtAdapter.decode(stationElmtBuilder.decode(proto)),
   getStationElmtProtobuf: override => stationElmtBuilder.encode(stationElmtAdapter.encode(stationElmtStub(override))).finish(),
@@ -1036,6 +1088,9 @@ module.exports = {
   getStatisticValueStruct: statisticValueStructStub,
   getStatisticValueStructDeProtobuf: proto => statisticValueStructAdapter.decode(statisticValueStructBuilder.decode(proto)),
   getStatisticValueStructProtobuf: override => statisticValueStructBuilder.encode(statisticValueStructAdapter.encode(statisticValueStructStub(override))).finish(),
+  getStatus: statusStub,
+  getStatusDeProtobuf: proto => statusAdapter.decode(statusBuilder.decode(proto)),
+  getStatusProtobuf: override => statusBuilder.encode(statusAdapter.encode(statusStub(override))).finish(),
   getSuccessiveAck: successiveAckStub,
   getSuccessiveAckDeProtobuf: proto => successiveAckAdapter.decode(successiveAckBuilder.decode(proto)),
   getSuccessiveAckProtobuf: override => successiveAckBuilder.encode(successiveAckAdapter.encode(successiveAckStub(override))).finish(),
@@ -1106,7 +1161,6 @@ module.exports = {
   getUCPReportDeProtobuf: proto => uCPReportAdapter.decode(uCPReportBuilder.decode(proto)),
   getUCPReportProtobuf: override => uCPReportBuilder.encode(uCPReportAdapter.encode(uCPReportStub(override))).finish(),
   getUser: userStub,
-  getUserConnection: userConnectionStub,
   getUserContext: userContextStub,
   getUserEvent: userEventStub,
   getUserEventDeProtobuf: proto => userEventAdapter.decode(userEventBuilder.decode(proto)),

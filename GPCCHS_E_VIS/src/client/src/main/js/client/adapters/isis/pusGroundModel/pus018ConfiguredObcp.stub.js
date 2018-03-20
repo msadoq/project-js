@@ -17,9 +17,9 @@ const pus018ConfiguredObcp = {
   hkParamNameForStatus: 'mySTRING',
   hkParamNameForPriority: 'mySTRING',
   hkParamNameForStepId: 'mySTRING',
-  status: 100,
-  stepId: 100,
-  priority: 100,
+  status: 'mySTRING',
+  stepId: 'mySTRING',
+  priority: 'mySTRING',
   pusElement: getPusElement(),
 };
 

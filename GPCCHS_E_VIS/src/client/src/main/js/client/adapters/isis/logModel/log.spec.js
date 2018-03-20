@@ -7,6 +7,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+require('../../../utils/test');
 const { encodeRaw, decodeRaw } = require('./log');
 const { getLog } = require('../stubs');
 
@@ -15,13 +16,13 @@ const { getLog } = require('../stubs');
 describe('protobuf/isis/logModel/Log', () => {
   const fixture = getLog();
   let buffer;
-  test('encode', () => {
+  it('encode', () => {
     buffer = encodeRaw(fixture);
-    expect(buffer.constructor).toBe(Buffer);
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
+  it('decode', () => {
     const json = decodeRaw(buffer);
-    expect(json).toMatchObject({
+    json.should.be.an('object').that.have.properties({
       logBookEventDefinitionName: { type: 'string', value: fixture.logBookEventDefinitionName },
       objectTypeArea: { type: 'ushort', value: fixture.objectTypeArea },
       objectTypeService: { type: 'ushort', value: fixture.objectTypeService },
@@ -49,5 +50,6 @@ describe('protobuf/isis/logModel/Log', () => {
       slotId: { type: 'ushort', value: fixture.slotId },
       domainId: { type: 'ushort', value: fixture.domainId },
     });
+    
   });
 });

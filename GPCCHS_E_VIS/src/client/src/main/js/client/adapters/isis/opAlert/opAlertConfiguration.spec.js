@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./opAlertConfiguration');
-const stub = require('./opAlertConfiguration.stub')();
+const { getOpAlertConfiguration } = require('../stubs');
 
 
 
@@ -17,22 +18,25 @@ describe('protobuf/isis/opAlert/OpAlertConfiguration', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/OpAlertConfiguration.proto`, { keepCase: true })
     .lookup('opAlert.protobuf.OpAlertConfiguration');
+  const fixture = getOpAlertConfiguration();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      numberCalls: { type: 'integer', value: stub.numberCalls },
-      alertByPHONE: { type: 'boolean', value: stub.alertByPHONE },
-      alertByAUDIO: { type: 'boolean', value: stub.alertByAUDIO },
-      alertByEMAIL: { type: 'boolean', value: stub.alertByEMAIL },
-      alertBySMS: { type: 'boolean', value: stub.alertBySMS },
-      maxNumberRetries: { type: 'integer', value: stub.maxNumberRetries },
-      delayRetries: { type: 'duration', value: stub.delayRetries },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      maxNumberRetriesPhone: { type: 'integer', value: fixture.maxNumberRetriesPhone },
+      delayRetriesPhone: { type: 'duration', value: fixture.delayRetriesPhone },
+      maxNumberRetriesAudio: { type: 'identifier', value: fixture.maxNumberRetriesAudio },
+      delayRetriesAudio: { type: 'duration', value: fixture.delayRetriesAudio },
+      maxNumberRetriesEmail: { type: 'integer', value: fixture.maxNumberRetriesEmail },
+      delayRetriesEmail: { type: 'duration', value: fixture.delayRetriesEmail },
+      maxNumberRetriesSms: { type: 'integer', value: fixture.maxNumberRetriesSms },
+      delayRetriesSms: { type: 'duration', value: fixture.delayRetriesSms },
     });
+    
     
   });
 });

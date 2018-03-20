@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./pus144Model');
-const stub = require('./pus144Model.stub')();
+const { getPus144Model } = require('../stubs');
 
 
 
@@ -17,40 +18,43 @@ describe('protobuf/isis/pusGroundModel/Pus144Model', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus144Model.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus144Model');
+  const fixture = getPus144Model();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      groundDate: { type: 'time', value: stub.groundDate },
-      apid: { type: 'uinteger', value: stub.apid },
-      noOfOnBoardFiles: { type: 'uinteger', value: stub.noOfOnBoardFiles },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      groundDate: { type: 'time', value: fixture.groundDate },
+      apid: { type: 'uinteger', value: fixture.apid },
+      noOfOnBoardFiles: { type: 'uinteger', value: fixture.noOfOnBoardFiles },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
       },
-      status: { type: 'uinteger', value: stub.status },
+      status: { type: 'uinteger', value: fixture.status },
     });
-    expect(decoded.pus144OnboardFiles).toHaveLength(stub.pus144OnboardFiles.length);
-    for (let i = 0; i < stub.pus144OnboardFiles.length; i += 1) {
-      expect(decoded.pus144OnboardFiles[i]).toMatchObject({
-        partitionId: { type: 'uinteger', value: stub.pus144OnboardFiles[i].partitionId },
-        fileProtectionStatus: { type: 'uinteger', value: stub.pus144OnboardFiles[i].fileProtectionStatus },
-        fileId: { type: 'uinteger', value: stub.pus144OnboardFiles[i].fileId },
-        fileAddress: { type: 'uinteger', value: stub.pus144OnboardFiles[i].fileAddress },
-        fileSize: { type: 'uinteger', value: stub.pus144OnboardFiles[i].fileSize },
-        uploadedFileChecksum: { type: 'uinteger', value: stub.pus144OnboardFiles[i].uploadedFileChecksum },
-        fileType: { type: 'string', value: stub.pus144OnboardFiles[i].fileType },
-        fileMode: { type: 'uinteger', value: stub.pus144OnboardFiles[i].fileMode },
-        fileCreationTime: { type: 'time', value: stub.pus144OnboardFiles[i].fileCreationTime },
-        computedFileChecksum: { type: 'uinteger', value: stub.pus144OnboardFiles[i].computedFileChecksum },
+    
+    json.pus144OnboardFiles.should.be.an('array').that.have.lengthOf(fixture.pus144OnboardFiles.length);
+    for (let i = 0; i < fixture.pus144OnboardFiles.length; i += 1) {
+      json.pus144OnboardFiles[i].should.be.an('object').that.have.properties({
+        partitionId: { type: 'string', value: fixture.pus144OnboardFiles[i].partitionId },
+        fileProtectionStatus: { type: 'string', value: fixture.pus144OnboardFiles[i].fileProtectionStatus },
+        fileId: { type: 'uinteger', value: fixture.pus144OnboardFiles[i].fileId },
+        fileAddress: { type: 'string', value: fixture.pus144OnboardFiles[i].fileAddress },
+        fileSize: { type: 'uinteger', value: fixture.pus144OnboardFiles[i].fileSize },
+        uploadedFileChecksum: { type: 'string', value: fixture.pus144OnboardFiles[i].uploadedFileChecksum },
+        fileType: { type: 'string', value: fixture.pus144OnboardFiles[i].fileType },
+        fileMode: { type: 'string', value: fixture.pus144OnboardFiles[i].fileMode },
+        fileCreationTime: { type: 'time', value: fixture.pus144OnboardFiles[i].fileCreationTime },
+        computedFileChecksum: { type: 'string', value: fixture.pus144OnboardFiles[i].computedFileChecksum },
         pusElement: {
-          lastUpdateMode: { type: 'uinteger', value: stub.pus144OnboardFiles[i].pusElement.lastUpdateMode },
-          lastUpdateTime: { type: 'time', value: stub.pus144OnboardFiles[i].pusElement.lastUpdateTime },
+          lastUpdateMode: { type: 'uinteger', value: fixture.pus144OnboardFiles[i].pusElement.lastUpdateMode },
+          lastUpdateTime: { type: 'time', value: fixture.pus144OnboardFiles[i].pusElement.lastUpdateTime },
         },
+        isFileSizeSet: { type: 'boolean', value: fixture.pus144OnboardFiles[i].isFileSizeSet },
       });
       
     }

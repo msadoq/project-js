@@ -12,4 +12,5 @@ enum Status {
   CLOSED_OK = 1;
   CLOSED_NOK = 2;
   ERROR = 3;
+  CLOSED_ERROR = 4;
 }

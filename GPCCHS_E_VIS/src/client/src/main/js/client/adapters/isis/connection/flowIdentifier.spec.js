@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./flowIdentifier');
-const stub = require('./flowIdentifier.stub')();
+const { getFlowIdentifier } = require('../stubs');
 
 
 
@@ -17,24 +18,26 @@ describe('protobuf/isis/connection/FlowIdentifier', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/FlowIdentifier.proto`, { keepCase: true })
     .lookup('connection.protobuf.FlowIdentifier');
+  const fixture = getFlowIdentifier();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      flowID: { type: 'long', symbol: `${stub.flowID}` },
-      spacecraftID: { type: 'string', value: stub.spacecraftID },
-      stationID: { type: 'string', value: stub.stationID },
-      flowInfo: (typeof stub.flowInfo === 'undefined')
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      flowID: { type: 'long', symbol: `${fixture.flowID}` },
+      spacecraftID: { type: 'string', value: fixture.spacecraftID },
+      stationID: { type: 'string', value: fixture.stationID },
+      flowInfo: (typeof fixture.flowInfo === 'undefined')
         ? null
         : {
-          name: { type: 'string', value: stub.flowInfo.name },
-          isDefault: { type: 'boolean', value: stub.flowInfo.isDefault },
+          name: { type: 'string', value: fixture.flowInfo.name },
+          isDefault: { type: 'boolean', value: fixture.flowInfo.isDefault },
         },
     });
+    
     
   });
 });

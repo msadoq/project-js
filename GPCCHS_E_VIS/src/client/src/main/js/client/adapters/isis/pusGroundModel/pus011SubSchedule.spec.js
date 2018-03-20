@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./pus011SubSchedule');
-const stub = require('./pus011SubSchedule.stub')();
+const { getPus011SubSchedule } = require('../stubs');
 
 
 
@@ -17,25 +18,27 @@ describe('protobuf/isis/pusGroundModel/Pus011SubSchedule', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus011SubSchedule.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus011SubSchedule');
+  const fixture = getPus011SubSchedule();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      ssId: { type: 'uinteger', value: stub.ssId },
-      status: { type: 'uinteger', value: stub.status },
-      executionTimeFirstTc: { type: 'ulong', symbol: `${stub.executionTimeFirstTc}` },
-      apid: { type: 'uinteger', value: stub.apid },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      ssId: { type: 'uinteger', value: fixture.ssId },
+      status: { type: 'uinteger', value: fixture.status },
+      executionTimeFirstTc: { type: 'ulong', symbol: `${fixture.executionTimeFirstTc}` },
+      apid: { type: 'uinteger', value: fixture.apid },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
       },
-      groundDate: { type: 'time', value: stub.groundDate },
-      ssIdLabel: { type: 'string', value: stub.ssIdLabel },
+      groundDate: { type: 'time', value: fixture.groundDate },
+      ssIdLabel: { type: 'string', value: fixture.ssIdLabel },
     });
+    
     
   });
 });

@@ -32,13 +32,13 @@ module.exports = {
       ? sTRING.encode(data.hkParamNameForStepId)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uINTEGER.encode(data.status)
+      ? sTRING.encode(data.status)
       : null,
     stepId: (data.stepId !== null && typeof data.stepId !== 'undefined')
-      ? uINTEGER.encode(data.stepId)
+      ? sTRING.encode(data.stepId)
       : null,
     priority: (data.priority !== null && typeof data.priority !== 'undefined')
-      ? uINTEGER.encode(data.priority)
+      ? sTRING.encode(data.priority)
       : null,
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')
       ? pusElement.encode(data.pusElement)
@@ -64,13 +64,13 @@ module.exports = {
       ? sTRING.decode(data.hkParamNameForStepId)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uINTEGER.decode(data.status)
+      ? sTRING.decode(data.status)
       : undefined,
     stepId: (data.stepId !== null && typeof data.stepId !== 'undefined')
-      ? uINTEGER.decode(data.stepId)
+      ? sTRING.decode(data.stepId)
       : undefined,
     priority: (data.priority !== null && typeof data.priority !== 'undefined')
-      ? uINTEGER.decode(data.priority)
+      ? sTRING.decode(data.priority)
       : undefined,
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')
       ? pusElement.decode(data.pusElement)

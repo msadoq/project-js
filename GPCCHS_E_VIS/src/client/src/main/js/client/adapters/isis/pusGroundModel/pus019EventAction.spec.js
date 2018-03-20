@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./pus019EventAction');
-const stub = require('./pus019EventAction.stub')();
+const { getPus019EventAction } = require('../stubs');
 
 
 
@@ -17,24 +18,26 @@ describe('protobuf/isis/pusGroundModel/Pus019EventAction', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus019EventAction.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus019EventAction');
+  const fixture = getPus019EventAction();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      apid: { type: 'uinteger', value: stub.apid },
-      rid: { type: 'uinteger', value: stub.rid },
-      actionStatus: { type: 'uinteger', value: stub.actionStatus },
-      actionTcPacketHeader: { type: 'blob', value: stub.actionTcPacketHeader },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      apid: { type: 'uinteger', value: fixture.apid },
+      rid: { type: 'uinteger', value: fixture.rid },
+      actionStatus: { type: 'uinteger', value: fixture.actionStatus },
+      actionTcPacketHeader: { type: 'blob', value: fixture.actionTcPacketHeader },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
       },
-      ridLabel: { type: 'string', value: stub.ridLabel },
+      ridLabel: { type: 'string', value: fixture.ridLabel },
     });
+    
     
   });
 });

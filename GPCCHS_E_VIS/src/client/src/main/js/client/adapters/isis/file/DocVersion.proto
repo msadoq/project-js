@@ -5,19 +5,22 @@
 // ====================================================================
 
 // Produced by Acceleo JavaScript Generator 1.1.2
-import "../ccsds_mal/ATTRIBUTE.proto";
+import "../ccsds_mal/BOOLEAN.proto";
 import "../ccsds_mal/NamedValue.proto";
 import "../ccsds_mal/STRING.proto";
-import "../ccsds_mal/USHORT.proto";
+import "../ccsds_mal/ULONG.proto";
+import "../ccsds_mal/URI.proto";
 
 
 package file.protobuf;
 
 message DocVersion {
-extensions 5 to 105;
+extensions 7 to 107;
 
   optional ccsds_mal.protobuf.STRING externalVersion = 1;
-  optional ccsds_mal.protobuf.USHORT internalVersion = 2;
+  optional ccsds_mal.protobuf.ULONG internalVersion = 2;
   repeated ccsds_mal.protobuf.NamedValue properties = 3;
-  optional ccsds_mal.protobuf.ATTRIBUTE content = 4;
+  optional ccsds_mal.protobuf.BOOLEAN isVirtualVersion = 4;
+  optional ccsds_mal.protobuf.URI dirname = 5;
+  optional ccsds_mal.protobuf.STRING basename = 6;
 }

@@ -10,5 +10,5 @@
 
 module.exports = {
   0: 'GUI',
-  1: 'messageSMS',
+  1: 'msgSMS',
 };

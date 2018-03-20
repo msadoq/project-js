@@ -31,8 +31,8 @@ const stubState = {
           {
             name: 'itemName',
             unit: 'J',
-          }
-        ]
+          },
+        ],
       },
     ],
   },

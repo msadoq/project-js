@@ -14,17 +14,18 @@ const getPusElement = require('./pusElement.stub');
 const now = _now();
 
 const pus144OnboardFiles = {
-  partitionId: 100,
-  fileProtectionStatus: 100,
+  partitionId: 'mySTRING',
+  fileProtectionStatus: 'mySTRING',
   fileId: 100,
-  fileAddress: 100,
+  fileAddress: 'mySTRING',
   fileSize: 100,
-  uploadedFileChecksum: 100,
+  uploadedFileChecksum: 'mySTRING',
   fileType: 'mySTRING',
-  fileMode: 100,
+  fileMode: 'mySTRING',
   fileCreationTime: now,
-  computedFileChecksum: 100,
+  computedFileChecksum: 'mySTRING',
   pusElement: getPusElement(),
+  isFileSizeSet: true,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus144OnboardFiles) : pus144OnboardFiles);

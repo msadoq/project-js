@@ -16,6 +16,7 @@ const now = _now();
 
 const pus142Model = {
   serviceStatus: 100,
+  lastUpdateTimeServiceStatus: now,
   noOfFunctionalMonitoring: 100,
   pus142FunctionalMonitoring: [getPus142FunctionalMonitoring(), getPus142FunctionalMonitoring()],
   groundDate: now,

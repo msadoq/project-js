@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./briefcaseContent');
-const stub = require('./briefcaseContent.stub')();
+const { getBriefcaseContent } = require('../stubs');
 
 
 
@@ -17,41 +18,43 @@ describe('protobuf/isis/briefcase/BriefcaseContent', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/BriefcaseContent.proto`, { keepCase: true })
     .lookup('briefcase.protobuf.BriefcaseContent');
+  const fixture = getBriefcaseContent();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
       author: {
         objectType: {
-          area: { type: 'ushort', value: stub.author.objectType.area },
-          service: { type: 'ushort', value: stub.author.objectType.service },
-          version: { type: 'uoctet', value: stub.author.objectType.version },
-          number: { type: 'ushort', value: stub.author.objectType.number },
+          area: { type: 'ushort', value: fixture.author.objectType.area },
+          service: { type: 'ushort', value: fixture.author.objectType.service },
+          version: { type: 'uoctet', value: fixture.author.objectType.version },
+          number: { type: 'ushort', value: fixture.author.objectType.number },
         },
         objectKey: {
-          domaineId: { type: 'ushort', value: stub.author.objectKey.domaineId },
-          uid: { type: 'long', symbol: `${stub.author.objectKey.uid}` },
+          domaineId: { type: 'ushort', value: fixture.author.objectKey.domaineId },
+          uid: { type: 'long', symbol: `${fixture.author.objectKey.uid}` },
         },
       },
-      title: { type: 'string', value: stub.title },
-      description: { type: 'string', value: stub.description },
+      title: { type: 'string', value: fixture.title },
+      description: { type: 'string', value: fixture.description },
     });
-    expect(decoded.link).toHaveLength(stub.link.length);
-    for (let i = 0; i < stub.link.length; i += 1) {
-      expect(decoded.link[i]).toMatchObject({
+    
+    json.link.should.be.an('array').that.have.lengthOf(fixture.link.length);
+    for (let i = 0; i < fixture.link.length; i += 1) {
+      json.link[i].should.be.an('object').that.have.properties({
         objectType: {
-          area: { type: 'ushort', value: stub.link[i].objectType.area },
-          service: { type: 'ushort', value: stub.link[i].objectType.service },
-          version: { type: 'uoctet', value: stub.link[i].objectType.version },
-          number: { type: 'ushort', value: stub.link[i].objectType.number },
+          area: { type: 'ushort', value: fixture.link[i].objectType.area },
+          service: { type: 'ushort', value: fixture.link[i].objectType.service },
+          version: { type: 'uoctet', value: fixture.link[i].objectType.version },
+          number: { type: 'ushort', value: fixture.link[i].objectType.number },
         },
         objectKey: {
-          domaineId: { type: 'ushort', value: stub.link[i].objectKey.domaineId },
-          uid: { type: 'long', symbol: `${stub.link[i].objectKey.uid}` },
+          domaineId: { type: 'ushort', value: fixture.link[i].objectKey.domaineId },
+          uid: { type: 'long', symbol: `${fixture.link[i].objectKey.uid}` },
         },
       });
       

@@ -9,12 +9,12 @@
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _now = require('lodash/now');
 const _defaultsDeep = require('lodash/defaultsDeep');
-const getUser = require('../ccsds_cs/user.stub');
+
 
 const now = _now();
 
 const opAlertClosingData = {
-  closingUser: getUser(),
+  closingUser: 'mySTRING',
   closingDate: now,
   closingWay: 0,
 };

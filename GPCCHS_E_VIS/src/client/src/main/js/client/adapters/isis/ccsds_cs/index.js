@@ -7,20 +7,20 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const ServiceFilter = require('./serviceFilter');
-const Container = require('./container');
-const ProviderDefinition = require('./providerDefinition');
-const ServiceAddress = require('./serviceAddress');
-const Provider = require('./provider');
-const User = require('./user');
 const UserContext = require('./userContext');
+const User = require('./user');
+const ServiceAddress = require('./serviceAddress');
+const ProviderDefinition = require('./providerDefinition');
+const ServiceFilter = require('./serviceFilter');
+const Provider = require('./provider');
+const Container = require('./container');
 
 module.exports = {
-  ServiceFilter: { type: 'raw', adapter: ServiceFilter },
-  Container: { type: 'raw', adapter: Container },
-  ProviderDefinition: { type: 'raw', adapter: ProviderDefinition },
-  ServiceAddress: { type: 'raw', adapter: ServiceAddress },
-  Provider: { type: 'raw', adapter: Provider },
-  User: { type: 'raw', adapter: User },
   UserContext: { type: 'raw', adapter: UserContext },
+  User: { type: 'raw', adapter: User },
+  ServiceAddress: { type: 'raw', adapter: ServiceAddress },
+  ProviderDefinition: { type: 'raw', adapter: ProviderDefinition },
+  ServiceFilter: { type: 'raw', adapter: ServiceFilter },
+  Provider: { type: 'raw', adapter: Provider },
+  Container: { type: 'raw', adapter: Container },
 };

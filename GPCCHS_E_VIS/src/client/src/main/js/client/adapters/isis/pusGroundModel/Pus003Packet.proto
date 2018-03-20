@@ -5,8 +5,7 @@
 // ====================================================================
 
 // Produced by Acceleo JavaScript Generator 1.1.2
-import "../ccsds_mal/ATTRIBUTE.proto";
-import "../ccsds_mal/DURATION.proto";
+import "../ccsds_mal/BOOLEAN.proto";
 import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/UINTEGER.proto";
 import "./PusElement.proto";
@@ -15,14 +14,15 @@ import "./PusElement.proto";
 package pusGroundModel.protobuf;
 
 message Pus003Packet {
-extensions 9 to 109;
+extensions 10 to 110;
 
   optional ccsds_mal.protobuf.UINTEGER sid = 1;
   optional ccsds_mal.protobuf.UINTEGER validityParameterId = 2;
   optional ccsds_mal.protobuf.STRING validityParameterMask = 3;
-  optional ccsds_mal.protobuf.ATTRIBUTE validityParameterExpectedValue = 4;
-  optional ccsds_mal.protobuf.DURATION collectionInterval = 5;
+  optional ccsds_mal.protobuf.STRING validityParameterExpectedValue = 4;
+  optional ccsds_mal.protobuf.UINTEGER collectionInterval = 5;
   optional ccsds_mal.protobuf.UINTEGER status = 6;
   optional pusGroundModel.protobuf.PusElement pusElement = 7;
   optional ccsds_mal.protobuf.STRING sidLabel = 8;
+  optional ccsds_mal.protobuf.BOOLEAN isCollectionIntervalSet = 9;
 }

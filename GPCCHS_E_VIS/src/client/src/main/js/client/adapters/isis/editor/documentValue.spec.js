@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./documentValue');
-const stub = require('./documentValue.stub')();
+const { getDocumentValue } = require('../stubs');
 
 
 
@@ -17,18 +18,20 @@ describe('protobuf/isis/editor/DocumentValue', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/DocumentValue.proto`, { keepCase: true })
     .lookup('editor.protobuf.DocumentValue');
+  const fixture = getDocumentValue();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      docPath: { type: 'string', value: stub.docPath },
-      docId: { type: 'long', symbol: `${stub.docId}` },
-      parentDocId: { type: 'long', symbol: `${stub.parentDocId}` },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      docPath: { type: 'string', value: fixture.docPath },
+      docId: { type: 'long', symbol: `${fixture.docId}` },
+      parentDocId: { type: 'long', symbol: `${fixture.parentDocId}` },
     });
+    
     
   });
 });

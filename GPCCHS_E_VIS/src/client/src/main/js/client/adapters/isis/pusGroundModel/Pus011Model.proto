@@ -5,6 +5,7 @@
 // ====================================================================
 
 // Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
 import "./Pus011Apid.proto";
@@ -14,15 +15,20 @@ import "./PusElement.proto";
 package pusGroundModel.protobuf;
 
 message Pus011Model {
-extensions 10 to 110;
+extensions 15 to 115;
 
   optional ccsds_mal.protobuf.UINTEGER maxNoTc = 1;
   optional ccsds_mal.protobuf.UINTEGER scheduleStatus = 2;
   optional ccsds_mal.protobuf.UINTEGER apid = 3;
-  optional ccsds_mal.protobuf.UINTEGER noCommands = 4;
-  optional ccsds_mal.protobuf.UINTEGER noSubSchedule = 5;
-  optional pusGroundModel.protobuf.PusElement pusElement = 6;
-  optional ccsds_mal.protobuf.TIME groundDate = 7;
-  optional ccsds_mal.protobuf.UINTEGER status = 8;
-  repeated pusGroundModel.protobuf.Pus011Apid pus011Apid = 9;
+  optional ccsds_mal.protobuf.UINTEGER noFreeCommands = 4;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeNoFreeCommands = 5;
+  optional ccsds_mal.protobuf.UINTEGER freeSpace = 6;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeFreeSpace = 7;
+  optional ccsds_mal.protobuf.BOOLEAN spaceInNumberOfCommands = 8;
+  optional ccsds_mal.protobuf.UINTEGER noSubSchedule = 9;
+  optional pusGroundModel.protobuf.PusElement pusElement = 10;
+  optional ccsds_mal.protobuf.TIME groundDate = 11;
+  optional ccsds_mal.protobuf.UINTEGER status = 12;
+  repeated pusGroundModel.protobuf.Pus011Apid pus011Apid = 13;
+  optional ccsds_mal.protobuf.BOOLEAN useTimeShifts = 14;
 }

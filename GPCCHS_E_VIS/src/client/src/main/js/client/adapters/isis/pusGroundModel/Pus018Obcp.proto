@@ -5,6 +5,7 @@
 // ====================================================================
 
 // Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/UINTEGER.proto";
 import "./PusElement.proto";
 import "./PusParameter.proto";
@@ -16,11 +17,11 @@ message Pus018Obcp {
 extensions 9 to 109;
 
   optional ccsds_mal.protobuf.UINTEGER id = 1;
-  optional ccsds_mal.protobuf.UINTEGER status = 2;
-  optional ccsds_mal.protobuf.UINTEGER stepId = 3;
-  optional ccsds_mal.protobuf.UINTEGER partitionId = 4;
-  optional ccsds_mal.protobuf.UINTEGER observabilityLevel = 5;
-  optional ccsds_mal.protobuf.UINTEGER priority = 6;
+  optional ccsds_mal.protobuf.STRING status = 2;
+  optional ccsds_mal.protobuf.STRING stepId = 3;
+  optional ccsds_mal.protobuf.STRING partitionId = 4;
+  optional ccsds_mal.protobuf.STRING observabilityLevel = 5;
+  optional ccsds_mal.protobuf.STRING priority = 6;
   repeated pusGroundModel.protobuf.PusParameter pus18Parameter = 7;
   optional pusGroundModel.protobuf.PusElement pusElement = 8;
 }

@@ -7,32 +7,32 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const PusHeader = require('./pusHeader');
-const TCLong = require('./tCLong');
-const TCImmediate = require('./tCImmediate');
-const TCFile = require('./tCFile');
-const TCDetails = require('./tCDetails');
-const TC11 = require('./tC11');
-const TCPhysicalParameter = require('./tCPhysicalParameter');
 const TimeTaggedTC = require('./timeTaggedTC');
-const ExpectedAck = require('./expectedAck');
-const TCHistory = require('./tCHistory');
 const GenericTC = require('./genericTC');
 const SuccessiveAck = require('./successiveAck');
+const TCHistory = require('./tCHistory');
+const ExpectedAck = require('./expectedAck');
+const TCDetails = require('./tCDetails');
+const PusHeader = require('./pusHeader');
+const TCImmediate = require('./tCImmediate');
+const TCLong = require('./tCLong');
+const TC11 = require('./tC11');
 const TC13 = require('./tC13');
+const TCFile = require('./tCFile');
+const TCPhysicalParameter = require('./tCPhysicalParameter');
 
 module.exports = {
-  PusHeader: { type: 'protobuf', adapter: PusHeader },
-  TCLong: { type: 'protobuf', adapter: TCLong },
-  TCImmediate: { type: 'protobuf', adapter: TCImmediate },
-  TCFile: { type: 'protobuf', adapter: TCFile },
-  TCDetails: { type: 'protobuf', adapter: TCDetails },
-  TC11: { type: 'protobuf', adapter: TC11 },
-  TCPhysicalParameter: { type: 'protobuf', adapter: TCPhysicalParameter },
   TimeTaggedTC: { type: 'protobuf', adapter: TimeTaggedTC },
-  ExpectedAck: { type: 'protobuf', adapter: ExpectedAck },
-  TCHistory: { type: 'protobuf', adapter: TCHistory },
   GenericTC: { type: 'protobuf', adapter: GenericTC },
   SuccessiveAck: { type: 'protobuf', adapter: SuccessiveAck },
+  TCHistory: { type: 'protobuf', adapter: TCHistory },
+  ExpectedAck: { type: 'protobuf', adapter: ExpectedAck },
+  TCDetails: { type: 'protobuf', adapter: TCDetails },
+  PusHeader: { type: 'protobuf', adapter: PusHeader },
+  TCImmediate: { type: 'protobuf', adapter: TCImmediate },
+  TCLong: { type: 'protobuf', adapter: TCLong },
+  TC11: { type: 'protobuf', adapter: TC11 },
   TC13: { type: 'protobuf', adapter: TC13 },
+  TCFile: { type: 'protobuf', adapter: TCFile },
+  TCPhysicalParameter: { type: 'protobuf', adapter: TCPhysicalParameter },
 };

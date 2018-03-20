@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./expectedAck');
-const stub = require('./expectedAck.stub')();
+const { getExpectedAck } = require('../stubs');
 
 
 
@@ -17,18 +18,20 @@ describe('protobuf/isis/tcHistory/ExpectedAck', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/ExpectedAck.proto`, { keepCase: true })
     .lookup('tcHistory.protobuf.ExpectedAck');
+  const fixture = getExpectedAck();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      acceptance: { type: 'boolean', value: stub.acceptance },
-      executionComplete: { type: 'boolean', value: stub.executionComplete },
-      executionStart: { type: 'boolean', value: stub.executionStart },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      acceptance: { type: 'boolean', value: fixture.acceptance },
+      executionComplete: { type: 'boolean', value: fixture.executionComplete },
+      executionStart: { type: 'boolean', value: fixture.executionStart },
     });
+    
     
   });
 });

@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./flowConfiguration');
-const stub = require('./flowConfiguration.stub')();
+const { getFlowConfiguration } = require('../stubs');
 
 
 
@@ -17,26 +18,28 @@ describe('protobuf/isis/connection/FlowConfiguration', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/FlowConfiguration.proto`, { keepCase: true })
     .lookup('connection.protobuf.FlowConfiguration');
+  const fixture = getFlowConfiguration();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      reconnectionDelay: (typeof stub.reconnectionDelay === 'undefined')
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      reconnectionDelay: (typeof fixture.reconnectionDelay === 'undefined')
         ? null
-        : { type: 'integer', value: stub.reconnectionDelay },
-      reconnectionNumber: (typeof stub.reconnectionNumber === 'undefined')
+        : { type: 'integer', value: fixture.reconnectionDelay },
+      reconnectionNumber: (typeof fixture.reconnectionNumber === 'undefined')
         ? null
-        : { type: 'integer', value: stub.reconnectionNumber },
+        : { type: 'integer', value: fixture.reconnectionNumber },
     });
-    expect(decoded.configurationFiles).toHaveLength(stub.configurationFiles.length);
-    for (let i = 0; i < stub.configurationFiles.length; i += 1) {
-      expect(decoded.configurationFiles[i]).toMatchObject({
+    
+    json.configurationFiles.should.be.an('array').that.have.lengthOf(fixture.configurationFiles.length);
+    for (let i = 0; i < fixture.configurationFiles.length; i += 1) {
+      json.configurationFiles[i].should.have.properties({
         type: 'uri',
-        value: stub.configurationFiles[i],
+        value: fixture.configurationFiles[i],
       });
     }
   });

@@ -20,9 +20,7 @@ const transition = {
   convertedValue: _random(1, 100, true),
   extractedValue: _random(1, 100, true),
   rawValue: _random(1, 100, true),
-  monitoringState: 'nominal',
-  isObsolete: false,
-  isNominal: true,
+  monitoringState: 'mySTRING',
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, transition) : transition);

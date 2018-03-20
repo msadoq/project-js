@@ -16,12 +16,12 @@ const now = _now();
 
 const computedEvent = {
   eventDate: now,
-  eventClass: 0,
   systemDate: now,
+  eventClass: 0,
   origin: 'mySTRING',
   mission: 'mySTRING',
-  satellite: 1000,
   specificAttributes: [getNamedValue(), getNamedValue()],
+  satellite: 1000,
   producer: getProvider(),
 };
 

@@ -11,12 +11,11 @@ const bLOB = require('../ccsds_mal/bLOB');
 const fLOAT = require('../ccsds_mal/fLOAT');
 const sTRING = require('../ccsds_mal/sTRING');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
     retransmit_flag: (data.retransmit_flag !== null && typeof data.retransmit_flag !== 'undefined')
-      ? uOCTET.encode(data.retransmit_flag)
+      ? uINTEGER.encode(data.retransmit_flag)
       : null,
     internal_id: (data.internal_id !== null && typeof data.internal_id !== 'undefined')
       ? uINTEGER.encode(data.internal_id)
@@ -36,7 +35,7 @@ module.exports = {
   }),
   decode: data => ({
     retransmit_flag: (data.retransmit_flag !== null && typeof data.retransmit_flag !== 'undefined')
-      ? uOCTET.decode(data.retransmit_flag)
+      ? uINTEGER.decode(data.retransmit_flag)
       : undefined,
     internal_id: (data.internal_id !== null && typeof data.internal_id !== 'undefined')
       ? uINTEGER.decode(data.internal_id)

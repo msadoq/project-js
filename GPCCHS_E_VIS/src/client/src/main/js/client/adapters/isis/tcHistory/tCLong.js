@@ -25,11 +25,11 @@ module.exports = {
       ? pusHeader.encode(data.pusHeader)
       : null,
     tc13: _map(data.tc13, d => (bLOB.encode(d))),
-    generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
-      ? sTRING.encode(data.generatedProcedure)
-      : null,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? bLOB.encode(data.rawPacket)
+      : null,
+    generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
+      ? sTRING.encode(data.generatedProcedure)
       : null,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.encode(data.tcId)
@@ -50,11 +50,11 @@ module.exports = {
       ? pusHeader.decode(data.pusHeader)
       : undefined,
     tc13: _map(data.tc13, d => (bLOB.decode(d))),
-    generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
-      ? sTRING.decode(data.generatedProcedure)
-      : undefined,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? bLOB.decode(data.rawPacket)
+      : undefined,
+    generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
+      ? sTRING.decode(data.generatedProcedure)
       : undefined,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.decode(data.tcId)

@@ -18,6 +18,9 @@ module.exports = {
     serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
       ? uINTEGER.encode(data.serviceStatus)
       : null,
+    lastUpdateTimeServiceStatus: (data.lastUpdateTimeServiceStatus !== null && typeof data.lastUpdateTimeServiceStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeServiceStatus)
+      : null,
     noOfFunctionalMonitoring: (data.noOfFunctionalMonitoring !== null && typeof data.noOfFunctionalMonitoring !== 'undefined')
       ? uINTEGER.encode(data.noOfFunctionalMonitoring)
       : null,
@@ -38,6 +41,9 @@ module.exports = {
   decode: data => ({
     serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
       ? uINTEGER.decode(data.serviceStatus)
+      : undefined,
+    lastUpdateTimeServiceStatus: (data.lastUpdateTimeServiceStatus !== null && typeof data.lastUpdateTimeServiceStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeServiceStatus)
       : undefined,
     noOfFunctionalMonitoring: (data.noOfFunctionalMonitoring !== null && typeof data.noOfFunctionalMonitoring !== 'undefined')
       ? uINTEGER.decode(data.noOfFunctionalMonitoring)

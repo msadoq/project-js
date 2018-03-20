@@ -7,7 +7,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const _random = require('lodash/random');
 const _defaultsDeep = require('lodash/defaultsDeep');
 const getPus012MonitoringCheckProperties = require('./pus012MonitoringCheckProperties.stub');
 const getPusElement = require('./pusElement.stub');
@@ -17,8 +16,8 @@ const pus012ParameterMonitoringDefinition = {
   parameterId: 100,
   validityParameterId: 100,
   validityParameterMask: 'mySTRING',
-  parameterCurrentValue: _random(1, 100, true),
-  validityParameterExpectedValue: _random(1, 100, true),
+  parameterCurrentValue: 'mySTRING',
+  validityParameterExpectedValue: 'mySTRING',
   monitoringInterval: 100,
   repetitionNumber: 100,
   checkType: 100,
@@ -28,6 +27,9 @@ const pus012ParameterMonitoringDefinition = {
   pus012MonitoringCheckPropertiesExpected: getPus012MonitoringCheckProperties(),
   pusElement: getPusElement(),
   monitoringIdLabel: 'mySTRING',
+  protectionStatus: 'mySTRING',
+  isMonitoringIntervalSet: true,
+  isRepetitionNumberSet: true,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus012ParameterMonitoringDefinition) : pus012ParameterMonitoringDefinition);

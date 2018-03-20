@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./sentQueueElement');
-const stub = require('./sentQueueElement.stub')();
+const { getSentQueueElement } = require('../stubs');
 
 
 
@@ -17,21 +18,23 @@ describe('protobuf/isis/cop1/SentQueueElement', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/SentQueueElement.proto`, { keepCase: true })
     .lookup('cop1.protobuf.SentQueueElement');
+  const fixture = getSentQueueElement();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      retransmit_flag: { type: 'uoctet', value: stub.retransmit_flag },
-      internal_id: { type: 'uinteger', value: stub.internal_id },
-      num_farm: { type: 'uinteger', value: stub.num_farm },
-      date: { type: 'string', value: stub.date },
-      frame_data: { type: 'blob', value: stub.frame_data },
-      reemission_delay: { type: 'float', value: stub.reemission_delay },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      retransmit_flag: { type: 'uinteger', value: fixture.retransmit_flag },
+      internal_id: { type: 'uinteger', value: fixture.internal_id },
+      num_farm: { type: 'uinteger', value: fixture.num_farm },
+      date: { type: 'string', value: fixture.date },
+      frame_data: { type: 'blob', value: fixture.frame_data },
+      reemission_delay: { type: 'float', value: fixture.reemission_delay },
     });
+    
     
   });
 });

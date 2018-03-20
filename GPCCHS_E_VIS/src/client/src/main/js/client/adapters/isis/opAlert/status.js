@@ -13,4 +13,5 @@ module.exports = {
   1: 'CLOSED_OK',
   2: 'CLOSED_NOK',
   3: 'ERROR',
+  4: 'CLOSED_ERROR',
 };

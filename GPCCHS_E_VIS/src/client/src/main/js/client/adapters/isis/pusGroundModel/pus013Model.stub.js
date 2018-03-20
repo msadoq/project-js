@@ -21,11 +21,12 @@ const pus013Model = {
   pUS013DownlinkLdt: [getPus013DownlinkLdt(), getPus013DownlinkLdt()],
   groundDate: now,
   apid: 100,
-  noOnGoingUplinkLDT: 100,
+  noOnGoingUplinkLDTFile: 100,
   noOnGoingDownlinkLDTFile: 100,
   currentUplinkLduIdPosition: 100,
   pusElement: getPusElement(),
   status: 100,
+  noOnGoingUplinkLDTPacket: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus013Model) : pus013Model);

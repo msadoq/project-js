@@ -7,6 +7,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+require('../../../utils/test');
 const { encodeRaw, decodeRaw } = require('./serializableSessionInfo');
 const { getSerializableSessionInfo } = require('../stubs');
 
@@ -15,13 +16,13 @@ const { getSerializableSessionInfo } = require('../stubs');
 describe('protobuf/isis/sessionModel/SerializableSessionInfo', () => {
   const fixture = getSerializableSessionInfo();
   let buffer;
-  test('encode', () => {
+  it('encode', () => {
     buffer = encodeRaw(fixture);
-    expect(buffer.constructor).toBe(Buffer);
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
+  it('decode', () => {
     const json = decodeRaw(buffer);
-    expect(json).toMatchObject({
+    json.should.be.an('object').that.have.properties({
       oid: {
         objectType: {
           area: { type: 'ushort', value: fixture.oid.objectType.area },
@@ -45,5 +46,6 @@ describe('protobuf/isis/sessionModel/SerializableSessionInfo', () => {
       properties: { type: 'string', value: fixture.properties },
       variables: { type: 'string', value: fixture.variables },
     });
+    
   });
 });

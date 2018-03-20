@@ -25,6 +25,9 @@ module.exports = {
     serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
       ? uINTEGER.encode(data.serviceStatus)
       : null,
+    lastUpdateTimeServiceStatus: (data.lastUpdateTimeServiceStatus !== null && typeof data.lastUpdateTimeServiceStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeServiceStatus)
+      : null,
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
       ? tIME.encode(data.groundDate)
       : null,
@@ -45,6 +48,9 @@ module.exports = {
       : undefined,
     serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
       ? uINTEGER.decode(data.serviceStatus)
+      : undefined,
+    lastUpdateTimeServiceStatus: (data.lastUpdateTimeServiceStatus !== null && typeof data.lastUpdateTimeServiceStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeServiceStatus)
       : undefined,
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
       ? tIME.decode(data.groundDate)

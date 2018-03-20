@@ -7,6 +7,7 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+require('../../../utils/test');
 const { encodeRaw, decodeRaw } = require('./groundModel');
 const { getGroundModel } = require('../stubs');
 
@@ -15,15 +16,16 @@ const { getGroundModel } = require('../stubs');
 describe('protobuf/isis/pusGroundModel/GroundModel', () => {
   const fixture = getGroundModel();
   let buffer;
-  test('encode', () => {
+  it('encode', () => {
     buffer = encodeRaw(fixture);
-    expect(buffer.constructor).toBe(Buffer);
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
+  it('decode', () => {
     const json = decodeRaw(buffer);
-    expect(json).toMatchObject({
+    json.should.be.an('object').that.have.properties({
       apid: { type: 'ushort', value: fixture.apid },
       pusServiceType: { type: 'ushort', value: fixture.pusServiceType },
     });
+    
   });
 });

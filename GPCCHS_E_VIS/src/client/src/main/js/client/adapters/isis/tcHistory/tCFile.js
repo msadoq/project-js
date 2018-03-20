@@ -21,17 +21,17 @@ module.exports = {
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
       ? tIME.encode(data.encodingDate)
       : null,
-    pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
-      ? pusHeader.encode(data.pusHeader)
-      : null,
     fileReference: (data.fileReference !== null && typeof data.fileReference !== 'undefined')
       ? sTRING.encode(data.fileReference)
       : null,
-    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? bLOB.encode(data.rawPacket)
+    pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
+      ? pusHeader.encode(data.pusHeader)
       : null,
     partition: (data.partition !== null && typeof data.partition !== 'undefined')
       ? sTRING.encode(data.partition)
+      : null,
+    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
+      ? bLOB.encode(data.rawPacket)
       : null,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.encode(data.tcId)
@@ -43,11 +43,11 @@ module.exports = {
     generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
       ? sTRING.encode(data.generatedProcedure)
       : null,
-    sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
-      ? uLONG.encode(data.sequenceCount)
-      : null,
     fileUri: (data.fileUri !== null && typeof data.fileUri !== 'undefined')
       ? sTRING.encode(data.fileUri)
+      : null,
+    sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
+      ? uLONG.encode(data.sequenceCount)
       : null,
     fileType: (data.fileType !== null && typeof data.fileType !== 'undefined')
       ? sTRING.encode(data.fileType)
@@ -61,17 +61,17 @@ module.exports = {
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
       ? tIME.decode(data.encodingDate)
       : undefined,
-    pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
-      ? pusHeader.decode(data.pusHeader)
-      : undefined,
     fileReference: (data.fileReference !== null && typeof data.fileReference !== 'undefined')
       ? sTRING.decode(data.fileReference)
       : undefined,
-    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? bLOB.decode(data.rawPacket)
+    pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
+      ? pusHeader.decode(data.pusHeader)
       : undefined,
     partition: (data.partition !== null && typeof data.partition !== 'undefined')
       ? sTRING.decode(data.partition)
+      : undefined,
+    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
+      ? bLOB.decode(data.rawPacket)
       : undefined,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.decode(data.tcId)
@@ -83,11 +83,11 @@ module.exports = {
     generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
       ? sTRING.decode(data.generatedProcedure)
       : undefined,
-    sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
-      ? uLONG.decode(data.sequenceCount)
-      : undefined,
     fileUri: (data.fileUri !== null && typeof data.fileUri !== 'undefined')
       ? sTRING.decode(data.fileUri)
+      : undefined,
+    sequenceCount: (data.sequenceCount !== null && typeof data.sequenceCount !== 'undefined')
+      ? uLONG.decode(data.sequenceCount)
       : undefined,
     fileType: (data.fileType !== null && typeof data.fileType !== 'undefined')
       ? sTRING.decode(data.fileType)

@@ -5,6 +5,7 @@
 // ====================================================================
 
 // Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
 import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
@@ -14,17 +15,18 @@ import "./PusElement.proto";
 package pusGroundModel.protobuf;
 
 message Pus144OnboardFiles {
-extensions 12 to 112;
+extensions 13 to 113;
 
-  optional ccsds_mal.protobuf.UINTEGER partitionId = 1;
-  optional ccsds_mal.protobuf.UINTEGER fileProtectionStatus = 2;
+  optional ccsds_mal.protobuf.STRING partitionId = 1;
+  optional ccsds_mal.protobuf.STRING fileProtectionStatus = 2;
   optional ccsds_mal.protobuf.UINTEGER fileId = 3;
-  optional ccsds_mal.protobuf.UINTEGER fileAddress = 4;
+  optional ccsds_mal.protobuf.STRING fileAddress = 4;
   optional ccsds_mal.protobuf.UINTEGER fileSize = 5;
-  optional ccsds_mal.protobuf.UINTEGER uploadedFileChecksum = 6;
+  optional ccsds_mal.protobuf.STRING uploadedFileChecksum = 6;
   optional ccsds_mal.protobuf.STRING fileType = 7;
-  optional ccsds_mal.protobuf.UINTEGER fileMode = 8;
+  optional ccsds_mal.protobuf.STRING fileMode = 8;
   optional ccsds_mal.protobuf.TIME fileCreationTime = 9;
-  optional ccsds_mal.protobuf.UINTEGER computedFileChecksum = 10;
+  optional ccsds_mal.protobuf.STRING computedFileChecksum = 10;
   optional pusGroundModel.protobuf.PusElement pusElement = 11;
+  optional ccsds_mal.protobuf.BOOLEAN isFileSizeSet = 12;
 }

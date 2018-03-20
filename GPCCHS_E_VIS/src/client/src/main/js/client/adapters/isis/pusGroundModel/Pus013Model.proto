@@ -15,16 +15,17 @@ import "./PusElement.proto";
 package pusGroundModel.protobuf;
 
 message Pus013Model {
-extensions 11 to 111;
+extensions 12 to 112;
 
   optional ccsds_mal.protobuf.UINTEGER noOnGoingDownlinkLDTPacket = 1;
   repeated pusGroundModel.protobuf.Pus013UplinkLdt pUS013UplinkLdt = 2;
   repeated pusGroundModel.protobuf.Pus013DownlinkLdt pUS013DownlinkLdt = 3;
   optional ccsds_mal.protobuf.TIME groundDate = 4;
   optional ccsds_mal.protobuf.UINTEGER apid = 5;
-  optional ccsds_mal.protobuf.UINTEGER noOnGoingUplinkLDT = 6;
+  optional ccsds_mal.protobuf.UINTEGER noOnGoingUplinkLDTFile = 6;
   optional ccsds_mal.protobuf.UINTEGER noOnGoingDownlinkLDTFile = 7;
   optional ccsds_mal.protobuf.UINTEGER currentUplinkLduIdPosition = 8;
   optional pusGroundModel.protobuf.PusElement pusElement = 9;
   optional ccsds_mal.protobuf.UINTEGER status = 10;
+  optional ccsds_mal.protobuf.UINTEGER noOnGoingUplinkLDTPacket = 11;
 }

@@ -8,8 +8,9 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
+require('../../../utils/test');
 const adapter = require('./pus142ParameterMonitoringDefinition');
-const stub = require('./pus142ParameterMonitoringDefinition.stub')();
+const { getPus142ParameterMonitoringDefinition } = require('../stubs');
 
 
 
@@ -17,16 +18,18 @@ describe('protobuf/isis/pusGroundModel/Pus142ParameterMonitoringDefinition', () 
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus142ParameterMonitoringDefinition.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus142ParameterMonitoringDefinition');
+  const fixture = getPus142ParameterMonitoringDefinition();
   let buffer;
-  test('encode', () => {
-    buffer = builder.encode(adapter.encode(stub)).finish();
-    expect(buffer.constructor).toBe(Buffer);
+  it('encode', () => {
+    buffer = builder.encode(adapter.encode(fixture)).finish();
+    buffer.constructor.should.equal(Buffer);
   });
-  test('decode', () => {
-    const decoded = adapter.decode(builder.decode(buffer));
-    expect(decoded).toMatchObject({
-      paramMonId: { type: 'uinteger', value: stub.paramMonId },
+  it('decode', () => {
+    const json = adapter.decode(builder.decode(buffer));
+    json.should.be.an('object').that.have.properties({
+      paramMonId: { type: 'uinteger', value: fixture.paramMonId },
     });
+    
     
   });
 });

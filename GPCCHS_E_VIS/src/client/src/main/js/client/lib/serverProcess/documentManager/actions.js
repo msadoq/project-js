@@ -110,12 +110,21 @@ export const openPage = pageInfo => (dispatch, getState) => {
     }
     const page = documents.pages[0].value;
     const firstTimebarId = getFirstTimebarId(getState());
+    const updatedPage = {
+      ...page,
+      timebarUuid: firstTimebarId,
+    };
+
+    if (updatedPage.isModified && updatedPage.absolutePath) {
+      delete updatedPage.absolutePath;
+    }
+
     dispatch({
       type: types.WS_PAGE_OPENED,
       payload: {
         windowId: page.windowId,
         views: keepValues(views),
-        page: _.set('timebarUuid', firstTimebarId, page),
+        page: updatedPage,
       },
     });
 

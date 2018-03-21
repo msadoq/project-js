@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`store:serverProcess:middlewares:documents/makeOnOpenPage ask for confirmation before opening a page that has already been opened 1`] = `Array []`;
+
 exports[`store:serverProcess:middlewares:documents/makeOnOpenPage open a page directly 1`] = `
 Array [
   Object {

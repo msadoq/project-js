@@ -29,7 +29,7 @@ import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';
 
 
 const findOpenedPage = (state, pageAbsolutePath) =>
-  Object.values(state.pages).find(p => p.absolutePath === pageAbsolutePath);
+  state.pages && Object.values(state.pages).find(p => p.absolutePath === pageAbsolutePath);
 
 const makeOnOpenPage = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
@@ -75,7 +75,7 @@ const makeOnOpenPage = documentManager => withListenAction(
               }));
               listenAction(types.WS_MODAL_CLOSE, (confirmCloseAction) => {
                 if (confirmCloseAction.payload.choice === 'cancel') {
-                  // TODO: close modal and do nothing
+                  // closes modal and do nothing
                 }
 
                 if (confirmCloseAction.payload.choice === 'open') {
@@ -83,6 +83,7 @@ const makeOnOpenPage = documentManager => withListenAction(
                     windowId,
                     absolutePath: foundOpenedPage.absolutePath,
                     workspaceFolder,
+                    isModified: true,
                   }));
                 }
 

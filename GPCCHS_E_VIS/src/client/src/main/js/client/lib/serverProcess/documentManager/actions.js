@@ -85,9 +85,16 @@ export const openView = (viewInfo, pageId) => (dispatch) => {
       dispatch(addGlobalError(view.error));
       return;
     }
+
+    const updatedViewContent = view.value;
+
+    if (updatedViewContent.isModified && updatedViewContent.absolutePath) {
+      delete updatedViewContent.absolutePath;
+    }
+
     dispatch({
       type: types.WS_VIEW_OPENED,
-      payload: { view: view.value, pageId },
+      payload: { view: updatedViewContent, pageId },
     });
     dispatch(sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.value.absolutePath));
   });

@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`store:serverProcess:middlewares:documents:makeOnOpenView ask for confirmation before opening a view that has already been opened 1`] = `Array []`;
+
 exports[`store:serverProcess:middlewares:documents:makeOnOpenView open filepicker, then cancel opening view 1`] = `
 Array [
   Object {

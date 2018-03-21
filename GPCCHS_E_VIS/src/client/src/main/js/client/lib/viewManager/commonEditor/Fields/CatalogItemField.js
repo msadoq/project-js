@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { catalogItemType } from 'viewManager/common/Components/types';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
+import VirtualizedSelectField from 'windowProcess/commonReduxForm/VirtualizedSelectField';
 
 const { bool, string, arrayOf, oneOfType, func, number } = PropTypes;
 
@@ -63,7 +63,7 @@ export default class CatalogItemField extends PureComponent {
       <Field
         format={null}
         name="connectedData.catalogItem"
-        component={ReactSelectField}
+        component={VirtualizedSelectField}
         clearable
         disabled={disabled}
         options={computeOptions(catalogItems)}

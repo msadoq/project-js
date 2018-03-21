@@ -165,7 +165,7 @@
     "minimist": "^1.2.0",
     "mkdirp": "~0.5.1",
     "mocha": "~3.2.0",
-    "moment": "~2.18.1",
+    "moment": "~2.20.1",
     "opn": "^5.1.0",
     "postcss": "~5.2.16",
     "postcss-browser-reporter": "~0.5.0",

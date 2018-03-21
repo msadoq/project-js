@@ -15,6 +15,7 @@ import _isObject from 'lodash/isObject';
 import _isArray from 'lodash/isArray';
 import _isEmpty from 'lodash/isEmpty';
 import _cloneDeep from 'lodash/cloneDeep';
+import dateFormat, { TAI } from './date';
 
 export function isLongValue(data) {
   return (
@@ -27,9 +28,7 @@ export function isLongValue(data) {
 
 export function convertLongData(data) {
   if (data.type === 'time' || data.type === 'fineTime') {
-    // keep that dirty slice to remove last 'Z' caracter.
-    // @see https://vmisismantis01.cnes-isis.toulouse.atos.net/mantisbt/view.php?id=9775
-    return moment(data.value).utc().toISOString().slice(0, -1);
+    return dateFormat(data.value, TAI);
   }
   if (data.type === 'long' || data.type === 'ulong') {
     return Number(data.symbol);

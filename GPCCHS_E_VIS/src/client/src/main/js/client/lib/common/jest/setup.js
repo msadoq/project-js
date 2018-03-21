@@ -75,6 +75,7 @@ global.testConfig = {
     { 'fr.cnes.isis': '#0066ff' },
     { multi: '#ff3300' },
   ],
+  DATE_FORMAT_TAI: 'YYYY-MM-DDTHH:mm:ss.SSS',
 };
 
 Enzyme.configure({ adapter: new Adapter() });

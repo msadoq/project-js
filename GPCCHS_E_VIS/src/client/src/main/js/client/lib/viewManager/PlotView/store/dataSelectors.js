@@ -6,10 +6,10 @@
 // ====================================================================
 
 import { createSelector } from 'reselect';
-import moment from 'moment';
 import _last from 'lodash/last';
 import _get from 'lodash/get';
 import _ from 'lodash/fp';
+import dateFormat, { TAI } from 'viewManager/commonData/date';
 
 import { getViewTitle } from 'store/reducers/views';
 import { getPlotViewData, getData } from './dataReducer';
@@ -61,7 +61,7 @@ const getLastValue = createSelector(
     if (!lastTimestamp || !lastValue) {
       return null;
     }
-    const timestamp = moment(lastTimestamp).utc().toISOString();
+    const timestamp = dateFormat(lastTimestamp);
     const symbol = _get(lastValue, 'symbol');
     const value = (symbol !== undefined && symbol !== null) ? symbol : _get(lastValue, 'value');
     return { timestamp, value };

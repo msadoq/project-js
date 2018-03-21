@@ -13,8 +13,8 @@ import React, { PureComponent, PropTypes } from 'react';
 import { FormGroup, ControlLabel, Col, Panel, Button } from 'react-bootstrap';
 import Inspector from 'react-json-inspector';
 
-import moment from 'moment';
 import styles from '../Explorer.css';
+import dateFormat, { TAI } from '../../../viewManager/commonData/date';
 
 export default class Cache extends PureComponent {
   static propTypes = {
@@ -41,7 +41,7 @@ export default class Cache extends PureComponent {
             <strong>Last cache cleanup time</strong>
           </Col>
           <Col sm={7}>
-            <Panel className={styles.panel}>{moment(lastCacheCleanUp).utc().toISOString()}</Panel>
+            <Panel className={styles.panel}>{dateFormat(lastCacheCleanUp, TAI)}</Panel>
           </Col>
         </FormGroup>
         <Button

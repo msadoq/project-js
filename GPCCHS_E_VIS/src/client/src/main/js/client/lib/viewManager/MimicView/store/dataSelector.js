@@ -7,13 +7,11 @@
 // ====================================================================
 
 import { createSelector } from 'reselect';
-import moment from 'moment';
 import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
 import _ from 'lodash/fp';
-
+import dateFormat, { TAI } from 'viewManager/commonData/date';
 import { getViewTitle } from 'store/reducers/views';
-
 import { getMimicViewData, getData } from './dataReducer';
 
 const getFullTitle = getViewTitle;
@@ -53,7 +51,7 @@ const getLastValue = createSelector(
     if (_isNil(lastTimestamp) || _isNil(value)) {
       return null;
     }
-    const timestamp = moment(lastTimestamp).utc().toISOString();
+    const timestamp = dateFormat(lastTimestamp);
     return { timestamp, value };
   }
 );

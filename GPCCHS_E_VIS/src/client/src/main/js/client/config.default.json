@@ -212,5 +212,6 @@
   "DISABLE_LOKI_CACHE": false,
   "ZMQ_PASSERELLE_PUB": "ipc://convertUnitRequest.ipc",
   "ZMQ_PASSERELLE_SUB": "ipc://convertUnitResponse.ipc",
-  "COLORS_CONFIGURATION": "config.colors.json"
+  "COLORS_CONFIGURATION": "config.colors.json",
+  "DATE_FORMAT_TAI": "YYYY-MM-DDTHH:mm:ss.SSS"
 }

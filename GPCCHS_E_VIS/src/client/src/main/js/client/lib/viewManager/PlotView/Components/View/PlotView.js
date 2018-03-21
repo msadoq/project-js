@@ -73,11 +73,11 @@ import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';
 import _ from 'lodash/fp';
 import classnames from 'classnames';
-import moment from 'moment';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 import withDimensions from 'windowProcess/common/hoc/withDimensions';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
+import dateFormat, { TAI } from 'viewManager/commonData/date';
 
 import getLogger from 'common/logManager';
 import Legend from './Legend';
@@ -366,9 +366,9 @@ const tooltipFormatter = (id, foundColor, color, value, x, formattedValue, forma
           { packet.symbol ? packet.symbol : formattedValue }
         </span>
         <br />
-        <strong>{ moment(packet.refTime).utc().toISOString() }</strong>
+        <strong>{ dateFormat(packet.refTime, TAI) }</strong>
         {' '}
-        {packet.valX ? <span>({ moment(packet.valX).utc().toISOString() })</span> : null}
+        {packet.valX ? <span>({ dateFormat(packet.valX, TAI) })</span> : null}
       </p>
     </div>
   );

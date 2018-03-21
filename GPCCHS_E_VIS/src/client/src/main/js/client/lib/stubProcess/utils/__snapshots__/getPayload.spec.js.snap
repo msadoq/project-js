@@ -198,260 +198,28 @@ Object {
 
 exports[`getPayload getPayload :: GroundMonitoringAlarmAckRequest .<GroundMonitoringAlarmAckRequest> should be true 1`] = `
 Object {
-  "payload": Object {
-    "ackRequest": undefined,
-    "groundMonitoringAlarm": Object {
-      "alarmId": 1150,
-      "closingDate": 1518791878574,
-      "creationDate": 1518791878484,
-      "hasAckRequest": true,
-      "isNominal": true,
-      "paramUid": 13525,
-      "transitions": Array [
-        Object {
-          "convertedValue": 2,
-          "extractedValue": 3,
-          "groundDate": 1518791878604,
-          "monitoringState": undefined,
-          "onboardDate": 1518791878584,
-          "rawValue": 1,
-        },
-        Object {
-          "convertedValue": 2,
-          "extractedValue": 3,
-          "groundDate": 1518791878604,
-          "monitoringState": "severe",
-          "onboardDate": 1518791878584,
-          "rawValue": 1,
-        },
-        Object {
-          "convertedValue": 2,
-          "extractedValue": 3,
-          "groundDate": 1518791878604,
-          "monitoringState": "nominal",
-          "onboardDate": 1518791878584,
-          "rawValue": 1,
-        },
-        Object {
-          "convertedValue": 2,
-          "extractedValue": 3,
-          "groundDate": 1518791878604,
-          "monitoringState": undefined,
-          "onboardDate": 1518791878584,
-          "rawValue": 1,
-        },
-        Object {
-          "convertedValue": 2,
-          "extractedValue": 3,
-          "groundDate": 1518791878604,
-          "monitoringState": "nominal",
-          "onboardDate": 1518791878584,
-          "rawValue": 1,
-        },
-      ],
-      "updateDate": 1518791878534,
-    },
-    "oid": "oid6783974.901345573",
-    "parameterName": "pNamenulla",
-    "parameterType": "pTypelaborum.",
-    "satellite": "satelliteaute",
-    "telemetryType": "telemetryTypefugiat",
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: GroundMonitoringAlarmAckRequest .undefined<GroundMonitoringAlarmAckRequest> should be true 1`] = `
 Object {
-  "payload": Object {
-    "ackRequest": undefined,
-    "groundMonitoringAlarm": Object {
-      "alarmId": 1150,
-      "closingDate": 1518791878574,
-      "creationDate": 1518791878484,
-      "hasAckRequest": true,
-      "isNominal": true,
-      "paramUid": 13525,
-      "transitions": Array [
-        Object {
-          "convertedValue": 193.1198743591496,
-          "extractedValue": 289.6798115387244,
-          "groundDate": 1518791878604,
-          "monitoringState": undefined,
-          "onboardDate": 1518791878584,
-          "rawValue": 96.5599371795748,
-        },
-        Object {
-          "convertedValue": 193.1198743591496,
-          "extractedValue": 289.6798115387244,
-          "groundDate": 1518791878604,
-          "monitoringState": "severe",
-          "onboardDate": 1518791878584,
-          "rawValue": 96.5599371795748,
-        },
-        Object {
-          "convertedValue": 193.1198743591496,
-          "extractedValue": 289.6798115387244,
-          "groundDate": 1518791878604,
-          "monitoringState": "nominal",
-          "onboardDate": 1518791878584,
-          "rawValue": 96.5599371795748,
-        },
-        Object {
-          "convertedValue": 193.1198743591496,
-          "extractedValue": 289.6798115387244,
-          "groundDate": 1518791878604,
-          "monitoringState": undefined,
-          "onboardDate": 1518791878584,
-          "rawValue": 96.5599371795748,
-        },
-        Object {
-          "convertedValue": 193.1198743591496,
-          "extractedValue": 289.6798115387244,
-          "groundDate": 1518791878604,
-          "monitoringState": "nominal",
-          "onboardDate": 1518791878584,
-          "rawValue": 96.5599371795748,
-        },
-      ],
-      "updateDate": 1518791878534,
-    },
-    "oid": "oid6783974.901345573",
-    "parameterName": "pNamenulla",
-    "parameterType": "pTypelaborum.",
-    "satellite": "satelliteaute",
-    "telemetryType": "telemetryTypefugiat",
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: GroundMonitoringAlarmAckRequest undefined.<GroundMonitoringAlarmAckRequest> should be true 1`] = `
 Object {
-  "payload": Object {
-    "ackRequest": undefined,
-    "groundMonitoringAlarm": Object {
-      "alarmId": 1150,
-      "closingDate": 1518791878574,
-      "creationDate": 1518791878484,
-      "hasAckRequest": true,
-      "isNominal": true,
-      "paramUid": 13525,
-      "transitions": Array [
-        Object {
-          "convertedValue": 2,
-          "extractedValue": 3,
-          "groundDate": 1518791878604,
-          "monitoringState": undefined,
-          "onboardDate": 1518791878584,
-          "rawValue": 1,
-        },
-        Object {
-          "convertedValue": 2,
-          "extractedValue": 3,
-          "groundDate": 1518791878604,
-          "monitoringState": "severe",
-          "onboardDate": 1518791878584,
-          "rawValue": 1,
-        },
-        Object {
-          "convertedValue": 2,
-          "extractedValue": 3,
-          "groundDate": 1518791878604,
-          "monitoringState": "nominal",
-          "onboardDate": 1518791878584,
-          "rawValue": 1,
-        },
-        Object {
-          "convertedValue": 2,
-          "extractedValue": 3,
-          "groundDate": 1518791878604,
-          "monitoringState": undefined,
-          "onboardDate": 1518791878584,
-          "rawValue": 1,
-        },
-        Object {
-          "convertedValue": 2,
-          "extractedValue": 3,
-          "groundDate": 1518791878604,
-          "monitoringState": "nominal",
-          "onboardDate": 1518791878584,
-          "rawValue": 1,
-        },
-      ],
-      "updateDate": 1518791878534,
-    },
-    "oid": "oid6783974.901345573",
-    "parameterName": "pNamenulla",
-    "parameterType": "pTypelaborum.",
-    "satellite": "satelliteaute",
-    "telemetryType": "telemetryTypefugiat",
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: GroundMonitoringAlarmAckRequest undefined.undefined<GroundMonitoringAlarmAckRequest> should be true 1`] = `
 Object {
-  "payload": Object {
-    "ackRequest": undefined,
-    "groundMonitoringAlarm": Object {
-      "alarmId": 1150,
-      "closingDate": 1518791878574,
-      "creationDate": 1518791878484,
-      "hasAckRequest": true,
-      "isNominal": true,
-      "paramUid": 13525,
-      "transitions": Array [
-        Object {
-          "convertedValue": 193.1198743591496,
-          "extractedValue": 289.6798115387244,
-          "groundDate": 1518791878604,
-          "monitoringState": undefined,
-          "onboardDate": 1518791878584,
-          "rawValue": 96.5599371795748,
-        },
-        Object {
-          "convertedValue": 193.1198743591496,
-          "extractedValue": 289.6798115387244,
-          "groundDate": 1518791878604,
-          "monitoringState": "severe",
-          "onboardDate": 1518791878584,
-          "rawValue": 96.5599371795748,
-        },
-        Object {
-          "convertedValue": 193.1198743591496,
-          "extractedValue": 289.6798115387244,
-          "groundDate": 1518791878604,
-          "monitoringState": "nominal",
-          "onboardDate": 1518791878584,
-          "rawValue": 96.5599371795748,
-        },
-        Object {
-          "convertedValue": 193.1198743591496,
-          "extractedValue": 289.6798115387244,
-          "groundDate": 1518791878604,
-          "monitoringState": undefined,
-          "onboardDate": 1518791878584,
-          "rawValue": 96.5599371795748,
-        },
-        Object {
-          "convertedValue": 193.1198743591496,
-          "extractedValue": 289.6798115387244,
-          "groundDate": 1518791878604,
-          "monitoringState": "nominal",
-          "onboardDate": 1518791878584,
-          "rawValue": 96.5599371795748,
-        },
-      ],
-      "updateDate": 1518791878534,
-    },
-    "oid": "oid6783974.901345573",
-    "parameterName": "pNamenulla",
-    "parameterType": "pTypelaborum.",
-    "satellite": "satelliteaute",
-    "telemetryType": "telemetryTypefugiat",
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
@@ -542,124 +310,28 @@ Object {
 
 exports[`getPayload getPayload :: OnBoardAlarmAckRequest .<OnBoardAlarmAckRequest> should be true 1`] = `
 Object {
-  "payload": Object {
-    "ackRequest": undefined,
-    "oid": "oid5495318.607772788",
-    "onBoardAlarm": Object {
-      "alarmLevel": undefined,
-      "apid": 13525,
-      "eventType": 16260,
-      "groundDate": 1518791878584,
-      "onBoardDate": 1518791878564,
-      "parameter": Array [
-        Object {
-          "name": "pNameofficia",
-          "value": 14980.388170624792,
-        },
-        Object {
-          "name": "pNameut",
-          "value": 56745,
-        },
-      ],
-      "reportId": 9853,
-      "reportName": "reportNameLorem",
-    },
-    "satellite": "satellitefugiat",
-    "telemetryType": "telemetryTypein",
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: OnBoardAlarmAckRequest .undefined<OnBoardAlarmAckRequest> should be true 1`] = `
 Object {
-  "payload": Object {
-    "ackRequest": undefined,
-    "oid": "oid5495318.607772788",
-    "onBoardAlarm": Object {
-      "alarmLevel": undefined,
-      "apid": 13525,
-      "eventType": 16260,
-      "groundDate": 1518791878584,
-      "onBoardDate": 1518791878564,
-      "parameter": Array [
-        Object {
-          "name": "pNameofficia",
-          "value": 14980.388170624792,
-        },
-        Object {
-          "name": "pNameut",
-          "value": 56745,
-        },
-      ],
-      "reportId": 9853,
-      "reportName": "reportNameLorem",
-    },
-    "satellite": "satellitefugiat",
-    "telemetryType": "telemetryTypein",
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: OnBoardAlarmAckRequest undefined.<OnBoardAlarmAckRequest> should be true 1`] = `
 Object {
-  "payload": Object {
-    "ackRequest": undefined,
-    "oid": "oid5495318.607772788",
-    "onBoardAlarm": Object {
-      "alarmLevel": undefined,
-      "apid": 13525,
-      "eventType": 16260,
-      "groundDate": 1518791878584,
-      "onBoardDate": 1518791878564,
-      "parameter": Array [
-        Object {
-          "name": "pNameofficia",
-          "value": 14980.388170624792,
-        },
-        Object {
-          "name": "pNameut",
-          "value": 56745,
-        },
-      ],
-      "reportId": 9853,
-      "reportName": "reportNameLorem",
-    },
-    "satellite": "satellitefugiat",
-    "telemetryType": "telemetryTypein",
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: OnBoardAlarmAckRequest undefined.undefined<OnBoardAlarmAckRequest> should be true 1`] = `
 Object {
-  "payload": Object {
-    "ackRequest": undefined,
-    "oid": "oid5495318.607772788",
-    "onBoardAlarm": Object {
-      "alarmLevel": undefined,
-      "apid": 13525,
-      "eventType": 16260,
-      "groundDate": 1518791878584,
-      "onBoardDate": 1518791878564,
-      "parameter": Array [
-        Object {
-          "name": "pNameofficia",
-          "value": 14980.388170624792,
-        },
-        Object {
-          "name": "pNameut",
-          "value": 56745,
-        },
-      ],
-      "reportId": 9853,
-      "reportName": "reportNameLorem",
-    },
-    "satellite": "satellitefugiat",
-    "telemetryType": "telemetryTypein",
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
@@ -708,126 +380,98 @@ Object {
 
 exports[`getPayload getPayload :: Pus003Model .<Pus003Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus003Model .undefined<Pus003Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus003Model Pus003.parameter<Pus003Model> should be true 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus003Model PusGroundModelDefinition.<Pus003Model> should be true 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus003Model PusGroundModelDefinition.undefined<Pus003Model> should be true 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus003Model undefined.<Pus003Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus003Model undefined.undefined<Pus003Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus005Model .<Pus005Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus005Model .undefined<Pus005Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus005Model Pus005.parameter<Pus005Model> should be true 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus005Model PusGroundModelDefinition.<Pus005Model> should be true 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus005Model PusGroundModelDefinition.undefined<Pus005Model> should be true 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus005Model undefined.<Pus005Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus005Model undefined.undefined<Pus005Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
@@ -1002,63 +646,49 @@ Object {
 
 exports[`getPayload getPayload :: Pus012Model .<Pus012Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus012Model .undefined<Pus012Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus012Model Pus012.parameter<Pus012Model> should be true 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus012Model PusGroundModelDefinition.<Pus012Model> should be true 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus012Model PusGroundModelDefinition.undefined<Pus012Model> should be true 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus012Model undefined.<Pus012Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: Pus012Model undefined.undefined<Pus012Model> should be false 1`] = `
 Object {
-  "payload": Object {
-    "groundDate": 1518791878584,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
@@ -1401,84 +1031,42 @@ Object {
 
 exports[`getPayload getPayload :: ReportingParameter .<ReportingParameter> should be false 1`] = `
 Object {
-  "payload": Object {
-    "convertedValue": 1,
-    "extractedValue": 1,
-    "groundDate": 1518791878604,
-    "monitoringState": undefined,
-    "onboardDate": 1518791878584,
-    "rawValue": 1,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: ReportingParameter .undefined<ReportingParameter> should be false 1`] = `
 Object {
-  "payload": Object {
-    "convertedValue": 96.5599371795748,
-    "extractedValue": 96.5599371795748,
-    "groundDate": 1518791878604,
-    "monitoringState": undefined,
-    "onboardDate": 1518791878584,
-    "rawValue": 96.5599371795748,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: ReportingParameter Reporting.<ReportingParameter> should be true 1`] = `
 Object {
-  "payload": Object {
-    "convertedValue": 1,
-    "extractedValue": 1,
-    "groundDate": 1518791878604,
-    "monitoringState": undefined,
-    "onboardDate": 1518791878584,
-    "rawValue": 1,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: ReportingParameter Reporting.undefined<ReportingParameter> should be true 1`] = `
 Object {
-  "payload": Object {
-    "convertedValue": 96.5599371795748,
-    "extractedValue": 96.5599371795748,
-    "groundDate": 1518791878604,
-    "monitoringState": undefined,
-    "onboardDate": 1518791878584,
-    "rawValue": 96.5599371795748,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: ReportingParameter undefined.<ReportingParameter> should be false 1`] = `
 Object {
-  "payload": Object {
-    "convertedValue": 1,
-    "extractedValue": 1,
-    "groundDate": 1518791878604,
-    "monitoringState": undefined,
-    "onboardDate": 1518791878584,
-    "rawValue": 1,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;
 
 exports[`getPayload getPayload :: ReportingParameter undefined.undefined<ReportingParameter> should be false 1`] = `
 Object {
-  "payload": Object {
-    "convertedValue": 96.5599371795748,
-    "extractedValue": 96.5599371795748,
-    "groundDate": 1518791878604,
-    "monitoringState": undefined,
-    "onboardDate": 1518791878584,
-    "rawValue": 96.5599371795748,
-  },
+  "payload": undefined,
   "timestamp": undefined,
 }
 `;

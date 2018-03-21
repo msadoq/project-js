@@ -55,9 +55,6 @@ export default class EntryPointDetails extends PureComponent {
 
   render() {
     const {
-      entryPoint,
-      viewId,
-      pageId,
       panels,
     } = this.props;
 
@@ -130,12 +127,3 @@ export default class EntryPointDetails extends PureComponent {
     );
   }
 }
-
-const stateColor = entryPoint => ({
-  stateColors: entryPoint.stateColors || [],
-});
-
-const units = entryPoint => ({
-  convertFrom: entryPoint.connectedData.convertFrom,
-  convertTo: entryPoint.connectedData.convertTo,
-});

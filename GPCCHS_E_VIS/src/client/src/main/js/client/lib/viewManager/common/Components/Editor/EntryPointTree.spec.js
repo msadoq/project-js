@@ -110,7 +110,7 @@ describe('viewManager/common/Components/Editor/EntryPointTree', () => {
     wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
     expect(entryPoint).toEqual(entryPointUpdated);
   });
-  test('EntryPointTree :: handleSubmit connectedData', () => {
+  test.only('EntryPointTree :: handleSubmit connectedData', () => {
     const wrapper = shallow(
       <EntryPointTree
         {...propsStub}
@@ -121,18 +121,18 @@ describe('viewManager/common/Components/Editor/EntryPointTree', () => {
         catalog: 'Reporting',
         catalogItem: 'AGA_AM_ACQPRIORITY',
         comObject: 'ReportingParameter',
-        comObjectField: 'extractedValue',
+        comObjectField: 'convertedValue',
       },
     });
     const entryPointUpdated = {
       ...entryPointEmpty,
       connectedData: {
         ...propsStub.entryPoint.connectedData,
-        formula: 'Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.extractedValue',
+        formula: 'Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.convertedValue',
         catalog: 'Reporting',
         catalogItem: 'AGA_AM_ACQPRIORITY',
         comObject: 'ReportingParameter',
-        comObjectField: 'extractedValue',
+        comObjectField: 'convertedValue',
       },
     };
     expect(entryPoint).toEqual(entryPointUpdated);

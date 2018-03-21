@@ -57,7 +57,7 @@ export default class CatalogItemField extends PureComponent {
   }
 
   render() {
-    const { catalogItems, domainId, timelineId, catalogName } = this.props;
+    const { catalogItems, domainId, timelineId, catalogName, askUnit, sessionId } = this.props;
     const disabled = (!domainId || !timelineId || !catalogName || catalogItems === null);
     return (
       <Field

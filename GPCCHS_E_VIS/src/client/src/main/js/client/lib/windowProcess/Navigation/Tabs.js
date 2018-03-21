@@ -30,10 +30,6 @@ import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 
 import _ from 'lodash';
 import { get } from 'common/configurationManager';
 import styles from './Tabs.css';
-import {
-  COLOR_ISIS_SAT, COLOR_MULTIPLE_SAT, COLOR_SIMUPUS_SAT, DOMAIN_ISIS,
-  DOMAIN_SIMUPUS,
-} from '../../constants';
 
 const popoverDraggingStyle = { display: 'none' };
 

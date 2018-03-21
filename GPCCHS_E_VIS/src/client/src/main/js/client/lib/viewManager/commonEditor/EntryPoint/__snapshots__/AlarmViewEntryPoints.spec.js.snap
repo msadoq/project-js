@@ -1,369 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: AlarmViewEntryPoints snapshot 1`] = `
-ShallowWrapper {
-  "length": 1,
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <AlarmViewEntryPoints
-    domain={null}
-    domainName="fr.cnes.test"
-    domains={
+<div>
+  <HorizontalFormGroup
+    label="Domain"
+  >
+    <Connect(DomainField)
+      domainName={null}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="Timeline"
+  >
+    <Connect(TimelineField)
+      timelineName={null}
+      windowId={undefined}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    label="Mode"
+  >
+    <Field
+      clearable={false}
+      component={[Function]}
+      name="mode"
+      options={
         Array [
-            Object {
-              "domainId": 1,
-              "itemNamespace": "Domains",
-              "name": "fr.cnes.isis",
-              "oid": "0051525005151000565215465660515",
-              "parentDomainId": 0,
-            },
-            Object {
-              "domainId": 2,
-              "itemNamespace": "Domains",
-              "name": "fr.cnes.isis.simupus",
-              "oid": "0051525005151000565215465660515",
-              "parentDomainId": 1,
-            },
-          ]
-    }
-    timeline={null}
-/>,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": undefined,
-    "nodeType": "host",
-    "props": Object {
-      "children": Array [
-        <HorizontalFormGroup
-          label="Domain"
->
-          <Connect(DomainField)
-                    domainName={null}
-          />
-</HorizontalFormGroup>,
-        <HorizontalFormGroup
-          label="Timeline"
->
-          <Connect(TimelineField)
-                    timelineName={null}
-                    windowId={undefined}
-          />
-</HorizontalFormGroup>,
-        <HorizontalFormGroup
-          label="Mode"
->
-          <Field
-                    clearable={false}
-                    component={[Function]}
-                    name="mode"
-                    options={
-                              Array [
-                                        Object {
-                                          "label": "All",
-                                          "value": 0,
-                                        },
-                                        Object {
-                                          "label": "Non nominal",
-                                          "value": 1,
-                                        },
-                                        Object {
-                                          "label": "To Acknowledge",
-                                          "value": 2,
-                                        },
-                                      ]
-                    }
-          />
-</HorizontalFormGroup>,
-      ],
-    },
-    "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "function",
-        "props": Object {
-          "children": <Connect(DomainField)
-            domainName={null}
-/>,
-          "label": "Domain",
-        },
-        "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "domainName": null,
+          Object {
+            "label": "All",
+            "value": 0,
           },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "function",
-        "props": Object {
-          "children": <Connect(TimelineField)
-            timelineName={null}
-            windowId={undefined}
-/>,
-          "label": "Timeline",
-        },
-        "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "timelineName": null,
-            "windowId": undefined,
+          Object {
+            "label": "Non nominal",
+            "value": 1,
           },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "function",
-        "props": Object {
-          "children": <Field
-            clearable={false}
-            component={[Function]}
-            name="mode"
-            options={
-                        Array [
-                                    Object {
-                                      "label": "All",
-                                      "value": 0,
-                                    },
-                                    Object {
-                                      "label": "Non nominal",
-                                      "value": 1,
-                                    },
-                                    Object {
-                                      "label": "To Acknowledge",
-                                      "value": 2,
-                                    },
-                                  ]
-            }
-/>,
-          "label": "Mode",
-        },
-        "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "clearable": false,
-            "component": [Function],
-            "name": "mode",
-            "options": Array [
-              Object {
-                "label": "All",
-                "value": 0,
-              },
-              Object {
-                "label": "Non nominal",
-                "value": 1,
-              },
-              Object {
-                "label": "To Acknowledge",
-                "value": 2,
-              },
-            ],
+          Object {
+            "label": "To Acknowledge",
+            "value": 2,
           },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        "type": [Function],
-      },
-    ],
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <HorizontalFormGroup
-            label="Domain"
->
-            <Connect(DomainField)
-                        domainName={null}
-            />
-</HorizontalFormGroup>,
-          <HorizontalFormGroup
-            label="Timeline"
->
-            <Connect(TimelineField)
-                        timelineName={null}
-                        windowId={undefined}
-            />
-</HorizontalFormGroup>,
-          <HorizontalFormGroup
-            label="Mode"
->
-            <Field
-                        clearable={false}
-                        component={[Function]}
-                        name="mode"
-                        options={
-                                    Array [
-                                                Object {
-                                                  "label": "All",
-                                                  "value": 0,
-                                                },
-                                                Object {
-                                                  "label": "Non nominal",
-                                                  "value": 1,
-                                                },
-                                                Object {
-                                                  "label": "To Acknowledge",
-                                                  "value": 2,
-                                                },
-                                              ]
-                        }
-            />
-</HorizontalFormGroup>,
-        ],
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "function",
-          "props": Object {
-            "children": <Connect(DomainField)
-              domainName={null}
-/>,
-            "label": "Domain",
-          },
-          "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "domainName": null,
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "function",
-          "props": Object {
-            "children": <Connect(TimelineField)
-              timelineName={null}
-              windowId={undefined}
-/>,
-            "label": "Timeline",
-          },
-          "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "timelineName": null,
-              "windowId": undefined,
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "function",
-          "props": Object {
-            "children": <Field
-              clearable={false}
-              component={[Function]}
-              name="mode"
-              options={
-                            Array [
-                                          Object {
-                                            "label": "All",
-                                            "value": 0,
-                                          },
-                                          Object {
-                                            "label": "Non nominal",
-                                            "value": 1,
-                                          },
-                                          Object {
-                                            "label": "To Acknowledge",
-                                            "value": 2,
-                                          },
-                                        ]
-              }
-/>,
-            "label": "Mode",
-          },
-          "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "clearable": false,
-              "component": [Function],
-              "name": "mode",
-              "options": Array [
-                Object {
-                  "label": "All",
-                  "value": 0,
-                },
-                Object {
-                  "label": "Non nominal",
-                  "value": 1,
-                },
-                Object {
-                  "label": "To Acknowledge",
-                  "value": 2,
-                },
-              ],
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          "type": [Function],
-        },
-      ],
-      "type": "div",
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactFifteenFourAdapter {
-      "options": Object {
-        "supportPrevContextArgumentOfComponentDidUpdate": true,
-      },
-    },
-  },
-}
+        ]
+      }
+    />
+  </HorizontalFormGroup>
+</div>
 `;

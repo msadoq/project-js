@@ -40,7 +40,7 @@ import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 import styles from './DynamicView.css';
-import {buildFormulaForAutocomplete} from '../../../common';
+import { buildFormulaForAutocomplete } from '../../../common';
 
 const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
 

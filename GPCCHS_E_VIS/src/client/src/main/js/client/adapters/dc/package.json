@@ -21,7 +21,7 @@
     "protobufjs": "~6.7.3",
     "jest": "~20.0.4"
   },
-  "scripts" : {
+  "scripts": {
     "test": "NODE_ENV=test jest"
   }
 }

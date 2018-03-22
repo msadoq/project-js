@@ -59,6 +59,11 @@ export default class EntryPointTree extends PureComponent {
     updateViewPanels(viewId, 'entryPoints', openPanels);
   }
 
+  getEntryPointByKey(key) {
+    const entryPoints = this.props.entryPoints;
+    return entryPoints.find(ep => ep.id === key);
+  }
+
   handleRemove = (e, key) => {
     e.preventDefault();
     e.stopPropagation();

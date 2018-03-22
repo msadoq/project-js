@@ -22,7 +22,7 @@ import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import TextView from './TextView';
 import styles from './TextView.css';
-import { buildFormula } from '../../../common';
+import { buildFormulaForAutocomplete } from '../../../common';
 
 const logger = getLogger('view:text');
 
@@ -31,7 +31,12 @@ const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
   const formula =
-    buildFormula(data.catalogName, data.item, getComObject(data.comObjects), data.comObjectFields);
+    buildFormulaForAutocomplete(
+      data.catalogName,
+      data.item,
+      getComObject(data.comObjects),
+      data.comObjectFields
+    );
 
   return {
     name: data.item,

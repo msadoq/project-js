@@ -3,7 +3,7 @@ import _ from 'lodash/fp';
 import _last from 'lodash/last';
 import _get from 'lodash/get';
 
-import dateFormat, { TAI } from 'viewManager/commonData/date';
+import dateFormat from 'viewManager/commonData/date';
 import * as constants from 'constants';
 import { getViewTitle } from 'store/reducers/views';
 import { getGroundAlarmViewData, getData } from './dataReducer';

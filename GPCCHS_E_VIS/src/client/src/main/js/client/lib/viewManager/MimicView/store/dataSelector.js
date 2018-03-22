@@ -10,7 +10,7 @@ import { createSelector } from 'reselect';
 import _get from 'lodash/get';
 import _isNil from 'lodash/isNil';
 import _ from 'lodash/fp';
-import dateFormat, { TAI } from 'viewManager/commonData/date';
+import dateFormat from 'viewManager/commonData/date';
 import { getViewTitle } from 'store/reducers/views';
 import { getMimicViewData, getData } from './dataReducer';
 

@@ -9,7 +9,7 @@ import { createSelector } from 'reselect';
 import _last from 'lodash/last';
 import _get from 'lodash/get';
 import _ from 'lodash/fp';
-import dateFormat, { TAI } from 'viewManager/commonData/date';
+import dateFormat from 'viewManager/commonData/date';
 
 import { getViewTitle } from 'store/reducers/views';
 import { getPlotViewData, getData } from './dataReducer';

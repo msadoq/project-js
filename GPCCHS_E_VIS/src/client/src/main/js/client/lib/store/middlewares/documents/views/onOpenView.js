@@ -64,10 +64,10 @@ const makeOnOpenView = documentManager => withListenAction(
               dispatch(openModal(windowId, {
                 type: 'dialog',
                 title: 'Confirmation for opening page',
-                message: 'This view file is already opened. Do you want to open a copy?',
+                message: 'This view file is already open. Do you want to open a copy?',
                 buttons: [
                   { label: 'Cancel', value: 'cancel', type: 'default' },
-                  { label: 'Open a copy', value: 'open', type: 'primary' },
+                  { label: 'Open a copy in this page', value: 'open', type: 'primary' },
                 ],
               }));
               listenAction(types.WS_MODAL_CLOSE, (confirmCloseAction) => {

@@ -66,11 +66,11 @@ const makeOnOpenPage = documentManager => withListenAction(
               dispatch(openModal(windowId, {
                 type: 'dialog',
                 title: 'Confirmation for opening page',
-                message: 'This page file is already opened in this instance. Are you sure you want to open it again?',
+                message: 'This page file is already open. Do you want to open a copy?',
                 buttons: [
                   { label: 'Cancel', value: 'cancel', type: 'default' },
-                  { label: 'Open in a new tab', value: 'open', type: 'default' },
-                  { label: 'Display existing page', value: 'focus', type: 'primary' },
+                  { label: 'Display existing page', value: 'focus', type: 'default' },
+                  { label: 'Open a copy in a new tab', value: 'open', type: 'primary' },
                 ],
               }));
               listenAction(types.WS_MODAL_CLOSE, (confirmCloseAction) => {

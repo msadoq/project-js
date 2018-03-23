@@ -24,13 +24,12 @@ before_script:
   - git clone git@isisdev153.cnes-isis.toulouse.atos.net:root/vima.git
   - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
   - ln -s $NODE_MODULES node_modules
+  - npm install
 
-job:
+job_lint:
   script:
-   - npm install
    - npm run lint
+
+job_test_coverage:
+  script:
    - npm run test:coverage
-  artifacts:
-    paths:
-      - node_modules/
-    expire_in: 1 week

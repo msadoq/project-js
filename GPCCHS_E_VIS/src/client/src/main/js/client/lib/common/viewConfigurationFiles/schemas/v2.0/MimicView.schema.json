@@ -1,6 +1,17 @@
 {
-    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            }
+          }
+        },
         "condition": {
             "type": "object",
             "properties": {
@@ -31,6 +42,15 @@
                 "formula": {
                     "type": "string"
                 },
+                "unit": {
+                    "type": "string"
+                },
+                "digits": {
+                    "type": "integer"
+                },
+                "format": {
+                    "type": "string"
+                },
                 "filter": {
                     "type": "array",
                     "items": {
@@ -42,17 +62,64 @@
                 },
                 "timeline": {
                     "type": "string"
+                },
+                "convertTo": {
+                    "type": "string"
+                },
+                "convertFrom": {
+                    "type": "string"
                 }
             },
             "required": [
                 "formula",
+                "unit",
+                "digits",
+                "format",
                 "domain",
                 "timeline"
             ]
         },
+        "viewEntryPoint": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "connectedData": {
+                    "$ref": "#/definitions/connectedData"
+                },
+                "stateColours": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "colour": {
+                                "type": "integer"
+                            },
+                            "condition": {
+                                "$ref": "#/definitions/condition"
+                            }
+                        },
+                        "required": [
+                            "colour",
+                            "condition"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "name"
+            ]
+        },
+        "mimicViewEntryPoint": {
+            "$ref": "#/definitions/viewEntryPoint"
+        },
         "viewCommonAttributes": {
             "type": "object",
             "properties": {
+                "path": {
+                    "type": "string"
+                },
                 "links": {
                     "type": "array",
                     "items": {
@@ -102,38 +169,23 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "const": "HistoryView"
+                    "const": "MimicView"
                 },
-                "entryPoint": {
-                    "type": "object",
-                    "properties": {
-                        "connectedData": {
-                            "$ref": "#/definitions/connectedData"
-                        },
-                        "stateColours": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "colour": {
-                                        "type": "integer"
-                                    },
-                                    "condition": {
-                                        "$ref": "#/definitions/condition"
-                                    }
-                                },
-                                "required": [
-                                    "colour",
-                                    "condition"
-                                ]
-                            }
-                        }
-                    },
-                    "required": [
-                        "connectedData"
-                    ]
+                "entryPoints": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mimicViewEntryPoint"
+                    }
+                },
+                "content": {
+                    "type": "string"
                 }
-            }
+            },
+            "required": [
+                "type",
+                "entryPoints",
+                "content"
+            ]
         }
     ]
 }

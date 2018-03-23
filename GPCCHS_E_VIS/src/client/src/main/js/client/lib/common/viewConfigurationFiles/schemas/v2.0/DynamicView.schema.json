@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
         "condition": {
             "type": "object",
@@ -28,6 +28,9 @@
         "connectedData": {
             "type": "object",
             "properties": {
+                "formula": {
+                    "type": "string"
+                },
                 "filter": {
                     "type": "array",
                     "items": {
@@ -39,13 +42,10 @@
                 },
                 "timeline": {
                     "type": "string"
-                },
-                "mode": {
-                  "type": "number"
                 }
             },
             "required": [
-                "mode",
+                "formula",
                 "domain",
                 "timeline"
             ]
@@ -102,7 +102,7 @@
             "properties": {
                 "type": {
                     "type": "string",
-                    "const": "OnboardAlarmView"
+                    "const": "DynamicView"
                 },
                 "entryPoint": {
                     "type": "object",

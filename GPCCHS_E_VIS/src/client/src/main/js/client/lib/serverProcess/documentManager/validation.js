@@ -16,16 +16,28 @@ import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
 import fs from 'fs';
 import getLogger from 'common/logManager';
-import pathWorkspace from './schemas/workspace.schema.json';
-import pathPage from './schemas/page.schema.json';
-import timebarsSchema from './schemas/timebars.schema';
+
+import definitionsSchema from 'common/viewConfigurationFiles/schemas/v2.0/definitions.schema.json';
+import workspaceSchema from 'common/viewConfigurationFiles/schemas/v2.0/workspace.schema.json';
+import pageSchema from 'common/viewConfigurationFiles/schemas/v2.0/page.schema.json';
+import timebarsSchema from 'common/viewConfigurationFiles/schemas/v2.0/timebars.schema.json';
 
 const logger = getLogger('common:validation');
 
-const ajv = new Ajv({ allErrors: true, verbose: true });
+const ajv = new Ajv({
+  allErrors: true,
+  verbose: true,
+  schemas: [
+    definitionsSchema,
+    workspaceSchema,
+    pageSchema,
+    timebarsSchema,
+  ],
+});
+
 const knownValidators = {
-  workspace: ajv.compile(pathWorkspace),
-  page: ajv.compile(pathPage),
+  workspace: ajv.compile(workspaceSchema),
+  page: ajv.compile(pageSchema),
   timebars: ajv.compile(timebarsSchema),
 };
 

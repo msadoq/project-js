@@ -34,12 +34,21 @@
 // ====================================================================
 
 /* eslint-disable global-require, "DV6 TBC_CNES Because mainProcess can't statically resolve react components" */
+
+import plotViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/PlotView.schema.json';
+import textViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/TextView.schema.json';
+import mimicViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/MimicView.schema.json';
+import dynamicViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/DynamicView.schema.json';
+import historyViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/HistoryView.schema.json';
+import packetViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/PacketView.schema.json';
+import groundAlarmViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/GroundAlarmView.schema.json';
+import onboardAlarmViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/OnboardAlarmView.schema.json';
+
 import {
   DATASTRUCTURETYPE_LAST,
   DATASTRUCTURETYPE_RANGE,
 } from '../constants';
 
-import plotViewSchema from './PlotView/PlotView.schema.json';
 import textViewData from './TextView/data';
 import dynamicViewData from './DynamicView/data';
 import mimicViewData from './MimicView/data';
@@ -58,13 +67,6 @@ import historyViewDataSelectors from './HistoryView/store/dataSelectors';
 import packetViewDataSelectors from './PacketView/store/dataSelectors';
 
 import * as constants from './constants';
-import textViewSchema from './TextView/TextView.schema.json';
-import mimicViewSchema from './MimicView/MimicView.schema.json';
-import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
-import historyViewSchema from './HistoryView/HistoryView.schema.json';
-import packetViewSchema from './PacketView/PacketView.schema.json';
-import groundAlarmViewSchema from './GroundAlarmView/GroundAlarmView.schema.json';
-import onboardAlarmViewSchema from './OnboardAlarmView/OnboardAlarmView.schema.json';
 
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
@@ -74,7 +76,6 @@ import historyViewModule from './HistoryView';
 import packetViewModule from './PacketView';
 import groundAlarmViewModule from './GroundAlarmView';
 import onboardAlarmViewModule from './OnboardAlarmView';
-
 
 import plotViewData from './PlotView/data';
 

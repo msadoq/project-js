@@ -1,0 +1,36 @@
+image: node:6.3.0
+
+variables:
+  GIT_STRATEGY: none
+
+cache:
+  untracked: true
+  paths:
+    - node_modules/
+  key: "node_modules"
+
+before_script:
+  - RUNNER_TOKEN=23659357
+  - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/vima/$CI_COMMIT_REF_SLUG
+  - echo $BUILD_DIR
+  - CHECKOUT_DIR=$BUILD_DIR/build
+  - NODE_MODULES=$BUILD_DIR/node_modules
+  - echo $CHECKOUT_DIR
+  - rm -rf $CHECKOUT_DIR
+  - mkdir -p $CHECKOUT_DIR
+  - echo $NODE_MODULES
+  - mkdir -p $NODE_MODULES
+  - cd $CHECKOUT_DIR
+  - git clone git@isisdev153.cnes-isis.toulouse.atos.net:root/vima.git
+  - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
+  - ln -s $NODE_MODULES node_modules
+
+job:
+  script:
+   - npm install
+   - npm run lint
+   - npm run test:coverage
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 week

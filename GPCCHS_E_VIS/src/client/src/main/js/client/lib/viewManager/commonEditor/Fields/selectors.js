@@ -25,3 +25,7 @@ export function getSelectedComObjectName(form, state) {
   return connectedDataSelector(form, state, 'connectedData.comObject');
 }
 
+export function getSelectedDataType(form, state) {
+  return connectedDataSelector(form, state, 'connectedData.dataType');
+}
+

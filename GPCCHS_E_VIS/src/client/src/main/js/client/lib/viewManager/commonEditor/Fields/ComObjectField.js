@@ -18,6 +18,7 @@ export default class ComObjectField extends PureComponent {
       string,
       arrayOf(shape),
     ]),
+    formFieldName: string.isRequired,
   };
 
   static defaultProps = {
@@ -30,14 +31,21 @@ export default class ComObjectField extends PureComponent {
   };
 
   render() {
-    const { comObjectFields, domainName, timelineId, catalogName, itemName, comObjectName } =
-      this.props;
+    const {
+      comObjectFields,
+      domainName,
+      timelineId,
+      catalogName,
+      itemName,
+      comObjectName,
+      formFieldName,
+    } = this.props;
     const disabled = (!domainName || !timelineId || !catalogName || !itemName ||
       !comObjectName || comObjectFields === null);
     return (
       <Field
         format={null}
-        name="connectedData.comObjectField"
+        name={formFieldName}
         component={ReactSelectField}
         clearable
         disabled={disabled}

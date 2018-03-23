@@ -4,6 +4,7 @@ import ComObjectField from './ComObjectField';
 
 const mapStateToProps = (state, { comObjectName }) => ({
   comObjectFields: getFieldsListByComObjectName(state, comObjectName),
+  formFieldName: 'connectedData.comObjectField',
 });
 
 const ComObjectFieldContainer = connect(mapStateToProps, {})(ComObjectField);

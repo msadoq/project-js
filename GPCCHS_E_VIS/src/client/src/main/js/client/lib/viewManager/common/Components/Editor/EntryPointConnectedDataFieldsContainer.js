@@ -3,6 +3,7 @@ import EntryPointConnectedDataFields from 'viewManager/common/Components/Editor/
 import {
   getSelectedCatalogName,
   getSelectedComObjectName,
+  getSelectedDataType,
   getSelectedDomainInForm,
   getSelectedItemName,
   getSelectedTimelineId,
@@ -14,6 +15,7 @@ const mapStateToProps = (state, { form }) => ({
   selectedCatalogName: getSelectedCatalogName(form, state),
   selectedItemName: getSelectedItemName(form, state),
   selectedComObjectName: getSelectedComObjectName(form, state),
+  dataType: getSelectedDataType(form, state),
 });
 
 const EntryPointConnectedDataFieldsContainer = connect(

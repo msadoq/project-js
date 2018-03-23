@@ -40,3 +40,17 @@ export const getFieldsListByComObjectName = createSelector(
   getComObjectMap,
   (_name, _comObjectMap) => _comObjectMap[_name]
 );
+
+/**
+ * Get the fields array for a given comObjectName.
+ * @param {object} state - The current state.
+ * @param {object} name - Com object name.
+ * @return {array} Array of fields name.
+ */
+export const getTimeFieldsByComObjectName = createSelector(
+  getFieldsListByComObjectName,
+  (_comObjectMap) => {
+    console.log('getTimeFieldsByComObjectName');
+    return _comObjectMap ? _comObjectMap.filter(c => c.type === 'ccsds_mal.protobuf.TIME') : [];
+  }
+);

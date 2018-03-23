@@ -9,6 +9,7 @@ import { shallowRenderSnapshot } from 'common/jest/utils';
 import FiltersFields from './FiltersFields';
 
 const propsStub = {
+  form: 'form',
   fields: {
     push: () => null,
     remove: () => null,

@@ -86,15 +86,17 @@ exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: 
     </tbody>
   </Table>
   <HorizontalFormGroup
+    className=""
     label="field"
   >
     <Connect(ComObjectFilterField)
-      formName={undefined}
+      formName="form"
       onChange={[Function]}
       value=""
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
+    className=""
     label="operator"
   >
     <select
@@ -143,6 +145,7 @@ exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: 
     </select>
   </HorizontalFormGroup>
   <HorizontalFormGroup
+    className=""
     label="operand"
   >
     <input
@@ -152,6 +155,7 @@ exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: 
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
+    className=""
     label=""
   >
     <input

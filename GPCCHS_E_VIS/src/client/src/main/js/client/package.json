@@ -67,6 +67,7 @@
     "moduleNameMapper": {
       "\\.(less|css)$": "identity-obj-proxy"
     },
+    "setupFiles": ["./lib/common/jest/polyfill.js"],
     "setupTestFrameworkScriptFile": "./lib/common/jest/setup.js",
     "testPathIgnorePatterns": [
       "/node_modules/",

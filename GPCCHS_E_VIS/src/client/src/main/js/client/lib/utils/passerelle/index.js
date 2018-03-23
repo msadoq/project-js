@@ -20,7 +20,8 @@ exports.spawnPasserelle = function spawnPasserelle() {
   if (!PYTHONPATH) {
     logger.error('No PYTHONPATH found, please provider one.');
     return;
-  }spawned = spawn(PYTHON_EXEC_PATH, [resolve(rootVimaFolder, 'passerelle/gpvi_interfacelayer_server.py')], {
+  }
+  spawned = spawn(PYTHON_EXEC_PATH, [resolve(rootVimaFolder, 'passerelle/gpvi_interfacelayer_server.py')], {
     env: {
       PYTHONPATH,
     },

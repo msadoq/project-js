@@ -29,7 +29,7 @@ import withListenAction from 'store/helpers/withListenAction';
 
 import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';
 import { getUniqueWindow } from '../selectors';
-import {open as openModal} from "../../../actions/modals";
+import { open as openModal } from '../../../actions/modals';
 
 const isAbsolute = _.startsWith('/');
 const getPath = path => (isAbsolute(path) ? path : join(get('ISIS_DOCUMENTS_ROOT'), path)); // TODO test this branch

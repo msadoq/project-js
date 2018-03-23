@@ -6,7 +6,7 @@ exports[`ProviderFieldContainer :: render should render correctly with valid dat
     clearable={true}
     component={[Function]}
     format={null}
-    name="provider"
+    name="connectedData.provider"
     onChange={null}
     options={
       Array [

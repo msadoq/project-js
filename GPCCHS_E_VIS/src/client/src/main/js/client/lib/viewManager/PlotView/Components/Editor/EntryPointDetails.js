@@ -111,10 +111,6 @@ export default class EntryPointDetails extends PureComponent {
       {
         ...entryPoint,
         parametric: values.parametric,
-        connectedData: {
-          ...values.connectedData,
-          provider: values.provider,
-        },
         connectedDataParametric: values.connectedDataParametric,
       }
     );

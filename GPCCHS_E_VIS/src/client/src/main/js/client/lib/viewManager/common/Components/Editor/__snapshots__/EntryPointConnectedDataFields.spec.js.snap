@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager viewManager :: common viewManager :: common :: Components viewManager :: common :: Components :: Editor viewManager :: common :: Components :: Editor :: EntryPointConnectedDataFields snapshot 1`] = `
-<div>
+<Unknown>
   <HorizontalFormGroup
+    className=""
     label="Domain"
   >
     <Connect(DomainField)
@@ -11,6 +12,7 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
+    className=""
     label="Timeline"
   >
     <Connect(TimelineField)
@@ -20,6 +22,7 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
+    className=""
     label="Catalog"
   >
     <Connect(CatalogField)
@@ -30,6 +33,27 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
+    className=""
+    label="Data type"
+  >
+    <DataTypeField
+      onChange={[Function]}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    className=""
+    label="Path"
+  >
+    <Unknown />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    className=""
+    label="Display mode"
+  >
+    <Unknown />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    className=""
     label="Catalog item"
   >
     <Connect(CatalogItemField)
@@ -41,6 +65,7 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
+    className=""
     label="Com object"
   >
     <Connect(ComObject)
@@ -53,6 +78,19 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
+    className=""
+    label="Ref. timestamp"
+  >
+    <Connect(ComObjectField)
+      catalogName={null}
+      comObjectName={null}
+      domainName={null}
+      itemName={null}
+      timelineId={null}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    className=""
     label="Com object Field"
   >
     <Connect(ComObjectField)
@@ -64,9 +102,10 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
+    className=""
     label="Provider"
   >
     <Connect(ProviderField) />
   </HorizontalFormGroup>
-</div>
+</Unknown>
 `;

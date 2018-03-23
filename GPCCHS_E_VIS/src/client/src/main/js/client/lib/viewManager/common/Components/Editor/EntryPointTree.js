@@ -15,10 +15,12 @@ import {
   Button,
 } from 'react-bootstrap';
 import Collapse, { Panel } from 'rc-collapse';
+import _unset from 'lodash/unset';
 import classnames from 'classnames';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 import styles from './EntryPointTree.css';
 import { buildFormula } from '../../index';
+import { SDB_VALUE_OPTION, TIME_BASED_DATA_OPTION } from '../../../commonEditor/Fields/DataTypeField';
 
 const emptyArray = [];
 
@@ -88,18 +90,26 @@ export default class EntryPointTree extends Component {
    */
   handleSubmit = (entryPoint, values) => {
     const { updateEntryPoint, viewId } = this.props;
+    const { dataType } = values.connectedData;
+    if (dataType === TIME_BASED_DATA_OPTION.value) {
+      _unset(entryPoint.connectedData, 'path');
+      _unset(entryPoint.connectedData, 'displayMode');
+    } else if (dataType === SDB_VALUE_OPTION.value) {
+      _unset(entryPoint.connectedData, 'catalogItem');
+      _unset(entryPoint.connectedData, 'comObject');
+      _unset(entryPoint.connectedData, 'comObjectField');
+      _unset(entryPoint.connectedData, 'provider');
+      _unset(entryPoint.connectedData, 'refTimestamp');
+    }
+    const { catalog, catalogItem, comObject, comObjectField } = values.connectedData;
+    const formula = buildFormula(catalog, catalogItem, comObject, comObjectField);
     updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       ...values,
       connectedData: {
         ...entryPoint.connectedData,
         ...values.connectedData,
-        formula: buildFormula(
-          values.connectedData.catalog,
-          values.connectedData.catalogItem,
-          values.connectedData.comObject,
-          values.connectedData.comObjectField
-        ),
+        formula,
       },
     });
   };

@@ -49,8 +49,7 @@ export const getFieldsListByComObjectName = createSelector(
  */
 export const getTimeFieldsByComObjectName = createSelector(
   getFieldsListByComObjectName,
-  (_comObjectMap) => {
-    console.log('getTimeFieldsByComObjectName');
-    return _comObjectMap ? _comObjectMap.filter(c => c.type === 'ccsds_mal.protobuf.TIME') : [];
-  }
+  _comObjectMap => (_comObjectMap
+    ? _comObjectMap.filter(c => c.type === 'ccsds_mal.protobuf.TIME')
+    : [])
 );

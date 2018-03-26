@@ -107,6 +107,5 @@
     "type",
     "views",
     "title"
-  ],
-  "additionalProperties": false
+  ]
 }

@@ -36,7 +36,7 @@ if (program.check) {
     );
   } else {
     process.stderr.write(
-      `This is not a valid ${toValidate} configuration file\n`
+      `This is not a valid ${toValidate.type} configuration file\n`
     );
   }
 }

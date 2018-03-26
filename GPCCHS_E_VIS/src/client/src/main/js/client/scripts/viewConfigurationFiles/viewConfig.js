@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 const Validator = require('./Validator');
 const MigrationManager = require('./migrations/MigrationManager');

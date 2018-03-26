@@ -27,7 +27,7 @@ if (program.check) {
     viewConfiguration.version || VIMA_BASE_VERSION;
 
   const toValidate = ViewConfiguration.fromFile(program.check);
-  const version = getVersion(toValidate)
+  const version = getVersion(toValidate);
   const validator = new Validator(version);
 
   if (validator.validate(toValidate)) {

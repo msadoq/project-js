@@ -28,7 +28,7 @@ class Validator {
         .compile(getViewConfigurationSchema(this.version, viewConfiguration.type));
 
     return {
-      isValid: validate(viewConfiguration),
+      isValid: validate(viewConfiguration.content),
       errors: this.ajv.errorsText(validate.errors),
     };
   }

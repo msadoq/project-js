@@ -40,6 +40,7 @@
     "open:test:coverage": "firefox coverage/test/lcov-report/index.html",
     "package:electron": "cd dist && electron-packager . --no-prune --overwrite",
     "precommit": "lint-staged",
+    "prepush": "npm run push-gitlab-ci",
     "prepare:maven:build": "node ./scripts/prepareMavenBuild.js",
     "sh": "npm run start-hot",
     "staged-precommit-hook": "unset GIT_DIR; ./scripts/staged-precommit-hook.sh",
@@ -223,7 +224,6 @@
     "gitDir": "../../../../../../../",
     "linters": {
       "*.{js,jsx}": [
-        "push-gitlab-ci",
         "staged-precommit-hook"
       ]
     }

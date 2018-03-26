@@ -1,6 +1,11 @@
 import {
   buildFormula,
+  handleSubmit,
 } from 'viewManager/common';
+import { spy } from 'sinon';
+import deepFreeze from 'deep-freeze';
+import _cloneDeep from 'lodash/cloneDeep';
+import { SDB_VALUE_OPTION, TIME_BASED_DATA_OPTION } from '../commonEditor/Fields/DataTypeField';
 
 describe('buildFormula', () => {
   [undefined, null, 'Reporting'].forEach((catalog) => {
@@ -24,5 +29,70 @@ describe('buildFormula', () => {
         });
       });
     });
+  });
+});
+
+describe('handleSubmit', () => {
+  const ANY_VIEW_ID = '6q48ds-sd57qsdd57yt8-8qs9nyt9i54f0f50';
+  const SUBMITTED_VALUES = deepFreeze({
+    id: '42',
+    connectedData: {
+      catalog: 'reporting',
+      path: 'ajanivo',
+      displayMode: 'il',
+      catalogItem: 'inem',
+      comObject: 'ion',
+      refTimestamp: 'erature',
+      comObjectField: 'or',
+      provider: 'ien',
+    },
+  });
+
+  test('should remove path and display mode when dataType = \'time based data\'', () => {
+    const updateStub = spy();
+    const values = _cloneDeep(SUBMITTED_VALUES);
+    values.connectedData.dataType = TIME_BASED_DATA_OPTION.value;
+    handleSubmit(values, updateStub, ANY_VIEW_ID);
+    expect(updateStub.args[0]).toEqual([ANY_VIEW_ID, values.id, {
+      id: '42',
+      connectedData: {
+        dataType: TIME_BASED_DATA_OPTION.value,
+        catalog: 'reporting',
+        catalogItem: 'inem',
+        comObject: 'ion',
+        refTimestamp: 'erature',
+        comObjectField: 'or',
+        provider: 'ien',
+        formula: 'reporting.inem<ion>.or',
+      },
+    }]);
+  });
+  test('should remove catalogItem, comObject, refTimestamp, comObjectField and provider when mode when dataType = \'SBD value\'', () => {
+    const updateStub = spy();
+    const values = _cloneDeep(SUBMITTED_VALUES);
+    values.connectedData.dataType = SDB_VALUE_OPTION.value;
+    handleSubmit(values, updateStub, ANY_VIEW_ID);
+    expect(updateStub.args[0]).toEqual([ANY_VIEW_ID, values.id, {
+      id: '42',
+      connectedData: {
+        dataType: SDB_VALUE_OPTION.value,
+        catalog: 'reporting',
+        path: 'ajanivo',
+        displayMode: 'il',
+        formula: 'reporting',
+      },
+    }]);
+  });
+  test('should not remove anything when no dataType', () => {
+    const updateStub = spy();
+    const values = _cloneDeep(SUBMITTED_VALUES);
+    handleSubmit(values, updateStub, ANY_VIEW_ID);
+    expect(updateStub.args[0]).toEqual([ANY_VIEW_ID, values.id, {
+      ...SUBMITTED_VALUES,
+      connectedData: {
+        ...SUBMITTED_VALUES.connectedData,
+        formula: 'reporting.inem<ion>.or',
+      },
+    }]);
   });
 });

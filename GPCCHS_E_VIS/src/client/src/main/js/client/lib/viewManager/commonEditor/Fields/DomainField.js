@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
-import { domainsType } from './types';
+import { domainsType } from 'viewManager/common/Components/types';
 
 const { func, string } = PropTypes;
 

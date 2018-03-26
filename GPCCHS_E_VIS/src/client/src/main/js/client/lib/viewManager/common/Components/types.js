@@ -50,6 +50,8 @@ export const domainType = shape({
   parentDomainId: number,
 });
 
+export const domainsType = arrayOf(domainType.isRequired);
+
 export const timelineType = shape({
   color: string,
   id: string.isRequired,
@@ -58,6 +60,8 @@ export const timelineType = shape({
   sessionName: string.isRequired,
   uuid: string.isRequired,
 });
+
+export const timelinesType = arrayOf(timelineType.isRequired);
 
 export const sessionType = shape({
   id: number.isRequired,

@@ -16,7 +16,6 @@
 // END-HISTORY
 // ====================================================================
 
-import _get from 'lodash/get';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
@@ -24,12 +23,13 @@ import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import WithForm from 'viewManager/common/Hoc/WithForm';
 import DynamicViewEntryPointsContainer from 'viewManager/commonEditor/EntryPoint/DynamicViewEntryPointsContainer';
-import { buildFormula } from 'viewManager/common';
+import { handleSubmit } from 'viewManager/common';
 import styles from 'viewManager/commonEditor/Editor.css';
 import DynamicTab from 'viewManager/DynamicView/Components/Editor/DynamicTab';
+import { entryPointType } from 'viewManager/common/Components/types';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
-const { string, number, bool, func, shape, array } = PropTypes;
+const { string, number, bool, func, shape } = PropTypes;
 const DynamicViewEntryPointsWithForm = WithForm(DynamicViewEntryPointsContainer);
 
 export default class DynamicEditor extends Component {
@@ -50,7 +50,7 @@ export default class DynamicEditor extends Component {
     }),
     title: string,
     configuration: shape({
-      entryPoints: array,
+      entryPoints: entryPointType,
     }).isRequired,
     updateEntryPoint: func.isRequired,
     updateViewTab: func.isRequired,
@@ -71,22 +71,8 @@ export default class DynamicEditor extends Component {
   };
 
   handleSubmit = (values) => {
-    const { configuration, updateEntryPoint, viewId } = this.props;
-    const entryPoint = _get(configuration, ['entryPoints', 0]);
-    const updatedEntryPoint = {
-      ...entryPoint,
-      ...values,
-      connectedData: {
-        ...values.connectedData,
-        formula: buildFormula(
-          values.connectedData.catalog,
-          values.connectedData.catalogItem,
-          values.connectedData.comObject,
-          values.connectedData.comObjectField
-        ),
-      },
-    };
-    updateEntryPoint(viewId, entryPoint.id, updatedEntryPoint);
+    const { updateEntryPoint, viewId } = this.props;
+    handleSubmit(values, updateEntryPoint, viewId);
   };
 
   render() {

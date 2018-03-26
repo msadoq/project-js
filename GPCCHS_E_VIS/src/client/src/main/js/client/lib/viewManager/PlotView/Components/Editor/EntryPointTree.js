@@ -19,13 +19,12 @@ import {
   Alert,
   Button,
 } from 'react-bootstrap';
-import _unset from 'lodash/unset';
 import classnames from 'classnames';
 import Collapse from 'rc-collapse';
+import { entryPointType } from 'viewManager/common/Components/types';
+import { handleSubmit } from 'viewManager/common';
 import styles from './EntryPointTree.css';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
-import { buildFormula } from '../../../common';
-import { SDB_VALUE_OPTION, TIME_BASED_DATA_OPTION } from '../../../commonEditor/Fields/DataTypeField';
 /*
   EntryPointTree liste les EntryPoints à afficher.
   Permet également d'appliquer un filtre sur le nom
@@ -35,7 +34,7 @@ const emptyArray = [];
 
 export default class EntryPointTree extends PureComponent {
   static propTypes = {
-    entryPoints: PropTypes.arrayOf(PropTypes.object),
+    entryPoints: PropTypes.arrayOf(entryPointType),
     search: PropTypes.string,
     viewId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
@@ -73,34 +72,9 @@ export default class EntryPointTree extends PureComponent {
   }
 
 
-  /**
-   * @param entryPoint
-   * @param values
-   */
-  handleSubmit = (entryPoint, values) => {
+  handleSubmit = (entryPoint, submittedValues) => {
     const { updateEntryPoint, viewId } = this.props;
-    const { dataType } = values.connectedData;
-    if (dataType === TIME_BASED_DATA_OPTION.value) {
-      _unset(entryPoint.connectedData, 'path');
-      _unset(entryPoint.connectedData, 'displayMode');
-    } else if (dataType === SDB_VALUE_OPTION.value) {
-      _unset(entryPoint.connectedData, 'catalogItem');
-      _unset(entryPoint.connectedData, 'comObject');
-      _unset(entryPoint.connectedData, 'comObjectField');
-      _unset(entryPoint.connectedData, 'provider');
-      _unset(entryPoint.connectedData, 'refTimestamp');
-    }
-    const { catalog, catalogItem, comObject, comObjectField } = values.connectedData;
-    const formula = buildFormula(catalog, catalogItem, comObject, comObjectField);
-    updateEntryPoint(viewId, entryPoint.id, {
-      ...entryPoint,
-      ...values,
-      connectedData: {
-        ...entryPoint.connectedData,
-        ...values.connectedData,
-        formula,
-      },
-    });
+    handleSubmit(submittedValues, updateEntryPoint, viewId);
   };
 
   render() {
@@ -162,7 +136,7 @@ export default class EntryPointTree extends PureComponent {
                 viewId={viewId}
                 pageId={pageId}
                 entryPoint={entryPoint}
-                onSubmit={values => this.handleSubmit(entryPoint, values)}
+                onSubmit={this.handleSubmit}
                 initialValues={entryPoint}
                 form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
               />}

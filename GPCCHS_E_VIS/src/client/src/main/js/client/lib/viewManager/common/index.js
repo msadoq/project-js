@@ -1,6 +1,6 @@
-// eslint-disable-next-line import/prefer-default-export
+import _unset from 'lodash/unset';
+import { SDB_VALUE_OPTION, TIME_BASED_DATA_OPTION } from '../commonEditor/Fields/DataTypeField';
 
-// eslint-disable-next-line import/prefer-default-export
 export const buildFormula = (catalog, catalogItem, comObject, comObjectField) => {
   let result = '';
   if (catalog) {
@@ -48,7 +48,34 @@ export const buildFormulaForAutocomplete = (catalog, catalogItem, comObject, com
       }
     }
   }
-
   return result;
 };
 
+/**
+ * Handles entry point editor form submission
+ * @param values
+ * @param updateEntryPoint callback to update the entry point
+ * @param viewId
+ */
+export function handleSubmit(values, updateEntryPoint, viewId) {
+  const { dataType } = values.connectedData;
+  if (dataType === TIME_BASED_DATA_OPTION.value) {
+    _unset(values.connectedData, 'path');
+    _unset(values.connectedData, 'displayMode');
+  } else if (dataType === SDB_VALUE_OPTION.value) {
+    _unset(values.connectedData, 'catalogItem');
+    _unset(values.connectedData, 'comObject');
+    _unset(values.connectedData, 'comObjectField');
+    _unset(values.connectedData, 'provider');
+    _unset(values.connectedData, 'refTimestamp');
+  }
+  const { catalog, catalogItem, comObject, comObjectField } = values.connectedData;
+  const formula = buildFormula(catalog, catalogItem, comObject, comObjectField);
+  updateEntryPoint(viewId, values.id, {
+    ...values,
+    connectedData: {
+      ...values.connectedData,
+      formula,
+    },
+  });
+}

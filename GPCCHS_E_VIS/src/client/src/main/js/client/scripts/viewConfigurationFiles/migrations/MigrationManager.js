@@ -10,9 +10,9 @@ class MigrationManager {
   }
 
   migrate(viewConfiguration) {
-    const migrationsPath = `./migrations/v${this.version}`;
+    const migrationsPath = `${__dirname}/v${this.version}`;
 
-    if(!fs.lstatSync(migrationsPath).isDirectory) {
+    if (!fs.lstatSync(migrationsPath).isDirectory) {
       throw new Error(`There are no migration files for this version: ${this.version}`);
     }
 

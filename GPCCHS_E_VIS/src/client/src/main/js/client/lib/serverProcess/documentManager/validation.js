@@ -17,10 +17,10 @@ import _isArray from 'lodash/isArray';
 import fs from 'fs';
 import getLogger from 'common/logManager';
 
-import definitionsSchema from 'common/viewConfigurationFiles/schemas/v2.0/definitions.schema.json';
-import workspaceSchema from 'common/viewConfigurationFiles/schemas/v2.0/workspace.schema.json';
-import pageSchema from 'common/viewConfigurationFiles/schemas/v2.0/page.schema.json';
-import timebarsSchema from 'common/viewConfigurationFiles/schemas/v2.0/timebars.schema.json';
+import definitionsSchema from 'common/viewConfigurationFiles/schemas/definitions.schema.json';
+import workspaceSchema from 'common/viewConfigurationFiles/schemas/workspace.schema.json';
+import pageSchema from 'common/viewConfigurationFiles/schemas/page.schema.json';
+import timebarsSchema from 'common/viewConfigurationFiles/schemas/timebars.schema.json';
 
 const logger = getLogger('common:validation');
 

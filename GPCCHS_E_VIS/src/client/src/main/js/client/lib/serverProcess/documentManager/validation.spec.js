@@ -5,7 +5,7 @@
 // END-HISTORY
 // ====================================================================
 
-import schema from 'common/viewConfigurationFiles/schemas/v2.0/page.schema.json';
+import schema from 'common/viewConfigurationFiles/schemas/page.schema.json';
 import validate from './validation';
 
 

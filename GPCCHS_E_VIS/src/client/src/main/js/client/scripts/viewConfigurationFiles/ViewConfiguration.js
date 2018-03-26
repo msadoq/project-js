@@ -1,28 +1,12 @@
 
 const fs = require('fs');
 
-function getExtension(path) {
-  return path.slice((Math.max(0, path.lastIndexOf('.')) || Infinity) + 1);
-}
-
-const BASE_VERSION = '2.0.0';
-const TYPE_EXTENSION_MAP = {
-  viws: 'WorkSpace',
-  vipg: 'Page',
-  vipv: 'PlotView',
-  vidv: 'DynamicView',
-  vitv: 'TextView',
-  vimv: 'MimicView',
-  vihv: 'HistoryView',
-  viga: 'GroundAlarmView',
-  viba: 'OnBoardAlarmView',
-};
+const BASE_VERSION = '2.0';
 
 class ViewConfiguration {
   static fromFile(path) {
     return new ViewConfiguration({
       ...JSON.parse(fs.readFileSync(path, 'utf8')),
-      fileExtension: getExtension(path),
     });
   }
 
@@ -31,8 +15,7 @@ class ViewConfiguration {
   }
 
   get type() {
-    return this.content.type ||
-      TYPE_EXTENSION_MAP[this.content.fileExtension];
+    return this.content.type;
   }
 
   get version() {

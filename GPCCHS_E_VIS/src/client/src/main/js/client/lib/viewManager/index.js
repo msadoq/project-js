@@ -35,14 +35,14 @@
 
 /* eslint-disable global-require, "DV6 TBC_CNES Because mainProcess can't statically resolve react components" */
 
-import plotViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/PlotView.schema.json';
-import textViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/TextView.schema.json';
-import mimicViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/MimicView.schema.json';
-import dynamicViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/DynamicView.schema.json';
-import historyViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/HistoryView.schema.json';
-import packetViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/PacketView.schema.json';
-import groundAlarmViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/GroundAlarmView.schema.json';
-import onboardAlarmViewSchema from 'common/viewConfigurationFiles/schemas/v2.0/OnboardAlarmView.schema.json';
+import plotViewSchema from 'common/viewConfigurationFiles/schemas/PlotView.schema.json';
+import textViewSchema from 'common/viewConfigurationFiles/schemas/TextView.schema.json';
+import mimicViewSchema from 'common/viewConfigurationFiles/schemas/MimicView.schema.json';
+import dynamicViewSchema from 'common/viewConfigurationFiles/schemas/DynamicView.schema.json';
+import historyViewSchema from 'common/viewConfigurationFiles/schemas/HistoryView.schema.json';
+import packetViewSchema from 'common/viewConfigurationFiles/schemas/PacketView.schema.json';
+import groundAlarmViewSchema from 'common/viewConfigurationFiles/schemas/GroundAlarmView.schema.json';
+import onboardAlarmViewSchema from 'common/viewConfigurationFiles/schemas/OnboardAlarmView.schema.json';
 
 import {
   DATASTRUCTURETYPE_LAST,

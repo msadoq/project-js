@@ -2,35 +2,11 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
     "condition": {
-      "type": "object",
-      "properties": {
-        "field": {
-          "type": "string"
-        },
-        "operator": {
-          "type": "string",
-          "enum": [
-            "==",
-            "!=",
-            "<",
-            ">",
-            "<=",
-            ">=",
-            "CONTAINS",
-            "ICONTAINS"
-          ]
-        },
-        "operand": {
-          "type": "string"
-        }
-      }
+      "$ref": "definitions.schema.json#/definitions/condition"
     },
     "connectedData": {
       "type": "object",
       "properties": {
-        "formula": {
-          "type": "string"
-        },
         "filter": {
           "type": "array",
           "items": {
@@ -42,10 +18,13 @@
         },
         "timeline": {
           "type": "string"
+        },
+        "mode": {
+          "type": "number"
         }
       },
       "required": [
-        "formula",
+        "mode",
         "domain",
         "timeline"
       ]
@@ -102,7 +81,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "const": "PacketView"
+          "const": "GroundAlarmView"
         },
         "entryPoint": {
           "type": "object",
@@ -135,6 +114,5 @@
         }
       }
     }
-  ],
-  "additionalProperties": false
+  ]
 }

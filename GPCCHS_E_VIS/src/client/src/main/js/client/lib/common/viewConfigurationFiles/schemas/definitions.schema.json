@@ -65,6 +65,30 @@
         "rulerResolution",
         "timelines"
       ]
+    },
+    "condition": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "==",
+            "!=",
+            "<",
+            ">",
+            "<=",
+            ">=",
+            "CONTAINS",
+            "ICONTAINS"
+          ]
+        },
+        "operand": {
+          "type": "string"
+        }
+      }
     }
   }
 }

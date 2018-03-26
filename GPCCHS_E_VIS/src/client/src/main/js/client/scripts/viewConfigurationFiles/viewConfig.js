@@ -1,7 +1,9 @@
 
-const MigrationManager = require('./MigrationManager');
+const Validator = require('./Validator');
+const MigrationManager = require('./migrations/MigrationManager');
 const ViewConfiguration = require('./ViewConfiguration');
 
+const VIMA_BASE_VERSION = '2.0';
 
 const program = require('commander');
 
@@ -13,16 +15,33 @@ program
   .parse(process.argv);
 
 if (program.info) {
-  const info = ViewConfiguration.fromFile(program.info).info;
-  process.stdout.write(`${JSON.stringify(info, null, 2)}\n`);
+  const { version, type } = ViewConfiguration.fromFile(program.info).info;
+  process.stdout.write(
+    `The file '${program.info}' is a ${type} configuration file for VIMA ${version}\n`
+  );
 }
 
 if (program.check) {
-  process.stderr.write('[ERROR] This function has not yet been implemented\n');
+  const getVersion = viewConfiguration =>
+    viewConfiguration.version || VIMA_BASE_VERSION;
+
+  const toValidate = ViewConfiguration.fromFile(program.check);
+  const version = getVersion(toValidate)
+  const validator = new Validator(version);
+
+  if (validator.validate(toValidate)) {
+    process.stdout.write(
+      `This is a valid ${toValidate.type} configuration file for VIMA ${version}\n`
+    );
+  } else {
+    process.stderr.write(
+      `This is not a valid ${toValidate} configuration file\n`
+    );
+  }
 }
 
 if (program.migrate) {
-  const migrationManager = new MigrationManager('2.0'); // TODO: pass version as parameter
+  const migrationManager = new MigrationManager('2.0');
   const toMigrate = ViewConfiguration.fromFile(program.migrate);
   process.stdout.write(migrationManager.migrate(toMigrate).toString());
 }

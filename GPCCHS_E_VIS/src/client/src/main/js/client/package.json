@@ -111,6 +111,7 @@
     "fast-json-patch": "^1.2.2",
     "fbjs-scripts": "~0.7.1",
     "file-loader": "~0.11.1",
+    "fs": "0.0.1-security",
     "graceful-fs": "^4.1.11",
     "html-to-react": "~1.2.4",
     "htmlhint": "~0.9.13",

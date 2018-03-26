@@ -49,12 +49,12 @@
   top: 0px;
   left: -22px;
 }
-.editorContainer, .explorerContainer{
+.editorContainer, .explorerContainer, .searchContainer{
   width: 100%;
   height: 100%;
   background: #FFF;
 }
-.editorContainerCollapsed{
+.editorContainerCollapsed, .searchContainerCollapsed{
   width: 16px;
   height: 100%;
   background: #888;

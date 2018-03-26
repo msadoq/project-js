@@ -33,10 +33,12 @@ import { setIsLoaded, displayHelp } from 'store/actions/windows';
 import { close as closeModal, modalClosed } from 'store/actions/modals';
 import {
   resizeEditor,
+  resizeSearch,
   resizeTimebar,
   resizeExplorer,
   minimizeExplorer,
   minimizeEditor,
+  minimizeSearch,
   minimizeTimebar,
   focusTabInExplorer,
 } from 'store/actions/pages';
@@ -49,6 +51,8 @@ const mapStateToProps = (state, { windowId }) => {
   const {
     editorWidth,
     editorIsMinimized,
+    searchWidth,
+    searchIsMinimized,
     timebarHeight,
     timebarIsMinimized,
     explorerWidth,
@@ -61,6 +65,8 @@ const mapStateToProps = (state, { windowId }) => {
     isHelpDisplayed: getDisplayHelp(state, { windowId }),
     editorWidth,
     editorIsMinimized,
+    searchWidth,
+    searchIsMinimized,
     timebarHeight,
     timebarIsMinimized,
     explorerWidth,
@@ -73,9 +79,11 @@ export default connect(mapStateToProps, {
   setIsLoaded,
   displayHelp,
   resizeEditor,
+  resizeSearch,
   resizeTimebar,
   resizeExplorer,
   minimizeEditor,
+  minimizeSearch,
   minimizeExplorer,
   minimizeTimebar,
   closeModal,

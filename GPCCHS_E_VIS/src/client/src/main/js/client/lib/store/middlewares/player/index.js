@@ -137,7 +137,8 @@ const makePlayerMiddleware = (
     if (action.type === types.HSC_PAUSE) {
       return pauseHandler({ dispatch, getState, interval }, next, action);
     }
-    if (action.type === types.WS_PAGE_PANELS_LOAD_IN_EDITOR) {
+    if (action.type === types.WS_PAGE_PANELS_LOAD_IN_EDITOR ||
+      action.type === types.WS_PAGE_PANELS_LOAD_IN_SEARCH) {
       return openEditorHandler({ dispatch, getState }, next, action);
     }
     if (action.type === types.WS_WINDOW_PAGE_FOCUS) {

@@ -16,6 +16,7 @@ const list = {
   [constants.VM_VIEW_TEXT]: {
     getViewComponent: () => require('./TextView/Components/View/TextViewContainer'),
     getEditorComponent: () => require('./TextView/Components/Editor/TextEditorContainer'),
+    getSearchComponent: () => require('./TextView/Components/Search/TextSearchContainer'),
   },
   [constants.VM_VIEW_DYNAMIC]: {
     getViewComponent: () => require('./DynamicView/Components/View/DynamicViewContainer'),
@@ -53,6 +54,11 @@ export const getViewComponent = (type) => {
 export const getEditorComponent = (type) => {
   isViewTypeExists(type);
   return list[type].getEditorComponent();
+};
+
+export const getSearchComponent = (type) => {
+  isViewTypeExists(type);
+  return list[type].getSearchComponent();
 };
 
 function isViewTypeExists(type) {

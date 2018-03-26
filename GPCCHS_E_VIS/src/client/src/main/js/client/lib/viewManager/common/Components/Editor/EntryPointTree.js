@@ -67,7 +67,7 @@ export default class EntryPointTree extends Component {
     this.props.askRemoveEntryPoint(this.props.viewId, this.getEntryPointByKey(key));
   };
 
-  handleSubmit = (oldEntryPoint, submittedValues) => {
+  handleSubmit = (submittedValues) => {
     const { updateEntryPoint, viewId } = this.props;
     handleSubmit(submittedValues, updateEntryPoint, viewId);
   };

@@ -20,11 +20,12 @@
   "entryPoint": {
     "connectedData": {
       "catalog": "TelemetryPacket",
-      "catalogItem": "CLCW_TM_NOMINAL",
+      "catalogItem": "CLCW_TM_CLCWPACKET",
       "comObject": "DecommutedPacket",
       "domain": "fr.cnes.isis.simupus",
       "filter": [],
-      "formula": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>",
+      "formula": "TelemetryPacket.CLCW_TM_CLCWPACKET<DecommutedPacket>",
+      "provider": "HKTMR",
       "timeline": "*"
     },
     "name": "dynamicEP",

@@ -72,7 +72,7 @@ export default class EntryPointTree extends PureComponent {
   }
 
 
-  handleSubmit = (entryPoint, submittedValues) => {
+  handleSubmit = (submittedValues) => {
     const { updateEntryPoint, viewId } = this.props;
     handleSubmit(submittedValues, updateEntryPoint, viewId);
   };

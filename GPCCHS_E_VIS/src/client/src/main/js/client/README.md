@@ -223,3 +223,7 @@ In case of error 'ImportError: No module named GPINUC_L_UCL.unitConverterLibrary
  * @ElementUnderTest /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/adapters/isis/userEvent/userEvent.spec.js
 **/ 
 ```
+
+# Migrating view configuration file to a newer VIMA version
+@see
+`scripts/viewConfigurationFiles/README.md`

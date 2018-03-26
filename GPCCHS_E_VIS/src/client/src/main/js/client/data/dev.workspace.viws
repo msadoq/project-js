@@ -5,10 +5,10 @@
       "type": "documentWindow",
       "title": "Development workspace",
       "geometry": {
-        "w": 1536,
-        "h": 851,
-        "x": 1610,
-        "y": 45,
+        "w": 1920,
+        "h": 1004,
+        "x": 0,
+        "y": 51,
         "kind": "Absolute"
       },
       "pages": [
@@ -23,7 +23,7 @@
     {
       "id": "TB1",
       "type": "timeBarConfiguration",
-      "rulerResolution": 2311.263972484953,
+      "rulerResolution": 1416.9741697416973,
       "speed": 0.15,
       "masterId": "Session 1",
       "mode": "Normal",

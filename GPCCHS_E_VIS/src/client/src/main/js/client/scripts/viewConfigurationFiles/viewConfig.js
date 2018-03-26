@@ -13,6 +13,7 @@ program
   .option('-i, --info <inputFile>', 'Get information about <inputFile>')
   .option('-c, --check <inputFile>', 'Check if <inputFile> is a valid VIMA view configuration')
   .option('-m, --migrate <inputFile>', 'Migrate <inputFile> to the specified version')
+  .option('-t, --target <targetVersion>', 'Sets target version for migration, default 2.0')
   .parse(process.argv);
 
 if (program.info) {
@@ -40,7 +41,8 @@ if (program.check) {
 }
 
 if (program.migrate) {
-  const migrationManager = new MigrationManager('2.0');
+  const targetVersion = program.target || '2.0';
+  const migrationManager = new MigrationManager(targetVersion);
   const toMigrate = ViewConfiguration.fromFile(program.migrate);
   process.stdout.write(migrationManager.migrate(toMigrate).toString());
 }

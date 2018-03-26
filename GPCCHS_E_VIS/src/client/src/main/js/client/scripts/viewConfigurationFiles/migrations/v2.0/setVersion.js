@@ -2,8 +2,8 @@
 const ViewConfiguration = require('../../ViewConfiguration');
 
 module.exports = {
-  '*': configurationFile => new ViewConfiguration({
-    ...configurationFile.content,
+  '*': viewConfiguration => new ViewConfiguration({
+    ...viewConfiguration.content,
     version: '2.0',
   }),
 };

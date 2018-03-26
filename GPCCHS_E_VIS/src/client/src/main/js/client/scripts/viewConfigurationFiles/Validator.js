@@ -15,17 +15,22 @@ const getDefinitionSchema = (version) => {
 class Validator {
   constructor(version) {
     this.version = version;
+    this.ajv = new Ajv({
+      allErrors: true,
+      verbose: true,
+    });
   }
 
   validate(viewConfiguration) {
-    const ajv = new Ajv();
-
     const validate =
-      ajv
+      this.ajv
         .addSchema(getDefinitionSchema(this.version))
         .compile(getViewConfigurationSchema(this.version, viewConfiguration.type));
 
-    return validate(viewConfiguration.content);
+    return {
+      isValid: validate(viewConfiguration),
+      errors: this.ajv.errorsText(validate.errors),
+    };
   }
 }
 

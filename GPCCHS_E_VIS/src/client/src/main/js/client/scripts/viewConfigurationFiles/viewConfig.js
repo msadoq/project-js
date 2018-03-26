@@ -30,13 +30,11 @@ if (program.check) {
   const version = getVersion(toValidate);
   const validator = new Validator(version);
 
-  if (validator.validate(toValidate)) {
-    process.stdout.write(
-      `This is a valid ${toValidate.type} configuration file for VIMA ${version}\n`
-    );
-  } else {
+  const validation = validator.validate(toValidate);
+
+  if (!validation.isValid) {
     process.stderr.write(
-      `This is not a valid ${toValidate.type} configuration file\n`
+      `${program.check} is NOT a valid ${toValidate.type} configuration file.\n${validation.errors}\n`
     );
   }
 }

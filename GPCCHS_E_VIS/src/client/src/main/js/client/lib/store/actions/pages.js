@@ -54,6 +54,7 @@
 
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
+import { resetSearchInView } from 'store/actions/views';
 import simple from '../helpers/simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
@@ -86,13 +87,17 @@ export const unmountPageTimebar = simple(types.WS_PAGE_TIMEBAR_UNMOUNT, 'pageId'
 export const updateTitle = simple(types.WS_PAGE_UPDATE_TITLE, 'pageId', 'title');
 
 export const loadInEditor = simple(types.WS_PAGE_PANELS_LOAD_IN_EDITOR, 'pageId', 'viewId');
+export const loadInSearch = simple(types.WS_PAGE_PANELS_LOAD_IN_SEARCH, 'pageId', 'viewId');
 export const resizeEditor = simple(types.WS_PAGE_PANELS_RESIZE_EDITOR, 'pageId', 'size');
+export const resizeSearch = simple(types.WS_PAGE_PANELS_RESIZE_SEARCH, 'pageId', 'size');
 export const minimizeEditor = simple(types.WS_PAGE_PANELS_MINIMIZE_EDITOR, 'pageId', 'isMinimized');
+export const minimizeSearch = simple(types.WS_PAGE_PANELS_MINIMIZE_SEARCH, 'pageId', 'isMinimized');
 export const resizeTimebar = simple(types.WS_PAGE_PANELS_RESIZE_TIMEBAR, 'pageId', 'size');
 export const minimizeTimebar = simple(types.WS_PAGE_PANELS_MINIMIZE_TIMEBAR, 'pageId', 'isMinimized');
 export const focusTabInExplorer = simple(types.WS_PAGE_PANELS_FOCUS_IN_EXPLORER, 'pageId', 'focusedTab');
 export const resizeExplorer = simple(types.WS_PAGE_PANELS_RESIZE_EXPLORER, 'pageId', 'size');
 export const minimizeExplorer = simple(types.WS_PAGE_PANELS_MINIMIZE_EXPLORER, 'pageId', 'isMinimized');
+export const updateSearchCount = simple(types.WS_PAGE_PANELS_UPDATE_SEARCH_COUNT, 'pageId', 'searchCount');
 const moveView = simple(types.WS_VIEW_MOVE_TO_PAGE, 'fromPageId', 'toPageId', 'viewId');
 
 export const updateDomainName = simple(types.WS_PAGE_UPDATE_DOMAINNAME, 'pageId', 'domainName');
@@ -150,6 +155,24 @@ export function openEditor(pageId, viewId) { // TODO boxmodel test
     }
 
     dispatch(loadInEditor(pageId, viewId));
+  };
+}
+
+export function openSearch(pageId, viewId) {
+  return (dispatch, getState) => {
+    dispatch(minimizeSearch(pageId, false));
+    const { searchWidth } = getPanels(getState(), { pageId });
+    if (!searchWidth || searchWidth < 1) {
+      dispatch(resizeSearch(pageId, 350));
+    }
+    dispatch(loadInSearch(pageId, viewId));
+  };
+}
+
+export function closeSearch(pageId, viewId) {
+  return (dispatch) => {
+    dispatch(minimizeSearch(pageId, true));
+    dispatch(resetSearchInView(viewId));
   };
 }
 

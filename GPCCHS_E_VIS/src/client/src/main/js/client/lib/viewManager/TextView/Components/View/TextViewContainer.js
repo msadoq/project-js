@@ -37,6 +37,7 @@ import {
   removeLink,
   updateShowLinks,
 } from 'store/actions/views';
+import { updateSearchCount } from 'store/actions/pages';
 import { askOpenLink } from 'store/actions/links';
 import { getViewEntryPoints } from 'store/selectors/views';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
@@ -44,7 +45,7 @@ import { isAnyInspectorOpened } from 'store/selectors/pages';
 import { getInspectorEpId } from 'store/reducers/inspector';
 import { getData } from 'viewManager/TextView/store/dataSelectors';
 import { getViewContent } from 'viewManager/TextView/store/configurationSelectors';
-import { getLinks, areLinksShown } from 'store/reducers/views';
+import { getLinks, areLinksShown, getSearchingByView } from 'store/reducers/views';
 import { getPageIdByViewId, getPage } from 'store/reducers/pages';
 import { getConfigurationByViewId } from 'viewManager';
 import TextViewWrapper from './TextViewWrapper';
@@ -52,8 +53,10 @@ import TextViewWrapper from './TextViewWrapper';
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
+  const searching = getSearchingByView(state, { viewId });
+
   return {
-    content: getViewContent(state, { viewId }),
+    content: getViewContent(state, { viewId, searching }),
     configuration: getConfigurationByViewId(state, { viewId }),
     entryPoints: getViewEntryPoints(state, { viewId }),
     data: getData(state, { viewId }),
@@ -61,18 +64,21 @@ const mapStateToProps = (state, { viewId }) => {
     inspectorEpId: getInspectorEpId(state),
     links: getLinks(state, { viewId }),
     pageId,
+    searching,
     showLinks: areLinksShown(state, { viewId }),
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
   };
 };
-const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
+const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators({
   updateContent: html => updateContent(viewId, html),
   addEntryPoint: data => addEntryPoint(viewId, data),
   removeLink: key => removeLink(viewId, key),
   updateShowLinks: flag => updateShowLinks(viewId, flag),
+  updateSearchCount: count => updateSearchCount(pageId, count),
   openLink: linkId => askOpenLink(viewId, linkId),
 }, dispatch);
+
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,

@@ -23,7 +23,6 @@
 // END-HISTORY
 // ====================================================================
 
-import { freezeArgs } from 'common/jest';
 import * as types from 'store/types';
 import * as actions from 'store/actions/pages';
 import pagesReducer, {
@@ -33,6 +32,7 @@ import pagesReducer, {
   getPageLayout,
   getEditor,
   getModifiedPagesIds,
+  getSearchCount,
   getPageIdByViewId,
   getPageAbsolutePath,
   getPageIsModified,
@@ -40,6 +40,7 @@ import pagesReducer, {
   getPageSessionName,
   getPageViewsConfiguration,
 } from '.';
+import { freezeMe, freezeArgs } from '../../../common/jest';
 
 /* --- Reducer -------------------------------------------------------------- */
 
@@ -330,6 +331,30 @@ describe('store:page:selectors', () => {
           },
         ]
       );
+    });
+  });
+  describe('getSearchCount', () => {
+    test('should returns search count = 10', () => {
+      const state = freezeMe({
+        pages: {
+          myPageId: {
+            panels: {
+              searchCount: 10,
+            },
+          },
+        },
+      });
+      expect(getSearchCount(state, { pageId: 'myPageId' })).toEqual(10);
+    });
+    test('getSearchCount should be falsy', () => {
+      const state = freezeMe({
+        pages: {
+          myPageId: {
+            panels: {},
+          },
+        },
+      });
+      expect(getSearchCount(state, { pageId: 'myPageId' })).toBeFalsy();
     });
   });
 });

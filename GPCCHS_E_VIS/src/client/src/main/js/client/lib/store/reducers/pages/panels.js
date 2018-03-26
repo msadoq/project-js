@@ -18,6 +18,10 @@ const initialState = {
   editorWidth: 400,
   editorViewId: undefined,
   editorIsMinimized: true,
+  // editor
+  searchWidth: 300,
+  searchViewId: undefined,
+  searchIsMinimized: true,
   // timebar
   timebarHeight: 130,
   timebarIsMinimized: false,
@@ -34,10 +38,21 @@ const panels = (state = initialState, action) => {
       return { ...state, ...action.payload.page.panels };
     case types.WS_PAGE_PANELS_LOAD_IN_EDITOR:
       return { ...state, editorViewId: action.payload.viewId };
+    case types.WS_PAGE_PANELS_LOAD_IN_SEARCH:
+      return { ...state, searchViewId: action.payload.viewId };
     case types.WS_PAGE_PANELS_RESIZE_EDITOR:
       return { ...state, editorWidth: action.payload.size };
     case types.WS_PAGE_PANELS_MINIMIZE_EDITOR:
       return { ...state, editorIsMinimized: action.payload.isMinimized };
+    case types.WS_PAGE_PANELS_RESIZE_SEARCH:
+      return { ...state, searchWidth: action.payload.size };
+    case types.WS_PAGE_PANELS_MINIMIZE_SEARCH:
+      return {
+        ...state,
+        searchIsMinimized: action.payload.isMinimized,
+        searchViewId: null,
+        searchCount: null,
+      };
     case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:
       return { ...state, timebarHeight: action.payload.size };
     case types.WS_PAGE_PANELS_MINIMIZE_TIMEBAR:
@@ -48,6 +63,8 @@ const panels = (state = initialState, action) => {
       return { ...state, explorerWidth: action.payload.size };
     case types.WS_PAGE_PANELS_MINIMIZE_EXPLORER:
       return { ...state, explorerIsMinimized: action.payload.isMinimized };
+    case types.WS_PAGE_PANELS_UPDATE_SEARCH_COUNT:
+      return { ...state, searchCount: action.payload.searchCount };
     default:
       return state;
   }

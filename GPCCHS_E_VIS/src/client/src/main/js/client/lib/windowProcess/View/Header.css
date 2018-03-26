@@ -53,3 +53,8 @@
 .saveButton{
   font-size: 0.8em;
 }
+.searchOpen{
+  font-size: 1.2em;
+  margin-right: 15px;
+  vertical-align: middle;
+}

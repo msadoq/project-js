@@ -85,9 +85,12 @@ export default class View extends PureComponent {
     backgroundColor: PropTypes.string,
     maximized: PropTypes.bool,
     isViewsEditorOpen: PropTypes.bool.isRequired,
+    isViewsSearchOpen: PropTypes.bool.isRequired,
     askOpenInspector: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
+    closeSearch: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
+    openSearch: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
     closeView: PropTypes.func.isRequired,
@@ -121,8 +124,9 @@ export default class View extends PureComponent {
 
   getMainContextMenu = () => {
     const {
-      collapsed, maximized, absolutePath, isViewsEditorOpen, closeEditor, openEditor,
-      openModal, collapseView, maximizeView, closeView, reloadView,
+      collapsed, maximized, absolutePath, isViewsEditorOpen, isViewsSearchOpen,
+      closeEditor, openEditor, openSearch, closeSearch, openModal,
+      collapseView, maximizeView, closeView, reloadView, type,
     } = this.props;
     const editorMenu = (isViewsEditorOpen) ?
     {
@@ -134,9 +138,21 @@ export default class View extends PureComponent {
         openEditor();
       },
     };
+    const searchMenu = (isViewsSearchOpen) ?
+    {
+      label: 'Close Search',
+      click: () => closeSearch(),
+    } : {
+      label: 'Search in this view',
+      click: () => {
+        openSearch();
+      },
+      enabled: (type === 'TextView'),
+    };
     const isPathDefined = !!absolutePath;
     return [
       editorMenu,
+      searchMenu,
       { type: 'separator' },
       {
         label: 'Move view to...',

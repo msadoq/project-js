@@ -46,6 +46,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
 
   const pageDomain = state.pages[pageId].domainName;
   const workspaceDomain = state.hsc.domainName;
+  const isSearhOpenForView = state.pages[pageId].panels.searchViewId === viewId;
 
   return {
     backgroundColor,
@@ -56,6 +57,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
     domains,
     pageDomain,
     workspaceDomain,
+    isSearhOpenForView,
     isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
     collapsed:
       !!(page.layout.find(e => e.i === viewId && e.collapsed)), // TODO boxmodel factorize

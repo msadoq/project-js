@@ -163,17 +163,22 @@ export default function pageReducer(statePage = initialState, action) {
         isModified: true,
       };
     case types.WS_PAGE_PANELS_LOAD_IN_EDITOR:
+    case types.WS_PAGE_PANELS_LOAD_IN_SEARCH:
     case types.WS_PAGE_PANELS_RESIZE_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:
     case types.WS_PAGE_PANELS_MINIMIZE_TIMEBAR:
     case types.WS_PAGE_PANELS_FOCUS_IN_EXPLORER:
     case types.WS_PAGE_PANELS_RESIZE_EXPLORER:
+    case types.WS_PAGE_PANELS_RESIZE_SEARCH:
     case types.WS_PAGE_PANELS_MINIMIZE_EDITOR:
+    case types.WS_PAGE_PANELS_MINIMIZE_SEARCH:
     case types.WS_PAGE_PANELS_MINIMIZE_EXPLORER:
+    case types.WS_PAGE_PANELS_UPDATE_SEARCH_COUNT: {
       return {
         ...statePage,
         panels: panels(statePage.panels, action),
       };
+    }
     case types.WS_VIEW_SETCOLLAPSED:
       return _.set(['layout', _.findIndex(i => i.i === action.payload.viewId, statePage.layout), 'collapsed'],
         action.payload.flag,

@@ -210,6 +210,19 @@ const panel = {
         }
       },
     },
+    /* {
+      label: 'Search in this page',
+      accelerator: 'CmdOrCtrl+F',
+      click(item, focusedWindow) {
+        if (focusedWindow && focusedWindow.windowId) {
+          const { getState, dispatch } = getStore();
+          const { windowId } = focusedWindow;
+          const pageId = getWindowFocusedPageId(getState(), { windowId });
+          const panels = getPanels(getState(), { pageId });
+          dispatch(minimizeSearch(pageId, !panels.searchIsMinimized));
+        }
+      },
+    }, */
     {
       label: 'Toggle Explorer',
       accelerator: 'CmdOrCtrl+E',

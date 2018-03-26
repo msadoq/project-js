@@ -18,7 +18,7 @@
 // END-HISTORY
 // ====================================================================
 
-import { freezeArgs } from 'common/jest';
+import { freezeArgs, freezeMe } from 'common/jest';
 import * as actions from 'store/actions/pages';
 import * as types from 'store/types';
 import pagesReducer from '../pages';
@@ -171,6 +171,130 @@ describe('store:page:reducer', () => {
       const action = { type: types.WS_PAGE_UPDATE_TITLE, payload: { pageId: 'myPage', title: 'tb 2' } };
       const nextState = reducer(state, action);
       expect(nextState.myPage).toEqual({ title: 'tb 2', isModified: true });
+    });
+  });
+  describe('minimize search panel', () => {
+    test('searchIsminimized should be false', () => {
+      const state = freezeMe({
+        myPage: {
+          title: 'tb 1',
+          panels: {
+            searchIsMinimized: true,
+            searchViewId: 'myViewId',
+            searchCount: 10,
+          },
+        },
+      });
+      const action = { type: types.WS_PAGE_PANELS_MINIMIZE_SEARCH, payload: { pageId: 'myPage', isMinimized: false } };
+      const nextState = reducer(state, action);
+      expect(nextState.myPage.panels.searchIsMinimized).toBeFalsy();
+    });
+    test('searchIsminimized should be true, searchViewId should be null and searchCount should be null', () => {
+      const state = freezeMe({
+        myPage: {
+          title: 'tb 1',
+          panels: {
+            searchIsMinimized: false,
+            searchViewId: 'myViewId',
+            searchCount: 10,
+          },
+        },
+      });
+      const action = { type: types.WS_PAGE_PANELS_MINIMIZE_SEARCH, payload: { pageId: 'myPage', isMinimized: true } };
+      const nextState = reducer(state, action);
+      expect(nextState).toEqual({
+        myPage: {
+          title: 'tb 1',
+          panels: {
+            searchIsMinimized: true,
+            searchViewId: null,
+            searchCount: null,
+          },
+        },
+      });
+    });
+  });
+  describe('updateSearchCount', () => {
+    test('search count should be 10', () => {
+      const state = freezeMe({
+        myPage: {
+          title: 'tb 1',
+          panels: {
+            searchCount: 2,
+          },
+        },
+      });
+      const action = { type: types.WS_PAGE_PANELS_UPDATE_SEARCH_COUNT, payload: { pageId: 'myPage', searchCount: 10 } };
+      const nextState = reducer(state, action);
+      expect(nextState).toEqual({
+        myPage: {
+          panels: {
+            searchCount: 10,
+          },
+          title: 'tb 1',
+        },
+      });
+    });
+    test('search count should be 10', () => {
+      const state = freezeMe({
+        myPage: {
+          title: 'tb 1',
+          panels: {
+          },
+        },
+      });
+      const action = { type: types.WS_PAGE_PANELS_UPDATE_SEARCH_COUNT, payload: { pageId: 'myPage', searchCount: 10 } };
+      const nextState = reducer(state, action);
+      expect(nextState).toEqual({
+        myPage: {
+          panels: {
+            searchCount: 10,
+          },
+          title: 'tb 1',
+        },
+      });
+    });
+  });
+  describe('Resize Search Panel', () => {
+    test('searchWidth should be 350', () => {
+      const state = freezeMe({
+        myPage: {
+          title: 'tb 1',
+          panels: {
+            searchWidth: 250,
+          },
+        },
+      });
+      const action = { type: types.WS_PAGE_PANELS_RESIZE_SEARCH, payload: { pageId: 'myPage', size: 350 } };
+      const nextState = reducer(state, action);
+      expect(nextState.myPage.panels).toEqual({ searchWidth: 350 });
+    });
+  });
+  describe('Load In Search Panel', () => {
+    test('searchViewId should be myViewId1', () => {
+      const state = freezeMe({
+        myPage: {
+          title: 'tb 1',
+          panels: {
+            searchViewId: 'myViewId2',
+          },
+        },
+      });
+      const action = { type: types.WS_PAGE_PANELS_LOAD_IN_SEARCH, payload: { pageId: 'myPage', viewId: 'myViewId1' } };
+      const nextState = reducer(state, action);
+      expect(nextState.myPage.panels).toEqual({ searchViewId: 'myViewId1' });
+    });
+    test('searchViewId should be myViewId1', () => {
+      const state = freezeMe({
+        myPage: {
+          title: 'tb 1',
+          panels: {
+          },
+        },
+      });
+      const action = { type: types.WS_PAGE_PANELS_LOAD_IN_SEARCH, payload: { pageId: 'myPage', viewId: 'myViewId1' } };
+      const nextState = reducer(state, action);
+      expect(nextState.myPage.panels).toEqual({ searchViewId: 'myViewId1' });
     });
   });
 });

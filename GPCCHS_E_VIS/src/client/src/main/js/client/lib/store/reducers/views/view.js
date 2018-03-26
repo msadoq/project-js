@@ -173,6 +173,10 @@ function simpleView(stateView = initialState, action) {
         return { ...stateView, sessionName: action.payload.sessionName };
       }
       return _.omit('sessionName', stateView);
+    case types.WS_SEARCH_IN_VIEW:
+      return { ...stateView, searching: action.payload.searchTerm };
+    case types.WS_RESET_SEARCH_IN_VIEW:
+      return _.omit('searching', stateView);
     default:
       return stateView;
   }

@@ -84,8 +84,10 @@ export default class TextViewWrapper extends PureComponent {
     pageId: PropTypes.string.isRequired,
     showLinks: PropTypes.bool,
     updateShowLinks: PropTypes.func.isRequired,
+    updateSearchCount: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
     openLink: PropTypes.func.isRequired,
+    searching: PropTypes.string,
   };
 
   static defaultProps = {
@@ -96,7 +98,16 @@ export default class TextViewWrapper extends PureComponent {
     inspectorEpId: null,
     links: [],
     showLinks: false,
+    searching: null,
   };
+
+  state = { content: this.props.content };
+
+  componentWillReceiveProps(nextProps) {
+    const { content, searching } = nextProps;
+    const newContent = this.getContentWithSearchingHighlight(content, searching);
+    this.setState({ content: newContent });
+  }
 
   onContextMenu = (event) => {
     event.stopPropagation();
@@ -166,7 +177,6 @@ export default class TextViewWrapper extends PureComponent {
     handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
 
-
   onDrop = (e) => {
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
@@ -185,6 +195,21 @@ export default class TextViewWrapper extends PureComponent {
 
   setSpanValues = (spanValues) => {
     this.spanValues = spanValues;
+  }
+
+  getContentWithSearchingHighlight = (content, searching) => {
+    const { updateSearchCount } = this.props;
+    const regex = new RegExp(`(\\W)(\\w*)(${searching})(\\w*)(\\W)`, 'g');
+    let count = 0;
+    const newContent = content.replace(regex, (match, group1, group2, group3, group4, group5) => {
+      if (group2 !== '{' && group5 !== '}') {
+        count += 1;
+        return `${group1}${group2}<span className='${styles.highlighted}'>${group3}</span>${group4}${group5}`;
+      }
+      return match;
+    });
+    updateSearchCount(count);
+    return newContent;
   }
 
   handleSubmit = (values) => {
@@ -210,7 +235,6 @@ export default class TextViewWrapper extends PureComponent {
       links,
       pageId,
       showLinks,
-      content,
       isMaxVisuDurationExceeded,
       data,
       entryPoints,
@@ -240,11 +264,12 @@ export default class TextViewWrapper extends PureComponent {
           <Col xs={12}>
             <TextView
               viewId={viewId}
-              content={content}
+              content={this.state.content}
               data={data}
               entryPoints={entryPoints}
               openLink={this.props.openLink}
               copySpanValues={this.setSpanValues}
+              className={styles.textView}
             />
           </Col>
           <Col xs={12} style={style}>

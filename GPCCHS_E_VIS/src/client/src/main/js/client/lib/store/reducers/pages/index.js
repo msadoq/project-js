@@ -137,6 +137,13 @@ export const getPageTimebarId = inPage('timebarUuid');
 
 export const isEditorOpened = (state, { pageId }) => _.get(['pages', pageId, 'panels', 'editorWidth']) > 0;
 
+export const getSearchCount = createSelector(
+  state => state,
+  getPage,
+  getPanels,
+  (state, mypage, panels) => panels.searchCount
+);
+
 export const getModifiedPagesIds = createSelector(
   getPages,
   _.pipe(

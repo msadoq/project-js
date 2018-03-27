@@ -5,9 +5,9 @@ const BASE_VERSION = '2.0';
 
 class ViewConfiguration {
   static fromFile(path) {
-    return new ViewConfiguration({
-      ...JSON.parse(fs.readFileSync(path, 'utf8')),
-    });
+    return new ViewConfiguration(
+      JSON.parse(fs.readFileSync(path, 'utf8'))
+    );
   }
 
   constructor(content) {

@@ -8,7 +8,7 @@ const textViewSchema = require('./TextView.schema.json');
 const mimicViewSchema = require('./MimicView.schema.json');
 const historyViewSchema = require('./HistoryView.schema.json');
 const groundAlarmViewSchema = require('./GroundAlarmView.schema.json');
-const onBoardAlaramViewSchema = require('./OnboardAlarmView.schema.json');
+const onBoardAlarmViewSchema = require('./OnboardAlarmView.schema.json');
 
 module.exports = {
   definitions: definitionSchema,
@@ -20,5 +20,5 @@ module.exports = {
   MimicView: mimicViewSchema,
   HistoryView: historyViewSchema,
   GroundAlarmView: groundAlarmViewSchema,
-  OnBoardAlarmView: onBoardAlaramViewSchema,
+  OnboardAlarmView: onBoardAlarmViewSchema,
 };

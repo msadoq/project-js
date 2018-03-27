@@ -74,3 +74,23 @@ $ viewConfig --migrate data/pages/dev.page1.vipg --target 2.2
 ```
 Migrates file data/pages/dev.page1.vipg to target version and outputs the new content to the standard output.
 Default version for target value is 2.0.
+
+### Specifying a lock file
+```
+$ viewConfig --migrate data/pages/dev.page1.vipg --target 2.2 --lock lockfile.json
+```
+
+Uses lockFile to store applied migrations. This lock file is used to avoid 
+applying many times the same migrations. 
+
+lockfile.json is automatically created if it does not exist.
+
+### Specifying output file
+By default, the migrated JSON view configuration is printed to the standard output.
+
+If `--output` option is specified, nothing is printed to the standard output and the migrated
+JSON file is saved to the specified path.
+
+```
+$ viewConfig --migrate data/pages/dev.page1.vipg --output data/pages/dev.page1.migrated.vipg --target 2.2 --lock lockfile.json
+```

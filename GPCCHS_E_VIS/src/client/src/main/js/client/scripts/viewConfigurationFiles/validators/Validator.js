@@ -3,12 +3,12 @@
 const Ajv = require('ajv');
 
 const getViewConfigurationSchema = (version, type) => {
-  const availableSchemas = require(`./schemas/v${version}`);
+  const availableSchemas = require(`../schemas/v${version}`);
   return availableSchemas[type];
 };
 
 const getDefinitionSchema = (version) => {
-  const availableSchemas = require(`./schemas/v${version}`);
+  const availableSchemas = require(`../schemas/v${version}`);
   return availableSchemas.definitions;
 };
 

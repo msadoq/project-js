@@ -7,9 +7,18 @@ const Migration = require('./Migration');
 class MigrationManager {
   constructor(version) {
     this.version = version;
+    this.executedMigrations = {};
   }
 
-  migrate(viewConfiguration) {
+  updateExecutedMigrations(migrationKey) {
+    if (!this.executedMigrations[this.version]) {
+      this.executedMigrations[this.version] = [];
+    }
+
+    this.executedMigrations[this.version].push(migrationKey);
+  }
+
+  migrate(viewConfiguration, alreadyMigrated) {
     const migrationsPath = `${__dirname}/v${this.version}`;
 
     if (!fs.lstatSync(migrationsPath).isDirectory) {
@@ -20,11 +29,18 @@ class MigrationManager {
 
     let currentState = viewConfiguration;
 
-    Object.entries(migrations).forEach((migrationEntry) => {
-      const migrationConfig = migrationEntry[1];
+    Object.keys(migrations).forEach((migrationKey) => {
+      const migrationName = migrationKey;
+      const migrationConfig = migrations[migrationKey];
       const migration = new Migration(migrationConfig);
 
-      currentState = migration.migrate(currentState);
+      if (
+        !alreadyMigrated[this.version] ||
+        alreadyMigrated[this.version].indexOf(migrationName) === -1
+      ) {
+        currentState = migration.migrate(currentState);
+        this.updateExecutedMigrations(migrationKey);
+      }
     });
 
     return currentState;

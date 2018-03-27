@@ -1,9 +1,13 @@
 
-const ViewConfiguration = require('../../ViewConfiguration');
+const ViewConfiguration = require('../../models/ViewConfiguration');
 
 module.exports = {
-  '*': viewConfiguration => new ViewConfiguration({
-    ...viewConfiguration.content,
-    version: '2.0',
-  }),
+  '*': viewConfiguration => new ViewConfiguration(
+    Object.assign(
+      {},
+      viewConfiguration.content,
+      {
+        version: '2.0',
+      })
+  ),
 };

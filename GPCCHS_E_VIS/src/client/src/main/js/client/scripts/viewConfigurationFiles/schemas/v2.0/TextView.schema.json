@@ -1,174 +1,196 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "definitions": {
-    "condition": {
+  "description": "",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "titleStyle": {
       "type": "object",
       "properties": {
-        "field": {
-          "type": "string"
-        },
-        "operator": {
+        "font": {
           "type": "string",
-          "enum": [
-            "==",
-            "!=",
-            "<",
-            ">",
-            "<=",
-            ">=",
-            "CONTAINS",
-            "ICONTAINS"
-          ]
+          "minLength": 1
         },
-        "operand": {
-          "type": "string"
+        "size": {
+          "type": "number"
+        },
+        "bold": {
+          "type": "boolean"
+        },
+        "italic": {
+          "type": "boolean"
+        },
+        "underline": {
+          "type": "boolean"
+        },
+        "strikeOut": {
+          "type": "boolean"
+        },
+        "align": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },
-    "connectedData": {
+    "links": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "required": [
+          "name",
+          "path"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "defaultRatio": {
       "type": "object",
       "properties": {
-        "formula": {
-          "type": "string"
+        "length": {
+          "type": "number"
         },
-        "unit": {
-          "type": "string"
-        },
-        "digits": {
-          "type": "integer"
-        },
-        "format": {
-          "type": "string"
-        },
-        "filter": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/condition"
-          }
-        },
-        "domain": {
-          "type": "string"
-        },
-        "timeline": {
-          "type": "string"
+        "width": {
+          "type": "number"
         }
       },
       "required": [
-        "formula",
-        "unit",
-        "digits",
-        "format",
-        "domain",
-        "timeline"
+        "length",
+        "width"
       ]
     },
-    "viewEntryPoint": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "connectedData": {
-          "$ref": "#/definitions/connectedData"
-        },
-        "stateColours": {
-          "type": "array",
-          "items": {
+    "content": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entryPoints": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "connectedData": {
             "type": "object",
             "properties": {
-              "colour": {
-                "type": "integer"
+              "convertFrom": {
+                "type": "string"
               },
-              "condition": {
-                "$ref": "#/definitions/condition"
+              "convertTo": {
+                "type": "string"
+              },
+              "digits": {
+                "type": "number"
+              },
+              "domain": {
+                "type": "string",
+                "minLength": 1
+              },
+              "filter": {
+                "type": "array",
+                "items": {
+                  "required": [],
+                  "properties": {}
+                }
+              },
+              "format": {
+                "type": "string"
+              },
+              "formula": {
+                "type": "string",
+                "minLength": 1
+              },
+              "provider": {
+                "type": "string",
+                "minLength": 1
+              },
+              "timeline": {
+                "type": "string",
+                "minLength": 1
+              },
+              "unit": {
+                "type": "string",
+                "minLength": 1
               }
             },
             "required": [
-              "colour",
-              "condition"
+              "digits",
+              "domain",
+              "format",
+              "formula",
+              "timeline",
+              "unit"
             ]
-          }
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
-    "textViewEntryPoint": {
-      "$ref": "#/definitions/viewEntryPoint"
-    },
-    "viewCommonAttributes": {
-      "type": "object",
-      "properties": {
-        "path": {
-          "type": "string"
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "name": {
-              "type": "string"
-            },
-            "path": {
-              "type": "string"
-            }
-          }
-        },
-        "procedures": {
-          "type": "array",
-          "items": {
-            "name": {
-              "type": "string"
-            },
-            "path": {
-              "type": "string"
-            }
-          }
-        },
-        "defaultRatio": {
-          "type": "object",
-          "properties": {
-            "length": {
-              "type": "number"
-            },
-            "width": {
-              "type": "number"
-            }
           },
-          "required": [
-            "length",
-            "width"
-          ]
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stateColors": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "items": {
+              "required": [
+                "color"
+              ],
+              "properties": {
+                "color": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "condition": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string"
+                    },
+                    "operand": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "operator": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "operand",
+                    "operator"
+                  ]
+                }
+              }
+            }
+          }
         }
       }
+    },
+    "search": {
+      "type": "string"
     }
   },
-  "type": "object",
-  "allOf": [
-    {
-      "$ref": "#/definitions/viewCommonAttributes"
-    },
-    {
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "TextView"
-        },
-        "entryPoints": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/textViewEntryPoint"
-          }
-        },
-        "content": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "entryPoints",
-        "content"
-      ]
-    }
+  "required": [
+    "type",
+    "content",
+    "entryPoints"
   ]
 }

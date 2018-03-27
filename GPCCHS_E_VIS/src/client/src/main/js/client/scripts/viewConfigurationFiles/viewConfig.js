@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
-const Validator = require('./Validator');
-const MigrationManager = require('./migrations/MigrationManager');
-const ViewConfiguration = require('./ViewConfiguration');
-
-const VIMA_BASE_VERSION = '2.0';
+const displayInfo = require('./func/displayInfo');
+const validate = require('./func/validate');
+const migrate = require('./func/migrate');
 
 const program = require('commander');
 
@@ -14,35 +12,18 @@ program
   .option('-c, --check <inputFile>', 'Check if <inputFile> is a valid VIMA view configuration')
   .option('-m, --migrate <inputFile>', 'Migrate <inputFile> to the specified version')
   .option('-t, --target <targetVersion>', 'Sets target version for migration, default 2.0')
+  .option('-l, --lock <lockFile>', 'Sets or use existing lock file to remember migrations that have already been applied')
+  .option('-o, --output <outputFile>', 'Sets output file to save migrated view configuration')
   .parse(process.argv);
 
 if (program.info) {
-  const { version, type } = ViewConfiguration.fromFile(program.info).info;
-  process.stdout.write(
-    `The file '${program.info}' is a ${type} configuration file for VIMA ${version}\n`
-  );
+  displayInfo(program.info);
 }
 
 if (program.check) {
-  const getVersion = viewConfiguration =>
-    viewConfiguration.version || VIMA_BASE_VERSION;
-
-  const toValidate = ViewConfiguration.fromFile(program.check);
-  const version = getVersion(toValidate);
-  const validator = new Validator(version);
-
-  const validation = validator.validate(toValidate);
-
-  if (!validation.isValid) {
-    process.stderr.write(
-      `${program.check} is NOT a valid ${toValidate.type} configuration file.\n${validation.errors}\n`
-    );
-  }
+  validate(program.check);
 }
 
 if (program.migrate) {
-  const targetVersion = program.target || '2.0';
-  const migrationManager = new MigrationManager(targetVersion);
-  const toMigrate = ViewConfiguration.fromFile(program.migrate);
-  process.stdout.write(migrationManager.migrate(toMigrate).toString());
+  migrate(program.target, program.migrate, program.output, program.lock);
 }

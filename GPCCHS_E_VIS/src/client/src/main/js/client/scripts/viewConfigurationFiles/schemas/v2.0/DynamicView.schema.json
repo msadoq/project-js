@@ -1,118 +1,181 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "definitions": {
-    "condition": {
-      "$ref": "definitions.schema.json#/definitions/condition"
+  "description": "",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "minLength": 1
     },
-    "connectedData": {
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "titleStyle": {
       "type": "object",
       "properties": {
-        "formula": {
-          "type": "string"
+        "align": {
+          "type": "string",
+          "minLength": 1
         },
-        "filter": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/condition"
-          }
+        "bold": {
+          "type": "boolean"
         },
-        "domain": {
-          "type": "string"
+        "font": {
+          "type": "string",
+          "minLength": 1
         },
-        "timeline": {
-          "type": "string"
+        "italic": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "number"
+        },
+        "strikeOut": {
+          "type": "boolean"
+        },
+        "underline": {
+          "type": "boolean"
         }
       },
       "required": [
-        "formula",
-        "domain",
-        "timeline"
+        "align",
+        "bold",
+        "font",
+        "italic",
+        "size",
+        "strikeOut",
+        "underline"
       ]
     },
-    "viewCommonAttributes": {
+    "links": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
+      }
+    },
+    "defaultRatio": {
       "type": "object",
       "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "name": {
-              "type": "string"
-            },
-            "path": {
-              "type": "string"
-            }
-          }
+        "length": {
+          "type": "number"
         },
-        "procedures": {
-          "type": "array",
-          "items": {
-            "name": {
-              "type": "string"
-            },
-            "path": {
-              "type": "string"
-            }
-          }
-        },
-        "defaultRatio": {
+        "width": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "length",
+        "width"
+      ]
+    },
+    "domainName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sessionName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entryPoint": {
+      "type": "object",
+      "properties": {
+        "connectedData": {
           "type": "object",
           "properties": {
-            "length": {
-              "type": "number"
+            "catalog": {
+              "type": "string",
+              "minLength": 1
             },
-            "width": {
-              "type": "number"
+            "catalogItem": {
+              "type": "string",
+              "minLength": 1
+            },
+            "comObject": {
+              "type": "string",
+              "minLength": 1
+            },
+            "domain": {
+              "type": "string",
+              "minLength": 1
+            },
+            "filter": {
+              "type": "array",
+              "items": {
+                "required": [],
+                "properties": {}
+              }
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            },
+            "timeline": {
+              "type": "string",
+              "minLength": 1
             }
           },
           "required": [
-            "length",
-            "width"
+            "domain",
+            "formula",
+            "timeline"
           ]
-        }
-      }
-    }
-  },
-  "type": "object",
-  "allOf": [
-    {
-      "$ref": "#/definitions/viewCommonAttributes"
-    },
-    {
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "DynamicView"
         },
-        "entryPoint": {
-          "type": "object",
-          "properties": {
-            "connectedData": {
-              "$ref": "#/definitions/connectedData"
-            },
-            "stateColours": {
-              "type": "array",
-              "items": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stateColors": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "items": {
+            "required": [
+              "color"
+            ],
+            "properties": {
+              "color": {
+                "type": ["string", "integer"],
+                "minLength": 1
+              },
+              "condition": {
                 "type": "object",
                 "properties": {
-                  "colour": {
-                    "type": "integer"
+                  "field": {
+                    "type": "string",
+                    "minLength": 1
                   },
-                  "condition": {
-                    "$ref": "#/definitions/condition"
+                  "operand": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "operator": {
+                    "type": "string",
+                    "minLength": 1
                   }
                 },
                 "required": [
-                  "colour",
-                  "condition"
+                  "field",
+                  "operand",
+                  "operator"
                 ]
               }
             }
-          },
-          "required": [
-            "connectedData"
-          ]
+          }
         }
-      }
+      },
+      "required": [
+        "connectedData"
+      ]
     }
+  },
+  "required": [
+    "type",
+    "title"
   ]
 }

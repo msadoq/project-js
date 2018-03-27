@@ -159,14 +159,10 @@
       },
       "required": [
         "formula",
-        "fieldX",
         "unit",
         "digits",
-        "format",
         "domain",
-        "timeline",
-        "stringParameter",
-        "defaultY"
+        "timeline"
       ]
     },
     "viewEntryPoint": {
@@ -324,12 +320,7 @@
         "showTickLabels": {
           "type": "boolean"
         }
-      },
-      "required": [
-        "unit",
-        "id",
-        "label"
-      ]
+      }
     },
     "curveType": {
       "type": "string",
@@ -341,46 +332,7 @@
       ]
     },
     "viewCommonAttributes": {
-      "type": "object",
-      "properties": {
-        "links": {
-          "type": "array",
-          "items": {
-            "name": {
-              "type": "string"
-            },
-            "path": {
-              "type": "string"
-            }
-          }
-        },
-        "procedures": {
-          "type": "array",
-          "items": {
-            "name": {
-              "type": "string"
-            },
-            "path": {
-              "type": "string"
-            }
-          }
-        },
-        "defaultRatio": {
-          "type": "object",
-          "properties": {
-            "length": {
-              "type": "number"
-            },
-            "width": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "length",
-            "width"
-          ]
-        }
-      }
+      "$ref": "definitions.schema.json#/definitions/viewCommonAttributes"
     }
   },
   "type": "object",
@@ -433,11 +385,7 @@
             "showGrid": {
               "type": "boolean"
             }
-          },
-          "required": [
-            "yAxisId",
-            "line"
-          ]
+          }
         },
         "title": {
           "type": "string"

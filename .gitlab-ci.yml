@@ -25,6 +25,7 @@ before_script:
   - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
   - ln -s $NODE_MODULES node_modules
   - npm install
+  - npm run link
 
 job_lint:
   script:

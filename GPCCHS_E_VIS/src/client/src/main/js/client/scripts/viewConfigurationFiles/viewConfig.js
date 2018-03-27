@@ -21,9 +21,16 @@ if (program.info) {
 }
 
 if (program.check) {
-  validate(program.check);
+  const exitCode = validate(program.check);
+  process.exit(exitCode);
 }
 
 if (program.migrate) {
-  migrate(program.target, program.migrate, program.output, program.lock);
+  try {
+    migrate(program.target, program.migrate, program.output, program.lock);
+  } catch(error) {
+    process.exit(1);
+  }
 }
+
+process.exit(0);

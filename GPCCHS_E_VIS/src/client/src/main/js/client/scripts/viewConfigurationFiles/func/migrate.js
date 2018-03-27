@@ -38,16 +38,13 @@ module.exports = (target, inputPath, outputPath, lockFile) => {
   const targetVersion = target || VIMA_BASE_VERSION;
   const migrationManager = new MigrationManager(targetVersion);
   const toMigrate = ViewConfiguration.fromFile(inputPath);
-
-  const alreadyMigrated = getAlreadyAppliedMigrations(lockFile);
-
-  const migratedViewConfiguration = migrationManager.migrate(toMigrate, alreadyMigrated);
+  const alreadyAppliedMigration = getAlreadyAppliedMigrations(lockFile);
+  const migratedViewConfiguration = migrationManager.migrate(toMigrate, alreadyAppliedMigration);
+  const outputContent = migratedViewConfiguration.toString();
 
   if (lockFile) {
     saveNewMigrations(lockFile, migrationManager.executedMigrations);
   }
-
-  const outputContent = migratedViewConfiguration.toString();
 
   if (outputPath) {
     fs.writeFileSync(outputPath, outputContent, 'utf8');

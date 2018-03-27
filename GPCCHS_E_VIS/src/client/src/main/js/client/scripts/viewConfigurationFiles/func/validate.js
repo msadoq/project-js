@@ -18,5 +18,9 @@ module.exports = (path) => {
     process.stderr.write(
       `${path} is NOT a valid ${toValidate.type} configuration file.\n${validation.errors}\n`
     );
+
+    return 1;
   }
-}
+
+  return 0;
+};

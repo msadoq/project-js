@@ -42,7 +42,6 @@
     "links": {
       "type": "array",
       "uniqueItems": true,
-      "minItems": 1,
       "items": {
         "required": [
           "name",
@@ -147,7 +146,6 @@
           "stateColors": {
             "type": "array",
             "uniqueItems": true,
-            "minItems": 1,
             "items": {
               "required": [
                 "color"

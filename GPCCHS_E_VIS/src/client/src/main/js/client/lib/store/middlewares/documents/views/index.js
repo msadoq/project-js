@@ -20,13 +20,20 @@ import makeOnOpenView from './onOpenView';
 import makeOnCloseView from './onCloseView';
 import makeOnReloadView from './onReloadView';
 import makeOnSaveViewAsModel from './onSaveViewAsModel';
+import makeOnExportAsCsv from './onExportAsCsv';
+import makeOnExportAsImage from './onExportAsImage';
+import makeOnExportAsImageNot from './onExportAsImageNot';
+
 
 const makeViewsMiddleware = documentManager => pipeMiddlewares(
   makeOnOpenView(documentManager),
   makeOnSaveView(documentManager),
   makeOnCloseView(documentManager),
   makeOnReloadView(documentManager),
-  makeOnSaveViewAsModel(documentManager)
+  makeOnSaveViewAsModel(documentManager),
+  makeOnExportAsCsv(documentManager),
+  makeOnExportAsImage(documentManager),
+  makeOnExportAsImageNot(documentManager)
 );
 
 export default makeViewsMiddleware;

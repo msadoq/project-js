@@ -10,9 +10,13 @@
 
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
+
 import { dirname, basename } from 'path';
 
-import { LOG_DOCUMENT_OPEN } from 'constants';
+import {
+  LOG_DOCUMENT_OPEN,
+  MIME_TYPES,
+} from 'constants';
 import getLogger from 'common/logManager';
 import parameters from 'common/configurationManager';
 
@@ -51,6 +55,8 @@ import { readPageAndViews } from './readPage';
 import { writeWorkspace } from './writeWorkspace';
 import { writePage } from './writePage';
 import { writeView } from './writeView';
+import { exportData } from './io';
+import { parseIntoCsv } from './parseIntoCsv';
 
 import readView from './readView';
 
@@ -273,7 +279,33 @@ export const saveViewAsModel = (viewId, path) => (dispatch, getState) => { // TO
     }
   });
 };
-// -------------------------------------------------------------------------- //
+
+export const exportAsCsv = (viewId, path) => (dispatch, getState) => {
+  const state = getState();
+  const content = parseIntoCsv(state, viewId);
+  exportData(content, MIME_TYPES.CommaSeparatedValues, path, (errSaving) => {
+    if (errSaving) {
+      dispatch(addMessage(viewId, 'danger', `Data unsaved ${errSaving}`));
+    } else {
+      dispatch(addMessage(viewId, 'success', 'Data saved'));
+    }
+  });
+};
+
+export const exportAsImage = (viewId, path, imagedata) => (dispatch) => {
+  const content = imagedata.replace(/^data:image\/\w+;base64,/, '');
+  exportData(content, MIME_TYPES.PortableNetworkGraphics, path, (errSaving) => {
+    if (errSaving) {
+      dispatch(addMessage(viewId, 'danger', `Image unsaved: ${errSaving}`));
+    } else {
+      dispatch(addMessage(viewId, 'success', 'Image saved'));
+    }
+  });
+};
+
+export const exportAsImageNot = (viewId, errorMessage) => (dispatch) => {
+  dispatch(addMessage(viewId, 'danger', `Image unsaved: ${errorMessage}`));
+};
 
 // --- save a workspace ----------------------------------------------------------//
 export const saveWorkspace = path => (dispatch, getState) => { // TODO test this function

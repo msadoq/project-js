@@ -170,7 +170,6 @@ export default class TextView extends React.Component {
             const epName = match.substring(2, match.length - 2);
             const rand = Math.round(Math.random() * 100000);
             const id = `${this.props.viewId}_tv_${epName}_${rand}`;
-
             let textString = '';
             if (node.data.length !== match.length) {
               const indexOf = innerHtml.indexOf(match);
@@ -182,13 +181,11 @@ export default class TextView extends React.Component {
                 innerHtml = innerHtml.substring(indexOf);
               }
             }
-
             this.spanValues[id] = { ep: epName };
             nodes.push(
               <span className="ep" key={`${epName}-${index}-${i}`} id={id} />
             );
             innerHtml = innerHtml.substring(match.length);
-
             // Is there text after the last match ?
             if (i === matches.length - 1 && innerHtml.length) {
               nodes.push(<span key={`${epName}-${index}-text-${i}-end`}>{innerHtml}</span>);

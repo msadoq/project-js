@@ -149,6 +149,9 @@ export const askOpenView = simple(types.WS_ASK_OPEN_VIEW, 'absolutePath');
 export const askCloseView = simple(types.WS_ASK_CLOSE_VIEW, 'viewId');
 export const askReloadView = simple(types.WS_ASK_RELOAD_VIEW, 'viewId');
 export const askSaveViewAsModel = simple(types.WS_ASK_SAVE_VIEW_AS_MODEL, 'viewId');
+export const askExportAsCsv = simple(types.WS_ASK_EXPORT_AS_CSV, 'viewId');
+export const askExportAsImage = simple(types.WS_ASK_EXPORT_AS_IMAGE, 'viewId', 'imageData');
+export const askExportAsImageNot = simple(types.WS_ASK_EXPORT_AS_IMAGE_NOT, 'viewId', 'errorMessage');
 
 // ************ EntryPoint
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'entryPointId', 'entryPoint');

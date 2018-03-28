@@ -172,5 +172,6 @@
     "type",
     "content",
     "entryPoints"
-  ]
+  ],
+  "additionalProperties": false
 }

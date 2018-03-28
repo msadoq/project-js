@@ -21,14 +21,13 @@ if (program.info) {
 }
 
 if (program.check) {
-  const exitCode = validate(program.check);
-  process.exit(exitCode);
+  validate(program.check);
 }
 
 if (program.migrate) {
   try {
     migrate(program.target, program.migrate, program.output, program.lock);
-  } catch(error) {
+  } catch (error) {
     process.exit(1);
   }
 }

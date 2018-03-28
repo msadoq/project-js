@@ -19,8 +19,8 @@ module.exports = (path) => {
       `${path} is NOT a valid ${toValidate.type} configuration file.\n${validation.errors}\n`
     );
 
-    return 1;
+    return false;
   }
 
-  return 0;
+  return true;
 };

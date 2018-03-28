@@ -177,5 +177,6 @@
   "required": [
     "type",
     "title"
-  ]
+  ],
+  "additionalProperties": false
 }

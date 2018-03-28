@@ -277,5 +277,6 @@
   "required": [
     "windows",
     "timebars"
-  ]
+  ],
+  "additionalProperties": false
 }

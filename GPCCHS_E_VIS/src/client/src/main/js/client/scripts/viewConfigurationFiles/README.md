@@ -94,3 +94,12 @@ JSON file is saved to the specified path.
 ```
 $ viewConfig --migrate data/pages/dev.page1.vipg --output data/pages/dev.page1.migrated.vipg --target 2.2 --lock lockfile.json
 ```
+
+# Related scripts
+
+The scripts `validateViewConfigurationFiles.sh` validates that all files in the specified folder 
+are valid VIMA view configuration files.
+
+```
+./scripts/validateViewConfigurationFiles.sh ./data
+```

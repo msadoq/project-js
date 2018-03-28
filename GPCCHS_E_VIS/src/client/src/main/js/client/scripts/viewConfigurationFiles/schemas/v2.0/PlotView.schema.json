@@ -509,5 +509,6 @@
         "title"
       ]
     }
-  ]
+  ],
+  "additionalProperties": false
 }

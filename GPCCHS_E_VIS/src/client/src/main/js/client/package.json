@@ -54,6 +54,7 @@
     "test:coverage": "npm test -- --coverage --no-cache",
     "test:pic": "NODE_ENV=test jest --ci --testResultsProcessor jest-junit-reporter",
     "test:watch": "npm test -- --watch",
+    "test:validateViewConfigurationFiles": "./scripts/validateViewConfigurationFiles.js",
     "tw": "npm test -- --watch",
     "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js",
     "wp": "npm run webpack",

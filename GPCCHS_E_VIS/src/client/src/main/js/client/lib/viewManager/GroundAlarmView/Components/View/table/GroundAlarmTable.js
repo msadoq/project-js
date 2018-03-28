@@ -9,7 +9,22 @@ import TableView from 'windowProcess/common/TableView';
 import styles from './GroundAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
-const COLS = ['timestamp', 'parameterName', 'parameterType', 'firstOccurence', 'lastOccurence', 'duration', 'rawValue', 'physicalValue', 'satellite', 'ackState'];
+
+const COLS = [
+  'timestamp',
+  'parameterName',
+  'parameterType',
+  'firstOccurence',
+  'alarmType',
+  'lastOccurence',
+  'duration',
+  'rawValue',
+  'physicalValue',
+  'satellite',
+  'telemetryType',
+  'ackState',
+];
+
 const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extractedValue', 'rawValue', 'monitoringState'];
 
 const initialState = {

@@ -11,4 +11,5 @@ else
 fi
 
 echo "Pushing current branch to Gitlab for CI purposes"
-git push gitlab --no-verify
+CURRENT_BRANCH=`git branch | grep \* | cut -d ' ' -f2`
+git push gitlab ${CURRENT_BRANCH} --no-verify

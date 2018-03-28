@@ -15,15 +15,13 @@
       "type": "object",
       "properties": {
         "align": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         },
         "bold": {
           "type": "boolean"
         },
         "font": {
-          "type": "string",
-          "minLength": 1
+          "type": "string"
         },
         "italic": {
           "type": "boolean"
@@ -387,24 +385,19 @@
             "type": "object",
             "properties": {
               "axisId": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "catalog": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "catalogItem": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "comObject": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "comObjectField": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "convertFrom": {
                 "type": "string"
@@ -419,12 +412,10 @@
                 "type": "number"
               },
               "domain": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "fieldX": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "filter": {
                 "type": "array",
@@ -456,12 +447,10 @@
                 "minLength": 1
               },
               "formula": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "provider": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "stringParameter": {
                 "type": "boolean"

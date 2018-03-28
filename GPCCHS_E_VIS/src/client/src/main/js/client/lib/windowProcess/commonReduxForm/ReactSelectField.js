@@ -118,7 +118,7 @@ export default class ReactSelectField extends React.Component {
           className={className}
           placeholder={placeholder}
           clearable={clearable}
-          autofocus
+          autoFocus
         />
         {touched && error && <Alert bsStyle="danger" className="m0">
           {error}

@@ -52,7 +52,7 @@ export default class ComObjectFilterField extends PureComponent {
         onChange={this.handleChange}
         options={computeOptions(comObjectFields)}
         clearable
-        autofocus
+        autoFocus
         disabled={disabled}
         value={value}
       />

@@ -112,7 +112,7 @@ export default class VirtualizedSelectField extends React.Component {
           className={className}
           placeholder={placeholder}
           clearable={clearable}
-          autofocus
+          autoFocus
           optionHeight={28}
         />
         {touched && error && <Alert bsStyle="danger" className="m0">

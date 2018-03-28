@@ -32,6 +32,7 @@ import translateX from '../viewManager/MimicView/Components/Animation/translateX
 import translateY from '../viewManager/MimicView/Components/Animation/translateY';
 import transistor from '../viewManager/MimicView/Components/Collection/transistor';
 import EditorButtonsBar from './EditorButtonsBar';
+import { validateRequiredFields } from '../viewManager/common';
 
 const { string, func, arrayOf, bool, object } = PropTypes;
 
@@ -220,11 +221,6 @@ export const getMainContextMenu = (entryPoints) => {
 const requiredFields = ['html'];
 const validate = (values = {}, props) => {
   const errors = {};
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
 
   const htmlErrors = props.viewType === 'MimicView' ?
     lint(values.html, { 'spec-char-escape': false }) :
@@ -233,7 +229,11 @@ const validate = (values = {}, props) => {
   if (htmlErrors.length) {
     errors.html = `You have ${htmlErrors.length} errors`;
   }
-  return errors;
+
+  return {
+    ...errors,
+    ...validateRequiredFields(requiredFields, values),
+  };
 };
 
 export default reduxForm({

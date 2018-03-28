@@ -12,6 +12,7 @@ import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import FormSectionFontStyle from 'viewManager/commonEditor/FormSections/FormSectionFontStyle';
 import classnames from 'classnames';
+import { validateRequiredFields } from '../../../common';
 
 class ViewParamsForm extends React.Component {
   static propTypes = {
@@ -199,21 +200,10 @@ class ViewParamsForm extends React.Component {
   }
 }
 
-
 const requiredFields = ['title'];
-const validate = (values = {}) => {
-  const errors = {};
-
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-  return errors;
-};
 
 export default reduxForm({
-  validate,
+  validate: validateRequiredFields(requiredFields),
   warn: () => ({}),
   enableReinitialize: true,
 })(ViewParamsForm);

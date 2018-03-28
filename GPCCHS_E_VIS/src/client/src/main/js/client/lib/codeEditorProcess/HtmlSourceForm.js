@@ -16,6 +16,7 @@ import { lint } from '../common/htmllint';
 import CodeMirrorField from '../windowProcess/commonReduxForm/CodeMirrorField';
 import styles from './Source.css';
 import EditorButtonsBar from './EditorButtonsBar';
+import { validateRequiredFields } from '../viewManager/common';
 
 class HtmlSourceForm extends Component {
   static propTypes = {
@@ -87,11 +88,6 @@ class HtmlSourceForm extends Component {
 const requiredFields = ['html'];
 const validate = (values = {}, props) => {
   const errors = {};
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
 
   const htmlErrors = props.viewType === 'MimicView' ?
     lint(values.html, { 'spec-char-escape': false }) :
@@ -100,7 +96,10 @@ const validate = (values = {}, props) => {
   if (htmlErrors.length) {
     errors.html = `You have ${htmlErrors.length} errors`;
   }
-  return errors;
+  return {
+    ...errors,
+    ...validateRequiredFields(requiredFields, values),
+  };
 };
 
 export default reduxForm({

@@ -29,6 +29,7 @@ import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import FormSectionFontStyle from 'viewManager/commonEditor/FormSections/FormSectionFontStyle';
 import styles from './Plot.css';
+import { validateRequiredFields } from '../../../common';
 
 class AddPlotAxis extends PureComponent {
   static propTypes = {
@@ -386,13 +387,10 @@ const validate = (values = {}, props) => {
     errors.max = 'Max cannot be inferior to min';
   }
 
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-
-  return errors;
+  return {
+    ...errors,
+    ...validateRequiredFields(requiredFields, values),
+  };
 };
 
 export default connect(

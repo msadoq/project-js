@@ -1,6 +1,7 @@
 import {
   buildFormula,
   handleSubmit,
+  validateRequiredFields,
 } from 'viewManager/common';
 import { spy } from 'sinon';
 import deepFreeze from 'deep-freeze';
@@ -94,5 +95,40 @@ describe('handleSubmit', () => {
         formula: 'reporting.inem<ion>.or',
       },
     }]);
+  });
+});
+
+
+describe('validateRequiredFields', () => {
+  test('should find an error when html field is empty', () => {
+    const values = { html: 'bidule' };
+    const validationErrors = validateRequiredFields(['html', 'truc'], values);
+    expect(Object.keys(validationErrors)).toEqual(['truc']);
+  });
+
+  test('can be combined with other validation rules', () => {
+    const requiredFields = ['name', 'date'];
+    const validate = (values = {}) => {
+      const errors = {};
+      if (values.name !== 'niobé') {
+        errors.name = 'Invalid name';
+      }
+      return {
+        ...errors,
+        ...validateRequiredFields(requiredFields, values),
+      };
+    };
+
+    const values = { name: 'bidule' };
+    const validationErrors = validate(values);
+    expect(Object.keys(validationErrors)).toEqual(['name', 'date']); // FIXME I should test a combination with other errors
+  });
+
+  test('should return a validation function when no values are given as argument', () => {
+    const requiredFields = ['name'];
+    const validationMethod = validateRequiredFields(requiredFields);
+    expect(validationMethod).toBeInstanceOf(Function);
+    const errors = validationMethod({});
+    expect(Object.keys(errors)).toEqual(['name']);
   });
 });

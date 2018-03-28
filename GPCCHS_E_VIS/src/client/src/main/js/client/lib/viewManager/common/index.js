@@ -79,3 +79,25 @@ export function handleSubmit(values, updateEntryPoint, viewId) {
     },
   });
 }
+
+/**
+ * given an array of required fields, returns the validate function
+ * @param requiredFields
+ * @returns a redux-form validate function
+ */
+const innerValidateRequiredFields = requiredFields => (values = {}) => {
+  const errors = {};
+
+  requiredFields.forEach((field) => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
+  return errors;
+};
+
+export const validateRequiredFields = (requiredFields, values) => (
+  values
+    ? innerValidateRequiredFields(requiredFields)(values) // executes the validation on values
+    : innerValidateRequiredFields(requiredFields) // returns a validation function
+);

@@ -21,6 +21,7 @@ import InputField from 'windowProcess/commonReduxForm/InputField';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
+import { validateRequiredFields } from '../../../common';
 
 const lineStyleButtons = [
   { label: 'Continuous', icon: 'continuous' },
@@ -138,19 +139,9 @@ class PlotGrid extends React.Component {
 }
 
 const requiredFields = [];
-const validate = (values = {}) => {
-  const errors = {};
-
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-  return errors;
-};
 
 export default reduxForm({
-  validate,
+  validate: validateRequiredFields(requiredFields),
   warn: () => ({}),
   enableReinitialize: true,
 })(PlotGrid);

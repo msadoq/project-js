@@ -17,6 +17,7 @@ import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGro
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import FileInputField from 'windowProcess/commonReduxForm/FileInputField';
+import { validateRequiredFields } from '../../common';
 
 
 class AddLink extends Component {
@@ -95,19 +96,9 @@ class AddLink extends Component {
 }
 
 const requiredFields = ['name', 'path'];
-const validate = (values = {}) => {
-  const errors = {};
-
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-  return errors;
-};
 
 export default reduxForm({
-  validate,
+  validate: validateRequiredFields(requiredFields),
   enableReinitialize: true,
 })(
   connect(

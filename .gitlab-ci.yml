@@ -32,7 +32,6 @@ job_build:
   - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
   - ln -s $NODE_MODULES node_modules
   - npm  run hello
-
 job_lint:
   stage: test
   script:
@@ -67,4 +66,9 @@ job_slack_notif:
 job_validate_viewconf:
     stage: test
     script:
+    - RUNNER_TOKEN=23659357
+    - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS/vima/$CI_COMMIT_REF_SLUG
+    - echo $BUILD_DIR
+    - CHECKOUT_DIR=$BUILD_DIR/build
+    - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
     - npm run test:validateViewConfigurationFiles -- ./data

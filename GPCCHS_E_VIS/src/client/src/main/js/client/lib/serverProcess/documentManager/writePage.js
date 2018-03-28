@@ -25,8 +25,8 @@ const preparePage = (state, page) => ({
   sessionName: page.sessionName,
   domainName: page.domainName,
   views: page.views.map((viewId) => {
-    const { oId, absolutePath } = getView(state, { viewId });
-    const viewLocation = oId ? { oId } : { path: absolutePath };
+    const { absolutePath } = getView(state, { viewId });
+    const viewLocation = { path: absolutePath };
     const geometry = _.find(_.propEq('i', viewId), page.layout);
     return {
       ...viewLocation,

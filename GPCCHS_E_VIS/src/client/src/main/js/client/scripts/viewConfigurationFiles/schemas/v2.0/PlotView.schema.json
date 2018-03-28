@@ -1,514 +1,607 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "definitions": {
-    "lineStyle": {
+  "description": "",
+  "type": "object",
+  "properties": {
+    "type": {
       "type": "string",
-      "enum": [
-        "Continuous",
-        "Dotted",
-        "Dashed"
-      ]
+      "minLength": 1
     },
-    "color": {
+    "title": {
       "type": "string",
-      "pattern": "^#[0-9a-fA-F]+$"
+      "minLength": 1
     },
-    "showLegend": {
-      "type": "boolean"
-    },
-    "textStyle": {
+    "titleStyle": {
       "type": "object",
       "properties": {
+        "align": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bold": {
+          "type": "boolean"
+        },
         "font": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
+        },
+        "italic": {
+          "type": "boolean"
         },
         "size": {
           "type": "number"
         },
-        "bold": {
-          "type": "boolean",
-          "default": false
-        },
-        "italic": {
-          "type": "boolean",
-          "default": false
+        "strikeOut": {
+          "type": "boolean"
         },
         "underline": {
-          "type": "boolean",
-          "default": false
-        },
-        "strikeOut": {
-          "type": "boolean",
-          "default": false
-        },
-        "align": {
-          "type": "string",
-          "default": "left",
-          "enum": [
-            "left",
-            "center",
-            "right"
-          ]
-        },
-        "color": {
-          "$ref": "#/definitions/color"
-        }
-      }
-    },
-    "condition": {
-      "type": "object",
-      "properties": {
-        "field": {
-          "type": "string"
-        },
-        "operator": {
-          "type": "string",
-          "enum": [
-            "==",
-            "!=",
-            "<",
-            ">",
-            "<=",
-            ">=",
-            "CONTAINS",
-            "ICONTAINS"
-          ]
-        },
-        "operand": {
-          "type": "string"
-        }
-      }
-    },
-    "connectedDataParametric": {
-      "type": "object",
-      "properties": {
-        "formulaX": {
-          "type": "string"
-        },
-        "formulaY": {
-          "type": "string"
-        },
-        "domainX": {
-          "type": "string"
-        },
-        "domainY": {
-          "type": "string"
-        },
-        "unitX": {
-          "type": "string"
-        },
-        "unitY": {
-          "type": "string"
-        },
-        "xAxisId": {
-          "type": "string"
-        },
-        "yAxisId": {
-          "type": "string"
-        }
-      }
-    },
-    "connectedData": {
-      "type": "object",
-      "properties": {
-        "formula": {
-          "type": "string"
-        },
-        "fieldX": {
-          "type": "string"
-        },
-        "unit": {
-          "type": "string"
-        },
-        "axisId": {
-          "type": "string"
-        },
-        "digits": {
-          "type": "integer"
-        },
-        "format": {
-          "type": "string"
-        },
-        "filter": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/condition"
-          }
-        },
-        "domain": {
-          "type": "string"
-        },
-        "timeline": {
-          "type": "string"
-        },
-        "stringParameter": {
           "type": "boolean"
-        },
-        "defaultY": {
-          "type": "number"
-        },
-        "convertTo": {
-          "type": "string"
-        },
-        "convertFrom": {
-          "type": "string"
-        },
-        "provider": {
-          "type": "string"
         }
       },
       "required": [
-        "formula",
-        "unit",
-        "digits",
-        "domain",
-        "timeline"
+        "align",
+        "bold",
+        "font",
+        "italic",
+        "size",
+        "strikeOut",
+        "underline"
       ]
     },
-    "viewEntryPoint": {
+    "backgroundColor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "links": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "required": [
+          "name",
+          "path"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "defaultRatio": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
+        "length": {
+          "type": "number"
         },
-        "connectedData": {
-          "$ref": "#/definitions/connectedData"
-        },
-        "connectedDataParametric": {
-          "$ref": "#/definitions/connectedDataParametric"
-        },
-        "stateColours": {
-          "type": "array",
-          "items": {
+        "width": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "length",
+        "width"
+      ]
+    },
+    "procedures": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
+      }
+    },
+    "axes": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "style": {
             "type": "object",
             "properties": {
-              "color": {
-                "type": "integer"
+              "font": {
+                "type": "string",
+                "minLength": 1
               },
-              "condition": {
-                "$ref": "#/definitions/condition"
+              "size": {
+                "type": "number"
+              },
+              "bold": {
+                "type": "boolean"
+              },
+              "italic": {
+                "type": "boolean"
+              },
+              "underline": {
+                "type": "boolean"
+              },
+              "strikeOut": {
+                "type": "boolean"
+              },
+              "align": {
+                "type": "string",
+                "minLength": 1
+              },
+              "color": {
+                "type": "string",
+                "minLength": 1
               }
             },
             "required": [
-              "color",
-              "condition"
+              "font",
+              "size",
+              "bold",
+              "italic",
+              "underline",
+              "strikeOut",
+              "align",
+              "color"
             ]
-          }
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
-    "plotViewEntryPoint": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "connectedData": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/connectedData"
-            },
-            {
-              "properties": {
-                "axisId": {
-                  "type": "string"
-                }
-              }
-            }
-          ]
-        },
-        "objectStyle": {
-          "line": {
-            "style": {
-              "$ref": "#/definitions/lineStyle"
-            },
-            "size": {
-              "type": "number"
-            }
           },
-          "points": {
-            "style": {
-              "type": "string",
-              "enum": [
-                "None",
-                "Triangle",
-                "Square",
-                "Dot"
-              ]
-            },
-            "size": {
-              "type": "number"
-            }
-          },
-          "curveColour": {
-            "$ref": "#/definitions/color"
-          }
-        },
-        "stateColours": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "color": {
-                "$ref": "#/definitions/color"
-              },
-              "condition": {
-                "$ref": "#/definitions/condition"
-              }
-            },
-            "required": [
-              "color",
-              "condition"
-            ]
-          }
-        }
-      },
-      "required": [
-        "name", "connectedData"
-      ]
-    },
-    "axis": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
-        "unit": {
-          "type": "string"
-        },
-        "style": {
-          "$ref": "#/definitions/textStyle"
-        },
-        "min": {
-          "type": "number"
-        },
-        "max": {
-          "type": "number"
-        },
-        "autoLimits": {
-          "type": "boolean"
-        },
-        "tickStep": {
-          "type": "number"
-        },
-        "autoTick": {
-          "type": "boolean"
-        },
-        "showTicks": {
-          "type": "boolean"
-        },
-        "logarithmic": {
           "min": {
             "type": "number"
           },
           "max": {
             "type": "number"
           },
-          "base": {
+          "autoLimits": {
+            "type": "boolean"
+          },
+          "tickStep": {
             "type": "number"
+          },
+          "autoTick": {
+            "type": "boolean"
+          },
+          "showTicks": {
+            "type": "boolean"
+          },
+          "showTickLabels": {
+            "type": "boolean"
+          },
+          "logarithmic": {
+            "type": "boolean"
+          },
+          "logSettings": {
+            "type": "object",
+            "properties": {
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "base": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "min",
+              "max",
+              "base"
+            ]
+          },
+          "showAxis": {
+            "type": "boolean"
+          },
+          "showLabels": {
+            "type": "boolean"
           }
-        },
-        "showAxis": {
-          "type": "boolean"
-        },
-        "showTickLabels": {
-          "type": "boolean"
         }
       }
     },
-    "curveType": {
-      "type": "string",
-      "default": "Dotted",
-      "enum": [
-        "Continuous",
-        "Dotted",
-        "Dashed"
-      ]
-    },
-    "viewCommonAttributes": {
-      "$ref": "definitions.schema.json#/definitions/viewCommonAttributes"
-    }
-  },
-  "type": "object",
-  "allOf": [
-    {
-      "$ref": "#/definitions/viewCommonAttributes"
-    },
-    {
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "PlotView"
-        },
-        "entryPoints": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/plotViewEntryPoint"
-          }
-        },
-        "axes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/axis"
-          }
-        },
-        "grids": {
-          "type": "array",
-          "items": {
-            "xAxisId": {
-              "type": "string"
-            },
-            "yAxisId": {
-              "type": "string"
-            },
-            "line": {
-              "type": "object",
-              "properties": {
-                "style": {
-                  "$ref": "#/definitions/lineStyle"
-                },
-                "size": {
-                  "type": "number"
-                }
+    "grids": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "required": [
+          "showGrid",
+          "xAxisId",
+          "yAxisId"
+        ],
+        "properties": {
+          "showGrid": {
+            "type": "boolean"
+          },
+          "line": {
+            "type": "object",
+            "properties": {
+              "size": {
+                "type": "number"
               },
-              "required": [
-                "style",
-                "size"
-              ]
+              "style": {
+                "type": "string",
+                "minLength": 1
+              }
             },
-            "showGrid": {
-              "type": "boolean"
-            }
+            "required": [
+              "size",
+              "style"
+            ]
+          },
+          "xAxisId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "yAxisId": {
+            "type": "string",
+            "minLength": 1
           }
-        },
-        "title": {
-          "type": "string"
-        },
-        "titleStyle": {
-          "$ref": "#/definitions/textStyle"
-        },
-        "backgroundColour": {
-          "$ref": "#/definitions/color"
-        },
-        "showYAxes": {
+        }
+      }
+    },
+    "legend": {
+      "type": "object",
+      "properties": {
+        "location": {
           "type": "string",
-          "default": "left",
-          "enum": [
-            "",
-            "left",
-            "right",
-            "no",
-            "false"
-          ]
+          "minLength": 1
         },
-        "legend": {
+        "style": {
           "type": "object",
           "properties": {
-            "style": {
-              "$ref": "#/definitions/textStyle"
-            },
-            "location": {
+            "font": {
               "type": "string",
-              "enum": [
-                "top",
-                "left",
-                "right",
-                "bottom"
-              ]
+              "minLength": 1
+            },
+            "size": {
+              "type": "number"
+            },
+            "bold": {
+              "type": "boolean"
+            },
+            "italic": {
+              "type": "boolean"
+            },
+            "underline": {
+              "type": "boolean"
+            },
+            "strikeOut": {
+              "type": "boolean"
+            },
+            "align": {
+              "type": "string",
+              "minLength": 1
+            },
+            "color": {
+              "type": "string",
+              "minLength": 1
             }
-          }
-        },
-        "markers": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              {
-                "properties": {
-                  "kind": {
-                    "type": "string",
-                    "const": "Text"
-                  },
-                  "label": {
-                    "type": "string"
-                  },
-                  "style": {
-                    "$ref": "#/definitions/textStyle"
-                  },
-                  "relativePosX": {
-                    "type": "number"
-                  },
-                  "relativePosY": {
-                    "type": "number"
-                  }
-                },
-                "required": [
-                  "kind",
-                  "label",
-                  "relativePosX",
-                  "relativePosY"
-                ],
-                "additionalProperties": false
-              },
-              {
-                "properties": {
-                  "kind": {
-                    "type": "string",
-                    "const": "Vertical"
-                  },
-                  "style": {
-                    "$ref": "#/definitions/lineStyle"
-                  },
-                  "posX": {
-                    "type": "number"
-                  },
-                  "xAxisId": {
-                    "type": "integer"
-                  }
-                },
-                "required": [
-                  "kind",
-                  "posX",
-                  "xAxisId"
-                ],
-                "additionalProperties": false
-              },
-              {
-                "properties": {
-                  "kind": {
-                    "type": "string",
-                    "const": "Horizontal"
-                  },
-                  "style": {
-                    "$ref": "#/definitions/lineStyle"
-                  },
-                  "posY": {
-                    "type": "number"
-                  },
-                  "yAxisId": {
-                    "type": "integer"
-                  }
-                },
-                "required": [
-                  "kind",
-                  "posY",
-                  "yAxisId"
-                ],
-                "additionalProperties": false
-              }
-            ]
-          }
+          },
+          "required": [
+            "font",
+            "size",
+            "bold",
+            "italic",
+            "underline",
+            "strikeOut",
+            "align",
+            "color"
+          ]
         }
       },
       "required": [
-        "title"
+        "location",
+        "style"
       ]
+    },
+    "markers": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "required": [
+          "kind",
+          "label",
+          "relativePosX",
+          "relativePosY"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "style": {
+            "type": "object",
+            "properties": {
+              "font": {
+                "type": "string",
+                "minLength": 1
+              },
+              "size": {
+                "type": "number"
+              },
+              "bold": {
+                "type": "boolean"
+              },
+              "italic": {
+                "type": "boolean"
+              },
+              "underline": {
+                "type": "boolean"
+              },
+              "strikeOut": {
+                "type": "boolean"
+              },
+              "align": {
+                "type": "string",
+                "minLength": 1
+              },
+              "color": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "font",
+              "size",
+              "bold",
+              "italic",
+              "underline",
+              "strikeOut",
+              "align",
+              "color"
+            ]
+          },
+          "relativePosX": {
+            "type": "number"
+          },
+          "relativePosY": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "entryPoints": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "connectedData": {
+            "type": "object",
+            "properties": {
+              "axisId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "catalog": {
+                "type": "string",
+                "minLength": 1
+              },
+              "catalogItem": {
+                "type": "string",
+                "minLength": 1
+              },
+              "comObject": {
+                "type": "string",
+                "minLength": 1
+              },
+              "comObjectField": {
+                "type": "string",
+                "minLength": 1
+              },
+              "convertFrom": {
+                "type": "string"
+              },
+              "convertTo": {
+                "type": "string"
+              },
+              "defaultY": {
+                "type": "number"
+              },
+              "digits": {
+                "type": "number"
+              },
+              "domain": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fieldX": {
+                "type": "string",
+                "minLength": 1
+              },
+              "filter": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "required": [
+                    "field",
+                    "operand",
+                    "operator"
+                  ],
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "operand": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "operator": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "format": {
+                "type": "string",
+                "minLength": 1
+              },
+              "formula": {
+                "type": "string",
+                "minLength": 1
+              },
+              "provider": {
+                "type": "string",
+                "minLength": 1
+              },
+              "stringParameter": {
+                "type": "boolean"
+              },
+              "timeline": {
+                "type": "string",
+                "minLength": 1
+              },
+              "unit": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "digits",
+              "domain",
+              "fieldX",
+              "format",
+              "formula",
+              "provider",
+              "stringParameter",
+              "timeline",
+              "unit"
+            ]
+          },
+          "connectedDataParametric": {
+            "type": "object",
+            "properties": {
+              "domainX": {
+                "type": "string"
+              },
+              "domainY": {
+                "type": "string"
+              },
+              "formulaX": {
+                "type": "string"
+              },
+              "formulaY": {
+                "type": "string"
+              },
+              "unitX": {
+                "type": "string"
+              },
+              "unitY": {
+                "type": "string"
+              },
+              "xAxisId": {
+                "type": "string"
+              },
+              "yAxisId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "domainX",
+              "domainY",
+              "formulaX",
+              "formulaY",
+              "unitX",
+              "unitY",
+              "xAxisId",
+              "yAxisId"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "objectStyle": {
+            "type": "object",
+            "properties": {
+              "curveColor": {
+                "type": "string",
+                "minLength": 1
+              },
+              "line": {
+                "type": "object",
+                "properties": {
+                  "size": {
+                    "type": "number"
+                  },
+                  "style": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "size",
+                  "style"
+                ]
+              },
+              "points": {
+                "type": "object",
+                "properties": {
+                  "size": {
+                    "type": "number"
+                  },
+                  "style": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "size",
+                  "style"
+                ]
+              }
+            },
+            "required": [
+              "curveColor",
+              "line",
+              "points"
+            ]
+          },
+          "parametric": {
+            "type": "boolean"
+          },
+          "stateColors": {
+            "type": "array",
+            "items": {
+              "required": [],
+              "properties": {}
+            }
+          }
+        }
+      }
+    },
+    "showYAxes": {
+      "type": "string",
+      "minLength": 1
+    },
+    "showLegend": {
+      "type": "boolean"
+    },
+    "search": {
+      "type": "string"
     }
-  ],
-  "additionalProperties": false
+  },
+  "required": [
+    "type",
+    "title"
+  ]
 }

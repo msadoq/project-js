@@ -47,7 +47,11 @@ export const getFilteredSortedIndexes = createSelector(
   getSortMode,
   getSortColumn,
   ({ lines }, indexes, sortMode, column) => (
-    sortDataBy(oid => lines[oid].rawAlarm[column], sortMode, indexes)
+    sortDataBy(
+      oid => _.getOr({}, [oid, 'rawAlarm', column], lines),
+      sortMode,
+      indexes
+    )
   )
 );
 

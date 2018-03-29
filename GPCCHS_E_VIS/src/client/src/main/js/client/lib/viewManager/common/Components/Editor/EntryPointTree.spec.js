@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { shallowRenderSnapshot } from 'common/jest/utils';
 import EntryPointTree from './EntryPointTree';
+import { TIME_BASED_DATA_OPTION } from '../../../commonEditor/Fields/DataTypeField';
 
 let entryPoint;
 
@@ -47,7 +48,7 @@ describe('viewManager/common/Components/Editor/EntryPointTree', () => {
       name: 'YOLO',
       connectedData: { formula: '' },
     };
-    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    wrapper.instance().handleSubmit(entryPointUpdated);
     expect(entryPoint).toEqual(entryPointUpdated);
   });
   test('EntryPointTree :: handleSubmit stateColor add', () => {
@@ -70,7 +71,7 @@ describe('viewManager/common/Components/Editor/EntryPointTree', () => {
       },
       connectedData: { formula: '' },
     };
-    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    wrapper.instance().handleSubmit(entryPointUpdated);
     expect(entryPoint).toEqual(entryPointUpdated);
   });
   test('EntryPointTree :: handleSubmit stateColor remove', () => {
@@ -107,17 +108,19 @@ describe('viewManager/common/Components/Editor/EntryPointTree', () => {
         stateColors: [],
       },
     };
-    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    wrapper.instance().handleSubmit(entryPointUpdated);
     expect(entryPoint).toEqual(entryPointUpdated);
   });
-  test.only('EntryPointTree :: handleSubmit connectedData', () => {
+  test('EntryPointTree :: handleSubmit connectedData', () => {
     const wrapper = shallow(
       <EntryPointTree
         {...propsStub}
       />
     );
-    wrapper.instance().handleSubmit(entryPointEmpty, {
+    wrapper.instance().handleSubmit({
+      ...entryPointEmpty,
       connectedData: {
+        dataType: TIME_BASED_DATA_OPTION.value,
         catalog: 'Reporting',
         catalogItem: 'AGA_AM_ACQPRIORITY',
         comObject: 'ReportingParameter',
@@ -133,6 +136,7 @@ describe('viewManager/common/Components/Editor/EntryPointTree', () => {
         catalogItem: 'AGA_AM_ACQPRIORITY',
         comObject: 'ReportingParameter',
         comObjectField: 'convertedValue',
+        dataType: TIME_BASED_DATA_OPTION.value,
       },
     };
     expect(entryPoint).toEqual(entryPointUpdated);
@@ -152,7 +156,7 @@ describe('viewManager/common/Components/Editor/EntryPointTree', () => {
         filter: [{ field: 'extractedValue', operand: 10, operator: '=' }],
       },
     };
-    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    wrapper.instance().handleSubmit(entryPointUpdated);
     expect(entryPoint).toEqual(entryPointUpdated);
   });
   test('EntryPointTree :: handleSubmit filter delete', () => {
@@ -180,7 +184,7 @@ describe('viewManager/common/Components/Editor/EntryPointTree', () => {
         formula: '',
       },
     };
-    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    wrapper.instance().handleSubmit(entryPointUpdated);
     expect(entryPoint).toEqual(entryPointUpdated);
   });
   test('EntryPointTree :: handleSubmit unit', () => {
@@ -200,7 +204,7 @@ describe('viewManager/common/Components/Editor/EntryPointTree', () => {
         },
       },
     };
-    wrapper.instance().handleSubmit(entryPointEmpty, entryPointUpdated);
+    wrapper.instance().handleSubmit(entryPointUpdated);
     expect(entryPoint).toEqual(entryPointUpdated);
   });
 });

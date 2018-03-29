@@ -91,8 +91,8 @@ describe('handleSubmit', () => {
     expect(updateStub.args[0]).toEqual([ANY_VIEW_ID, values.id, {
       ...SUBMITTED_VALUES,
       connectedData: {
-        ...SUBMITTED_VALUES.connectedData,
-        formula: 'reporting.inem<ion>.or',
+        catalog: 'reporting',
+        formula: 'reporting',
       },
     }]);
   });

@@ -59,10 +59,11 @@ export const buildFormulaForAutocomplete = (catalog, catalogItem, comObject, com
  */
 export function handleSubmit(values, updateEntryPoint, viewId) {
   const { dataType } = values.connectedData;
-  if (dataType === TIME_BASED_DATA_OPTION.value) {
+  if (dataType !== SDB_VALUE_OPTION.value) {
     _unset(values.connectedData, 'path');
     _unset(values.connectedData, 'displayMode');
-  } else if (dataType === SDB_VALUE_OPTION.value) {
+  }
+  if (dataType !== TIME_BASED_DATA_OPTION.value) {
     _unset(values.connectedData, 'catalogItem');
     _unset(values.connectedData, 'comObject');
     _unset(values.connectedData, 'comObjectField');

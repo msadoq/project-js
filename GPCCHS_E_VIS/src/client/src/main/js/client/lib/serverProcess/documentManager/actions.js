@@ -303,7 +303,7 @@ export const exportAsImage = (viewId, path, imagedata) => (dispatch) => {
   });
 };
 
-export const exportAsImageNot = (viewId, errorMessage) => (dispatch) => {
+export const exportAsImageHasFailed = (viewId, errorMessage) => (dispatch) => {
   dispatch(addMessage(viewId, 'danger', `Image unsaved: ${errorMessage}`));
 };
 

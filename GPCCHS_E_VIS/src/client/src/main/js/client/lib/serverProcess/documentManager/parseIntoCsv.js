@@ -15,6 +15,8 @@ import {
 
 import { getView } from 'store/reducers/views';
 
+const parseVector = vector => vector.map(e => e).join(COL_SEP).concat(COL_SEP);
+
 const parseIntoCsv = (state, viewId) => {
   const view = getView(state, { viewId });
   switch (view.type) {
@@ -26,7 +28,7 @@ const parseIntoCsv = (state, viewId) => {
         const subarray = Array.from(x);
         const entryPointName = subarray[0];
         const entryPointData = Object.entries(subarray[1]);
-        const parseVector = vector => (
+        /* const parseVector = vector => (
           vector[0] + COL_SEP
             + vector[1] + COL_SEP
             + vector[2] + COL_SEP
@@ -34,7 +36,7 @@ const parseIntoCsv = (state, viewId) => {
             + vector[4] + COL_SEP
             + vector[5] + COL_SEP
             + vector[6] + COL_SEP
-        );
+        ); */
         function oneRowKeys(arrayEntry) {
           return entryPointName + COL_SEP
             + arrayEntry[0] + COL_SEP
@@ -73,7 +75,7 @@ const parseIntoCsv = (state, viewId) => {
       const groundAlarmViewData = state.GroundAlarmViewData[viewId];
       const groundAlarmViewEntries = Object.entries(groundAlarmViewData.lines);
       const firstElement = groundAlarmViewEntries[0][1];
-      const parseVector = vector => (
+      /* const parseVector = vector => (
           vector[0] + COL_SEP +
           vector[1] + COL_SEP +
           vector[2] + COL_SEP +
@@ -91,7 +93,7 @@ const parseIntoCsv = (state, viewId) => {
           vector[14] + COL_SEP +
           vector[15] + COL_SEP +
           vector[16] + COL_SEP
-    );
+    ); */
       const header = (groundAlarmViewEntries.length === 0)
         ? ''
         : 'index'.concat(COL_SEP).concat(parseVector(Object.keys(firstElement)));
@@ -151,8 +153,8 @@ const parseIntoCsv = (state, viewId) => {
       return ('');
     }
     case VM_VIEW_ONBOARDALARM: {
-      const onboardAlarmViewMetadata =
-        `index${COL_SEP}ackState${COL_SEP}onBoardDate${COL_SEP}index${COL_SEP}satellite${COL_SEP}telemetryType${COL_SEP}timestamp${COL_SEP}alarmType${COL_SEP}RIDId${COL_SEP}reportNameexercitation${COL_SEP}reportType${COL_SEP}${COL_SEP}${COL_SEP}${COL_SEP}${ROW_SEP}`;
+      const onboardAlarmViewMetadata = parseVector(['index', 'ackState', 'onBoardDate', 'index', 'satellite', 'telemetryType', 'timestamp', 'alarmType', 'RIDId', 'reportNameexercitation', 'reportType', '', '', '', '']) + ROW_SEP;
+//        `index${COL_SEP}ackState${COL_SEP}onBoardDate${COL_SEP}index${COL_SEP}satellite${COL_SEP}telemetryType${COL_SEP}timestamp${COL_SEP}alarmType${COL_SEP}RIDId${COL_SEP}reportNameexercitation${COL_SEP}reportType${COL_SEP}${COL_SEP}${COL_SEP}${COL_SEP}${ROW_SEP}`;
       const onboardAlarmViewData = state.OnboardAlarmViewData[viewId];
       const onboardAlarmViewEntries = Object.entries(onboardAlarmViewData.lines);
       const onboardAlarmViewCSV = (element) => {

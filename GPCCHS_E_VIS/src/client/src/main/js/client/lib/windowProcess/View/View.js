@@ -102,7 +102,7 @@ export default class View extends PureComponent {
     saveViewAsModel: PropTypes.func.isRequired,
     exportAsCsv: PropTypes.func.isRequired,
     exportAsImage: PropTypes.func.isRequired,
-    exportAsImageNot: PropTypes.func.isRequired,
+    exportAsImageHasFailed: PropTypes.func.isRequired,
     collapsed: PropTypes.bool.isRequired,
     absolutePath: PropTypes.string,
   };
@@ -199,7 +199,7 @@ export default class View extends PureComponent {
             }
           ).catch(
             (error) => {
-              this.props.exportAsImageNot('error in processing dom into png data --- ', error.message);
+              this.props.exportAsImageHasFailed('error in processing dom into png data --- ', error.message);
             }
           );
         },

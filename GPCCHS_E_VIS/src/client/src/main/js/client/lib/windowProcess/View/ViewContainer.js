@@ -42,7 +42,7 @@ import {
   askSaveViewAsModel,
   askExportAsCsv,
   askExportAsImage,
-  askExportAsImageNot } from 'store/actions/views';
+  askExportAsImageHasFailed } from 'store/actions/views';
 import { open as openModal, close as closeModal } from 'store/actions/modals';
 import { setCollapsed, setMaximized, openEditor, minimizeEditor, openSearch, closeSearch } from 'store/actions/pages';
 import { askOpenInspector } from 'store/actions/inspector';
@@ -100,7 +100,7 @@ const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActio
   saveViewAsModel: () => askSaveViewAsModel(viewId),
   exportAsCsv: () => askExportAsCsv(viewId),
   exportAsImage: imageData => askExportAsImage(viewId, imageData),
-  exportAsImageNot: errorMessage => askExportAsImageNot(viewId, errorMessage),
+  exportAsImageHasFailed: errorMessage => askExportAsImageHasFailed(viewId, errorMessage),
   askOpenInspector,
 }, dispatch);
 

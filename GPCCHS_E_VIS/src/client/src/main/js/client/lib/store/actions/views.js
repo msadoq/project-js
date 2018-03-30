@@ -151,7 +151,7 @@ export const askReloadView = simple(types.WS_ASK_RELOAD_VIEW, 'viewId');
 export const askSaveViewAsModel = simple(types.WS_ASK_SAVE_VIEW_AS_MODEL, 'viewId');
 export const askExportAsCsv = simple(types.WS_ASK_EXPORT_AS_CSV, 'viewId');
 export const askExportAsImage = simple(types.WS_ASK_EXPORT_AS_IMAGE, 'viewId', 'imageData');
-export const askExportAsImageNot = simple(types.WS_ASK_EXPORT_AS_IMAGE_NOT, 'viewId', 'errorMessage');
+export const askExportAsImageHasFailed = simple(types.WS_ASK_EXPORT_AS_IMAGE_HAS_FAILED, 'viewId', 'errorMessage');
 
 // ************ EntryPoint
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'entryPointId', 'entryPoint');

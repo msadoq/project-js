@@ -15,7 +15,7 @@ import {
   saveViewAsModel,
   exportAsCsv,
   exportAsImage,
-  exportAsImageNot,
+  exportAsImageHasFailed,
   saveWorkspace,
 } from './actions';
 import { readDocumentType } from './io';
@@ -28,7 +28,7 @@ export default {
   saveViewAsModel,
   exportAsCsv,
   exportAsImage,
-  exportAsImageNot,
+  exportAsImageHasFailed,
   reloadView,
 
   // page

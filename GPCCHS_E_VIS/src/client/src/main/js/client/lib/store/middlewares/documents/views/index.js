@@ -22,7 +22,7 @@ import makeOnReloadView from './onReloadView';
 import makeOnSaveViewAsModel from './onSaveViewAsModel';
 import makeOnExportAsCsv from './onExportAsCsv';
 import makeOnExportAsImage from './onExportAsImage';
-import makeOnExportAsImageNot from './onExportAsImageNot';
+import makeOnExportAsImageHasFailed from './onExportAsImageHasFailed';
 
 
 const makeViewsMiddleware = documentManager => pipeMiddlewares(
@@ -33,7 +33,7 @@ const makeViewsMiddleware = documentManager => pipeMiddlewares(
   makeOnSaveViewAsModel(documentManager),
   makeOnExportAsCsv(documentManager),
   makeOnExportAsImage(documentManager),
-  makeOnExportAsImageNot(documentManager)
+  makeOnExportAsImageHasFailed(documentManager)
 );
 
 export default makeViewsMiddleware;

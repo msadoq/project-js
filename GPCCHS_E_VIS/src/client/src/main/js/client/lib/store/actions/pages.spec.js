@@ -192,4 +192,38 @@ describe('store:actions:pages', () => {
       expect(store.getActions()).toEqual([]);
     });
   });
+  describe('Open Search', () => {
+    test('Open Search', () => {
+      store.dispatch(actions.openSearch('p1', 'v1'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_PAGE_PANELS_MINIMIZE_SEARCH',
+          payload: { pageId: 'p1', isMinimized: false },
+        },
+        {
+          type: 'WS_PAGE_PANELS_RESIZE_SEARCH',
+          payload: { pageId: 'p1', size: 350 },
+        },
+        {
+          type: 'WS_PAGE_PANELS_LOAD_IN_SEARCH',
+          payload: { pageId: 'p1', viewsIds: ['v1'] },
+        },
+      ]);
+    });
+  });
+  describe('Close Search', () => {
+    test('Close Search', () => {
+      store.dispatch(actions.closeSearch('p1'));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_PAGE_PANELS_MINIMIZE_SEARCH',
+          payload: { pageId: 'p1', isMinimized: true },
+        },
+        {
+          type: 'WS_PAGE_RESET_SEARCH',
+          payload: { pageId: 'p1' },
+        },
+      ]);
+    });
+  });
 });

@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TextSearch :: render snapshot 1`] = `
+exports[`SearchComponent :: render snapshot 1`] = `
 <div>
   <h4
     className="text-center mb10"
   >
-    Search in Text View
+    Search in undefined
   </h4>
   <div>
     <form
@@ -30,6 +30,7 @@ exports[`TextSearch :: render snapshot 1`] = `
               className="col-xs-10"
               componentClass="input"
               onChange={[Function]}
+              onKeyPress={undefined}
               placeholder="Enter research text"
               type="text"
               value=""

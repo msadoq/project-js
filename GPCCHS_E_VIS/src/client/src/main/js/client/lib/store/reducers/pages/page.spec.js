@@ -180,8 +180,10 @@ describe('store:page:reducer', () => {
           title: 'tb 1',
           panels: {
             searchIsMinimized: true,
-            searchViewId: 'myViewId',
-            searchCount: 10,
+            searchViewsIds: ['myViewId'],
+            searchCount: {
+              myViewId: 5,
+            },
           },
         },
       });
@@ -194,9 +196,11 @@ describe('store:page:reducer', () => {
         myPage: {
           title: 'tb 1',
           panels: {
-            searchIsMinimized: false,
-            searchViewId: 'myViewId',
-            searchCount: 10,
+            searchIsMinimized: true,
+            searchViewsIds: ['myViewId'],
+            searchCount: {
+              myViewId: 5,
+            },
           },
         },
       });
@@ -207,7 +211,7 @@ describe('store:page:reducer', () => {
           title: 'tb 1',
           panels: {
             searchIsMinimized: true,
-            searchViewId: null,
+            searchViewsIds: [],
             searchCount: null,
           },
         },
@@ -268,33 +272,6 @@ describe('store:page:reducer', () => {
       const action = { type: types.WS_PAGE_PANELS_RESIZE_SEARCH, payload: { pageId: 'myPage', size: 350 } };
       const nextState = reducer(state, action);
       expect(nextState.myPage.panels).toEqual({ searchWidth: 350 });
-    });
-  });
-  describe('Load In Search Panel', () => {
-    test('searchViewId should be myViewId1', () => {
-      const state = freezeMe({
-        myPage: {
-          title: 'tb 1',
-          panels: {
-            searchViewId: 'myViewId2',
-          },
-        },
-      });
-      const action = { type: types.WS_PAGE_PANELS_LOAD_IN_SEARCH, payload: { pageId: 'myPage', viewId: 'myViewId1' } };
-      const nextState = reducer(state, action);
-      expect(nextState.myPage.panels).toEqual({ searchViewId: 'myViewId1' });
-    });
-    test('searchViewId should be myViewId1', () => {
-      const state = freezeMe({
-        myPage: {
-          title: 'tb 1',
-          panels: {
-          },
-        },
-      });
-      const action = { type: types.WS_PAGE_PANELS_LOAD_IN_SEARCH, payload: { pageId: 'myPage', viewId: 'myViewId1' } };
-      const nextState = reducer(state, action);
-      expect(nextState.myPage.panels).toEqual({ searchViewId: 'myViewId1' });
     });
   });
 });

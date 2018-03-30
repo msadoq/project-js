@@ -32,7 +32,6 @@ import viewsReducer, {
   getViewSessionName,
   areLinksShown,
   getViewIsSaved,
-  getSearchingByView,
 } from '.';
 
 const reducer = freezeArgs(viewsReducer);
@@ -163,27 +162,6 @@ describe('store:views:selectors', () => {
     test('not saved', () => {
       const state = freezeMe({ views: { v1: { } } });
       expect(getViewIsSaved(state, { viewId: 'v1' })).toBeFalsy();
-    });
-  });
-  describe('getSearchingByView', () => {
-    test('should returns searching', () => {
-      const state = freezeMe({
-        views: {
-          myViewId: {
-            searching: 'AGA',
-          },
-        },
-      });
-      expect(getSearchingByView(state, { viewId: 'myViewId' })).toEqual('AGA');
-    });
-    test('getSearchingByView should be falsy', () => {
-      const state = freezeMe({
-        views: {
-          myViewId: {
-          },
-        },
-      });
-      expect(getSearchingByView(state, { viewId: 'myViewId' })).toBeFalsy();
     });
   });
 });

@@ -2,13 +2,15 @@ import { FormGroup, FormControl, Row, Col, Button } from 'react-bootstrap';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _debounce from 'lodash/debounce';
+import keyCodes from 'common/utils/keymap';
 
-export default class Search extends Component {
+export default class SearchComponent extends Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     closeSearch: PropTypes.func.isRequired,
-    searchInView: PropTypes.func.isRequired,
-    resetSearchInView: PropTypes.func.isRequired,
+    searchInPage: PropTypes.func.isRequired,
+    resetSearchInPage: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
     searchCount: PropTypes.number,
     searching: PropTypes.string,
   };
@@ -18,34 +20,62 @@ export default class Search extends Component {
     searching: '',
   };
 
+  constructor(props){
+    super(props);
+    this.handleEscape = this.handleEscape.bind(this);
+  }
+
   state = {
     search: this.props.searching,
   };
 
+  componentDidMount(){
+    document.addEventListener('keydown', this.handleEscape, false);
+  }
+  componentWillUnmount(){
+    document.removeEventListener('keydown', this.handleEscape, false);
+  }
+
+  getTitle() {
+    const {
+      title,
+    } = this.props;
+    return `Search in ${title}`;
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const {
-      viewId,
-      searchInView,
-      resetSearchInView,
+      pageId,
+      searchInPage,
+      resetSearchInPage,
     } = this.props;
-    if (this.state.search !== '') {
-      searchInView(viewId, this.state.search);
+    if (this.state.search !== '' && this.state.search.length > 1) {
+      searchInPage(pageId, this.state.search);
     } else {
-      resetSearchInView(viewId);
+      resetSearchInPage(pageId);
+    }
+  };
+
+  handleEscape = (e) => {
+    const {
+      closeSearch,
+    } = this.props;
+    if (e.keyCode === keyCodes.escape) {
+      closeSearch();
     }
   };
 
   debounceOnChange = _debounce(() => {
     const {
-      viewId,
-      searchInView,
-      resetSearchInView,
+      pageId,
+      searchInPage,
+      resetSearchInPage,
     } = this.props;
     if (this.state.search !== '' && this.state.search.length > 1) {
-      searchInView(viewId, this.state.search);
+      searchInPage(pageId, this.state.search);
     } else {
-      resetSearchInView(viewId);
+      resetSearchInPage(pageId);
     }
   }, 500);
 
@@ -67,7 +97,7 @@ export default class Search extends Component {
         <h4
           className="text-center mb10"
         >
-          Search in Text View
+          { this.getTitle() }
         </h4>
         {
           this.state.search !== '' && searchCount !== 0 && searchCount !== null &&
@@ -88,6 +118,7 @@ export default class Search extends Component {
                     placeholder="Enter research text"
                     value={this.state.search}
                     onChange={this.newSearch}
+                    onKeyPress={this.handleKeyPress}
                   />
                 </FormGroup>
               </Col>

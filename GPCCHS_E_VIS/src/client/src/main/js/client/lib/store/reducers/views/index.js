@@ -81,11 +81,6 @@ export const getLinks = createSelector(
   _.get('links')
 );
 
-export const getSearchingByView = createSelector(
-  getView,
-  _.get('searching')
-);
-
 export const getLink = createSelector(
   (state, { linkId }) => linkId,
   getLinks,

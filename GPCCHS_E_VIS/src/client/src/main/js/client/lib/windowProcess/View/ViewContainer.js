@@ -51,7 +51,7 @@ const makeMapStateToProps = () => {
       editorIsMinimized,
       editorViewId,
       searchIsMinimized,
-      searchViewId,
+      searchViewsIds,
     } = getPanels(state, { pageId });
 
     return {
@@ -66,7 +66,7 @@ const makeMapStateToProps = () => {
       searching,
       collapsed: !!collapsedLayout,
       isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
-      isViewsSearchOpen: !searchIsMinimized && searchViewId === viewId,
+      isViewsSearchOpen: !searchIsMinimized && searchViewsIds.indexOf(viewId) !== -1,
     };
   };
   return mapStateToProps;

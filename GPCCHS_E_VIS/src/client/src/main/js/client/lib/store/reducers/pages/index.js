@@ -27,9 +27,11 @@
 import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 import _map from 'lodash/map';
+import { SEARCH_VIEWS_TYPE } from 'constants';
 
 import * as types from 'store/types';
 import page from './page';
+import { getViewType } from '../views';
 import { getConfigurationByViewId } from '../../../viewManager/selectors';
 
 /* --- Reducer -------------------------------------------------------------- */
@@ -172,3 +174,57 @@ export const getPageViewsConfiguration = createSelector(
     viewId => getConfigurationByViewId(state, { viewId })
   )
 );
+
+export const getSearchingByPage = createSelector(
+  state => state,
+  getPage,
+  (state, mypage) => mypage.searching
+);
+
+export const getSearchViewsIds = createSelector(
+  state => state,
+  getPage,
+  getPanels,
+  (state, mypage, panel) => panel.searchViewsIds
+);
+
+export const getPageViewsIdsForSearch = createSelector(
+  state => state,
+  getPageViewsIds,
+  (state, viewIds) => {
+    const viewsIdsForSearch = [];
+    _.forEach(
+      ( viewId ) => {
+        if (SEARCH_VIEWS_TYPE.indexOf(getViewType(state, { viewId })) !== -1) {
+          viewsIdsForSearch.push(viewId);
+        }
+      },
+      viewIds
+    );
+    return viewsIdsForSearch;
+  }
+);
+
+export const getPageTitle = createSelector(
+  getPage,
+  _.prop('title')
+);
+
+export const updateSearchCountArray = (searchCount, viewId, count) => {
+  let newObject;
+  if (!searchCount){
+    newObject = {};
+  } else {
+    newObject = searchCount;
+  }
+  newObject[viewId] = count;
+  return newObject;
+};
+
+export const computeSearhCount = (searchCountObject) => {
+  if (_.size(searchCountObject)) {
+    return Object.values(searchCountObject).reduce((a, b) => a + b);
+  }
+  return 0;
+};
+

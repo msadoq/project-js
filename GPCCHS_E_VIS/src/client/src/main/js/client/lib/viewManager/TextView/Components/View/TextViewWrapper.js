@@ -20,6 +20,7 @@ import getLogger from 'common/logManager';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
+import { updateSearchCountArray } from '../../../../store/reducers/pages';
 import TextView from './TextView';
 import styles from './TextView.css';
 import { buildFormulaForAutocomplete } from '../../../common';
@@ -87,7 +88,9 @@ export default class TextViewWrapper extends PureComponent {
     updateSearchCount: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
     openLink: PropTypes.func.isRequired,
+    searchForThisView: PropTypes.bool.isRequired,
     searching: PropTypes.string,
+    searchCount: PropTypes.object,
   };
 
   static defaultProps = {
@@ -99,14 +102,18 @@ export default class TextViewWrapper extends PureComponent {
     links: [],
     showLinks: false,
     searching: null,
+    searchCount: null,
   };
 
   state = { content: this.props.content };
 
   componentWillReceiveProps(nextProps) {
-    const { content, searching } = nextProps;
-    const newContent = this.getContentWithSearchingHighlight(content, searching);
-    this.setState({ content: newContent });
+    const { content, searching, searchForThisView } = nextProps;
+    if (searchForThisView) {
+      this.setState({ content: this.getContentWithSearchingHighlight(content, searching) });
+    } else {
+      this.setState({ content });
+    }
   }
 
   onContextMenu = (event) => {
@@ -198,17 +205,15 @@ export default class TextViewWrapper extends PureComponent {
   }
 
   getContentWithSearchingHighlight = (content, searching) => {
-    const { updateSearchCount } = this.props;
-    const regex = new RegExp(`(\\W)(\\w*)(${searching})(\\w*)(\\W)`, 'g');
+    const { updateSearchCount, viewId, searchCount } = this.props;
+    const regex = new RegExp(`[{]{2}(\\w)*(${searching})(\\w)*[}]{2}`, 'g');
     let count = 0;
-    const newContent = content.replace(regex, (match, group1, group2, group3, group4, group5) => {
-      if (group2 !== '{' && group5 !== '}') {
-        count += 1;
-        return `${group1}${group2}<span className='${styles.highlighted}'>${group3}</span>${group4}${group5}`;
-      }
-      return match;
+    const newContent = content.replace(regex, (match) => {
+      count += 1;
+      return `<span className='${styles.highlighted}'>${match}</span>`;
     });
-    updateSearchCount(count);
+    const searchCountArray = updateSearchCountArray(searchCount, viewId, count);
+    updateSearchCount(searchCountArray);
     return newContent;
   }
 

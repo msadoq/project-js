@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TextSearchContainer :: render snapshot 1`] = `
+exports[`SearchComponentContainer :: render snapshot 1`] = `
 <ReduxForm
   closeSearch={[Function]}
   pageId="page-id"

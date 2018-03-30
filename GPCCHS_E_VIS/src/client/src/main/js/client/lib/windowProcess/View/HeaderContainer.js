@@ -46,7 +46,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
 
   const pageDomain = state.pages[pageId].domainName;
   const workspaceDomain = state.hsc.domainName;
-  const isSearhOpenForView = state.pages[pageId].panels.searchViewId === viewId;
+  const isSearhOpenForView = state.pages[pageId].panels.searchViewsIds.indexOf(viewId) !== -1;
 
   return {
     backgroundColor,

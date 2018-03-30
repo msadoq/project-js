@@ -40,18 +40,19 @@
 import { v4 } from 'uuid';
 import { getAvailableViews } from 'viewManager';
 import { getWindowFocusedPageId, getDisplayHelp } from 'store/reducers/windows';
-import { getPanels } from 'store/reducers/pages';
+import { getPanels, getPageViewsIdsForSearch } from 'store/reducers/pages';
 import { addWindow, displayHelp } from 'store/actions/windows';
 import { openWikiHelper } from 'store/actions/ui';
 import { open as openModal } from 'store/actions/modals';
 import { getFocusedPageId } from 'store/selectors/pages';
 import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace } from 'store/actions/hsc';
 import { askOpenView } from 'store/actions/views';
-import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from 'store/actions/pages';
+import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage, minimizeSearch, loadInSearch } from 'store/actions/pages';
 import viewAddBlank from './viewAddBlank';
 
 import pageAddBlank from './pageAddBlank';
 import { getStore } from '../store';
+import { pause } from '../../store/actions/hsc';
 
 const { Menu } = require('electron');
 
@@ -210,8 +211,8 @@ const panel = {
         }
       },
     },
-    /* {
-      label: 'Search in this page',
+    {
+      label: 'Toggle Search',
       accelerator: 'CmdOrCtrl+F',
       click(item, focusedWindow) {
         if (focusedWindow && focusedWindow.windowId) {
@@ -220,9 +221,12 @@ const panel = {
           const pageId = getWindowFocusedPageId(getState(), { windowId });
           const panels = getPanels(getState(), { pageId });
           dispatch(minimizeSearch(pageId, !panels.searchIsMinimized));
+          // getPageViewsIdsForSearch => get all view's ids concerned by searching
+          dispatch(loadInSearch(pageId, getPageViewsIdsForSearch(getState(), { pageId })));
+          dispatch(pause());
         }
       },
-    }, */
+    },
     {
       label: 'Toggle Explorer',
       accelerator: 'CmdOrCtrl+E',

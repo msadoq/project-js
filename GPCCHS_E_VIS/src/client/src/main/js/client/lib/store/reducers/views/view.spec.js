@@ -235,18 +235,4 @@ describe('store:reducer:views', () => {
     expect(newState.v1).toEqual({ domainName: 'myDomain', isModified: true });
     expect(reducer(newState, actions.updateDomainName('v1', null))).toEqual({ v1: { isModified: true } });
   });
-  describe('Search In View', () => {
-    test('searching should be AGA_AM', () => {
-      const action = { type: types.WS_SEARCH_IN_VIEW, payload: { viewId: 'text1', searchTerm: 'AGA_AM' } };
-      const nextState = reducer(stateViews, action);
-      expect(nextState.text1.searching).toEqual('AGA_AM');
-    });
-  });
-  describe('Reset Search In View', () => {
-    test('searching should be falsy', () => {
-      const action = { type: types.WS_RESET_SEARCH_IN_VIEW, payload: { viewId: 'text1' } };
-      const nextState = reducer(stateViews, action);
-      expect(nextState.text1.searching).toBeFalsy();
-    });
-  });
 });

@@ -31,8 +31,6 @@ export default class GroundAlarmEditor extends Component {
     timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
-    updateTitle: PropTypes.func.isRequired,
-    updateTitleStyle: PropTypes.func.isRequired,
     updateViewTab: PropTypes.func.isRequired,
     updateViewPanels: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
@@ -48,19 +46,6 @@ export default class GroundAlarmEditor extends Component {
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
-  }
-
-  handleTextTitle = (newVal) => {
-    const { updateTitle, viewId } = this.props;
-    updateTitle(viewId, newVal);
-  }
-
-  handleTextTitleStyle = (label, newVal) => {
-    const { titleStyle, updateTitleStyle, viewId } = this.props;
-    updateTitleStyle(viewId, {
-      ...titleStyle,
-      [label]: newVal,
-    });
   }
 
   handleSubmit = (values) => {
@@ -86,6 +71,14 @@ export default class GroundAlarmEditor extends Component {
       titleStyle,
     } = this.props;
     const nullObject = {};
+    const initialValues = entryPoints.length
+      ? {
+        ...entryPoints[0].connectedData,
+        timeline: '*', // reset timeline & domain in GA because the field disappears
+        domain: '*',
+      }
+      : nullObject;
+
     return (
       <div className={styles.contentWrapper}>
         <h4
@@ -107,17 +100,17 @@ export default class GroundAlarmEditor extends Component {
               timelines={timelines}
               form={`entrypoint-connectedData-form-${viewId}`}
               onSubmit={values => this.handleSubmit({ connectedData: values })}
-              initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
+              initialValues={initialValues}
             />
           </div>}
           {tab === 1 && <GroundAlarmTab />}
           {tab === 2 &&
-            <Misc
-              updateViewPanels={updateViewPanels}
-              viewId={viewId}
-              panels={panels}
-              openModal={openModal}
-            />}
+          <Misc
+            updateViewPanels={updateViewPanels}
+            viewId={viewId}
+            panels={panels}
+            openModal={openModal}
+          />}
         </div>
       </div>
     );

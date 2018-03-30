@@ -1,7 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
-import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
-import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
 import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
@@ -35,12 +33,7 @@ export default class DynamicViewEntryPoints extends PureComponent {
     selectedItemName: null,
   };
 
-  static contextTypes = {
-    windowId: PropTypes.string,
-  };
-
   render() {
-    const { windowId } = this.context;
     const {
       viewId,
       pageId,
@@ -58,19 +51,6 @@ export default class DynamicViewEntryPoints extends PureComponent {
             component={TextareaField}
             rows="4"
             className="form-control input-sm"
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Domain">
-          <DomainFieldContainer
-            domainName={selectedDomainName}
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Timeline">
-          <TimelineFieldContainer
-            timelineName={selectedTimelineId}
-            windowId={windowId}
           />
         </HorizontalFormGroup>
 

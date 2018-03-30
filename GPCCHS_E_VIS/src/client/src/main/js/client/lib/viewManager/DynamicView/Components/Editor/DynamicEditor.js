@@ -100,6 +100,14 @@ export default class DynamicEditor extends Component {
       titleStyle,
     } = this.props;
     const nullObject = {};
+    const initialValues = entryPoints.length
+      ? {
+        ...entryPoints[0].connectedData,
+        domain: '*',
+        timeline: '*',
+      }
+      : nullObject;
+
     return (
       <div className={styles.contentWrapper}>
         <h4
@@ -121,17 +129,17 @@ export default class DynamicEditor extends Component {
               pageId={pageId}
               form={`entrypoint-connectedData-form-${viewId}`}
               onSubmit={values => this.handleSubmit({ connectedData: values })}
-              initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
+              initialValues={initialValues}
             />
           </div>}
           {tab === 1 && <DynamicTab />}
           {tab === 2 &&
-            <Misc
-              updateViewPanels={updateViewPanels}
-              viewId={viewId}
-              panels={panels}
-              openModal={openModal}
-            />}
+          <Misc
+            updateViewPanels={updateViewPanels}
+            viewId={viewId}
+            panels={panels}
+            openModal={openModal}
+          />}
         </div>
       </div>
     );

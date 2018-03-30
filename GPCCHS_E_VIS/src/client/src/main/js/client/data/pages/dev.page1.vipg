@@ -23,7 +23,8 @@
         "x": 6,
         "y": 6,
         "w": 6,
-        "h": 13
+        "h": 13,
+        "collapsed": true
       },
       "hideBorders": false,
       "windowState": "Normalized"
@@ -44,8 +45,8 @@
       "geometry": {
         "x": 0,
         "y": 10,
-        "w": 6,
-        "h": 5
+        "w": 9,
+        "h": 9
       },
       "hideBorders": false,
       "windowState": "Normalized"

@@ -8,6 +8,7 @@
 
 import configureMockStore from 'redux-mock-store';
 
+
 const { mockRegister, mockLoadStubs } = require('../../../../common/jest');
 const { getStubData } = require('../../../../utils/stubs');
 
@@ -16,6 +17,7 @@ mockLoadStubs();
 
 const mockStore = configureMockStore();
 const { encode } = require('../../../../utils/adapters');
+
 const makeOnPubSubData = require('./pubSubController');
 
 const onPubSubData = makeOnPubSubData(500);

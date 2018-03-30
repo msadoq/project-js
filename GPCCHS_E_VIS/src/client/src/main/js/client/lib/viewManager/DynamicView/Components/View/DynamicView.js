@@ -268,12 +268,18 @@ export default class DynamicView extends PureComponent {
     }
     if (isMaxVisuDurationExceeded) {
       return (
-        <div className={`flex ${styles.container}`}>
-          <div className={styles.renderErrorText}>
-            Unable to render view <br />
-            Visu Window is too long for this type of view
+        <DroppableContainer
+          onDrop={this.onDrop}
+          onContextMenu={this.onContextMenu}
+          className={classnames('h100', 'posRelative', styles.container)}
+        >
+          <div className={`flex ${styles.container}`}>
+            <div className={styles.renderErrorText}>
+              Unable to render view <br />
+              Visu Window is too long for this type of view
+            </div>
           </div>
-        </div>
+        </DroppableContainer>
       );
     }
     const { parameterName } = entryPoints.dynamicEP.dataId;

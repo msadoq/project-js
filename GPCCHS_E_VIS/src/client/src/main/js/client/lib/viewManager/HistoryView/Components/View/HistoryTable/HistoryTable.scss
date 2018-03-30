@@ -1,0 +1,8 @@
+
+.HistoryTable {
+  overflow: hidden;
+
+  & > .HistoryTable {
+	display: inline-block;
+  }
+}

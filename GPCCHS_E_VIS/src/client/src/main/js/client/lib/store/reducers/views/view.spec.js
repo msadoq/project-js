@@ -24,6 +24,7 @@
 import _ from 'lodash/fp';
 import * as actions from 'store/actions/views';
 import { freezeArgs } from 'common/jest';
+import stateTest from 'common/jest/stateTest';
 import viewsReducer from '../views';
 import * as types from '../../types';
 
@@ -146,6 +147,81 @@ describe('store:reducer:views', () => {
         ],
       },
     },
+    groundAlarm1: {
+      search: { enabled: true },
+      columns: [
+        {
+          name: 'timestamp',
+          value: 'timestamp',
+          displayed: true,
+          position: 0,
+        },
+        {
+          name: 'parameterName',
+          value: 'parameterName',
+          displayed: true,
+          position: 1,
+        },
+        {
+          name: 'parameterType',
+          value: 'parameterType',
+          displayed: true,
+          position: 2,
+        },
+        {
+          name: 'firstOccurence',
+          value: 'firstOccurence',
+          displayed: true,
+          position: 3,
+        },
+        {
+          name: 'lastOccurence',
+          value: 'lastOccurence',
+          displayed: true,
+          position: 4,
+        },
+        {
+          name: 'durationtimestamp',
+          value: 'durationtimestamp',
+          displayed: true,
+          position: 5,
+        },
+        {
+          name: 'rawValuetimestamp',
+          value: 'rawValuetimestamp',
+          displayed: true,
+          position: 6,
+        },
+        {
+          name: 'physicalValue',
+          value: 'physicalValue',
+          displayed: true,
+          position: 7,
+        },
+        {
+          name: 'satellite',
+          value: 'satellite',
+          displayed: true,
+          position: 8,
+        },
+        {
+          name: 'ackStatetimestamp',
+          value: 'ackStatetimestamp',
+          displayed: true,
+          position: 9,
+        },
+      ],
+      entryPoints: [{
+        connectedData: {
+          domain: 'fr.cnes.isis.simupus',
+          timeline: 'Session 1',
+          mode: 0,
+        },
+        id: 'groundAlarm1ep1',
+        name: 'groundAlarmEP',
+        stateColors: [],
+      }],
+    },
   };
   describe('update action', () => {
     test('Link', () => {
@@ -247,6 +323,37 @@ describe('store:reducer:views', () => {
       const action = { type: types.WS_RESET_SEARCH_IN_VIEW, payload: { viewId: 'text1' } };
       const nextState = reducer(stateViews, action);
       expect(nextState.text1.searching).toBeFalsy();
+    });
+  });
+  describe('update table cols View', () => {
+    test('update table cols View', () => {
+      expect(stateViews.groundAlarm1.cols.length).toEqual(10);
+      const action = {
+        type: types.WS_VIEW_UPDATE_TABLE_COLS,
+        payload: {
+          viewId: 'groundAlarm1',
+          cols: [{
+            title: 'timestamp',
+            value: 'timestamp',
+            position: 0,
+            displayed: true,
+            group: 0,
+          }],
+        },
+      };
+      const nextState = reducer(stateViews, action);
+      expect(nextState.groundAlarm1.cols.length).toEqual(1);
+    });
+    test('update table cols View', () => {
+      expect(stateViews.groundAlarm1.cols.length).toEqual(10);
+      const action = {
+        type: types.WS_VIEW_UPDATE_TABLE_COLS,
+        payload: {
+          viewId: 'groundAlarm1',
+        },
+      };
+      const nextState = reducer(stateViews, action);
+      expect(nextState.groundAlarm1.cols.length).toEqual(0);
     });
   });
 });

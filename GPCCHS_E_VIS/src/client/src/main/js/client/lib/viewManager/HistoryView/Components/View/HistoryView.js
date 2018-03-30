@@ -7,69 +7,162 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+// import classnames from 'classnames';
 import _ from 'lodash/fp';
 import withMouseWheelEvents from 'windowProcess/common/hoc/withMouseWheelEvents';
 import withDimensions from 'windowProcess/common/hoc/withDimensions';
 import withBatchedSetState from 'windowProcess/common/hoc/withBatchedSetState';
-import { HISTORYVIEW_SEPARATOR } from 'constants';
+// import { HISTORYVIEW_SEPARATOR } from 'constants';
 
-import styles from './HistoryView.css';
+import HistoryTable from './HistoryTable/HistoryTable';
 
+// import styles from './HistoryView.scss';
+
+/*
 const getDataByLine = (lineId, allData) => {
   const [ep, timestamp] = lineId.split(HISTORYVIEW_SEPARATOR);
   return allData[ep][timestamp];
 };
+*/
 
 const THEAD_DEFAULT_HEIGHT = 33; // in pixel
 
+const DATA = [
+  {
+    title: 'H1',
+    cols: [
+      {
+        title: 'c11',
+        sort: 'DESC',
+      },
+      {
+        title: 'c12',
+      },
+    ],
+    data: [
+      [1.23456789, 2.123456789],
+      [5.123456789, 6.123456789],
+      [9.123456789, 10.123456789],
+    ],
+  },
+  {
+    title: 'H2',
+    cols: [
+      {
+        title: 'c21',
+      },
+      {
+        title: 'c22',
+      },
+    ],
+    data: [
+      [3.123456789, 4.123465798],
+      [7.12456789, 8.123546789],
+      [11.123456789, 12.123456789],
+    ],
+  },
+  {
+    title: 'H3',
+    cols: [
+      {
+        title: 'c21',
+      },
+      {
+        title: 'c22',
+      },
+    ],
+    data: [
+      [3.123456789, 4.123465798],
+      [7.12456789, 8.123546789],
+      [11.123456789, 12.123456789],
+    ],
+  },
+  {
+    title: 'H4',
+    cols: [
+      {
+        title: 'c21',
+      },
+      {
+        title: 'c22',
+      },
+    ],
+    data: [
+      [3.123456789, 4.123465798],
+      [7.12456789, 8.123546789],
+      [11.123456789, 12.123456789],
+    ],
+  },
+  {
+    title: 'H5',
+    cols: [
+      {
+        title: 'c21',
+      },
+      {
+        title: 'c22',
+      },
+    ],
+    data: [
+      [3.123456789, 4.123465798],
+      [7.12456789, 8.123546789],
+      [11.123456789, 12.123456789],
+    ],
+  },
+];
+
+const META = {
+  currentIndex: 0,
+};
+
+/*
 const Table = ({
-  lines, cols, position, displayedRows, rowHeight, current, data: allData,
-}) => (
+                 lines, cols, position, displayedRows, rowHeight, current, data: allData,
+               }) => (
   <table>
     <thead>
-      <tr
-        className={classnames({ [styles.prevCurrent]: current === position })}
-      >
-        {
-          cols.map(col => (
-            <th style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }} key={col}>
-              {col}
-            </th>
-          ))
-        }
-      </tr>
+    <tr
+      className={classnames({ [styles.prevCurrent]: current === position })}
+    >
+      {
+        cols.map(col => (
+          <th style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }} key={col}>
+            {col}
+          </th>
+        ))
+      }
+    </tr>
     </thead>
     <tbody>
-      {
-        _.slice(position, displayedRows + position)(lines).map((line, i) => {
-          const data = getDataByLine(line, allData);
-          const lineId = position + i;
-          const isCurrent = current === lineId;
-          const isPrevCurrent = current - 1 === lineId;
-          const rowKey = data.epName + data.masterTime;
-          return (
-            <tr
-              className={classnames({
-                [styles.current]: isCurrent,
-                [styles.prevCurrent]: isPrevCurrent,
-              })}
-              key={rowKey}
-            >
-              {
-                cols.map(col => (
-                  <td
-                    style={{ height: `${rowHeight}px` }}
-                    key={col + rowKey}
-                  >
-                    {data[col]}
-                  </td>
-                ))
-              }
-            </tr>
-          );
-        })
-      }
+    {
+      _.slice(position, displayedRows + position)(lines).map((line, i) => {
+        const data = getDataByLine(line, allData);
+        const lineId = position + i;
+        const isCurrent = current === lineId;
+        const isPrevCurrent = current - 1 === lineId;
+        const rowKey = data.epName + data.masterTime;
+        return (
+          <tr
+            className={classnames({
+              [styles.current]: isCurrent,
+              [styles.prevCurrent]: isPrevCurrent,
+            })}
+            key={rowKey}
+          >
+            {
+              cols.map(col => (
+                <td
+                  style={{ height: `${rowHeight}px` }}
+                  key={col + rowKey}
+                >
+                  {data[col]}
+                </td>
+              ))
+            }
+          </tr>
+        );
+      })
+    }
     </tbody>
   </table>
 );
@@ -87,6 +180,8 @@ Table.defaultProps = {
   current: {},
   position: 0,
 };
+*/
+
 
 class HistoryView extends React.Component {
   static propTypes = {
@@ -138,6 +233,7 @@ class HistoryView extends React.Component {
   )
 
   render() {
+    /*
     const style = {
       height: this.props.containerHeight,
       width: this.props.containerWidth,
@@ -157,6 +253,9 @@ class HistoryView extends React.Component {
         />
       </div>
     );
+    */
+
+    return <HistoryTable meta={META} data={DATA} />;
   }
 }
 

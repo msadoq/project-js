@@ -11,8 +11,6 @@ import { getViewTab, getViewPanels } from 'store/reducers/ui/editor';
 import { getDomains } from 'store/reducers/domains';
 import {
   updateEntryPoint,
-  updateTitle,
-  updateTitleStyle,
 } from 'store/actions/views';
 import GroundAlarmEditor from './GroundAlarmEditor';
 
@@ -28,8 +26,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = {
   updateEntryPoint,
-  updateTitle,
-  updateTitleStyle,
   updateViewTab,
   updateViewPanels,
   openModal,

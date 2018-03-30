@@ -88,3 +88,10 @@ export const comObjectType = shape({
   name: string.isRequired,
   type: string.isRequired,
 });
+
+export const TableConfigurationColumnType = shape({
+  displayed: bool.isRequired,
+  name: string.isRequired,
+  value: string.isRequired,
+  position: number.isRequired,
+});

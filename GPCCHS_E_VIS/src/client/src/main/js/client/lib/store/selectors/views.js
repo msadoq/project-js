@@ -34,11 +34,13 @@
 
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import _ from 'lodash/fp';
+import _getOr from 'lodash/fp/getOr';
 import _isEqual from 'lodash/isEqual';
 import makeGetPerViewData from 'dataManager/perViewData';
+import { getConfigurationByViewId } from 'viewManager/selectors';
+import { getConfigurationReducers } from 'viewManager/reducers';
 import { getPage, getPages, getPageIdByViewId } from '../reducers/pages';
 import { getWindowPageIds } from '../reducers/windows';
-import { getConfigurationReducers } from '../../viewManager/reducers';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -140,4 +142,14 @@ export const getWindowAllViewsIds = createSelector(
     _.flatMap('views'),
     _.compact
   )(pages)
+);
+
+/**
+ * @param viewId string
+ * @param state object
+ * @return cols array
+ */
+export const getViewConfigurationTableCols = createSelector(
+  getConfigurationByViewId,
+  viewConfiguration => _getOr([], 'cols', viewConfiguration)
 );

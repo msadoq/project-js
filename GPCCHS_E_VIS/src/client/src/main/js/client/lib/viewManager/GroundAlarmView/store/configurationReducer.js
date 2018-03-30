@@ -6,6 +6,78 @@ import { getConfigurationByViewId } from 'viewManager';
 
 const initialConfiguration = {
   search: { enabled: true },
+  cols: [
+    {
+      title: 'timestamp',
+      value: 'timestamp',
+      position: 0,
+      displayed: true,
+      group: 0,
+    },
+    {
+      title: 'parameterName',
+      value: 'parameterName',
+      position: 1,
+      displayed: true,
+      group: 0,
+    },
+    {
+      title: 'parameterType',
+      value: 'parameterType',
+      position: 2,
+      displayed: true,
+      group: 0,
+    },
+    {
+      title: 'firstOccurence',
+      value: 'firstOccurence',
+      displayed: true,
+      position: 3,
+      group: 0,
+    },
+    {
+      title: 'lastOccurence',
+      value: 'lastOccurence',
+      displayed: true,
+      position: 4,
+      group: 0,
+    },
+    {
+      title: 'durationtimestamp',
+      value: 'durationtimestamp',
+      displayed: true,
+      position: 5,
+      group: 0,
+    },
+    {
+      title: 'rawValuetimestamp',
+      value: 'rawValuetimestamp',
+      displayed: true,
+      position: 6,
+      group: 0,
+    },
+    {
+      title: 'physicalValue',
+      value: 'physicalValue',
+      displayed: true,
+      position: 7,
+      group: 0,
+    },
+    {
+      title: 'satellite',
+      value: 'satellite',
+      displayed: true,
+      position: 8,
+      group: 0,
+    },
+    {
+      title: 'ackStatetimestamp',
+      value: 'ackStatetimestamp',
+      displayed: true,
+      position: 9,
+      group: 0,
+    },
+  ],
 };
 
 export default (stateConf = {}, action) => {
@@ -36,6 +108,9 @@ export default (stateConf = {}, action) => {
     }
     case types.WS_VIEW_ALARM_INPUT_TOGGLE: {
       return _.update('search.enabled', _.negate(_.identity), stateConf);
+    }
+    case types.WS_VIEW_UPDATE_TABLE_COLS: {
+      return _.set('columns', action.payload.columns, stateConf);
     }
     default:
       return stateConf;
@@ -69,4 +144,9 @@ export const getSearch = createSelector(
 export const getEnableSearch = createSelector(
   getConfigurationByViewId,
   _.getOr(false, 'search.enabled')
+);
+
+export const getTableColumns = createSelector(
+  getConfigurationByViewId,
+  _.getOr([], 'columns')
 );

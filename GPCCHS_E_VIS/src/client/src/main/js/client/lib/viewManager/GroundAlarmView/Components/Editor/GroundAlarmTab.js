@@ -4,17 +4,17 @@ import {
   Panel,
 } from 'react-bootstrap';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
+import TableViewColumnsContainer from 'viewManager/commonEditor/TableViewColumnsContainer';
+
+const { string } = PropTypes;
 
 export default class GroundAlarmTab extends React.Component {
   static contextTypes = {
-    viewId: PropTypes.string,
+    viewId: string,
   };
   state = {
     isTitleOpen: false,
   };
-
-  openTitle = () => this.setState({ isTitleOpen: true });
-  closeTitle = () => this.setState({ isTitleOpen: false });
 
   render() {
     const { viewId } = this.context;
@@ -22,6 +22,7 @@ export default class GroundAlarmTab extends React.Component {
     return (
       <Panel>
         <ViewParamsContainer viewId={viewId} />
+        <TableViewColumnsContainer viewId={viewId} />
       </Panel>
     );
   }

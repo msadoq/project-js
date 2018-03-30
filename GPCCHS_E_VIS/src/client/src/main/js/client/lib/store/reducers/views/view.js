@@ -34,6 +34,7 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
+import _getOr from 'lodash/fp/getOr';
 
 import composeReducers from 'store/helpers/composeReducers';
 import * as types from 'store/types';
@@ -45,7 +46,6 @@ const getIsModified = (action) => {
   }
   return _.get('payload.isModified', action);
 };
-
 
 // This reducer take care of action types and update the isModified property
 // this is a temporary fix, waiting for the savableMiddleware
@@ -86,6 +86,7 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_SESSIONNAME,
     types.WS_VIEW_TOGGLE_LEGEND,
     types.WS_VIEW_UPDATE_DIMENSIONS,
+    types.WS_VIEW_UPDATE_TABLE_COLS,
     types.WS_VIEW_REMOVE_ENTRYPOINT,
     types.WS_VIEW_UPDATE_ALARMDOMAIN,
     types.WS_VIEW_UPDATE_ALARMTIMELINE,
@@ -177,6 +178,8 @@ function simpleView(stateView = initialState, action) {
       return { ...stateView, searching: action.payload.searchTerm };
     case types.WS_RESET_SEARCH_IN_VIEW:
       return _.omit('searching', stateView);
+    case types.WS_VIEW_UPDATE_TABLE_COLS:
+      return _.set('cols', _getOr([], 'payload.cols', action), stateView);
     default:
       return stateView;
   }

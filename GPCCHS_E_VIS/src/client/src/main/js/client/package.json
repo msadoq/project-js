@@ -213,12 +213,14 @@
     "postcss-reporter": "~3.0.0",
     "postcss-smart-import": "~0.6.10",
     "postcss-url": "~6.0.3",
+    "scss-loader": "0.0.1",
     "source-map-support": "~0.4.14",
     "webpack": "~1.14.0",
     "webpack-dashboard": "^0.3.0",
     "webpack-dev-middleware": "~1.10.1",
     "webpack-hot-middleware": "~2.18.0",
-    "webpack-merge": "~1.1.2"
+    "webpack-merge": "~1.1.2",
+    "webpack-sass-loader": "^2.2.1"
   },
   "peerDependencies": {
     "common": "../../../../../common/src/main/js/common",

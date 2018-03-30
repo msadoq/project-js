@@ -7,7 +7,6 @@
 // ====================================================================
 
 import configureMockStore from 'redux-mock-store';
-import flattenDataId from 'common/flattenDataId';
 
 const { mockRegister, mockLoadStubs } = require('../../../../common/jest');
 const { getStubData } = require('../../../../utils/stubs');
@@ -16,7 +15,7 @@ mockRegister();
 mockLoadStubs();
 
 const mockStore = configureMockStore();
-const { encode, decode } = require('../../../../utils/adapters');
+const { encode } = require('../../../../utils/adapters');
 const makeOnPubSubData = require('./pubSubController');
 
 const onPubSubData = makeOnPubSubData(500);

@@ -48,8 +48,6 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
         execution.stop('get missing intervals');
 
         for (let j = 0; j < missingIntervals.length; j += 1) {
-          console.log('missingIntervals');
-          console.log(dataId);
           const queryId = ipc.dc.requestTimebasedQuery(
             tbdId,
             dataId,

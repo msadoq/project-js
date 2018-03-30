@@ -252,12 +252,18 @@ export default class DynamicView extends PureComponent {
     const error = _get(entryPoints, 'dynamicEP.error');
     if (!ep || error) {
       return (
-        <div className={`flex ${styles.container}`}>
-          <div className={styles.renderErrorText}>
-            Unable to render view <br />
-            {error}
+        <DroppableContainer
+          onDrop={this.onDrop}
+          onContextMenu={this.onContextMenu}
+          className={classnames('h100', 'posRelative', styles.container)}
+        >
+          <div className={`flex ${styles.container}`}>
+            <div className={styles.renderErrorText}>
+              Unable to render view <br />
+              {error}
+            </div>
           </div>
-        </div>
+        </DroppableContainer>
       );
     }
     if (isMaxVisuDurationExceeded) {

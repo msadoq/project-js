@@ -28,7 +28,6 @@ import classnames from 'classnames';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
 import _ from 'lodash';
 import { get } from 'common/configurationManager';
-import DummyDrag from './DummyDrag';
 import styles from './Tabs.css';
 
 const popoverDraggingStyle = { display: 'none' };
@@ -233,7 +232,6 @@ export default class Tabs extends PureComponent {
             );
           })
         }
-        <DummyDrag />
       </Nav>
     );
   }

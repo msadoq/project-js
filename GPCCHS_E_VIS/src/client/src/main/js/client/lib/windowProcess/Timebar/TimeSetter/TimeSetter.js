@@ -246,6 +246,7 @@ export default class TimeSetter extends PureComponent {
           </div>
         </div>
         <br />
+        <hr />
         <h4>Visu window default width</h4>
         <span className="">&nbsp;&nbsp;&nbsp;
           hours &nbsp; &nbsp; &nbsp;
@@ -287,6 +288,7 @@ export default class TimeSetter extends PureComponent {
         </div>
         <form onSubmit={this.willUpdateCursors} >
           <br />
+          <hr />
           <h4>Cursor timestamps</h4>
           {
             this.props.messages && this.props.messages.length ?
@@ -339,7 +341,7 @@ export default class TimeSetter extends PureComponent {
               );
             })
           }
-          <div className="text-center">
+          <div>
             <input
               type="submit"
               value="Save"

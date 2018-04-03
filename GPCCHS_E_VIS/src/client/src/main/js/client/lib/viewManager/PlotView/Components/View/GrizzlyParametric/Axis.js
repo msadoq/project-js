@@ -154,7 +154,7 @@ export default class Axis extends Component {
               )}
               ref={memoizeAssignRef(line.id)}
             >
-              {line.id}
+              {line.id} ({line.unit})
             </span>
           )
         }

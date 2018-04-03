@@ -921,6 +921,8 @@ export class GrizzlyPlotView extends PureComponent {
                 yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
                 colorAccessor: 'color',
                 tooltipFormatter,
+                unit: ep.connectedData.convertTo ?
+                  ep.connectedData.convertTo : ep.connectedData.unit,
               };
             })
           }

@@ -15,7 +15,6 @@
     "length": 5,
     "width": 5
   },
-  "sessionName": "Session#42",
   "search": {
     "timestamp": "",
     "parameterName": "",
@@ -31,7 +30,7 @@
   },
   "entryPoint": {
     "connectedData": {
-      "domain": "fr.cnes.isis",
+      "domain": "*",
       "mode": 0,
       "timeline": "*"
     },

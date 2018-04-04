@@ -1,10 +1,10 @@
-#GPCCHS 1.1.2 02/10/2017 liste-doc-fonctionnelle.txt
+#GPCCHS 2.0.0 13/04/2018 liste-doc-fonctionnelle.txt
 
-# reference | version | date | titre | organisme auteur | « A » ou « R » (pour applicable ou référence)
+# reference | version | date | titre | organisme auteur | A ou R (pour applicable ou reference)
 ISIS-GP-PL-0061-ATOS | 3.0 | 04/01/2016 | Plan de Management du Consortium de la prestation | Atos | A
-ISIS-GP-PL-0060-ATOS | 2.2 | 11/10/2016 | Plan de développement | Atos | A
-ISIS-GP-PL-0011-ATOS | 2.2 | 02/10/2017 | Plan d’Assurance Produit | Atos | A
-ISIS-GP-PL-0012-ATOS | 4.1 |19/05/2015 | Plan de gestion de l’Information, de la documentation et de la configuration de la prestation | Atos | A
+ISIS-GP-PL-0060-ATOS | 2.2 | 11/10/2016 | Plan de developpement | Atos | A
+ISIS-GP-PL-0011-ATOS | 2.2 | 02/10/2017 | Plan d'Assurance Produit | Atos | A
+ISIS-GP-PL-0012-ATOS | 4.1 |19/05/2015 | Plan de gestion de l'Information, de la documentation et de la configuration de la prestation | Atos | A
 ISIS-GP-PL-01461-ATOS | 2.1 | 15/09/2014 | PLAN DE SURETE DE FONCTIONNEMENT | Atos | A
 ISIS-GP-NT-00816-ATOS |2.0 | 17/01/2013 | Guide de conception | Atos | R
 ISIS-GP-DP-00612-ATOS | 1.6 | 06/03/2017 | PERFORMANCE BUDGET DOCUMENT ISIS GROUND PRODUCT | Atos | A

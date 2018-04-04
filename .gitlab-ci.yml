@@ -17,28 +17,30 @@ cache:
 job_build:
     stage: build
     script:
-  - RUNNER_TOKEN=23659357- export RSA_WORKSPACE=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS
-  - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS/vima/$CI_COMMIT_REF_SLUG
-  - echo $BUILD_DIR
-  - CHECKOUT_DIR=$BUILD_DIR/build
-  - NODE_MODULES=$BUILD_DIR/node_modules
-  - echo $CHECKOUT_DIR
-  - rm -rf $CHECKOUT_DIR
-  - mkdir -p $CHECKOUT_DIR
-  - echo $NODE_MODULES
-  - mkdir -p $NODE_MODULES
-  - cd $CHECKOUT_DIR
-  - git clone git@isisdev153.cnes-isis.toulouse.atos.net:root/vima.git
-  - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
-  - ln -s $NODE_MODULES node_modules
-  - npm  run hello
+    - RUNNER_TOKEN=23659357
+    - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS/vima/$CI_COMMIT_REF_SLUG
+    - export RSA_WORKSPACE=$BUILD_DIR/build/LPISIS
+    - echo $BUILD_DIR
+    - CHECKOUT_DIR=$BUILD_DIR/build/LPISIS
+    - NODE_MODULES=$BUILD_DIR/node_modules
+    - echo $CHECKOUT_DIR
+    - rm -rf $CHECKOUT_DIR
+    - mkdir -p $CHECKOUT_DIR
+    - echo $NODE_MODULES
+    - mkdir -p $NODE_MODULES
+    - cd $CHECKOUT_DIR
+    - git clone git@isisdev153.cnes-isis.toulouse.atos.net:root/vima.git
+    - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
+    - ln -s $NODE_MODULES node_modules
+    - npm run hello
+
 job_lint:
   stage: test
   script:
    - RUNNER_TOKEN=23659357
    - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS/vima/$CI_COMMIT_REF_SLUG
    - echo $BUILD_DIR
-   - CHECKOUT_DIR=$BUILD_DIR/build
+   - CHECKOUT_DIR=$BUILD_DIR/build/LPISIS
    - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
    - npm run lint
 
@@ -48,7 +50,7 @@ job_test_coverage:
    - RUNNER_TOKEN=23659357
    - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS/vima/$CI_COMMIT_REF_SLUG
    - echo $BUILD_DIR
-   - CHECKOUT_DIR=$BUILD_DIR/build
+   - CHECKOUT_DIR=$BUILD_DIR/build/LPISIS
    - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
    - npm run test:coverage
 
@@ -69,6 +71,6 @@ job_validate_viewconf:
     - RUNNER_TOKEN=23659357
     - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS/vima/$CI_COMMIT_REF_SLUG
     - echo $BUILD_DIR
-    - CHECKOUT_DIR=$BUILD_DIR/build
+    - CHECKOUT_DIR=$BUILD_DIR/build/LPISIS
     - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
     - npm run test:validateViewConfigurationFiles -- ./data

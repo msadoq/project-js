@@ -67,6 +67,7 @@ export default class Chart extends React.Component {
     lines: arrayOf(lineType.isRequired).isRequired,
     linesListener: func.isRequired,
     zoomPanListener: func.isRequired,
+    updateAxis: bool,
   };
   static defaultProps = {
     yAxesAt: 'left',
@@ -80,6 +81,7 @@ export default class Chart extends React.Component {
     tooltipColor: 'white',
     perfOutput: false,
     parametric: false,
+    updateAxis: false,
   };
   static DEBOUNCE_DELAY = 200;
 
@@ -97,7 +99,7 @@ export default class Chart extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    let shouldRender = false;
+    let shouldRender = nextProps.updateAxis;
     Object.keys(nextProps).forEach((k) => {
       if (this.props[k] !== nextProps[k]) {
         shouldRender = true;
@@ -108,6 +110,7 @@ export default class Chart extends React.Component {
         shouldRender = true;
       }
     });
+
     return shouldRender;
   }
 
@@ -625,6 +628,7 @@ export default class Chart extends React.Component {
       tooltipColor,
       current,
       parametric,
+      updateAxis,
     } = this.props;
 
     const {
@@ -705,6 +709,7 @@ export default class Chart extends React.Component {
               margin={((this.yAxesUniq.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
               lines={this.linesUniq.filter(l => l.yAxisId === yAxis.id)}
               axisId={yAxis.id}
+              updateAxis={updateAxis}
               format={yAxis.format}
               showLabels={yAxis.showLabels}
               showTicks={yAxis.showTicks}
@@ -744,6 +749,7 @@ export default class Chart extends React.Component {
               side={this.yAxesUniq.length * this.yAxisWidth}
               axisId={xAxis.id}
               format={xAxis.format}
+              updateAxis={updateAxis}
               showLabels={xAxis.showLabels}
               showTicks={xAxis.showTicks}
               autoTick={xAxis.autoTick}

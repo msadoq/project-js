@@ -70,6 +70,7 @@ import _get from 'lodash/get';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _sum from 'lodash/sum';
+import _keys from 'lodash/keys';
 import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';
 import _ from 'lodash/fp';
@@ -81,6 +82,7 @@ import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import dateFormat, { TAI } from 'viewManager/commonData/date';
 
 import getLogger from 'common/logManager';
+import { updateSearchCountArray } from 'store/reducers/pages';
 import Legend from './Legend';
 import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
@@ -454,6 +456,10 @@ export class GrizzlyPlotView extends React.Component {
     showLinks: bool,
     updateShowLinks: func.isRequired,
     isMaxVisuDurationExceeded: bool.isRequired,
+    searchForThisView: bool.isRequired,
+    updateSearchCount: func.isRequired,
+    searching: string,
+    searchCount: object,  // eslint-disable-line react/forbid-prop-types
   };
 
   static defaultProps = {
@@ -470,6 +476,9 @@ export class GrizzlyPlotView extends React.Component {
   state = {
     showEpNames: [],
     hideEpNames: [],
+    epNamesMatchWithSearching: [],
+    searching: null,
+    update: false,
   };
 
   componentDidMount() {
@@ -496,13 +505,21 @@ export class GrizzlyPlotView extends React.Component {
       this.xAxes = processedAxes.xAxes;
       this.yAxes = processedAxes.yAxes;
     }
+    const { searching, searchForThisView } = nextProps;
+    if (searching && this.state.searching !== searching) {
+      this.state.searching = searching;
+      this.state.update = true;
+    }
+    this.state.epNamesMatchWithSearching =
+      this.getEntryPointSearchingAndUpdateCount(searching, searchForThisView);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (
       nextProps.showLinks !== this.props.showLinks ||
       nextState.showEpNames !== this.state.showEpNames ||
-      nextState.hideEpNames !== this.state.hideEpNames
+      nextState.hideEpNames !== this.state.hideEpNames ||
+      this.state.update
     ) {
       return true;
     }
@@ -638,6 +655,18 @@ export class GrizzlyPlotView extends React.Component {
             ))}
         </div>
       </CloseableAlert> : undefined;
+  }
+  getEntryPointSearchingAndUpdateCount = (searching, searchForThisView) => {
+    const { viewId, searchCount, updateSearchCount, entryPoints } = this.props;
+    if (searchForThisView && searching && searching.length > 1) {
+      const epNamesMatchWithSearching =
+        _keys(entryPoints).filter(name => name.match(searching) !== null);
+      const searchCountArray =
+        updateSearchCountArray(searchCount, viewId, epNamesMatchWithSearching.length);
+      updateSearchCount(searchCountArray);
+      return epNamesMatchWithSearching;
+    }
+    return [];
   }
   drop(e) {
     const {
@@ -906,6 +935,7 @@ export class GrizzlyPlotView extends React.Component {
           additionalStyle={memoizeMainStyle(legend.location)}
           yAxes={this.yAxes}
           xAxes={this.xAxes}
+          updateAxis={this.state.update}
           lines={
             entryPoints.map((ep) => {
               const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
@@ -933,6 +963,7 @@ export class GrizzlyPlotView extends React.Component {
                 yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
                 colorAccessor: 'color',
                 tooltipFormatter,
+                highlighted: this.state.epNamesMatchWithSearching.indexOf(ep.name) !== -1,
               };
             })
           }

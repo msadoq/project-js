@@ -126,7 +126,7 @@ export default class View extends PureComponent {
     const {
       collapsed, maximized, absolutePath, isViewsEditorOpen, isViewsSearchOpen,
       closeEditor, openEditor, openSearch, closeSearch, openModal,
-      collapseView, maximizeView, closeView, reloadView, type,
+      collapseView, maximizeView, closeView, reloadView,
     } = this.props;
     const editorMenu = (isViewsEditorOpen) ?
     {
@@ -147,7 +147,6 @@ export default class View extends PureComponent {
       click: () => {
         openSearch();
       },
-      enabled: (type === 'TextView'),
     };
     const isPathDefined = !!absolutePath;
     return [

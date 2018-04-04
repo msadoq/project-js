@@ -279,5 +279,5 @@ module.exports = {
   DATETIME_TILL_MS_FORMAT: 'DD/MM/YYYY HH:mm:ss.SSS',
 
   // list of view's type for search
-  SEARCH_VIEWS_TYPE: ['TextView'],
+  SEARCH_VIEWS_TYPE: ['TextView', 'PlotView'],
 };

@@ -201,6 +201,10 @@ describe('store:actions:pages', () => {
           payload: { pageId: 'p1', isMinimized: false },
         },
         {
+          type: 'HSC_PAUSE',
+          payload: {},
+        },
+        {
           type: 'WS_PAGE_PANELS_RESIZE_SEARCH',
           payload: { pageId: 'p1', size: 350 },
         },

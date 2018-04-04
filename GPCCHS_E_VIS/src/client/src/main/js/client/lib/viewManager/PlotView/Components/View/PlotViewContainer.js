@@ -36,12 +36,13 @@ import { getViewEntryPoints } from 'store/selectors/views';
 import { getData } from 'viewManager/PlotView/store/dataReducer';
 import { getLinks, areLinksShown } from 'store/reducers/views';
 import { getInspectorEpId } from 'store/reducers/inspector';
-import { getPage, getPageIdByViewId } from 'store/reducers/pages';
+import { getPage, getPageIdByViewId, getSearchCount, getSearchingByPage, getSearchViewsIds } from 'store/reducers/pages';
 import { getTimebarTimelines } from 'store/reducers/timebarTimelines';
 import { getTimeline } from 'store/reducers/timelines';
 import { getConfigurationByViewId } from 'viewManager';
 import { getTimebar, isMaxVisuDurationExceeded } from 'store/reducers/timebars';
 import SizablePlotView from './PlotView';
+import { updateSearchCount } from '../../../../store/actions/pages';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
@@ -49,6 +50,9 @@ const mapStateToProps = (state, { viewId }) => {
   const timebar = getTimebar(state, { timebarUuid: page.timebarUuid });
   const defaultTimelineUuid = getTimebarTimelines(state, { timebarUuid: page.timebarUuid })[0];
   const defaultTimeline = getTimeline(state, { timelineUuid: defaultTimelineUuid });
+  const searching = getSearchingByPage(state, { pageId });
+  const searchViewsIds = getSearchViewsIds(state, { pageId });
+  const searchCount = getSearchCount(state, { pageId });
   return {
     configuration: getConfigurationByViewId(state, { viewId }),
     entryPoints: getViewEntryPoints(state, { viewId }),
@@ -59,13 +63,16 @@ const mapStateToProps = (state, { viewId }) => {
     inspectorEpId: getInspectorEpId(state),
     links: getLinks(state, { viewId }),
     pageId,
+    searching,
+    searchCount,
     showLinks: areLinksShown(state, { viewId }),
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
+    searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators({
   saveLiveExtents,
   pause,
   addEntryPoint,
@@ -73,6 +80,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   removeLink,
   updateShowLinks,
   toggleLegend,
+  updateSearchCount: count => updateSearchCount(pageId, viewId, count),
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);

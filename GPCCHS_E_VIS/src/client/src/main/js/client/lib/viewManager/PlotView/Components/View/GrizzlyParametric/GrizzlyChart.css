@@ -331,3 +331,7 @@
     border: 1px solid rgba(244, 66, 182, 1);
   }
 }
+
+.highlighted{
+  background-color: #FC0 !important;
+}

@@ -150,6 +150,7 @@ export default class Axis extends Component {
               key={line.id}
               className={classnames(
                 'label',
+                line.highlighted ? styles.highlighted : '',
                 lineLabel,
                 { hidden: !showLabels }
               )}

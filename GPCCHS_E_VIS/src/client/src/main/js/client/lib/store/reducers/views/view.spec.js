@@ -325,35 +325,35 @@ describe('store:reducer:views', () => {
       expect(nextState.text1.searching).toBeFalsy();
     });
   });
-  describe('update table cols View', () => {
-    test('update table cols View', () => {
-      expect(stateViews.groundAlarm1.cols.length).toEqual(10);
-      const action = {
-        type: types.WS_VIEW_UPDATE_TABLE_COLS,
-        payload: {
-          viewId: 'groundAlarm1',
-          cols: [{
-            title: 'timestamp',
-            value: 'timestamp',
-            position: 0,
-            displayed: true,
-            group: 0,
-          }],
-        },
-      };
-      const nextState = reducer(stateViews, action);
-      expect(nextState.groundAlarm1.cols.length).toEqual(1);
-    });
-    test('update table cols View', () => {
-      expect(stateViews.groundAlarm1.cols.length).toEqual(10);
-      const action = {
-        type: types.WS_VIEW_UPDATE_TABLE_COLS,
-        payload: {
-          viewId: 'groundAlarm1',
-        },
-      };
-      const nextState = reducer(stateViews, action);
-      expect(nextState.groundAlarm1.cols.length).toEqual(0);
-    });
-  });
+  // describe('update table cols View', () => {
+  //   test('update table cols View', () => {
+  //     expect(stateViews.groundAlarm1.cols.length).toEqual(10);
+  //     const action = {
+  //       type: types.WS_VIEW_UPDATE_TABLE_COLS,
+  //       payload: {
+  //         viewId: 'groundAlarm1',
+  //         cols: [{
+  //           title: 'timestamp',
+  //           value: 'timestamp',
+  //           position: 0,
+  //           displayed: true,
+  //           group: 0,
+  //         }],
+  //       },
+  //     };
+  //     const nextState = reducer(stateViews, action);
+  //     expect(nextState.groundAlarm1.cols.length).toEqual(1);
+  //   });
+  //   test('update table cols View', () => {
+  //     expect(stateViews.groundAlarm1.cols.length).toEqual(10);
+  //     const action = {
+  //       type: types.WS_VIEW_UPDATE_TABLE_COLS,
+  //       payload: {
+  //         viewId: 'groundAlarm1',
+  //       },
+  //     };
+  //     const nextState = reducer(stateViews, action);
+  //     expect(nextState.groundAlarm1.cols.length).toEqual(0);
+  //   });
+  // });
 });

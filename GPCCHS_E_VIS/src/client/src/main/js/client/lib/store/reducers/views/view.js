@@ -34,7 +34,6 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
-import _getOr from 'lodash/fp/getOr';
 
 import composeReducers from 'store/helpers/composeReducers';
 import * as types from 'store/types';
@@ -178,8 +177,6 @@ function simpleView(stateView = initialState, action) {
       return { ...stateView, searching: action.payload.searchTerm };
     case types.WS_RESET_SEARCH_IN_VIEW:
       return _.omit('searching', stateView);
-    case types.WS_VIEW_UPDATE_TABLE_COLS:
-      return _.set('cols', _getOr([], 'payload.cols', action), stateView);
     default:
       return stateView;
   }

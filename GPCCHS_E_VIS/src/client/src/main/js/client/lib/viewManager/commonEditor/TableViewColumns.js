@@ -1,26 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { TableConfigurationColumnType } from 'viewManager/common/Components/types';
+import { FieldArray } from 'redux-form';
+import ColsFields from './Fields/ColsFields';
 
-const { arrayOf } = PropTypes;
+const TableViewColumns = props => (
+  <FieldArray
+    name={'cols'}
+    component={ColsFields}
+    {...props}
+  />
+);
 
-// eslint-disable-next-line react/prefer-stateless-function
-export default class TableViewColumns extends React.Component {
-  static propTypes = {
-    // own props
-    // viewId: string.isRequired,
-    // from Container mapStateToProps
-    cols: arrayOf(TableConfigurationColumnType).isRequired,
-  };
-
-  render() {
-    const { cols } = this.props;
-    return (
-      <ol>
-        {cols.map((column, ikey) =>
-          (<li key={'div'.concat(ikey)}>{column.title}</li>)
-          )}
-      </ol>
-    );
-  }
-}
+export default TableViewColumns;

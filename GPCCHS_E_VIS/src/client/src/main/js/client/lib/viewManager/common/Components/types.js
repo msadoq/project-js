@@ -90,8 +90,9 @@ export const comObjectType = shape({
 });
 
 export const TableConfigurationColumnType = shape({
-  displayed: bool.isRequired,
-  name: string.isRequired,
+  title: string.isRequired,
   value: string.isRequired,
   position: number.isRequired,
+  displayed: bool.isRequired,
+  group: number,
 });

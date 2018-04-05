@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 import * as types from 'store/types';
 import { getConfigurationByViewId } from 'viewManager';
+import _getOr from 'lodash/fp/getOr';
 
 const initialConfiguration = {
   search: { enabled: true },
@@ -110,7 +111,7 @@ export default (stateConf = {}, action) => {
       return _.update('search.enabled', _.negate(_.identity), stateConf);
     }
     case types.WS_VIEW_UPDATE_TABLE_COLS: {
-      return _.set('columns', action.payload.columns, stateConf);
+      return _.set('cols', _getOr([], 'payload.cols', action), stateConf);
     }
     default:
       return stateConf;

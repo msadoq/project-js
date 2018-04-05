@@ -6,7 +6,7 @@ import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import GroundAlarmEditorForm from './GroundAlarmEditorForm';
 import styles from '../../../commonEditor/Editor.css';
-import GroundAlarmTab from './GroundAlarmTab';
+import GroundAlarmTabContainer from './GroundAlarmTabContainer';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
 
@@ -101,7 +101,14 @@ export default class GroundAlarmEditor extends Component {
               initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
             />
           </div>}
-          {tab === 1 && <GroundAlarmTab />}
+          {
+            tab === 1 &&
+            <GroundAlarmTabContainer
+              updateViewPanels={updateViewPanels}
+              viewId={viewId}
+              panels={panels}
+            />
+          }
           {tab === 2 &&
             <Misc
               updateViewPanels={updateViewPanels}

@@ -34,28 +34,12 @@
             "additionalProperties": false
         },
         "docLocation": {
-            "oneOf": [
-                {
-                    "properties": {
-                        "oId": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "oId"
-                    ]
-                },
-                {
-                    "properties": {
-                        "path": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "path"
-                    ]
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
                 }
-            ]
+            }
         },
         "boundaries": {
             "type": "object",

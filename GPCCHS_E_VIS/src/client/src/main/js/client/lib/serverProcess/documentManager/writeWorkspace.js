@@ -26,12 +26,7 @@ import ipc from '../ipc';
 import validation from './validation';
 import { writeDocument } from './io';
 
-const getPageLocation = ({ oId, path, absolutePath }) => {
-  if (oId) {
-    return { oId };
-  }
-  return { path: absolutePath || path };
-};
+const getPageLocation = ({ path, absolutePath }) => ({ path: absolutePath || path });
 
 const prepareWindows = state => _.map(win => ({
   type: 'documentWindow',

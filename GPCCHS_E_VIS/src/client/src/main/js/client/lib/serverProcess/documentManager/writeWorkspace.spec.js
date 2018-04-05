@@ -68,7 +68,7 @@ describe('documentManager/writeWorkspace', () => {
           type: 'Page',
           title: 'Page 1',
           timebarUuid: 'abcd',
-          oId: 'oid:/testPlot.json',
+          path: 'testPlot.json',
         },
         page2: {
           type: 'Page',
@@ -174,7 +174,7 @@ describe('documentManager/writeWorkspace', () => {
             type: 'Page',
             title: 'Page 1',
             timebarUuid: 'abcd',
-            oId: 'oid:/testPlot.json',
+            oId: 'testPlot.json',
           },
           page2: {
             type: 'Page',

@@ -135,6 +135,7 @@ export default class ControlsLeft extends PureComponent {
     const {
       openModal,
       timebarUuid,
+      pause,
     } = this.props;
     openModal(
       this.context.windowId,
@@ -144,6 +145,7 @@ export default class ControlsLeft extends PureComponent {
         cursor: 'all',
       }
     );
+    pause(timebarUuid);
   };
 
   render() {

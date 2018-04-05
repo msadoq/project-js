@@ -97,7 +97,7 @@ const defaultExplorerWidth = 250;
 const defaultEditorWidth = 400;
 const minimizedTimebarHeigh = 35;
 const panelBorderColor = '#444';
-const tabsContainerStyle = { height: 40 };
+const tabsContainerStyle = { height: 50 };
 
 const explorerWidgets = [
   ['D', 'Datastore Explorer', 'dsex'],

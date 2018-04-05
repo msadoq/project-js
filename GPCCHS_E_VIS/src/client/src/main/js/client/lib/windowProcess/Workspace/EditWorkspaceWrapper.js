@@ -59,8 +59,8 @@ export default class EditWorkspaceWrapper extends PureComponent {
         onSubmit={this.willEditWorkspace}
         // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
         initialValues={{
-          domainName: domainName || '',
-          sessionName: sessionName || '',
+          domainName: domainName || '*',
+          sessionName: sessionName || '*',
         }}
         domains={domains}
         sessions={sessions}

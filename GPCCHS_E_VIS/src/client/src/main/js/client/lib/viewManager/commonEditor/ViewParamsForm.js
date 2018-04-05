@@ -35,6 +35,7 @@ import InputField from 'windowProcess/commonReduxForm/InputField';
 import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import FormSectionFontStyle from './FormSections/FormSectionFontStyle';
+import { computeOptions } from '../../viewManager/commonEditor/Fields/common';
 
 class ViewParamsForm extends React.Component {
   static propTypes = {
@@ -153,22 +154,8 @@ class ViewParamsForm extends React.Component {
             component={ReactSelectField}
             onInputChange={this.newDomain}
             clearable
-            options={
-              domains.map(d =>
-                ({
-                  label: d.name,
-                  value: d.name,
-                })
-              )
-              .concat(
-                domain && !domains.find(s => s.name === domain) ?
-                { label: domain, value: domain } : []
-              )
-              .concat(
-                domainName && !domains.find(s => s.name === domainName) ?
-                { label: domainName, value: domainName } : []
-              )
-            }
+            options={computeOptions(domains, true)}
+            value={domainName || domain}
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup label="Session Name">
@@ -177,22 +164,8 @@ class ViewParamsForm extends React.Component {
             component={ReactSelectField}
             onInputChange={this.newSession}
             clearable
-            options={
-              sessions.map(s =>
-                ({
-                  label: s.name,
-                  value: s.name,
-                })
-              )
-              .concat(
-                session && !sessions.find(s => s.name === session) ?
-                { label: session, value: session } : []
-              )
-              .concat(
-                sessionName && !sessions.find(s => s.name === sessionName) ?
-                { label: sessionName, value: sessionName } : []
-              )
-            }
+            options={computeOptions(sessions, true)}
+            value={sessionName || session}
           />
         </HorizontalFormGroup>
       </Form>

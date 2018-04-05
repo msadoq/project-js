@@ -51,6 +51,7 @@ import _ from 'lodash/fp';
 
 import composeReducers from 'store/helpers/composeReducers';
 import * as types from 'store/types';
+import { get } from '../../../common/configurationManager';
 
 const setIsModified = _.set('isModified');
 const getIsModified = (action) => {
@@ -122,11 +123,16 @@ const viewIsModified = (stateView, action) => {
 
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
 const addElementIn = (key, val, state) => _.update(key, _.concat(_, val), state);
+const wildcardCharacter = get('WILDCARD_CHARACTER');
 
 const initialState = {
   type: null,
   isModified: true,
   showLinks: false,
+  domainName: wildcardCharacter,
+  sessionName: wildcardCharacter,
+  domain: wildcardCharacter,
+  session: wildcardCharacter,
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */

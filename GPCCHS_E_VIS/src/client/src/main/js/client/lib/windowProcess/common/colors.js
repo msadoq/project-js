@@ -20,6 +20,9 @@ import _first from 'lodash/first';
 import _find from 'lodash/find';
 import _memoize from 'lodash/memoize';
 import { get } from 'common/configurationManager';
+import _pull from 'lodash/pull';
+import _uniq from 'lodash/uniq';
+import _flatMap from 'lodash/flatMap';
 
 export const STATE_COLOR_NOMINAL = 'nominal';
 export const STATE_COLOR_WARNING = 'warning';
@@ -35,6 +38,9 @@ export const STATE_COLOR_TYPES = [
   STATE_COLOR_CRITICAL,
   STATE_COLOR_OUT_OF_RANGE,
 ];
+
+const wildcardCharacter = get('WILDCARD_CHARACTER');
+const Domainscolors = get('DOMAINS_COLORS');
 
 const colors = [
   '#FFFFFF', '#000000', '#f44336', '#e91e63', '#9c27b0',
@@ -111,6 +117,91 @@ const getStateColorsCSSVars =
     ...acc,
     ...c,
   }), {});
+
+export const getBackgroundColorByDomains = (workspaceDomain, pageDomain, viewDomain, epDomains) => {
+  let domain = null;
+  let parentDomain = null;
+  const uniqParentsDomains =
+    _pull(_uniq([pageDomain, workspaceDomain, viewDomain]), wildcardCharacter);
+  if (uniqParentsDomains.length === 1) {
+    parentDomain = uniqParentsDomains[0];
+  } else if (uniqParentsDomains.length === 0) {
+    parentDomain = wildcardCharacter;
+  }
+  const uniqEpDomains = _pull(_uniq(epDomains), wildcardCharacter);
+  if (uniqEpDomains.length === 1) {
+    domain = (parentDomain === wildcardCharacter || uniqEpDomains[0] === parentDomain)
+      ? uniqEpDomains[0] : null;
+  } else if (uniqEpDomains.length === 0) {
+    domain = parentDomain;
+  }
+  const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
+  return colorObject !== undefined ? colorObject[domain] : null;
+};
+
+export const getBorderColorForTab = (workspaceDomain, pageDomain, viewsDomains, epDomains) => {
+  let domain = null;
+  if (pageDomain !== workspaceDomain) {
+    if (pageDomain === wildcardCharacter || workspaceDomain === wildcardCharacter) {
+      domain = pageDomain === wildcardCharacter ? workspaceDomain : pageDomain;
+    } else {
+      domain = null;
+    }
+  } else if (pageDomain === wildcardCharacter) {
+    if (viewsDomains.length === 1) {
+      domain = epDomains.length === 1 && viewsDomains[0] === epDomains[0] ? viewsDomains[0] : null;
+      if (epDomains.length === 0) {
+        domain = viewsDomains[0];
+      }
+    } else if (viewsDomains.length === 0) {
+      if (epDomains.length === 1) {
+        domain = epDomains[0];
+      } else if (epDomains.length === 0) {
+        domain = wildcardCharacter;
+      }
+    }
+  } else {
+    domain = pageDomain;
+  }
+
+  const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
+  return colorObject !== undefined ? colorObject[domain] : '#CCC';
+};
+
+export const getBorderColorForNav = (workspaceDomain, pages, viewsDomains) => {
+  let domain = null;
+  if (workspaceDomain !== wildcardCharacter) {
+    domain = workspaceDomain;
+  } else {
+    const pagesDomains = _pull(_pull(_uniq(_map(pages, 'domainName')), wildcardCharacter), undefined);
+    if (pagesDomains.length === 1) {
+      domain = pagesDomains[0];
+    } else if (pagesDomains.length === 0) { // pages domains = wildcard, we need to get views domains
+      let flatViewsDomains = [];
+      const epDomains = _uniq(_flatMap(pages, (page) => {
+        const { configurations } = page;
+        flatViewsDomains = _uniq(flatViewsDomains.concat(viewsDomains[page.pageId]));
+        return _pull(_uniq(
+          [].concat(
+            [],
+            ...configurations.map(configuration =>
+              configuration.entryPoints.map(
+                entryPoint => entryPoint.connectedData.domain
+              )
+            )
+          )
+        ), wildcardCharacter);
+      }));
+
+
+      const domains = _pull(_uniq(epDomains.concat(flatViewsDomains)), wildcardCharacter);
+      domain = domains.length === 1 ? domains[0] : null;
+    }
+  }
+  const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
+  return colorObject !== undefined ? colorObject[domain] : '#CCC';
+};
+
 
 export default {
   colors,

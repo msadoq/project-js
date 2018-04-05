@@ -17,6 +17,7 @@ import {
   ButtonGroup,
   Button,
 } from 'react-bootstrap';
+import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 import HorizontalFormGroup from '../commonReduxForm/HorizontalFormGroup';
 import ReactSelectField from '../commonReduxForm/ReactSelectField';
 
@@ -38,8 +39,8 @@ class EditWorkspace extends PureComponent {
   }
 
   state = {
-    domain: null,
-    session: null,
+    domain: '*',
+    session: '*',
   }
 
   componentDidMount() {
@@ -66,8 +67,8 @@ class EditWorkspace extends PureComponent {
       initialValues: { sessionName, domainName },
     } = this.props;
     const {
-      domain,
       session,
+      domain,
     } = this.state;
 
     return (
@@ -78,22 +79,8 @@ class EditWorkspace extends PureComponent {
             component={ReactSelectField}
             clearable
             onInputChange={this.newDomain}
-            options={
-              domains.map(s =>
-                ({
-                  label: s.name,
-                  value: s.name,
-                })
-              )
-              .concat(
-                domain && !domains.find(s => s.name === domain) ?
-                { label: domain, value: domain } : []
-              )
-              .concat(
-                domainName && !domains.find(s => s.name === domainName) ?
-                { label: domainName, value: domainName } : []
-              )
-            }
+            options={computeOptions(domains, true)}
+            value={domainName || domain}
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup label="Session Name">
@@ -102,22 +89,8 @@ class EditWorkspace extends PureComponent {
             component={ReactSelectField}
             onInputChange={this.newSession}
             clearable
-            options={
-              sessions.map(s =>
-                ({
-                  label: s.name,
-                  value: s.name,
-                })
-              )
-              .concat(
-                session && !sessions.find(s => s.name === session) ?
-                { label: session, value: session } : []
-              )
-              .concat(
-                sessionName && !sessions.find(s => s.name === sessionName) ?
-                { label: sessionName, value: sessionName } : []
-              )
-            }
+            options={computeOptions(sessions, true)}
+            value={sessionName || session}
           />
         </HorizontalFormGroup>
         <div className="text-right">

@@ -54,8 +54,8 @@ export default class ViewParams extends React.Component {
     backgroundColor: '#000000',
     showLegend: false,
     legend: { location: 'bottom' },
-    domainName: '',
-    sessionName: '',
+    domainName: '*',
+    sessionName: '*',
   }
 
   handleSubmit = (values) => {

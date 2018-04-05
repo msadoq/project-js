@@ -221,6 +221,10 @@ describe('store:reducer:views', () => {
       title: 'myView',
       type: 'PlotView',
       showLinks: false,
+      session: '*',
+      domain: '*',
+      domainName: '*',
+      sessionName: '*',
     };
     const action = { type: 'WS_VIEW_RELOAD', payload: { viewId: 'plot1', view: myView } };
     const state = reducer(stateViews, action);

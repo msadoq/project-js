@@ -62,8 +62,8 @@ export default class EditPageWrapper extends PureComponent {
         // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
         initialValues={{
           title: page.title,
-          domainName: page.domainName || '',
-          sessionName: page.sessionName || '',
+          domainName: page.domainName || '*',
+          sessionName: page.sessionName || '*',
         }}
         domains={domains}
         sessions={sessions}

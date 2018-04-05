@@ -52,12 +52,16 @@ const createBlankWorkspace = ({ noPage = false } = {}) => {
     hideBorders: false,
     timebarUuid: tbUuid,
     timebarId: 'TB1',
+    domain: '*',
+    session: '*',
   };
   const workspace = {
     isModified: true,
     windows: [window],
     timebars: [timebar],
     pages: noPage ? [] : [page],
+    domain: '*',
+    session: '*',
   };
   return workspace;
 };

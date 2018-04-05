@@ -52,9 +52,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { Button, Glyphicon } from 'react-bootstrap';
-import _uniqBy from 'lodash/uniqBy';
-import { get } from 'common/configurationManager';
 import styles from './Header.css';
+import { getBackgroundColorByDomains } from '../common/colors';
 
 export default class Header extends PureComponent {
   static propTypes = {
@@ -78,6 +77,7 @@ export default class Header extends PureComponent {
     domains: PropTypes.arrayOf(PropTypes.string).isRequired,
     pageDomain: PropTypes.string.isRequired,
     workspaceDomain: PropTypes.string.isRequired,
+    viewDomain: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -85,26 +85,26 @@ export default class Header extends PureComponent {
     titleStyle: {},
   };
 
-  getBackgroundColorByViewDomains() {
-    const { domains, pageDomain, workspaceDomain } = this.props;
-    const colors = get('DOMAINS_COLORS');
-    const inheritedDomain = pageDomain || workspaceDomain;
-    const domainsWithReplacedWildCard = domains.map(d => (d === '*' ? inheritedDomain : d));
-    const domain = _uniqBy(domainsWithReplacedWildCard).length > 1
-        ? 'multi'
-        : domains[0];
-    const colorObject = colors.find(obj => Object.keys(obj)[0] === domain);
-    return colorObject !== undefined ? colorObject[domain] : null;
-  }
-
   getTitleStyle() {
-    const { titleStyle, isViewsEditorOpen } = this.props;
+    const {
+      titleStyle,
+      isViewsEditorOpen,
+      domains,
+      pageDomain,
+      workspaceDomain,
+      viewDomain,
+    } = this.props;
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
       background: titleStyle.bgColor ? titleStyle.bgColor :
-        this.getBackgroundColorByViewDomains(),
+        getBackgroundColorByDomains(
+          workspaceDomain,
+          pageDomain,
+          viewDomain,
+          domains
+        ),
       color: titleStyle.color ? titleStyle.color : null,
       fontWeight: isViewsEditorOpen ? 'bold' : 'normal',
       fontStyle: 'normal',

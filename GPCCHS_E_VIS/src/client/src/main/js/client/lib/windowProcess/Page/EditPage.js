@@ -29,6 +29,7 @@ import {
 import InputField from '../commonReduxForm/InputField';
 import HorizontalFormGroup from '../commonReduxForm/HorizontalFormGroup';
 import ReactSelectField from '../commonReduxForm/ReactSelectField';
+import { computeOptions } from '../../viewManager/commonEditor/Fields/common';
 
 class EditPage extends PureComponent {
 
@@ -109,24 +110,10 @@ class EditPage extends PureComponent {
           <Field
             name="domainName"
             component={ReactSelectField}
-            onInputChange={this.newDomain}
             clearable
-            options={
-              domains.map(s =>
-                ({
-                  label: s.name,
-                  value: s.name,
-                })
-              )
-              .concat(
-                domain && !domains.find(s => s.name === domain) ?
-                { label: domain, value: domain } : []
-              )
-              .concat(
-                domainName && !domains.find(s => s.name === domainName) ?
-                { label: domainName, value: domainName } : []
-              )
-            }
+            onInputChange={this.newDomain}
+            options={computeOptions(domains, true)}
+            value={domainName || domain}
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup label="Session Name">
@@ -135,22 +122,8 @@ class EditPage extends PureComponent {
             component={ReactSelectField}
             onInputChange={this.newSession}
             clearable
-            options={
-              sessions.map(s =>
-                ({
-                  label: s.name,
-                  value: s.name,
-                })
-              )
-              .concat(
-                session && !sessions.find(s => s.name === session) ?
-                { label: session, value: session } : []
-              )
-              .concat(
-                sessionName && !sessions.find(s => s.name === sessionName) ?
-                { label: sessionName, value: sessionName } : []
-              )
-            }
+            options={computeOptions(sessions, true)}
+            value={sessionName || session}
           />
         </HorizontalFormGroup>
         <div className="text-right">

@@ -28,6 +28,7 @@ import _uniqBy from 'lodash/uniqBy';
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getPage, getPanels } from 'store/reducers/pages';
+import { getViewDomainName } from 'store/reducers/views';
 import { getDataSelectors, getViewWithConfiguration } from 'viewManager';
 import Header from './Header';
 
@@ -55,8 +56,9 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
   const page = getPage(state, { pageId });
   const { editorIsMinimized, editorViewId } = getPanels(state, { pageId });
 
-  const pageDomain = state.pages[pageId].domainName;
-  const workspaceDomain = state.hsc.domainName;
+  const pageDomain = state.pages[pageId].domainName || '*';
+  const workspaceDomain = state.hsc.domainName || '*';
+  const viewDomain = getViewDomainName(state, { viewId });
 
   return {
     backgroundColor,
@@ -67,6 +69,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
     domains,
     pageDomain,
     workspaceDomain,
+    viewDomain,
     isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
     collapsed:
       !!(page.layout.find(e => e.i === viewId && e.collapsed)), // TODO boxmodel factorize

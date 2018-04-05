@@ -60,8 +60,8 @@ export default class ViewParams extends React.Component {
       color: '#000000',
     },
     backgroundColor: '#000000',
-    domainName: '',
-    sessionName: '',
+    domainName: '*',
+    sessionName: '*',
   }
 
   handleSubmit = (values) => {

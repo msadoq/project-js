@@ -193,6 +193,10 @@ export const drawLine = (perfOutput,
     : lineData[lineIndexes[0]].x)
   ;
   lastColor = lineData[lineIndexes[0]][line.colorAccessor];
+  // Init ctx with the right color
+  ctx.fillStyle = lastColor;
+  ctx.strokeStyle = lastColor;
+
   ctx.moveTo(currentX, currentY); // required as beginPath set to {0,0}
 
   let currentX;
@@ -216,7 +220,6 @@ export const drawLine = (perfOutput,
     if (!packet) {
       return;
     }
-
     stoppedCurrent = line.stopInstruction ? (line.stopInstruction(packet) || false) : false;
     currentY = yScale(line.yAccessor ? line.yAccessor(packet) : packet.value);
     currentX = xScale(line.xAccessor ? line.xAccessor(packet) : packet.x);
@@ -227,7 +230,6 @@ export const drawLine = (perfOutput,
       ? lineData[index][line.colorAccessor]
       : fill // default color for curve tooltip
     ;
-
     // Current cursor drawing
     drawCurrentCursor(ctx,
       currentX,

@@ -1,37 +1,85 @@
+/* eslint-disable no-unused-vars,react/jsx-indent */
+/* eslint-disable react/no-array-index-key */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import './HistoryTable.scss';
 
-import GroupTable from '../GroupTable/GroupTable';
 
-const metaDataType =
-  PropTypes.shape({
-    currentIndex: PropTypes.number,
-  });
-
-const dataType = PropTypes.arrayOf(GroupTable.propTypes);
-
-const HistoryTable = ({ meta, data }) => (
-  <div className={'HistoryTable'}>
+const GroupHeaders = ({ groups }) => (
+  <tr>
     {
-      data.map(
-        group =>
-          <GroupTable
-            title={group.title}
-            cols={group.cols}
-            data={group.data}
-            outlinedIndex={meta.currentIndex}
-          />
+      Object.keys(groups).map(groupKey =>
+        <th key={groupKey} colSpan={groups[groupKey].size}>{ groupKey }</th>)
+    }
+  </tr>
+);
+
+GroupHeaders.propTypes = {
+  groups: PropTypes.shape().isRequired,
+};
+
+const ColumnHeaders = ({ groups }) => (
+  <tr>
+    {
+      Object.keys(groups).map(
+        groupKey => Object.keys(groups[groupKey].cols).map(
+          colKey => <th key={`${groupKey}$${colKey}`}> { colKey } </th>
+        )
       )
     }
-  </div>
+  </tr>
+);
+
+ColumnHeaders.propTypes = {
+  groups: PropTypes.shape().isRequired,
+};
+
+const Rows = ({ groups, length }) =>
+  Array(length).fill(0).map((_, rowIndex) => (
+      <tr key={`row$${rowIndex}`}>
+        {
+          Object.keys(groups).map(
+            groupKey =>
+              Object.keys(groups[groupKey].cols).map(colKey =>
+                <td key={`${groupKey}$${colKey}$${rowIndex}`}>
+                  {
+                    groups[groupKey].cols[colKey][rowIndex]
+                  }
+                </td>
+              )
+          )
+        }
+      </tr>
+    )
+  );
+
+Rows.propTypes = {
+  length: PropTypes.number.isRequired,
+  groups: PropTypes.shape().isRequired,
+};
+
+const HistoryTable = ({ data, actions }) => (
+  <table className={'HistoryTable'}>
+    <thead>
+    <GroupHeaders groups={data.groups} />
+    <ColumnHeaders groups={data.groups} />
+    </thead>
+    <tbody>
+    <Rows length={data.length} groups={data.groups} />
+    </tbody>
+  </table>
 );
 
 HistoryTable.propTypes = {
-  meta: metaDataType.isRequired,
-  data: dataType.isRequired,
+  data: PropTypes.shape(),
+  actions: PropTypes.shape(),
+};
+
+HistoryTable.defaultProps = {
+  data: {},
+  actions: {},
 };
 
 export default HistoryTable;

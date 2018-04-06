@@ -1,8 +1,15 @@
 
 .HistoryTable {
-  overflow: hidden;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid black;
 
-  & > .HistoryTable {
-	display: inline-block;
+  tr, th, td {
+	border: 1px solid black;
+	text-align: center;
+  }
+
+  th, tr {
+	height: 22px;
   }
 }

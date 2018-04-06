@@ -146,8 +146,3 @@ export const getEnableSearch = createSelector(
   getConfigurationByViewId,
   _.getOr(false, 'search.enabled')
 );
-
-export const getTableColumns = createSelector(
-  getConfigurationByViewId,
-  _.getOr([], 'columns')
-);

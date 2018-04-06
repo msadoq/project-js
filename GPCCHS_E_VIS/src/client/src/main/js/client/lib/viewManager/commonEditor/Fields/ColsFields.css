@@ -1,0 +1,4 @@
+.ol { background: #ffc; }
+.ol li { cursor: pointer; }
+.ol li .title { margin-left: 5px; }
+.ol li .handle { margin-right: 5px; }

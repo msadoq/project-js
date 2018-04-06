@@ -62,6 +62,7 @@ export default class GroundAlarmTab extends React.Component {
               initialValues={initialValues}
               viewId={viewId}
               onSubmit={this.handleSubmit}
+              onOrderChange={this.handleSubmit}
               form={`ground-alarm-tab-form-${viewId}`}
             />}
           </Panel>

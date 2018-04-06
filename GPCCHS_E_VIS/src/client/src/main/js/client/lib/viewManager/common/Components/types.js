@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const { shape, number, string, bool, arrayOf, oneOfType } = PropTypes;
+const { func, shape, number, string, bool, arrayOf, oneOfType } = PropTypes;
 
 export const connectedDataType = shape({
   axisId: string,
@@ -95,4 +95,11 @@ export const TableConfigurationColumnType = shape({
   position: number.isRequired,
   displayed: bool.isRequired,
   group: number,
+});
+
+export const fieldArrayPropsType = shape({
+  push: func,
+  remove: func,
+  insert: func,
+  getAll: func,
 });

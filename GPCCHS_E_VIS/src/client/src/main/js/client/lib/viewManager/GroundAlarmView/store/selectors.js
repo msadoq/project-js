@@ -23,7 +23,7 @@ export const getInspectorOptions = createSelector(
 const isFiltered = (alarm, search) => _.pipe(
   _.entries,
   _.reduce(
-    (acc, [k, v]) => acc && alarm[k].indexOf(v) !== -1
+    (acc, [k, v]) => acc && alarm[k] && alarm[k].indexOf(v) !== -1
   )(true)
 )(search);
 

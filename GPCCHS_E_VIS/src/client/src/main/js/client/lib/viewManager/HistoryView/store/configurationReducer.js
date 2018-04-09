@@ -8,22 +8,19 @@
 // import _ from 'lodash/fp';
 import _without from 'lodash/without';
 import * as types from 'store/types';
-import { SORTING_ASC } from 'constants';
+import { SORTING_DESC } from 'constants';
 
-const initialState = {
-  allColumns: {},
-  sorting: {},
-  hiddenColumns: {},
-};
+
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default (stateConf = initialState, action) => {
+export default (stateConf, action) => {
   switch (action.type) {
     case types.WS_VIEW_UPDATE_SORTING:
       return {
         ...stateConf,
+        dataOffset: 0,
         sorting: {
           colName: action.payload.colName,
-          direction: action.payload.direction || SORTING_ASC,
+          direction: action.payload.direction || SORTING_DESC,
         },
       };
     case types.WS_VIEW_HIDE_COL:
@@ -51,17 +48,57 @@ export default (stateConf = initialState, action) => {
         hiddenCols: _without(stateConf.hiddenCols || [], action.payload.colName),
       };
     case types.WS_VIEW_ADD_ENTRYPOINT: {
+      const { entryPoint } = action.payload;
+
       return {
         ...stateConf,
         entryPoints: [
           ...stateConf.entryPoints,
           {
-            ...action.payload.entryPoint,
+            ...entryPoint,
             connectedData: {
-              ...(action.payload.entryPoint.connectedData),
+              ...(entryPoint.connectedData),
             },
           },
         ],
+      };
+    }
+    case types.WS_VIEW_CHANGE_COL_FILTERS : {
+      const { colName, value } = action.payload;
+      return {
+        ...stateConf,
+        dataOffset: 0,
+        filters: {
+          ...stateConf.filters,
+          [colName]: value,
+        },
+      };
+    }
+    case types.WS_VIEW_TABLE_SCROLL: {
+      const { offset } = action.payload;
+
+      return {
+        ...stateConf,
+        dataOffset: offset,
+      };
+    }
+    case types.WS_VIEW_TABLE_UPDATE_HEIGHT: {
+      const { height } = action.payload;
+
+      return {
+        ...stateConf,
+        layoutHeight: height,
+      };
+    }
+    case types.WS_VIEW_TABLE_UPDATE_DISPLAYED_PARAMS: {
+      const { displayedFields } = action.payload;
+
+      return {
+        ...stateConf,
+        displayedFields: {
+          ...stateConf.displayedFields,
+          ...displayedFields,
+        },
       };
     }
     default:

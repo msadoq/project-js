@@ -120,7 +120,7 @@ export default class View extends PureComponent {
 
   onContextMenu = (mainMenu) => {
     handleContextMenu(mainMenu);
-  }
+  };
 
   getMainContextMenu = () => {
     const {
@@ -195,7 +195,6 @@ export default class View extends PureComponent {
   borderColorStyle = _memoize(c => ({ borderColor: c }));
   backgroundColorStyle = _memoize(c => ({ backgroundColor: c }));
 
-
   render() {
     logger.debug('render');
     const {
@@ -230,7 +229,7 @@ export default class View extends PureComponent {
           saveView={save}
           onContextMenu={() => handleContextMenu(mainMenu)}
         />
-        { !collapsed &&
+        {!collapsed &&
         <div
           className={styles.content}
           style={this.backgroundColorStyle(backgroundColor)}

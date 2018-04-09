@@ -1,15 +1,19 @@
 
-.HistoryTable {
-  width: 100%;
+.NTableView {
   border-collapse: collapse;
   border: 1px solid black;
 
   tr, th, td {
 	border: 1px solid black;
-	text-align: center;
   }
 
-  th, tr {
+  tr, th {
+	text-align: center;
 	height: 22px;
+  }
+
+  td {
+	text-align: left;
+	padding-left: 4px;
   }
 }

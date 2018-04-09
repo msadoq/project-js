@@ -11,14 +11,19 @@
         "y": 51,
         "kind": "Absolute"
       },
-      "pages": []
+      "pages": [
+        {
+          "oId": "oid:/current.vipg",
+          "timebarId": "TB1"
+        }
+      ]
     }
   ],
   "timebars": [
     {
       "id": "TB1",
       "type": "timeBarConfiguration",
-      "rulerResolution": 1419.9683042789222,
+      "rulerResolution": 5043.151969981238,
       "speed": 0.15,
       "masterId": "Session 1",
       "mode": "Normal",
@@ -30,7 +35,7 @@
           "id": "Session 1",
           "offset": 0,
           "kind": "Session",
-          "sessionName": "Master",
+          "sessionName": "Session#42",
           "color": null
         }
       ]

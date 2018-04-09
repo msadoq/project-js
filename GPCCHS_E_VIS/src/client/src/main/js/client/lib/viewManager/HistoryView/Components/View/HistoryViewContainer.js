@@ -8,38 +8,35 @@
 // ====================================================================
 
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { getData } from 'viewManager/HistoryView/store/dataReducer';
+import { getData, getConfiguration } from 'viewManager/HistoryView/store/dataReducer';
+import { toggleColumnSort, filterColumn, scrollRows } from 'store/actions/tableColumns';
+import formatData from '../../data/formatData';
 import HistoryView from './HistoryView';
 
-// Test DATA , @TODO: clean up
-const DATA = {
-  length: 2,
-  groups: {
-    'Default': {
-      size: 3,
-      cols: {
-        'Default-C1': [0, 5],
-        'Default-C2': [1, 6],
-        'Default-C3': [2, 7],
-      },
-    },
-    'Other': {
-      size: 2,
-      cols: {
-        'Other-C1': [3, 8],
-        'Other-C2': [4, 9],
-      },
-    },
-  },
+
+const mapStateToProps = (state, { viewId }) => {
+  const config = getConfiguration(state, { viewId });
+  const data = getData(state, { viewId });
+  return {
+    config,
+    data: formatData(data, config),
+  };
 };
 
-const mapStateToProps = (state, props) => ({
-  data: DATA,
+const mapDispatchToProps = (dispatch, { viewId }) => ({
+  onFilter: (col, value) => {
+    dispatch(filterColumn(viewId, col, value));
+  },
+  onSort: (col, mode) => {
+    dispatch(toggleColumnSort(viewId, col, mode));
+  },
+  onScroll: (offset) => {
+    dispatch(scrollRows(viewId, offset));
+  },
 });
 
-const HistoryViewContainer = connect(mapStateToProps)(HistoryView);
+const HistoryViewContainer = connect(mapStateToProps, mapDispatchToProps)(HistoryView);
 
 HistoryViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars,quote-props */
+/* eslint-disable no-unused-vars,quote-props,react/prefer-stateless-function */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
@@ -7,27 +7,18 @@
 // ====================================================================
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import HistoryTable from './HistoryTable/HistoryTable';
+import NTableView from '../../../common/Components/View/NTableView/NTableView';
 
+import './HistoryView.scss';
 
 class HistoryView extends React.Component {
-  static propTypes = {
-    data: PropTypes.shape(),
-    actions: PropTypes.shape(),
-  };
-
-  static defaultProps = {
-    data: {},
-    actions: {},
-  };
-
   render() {
-    const { data, actions } = this.props;
-
     return (
-      <HistoryTable data={data} actions={actions} />
+      <NTableView
+        className={'HistoryView'}
+        {...this.props}
+      />
     );
   }
 }

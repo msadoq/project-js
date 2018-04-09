@@ -1,0 +1,25 @@
+
+.ColumnHeaders {
+  [role='presentation'] {
+	margin-right: 7px;
+
+	&:not(.active) {
+	  cursor: pointer;
+	  color: lightgray;
+	}
+
+	&:hover {
+	  color: grey;
+	}
+
+	&.active {
+	  color: black;
+	}
+  }
+
+  .Arrows {
+	position: relative;
+	float: left;
+	left: 8px;
+  }
+}

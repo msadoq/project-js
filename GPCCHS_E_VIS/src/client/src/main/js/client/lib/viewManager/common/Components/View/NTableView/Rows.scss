@@ -1,0 +1,10 @@
+
+.Row {
+  &:nth-of-type(2n) {
+	background-color: #d8d8d8;
+  }
+
+  &:nth-of-type(2n+1) {
+	background-color: #bdbdbd;
+  }
+}

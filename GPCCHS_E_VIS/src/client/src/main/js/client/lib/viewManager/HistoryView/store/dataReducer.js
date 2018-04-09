@@ -168,3 +168,4 @@ export default function historyViewData(state = {}, action) {
 export const getHistoryViewData = state => state.HistoryViewData;
 
 export const getData = (state, { viewId }) => state.HistoryViewData[viewId];
+export const getConfiguration = (state, { viewId }) => state.HistoryViewConfiguration[viewId];

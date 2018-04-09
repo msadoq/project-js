@@ -1,0 +1,220 @@
+{
+  "type": "PlotView",
+  "title": "Plotview One parameter",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#ffffff",
+    "bgColor": "#111111"
+  },
+  "backgroundColor": "#FFFFFF",
+  "links": [
+    {
+      "name": "page4",
+      "path": "./pages/page4.vipg"
+    }
+  ],
+  "defaultRatio": {
+    "length": 50,
+    "width": 50
+  },
+  "procedures": [],
+  "axes": [
+    {
+      "label": "Time",
+      "id": "time",
+      "unit": "s",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#FFF"
+      },
+      "min": 0,
+      "max": 10,
+      "autoLimits": true,
+      "tickStep": 0.5,
+      "autoTick": true,
+      "showTicks": true,
+      "showTickLabels": true,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
+      "showAxis": true,
+      "showLabels": true
+    },
+    {
+      "autoLimits": false,
+      "autoTick": true,
+      "id": "VBat",
+      "label": "VBat",
+      "logSettings": {
+        "base": 10,
+        "max": 1000000000,
+        "min": 0.1
+      },
+      "logarithmic": false,
+      "max": 140,
+      "min": 130,
+      "showAxis": true,
+      "showLabels": true,
+      "showTickLabels": true,
+      "showTicks": true,
+      "style": {
+        "align": "left",
+        "bold": false,
+        "color": "#FFF",
+        "font": "Arial",
+        "italic": false,
+        "size": 12,
+        "strikeOut": false,
+        "underline": false
+      },
+      "tickStep": 50,
+      "unit": "V"
+    }
+  ],
+  "grids": [
+    {
+      "showGrid": true,
+      "line": {
+        "size": 1,
+        "style": "Continuous"
+      },
+      "xAxisId": "time",
+      "yAxisId": "VBat"
+    }
+  ],
+  "legend": {
+    "location": "top",
+    "style": {
+      "font": "Arial",
+      "size": 12,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikeOut": false,
+      "align": "left",
+      "color": "#000000"
+    }
+  },
+  "markers": [
+    {
+      "kind": "Text",
+      "label": "VBAT",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": true,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#000000"
+      },
+      "relativePosX": 5.6,
+      "relativePosY": 8.9
+    }
+  ],
+  "entryPoints": [
+    {
+      "connectedData": {
+        "axisId": "VBat",
+        "convertFrom": "",
+        "convertTo": "",
+        "defaultY": 1,
+        "digits": 5,
+        "domain": "fr.cnes.isis.simupus",
+        "fieldX": "",
+        "filter": [],
+        "format": "decimal",
+        "formula": "",
+        "stringParameter": false,
+        "timeline": "Session 1",
+        "unit": "V",
+        "provider": "*"
+      },
+      "connectedDataParametric": {
+        "domainX": "",
+        "domainY": "",
+        "formulaX": "",
+        "formulaY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "name": "TMMGT_BC_VIRTCHAN3",
+      "objectStyle": {
+        "curveColor": "#FFBF00",
+        "line": {
+          "size": 2,
+          "style": "Continuous"
+        },
+        "points": {
+          "size": 0,
+          "style": "None"
+        }
+      },
+      "parametric": false,
+      "stateColors": []
+    },
+    {
+      "name": "ATT_BC_REVTCOUNT1",
+      "parametric": false,
+      "connectedData": {
+        "formula": "",
+        "fieldX": "",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1,
+        "provider": "*",
+        "convertFrom": "",
+        "convertTo": ""
+      },
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 3
+        },
+        "points": {
+          "style": "None",
+          "size": 3
+        },
+        "curveColor": "#ff9800"
+      },
+      "stateColors": []
+    }
+  ],
+  "showYAxes": "left",
+  "showLegend": false,
+  "search": ""
+}

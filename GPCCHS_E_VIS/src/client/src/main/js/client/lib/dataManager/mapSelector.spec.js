@@ -3,7 +3,9 @@
 // VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : update of dataMap selector .
 // VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : creatin of selectors on datamap
 // VERSION : 1.1.2 : DM : #6700 : 27/07/2017 : update preparePubSub and add unit tests for it
-// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
+//  viewData_clean
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
 // END-HISTORY
 // ====================================================================
 

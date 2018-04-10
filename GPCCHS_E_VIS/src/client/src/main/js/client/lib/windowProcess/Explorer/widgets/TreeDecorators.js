@@ -5,6 +5,7 @@
 // VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : Re add unicode triangles in TreeDecorators component
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
 // VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

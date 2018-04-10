@@ -3,9 +3,17 @@
 // VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
 // VERSION : 1.1.2 : DM : #6129 : 03/05/2017 : first functionnal mimic with animations
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to
+//  limit visuWindow per view
 // VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Plug mimic view to data consumption
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : Fixed few eslint errors / warnings no-console and spaced-comment.
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : Fixed few eslint errors / warnings no-console
+//  and spaced-comment.
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 14/11/2017 : Remove monitoring state colors mecanism + add
+//  defult values for state colors + update unit tests + fix issue when removing a state color +
+//  fix css code style
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 31/01/2018 : Add mimic view compatibility with convertion
+//  unit mechanism
 // END-HISTORY
 // ====================================================================
 

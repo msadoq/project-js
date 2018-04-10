@@ -1,0 +1,179 @@
+#GPCCHS 2.0.0 13/04/2018 ISIS-FC-2265.txt
+
+
+Reference changement : ISIS-FT-2265
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws
+	center window on selected time range
+	
+	
+	
+	(cherry picked from commit cfb0449)
+	link presentational component to redux
+	
+	
+	
+	(cherry picked from commit ab5141c)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/actions.spec.js.snap
+	fix a few regressions in tests
+	
+	
+	
+	(cherry picked from commit ef9a249)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/writeWorkspace.spec.js.snap
+	link presentational component to redux
+	
+	
+	
+	(cherry picked from commit ab5141c)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.js
+	fix a few regressions in tests
+	
+	
+	
+	(cherry picked from commit ef9a249)
+	link presentational component to redux
+	
+	
+	
+	(cherry picked from commit ab5141c)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.js
+	link presentational component to redux
+	
+	
+	
+	(cherry picked from commit ab5141c)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	init Presentational component + tests
+	
+	
+	
+	(cherry picked from commit bc2885c)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/ControlsLeft.js
+	link presentational component to redux
+	
+	
+	
+	(cherry picked from commit ab5141c)
+	init Presentational component + tests
+	
+	
+	
+	(cherry picked from commit bc2885c)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/SaveVisualizationToggle.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/SaveVisualizationToggle.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/SaveVisualizationToggleContainer.js
+	link presentational component to redux
+	
+	
+	
+	(cherry picked from commit ab5141c)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.js
+	fix a few regressions in tests
+	
+	
+	
+	(cherry picked from commit ef9a249)
+	center window on selected time range
+	
+	
+	
+	(cherry picked from commit cfb0449)
+	link presentational component to redux
+	
+	
+	
+	(cherry picked from commit ab5141c)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsLeft.spec.js
+	fix a few regressions in tests
+	
+	
+	
+	(cherry picked from commit ef9a249)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/SaveVisualizationToggle.spec.js
+	link presentational component to redux
+	
+	
+	
+	(cherry picked from commit ab5141c)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsLeft.spec.js.snap
+	fix a few regressions in tests
+	
+	
+	
+	(cherry picked from commit ef9a249)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+	init Presentational component + tests
+	
+	
+	
+	(cherry picked from commit bc2885c)
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/actions.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/writeWorkspace.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/ControlsLeft.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/ControlsLeft.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/__snapshots__/ControlsLeft.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/SaveVisualizationToggle.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/SaveVisualizationToggleContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/test/SaveVisualizationToggle.spec.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

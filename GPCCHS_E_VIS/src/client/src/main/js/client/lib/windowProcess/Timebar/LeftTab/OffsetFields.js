@@ -1,9 +1,13 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in windowProcess/Timebar
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in
+//  windowProcess/Timebar
 // VERSION : 1.1.2 : FA : #6670 : 13/06/2017 : Fix last two tests AddTimeline EditTimeline.
 // VERSION : 1.1.2 : FA : #6670 : 13/06/2017 : Remove console warn in LeftTab/OffsetFields
-// VERSION : 1.1.2 : FA : #6670 : 13/06/2017 : Restore some snapshots in viewManager and windowProcess
+// VERSION : 1.1.2 : FA : #6670 : 13/06/2017 : Restore some snapshots in viewManager and
+//  windowProcess
+// VERSION : 2.0.0 : FA : ISIS-FT-2311 : 31/10/2017 : Timeline's offset is now expressed in
+//  d-h-m-s-ms format.
 // END-HISTORY
 // ====================================================================
 

@@ -1,13 +1,24 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Fix merge issue after selector moving in reducer modules
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Fix merge issue after selector moving in reducer
+//  modules
 // VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Cleanup React components tree and props
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Cleanup React components tree and props
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix page views layout display
-// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix merge issue after selector moving in reducer modules
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix merge issue after selector moving in reducer
+//  modules
 // VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : minimize and keep old size for editor
-// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : fix editor opening per view and rename longData to convertData
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : fix editor opening per view and rename longData to
+//  convertData
 // VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : update MoveViewToPage modal to the generic modal
+// VERSION : 2.0.0 : FA : #8086 : 26/09/2017 : Saving view by clicking SAVE on a collapse view
+//  fixed.
+// VERSION : 2.0.0 : DM : #5806 : 10/11/2017 : Add getFullTitle selectors in each view
+//  (viewManager)
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
+// VERSION : 2.0.0 : FA : #10835 : 01/03/2018 : if EntryPoint's domain is '*', uses the page
+//  domain, or workspace domain.
 // END-HISTORY
 // ====================================================================
 

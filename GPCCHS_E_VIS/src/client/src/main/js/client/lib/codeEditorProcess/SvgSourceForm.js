@@ -1,7 +1,13 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
-// VERSION : 1.1.2 : FA : #7753 : 18/09/2017 : Fixed Save & close issue with svg and html code editor.
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files.
+//  Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : FA : #7753 : 18/09/2017 : Fixed Save & close issue with svg and html code
+//  editor.
+// VERSION : 2.0.0 : DM : #6129 : 17/11/2017 : Fix mimic default components & transformations
+// VERSION : 2.0.0 : DM : #6129 : 17/11/2017 : Fix mimic bench & refacto
+// VERSION : 2.0.0 : DM : #6129 : 20/11/2017 : add entry point on editor through submenu
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

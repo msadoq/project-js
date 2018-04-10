@@ -2,6 +2,10 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 04/05/2017 : Fix 'npm run build' .
 // VERSION : 1.1.2 : DM : #6129 : 09/05/2017 : apply viewManager modifications to mimicView
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update viewManager with alarm parameters
+// VERSION : 2.0.0 : DM : #5806 : 13/10/2017 : Replace GroundAlarmViewContainer by
+//  GroundAlarmTableContainer .
+// VERSION : 2.0.0 : DM : #5806 : 26/10/2017 : Fork GMA to OBA (viewManager)
 // END-HISTORY
 // ====================================================================
 

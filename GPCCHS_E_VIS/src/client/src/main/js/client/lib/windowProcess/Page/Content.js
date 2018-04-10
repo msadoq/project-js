@@ -2,7 +2,8 @@
 // HISTORY
 // VERSION : 1.1.0 : : : 28/02/2017 : Initial version
 // VERSION : 1.1.2 : FA : #5316 : 08/02/2017 : Lint Page Content in windowProcess folder
-// VERSION : 1.1.2 : FA : #5443 : 15/02/2017 : Fix filepath prop and arrange page height for bigger drop zone
+// VERSION : 1.1.2 : FA : #5443 : 15/02/2017 : Fix filepath prop and arrange page height for bigger
+//  drop zone
 // VERSION : 1.1.2 : DM : #3622 : 20/02/2017 : Debug error on plotview when closing timebar
 // VERSION : 1.1.2 : DM : #3622 : 02/03/2017 : Fix update layout in Page/Content
 // VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse bugs
@@ -11,25 +12,45 @@
 // VERSION : 1.1.2 : DM : #3622 : 10/03/2017 : store collapsed & maximized bool in page layout
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Cleanup actions . . .
 // VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Move general variables at top level of a view
-// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Fix View components should not re-mount after open editor
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Fix View components should not re-mount after open
+//  editor
 // VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Refacto collapsed maximized using selectors
 // VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Fix no needed updateLayout in Page/Content
 // VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Cleanup React components tree and props
-// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Draft the resizable panels and cleanup components props (views not functionnal)
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Draft the resizable panels and cleanup components
+//  props (views not functionnal)
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Remove Responsive version of react-grid-layout
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Cleanup React components tree and props
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix some code styles and lisibility
-// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Draft the resizable panels and cleanup components props (views not functionnal)
-// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix new window panels layout page views scrollability
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Draft the resizable panels and cleanup components
+//  props (views not functionnal)
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix new window panels layout page views
+//  scrollability
 // VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Fix drop view, page and workspace
-// VERSION : 1.1.2 : DM : #5828 : 27/04/2017 : React panel bars are lighter, added the NO PAGE sentence and not displaying panels when no page.
-// VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : Handle the case where there is no pageId in window, not rendering panels.
-// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : react-grid-layout handles are hidden when view is collapsed.
+// VERSION : 1.1.2 : DM : #5828 : 27/04/2017 : React panel bars are lighter, added the NO PAGE
+//  sentence and not displaying panels when no page.
+// VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : Handle the case where there is no pageId in window,
+//  not rendering panels.
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : react-grid-layout handles are hidden when view is
+//  collapsed.
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Replace ipc openPage by askOpenPage redux action
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Replace ipc openPage by askOpenPage redux
+//  action
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : On open view middleware .
-// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 01/09/2017 : Added error message when dropped item's mime type is not supported.
-// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 04/09/2017 : Fixed drag and drop error : when dropped item doesn't have filePath property, error message is correctly displayed.
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 01/09/2017 : Added error message when dropped item's mime
+//  type is not supported.
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 04/09/2017 : Fixed drag and drop error : when dropped item
+//  doesn't have filePath property, error message is correctly displayed.
+// VERSION : 2.0.0 : FA : #7984 : 27/09/2017 : Maximized vs collapsed view conflict resolved.
+// VERSION : 2.0.0 : FA : #8192 : 09/10/2017 : Drag & drop works on an empty page. Darg & drop now
+//  accepts application/json dataTransfer type. onDrop does not concatenate with ISIS_FMD_ROOT
+//  anymore. documentManager MUST handle paths like /views/text10.vitv . Updated pom.xml .
+// VERSION : 2.0.0 : FA : #8192 : 13/10/2017 : When drag and drop something on page, it is
+//  text/plan canal and not application/json that is listenned.
+// VERSION : 2.0.0 : FA : #8192 : 20/10/2017 : When droping an element, we now concat path with
+//  ISIS_DOCUMENTS_ROOT.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #9865 : 19/12/2017 : Fix dragNdrop workspace . .
 // END-HISTORY
 // ====================================================================
 

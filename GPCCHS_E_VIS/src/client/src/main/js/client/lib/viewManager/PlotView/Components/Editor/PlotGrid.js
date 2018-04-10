@@ -1,11 +1,19 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting
+//  between commonEditor and commonReduxForm.
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Fixed import errors in editor components.
-// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Prefer precise named import over .. from 'index.js' import.
-// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
-// VERSION : 1.1.2 : FA : ISIS-FT-2134 : 18/05/2017 : Porting #6660 patch 9 to version 1.2. Changing default PlotView props (axis, grid).
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 19/07/2017 : Added dirty state in TextView, PlotView, MimicView, DynamicView forms.
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Prefer precise named import over .. from 'index.js'
+//  import.
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and
+//  un-needed relaxations
+// VERSION : 1.1.2 : FA : ISIS-FT-2134 : 18/05/2017 : Porting #6660 patch 9 to version 1.2.
+//  Changing default PlotView props (axis, grid).
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 19/07/2017 : Added dirty state in TextView, PlotView,
+//  MimicView, DynamicView forms.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2280 : 06/12/2017 : ergonomie plotView VIMA // l'utilisateur doit
+//  pouvoir choisir avec ou sans ligne entre les points sans "tricher" en mettant Line size = 0
 // END-HISTORY
 // ====================================================================
 

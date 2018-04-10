@@ -4,6 +4,7 @@
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Fix Timebar broken tests .
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : fix a few regressions in tests
 // END-HISTORY
 // ====================================================================
 

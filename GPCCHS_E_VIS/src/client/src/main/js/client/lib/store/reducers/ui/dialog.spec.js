@@ -2,8 +2,10 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Implement ui/dialog reducer . .
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add getDialog selector in store/reducers/ui/dialog
-// VERSION : 1.1.2 : FA : #7145 : 26/07/2017 : Change openModal action, it now have a default dialogId
+// VERSION : 1.1.2 : FA : #7145 : 26/07/2017 : Change openModal action, it now have a default
+//  dialogId
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

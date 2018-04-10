@@ -1,6 +1,8 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Creation of alarm view adapters
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Add new stub data for GrounData and OnBoardData
 // END-HISTORY
 // ====================================================================
 

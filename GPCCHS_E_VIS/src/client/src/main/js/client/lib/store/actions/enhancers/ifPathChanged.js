@@ -2,8 +2,10 @@
 // HISTORY
 // VERSION : 1.1.0 : : : 28/02/2017 : Initial version
 // VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Add tests about action creators enhancers
-// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Rename some points in ifPathChanged action creator enhancer
-// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Change ifPathChanged action creator enhancer arguments
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Rename some points in ifPathChanged action creator
+//  enhancer
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Change ifPathChanged action creator enhancer
+//  arguments
 // VERSION : 1.1.2 : FA : #5475 : 22/02/2017 : Debug ifPathChanged higher order action creator
 // END-HISTORY
 // ====================================================================

@@ -1,7 +1,8 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.0 : : : 28/02/2017 : Initial version
-// VERSION : 1.1.2 : FA : #5317 : 09/02/2017 : packaging dedupe dependencies and refactor for lodash
+// VERSION : 1.1.2 : FA : #5317 : 09/02/2017 : packaging dedupe dependencies and refactor for
+//  lodash
 // VERSION : 1.1.2 : FA : #5316 : 10/02/2017 : Lint webpack/config.base.js (indentation) . .
 // VERSION : 1.1.2 : FA : #6721 : 19/05/2017 : Fix hss crash when build
 // VERSION : 1.1.2 : FA : #6721 : 19/05/2017 : Fix several warnings when build

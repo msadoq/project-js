@@ -1,6 +1,10 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #7111 : 20/09/2017 : Add editor in history view data and fix history view
+//  data reducer
+// VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

@@ -2,9 +2,11 @@
 // HISTORY
 // VERSION : 1.1.0 : : : 28/02/2017 : Initial version
 // VERSION : 1.1.2 : DM : #3622 : 10/03/2017 : Add Garbage Collector monitoring tool
-// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Add timeout on DC data fetching on application startup to help diagnosis of DC communication problem
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Add timeout on DC data fetching on application
+//  startup to help diagnosis of DC communication problem
 // VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Fix production webpack build errors
-// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Update project dependencies and remove broken code (gcMonitoring)
+// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Update project dependencies and remove broken code
+//  (gcMonitoring)
 // VERSION : 1.1.2 : DM : #5828 : 04/05/2017 : Test perf protobuff inside a electron app
 // VERSION : 1.1.2 : DM : #5828 : 04/05/2017 : Add comment on proxy deactivation in electron
 // VERSION : 1.1.2 : FA : #6671 : 17/05/2017 : Merge branch 'dev' into pgaucher-upgrade-protobuff-6

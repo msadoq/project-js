@@ -1,9 +1,16 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add PlotView and DynamicView configurationReducer in viewManager
-// VERSION : 1.1.2 : DM : #5828 : 13/04/2017 : By default, dynamicView has no filter, and DV.configuration.entryPoints is a, array of objects.
-// VERSION : 1.1.2 : DM : #5828 : 13/04/2017 : EntryPoint addition now uses GenericModal. General refacto of default EntryPoints props, set in viewManager's setDefaultEntryPoint for text, plot and Dynamic.
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add PlotView and DynamicView configurationReducer in
+//  viewManager
+// VERSION : 1.1.2 : DM : #5828 : 13/04/2017 : By default, dynamicView has no filter, and
+//  DV.configuration.entryPoints is a, array of objects.
+// VERSION : 1.1.2 : DM : #5828 : 13/04/2017 : EntryPoint addition now uses GenericModal. General
+//  refacto of default EntryPoints props, set in viewManager's setDefaultEntryPoint for text, plot
+//  and Dynamic.
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
+// VERSION : 2.0.0 : DM : #5806 : 23/10/2017 : Refacto DynamicView configurationReducer . .
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2238 : 20/12/2017 : Implement dragNdrop entryPoint DynamicView .
 // END-HISTORY
 // ====================================================================
 

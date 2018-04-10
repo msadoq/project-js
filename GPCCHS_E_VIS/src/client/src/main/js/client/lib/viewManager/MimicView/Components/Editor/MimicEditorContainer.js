@@ -4,9 +4,12 @@
 // VERSION : 1.1.2 : DM : #6129 : 04/05/2017 : merge dev on mimic branch
 // VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add Misc/links in view editor
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Split ui reducer + prepare ui/dialog reducer
-// VERSION : 1.1.2 : DM : #6129 : 10/07/2017 : MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
+// VERSION : 1.1.2 : DM : #6129 : 10/07/2017 : MimicView editor rc-collapse implementation + fixes
+//  on Plot and Text editors too.
 // VERSION : 1.1.2 : FA : #7256 : 25/07/2017 : Added top title in editor with colored vignette.
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : DM : #10790 : 27/02/2018 : merge R10dev P1 into bridge REVERT
 // END-HISTORY
 // ====================================================================
 

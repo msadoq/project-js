@@ -4,10 +4,13 @@
 // VERSION : 1.1.2 : DM : #6129 : 04/05/2017 : merge dev on mimic branch
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
 // VERSION : 1.1.2 : FA : #7185 : 06/07/2017 : Fix lint errors and warnings
-// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
+//  viewData_clean
 // VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Plug mimic view to data consumption
 // VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : Remove view data clean action on mimic reducer
 // VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : Fix cleaning data in last type views
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #8801 : 19/12/2017 : Do not clean data when reload a view
 // END-HISTORY
 // ====================================================================
 

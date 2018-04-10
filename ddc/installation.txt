@@ -1,4 +1,4 @@
-#GPCCHS 1.1.2 02/10/2017 installation.txt
+#GPCCHS 2.0.0 13/04/2018 installation.txt
 
 
 Cf. wiki WIKI_ISIS_GPA, page targets_lp:ccc:sim:toc

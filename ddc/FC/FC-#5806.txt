@@ -1,0 +1,3019 @@
+#GPCCHS 2.0.0 13/04/2018 FC-#5806.txt
+
+
+Reference changement : #5806
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/.babelrc
+	Add babel-plugin-module-resolver and use aliases
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/.eslintignore
+	Fix eslintignore + lint utils/adapters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/.eslintrc
+	Add babel-plugin-module-resolver and use aliases
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/GIT.md
+	Implementation of stub for grounAlarm queries and subscription.
+	
+	
+	
+	Requests to the stub are managed.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/AlarmMode.proto
+	Creation of alarm view adapters
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/AlarmType.proto (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/GroundMonitoringAlarmAckRequest.proto
+	Merge branch jmaupeti_alarmstub into dev
+	Change some protos, plus minor change
+	Import new proto types from DC
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/Header.proto
+	Add ALARM_ACK Header proto in dataControllerUtils
+	Creation of alarm view adapters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/OnBoardAlarm.proto
+	Merge branch jmaupeti_alarmstub into dev
+	Refacto PubSub Alarm + tbd Alarm queries
+	Import new proto types from DC
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/OnBoardAlarmAckRequest.proto
+	Merge branch jmaupeti_alarmstub into dev
+	Import new proto types from DC
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/QueryArguments.proto
+	Pass mode into archive query (GMA/OBA)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/alarmMode.js
+	Pass mode into archive query (GMA/OBA)
+	Creation of alarm view adapters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/alarmMode.stub.js
+	Add new stub data for GrounData and OnBoardData
+	
+	
+	
+	+ Fix typo with AlarmType/Mode
+	Creation of alarm view adapters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/alarmType.js
+	Creation of alarm view adapters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/alarmType.stub.js
+	Add new stub data for GrounData and OnBoardData
+	
+	
+	
+	+ Fix typo with AlarmType/Mode
+	Creation of alarm view adapters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/groundMonitoringAlarmAckRequest.js
+	Merge branch jmaupeti_alarmstub into dev
+	Improve encoding of protobuf for alarms
+	Fix issues with encode/decode groundAlarms protobuf
+	Improve decoding and encoding for alarm proto
+	Import new proto types from DC
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/groundMonitoringAlarmAckRequest.spec.js
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/groundMonitoringAlarmAckRequest.stub.js
+	Fix issues with encode/decode groundAlarms protobuf
+	Improve decoding and encoding for alarm proto
+	Change some protos, plus minor change
+	Fix capital letters issues with alarms
+	Add new stub data for GrounData and OnBoardData
+	
+	
+	
+	+ Fix typo with AlarmType/Mode
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/header.stub.js
+	Manage ackrequests in stub .
+	Refacto PubSub Alarm + tbd Alarm queries
+	Change some protos, plus minor change
+	Fix problem with headers with groundAlarm Stubs
+	Resolve merge conflict . .
+	Update protobuf stub . .
+	Fix issue with generated headers for groundAlarm in stubs
+	Creation of alarm view adapters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/index.js
+	Add new stub data for GrounData and OnBoardData
+	
+	
+	
+	+ Fix typo with AlarmType/Mode
+	Creation of alarm view adapters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarm.js
+	Add onboard alarm stubs generation
+	Add new stub data for GrounData and OnBoardData
+	
+	
+	
+	+ Fix typo with AlarmType/Mode
+	Import new proto types from DC
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarm.spec.js
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarm.stub.js
+	Improve decoding and encoding for alarm proto
+	Fix capital letters issues with alarms
+	Add new stub data for GrounData and OnBoardData
+	
+	
+	
+	+ Fix typo with AlarmType/Mode
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarmAckRequest.js
+	Merge branch jmaupeti_alarmstub into dev
+	Improve encoding of protobuf for alarms
+	Fix issues with encode/decode groundAlarms protobuf
+	Improve decoding and encoding for alarm proto
+	Import new proto types from DC
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarmAckRequest.spec.js
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarmAckRequest.stub.js
+	Improve decoding and encoding for alarm proto
+	Fix capital letters issues with alarms
+	Add new stub data for GrounData and OnBoardData
+	
+	
+	
+	+ Fix typo with AlarmType/Mode
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/queryArguments.js
+	Pass mode into archive query (GMA/OBA)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/stubs.js
+	Add new stub data for GrounData and OnBoardData
+	
+	
+	
+	+ Fix typo with AlarmType/Mode
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws
+	Re-arrange dev.workspace layout + page-historyView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/alarms.page.vipg
+	Replace page-gma and page-oba by alarms.page.vipg document
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg
+	Add GMA and OBA in dev.page1 document
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-gma.vipg
+	Replace page-gma and page-oba by alarms.page.vipg document
+	Add oba and gma documents
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-historyView.vipg
+	Fork GMA to OBA (viewManager)
+	Store hardcoded GMA entryPoint in the state GroudAlarmViewConfiguration
+	Re-arrange dev.workspace layout + page-historyView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-oba.vipg
+	Replace page-gma and page-oba by alarms.page.vipg document
+	Add oba and gma documents
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/ground-alarm.viga
+	Add GMA and OBA in dev.page1 document
+	Update GMA and OBA documents
+	Save GMA search filter in documents
+	Pass mode into archive query (GMA/OBA)
+	Fix ground alarm viga document
+	remove formula from shemas for ground alarms
+	Store hardcoded GMA entryPoint in the state GroudAlarmViewConfiguration
+	Refacto PubSub Alarm + tbd Alarm queries
+	Re-arrange dev.workspace layout + page-historyView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/onboard-alarm.viba
+	Add GMA and OBA in dev.page1 document
+	Update GMA and OBA documents
+	Pass mode into archive query (GMA/OBA)
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/workspace-alarms.viws
+	Replace page-gma and page-oba by alarms.page.vipg document
+	Add oba and gma documents
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/data/workspace-historyView.viws
+	Refacto PubSub Alarm + tbd Alarm queries
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/SvgSourceForm.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/callbacks/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/eventLoopMonitoring/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/flattenDataId.js
+	Store hardcoded GMA entryPoint in the state GroudAlarmViewConfiguration
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fp.js
+	Add ifElse fp utils .
+	
+	
+	
+	in common/fp
+	Add 'when' conditional transformer utils
+	
+	
+	
+	in common/fp
+	Add reduce fp utils function
+	
+	
+	
+	with reduce.done (inspired by js transducers)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fp.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/ipc/handle.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/ipc/reply.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/mocks/stateAlarms.json
+	Remove specific GMA and OBA ALARM_ACKSTATE
+	
+	
+	
+	use common constants ALARM_ACKSTATE_*
+	Remove specific GMA and OBA ALARM_MODE
+	
+	
+	
+	use common constants ALARM_MODE_*
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/serializers.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/interval.js
+	Fix player middleware test .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+	Remove specific GMA and OBA ALARM_ACKSTATE
+	
+	
+	
+	use common constants ALARM_ACKSTATE_*
+	Remove specific GMA and OBA ALARM_MODE
+	
+	
+	
+	use common constants ALARM_MODE_*
+	Merge branch 'alarm_5806' into dev
+	Pass mode into archive query (GMA/OBA)
+	refacto for getpaiload for alarms
+	Manage ackrequests in stub .
+	Remove code about non nominal alarms in OBA
+	Add GMA prefix to all GroundMonitoringAlarm constants
+	Merge branch jmaupeti_alarmstub into dev
+	Refacto PubSub Alarm + tbd Alarm queries
+	Update server process and data injection for alarms
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/map.spec.js.snap
+	Merge branch 'alarm_5806' into dev
+	Pass mode into archive query (GMA/OBA)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/perLastTbdIdData.spec.js.snap
+	Pass mode into archive query (GMA/OBA)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/perRangeTbdIdData.spec.js.snap
+	Fix HistoryView unit tests .
+	Merge branch 'alarm_5806' into dev
+	Pass mode into archive query (GMA/OBA)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.js
+	Change all relative imports .
+	Refacto PubSub Alarm + tbd Alarm queries
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perLastTbdIdData.js
+	Pass mode into archive query (GMA/OBA)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perRangeTbdIdData.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perViewData.js
+	Change all relative imports .
+	Refacto PubSub Alarm + tbd Alarm queries
+	Update viewManager with alarm parameters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onFocusRteItem.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteCatalogs.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteDomains.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteItemNames.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenRteItem.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onReduxCurrentState.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onResolveLink.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onResolveRteLink.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/server/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/server/onReduxPatch.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/electronManager/dialogObserver.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageAddBlank.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/viewAddBlank.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/storeEnhancer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/codeEditor.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/getHtmlPath.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/observer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/selectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/selectors.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/splashScreen.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/windows.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onReduxCurrentState.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onReduxDispatch.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/alarmArchiveController.js
+	Refacto PubSub Alarm + tbd Alarm queries
+	Fix in GroundAlarmView reducers .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/alarmPubSubController.js
+	Refacto PubSub Alarm + tbd Alarm queries
+	UPDATE PUBSUB alarm controler to read properly payload + bug fixes
+	Create AlarmPubSubController and include it in the code
+	Change some protos, plus minor change
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/index.js
+	Change all relative imports .
+	Refacto PubSub Alarm + tbd Alarm queries
+	Create AlarmPubSubController and include it in the code
+	Change some protos, plus minor change
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/pubSubController.js
+	Change all relative imports .
+	Create AlarmPubSubController and include it in the code
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/pubSubController.spec.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/writeView.spec.js.snap
+	Update writeView snapshot in documentManager
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/io.js
+	Improve error logging in documentManager/io
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/io.spec.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/pathResolver.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readWorkspace.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writePage.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writePage.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeView.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/ipc.js
+	Change all relative imports .
+	Manage ackrequests in stub .
+	Refacto PubSub Alarm + tbd Alarm queries
+	Update server process and data injection for alarms
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/lifecycle/data.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/lifecycle/zmq.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/store.js
+	Change all relative imports .
+	Remove ackType (GMA/OBA) . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/utils/dumpBuffer.spec.js
+	Change all relative imports .
+	Skip dumpBuffer broken test .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/editor.spec.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/enhancers/enhancers.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/health.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/incomingData.js
+	Create AlarmPubSubController and include it in the code
+	Update server process and data injection for alarms
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/masterSession.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/masterSession.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/modals.js
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.spec.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timelines.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/windows.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/createReducerByViews.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeMasterDispatcher.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeMasterDispatcher.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeSlaveDispatcher.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeSlaveDispatcher.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/patchReducer.js
+	Change all relative imports .
+	Fix bad naming of viewdata for ground alarms + implement cleanviewdata + fix timestamps as string
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/patchReducer.spec.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/ack/__snapshots__/index.spec.js.snap
+	Remove ackType (GMA/OBA) . .
+	Remove specific GMA and OBA ack actions
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/ack/index.js
+	Add babel-plugin-module-resolver and use aliases
+	Remove ackType (GMA/OBA) . .
+	Remove specific GMA and OBA ack actions
+	fix payload generation + fix middleware problems
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/ack/index.spec.js
+	Change all relative imports .
+	Remove ackType (GMA/OBA) . .
+	Remove specific GMA and OBA ack actions
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/cache/cacheCleanUp.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/cache/cacheCleanUp.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/cache/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/__snapshots__/utils.spec.js.snap
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/index.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/openLink.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/openLink.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onClosePage.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onClosePage.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/utils.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/utils.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onOpenView.spec.js.snap
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/index.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onReloadView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onReloadView.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/dumpBuffer/dumpBufferArchive.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/dumpBuffer/dumpBufferPubSub.js
+	Change all relative imports .
+	change middleware behavior to manage alarm pubsub data
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/dumpBuffer/index.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/injectData.js
+	Change all relative imports .
+	fix payload generation + fix middleware problems
+	change middleware behavior to manage alarm pubsub data
+	Fix in GroundAlarmView reducers .
+	Update server process and data injection for alarms
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/injectData.spec.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareLast.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareLast.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/preparePubSub.js
+	Change all relative imports .
+	change middleware behavior to manage alarm pubsub data
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/preparePubSub.spec.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareRange.js
+	Change all relative imports .
+	Generate and include out of time range alarms requiring an Ack
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareRange.spec.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/pubSubMonitor.js
+	Change all relative imports .
+	change middleware behavior to manage alarm pubsub data
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/__snapshots__/index.spec.js.snap
+	Implement open inspector for a specific gma parameter
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/index.js
+	Change all relative imports .
+	Implement open inspector for a specific gma parameter
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages/index.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/pages/pageSessionOrDomainUpdated.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/patch/patchGenerator.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/__snapshots__/index.spec.js.snap
+	Fix player middleware test .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/index.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/processOverload.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/productLog/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/productLog/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/forecastData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/forecastData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/retrieveLast.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/retrieveLast.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/retrieveRange.js
+	Change all relative imports .
+	Pass mode into archive query (GMA/OBA)
+	Refacto PubSub Alarm + tbd Alarm queries
+	UPDATE PUBSUB alarm controler to read properly payload + bug fixes
+	Fix issue with comObject naming for GroundAlarms
+	Manage GroundAlarm in retrieve range middleware
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/retrieveRange.spec.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/viewNeededData/viewNeededData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/windows/windowSessionOrDomainUpdated.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/computeMissingLastIntervals.js
+	Pass mode into archive query (GMA/OBA)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/computeMissingLastIntervals.spec.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/computeMissingRangeIntervals.js
+	Change all relative imports .
+	Pass mode into archive query (GMA/OBA)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/computeMissingRangeIntervals.spec.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/subscriptionStoreObserver.js
+	Change all relative imports .
+	Merge branch jmaupeti_alarmstub into dev
+	Refacto PubSub Alarm + tbd Alarm queries
+	UPDATE PUBSUB alarm controler to read properly payload + bug fixes
+	Fix in GroundAlarmView reducers .
+	Fix issue with comObject naming for GroundAlarms
+	Update server process and data injection for alarms
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/viewNeededDataStoreObserver.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/codeEditor/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/codeEditor/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/domains/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/domains/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/health/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/health/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/index.js
+	Change all relative imports .
+	Add empty ui reducers (gma and oba)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector/index.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/knownRanges/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/knownRanges/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/masterSession/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/masterSession/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/modals/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/modals/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/page.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/page.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/panels.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/panels.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/rte/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/rte/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/sessions/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/sessions/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebarTimelines/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebarTimelines/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/timeline.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/timeline.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/dialog.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/dialog.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/editor.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/editor.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js
+	Set view "isModified" when receive an ALARM_INPUT_TOGGLE action
+	Save GMA search filter in documents
+	Change all relative imports .
+	Add alarm mode filter in GroundAlarmView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.spec.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/window.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/window.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/timelines.js
+	Add getTimelinesByViewId selector in timelines selectors
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/timelines.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/windows.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	Fix GMA filters . .
+	Implement search filter in GMA
+	Remove specific GMA and OBA ack actions
+	Merge branch 'sort_alarms' into dev
+	Implement WS_VIEW_ALARM_TOGGLE_SORT action for GMA and OBA
+	Implement uiReducer for GMA and OBA and compute selected alarms in redux store
+	GroundMonitoringAlarm is now collapsable .
+	Fork GMA to OBA (viewManager)
+	Add GMA prefix to all GroundMonitoringAlarm constants
+	Merge branch jmaupeti_alarmstub into dev
+	Create AlarmPubSubController and include it in the code
+	Update server process and data injection for alarms
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/dc.js
+	Manage ackrequests in stub .
+	Refacto PubSub Alarm + tbd Alarm queries
+	change middleware behavior to manage alarm pubsub data
+	Change some protos, plus minor change
+	Fix problem with headers with groundAlarm Stubs
+	Resolve merge conflict . .
+	Fix issue with comObject naming for GroundAlarms
+	Implementation of stub for grounAlarm queries and subscription.
+	
+	
+	
+	Requests to the stub are managed.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/PredictibleRand.js
+	Fix bad naming of viewdata for ground alarms + implement cleanviewdata + fix timestamps as string
+	Add onboard alarm stubs generation
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/getPayload.js
+	Merge branch 'alarm_5806' into dev
+	fix payload generation + fix middleware problems
+	refacto for getpaiload for alarms
+	Out of range alarms treatment + double alarms corection
+	Fix generation of alarms ack
+	Manage ackrequests in stub .
+	Oba ack status up date
+	Fix bad naming of viewdata for ground alarms + implement cleanviewdata + fix timestamps as string
+	Generate and include out of time range alarms requiring an Ack
+	Fix issue with generated toAck alarms
+	Add onboard alarm stubs generation
+	Change alarm frequency and random generation
+	Merge branch jmaupeti_alarmstub into dev
+	Add closing date to alarm stubs
+	UPDATE PUBSUB alarm controler to read properly payload + bug fixes
+	Improve encoding of protobuf for alarms
+	Fix issues with encode/decode groundAlarms protobuf
+	Improve decoding and encoding for alarm proto
+	Change some protos, plus minor change
+	Update stubdata for groundAlarm to use ack proto
+	Fix issue with comObject naming for GroundAlarms
+	add payload generation for grounAlarms
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/isParameterSupported.js
+	Change formula for alarms .
+	Add Supported parameter alarm.alarm<OnBoardAlarmAckRequest> in stubProcess
+	Change some protos, plus minor change
+	Update server process and data injection for alarms
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/predictibleRand.js
+	Fix bad naming of viewdata for ground alarms + implement cleanviewdata + fix timestamps as string
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/sendAlarmAckData.js
+	Add logs for alarms ack stubs
+	fix issue with ack request management for alarms
+	refacto for getpaiload for alarms
+	Fix generation of alarms ack
+	Manage ackrequests in stub .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/sendAlarmData.js
+	Refacto PubSub Alarm + tbd Alarm queries
+	Fix problem with headers with groundAlarm Stubs
+	Resolve merge conflict . .
+	Update protobuf stub . .
+	Fix issue with generated headers for groundAlarm in stubs
+	Fix issue with import in stubs
+	Implementation of stub for grounAlarm queries and subscription.
+	
+	
+	
+	Requests to the stub are managed.
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/sendArchiveData.js
+	refacto for getpaiload for alarms
+	Out of range alarms treatment + double alarms corection
+	Fix generation of alarms ack
+	Generate and include out of time range alarms requiring an Ack
+	Change alarm frequency and random generation
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/sendPubSubData.js
+	refacto for getpaiload for alarms
+	Generate and include out of time range alarms requiring an Ack
+	Change alarm frequency and random generation
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/adapters/index.js
+	Fix eslintignore + lint utils/adapters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditor.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorForm.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicTab.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicViewContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/selectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/data/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/data/parseEntryPoint.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/index.js
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/prepareViewForFile.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/prepareViewForStore.js
+	Change all relative imports .
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+	Refacto DynamicView configurationReducer . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/setEntryPointDefault.js
+	Change all relative imports .
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/cleanViewData.spec.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/configurationReducer.js
+	Change all relative imports .
+	Refacto DynamicView configurationReducer . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataSelectors.js
+	Change all relative imports .
+	Add getFullTitle selectors in each view (viewManager)
+	Refacto PubSub Alarm + tbd Alarm queries
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/GroundAlarmEditor.js
+	Change all relative imports .
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/GroundAlarmEditorContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/GroundAlarmEditorForm.js
+	Change all relative imports .
+	Remove specific GMA and OBA ALARM_MODE
+	
+	
+	
+	use common constants ALARM_MODE_*
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/GroundAlarmTab.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/SkeletonEditor.js
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+	alarm view folders creation .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/SkeletonEditorContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/AckModal.js
+	Remove ackType prop from AckModal component
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+	transfer timestamp to oid in alarm views
+	Fix AckModal proptypes (GMA and OBA)
+	Implement basic GMA ack modal
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/AckModalContainer.js
+	Change all relative imports .
+	Remove ackType (GMA/OBA) . .
+	Remove ackType prop from AckModal component
+	Remove specific GMA and OBA ack actions
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+	Implement basic GMA ack modal
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/GroundAlarmFilters.js
+	Fix containerHeight and scroll in GroundAlarmView
+	Create TimelineFilterContainer in GroundAlarmView .
+	Create ModeFilterContainer in GroundAlarmView .
+	Create DomainFilterContainer in GroundAlarmView .
+	Create GroundAlarmFilters and DomainFilters component
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/GroundAlarmTable.css
+	Replace GroundAlarmViewContainer by GroundAlarmTableContainer .
+	Fix getNbDisplatedElems in GroundAlarmView .
+	Create GroundAlarmFilters and DomainFilters component
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/GroundAlarmTable.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/GroundAlarmView.css
+	Split GroundAlarmView in several components
+	Add basic GroundAlarmView (HistoryView fork)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/GroundAlarmView.js
+	Change all relative imports .
+	Merge branch jmaupeti_alarmstub into dev
+	Fix containerHeight and scroll in GroundAlarmView
+	Replace GroundAlarmViewContainer by GroundAlarmTableContainer .
+	Create ModeFilterContainer in GroundAlarmView .
+	Create GroundAlarmFilters and DomainFilters component
+	Add alarm mode filter in GroundAlarmView
+	Add getAlarmMode selector + move some groundAlarm actions in GroudAlarmView/store/actions
+	Split GroundAlarmView in several components
+	Add some styles to GroundAlarmView
+	Ground Alarm grouped display and scroll
+	Remove useless ref on GroundAlarmView
+	Add basic GroundAlarmView (HistoryView fork)
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/GroundAlarmViewContainer.js
+	Replace GroundAlarmViewContainer by GroundAlarmTableContainer .
+	Create ModeFilterContainer in GroundAlarmView .
+	Create DomainFilterContainer in GroundAlarmView .
+	Create GroundAlarmFilters and DomainFilters component
+	Add alarm mode filter in GroundAlarmView
+	Add getAlarmMode selector + move some groundAlarm actions in GroudAlarmView/store/actions
+	Add some styles to GroundAlarmView
+	Ground Alarm grouped display and scroll
+	Add withStub hoc . .
+	
+	
+	
+	+ use it temporary in GroundAlarmViewContainer
+	Add basic GroundAlarmView stub .
+	Fix alarm view component and update
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/SkeletonView.js
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+	alarm view folders creation .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/SkeletonViewContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/Table.css
+	Create GroundAlarmFilters and DomainFilters component
+	Split GroundAlarmView in several components
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/Table.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/DomainFilter.js
+	Create DomainFilterContainer in GroundAlarmView .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/DomainFilterContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/ModeFilter.js
+	Add GMA prefix to all GroundMonitoringAlarm constants
+	Create ModeFilterContainer in GroundAlarmView .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/ModeFilterContainer.js
+	Create ModeFilterContainer in GroundAlarmView .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/TimelineFilter.js
+	Fix typo in TimelineFilter (GroundAlarmView)
+	Create TimelineFilterContainer in GroundAlarmView .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/TimelineFilterContainer.js
+	Create TimelineFilterContainer in GroundAlarmView .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/table/GroundAlarmTable.css
+	Implement stateless TableView + use it for GMA
+	Prepare sorting alarms ui (GMA and OBA)
+	Little refacto on GroundAlarmTable.css .
+	Add a margin for Collapse button (GMA)
+	Prevent user from selecting alarms when timebar is playing
+	Implement open inspector for a specific gma parameter
+	GroundMonitoringAlarm is now collapsable .
+	Replace GroundAlarmViewContainer by GroundAlarmTableContainer .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/table/GroundAlarmTable.js
+	Fix GMA filters . .
+	Save GMA search filter in documents
+	Implement search filter in GMA
+	Rename all Filter in Search in TableView
+	Alarms search filters is now expandable/collapsable
+	Remove some useless code (GMA/OBA) + repair hover
+	Add withScroll hoc in TableView
+	Rename GroundAlarmTable and OnboardAlarmTable class components
+	Add babel-plugin-module-resolver and use aliases
+	Implement stateless TableView + use it for GMA
+	Add some little fixed on OBA
+	Remove specific GMA and OBA ALARM_ACKSTATE
+	
+	
+	
+	use common constants ALARM_ACKSTATE_*
+	Add expanded field in alarmsUiReducer
+	Simplify openAckModal AlarmTable prop .
+	Refacto GroundAlarmView + add basic sorting selectors
+	Implement WS_VIEW_ALARM_TOGGLE_SORT action for GMA and OBA
+	Add children header title in GMA and OBA
+	Prepare sorting alarms ui (GMA and OBA)
+	Add a margin for Collapse button (GMA)
+	Replace "Uncollapse" wording by "Expand" (GMA/OBA)
+	Prevent user from selecting alarms when timebar is playing
+	Implement uiReducer for GMA and OBA and compute selected alarms in redux store
+	Rename getTimestamps function in getOids
+	Implement open inspector for a specific gma parameter
+	Fix mode proptypes in GMA and OBA table
+	Alarms parameter can now be displayed in inspector view (gma/oba)
+	Add title to gma collapse button
+	GroundMonitoringAlarm is now collapsable .
+	transfer timestamp to oid in alarm views
+	OnboardAlarmView display OK . .
+	Add GMA prefix to all GroundMonitoringAlarm constants
+	Reset GroundAlarmTable state when change mode
+	Restore multi selection + prepare multi ack
+	Merge branch jmaupeti_alarmstub into dev
+	Add Columns in GroundAlarmView .
+	Fix containerHeight and scroll in GroundAlarmView
+	Add lines.data proptypes in GroundAlarmTable
+	Add some true columns in GroundAlarmTable + remove temporary stub
+	Replace GroundAlarmViewContainer by GroundAlarmTableContainer .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/table/GroundAlarmTableContainer.js
+	Fix GMA filters . .
+	Fix problem about asynchronous store and input search in TableView
+	Save GMA search filter in documents
+	Implement search filter in GMA
+	Change all relative imports .
+	Add expanded field in alarmsUiReducer
+	Simplify openAckModal AlarmTable prop .
+	Refacto GroundAlarmView + add basic sorting selectors
+	Implement WS_VIEW_ALARM_TOGGLE_SORT action for GMA and OBA
+	Prepare sorting alarms ui (GMA and OBA)
+	Prevent user from selecting alarms when timebar is playing
+	Implement uiReducer for GMA and OBA and compute selected alarms in redux store
+	Implement open inspector for a specific gma parameter
+	Alarms parameter can now be displayed in inspector view (gma/oba)
+	GroundMonitoringAlarm is now collapsable .
+	Reset GroundAlarmTable state when change mode
+	Merge branch jmaupeti_alarmstub into dev
+	Add some true columns in GroundAlarmTable + remove temporary stub
+	Replace GroundAlarmViewContainer by GroundAlarmTableContainer .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/withStub.js
+	Add withStub hoc . .
+	
+	
+	
+	+ use it temporary in GroundAlarmViewContainer
+	Add basic GroundAlarmView stub .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/GroundAlarmView.schema.json
+	Pass mode into archive query (GMA/OBA)
+	remove formula from shemas for ground alarms
+	Add GroundAlarmView schema (HistoryView fork)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/SkeletonView.schema.json
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+	alarm view folders creation .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/intervalManagement.js
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/parseConnectedData.js
+	Change all relative imports .
+	Change formula for alarms .
+	remove formula from shemas for ground alarms
+	Store hardcoded GMA entryPoint in the state GroudAlarmViewConfiguration
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/parseEntryPoint.js
+	Change all relative imports .
+	Alarms parameter can now be displayed in inspector view (gma/oba)
+	Restore mode in dataReducer (GMA/OBA)
+	Store hardcoded GMA entryPoint in the state GroudAlarmViewConfiguration
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/index.js
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+	alarm view folders creation .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/prepareViewForFile.js
+	Change all relative imports .
+	Store hardcoded GMA entryPoint in the state GroudAlarmViewConfiguration
+	alarm view folders creation .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/prepareViewForModel.js
+	alarm view folders creation .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/prepareViewForStore.js
+	Change all relative imports .
+	Move entryPoints uuid generation in setEntryPointDefault (GMA/OBA)
+	Add GMA prefix to all GroundMonitoringAlarm constants
+	remove formula from shemas for ground alarms
+	Store hardcoded GMA entryPoint in the state GroudAlarmViewConfiguration
+	Add alarm mode filter in GroundAlarmView
+	Fix alarm view component and update
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+	alarm view folders creation .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/setEntryPointDefault.js
+	Change all relative imports .
+	Remove specific GMA and OBA ALARM_MODE
+	
+	
+	
+	use common constants ALARM_MODE_*
+	Fix crash when acknowledge a new freshly created alarm (GMA/OBA)
+	Move entryPoints uuid generation in setEntryPointDefault (GMA/OBA)
+	Fix bad imports constants.js (gma and oba)
+	alarm view folders creation .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/__snapshots__/dataReducer.spec.js.snap
+	Merge branch jmaupeti_alarmstub into dev
+	Add selector in GroundAlarmView store to flatten alarms, transitions and headers
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/actions.js
+	Fix GMA filters . .
+	Implement search filter in GMA
+	Change all relative imports .
+	Remove ackType (GMA/OBA) . .
+	Remove specific GMA and OBA ack actions
+	Implement WS_VIEW_ALARM_TOGGLE_SORT action for GMA and OBA
+	Implement uiReducer for GMA and OBA and compute selected alarms in redux store
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+	GroundMonitoringAlarm is now collapsable .
+	Fork GMA to OBA (viewManager)
+	Add GMA prefix to all GroundMonitoringAlarm constants
+	Restore multi selection + prepare multi ack
+	Merge branch jmaupeti_alarmstub into dev
+	Add alarm mode filter in GroundAlarmView
+	Add getAlarmMode selector + move some groundAlarm actions in GroudAlarmView/store/actions
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/cleanViewData.js
+	Fix cleanViewData (GMA/OBA) . .
+	Change all relative imports .
+	Remove specific GMA and OBA ALARM_ACKSTATE
+	
+	
+	
+	use common constants ALARM_ACKSTATE_*
+	remove timestamp indexing for ground data view
+	Fix a bug with sorting alarms
+	Out of range alarms treatment + double alarms corection
+	Fix bad naming of viewdata for ground alarms + implement cleanviewdata + fix timestamps as string
+	Fix in GroundAlarmView reducers .
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/configurationReducer.js
+	Fix GMA filters . .
+	Save GMA search filter in documents
+	Change all relative imports .
+	Store hardcoded GMA entryPoint in the state GroudAlarmViewConfiguration
+	Add alarm mode filter in GroundAlarmView
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+	alarm view folders creation .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/configurationSelectors.js
+	Add alarm mode filter in GroundAlarmView
+	Add getAlarmMode selector + move some groundAlarm actions in GroudAlarmView/store/actions
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/dataReducer.js
+	Fix GMA filters . .
+	Change all relative imports .
+	Remove specific GMA and OBA ack actions
+	Use expanded field from AlarmsUiReducer for OBA
+	Refacto GroundAlarmView + add basic sorting selectors
+	Add children header title in GMA and OBA
+	Fix broken collapse on gma and oba
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+	GroundMonitoringAlarm is now collapsable .
+	Restore mode in dataReducer (GMA/OBA)
+	Report fixes for timestamp->oid on onboard alarms
+	remove timestamp indexing for ground data view
+	Debug data reducer for alarms
+	Some cleaning + debug OBA
+	Rename updateLines in updateIndexes (GMA and OBA)
+	Fix Update mode bug in GMA and OBA
+	Fix bad naming of viewdata for ground alarms + implement cleanviewdata + fix timestamps as string
+	Fix update mode in GMA
+	Merge branch jmaupeti_alarmstub into dev
+	Add some true columns in GroundAlarmTable + remove temporary stub
+	change middleware behavior to manage alarm pubsub data
+	Add selector in GroundAlarmView store to flatten alarms, transitions and headers
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+	alarm view folders creation .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/dataReducer.spec.js
+	Prepare data for OBA tests about data consumption
+	Merge branch jmaupeti_alarmstub into dev
+	Add selector in GroundAlarmView store to flatten alarms, transitions and headers
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/dataSelectors.js
+	Change all relative imports .
+	Remove specific GMA and OBA ALARM_MODE
+	
+	
+	
+	use common constants ALARM_MODE_*
+	Display mode in the alarm view title (GMA/OBA)
+	Add getFullTitle selectors in each view (viewManager)
+	Store hardcoded GMA entryPoint in the state GroudAlarmViewConfiguration
+	Refacto PubSub Alarm + tbd Alarm queries
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/mocks/cleanViewDataAction.json
+	Prepare data for OBA tests about data consumption
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/mocks/injectDataRangeAction.json
+	Write dataReducer tests about OBA data consumption
+	Prepare data for OBA tests about data consumption
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/selectors.js
+	Fix GMA filters . .
+	Save GMA search filter in documents
+	Implement search filter in GMA
+	Change all relative imports .
+	Implement stateless TableView + use it for GMA
+	Add expanded field in alarmsUiReducer
+	Implement sort by column for GMA
+	Refacto GroundAlarmView + add basic sorting selectors
+	Alarms parameter can now be displayed in inspector view (gma/oba)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/uiReducer.js
+	Save GMA search filter in documents
+	Implement search filter in GMA
+	Change all relative imports .
+	Remove specific GMA and OBA ack actions
+	Add expanded field in alarmsUiReducer
+	Refacto GroundAlarmView + add basic sorting selectors
+	Implement WS_VIEW_ALARM_TOGGLE_SORT action for GMA and OBA
+	Fix bug in alarm ui reducer
+	Prepare sorting alarms ui (GMA and OBA)
+	Fix little bug in alarm ui reducer
+	Implement uiReducer for GMA and OBA and compute selected alarms in redux store
+	Add empty ui reducers (gma and oba)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/viewDataUpdate.js
+	Change all relative imports .
+	Remove specific GMA and OBA ALARM_ACKSTATE
+	
+	
+	
+	use common constants ALARM_ACKSTATE_*
+	Remove specific GMA and OBA ALARM_MODE
+	
+	
+	
+	use common constants ALARM_MODE_*
+	Add expanded field in alarmsUiReducer
+	Implement sort by column for OBA
+	Implement sort by column for GMA
+	Remove deprecated usage of hasAckRequest
+	Add rawAlarm field in each alarm data.
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+	Fix GMA/OBA crash in viewDataUpdate
+	GroundMonitoringAlarm is now collapsable .
+	Restore mode in dataReducer (GMA/OBA)
+	remove timestamp indexing for ground data view
+	Fix a bug with sorting alarms
+	Some cleaning + debug OBA
+	Out of range alarms treatment + double alarms corection
+	Remove useless test to avoid silent errors in updateIndexes (GMA)
+	Rename updateLines in updateIndexes (GMA and OBA)
+	Fix bad naming of viewdata for onBoard alarms
+	Add oid in alarms data
+	Fix bad naming of viewdata for ground alarms + implement cleanviewdata + fix timestamps as string
+	Add GMA prefix to all GroundMonitoringAlarm constants
+	Fix update mode in GMA
+	Generate and include out of time range alarms requiring an Ack
+	Merge branch jmaupeti_alarmstub into dev
+	Fix ackState in GroundAlarmView .
+	update management of transitions in viewdata update
+	Fix and link groundAlarm data to the view
+	Fix in GroundAlarmView reducers .
+	Small fix : Add Object keys
+	Fix alarm view component and update
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/AddEntryPoint.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/AddEntryPointContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/EntryPointConnectedData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/EntryPointConnectedDataFields.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/EntryPointDetails.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/EntryPointDetailsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/HistoryEditor.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/HistoryEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/HistoryTab.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/ViewParamsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/ViewParamsForm.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/View/HistoryView.js
+	Change all relative imports .
+	Remove useless ref in HistoryView component
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/View/HistoryViewContainer.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/parseEntryPoint.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/parseEntryPoint.spec.js
+	Fix HistoryView unit tests .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/index.js
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/__snapshots__/cleanViewData.spec.js.snap
+	Fix HistoryView unit tests .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/cleanViewData.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/cleanViewData.spec.js
+	Change all relative imports .
+	Fix HistoryView unit tests .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/configurationReducer.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/configurationSelectors.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/dataReducer.js
+	Change all relative imports .
+	Update viewManager with alarm parameters
+	alarm view folders creation .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/dataSelectors.js
+	Change all relative imports .
+	Add getFullTitle selectors in each view (viewManager)
+	Refacto PubSub Alarm + tbd Alarm queries
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/viewDataUpdate.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/viewDataUpdate.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/DimensionsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/DimensionsForm.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTab.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTabContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewWrapper.js
+	Fix Open/Close Editor bunny code in MimicView, PlotView and TextView
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/index.js
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/setEntryPointDefault.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationSelectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataSelector.js
+	Change all relative imports .
+	Add getFullTitle selectors in each view (viewManager)
+	Refacto PubSub Alarm + tbd Alarm queries
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/Editor/OnboardAlarmEditor.js
+	Change all relative imports .
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/Editor/OnboardAlarmEditorContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/Editor/OnboardAlarmEditorForm.js
+	Change all relative imports .
+	Remove specific GMA and OBA ALARM_MODE
+	
+	
+	
+	use common constants ALARM_MODE_*
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/Editor/OnboardAlarmTab.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/AckModal.js
+	Fix AckModal proptypes (GMA and OBA)
+	Fix OBA AckModal display alarms informations
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/AckModalContainer.js
+	Change all relative imports .
+	Remove ackType (GMA/OBA) . .
+	Remove ackType prop from AckModal component
+	Remove specific GMA and OBA ack actions
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/OnboardAlarmFilters.js
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/OnboardAlarmView.js
+	Change all relative imports .
+	Fork GMA to OBA (viewManager)
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/OnboardAlarmViewContainer.js
+	Fork GMA to OBA (viewManager)
+	Fix alarm view component and update
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/DomainFilter.js
+	Fork GMA to OBA (viewManager)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/DomainFilterContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/ModeFilter.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/ModeFilterContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/TimelineFilter.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/TimelineFilterContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/table/OnboardAlarmTable.css
+	Prepare sorting alarms ui (GMA and OBA)
+	Add a margin for Collapse button (OBA)
+	Prevent user from selecting alarms when timebar is playing
+	Implement open inspector for a specific oba parameter
+	OnboardAlarm is now collapsable .
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/table/OnboardAlarmTable.js
+	Fix OBA filters . .
+	Change all relative imports .
+	Remove some useless code (GMA/OBA) + repair hover
+	Add withScroll hoc in TableView
+	Rename GroundAlarmTable and OnboardAlarmTable class components
+	Use stateless TableView in OBA
+	Add some little fixed on OBA
+	Remove specific GMA and OBA ALARM_ACKSTATE
+	
+	
+	
+	use common constants ALARM_ACKSTATE_*
+	Use expanded field from AlarmsUiReducer for OBA
+	Simplify openAckModal AlarmTable prop .
+	Rename getDataLines in getDataRows (OBA)
+	
+	
+	
+	+ rename "lines" prop in "rows"
+	Implement WS_VIEW_ALARM_TOGGLE_SORT action for GMA and OBA
+	Add children header title in GMA and OBA
+	Prepare sorting alarms ui (GMA and OBA)
+	Add a margin for Collapse button (OBA)
+	Replace "Uncollapse" wording by "Expand" (GMA/OBA)
+	Prevent user from selecting alarms when timebar is playing
+	Implement uiReducer for GMA and OBA and compute selected alarms in redux store
+	Rename getTimestamps function in getOids
+	Implement open inspector for a specific oba parameter
+	Fix mode proptypes in GMA and OBA table
+	Alarms parameter can now be displayed in inspector view (gma/oba)
+	OnboardAlarm is now collapsable .
+	Report fixes for timestamp->oid on onboard alarms
+	OnboardAlarmView display OK . .
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/table/OnboardAlarmTableContainer.js
+	Fix OBA filters . .
+	Change all relative imports .
+	Add some little fixed on OBA
+	Remove specific GMA and OBA ack actions
+	Use expanded field from AlarmsUiReducer for OBA
+	Simplify openAckModal AlarmTable prop .
+	Rename getDataLines in getDataRows (OBA)
+	
+	
+	
+	+ rename "lines" prop in "rows"
+	Implement sort by column for OBA
+	Implement WS_VIEW_ALARM_TOGGLE_SORT action for GMA and OBA
+	Prepare sorting alarms ui (GMA and OBA)
+	Prevent user from selecting alarms when timebar is playing
+	Implement uiReducer for GMA and OBA and compute selected alarms in redux store
+	Implement open inspector for a specific oba parameter
+	Alarms parameter can now be displayed in inspector view (gma/oba)
+	OnboardAlarm is now collapsable .
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/OnboardAlarmView.schema.json
+	Pass mode into archive query (GMA/OBA)
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/index.js
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/intervalManagement.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/parseConnectedData.js
+	Change all relative imports .
+	Change formula for alarms .
+	OnboardAlarmView display OK . .
+	Fork GMA to OBA (viewManager)
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/parseEntryPoint.js
+	Change all relative imports .
+	Alarms parameter can now be displayed in inspector view (gma/oba)
+	Restore mode in dataReducer (GMA/OBA)
+	Fork GMA to OBA (viewManager)
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/index.js
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/prepareViewForFile.js
+	Change all relative imports .
+	Fork GMA to OBA (viewManager)
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/prepareViewForModel.js
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/prepareViewForStore.js
+	Change all relative imports .
+	Move entryPoints uuid generation in setEntryPointDefault (GMA/OBA)
+	Fork GMA to OBA (viewManager)
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/setEntryPointDefault.js
+	Change all relative imports .
+	Remove specific GMA and OBA ALARM_MODE
+	
+	
+	
+	use common constants ALARM_MODE_*
+	Fix crash when acknowledge a new freshly created alarm (GMA/OBA)
+	Move entryPoints uuid generation in setEntryPointDefault (GMA/OBA)
+	Fix bad imports constants.js (gma and oba)
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/__snapshots__/dataReducer.spec.js.snap
+	Write dataReducer tests about OBA data consumption
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/actions.js
+	Change all relative imports .
+	Remove specific GMA and OBA ack actions
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/cleanViewData.js
+	Fix cleanViewData (GMA/OBA) . .
+	Change all relative imports .
+	Remove specific GMA and OBA ALARM_ACKSTATE
+	
+	
+	
+	use common constants ALARM_ACKSTATE_*
+	Report fixes for timestamp->oid on onboard alarms
+	Fix a bug with sorting alarms
+	Some cleaning + debug OBA
+	Fix bad naming of viewdata for onBoard alarms
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/configurationReducer.js
+	Fix OBA filters . .
+	Change all relative imports .
+	Fork GMA to OBA (viewManager)
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/configurationSelectors.js
+	Fork GMA to OBA (viewManager)
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/dataReducer.js
+	Change all relative imports .
+	Remove specific GMA and OBA ack actions
+	Use expanded field from AlarmsUiReducer for OBA
+	Implement sort by column for OBA
+	Add children header title in GMA and OBA
+	Fix broken collapse on gma and oba
+	Implement open inspector for a specific oba parameter
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+	OnboardAlarm is now collapsable .
+	Report fixes for timestamp->oid on onboard alarms
+	Debug data reducer for alarms
+	Some cleaning + debug OBA
+	Rename updateLines in updateIndexes (GMA and OBA)
+	Remove code about non nominal alarms in OBA
+	Fix Update mode bug in GMA and OBA
+	Fix bad naming of viewdata for onBoard alarms
+	OnboardAlarmView display OK . .
+	Fork GMA to OBA (viewManager)
+	change middleware behavior to manage alarm pubsub data
+	Fix in GroundAlarmView reducers .
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/dataReducer.spec.js
+	Write dataReducer tests about OBA data consumption
+	Fork GMA to OBA (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/dataSelectors.js
+	Change all relative imports .
+	Remove specific GMA and OBA ALARM_MODE
+	
+	
+	
+	use common constants ALARM_MODE_*
+	Display mode in the alarm view title (GMA/OBA)
+	Add getFullTitle selectors in each view (viewManager)
+	Fork GMA to OBA (viewManager)
+	Refacto PubSub Alarm + tbd Alarm queries
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/selectors.js
+	Fix OBA filters . .
+	Change all relative imports .
+	Use stateless TableView in OBA
+	Use expanded field from AlarmsUiReducer for OBA
+	Rename getDataLines in getDataRows (OBA)
+	
+	
+	
+	+ rename "lines" prop in "rows"
+	Implement sort by column for OBA
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/uiReducer.js
+	Implement uiReducer for GMA and OBA and compute selected alarms in redux store
+	Add empty ui reducers (gma and oba)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/viewDataUpdate.js
+	Change all relative imports .
+	Remove specific GMA and OBA ALARM_ACKSTATE
+	
+	
+	
+	use common constants ALARM_ACKSTATE_*
+	Remove specific GMA and OBA ALARM_MODE
+	
+	
+	
+	use common constants ALARM_MODE_*
+	Use expanded field from AlarmsUiReducer for OBA
+	Implement sort by column for OBA
+	Add rawAlarm field in each alarm data.
+	Rename all legacy timestamp and alarmsTimestamps in oid and alarmsOids
+	
+	
+	
+	+ fix ack middleware tests snapshots
+	OnboardAlarm is now collapsable .
+	Fix GMA/OBA crash in viewDataUpdate
+	Restore mode in dataReducer (GMA/OBA)
+	Report fixes for timestamp->oid on onboard alarms
+	Fix a bug with sorting alarms
+	Some cleaning + debug OBA
+	Rename updateLines in updateIndexes (GMA and OBA)
+	Remove code about non nominal alarms in OBA
+	Fix bad naming of viewdata for onBoard alarms
+	Add oid in alarms data
+	OnboardAlarmView display OK . .
+	Fork GMA to OBA (viewManager)
+	Change some protos, plus minor change
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/Components/Editor/SkeletonEditor.js
+	Renaming alarm view components, file creation for onboard alarms update of groundAlarm store
+	alarm view folders creation .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/Components/Editor/SkeletonEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/Components/View/SkeletonView.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/Components/View/SkeletonViewContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/SkeletonView.schema.json (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/data/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/index.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/prepareViewForFile.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/prepareViewForModel.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/prepareViewForStore.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/setEntryPointDefault.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/store/configurationReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardView/store/dataReducer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/index.js
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/store/dataSelectors.js
+	Change all relative imports .
+	Add getFullTitle selectors in each view (viewManager)
+	Refacto PubSub Alarm + tbd Alarm queries
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddEntryPoint.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddEntryPointContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxis.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxisContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetails.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetailsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointParameters.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotAxes.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotAxesContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditor.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotGrid.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotGridsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotMarker.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotMarkersContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsForm.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/XAxis.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LineCanvasCommon.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Tooltip.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/XAxis.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+	Fix Open/Close Editor bunny code in MimicView, PlotView and TextView
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewContainer.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewParametricFake.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/data/parseEntryPoint.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/index.js
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/setEntryPointDefault.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/__snapshots__/dataReducer.spec.js.snap
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/axes.spec.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationReducer.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationSelectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataReducer.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataSelectors.js
+	Change all relative imports .
+	Add getFullTitle selectors in each view (viewManager)
+	Refacto PubSub Alarm + tbd Alarm queries
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/index.js
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/store/dataReducer.js
+	Refacto PubSub Alarm + tbd Alarm queries
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextTab.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextTabContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewWrapper.js
+	Fix Open/Close Editor bunny code in MimicView, PlotView and TextView
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/data/parseEntryPoint.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/index.js
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/setEntryPointDefault.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/cleanViewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/configurationReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/configurationReducer.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/configurationSelectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataSelectors.js
+	Change all relative imports .
+	Add getFullTitle selectors in each view (viewManager)
+	Refacto PubSub Alarm + tbd Alarm queries
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPoint.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPointContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointConnectedData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointConnectedDataFields.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetails.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetailsContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonActions/dataActions.js
+	Change all relative imports .
+	Add getAlarmMode selector + move some groundAlarm actions in GroudAlarmView/store/actions
+	Update viewManager with alarm parameters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonConfiguration/reducer.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonConfiguration/reducer.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/__snapshots__/sortDataBy.spec.js.snap
+	Implement sort by column for GMA
+	Add sortDataBy in viewManager/commonData .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/applyFilters.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/convertData.js
+	Improve convertData, can now understand Infinity duration
+	Update viewManager with alarm parameters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/convertData.spec.js
+	Improve convertData, can now understand Infinity duration
+	Fix convertData unit tests .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/domains.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/intervalManagement.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedDataParametric.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sessions.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sortDataBy.js
+	Fix sortDataBy documentation . .
+	Implement sort by column for GMA
+	Add sortDataBy in viewManager/commonData .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sortDataBy.spec.js
+	Implement sort by column for GMA
+	Add sortDataBy in viewManager/commonData .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/timelines.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/EntryPointStateColors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainField.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainFieldContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/FiltersFields.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/StateColorsFields.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineField.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineFieldContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionFontStyle.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionLineStyle.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionPointStyle.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLink.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLinkContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/LinksContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ReloadAndSaveViewButtonsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsForm.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonOutput.js
+	Fix DynamicView setEntryPointDefault and prepareViewForStore
+	
+	
+	
+	+ change commonOutpout and impacts all views
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/components.js
+	Fork GMA to OBA (viewManager)
+	Replace GroundAlarmViewContainer by GroundAlarmTableContainer .
+	Update viewManager with alarm parameters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/constants.js
+	Update viewManager with alarm parameters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/index.js
+	Change all relative imports .
+	Fork GMA to OBA (viewManager)
+	Refacto PubSub Alarm + tbd Alarm queries
+	Add GroundAlarmView schema (HistoryView fork)
+	Update viewManager with alarm parameters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/reducers.js
+	Change all relative imports .
+	Implement uiReducer for GMA and OBA and compute selected alarms in redux store
+	Add empty ui reducers (gma and oba)
+	Update viewManager with alarm parameters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/selectors.js
+	Refacto PubSub Alarm + tbd Alarm queries
+	Change some protos, plus minor change
+	Fix issue with comObject naming for GroundAlarms
+	Update viewManager with alarm parameters
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Editor.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/EditorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/Explorer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/ExplorerContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CacheContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerLeft.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerRight.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/DataMapContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationSelectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationSelectors.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Inspector.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InspectorContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Performance.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/PerformanceContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Store.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeDecorators.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/HelpContentContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/MessagesContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Content.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentSelectors.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentSelectors.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/EditPageContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/MessagesContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/ControlsContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/AddTimelineContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/EditTimelineContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/LeftTabContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/Timeline.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/TimelineFields.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/RightTabContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/SelectTimebarContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetter.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetterContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Scale.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarCollapsedContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarMasterContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarWrapper.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/HeaderContainer.js
+	Change all relative imports .
+	Add getFullTitle selectors in each view (viewManager)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/LinksContainer.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/MoveViewToPageContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+	Fix Open/Close Editor bunny code in MimicView, PlotView and TextView
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/ViewContainer.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/EditWindowContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/NoPageContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/Window.js
+	Change all relative imports .
+	Merge branch 'alarm_5806' into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/WindowContainer.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Workspace/EditWorkspaceContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/DroppableContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/MessagesContainer.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+	Change all relative imports .
+	Fork GMA to OBA (viewManager)
+	Implement basic GMA ack modal
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizardModalContainer.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/TableView/TableView.css
+	Rename all Filter in Search in TableView
+	Alarms search filters is now expandable/collapsable
+	Prepare Search filters in common/TableView
+	Implement stateless TableView + use it for GMA
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/TableView/__snapshots__/index.spec.js.snap
+	Write TableView test . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/TableView/index.js
+	Write TableView test . .
+	Fix React warning in TableView/SearchInput about onChange
+	Fix GMA filters . .
+	Fix problem about asynchronous store and input search in TableView
+	Implement search filter in GMA
+	Rename all Filter in Search in TableView
+	Alarms search filters is now expandable/collapsable
+	Prepare Search filters in common/TableView
+	Add withScroll hoc in TableView
+	Implement stateless TableView + use it for GMA
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/TableView/index.spec.js
+	Write TableView test . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/TableView/withScroll.js
+	Prepare Search filters in common/TableView
+	Add withScroll hoc in TableView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/colors.js
+	Change all relative imports .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/handleContextMenu.js
+	Merge branch jmaupeti_alarmstub into dev
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/hoc/withPropsTransformer.js
+	Add withPropsTransformer hoc . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/hoc/withStub.js
+	Change all relative imports .
+	Add withPropsTransformer hoc . .
+	Add withStub hoc . .
+	
+	
+	
+	+ use it temporary in GroundAlarmViewContainer
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/CodeMirrorField.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/FileInputField.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ReactSelectField.js
+	Fix propTypes in ReactSelectField commonRedux component
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/controllers/main/index.js
+	Change all relative imports .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/controllers/main/onReduxPatch.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/store.js
+	Fix bad naming of viewdata for ground alarms + implement cleanviewdata + fix timestamps as string
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/AlarmView.css
+	Add children header title in GMA and OBA
+	OnboardAlarmView display OK . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/GroundAlarmView.css
+	OnboardAlarmView display OK . .
+	Merge branch jmaupeti_alarmstub into dev
+	Add some styles to GroundAlarmView
+	Add basic GroundAlarmView (HistoryView fork)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/TableView.css
+	Implement stateless TableView + use it for GMA
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/index.css
+	Implement stateless TableView + use it for GMA
+	OnboardAlarmView display OK . .
+	Add basic GroundAlarmView (HistoryView fork)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+	Add babel-plugin-module-resolver and use aliases
+	Remove testing hook on precommit and add prepush hook
+	Add sortDataBy in viewManager/commonData .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/staged-precommit-hook.sh
+	Remove testing hook on precommit and add prepush hook
+	Use jest --findRelatedTests for each commit
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/.babelrc
+GPCCHS_E_VIS/src/client/src/main/js/client/.eslintignore
+GPCCHS_E_VIS/src/client/src/main/js/client/.eslintrc
+GPCCHS_E_VIS/src/client/src/main/js/client/GIT.md
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/Header.proto
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/QueryArguments.proto
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/header.stub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/queryArguments.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/stubs.js
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/page-historyView.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/workspace-historyView.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/codeEditorProcess/SvgSourceForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/callbacks/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/eventLoopMonitoring/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/flattenDataId.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fp.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/fp.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/ipc/handle.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/ipc/reply.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/mocks/stateAlarms.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/serializers.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/interval.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/map.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/perLastTbdIdData.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/perRangeTbdIdData.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perLastTbdIdData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perRangeTbdIdData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onFocusRteItem.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteCatalogs.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteDomains.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onGetRteItemNames.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onOpenRteItem.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onReduxCurrentState.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onResolveLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/renderer/onResolveRteLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/server/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/controllers/server/onReduxPatch.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/electronManager/dialogObserver.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/pageAddBlank.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/menuManager/viewAddBlank.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/middlewares/wikiHelper/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/store/storeEnhancer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/codeEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/getHtmlPath.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/observer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/selectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/splashScreen.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/mainProcess/windowsManager/windows.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onReduxCurrentState.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/client/onReduxDispatch.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/pubSubController.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/pubSubController.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/__snapshots__/writeView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/actions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/fmd.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/io.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/io.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/pathResolver.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/readWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writePage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/writeWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/lifecycle/data.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/lifecycle/zmq.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/utils/dumpBuffer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/editor.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/enhancers/enhancers.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/health.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/incomingData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/masterSession.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/masterSession.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/modals.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/pages.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timebars.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/timelines.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/views.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/windows.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/createReducerByViews.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeMasterDispatcher.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeMasterDispatcher.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeSlaveDispatcher.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/makeSlaveDispatcher.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/patchReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/helpers/patchReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/ack/__snapshots__/index.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/ack/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/ack/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/cache/cacheCleanUp.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/cache/cacheCleanUp.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/cache/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/__snapshots__/utils.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/openLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/links/openLink.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onClosePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onClosePage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onOpenPage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/pages/onSavePage.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/selectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/utils.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/utils.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/__snapshots__/onOpenView.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onCloseView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onOpenView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onReloadView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onReloadView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveView.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/views/onSaveViewAsModel.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onCloseWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onOpenWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/documents/workspace/onSaveWorkspace.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/dumpBuffer/dumpBufferArchive.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/dumpBuffer/dumpBufferPubSub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/dumpBuffer/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/injectData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/injectData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareLast.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareLast.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/preparePubSub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/preparePubSub.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareRange.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareRange.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/pubSubMonitor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/__snapshots__/index.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/inspector/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/messages/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/pages/pageSessionOrDomainUpdated.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/patch/patchGenerator.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/__snapshots__/index.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/player/processOverload.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/productLog/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/productLog/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/forecastData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/forecastData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/retrieveLast.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/retrieveLast.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/retrieveRange.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/retrieveData/retrieveRange.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/viewNeededData/viewNeededData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/windows/windowSessionOrDomainUpdated.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/computeMissingLastIntervals.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/computeMissingLastIntervals.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/computeMissingRangeIntervals.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/computeMissingRangeIntervals.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/subscriptionStoreObserver.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/viewNeededDataStoreObserver.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/codeEditor/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/codeEditor/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/domains/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/domains/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/health/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/health/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/hsc/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/inspector/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/knownRanges/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/knownRanges/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/masterSession/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/masterSession/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/messages/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/modals/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/modals/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/page.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/page.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/panels.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/pages/panels.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/rte/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/rte/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/sessions/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/sessions/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebarTimelines/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebarTimelines/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/timebar.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/timeline.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timelines/timeline.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/dialog.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/dialog.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/editor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/ui/editor.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/window.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/windows/window.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/timelines.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/timelines.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/windows.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/dc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/getPayload.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/isParameterSupported.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/sendArchiveData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/sendPubSubData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/adapters/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicEditorForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/Editor/DynamicTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/data/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/prepareViewForFile.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/prepareViewForStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/dataSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/GroundAlarmEditorForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/GroundAlarmTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/mocks/cleanViewDataAction.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/mocks/injectDataRangeAction.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/AddEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/AddEntryPointContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/EntryPointConnectedDataFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/EntryPointDetailsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/HistoryEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/HistoryEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/HistoryTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/ViewParamsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/ViewParamsForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/View/HistoryView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/View/HistoryViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/__snapshots__/cleanViewData.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/configurationSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/viewDataUpdate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/DimensionsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/DimensionsForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicTabContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/configurationSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataSelector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/Editor/OnboardAlarmEditorForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/Editor/OnboardAlarmTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddEntryPointContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxisContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetailsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointParameters.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotAxes.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotAxesContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotGrid.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotGridsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotMarker.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/PlotMarkersContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/Grizzly/XAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LineCanvasCommon.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Tooltip.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/XAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewParametricFake.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/__snapshots__/dataReducer.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/axes.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/configurationSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/dataSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/SkeletonView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextTab.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextTabContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/View/TextViewWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/configurationReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/configurationSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/dataSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPointContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointConnectedDataFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetailsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonActions/dataActions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonConfiguration/reducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonConfiguration/reducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/applyFilters.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/convertData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/convertData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/domains.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/intervalManagement.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedDataParametric.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sessions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/timelines.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/EntryPointStateColors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainFieldContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/FiltersFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/StateColorsFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineFieldContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionFontStyle.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionLineStyle.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/FormSections/FormSectionPointStyle.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLink.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/AddLinkContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Misc/LinksContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ReloadAndSaveViewButtonsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsForm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonOutput.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/components.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/reducers.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/Editor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Editor/EditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/Explorer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/ExplorerContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CacheContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerLeft.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/CatalogExplorerRight.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/DataMapContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InformationSelectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Inspector.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/InspectorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Performance.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/PerformanceContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/Store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Explorer/widgets/TreeDecorators.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/HelpContentContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/MessagesContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/Content.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/ContentSelectors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/EditPageContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/MessagesContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Controls/ControlsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/AddTimelineContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/EditTimelineContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/LeftTabContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/Timeline.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/TimelineFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/RightTabContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/SelectTimebarContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimeSetter/TimeSetterContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Scale.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarCollapsedContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarMasterContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/TimebarWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/HeaderContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/LinksContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/MoveViewToPageContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/View.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/ViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/EditWindowContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/NoPageContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/Window.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/WindowContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Workspace/EditWorkspaceContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/DroppableContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/MessagesContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/SaveWizardModal/SaveWizardModalContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/colors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/handleContextMenu.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/CodeMirrorField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/FileInputField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/commonReduxForm/ReactSelectField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/controllers/main/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/controllers/main/onReduxPatch.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/store.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/index.css
+GPCCHS_E_VIS/src/client/src/main/js/client/package.json
+GPCCHS_E_VIS/src/client/src/main/js/client/scripts/staged-precommit-hook.sh
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/AlarmMode.proto
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/AlarmType.proto
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/GroundMonitoringAlarmAckRequest.proto
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/OnBoardAlarm.proto
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/OnBoardAlarmAckRequest.proto
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/alarmMode.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/alarmMode.stub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/alarmType.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/alarmType.stub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/groundMonitoringAlarmAckRequest.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/groundMonitoringAlarmAckRequest.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/groundMonitoringAlarmAckRequest.stub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarm.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarm.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarm.stub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarmAckRequest.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarmAckRequest.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/onBoardAlarmAckRequest.stub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/alarms.page.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/ground-alarm.viga
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/onboard-alarm.viba
+GPCCHS_E_VIS/src/client/src/main/js/client/data/workspace-alarms.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/predictibleRand.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/sendAlarmAckData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/GroundAlarmEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/GroundAlarmEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/AckModal.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/AckModalContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/GroundAlarmFilters.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/GroundAlarmView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/DomainFilter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/DomainFilterContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/ModeFilter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/ModeFilterContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/TimelineFilter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/filters/TimelineFilterContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/table/GroundAlarmTable.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/table/GroundAlarmTable.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/View/table/GroundAlarmTableContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/GroundAlarmView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/intervalManagement.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/parseConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/prepareViewForFile.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/prepareViewForModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/prepareViewForStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/__snapshots__/dataReducer.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/actions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/dataSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/uiReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/dataSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/Editor/OnboardAlarmEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/Editor/OnboardAlarmEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/AckModal.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/AckModalContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/OnboardAlarmFilters.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/OnboardAlarmView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/DomainFilter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/DomainFilterContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/ModeFilter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/ModeFilterContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/TimelineFilter.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/filters/TimelineFilterContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/table/OnboardAlarmTable.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/table/OnboardAlarmTable.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/View/table/OnboardAlarmTableContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/OnboardAlarmView.schema.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/intervalManagement.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/parseConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/prepareViewForFile.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/prepareViewForModel.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/prepareViewForStore.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/__snapshots__/dataReducer.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/actions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/cleanViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/configurationReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/dataSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PacketView/store/dataSelectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/__snapshots__/sortDataBy.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sortDataBy.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sortDataBy.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/TableView/TableView.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/TableView/__snapshots__/index.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/TableView/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/TableView/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/TableView/withScroll.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/hoc/withPropsTransformer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/hoc/withStub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/AlarmView.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/TableView.css
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

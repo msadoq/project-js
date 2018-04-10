@@ -1,4 +1,4 @@
-#GPCCHS 1.1.2 02/10/2017 FC-#7769.txt
+#GPCCHS 2.0.0 13/04/2018 FC-#7769.txt
 
 
 Reference changement : #7769
@@ -11,9 +11,8 @@ SOLUTION APPORTEE
 =================
 
 
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/RightTab.css
-	Timebar formatted date is back, z-index problem.
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/Timebar.css (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.js
+	Fixed incorrect state in Timebar : viewportlower -> viewportLower .
 
 DOCUMENTS MODIFIES
 ==================
@@ -21,8 +20,7 @@ DOCUMENTS MODIFIES
 
 FICHIERS MODIFIES
 =================
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/RightTab.css
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/style/Timebar.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/Timebar/Timebar.js
 
 FICHIERS AJOUTES
 ================

@@ -4,8 +4,11 @@
 // VERSION : 1.1.2 : FA : #5316 : 08/02/2017 : Lint eslint disable no console . . .
 // VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Revert "Replace some console uses by new Console"
 // VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Replace some console uses by new Console
-// VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Revert "[FT:#5316] Lint eslint disable no console . . ."
+// VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Revert "[FT:#5316] Lint eslint disable no console .
+//  . ."
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 2.0.0 : FA : #8192 : 20/10/2017 : Possibility to drop a page on an empty workspace.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

@@ -1,0 +1,244 @@
+#GPCCHS 2.0.0 13/04/2018 FC-#9494.txt
+
+
+Reference changement : #9494
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPoint.js
+	Regression in View Editor ( domain ) // move MimicView common components to dedicated folder
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPointContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPointWrapper.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointConnectedData.js
+	Regression in View Editor ( domain ) // move MimicView common components to dedicated folder
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for MimicView
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointConnectedDataFields.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointDetails.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointDetailsContainer.js
+	Regression in View Editor ( domain ) // move MimicView common components to dedicated folder
+	Regression in View Editor ( domain ) // Cleanup TextView & MimicView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointTree.css
+	Regression in View Editor ( domain ) // move MimicView common components to dedicated folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointTree.js
+	Regression in View Editor ( domain ) // move MimicView common components to dedicated folder
+	Regression in View Editor ( domain ) // Cleanup TextView & MimicView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+	Regression in View Editor ( domain ) // move MimicView common components to dedicated folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/AddEntryPoint.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/AddEntryPointContainer.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/AddEntryPointWrapper.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointConnectedData.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for MimicView
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for TextView
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointConnectedDataFields.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointConnectedDataFields.spec.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for TextView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointDetails.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for MimicView
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for TextView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointDetailsContainer.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+	Regression in View Editor ( domain ) // Cleanup TextView & MimicView
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for MimicView
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for TextView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointTree.css
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointTree.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+	Regression in View Editor ( domain ) // Cleanup TextView & MimicView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPoint.js
+	Regression in View Editor ( domain ) // jest common components
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPoint.spec.js
+	Regression in View Editor ( domain ) // jest common components
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPointContainer.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPointWrapper.js
+	Regression in View Editor ( domain ) // jest common components
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPointWrapper.spec.js
+	Regression in View Editor ( domain ) // jest common components
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointConnectedData.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointConnectedDataFields.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointConnectedDataFields.spec.js
+	Regression in View Editor ( domain ) // jest common components
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetails.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetails.spec.js
+	Regression in View Editor ( domain ) // jest common components
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetailsContainer.js
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetailsContainer.spec.js
+	Regression in View Editor ( domain ) // jest common components
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointTree.css
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointTree.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointTree.spec.js
+	Regression in View Editor ( domain ) // jest common components
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/AddEntryPoint.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/AddEntryPointWrapper.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointDetails.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointDetailsContainer.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointTree.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainField.js
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for MimicView
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for TextView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainField.spec.js
+	Regression in View Editor ( domain ) // jest TimelineField & DomainField
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for TextView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainFieldContainer.js
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for TextView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineField.js
+	Regression in View Editor ( domain ) // jest TimelineField & DomainField
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for TextView
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineField.spec.js
+	Regression in View Editor ( domain ) // jest TimelineField & DomainField
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineFieldContainer.js
+	Regression in View Editor ( domain ) // refacto DomainField & TimelineField for TextView
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/types/index.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+	Regression in View Editor ( domain ) // move MimicView common components to dedicated folder
+	Regression in View Editor ( domain ) // move TextView common components to dedicated folder
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/MimicEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/TextEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/ModalGeneric.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPointContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPointWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/AddEntryPointWrapper.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointConnectedDataFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetails.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetailsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointDetailsContainer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointTree.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointTree.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointTree.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/AddEntryPoint.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/AddEntryPointWrapper.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointDetails.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointDetailsContainer.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointTree.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainField.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainFieldContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineField.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineFieldContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/types/index.js
+
+FICHIERS SUPPRIMES
+==================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPointContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/AddEntryPointWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointConnectedDataFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointDetailsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointTree.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/Editor/EntryPointTree.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/AddEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/AddEntryPointContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/AddEntryPointWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointConnectedDataFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointDetailsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointTree.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/Components/Editor/EntryPointTree.js
+
+
+#Generated by Framework DDC-ng (version 0.8a)

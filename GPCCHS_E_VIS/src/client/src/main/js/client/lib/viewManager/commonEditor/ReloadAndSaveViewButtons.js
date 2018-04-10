@@ -1,7 +1,10 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 23/08/2017 : On Plot/Text/Mimic/Dynamic editors: Save and Reload buttons beneath the title.
-// VERSION : 1.1.2 : FA : ISIS-FT-1986 : 05/09/2017 : Editor top buttons: bsSize="tiny" -> bsSize="small"
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 23/08/2017 : On Plot/Text/Mimic/Dynamic editors: Save and
+//  Reload buttons beneath the title.
+// VERSION : 1.1.2 : FA : ISIS-FT-1986 : 05/09/2017 : Editor top buttons: bsSize="tiny" ->
+//  bsSize="small"
+// VERSION : 2.0.0 : FA : #9090 : 06/12/2017 : Disable reload button when a view is never saved
 // END-HISTORY
 // ====================================================================
 

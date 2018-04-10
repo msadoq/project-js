@@ -1,4 +1,4 @@
-#GPCCHS 1.1.2 02/10/2017 FC-#7813.txt
+#GPCCHS 2.0.0 13/04/2018 FC-#7813.txt
 
 
 Reference changement : #7813
@@ -11,12 +11,21 @@ SOLUTION APPORTEE
 =================
 
 
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/patch/patchGenerator.js
-	Add batch action + logger support Remove ipc transmission for un-patch action
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js (idem)
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/controllers/main/onReduxPatch.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+	fix test & constant naming
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetails.spec.js
+	fix test . . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/__snapshots__/EntryPointDetails.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointDetails.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointDetailsContainer.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/controllers/main/onReduxPatch.js
+	fix test & constant naming
 GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/store.js (idem)
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/storeEnhancer.js (idem)
 
 DOCUMENTS MODIFIES
 ==================
@@ -24,11 +33,14 @@ DOCUMENTS MODIFIES
 
 FICHIERS MODIFIES
 =================
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/patch/patchGenerator.js
 GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetails.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/__snapshots__/EntryPointDetails.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointDetails.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointDetailsContainer.spec.js.snap
 GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/controllers/main/onReduxPatch.js
 GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/store.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/storeEnhancer.js
 
 FICHIERS AJOUTES
 ================

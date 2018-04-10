@@ -2,7 +2,8 @@
 // HISTORY
 // VERSION : 1.1.0 : : : 28/02/2017 : Initial version
 // VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Remove an useless eslint-disable noparam-reassign
-// VERSION : 1.1.2 : DM : #3622 : 14/02/2017 : Maj design : remove data & html buttons, add new open editor button
+// VERSION : 1.1.2 : DM : #3622 : 14/02/2017 : Maj design : remove data & html buttons, add new
+//  open editor button
 // VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse bugs
 // VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse views
 // VERSION : 1.1.2 : DM : #3622 : 10/03/2017 : store collapsed & maximized bool in page layout
@@ -20,19 +21,31 @@
 // VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Move page items order in navbar
 // VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Save / Expand buttons on view, style review.
 // VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : update MoveViewToPage modal to the generic modal
-// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : Collapsed view : SAVE here when isModified: true, bolds in editor, eslint-disable with reason, colors for bgcolor are full colors.
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : Collapsed view : SAVE here when isModified: true,
+//  bolds in editor, eslint-disable with reason, colors for bgcolor are full colors.
 // VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : fix save view in contextual menu
 // VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Clarify renderer/onSaveView controller . .
 // VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : fix save view in contextual menu
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Collapsed view : SAVE here when isModified: true, bolds in editor, eslint-disable with reason, colors for bgcolor are full colors.
-// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : User can now show/hide/remove EP from Plot in legend.
-// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : view title is bold when openned in editor. + other fixes.
-// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : react-grid-layout handles are hidden when view is collapsed.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Collapsed view : SAVE here when isModified: true,
+//  bolds in editor, eslint-disable with reason, colors for bgcolor are full colors.
+// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : User can now show/hide/remove EP from Plot in
+//  legend.
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : view title is bold when openned in editor. + other
+//  fixes.
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : react-grid-layout handles are hidden when view is
+//  collapsed.
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
 // VERSION : 1.1.2 : FA : ISIS-FT-2132 : 15/06/2017 : Ask to save before closing view or page
 // VERSION : 1.1.2 : DM : #6129 : 27/06/2017 : Fix saving view . .
 // VERSION : 1.1.2 : FA : ISIS-FT-2132 : 27/06/2017 : Fix view saving . .
-// VERSION : 1.1.2 : FA : #7217 : 07/07/2017 : Go back to previous mechanism to save a view + fix crash on minify view save
+// VERSION : 1.1.2 : FA : #7217 : 07/07/2017 : Go back to previous mechanism to save a view + fix
+//  crash on minify view save
+// VERSION : 2.0.0 : FA : #8086 : 26/09/2017 : Saving view by clicking SAVE on a collapse view
+//  fixed.
+// VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
+// VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
+// VERSION : 2.0.0 : FA : #10835 : 01/03/2018 : if EntryPoint's domain is '*', uses the page
+//  domain, or workspace domain.
 // END-HISTORY
 // ====================================================================
 

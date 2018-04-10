@@ -1,6 +1,9 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 23/08/2017 : On Plot/Text/Mimic/Dynamic editors: Save and Reload buttons beneath the title.
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 23/08/2017 : On Plot/Text/Mimic/Dynamic editors: Save and
+//  Reload buttons beneath the title.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #9090 : 06/12/2017 : Disable reload button when a view is never saved
 // END-HISTORY
 // ====================================================================
 

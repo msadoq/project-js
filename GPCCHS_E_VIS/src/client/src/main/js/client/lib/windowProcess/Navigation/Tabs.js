@@ -1,24 +1,39 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.0 : : : 28/02/2017 : Initial version
-// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_PAGE_CLOSE action + remove unmountAndRemove (page)
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_PAGE_CLOSE action + remove unmountAndRemove
+//  (page)
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Remove add/_add/addAndMount thunks . .
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : TEMP - TO RESET . . .
 // VERSION : 1.1.2 : DM : #5828 : 15/03/2017 : Remove add page button in page navigation tabs
 // VERSION : 1.1.2 : DM : #5828 : 28/03/2017 : merge dev into work branch
 // VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Move page items order in navbar
 // VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Fix drop view, page and workspace
-// VERSION : 1.1.2 : DM : #5828 : 19/04/2017 : Page title edition using contextMenu and GenericModal.
-// VERSION : 1.1.2 : DM : #5828 : 26/04/2017 : Page title edition is accessible through the upper menu.
-// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
-// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : when DUMP parameter is on, add message in console and color on window nav
+// VERSION : 1.1.2 : DM : #5828 : 19/04/2017 : Page title edition using contextMenu and
+//  GenericModal.
+// VERSION : 1.1.2 : DM : #5828 : 26/04/2017 : Page title edition is accessible through the upper
+//  menu.
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : General Editor Refacto : using GenericModal, using
+//  rc-collapse module instead of bootstrap accordion.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : General Editor Refacto : using GenericModal, using
+//  rc-collapse module instead of bootstrap accordion.
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : when DUMP parameter is on, add message in console
+//  and color on window nav
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
 // VERSION : 1.1.2 : FA : ISIS-FT-2132 : 15/06/2017 : Ask to save before closing view or page
-// VERSION : 1.1.2 : FA : ISIS-FT-2132 : 20/06/2017 : Fix asking to save before closing view or page
+// VERSION : 1.1.2 : FA : ISIS-FT-2132 : 20/06/2017 : Fix asking to save before closing view or
+//  page
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Rewrite all saving page code
-// VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit style easily.
+// VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit
+//  style easily.
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : FA : #9380 : 23/11/2017 : Docking d'une page dans une nouvelle fenetre
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #10670 : 09/02/2018 : Detach a page no dispatch WIP
+// VERSION : 2.0.0 : FA : #10670 : 12/02/2018 : Detach a page and attach window with tests
+// VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
+// VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
+// VERSION : 2.0.0 : FA : #11591 : 06/04/2018 : Vima Drag and drop removal
 // END-HISTORY
 // ====================================================================
 

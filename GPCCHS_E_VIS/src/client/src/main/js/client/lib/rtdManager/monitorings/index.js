@@ -1,7 +1,9 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : first draft on inspector: retrieve data from rtd on right-click
-// VERSION : 1.1.2 : DM : #3622 : 08/03/2017 : update rtdManager tests and onOpenInspector controller
+// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : first draft on inspector: retrieve data from rtd on
+//  right-click
+// VERSION : 1.1.2 : DM : #3622 : 08/03/2017 : update rtdManager tests and onOpenInspector
+//  controller
 // VERSION : 1.1.2 : DM : #5822 : 15/03/2017 : add styles for the inspector
 // VERSION : 1.1.2 : FA : #7185 : 06/07/2017 : Fix lint errors and warnings
 // END-HISTORY

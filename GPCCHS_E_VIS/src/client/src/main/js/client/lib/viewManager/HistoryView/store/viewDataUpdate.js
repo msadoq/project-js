@@ -1,6 +1,17 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
+// VERSION : 2.0.0 : DM : #7111 : 20/09/2017 : Update cols to show in history view
+// VERSION : 2.0.0 : DM : #7111 : 20/09/2017 : Add editor in history view data and fix history view
+//  data reducer
+// VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #7111 : 22/09/2017 : fix view data state update
+// VERSION : 2.0.0 : DM : #7111 : 25/09/2017 : Add current in history view data
+// VERSION : 2.0.0 : DM : #7111 : 27/09/2017 : Fix current search in history view data
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 14/11/2017 : Remove monitoring state colors mecanism + add
+//  defult values for state colors + update unit tests + fix issue when removing a state color +
+//  fix css code style
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

@@ -8,18 +8,28 @@
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Refacto some selectors . .
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Cleanup in selectors . .
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove unused getEntryPointOnAxis selector .
-// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getView/getViews simple selectors in store/reducers/views
-// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move simple selectors from selectors/views to reducers/views
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getView/getViews simple selectors in
+//  store/reducers/views
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move simple selectors from selectors/views to
+//  reducers/views
 // VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Add getWindowAllViewsIds selector in selectors/views
 // VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Remove unused parameter from timebar
-// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline
+//  definition
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Use new configuration selector in dataManager
 // VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : DataMap simplification : removing structureType
 // VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : Move filter application in main process
-// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of
+//  tests
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
+//  viewData_clean
+// VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Update unit tests and stubs for provider
+//  field and fix parseEntryPoint calls in all views
 // END-HISTORY
 // ====================================================================
 

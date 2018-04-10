@@ -45,14 +45,12 @@ import { addWindow, displayHelp } from 'store/actions/windows';
 import { openWikiHelper } from 'store/actions/ui';
 import { open as openModal } from 'store/actions/modals';
 import { getFocusedPageId } from 'store/selectors/pages';
-import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace } from 'store/actions/hsc';
+import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace, pause } from 'store/actions/hsc';
 import { askOpenView } from 'store/actions/views';
 import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage, minimizeSearch, loadInSearch } from 'store/actions/pages';
 import viewAddBlank from './viewAddBlank';
-
 import pageAddBlank from './pageAddBlank';
 import { getStore } from '../store';
-import { pause } from '../../store/actions/hsc';
 
 const { Menu } = require('electron');
 

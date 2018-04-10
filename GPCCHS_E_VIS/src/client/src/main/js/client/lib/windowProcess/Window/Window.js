@@ -65,6 +65,7 @@ import ModalGeneric from '../common/ModalGeneric';
 import NoPageContainer from './NoPageContainer';
 
 import HelpContentContainer from '../Navigation/HelpContentContainer';
+import handleContextMenu from '../common/handleContextMenu';
 
 const logger = getLogger('Window');
 
@@ -112,6 +113,13 @@ class Window extends PureComponent {
     modal: PropTypes.objectOf(PropTypes.shape),
     closeModal: PropTypes.func.isRequired,
     modalClosed: PropTypes.func.isRequired,
+    addBlankPage: PropTypes.func.isRequired,
+    askOpenPage: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
+    askSavePage: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
+    loadInSearch: PropTypes.func.isRequired,
+    pageViewsIdsForSearch: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -129,6 +137,7 @@ class Window extends PureComponent {
     explorerIsMinimized: true,
     modal: null,
     pageId: null,
+    pageViewsIdsForSearch: [],
   }
 
   static childContextTypes = {
@@ -208,6 +217,78 @@ class Window extends PureComponent {
       minimizeTimebar(pageId, false);
     }
   }, 250);
+
+  getPageContextMenu = () => {
+    const {
+      windowId,
+      addBlankPage,
+      askOpenPage,
+      openModal,
+      pageId,
+      askSavePage,
+      pause,
+      minimizeSearch,
+      searchIsMinimized,
+      pageViewsIdsForSearch,
+      loadInSearch,
+    } = this.props;
+    const menuItemNew = {
+      label: 'New...',
+      click() {
+        addBlankPage(windowId);
+      },
+    };
+    const menuItemOpen = {
+      label: 'Open...',
+      click() {
+        askOpenPage(windowId);
+      },
+    };
+    const menuItemEdit = {
+      label: 'Edit...',
+      click() {
+        if (windowId) {
+          openModal(
+            windowId,
+            {
+              type: 'editPage',
+              pageUuid: pageId,
+            }
+          );
+        }
+      },
+    };
+    const menuItemSave = {
+      label: 'Save',
+      click() {
+        askSavePage(pageId);
+      },
+    };
+    const menuItemSaveAs = {
+      label: 'Save As...',
+      click() {
+        askSavePage(pageId, true);
+      },
+    };
+    const SearchMenuItem = {
+      label: 'Toggle Search',
+      accelerator: 'CmdOrCtrl+F',
+      click() {
+        minimizeSearch(pageId, !searchIsMinimized);
+        loadInSearch(pageId, pageViewsIdsForSearch);
+        pause();
+      },
+    };
+    return [
+      SearchMenuItem,
+      { type: 'separator' },
+      menuItemNew,
+      menuItemOpen,
+      menuItemEdit,
+      menuItemSave,
+      menuItemSaveAs,
+    ];
+  };
 
   openExplorerTab = _memoize(tabId =>
     (e) => {
@@ -315,6 +396,8 @@ class Window extends PureComponent {
       modal,
     } = this.props;
     logger.debug('render');
+
+    const pageMenu = this.getPageContextMenu();
 
     let editorSize = editorIsMinimized ? 0 : editorWidth;
     if (!editorIsMinimized && editorSize < 50) {
@@ -516,6 +599,7 @@ class Window extends PureComponent {
         { pageId &&
         <div
           className={classnames('h100', 'w100', 'posRelative', styles.panelsContainer)}
+          onContextMenu={() => handleContextMenu(pageMenu)}
         >
           <PanelGroup
             direction="row"

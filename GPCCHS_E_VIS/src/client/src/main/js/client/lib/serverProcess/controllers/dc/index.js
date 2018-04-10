@@ -149,7 +149,7 @@ module.exports = function dcController() {
     if (isError) {
       const decodedError = decode('dc.dataControllerUtils.ADEError', args[2]);
       getStore().dispatch(addMessage('global', 'warning',
-      'error on processing header buffer '.concat(decodedError.message)));
+        'error on processing header buffer '.concat(decodedError.message)));
       return logger.error('error on processing header buffer '.concat(decodedError.message));
     }
     const fn = controllers[versionDCComProtocol].controller[messageType];

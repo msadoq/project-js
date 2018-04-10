@@ -183,6 +183,7 @@ export default class EntryPointDetails extends PureComponent {
             form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
             onSubmit={this.handleConnectedDataSubmit}
             initialValues={initialValuesConnectedData}
+            entryPoint={entryPoint}
           />}
         </Panel>
         <Panel

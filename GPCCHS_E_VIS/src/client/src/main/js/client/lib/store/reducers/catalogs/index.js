@@ -45,10 +45,10 @@ export default function catalogsReducer(state = {}, action) {
       }
 
       return _set(
-              `[${tupleId}][${index}].items`,
-              'requesting',
-              state
-             );
+        `[${tupleId}][${index}].items`,
+        'requesting',
+        state
+      );
     }
     case WS_CATALOG_ITEMS_ADD: {
       if (!Array.isArray(state[action.payload.tupleId])) {

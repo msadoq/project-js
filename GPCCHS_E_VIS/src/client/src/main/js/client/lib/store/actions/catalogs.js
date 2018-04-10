@@ -8,6 +8,7 @@ import {
   WS_COM_OBJECTS_ADD,
   WS_UNIT_ASK,
   WS_UNIT_ADD,
+  WS_ASK_CATALOGS_AND_ITEMS_AND_UNIT,
 } from '../types';
 
 export const askCatalogs = simple(
@@ -66,4 +67,12 @@ export const addUnit = simple(
   'name',
   'itemName',
   'unit'
+);
+
+export const askCatalogsAndItemsAndUnit = simple(
+  WS_ASK_CATALOGS_AND_ITEMS_AND_UNIT,
+  'domainId',
+  'sessionId',
+  'name',
+  'itemName'
 );

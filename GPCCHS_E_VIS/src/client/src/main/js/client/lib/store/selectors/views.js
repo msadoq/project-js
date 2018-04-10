@@ -118,8 +118,6 @@ export const getPerViewData = createDeepEqualSelectorPerViewData(
     if (!perViewDataSelectors[viewId]) {
       perViewDataSelectors[viewId] = makeGetPerViewData();
     }
-    // const pageId = getPageIdByViewId(state, { viewId });
-    // const page = getPage(state, { pageId });
     const { timebarUuid } = page;
     return perViewDataSelectors[viewId](state, { viewId, timebarUuid, pageId: page.uuid });
   });

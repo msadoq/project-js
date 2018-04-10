@@ -407,7 +407,7 @@ export const parseDragData = (data, id, defaultTimelineId) => {
 const plotPadding = 15;
 const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
-const { shape, string, arrayOf, number, func, object, array, bool } = PropTypes;
+const { shape, string, arrayOf, number, func, object, array, bool, objectOf } = PropTypes;
 
 export class GrizzlyPlotView extends React.Component {
   static propTypes = {
@@ -459,7 +459,7 @@ export class GrizzlyPlotView extends React.Component {
     searchForThisView: bool.isRequired,
     updateSearchCount: func.isRequired,
     searching: string,
-    searchCount: object,  // eslint-disable-line react/forbid-prop-types
+    searchCount: objectOf(shape),
   };
 
   static defaultProps = {

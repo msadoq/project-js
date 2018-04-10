@@ -20,7 +20,7 @@ export default class SearchComponent extends Component {
     searching: '',
   };
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.handleEscape = this.handleEscape.bind(this);
   }
@@ -29,10 +29,10 @@ export default class SearchComponent extends Component {
     search: this.props.searching,
   };
 
-  componentDidMount(){
+  componentDidMount() {
     document.addEventListener('keydown', this.handleEscape, false);
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     document.removeEventListener('keydown', this.handleEscape, false);
   }
 

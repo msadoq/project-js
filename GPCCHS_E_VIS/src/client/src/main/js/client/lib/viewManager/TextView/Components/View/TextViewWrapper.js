@@ -90,7 +90,7 @@ export default class TextViewWrapper extends PureComponent {
     openLink: PropTypes.func.isRequired,
     searchForThisView: PropTypes.bool.isRequired,
     searching: PropTypes.string,
-    searchCount: PropTypes.object,
+    searchCount: PropTypes.objectOf(PropTypes.shape),
   };
 
   static defaultProps = {

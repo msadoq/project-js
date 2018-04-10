@@ -22,7 +22,7 @@ import _ from 'lodash/fp';
 import { askOpenLink } from 'store/actions/links';
 import { getConfigurationByViewId } from 'viewManager';
 import { getViewContent, getViewDimensions } from 'viewManager/MimicView/store/configurationSelectors';
-import { getPageIdByViewId, getPage } from 'store/reducers/pages';
+import { getPageIdByViewId, getPage, getSearchingByPage, getSearchViewsIds, getSearchCount } from 'store/reducers/pages';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
 import { getInspectorEpId } from 'store/reducers/inspector';
@@ -31,11 +31,16 @@ import { getLinks, areLinksShown } from 'store/reducers/views';
 import { removeLink, updateShowLinks } from 'store/actions/views';
 import { getViewEntryPoints } from 'store/selectors/views';
 import MimicViewWrapper from './MimicViewWrapper';
+import { updateSearchCount } from '../../../../store/actions/pages';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
   const dimensions = getViewDimensions(state, { viewId });
+  const searching = getSearchingByPage(state, { pageId });
+  const searchViewsIds = getSearchViewsIds(state, { pageId });
+  const searchCount = getSearchCount(state, { pageId });
+
   return {
     content: getViewContent(state, { viewId }),
     configuration: getConfigurationByViewId(state, { viewId }),
@@ -51,12 +56,16 @@ const mapStateToProps = (state, { viewId }) => {
     openLink: linkId => askOpenLink(viewId, linkId),
     width: dimensions.width,
     height: dimensions.height,
+    searching,
+    searchCount,
+    searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
+const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators({
   removeLink,
   updateShowLinks,
+  updateSearchCount: count => updateSearchCount(pageId, viewId, count),
   openLink: linkId => askOpenLink(viewId, linkId),
 }, dispatch);
 

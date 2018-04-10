@@ -194,7 +194,7 @@ export const getPageViewsIdsForSearch = createSelector(
   (state, viewIds) => {
     const viewsIdsForSearch = [];
     _.forEach(
-      ( viewId ) => {
+      (viewId) => {
         if (SEARCH_VIEWS_TYPE.indexOf(getViewType(state, { viewId })) !== -1) {
           viewsIdsForSearch.push(viewId);
         }
@@ -212,7 +212,7 @@ export const getPageTitle = createSelector(
 
 export const updateSearchCountArray = (searchCount, viewId, count) => {
   let newObject;
-  if (!searchCount){
+  if (!searchCount) {
     newObject = {};
   } else {
     newObject = searchCount;

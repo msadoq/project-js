@@ -12,7 +12,7 @@ const mapStateToProps = () => (state, { pageId }) => {
   const searchCount = computeSearhCount(getSearchCount(state, { pageId }));
 
   let title;
-  if (searchViewsIds.length > 1 ) {
+  if (searchViewsIds.length > 1) {
     title = getPageTitle(state, { pageId });
   } else {
     const viewId = searchViewsIds[0];

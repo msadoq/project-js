@@ -327,99 +327,100 @@ export default {
           unit: 's',
         },
       },
-      entryPoints: [{
-        connectedData: {
-          axisId: 'VBat',
-          digits: 5,
-          domain: 'fr.cnes.isis.simupus',
-          fieldX: 'groundDate',
-          filter: [{
-            field: 'extractedValue',
-            operand: '100',
-            operator: '<',
+      entryPoints: [
+        {
+          connectedData: {
+            axisId: 'VBat',
+            digits: 5,
+            domain: 'fr.cnes.isis.simupus',
+            fieldX: 'groundDate',
+            filter: [{
+              field: 'extractedValue',
+              operand: '100',
+              operator: '<',
+            }],
+            format: 'decimal',
+            formula: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue',
+            timeline: 'Session 1',
+            unit: 'V',
+          },
+          id: 'plot1ep1',
+          name: 'TMMGT_BC_VIRTCHAN3',
+          objectStyle: {
+            curveColor: '#FFBF00',
+            line: {
+              size: 2,
+              style: 'Continuous',
+            },
+            points: {
+              size: 0,
+              style: 'None',
+            },
+          },
+          stateColors: [{
+            color: '#000000',
+            condition: {
+              field: 'monitoringState',
+              operand: 'waiting',
+              operator: '=',
+            },
           }],
-          format: 'decimal',
-          formula: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue',
-          timeline: 'Session 1',
-          unit: 'V',
-        },
-        id: 'plot1ep1',
-        name: 'TMMGT_BC_VIRTCHAN3',
-        objectStyle: {
-          curveColor: '#FFBF00',
-          line: {
-            size: 2,
-            style: 'Continuous',
+          timeBasedData: true,
+        }, {
+          connectedData: {
+            axisId: 'VBat',
+            digits: 5,
+            domain: 'fr.cnes.isis',
+            fieldX: 'groundDate',
+            filter: [],
+            format: 'decimal',
+            formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
+            timeline: 'Session 1',
+            unit: 'V',
           },
-          points: {
-            size: 0,
-            style: 'None',
+          id: 'plot1ep2',
+          name: 'ATT_BC_REVTCOUNT1',
+          objectStyle: {
+            curveColor: '#ff9800',
+            line: {
+              size: 3,
+              style: 'Continuous',
+            },
+            points: {
+              size: 3,
+              style: 'None',
+            },
           },
-        },
-        stateColors: [{
-          color: '#000000',
-          condition: {
-            field: 'monitoringState',
-            operand: 'waiting',
-            operator: '=',
+          stateColors: [],
+          timeBasedData: true,
+        }, {
+          connectedData: {
+            axisId: 'VBat',
+            digits: 5,
+            domain: 'fr.cnes.isis',
+            fieldX: 'groundDate',
+            filter: [],
+            format: 'decimal',
+            formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
+            timeline: 'Session Offset',
+            unit: 'V',
           },
+          id: 'plot1ep3',
+          name: 'ATT_BC_REVTCOUNT1_Offset',
+          objectStyle: {
+            curveColor: '#ff9800',
+            line: {
+              size: 3,
+              style: 'Continuous',
+            },
+            points: {
+              size: 3,
+              style: 'None',
+            },
+          },
+          stateColors: [],
+          timeBasedData: true,
         }],
-        timeBasedData: true,
-      }, {
-        connectedData: {
-          axisId: 'VBat',
-          digits: 5,
-          domain: 'fr.cnes.isis',
-          fieldX: 'groundDate',
-          filter: [],
-          format: 'decimal',
-          formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
-          timeline: 'Session 1',
-          unit: 'V',
-        },
-        id: 'plot1ep2',
-        name: 'ATT_BC_REVTCOUNT1',
-        objectStyle: {
-          curveColor: '#ff9800',
-          line: {
-            size: 3,
-            style: 'Continuous',
-          },
-          points: {
-            size: 3,
-            style: 'None',
-          },
-        },
-        stateColors: [],
-        timeBasedData: true,
-      }, {
-        connectedData: {
-          axisId: 'VBat',
-          digits: 5,
-          domain: 'fr.cnes.isis',
-          fieldX: 'groundDate',
-          filter: [],
-          format: 'decimal',
-          formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
-          timeline: 'Session Offset',
-          unit: 'V',
-        },
-        id: 'plot1ep3',
-        name: 'ATT_BC_REVTCOUNT1_Offset',
-        objectStyle: {
-          curveColor: '#ff9800',
-          line: {
-            size: 3,
-            style: 'Continuous',
-          },
-          points: {
-            size: 3,
-            style: 'None',
-          },
-        },
-        stateColors: [],
-        timeBasedData: true,
-      }],
       grids: [{
         line: {
           size: 1,
@@ -714,19 +715,21 @@ export default {
   codeEditor: {
     viewId: null,
   },
-  domains: [{
-    domainId: 1,
-    itemNamespace: 'Domains',
-    name: 'fr.cnes.isis',
-    oid: '0051525005151000565215465660515',
-    parentDomainId: 0,
-  }, {
-    domainId: 4,
-    itemNamespace: 'Domains',
-    name: 'fr.cnes.isis.simupus',
-    oid: '0051525005151000565215465660515',
-    parentDomainId: 1,
-  }],
+  domains: [
+    {
+      domainId: 1,
+      itemNamespace: 'Domains',
+      name: 'fr.cnes.isis',
+      oid: '0051525005151000565215465660515',
+      parentDomainId: 0,
+    }, {
+      domainId: 4,
+      itemNamespace: 'Domains',
+      name: 'fr.cnes.isis.simupus',
+      oid: '0051525005151000565215465660515',
+      parentDomainId: 1,
+    },
+  ],
   form: {},
   health: {
     dcStatus: 'HEALTHY',
@@ -750,6 +753,7 @@ export default {
     isModified: true,
     isWorkspaceOpening: false,
     lastCacheInvalidation: 1501244084031,
+    sessionName: 'Master',
     playingTimebarId: null,
     windowsOpened: true,
   },
@@ -786,7 +790,7 @@ export default {
     },
   },
   masterSession: {
-    sessionId: 42,
+    sessionId: 0,
   },
   messages: {
     global: [],
@@ -804,44 +808,46 @@ export default {
       absolutePath: '/mydata/data/pages/dev.page1.json',
       domainName: 'fr.cnes.isis.simupus',
       isModified: true,
-      layout: [{
-        h: 3,
-        i: 'text1',
-        maxH: 100,
-        maxW: 100,
-        w: 6,
-        x: 0,
-        y: 0,
-      }, {
-        h: 24,
-        i: 'plot1',
-        maxH: 100,
-        maxW: 100,
-        w: 6,
-        x: 6,
-        y: 0,
-      }, {
-        h: 8,
-        i: 'dynamic1',
-        w: 6,
-        x: 0,
-        y: 16,
-      }, {
-        collapsed: false,
-        h: 13,
-        i: 'mimic1',
-        maximized: false,
-        w: 6,
-        x: 0,
-        y: 3,
-      }, {
-        h: 5,
-        i: 'plotCollapsed',
-        w: 5,
-        x: 0,
-        y: 0,
-        collapsed: true,
-      }],
+      layout: [
+        {
+          h: 3,
+          i: 'text1',
+          maxH: 100,
+          maxW: 100,
+          w: 6,
+          x: 0,
+          y: 0,
+        }, {
+          h: 24,
+          i: 'plot1',
+          maxH: 100,
+          maxW: 100,
+          w: 6,
+          x: 6,
+          y: 0,
+        }, {
+          h: 8,
+          i: 'dynamic1',
+          w: 6,
+          x: 0,
+          y: 16,
+        }, {
+          collapsed: false,
+          h: 13,
+          i: 'mimic1',
+          maximized: false,
+          w: 6,
+          x: 0,
+          y: 3,
+        }, {
+          h: 5,
+          i: 'plotCollapsed',
+          w: 5,
+          x: 0,
+          y: 0,
+          collapsed: true,
+        },
+      ],
       panels: {
         editorIsMinimized: true,
         editorWidth: 250,
@@ -887,28 +893,30 @@ export default {
     openedItems: {},
     sessions: [],
   },
-  sessions: [{
-    id: 0,
-    name: 'Master',
-    timestamp: {
-      ms: 1420106890818,
-      ps: 0,
+  sessions: [
+    {
+      id: 0,
+      name: 'Master',
+      timestamp: {
+        ms: 1420106890818,
+        ps: 0,
+      },
+    }, {
+      id: 42,
+      name: 'Session #42',
+      timestamp: {
+        ms: 1420106890818,
+        ps: 0,
+      },
+    }, {
+      id: 181,
+      name: 'Session# 181',
+      timestamp: {
+        ms: 1420106890818,
+        ps: 0,
+      },
     },
-  }, {
-    id: 42,
-    name: 'Session #42',
-    timestamp: {
-      ms: 1420106890818,
-      ps: 0,
-    },
-  }, {
-    id: 181,
-    name: 'Session# 181',
-    timestamp: {
-      ms: 1420106890818,
-      ps: 0,
-    },
-  }],
+  ],
   timebarTimelines: {
     tb1: ['tl1', 'tlOffset'],
   },
@@ -951,6 +959,14 @@ export default {
       sessionName: 'Master',
       uuid: 'tlOffset',
     },
+    truc: {
+      color: null,
+      id: 'Session du bois',
+      kind: 'Session',
+      offset: 10000,
+      sessionName: 'Session# 181',
+      uuid: 'tlOffset',
+    },
   },
   ui: {
     dialog: {},
@@ -964,6 +980,7 @@ export default {
         length: 50,
         width: 50,
       },
+      domainName: '*',
       isModified: false,
       links: [{
         name: 'page4',

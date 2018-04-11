@@ -82,7 +82,7 @@ const controllersV1 = {
     archiveController(args, getStore, { get, remove });
   },
   [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (args) => {
-    pubSubController(args, getStore);
+    // pubSubController(args, getStore);
   },
   [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateData,
   [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetData,
@@ -98,7 +98,7 @@ const controllersV2 = {
     archiveControllerADE({ buffers, requestId, isLast, isError }, getStore, { get, remove });
   },
   [constants.ADE_TIMEBASED_SUBSCRIPTION]: (buffers, requestId, isLast, isError) => {
-    pubSubControllerADE({ buffers, requestId, isLast, isError }, getStore);
+    // pubSubControllerADE({ buffers, requestId, isLast, isError }, getStore);
   },
   [constants.ADE_FMD_CREATE_DOCUMENT]: onFmdCreateDataADE,
   [constants.ADE_FMD_GET]: onFmdGetDataADE,
@@ -136,23 +136,21 @@ module.exports = function dcController() {
 
   const headerBuffer = args[1];
   const buffers = Array.prototype.slice.call(args, 2);
-
   try {
     const {
       messageType,
       requestId,
       isLast,
-      isError
+      isError,
     } = controllers[versionDCComProtocol].decoder(headerBuffer);
     if (messageType === undefined || messageType === null) {
       return logger.warn('invalid message received (no messageType)');
     }
     if (isError) {
       const decodedError = decode('dc.dataControllerUtils.ADEError', args[2]);
-      getStore()
-        .dispatch(addMessage('global', 'warning',
-          'error on processing header buffer '.concat(decodedError.message)));
-      return logger.error('error on processing header buffer '.concat(decodedError.message));
+      const errorMessage = 'error on processing header buffer '.concat(decodedError.message);
+      getStore().dispatch(addMessage('global', 'warning', errorMessage));
+      return logger.error(errorMessage);
     }
     const fn = controllers[versionDCComProtocol].controller[messageType];
     if (!fn) {
@@ -161,9 +159,10 @@ module.exports = function dcController() {
     logger.silly(`running '${messageType}'`);
     return fn(buffers, requestId, isLast);
   } catch (e) {
-    getStore()
-      .dispatch(addMessage('global', 'warning',
-        'error on processing header buffer '.concat(e)));
-    return logger.error('error on processing header buffer '.concat(e));
+    // FIXME: when logging an error with logger.error, the stack trace is truncated
+    // and we don't know the error comes from.
+    const errorMessage = 'error on processing header buffer '.concat(e);
+    getStore().dispatch(addMessage('global', 'warning', errorMessage));
+    return logger.error(errorMessage);
   }
 };

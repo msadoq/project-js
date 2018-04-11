@@ -84,7 +84,9 @@ function perViewDataEqualityCheck(current, previous) {
     || current.domains !== previous.domains
     || current.sessions !== previous.sessions
     || current.masterSession !== previous.masterSession
-    || current.timebarTimelines !== previous.timebarTimelines) {
+    || current.timebarTimelines !== previous.timebarTimelines
+    || current.timebars !== previous.timebars
+  ) {
     return false;
   }
   if (current.pages !== previous.pages) {
@@ -104,6 +106,11 @@ function perViewDataEqualityCheck(current, previous) {
   }
   return true;
 }
+
+/**
+ *   /!\ CAUTION: createDeepEqualSelectorPerViewData makes a deep equal on some fields only, not on the whole state.
+ *   If you expect some data re-fetching that does not happen
+ */
 export const createDeepEqualSelectorPerViewData = createSelectorCreator(
   defaultMemoize,
   perViewDataEqualityCheck

@@ -238,7 +238,7 @@ export function selectDataPerView(currentViewMap, configuration, intervalMap, pa
         epSubState = { ...epSubState, ...newSubState };
       } else {
         const ep = currentViewMap.entryPoints[entryPoint.name];
-        if (!payload[ep.tbdId]) {
+        if (!ep || !payload[ep.tbdId]) {
           return;
         }
         const newSubState = selectEpData(

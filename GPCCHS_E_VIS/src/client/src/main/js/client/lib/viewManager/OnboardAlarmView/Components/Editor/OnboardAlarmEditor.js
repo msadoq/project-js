@@ -28,8 +28,6 @@ export default class OnboardAlarmEditor extends Component {
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
     }).isRequired,
-    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
@@ -37,31 +35,18 @@ export default class OnboardAlarmEditor extends Component {
     updateViewPanels: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
     panels: PropTypes.shape({}).isRequired,
-  }
+  };
 
   static defaultProps = {
     titleStyle: {},
     tab: null,
     title: '',
-  }
+  };
 
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
-  }
-
-  handleTextTitle = (newVal) => {
-    const { updateTitle, viewId } = this.props;
-    updateTitle(viewId, newVal);
-  }
-
-  handleTextTitleStyle = (label, newVal) => {
-    const { titleStyle, updateTitleStyle, viewId } = this.props;
-    updateTitleStyle(viewId, {
-      ...titleStyle,
-      [label]: newVal,
-    });
-  }
+  };
 
   handleSubmit = (values) => {
     const { configuration, updateEntryPoint, viewId } = this.props;
@@ -70,15 +55,13 @@ export default class OnboardAlarmEditor extends Component {
       ...entryPoint,
       ...values,
     });
-  }
+  };
 
   render() {
     const { entryPoints } = this.props.configuration;
     const {
-      timelines,
       viewId,
       tab,
-      domains,
       updateViewPanels,
       panels,
       openModal,
@@ -110,8 +93,6 @@ export default class OnboardAlarmEditor extends Component {
         <div className={styles.content}>
           {(tab === 0 || tab === null) && <div className={styles.content}>
             <OnboardAlarmEditorForm
-              domains={domains}
-              timelines={timelines}
               form={`entrypoint-connectedData-form-${viewId}`}
               onSubmit={values => this.handleSubmit({ connectedData: values })}
               initialValues={initialValues}

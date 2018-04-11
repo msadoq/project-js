@@ -31,21 +31,25 @@ import { getPageIdByViewId, getPage } from 'store/reducers/pages';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
 import { getInspectorEpId } from 'store/reducers/inspector';
-import { getData } from 'viewManager/MimicView/store/dataReducer';
 import { getLinks, areLinksShown } from 'store/reducers/views';
 import { removeLink, updateShowLinks } from 'store/actions/views';
 import { getViewEntryPoints } from 'store/selectors/views';
 import MimicViewWrapper from './MimicViewWrapper';
+import { getDataFilteredByEP } from '../../store/dataReducer';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
   const dimensions = getViewDimensions(state, { viewId });
+
+  const entryPoints = getViewEntryPoints(state, { viewId });
+  const data = getDataFilteredByEP(state, { viewId }, entryPoints);
+
   return {
     content: getViewContent(state, { viewId }),
     configuration: getConfigurationByViewId(state, { viewId }),
-    entryPoints: getViewEntryPoints(state, { viewId }),
-    data: getData(state, { viewId }),
+    entryPoints,
+    data,
     isInspectorOpened: isAnyInspectorOpened(state),
     inspectorEpId: getInspectorEpId(state),
     links: getLinks(state, { viewId }),

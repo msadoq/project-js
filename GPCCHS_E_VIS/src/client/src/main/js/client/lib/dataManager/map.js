@@ -48,7 +48,7 @@ import _reduce from 'lodash/reduce';
 import _set from 'lodash/set';
 import { createSelector } from 'reselect';
 
-import { getTimebars } from '../store/reducers/timebars';
+import { getMasterTimelines, getTimebars } from '../store/reducers/timebars';
 import perLastTbdIdMap from './perLastTbdIdData';
 import makeGetPerViewData from './perViewData';
 import perRangeTbdIdMap from './perRangeTbdIdData';
@@ -116,26 +116,24 @@ export default createSelector(
   getPerRangeTbdIdMap,
   getPerLastTbdIdMap,
   getTimebars,
-  (viewMap, rangeTbdIdMap, lastTbdIdMap, timebars) => {
-    // console.log('viewMap: ', viewMap);
-    // console.log('rangeTbdIdMap: ', rangeTbdIdMap);
-    // console.log('lastTbdIdMap: ', lastTbdIdMap);
-    // console.log('timebars: ', timebars);
+  getMasterTimelines,
+  (viewMap, rangeTbdIdMap, lastTbdIdMap, timebars, masterTimelines) => {
     // compute expected intervals
     let forecastIntervalsMap = {};
     const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
     const rangeIntervals = expectedRangeIntervalMap(
-        timebars,
-        rangeTbdIdMap,
-        forecastIntervalsMap,
-        forecastTime);
+      timebars,
+      rangeTbdIdMap,
+      forecastIntervalsMap,
+      forecastTime);
     forecastIntervalsMap = rangeIntervals.forecastIntervals;
     const lastIntervals = expectedLastIntervalMap(
-        timebars,
-        lastTbdIdMap,
-        forecastIntervalsMap,
-        forecastTime);
+      timebars,
+      lastTbdIdMap,
+      forecastIntervalsMap,
+      forecastTime);
     forecastIntervalsMap = lastIntervals.forecastIntervals;
+
     return {
       perView: viewMap,
       perRangeTbdId: rangeTbdIdMap,
@@ -143,6 +141,7 @@ export default createSelector(
       forecastIntervals: forecastIntervalsMap,
       expectedRangeIntervals: rangeIntervals.expectedRangeIntervals,
       expectedLastIntervals: lastIntervals.expectedLastIntervals,
+      masterTimelines,
     };
   }
 );

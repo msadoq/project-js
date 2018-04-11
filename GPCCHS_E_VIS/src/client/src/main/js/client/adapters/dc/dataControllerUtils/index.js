@@ -46,6 +46,8 @@ const ADETimebasedQuery = require('./ADETimebasedQuery');
 const ADETimebasedPubsub = require('./ADETimebasedPubsub');
 const ADETimebasedSubscription = require('./ADETimebasedSubscription');
 
+const StatExecution = require('./statExecution');
+
 module.exports = { // TODO .proto should be collocated with adapters
   Action: { type: 'protobuf', adapter: Action },
   Boolean: { type: 'protobuf', adapter: Bool },
@@ -84,4 +86,5 @@ module.exports = { // TODO .proto should be collocated with adapters
   ADETimebasedQuery: { type: 'protobuf', adapter: ADETimebasedQuery },
   ADETimebasedPubsub: { type: 'protobuf', adapter: ADETimebasedPubsub },
   ADETimebasedSubscription: { type: 'protobuf', adapter: ADETimebasedSubscription },
+  StatExecution: { type: 'raw', adapter: StatExecution},
 };

@@ -128,6 +128,17 @@ const decode = (type, buffer) => {
   }
 };
 
+const decodePayload = (buffer) => {
+  const builder = getMapper('dc.dataControllerUtils.ADEPayload');
+  const { genericPayload } = protobuf.decode(builder, buffer);
+  if (genericPayload.length === 1) {
+    return genericPayload[0].payload;
+  }
+  return genericPayload.map(
+    ({ header, payload }) => protobuf.decode(getMapper(getType(header.comObjectType)), payload)
+  );
+};
+
 const getFields = (comObjectName) => {
   const type = _get(fieldsMap, comObjectName);
   if (typeof type === 'undefined') {
@@ -153,6 +164,7 @@ module.exports = {
   registerGlobal,
   encode,
   decode,
+  decodePayload,
   getType,
   getFields,
 };

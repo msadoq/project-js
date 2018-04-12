@@ -44,6 +44,7 @@
 import { v4 } from 'uuid';
 import _get from 'lodash/get';
 import { get } from 'common/configurationManager';
+import { getPages } from 'store/reducers/pages';
 import simple from '../helpers/simpleActionCreator';
 import * as types from '../types';
 import {
@@ -132,6 +133,7 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
           },
           slideWindow: newSlideWindow,
           timebarUuid,
+          pages: getPages(getState()),
         },
       });
     }

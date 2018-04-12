@@ -8,8 +8,32 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
-
+import _lodash from 'lodash';
+import { get } from 'common/configurationManager';
 import * as types from '../types';
+
+const newSamplingState = (samplingState, lock) => {
+  switch (lock) {
+    case 'on': {
+      return {
+        ...samplingState,
+        samplingLock: 'on',
+        samplingStatus: 'on',
+      };
+    }
+    case 'off': {
+      return {
+        ...samplingState,
+        samplingLock: 'off',
+      };
+    }
+    default: {
+      return {
+        ...samplingState,
+      };
+    }
+  }
+};
 
 // higher order reducer
 const createReducerByViews = (simpleReducer, viewType = 'all') => (
@@ -44,6 +68,33 @@ const createReducerByViews = (simpleReducer, viewType = 'all') => (
           filterViews                     // 1. filter views by viewType if given
         )(action.payload.views);
         return ret;
+      }
+      case types.WS_TIMEBAR_UPDATE_CURSORS: {
+        const { timebarUuid, pages } = action.payload;
+        const deltaT = action.payload.visuWindow.upper - action.payload.visuWindow.lower;
+        const samplingOffDeltaTMax = get('SAMPLING_OFF_DELTA_T_MAX');
+        const newSamplingLock = deltaT > samplingOffDeltaTMax ? 'on' : 'off';
+        const pagesKeys = Object.keys(pages);
+        const rightPageKeyArray = pagesKeys.filter(
+          key => pages[key].timebarUuid === timebarUuid
+        );
+        const rightPageKey = rightPageKeyArray[0];
+        const viewIds = pages[rightPageKey].views;
+        const plotViewKeys = Object.keys(stateViews)
+          .filter(key => _lodash.has(stateViews[key], 'type'))
+          .filter(key => stateViews[key].type === 'PlotView')
+          .filter(key => viewIds.some(viewIdsKey => viewIdsKey === key));
+        const result = plotViewKeys.reduce(
+          (object, key) => {
+            const stateView = stateViews[key];
+            const previousSamplingState = stateView.sampling;
+            const nextSampling = newSamplingState(previousSamplingState, newSamplingLock);
+            const newStateView = { ...stateView, sampling: nextSampling };
+            return { ...object, [key]: newStateView };
+          },
+          { ...stateViews }
+        );
+        return result;
       }
       default: {
         const viewId = _.get('payload.viewId', action);

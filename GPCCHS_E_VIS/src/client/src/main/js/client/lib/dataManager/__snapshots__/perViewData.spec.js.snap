@@ -22,6 +22,7 @@ Object {
       "type": "DynamicView",
     },
   },
+  "sampling": undefined,
   "type": "DynamicView",
 }
 `;
@@ -117,6 +118,11 @@ Object {
       "type": "PlotView",
     },
   },
+  "sampling": Object {
+    "samplingLock": "off",
+    "samplingStatus": "off",
+    "zoomState": "out",
+  },
   "type": "PlotView",
 }
 `;
@@ -194,6 +200,7 @@ Object {
       "type": "TextView",
     },
   },
+  "sampling": undefined,
   "type": "TextView",
 }
 `;

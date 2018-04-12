@@ -17,10 +17,8 @@ import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
 import execution from 'common/logManager/execution';
 import computeMissingRangeIntervals from 'store/observers/computeMissingRangeIntervals';
 import computeMissingLastIntervals from 'store/observers/computeMissingLastIntervals';
-
 import { viewsNeedRange, viewsNeedLast, viewsNeedObsoleteEvent } from 'store/actions/retrieveData';
 import { cleanViewData } from 'store/actions/viewData';
-
 
 const makeViewNeededData = () => {
   let previousDataMap;
@@ -52,7 +50,7 @@ const makeViewNeededData = () => {
     }
     // get needed range intervals
     profile.start('missingRangeIntervals');
-    const neededRangeData = computeMissingRangeIntervals(dataMap, previousDataMap);
+    const neededRangeData = computeMissingRangeIntervals(dataMap, previousDataMap, state);
     profile.stop('missingRangeIntervals');
 
     // get needed last intervals

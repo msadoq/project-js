@@ -32,3 +32,7 @@
   border: 1px solid #DDD;
   border-radius: 2px;
 }
+
+.notAllowed {
+  cursor: not-allowed;
+}

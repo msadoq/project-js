@@ -1,19 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : CReation of knownRanges reducer and actions
-// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : Update of knownRanges reducer and actions
-// VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : update of preparePubSup middleware .
-// VERSION : 1.1.2 : DM : #6700 : 27/07/2017 : update preparePubSub and add unit tests for it
-// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Add PubSubController and retrieveLast/Range update
-// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Update some tests . . .
-// VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
-// VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
-// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
-// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
-// VERSION : 2.0.0 : FA : #9883 : 08/01/2018 : Add DISABLE_LOKI_CACHE config variable .
-// END-HISTORY
-// ====================================================================
-
 import _ from 'lodash/fp';
 import mergeIntervals from 'common/intervals/merge';
 import _isEmpty from 'lodash/isEmpty';
@@ -38,9 +22,9 @@ const isCacheDisabled = String(get('DISABLE_LOKI_CACHE')) === 'true';
  * @return {object} The new state.
  */
 
-const knownRanges = (state = {}, action) => {
+const knownRangesSamplingOn = (state = {}, action) => {
   switch (action.type) {
-    case types.WS_KNOWNINTERVAL_ADD: {
+    case types.WS_KNOWNINTERVAL_ADD_SAMPLING_ON: {
       const tbdId = action.payload.tbdId;
       if (!tbdId || !_isArray(action.payload.intervals)) {
         return state;
@@ -66,7 +50,7 @@ const knownRanges = (state = {}, action) => {
         },
       };
     }
-    case types.WS_KNOWNINTERVAL_DELETE: {
+    case types.WS_KNOWNINTERVAL_DELETE_SAMPLING_ON: {
       const tbdId = action.payload.tbdId;
       if (!tbdId || !_isArray(action.payload.intervals)) {
         return state;
@@ -88,8 +72,7 @@ const knownRanges = (state = {}, action) => {
         },
       };
     }
-    // TODO PGAUCHER
-    case types.RESET_KNOWN_RANGES: {
+    case types.RESET_KNOWN_RANGES_SAMPLING_ON: {
       let newState = { ...state };
       const tbdIdInterval = action.payload.tbdIdInterval;
       const tbdIds = Object.keys(newState);
@@ -105,13 +88,12 @@ const knownRanges = (state = {}, action) => {
       }
       return newState;
     }
-
     default:
       return state;
   }
 };
 
-export default isCacheDisabled ? _.always({}) : knownRanges;
+export default isCacheDisabled ? _.always({}) : knownRangesSamplingOn;
 
 /* --- Selectors ------------------------------------------------------------ */
 
@@ -121,20 +103,20 @@ export default isCacheDisabled ? _.always({}) : knownRanges;
  * @param {string} tbdId - The specified tbdId
  * @return {object} array of known intervals for tbdId.
  */
-export const getKnownRanges = (state, { tbdId }) => state.knownRanges[tbdId];
+export const getKnownRangesSamplingOn = (state, { tbdId }) => state.knownRangesSamplingOn[tbdId];
 
 /**
  * Get the list of tbdIds.
  * @param {object} state - The current state.
  * @return {object} array of known tbdIds.
  */
-export const getTbdIdsAndDataIdList = (state) => {
-  const tbdIdsList = Object.keys(state.knownRanges);
+export const getTbdIdsAndDataIdListSamplingOn = (state) => {
+  const tbdIdsList = Object.keys(state.knownRangesSamplingOn);
   const tbdIdAndDataIdList = [];
   for (let i = 0; i < tbdIdsList.length; i += 1) {
     tbdIdAndDataIdList[i] = {
       tbdId: tbdIdsList[i],
-      dataId: state.knownRanges[tbdIdsList[i]].dataId,
+      dataId: state.knownRangesSamplingOn[tbdIdsList[i]].dataId,
     };
   }
   return tbdIdAndDataIdList;
@@ -147,8 +129,8 @@ export const getTbdIdsAndDataIdList = (state) => {
  * @param {array} queryIntervals - The required interval
  * @return {array} array of missing intervals for the tbdId.
  */
-export const getMissingIntervals = (state, { tbdId, queryInterval }) => {
-  const tbdIdRanges = getKnownRanges(state, { tbdId });
+export const getMissingIntervalsSamplingOn = (state, { tbdId, queryInterval }) => {
+  const tbdIdRanges = getKnownRangesSamplingOn(state, { tbdId });
   if (!tbdIdRanges) {
     return [queryInterval];
   }
@@ -161,12 +143,12 @@ export const getMissingIntervals = (state, { tbdId, queryInterval }) => {
  * @param {object} dataId - The specified dataId
  * @return {array} list of tbdId corresponding to dataId
  */
-export const isDataIdInCache = (state, { dataId }) => {
+export const isDataIdInCacheSamplingOn = (state, { dataId }) => {
   // flatten DataId to compare with tbdId
   const flatDataId = flattenDataId(dataId);
   // Checks if DataId exists in tbdId and timestamp is in an interval
-  const tbdIds = Object.keys(state.knownRanges);
-  return _filter(tbdIds, tbdId => state.knownRanges[tbdId].flatDataId === flatDataId);
+  const tbdIds = Object.keys(state.knownRangesSamplingOn);
+  return _filter(tbdIds, tbdId => state.knownRangesSamplingOn[tbdId].flatDataId === flatDataId);
 };
 
 /**
@@ -176,8 +158,8 @@ export const isDataIdInCache = (state, { dataId }) => {
  * @param {number} timestamp - The timestamp to check
  * @return {bool} true if timestamp is inside an interval
  */
-export const isTimestampInKnownRanges = (state, { tbdId, timestamp }) => {
-  const tbdIdRanges = getKnownRanges(state, { tbdId });
+export const isTimestampInKnownRangesSamplingOn = (state, { tbdId, timestamp }) => {
+  const tbdIdRanges = getKnownRangesSamplingOn(state, { tbdId });
   if (!tbdIdRanges) {
     return false;
   }
@@ -191,8 +173,8 @@ export const isTimestampInKnownRanges = (state, { tbdId, timestamp }) => {
  * @param {number} interval - The interval to get the upper value
  * @return {Object} { isInInterval, interval } - A boolean if is in knownInterval, the interval in which it has been found
  */
-export const getUpperIntervalIsInKnownRanges = (state, tbdId, interval) => {
-  const tbdIdRanges = getKnownRanges(state, { tbdId });
+export const getUpperIntervalIsInKnownRangesSamplingOn = (state, tbdId, interval) => {
+  const tbdIdRanges = getKnownRangesSamplingOn(state, { tbdId });
   if (!tbdIdRanges) {
     return {
       isInInterval: false,

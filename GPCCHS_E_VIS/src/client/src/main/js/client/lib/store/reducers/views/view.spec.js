@@ -155,81 +155,6 @@ describe('store:reducer:views', () => {
         ],
       },
     },
-    groundAlarm1: {
-      search: { enabled: true },
-      cols: [
-        {
-          name: 'timestamp',
-          value: 'timestamp',
-          displayed: true,
-          position: 0,
-        },
-        {
-          name: 'parameterName',
-          value: 'parameterName',
-          displayed: true,
-          position: 1,
-        },
-        {
-          name: 'parameterType',
-          value: 'parameterType',
-          displayed: true,
-          position: 2,
-        },
-        {
-          name: 'firstOccurence',
-          value: 'firstOccurence',
-          displayed: true,
-          position: 3,
-        },
-        {
-          name: 'lastOccurence',
-          value: 'lastOccurence',
-          displayed: true,
-          position: 4,
-        },
-        {
-          name: 'durationtimestamp',
-          value: 'durationtimestamp',
-          displayed: true,
-          position: 5,
-        },
-        {
-          name: 'rawValuetimestamp',
-          value: 'rawValuetimestamp',
-          displayed: true,
-          position: 6,
-        },
-        {
-          name: 'physicalValue',
-          value: 'physicalValue',
-          displayed: true,
-          position: 7,
-        },
-        {
-          name: 'satellite',
-          value: 'satellite',
-          displayed: true,
-          position: 8,
-        },
-        {
-          name: 'ackStatetimestamp',
-          value: 'ackStatetimestamp',
-          displayed: true,
-          position: 9,
-        },
-      ],
-      entryPoints: [{
-        connectedData: {
-          domain: 'fr.cnes.isis.simupus',
-          timeline: 'Session 1',
-          mode: 0,
-        },
-        id: 'groundAlarm1ep1',
-        name: 'groundAlarmEP',
-        stateColors: [],
-      }],
-    },
   };
   describe('update action', () => {
     test('Link', () => {
@@ -290,20 +215,394 @@ describe('store:reducer:views', () => {
   });
   test('reload view', () => {
     const myView = {
+      domain: 'toto-domain',
+      domainName: 'toto-domain-name',
       isModified: true,
+      sampling: {
+        samplingLock: 'off',
+        samplingStatus: 'off',
+        zoomState: 'out',
+      },
+      session: '',
+      sessionName: 'toto-session-name',
       title: 'myView',
       type: 'PlotView',
       showLinks: false,
-      session: '*',
-      domain: '*',
-      domainName: '*',
-      sessionName: '*',
     };
     const action = { type: 'WS_VIEW_RELOAD', payload: { viewId: 'plot1', view: myView } };
     const state = reducer(stateViews, action);
 
     expect(state.plot1).toEqual(_.set('isModified', false, myView));
   });
+  describe('toggle sampling', () => {
+    test('from sampling off off out', () => {
+      const stateWithPlotViewWithSamplingOffOffOut = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'off',
+            samplingStatus: 'off',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffOut, action);
+      expect(state.plot1.sampling.samplingLock).toBe('off');
+      expect(state.plot1.sampling.samplingStatus).toBe('on');
+      expect(state.plot1.sampling.zoomState).toBe('out');
+    });
+    test('from sampling off on out', () => {
+      const stateWithPlotViewWithSamplingOffOffOut = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'off',
+            samplingStatus: 'on',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffOut, action);
+      expect(state.plot1.sampling.samplingLock).toBe('off');
+      expect(state.plot1.sampling.samplingStatus).toBe('off');
+      expect(state.plot1.sampling.zoomState).toBe('out');
+    });
+    test('from sampling on off out', () => {
+      const stateWithPlotViewWithSamplingOffOffOut = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'on',
+            samplingStatus: 'off',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffOut, action);
+      expect(state.plot1.sampling.samplingLock).toBe('on');
+      expect(state.plot1.sampling.samplingStatus).toBe('on');
+      expect(state.plot1.sampling.zoomState).toBe('out');
+    });
+    test('from sampling on on out', () => {
+      const stateWithPlotViewWithSamplingOffOffOut = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'on',
+            samplingStatus: 'on',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffOut, action);
+      expect(state.plot1.sampling.samplingLock).toBe('on');
+      expect(state.plot1.sampling.samplingStatus).toBe('on');
+      expect(state.plot1.sampling.zoomState).toBe('out');
+    });
+
+
+    test('from sampling off off in', () => {
+      const stateWithPlotViewWithSamplingOffOffIn = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'off',
+            samplingStatus: 'off',
+            zoomState: 'in',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffIn, action);
+      expect(state.plot1.sampling.samplingLock).toBe('off');
+      expect(state.plot1.sampling.samplingStatus).toBe('on');
+      expect(state.plot1.sampling.zoomState).toBe('in');
+    });
+    test('from sampling off on in', () => {
+      const stateWithPlotViewWithSamplingOffOffIn = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'off',
+            samplingStatus: 'on',
+            zoomState: 'in',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffIn, action);
+      expect(state.plot1.sampling.samplingLock).toBe('off');
+      expect(state.plot1.sampling.samplingStatus).toBe('off');
+      expect(state.plot1.sampling.zoomState).toBe('in');
+    });
+    test('from sampling on off in', () => {
+      const stateWithPlotViewWithSamplingOffOffIn = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'on',
+            samplingStatus: 'off',
+            zoomState: 'in',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffIn, action);
+      expect(state.plot1.sampling.samplingLock).toBe('on');
+      expect(state.plot1.sampling.samplingStatus).toBe('on');
+      expect(state.plot1.sampling.zoomState).toBe('in');
+    });
+    test('from sampling on on in', () => {
+      const stateWithPlotViewWithSamplingOffOffIn = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'on',
+            samplingStatus: 'on',
+            zoomState: 'in',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffIn, action);
+      expect(state.plot1.sampling.samplingLock).toBe('on');
+      expect(state.plot1.sampling.samplingStatus).toBe('on');
+      expect(state.plot1.sampling.zoomState).toBe('in');
+    });
+
+    test('from sampling on ***** in', () => {
+      const initialState = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'on',
+            samplingStatus: '*****',
+            zoomState: 'out',
+          },
+        },
+      };
+      const expectedResult = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'on',
+            samplingStatus: 'on',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(initialState, action);
+      expect(state).toEqual(expectedResult);
+    });
+    test('from sampling off ***** in', () => {
+      const initialState = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'off',
+            samplingStatus: '*****',
+            zoomState: 'out',
+          },
+        },
+      };
+      const expectedResult = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'off',
+            samplingStatus: '*****',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(initialState, action);
+      expect(state).toEqual(expectedResult);
+    });
+    test('from sampling ***** on out', () => {
+      const initialState = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: '*****',
+            samplingStatus: 'on',
+            zoomState: 'out',
+          },
+        },
+      };
+      const expectedResult = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: '*****',
+            samplingStatus: 'on',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(initialState, action);
+      expect(state).toEqual(expectedResult);
+    });
+    test('from sampling ***** of out', () => {
+      const initialState = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: '*****',
+            samplingStatus: 'off',
+            zoomState: 'out',
+          },
+        },
+      };
+      const expectedResult = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: '*****',
+            samplingStatus: 'off',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_SAMPLING_STATUS', payload: { viewId: 'plot1' } };
+      const state = reducer(initialState, action);
+      expect(state).toEqual(expectedResult);
+    });
+  });
+
+  describe('toggle zoom state', () => {
+    test('from sampling off off out', () => {
+      const stateWithPlotViewWithSamplingOffOffOut = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'off',
+            samplingStatus: 'off',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_ZOOM_STATE', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffOut, action);
+      expect(state.plot1.sampling.samplingLock).toBe('off');
+      expect(state.plot1.sampling.samplingStatus).toBe('off');
+      expect(state.plot1.sampling.zoomState).toBe('in');
+    });
+    test('from sampling off on out', () => {
+      const stateWithPlotViewWithSamplingOffOnOut = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'off',
+            samplingStatus: 'on',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_ZOOM_STATE', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOnOut, action);
+      expect(state.plot1.sampling.samplingLock).toBe('off');
+      expect(state.plot1.sampling.samplingStatus).toBe('on');
+      expect(state.plot1.sampling.zoomState).toBe('in');
+    });
+    test('from sampling on on out', () => {
+      const stateWithPlotViewWithSamplingOffOffOut = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'on',
+            samplingStatus: 'on',
+            zoomState: 'out',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_ZOOM_STATE', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffOut, action);
+      expect(state.plot1.sampling.samplingLock).toBe('on');
+      expect(state.plot1.sampling.samplingStatus).toBe('on');
+      expect(state.plot1.sampling.zoomState).toBe('in');
+    });
+    test('from sampling off off in', () => {
+      const stateWithPlotViewWithSamplingOffOffIn = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'off',
+            samplingStatus: 'off',
+            zoomState: 'in',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_ZOOM_STATE', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOffIn, action);
+      expect(state.plot1.sampling.samplingLock).toBe('off');
+      expect(state.plot1.sampling.samplingStatus).toBe('off');
+      expect(state.plot1.sampling.zoomState).toBe('out');
+    });
+    test('from sampling off on in', () => {
+      const stateWithPlotViewWithSamplingOffOnIn = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'off',
+            samplingStatus: 'on',
+            zoomState: 'in',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_ZOOM_STATE', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOffOnIn, action);
+      expect(state.plot1.sampling.samplingLock).toBe('off');
+      expect(state.plot1.sampling.samplingStatus).toBe('on');
+      expect(state.plot1.sampling.zoomState).toBe('out');
+    });
+    test('from sampling on on in', () => {
+      const stateWithPlotViewWithSamplingOnOnIn = {
+        ...stateViews,
+        plot1: {
+          ...stateViews.plot1,
+          sampling: {
+            samplingLock: 'on',
+            samplingStatus: 'on',
+            zoomState: 'in',
+          },
+        },
+      };
+      const action = { type: 'TOGGLE_ZOOM_STATE', payload: { viewId: 'plot1' } };
+      const state = reducer(stateWithPlotViewWithSamplingOnOnIn, action);
+      expect(state.plot1.sampling.samplingLock).toBe('on');
+      expect(state.plot1.sampling.samplingStatus).toBe('on');
+      expect(state.plot1.sampling.zoomState).toBe('out');
+    });
+  });
+
   test('close_workspace', () => {
     const newState = reducer({ myView: { id: 'Id' } }, { type: 'HSC_CLOSE_WORKSPACE' });
     expect(newState).toEqual({});
@@ -319,3 +618,4 @@ describe('store:reducer:views', () => {
     expect(reducer(newState, actions.updateDomainName('v1', null))).toEqual({ v1: { isModified: true } });
   });
 });
+

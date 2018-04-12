@@ -11,7 +11,7 @@ import { add as addMessage } from 'store/actions/messages';
 
 const logger = require('../../../common/logManager')('middleware:prepareRangeADE');
 
-const prepareRange = lokiKnownRangesManager => ({ dispatch, getState }) => next => (action) => {
+const prepareRange = (lokiKnownRangesManager, lokiManagSO) => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
   if (action.type !== types.INCOMING_RANGE_DATA) {
     return nextAction;
@@ -23,6 +23,9 @@ const prepareRange = lokiKnownRangesManager => ({ dispatch, getState }) => next 
   const tbdId = action.payload.tbdId;
   const dataId = action.payload.dataId;
   const peers = action.payload.peers;
+  const samplingNumber = action.payload.samplingNumber;
+  const samplingStatus = samplingNumber === undefined ? 'off' : 'on';
+
   add(tbdId, dataId);
 
   const payloadsJson = { [tbdId]: {} };
@@ -49,7 +52,13 @@ const prepareRange = lokiKnownRangesManager => ({ dispatch, getState }) => next 
         execution.stop('decode payload');
 
         execution.start('addRecord');
-        lokiKnownRangesManager.addRecord(tbdId, { timestamp, payload: decodedPayload });
+        switch (samplingStatus) {
+          case 'on':
+            lokiManagSO.addRecord(tbdId, { timestamp, payload: decodedPayload });
+            break;
+          default: // default is when sampling is off
+            lokiKnownRangesManager.addRecord(tbdId, { timestamp, payload: decodedPayload });
+        }
         execution.stop('addRecord');
 
         execution.start('persist');

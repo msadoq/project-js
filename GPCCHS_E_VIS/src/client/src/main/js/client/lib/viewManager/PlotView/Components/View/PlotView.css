@@ -20,3 +20,21 @@
   text-align: center;
   font-weight: 600;
 }
+
+.pvColumn {
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.firstPvColumn {
+  float: left;
+  padding-left: 0px;
+  padding-right: 10px
+}
+
+.pvRow:after {
+  content: "";
+  display: table;
+  clear: both;
+}

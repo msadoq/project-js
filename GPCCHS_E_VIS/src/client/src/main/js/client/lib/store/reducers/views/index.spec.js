@@ -40,6 +40,7 @@ import viewsReducer, {
   getViewType,
   getViewTitle,
   getViewTitleStyle,
+  getViewSampling,
   getViewDomainName,
   getViewSessionName,
   areLinksShown,
@@ -133,6 +134,24 @@ describe('store:views:selectors', () => {
       },
     });
     expect(getViewTitleStyle(state, { viewId: 'myViewId' })).toEqual('TITLE_STYLE');
+  });
+  test('getViewSampling', () => {
+    const samplingObject = {
+      samplingLock: 'on',
+      samplingStatus: 'on',
+      zoomState: 'out',
+    };
+    const state = freezeMe({
+      views: {
+        myViewId: {
+          sampling: samplingObject,
+        },
+      },
+    });
+    const expectedObject = {
+      ...samplingObject,
+    };
+    expect(getViewSampling(state, { viewId: 'myViewId' })).toMatchObject(expectedObject);
   });
   test('areLinksShown', () => {
     const state = {

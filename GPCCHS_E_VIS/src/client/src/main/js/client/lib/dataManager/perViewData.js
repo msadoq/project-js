@@ -113,7 +113,7 @@ export default function makeGetPerViewData() {
       if (anyUndefined([domains, timebarUuid, viewTimelines, sessions, view, entryPoints])) {
         return {};
       }
-      const { type, uuid } = view;
+      const { type, uuid, sampling } = view;
       // Ignore collapsed view
       const index = _findIndex(layout, viewLayout => viewLayout.i === uuid);
       if (index !== -1 && layout[index].collapsed === true) {
@@ -155,6 +155,7 @@ export default function makeGetPerViewData() {
           };
         }, {}
         ),
+        sampling,
       };
     });
 }

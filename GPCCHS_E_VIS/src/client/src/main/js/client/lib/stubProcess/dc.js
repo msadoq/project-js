@@ -319,6 +319,7 @@ const onHssMessageADE = (...args) => {
         getLastNumber,
         filters,
         providerFlow: provider,
+        samplingNumber,
       } = protobuf.decode('dc.dataControllerUtils.ADETimebasedQuery', args[1]);
 
       logger.debug('ADE_TIMEBASED_QUERY sessionId: ', sessionId);
@@ -329,6 +330,7 @@ const onHssMessageADE = (...args) => {
         comObject: objectName,
         parameterName: itemName,
         provider,
+        samplingNumber,
       };
 
       const queryArguments = {

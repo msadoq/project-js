@@ -202,21 +202,19 @@ export default class Legend extends Component {
                             )
                           }
                         />
-                        {
-                          (legendLocation === 'left' || legendLocation === 'right') &&
+                        { (legendLocation === 'left' || legendLocation === 'right') &&
                           <span
                             className={styles.plotLegendName}
                           >{line.name}</span>
                         }
                       </div>
-                    )
-                  }
+                  )
+                }
                 </div>
               </div>
-            )
-          }
-        </div>
-      </ErrorBoundary>
+          )
+        }
+        </div></ErrorBoundary>
     );
   }
 }

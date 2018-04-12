@@ -77,6 +77,11 @@ export const getViewTitleStyle = createSelector(
   _.get('titleStyle')
 );
 
+export const getViewSampling = createSelector(
+  getView,
+  _.get('sampling')
+);
+
 export const getViewDomainName = createSelector(
   getView,
   _.get('domainName')

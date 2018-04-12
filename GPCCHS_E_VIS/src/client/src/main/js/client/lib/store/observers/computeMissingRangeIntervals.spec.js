@@ -81,6 +81,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         },
         intervals:
           [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
+        sampling: 'off',
       },
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
@@ -91,6 +92,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         }],
         intervals:
           [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
+        sampling: 'off',
       },
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::rawValue.>.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
@@ -101,6 +103,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         }],
         intervals:
           [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
+        sampling: 'off',
       },
       'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::': {
         dataId: dataId_ATT_BC_REVTCOUNT1,
@@ -111,6 +114,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
           ],
           [state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper],
         ],
+        sampling: 'off',
       },
     });
   });
@@ -135,6 +139,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         },
         intervals:
           [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],
+        sampling: 'off',
       },
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
@@ -145,6 +150,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         }],
         intervals:
           [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],
+        sampling: 'off',
       },
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::rawValue.>.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
@@ -155,12 +161,14 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         }],
         intervals:
           [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],
+        sampling: 'off',
       },
       'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::': {
         dataId: dataId_ATT_BC_REVTCOUNT1,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower - offset,
           state.timebars.tb1.visuWindow.lower]],
+        sampling: 'off',
       },
     });
   });

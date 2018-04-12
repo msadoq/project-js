@@ -26,6 +26,7 @@
 // ====================================================================
 
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
+import _ from 'lodash';
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';
 import _head from 'lodash/head';
@@ -46,15 +47,22 @@ import _pick from 'lodash/pick';
  * @return cleaned state for current view
 /** *********************************************** */
 // eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity without perf. leak"
-export default function cleanCurrentViewData(
-  currentState,
-  oldViewFromMap,
-  newViewFromMap,
-  oldIntervals,
-  newIntervals,
-  configuration) {
+const samplingStatusesBothDefinedAndNotEqual = (varX, varY) => {
+  if ((!(_.isUndefined(varX))) && (!(_.isUndefined(varY)))) {
+    return (varX.sampling.samplingStatus !== varY.sampling.samplingStatus);
+  }
+  return false;
+};
+
+export default function cleanCurrentViewData(currentState,
+  oldViewFromMap, newViewFromMap, oldIntervals, newIntervals, configuration) {
+  const samplingStatusHasChanged = samplingStatusesBothDefinedAndNotEqual(
+    oldViewFromMap,
+    newViewFromMap
+  );
   // Check if viewMap has changed
-  if (_isEqual(newViewFromMap, oldViewFromMap) && _isEqual(oldIntervals, newIntervals)) {
+  if (_isEqual(newViewFromMap, oldViewFromMap) &&
+      _isEqual(oldIntervals, newIntervals)) {
     return currentState;
   }
   // new visible view
@@ -119,6 +127,18 @@ export default function cleanCurrentViewData(
         continue;
       }
     }
+    // sampling has changed
+    if (samplingStatusHasChanged) {
+      newState = { ...newState,
+        indexes: _omit(newState.indexes, epName),
+        lines: _omit(newState.lines, epName),
+        min: _omit(newState.min, epName),
+        minTime: _omit(newState.minTime, epName),
+        max: _omit(newState.max, epName),
+        maxTime: _omit(newState.maxTime, epName),
+      };
+    }
+
     // removed entry point if invalid
     // EP definition modified: remove entry point from viewData
     if (isInvalidEntryPoint(oldEp, newEp)) {
@@ -137,6 +157,7 @@ export default function cleanCurrentViewData(
     if (newEp.error) {
       continue;
     }
+
     // update on expected interval
     // If EP is valid, old and new tbdId are the same
     // Consider new localId to take into account offset modification

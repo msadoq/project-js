@@ -59,6 +59,7 @@ describe('store:middlewares:retrieveRange', () => {
       },
       intervals: [[4, 6]],
       filters: [],
+      sampling: 'off',
     },
     tbdId2:
     {
@@ -74,6 +75,7 @@ describe('store:middlewares:retrieveRange', () => {
       },
       intervals: [[10, 20]],
       filters: [],
+      sampling: 'off',
     },
   };
 

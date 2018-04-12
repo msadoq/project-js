@@ -62,6 +62,7 @@
 // VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using
 //  indexes to iterate.
 // VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using indexes to iterate.
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using indexes to iterate.
 // VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Move common/Dimensions.js in
 //  common/hoc/withDimensions .
 // VERSION : 2.0.0 : DM : #6835 : 26/09/2017 : Remove useless prop from PlotView.js
@@ -123,6 +124,7 @@ import _uniq from 'lodash/uniq';
 import _ from 'lodash/fp';
 import classnames from 'classnames';
 import LinksContainer from 'windowProcess/View/LinksContainer';
+import SamplingButtonContainer from 'windowProcess/View/SamplingButtonContainer';
 import withDimensions from 'windowProcess/common/hoc/withDimensions';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
@@ -130,7 +132,6 @@ import dateFormat, { TAI } from 'viewManager/commonData/date';
 import getLogger from 'common/logManager';
 import { updateSearchCountArray } from 'store/reducers/pages';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
-
 import Legend from './Legend';
 import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
@@ -320,7 +321,7 @@ export const computeMinMaxForAxis = (entryPoints, axis, data, ordinal) => {
       : entryPoints.filter(ep =>
         (ep.parametric && _get(ep, ['connectedDataParametric', 'xAxisId']) === axis.id)
       )
-  ;
+    ;
   const mins = [];
   const maxs = [];
   axisEntryPoints.forEach((ep) => {
@@ -413,14 +414,14 @@ const tooltipFormatter = (id, foundColor, color, value, x, formattedValue, forma
         style={{ background: foundColor || color }}
       />
       <p>
-        <span className={grizzlyStyles.tooltipLineName} style={{ color }}>{ id } :</span>
+        <span className={grizzlyStyles.tooltipLineName} style={{ color }}>{id} :</span>
         <span className={grizzlyStyles.tooltipLineValue}>
-          { packet.symbol ? packet.symbol : formattedValue }
+          {packet.symbol ? packet.symbol : formattedValue}
         </span>
         <br />
-        <strong>{ dateFormat(packet.refTime, TAI) }</strong>
+        <strong>{dateFormat(packet.refTime, TAI)}</strong>
         {' '}
-        {packet.valX ? <span>({ dateFormat(packet.valX, TAI) })</span> : null}
+        {packet.valX ? <span>({dateFormat(packet.valX, TAI)})</span> : null}
       </p>
     </div>
   );
@@ -496,6 +497,7 @@ export class GrizzlyPlotView extends React.Component {
       markers: PropTypes.array,
     }).isRequired,
     toggleLegend: PropTypes.func.isRequired,
+    toggleZoomState: PropTypes.func.isRequired,
     openInspector: PropTypes.func.isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
@@ -914,6 +916,9 @@ export class GrizzlyPlotView extends React.Component {
     const { removeLink, viewId } = this.props;
     removeLink(viewId, index);
   };
+  zoomInDispatcher = () => {
+    this.props.toggleZoomState(this.props.viewId);
+  };
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -979,7 +984,6 @@ export class GrizzlyPlotView extends React.Component {
       this.xAxes = processedAxes.xAxes;
       this.yAxes = processedAxes.yAxes;
     }
-
     if (showEpNames.length) {
       entryPointsConfiguration =
         entryPointsConfiguration.filter(ep => showEpNames.includes(ep.id));
@@ -1038,8 +1042,8 @@ export class GrizzlyPlotView extends React.Component {
           style={mainStyle}
         >
           { (legend.location === 'top' || legend.location === 'left') &&
-          legendComponent
-          }
+        legendComponent
+        }
           <GrizzlyChart
             height={plotHeight}
             width={width}
@@ -1048,11 +1052,11 @@ export class GrizzlyPlotView extends React.Component {
             allowYZoom
             allowYPan
             allowZoom
-            allowPan
-            showEpNonNominal={showEpNonNominal}
-            perfOutput={false}
+            allowPanshowEpNonNominal={showEpNonNominal}
+            showEpNonNominal={showEpNonNominal}perfOutput={false}
             linesListener={memoizeLiveExtents(saveLiveExtents, viewId)}
             zoomPanListener={memoizeZoomOrPan(pause, viewId)}
+            zoomInListener={() => { this.props.toggleZoomState(this.props.viewId); }}
             current={visuWindow.current}
             yAxesAt={showYAxes}
             xAxesAt="bottom"
@@ -1062,65 +1066,72 @@ export class GrizzlyPlotView extends React.Component {
             xAxes={this.xAxes}
             updateAxis={this.state.updateUnit}
             lines={
-              entryPointsConfiguration.map((ep) => {
-                const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
-                const stringParameter = !ep.parametric &&
-                  _get(ep, ['connectedData', 'stringParameter']);
-                let unit;
-                if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
-                  const { domainId, sessionId, catalog, parameterName } =
+            entryPointsConfiguration.map((ep) => {
+              const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
+              const stringParameter = !ep.parametric && _get(ep, ['connectedData', 'stringParameter']);
+              let unit;
+              if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
+                const { domainId, sessionId, catalog, parameterName } =
                     entryPoints[ep.name].dataId;
-                  const tupleId = getTupleId(domainId, sessionId);
-                  unit = _get(catalogs, ['units', tupleId, catalog, parameterName], 'Unknown');
-                } else {
-                  unit = ep.unit;
-                }
-                return {
-                  data: lines[ep.name],
-                  indexes: indexes[ep.name],
-                  id: ep.name,
-                  xAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'xAxisId']) : 'time',
-                  yAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'yAxisId']) : _get(ep, ['connectedData', 'axisId']),
-                  fill: _get(ep, ['objectStyle', 'curveColor']),
-                  displayLine: _get(ep, ['objectStyle', 'displayLine'], true),
-                  lineSize: _get(ep, ['objectStyle', 'displayLine'], true) === true
-                    ? _get(ep, ['objectStyle', 'line', 'size'])
-                    : 0,
-                  lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
-                  displayPoints: _get(ep, ['objectStyle', 'displayPoints'], true),
-                  pointStyle: _get(ep, ['objectStyle', 'displayPoints'], true) === true
-                    ? _get(ep, ['objectStyle', 'points', 'style'])
-                    : 'None',
-                  pointSize: _get(ep, ['objectStyle', 'points', 'size']),
-                  dataAccessor: ep.name,
-                  stopInstruction: packet =>
-                    stopInstruction(packet, ep, this.state.showEpNonNominal),
-                  xAccessor: null, // default packet => packet.x
-                  yAccessor: stringParameter ? () => defaultY : null, // default packet => packet.value
-                  xTooltipAccessor: null, // default packet => packet.x
-                  yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
-                  colorAccessor: 'color',
-                  tooltipFormatter,
-                  highlighted: this.state.epNamesMatchWithSearching.indexOf(ep.name) !== -1,
-                  unit: ep.connectedData.convertTo ?
-                    ep.connectedData.convertTo : unit,
-                };
-              })
-            }
+                const tupleId = getTupleId(domainId, sessionId);
+                unit = _get(catalogs, ['units', tupleId, catalog, parameterName], 'Unknown');
+              } else {
+                unit = ep.unit;
+              }
+              return {
+                data: lines[ep.name],
+                indexes: indexes[ep.name],
+                id: ep.name,
+                xAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'xAxisId']) : 'time',
+                yAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'yAxisId']) : _get(ep, ['connectedData', 'axisId']),
+                fill: _get(ep, ['objectStyle', 'curveColor']),
+                displayLine: _get(ep, ['objectStyle', 'displayLine'], true),
+                lineSize: _get(ep, ['objectStyle', 'displayLine'], true) === true
+                  ? _get(ep, ['objectStyle', 'line', 'size'])
+                  : 0,
+                lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
+                displayPoints: _get(ep, ['objectStyle', 'displayPoints'], true),
+                pointStyle: _get(ep, ['objectStyle', 'displayPoints'], true) === true
+                  ? _get(ep, ['objectStyle', 'points', 'style'])
+                  : 'None',
+                pointSize: _get(ep, ['objectStyle', 'points', 'size']),
+                dataAccessor: ep.name,
+                stopInstruction: packet => stopInstruction(packet, ep, this.state.showEpNonNominal),
+                xAccessor: null, // default packet => packet.x
+                yAccessor: stringParameter ? () => defaultY : null, // default packet => packet.value
+                xTooltipAccessor: null, // default packet => packet.x
+                yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
+                colorAccessor: 'color',
+                tooltipFormatter,
+                highlighted: this.state.epNamesMatchWithSearching.indexOf(ep.name) !== -1,
+                unit: ep.connectedData.convertTo ?
+                    ep.connectedData.convertTo : unit };
+            })
+          }
           />
           { (legend.location === 'bottom' || legend.location === 'right') &&
-          legendComponent
-          }
-          <LinksContainer
-            show={showLinks}
-            toggleShowLinks={this.toggleShowLinks}
-            links={links}
-            removeLink={this.removeLink}
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </DroppableContainer>
-      </ErrorBoundary>
+        legendComponent
+        }
+          <div className={styles.pvRow}>
+            <div className={styles.firstPvColumn}>
+              <LinksContainer
+                show={showLinks}
+                toggleShowLinks={this.toggleShowLinks}
+                links={links}
+                removeLink={this.removeLink}
+                viewId={viewId}
+                pageId={pageId}
+              />
+            </div>
+            <div className={styles.pvColumn}>
+              <SamplingButtonContainer
+
+                viewId={viewId}
+                pageId={pageId}
+              />
+            </div>
+          </div>
+        </DroppableContainer></ErrorBoundary>
     );
   }
 }

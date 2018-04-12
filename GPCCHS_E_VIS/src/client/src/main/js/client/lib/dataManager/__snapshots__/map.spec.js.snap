@@ -454,6 +454,7 @@ Object {
           "type": "DynamicView",
         },
       },
+      "sampling": undefined,
       "type": "DynamicView",
     },
     "groundAlarm1": Object {
@@ -479,6 +480,7 @@ Object {
           "type": "GroundAlarmView",
         },
       },
+      "sampling": undefined,
       "type": "GroundAlarmView",
     },
     "hist1": Object {
@@ -530,6 +532,7 @@ Object {
           "type": "HistoryView",
         },
       },
+      "sampling": undefined,
       "type": "HistoryView",
     },
     "mimic1": Object {
@@ -607,6 +610,7 @@ Object {
           "type": "MimicView",
         },
       },
+      "sampling": undefined,
       "type": "MimicView",
     },
     "plot1": Object {
@@ -699,6 +703,11 @@ Object {
           "type": "PlotView",
         },
       },
+      "sampling": Object {
+        "samplingLock": "off",
+        "samplingStatus": "off",
+        "zoomState": "out",
+      },
       "type": "PlotView",
     },
     "text1": Object {
@@ -773,6 +782,7 @@ Object {
           "type": "TextView",
         },
       },
+      "sampling": undefined,
       "type": "TextView",
     },
   },

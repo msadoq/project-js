@@ -179,6 +179,7 @@ export default class EntryPointDetails extends PureComponent {
               viewId={viewId}
               pageId={pageId}
               onSubmit={this.handleConnectedDataSubmit}
+
               form={this.props.form}
               entryPoint={entryPoint}
               selectedDomainName={selectedDomainName}
@@ -207,11 +208,11 @@ export default class EntryPointDetails extends PureComponent {
             header="State colors"
           >
             {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
+
               onSubmit={this.handleSubmit}
             />}
           </Panel>
-        </Collapse>
-      </ErrorBoundary>
+        </Collapse></ErrorBoundary>
     );
   }
 }

@@ -68,6 +68,7 @@ export default class Chart extends React.Component {
     zoomPanListener: PropTypes.func.isRequired,
     updateAxis: PropTypes.bool.isRequired,
     showEpNonNominal: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    zoomInListener: PropTypes.func.isRequired,
   };
   static defaultProps = {
     yAxesAt: 'left',
@@ -609,9 +610,9 @@ export default class Chart extends React.Component {
           yExtents: line.yAxis.calculatedExtents,
         };
       }, this.linesUniq);
-
       this.props.linesListener(event);
     }, Chart.DEBOUNCE_DELAY);
+    this.props.zoomInListener();
   };
 
   render() {

@@ -1446,6 +1446,11 @@ export default {
       },
       type: 'PlotView',
       uuid: 'plot1',
+      sampling: {
+        samplingLock: 'off',
+        samplingStatus: 'off',
+        zoomState: 'out',
+      },
     },
     text1: {
       absolutePath: '/mydata/data/views/text.json',

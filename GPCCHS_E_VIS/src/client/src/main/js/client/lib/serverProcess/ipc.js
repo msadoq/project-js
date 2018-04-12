@@ -103,7 +103,6 @@ function onDcResponseCallback(err, flatDataId = '') {
     getStore().dispatch(addMessage('global', 'danger', err));
   }
 }
-
 const dcVersionMap = {
   [constants.DC_COM_V1]: {
     rpc: (method, trames, callback) => {
@@ -200,7 +199,8 @@ const dcVersionMap = {
   },
   [constants.DC_COM_V2]: {
     rpc: (method, trames, callback) => {
-      logger.debug(`sending rpc call ${method} to dc`);
+      logger.debug(`sending    samplingNumber: data.samplingNumber,
+      rpc call ${method} to dc`);
       const queryId = v4();
       setCallback(queryId, callback);
       zmq.push('dcPush', [
@@ -257,7 +257,7 @@ const dcVersionMap = {
 
       commands.dc.rpc(constants.MESSAGETYPE_ALARM_ACK, trames, callback);
     },
-    requestTimebasedQuery: (flatDataId, dataId, interval, args) => (
+    requestTimebasedQuery: (flatDataId, dataId, interval, args, samplingNumber) => (
       commands.dc.rpc(
       constants.ADE_TIMEBASED_QUERY,
         [
@@ -277,6 +277,7 @@ const dcVersionMap = {
               operator: operators[filter.operator],
             })),
             getLastNumber: args.getLastNumber,
+            samplingNumber,
           }),
         ],
         err => (onDcResponseCallback(err, flatDataId))

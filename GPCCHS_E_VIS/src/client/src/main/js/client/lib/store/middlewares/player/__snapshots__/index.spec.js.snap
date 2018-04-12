@@ -69,6 +69,7 @@ Array [
   },
   Object {
     "payload": Object {
+      "pages": undefined,
       "slideWindow": Object {
         "lower": 1498643009147,
         "upper": 1498643174147,
@@ -85,6 +86,7 @@ Array [
   },
   Object {
     "payload": Object {
+      "pages": undefined,
       "slideWindow": Object {
         "lower": 1498643009147,
         "upper": 1498643174147,
@@ -101,6 +103,7 @@ Array [
   },
   Object {
     "payload": Object {
+      "pages": undefined,
       "slideWindow": Object {
         "lower": 1498643009147,
         "upper": 1498643174147,
@@ -139,6 +142,7 @@ exports[`store:middlewares:player when click on NOW button request session time 
 Array [
   Object {
     "payload": Object {
+      "pages": undefined,
       "slideWindow": Object {
         "lower": -295663,
         "upper": 34337,
@@ -173,6 +177,7 @@ Array [
   },
   Object {
     "payload": Object {
+      "pages": undefined,
       "slideWindow": Object {
         "lower": -295663,
         "upper": 34337,

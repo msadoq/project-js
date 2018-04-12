@@ -13,7 +13,7 @@ import _has from 'lodash/has';
 
 let queriesIdCollections = {};
 
-const add = (queryId, tbdId, type, dataId) => {
+const add = (queryId, tbdId, type, dataId, samplingNumber) => {
   if (!_isString(tbdId) || _isEmpty(tbdId)) {
     throw new Error(`adding a new query required a string id '${tbdId}'`);
   }
@@ -23,7 +23,7 @@ const add = (queryId, tbdId, type, dataId) => {
   if (!_isString(type)) {
     throw new Error(`invalid type '${type}'`);
   }
-  queriesIdCollections[queryId] = { tbdId, type, dataId };
+  queriesIdCollections[queryId] = { tbdId, type, dataId, samplingNumber };
 };
 
 const get = queryId => queriesIdCollections[queryId];

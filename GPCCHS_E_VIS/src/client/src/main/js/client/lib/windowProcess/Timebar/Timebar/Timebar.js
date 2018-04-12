@@ -138,6 +138,7 @@ export default class Timebar extends PureComponent {
   componentDidMount() {
     document.addEventListener('keydown', this.onShortcut);
     this.rePosition('left', { preventDefault: () => {} });
+    this.props.updateCursors(this.props.timebarUuid, this.props.visuWindow, this.props.slideWindow);
   }
 
   componentWillReceiveProps(nextProps) {

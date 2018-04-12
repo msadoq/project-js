@@ -146,7 +146,21 @@ function simpleView(stateView = initialState, action) {
     case types.WS_PAGE_OPENED:
     case types.WS_WORKSPACE_OPENED: {
       const newView = _.omit(['configuration', 'windowState', 'geometry', 'pageUuid', 'hideBorders'], action.payload.view);
-      return _.defaults(initialState, newView);
+      switch (newView.type) {
+        case 'PlotView': {
+          const initialStateIncludingSampling = {
+            ...initialState,
+            sampling: {
+              zoomState: 'out',
+              samplingLock: 'off',
+              samplingStatus: 'off',
+            },
+          };
+          return _.defaults(initialStateIncludingSampling, newView);
+        }
+        default: // all view types besides PlotView
+          return _.defaults(initialState, newView);
+      }
     }
     case types.WS_VIEW_UPDATEPATH:
       return {
@@ -193,6 +207,45 @@ function simpleView(stateView = initialState, action) {
         return { ...stateView, sessionName: action.payload.sessionName };
       }
       return _.omit('sessionName', stateView);
+    case types.TOGGLE_SAMPLING_STATUS: {
+      switch (stateView.sampling.samplingLock) {
+        case 'on': {
+          const newSampling = {
+            ...stateView.sampling,
+            samplingStatus: 'on',
+          };
+          return { ...stateView, sampling: newSampling };
+        }
+        case 'off':
+          switch (stateView.sampling.samplingStatus) {
+            case 'on': {
+              const newSampling = {
+                ...stateView.sampling,
+                samplingStatus: 'off',
+              };
+              return { ...stateView, sampling: newSampling };
+            }
+            case 'off': {
+              const newSampling = {
+                ...stateView.sampling,
+                samplingStatus: 'on',
+              };
+              return { ...stateView, sampling: newSampling };
+            }
+            default:
+              return stateView;
+          }
+        default:
+          return stateView;
+      }
+    }
+    case types.TOGGLE_ZOOM_STATE: {
+      const newSampling = {
+        ...stateView.sampling,
+        zoomState: (stateView.sampling.zoomState === 'out' ? 'in' : 'out'),
+      };
+      return { ...stateView, sampling: newSampling };
+    }
     default:
       return stateView;
   }

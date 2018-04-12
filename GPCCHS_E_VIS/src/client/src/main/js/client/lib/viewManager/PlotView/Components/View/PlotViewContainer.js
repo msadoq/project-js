@@ -57,6 +57,7 @@ import { getTimeline } from 'store/reducers/timelines';
 import { getConfigurationByViewId } from 'viewManager';
 import { getTimebar, isMaxVisuDurationExceeded } from 'store/reducers/timebars';
 import { askUnit } from 'store/actions/catalogs';
+import { toggleZoomState } from 'store/actions/sampling';
 import SizablePlotView from './PlotView';
 import { updateSearchCount } from '../../../../store/actions/pages';
 
@@ -86,6 +87,7 @@ const mapStateToProps = (state, { viewId }) => {
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
     catalogs: state.catalogs,
     searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
+    sampling: state.sampling,
   };
 };
 
@@ -99,6 +101,7 @@ const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators(
   toggleLegend,
   updateSearchCount: count => updateSearchCount(pageId, viewId, count),
   askUnit,
+  toggleZoomState,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);

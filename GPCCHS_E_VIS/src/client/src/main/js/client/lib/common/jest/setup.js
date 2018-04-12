@@ -23,10 +23,8 @@ import { set } from 'lodash';
 import _, { difference, intersection } from 'lodash/fp';
 import { v4 } from 'uuid';
 import { resolve } from 'path';
-
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-
 
 import * as serializers from './serializers';
 
@@ -89,6 +87,7 @@ global.testConfig = {
     { unresolved: '#CCCCCC' },
   ],
   DATE_FORMAT_TAI: 'YYYY-MM-DDTHH:mm:ss.SSS',
+  SAMPLING_OFF_DELTA_T_MAX: 300000,
 };
 
 set(global, 'parameters.get', path => _.get(path, global.testConfig));

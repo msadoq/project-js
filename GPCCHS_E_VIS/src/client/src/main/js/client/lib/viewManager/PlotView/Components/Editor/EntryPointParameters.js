@@ -50,6 +50,7 @@ class EntryPointParameters extends React.Component {
     this.setState({ isPointsHidden: !this.state.isPointsHidden });
   }
 
+
   render() {
     const {
       isLineHidden,
@@ -86,8 +87,7 @@ class EntryPointParameters extends React.Component {
               component={ButtonToggleField}
               textOn="YES"
               textOff="NO"
-              styleOff="warning"
-              onChange={this.hangleToggleLine}
+              styleOff="warning"onChange={this.hangleToggleLine}
             />
           </HorizontalFormGroup>
           {
@@ -122,8 +122,7 @@ class EntryPointParameters extends React.Component {
               component={ButtonToggleField}
               textOn="YES"
               textOff="NO"
-              styleOff="warning"
-              onChange={this.hangleTogglePoints}
+              styleOff="warning"onChange={this.hangleTogglePoints}
             />
           </HorizontalFormGroup>
           {
@@ -144,8 +143,7 @@ class EntryPointParameters extends React.Component {
               />
             </HorizontalFormGroup>
           }
-        </React.Fragment>
-      </ErrorBoundary>
+        </React.Fragment></ErrorBoundary>
     );
   }
 }

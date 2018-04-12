@@ -4,7 +4,7 @@ import "./TimeInterval.proto";
 import "./Filter.proto";
 
 message ADETimebasedQuery {
-    extensions 12 to 112;
+    extensions 13 to 112;
 
     enum SORT_ORDER
     {
@@ -22,4 +22,5 @@ message ADETimebasedQuery {
     optional SORT_ORDER   sortOrder = 9;
     optional uint32       getLastNumber = 10;
     repeated Filter       filters = 11;
+    optional uint32       samplingNumber = 12;
 }

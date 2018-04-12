@@ -136,9 +136,25 @@ module.exports = function sendArchiveData(
       }
     }
 
+    const sampledTimeStep = (to - from) / (dataId.samplingNumber + 1);
+    const computeStep = (samplingParam) => {
+      switch (samplingParam) {
+        case 0: // 0 is when sampling is off
+          return constants.DC_STUB_VALUE_TIMESTEP;
+        default: // default is when sampling is on
+          return (
+            (
+              (constants.DC_STUB_VALUE_TIMESTEP > sampledTimeStep) ?
+              constants.DC_STUB_VALUE_TIMESTEP :
+              sampledTimeStep
+            )
+          );
+      }
+    };
+    const timeStep = computeStep(dataId.samplingNumber);
     for (let timestamp = from;
       timestamp <= to && timestamp < now;
-      timestamp += constants.DC_STUB_VALUE_TIMESTEP
+      timestamp += timeStep
     ) {
       if (shouldPushANewValue(queryKey, timestamp)) {
         const payload = getPayload(timestamp, dataId, versionDCCom, {

@@ -30,8 +30,8 @@ import timebarsReducer, {
   getTimebars,
   getFirstTimebarId,
   getTimebarMasterId,
+  getMasterTimelines,
 } from '.';
-import { getMasterTimelines } from './index';
 
 const reducer = freezeArgs(timebarsReducer);
 

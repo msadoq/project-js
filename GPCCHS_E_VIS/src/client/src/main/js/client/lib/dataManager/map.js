@@ -48,7 +48,7 @@ import _reduce from 'lodash/reduce';
 import _set from 'lodash/set';
 import { createSelector } from 'reselect';
 
-import { getMasterTimelines, getTimebars } from '../store/reducers/timebars';
+import { getTimebars } from '../store/reducers/timebars';
 import perLastTbdIdMap from './perLastTbdIdData';
 import makeGetPerViewData from './perViewData';
 import perRangeTbdIdMap from './perRangeTbdIdData';
@@ -116,8 +116,7 @@ export default createSelector(
   getPerRangeTbdIdMap,
   getPerLastTbdIdMap,
   getTimebars,
-  getMasterTimelines,
-  (viewMap, rangeTbdIdMap, lastTbdIdMap, timebars, masterTimelines) => {
+  (viewMap, rangeTbdIdMap, lastTbdIdMap, timebars) => {
     // compute expected intervals
     let forecastIntervalsMap = {};
     const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
@@ -141,7 +140,6 @@ export default createSelector(
       forecastIntervals: forecastIntervalsMap,
       expectedRangeIntervals: rangeIntervals.expectedRangeIntervals,
       expectedLastIntervals: lastIntervals.expectedLastIntervals,
-      masterTimelines,
     };
   }
 );

@@ -168,6 +168,9 @@ Object {
       },
     },
   },
+  "masterTimelines": Object {
+    "tb1": "Session 1",
+  },
   "perLastTbdId": Object {
     "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::": Object {
       "dataId": Object {

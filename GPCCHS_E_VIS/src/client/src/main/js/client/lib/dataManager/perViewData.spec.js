@@ -28,7 +28,7 @@
 
 import _cloneDeep from 'lodash/cloneDeep';
 import { get } from 'common/configurationManager';
-import makeGetPerViewData, { filterBySession } from './perViewData';
+import makeGetPerViewData from './perViewData';
 import state from '../common/jest/stateTest';
 
 const WILDCARD = get('WILDCARD_CHARACTER');

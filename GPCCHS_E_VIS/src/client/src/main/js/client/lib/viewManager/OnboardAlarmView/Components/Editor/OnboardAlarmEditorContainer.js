@@ -9,8 +9,6 @@ import { updateViewTab, updateViewPanels } from 'store/actions/ui';
 import { getViewTab, getViewPanels } from 'store/reducers/ui/editor';
 import {
   updateEntryPoint,
-  updateTitle,
-  updateTitleStyle,
 } from 'store/actions/views';
 import OnboardAlarmEditor from './OnboardAlarmEditor';
 
@@ -24,8 +22,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = {
   updateEntryPoint,
-  updateTitle,
-  updateTitleStyle,
   updateViewTab,
   updateViewPanels,
   openModal,

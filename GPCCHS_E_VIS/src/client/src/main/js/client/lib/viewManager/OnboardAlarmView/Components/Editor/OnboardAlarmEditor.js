@@ -29,8 +29,6 @@ export default class OnboardAlarmEditor extends Component {
       entryPoints: PropTypes.array,
     }).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
-    updateTitle: PropTypes.func.isRequired,
-    updateTitleStyle: PropTypes.func.isRequired,
     updateViewTab: PropTypes.func.isRequired,
     updateViewPanels: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,

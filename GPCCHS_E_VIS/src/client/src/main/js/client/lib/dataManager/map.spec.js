@@ -57,9 +57,17 @@ describe('data:map', () => {
     map(newState);
     // Only intervals have to be recomputed
     expect(map.recomputations()).toEqual(2);
-    expect(getPerRangeTbdIdMap.recomputations()).toEqual(1);
-    expect(getPerLastTbdIdMap.recomputations()).toEqual(1);
-    expect(getPerViewMap.recomputations()).toEqual(1);
+    expect(getPerRangeTbdIdMap.recomputations()).toEqual(2);
+    expect(getPerLastTbdIdMap.recomputations()).toEqual(2);
+    expect(getPerViewMap.recomputations()).toEqual(2);
+
+    const anotherState = u({ messages: { global: ['Hello you!'] } }, newState);
+    map(anotherState);
+    // nothing changed from the selectors' perspective
+    expect(map.recomputations()).toEqual(2);
+    expect(getPerRangeTbdIdMap.recomputations()).toEqual(2);
+    expect(getPerLastTbdIdMap.recomputations()).toEqual(2);
+    expect(getPerViewMap.recomputations()).toEqual(2);
   });
   test('should compute dataMap', () => {
     const r = map(state);

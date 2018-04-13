@@ -5,6 +5,8 @@ Object {
   "ATT_BC_REVTCOUNT1": Object {
     "100120": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100120,
       "symbol": undefined,
       "valX": 100120,
@@ -13,6 +15,8 @@ Object {
     },
     "100220": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100220,
       "symbol": undefined,
       "valX": 100220,
@@ -21,6 +25,8 @@ Object {
     },
     "100320": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100320,
       "symbol": undefined,
       "valX": 100320,
@@ -29,6 +35,8 @@ Object {
     },
     "100420": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100420,
       "symbol": undefined,
       "valX": 100420,
@@ -37,6 +45,8 @@ Object {
     },
     "100520": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100520,
       "symbol": undefined,
       "valX": 100520,
@@ -45,6 +55,8 @@ Object {
     },
     "100620": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100620,
       "symbol": undefined,
       "valX": 100620,
@@ -53,6 +65,8 @@ Object {
     },
     "100720": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100720,
       "symbol": undefined,
       "valX": 100720,
@@ -61,6 +75,8 @@ Object {
     },
     "100820": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100820,
       "symbol": undefined,
       "valX": 100820,
@@ -88,6 +104,8 @@ Object {
   "ATT_BC_REVTCOUNT1": Object {
     "100120": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100120,
       "symbol": undefined,
       "valX": 100120,
@@ -96,6 +114,8 @@ Object {
     },
     "100220": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100220,
       "symbol": undefined,
       "valX": 100220,
@@ -104,6 +124,8 @@ Object {
     },
     "100320": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100320,
       "symbol": undefined,
       "valX": 100320,
@@ -112,6 +134,8 @@ Object {
     },
     "100420": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100420,
       "symbol": undefined,
       "valX": 100420,
@@ -120,6 +144,8 @@ Object {
     },
     "100520": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100520,
       "symbol": undefined,
       "valX": 100520,
@@ -128,6 +154,8 @@ Object {
     },
     "100620": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100620,
       "symbol": undefined,
       "valX": 100620,
@@ -136,6 +164,8 @@ Object {
     },
     "100720": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100720,
       "symbol": undefined,
       "valX": 100720,
@@ -144,6 +174,8 @@ Object {
     },
     "100820": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100820,
       "symbol": undefined,
       "valX": 100820,
@@ -175,6 +207,8 @@ Object {
   "ATT_BC_REVTCOUNT1": Object {
     "100120": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100120,
       "symbol": undefined,
       "valX": 100120,
@@ -183,6 +217,8 @@ Object {
     },
     "100220": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100220,
       "symbol": undefined,
       "valX": 100220,
@@ -191,6 +227,8 @@ Object {
     },
     "100320": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100320,
       "symbol": undefined,
       "valX": 100320,
@@ -199,6 +237,8 @@ Object {
     },
     "100420": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100420,
       "symbol": undefined,
       "valX": 100420,
@@ -207,6 +247,8 @@ Object {
     },
     "100520": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100520,
       "symbol": undefined,
       "valX": 100520,
@@ -215,6 +257,8 @@ Object {
     },
     "100620": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100620,
       "symbol": undefined,
       "valX": 100620,
@@ -223,6 +267,8 @@ Object {
     },
     "100720": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100720,
       "symbol": undefined,
       "valX": 100720,
@@ -231,6 +277,8 @@ Object {
     },
     "100820": Object {
       "color": "#2ecc71",
+      "isNominal": undefined,
+      "isObsolete": undefined,
       "refTime": 100820,
       "symbol": undefined,
       "valX": 100820,

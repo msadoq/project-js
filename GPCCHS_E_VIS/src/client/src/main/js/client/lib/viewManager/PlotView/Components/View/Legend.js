@@ -41,6 +41,8 @@ export default class Legend extends Component {
       PropTypes.shape
     ).isRequired,
     onContextMenu: PropTypes.func.isRequired,
+    showNonNominal: PropTypes.func.isRequired,
+    showEpNonNominal: PropTypes.arrayOf(PropTypes.string).isRequired,
   }
 
   static defaultProps = {
@@ -71,6 +73,8 @@ export default class Legend extends Component {
       removeEntryPoint,
       onContextMenu,
       plotHeight,
+      showNonNominal,
+      showEpNonNominal,
     } = this.props;
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
@@ -172,6 +176,19 @@ export default class Legend extends Component {
                           classnames(
                             styles.removeButton,
                             'text-danger'
+                          )
+                        }
+                      />
+
+                      <Glyphicon
+                        glyph="plus-sign"
+                        onClick={e => showNonNominal(e, line.id)}
+                        className={
+                          classnames(
+                            {
+                              [styles.showEyeSelected]: showEpNonNominal.includes(line.id),
+                            },
+                            styles.eyeButton
                           )
                         }
                       />

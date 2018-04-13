@@ -67,6 +67,7 @@ export default class Chart extends React.Component {
     lines: arrayOf(lineType.isRequired).isRequired,
     linesListener: func.isRequired,
     zoomPanListener: func.isRequired,
+    showEpNonNominal: arrayOf(shape).isRequired,
   };
   static defaultProps = {
     yAxesAt: 'left',
@@ -109,6 +110,12 @@ export default class Chart extends React.Component {
       }
     });
     return shouldRender;
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.showEpNonNominal !== nextProps.showEpNonNominal) {
+      this.resetPanAndZoom();
+    }
   }
 
   componentWillUnmount() {

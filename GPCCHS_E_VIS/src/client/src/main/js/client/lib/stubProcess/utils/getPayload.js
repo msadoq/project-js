@@ -32,9 +32,9 @@ const stubData = stubs.getStubData();
 //   return states[timestamp % states.length];
 // }
 function getMonitoringState() {
-  return predictibleRand.getBool(0.25) ? predictibleRand.getFrom([
-    'info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete', 'danger',
-  ]) : undefined;
+  return predictibleRand.getFrom([
+    'nominal', 'warning', 'danger', 'severe', 'critical', 'outOfRange',
+  ]);
 }
 
 function getAckRequest(timestamp, options) {
@@ -132,7 +132,7 @@ const getComObject = (dataId, timestamp, options) => {
           convertedValue: value * 2,
           extractedValue: value * 3,
           rawValue: value,
-          monitoringState: getMonitoringState(timestamp),
+          monitoringState: getMonitoringState(),
         });
       }
 
@@ -161,6 +161,8 @@ const getComObject = (dataId, timestamp, options) => {
         rawValue: value,
         extractedValue: value,
         monitoringState: getMonitoringState(timestamp),
+        isNominal: predictibleRand.getBool(0.8),
+        isObsolete: predictibleRand.getBool(0.1),
       });
     }
 

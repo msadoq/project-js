@@ -36,6 +36,7 @@ import getLogger from 'common/logManager';
 import parameters from 'common/configurationManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import _findIndex from 'lodash/findIndex';
+import { STATE_COLOR_NOMINAL } from 'windowProcess/common/colors';
 
 const logger = getLogger('data:rangeValues:PlotView');
 
@@ -475,12 +476,14 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
         ...getStateColorObj( // will fetch default / fallback / custom color
           value,
           ep.stateColors,
-          _get(value, 'monitoringState.value')
+          _get(value, 'monitoringState.value', STATE_COLOR_NOMINAL)
         ),
         // Case of enum : add symbol to show it in tooltip
         // Case of long : add string representation in tooltip to keep precision
         // Case of double : add string representation in tooltip to keep precision
         symbol: _get(value, [ep.fieldY, 'symbol']),
+        isNominal: _get(value, 'isNominal.value'),
+        isObsolete: _get(value, 'isObsolete.value'),
       };
     }
     if (valForMax) {

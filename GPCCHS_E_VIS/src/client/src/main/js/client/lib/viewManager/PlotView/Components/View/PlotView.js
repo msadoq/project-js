@@ -470,6 +470,7 @@ export class GrizzlyPlotView extends React.Component {
   state = {
     showEpNames: [],
     hideEpNames: [],
+    showEpNonNominal: [],
   };
 
   componentDidMount() {
@@ -502,7 +503,8 @@ export class GrizzlyPlotView extends React.Component {
     if (
       nextProps.showLinks !== this.props.showLinks ||
       nextState.showEpNames !== this.state.showEpNames ||
-      nextState.hideEpNames !== this.state.hideEpNames
+      nextState.hideEpNames !== this.state.hideEpNames ||
+      nextState.showEpNonNominal !== this.state.showEpNonNominal
     ) {
       return true;
     }
@@ -704,6 +706,7 @@ export class GrizzlyPlotView extends React.Component {
     const {
       showEpNames,
       hideEpNames,
+      showEpNonNominal,
     } = this.state;
     const newState = {};
 
@@ -720,14 +723,34 @@ export class GrizzlyPlotView extends React.Component {
       hideEpNames.splice(index, 1);
       newState.hideEpNames = [].concat(hideEpNames);
     }
-
+    newState.showEpNonNominal = [].concat(showEpNonNominal);
+    this.setState(newState);
+  };
+  showNonNominal = (e, lineId) => {
+    e.preventDefault();
+    const {
+      showEpNames,
+      hideEpNames,
+      showEpNonNominal,
+    } = this.state;
+    const newState = {};
+    if (showEpNonNominal.includes(lineId)) {
+      const index = showEpNonNominal.indexOf(lineId);
+      showEpNonNominal.splice(index, 1);
+    } else {
+      showEpNonNominal.push(lineId);
+    }
+    newState.showEpNonNominal = [].concat(showEpNonNominal);
+    newState.showEpNames = [].concat(showEpNames);
+    newState.hideEpNames = [].concat(hideEpNames);
     this.setState(newState);
   };
   hideEp = (e, lineId) => {
     e.preventDefault();
     const {
-      hideEpNames,
       showEpNames,
+      hideEpNames,
+      showEpNonNominal,
     } = this.state;
     const newState = {};
 
@@ -744,7 +767,7 @@ export class GrizzlyPlotView extends React.Component {
       showEpNames.splice(index, 1);
       newState.showEpNames = [].concat(showEpNames);
     }
-
+    newState.showEpNonNominal = [].concat(showEpNonNominal);
     this.setState(newState);
   };
   removeEntryPoint = (e, id) => {
@@ -817,6 +840,7 @@ export class GrizzlyPlotView extends React.Component {
     const {
       showEpNames,
       hideEpNames,
+      showEpNonNominal,
     } = this.state;
 
     // On first render only
@@ -872,6 +896,8 @@ export class GrizzlyPlotView extends React.Component {
         showEpNames={showEpNames}
         hideEp={this.hideEp}
         hideEpNames={hideEpNames}
+        showNonNominal={this.showNonNominal}
+        showEpNonNominal={showEpNonNominal}
         onContextMenu={this.onContextMenuLegend}
         removeEntryPoint={this.removeEntryPoint}
       />);
@@ -896,6 +922,7 @@ export class GrizzlyPlotView extends React.Component {
           allowYPan
           allowZoom
           allowPan
+          showEpNonNominal={showEpNonNominal}
           perfOutput={false}
           linesListener={memoizeLiveExtents(saveLiveExtents, viewId)}
           zoomPanListener={memoizeZoomOrPan(pause, viewId)}
@@ -926,7 +953,17 @@ export class GrizzlyPlotView extends React.Component {
                   : 0,
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                 dataAccessor: ep.name,
-                stopInstruction: packet => (packet.isObsolete || false),
+                stopInstruction: (packet) => {
+                  let stop = false;
+                  if (packet.isObsolete === true) {
+                    stop = true;
+                  } else if (this.state.showEpNonNominal.includes(ep.id)) {
+                    stop = false;
+                  } else {
+                    stop = !packet.isNominal;
+                  }
+                  return stop;
+                },
                 xAccessor: null, // default packet => packet.x
                 yAccessor: stringParameter ? () => defaultY : null, // default packet => packet.value
                 xTooltipAccessor: null, // default packet => packet.x

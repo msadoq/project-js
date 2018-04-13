@@ -11,6 +11,7 @@ import {
   WS_COM_OBJECTS_ASK,
   WS_COM_OBJECTS_ADD,
   WS_UNIT_ADD,
+  WS_UNIT_ADD_SIMPLE,
 } from 'store/types';
 
 // eslint-disable-next-line complexity
@@ -165,6 +166,15 @@ export default function catalogsReducer(state = {}, action) {
       return _set(
         path,
         action.payload.unit,
+        state
+      );
+    }
+    case WS_UNIT_ADD_SIMPLE: {
+      const { tupleId, name, itemName, unit } = action.payload;
+      const path = `units[${tupleId}][${name}][${itemName}]`;
+      return _set(
+        path,
+        unit,
         state
       );
     }

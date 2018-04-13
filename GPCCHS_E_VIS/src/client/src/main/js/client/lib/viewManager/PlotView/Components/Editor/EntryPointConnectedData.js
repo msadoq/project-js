@@ -58,13 +58,12 @@ import FiltersFields from 'viewManager/commonEditor/Fields/FiltersFields';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
 
 import {
-  getUnitByItemName,
   getTupleId,
 } from 'store/reducers/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
 import { getTimelineById } from 'store/reducers/timelines';
-import { askCatalogsAndItemsAndUnit } from 'store/actions/catalogs';
+import { askUnit as askUnitAction } from 'store/actions/catalogs';
 import { get } from 'common/configurationManager';
 
 import styles from './EntryPointConnectedData.css';
@@ -142,7 +141,8 @@ class EntryPointConnectedData extends Component {
       .map(axis => ({
         label: axis.label,
         value: axis.axisId,
-      })).concat({
+      }))
+      .concat({
         label: '-',
         value: '-',
       });
@@ -164,7 +164,8 @@ class EntryPointConnectedData extends Component {
         .map(axis => ({
           label: axis.label,
           value: axis.axisId,
-        })).concat({
+        }))
+        .concat({
           label: '-',
           value: '-',
         });
@@ -179,7 +180,8 @@ class EntryPointConnectedData extends Component {
         .map(axis => ({
           label: axis.label,
           value: axis.axisId,
-        })).concat({
+        }))
+        .concat({
           label: '-',
           value: '-',
         });
@@ -197,10 +199,11 @@ class EntryPointConnectedData extends Component {
           label: t.id,
           value: t.id,
         })
-      ).concat({
-        label: '*',
-        value: '*',
-      })
+      )
+        .concat({
+          label: '*',
+          value: '*',
+        })
         .concat(
           noCorrespondingTimeline ?
             { label: timeline, value: timeline, disabled: true } : []
@@ -255,7 +258,9 @@ class EntryPointConnectedData extends Component {
                   <p
                     style={{ fontSize: '0.9em', paddingTop: '2px' }}
                   >
-                    { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+                    {Object.values(axes)
+                      .map(a => `${a.label}: ${a.unit}`)
+                      .join(', ')}
                   </p>
                   }
                 </HorizontalFormGroup>
@@ -281,10 +286,11 @@ class EntryPointConnectedData extends Component {
                         label: d.name,
                         value: d.name,
                       })
-                    ).concat({
-                      label: '*',
-                      value: '*',
-                    })}
+                    )
+                      .concat({
+                        label: '*',
+                        value: '*',
+                      })}
                   />
                 </HorizontalFormGroup>
               </div>
@@ -309,7 +315,9 @@ class EntryPointConnectedData extends Component {
                   <p
                     style={{ fontSize: '0.9em', paddingTop: '2px' }}
                   >
-                    { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+                    {Object.values(axes)
+                      .map(a => `${a.label}: ${a.unit}`)
+                      .join(', ')}
                   </p>
                   }
                 </HorizontalFormGroup>
@@ -335,10 +343,11 @@ class EntryPointConnectedData extends Component {
                         label: d.name,
                         value: d.name,
                       })
-                    ).concat({
-                      label: '*',
-                      value: '*',
-                    })}
+                    )
+                      .concat({
+                        label: '*',
+                        value: '*',
+                      })}
                   />
                 </HorizontalFormGroup>
               </div>
@@ -389,7 +398,7 @@ class EntryPointConnectedData extends Component {
               <HorizontalFormGroup label="Unit">
                 <br />
                 <div>
-                  { unit }
+                  {unit}
                 </div>
                 <br />
               </HorizontalFormGroup>
@@ -431,10 +440,11 @@ class EntryPointConnectedData extends Component {
                       label: d.name,
                       value: d.name,
                     })
-                  ).concat({
-                    label: '*',
-                    value: '*',
-                  })}
+                  )
+                    .concat({
+                      label: '*',
+                      value: '*',
+                    })}
                 />
               </HorizontalFormGroup>
             </div>
@@ -511,7 +521,8 @@ EntryPointConnectedData.defaultProps = {
   sessionId: null,
   catalog: null,
   catalogItem: null,
-  askUnit: () => {},
+  askUnit: () => {
+  },
 };
 
 const requiredFields = [
@@ -530,7 +541,6 @@ const validate = (values = {}) => {
 
   return errors;
 };
-
 
 const getUnitParams = (state, viewId, connectedData) => {
   const pageId = getPageIdByViewId(state, { viewId });
@@ -563,20 +573,14 @@ const getUnitParams = (state, viewId, connectedData) => {
   const sessionId = selectedSession ? selectedSession.id : null;
   const tupleId = getTupleId(domainId, sessionId);
 
-  const unit = getUnitByItemName(state.catalogs,
-    {
-      tupleId,
-      name: catalog,
-      itemName: catalogItem,
-    }
-  );
+  const unit = _get(state.catalogs, ['units', tupleId, catalog, catalogItem], 'Unknown');
 
   return {
     domainId,
     sessionId,
     catalog,
     catalogItem,
-    unit: unit || 'Unknown',
+    unit,
   };
 };
 
@@ -606,7 +610,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   askUnit: (domainId, sessionId, catalog, catalogItem) => {
-    dispatch(askCatalogsAndItemsAndUnit(domainId, sessionId, catalog, catalogItem));
+    dispatch(askUnitAction(domainId, sessionId, catalog, catalogItem));
   },
 });
 

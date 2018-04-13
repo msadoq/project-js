@@ -1,13 +1,18 @@
 import { getTupleId, getUnitByItemName } from 'store/reducers/catalogs';
 
 import {
-  WS_ASK_CATALOGS_AND_ITEMS_AND_UNIT,
   WS_CATALOG_ITEMS_ASK,
   WS_CATALOGS_ASK,
   WS_COM_OBJECTS_ASK,
   WS_UNIT_ASK,
 } from 'store/types';
-import { addCatalogItems, addCatalogs, addComObjects, addUnit } from 'store/actions/catalogs';
+import {
+  addCatalogItems,
+  addCatalogs,
+  addComObjects,
+  addUnit,
+  addUnitSimple,
+} from 'store/actions/catalogs';
 
 import getLogger from 'common/logManager';
 
@@ -48,7 +53,8 @@ const getCatalogItems = (state, { sessionId, domainId, name }) => {
 };
 
 const isCatalogLoaded = (state, { sessionId, domainId }) =>
-  state.catalogs && Object.keys(state.catalogs).includes(getTupleId(domainId, sessionId));
+  state.catalogs && Object.keys(state.catalogs)
+    .includes(getTupleId(domainId, sessionId));
 
 const areCatalogItemsLoaded = (state, { sessionId, domainId, name }) =>
   isCatalogLoaded(state, { sessionId, domainId }) &&
@@ -62,8 +68,6 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
 
   if (action.type === WS_CATALOGS_ASK) {
     const { sessionId, domainId } = action.payload;
-
-    logger.info('TUPLE ID = ', getTupleId(domainId, sessionId));
 
     if (isCatalogLoaded(state, { sessionId, domainId })) {
       return nextAction;
@@ -144,99 +148,23 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       domainId,
       name,
       itemName,
-      unit => dispatch(
-        addUnit(
-          getTupleId(domainId, sessionId),
-          name,
-          itemName,
-          unit
-        )
-      )
-    );
-  }
-
-  if (action.type === WS_ASK_CATALOGS_AND_ITEMS_AND_UNIT) {
-    const { sessionId, domainId, name, itemName } = action.payload;
-    const fetchUnit = () => {
-      asyncUnitFetcher(
-        sessionId,
-        domainId,
-        name,
-        itemName,
-        unit => dispatch(
+      (unit) => {
+        dispatch(
           addUnit(
             getTupleId(domainId, sessionId),
             name,
             itemName,
             unit
           )
-        )
-      );
-    };
-    const fetchCatalogItemsAndUnit = () => {
-      asyncCatalogItemFetcher(
-        sessionId,
-        domainId,
-        name,
-        (items) => {
-          dispatch(
-            addCatalogItems(
-              getTupleId(domainId, sessionId),
-              name,
-              items
-            )
-          );
-          fetchUnit();
-        }
-      );
-    };
-
-    logger.info(
-      `${WS_ASK_CATALOGS_AND_ITEMS_AND_UNIT}, with payload :\n ${JSON.stringify(action.payload)}`
-    );
-
-    if (isCatalogLoaded(state, { sessionId, domainId })) {
-      if (areCatalogItemsLoaded(state, { sessionId, domainId, name })) {
-        const tupleId = getTupleId(domainId, sessionId);
-        const existingUnit = getUnitByItemName(
-          state.catalogs,
-          {
-            tupleId,
+        );
+        dispatch(
+          addUnitSimple(
+            getTupleId(domainId, sessionId),
             name,
             itemName,
-          }
-        );
-
-        if (existingUnit) {
-          logger.info('Unit has already been fetched!');
-          return nextAction;
-        }
-
-        logger.info('Fetching only unit');
-        fetchUnit();
-
-        return nextAction;
-      }
-
-      logger.info('Fetching items + unit');
-      fetchCatalogItemsAndUnit();
-
-      return nextAction;
-    }
-
-    const args = [sessionId, domainId];
-
-    logger.info('Fetching catalogs + items + unit');
-    asyncCatalogFetcher(
-      ...args,
-      (catalogs) => {
-        dispatch(
-          addCatalogs(
-            getTupleId(domainId, sessionId),
-            catalogs
+            unit
           )
         );
-        fetchCatalogItemsAndUnit();
       }
     );
   }

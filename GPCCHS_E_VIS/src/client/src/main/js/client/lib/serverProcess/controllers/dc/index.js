@@ -142,14 +142,16 @@ module.exports = function dcController() {
       messageType,
       requestId,
       isLast,
-      isError } = controllers[versionDCComProtocol].decoder(headerBuffer);
+      isError
+    } = controllers[versionDCComProtocol].decoder(headerBuffer);
     if (messageType === undefined || messageType === null) {
       return logger.warn('invalid message received (no messageType)');
     }
     if (isError) {
       const decodedError = decode('dc.dataControllerUtils.ADEError', args[2]);
-      getStore().dispatch(addMessage('global', 'warning',
-        'error on processing header buffer '.concat(decodedError.message)));
+      getStore()
+        .dispatch(addMessage('global', 'warning',
+          'error on processing header buffer '.concat(decodedError.message)));
       return logger.error('error on processing header buffer '.concat(decodedError.message));
     }
     const fn = controllers[versionDCComProtocol].controller[messageType];
@@ -159,8 +161,9 @@ module.exports = function dcController() {
     logger.silly(`running '${messageType}'`);
     return fn(buffers, requestId, isLast);
   } catch (e) {
-    getStore().dispatch(addMessage('global', 'warning',
-      'error on processing header buffer '.concat(e)));
+    getStore()
+      .dispatch(addMessage('global', 'warning',
+        'error on processing header buffer '.concat(e)));
     return logger.error('error on processing header buffer '.concat(e));
   }
 };

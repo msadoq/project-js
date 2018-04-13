@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 import { formValueSelector } from 'redux-form';
-import { askCatalogsAndItemsAndUnit } from 'store/actions/catalogs';
+import { askUnit } from 'store/actions/catalogs';
 import getUnitParams from 'viewManager/commonData/getUnitParams';
 
 import EntryPointUnit from 'viewManager/common/Components/Editor/EntryPointUnit';
@@ -15,7 +15,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   askUnit: (domainId, sessionId, catalog, catalogItem) => {
-    dispatch(askCatalogsAndItemsAndUnit(domainId, sessionId, catalog, catalogItem));
+    dispatch(askUnit(domainId, sessionId, catalog, catalogItem));
   },
 });
 

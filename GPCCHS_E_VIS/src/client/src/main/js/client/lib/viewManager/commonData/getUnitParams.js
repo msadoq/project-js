@@ -1,6 +1,6 @@
+import _ from 'lodash';
 
 import {
-  getUnitByItemName,
   getTupleId,
 } from 'store/reducers/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
@@ -50,19 +50,13 @@ export default function getUnitParams(state, props) {
 
   const tupleId = getTupleId(domainId, sessionId);
 
-  const selected = getUnitByItemName(state.catalogs,
-    {
-      tupleId,
-      name: catalog,
-      itemName: catalogItem,
-    }
-  );
+  const unit = _.get(state.catalogs, ['units', tupleId, catalog, catalogItem], 'Unknown');
 
   return {
     domainId,
     sessionId,
     catalog,
     catalogItem,
-    unit: `${selected}`,
+    unit,
   };
 }

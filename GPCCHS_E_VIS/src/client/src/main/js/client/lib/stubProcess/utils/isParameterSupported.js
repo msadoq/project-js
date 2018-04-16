@@ -6085,6 +6085,7 @@ const supported = [
   'Reporting.TMMGT_BC_VIRTCHAN7<ReportingParameter>',
   'Reporting.TMMGT_BC_VIRTCHAN8<ReportingParameter>',
   'Reporting.TMMGT_BC_VIRTCHAN9<ReportingParameter>',
+  'StatValueDefinition.TEST_AGGREG<StatExecution>',
 ];
 
 module.exports = function isParameterSupported(dataId) {

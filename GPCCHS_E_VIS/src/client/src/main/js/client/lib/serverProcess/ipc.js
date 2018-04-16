@@ -303,27 +303,6 @@ const dcVersionMap = {
         }),
       ], err => (onDcResponseCallback(err, flatDataId)))
     ),
-    /* enum  METHOD
-    {
-        RETRIEVE_CATALOGS                = 0;
-        RETRIEVE_CATALOG_ITEMS           = 1;
-        RETRIEVE_CATALOG_ITEM_COMOBJECT  = 2;
-        RETRIEVE_CATALOG_ITEM_FIELD_UNIT = 3;
-        RETRIEVE_CATALOG_ITEM_EXISTS     = 4;
-        RETRIEVE_SATELLITE_ITEMS         = 5;
-    }
-    required METHOD method = 1;
-    optional uint32 sessionId = 2;
-    optional uint32 domainId = 3;
-    optional string catalogName = 4;
-// mandatory except for RETRIEVE_CATALOGS
-    optional string catalogItemName = 5;
-// mandatory except for RETRIEVE_CATALOGS and RETRIEVE_CATALOG_ITEMS
-    optional string comObject = 6;
-// mandatory for RETRIEVE_CATALOG_ITEM_FIELD_UNIT
-// and RETRIEVE_CATALOG_ITEM_EXISTS
-    optional string fieldName = 7;
-// mandatory for RETRIEVE_CATALOG_ITEM_FIELD_UNIT */
     retrieveSDBCatalogs: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOGS,
       args,
@@ -366,6 +345,43 @@ const dcVersionMap = {
   },
 };
 
+const pusCommands = {
+  rpc: (method, trames, callback) => {
+    logger.info(`sending rpc call ${method} to dc`);
+    const queryId = v4();
+    setCallback(queryId, callback);
+    zmq.push('pusPush', trames);
+
+    return queryId;
+  },
+  initialize: (trames, callback) => commands.pus.rpc(
+    constants.PUS_INITIALIZE,
+    [constants.PUS_INITIALIZE].concat(trames),
+    callback
+  ),
+  subscribe: (trames, callback) => commands.pus.rpc(
+    constants.PUS_SUBSCRIBE,
+    [constants.PUS_SUBSCRIBE].concat(trames),
+    callback
+  ),
+  unsubscribe: (trames, callback) => commands.pus.rpc(
+    constants.PUS_UNSUBSCRIBE,
+    [constants.PUS_UNSUBSCRIBE].concat(trames),
+    callback
+  ),
+  compare: (trames, callback) => commands.pus.rpc(
+    constants.PUS_COMPARE,
+    [constants.PUS_COMPARE].concat(trames),
+    callback
+  ),
+  reset: (trames, callback) => commands.pus.rpc(
+    constants.PUS_RESET,
+    [constants.PUS_RESET].concat(trames),
+    callback
+  ),
+
+};
+
 const commands = {
   main: {
     rpc: (method, payload, callback) => {
@@ -387,5 +403,6 @@ const commands = {
     },
   },
   dc: dcVersionMap[versionDCComProtocol],
+  pus: pusCommands,
 };
 module.exports = commands;

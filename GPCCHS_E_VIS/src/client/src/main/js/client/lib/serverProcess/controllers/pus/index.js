@@ -1,4 +1,8 @@
+import encoding from 'text-encoding';
+
 const logger = require('../../../common/logManager')('controllers/PUS/utils');
+
+const decoder = new encoding.TextDecoder();
 
 module.exports = function pusController() {
 /**
@@ -10,5 +14,8 @@ module.exports = function pusController() {
  */
   // eslint-disable-next-line prefer-rest-params, "DV6 TBC_CNES LPISIS Avoid 'Maximum call stack size exceeded' with rest operators and .apply() usage"
   const args = arguments;
-  logger.silly(JSON.stringify(args));
+  const data = Object.keys(args).map(key => args[key]);
+  data.forEach((param) => {
+    logger.info(decoder.decode(param));
+  });
 };

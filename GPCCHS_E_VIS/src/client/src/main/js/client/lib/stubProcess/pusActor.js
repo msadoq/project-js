@@ -1,3 +1,4 @@
+const encoding = require('text-encoding');
 const { resolve } = require('path');
 const zmq = require('common/zmq');
 const logger = require('../common/logManager')('stubs:utils');
@@ -6,20 +7,41 @@ const stubs = require('../utils/stubs');
 const constants = require('../constants');
 const parameters = require('../common/configurationManager');
 
+const decoder = new encoding.TextDecoder();
+
 parameters.init(resolve(__dirname, '../..'));
 adapter.registerGlobal();
 stubs.loadStubs();
 
-const onMessage = () => {
-
+const onMessage = (...args) => {
+  console.log(decoder.decode(args[0]));
+  switch (parseInt(decoder.decode(args[0]), 10)) {
+    case constants.PUS_INITIALIZE:
+      logger.info(`Received PUS INITIALIZE :  ${decoder.decode(args[1])}`);
+      break;
+    case constants.PUS_SUBSCRIBE:
+      logger.info(`Received PUS SUBSCRIBE :  ${decoder.decode(args[1])}`);
+      break;
+    case constants.PUS_UNSUBSCRIBE:
+      logger.info(`Received PUS UNSUBSCRIBE :  ${decoder.decode(args[1])}`);
+      break;
+    case constants.PUS_COMPARE:
+      logger.info(`Received PUS COMPARE :  ${decoder.decode(args[1])}`);
+      break;
+    case constants.PUS_RESET:
+      logger.info(`Received PUS RESET :  ${decoder.decode(args[1])}`); 
+      break;
+    default:
+      break;
+  }
 };
 
-const sendMessage = () => {
-  const toSend = `hello ${Date.now()}`;
+const sendMessage = (method, payload) => {
+  const toSend = `${method} ${payload}`;
   logger.debug(`Sending ${toSend}`);
   // console.log(`Sending ${toSend}`);
   zmq.push('stubPusPush', toSend);
-  return nextPusActorCall(); // eslint-disable-line no-use-before-define
+  // return nextPusActorCall(); // eslint-disable-line no-use-before-define
 };
 
 const nextPusActorCall = () => {

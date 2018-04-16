@@ -43,7 +43,7 @@ import InspectorContainer from './widgets/InspectorContainer';
 import InformationContainer from './widgets/InformationContainer';
 import CacheContainer from './widgets/CacheContainer';
 import CatalogExplorerContainer from './widgets/CatalogExplorerContainer';
-
+import PusTestContainer from './widgets/PusTestContainer';
 import PerformanceContainer from './widgets/PerformanceContainer';
 
 const NotAlreadyImplemented = () => <div>Not already implemented</div>;
@@ -57,6 +57,7 @@ const widgets = {
   cache: { title: 'Cache (developer)', component: CacheContainer },
   performance: { title: 'Performance (developer)', component: PerformanceContainer },
   information: { title: 'Information (developer)', component: InformationContainer },
+  pusTest: { title: 'PUS test(developer)', component: PusTestContainer },
 };
 
 export default class Explorer extends PureComponent {

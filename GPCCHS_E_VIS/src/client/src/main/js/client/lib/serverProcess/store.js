@@ -82,6 +82,7 @@ import windowSessionOrDomainUpdated from '../store/middlewares/windows/windowSes
 import getLogger from '../common/logManager';
 import makePlayerMiddleware from '../store/middlewares/player';
 import catalogMiddleware from '../store/middlewares/catalogs';
+import createPusTestMiddleware from '../store/middlewares/pus';
 
 const log = getLogger('server:store:enhancer');
 
@@ -92,6 +93,7 @@ const createMiddlewares = (identity, isDebugOn) => {
   const middlewares = [
     thunk,
     catalogMiddleware,
+    createPusTestMiddleware(ipc),
     createIncomingDataMiddleware(lokiManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),
     createCacheMiddleware(lokiManager),

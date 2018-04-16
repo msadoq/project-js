@@ -202,6 +202,7 @@
     "source-map-support": "~0.4.14",
     "spectron": "~3.6.1",
     "style-loader": "~0.16.1",
+    "text-encoding": "^0.6.4",
     "updeep": "~1.0.0",
     "uuid": "~3.0.1",
     "webpack": "~1.14.0",

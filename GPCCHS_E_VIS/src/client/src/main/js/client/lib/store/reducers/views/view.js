@@ -44,6 +44,7 @@
 // VERSION : 2.0.0 : DM : #5806 : 12/12/2017 : Save GMA search filter in documents
 // VERSION : 2.0.0 : DM : #5806 : 18/12/2017 : Set view "isModified" when receive an
 //  ALARM_INPUT_TOGGLE action
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 

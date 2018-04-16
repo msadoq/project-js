@@ -7,6 +7,7 @@
 //  from GUI for view, page, window and workspace
 // VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add possibility to modify domainName and sessionName
 //  from GUI for view, page, window and workspace
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 

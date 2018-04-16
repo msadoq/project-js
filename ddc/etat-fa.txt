@@ -1,4 +1,4 @@
-#GPCCHS 2.0.0 13/04/2018 etat-fa.txt
+#GPCCHS 2.0.0.1 18/04/2018 etat-fa.txt
 
 
 FT en cours de traitement :
@@ -17,6 +17,8 @@ ISIS-FT-1971|En attente|2017-03-23 07:58:39||d?marrage VIMA JS|None|None
 ISIS-FT-2031|En attente|2017-03-28 16:24:40||inspector View VIMA Qt|None|None
 ISIS-FT-2034|En attente|2017-03-28 16:24:40||packetView VIMA Qt|None|None
 ISIS-FT-2037|En attente|2017-03-28 16:24:40||ground alarm view VIMA Qt|None|None
+ISIS-FT-2229|En attente|2017-10-10 15:36:03||affichage param?tres TM dans VIMA|P|None
+ISIS-FT-2237|En Validation|2017-10-10 15:36:03||autocompl?tion pour aide au chargement des entrypoints VIMA|N|None
 ISIS-FT-2247|En attente|2017-10-10 15:36:03||filters sur param?tres TM VIMA|D|None
 ISIS-FT-2250|En Validation|2017-10-10 15:36:03||filters sur fileds param?tres TM VIMA|N|None
 ISIS-FT-2251|En Validation|2017-10-10 15:36:03||filters sur date fileds param?tres TM VIMA|N|None
@@ -35,6 +37,7 @@ ISIS-FT-2797|En attente|2018-01-17 10:49:13||contenu dynamicView PUS 11.10 incor
 ISIS-FT-2820|En attente|2018-01-24 13:43:51||probl?me affichage param?tres TM VIMA si d?calage temps bord/sol|D|None
 ISIS-FT-2821|En attente|2018-01-24 13:43:51||probl?me timeBar VIMA|D|None
 ISIS-FT-2912|En attente|2018-02-16 15:29:26||mise ? jour de textViews VIMA et checkTM|D|None
+ISIS-FT-2949|En D?veloppement|2018-03-06 14:24:13||dates affich?es dans decommutedPacket|D|None
 ISIS-FT-2950|Pre Analyse|2018-03-06 14:24:13||affichage complet queries VIMA|D|None
 ISIS-FT-2959|Ouvert|2018-03-06 14:24:13||wildcard dans timeLine ep VIMA|D|None
 
@@ -46,24 +49,64 @@ ISIS-FT-1605|Livr?|2016-04-04 14:58:20||Fichier de log VIMA trop volumineux pend
 ISIS-FT-1632|Livr?|2016-04-13 14:23:05||Les param?tres TM de type Absolutetime sont affich? avec un d?calage de 30 ans par rapport ? la valeur attendue|D|0.1.2.6
 ISIS-FT-1922|Livr?|2017-03-20 17:05:31||DataStore Explorer associ? ? VIMA JS|None|1.1.0
 ISIS-FT-1928|Livr?|2017-03-20 17:05:31||injecteur de donn?es VIMA JS|None|1.1.2
+ISIS-FT-1937|Livr?|2017-03-21 17:15:17||conversion d'unit?s|None|2.0.0-rc4.2
 ISIS-FT-1968|Livr?|2017-03-23 07:58:39||?diteur de vue VIMA JS|None|1.1.0.5
 ISIS-FT-1970|Livr?|2017-03-23 07:58:39||idSession dans le session time properties et idSession/Domain conf DC de la ligne d'essai VIMA|None|1.1.0.6
+ISIS-FT-1992|Livr?|2017-03-23 17:50:51||custom color plot VIMA JS|None|2.0.0
+ISIS-FT-1994|Livr?|2017-03-23 17:50:51||textual data plot VIMA JS|None|2.0.0
 ISIS-FT-2032|Livr?|2017-03-28 16:24:40||on board alarm VIMA Qt|None|1.1.0.8
+ISIS-FT-2036|Livr?|2017-03-28 16:24:40||ground alarm injecteur VIMA Qt|None|2.0.0-rc1
 ISIS-FT-2058|Livr?|2017-03-30 07:08:02||Trop de logs produits par VIMA Qt|D|
 ISIS-FT-2078|Livr?|2017-04-12 13:40:07||probl?mes perfo VIMA JS|None|1.1.0.9
 ISIS-FT-2107|Livr?|2017-04-28 16:05:08||Saisie des valeurs des bornes pour une PlotView|N|1.1.2-rc2
 ISIS-FT-2138|Livr?|2017-05-12 15:42:59||darg&drop depuis DSEX inop?rant|D|1.1.2.3
+ISIS-FT-2159|Livr?|2017-06-19 08:48:28||editeur champ flowType VIMA JS|N|2.0.0-rc4.3
+ISIS-FT-2215|Livr?|2017-10-10 09:00:49||acc?s complet aux paquets 3.25 et 3.26 dans VIMA|D|2.0.0-rc4.2
+ISIS-FT-2228|Livr?|2017-10-10 15:36:03||test decommutedPacket non repr?sentatif VIMA|N|2.0.0
 ISIS-FT-2234|Livr?|2017-10-10 15:36:03||perte donn?es cache lors de suppression de timeLine session dans VIMA|D|1.1.2.5
+ISIS-FT-2236|Livr?|2017-10-10 15:36:03||base utilis?e pour les tests TV VIMA|N|2.0.0
+ISIS-FT-2238|Livr?|2017-10-10 15:36:03||drag&drop paquet dans dynamicView VIMA|N|2.0.0
+ISIS-FT-2240|Livr?|2017-10-10 15:36:03||widget raccourcis add view page workspace ep VIMA|N|2.0.0
+ISIS-FT-2241|Livr?|2017-10-10 15:36:03||editeur et multi pages VIMA|D|2.0.0
 ISIS-FT-2243|Livr?|2017-10-10 15:36:03||affichage des donn?es al?atoire VIMA|D|1.1.2.4
+ISIS-FT-2248|Livr?|2017-10-10 15:36:03||filters sur param?tres TM VIMA|D|1.1.2.5
+ISIS-FT-2254|Livr?|2017-10-11 16:40:03||mode normal timeBar VIMA|N|2.0.0
+ISIS-FT-2255|Livr?|2017-10-11 16:40:04||mode fixed timeBar VIMA|N|2.0.0
+ISIS-FT-2256|Livr?|2017-10-11 16:40:04||raccourcis dangereux op?rationnellement|N|2.0.0-rc4.2
+ISIS-FT-2258|Livr?|2017-10-11 16:40:04||ergonomie timeBar VIMA|N|2.0.0-rc4.2
+ISIS-FT-2265|Livr?|2017-10-11 16:40:04||workspace et timeBar VIMA|N|2.0.0-rc4.2
+ISIS-FT-2266|Livr?|2017-10-11 16:40:04||?diteur page VIMA|N|2.0.0
+ISIS-FT-2267|Livr?|2017-10-11 16:40:04||cr?ation page VIMA|N|2.0.0
+ISIS-FT-2277|Livr?|2017-10-11 16:40:04||surveillance du monitoringState pour param?tres TM VIMA|D|1.1.2.4
+ISIS-FT-2280|Livr?|2017-10-11 16:40:04||ergonomie plotView VIMA|N|2.0.0
+ISIS-FT-2281|Livr?|2017-10-11 16:40:04||zoom plotView VIMA|N|2.0.0
+ISIS-FT-2288|Livr?|2017-10-11 16:40:04||configuration VIMA|D|2.0.0-rc4.3
+ISIS-FT-2309|Livr?|2017-10-12 15:11:29||surveillance du monitoringState pour param?tres TM VIMA|D|2.0.0
+ISIS-FT-2311|Livr?|2017-10-17 09:33:59||offset timeLine VIMA|D|2.0.0
+ISIS-FT-2312|Livr?|2017-10-17 09:33:59||?diteur HTML VIMA|D|2.0.0-rc4
+ISIS-FT-2315|Livr?|2017-10-17 09:33:59||configuration VIMA JS|D|2.0.0-rc4.2
 ISIS-FT-2414|Livr?|2017-10-24 14:14:06||affichage des paquets TM VIMA|D|1.1.2.6
+ISIS-FT-2416|Livr?|2017-10-24 14:14:06||relecture SDD GPVI|None|2.0.0
+ISIS-FT-2417|Livr?|2017-10-24 14:14:06||relecture SVS GPVI|None|2.0.0-rc4.3
+ISIS-FT-2430|Livr?|2017-10-31 13:57:43||perfo VIMA|P|2.0.0
+ISIS-FT-2448|Livr?|2017-11-07 16:32:32||VIMA crashe en real-time sur reception d'un decommutedPacket avec une dynamicView ouverte|P|1.1.2.8
 ISIS-FT-2588|Livr?|2017-11-24 14:13:25||Non repr?sentativit? de l'affichage de la vue PUS MME|D|1.1.2.9
 ISIS-FT-2600|Livr?|2017-11-28 09:50:01||PUS 11 : ?tat incoh?rent entre l?IHM et le mod?le sol (dump)|D|1.1.2.11
+ISIS-FT-2604|Livr?|2017-11-28 09:50:01||Vima Qt : l?ouverture de la vue PUS MME provoque un crash de la VIMA Qt|D|2.0.0-rc4
 ISIS-FT-2655|Livr?|2017-11-30 07:37:24||Application des ACL sur l'installeur incomplete|D|1.1.2.11
 ISIS-FT-2658|Livr?|2017-11-30 07:37:25||Partitionnement par d?faut du CD d'installation RedHat|D|1.1.2.11
+ISIS-FT-2659|Livr?|2017-11-30 07:37:25||documentation du processus d'installation: suppression keytab|D|2.0.0-rc4
+ISIS-FT-2663|Livr?|2017-11-30 07:37:25||le script session-system plante et ne permet pas l'analyse des logs|D|2.0.0
+ISIS-FT-2701|Livr?|2017-12-07 15:20:05||faux-positifs Erreurs lors de la s?curisation de l'installeur|D|2.0.0-rc4.1
+ISIS-FT-2726|Livr?|2017-12-13 15:48:16||mauvais format dates en-tete DynamicView|D|2.0.0-rc4.3
 ISIS-FT-2727|Livr?|2017-12-13 15:48:16||impossible d'agrandir une vue dans une nouvelle page|D|1.1.2.11
 ISIS-FT-2728|Livr?|2017-12-13 15:48:16||contenu dynamicView incorrect|D|1.1.2.12
 ISIS-FT-2751|Livr?|2018-01-02 10:15:43||impossible sauvegarder ?dition dynamicViews|D|1.1.2.11
 ISIS-FT-2755|Livr?|2018-01-02 10:15:43||performance VIMA/TBD sur sc?nario repr?sentatif|P|1.1.2.11
+ISIS-FT-2800|Livr?|2018-01-17 10:49:13||fonctionnement queries VIMA incorrect|D|2.0.0-rc4.2
+ISIS-FT-2823|Livr?|2018-01-30 14:14:34||bugs timeSetter de VIMA|D|2.0.0-rc4.4
+ISIS-FT-2865|Livr?|2018-02-13 15:17:28||Droits sur les fichiers g?n?r?s par le SGC incorrects|None|2.0.0-rc4.3
+ISIS-FT-2913|Livr?|2018-02-16 15:29:26||Workspace VIMA JS : perte des liens vers les pages lors d'un import d'un workspace|D|2.0.0-rc4.4
 ISIS-FT-942|Livr?|2016-01-06 10:35:03||Lancement impossible de Vima depuis un deuxi?me client l?ger|D|1.1.0.2
 
 

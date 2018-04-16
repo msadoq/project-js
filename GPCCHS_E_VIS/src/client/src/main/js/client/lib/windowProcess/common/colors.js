@@ -11,6 +11,7 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2241 : 31/01/2018 : Refacto state colors // cleanup
 // VERSION : 2.0.0 : FA : ISIS-FT-2309 : 31/01/2018 : surveillance du monitoringState pour
 //  parametres TM VIMA
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 

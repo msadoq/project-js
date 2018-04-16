@@ -62,6 +62,7 @@
 //  WS_MODAL_CLOSED
 // VERSION : 2.0.0 : DM : #5806 : 14/11/2017 : Merge branch 'alarm_5806' into dev
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 

@@ -1,4 +1,4 @@
-#GPCCHS 2.0.0 13/04/2018 FC-#10863.txt
+#GPCCHS 2.0.0.1 18/04/2018 FC-#10863.txt
 
 
 Reference changement : #10863
@@ -13,13 +13,6 @@ SOLUTION APPORTEE
 
 GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/selectors.js
 	Fix column filtering . .
-	fix sortDataBy in tables, dealing also with columns without data
-
-
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/__snapshots__/sortDataBy.spec.js.snap
-	fix sortDataBy in tables, dealing also with columns without data
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sortDataBy.js (idem)
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sortDataBy.spec.js (idem)
 
 DOCUMENTS MODIFIES
 ==================
@@ -28,9 +21,6 @@ DOCUMENTS MODIFIES
 FICHIERS MODIFIES
 =================
 GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/selectors.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/__snapshots__/sortDataBy.spec.js.snap
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sortDataBy.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sortDataBy.spec.js
 
 FICHIERS AJOUTES
 ================

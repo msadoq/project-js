@@ -34,6 +34,7 @@
 // VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
 // VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
 // VERSION : 2.0.0 : FA : #11591 : 06/04/2018 : Vima Drag and drop removal
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 

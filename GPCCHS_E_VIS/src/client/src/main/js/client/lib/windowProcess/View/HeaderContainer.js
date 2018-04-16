@@ -19,6 +19,7 @@
 // VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
 // VERSION : 2.0.0 : FA : #10835 : 01/03/2018 : if EntryPoint's domain is '*', uses the page
 //  domain, or workspace domain.
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 

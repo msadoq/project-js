@@ -5,9 +5,9 @@ module.exports = {
     statExecution: data.statExecution,
   }),
   decode: data => {
-    const statExecution = data[0];
-    const statValueData = data[1];
-    const statAggregData = data[2];
+    const statExecution = data['Execution'];
+    const statValueData = data['StatValue'];
+    const statAggregData = data['StatAggregation'];
     const obj = {
       launchingTime: statExecution.launchingTime,
       related: statValueData.related,

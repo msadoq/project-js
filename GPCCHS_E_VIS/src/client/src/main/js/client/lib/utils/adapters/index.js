@@ -134,9 +134,9 @@ const decodePayload = (buffer) => {
   if (genericPayload.length === 1) {
     return genericPayload[0].payload;
   }
-  return genericPayload.map(
-    ({ header, payload }) => protobuf.decode(getMapper(getType(header.comObjectType)), payload)
-  );
+  // Because the use of the comma operator is magnificient
+  // eslint-disable-next-line 
+  return genericPayload.reduce((acc, { header, payload }) => (acc[header.comObjectType] = protobuf.decode(getMapper(getType(header.comObjectType)), payload), acc), {});
 };
 
 const getFields = (comObjectName) => {

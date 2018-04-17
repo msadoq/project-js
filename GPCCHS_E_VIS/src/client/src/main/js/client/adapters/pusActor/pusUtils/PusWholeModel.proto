@@ -1,0 +1,7 @@
+package pusUtils.protobuf;
+message PusWholeModel {
+    required string modelUniqueId = 1;
+    required string pusName = 2;
+    required bytes payload = 3; // Contient le proto PUS de la ligne de produit qui nous intéresse, le nom du modèle est contenu dans pusName.
+
+}

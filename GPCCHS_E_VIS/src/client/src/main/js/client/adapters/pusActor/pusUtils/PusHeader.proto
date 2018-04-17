@@ -1,0 +1,16 @@
+package pusUtils.protobuf;
+message PusHeader {
+   enum METHOD
+   {
+        INITIALIZE    = 0; 
+        SUBSCRIBE = 1; 
+        UNSUBSCRIBE = 2; 
+        COMPARE = 3; 
+        RESET = 4; 
+        ON_PUBSUB = 5; 
+        ON_INITIALIZE = 6; 
+        ON_COMPARE = 7; 
+
+   }
+   required METHOD method = 1;
+}

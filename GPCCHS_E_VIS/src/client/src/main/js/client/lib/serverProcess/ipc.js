@@ -71,6 +71,7 @@ const getDcHeader = _memoize(
 /*----------------*/
 
 const getDcHeaderADE = (method, requestId) => encode('dc.dataControllerUtils.ADEHeader', { method, requestId });
+const getPusHeader = method => encode('pusActor.pusUtils.PusHeader', { method });
 
 const getDcDataId = _memoize(
   (flatDataId, dataId) => encode('dc.dataControllerUtils.DataId', dataId),
@@ -350,33 +351,35 @@ const pusCommands = {
     logger.info(`sending rpc call ${method} to dc`);
     const queryId = v4();
     setCallback(queryId, callback);
-    zmq.push('pusPush', trames);
+    zmq.push('pusPush', [
+      getPusHeader(method),
+    ].concat(trames));
 
     return queryId;
   },
-  initialize: (trames, callback) => commands.pus.rpc(
+  initialize: (pusId, apId, callback) => commands.pus.rpc(
     constants.PUS_INITIALIZE,
-    [constants.PUS_INITIALIZE].concat(trames),
+    encode('pusActor.pusUtils.PusInitialize', { pusId, apId }),
     callback
   ),
-  subscribe: (trames, callback) => commands.pus.rpc(
+  subscribe: (pusId, apId, callback) => commands.pus.rpc(
     constants.PUS_SUBSCRIBE,
-    [constants.PUS_SUBSCRIBE].concat(trames),
+    encode('pusActor.pusUtils.PusSubscribe', { pusId, apId }),
     callback
   ),
-  unsubscribe: (trames, callback) => commands.pus.rpc(
+  unsubscribe: (pusId, apId, callback) => commands.pus.rpc(
     constants.PUS_UNSUBSCRIBE,
-    [constants.PUS_UNSUBSCRIBE].concat(trames),
+    encode('pusActor.pusUtils.PusUnsubscribe', { pusId, apId }),
     callback
   ),
-  compare: (trames, callback) => commands.pus.rpc(
+  compare: (pusId, apId, date, callback) => commands.pus.rpc(
     constants.PUS_COMPARE,
-    [constants.PUS_COMPARE].concat(trames),
+    encode('pusActor.pusUtils.PusCompare', { pusId, apId, date }),
     callback
   ),
-  reset: (trames, callback) => commands.pus.rpc(
+  reset: (pusId, apId, date, callback) => commands.pus.rpc(
     constants.PUS_RESET,
-    [constants.PUS_RESET].concat(trames),
+    encode('pusActor.pusUtils.PusReset', { pusId, apId, date }),
     callback
   ),
 

@@ -207,6 +207,10 @@
     {
       "path" : "./adapters/",
       "ns" :"dc"
+    },
+    {
+      "path" : "./adapters/",
+      "ns" :"pusActor"
     }
   ],
   "DISABLE_LOKI_CACHE": false,

@@ -12,23 +12,23 @@ export default class PusTest extends PureComponent {
   };
 
   initialize = () => {
-    this.props.initialize();
+    this.props.initialize('myPusId', 'myApId');
   }
 
   subscribe = () => {
-    this.props.subscribe();
+    this.props.subscribe('myPusId', 'myApId');
   }
 
   unsubscribe = () => {
-    this.props.unsubscribe();
+    this.props.unsubscribe('myPusId', 'myApId');
   }
 
   compare = () => {
-    this.props.compare();
+    this.props.compare('myPusId', 'myApId', Date.now());
   }
 
   reset = () => {
-    this.props.reset();
+    this.props.reset('myPusId', 'myApId', Date.now());
   }
   render() {
     return (

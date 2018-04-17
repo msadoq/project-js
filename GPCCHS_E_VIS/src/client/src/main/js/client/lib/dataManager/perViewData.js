@@ -41,6 +41,7 @@ import { getPageDomainName, getPageSessionName, getPageLayout } from '../store/r
 import { getDomainName, getSessionName } from '../store/reducers/hsc';
 import { getSessions } from '../store/reducers/sessions';
 import { getTimebarMasterId } from '../store/reducers/timebars';
+import { getCurrentSession } from '../store/selectors/sessions';
 
 // const logger = getLogger('data:perViewData');
 
@@ -89,7 +90,9 @@ function filterBySession(
  */
 export default function makeGetPerViewData() {
   return createSelector(
+    // FIXME: I think it could be removed since filterBySession should use getCurrentSession
     getTimebarMasterId,
+    getCurrentSession,
     getDomains,
     getTimebarTimelinesSelector,
     (state, { timebarUuid }) => timebarUuid,
@@ -105,8 +108,8 @@ export default function makeGetPerViewData() {
     getDomainName, // in HSC
     getSessionName, // in HSC
 
-    (masterTimeBarID, domains, viewTimelines, timebarUuid, sessions, view, entryPoints,
-     pageDomain, pageSessionName, layout, workspaceDomain, workspaceSessionName) => {
+    (masterTimeBarID, masterTimelineSession, domains, viewTimelines, timebarUuid, sessions, view,
+     entryPoints, pageDomain, pageSessionName, layout, workspaceDomain, workspaceSessionName) => {
       if (anyUndefined([domains, timebarUuid, viewTimelines, sessions, view, entryPoints])) {
         return {};
       }
@@ -137,7 +140,7 @@ export default function makeGetPerViewData() {
               sessions,
               viewTimelines,
               ep,
-              masterTimeBarID,
+              masterTimelineSession,
               timebarUuid,
               type,
               view.domainName,

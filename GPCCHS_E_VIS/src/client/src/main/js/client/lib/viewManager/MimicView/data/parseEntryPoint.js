@@ -37,7 +37,7 @@ function parseEntryPoint(
   sessions,
   timelines,
   entryPoint,
-  masterSessionId,
+  masterTimelineSession,
   timebarUuid,
   viewType) {
   if (!timebarUuid) {
@@ -53,7 +53,7 @@ function parseEntryPoint(
       sessions,
       timelines,
       connectedData,
-      masterSessionId,
+      masterTimelineSession,
       null,
       null,
       null,

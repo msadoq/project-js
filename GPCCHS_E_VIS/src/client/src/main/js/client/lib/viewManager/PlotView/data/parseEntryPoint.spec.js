@@ -24,6 +24,9 @@
 // ====================================================================
 
 import parseEntryPoint from './parseEntryPoint';
+import { get } from '../../../common/configurationManager';
+
+const WILDCARD = get('WILDCARD_CHARACTER');
 
 describe('viewManager/PlotView/data/parseEntryPoint', () => {
   let timelines;
@@ -92,7 +95,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd1',
           domain: 'cnes',
@@ -121,8 +124,8 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
     });
   });
   test('wildcard => view data', () => {
-    entryPoint.connectedData.timeline = '*';
-    entryPoint.connectedData.domain = '*';
+    entryPoint.connectedData.timeline = WILDCARD;
+    entryPoint.connectedData.domain = WILDCARD;
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'PlotView',
         'cnes.isis', undefined, undefined, 'session2')
@@ -132,7 +135,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd2',
           domain: 'cnes.isis',
@@ -161,8 +164,8 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
     });
   });
   test('wildcard => page data', () => {
-    entryPoint.connectedData.timeline = '*';
-    entryPoint.connectedData.domain = '*';
+    entryPoint.connectedData.timeline = WILDCARD;
+    entryPoint.connectedData.domain = WILDCARD;
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'PlotView',
         undefined, 'cnes.isis', undefined, undefined, 'session2')
@@ -172,7 +175,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd2',
           domain: 'cnes.isis',
@@ -201,8 +204,8 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
     });
   });
   test('wildcard => workspace data', () => {
-    entryPoint.connectedData.timeline = '*';
-    entryPoint.connectedData.domain = '*';
+    entryPoint.connectedData.timeline = WILDCARD;
+    entryPoint.connectedData.domain = WILDCARD;
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'PlotView',
         undefined, undefined, 'cnes.isis', undefined, undefined, 'session2')
@@ -212,7 +215,7 @@ describe('viewManager/PlotView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd2',
           domain: 'cnes.isis',

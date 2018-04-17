@@ -35,6 +35,9 @@
 
 import state from 'common/jest/stateTest';
 import { getViewEntryPoint, getWindowAllViewsIds } from './views';
+import { get } from '../../common/configurationManager';
+
+const WILDCARD = get('WILDCARD_CHARACTER');
 
 describe('store:views:selectors', () => {
   test('getViewEntryPoint', () => {
@@ -45,7 +48,7 @@ describe('store:views:selectors', () => {
       dataId: {
         catalog: 'Reporting',
         parameterName: 'AGA_AM_PRIORITY',
-        provider: '',
+        provider: WILDCARD,
         comObject: 'ReportingParameter',
         domainId: 4,
         domain: 'fr.cnes.isis.simupus',

@@ -14,11 +14,11 @@ import {
   addUnitSimple,
 } from 'store/actions/catalogs';
 
-import getLogger from 'common/logManager';
+// import getLogger from 'common/logManager';
 
 import { dc } from '../../../serverProcess/ipc';
 
-const logger = getLogger('middleware:catalogs');
+// const logger = getLogger('middleware:catalogs');
 
 const asyncCatalogFetcher = (sessionId, domainId, cb) =>
   dc.retrieveSDBCatalogs({ sessionId, domainId }, cb);

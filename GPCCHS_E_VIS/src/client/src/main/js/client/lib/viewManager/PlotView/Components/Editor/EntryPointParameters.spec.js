@@ -6,16 +6,13 @@ import { reduxForm } from 'redux-form';
 import _each from 'lodash/each';
 import EntryPointParameters from './EntryPointParameters';
 
-const propsStub = {
-  initialValues: {
-    line: {},
-    points: {},
+let propsStub = {
+  entryPoint: {
+    objectStyle: {
+      line: {},
+      points: {},
+    },
   },
-  handleSubmit: () => null,
-  pristine: true,
-  reset: () => null,
-  submitting: true,
-  valid: true,
 };
 describe('EntryPointParameters :: render', () => {
   _each([true, false], (displayLine) => {
@@ -23,12 +20,15 @@ describe('EntryPointParameters :: render', () => {
       test(`EntryPointParameters :: render :: ${displayLine}-${displayPoints}`, () => {
         const Decorated = reduxForm({ form: 'testForm' })(EntryPointParameters);
         const store = createStore(state => state, {});
+        propsStub = {
+          ...propsStub,
+          displayLine,
+          displayPoints,
+        };
         const tree = renderer.create(
           <Provider store={store}>
             <Decorated
               {...propsStub}
-              displayLine={displayLine}
-              displayPoints={displayPoints}
             />
           </Provider>
         ).toJSON();

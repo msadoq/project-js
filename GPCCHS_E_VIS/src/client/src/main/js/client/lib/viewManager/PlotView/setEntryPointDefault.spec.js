@@ -47,6 +47,8 @@ describe('viewManager', () => {
             size: 3,
           },
           curveColor: '#00FF00',
+          displayLine: true,
+          displayPoints: false,
         },
         stateColors: [],
       });
@@ -91,6 +93,8 @@ describe('viewManager', () => {
             size: 3,
           },
           curveColor: '#00FF00',
+          displayLine: true,
+          displayPoints: false,
         },
         stateColors: [],
       });
@@ -135,6 +139,8 @@ describe('viewManager', () => {
             size: 3,
           },
           curveColor: '#00FF00',
+          displayLine: true,
+          displayPoints: false,
         },
         stateColors: [],
       });

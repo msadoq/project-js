@@ -948,10 +948,10 @@ export class GrizzlyPlotView extends React.Component {
                   ? _get(ep, ['objectStyle', 'line', 'size'])
                   : 0,
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
-                pointStyle: _get(ep, ['objectStyle', 'displayPoints'], true) === true
-                  ? _get(ep, ['objectStyle', 'points', 'style'])
+                pointSize: _get(ep, ['objectStyle', 'displayPoints'], true) === true
+                  ? _get(ep, ['objectStyle', 'points', 'size'])
                   : 0,
-                pointSize: _get(ep, ['objectStyle', 'points', 'size']),
+                pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 dataAccessor: ep.name,
                 stopInstruction: (packet) => {
                   let stop = false;

@@ -45,6 +45,8 @@ const getNewPlotEntryPoint = () => ({
     yAxisId: '',
   },
   objectStyle: {
+    displayLine: true,
+    displayPoints: false,
     line: {
       style: 'Continuous',
       size: 3,

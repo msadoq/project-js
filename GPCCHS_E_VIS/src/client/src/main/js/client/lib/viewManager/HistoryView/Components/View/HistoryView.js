@@ -74,9 +74,11 @@ class HistoryView extends React.Component {
 
   render() {
     return (
-      <DroppableContainer onDrop={this.onDrop}>
+      <DroppableContainer
+        className={'HistoryView'}
+        onDrop={this.onDrop}
+      >
         <NTableView
-          className={'HistoryView'}
           {...this.props}
         />
       </DroppableContainer>

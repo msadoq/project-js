@@ -86,7 +86,7 @@ ColumnHeaders.propTypes = {
 };
 
 ColumnHeaders.defaultProps = {
-  width: 220,
+  width: 200,
   cols: [],
   sortState: {},
 };

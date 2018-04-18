@@ -54,7 +54,10 @@ const NTableView = (
     />
     </thead>
     <tbody>
-    <Rows rows={data.data} />
+    <Rows
+      rows={data.data}
+      config={config}
+    />
     </tbody>
   </table>
 );
@@ -64,6 +67,7 @@ NTableView.propTypes = {
     sorting: PropTypes.shape(),
     dataOffset: PropTypes.number,
     maxDisplayedRows: PropTypes.number,
+    search: PropTypes.string,
   }).isRequired,
   data: PropTypes.shape({
     groups: PropTypes.shape(),

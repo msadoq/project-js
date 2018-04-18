@@ -1,7 +1,9 @@
 
 .ColumnHeaders {
+  font-size: 11px;
+
   th {
-	// white-space: nowrap;
+	vertical-align: middle;
   }
 
   [role='presentation'] {
@@ -24,6 +26,7 @@
   .Arrows {
 	position: relative;
 	float: left;
+	top: 8px;
 	left: 8px;
   }
 
@@ -33,5 +36,9 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+  }
+
+  .Arrows, .Label {
+	display: inline-block;
   }
 }

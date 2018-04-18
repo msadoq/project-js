@@ -52,23 +52,25 @@ const ColumnHeaders = ({ width, cols, sortState, onSort }) => (
                 width,
               }}
             >
-              <span className={'Arrows'}>
-                <SortArrow
-                  colKey={colKey}
-                  mode={'ASC'}
-                  active={sortState.colName === colKey && sortState.direction === 'ASC'}
-                  onClick={() => onSort(colKey, 'ASC')}
-                />
-                <SortArrow
-                  colKey={colKey}
-                  mode={'DESC'}
-                  active={sortState.colName === colKey && sortState.direction === 'DESC'}
-                  onClick={() => onSort(colKey, 'DESC')}
-                />
-              </span>
-              <span className={'Label'}>
-                {colKey}
-              </span>
+              <div>
+                <span className={'Arrows'}>
+                  <SortArrow
+                    colKey={colKey}
+                    mode={'ASC'}
+                    active={sortState.colName === colKey && sortState.direction === 'ASC'}
+                    onClick={() => onSort(colKey, 'ASC')}
+                  />
+                  <SortArrow
+                    colKey={colKey}
+                    mode={'DESC'}
+                    active={sortState.colName === colKey && sortState.direction === 'DESC'}
+                    onClick={() => onSort(colKey, 'DESC')}
+                  />
+                </span>
+                <span className={'Label'}>
+                  {colKey}
+                </span>
+              </div>
             </th>
           )
         )

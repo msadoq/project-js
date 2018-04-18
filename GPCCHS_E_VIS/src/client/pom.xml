@@ -14,8 +14,8 @@
     <relativePath/>
   </parent>
   <properties>
-    <isis.rpm.patchlevel>0001</isis.rpm.patchlevel>
-    <isis.rpm.patchlevel.min>0001</isis.rpm.patchlevel.min>
+    <isis.rpm.patchlevel>0002</isis.rpm.patchlevel>
+    <isis.rpm.patchlevel.min>0002</isis.rpm.patchlevel.min>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <find.dependencies.dir>${basedir}/target/dependencies</find.dependencies.dir>
     <api.target.dir>${basedir}/target</api.target.dir>

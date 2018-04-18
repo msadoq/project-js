@@ -21,13 +21,15 @@ const getDefaultView = _.merge({
     },
     dataOffset: 0,
     maxDisplayedRows: 1000,
-    availableFields: {
-      'default': ['referenceTimestamp', 'epName'],
-    },
-    displayedFields: {
-      referenceTimestamp: true,
-      epName: true,
-    },
+    columns: [
+      [
+        'default',
+        [
+          { field: 'epName', isDisplayed: true },
+          { field: 'referenceTimestamp', isDisplayed: true },
+        ],
+      ],
+    ],
   },
 });
 

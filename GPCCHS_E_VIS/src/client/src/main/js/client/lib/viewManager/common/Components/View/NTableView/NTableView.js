@@ -67,7 +67,7 @@ NTableView.propTypes = {
   }).isRequired,
   data: PropTypes.shape({
     groups: PropTypes.shape(),
-    cols: PropTypes.arrayOf(PropTypes.string),
+    cols: PropTypes.shape(),
   }),
   onSort: PropTypes.func.isRequired,
   onFilter: PropTypes.func.isRequired,

@@ -16,49 +16,58 @@ const availableComObjects = [
 ];
 
 /**
- * List of all the parameters that are displayed in HistoryView table
+ * Returns an object mapping each group name with its respective size,
+ * i.e the number of fields that are in this group
  *
- * @type {string[]}
+ * @param columns
+ * @returns {*|{}}
  */
-const COLS = [
-  'referenceTimestamp',
-  'epName',
-];
+const computeGroupSizes = (columns = []) =>
+  columns.reduce((acc, group) => {
+    const groupName = group[0];
+    const groupParams = group[1];
+    const groupSize = groupParams.length;
 
-const DISPLAYED_COLS = COLS.reduce((acc, value) =>
-  ({
-    ...acc,
-    [value]: true,
-  })
-);
-
-const COLS_INDEXES = _.invert(COLS);
+    return {
+      ...acc,
+      [groupName]: groupSize,
+    };
+  }, {});
 
 /**
- * Maps each parameter name to a specific group
+ * Get the ordered list of the parameters to display
  *
- * @type object
+ * @param columns
+ * @returns {*|*[]}
  */
-export const COL_GROUP_MAP = {
-  referenceTimestamp: 'default',
-  epName: 'default',
-};
+const getColumns = (columns = []) =>
+  columns.reduce((acc, group) => {
+    const groupParams =
+      group[1]
+        .filter(param => param.isDisplayed)
+        .map(param => param.field);
 
-const GROUPS_SIZE =
-  Object
-    .keys(COL_GROUP_MAP)
-    .reduce((acc, colKey) => {
-      const group = COL_GROUP_MAP[colKey];
+    return [
+      ...acc,
+      ...groupParams,
+    ];
+  }, []);
 
-      if (!acc[group]) {
-        acc[group] = 0;
-      }
+const getColumnGroupMap = (columns = []) =>
+  columns.reduce((acc, group) => {
+    const groupName = group[0];
+    const groupParams = group[1];
 
-      acc[group] += 1;
+    return {
+      ...acc,
+      ...groupParams.reduce((paramAcc, param) => ({
+        ...paramAcc,
+        [param.field]: groupName,
+      }), {}),
+    };
+  }, {});
 
-      return acc;
-    }, {});
-
+const getColumnIndex = (colKey, columns) => columns.indexOf(colKey);
 
 /**
  * Formats received data to appropriate format, i.e an array of values, e.g:
@@ -89,10 +98,11 @@ const preformatData = (rawData, config) => {
       acc[index] = [];
     }
 
-    const displayedFields = config.displayedFields || DISPLAYED_COLS;
+    const columns = getColumns(config.columns);
 
-    Object.keys(displayedFields)
-      .forEach(colKey => acc[index].push(ep[colKey]));
+    Object
+      .keys(columns)
+      .forEach(colIndex => acc[index].push(ep[columns[colIndex]]));
 
     return acc;
   };
@@ -128,8 +138,10 @@ const sortData = (preformattedData, config) => {
 
   const sortedData = preformattedData.slice();
 
-  const colName = config.sorting;
-  const colIndex = COLS_INDEXES[colName];
+  const columns = getColumns(config.columns);
+
+  const colName = config.sorting.colName;
+  const colIndex = getColumnIndex(colName, columns);
   const direction = config.sorting.direction || 'ASC';
 
   const compareRows = (arr1, arr2) => {
@@ -166,15 +178,18 @@ const filterData = (preformattedData, config) => {
     return preformattedData;
   }
 
-  const { filters } = config;
+  const { filters, columns: columnsConfig } = config;
+
+  const columns = getColumns(columnsConfig);
 
   const shouldKeepRow = (row) => {
     let ans = true;
 
-    Object.keys(filters)
+    Object
+      .keys(filters)
       .forEach((key) => {
         const filterValue = filters[key];
-        const rowValueToFilter = row[COLS_INDEXES[key]];
+        const rowValueToFilter = row[getColumnIndex(key, columns)];
         if (rowValueToFilter.indexOf(filterValue) === -1) {
           ans = false;
         }
@@ -220,8 +235,8 @@ const computeMaxDisplayedRows = (config) => {
  * @return {{length: *, groups: *}}
  */
 const formatData = (rawData, config) => ({
-  groups: GROUPS_SIZE,
-  cols: COLS,
+  groups: computeGroupSizes(config.columns),
+  cols: getColumnGroupMap(config.columns),
   data:
     scopeData(sortData(filterData(preformatData(rawData, config), config), config), config),
 });

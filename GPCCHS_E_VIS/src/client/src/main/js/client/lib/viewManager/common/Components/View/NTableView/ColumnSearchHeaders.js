@@ -7,7 +7,7 @@ import './ColumnSearchHeaders.scss';
 const ColumnSearchHeaders = ({ cols, filterState, onSearch }) => (
   <tr className={'ColumnSearchHeaders'}>
     {
-      cols
+      Object.keys(cols)
         .map(
           colKey =>
             <th
@@ -26,7 +26,7 @@ const ColumnSearchHeaders = ({ cols, filterState, onSearch }) => (
 );
 
 ColumnSearchHeaders.propTypes = {
-  cols: PropTypes.arrayOf(PropTypes.any),
+  cols: PropTypes.shape(),
   filterState: PropTypes.shape(),
   onSearch: PropTypes.func.isRequired,
 };

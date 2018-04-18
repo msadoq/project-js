@@ -18,9 +18,10 @@ import HistoryView from './HistoryView';
 const mapStateToProps = (state, { viewId }) => {
   const config = getConfiguration(state, { viewId });
   const data = getData(state, { viewId });
+  const formattedData = formatData(data, config);
   return {
     config,
-    data: formatData(data, config),
+    data: formattedData,
   };
 };
 

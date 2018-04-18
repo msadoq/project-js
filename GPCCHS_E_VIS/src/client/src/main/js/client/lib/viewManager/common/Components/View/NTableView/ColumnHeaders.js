@@ -38,7 +38,7 @@ SortArrow.defaultProps = {
   },
 };
 
-const ColumnHeaders = ({ cols, sortState, onSort }) => (
+const ColumnHeaders = ({ width, cols, sortState, onSort }) => (
   <tr className={'ColumnHeaders'}>
     {
       Object
@@ -49,6 +49,7 @@ const ColumnHeaders = ({ cols, sortState, onSort }) => (
               key={`${colKey}$col-header`}
               style={{
                 backgroundColor: generateColor(cols[colKey]),
+                width,
               }}
             >
               <span className={'Arrows'}>
@@ -76,12 +77,14 @@ const ColumnHeaders = ({ cols, sortState, onSort }) => (
 );
 
 ColumnHeaders.propTypes = {
+  width: PropTypes.number,
   cols: PropTypes.shape(),
   sortState: PropTypes.shape(),
   onSort: PropTypes.func.isRequired,
 };
 
 ColumnHeaders.defaultProps = {
+  width: 220,
   cols: [],
   sortState: {},
 };

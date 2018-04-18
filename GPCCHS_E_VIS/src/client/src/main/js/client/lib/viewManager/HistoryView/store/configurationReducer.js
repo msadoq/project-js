@@ -11,6 +11,28 @@ import * as types from 'store/types';
 import { SORTING_DESC } from 'constants';
 
 
+/**
+ * Remove comObject fields that are used by no entry point
+ *
+ * @param stateConf
+ */
+
+const syncDisplayedColumns = (stateConf) => {
+  const { entryPoints, columns } = stateConf;
+
+  const shouldKeepComObject = comObject =>
+    comObject === 'default' ||
+    entryPoints.some(ep => ep.connectedData && ep.connectedData.comObject === comObject);
+
+  const updatedColumns =
+    columns.filter(comObjectArr => shouldKeepComObject(comObjectArr[0]));
+
+  return {
+    ...stateConf,
+    columns: updatedColumns,
+  };
+};
+
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default (stateConf, action) => {
   switch (action.type) {
@@ -63,6 +85,9 @@ export default (stateConf, action) => {
         ],
       };
     }
+    case types.WS_VIEW_UPDATE_ENTRYPOINT:
+    case types.WS_VIEW_REMOVE_ENTRYPOINT:
+      return syncDisplayedColumns(stateConf);
     case types.WS_VIEW_CHANGE_COL_FILTERS : {
       const { colName, value } = action.payload;
       return {
@@ -90,15 +115,23 @@ export default (stateConf, action) => {
         layoutHeight: height,
       };
     }
-    case types.WS_VIEW_TABLE_UPDATE_DISPLAYED_PARAMS: {
-      const { displayedFields } = action.payload;
+    case types.WS_VIEW_TABLE_ADD_COLUMNS: {
+      const { groupName, fields } = action.payload;
+
+      const newColumnEntry = [
+        groupName,
+        fields.map(field => ({
+          field,
+          isDisplayed: true,
+        })),
+      ];
 
       return {
         ...stateConf,
-        displayedFields: {
-          ...stateConf.displayedFields,
-          ...displayedFields,
-        },
+        columns: [
+          ...stateConf.columns,
+          newColumnEntry,
+        ],
       };
     }
     default:

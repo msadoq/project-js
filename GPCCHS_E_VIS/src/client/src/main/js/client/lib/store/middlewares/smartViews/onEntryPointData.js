@@ -3,7 +3,7 @@ import {
   WS_VIEW_ADD_ENTRYPOINT,
   WS_VIEW_UPDATE_ENTRYPOINT,
 } from '../../types';
-import { updateDisplayedFields } from '../../actions/tableColumns';
+import { updateDisplayedColumns } from '../../actions/tableColumns';
 
 const onEntryPointData = ({ dispatch, getState }) => next => (action) => {
   const state = getState();
@@ -20,21 +20,14 @@ const onEntryPointData = ({ dispatch, getState }) => next => (action) => {
       const { comObject } = entryPoint.connectedData;
       const { comObjectMap } = state;
 
-      const params = comObjectMap.fields[comObject];
-
-      const displayedFields = params.reduce((acc, value) => (
-        {
-          ...acc,
-          [value.name]: true,
-        }
-      ));
+      const comObjectFields = comObjectMap.fields[comObject];
+      const fields = comObjectFields && comObjectFields.map(field => field.name);
 
       dispatch(
-        updateDisplayedFields(
+        updateDisplayedColumns(
           viewId,
           comObject,
-          comObjectMap.fields[comObject],
-          displayedFields
+          fields
         )
       );
     }

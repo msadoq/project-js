@@ -8,11 +8,15 @@
 // ====================================================================
 
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
 import { getData, getConfiguration } from 'viewManager/HistoryView/store/dataReducer';
+import { addEntryPoint } from 'store/actions/views';
 import { toggleColumnSort, filterColumn, scrollRows } from 'store/actions/tableColumns';
 import formatData from '../../data/formatData';
 import HistoryView from './HistoryView';
+import { getConfigurationByViewId } from '../../../selectors';
 
 
 const mapStateToProps = (state, { viewId }) => {
@@ -34,6 +38,9 @@ const mapDispatchToProps = (dispatch, { viewId }) => ({
   },
   onScroll: (offset) => {
     dispatch(scrollRows(viewId, offset));
+  },
+  addEntryPoint: (entryPoint) => {
+    dispatch(addEntryPoint(viewId, entryPoint));
   },
 });
 

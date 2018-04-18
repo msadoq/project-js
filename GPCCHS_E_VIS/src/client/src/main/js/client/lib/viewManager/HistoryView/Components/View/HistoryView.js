@@ -7,18 +7,79 @@
 // ====================================================================
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
+import _ from 'lodash';
+import __ from 'lodash/fp';
+
+import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import NTableView from '../../../common/Components/View/NTableView/NTableView';
 
 import './HistoryView.scss';
 
+import { buildFormulaForAutocomplete } from '../../../common';
+
+const getComObject = __.propOr('UNKNOWN_COM_OBJECT', 0);
+
+// parse clipboard data to create partial entry point
+function parseDragData(data) {
+  const formula =
+    buildFormulaForAutocomplete(
+      data.catalogName,
+      data.item,
+      getComObject(data.comObjects),
+      data.comObjectFields
+    );
+
+  return {
+    name: 'HistoryViewEP',
+    connectedData: {
+      formula,
+      domain: '*',
+      timeline: '*',
+    },
+  };
+}
+
 class HistoryView extends React.Component {
+  static propTypes = {
+    openEditor: PropTypes.func.isRequired,
+    addEntryPoint: PropTypes.func.isRequired,
+  };
+
+  onDrop = this.drop.bind(this);
+
+  drop(ev) {
+    const {
+      addEntryPoint,
+      openEditor,
+    } = this.props;
+
+    const data = ev.dataTransfer.getData('text/plain');
+    const content = JSON.parse(data);
+
+    if (!_.get(content, 'catalogName')) {
+      return;
+    }
+
+    try {
+      const parsedData = parseDragData(content);
+      addEntryPoint(parsedData);
+      // openEditor();
+    } catch (err) {
+      console.error('[ERR message] = ', err);
+    }
+    ev.stopPropagation();
+  }
+
   render() {
     return (
-      <NTableView
-        className={'HistoryView'}
-        {...this.props}
-      />
+      <DroppableContainer onDrop={this.onDrop}>
+        <NTableView
+          className={'HistoryView'}
+          {...this.props}
+        />
+      </DroppableContainer>
     );
   }
 }

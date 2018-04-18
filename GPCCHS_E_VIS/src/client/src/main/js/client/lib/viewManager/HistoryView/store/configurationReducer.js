@@ -11,6 +11,9 @@ import * as types from 'store/types';
 import { SORTING_DESC } from 'constants';
 
 
+const comObjectFieldsAreAlreadyDefined = (stateConf, comObject) =>
+  stateConf.columns.some(col => col[0] === comObject);
+
 /**
  * Remove comObject fields that are used by no entry point
  *
@@ -117,6 +120,10 @@ export default (stateConf, action) => {
     }
     case types.WS_VIEW_TABLE_ADD_COLUMNS: {
       const { groupName, fields } = action.payload;
+
+      if (comObjectFieldsAreAlreadyDefined(stateConf, groupName)) {
+        return stateConf;
+      }
 
       const newColumnEntry = [
         groupName,

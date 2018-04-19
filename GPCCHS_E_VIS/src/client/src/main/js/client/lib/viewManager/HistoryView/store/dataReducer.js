@@ -12,7 +12,6 @@ import _without from 'lodash/without';
 import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
 
-import cleanCurrentViewData from './cleanViewData';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
 
 const initialState = {
@@ -35,21 +34,20 @@ export default function historyViewData(state = {}, action) {
       }
       return { ...state, [action.payload.view.uuid]: initialState };
     case types.WS_PAGE_OPENED:
-    case types.WS_WORKSPACE_OPENED:
-      {
-        const { views } = action.payload;
-        if (!views) {
-          return state;
-        }
-        const newState = {};
-        views.forEach((view) => {
-          if (view.type !== constants.VM_VIEW_HISTORY) {
-            return;
-          }
-          newState[view.uuid] = initialState;
-        });
-        return { ...state, ...newState };
+    case types.WS_WORKSPACE_OPENED: {
+      const { views } = action.payload;
+      if (!views) {
+        return state;
       }
+      const newState = {};
+      views.forEach((view) => {
+        if (view.type !== constants.VM_VIEW_HISTORY) {
+          return;
+        }
+        newState[view.uuid] = initialState;
+      });
+      return { ...state, ...newState };
+    }
     case types.WS_VIEW_CLOSE: {
       const { viewId } = action.payload;
       if (state[viewId]) {
@@ -90,7 +88,8 @@ export default function historyViewData(state = {}, action) {
         newCols = _concat(state[viewId].cols, action.payload.colName);
       }
 
-      return { ...state,
+      return {
+        ...state,
         [viewId]: {
           ...state[viewId],
           cols: newCols,
@@ -99,7 +98,8 @@ export default function historyViewData(state = {}, action) {
     }
     case types.WS_VIEW_HIDE_COL: {
       const viewId = action.payload.viewId;
-      return { ...state,
+      return {
+        ...state,
         [viewId]: {
           ...state[viewId],
           cols: _without(state[action.payload.viewId].cols || [], action.payload.colName),
@@ -116,7 +116,7 @@ export default function historyViewData(state = {}, action) {
       }
       // Gets configurationfor history views
       const configuration = configurations.HistoryViewConfiguration;
-      // since now, state will changed
+      // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {
@@ -134,31 +134,6 @@ export default function historyViewData(state = {}, action) {
         }
       }
       return newState || {};
-    }
-    case types.WS_VIEWDATA_CLEAN: {
-      const { previousDataMap, dataMap, configuration } = action.payload;
-
-      // since now, state will changed
-      let newState = state;
-      const viewIds = Object.keys(state);
-      for (let i = 0; i < viewIds.length; i += 1) {
-        const viewId = viewIds[i];
-        const viewData = state[viewId];
-
-        // Cleaning
-        const subState = cleanCurrentViewData(
-          viewData,
-          previousDataMap.perView[viewId],
-          dataMap.perView[viewId],
-          previousDataMap.expectedRangeIntervals,
-          dataMap.expectedRangeIntervals,
-          configuration
-        );
-        if (subState !== viewData) {
-          newState = { ...newState, [viewId]: subState };
-        }
-      }
-      return newState;
     }
     default:
       return state;

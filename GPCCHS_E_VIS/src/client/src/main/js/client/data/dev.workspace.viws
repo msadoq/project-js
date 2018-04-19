@@ -11,19 +11,14 @@
         "y": 51,
         "kind": "Absolute"
       },
-      "pages": [
-        {
-          "oId": "oid:/current.vipg",
-          "timebarId": "TB1"
-        }
-      ]
+      "pages": []
     }
   ],
   "timebars": [
     {
       "id": "TB1",
       "type": "timeBarConfiguration",
-      "rulerResolution": 5043.151969981238,
+      "rulerResolution": 2599.613152804642,
       "speed": 0.15,
       "masterId": "Session 1",
       "mode": "Normal",

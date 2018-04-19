@@ -8,8 +8,6 @@ import { updateDisplayedColumns } from '../../actions/tableColumns';
 const onEntryPointData = ({ dispatch, getState }) => next => (action) => {
   const state = getState();
 
-  const { payload } = action;
-
   if (
     action.type === WS_VIEW_ADD_ENTRYPOINT ||
     action.type === WS_VIEW_UPDATE_ENTRYPOINT

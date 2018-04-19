@@ -63,6 +63,7 @@ export function addDataInEpTable(epState, index, payload) {
   }
   return { indexInLines, newState };
 }
+
 /* ************************************
  * Returns true if name corresponds to time
  * @param: column name
@@ -86,6 +87,7 @@ export function sortData(state, sortingConfig) {
   }
   return newState;
 }
+
 /* ************************************
  * Returns true if name corresponds to time
  * @param: column name
@@ -256,6 +258,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
     }
   }
   newState = updateCurrent(newState, epNames, visuWindow);
+
   return newState;
 }
 
@@ -277,6 +280,7 @@ function updateCurrent(state, epNames, visuWindow) {
   }
   return newState;
 }
+
 // function getIndex(state, epName, payload, colToSort, direction, iBegin) {
 //   return _findIndex(state.lines, val => compareValue(
 //     state[val.epName][val.index][colToSort], payload[colToSort], direction), iBegin);
@@ -291,21 +295,25 @@ function updateCurrent(state, epNames, visuWindow) {
 export function selectDataPerView(currentViewMap, intervalMap, payload) {
   let epSubState = {};
   if (currentViewMap) {
+    console.log('currentViewMap eps = ', Object.keys(currentViewMap.entryPoints));
     Object.keys(currentViewMap.entryPoints).forEach((epName) => {
       const ep = currentViewMap.entryPoints[epName];
       // No payload for this tbd  Id
       if (!payload[ep.tbdId]) {
+        console.log(`WARNING: no payload for ${ep.tbdId}`);
         return;
       }
       const newSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap);
       epSubState = {
         ...epSubState,
         ...newSubState,
-        cols: { ...epSubState.cols, ...newSubState.cols } };
+        cols: { ...epSubState.cols, ...newSubState.cols },
+      };
     });
   }
   return epSubState;
 }
+
 /* ************************************
  * Select payload to add for current entry Point
  * @param: payload of current entry point

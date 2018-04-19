@@ -35,7 +35,7 @@ const ADEPayload = require('./dataControllerUtils/ADEPayload.stub');
 const ADEPayloadHeader = require('./dataControllerUtils/ADEPayloadHeader.stub');
 const ADETimebasedSubscription = require('./dataControllerUtils/ADETimebasedSubscription.stub');
 const ADEStringList = require('./dataControllerUtils/ADEStringList.stub');
-
+const ADEItemStructure = require('./dataControllerUtils/ADEItemStructure.stub');
 module.exports = Object.assign(
   {},
   actionStub,
@@ -67,5 +67,6 @@ module.exports = Object.assign(
   ADEPayload,
   ADEPayloadHeader,
   ADETimebasedSubscription,
-  ADEStringList
+  ADEStringList,
+  ADEItemStructure
 );

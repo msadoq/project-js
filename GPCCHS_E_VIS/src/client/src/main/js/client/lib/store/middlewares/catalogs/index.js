@@ -5,6 +5,7 @@ import {
   WS_CATALOGS_ASK,
   WS_COM_OBJECTS_ASK,
   WS_UNIT_ASK,
+  WS_ITEM_STRUCTURE_ASK,
 } from 'store/types';
 import {
   addCatalogItems,
@@ -38,6 +39,16 @@ const asyncUnitFetcher = (sessionId, domainId, catalogName, catalogItemName, cb)
       catalogItemName,
     }, cb);
 
+const asyncItemStructureFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
+    dc.retrieveCatalogItemStructure(
+      {
+        sessionId,
+        domainId,
+        catalogName,
+        catalogItemName,
+      }, cb);
+
+
 const getCatalogItems = (state, { sessionId, domainId, name }) => {
   const tupleId = getTupleId(domainId, sessionId);
   const found =
@@ -61,11 +72,11 @@ const getCatalogItems = (state, { sessionId, domainId, name }) => {
  * @param domainId
  * @returns {state.catalogs|{'domain-id-session-id'}|boolean}
  */
-export const isCatalogLoaded = (state, { sessionId, domainId }) =>
+export const isCatalogLoaded = (state, { sessionId, domainId }) => (
   state.catalogs &&
   Object.keys(state.catalogs).includes(getTupleId(domainId, sessionId)) &&
   state.catalogs[getTupleId(domainId, sessionId)] !== REQUESTING
-;
+);
 
 /**
  * @param state
@@ -183,6 +194,16 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
           )
         );
       }
+    );
+  }
+
+  if (action.type === WS_ITEM_STRUCTURE_ASK) {
+    asyncItemStructureFetcher(
+      action.payload.sessionId,
+      action.payload.domainId,
+      action.payload.name,
+      action.payload.itemName,
+      structure => console.log(structure)
     );
   }
 

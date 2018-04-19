@@ -8,6 +8,7 @@ import {
   WS_COM_OBJECTS_ADD,
   WS_UNIT_ASK,
   WS_UNIT_ADD,
+  WS_ITEM_STRUCTURE_ASK,
   WS_UNIT_ADD_SIMPLE,
 } from '../types';
 
@@ -68,6 +69,15 @@ export const addUnit = simple(
   'itemName',
   'unit'
 );
+
+export const askItemStructure = simple(
+  WS_ITEM_STRUCTURE_ASK,
+  'domainId',
+  'sessionId',
+  'name',
+  'itemName'
+);
+
 
 export const addUnitSimple = simple(
   WS_UNIT_ADD_SIMPLE,

@@ -82,13 +82,16 @@ const wildcardCharacter = get('WILDCARD_CHARACTER');
 class EntryPointConnectedData extends Component {
   componentDidMount() {
     setTimeout(this.props.reset, 0);
+  }
+
+  componentWillReceiveProps(nextProps) {
     const {
       domainId,
       sessionId,
       catalog,
       catalogItem,
       askUnit,
-    } = this.props;
+    } = nextProps;
 
     if (
       domainId !== null &&
@@ -497,7 +500,7 @@ EntryPointConnectedData.propTypes = {
   parametric: PropTypes.bool,
   stringParameter: PropTypes.bool,
   domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  entryPoint: PropTypes.shape({}),
+  entryPoint: PropTypes.shape({}), // eslint-disable-line react/no-unused-prop-types
   domainId: PropTypes.number,
   sessionId: PropTypes.number,
   catalog: PropTypes.string,
@@ -551,15 +554,6 @@ const getUnitParams = (state, viewId, connectedData) => {
     formula,
   } = connectedData;
 
-  if (!formula) {
-    return {};
-  }
-
-  const {
-    catalog,
-    parameterName: catalogItem,
-  } = parseFormula(formula);
-
   const domainSelected = getDomainByNameWithFallback(state, { domainName: domain, viewId, pageId });
   const domainId = domainSelected ? domainSelected.domainId : null;
   const timelineSelected = getTimelineById(state, { timelineId: timeline });
@@ -572,6 +566,19 @@ const getUnitParams = (state, viewId, connectedData) => {
   const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
   const sessionId = selectedSession ? selectedSession.id : null;
   const tupleId = getTupleId(domainId, sessionId);
+
+  if (!formula) {
+    return {
+      domainId,
+      sessionId,
+      unit: 'Unknown',
+    };
+  }
+
+  const {
+    catalog,
+    parameterName: catalogItem,
+  } = parseFormula(formula);
 
   const unit = _get(state.catalogs, ['units', tupleId, catalog, catalogItem], 'Unknown');
 
@@ -592,7 +599,6 @@ const mapStateToProps = (state, props) => {
   if (props.entryPoint && props.entryPoint.connectedData) {
     unitParams = getUnitParams(state, props.viewId, props.entryPoint.connectedData);
   }
-
 
   return {
     parametric: selector(state, 'parametric'),

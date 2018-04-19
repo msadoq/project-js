@@ -49,7 +49,11 @@ class AddEntryPoint extends Component {
         axis.unit === unit || axis.id === axisId
       );
     } else {
-      filteredAxes = [];
+      filteredAxes = Object.keys(axes)
+        .map(key => ({
+          ...axes[key],
+          axisId: key,
+        })).filter(axis => axis.unit === 'Unknown');
     }
 
     return (
@@ -74,7 +78,7 @@ class AddEntryPoint extends Component {
             <p
               style={{ fontSize: '0.9em', paddingTop: '2px' }}
             >
-              { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+              { Object.values(axes).filter(axe => (axe.unit !== 'Unknown')).map(axe => `${axe.label}: ${axe.unit}`).join(', ') }
             </p>
           }
         </HorizontalFormGroup>
@@ -130,12 +134,14 @@ AddEntryPoint.propTypes = {
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired,
-  axisId: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired,
+  axisId: PropTypes.string,
+  unit: PropTypes.string,
 };
 
 AddEntryPoint.defaultProps = {
   initialValues: { name: '' },
+  axisId: null,
+  unit: null,
 };
 
 export default reduxForm({

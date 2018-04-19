@@ -14,7 +14,7 @@ DataViewEntryPointsContainer.PropTypes = {
   viewId: string.isRequired,
   pageId: string.isRequired,
   search: string,
-  viewType: oneOf(['TextView', 'MimicView', 'HistoryView']).isRequired,
+  viewType: oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
 };
 
 

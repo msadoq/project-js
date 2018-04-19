@@ -26,16 +26,6 @@ export default function getUnitParams(state, props) {
     formula,
   } = connectedData;
 
-  // do not return unit params if formula is not defined
-  if (!formula) {
-    return {};
-  }
-
-  const {
-    catalog,
-    parameterName: catalogItem,
-  } = parseFormula(formula);
-
   const domainSelected = getDomainByNameWithFallback(state, { domainName: domain, viewId, pageId });
   const domainId = domainSelected ? domainSelected.domainId : null;
   const timelineSelected = getTimelineById(state, { timelineId: timeline });
@@ -49,6 +39,19 @@ export default function getUnitParams(state, props) {
   const sessionId = selectedSession ? selectedSession.id : null;
 
   const tupleId = getTupleId(domainId, sessionId);
+
+  if (!formula) {
+    return {
+      domainId,
+      sessionId,
+      unit: 'Unknown',
+    };
+  }
+
+  const {
+    catalog,
+    parameterName: catalogItem,
+  } = parseFormula(formula);
 
   const unit = _.get(state.catalogs, ['units', tupleId, catalog, catalogItem], 'Unknown');
 

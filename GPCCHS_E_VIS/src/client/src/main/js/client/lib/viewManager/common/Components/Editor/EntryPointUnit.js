@@ -26,14 +26,14 @@ export default class EntryPointUnit extends PureComponent {
     catalogItem: null,
   };
 
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
     const {
       askUnit,
       domainId,
       sessionId,
       catalog,
       catalogItem,
-    } = this.props;
+    } = nextProps;
 
     if (
       domainId !== null &&

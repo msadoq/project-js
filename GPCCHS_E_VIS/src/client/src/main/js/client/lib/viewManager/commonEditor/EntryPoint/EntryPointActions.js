@@ -22,7 +22,7 @@ export default class EntryPointActions extends React.Component {
   static propTypes = {
     viewId: string.isRequired,
     search: string,
-    viewType: oneOf(['TextView', 'MimicView', 'HistoryView']).isRequired,
+    viewType: oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
     // from container
     changeSearch: func.isRequired,
     openModal: func.isRequired,

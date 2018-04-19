@@ -149,6 +149,7 @@ import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
 import { buildFormula } from '../../../common';
+import { getTupleId } from '../../../../store/reducers/catalogs';
 
 const logger = getLogger('view:plot');
 
@@ -468,7 +469,7 @@ export class GrizzlyPlotView extends PureComponent {
   static propTypes = {
     containerWidth: number.isRequired,
     containerHeight: number.isRequired,
-    updateDimensions: func.isRequired,
+    updateDimensions: func.isRequired, // eslint-disable-line react/no-unused-prop-types
     saveLiveExtents: func.isRequired,
     pause: func.isRequired,
     data: shape({
@@ -510,7 +511,9 @@ export class GrizzlyPlotView extends PureComponent {
     pageId: string.isRequired,
     showLinks: bool,
     updateShowLinks: func.isRequired,
+    askUnit: func.isRequired,
     isMaxVisuDurationExceeded: bool.isRequired,
+    catalogs: object.isRequired, // eslint-disable-line react/forbid-prop-types
   };
 
   static defaultProps = {
@@ -527,11 +530,36 @@ export class GrizzlyPlotView extends PureComponent {
   state = {
     showEpNames: [],
     hideEpNames: [],
+    updateUnit: false,
   };
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.props.updateDimensions();
+  componentWillReceiveProps(nextProps) {
+    const {
+      entryPoints,
+      askUnit,
+    } = nextProps;
+
+    Object.keys(entryPoints).forEach((catalogItem) => {
+      if (entryPoints[catalogItem].dataId) {
+        const {
+          domainId,
+          sessionId,
+          catalog,
+        } = entryPoints[catalogItem].dataId;
+        if (
+          domainId !== null &&
+          sessionId !== null &&
+          catalog !== null &&
+          catalogItem !== null
+        ) {
+          askUnit(domainId, sessionId, catalog, catalogItem);
+          this.setState({ updateUnit: true });
+        } else {
+          this.setState({ updateUnit: false });
+        }
+      } else {
+        this.setState({ updateUnit: true });
+      }
     });
   }
 
@@ -571,6 +599,9 @@ export class GrizzlyPlotView extends PureComponent {
       return true;
     }
     if (nextState.hideEpNames !== this.state.hideEpNames) {
+      return true;
+    }
+    if (nextState.updateUnit) {
       return true;
     }
     return shouldRender;
@@ -861,10 +892,10 @@ export class GrizzlyPlotView extends PureComponent {
       showLinks,
       saveLiveExtents,
       pause,
+      catalogs,
+      entryPoints,
     } = this.props;
-    let {
-      configuration: { entryPoints },
-    } = this.props;
+    let entryPointsConfiguration = this.props.configuration.entryPoints;
     const {
       showEpNames,
       hideEpNames,
@@ -884,9 +915,11 @@ export class GrizzlyPlotView extends PureComponent {
     }
 
     if (showEpNames.length) {
-      entryPoints = entryPoints.filter(ep => showEpNames.includes(ep.id));
+      entryPointsConfiguration =
+        entryPointsConfiguration.filter(ep => showEpNames.includes(ep.id));
     } else if (hideEpNames.length) {
-      entryPoints = entryPoints.filter(ep => !hideEpNames.includes(ep.id));
+      entryPointsConfiguration =
+        entryPointsConfiguration.filter(ep => !hideEpNames.includes(ep.id));
     }
 
     const yAxesLegendHeight = this.yAxes.map((a) => {
@@ -957,10 +990,19 @@ export class GrizzlyPlotView extends PureComponent {
           additionalStyle={memoizeMainStyle(legend.location)}
           yAxes={this.yAxes}
           xAxes={this.xAxes}
+          updateAxis={this.state.updateUnit}
           lines={
-            entryPoints.map((ep) => {
+            entryPointsConfiguration.map((ep) => {
               const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
               const stringParameter = !ep.parametric && _get(ep, ['connectedData', 'stringParameter']);
+              let unit;
+              if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
+                const { domainId, sessionId, catalog, parameterName } = entryPoints[ep.name].dataId;
+                const tupleId = getTupleId(domainId, sessionId);
+                unit = _get(catalogs, ['units', tupleId, catalog, parameterName], 'Unknown');
+              } else {
+                unit = ep.unit;
+              }
               return {
                 data: lines[ep.name],
                 indexes: indexes[ep.name],
@@ -985,7 +1027,7 @@ export class GrizzlyPlotView extends PureComponent {
                 colorAccessor: 'color',
                 tooltipFormatter,
                 unit: ep.connectedData.convertTo ?
-                  ep.connectedData.convertTo : ep.connectedData.unit,
+                  ep.connectedData.convertTo : unit,
               };
             })
           }

@@ -34,18 +34,6 @@ const computeGroupSizes = (columns = []) =>
     };
   }, {});
 
-const getParamName = (paramName) => {
-  if (paramName === 'referenceTimestamp') {
-    return 'timestamp';
-  }
-
-  if (paramName === 'epName') {
-    return 'name';
-  }
-
-  return paramName;
-};
-
 /**
  * Get the ordered list of the parameters to display
  *
@@ -74,7 +62,7 @@ const getColumnGroupMap = (columns = []) =>
       ...acc,
       ...groupParams.reduce((paramAcc, param) => ({
         ...paramAcc,
-        [getParamName(param.field)]: groupName,
+        [param.field]: groupName,
       }), {}),
     };
   }, {});
@@ -212,6 +200,7 @@ const filterData = (preformattedData, config) => {
   const { filters, columns: columnsConfig } = config;
 
   const columns = getColumns(columnsConfig);
+  console.log(columns);
 
   const shouldKeepRow = (row) => {
     let ans = true;
@@ -221,7 +210,7 @@ const filterData = (preformattedData, config) => {
       .forEach((key) => {
         const filterValue = filters[key];
         const rowValueToFilter = row[getColumnIndex(key, columns)];
-        if (rowValueToFilter.indexOf(filterValue) === -1) {
+        if ((rowValueToFilter || '').indexOf(filterValue) === -1) {
           ans = false;
         }
       });

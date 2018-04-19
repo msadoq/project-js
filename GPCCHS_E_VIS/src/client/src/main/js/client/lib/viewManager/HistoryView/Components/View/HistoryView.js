@@ -43,9 +43,35 @@ function parseDragData(data) {
 
 class HistoryView extends React.Component {
   static propTypes = {
+// eslint-disable-next-line react/no-unused-prop-types
+    config: PropTypes.shape().isRequired,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
+    askUnit: PropTypes.func.isRequired,
   };
+
+  componentWillReceiveProps(nextProps) {
+    const { askUnit, config } = nextProps;
+    const { entryPoints } = config;
+
+    entryPoints.forEach((entryPoint) => {
+      const {
+        domain,
+        sessionId,
+        catalog,
+        catalogItem,
+      } = entryPoint;
+
+      if (
+        domain !== null &&
+        sessionId !== null &&
+        catalog !== null &&
+        catalogItem !== null
+      ) {
+        askUnit(domain, sessionId, catalog, catalogItem);
+      }
+    });
+  }
 
   onDrop = this.drop.bind(this);
 

@@ -34,6 +34,18 @@ const computeGroupSizes = (columns = []) =>
     };
   }, {});
 
+const getParamName = (paramName) => {
+  if (paramName === 'referenceTimestamp') {
+    return 'timestamp';
+  }
+
+  if (paramName === 'epName') {
+    return 'name';
+  }
+
+  return paramName;
+};
+
 /**
  * Get the ordered list of the parameters to display
  *
@@ -62,7 +74,7 @@ const getColumnGroupMap = (columns = []) =>
       ...acc,
       ...groupParams.reduce((paramAcc, param) => ({
         ...paramAcc,
-        [param.field]: groupName,
+        [getParamName(param.field)]: groupName,
       }), {}),
     };
   }, {});
@@ -100,9 +112,28 @@ const preformatData = (rawData, config) => {
 
     const columns = getColumns(config.columns);
 
+    const getParamValue = (colIndex) => {
+      const paramName = columns[colIndex];
+
+      if (paramName === 'unit') { // extract data from config
+        const getEntryPointUnit = () => {
+          const foundEntryPoint = config.entryPoints.find(e => e.name === ep.epName);
+          if (foundEntryPoint) {
+            return foundEntryPoint.connectedData.unit;
+          }
+
+          return null;
+        };
+
+        return getEntryPointUnit();
+      }
+
+      return ep[paramName];
+    };
+
     Object
       .keys(columns)
-      .forEach(colIndex => acc[index].push(ep[columns[colIndex]]));
+      .forEach(colIndex => acc[index].push(getParamValue(colIndex)));
 
     return acc;
   };

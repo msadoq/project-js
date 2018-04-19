@@ -62,13 +62,10 @@ class HistoryView extends React.Component {
       return;
     }
 
-    try {
-      const parsedData = parseDragData(content);
-      addEntryPoint(parsedData);
-      // openEditor();
-    } catch (err) {
-      console.error('[ERR message] = ', err);
-    }
+    const parsedData = parseDragData(content);
+    addEntryPoint(parsedData);
+    openEditor();
+
     ev.stopPropagation();
   }
 

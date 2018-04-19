@@ -16,7 +16,7 @@ const Rows = ({ rows, config }) =>
       return (
         <tr
           key={shortid.generate()}
-          className={cn({
+          className={cn('Row', {
             highlighted: shouldRowBeHighlighted,
           })}
         >

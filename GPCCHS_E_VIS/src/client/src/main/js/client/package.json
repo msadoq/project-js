@@ -92,6 +92,7 @@
     "bootstrap": "~3.3.7",
     "classnames": "~2.2.5",
     "codemirror": "~5.25.0",
+    "color": "^3.0.0",
     "commander": "^2.15.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "~0.28.0",

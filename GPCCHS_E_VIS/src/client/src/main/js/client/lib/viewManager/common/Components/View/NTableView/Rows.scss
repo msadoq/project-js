@@ -1,5 +1,11 @@
 
 .Row {
+  border: 1px solid darkgray;
+
+  td {
+	border: 1px solid darkgray;
+  }
+
   &:nth-of-type(2n) {
 	background-color: #d8d8d8;
   }

@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import Color from 'color';
 import generateColor from 'string-to-color';
 
 import { Glyphicon } from 'react-bootstrap';
@@ -44,35 +45,42 @@ const ColumnHeaders = ({ width, cols, sortState, onSort }) => (
       Object
         .keys(cols)
         .map(
-          colKey => (
-            <th
-              key={`${colKey}$col-header`}
-              style={{
-                backgroundColor: generateColor(cols[colKey]),
-                width,
-              }}
-            >
-              <div>
-                <span className={'Arrows'}>
-                  <SortArrow
-                    colKey={colKey}
-                    mode={'ASC'}
-                    active={sortState.colName === colKey && sortState.direction === 'ASC'}
-                    onClick={() => onSort(colKey, 'ASC')}
-                  />
-                  <SortArrow
-                    colKey={colKey}
-                    mode={'DESC'}
-                    active={sortState.colName === colKey && sortState.direction === 'DESC'}
-                    onClick={() => onSort(colKey, 'DESC')}
-                  />
-                </span>
-                <span className={'Label'}>
-                  {colKey}
-                </span>
-              </div>
-            </th>
-          )
+          (colKey) => {
+            const groupKey = cols[colKey];
+            const groupColor = new Color(generateColor(groupKey));
+            const borderColor = groupColor.darken(0.5);
+
+            return (
+              <th
+                key={`${colKey}$col-header`}
+                style={{
+                  backgroundColor: groupColor.hsl().string(),
+                  borderBottom: `2px solid ${borderColor.hsl().string()}`,
+                  width,
+                }}
+              >
+                <div>
+                  <span className={'Arrows'}>
+                    <SortArrow
+                      colKey={colKey}
+                      mode={'ASC'}
+                      active={sortState.colName === colKey && sortState.direction === 'ASC'}
+                      onClick={() => onSort(colKey, 'ASC')}
+                    />
+                    <SortArrow
+                      colKey={colKey}
+                      mode={'DESC'}
+                      active={sortState.colName === colKey && sortState.direction === 'DESC'}
+                      onClick={() => onSort(colKey, 'DESC')}
+                    />
+                  </span>
+                  <span className={'Label'}>
+                    {colKey}
+                  </span>
+                </div>
+              </th>
+            );
+          }
         )
     }
   </tr>

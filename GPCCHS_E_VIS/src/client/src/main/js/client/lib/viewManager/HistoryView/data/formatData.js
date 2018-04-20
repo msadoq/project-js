@@ -40,7 +40,7 @@ const computeGroupSizes = (columns = []) =>
  * @param columns
  * @returns {*|*[]}
  */
-const getColumns = (columns = []) =>
+export const getColumns = (columns = []) =>
   columns.reduce((acc, group) => {
     const groupParams =
       group[1]
@@ -67,7 +67,7 @@ const getColumnGroupMap = (columns = []) =>
     };
   }, {});
 
-const getColumnIndex = (colKey, columns) => columns.indexOf(colKey);
+export const getColumnIndex = (colKey, columns) => columns.indexOf(colKey);
 
 /**
  * Formats received data to appropriate format, i.e an array of values, e.g:
@@ -89,6 +89,9 @@ const preformatData = (rawData, config) => {
     const epName = parts[0];
     const timestamp = parts[1];
     const ep = data[epName] && data[epName][timestamp];
+
+    const hasCurrent = getCurrentLines(rawData)
+      .some(e => Number(e.timestamp) === Number(timestamp));
 
     if (!ep) {
       return acc;
@@ -200,7 +203,6 @@ const filterData = (preformattedData, config) => {
   const { filters, columns: columnsConfig } = config;
 
   const columns = getColumns(columnsConfig);
-  console.log(columns);
 
   const shouldKeepRow = (row) => {
     let ans = true;
@@ -247,6 +249,19 @@ const computeMaxDisplayedRows = (config) => {
   return Math.min(config.maxDisplayedRows, Math.max(0, config.layoutHeight - 1));
 };
 
+const getCurrentLines = (rawData) => {
+  if (rawData.current) {
+    return Object.keys(rawData.current).map(
+      epKey => ({
+        epName: epKey,
+        timestamp: rawData.current[epKey].split(' ')[1],
+      })
+    );
+  }
+
+  return [];
+};
+
 /**
  * Formats received entry points data into a format readable by HistoryView component
  *
@@ -259,6 +274,7 @@ const formatData = (rawData, config) => ({
   cols: getColumnGroupMap(config.columns),
   data:
     scopeData(sortData(filterData(preformatData(rawData, config), config), config), config),
+  current: getCurrentLines(rawData),
 });
 
 export default formatData;

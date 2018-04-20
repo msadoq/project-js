@@ -57,6 +57,7 @@ const NTableView = (
     <Rows
       rows={data.data}
       config={config}
+      current={data.current}
     />
     </tbody>
   </table>
@@ -73,6 +74,10 @@ NTableView.propTypes = {
     groups: PropTypes.shape(),
     cols: PropTypes.shape(),
   }),
+  current: PropTypes.arrayOf(PropTypes.shape({
+    epName: PropTypes.string.isRequired,
+    timestamp: PropTypes.number.isRequired,
+  })),
   onSort: PropTypes.func.isRequired,
   onFilter: PropTypes.func.isRequired,
   onScroll: PropTypes.func.isRequired,
@@ -84,6 +89,7 @@ NTableView.defaultProps = {
     groups: {},
     cols: [],
   },
+  current: [],
   filterState: {},
   sortState: {},
 };

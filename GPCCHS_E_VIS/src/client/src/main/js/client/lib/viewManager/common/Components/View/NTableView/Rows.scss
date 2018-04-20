@@ -8,7 +8,11 @@
 	background-color: #bdbdbd;
   }
 
-  .highlighted {
+  &.outlined {
+	border: 3px solid green;
+  }
+
+  &.highlighted {
 	background-color: yellow;
   }
 }

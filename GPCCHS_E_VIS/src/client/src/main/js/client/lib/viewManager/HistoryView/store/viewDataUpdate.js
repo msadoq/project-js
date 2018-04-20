@@ -295,12 +295,10 @@ function updateCurrent(state, epNames, visuWindow) {
 export function selectDataPerView(currentViewMap, intervalMap, payload) {
   let epSubState = {};
   if (currentViewMap) {
-    console.log('currentViewMap eps = ', Object.keys(currentViewMap.entryPoints));
     Object.keys(currentViewMap.entryPoints).forEach((epName) => {
       const ep = currentViewMap.entryPoints[epName];
       // No payload for this tbd  Id
       if (!payload[ep.tbdId]) {
-        console.log(`WARNING: no payload for ${ep.tbdId}`);
         return;
       }
       const newSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap);

@@ -36,31 +36,33 @@ const NTableView = (
     onScroll,
   }
 ) => (
-  <table
-    className={'NTableView'}
-    onWheel={ev => onScroll(computeOffset(config.dataOffset, data.length, ev))}
-  >
-    <thead>
-    <GroupHeaders groups={data.groups} />
-    <ColumnHeaders
-      cols={data.cols}
-      sortState={config.sorting}
-      onSort={onSort}
-    />
-    <ColumnSearchHeaders
-      cols={data.cols}
-      filterState={data.filterState}
-      onSearch={onFilter}
-    />
-    </thead>
-    <tbody>
-    <Rows
-      rows={data.data}
-      config={config}
-      current={data.current}
-    />
-    </tbody>
-  </table>
+  <div>
+    <table
+      className={'NTableView'}
+      onWheel={ev => onScroll(computeOffset(config.dataOffset, data.length, ev))}
+    >
+      <thead>
+      <GroupHeaders groups={data.groups} />
+      <ColumnHeaders
+        cols={data.cols}
+        sortState={config.sorting}
+        onSort={onSort}
+      />
+      <ColumnSearchHeaders
+        cols={data.cols}
+        filterState={data.filterState}
+        onSearch={onFilter}
+      />
+      </thead>
+      <tbody>
+      <Rows
+        rows={data.data}
+        config={config}
+        current={data.current}
+      />
+      </tbody>
+    </table>
+  </div>
 );
 
 NTableView.propTypes = {

@@ -219,6 +219,8 @@ module.exports = {
     HistoryView: 'HistoryViewDoc',
     GroundAlarmView: 'GrounAlarmViewDoc',
     OnboardAlarmView: 'OnBoardAlarmViewDoc',
+    CommaSeparatedValues: 'CommaSeparatedValues',
+    PortableNetworkGraphics: 'PortableNetworkGraphics',
   },
   EXTENSIONS: {
     WorkSpace: 'viws',
@@ -231,6 +233,8 @@ module.exports = {
     HistoryView: 'vihv',
     GroundAlarmView: 'viga',
     OnboardAlarmView: 'viba',
+    CommaSeparatedValues: 'csv',
+    PortableNetworkGraphics: 'png',
   },
   DUMP_EXTENSIONS: {
     ARCHIVE: 'arc',
@@ -277,4 +281,8 @@ module.exports = {
 
   // time format
   DATETIME_TILL_MS_FORMAT: 'DD/MM/YYYY HH:mm:ss.SSS',
+
+  // Input, output separators
+  CSV_COLUMN_SEPARATOR: '; ',
+  CSV_ROW_SEPARATOR: '\n',
 };

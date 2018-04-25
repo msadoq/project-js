@@ -10,7 +10,9 @@ import fs from 'fs';
 
 import { read, parse } from 'common/fs';
 
+import { MIME_TYPES } from 'constants';
 import * as fmd from './fmd';
+
 import resolvePath from './pathResolver';
 
 export const readDocument = (
@@ -64,6 +66,40 @@ export const writeDocument = (path, json, cb) => {
     return fmd.createDocument(path, json.type, (err, oid) => {
       if (err) {
         return cb(new Error(`FMD createDocument : ${err}`));
+      }
+      return writeFile(oid);
+    });
+  }
+  return writeFile();
+};
+
+export const exportData = (content, contentType, path, callback) => {
+  if (!_.startsWith('/', path)) {
+    return callback(new Error('path should be absolute'));
+  }
+  const encoding = (type) => {
+    switch (type) {
+      case MIME_TYPES.PortableNetworkGraphics: {
+        return 'base64';
+      }
+      case MIME_TYPES.CommaSeparatedValues: {
+        return 'utf8';
+      }
+      default: {
+        return 'utf8';
+      }
+    }
+  };
+  const writeFile = oid => fs.writeFile(path, content, encoding(contentType), (errWriting) => {
+    if (errWriting) {
+      return callback(errWriting);
+    }
+    return callback(null, oid);
+  });
+  if (fmd.isInFmd(path)) {
+    return fmd.createDocument(path, contentType, (err, oid) => {
+      if (err) {
+        return callback(new Error(`FMD createDocument : ${err}`));
       }
       return writeFile(oid);
     });

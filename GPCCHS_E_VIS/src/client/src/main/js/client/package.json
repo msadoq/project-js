@@ -107,6 +107,7 @@
     "deep-freeze": "~0.0.1",
     "deepmerge": "^2.1.0",
     "devtron": "~1.4.0",
+    "dom-to-image": "^2.6.0",
     "electron": "^1.8.4",
     "element-resize-event": "^2.0.9",
     "exit": "~0.1.2",

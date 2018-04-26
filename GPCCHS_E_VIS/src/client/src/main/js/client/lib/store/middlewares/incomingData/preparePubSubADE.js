@@ -1,10 +1,15 @@
 import _isBuffer from 'lodash/isBuffer';
+import _forEach from 'lodash/forEach';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
 import {
   isDataIdInCache,
   isTimestampInKnownRanges,
   getKnownRanges,
 } from 'store/reducers/knownRanges';
+import {
+  isDataIdInEventCache,
+  isTimestampEventInEvents,
+} from 'store/reducers/Events';
 import {
   isDataIdInDatamapLast,
   isTimestampInLastDatamapInterval,
@@ -120,6 +125,22 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
             }
           }
           execution.stop('process for lasts');
+
+          execution.start('process for events');
+          if ('eventDate' in decodedPayload) {
+            let parameter = '';
+            _forEach(decodedPayload.specificAttributes, (specificAttribute) => {
+              if (specificAttribute.name.value === 'ParameterName') {
+                parameter = specificAttribute.value.value;
+              }
+            });
+            if (isDataIdInEventCache(state, { dataId, parameter })){
+              if (!isTimestampEventInEvents(state, { dataId, parameter, timestamp })) {
+                console.log('AJOUT DU TIME STAMP DANS LE CACHE');
+              }
+            }
+          }
+          execution.stop('process for events');
         }
       } catch (e) {
         dispatch(addMessage('global', 'warning', 'error on processing header buffer '.concat(e)));

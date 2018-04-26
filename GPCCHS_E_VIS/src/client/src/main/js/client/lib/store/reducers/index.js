@@ -45,6 +45,7 @@ import health from './health';
 import codeEditor from './codeEditor';
 import inspector from './inspector';
 import knownRanges from './knownRanges';
+import Events from './Events';
 import ui from './ui';
 import catalogs from './catalogs';
 import rte from './rte';
@@ -75,6 +76,7 @@ const rootReducer = combineReducers({
   catalogs,
   rte,
   knownRanges,
+  Events,
   comObjectMap,
   ...getConfigurationReducers(),
   ...getDataReducers(),

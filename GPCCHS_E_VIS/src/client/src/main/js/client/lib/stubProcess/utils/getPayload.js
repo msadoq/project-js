@@ -37,6 +37,20 @@ function getMonitoringState() {
   ]);
 }
 
+function getSpecificAttributes(timestamp) {
+  const parameterName = {
+    name: 'ParamterName',
+    value: predictibleRand.getFrom([
+      'TMMGT_BC_VIRTCHAN0', 'ATT_BC_REVCOUNT1', 'ATT_BC_REVCOUNT2', 'ATT_BC_REVCOUNT3', 'TMMGT_BC_VIRTCHAN1', 'TMMGT_BC_VIRTCHAN2',
+    ]),
+  };
+  const groundDate = {
+    name: 'groundDate',
+    value: timestamp,
+  };
+  return [parameterName, groundDate];
+}
+
 function getAckRequest(timestamp, options) {
   const withAckRequest = (options.withAckRequest !== undefined ?
     options.withAckRequest
@@ -218,7 +232,10 @@ const getComObject = (dataId, timestamp, options) => {
     case 'GroundMonitoringAlarm':
       return stubData.getGroundMonitoringAlarmProtobuf();
     case 'LogbookEvent':
-      return stubData.getLogbookEventProtobuf();
+      return stubData.getLogbookEventProtobuf({
+        eventDate: timestamp,
+        specificAttributes: getSpecificAttributes(timestamp),
+      });
     case 'ExternalEvent':
       return stubData.getExternalEventProtobuf();
     case 'UserEvent':

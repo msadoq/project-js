@@ -35,8 +35,26 @@ export default function makeSubscriptionStoreObserver(store) {
 
   const subscriptionActions = {
     add: (tbdId, dataId) => {
+      // adding subscription to entrypoint
       requestSubscriptionAdd(tbdId, dataId);
       savedSubscriptions[tbdId] = dataId;
+      const flatIdLogBookEvent =
+        `LogbookEventDefinition.OBSOLETE_PARAMETER<LogbookEvent>:${dataId.sessionId}:${dataId.domainId}:*::`;
+      const dataIdLogBookEvent = {
+        catalog: 'LogbookEventDefinition',
+        parameterName: 'OBSOLETE_PARAMETER',
+        comObject: 'LogbookEvent',
+        domainId: dataId.domainId,
+        domain: dataId.domain,
+        sessionName: dataId.sessionName,
+        sessionId: dataId.sessionId,
+        provider: dataId.provider,
+      };
+      if (!savedSubscriptions[flatIdLogBookEvent]) {
+        // adding subscription to entrypoint logbook events
+        requestSubscriptionAdd(flatIdLogBookEvent, dataIdLogBookEvent);
+        savedSubscriptions[flatIdLogBookEvent] = dataIdLogBookEvent;
+      }
     },
   };
 

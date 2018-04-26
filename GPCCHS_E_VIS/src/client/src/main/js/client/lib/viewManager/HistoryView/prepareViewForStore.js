@@ -15,21 +15,25 @@ const getDefaultView = _.merge({
   title: 'New History View',
   configuration: {
     entryPoints: [],
-    sorting: {
-      colName: 'referenceTimestamp',
-      direction: 'DESC',
-    },
-    dataOffset: 0,
-    maxDisplayedRows: 1000,
-    columns: [
-      [
-        'default',
-        [
-          { field: 'referenceTimestamp', isDisplayed: true },
-          { field: 'epName', isDisplayed: true },
-          { field: 'unit', isDisplayed: true },
+    tables: [
+      {
+        sorting: {
+          colName: 'referenceTimestamp',
+          direction: 'DESC',
+        },
+        dataOffset: 0,
+        maxDisplayedRows: 1000,
+        columns: [
+          [
+            'default',
+            [
+              { field: 'referenceTimestamp', isDisplayed: true },
+              { field: 'epName', isDisplayed: true },
+              { field: 'unit', isDisplayed: true },
+            ],
+          ],
         ],
-      ],
+      },
     ],
   },
 });

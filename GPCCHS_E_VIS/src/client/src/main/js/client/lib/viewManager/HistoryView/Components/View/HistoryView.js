@@ -13,11 +13,11 @@ import _ from 'lodash';
 import __ from 'lodash/fp';
 
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
-import NTableView from '../../../common/Components/View/NTableView/NTableView';
 
 import './HistoryView.scss';
 
 import { buildFormulaForAutocomplete } from '../../../common';
+import NTableViewContainer from '../../../common/Components/View/NTableView/NTableViewContainer';
 
 const getComObject = __.propOr('UNKNOWN_COM_OBJECT', 0);
 
@@ -96,13 +96,20 @@ class HistoryView extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <DroppableContainer
         className={'HistoryView'}
         onDrop={this.onDrop}
+        ref={(node) => {
+          this.container = node;
+        }}
       >
-        <NTableView
+        <NTableViewContainer
           {...this.props}
+          tableId={0}
+          config={this.props.config.tables[0]}
+          container={this.container}
         />
       </DroppableContainer>
     );

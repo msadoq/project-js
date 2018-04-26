@@ -6,32 +6,63 @@ import cn from 'classnames';
 
 
 import './Rows.scss';
-import { getColumns, getColumnIndex } from '../../../../HistoryView/data/formatData';
 
-const Rows = ({ rows, config, current }) => {
+/**
+ * Get the ordered list of the parameters to display
+ *
+ * @param columns
+ * @returns {*|*[]}
+ */
+const getColumns = (columns = []) =>
+  columns.reduce((acc, group) => {
+    const groupParams =
+      group[1]
+        .filter(param => param.isDisplayed)
+        .map(param => param.field);
+
+    return [
+      ...acc,
+      ...groupParams,
+    ];
+  }, []);
+
+const getColumnIndex = (colKey, columns) => columns.indexOf(colKey);
+
+const getTimeFromRowValue = rowValue => (new Date(rowValue)).getTime();
+
+const Rows = (
+  {
+    rows,
+    config,
+    current,
+    rowCount,
+  }
+) => {
   const columns = getColumns(config.columns);
+  const offset = config.dataOffset;
 
-  return rows.map(
+  const scopedRows = rows.slice(offset, offset + rowCount);
+
+  return scopedRows.map(
     (row) => {
       const searchQuery = config.search;
       const epNameColIndex = getColumnIndex('epName', columns);
       const timestampColIndex = getColumnIndex('referenceTimestamp', columns);
 
+      const rowMacthesCurrent = cur =>
+        cur.epName === row[epNameColIndex] &&
+        Number(cur.timestamp) === getTimeFromRowValue(row[timestampColIndex]);
+
       const isCurrent =
-        current.some(
-          c => (
-            c.epName === row[epNameColIndex] &&
-            Number(c.timestamp) === (new Date(row[timestampColIndex])).getTime()
-          )
-        );
+        current.some(c => rowMacthesCurrent(c));
+
+      const valueMatchesQuery = (value, query) =>
+        searchQuery &&
+        `${searchQuery}`.length > 0 &&
+        `${value}`.toLowerCase().indexOf(`${searchQuery}`.toLowerCase()) > -1;
 
       const shouldRowBeHighlighted =
-        row.some(
-          col =>
-            searchQuery &&
-            `${searchQuery}`.length > 0 &&
-            `${col}`.toLowerCase().indexOf(`${searchQuery}`.toLowerCase()) > -1
-        );
+        row.some(col => valueMatchesQuery(col, searchQuery));
 
       return (
         <tr
@@ -56,11 +87,13 @@ Rows.propTypes = {
     epName: PropTypes.string.isRequired,
     timestamp: PropTypes.number.isRequired,
   })),
+  rowCount: PropTypes.number,
 };
 
 Rows.defaultProps = {
   rows: [],
   current: [],
+  rowCount: 0,
 };
 
 export default Rows;

@@ -47,8 +47,13 @@ const ColumnHeaders = ({ width, cols, sortState, onSort }) => (
         .map(
           (colKey) => {
             const groupKey = cols[colKey];
-            const groupColor = new Color(generateColor(groupKey));
-            const borderColor = groupColor.darken(0.5);
+            let groupColor = 'white';
+            let borderColor = 'black';
+
+            if (groupKey) {
+              groupColor = new Color(generateColor(groupKey));
+              borderColor = groupColor.darken(0.5);
+            }
 
             return (
               <th

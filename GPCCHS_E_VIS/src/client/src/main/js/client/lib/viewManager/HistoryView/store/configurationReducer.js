@@ -8,11 +8,10 @@
 // import _ from 'lodash/fp';
 import _without from 'lodash/without';
 import * as types from 'store/types';
-import { SORTING_DESC } from 'constants';
 
 
 const comObjectFieldsAreAlreadyDefined = (stateConf, comObject) =>
-  stateConf.columns.some(col => col[0] === comObject);
+  stateConf.tables[0].columns.some(col => col[0] === comObject);
 
 /**
  * Remove comObject fields that are used by no entry point
@@ -21,7 +20,8 @@ const comObjectFieldsAreAlreadyDefined = (stateConf, comObject) =>
  */
 
 const syncDisplayedColumns = (stateConf) => {
-  const { entryPoints, columns } = stateConf;
+  const { entryPoints, tables } = stateConf;
+  const { columns } = tables[0];
 
   const shouldKeepComObject = comObject =>
     comObject === 'default' ||
@@ -32,22 +32,19 @@ const syncDisplayedColumns = (stateConf) => {
 
   return {
     ...stateConf,
-    columns: updatedColumns,
+    tables: {
+      ...stateConf.tables,
+      0: {
+        ...stateConf.tables[0],
+        columns: updatedColumns,
+      },
+    },
   };
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default (stateConf, action) => {
   switch (action.type) {
-    case types.WS_VIEW_UPDATE_SORTING:
-      return {
-        ...stateConf,
-        dataOffset: 0,
-        sorting: {
-          colName: action.payload.colName,
-          direction: action.payload.direction || SORTING_DESC,
-        },
-      };
     case types.WS_VIEW_HIDE_COL:
       return {
         ...stateConf,
@@ -91,25 +88,6 @@ export default (stateConf, action) => {
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
     case types.WS_VIEW_REMOVE_ENTRYPOINT:
       return syncDisplayedColumns(stateConf);
-    case types.WS_VIEW_CHANGE_COL_FILTERS : {
-      const { colName, value } = action.payload;
-      return {
-        ...stateConf,
-        dataOffset: 0,
-        filters: {
-          ...stateConf.filters,
-          [colName]: value,
-        },
-      };
-    }
-    case types.WS_VIEW_TABLE_SCROLL: {
-      const { offset } = action.payload;
-
-      return {
-        ...stateConf,
-        dataOffset: offset,
-      };
-    }
     case types.WS_VIEW_TABLE_UPDATE_HEIGHT: {
       const { height } = action.payload;
 
@@ -120,6 +98,7 @@ export default (stateConf, action) => {
     }
     case types.WS_VIEW_TABLE_ADD_COLUMNS: {
       const { groupName, fields } = action.payload;
+      const tableId = 0;
 
       if (comObjectFieldsAreAlreadyDefined(stateConf, groupName)) {
         return stateConf;
@@ -135,10 +114,16 @@ export default (stateConf, action) => {
 
       return {
         ...stateConf,
-        columns: [
-          ...stateConf.columns,
-          newColumnEntry,
-        ],
+        tables: {
+          ...stateConf.tables,
+          [tableId]: {
+            ...stateConf.tables[tableId],
+            columns: [
+              ...stateConf.tables[tableId].columns,
+              newColumnEntry,
+            ],
+          },
+        },
       };
     }
     default:

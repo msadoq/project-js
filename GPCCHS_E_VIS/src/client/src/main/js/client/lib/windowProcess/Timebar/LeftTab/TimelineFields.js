@@ -18,6 +18,7 @@ import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import OffsetFields from './OffsetFields';
+import { sessionsType, timelinesType } from '../../../viewManager/common/Components/types';
 
 /*
   All the fields used in Connected data form
@@ -26,28 +27,8 @@ import OffsetFields from './OffsetFields';
 export default class TimelineFields extends PureComponent {
   static propTypes = {
     disableSubmit: PropTypes.func.isRequired,
-    timelines: PropTypes.arrayOf(
-      PropTypes.shape({
-        color: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        kind: PropTypes.string.isRequired,
-        uuid: PropTypes.string.isRequired,
-        offset: PropTypes.number.isRequired,
-        sessionName: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    sessions: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        delta: PropTypes.number.isRequired,
-        id: PropTypes.number.isRequired,
-        missionEpoch: PropTypes.number.isRequired,
-        timestamp: PropTypes.shape({
-          ms: PropTypes.number,
-          ps: PropTypes.number,
-        }),
-      })
-    ).isRequired,
+    timelines: timelinesType.isRequired,
+    sessions: sessionsType.isRequired,
     id: PropTypes.string,
     masterId: PropTypes.string,
     uuid: PropTypes.string,

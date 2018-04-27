@@ -45,6 +45,9 @@ import {
   FieldArray,
   formValueSelector,
 } from 'redux-form';
+
+import { getPageIdByViewId } from 'store/reducers/pages';
+
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import InputField from 'windowProcess/commonReduxForm/InputField';
@@ -53,7 +56,21 @@ import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import FiltersFields from 'viewManager/commonEditor/Fields/FiltersFields';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
+
+import {
+  getTupleId,
+} from 'store/reducers/catalogs';
+import { getDomainByNameWithFallback } from 'store/reducers/domains';
+import { getSessionByNameWithFallback } from 'store/reducers/sessions';
+import { getTimelineById } from 'store/reducers/timelines';
+import { askUnit as askUnitAction } from 'store/actions/catalogs';
+import { get } from 'common/configurationManager';
+
 import styles from './EntryPointConnectedData.css';
+import parseFormula from '../../../commonData/formula';
+
+const wildcardCharacter = get('WILDCARD_CHARACTER');
+
 
 /*
   EntryPointConnectedData représente une donnée connectée à un entryPoint.
@@ -65,6 +82,25 @@ import styles from './EntryPointConnectedData.css';
 class EntryPointConnectedData extends Component {
   componentDidMount() {
     setTimeout(this.props.reset, 0);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      domainId,
+      sessionId,
+      catalog,
+      catalogItem,
+      askUnit,
+    } = nextProps;
+
+    if (
+      domainId !== null &&
+      sessionId !== null &&
+      catalog !== null &&
+      catalogItem !== null
+    ) {
+      askUnit(domainId, sessionId, catalog, catalogItem);
+    }
   }
 
   render() {
@@ -108,7 +144,8 @@ class EntryPointConnectedData extends Component {
       .map(axis => ({
         label: axis.label,
         value: axis.axisId,
-      })).concat({
+      }))
+      .concat({
         label: '-',
         value: '-',
       });
@@ -130,7 +167,8 @@ class EntryPointConnectedData extends Component {
         .map(axis => ({
           label: axis.label,
           value: axis.axisId,
-        })).concat({
+        }))
+        .concat({
           label: '-',
           value: '-',
         });
@@ -145,7 +183,8 @@ class EntryPointConnectedData extends Component {
         .map(axis => ({
           label: axis.label,
           value: axis.axisId,
-        })).concat({
+        }))
+        .concat({
           label: '-',
           value: '-',
         });
@@ -163,10 +202,11 @@ class EntryPointConnectedData extends Component {
           label: t.id,
           value: t.id,
         })
-      ).concat({
-        label: '*',
-        value: '*',
-      })
+      )
+        .concat({
+          label: '*',
+          value: '*',
+        })
         .concat(
           noCorrespondingTimeline ?
             { label: timeline, value: timeline, disabled: true } : []
@@ -221,7 +261,9 @@ class EntryPointConnectedData extends Component {
                   <p
                     style={{ fontSize: '0.9em', paddingTop: '2px' }}
                   >
-                    { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+                    {Object.values(axes)
+                      .map(a => `${a.label}: ${a.unit}`)
+                      .join(', ')}
                   </p>
                   }
                 </HorizontalFormGroup>
@@ -247,10 +289,11 @@ class EntryPointConnectedData extends Component {
                         label: d.name,
                         value: d.name,
                       })
-                    ).concat({
-                      label: '*',
-                      value: '*',
-                    })}
+                    )
+                      .concat({
+                        label: '*',
+                        value: '*',
+                      })}
                   />
                 </HorizontalFormGroup>
               </div>
@@ -275,7 +318,9 @@ class EntryPointConnectedData extends Component {
                   <p
                     style={{ fontSize: '0.9em', paddingTop: '2px' }}
                   >
-                    { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+                    {Object.values(axes)
+                      .map(a => `${a.label}: ${a.unit}`)
+                      .join(', ')}
                   </p>
                   }
                 </HorizontalFormGroup>
@@ -301,10 +346,11 @@ class EntryPointConnectedData extends Component {
                         label: d.name,
                         value: d.name,
                       })
-                    ).concat({
-                      label: '*',
-                      value: '*',
-                    })}
+                    )
+                      .concat({
+                        label: '*',
+                        value: '*',
+                      })}
                   />
                 </HorizontalFormGroup>
               </div>
@@ -353,29 +399,21 @@ class EntryPointConnectedData extends Component {
                 </HorizontalFormGroup>
               }
               <HorizontalFormGroup label="Unit">
-                <Field
-                  name="connectedData.unit"
-                  component={InputField}
-                  type="text"
-                  className="form-control input-sm"
-                />
-                {axes &&
-                <p
-                  style={{ fontSize: '0.9em', paddingTop: '2px' }}
-                >
-                  { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-                </p>
-                }
+                <br />
+                <div>
+                  {unit}
+                </div>
+                <br />
               </HorizontalFormGroup>
-              <HorizontalFormGroup label="Convert">
-                From
+              <HorizontalFormGroup label="Convert from">
                 <Field
                   name="connectedData.convertFrom"
                   type="text"
                   className="form-control input-sm"
                   component={InputField}
                 />
-                To
+              </HorizontalFormGroup>
+              <HorizontalFormGroup label="Convert to">
                 <Field
                   name="connectedData.convertTo"
                   type="text"
@@ -405,10 +443,11 @@ class EntryPointConnectedData extends Component {
                       label: d.name,
                       value: d.name,
                     })
-                  ).concat({
-                    label: '*',
-                    value: '*',
-                  })}
+                  )
+                    .concat({
+                      label: '*',
+                      value: '*',
+                    })}
                 />
               </HorizontalFormGroup>
             </div>
@@ -461,6 +500,12 @@ EntryPointConnectedData.propTypes = {
   parametric: PropTypes.bool,
   stringParameter: PropTypes.bool,
   domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  entryPoint: PropTypes.shape({}), // eslint-disable-line react/no-unused-prop-types
+  domainId: PropTypes.number,
+  sessionId: PropTypes.number,
+  catalog: PropTypes.string,
+  catalogItem: PropTypes.string,
+  askUnit: PropTypes.func,
 };
 
 EntryPointConnectedData.defaultProps = {
@@ -474,6 +519,13 @@ EntryPointConnectedData.defaultProps = {
   unit: null,
   timeline: null,
   stringParameter: false,
+  entryPoint: null,
+  domainId: null,
+  sessionId: null,
+  catalog: null,
+  catalogItem: null,
+  askUnit: () => {
+  },
 };
 
 const requiredFields = [
@@ -493,28 +545,87 @@ const validate = (values = {}) => {
   return errors;
 };
 
+const getUnitParams = (state, viewId, connectedData) => {
+  const pageId = getPageIdByViewId(state, { viewId });
+
+  const {
+    domain,
+    timeline,
+    formula,
+  } = connectedData;
+
+  const domainSelected = getDomainByNameWithFallback(state, { domainName: domain, viewId, pageId });
+  const domainId = domainSelected ? domainSelected.domainId : null;
+  const timelineSelected = getTimelineById(state, { timelineId: timeline });
+  let sessionName = null;
+  if (timelineSelected && timelineSelected.sessionName) {
+    sessionName = timelineSelected.sessionName;
+  } else if (timeline === wildcardCharacter) {
+    sessionName = wildcardCharacter;
+  }
+  const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
+  const sessionId = selectedSession ? selectedSession.id : null;
+  const tupleId = getTupleId(domainId, sessionId);
+
+  if (!formula) {
+    return {
+      domainId,
+      sessionId,
+      unit: 'Unknown',
+    };
+  }
+
+  const {
+    catalog,
+    parameterName: catalogItem,
+  } = parseFormula(formula);
+
+  const unit = _get(state.catalogs, ['units', tupleId, catalog, catalogItem], 'Unknown');
+
+  return {
+    domainId,
+    sessionId,
+    catalog,
+    catalogItem,
+    unit,
+  };
+};
 
 const mapStateToProps = (state, props) => {
   const selector = formValueSelector(props.form);
+
+  let unitParams = null;
+
+  if (props.entryPoint && props.entryPoint.connectedData) {
+    unitParams = getUnitParams(state, props.viewId, props.entryPoint.connectedData);
+  }
+
   return {
     parametric: selector(state, 'parametric'),
     axisId: selector(state, 'connectedData.axisId') || _get(props, 'initialValues.connectedData.axisId'),
     timeline: _get(props, 'initialValues.connectedData.timeline'),
     stringParameter: selector(state, 'connectedData.stringParameter'),
     provider: selector(state, 'provider') || _get(props, 'initialValues.connectedData.provider'),
-    unit: selector(state, 'connectedData.unit') || _get(props, 'initialValues.connectedData.unit'),
     unitX: selector(state, 'connectedDataParametric.unitX') || _get(props, 'initialValues.connectedDataParametric.unitX'),
     unitY: selector(state, 'connectedDataParametric.unitY') || _get(props, 'initialValues.connectedDataParametric.unitY'),
     xAxisId: selector(state, 'connectedDataParametric.xAxisId') || _get(props, 'initialValues.connectedDataParametric.xAxisId'),
     yAxisId: selector(state, 'connectedDataParametric.yAxisId') || _get(props, 'initialValues.connectedDataParametric.yAxisId'),
+    ...unitParams,
   };
 };
+
+const mapDispatchToProps = dispatch => ({
+  askUnit: (domainId, sessionId, catalog, catalogItem) => {
+    dispatch(askUnitAction(domainId, sessionId, catalog, catalogItem));
+  },
+});
 
 export default reduxForm({
   validate,
   enableReinitialize: true,
 })(
   connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
   )(EntryPointConnectedData)
 );

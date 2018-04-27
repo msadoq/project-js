@@ -62,6 +62,7 @@
 //  WS_MODAL_CLOSED
 // VERSION : 2.0.0 : DM : #5806 : 14/11/2017 : Merge branch 'alarm_5806' into dev
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -97,7 +98,7 @@ const defaultExplorerWidth = 250;
 const defaultEditorWidth = 400;
 const minimizedTimebarHeigh = 35;
 const panelBorderColor = '#444';
-const tabsContainerStyle = { height: 40 };
+const tabsContainerStyle = { height: 50 };
 
 const explorerWidgets = [
   ['D', 'Datastore Explorer', 'dsex'],

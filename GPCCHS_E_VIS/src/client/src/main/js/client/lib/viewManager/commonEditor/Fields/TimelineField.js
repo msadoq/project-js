@@ -2,7 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
-import { timelinesType } from './types';
+import { timelinesType } from '../../common/Components/types';
 
 const { func } = PropTypes;
 

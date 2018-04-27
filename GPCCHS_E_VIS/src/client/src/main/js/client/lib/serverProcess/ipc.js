@@ -352,7 +352,7 @@ const dcVersionMap = {
       commands.dc.rpc(constants.ADE_SDB_QUERY, [
         encode('dc.dataControllerUtils.ADESDBQuery', {
           method,
-          sessionsId: args.sessionId,
+          sessionId: args.sessionId,
           domainId: args.domainId,
           catalogName: args.catalogName,
           catalogItemName: args.catalogItemName,

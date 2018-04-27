@@ -17,9 +17,7 @@ exports[`EntryPointUnitContainer :: render EntryPointUnitContainer :: render 1`]
       <div
         className="plaintTextPadded"
       >
-        <i>
-          Unknown
-        </i>
+        Unknown
       </div>
     </div>
   </div>

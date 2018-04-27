@@ -28,25 +28,23 @@ export default class GroundAlarmEditor extends Component {
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
     }).isRequired,
-    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
     updateViewTab: PropTypes.func.isRequired,
     updateViewPanels: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
     panels: PropTypes.shape({}).isRequired,
-  }
+  };
 
   static defaultProps = {
     titleStyle: {},
     tab: null,
     title: '',
-  }
+  };
 
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
-  }
+  };
 
   handleSubmit = (values) => {
     const { configuration, updateEntryPoint, viewId } = this.props;
@@ -55,15 +53,13 @@ export default class GroundAlarmEditor extends Component {
       ...entryPoint,
       ...values,
     });
-  }
+  };
 
   render() {
     const { entryPoints } = this.props.configuration;
     const {
-      timelines,
       viewId,
       tab,
-      domains,
       updateViewPanels,
       panels,
       openModal,
@@ -96,8 +92,6 @@ export default class GroundAlarmEditor extends Component {
         <div className={styles.content}>
           {(tab === 0 || tab === null) && <div className={styles.content}>
             <GroundAlarmEditorForm
-              domains={domains}
-              timelines={timelines}
               form={`entrypoint-connectedData-form-${viewId}`}
               onSubmit={values => this.handleSubmit({ connectedData: values })}
               initialValues={initialValues}

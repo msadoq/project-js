@@ -27,7 +27,7 @@ export default function parseConnectedData(
   sessions,
   timelines,
   connectedData,
-  masterSessionId,
+  masterTimelineSession,
   viewDomain,
   pageDomain,
   workspaceDomain,
@@ -59,7 +59,7 @@ export default function parseConnectedData(
   const session = sessionsFilter(
     sessions,
     sessionName,
-    masterSessionId,
+    masterTimelineSession,
     viewSessionName,
     pageSessionName,
     workspaceSessionName

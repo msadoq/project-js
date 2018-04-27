@@ -84,6 +84,8 @@ jest.mock('redux-form', () => ({
 }));
 jest.mock('windowProcess/common/colors', () => ({
   getRandomColor: () => '#00FF00',
+  getBorderColorForTab: () => '#CCC',
+  getBorderColorForNav: () => '#CCC',
 }));
 describe('windowProcess', () => {
   describe('windowProcess :: Navigation', () => {

@@ -81,6 +81,16 @@ export const getTimebarMasterId = (state, { timebarUuid }) =>
 export const getTimebarVisuWindow = (state, { timebarUuid }) =>
   _.get(['timebars', timebarUuid, 'visuWindow'], state);
 
+export const getMasterTimelines = createSelector(
+  getTimebars,
+  timebars => (timebars
+      ? Object.values(timebars).reduce(
+        (aggregator, t) => ({ ...aggregator, [t.uuid]: t.masterId })
+        , {})
+      : {}
+  )
+);
+
 export const getTimebarVisuWindowDuration = (state, { timebarUuid }) => {
   const tb = state.timebars[timebarUuid];
   if (!tb) {

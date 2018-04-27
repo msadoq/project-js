@@ -24,6 +24,9 @@
 // ====================================================================
 
 import parseEntryPoint from './parseEntryPoint';
+import { get } from '../../../common/configurationManager';
+
+const WILDCARD = get('WILDCARD_CHARACTER');
 
 describe('viewManager/DynamicView/data/parseEntryPoint', () => {
   let timelines;
@@ -84,7 +87,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'TelemetryPacket',
           parameterName: 'CLCW_TM_NOMINAL',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'DecommutedPacket',
           domainId: 'd1',
           domain: 'cnes',
@@ -100,8 +103,8 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
     });
   });
   test('wildcard => view data', () => {
-    entryPoint.connectedData.domain = '*';
-    entryPoint.connectedData.timeline = '*';
+    entryPoint.connectedData.domain = WILDCARD;
+    entryPoint.connectedData.timeline = WILDCARD;
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
         'cnes.isis', undefined, undefined, 'session2')
@@ -111,7 +114,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'TelemetryPacket',
           parameterName: 'CLCW_TM_NOMINAL',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'DecommutedPacket',
           domainId: 'd2',
           domain: 'cnes.isis',
@@ -127,8 +130,8 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
     });
   });
   test('wildcard => page data', () => {
-    entryPoint.connectedData.domain = '*';
-    entryPoint.connectedData.timeline = '*';
+    entryPoint.connectedData.domain = WILDCARD;
+    entryPoint.connectedData.timeline = WILDCARD;
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
         undefined, 'cnes.isis', undefined, undefined, 'session2')
@@ -138,7 +141,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'TelemetryPacket',
           parameterName: 'CLCW_TM_NOMINAL',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'DecommutedPacket',
           domainId: 'd2',
           domain: 'cnes.isis',
@@ -154,8 +157,8 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
     });
   });
   test('wildcard => workspace data', () => {
-    entryPoint.connectedData.domain = '*';
-    entryPoint.connectedData.timeline = '*';
+    entryPoint.connectedData.domain = WILDCARD;
+    entryPoint.connectedData.timeline = WILDCARD;
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 10, 'TB1', 'DynamicView',
         undefined, undefined, 'cnes.isis', undefined, undefined, 'session2')
@@ -165,7 +168,7 @@ describe('viewManager/DynamicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'TelemetryPacket',
           parameterName: 'CLCW_TM_NOMINAL',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'DecommutedPacket',
           domainId: 'd2',
           domain: 'cnes.isis',

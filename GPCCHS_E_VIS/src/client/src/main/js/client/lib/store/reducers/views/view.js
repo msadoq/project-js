@@ -44,6 +44,7 @@
 // VERSION : 2.0.0 : DM : #5806 : 12/12/2017 : Save GMA search filter in documents
 // VERSION : 2.0.0 : DM : #5806 : 18/12/2017 : Set view "isModified" when receive an
 //  ALARM_INPUT_TOGGLE action
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -51,6 +52,7 @@ import _ from 'lodash/fp';
 
 import composeReducers from 'store/helpers/composeReducers';
 import * as types from 'store/types';
+import { get } from '../../../common/configurationManager';
 
 const setIsModified = _.set('isModified');
 const getIsModified = (action) => {
@@ -122,11 +124,16 @@ const viewIsModified = (stateView, action) => {
 
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
 const addElementIn = (key, val, state) => _.update(key, _.concat(_, val), state);
+const wildcardCharacter = get('WILDCARD_CHARACTER');
 
 const initialState = {
   type: null,
   isModified: true,
   showLinks: false,
+  domainName: wildcardCharacter,
+  sessionName: wildcardCharacter,
+  domain: wildcardCharacter,
+  session: wildcardCharacter,
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */

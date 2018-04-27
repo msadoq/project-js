@@ -117,25 +117,22 @@ export default createSelector(
   getPerLastTbdIdMap,
   getTimebars,
   (viewMap, rangeTbdIdMap, lastTbdIdMap, timebars) => {
-    // console.log('viewMap: ', viewMap);
-    // console.log('rangeTbdIdMap: ', rangeTbdIdMap);
-    // console.log('lastTbdIdMap: ', lastTbdIdMap);
-    // console.log('timebars: ', timebars);
     // compute expected intervals
     let forecastIntervalsMap = {};
     const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
     const rangeIntervals = expectedRangeIntervalMap(
-        timebars,
-        rangeTbdIdMap,
-        forecastIntervalsMap,
-        forecastTime);
+      timebars,
+      rangeTbdIdMap,
+      forecastIntervalsMap,
+      forecastTime);
     forecastIntervalsMap = rangeIntervals.forecastIntervals;
     const lastIntervals = expectedLastIntervalMap(
-        timebars,
-        lastTbdIdMap,
-        forecastIntervalsMap,
-        forecastTime);
+      timebars,
+      lastTbdIdMap,
+      forecastIntervalsMap,
+      forecastTime);
     forecastIntervalsMap = lastIntervals.forecastIntervals;
+
     return {
       perView: viewMap,
       perRangeTbdId: rangeTbdIdMap,

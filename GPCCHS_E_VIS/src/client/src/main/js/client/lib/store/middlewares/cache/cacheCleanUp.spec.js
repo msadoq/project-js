@@ -30,7 +30,7 @@ const store1 = {
         defaultWidth: 900000,
       },
       playingState: 'pause',
-      masterId: 'Session 2',
+      masterId: 'Session 1',
       mode: 'Normal',
     },
   },

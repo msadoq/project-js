@@ -8,6 +8,7 @@
 //  from GUI for view, page, window and workspace
 // VERSION : 2.0.0 : FA : ISIS-FT-2248 : 18/10/2017 : Fallback/Wildcard for sessions and domains is
 //  now functionnal. Plus fixed page and workspace modal editor for undefined values.
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -62,8 +63,8 @@ export default class EditPageWrapper extends PureComponent {
         // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES ReduxForm"
         initialValues={{
           title: page.title,
-          domainName: page.domainName || '',
-          sessionName: page.sessionName || '',
+          domainName: page.domainName || '*',
+          sessionName: page.sessionName || '*',
         }}
         domains={domains}
         sessions={sessions}

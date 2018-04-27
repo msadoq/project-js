@@ -18,6 +18,7 @@
 // VERSION : 2.0.0 : FA : #10670 : 09/02/2018 : Detach a page no dispatch WIP
 // VERSION : 2.0.0 : FA : #10670 : 12/02/2018 : Detach a page and attach window with tests
 // VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -27,16 +28,35 @@ import { connect } from 'react-redux';
 import { getWindowPagesWithConfiguration } from 'store/selectors/windows';
 import { focusPage, moveTabOrder, movePageToWindow, pageDragEvent } from 'store/actions/windows';
 import { askClosePage } from 'store/actions/pages';
+import { getViewDomainName } from 'store/reducers/views';
 import { close as closeModal } from 'store/actions/modals';
+import _ from 'lodash';
+import _pull from 'lodash/pull';
+import { get } from '../../common/configurationManager';
 import Tabs from './Tabs';
+
+const wildcardCharacter = get('WILDCARD_CHARACTER');
 
 const mapStateToProps = () => (state, { windowId }) => {
   const pages = getWindowPagesWithConfiguration(state, { windowId });
+  const viewsDomains = [];
+  _.forEach(pages, (page) => {
+    viewsDomains[page.pageId] =
+      _pull(
+        _.uniq(
+          _.map(page.views, viewId => getViewDomainName(state, { viewId }))
+        ),
+        wildcardCharacter
+      );
+  });
+  const workspaceDomain = state.hsc.domainName || '*';
   return {
     pages,
     windowId,
     detachWindow: state.hsc.detachWindow,
     attachWindow: state.hsc.attachWindow,
+    workspaceDomain,
+    viewsDomains,
   };
 };
 

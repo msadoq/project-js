@@ -30,6 +30,7 @@ import timebarsReducer, {
   getTimebars,
   getFirstTimebarId,
   getTimebarMasterId,
+  getMasterTimelines,
 } from '.';
 
 const reducer = freezeArgs(timebarsReducer);
@@ -111,5 +112,28 @@ describe('store:timebars:selectors', () => {
       },
     });
     expect(getTimebarMasterId(state, { timebarUuid: 'tb1' })).toEqual('master id');
+  });
+
+  test('getMasterTimelines should return an empty object if no timebar', () => {
+    const state = freezeMe({});
+    expect(getMasterTimelines(state)).toEqual({ });
+  });
+  test('getMasterTimelines should return a map containing as many keys as timebars amount', () => {
+    const state = freezeMe({
+      timebars: {
+        tb1: {
+          masterId: 'master#1',
+          uuid: 'tb1',
+        },
+        tb2: {
+          masterId: 'master#2',
+          uuid: 'tb2',
+        },
+      },
+    });
+    expect(getMasterTimelines(state)).toEqual({
+      tb1: 'master#1',
+      tb2: 'master#2',
+    });
   });
 });

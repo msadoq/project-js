@@ -20,6 +20,7 @@
 // VERSION : 2.0.0 : FA : #8123 : 27/09/2017 : free attribute on ReactSelectFIeld disappears. Every
 //  session/domain form in vima is fixed and works (page, view).
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -35,6 +36,7 @@ import InputField from 'windowProcess/commonReduxForm/InputField';
 import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import FormSectionFontStyle from './FormSections/FormSectionFontStyle';
+import { computeOptions } from '../../viewManager/commonEditor/Fields/common';
 
 class ViewParamsForm extends React.Component {
   static propTypes = {
@@ -153,22 +155,8 @@ class ViewParamsForm extends React.Component {
             component={ReactSelectField}
             onInputChange={this.newDomain}
             clearable
-            options={
-              domains.map(d =>
-                ({
-                  label: d.name,
-                  value: d.name,
-                })
-              )
-              .concat(
-                domain && !domains.find(s => s.name === domain) ?
-                { label: domain, value: domain } : []
-              )
-              .concat(
-                domainName && !domains.find(s => s.name === domainName) ?
-                { label: domainName, value: domainName } : []
-              )
-            }
+            options={computeOptions(domains, true)}
+            value={domainName || domain}
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup label="Session Name">
@@ -177,22 +165,8 @@ class ViewParamsForm extends React.Component {
             component={ReactSelectField}
             onInputChange={this.newSession}
             clearable
-            options={
-              sessions.map(s =>
-                ({
-                  label: s.name,
-                  value: s.name,
-                })
-              )
-              .concat(
-                session && !sessions.find(s => s.name === session) ?
-                { label: session, value: session } : []
-              )
-              .concat(
-                sessionName && !sessions.find(s => s.name === sessionName) ?
-                { label: sessionName, value: sessionName } : []
-              )
-            }
+            options={computeOptions(sessions, true)}
+            value={sessionName || session}
           />
         </HorizontalFormGroup>
       </Form>

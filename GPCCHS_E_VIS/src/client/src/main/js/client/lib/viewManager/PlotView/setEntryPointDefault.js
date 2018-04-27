@@ -42,7 +42,7 @@ const getNewPlotEntryPoint = () => ({
     provider: PROVIDER_FLOW_ALL,
     formula: '',
     fieldX: 'onboardDate',
-    unit: 'V',
+    unit: 'Unknown',
     digits: 5,
     format: 'decimal',
     filter: [],

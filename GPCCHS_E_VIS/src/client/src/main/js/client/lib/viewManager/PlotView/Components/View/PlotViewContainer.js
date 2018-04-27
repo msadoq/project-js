@@ -54,6 +54,7 @@ import { getTimebarTimelines } from 'store/reducers/timebarTimelines';
 import { getTimeline } from 'store/reducers/timelines';
 import { getConfigurationByViewId } from 'viewManager';
 import { getTimebar, isMaxVisuDurationExceeded } from 'store/reducers/timebars';
+import { askUnit } from 'store/actions/catalogs';
 import SizablePlotView from './PlotView';
 
 const mapStateToProps = (state, { viewId }) => {
@@ -75,6 +76,7 @@ const mapStateToProps = (state, { viewId }) => {
     showLinks: areLinksShown(state, { viewId }),
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
+    catalogs: state.catalogs,
   };
 };
 
@@ -86,6 +88,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   removeLink,
   updateShowLinks,
   toggleLegend,
+  askUnit,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);

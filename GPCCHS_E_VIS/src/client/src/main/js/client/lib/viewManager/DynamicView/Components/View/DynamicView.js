@@ -205,6 +205,9 @@ export default class DynamicView extends PureComponent {
       isInspectorOpened,
       inspectorEpId,
     } = this.props;
+    if (!entryPoints.dynamicEP) {
+      return <div />;
+    }
     const { id, dataId } = entryPoints.dynamicEP;
     const opened = isInspectorOpened && (inspectorEpId === id);
     const inspectorMenu = {
@@ -263,8 +266,9 @@ export default class DynamicView extends PureComponent {
       data, entryPoints, links, viewId, pageId, showLinks, isMaxVisuDurationExceeded,
     } = this.props;
     const ep = data.value;
+    const { dynamicEP } = entryPoints;
     const error = _get(entryPoints, 'dynamicEP.error');
-    if (!ep || error) {
+    if (!ep || !dynamicEP || error) {
       return (
         <DroppableContainer
           onDrop={this.onDrop}

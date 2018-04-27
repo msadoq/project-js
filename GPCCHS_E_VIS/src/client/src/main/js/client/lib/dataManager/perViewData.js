@@ -32,29 +32,67 @@ import any from 'lodash/fp/any';
 import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
 
+import { get } from 'common/configurationManager';
 import { getDomains } from '../store/reducers/domains';
-import { getMasterSessionId } from '../store/reducers/masterSession';
 import { getStructureModule, getDataSelectors } from '../viewManager';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView, getViewType } from '../store/reducers/views';
 import { getPageDomainName, getPageSessionName, getPageLayout } from '../store/reducers/pages';
 import { getDomainName, getSessionName } from '../store/reducers/hsc';
 import { getSessions } from '../store/reducers/sessions';
+import { getTimebarMasterId } from '../store/reducers/timebars';
+import { getCurrentSession } from '../store/selectors/sessions';
 
 // const logger = getLogger('data:perViewData');
 
 const anyUndefined = any(_isUndefined);
 
+const WILDCARD = get('WILDCARD_CHARACTER');
+
+function matchesSession(masterSession, element) {
+  return !element // considered as wildcard
+    || element === WILDCARD
+    || element === masterSession;
+}
+
+function filterBySession(
+  masterSessionName,
+  timelines,
+  viewSessionName,
+  pageSessionName,
+  workspaceSessionName,
+  entryPoints
+) {
+  const sessionNamesByTimelineId = timelines.reduce((aggregator, t) => ({
+    ...aggregator,
+    [t.id]: t.sessionName,
+  }), {});
+  const areIntermediateMatchingMasterSession =
+    matchesSession(masterSessionName, viewSessionName)
+    && matchesSession(masterSessionName, pageSessionName)
+    && matchesSession(masterSessionName, workspaceSessionName)
+  ;
+
+  return !areIntermediateMatchingMasterSession
+    ? []
+    : entryPoints.filter(e =>
+      sessionNamesByTimelineId[e.connectedData.timeline] === masterSessionName
+      || e.connectedData.timeline === WILDCARD
+    );
+}
+
 /**
-* Get data definitions for a view
-* @param state
-* @param timebarUuid
-* @param viewId
-* @param pageId
-*/
+ * Get data definitions for a view
+ * @param state
+ * @param timebarUuid
+ * @param viewId
+ * @param pageId
+ */
 export default function makeGetPerViewData() {
   return createSelector(
-    getMasterSessionId,
+    // FIXME: I think it could be removed since filterBySession should use getCurrentSession
+    getTimebarMasterId,
+    getCurrentSession,
     getDomains,
     getTimebarTimelinesSelector,
     (state, { timebarUuid }) => timebarUuid,
@@ -70,8 +108,8 @@ export default function makeGetPerViewData() {
     getDomainName, // in HSC
     getSessionName, // in HSC
 
-    (masterSessionId, domains, viewTimelines, timebarUuid, sessions, view, entryPoints,
-    pageDomain, pageSessionName, layout, workspaceDomain, workspaceSessionName) => {
+    (masterTimeBarID, masterTimelineSession, domains, viewTimelines, timebarUuid, sessions, view,
+     entryPoints, pageDomain, pageSessionName, layout, workspaceDomain, workspaceSessionName) => {
       if (anyUndefined([domains, timebarUuid, viewTimelines, sessions, view, entryPoints])) {
         return {};
       }
@@ -81,28 +119,39 @@ export default function makeGetPerViewData() {
       if (index !== -1 && layout[index].collapsed === true) {
         return {};
       }
+
+      const masterTimeBarSession = viewTimelines.find(s => s.id === masterTimeBarID);
+      const entryPointsFilteredBySession = masterTimeBarSession ? filterBySession(
+        masterTimeBarSession.sessionName,
+        viewTimelines,
+        view.sessionName,
+        pageSessionName,
+        workspaceSessionName,
+        entryPoints
+      )
+      : [];
+
       return {
         type,
-        entryPoints: entryPoints.reduce((acc, ep) => {
+        entryPoints: entryPointsFilteredBySession.reduce((acc, ep) => {
           const val =
-          getStructureModule(type).parseEntryPoint(
-            domains,
-            sessions,
-            viewTimelines,
-            ep,
-            masterSessionId,
-            timebarUuid,
-            type,
-            view.domainName,
-            pageDomain,
-            workspaceDomain,
-            view.sessionName,
-            pageSessionName,
-            workspaceSessionName
-          );
+            getStructureModule(type).parseEntryPoint(
+              domains,
+              sessions,
+              viewTimelines,
+              ep,
+              masterTimelineSession,
+              timebarUuid,
+              type,
+              view.domainName,
+              pageDomain,
+              workspaceDomain,
+              view.sessionName,
+              pageSessionName,
+              workspaceSessionName
+            );
           return Object.assign({}, acc, val);
-        }, {}
-        ),
+        }, {}),
       };
     });
 }

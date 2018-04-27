@@ -34,6 +34,7 @@
 // VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
 // VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
 // VERSION : 2.0.0 : FA : #11591 : 06/04/2018 : Vima Drag and drop removal
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -43,8 +44,10 @@ import classnames from 'classnames';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
 import _ from 'lodash';
 import { get } from 'common/configurationManager';
+import { getBorderColorForNav, getBorderColorForTab } from 'windowProcess/common/colors';
 import styles from './Tabs.css';
 
+const wildcardCharacter = get('WILDCARD_CHARACTER');
 const popoverDraggingStyle = { display: 'none' };
 
 function popoverHoverFocus(page) {
@@ -92,6 +95,8 @@ export default class Tabs extends PureComponent {
     moveTabOrder: func.isRequired,
     focusPage: func.isRequired,
     pageDragEvent: func.isRequired,
+    workspaceDomain: PropTypes.string.isRequired,
+    viewsDomains: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   };
 
   handleSelect = (eventKey) => {
@@ -167,7 +172,14 @@ export default class Tabs extends PureComponent {
   };
 
   render() {
-    const { pages, focusedPageId } = this.props;
+    const { pages, focusedPageId, workspaceDomain, viewsDomains } = this.props;
+    const borderColorForNav =
+      getBorderColorForNav(workspaceDomain, pages, viewsDomains);
+    const styleNav = {
+      borderTop: '5px solid',
+      borderBottom: '0',
+      borderColor: borderColorForNav,
+    };
     return (
       <Nav
         bsStyle="tabs"
@@ -177,13 +189,14 @@ export default class Tabs extends PureComponent {
           'MainNav',
           { [styles.band]: get('DUMP') === 'on' }
         )}
+        style={styleNav}
       >
         {
           pages.map((page, key) => {
             // get the style for tabs
             // color of tabs depends on domains of each view contained in the page
             const { configurations } = page;
-            const domains = _.pull(_.uniqBy(
+            const epDomains = _.pull(_.uniqBy(
               [].concat(
                 [],
                 ...configurations.map(configuration =>
@@ -192,15 +205,22 @@ export default class Tabs extends PureComponent {
                   )
                 )
               )
-            ), '*');
+            ), wildcardCharacter);
 
-            const colors = get('DOMAINS_COLORS');
-            const domain = domains.length > 1 ? 'multi' : domains[0];
-            const colorObject = colors.find(obj => Object.keys(obj)[0] === domain);
-            const borderColorForTab = colorObject !== undefined ? colorObject[domain] : null;
+            const viewsDomainsForPage = viewsDomains[page.pageId];
 
-            const style = {
-              borderBottom: '8px solid',
+            const borderColorForTab =
+              getBorderColorForTab(
+                workspaceDomain,
+                page.domainName || wildcardCharacter,
+                viewsDomainsForPage,
+                epDomains
+              );
+            const styleTab = {
+              borderBottom: '5px solid',
+              borderLeft: '0',
+              borderRight: '0',
+              borderTop: '0',
               borderColor: borderColorForTab,
             };
             // end of get the style for tabs
@@ -211,7 +231,7 @@ export default class Tabs extends PureComponent {
                 onDragOver={this.handleDragOver}
                 onDragLeave={this.handleDragLeave}
                 onDrop={(e) => { this.handleDrop(e, page.title, key); }}
-                style={style}
+                style={styleTab}
               >
                 <div
                   draggable

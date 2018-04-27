@@ -16,7 +16,7 @@ import _has from 'lodash/has';
 import _set from 'lodash/set';
 import _each from 'lodash/each';
 import _findIndex from 'lodash/findIndex';
-import { DATASTRUCTURETYPE_LAST } from '../constants';
+import { DATASTRUCTURETYPE_LAST, PROVIDER_FLOW_ALL } from '../constants';
 import { getStructureType } from '../viewManager';
 
 export function addEpInLastTbdIdMap(lastTbdIdMap, ep, viewId) {
@@ -28,9 +28,14 @@ export function addEpInLastTbdIdMap(lastTbdIdMap, ep, viewId) {
   const newMap = lastTbdIdMap || {};
   if (!newMap[tbdId]) {
     const { dataId, filters, mode } = ep;
+    const provider = dataId.provider === PROVIDER_FLOW_ALL ? '' : dataId.provider;
+
     newMap[tbdId] = {
       mode,
-      dataId,
+      dataId: {
+        ...dataId,
+        provider,
+      },
       localIds: {},
       views: [viewId],
       filters,

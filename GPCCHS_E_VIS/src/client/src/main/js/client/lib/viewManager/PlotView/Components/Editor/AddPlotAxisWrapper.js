@@ -70,6 +70,7 @@ export default class AddEntryPointWrapper extends Component {
           max: parseFloat(values.logSettings.max),
           base: parseInt(values.logSettings.base, 10),
         },
+        unit: values.unit.length === 0 ? 'Unknown' : values.unit,
       }
     );
     closeModal();

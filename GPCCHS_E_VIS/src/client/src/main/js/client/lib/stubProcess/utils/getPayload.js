@@ -68,7 +68,7 @@ const stubData = stubs.getStubData();
 //   return states[timestamp % states.length];
 // }
 function getMonitoringState() {
-  return predictibleRand.getBool(0.25) ? predictibleRand.getFrom([
+  return predictibleRand.getBool(0.80) ? predictibleRand.getFrom([
     'info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete', 'danger',
   ]) : undefined;
 }
@@ -221,6 +221,13 @@ const getComObject = (dataId, timestamp, options) => {
       });
     }
 
+    case 'StatExecution':
+      return [
+        { p: stubData.getExecutionProtobuf(), com: 'Execution' },
+        { p: stubData.getStatValueProtobuf(), com: 'StatValue' },
+        { p: stubData.getStatAggregationProtobuf({ statDate: timestamp }), com: 'StatAggregation' },
+      ];
+
     case 'Pus003Model':
       return stubData.getPus003ModelProtobuf({
         groundDate: timestamp,
@@ -263,12 +270,22 @@ module.exports = function getPayload(timestamp, dataId, versionDCCom, options = 
 
   // Decorate payload with ADEGenericPayload in case of proto ADE
   if (versionDCCom === constants.DC_COM_V2) {
-    payload = stubData.getADEPayloadProtobuf({
-      payload,
-      providerId: 0,
-      comObjectType: dataId.comObject,
-      instanceOid: 0,
-    });
+    if (Array.isArray(payload)) {
+      payload = stubData.getADEPayloadProtobuf(payload.map(payloadPart => ({
+        payload: payloadPart.p,
+        providerId: 0,
+        comObjectType: payloadPart.com,
+        instanceOid: 0,
+      })
+      ));
+    } else {
+      payload = stubData.getADEPayloadProtobuf({
+        payload,
+        providerId: 0,
+        comObjectType: dataId.comObject,
+        instanceOid: 0,
+      });
+    }
   }
 
   return {

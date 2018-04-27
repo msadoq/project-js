@@ -1,8 +1,8 @@
-#GPCCHS 2.0.0 13/04/2018 ddc.txt
+#GPCCHS 2.0.0.1 18/04/2018 ddc.txt
 
 Dossier descriptif de configuration
 ===================================
-Fait le  : 13/04/2018
+Fait le  : 18/04/2018
 par      : Philippe Combes
 selon specification :
  - RNC-CNES-M-ST-40-102 Version 4
@@ -51,12 +51,12 @@ The GPVI component provides the VIMA-JS application
 
 2. Identification de la version
 ===============================
-Date Version                : 2018/04/13
-Numero Version              : 2.0.0
-Numero Version de reference : 1.1.2
+Date Version                : 2018/04/18
+Numero Version              : 2.0.0.1
+Numero Version de reference : 2.0.0
 Branche Version             : principale
 Etat Version                : 
-Justification               : Delivery of LPISIS, version 2.0.0
+Justification               : Delivery of LPISIS, patch version 2.0.0.1
 Nature d'arborescence       : produit source
 Type de livraison           : complete
 

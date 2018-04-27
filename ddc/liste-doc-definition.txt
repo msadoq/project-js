@@ -1,4 +1,4 @@
-#GPCCHS 2.0.0 13/04/2018 liste-doc-definition.txt
+#GPCCHS 2.0.0.1 18/04/2018 liste-doc-definition.txt
 
 
 # reference | version | date | titre | organisme auteur | A ou R (pour applicable ou reference)

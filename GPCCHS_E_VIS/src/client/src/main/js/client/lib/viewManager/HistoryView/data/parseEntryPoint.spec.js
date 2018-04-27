@@ -1,5 +1,9 @@
 import cloneDeep from 'lodash/cloneDeep';
 import parseEntryPoint from './parseEntryPoint';
+import { get } from '../../../common/configurationManager';
+
+const WILDCARD = get('WILDCARD_CHARACTER');
+
 
 describe('viewManager/HistoryView/data/parseEntryPoint', () => {
   let timelines;
@@ -60,7 +64,7 @@ describe('viewManager/HistoryView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd1',
           domain: 'cnes',
@@ -88,7 +92,7 @@ describe('viewManager/HistoryView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd1',
           domain: 'cnes',
@@ -105,8 +109,8 @@ describe('viewManager/HistoryView/data/parseEntryPoint', () => {
     });
   });
   test('wilcard => view data', () => {
-    entryPoint.connectedData.timeline = '*';
-    entryPoint.connectedData.domain = '*';
+    entryPoint.connectedData.timeline = WILDCARD;
+    entryPoint.connectedData.domain = WILDCARD;
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'HistoryView',
         'cnes.isis', undefined, undefined, 'session2')
@@ -116,7 +120,7 @@ describe('viewManager/HistoryView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd2',
           domain: 'cnes.isis',
@@ -133,8 +137,8 @@ describe('viewManager/HistoryView/data/parseEntryPoint', () => {
     });
   });
   test('wilcard => page data', () => {
-    entryPoint.connectedData.timeline = '*';
-    entryPoint.connectedData.domain = '*';
+    entryPoint.connectedData.timeline = WILDCARD;
+    entryPoint.connectedData.domain = WILDCARD;
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'HistoryView',
         undefined, 'cnes.isis', undefined, undefined, 'session2')
@@ -144,7 +148,7 @@ describe('viewManager/HistoryView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd2',
           domain: 'cnes.isis',
@@ -161,8 +165,8 @@ describe('viewManager/HistoryView/data/parseEntryPoint', () => {
     });
   });
   test('wilcard => workspace data', () => {
-    entryPoint.connectedData.timeline = '*';
-    entryPoint.connectedData.domain = '*';
+    entryPoint.connectedData.timeline = WILDCARD;
+    entryPoint.connectedData.domain = WILDCARD;
     expect(
       parseEntryPoint(domains, sessions, timelines, entryPoint, 'Session 1', 'TB1', 'HistoryView',
         undefined, undefined, 'cnes.isis', undefined, undefined, 'session2')
@@ -172,7 +176,7 @@ describe('viewManager/HistoryView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd2',
           domain: 'cnes.isis',

@@ -6,6 +6,7 @@
 // ====================================================================
 
 import React, { PureComponent, PropTypes } from 'react';
+import { sessionType, timelinesType } from 'viewManager/common/Components/types';
 import EditTimeline from './EditTimeline';
 
 export default class EditTimelineWrapper extends PureComponent {
@@ -20,28 +21,8 @@ export default class EditTimelineWrapper extends PureComponent {
     timelineUuid: PropTypes.string.isRequired,
     timebar: PropTypes.shape().isRequired,
     timeline: PropTypes.shape().isRequired,
-    timelines: PropTypes.arrayOf(
-      PropTypes.shape({
-        color: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        kind: PropTypes.string.isRequired,
-        uuid: PropTypes.string.isRequired,
-        offset: PropTypes.number.isRequired,
-        sessionName: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    sessions: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        delta: PropTypes.number.isRequired,
-        id: PropTypes.number.isRequired,
-        missionEpoch: PropTypes.number.isRequired,
-        timestamp: PropTypes.shape({
-          ms: PropTypes.number,
-          ps: PropTypes.number,
-        }),
-      })
-    ).isRequired,
+    timelines: timelinesType.isRequired,
+    sessions: PropTypes.arrayOf(sessionType).isRequired,
   }
 
   willEditTimeline = (values) => {

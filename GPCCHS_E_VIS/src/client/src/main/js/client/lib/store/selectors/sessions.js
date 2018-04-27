@@ -17,7 +17,7 @@ import { createSelector } from 'reselect';
 import { getSession } from '../reducers/sessions';
 import { getMasterTimelineById } from '../selectors/timelines';
 
-const getCurrentSession = (state, ownProps) => {
+export const getCurrentSession = (state, ownProps) => {
   const masterTimeline = getMasterTimelineById(state, ownProps);
   if (masterTimeline) {
     const currentSession = getSession(state, { sessionName: masterTimeline.sessionName });
@@ -25,6 +25,11 @@ const getCurrentSession = (state, ownProps) => {
   }
   return null;
 };
+
+export const getCurrentSessionName = createSelector(
+  getCurrentSession,
+  _.get('name')
+);
 
 export const getCurrentSessionId = createSelector(
   getCurrentSession,

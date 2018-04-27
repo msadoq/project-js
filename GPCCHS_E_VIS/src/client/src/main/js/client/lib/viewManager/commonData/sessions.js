@@ -38,7 +38,7 @@ export function save(search, result) {
 export function find(
   search,
   sessions,
-  masterSessionId,
+  masterTimelineSession,
   viewSessionName,
   pageSessionName,
   workspaceSessionName
@@ -56,7 +56,8 @@ export function find(
     } else if (workspaceSessionName && workspaceSessionName !== wildcardCharacter) {
       sessionName = workspaceSessionName;
     } else {
-      return { id: masterSessionId, name: '*' };
+      // TODO except the following line, the whole method looks similar to reducers/sessions/index.j
+      return { id: masterTimelineSession.id, name: masterTimelineSession.name };
     }
   }
   if (!sessions || !sessions.length) {
@@ -91,7 +92,7 @@ export function find(
 export default function findSession(
   sessions,
   sessionName,
-  masterSessionId,
+  masterTimelineSession,
   viewSessionName,
   pageSessionName,
   workspaceSessionName
@@ -106,7 +107,7 @@ export default function findSession(
     const sessionId = find(
       sessionName,
       memoizedSessions,
-      masterSessionId,
+      masterTimelineSession,
       viewSessionName,
       pageSessionName,
       workspaceSessionName

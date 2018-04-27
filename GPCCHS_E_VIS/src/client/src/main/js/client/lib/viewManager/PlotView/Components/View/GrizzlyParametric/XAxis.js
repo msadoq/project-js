@@ -97,7 +97,7 @@ export default class XAxis extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    let shouldRender = false;
+    let shouldRender = nextProps.updateAxis;
     const attrs = ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
       'scale', 'autoTick', 'tickStep', 'format', 'gridStyle', 'gridSize', 'showGrid'];
     for (let i = 0; i < attrs.length; i += 1) {

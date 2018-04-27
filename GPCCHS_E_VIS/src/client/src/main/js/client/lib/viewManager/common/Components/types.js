@@ -50,6 +50,8 @@ export const domainType = shape({
   parentDomainId: number,
 });
 
+export const domainsType = arrayOf(domainType.isRequired);
+
 export const timelineType = shape({
   color: string,
   id: string.isRequired,
@@ -59,10 +61,20 @@ export const timelineType = shape({
   uuid: string.isRequired,
 });
 
+export const timelinesType = arrayOf(timelineType.isRequired);
+
 export const sessionType = shape({
   id: number.isRequired,
   name: string.isRequired,
+  delta: PropTypes.number,
+  missionEpoch: PropTypes.number,
+  timestamp: PropTypes.shape({
+    ms: PropTypes.number,
+    ps: PropTypes.number,
+  }),
 });
+
+export const sessionsType = arrayOf(sessionType.isRequired);
 
 export const catalogItemType = shape({
   name: string.isRequired,

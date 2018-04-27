@@ -3,6 +3,7 @@
 // VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : PlotView legend : left right top bottom.
 // VERSION : 1.1.2 : FA : #7185 : 05/07/2017 : Fix lint errors and warnings
 // VERSION : 1.1.2 : DM : #6829 : 11/07/2017 : PlotView legend and legend location : defaultValues.
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -62,8 +63,8 @@ export default class ViewParams extends React.Component {
     backgroundColor: '#000000',
     showLegend: false,
     legend: { location: 'bottom' },
-    domainName: '',
-    sessionName: '',
+    domainName: '*',
+    sessionName: '*',
   }
 
   handleSubmit = (values) => {

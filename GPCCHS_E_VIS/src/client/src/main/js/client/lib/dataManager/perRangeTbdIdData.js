@@ -11,7 +11,7 @@ import _has from 'lodash/has';
 import _set from 'lodash/set';
 import _each from 'lodash/each';
 import _findIndex from 'lodash/findIndex';
-import { DATASTRUCTURETYPE_RANGE } from '../constants';
+import { DATASTRUCTURETYPE_RANGE, PROVIDER_FLOW_ALL } from '../constants';
 import { getStructureType } from '../viewManager';
 
 export function addEpInRangeTbdIdMap(rangeTbdIdMap, ep, viewId) {
@@ -23,8 +23,12 @@ export function addEpInRangeTbdIdMap(rangeTbdIdMap, ep, viewId) {
   const newMap = rangeTbdIdMap || {};
   if (!newMap[tbdId]) {
     const { dataId, filters, mode } = ep;
+    const provider = dataId.provider === PROVIDER_FLOW_ALL ? '' : dataId.provider;
     newMap[tbdId] = {
-      dataId,
+      dataId: {
+        ...dataId,
+        provider,
+      },
       localIds: {},
       views: [viewId],
       mode,

@@ -4,14 +4,24 @@ exports[`windowProcess windowProcess :: Navigation windowProcess :: Navigation :
 <ul
   className="MainNav nav nav-tabs"
   role={null}
+  style={
+    Object {
+      "borderBottom": "0",
+      "borderColor": "#CCC",
+      "borderTop": "5px solid",
+    }
+  }
 >
   <li
     className=""
     role="presentation"
     style={
       Object {
-        "borderBottom": "8px solid",
-        "borderColor": null,
+        "borderBottom": "5px solid",
+        "borderColor": "#CCC",
+        "borderLeft": "0",
+        "borderRight": "0",
+        "borderTop": "0",
       }
     }
   >

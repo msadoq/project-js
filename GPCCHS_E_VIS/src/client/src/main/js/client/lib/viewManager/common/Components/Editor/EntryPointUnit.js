@@ -5,19 +5,46 @@ import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGro
 import InputField from '../../../../windowProcess/commonReduxForm/InputField';
 import styles from './EntryPointUnit.css';
 
-const { string } = PropTypes;
 
 export default class EntryPointUnit extends PureComponent {
   static propTypes = { // FIXME: is this really needed ?
-    convertFrom: string,
-    convertTo: string,
-    unit: string,
+    convertFrom: PropTypes.string,
+    convertTo: PropTypes.string,
+    unit: PropTypes.string,
+    askUnit: PropTypes.func.isRequired,
+    domainId: PropTypes.number,
+    sessionId: PropTypes.number,
+    catalog: PropTypes.string,
+    catalogItem: PropTypes.string,
   };
   static defaultProps = {
     convertFrom: null,
     convertTo: null,
-    unit: <i>Unknown</i>,
+    unit: 'Unknown',
+    domainId: null,
+    sessionId: null,
+    catalog: null,
+    catalogItem: null,
   };
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      askUnit,
+      domainId,
+      sessionId,
+      catalog,
+      catalogItem,
+    } = nextProps;
+
+    if (
+      domainId !== null &&
+      sessionId !== null &&
+      catalog !== null &&
+      catalogItem !== null
+    ) {
+      askUnit(domainId, sessionId, catalog, catalogItem);
+    }
+  }
 
   render() {
     return (

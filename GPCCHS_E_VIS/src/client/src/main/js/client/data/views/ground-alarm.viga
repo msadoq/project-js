@@ -30,7 +30,7 @@
   },
   "entryPoint": {
     "connectedData": {
-      "domain": "fr.cnes.isis",
+      "domain": "*",
       "mode": 0,
       "timeline": "*"
     },

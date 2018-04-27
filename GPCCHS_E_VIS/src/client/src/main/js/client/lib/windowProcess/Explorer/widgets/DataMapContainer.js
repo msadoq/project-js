@@ -1,6 +1,7 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add dataMap and store explorer widgets
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

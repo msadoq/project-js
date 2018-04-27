@@ -10,6 +10,10 @@ Component : GPCCHS_L_IFL-BridgeServer
 """
 # ====================================================================
 # HISTORY
+# VERSION : 2.0.0 : FA : ISIS-FT-1937 : 01/12/2017 : Update of implementation after review of code
+#  with architect
+# VERSION : 2.0.0 : FA : ISIS-FT-1937 : 07/12/2017 : Implement all the conversion handler in their
+#  first version (without using protobuf)
 # END-HISTORY
 # ====================================================================
 

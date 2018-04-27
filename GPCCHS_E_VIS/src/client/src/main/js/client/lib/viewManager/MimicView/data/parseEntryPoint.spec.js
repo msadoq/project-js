@@ -2,18 +2,26 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
 // VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Fix tests on mimic view
-// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of
+//  tests
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
 // VERSION : 1.1.2 : FA : #7164 : 07/07/2017 : Apply filters on getLast request
 // VERSION : 1.1.2 : DM : #6700 : 21/07/2017 : Separate perTdbId by structure type in dataMap
 // VERSION : 1.1.2 : DM : #6700 : 02/08/2017 : Update unit tests for Plot View store
-// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
+//  viewData_clean
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Update unit tests and stubs for provider
+//  field and fix parseEntryPoint calls in all views
 // END-HISTORY
 // ====================================================================
 
 import cloneDeep from 'lodash/cloneDeep';
 import parseEntryPoint from './parseEntryPoint';
+import { get } from '../../../common/configurationManager';
+
+const WILDCARD = get('WILDCARD_CHARACTER');
 
 describe('viewManager/MimicView/data/parseEntryPoint', () => {
   let timelines;
@@ -74,7 +82,7 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd1',
           domain: 'cnes',
@@ -102,7 +110,7 @@ describe('viewManager/MimicView/data/parseEntryPoint', () => {
         dataId: {
           catalog: 'Reporting',
           parameterName: 'ATT_BC_STR1VOLTAGE',
-          provider: '',
+          provider: WILDCARD,
           comObject: 'ReportingParameter',
           domainId: 'd1',
           domain: 'cnes',

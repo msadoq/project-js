@@ -1,6 +1,8 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Creation of alarm view adapters
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Add new stub data for GrounData and OnBoardData
 // END-HISTORY
 // ====================================================================
 
@@ -44,6 +46,8 @@ const ADETimebasedQuery = require('./ADETimebasedQuery');
 const ADETimebasedPubsub = require('./ADETimebasedPubsub');
 const ADETimebasedSubscription = require('./ADETimebasedSubscription');
 
+const StatExecution = require('./statExecution');
+
 module.exports = { // TODO .proto should be collocated with adapters
   Action: { type: 'protobuf', adapter: Action },
   Boolean: { type: 'protobuf', adapter: Bool },
@@ -82,4 +86,5 @@ module.exports = { // TODO .proto should be collocated with adapters
   ADETimebasedQuery: { type: 'protobuf', adapter: ADETimebasedQuery },
   ADETimebasedPubsub: { type: 'protobuf', adapter: ADETimebasedPubsub },
   ADETimebasedSubscription: { type: 'protobuf', adapter: ADETimebasedSubscription },
+  StatExecution: { type: 'raw', adapter: StatExecution},
 };

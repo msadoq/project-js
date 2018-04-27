@@ -1,34 +1,77 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: AlarmViewEntryPoints snapshot 1`] = `
-<div>
-  <HorizontalFormGroup
-    className=""
-    label="Domain"
-  >
-    <Connect(DomainField)
-      domainName={null}
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className=""
-    label="Timeline"
-  >
-    <Connect(TimelineField)
-      timelineName={null}
-      windowId={undefined}
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className=""
-    label="Mode"
-  >
-    <Field
-      clearable={false}
-      component={[Function]}
-      name="mode"
-      options={
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <AlarmViewEntryPoints
+    domain={null}
+    domainName="fr.cnes.test"
+    domains={
         Array [
+            Object {
+              "domainId": 1,
+              "itemNamespace": "Domains",
+              "name": "fr.cnes.isis",
+              "oid": "0051525005151000565215465660515",
+              "parentDomainId": 0,
+            },
+            Object {
+              "domainId": 2,
+              "itemNamespace": "Domains",
+              "name": "fr.cnes.isis.simupus",
+              "oid": "0051525005151000565215465660515",
+              "parentDomainId": 1,
+            },
+          ]
+    }
+    timeline={null}
+/>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "function",
+    "props": Object {
+      "children": <Field
+        clearable={false}
+        component={[Function]}
+        name="mode"
+        options={
+                Array [
+                        Object {
+                          "label": "All",
+                          "value": 0,
+                        },
+                        Object {
+                          "label": "Non nominal",
+                          "value": 1,
+                        },
+                        Object {
+                          "label": "To Acknowledge",
+                          "value": 2,
+                        },
+                      ]
+        }
+/>,
+      "label": "Mode",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "clearable": false,
+        "component": [Function],
+        "name": "mode",
+        "options": Array [
           Object {
             "label": "All",
             "value": 0,
@@ -41,9 +84,80 @@ exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: 
             "label": "To Acknowledge",
             "value": 2,
           },
-        ]
-      }
-    />
-  </HorizontalFormGroup>
-</div>
+        ],
+      },
+      "ref": null,
+      "rendered": null,
+      "type": [Function],
+    },
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "children": <Field
+          clearable={false}
+          component={[Function]}
+          name="mode"
+          options={
+                    Array [
+                              Object {
+                                "label": "All",
+                                "value": 0,
+                              },
+                              Object {
+                                "label": "Non nominal",
+                                "value": 1,
+                              },
+                              Object {
+                                "label": "To Acknowledge",
+                                "value": 2,
+                              },
+                            ]
+          }
+/>,
+        "label": "Mode",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "clearable": false,
+          "component": [Function],
+          "name": "mode",
+          "options": Array [
+            Object {
+              "label": "All",
+              "value": 0,
+            },
+            Object {
+              "label": "Non nominal",
+              "value": 1,
+            },
+            Object {
+              "label": "To Acknowledge",
+              "value": 2,
+            },
+          ],
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactFifteenFourAdapter {
+      "options": Object {
+        "supportPrevContextArgumentOfComponentDidUpdate": true,
+      },
+    },
+  },
+}
 `;

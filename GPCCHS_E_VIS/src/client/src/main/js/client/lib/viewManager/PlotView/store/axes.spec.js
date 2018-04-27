@@ -1,12 +1,20 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add PlotView and DynamicView configurationReducer in viewManager
-// VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : Remove old configuration reducers from reducers/views/configuration
-// VERSION : 1.1.2 : DM : #5828 : 27/04/2017 : Fixed tests - auto axis creation when new EntryPoint.
-// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Add PlotView and DynamicView configurationReducer in
+//  viewManager
+// VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : Remove old configuration reducers from
+//  reducers/views/configuration
+// VERSION : 1.1.2 : DM : #5828 : 27/04/2017 : Fixed tests - auto axis creation when new
+//  EntryPoint.
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of
+//  tests
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js
+//  in jest/index.js
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #8082 : 11/12/2017 : Plot view refresh problem // Lorsqu'on cree un entry
+//  point...
 // END-HISTORY
 // ====================================================================
 

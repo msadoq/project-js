@@ -1,7 +1,8 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Add PubSubController and retrieveLast/Range update
-// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix error in retrieveLast and update its related tests
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix error in retrieveLast and update its related
+//  tests
 // END-HISTORY
 // ====================================================================
 

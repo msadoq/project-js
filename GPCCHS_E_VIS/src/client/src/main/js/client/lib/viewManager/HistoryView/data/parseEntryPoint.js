@@ -1,6 +1,10 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix imports . . .
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Update unit tests and stubs for provider
+//  field and fix parseEntryPoint calls in all views
 // END-HISTORY
 // ====================================================================
 
@@ -20,7 +24,7 @@ export default function parseEntryPoint(
   sessions,
   timelines,
   entryPoint,
-  masterSessionId,
+  masterTimelineSession,
   timebarUuid,
   viewType,
   viewDomain,
@@ -43,7 +47,7 @@ export default function parseEntryPoint(
     sessions,
     timelines,
     connectedData,
-    masterSessionId,
+    masterTimelineSession,
     viewDomain,
     pageDomain,
     workspaceDomain,

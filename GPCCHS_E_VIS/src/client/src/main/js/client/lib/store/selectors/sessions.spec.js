@@ -4,7 +4,8 @@
 // VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : fix reselect signature linting errors
 // VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : add tests on sessions selectors
 // VERSION : 1.1.2 : DM : #3622 : 21/02/2017 : Remove missing only in tests
-// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move all selectors from selectors/sessions to reducers/sessions
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move all selectors from selectors/sessions to
+//  reducers/sessions
 // VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Remove Timebar/Controls/ControlsSelectors + tests .
 // END-HISTORY
 // ====================================================================

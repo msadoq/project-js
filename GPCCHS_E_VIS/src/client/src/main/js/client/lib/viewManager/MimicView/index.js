@@ -2,6 +2,8 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
 // VERSION : 1.1.2 : DM : #6129 : 03/05/2017 : first functionnal mimic with animations
+// VERSION : 2.0.0 : DM : #5806 : 24/10/2017 : Fix DynamicView setEntryPointDefault and
+//  prepareViewForStore
 // END-HISTORY
 // ====================================================================
 

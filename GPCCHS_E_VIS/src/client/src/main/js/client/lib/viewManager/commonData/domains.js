@@ -1,10 +1,15 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : remove structure last and range
-// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : remove domain and session on window apply domain and
+//  session of view, page or workspace in case of wildcard
 // VERSION : 1.1.2 : FA : #5846 : 10/05/2017 : Add option to launch vima in realtime play mode
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : remove domain and session on window apply domain and
+//  session of view, page or workspace in case of wildcard
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 2.0.0 : FA : ISIS-FT-2248 : 18/10/2017 : Fallback/Wildcard for sessions and domains is
+//  now functionnal. Plus fixed page and workspace modal editor for undefined values.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

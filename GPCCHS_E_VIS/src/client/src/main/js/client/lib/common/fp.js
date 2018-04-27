@@ -1,6 +1,9 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move few common/ modules in client/ folder
+// VERSION : 2.0.0 : DM : #5806 : 11/10/2017 : Add ifElse fp utils .
+// VERSION : 2.0.0 : DM : #5806 : 11/10/2017 : Add reduce fp utils function
+// VERSION : 2.0.0 : DM : #5806 : 11/10/2017 : Add 'when' conditional transformer utils
 // END-HISTORY
 // ====================================================================
 

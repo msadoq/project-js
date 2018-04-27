@@ -22,7 +22,7 @@
       "catalog": "TelemetryPacket",
       "catalogItem": "CLCW_TM_CLCWPACKET",
       "comObject": "DecommutedPacket",
-      "domain": "fr.cnes.isis.simupus",
+      "domain": "*",
       "filter": [],
       "formula": "TelemetryPacket.CLCW_TM_CLCWPACKET<DecommutedPacket>",
       "provider": "HKTMR",

@@ -2,6 +2,9 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Update some tests . . .
 // VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Modify cachecleanup middleware and its test
+// VERSION : 2.0.0 : FA : ISIS-FT-1992 : 31/10/2017 : Fix broken TUs . .
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
 // END-HISTORY
 // ====================================================================
 
@@ -27,7 +30,7 @@ const store1 = {
         defaultWidth: 900000,
       },
       playingState: 'pause',
-      masterId: 'Session 2',
+      masterId: 'Session 1',
       mode: 'Normal',
     },
   },

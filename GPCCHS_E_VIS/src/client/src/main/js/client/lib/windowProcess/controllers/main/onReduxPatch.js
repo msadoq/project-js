@@ -1,8 +1,12 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge
+//  with dev
 // VERSION : 1.1.2 : DM : #6700 : 29/08/2017 : Add throttle mechanism in patch reducer
-// VERSION : 1.1.2 : FA : #7813 : 19/09/2017 : Add batch action + logger support Remove ipc transmission for un-patch action
+// VERSION : 1.1.2 : FA : #7813 : 19/09/2017 : Add batch action + logger support Remove ipc
+//  transmission for un-patch action
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #7813 : 02/01/2018 : fix test & constant naming
 // END-HISTORY
 // ====================================================================
 

@@ -1,7 +1,9 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files.
+//  Possibility to add it in editor using context menu
 // VERSION : 1.1.2 : FA : #7185 : 06/07/2017 : Add JSDoc on codeEditor, domains & health reducers
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

@@ -4,7 +4,9 @@
 // VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : fix reselect signature linting errors
 // VERSION : 1.1.2 : DM : #3622 : 20/02/2017 : Fix missing wrong selectors calls
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/messages . . .
-// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Message removing can be cancel by passing the mouse over the message
+// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Message removing can be cancel by passing the
+//  mouse over the message
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

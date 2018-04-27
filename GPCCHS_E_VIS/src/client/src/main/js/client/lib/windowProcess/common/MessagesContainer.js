@@ -1,6 +1,8 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 01/09/2017 : Added error message when dropped item's mime type is not supported.
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 01/09/2017 : Added error message when dropped item's mime
+//  type is not supported.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

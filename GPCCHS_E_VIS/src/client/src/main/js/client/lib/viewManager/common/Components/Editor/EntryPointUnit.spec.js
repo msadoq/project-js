@@ -4,6 +4,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import EntryPointUnit from './EntryPointUnit';
+import { askUnit } from '../../../../store/actions/catalogs';
 
 const propsStub = {
   pageId: 'page1',
@@ -16,6 +17,7 @@ const propsStub = {
   updateViewPanels: () => null,
   removeEntryPoint: () => null,
   entryPointsPanels: {},
+  askUnit,
 };
 describe('EntryPointUnit :: render', () => {
   test('EntryPointUnit :: render', () => {

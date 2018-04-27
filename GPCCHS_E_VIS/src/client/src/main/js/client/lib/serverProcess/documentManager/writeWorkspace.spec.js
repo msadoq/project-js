@@ -2,6 +2,9 @@
 // HISTORY
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : link presentational component to redux
+// VERSION : 2.0.0 : FA : ISIS-FT-2913 : 06/04/2018 : Remove oid for workspace .
 // END-HISTORY
 // ====================================================================
 
@@ -68,7 +71,7 @@ describe('documentManager/writeWorkspace', () => {
           type: 'Page',
           title: 'Page 1',
           timebarUuid: 'abcd',
-          oId: 'oid:/testPlot.json',
+          path: 'testPlot.json',
         },
         page2: {
           type: 'Page',
@@ -174,7 +177,7 @@ describe('documentManager/writeWorkspace', () => {
             type: 'Page',
             title: 'Page 1',
             timebarUuid: 'abcd',
-            oId: 'oid:/testPlot.json',
+            oId: 'testPlot.json',
           },
           page2: {
             type: 'Page',

@@ -1,7 +1,7 @@
-#GPCCHS 1.1.2 02/10/2017 FC-#7858.txt
+#GPCCHS 2.0.0.1 18/04/2018 FC-#10863.txt
 
 
-Reference changement : #7858
+Reference changement : #10863
 
 ANALYSE DU PROBLEME
 ===================
@@ -11,8 +11,8 @@ SOLUTION APPORTEE
 =================
 
 
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/archiveController.js
-	Add robustness on 'dataId undefined' crash
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/selectors.js
+	Fix column filtering . .
 
 DOCUMENTS MODIFIES
 ==================
@@ -20,7 +20,7 @@ DOCUMENTS MODIFIES
 
 FICHIERS MODIFIES
 =================
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/archiveController.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/selectors.js
 
 FICHIERS AJOUTES
 ================

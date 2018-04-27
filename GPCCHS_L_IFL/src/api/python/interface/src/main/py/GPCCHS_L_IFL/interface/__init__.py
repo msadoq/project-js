@@ -15,7 +15,8 @@ Component : GPCCHS_L_IFL
 # ====================================================================
 # Start of user code HistoryZone
 # HISTORY
-#
+# VERSION : 2.0.0 : FA : ISIS-FT-1937 : 21/11/2017 : Creation of the necessary modules for unit
+#  conversion in GPCCHS
 # END-HISTORY
 # End of user code HistoryZone
 # ====================================================================

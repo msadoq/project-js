@@ -66,10 +66,8 @@ export default class GroundAlarmEditor extends Component {
   render() {
     const { entryPoints } = this.props.configuration;
     const {
-      timelines,
       viewId,
       tab,
-      domains,
       updateViewPanels,
       panels,
       openModal,
@@ -77,6 +75,14 @@ export default class GroundAlarmEditor extends Component {
       titleStyle,
     } = this.props;
     const nullObject = {};
+    const initialValues = entryPoints.length
+      ? {
+        ...entryPoints[0].connectedData,
+        timeline: '*', // reset timeline & domain in GA because the field disappears
+        domain: '*',
+      }
+      : nullObject;
+
     return (
       <div className={styles.contentWrapper}>
         <h4
@@ -94,11 +100,9 @@ export default class GroundAlarmEditor extends Component {
         <div className={styles.content}>
           {(tab === 0 || tab === null) && <div className={styles.content}>
             <GroundAlarmEditorForm
-              domains={domains}
-              timelines={timelines}
               form={`entrypoint-connectedData-form-${viewId}`}
               onSubmit={values => this.handleSubmit({ connectedData: values })}
-              initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
+              initialValues={initialValues}
             />
           </div>}
           {
@@ -110,12 +114,12 @@ export default class GroundAlarmEditor extends Component {
             />
           }
           {tab === 2 &&
-            <Misc
-              updateViewPanels={updateViewPanels}
-              viewId={viewId}
-              panels={panels}
-              openModal={openModal}
-            />}
+          <Misc
+            updateViewPanels={updateViewPanels}
+            viewId={viewId}
+            panels={panels}
+            openModal={openModal}
+          />}
         </div>
       </div>
     );

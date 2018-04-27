@@ -6,12 +6,25 @@ const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/ADEPayload.proto`, { 
 
 const { getADEGenericPayload } = require('./ADEGenericPayload.stub');
 
-const getADEPayload = ({ payload, providerId, comObjectType, instanceOid }) => {  
-  return {
-    genericPayload: [
-      getADEGenericPayload(payload, providerId, comObjectType, instanceOid),
-    ]
-  };
+const getADEPayload = (payloadObject) => {
+  
+  if (Array.isArray(payloadObject)) {
+    const gp = payloadObject.map((currentPayload) => {
+      const { payload, providerId, comObjectType, instanceOid } = currentPayload;
+      return getADEGenericPayload(payload, providerId, comObjectType, instanceOid);
+    });
+    return {
+      genericPayload: gp
+    };
+  } else {
+    const { payload, providerId, comObjectType, instanceOid } = payloadObject;
+    return {
+      genericPayload: [
+        getADEGenericPayload(payload, providerId, comObjectType, instanceOid),
+      ]
+    };
+  }
+  
 };
 
 const getADEPayloadProtobuf = override => {

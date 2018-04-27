@@ -1,65 +1,128 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Renamed GrizzlyPlot and RSCPlot with coherent names.
-// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in dataManager.
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in
+//  dataManager.
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : New legend toggable on plotview !
-// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Grizzly: autoTick and tickStep are taken into consideration.
-// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Format tooltip line function is given in props, and no longer resides in Tooltip.
-// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Adapting PlotView and Grizzly for the new data structure.
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Grizzly: autoTick and tickStep are taken into
+//  consideration.
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Format tooltip line function is given in props, and
+//  no longer resides in Tooltip.
+// VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Adapting PlotView and Grizzly for the new data
+//  structure.
 // VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Move general variables at top level of a view
 // VERSION : 1.1.2 : FA : #5512 : 15/03/2017 : PlotView legend height is smarter.
-// VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Grizzly : perfOutput as an option, log lines number, points number and axis.
+// VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Grizzly : perfOutput as an option, log lines number,
+//  points number and axis.
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove react-dimensions from project, use custom HOC
-// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Fix mount or unmount components for resizing plotview
+// VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Fix mount or unmount components for resizing
+//  plotview
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Fix display legend in plotview
 // VERSION : 1.1.2 : DM : #5822 : 23/03/2017 : add context menu on plotview
-// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : inspector view: separate general data from specific TM data
-// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : PlotView: x axis is always time/s , not editable. Newly created Ep always stick to time axis or create one.
+// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : inspector view: separate general data from specific
+//  TM data
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : PlotView: x axis is always time/s , not editable.
+//  Newly created Ep always stick to time axis or create one.
 // VERSION : 1.1.2 : DM : #5822 : 27/03/2017 : merge dev in working branch
 // VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : PlotView: show symbol in tooltip
-// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : PlotView and Grizzly : user can configure tickStep, autoTick and showTicks for x axis.
-// VERSION : 1.1.2 : FA : #6130 : 30/03/2017 : User can re-click on legend item to cancel curve highlight.
-// VERSION : 1.1.2 : FA : #6130 : 30/03/2017 : Highlight curve by selecting entry point in the legend.
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : PlotView and Grizzly : user can configure tickStep,
+//  autoTick and showTicks for x axis.
+// VERSION : 1.1.2 : FA : #6130 : 30/03/2017 : User can re-click on legend item to cancel curve
+//  highlight.
+// VERSION : 1.1.2 : FA : #6130 : 30/03/2017 : Highlight curve by selecting entry point in the
+//  legend.
 // VERSION : 1.1.2 : DM : #5828 : 30/03/2017 : Fix open editor when entrypoint is dropped
 // VERSION : 1.1.2 : DM : #5822 : 03/04/2017 : merge dev in working branch
-// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Define PlotView's format tooltip function outside of react component, cleaner.
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Define PlotView's format tooltip function outside of
+//  react component, cleaner.
 // VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : Fix plot view drawing .
-// VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : no connectedDataX and connectedDataY for default drag&drop created EP.
+// VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : no connectedDataX and connectedDataY for default
+//  drag&drop created EP.
 // VERSION : 1.1.2 : DM : #6302 : 04/04/2017 : FIx lint in Grizzly and PlotView.js .
 // VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : Merging branch dev into branch dev-plot-ep-refacto.
-// VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : It's possible to select multiple lines in PlotView legend.
-// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : mark parameter as checked in context menu when opened in inspector
+// VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : It's possible to select multiple lines in PlotView
+//  legend.
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : mark parameter as checked in context menu when
+//  opened in inspector
 // VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : open parameter in editor via context menu
 // VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : add context menu on views
-// VERSION : 1.1.2 : DM : #5828 : 26/04/2017 : Ported 1.1.0 patch to dev branch. EP Drag & drop auto-axis-creation.
+// VERSION : 1.1.2 : DM : #5828 : 26/04/2017 : Ported 1.1.0 patch to dev branch. EP Drag & drop
+//  auto-axis-creation.
 // VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : Fix editor search on open
 // VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : fix context menu on plot view
 // VERSION : 1.1.2 : DM : #5822 : 03/05/2017 : Inspector : display dynamic data
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : PlotView must show every point, if any point is out of limits in Plot, limits are modified.
-// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : User can now show/hide/remove EP from Plot in legend.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : PlotView must show every point, if any point is out
+//  of limits in Plot, limits are modified.
+// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : User can now show/hide/remove EP from Plot in
+//  legend.
 // VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add possibility to show links in views
-// VERSION : 1.1.2 : DM : #6835 : 31/05/2017 : First draft for parametric PlotView, x axis becomes basic axis with numb values.
+// VERSION : 1.1.2 : DM : #6835 : 31/05/2017 : First draft for parametric PlotView, x axis becomes
+//  basic axis with numb values.
 // VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
 // VERSION : 1.1.2 : FA : ISIS-FT-2107 : 13/06/2017 : Prep for point labels option on PlotView.
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 19/06/2017 : Improve PlotView editor UI -> legend in store.
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 19/06/2017 : Improve PlotView editor UI -> legend in
+//  store.
 // VERSION : 1.1.2 : DM : #6829 : 22/06/2017 : Working logarithmic scale for Y axes on PlotView.
-// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : Plot axes log settings stored in store and documents.
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : Plot axes log settings stored in store and
+//  documents.
 // VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : PlotView legend : left right top bottom.
-// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to
+//  limit visuWindow per view
 // VERSION : 1.1.2 : DM : #6829 : 10/07/2017 : PlotView default yAccessor : .value instead of .y
-// VERSION : 1.1.2 : DM : #6835 : 18/07/2017 : PlotView's lines take string instead of function for colorAccessor attribute.
-// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Carried few changes to Grizzly-PlotView to avoid useless re-renders + removed stuff related to pointLabels.
-// VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit style easily.
+// VERSION : 1.1.2 : DM : #6835 : 18/07/2017 : PlotView's lines take string instead of function for
+//  colorAccessor attribute.
+// VERSION : 1.1.2 : DM : #6830 : 20/07/2017 : Carried few changes to Grizzly-PlotView to avoid
+//  useless re-renders + removed stuff related to pointLabels.
+// VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit
+//  style easily.
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 20/07/2017 : Reimplement openLink middleware . .
 // VERSION : 1.1.2 : DM : #6830 : 21/07/2017 : Interactive logarithmic y axes on PlotView.
-// VERSION : 1.1.2 : DM : #6830 : 21/07/2017 : PlotView -> logarithmic axis : base can be anything: 2, 10, 12....
+// VERSION : 1.1.2 : DM : #6830 : 21/07/2017 : PlotView -> logarithmic axis : base can be anything:
+//  2, 10, 12....
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : no point is not an error anymore on PlotView.
 // VERSION : 1.1.2 : FA : #7776 : 13/09/2017 : update of plot view tooltip
 // VERSION : 1.1.2 : FA : #7776 : 13/09/2017 : Fix plot drawing when timeline has offset
 // VERSION : 1.1.2 : FA : #7834 : 15/09/2017 : Fixed right click on PlotView and PlotView legend.
-// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using indexes to iterate.
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using
+//  indexes to iterate.
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Move common/Dimensions.js in
+//  common/hoc/withDimensions .
+// VERSION : 2.0.0 : DM : #6835 : 26/09/2017 : Remove useless prop from PlotView.js
+// VERSION : 2.0.0 : DM : #6835 : 09/10/2017 : PlotView always renders GrizzlyParametric with one x
+//  axis. Tooltip reviewed. Current cursor reviewed for parametric and basic.
+// VERSION : 2.0.0 : DM : #6835 : 20/10/2017 : Fix problem with PlotView's grid not updating.
+// VERSION : 2.0.0 : DM : #6835 : 24/10/2017 : PlotView auto processes and generates x and y axes
+//  for Grizzly. Ready for parametric.
+// VERSION : 2.0.0 : DM : #6835 : 24/10/2017 : Fix on finding which ep is on a non-time x axis.
+// VERSION : 2.0.0 : FA : #8045 : 06/11/2017 : PlotView can draw string parameters, and a defaultY
+//  property can be set.
+// VERSION : 2.0.0 : DM : #6818 : 15/11/2017 : Refacto Grizzly Chart / Add tests
+// VERSION : 2.0.0 : DM : #6818 : 16/11/2017 : Test plot view . .
+// VERSION : 2.0.0 : DM : #6818 : 16/11/2017 : cleanup PropTypes declaration / tests / debounce
+//  linesListener action on zoom & pan
+// VERSION : 2.0.0 : DM : #6818 : 20/11/2017 : save live extents zooms & pans (plot view) in the
+//  store
+// VERSION : 2.0.0 : DM : #6818 : 21/11/2017 : add stop instruction to grizzly & update tests
+//  (obsolete data)
+// VERSION : 2.0.0 : FA : ISIS-FT-2281 : 24/11/2017 : zoom plotView VIMA trigger pause on zoom
+// VERSION : 2.0.0 : DM : #6818 : 01/12/2017 : Revision of PlotView's propTypes: name is not
+//  mandatory.
+// VERSION : 2.0.0 : FA : ISIS-FT-2280 : 06/12/2017 : ergonomie plotView VIMA // afficher la grille
+//  (celle-ci ne s'affiche pas malgre un etat a ON)
+// VERSION : 2.0.0 : FA : ISIS-FT-2280 : 06/12/2017 : ergonomie plotView VIMA // l'utilisateur doit
+//  pouvoir choisir avec ou sans ligne entre les points sans "tricher" en mettant Line size = 0
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #8082 : 11/12/2017 : Plot view refresh problem // Lorsqu'on cree un entry
+//  point...
+// VERSION : 2.0.0 : DM : #5806 : 11/12/2017 : Fix Open/Close Editor bunny code in MimicView,
+//  PlotView and TextView
+// VERSION : 2.0.0 : FA : ISIS-FT-2237 : 20/03/2018 : Update how an entry point formula is built
+// VERSION : 2.0.0 : FA : #10769 : 20/03/2018 : Fix bug when adding a new entry point when no
+//  timebar has been selected
+// VERSION : 2.0.0 : FA : ISIS-FT-2949 : 22/03/2018 : dates now display in TAI
+// VERSION : 2.0.0 : FA : #11614 : 06/04/2018 : Plotview unit display + snap
 // END-HISTORY
 // ====================================================================
 
@@ -87,6 +150,7 @@ import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
 import { buildFormulaForAutocomplete } from '../../../common';
+import { getTupleId } from '../../../../store/reducers/catalogs';
 
 const logger = getLogger('view:plot');
 
@@ -411,7 +475,7 @@ export class GrizzlyPlotView extends React.Component {
   static propTypes = {
     containerWidth: number.isRequired,
     containerHeight: number.isRequired,
-    updateDimensions: func.isRequired,
+    updateDimensions: func.isRequired, // eslint-disable-line react/no-unused-prop-types
     saveLiveExtents: func.isRequired,
     pause: func.isRequired,
     data: shape({
@@ -453,7 +517,9 @@ export class GrizzlyPlotView extends React.Component {
     pageId: string.isRequired,
     showLinks: bool,
     updateShowLinks: func.isRequired,
+    askUnit: func.isRequired,
     isMaxVisuDurationExceeded: bool.isRequired,
+    catalogs: object.isRequired, // eslint-disable-line react/forbid-prop-types
   };
 
   static defaultProps = {
@@ -470,11 +536,36 @@ export class GrizzlyPlotView extends React.Component {
   state = {
     showEpNames: [],
     hideEpNames: [],
+    updateUnit: false,
   };
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.props.updateDimensions();
+  componentWillReceiveProps(nextProps) {
+    const {
+      entryPoints,
+      askUnit,
+    } = nextProps;
+
+    Object.keys(entryPoints).forEach((catalogItem) => {
+      if (entryPoints[catalogItem].dataId) {
+        const {
+          domainId,
+          sessionId,
+          catalog,
+        } = entryPoints[catalogItem].dataId;
+        if (
+          domainId !== null &&
+          sessionId !== null &&
+          catalog !== null &&
+          catalogItem !== null
+        ) {
+          askUnit(domainId, sessionId, catalog, catalogItem);
+          this.setState({ updateUnit: true });
+        } else {
+          this.setState({ updateUnit: false });
+        }
+      } else {
+        this.setState({ updateUnit: true });
+      }
     });
   }
 
@@ -502,7 +593,8 @@ export class GrizzlyPlotView extends React.Component {
     if (
       nextProps.showLinks !== this.props.showLinks ||
       nextState.showEpNames !== this.state.showEpNames ||
-      nextState.hideEpNames !== this.state.hideEpNames
+      nextState.hideEpNames !== this.state.hideEpNames ||
+      nextState.updateUnit
     ) {
       return true;
     }
@@ -810,10 +902,10 @@ export class GrizzlyPlotView extends React.Component {
       showLinks,
       saveLiveExtents,
       pause,
+      catalogs,
+      entryPoints,
     } = this.props;
-    let {
-      configuration: { entryPoints },
-    } = this.props;
+    let entryPointsConfiguration = this.props.configuration.entryPoints;
     const {
       showEpNames,
       hideEpNames,
@@ -833,9 +925,11 @@ export class GrizzlyPlotView extends React.Component {
     }
 
     if (showEpNames.length) {
-      entryPoints = entryPoints.filter(ep => showEpNames.includes(ep.id));
+      entryPointsConfiguration =
+        entryPointsConfiguration.filter(ep => showEpNames.includes(ep.id));
     } else if (hideEpNames.length) {
-      entryPoints = entryPoints.filter(ep => !hideEpNames.includes(ep.id));
+      entryPointsConfiguration =
+        entryPointsConfiguration.filter(ep => !hideEpNames.includes(ep.id));
     }
 
     const yAxesLegendHeight = this.yAxes.map((a) => {
@@ -906,10 +1000,19 @@ export class GrizzlyPlotView extends React.Component {
           additionalStyle={memoizeMainStyle(legend.location)}
           yAxes={this.yAxes}
           xAxes={this.xAxes}
+          updateAxis={this.state.updateUnit}
           lines={
-            entryPoints.map((ep) => {
+            entryPointsConfiguration.map((ep) => {
               const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
               const stringParameter = !ep.parametric && _get(ep, ['connectedData', 'stringParameter']);
+              let unit;
+              if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
+                const { domainId, sessionId, catalog, parameterName } = entryPoints[ep.name].dataId;
+                const tupleId = getTupleId(domainId, sessionId);
+                unit = _get(catalogs, ['units', tupleId, catalog, parameterName], 'Unknown');
+              } else {
+                unit = ep.unit;
+              }
               return {
                 data: lines[ep.name],
                 indexes: indexes[ep.name],
@@ -933,6 +1036,8 @@ export class GrizzlyPlotView extends React.Component {
                 yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
                 colorAccessor: 'color',
                 tooltipFormatter,
+                unit: ep.connectedData.convertTo ?
+                  ep.connectedData.convertTo : unit,
               };
             })
           }

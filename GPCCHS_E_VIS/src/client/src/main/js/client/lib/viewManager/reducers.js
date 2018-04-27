@@ -2,11 +2,22 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Split viewManager/index.js in several files
 // VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
-// VERSION : 1.1.2 : DM : #5828 : 11/04/2017 : Implement automation for data reducers in viewManager
+// VERSION : 1.1.2 : DM : #5828 : 11/04/2017 : Implement automation for data reducers in
+//  viewManager
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView using SkeletonView
 // VERSION : 1.1.2 : DM : #6129 : 04/05/2017 : merge dev on mimic branch
-// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge
+//  with dev
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update viewManager with alarm parameters
+// VERSION : 2.0.0 : DM : #5806 : 15/11/2017 : Add empty ui reducers (gma and oba)
+// VERSION : 2.0.0 : DM : #5806 : 15/11/2017 : Implement uiReducer for GMA and OBA and compute
+//  selected alarms in redux store
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 30/01/2018 : Unit convertion, add python fork and
+//  convertion call mechanism
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 31/01/2018 : Unit convertion, add python fork and
+//  convertion call mechanism bis
 // END-HISTORY
 // ====================================================================
 

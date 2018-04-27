@@ -5,6 +5,11 @@
 // VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Player middleware : Write all others tests
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rename all create* middleware by make*
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : FA : ISIS-FT-2241 : 29/11/2017 : editeur et multi pages VIMA // fix unit tests
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2254 : 14/12/2017 : mode normal timeBar VIMA .
+// VERSION : 2.0.0 : FA : ISIS-FT-2241 : 25/01/2018 : editeur et multi pages VIMA .
+// VERSION : 2.0.0 : FA : ISIS-FT-2241 : 01/02/2018 : Allow to play when an editor is opened
 // END-HISTORY
 // ====================================================================
 

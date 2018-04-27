@@ -1,9 +1,15 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
-// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline
+//  definition
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : remove domain and session on window apply domain and
+//  session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : remove domain and session on window apply domain and
+//  session of view, page or workspace in case of wildcard
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 2.0.0 : FA : ISIS-FT-2248 : 18/10/2017 : Fallback/Wildcard for sessions and domains is
+//  now functionnal. Plus fixed page and workspace modal editor for undefined values.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 
@@ -32,7 +38,7 @@ export function save(search, result) {
 export function find(
   search,
   sessions,
-  masterSessionId,
+  masterTimelineSession,
   viewSessionName,
   pageSessionName,
   workspaceSessionName
@@ -50,7 +56,8 @@ export function find(
     } else if (workspaceSessionName && workspaceSessionName !== wildcardCharacter) {
       sessionName = workspaceSessionName;
     } else {
-      return { id: masterSessionId, name: '*' };
+      // TODO except the following line, the whole method looks similar to reducers/sessions/index.j
+      return { id: masterTimelineSession.id, name: masterTimelineSession.name };
     }
   }
   if (!sessions || !sessions.length) {
@@ -85,7 +92,7 @@ export function find(
 export default function findSession(
   sessions,
   sessionName,
-  masterSessionId,
+  masterTimelineSession,
   viewSessionName,
   pageSessionName,
   workspaceSessionName
@@ -100,7 +107,7 @@ export default function findSession(
     const sessionId = find(
       sessionName,
       memoizedSessions,
-      masterSessionId,
+      masterTimelineSession,
       viewSessionName,
       pageSessionName,
       workspaceSessionName

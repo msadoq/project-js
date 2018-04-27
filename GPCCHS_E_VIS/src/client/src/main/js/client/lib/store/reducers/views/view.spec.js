@@ -1,23 +1,31 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #3622 : 28/02/2017 : store/reducers/*.spec.js : spliting between plurial and singular specs.
+// VERSION : 1.1.2 : DM : #3622 : 28/02/2017 : store/reducers/*.spec.js : spliting between plurial
+//  and singular specs.
 // VERSION : 1.1.2 : DM : #3622 : 10/03/2017 : store collapsed & maximized bool in page layout
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Fix view reloading . .
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Move reloadView in documentManager .
 // VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Move general variables at top level of a view
-// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : PlotView: x axis is always time/s , not editable. Newly created Ep always stick to time axis or create one.
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : PlotView: x axis is always time/s , not editable.
+//  Newly created Ep always stick to time axis or create one.
 // VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add some eslint relaxation rules
 // VERSION : 1.1.2 : DM : #5828 : 04/04/2017 : plot view entry point update
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Remove old configuration reducer .
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Add configurationReducer.spec for PlotView .
-// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
-// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page
+//  and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page
+//  and hsc in store
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of
+//  tests
 // VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Fix jest tests in store/reducers
 // VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Migrate merged new tests in jest
 // VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
-// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js
+//  in jest/index.js
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -290,6 +298,10 @@ describe('store:reducer:views', () => {
       title: 'myView',
       type: 'PlotView',
       showLinks: false,
+      session: '*',
+      domain: '*',
+      domainName: '*',
+      sessionName: '*',
     };
     const action = { type: 'WS_VIEW_RELOAD', payload: { viewId: 'plot1', view: myView } };
     const state = reducer(stateViews, action);

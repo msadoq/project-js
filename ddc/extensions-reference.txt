@@ -1,4 +1,4 @@
-#GPCCHS 1.1.2 02/10/2017 extensions-reference.txt
+#GPCCHS 2.0.0.1 18/04/2018 extensions-reference.txt
 
 
 Fichiers avec suffixes
@@ -10,21 +10,23 @@ Suffixe|Type MIME|Cartouche
 .env | None | False
 .html | text/html | False
 .icns | None | False
+.jpg | image/jpeg | False
 .js | application/javascript | False
 .json | application/json | False
-.led | None | False
 .less | None | False
 .md | None | False
 .opts | None | False
 .png | image/png | False
-.proto | None | True
-.py | text/x-python | True
+.proto | None | False
+.py | text/x-python | False
 .rules | None | False
 .sh | application/x-sh | False
 .snap | None | False
 .svg | image/svg+xml | False
 .ttf | application/font-sfnt | False
+.viba | None | False
 .vidv | None | False
+.viga | None | False
 .vihv | None | False
 .vimv | None | False
 .vipg | None | False

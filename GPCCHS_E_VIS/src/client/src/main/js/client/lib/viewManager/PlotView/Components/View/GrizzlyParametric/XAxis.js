@@ -1,10 +1,22 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6829 : 30/06/2017 : Grizzly parametric first draft 1.0
-// VERSION : 1.1.2 : DM : #6829 : 03/07/2017 : Grizzly Parametric, second draft, X axes top/bottom, Y axes right/left. 1.1
+// VERSION : 1.1.2 : DM : #6829 : 03/07/2017 : Grizzly Parametric, second draft, X axes top/bottom,
+//  Y axes right/left. 1.1
 // VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Grizzly parametric version 1.3 : magnet points.
 // VERSION : 1.1.2 : DM : #6829 : 06/07/2017 : Added format X and Y to tooltip. Grizzly Parametric.
-// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both
+//  Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test
+//  GrizzlyParametric.
+// VERSION : 2.0.0 : DM : #6835 : 09/10/2017 : PlotView always renders GrizzlyParametric with one x
+//  axis. Tooltip reviewed. Current cursor reviewed for parametric and basic.
+// VERSION : 2.0.0 : DM : #6835 : 20/10/2017 : Fix problem with PlotView's grid not updating.
+// VERSION : 2.0.0 : FA : #9028 : 10/11/2017 : refactor PlotView Axes // Test
+// VERSION : 2.0.0 : DM : #6818 : 16/11/2017 : cleanup PropTypes declaration / tests / debounce
+//  linesListener action on zoom & pan
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2280 : 06/12/2017 : ergonomie plotView VIMA // afficher la grille
+//  (celle-ci ne s'affiche pas malgre un etat a ON)
 // END-HISTORY
 // ====================================================================
 
@@ -86,7 +98,7 @@ export default class XAxis extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    let shouldRender = false;
+    let shouldRender = nextProps.updateAxis;
     const attrs = ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
       'scale', 'autoTick', 'tickStep', 'format', 'gridStyle', 'gridSize', 'showGrid'];
     for (let i = 0; i < attrs.length; i += 1) {

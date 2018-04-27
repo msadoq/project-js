@@ -1,20 +1,40 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6829 : 30/06/2017 : Grizzly parametric first draft 1.0
-// VERSION : 1.1.2 : DM : #6829 : 03/07/2017 : Grizzly Parametric, second draft, X axes top/bottom, Y axes right/left. 1.1
+// VERSION : 1.1.2 : DM : #6829 : 03/07/2017 : Grizzly Parametric, second draft, X axes top/bottom,
+//  Y axes right/left. 1.1
 // VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Few tooltip revisions + Zones.
 // VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Grizzly parametric version 1.3 : magnet points.
 // VERSION : 1.1.2 : FA : #7185 : 05/07/2017 : Fix lint errors and warnings
-// VERSION : 1.1.2 : DM : #6830 : 24/07/2017 : Reproducing styles memoization for Grizzly Parametric.
+// VERSION : 1.1.2 : DM : #6830 : 24/07/2017 : Reproducing styles memoization for Grizzly
+//  Parametric.
 // VERSION : 1.1.2 : DM : #6830 : 25/07/2017 : Parametric PlotView : logarithmic axes available.
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
-// VERSION : 1.1.2 : DM : #6835 : 25/08/2017 : GrizzlyParametric: removed unused methods in Chart, put plot lines before grid.
+// VERSION : 1.1.2 : DM : #6835 : 25/08/2017 : GrizzlyParametric: removed unused methods in Chart,
+//  put plot lines before grid.
 // VERSION : 1.1.2 : DM : #6835 : 06/09/2017 : Restored perfOutput for grizzly parametric .
-// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Simplified style for canvas divs and tooltip divs,
+//  calculated only once in main Chart component.
 // VERSION : 1.1.2 : DM : #6835 : 12/09/2017 : Fixed two lint errors in PlotView Editor and View.
-// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both
+//  Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test
+//  GrizzlyParametric.
 // VERSION : 1.1.2 : FA : #7756 : 15/09/2017 : Fixed error when using lasso and Y Axis on right.
-// VERSION : 1.1.2 : FA : #7814 : 19/09/2017 : GrizzlyParametric now also works with indexes and data.
+// VERSION : 1.1.2 : FA : #7814 : 19/09/2017 : GrizzlyParametric now also works with indexes and
+//  data.
+// VERSION : 2.0.0 : DM : #6835 : 09/10/2017 : PlotView always renders GrizzlyParametric with one x
+//  axis. Tooltip reviewed. Current cursor reviewed for parametric and basic.
+// VERSION : 2.0.0 : FA : #8045 : 06/11/2017 : PlotView can draw string parameters, and a defaultY
+//  property can be set.
+// VERSION : 2.0.0 : FA : #9028 : 09/11/2017 : refactor Line Canvas function // Test // Fix
+// VERSION : 2.0.0 : FA : #9028 : 10/11/2017 : refactor PlotView Axes // Test
+// VERSION : 2.0.0 : DM : #6818 : 15/11/2017 : Refacto Grizzly Chart / Add tests
+// VERSION : 2.0.0 : DM : #6818 : 16/11/2017 : cleanup PropTypes declaration / tests / debounce
+//  linesListener action on zoom & pan
+// VERSION : 2.0.0 : FA : ISIS-FT-2281 : 24/11/2017 : zoom plotView VIMA trigger pause on zoom
+// VERSION : 2.0.0 : DM : #6818 : 29/11/2017 : PlotView/Grizzly Every pan action takes place in the
+//  Zones component.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 
@@ -67,6 +87,7 @@ export default class Chart extends React.Component {
     lines: arrayOf(lineType.isRequired).isRequired,
     linesListener: func.isRequired,
     zoomPanListener: func.isRequired,
+    updateAxis: bool.isRequired,
   };
   static defaultProps = {
     yAxesAt: 'left',
@@ -97,7 +118,7 @@ export default class Chart extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    let shouldRender = false;
+    let shouldRender = nextProps.updateAxis;
     Object.keys(nextProps).forEach((k) => {
       if (this.props[k] !== nextProps[k]) {
         shouldRender = true;
@@ -625,6 +646,7 @@ export default class Chart extends React.Component {
       tooltipColor,
       current,
       parametric,
+      updateAxis,
     } = this.props;
 
     const {
@@ -705,6 +727,7 @@ export default class Chart extends React.Component {
               margin={((this.yAxesUniq.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
               lines={this.linesUniq.filter(l => l.yAxisId === yAxis.id)}
               axisId={yAxis.id}
+              updateAxis={updateAxis}
               format={yAxis.format}
               showLabels={yAxis.showLabels}
               showTicks={yAxis.showTicks}
@@ -743,6 +766,7 @@ export default class Chart extends React.Component {
               top={marginTop}
               side={this.yAxesUniq.length * this.yAxisWidth}
               axisId={xAxis.id}
+              updateAxis={updateAxis}
               format={xAxis.format}
               showLabels={xAxis.showLabels}
               showTicks={xAxis.showTicks}

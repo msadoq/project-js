@@ -1,9 +1,18 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 19/04/2017 : Page title edition using contextMenu and GenericModal.
-// VERSION : 1.1.2 : DM : #5828 : 24/04/2017 : Edit window title available through upper menu Window -> Rename.
-// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add possibility to modify domainName and sessionName from GUI for view, page, window and workspace
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add possibility to modify domainName and sessionName from GUI for view, page, window and workspace
+// VERSION : 1.1.2 : DM : #5828 : 19/04/2017 : Page title edition using contextMenu and
+//  GenericModal.
+// VERSION : 1.1.2 : DM : #5828 : 24/04/2017 : Edit window title available through upper menu
+//  Window -> Rename.
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add possibility to modify domainName and sessionName
+//  from GUI for view, page, window and workspace
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add possibility to modify domainName and sessionName
+//  from GUI for view, page, window and workspace
+// VERSION : 2.0.0 : FA : #8123 : 27/09/2017 : Fixed redux-form bug with a delay before render in
+//  EditPage.
+// VERSION : 2.0.0 : FA : #8123 : 27/09/2017 : free attribute on ReactSelectFIeld disappears. Every
+//  session/domain form in vima is fixed and works (page, view).
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -22,6 +31,7 @@ import {
 import InputField from '../commonReduxForm/InputField';
 import HorizontalFormGroup from '../commonReduxForm/HorizontalFormGroup';
 import ReactSelectField from '../commonReduxForm/ReactSelectField';
+import { computeOptions } from '../../viewManager/commonEditor/Fields/common';
 
 class EditPage extends PureComponent {
 
@@ -102,24 +112,10 @@ class EditPage extends PureComponent {
           <Field
             name="domainName"
             component={ReactSelectField}
-            onInputChange={this.newDomain}
             clearable
-            options={
-              domains.map(s =>
-                ({
-                  label: s.name,
-                  value: s.name,
-                })
-              )
-              .concat(
-                domain && !domains.find(s => s.name === domain) ?
-                { label: domain, value: domain } : []
-              )
-              .concat(
-                domainName && !domains.find(s => s.name === domainName) ?
-                { label: domainName, value: domainName } : []
-              )
-            }
+            onInputChange={this.newDomain}
+            options={computeOptions(domains, true)}
+            value={domainName || domain}
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup label="Session Name">
@@ -128,22 +124,8 @@ class EditPage extends PureComponent {
             component={ReactSelectField}
             onInputChange={this.newSession}
             clearable
-            options={
-              sessions.map(s =>
-                ({
-                  label: s.name,
-                  value: s.name,
-                })
-              )
-              .concat(
-                session && !sessions.find(s => s.name === session) ?
-                { label: session, value: session } : []
-              )
-              .concat(
-                sessionName && !sessions.find(s => s.name === sessionName) ?
-                { label: sessionName, value: sessionName } : []
-              )
-            }
+            options={computeOptions(sessions, true)}
+            value={sessionName || session}
           />
         </HorizontalFormGroup>
         <div className="text-right">

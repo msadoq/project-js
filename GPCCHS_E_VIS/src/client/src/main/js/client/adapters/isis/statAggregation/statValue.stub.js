@@ -1,6 +1,5 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
 // END-HISTORY
 // ====================================================================
 
@@ -11,9 +10,9 @@ const _random = require('lodash/random');
 const _defaultsDeep = require('lodash/defaultsDeep');
 
 
-const statValue = {
+const getStatValue = () => ({
   related: -1000,
   attrValue: _random(1, 100, true),
-};
+});
 
-module.exports = override => (override ? _defaultsDeep({}, override, statValue) : statValue);
+module.exports = override => (override ? _defaultsDeep({}, override, getStatValue()) : getStatValue());

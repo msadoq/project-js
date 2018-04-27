@@ -58,35 +58,6 @@ Array [
 ]
 `;
 
-exports[`viewManager:commonData:sortDataBy sort double ascending double sort 1`] = `
-Array [
-  Object {
-    "symbol": "50.000000001",
-    "type": "double",
-  },
-  Object {
-    "symbol": "50.000000002",
-    "type": "double",
-  },
-  Object {
-    "symbol": "50.000000003",
-    "type": "double",
-  },
-  Object {
-    "symbol": "50.000000004",
-    "type": "double",
-  },
-  Object {
-    "symbol": "50.000000005",
-    "type": "double",
-  },
-  Object {
-    "symbol": "50.000000005",
-    "type": "double",
-  },
-]
-`;
-
 exports[`viewManager:commonData:sortDataBy sort double descending double sort 1`] = `
 Array [
   Object {

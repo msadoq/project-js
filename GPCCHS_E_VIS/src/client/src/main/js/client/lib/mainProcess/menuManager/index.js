@@ -38,7 +38,7 @@
 // ====================================================================
 
 import { v4 } from 'uuid';
-import { getAvailableViews } from 'viewManager';
+import { getAvailableViews, getStructureType } from 'viewManager';
 import { getWindowFocusedPageId, getDisplayHelp } from 'store/reducers/windows';
 import { getPanels } from 'store/reducers/pages';
 import { addWindow, displayHelp } from 'store/actions/windows';
@@ -52,6 +52,12 @@ import viewAddBlank from './viewAddBlank';
 
 import pageAddBlank from './pageAddBlank';
 import { getStore } from '../store';
+import {
+  DATASTRUCTURETYPE_LAST,
+  DATASTRUCTURETYPE_RANGE,
+  DATASTRUCTURETYPE_HISTORIZED,
+  DATASTRUCTURETYPE_NO_HISTORY,
+} from '../../constants';
 
 const { Menu } = require('electron');
 
@@ -176,16 +182,33 @@ const page = {
   }],
 };
 
-const specificViewsMenu = getAvailableViews().map(viewType => ({
-  label: `Add ${viewType}...`,
-  accelerator: '',
-  click: (item, focusedWindow) => viewAddBlank(viewType, focusedWindow),
-}));
+const specificViewsMenu = getAvailableViews()
+  .filter(viewType =>
+    [DATASTRUCTURETYPE_RANGE, DATASTRUCTURETYPE_LAST]
+      .indexOf(getStructureType(viewType)) !== -1) // only keep non-pus views
+  .map(viewType => ({
+    label: `Add ${viewType}...`,
+    accelerator: '',
+    click: (item, focusedWindow) => viewAddBlank(viewType, focusedWindow),
+  }));
+
+const specificPusViewsMenu = getAvailableViews()
+  .filter(viewType =>
+    [DATASTRUCTURETYPE_HISTORIZED, DATASTRUCTURETYPE_NO_HISTORY]
+      .indexOf(getStructureType(viewType)) !== -1) // only keep pus views
+  .map(viewType => ({
+    label: `Add ${viewType}...`,
+    accelerator: '',
+    click: (item, focusedWindow) => viewAddBlank(viewType, focusedWindow),
+  }));
 
 const view = {
   label: 'View',
   submenu: [
     ...specificViewsMenu,
+    { type: 'separator' },
+    ...specificPusViewsMenu,
+    { type: 'separator' },
     {
       label: 'Open...',
       accelerator: '',

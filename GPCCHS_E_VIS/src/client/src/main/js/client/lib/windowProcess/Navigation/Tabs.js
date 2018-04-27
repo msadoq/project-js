@@ -173,8 +173,8 @@ export default class Tabs extends PureComponent {
               [].concat(
                 [],
                 ...configurations.map(configuration =>
-                  configuration.entryPoints.map(
-                    entryPoint => entryPoint.connectedData.domain
+                  _.get(configuration, 'entryPoints', []).map(
+                    entryPoint => _.get(entryPoint, 'connectedData.domain')
                   )
                 )
               )

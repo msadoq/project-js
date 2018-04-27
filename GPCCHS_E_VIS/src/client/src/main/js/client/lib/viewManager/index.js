@@ -43,8 +43,10 @@ import historyViewSchema from 'common/viewConfigurationFiles/schemas/HistoryView
 import packetViewSchema from 'common/viewConfigurationFiles/schemas/PacketView.schema.json';
 import groundAlarmViewSchema from 'common/viewConfigurationFiles/schemas/GroundAlarmView.schema.json';
 import onboardAlarmViewSchema from 'common/viewConfigurationFiles/schemas/OnboardAlarmView.schema.json';
+import PUS11ViewSchema from 'common/viewConfigurationFiles/schemas/PUS11View.schema.json'; // @todo finalize schema
 
 import {
+  DATASTRUCTURETYPE_HISTORIZED,
   DATASTRUCTURETYPE_LAST,
   DATASTRUCTURETYPE_RANGE,
 } from '../constants';
@@ -56,6 +58,8 @@ import historyViewData from './HistoryView/data';
 import packetViewData from './PacketView/data';
 import groundAlarmViewData from './GroundAlarmView/data';
 import onboardAlarmViewData from './OnboardAlarmView/data';
+import plotViewData from './PlotView/data';
+import PUS11ViewData from '../viewManager/PUS11View/data';
 
 import plotViewDataSelectors from './PlotView/store/dataSelectors';
 import textViewDataSelectors from './TextView/store/dataSelectors';
@@ -65,6 +69,7 @@ import groundAlarmViewDataSelectors from './GroundAlarmView/store/dataSelectors'
 import onboardAlarmViewDataSelectors from './OnboardAlarmView/store/dataSelectors';
 import historyViewDataSelectors from './HistoryView/store/dataSelectors';
 import packetViewDataSelectors from './PacketView/store/dataSelectors';
+import PUS11ViewDataSelectors from '../viewManager/PUS11View/store/dataSelectors';
 
 import * as constants from './constants';
 
@@ -76,8 +81,7 @@ import historyViewModule from './HistoryView';
 import packetViewModule from './PacketView';
 import groundAlarmViewModule from './GroundAlarmView';
 import onboardAlarmViewModule from './OnboardAlarmView';
-
-import plotViewData from './PlotView/data';
+import PUS11ViewModule from '../viewManager/PUS11View';
 
 const list = {
   [constants.VM_VIEW_PLOT]: {
@@ -136,7 +140,13 @@ const list = {
     structureModule: onboardAlarmViewData,
     dataSelectors: onboardAlarmViewDataSelectors,
   },
-
+  [constants.VM_VIEW_PUS11]: {
+    schema: PUS11ViewSchema,
+    viewModule: PUS11ViewModule,
+    structureType: DATASTRUCTURETYPE_HISTORIZED,
+    structureModule: PUS11ViewData,
+    dataSelectors: PUS11ViewDataSelectors,
+  },
 };
 
 export default list;

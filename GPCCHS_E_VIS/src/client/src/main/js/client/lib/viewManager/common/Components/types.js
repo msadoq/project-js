@@ -103,3 +103,10 @@ export const fieldArrayPropsType = shape({
   insert: func,
   getAll: func,
 });
+
+export const applicationProcessType = shape({
+  APId: number,
+  name: string,
+});
+
+export const applicationProcessesType = arrayOf(applicationProcessType.isRequired);

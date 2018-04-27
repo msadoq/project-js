@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { PureComponent, PropTypes } from 'react';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
@@ -7,7 +8,6 @@ import { reduxFormFieldsType } from 'viewManager/common/Components/types';
 import { Field } from 'redux-form';
 import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
-
 
 const { string } = PropTypes;
 
@@ -53,7 +53,7 @@ export default class DynamicViewEntryPoints extends PureComponent {
             className="form-control input-sm"
           />
         </HorizontalFormGroup>
-
+        {/*
         <HorizontalFormGroup label="Catalog">
           <CatalogFieldContainer
             domainName={selectedDomainName}
@@ -83,6 +83,7 @@ export default class DynamicViewEntryPoints extends PureComponent {
             pageId={pageId}
           />
         </HorizontalFormGroup>
+        */}
 
         <HorizontalFormGroup label="Provider">
           <ProviderFieldContainer />

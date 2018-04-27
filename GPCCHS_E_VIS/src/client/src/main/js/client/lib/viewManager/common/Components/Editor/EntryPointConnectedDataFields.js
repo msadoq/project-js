@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { PureComponent, PropTypes } from 'react';
 import { Field } from 'redux-form';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
@@ -79,6 +80,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
           />
         </HorizontalFormGroup>
 
+        {/*
         <HorizontalFormGroup label="Catalog">
           <CatalogFieldContainer
             domainName={selectedDomainName}
@@ -118,6 +120,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
             comObjectName={selectedComObjectName}
           />
         </HorizontalFormGroup>
+        */}
 
         <HorizontalFormGroup label="Provider">
           <ProviderFieldContainer />

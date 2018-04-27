@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars,react/no-find-dom-node */
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import './PUS11.scss';
+import VirtualizedTableView from '../../../common/Components/View/VirtualizedTableView';
 
 const { string, number, arrayOf, shape } = PropTypes;
 
@@ -60,6 +63,8 @@ export default class PUS11View extends React.Component {
     } = this.props;
     return (
       <div className="pus11">
+        <VirtualizedTableView height={500} />
+        {/*
         <div className="header">
           {renderHeaders(
             applicationProcessName,
@@ -84,6 +89,7 @@ export default class PUS11View extends React.Component {
             {renderTCTable(tcList, viewId)}
           </div>
         </div>
+          */}
       </div>
     );
   }
@@ -101,7 +107,13 @@ export const renderHeaders = (ApplicationProcessName,
     <div className="info col-sm-3">
       <span className="spacing" />
       <span>
-        Application Process <input type="text" disabled value={ApplicationProcessName} /> <input className="mw50" type="text" disabled value={ApplicationProcessId} />
+        Application Process
+        <input type="text" disabled value={ApplicationProcessName} />
+        <input
+          className="mw50"
+          type="text" disabled
+          value={ApplicationProcessId}
+        />
       </span>
       <span className="spacing" />
     </div>
@@ -117,7 +129,12 @@ export const renderHeaders = (ApplicationProcessName,
     </div>
     <div className="info col-sm-3">
       <span className="spacing" />
-      <span>Last Uptate <input type="text" className="mw100" disabled value={LastUpdateTime} /> <input className="mw50" type="text" disabled value={LastUpdateType} /></span>
+      <span>Last Uptate <input type="text" className="mw100" disabled value={LastUpdateTime} /> <input
+        className="mw50"
+        type="text"
+        disabled
+        value={LastUpdateType}
+      /></span>
       <span className="spacing" />
     </div>
     <div className="clearfix" />
@@ -137,16 +154,16 @@ export const renderSubSchedulesTable = (SubScheduleList, viewId) => (
     </thead>
     <tbody>
       {
-        SubScheduleList.map((row, i) => (
-          <tr key={`${viewId}-sub-schedule-table-${i}`}>
-            <td>{row.ssid}</td>
-            <td>{row.apid}</td>
-            <td>{row.name}</td>
-            <td>{row.status}</td>
-            <td>{row.firstTCTime}</td>
-          </tr>
-        ))
-      }
+      SubScheduleList.map((row, i) => (
+        <tr key={`${viewId}-sub-schedule-table-${i}`}>
+          <td>{row.ssid}</td>
+          <td>{row.apid}</td>
+          <td>{row.name}</td>
+          <td>{row.status}</td>
+          <td>{row.firstTCTime}</td>
+        </tr>
+      ))
+    }
     </tbody>
   </table>
 );
@@ -161,13 +178,13 @@ export const renderEnabledApidsTable = (EnabledApidList, viewId) => (
     </thead>
     <tbody>
       {
-        EnabledApidList.map((row, i) => (
-          <tr key={`${viewId}-enabled-apids-table-${i}`}>
-            <td>{row.apid}</td>
-            <td>{row.name}</td>
-          </tr>
-        ))
-      }
+      EnabledApidList.map((row, i) => (
+        <tr key={`${viewId}-enabled-apids-table-${i}`}>
+          <td>{row.apid}</td>
+          <td>{row.name}</td>
+        </tr>
+      ))
+    }
     </tbody>
   </table>
 );
@@ -192,23 +209,23 @@ export const renderTCTable = (tcList, viewId) => (
     </thead>
     <tbody>
       {
-        tcList.map((row, i) => (
-          <tr key={`${viewId}-tc-table-${i}`}>
-            <td>{row.apid}</td>
-            <td>{row.ssid}</td>
-            <td>{row.cmdName}</td>
-            <td>{row.cmdDescription}</td>
-            <td>{row.cmdApName}</td>
-            <td>{row.seqCount}</td>
-            <td>{row.sourceId}</td>
-            <td>{row.cmdStatus}</td>
-            <td>{row.groundStatus}</td>
-            <td>{row.initExecTime}</td>
-            <td>{row.curExecTime}</td>
-            <td>{row.totShiftTime}</td>
-          </tr>
-        ))
-      }
+      tcList.map((row, i) => (
+        <tr key={`${viewId}-tc-table-${i}`}>
+          <td>{row.apid}</td>
+          <td>{row.ssid}</td>
+          <td>{row.cmdName}</td>
+          <td>{row.cmdDescription}</td>
+          <td>{row.cmdApName}</td>
+          <td>{row.seqCount}</td>
+          <td>{row.sourceId}</td>
+          <td>{row.cmdStatus}</td>
+          <td>{row.groundStatus}</td>
+          <td>{row.initExecTime}</td>
+          <td>{row.curExecTime}</td>
+          <td>{row.totShiftTime}</td>
+        </tr>
+      ))
+    }
     </tbody>
   </table>
 );

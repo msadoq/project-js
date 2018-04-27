@@ -1,0 +1,65 @@
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.GridRow {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+.GridColumn {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.HeaderGrid {
+  width: 100%;
+  overflow: hidden !important;
+  border: 1px solid #818181;
+  background-color: #bdbdbd;
+}
+
+.BodyGrid {
+  width: 100%;
+  border: 1px solid #818181;
+}
+
+.evenRow {
+}
+
+.oddRow {
+}
+
+.cell,
+.headerCell,
+.bodyCell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 .5em;
+}
+
+.bodyCell {
+  box-shadow: -.5px -.5px 0 #818181;
+}
+
+.bodyCell > span {
+  position: absolute;
+  left: 7px;
+}
+
+.headerCell,
+.leftCell {
+  font-weight: bold;
+  background-color: #bdbdbd;
+  box-shadow: -.5px -.5px 0 #818181;
+}
+

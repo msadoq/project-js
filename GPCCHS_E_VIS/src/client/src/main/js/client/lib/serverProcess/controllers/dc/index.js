@@ -69,7 +69,7 @@ const controllersV1 = {
     archiveController(args, getStore, { get, remove });
   },
   [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (args) => {
-    pubSubController(args, getStore);
+    // pubSubController(args, getStore);
   },
   [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateData,
   [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetData,
@@ -85,7 +85,7 @@ const controllersV2 = {
     archiveControllerADE({ buffers, requestId, isLast, isError }, getStore, { get, remove });
   },
   [constants.ADE_TIMEBASED_SUBSCRIPTION]: (buffers, requestId, isLast, isError) => {
-    pubSubControllerADE({ buffers, requestId, isLast, isError }, getStore);
+    // pubSubControllerADE({ buffers, requestId, isLast, isError }, getStore);
   },
   [constants.ADE_FMD_CREATE_DOCUMENT]: onFmdCreateDataADE,
   [constants.ADE_FMD_GET]: onFmdGetDataADE,

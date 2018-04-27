@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableViewColumns :: render snapshot 1`] = `
+<FieldArray
+  component={[Function]}
+  name="cols"
+/>
+`;

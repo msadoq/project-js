@@ -34,7 +34,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getPage, getPanels } from 'store/reducers/pages';
 import { getView } from 'store/reducers/views';
-import { updateEditorSearch, askSaveView, askCloseView, askReloadView, askSaveViewAsModel } from 'store/actions/views';
+import {
+  updateEditorSearch,
+  askSaveView,
+  askCloseView,
+  askReloadView,
+  askSaveViewAsModel,
+  askExportAsCsv,
+  askExportAsImage,
+  askExportAsImageHasFailed } from 'store/actions/views';
 import { open as openModal, close as closeModal } from 'store/actions/modals';
 import { setCollapsed, setMaximized, openEditor, minimizeEditor, openSearch, closeSearch } from 'store/actions/pages';
 import { askOpenInspector } from 'store/actions/inspector';
@@ -43,8 +51,7 @@ import View from './View';
 const makeMapStateToProps = () => {
   const mapStateToProps = (state, { viewId, pageId }) => {
     const { type, oId, absolutePath, isModified, backgroundColor, titleStyle, title, searching }
-        = getView(state, { viewId });
-
+      = getView(state, { viewId });
     const page = getPage(state, { pageId });
     const collapsedLayout = page.layout.find(e => e.i === viewId && e.collapsed);
     const {
@@ -91,6 +98,9 @@ const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActio
   closeView: () => askCloseView(viewId),
   reloadView: () => askReloadView(viewId),
   saveViewAsModel: () => askSaveViewAsModel(viewId),
+  exportAsCsv: () => askExportAsCsv(viewId),
+  exportAsImage: imageData => askExportAsImage(viewId, imageData),
+  exportAsImageHasFailed: errorMessage => askExportAsImageHasFailed(viewId, errorMessage),
   askOpenInspector,
 }, dispatch);
 

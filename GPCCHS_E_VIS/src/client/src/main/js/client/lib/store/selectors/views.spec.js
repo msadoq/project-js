@@ -24,7 +24,11 @@
 // ====================================================================
 
 import state from 'common/jest/stateTest';
-import { getViewEntryPoint, getWindowAllViewsIds } from './views';
+import {
+  getViewEntryPoint,
+  getWindowAllViewsIds,
+  getViewConfigurationTableCols,
+} from './views';
 
 describe('store:views:selectors', () => {
   test('getViewEntryPoint', () => {
@@ -59,7 +63,17 @@ describe('store:views:selectors', () => {
     });
     test('returns all views ids', () => {
       expect(getWindowAllViewsIds(state, { windowId: 'myWindow' }))
-      .toEqual(['text1', 'plot1', 'dynamic1', 'mimic1', 'plotCollapsed', 'hist1']);
+      .toEqual(['text1', 'plot1', 'dynamic1', 'mimic1', 'plotCollapsed', 'hist1', 'groundAlarm1']);
+    });
+  });
+  describe('getViewConfigurationTableCols', () => {
+    test('returns an empty array', () => {
+      expect(getViewConfigurationTableCols(state, { viewId: 'unknownView' }))
+        .toEqual([]);
+    });
+    test('returns an empty array', () => {
+      expect(getViewConfigurationTableCols(state, { viewId: 'groundAlarm1' }))
+        .toEqual(state.GroundAlarmViewConfiguration.groundAlarm1.columns);
     });
   });
 });

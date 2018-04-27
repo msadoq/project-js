@@ -8,24 +8,43 @@
 // import _ from 'lodash/fp';
 import _without from 'lodash/without';
 import * as types from 'store/types';
-import { SORTING_ASC } from 'constants';
 
-const initialState = {
-  allColumns: {},
-  sorting: {},
-  hiddenColumns: {},
+
+const comObjectFieldsAreAlreadyDefined = (stateConf, comObject) =>
+  stateConf.tables[0].columns.some(col => col[0] === comObject);
+
+/**
+ * Remove comObject fields that are used by no entry point
+ *
+ * @param stateConf
+ */
+
+const syncDisplayedColumns = (stateConf) => {
+  const { entryPoints, tables } = stateConf;
+  const { columns } = tables[0];
+
+  const shouldKeepComObject = comObject =>
+    comObject === 'default' ||
+    entryPoints.some(ep => ep.connectedData && ep.connectedData.comObject === comObject);
+
+  const updatedColumns =
+    columns.filter(comObjectArr => shouldKeepComObject(comObjectArr[0]));
+
+  return {
+    ...stateConf,
+    tables: {
+      ...stateConf.tables,
+      0: {
+        ...stateConf.tables[0],
+        columns: updatedColumns,
+      },
+    },
+  };
 };
+
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default (stateConf = initialState, action) => {
+export default (stateConf, action) => {
   switch (action.type) {
-    case types.WS_VIEW_UPDATE_SORTING:
-      return {
-        ...stateConf,
-        sorting: {
-          colName: action.payload.colName,
-          direction: action.payload.direction || SORTING_ASC,
-        },
-      };
     case types.WS_VIEW_HIDE_COL:
       return {
         ...stateConf,
@@ -51,17 +70,60 @@ export default (stateConf = initialState, action) => {
         hiddenCols: _without(stateConf.hiddenCols || [], action.payload.colName),
       };
     case types.WS_VIEW_ADD_ENTRYPOINT: {
+      const { entryPoint } = action.payload;
+
       return {
         ...stateConf,
         entryPoints: [
           ...stateConf.entryPoints,
           {
-            ...action.payload.entryPoint,
+            ...entryPoint,
             connectedData: {
-              ...(action.payload.entryPoint.connectedData),
+              ...(entryPoint.connectedData),
             },
           },
         ],
+      };
+    }
+    case types.WS_VIEW_UPDATE_ENTRYPOINT:
+    case types.WS_VIEW_REMOVE_ENTRYPOINT:
+      return syncDisplayedColumns(stateConf);
+    case types.WS_VIEW_TABLE_UPDATE_HEIGHT: {
+      const { height } = action.payload;
+
+      return {
+        ...stateConf,
+        layoutHeight: height,
+      };
+    }
+    case types.WS_VIEW_TABLE_ADD_COLUMNS: {
+      const { groupName, fields } = action.payload;
+      const tableId = 0;
+
+      if (comObjectFieldsAreAlreadyDefined(stateConf, groupName)) {
+        return stateConf;
+      }
+
+      const newColumnEntry = [
+        groupName,
+        fields.map(field => ({
+          field,
+          isDisplayed: true,
+        })),
+      ];
+
+      return {
+        ...stateConf,
+        tables: {
+          ...stateConf.tables,
+          [tableId]: {
+            ...stateConf.tables[tableId],
+            columns: [
+              ...stateConf.tables[tableId].columns,
+              newColumnEntry,
+            ],
+          },
+        },
       };
     }
     default:

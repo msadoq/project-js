@@ -46,7 +46,6 @@ const getIsModified = (action) => {
   return _.get('payload.isModified', action);
 };
 
-
 // This reducer take care of action types and update the isModified property
 // this is a temporary fix, waiting for the savableMiddleware
 const viewIsModified = (stateView, action) => {
@@ -86,6 +85,7 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_SESSIONNAME,
     types.WS_VIEW_TOGGLE_LEGEND,
     types.WS_VIEW_UPDATE_DIMENSIONS,
+    types.WS_VIEW_UPDATE_TABLE_COLS,
     types.WS_VIEW_REMOVE_ENTRYPOINT,
     types.WS_VIEW_UPDATE_ALARMDOMAIN,
     types.WS_VIEW_UPDATE_ALARMTIMELINE,

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const { shape, number, string, bool, arrayOf, oneOfType } = PropTypes;
+const { func, shape, number, string, bool, arrayOf, oneOfType } = PropTypes;
 
 export const connectedDataType = shape({
   axisId: string,
@@ -87,4 +87,19 @@ export const reduxFormFieldsType = {
 export const comObjectType = shape({
   name: string.isRequired,
   type: string.isRequired,
+});
+
+export const TableConfigurationColumnType = shape({
+  title: string.isRequired,
+  value: string.isRequired,
+  position: number.isRequired,
+  displayed: bool.isRequired,
+  group: number,
+});
+
+export const fieldArrayPropsType = shape({
+  push: func,
+  remove: func,
+  insert: func,
+  getAll: func,
 });

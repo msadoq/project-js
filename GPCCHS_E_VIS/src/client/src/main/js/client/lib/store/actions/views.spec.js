@@ -22,75 +22,10 @@
 // ====================================================================
 
 import { mockStore, freezeMe } from 'common/jest';
+import _set from 'lodash/fp/set';
+import stateTest from 'common/jest/stateTest';
+import * as types from 'store/types';
 import * as actions from './views';
-
-
-const defaultStateColor = [
-  {
-    color: 'orangered',
-    condition: {
-      field: 'monitoringState',
-      operand: 'alarm',
-      operator: '=',
-    },
-  },
-  {
-    color: 'red',
-    condition: {
-      field: 'monitoringState',
-      operand: 'critical',
-      operator: '=',
-    },
-  },
-  {
-    color: 'white',
-    condition: {
-      field: 'monitoringState',
-      operand: 'info',
-      operator: '=',
-    },
-  },
-  {
-    color: 'grey',
-    condition: {
-      field: 'monitoringState',
-      operand: 'outOfRange',
-      operator: '=',
-    },
-  },
-  {
-    color: 'darkred',
-    condition: {
-      field: 'monitoringState',
-      operand: 'severe',
-      operator: '=',
-    },
-  },
-  {
-    color: 'orange',
-    condition: {
-      field: 'monitoringState',
-      operand: 'warning',
-      operator: '=',
-    },
-  },
-  {
-    color: 'lightgrey',
-    condition: {
-      field: 'monitoringState',
-      operand: 'nonsignificant',
-      operator: '=',
-    },
-  },
-  {
-    color: 'tan',
-    condition: {
-      field: 'monitoringState',
-      operand: 'obsolete',
-      operator: '=',
-    },
-  },
-];
 
 const initialState = freezeMe({
   domains: [{ name: 'fr.cnes.isis' }],
@@ -161,7 +96,6 @@ const initialState = freezeMe({
     axis_2: { label: 'AXIS2', id: 'axis_2', unit: 'seconds' },
   },
 });
-
 
 describe('store:actions:views', () => {
   const referenceStore = mockStore(initialState);
@@ -341,7 +275,7 @@ describe('store:actions:views', () => {
       ]);
       expect(referenceStore.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
-    test.skip('should works with a PlotView, with empty entryPoint', () => {
+    test('should works with a PlotView, with empty entryPoint', () => {
       referenceStore.dispatch(actions.addEntryPoint('plotview', emptyEntryPoint));
       expect(referenceStore.getActions()).toMatchObject([
         {
@@ -364,7 +298,7 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
@@ -373,7 +307,7 @@ describe('store:actions:views', () => {
       expect(firstAction.payload.entryPoint.id).toBeAnUuid();
       expect(firstAction.payload.entryPoint.objectStyle.curveColor).toBeAnHexadecimalValue();
     });
-    test.skip('should works with a PlotView, with entryPoint', () => {
+    test('should works with a PlotView, with entryPoint', () => {
       referenceStore.dispatch(actions.addEntryPoint('plotview', entryPoint));
       expect(referenceStore.getActions()).toMatchObject([
         {
@@ -396,7 +330,7 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
@@ -493,7 +427,7 @@ describe('store:actions:views', () => {
       ]);
       expect(referenceStore.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
-    test.skip('should works with a PlotView, with empty entryPoint', () => {
+    test('should works with a PlotView, with empty entryPoint', () => {
       referenceStore.dispatch(actions.dropEntryPoint('plotview', emptyEntryPoint));
       expect(referenceStore.getActions()).toMatchObject([
         {
@@ -516,7 +450,7 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
@@ -537,7 +471,7 @@ describe('store:actions:views', () => {
       expect(firstAction.payload.entryPoint.id).toBeAnUuid();
       expect(firstAction.payload.entryPoint.objectStyle.curveColor).toBeAnHexadecimalValue();
     });
-    test.skip('should works with a PlotView, with entryPoint', () => {
+    test('should works with a PlotView, with entryPoint', () => {
       referenceStore.dispatch(actions.dropEntryPoint('plotview', entryPoint));
       expect(referenceStore.getActions()).toMatchObject([
         {
@@ -560,7 +494,7 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
@@ -595,6 +529,33 @@ describe('store:actions:views', () => {
     test('focusView with unknown view', () => {
       referenceStore.dispatch(actions.focusView('unknownView'));
       expect(referenceStore.getActions()).toEqual([]);
+    });
+  });
+  describe('updateTableCols', () => {
+    const store = mockStore(stateTest);
+    test('updateTableCols when view exists', () => {
+      store.dispatch(actions.updateTableCols('groundAlarm1', [{
+        title: 'timestamp',
+        value: 'timestamp',
+        position: 0,
+        displayed: true,
+        group: 0,
+      }]));
+      expect(store.getActions()).toEqual([
+        {
+          type: types.WS_VIEW_UPDATE_TABLE_COLS,
+          payload: {
+            viewId: 'groundAlarm1',
+            cols: [{
+              title: 'timestamp',
+              value: 'timestamp',
+              position: 0,
+              displayed: true,
+              group: 0,
+            }],
+          },
+        },
+      ]);
     });
   });
 });

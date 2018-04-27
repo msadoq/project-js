@@ -1,0 +1,15 @@
+
+.NTableView {
+  border-collapse: collapse;
+  border: 1px solid black;
+
+  tr, th {
+	text-align: center;
+	height: 22px;
+  }
+
+  td {
+	text-align: left;
+	padding-left: 4px;
+  }
+}

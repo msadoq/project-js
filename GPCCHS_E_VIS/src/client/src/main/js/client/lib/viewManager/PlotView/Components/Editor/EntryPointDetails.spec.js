@@ -8,6 +8,7 @@ import EntryPointDetails from './EntryPointDetails';
 
 const propsStub = {
   viewId: 'viewId',
+  pageId: 'pageId',
   timelines: [
     {},
     {},
@@ -21,7 +22,7 @@ const propsStub = {
     displayLine: true,
     displayPoints: true,
     connectedData: {},
-    stateColors: {},
+    stateColors: [],
   },
   updateEntryPoint: () => null,
   updateViewSubPanels: () => null,

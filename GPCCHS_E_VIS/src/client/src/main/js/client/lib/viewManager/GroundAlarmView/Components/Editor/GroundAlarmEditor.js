@@ -6,63 +6,53 @@ import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import GroundAlarmEditorForm from './GroundAlarmEditorForm';
 import styles from '../../../commonEditor/Editor.css';
-import GroundAlarmTab from './GroundAlarmTab';
+import GroundAlarmTabContainer from './GroundAlarmTabContainer';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
 
+const { string, number, bool, arrayOf, shape, array, func } = PropTypes;
+
 export default class GroundAlarmEditor extends Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
-    tab: PropTypes.number,
-    titleStyle: PropTypes.shape({
-      align: PropTypes.string,
-      bgColor: PropTypes.string,
-      bold: PropTypes.bool,
-      color: PropTypes.string,
-      font: PropTypes.string,
-      italic: PropTypes.bool,
-      size: PropTypes.number,
-      strikeOut: PropTypes.bool,
-      underline: PropTypes.bool,
+    // own props
+    viewId: string.isRequired,
+    // Container's mapStateToProps
+    title: string,
+    titleStyle: shape({
+      align: string,
+      bgColor: string,
+      bold: bool,
+      color: string,
+      font: string,
+      italic: bool,
+      size: number,
+      strikeOut: bool,
+      underline: bool,
     }),
-    title: PropTypes.string,
-    configuration: PropTypes.shape({
-      entryPoints: PropTypes.array,
+    configuration: shape({
+      entryPoints: array,
     }).isRequired,
-    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    updateEntryPoint: PropTypes.func.isRequired,
-    updateTitle: PropTypes.func.isRequired,
-    updateTitleStyle: PropTypes.func.isRequired,
-    updateViewTab: PropTypes.func.isRequired,
-    updateViewPanels: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
-    panels: PropTypes.shape({}).isRequired,
-  }
+    timelines: arrayOf(shape({})).isRequired,
+    domains: arrayOf(shape({})).isRequired,
+    tab: number,
+    panels: shape({}).isRequired,
+    // Container's mapDispatchToProps
+    updateEntryPoint: func.isRequired,
+    updateViewTab: func.isRequired,
+    updateViewPanels: func.isRequired,
+    openModal: func.isRequired,
+  };
 
   static defaultProps = {
     titleStyle: {},
     tab: null,
     title: '',
-  }
+  };
 
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
-  }
-
-  handleTextTitle = (newVal) => {
-    const { updateTitle, viewId } = this.props;
-    updateTitle(viewId, newVal);
-  }
-
-  handleTextTitleStyle = (label, newVal) => {
-    const { titleStyle, updateTitleStyle, viewId } = this.props;
-    updateTitleStyle(viewId, {
-      ...titleStyle,
-      [label]: newVal,
-    });
-  }
+  };
 
   handleSubmit = (values) => {
     const { configuration, updateEntryPoint, viewId } = this.props;
@@ -71,7 +61,7 @@ export default class GroundAlarmEditor extends Component {
       ...entryPoint,
       ...values,
     });
-  }
+  };
 
   render() {
     const { entryPoints } = this.props.configuration;
@@ -111,7 +101,14 @@ export default class GroundAlarmEditor extends Component {
               initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
             />
           </div>}
-          {tab === 1 && <GroundAlarmTab />}
+          {
+            tab === 1 &&
+            <GroundAlarmTabContainer
+              updateViewPanels={updateViewPanels}
+              viewId={viewId}
+              panels={panels}
+            />
+          }
           {tab === 2 &&
             <Misc
               updateViewPanels={updateViewPanels}

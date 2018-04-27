@@ -49,6 +49,14 @@ Object {
     },
   },
   "expectedRangeIntervals": Object {
+    ".<GroundMonitoringAlarmAckRequest>:0:4:::": Object {
+      "nofield.tb1:0": Object {
+        "expectedInterval": Array [
+          100000,
+          500000,
+        ],
+      },
+    },
     "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
       "groundDate/extractedValue.tb1:0": Object {
         "expectedInterval": Array [
@@ -87,6 +95,14 @@ Object {
     },
   },
   "forecastIntervals": Object {
+    ".<GroundMonitoringAlarmAckRequest>:0:4:::": Object {
+      "nofield.tb1:0": Object {
+        "expectedInterval": Array [
+          500000,
+          505000,
+        ],
+      },
+    },
     "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::": Object {
       "extractedValue.tb1:0": Object {
         "expectedInterval": Array [
@@ -290,6 +306,29 @@ Object {
     },
   },
   "perRangeTbdId": Object {
+    ".<GroundMonitoringAlarmAckRequest>:0:4:::": Object {
+      "dataId": Object {
+        "catalog": "",
+        "comObject": "GroundMonitoringAlarmAckRequest",
+        "domain": "fr.cnes.isis.simupus",
+        "domainId": 4,
+        "parameterName": "",
+        "sessionId": 0,
+        "sessionName": "Master",
+      },
+      "filters": undefined,
+      "localIds": Object {
+        "nofield.tb1:0": Object {
+          "offset": 0,
+          "timebarUuid": "tb1",
+          "viewType": "GroundAlarmView",
+        },
+      },
+      "mode": 0,
+      "views": Array [
+        "groundAlarm1",
+      ],
+    },
     "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
       "dataId": Object {
         "catalog": "Reporting",
@@ -415,6 +454,31 @@ Object {
         },
       },
       "type": "DynamicView",
+    },
+    "groundAlarm1": Object {
+      "entryPoints": Object {
+        "groundAlarmEP": Object {
+          "dataId": Object {
+            "catalog": "",
+            "comObject": "GroundMonitoringAlarmAckRequest",
+            "domain": "fr.cnes.isis.simupus",
+            "domainId": 4,
+            "parameterName": "",
+            "sessionId": 0,
+            "sessionName": "Master",
+          },
+          "filters": undefined,
+          "id": "groundAlarm1ep1",
+          "localId": "nofield.tb1:0",
+          "mode": 0,
+          "offset": 0,
+          "stateColors": Array [],
+          "tbdId": ".<GroundMonitoringAlarmAckRequest>:0:4:::",
+          "timebarUuid": "tb1",
+          "type": "GroundAlarmView",
+        },
+      },
+      "type": "GroundAlarmView",
     },
     "hist1": Object {
       "entryPoints": Object {

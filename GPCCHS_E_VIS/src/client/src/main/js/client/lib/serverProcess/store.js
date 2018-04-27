@@ -56,11 +56,14 @@ import makeProductLogMiddleware from '../store/middlewares/productLog';
 import makePatchGenerator from '../store/middlewares/patch/patchGenerator';
 import makeViewNeededData from '../store/middlewares/viewNeededData/viewNeededData';
 import pageSessionOrDomainUpdated from '../store/middlewares/pages/pageSessionOrDomainUpdated';
-import windowSessionOrDomainUpdated from '../store/middlewares/windows/windowSessionOrDomainUpdated';
+import windowSessionOrDomainUpdated
+  from '../store/middlewares/windows/windowSessionOrDomainUpdated';
 import getLogger from '../common/logManager';
 import makePlayerMiddleware from '../store/middlewares/player';
 import catalogMiddleware from '../store/middlewares/catalogs';
 import makeOnUserAction from '../store/middlewares/user/makeOnUserAction';
+import onPageLayoutUpdate from '../store/middlewares/smartViews/onPageLayoutUpdate';
+import onEntryPointData from '../store/middlewares/smartViews/onEntryPointData';
 
 const log = getLogger('server:store:enhancer');
 
@@ -85,6 +88,8 @@ const createMiddlewares = (identity, isDebugOn) => {
     pageSessionOrDomainUpdated,
     windowSessionOrDomainUpdated,
     makeOnUserAction(),
+    onPageLayoutUpdate,
+    onEntryPointData,
     makePatchGenerator(ipc.main.sendReduxPatch, identity, log, isDebugOn, get('PATCH_THROTTLE_TIMING')),
   ];
   if (isDumpActivated()) {

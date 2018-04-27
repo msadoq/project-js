@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars,quote-props,react/prefer-stateless-function */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
@@ -7,161 +8,112 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import _ from 'lodash/fp';
-import withMouseWheelEvents from 'windowProcess/common/hoc/withMouseWheelEvents';
-import withDimensions from 'windowProcess/common/hoc/withDimensions';
-import withBatchedSetState from 'windowProcess/common/hoc/withBatchedSetState';
-import { HISTORYVIEW_SEPARATOR } from 'constants';
 
-import styles from './HistoryView.css';
+import _ from 'lodash';
+import __ from 'lodash/fp';
 
-const getDataByLine = (lineId, allData) => {
-  const [ep, timestamp] = lineId.split(HISTORYVIEW_SEPARATOR);
-  return allData[ep][timestamp];
-};
+import DroppableContainer from 'windowProcess/common/DroppableContainer';
 
-const THEAD_DEFAULT_HEIGHT = 33; // in pixel
+import './HistoryView.scss';
 
-const Table = ({
-  lines, cols, position, displayedRows, rowHeight, current, data: allData,
-}) => (
-  <table>
-    <thead>
-      <tr
-        className={classnames({ [styles.prevCurrent]: current === position })}
-      >
-        {
-          cols.map(col => (
-            <th style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }} key={col}>
-              {col}
-            </th>
-          ))
-        }
-      </tr>
-    </thead>
-    <tbody>
-      {
-        _.slice(position, displayedRows + position)(lines).map((line, i) => {
-          const data = getDataByLine(line, allData);
-          const lineId = position + i;
-          const isCurrent = current === lineId;
-          const isPrevCurrent = current - 1 === lineId;
-          const rowKey = data.epName + data.masterTime;
-          return (
-            <tr
-              className={classnames({
-                [styles.current]: isCurrent,
-                [styles.prevCurrent]: isPrevCurrent,
-              })}
-              key={rowKey}
-            >
-              {
-                cols.map(col => (
-                  <td
-                    style={{ height: `${rowHeight}px` }}
-                    key={col + rowKey}
-                  >
-                    {data[col]}
-                  </td>
-                ))
-              }
-            </tr>
-          );
-        })
-      }
-    </tbody>
-  </table>
-);
+import { buildFormulaForAutocomplete } from '../../../common';
+import NTableViewContainer from '../../../common/Components/View/NTableView/NTableViewContainer';
 
-Table.propTypes = {
-  position: PropTypes.number,
-  current: PropTypes.shape({}),
-  data: PropTypes.shape({}).isRequired,
-  cols: PropTypes.arrayOf(PropTypes.string).isRequired,
-  lines: PropTypes.arrayOf(PropTypes.string).isRequired,
-  rowHeight: PropTypes.number.isRequired,
-  displayedRows: PropTypes.number.isRequired,
-};
-Table.defaultProps = {
-  current: {},
-  position: 0,
-};
+const getComObject = __.propOr('UNKNOWN_COM_OBJECT', 0);
+
+// parse clipboard data to create partial entry point
+function parseDragData(data) {
+  const formula =
+    buildFormulaForAutocomplete(
+      data.catalogName,
+      data.item,
+      getComObject(data.comObjects),
+      data.comObjectFields
+    );
+
+  return {
+    name: 'HistoryViewEP',
+    connectedData: {
+      formula,
+      domain: '*',
+      timeline: '*',
+    },
+  };
+}
 
 class HistoryView extends React.Component {
   static propTypes = {
-    data: PropTypes.shape({
-      current: PropTypes.shape({}),
-      data: PropTypes.shape({}).isRequired,
-      cols: PropTypes.arrayOf(PropTypes.string).isRequired,
-      lines: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
-    containerWidth: PropTypes.number.isRequired,
-    containerHeight: PropTypes.number.isRequired,
-    rowHeight: PropTypes.number,
-  }
-
-  static defaultProps = {
-    rowHeight: THEAD_DEFAULT_HEIGHT, // in pixel
-  }
-
-  state = { position: 0 }
+// eslint-disable-next-line react/no-unused-prop-types
+    config: PropTypes.shape().isRequired,
+    openEditor: PropTypes.func.isRequired,
+    addEntryPoint: PropTypes.func.isRequired,
+    askUnit: PropTypes.func.isRequired,
+  };
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.position >= this.getLastPosition(nextProps)) {
-      this.setState(_.set('position', this.getLastPosition(nextProps)));
-    }
+    const { askUnit, config } = nextProps;
+    const { entryPoints } = config;
+
+    entryPoints.forEach((entryPoint) => {
+      const {
+        domain,
+        sessionId,
+        catalog,
+        catalogItem,
+      } = entryPoint;
+
+      if (
+        domain !== null &&
+        sessionId !== null &&
+        catalog !== null &&
+        catalogItem !== null
+      ) {
+        askUnit(domain, sessionId, catalog, catalogItem);
+      }
+    });
   }
 
-  onScrollUp = () => {
-    if (this.state.position > 0) {
-      this.setState(_.update('position', _.add(-1)));
+  onDrop = this.drop.bind(this);
+
+  drop(ev) {
+    const {
+      addEntryPoint,
+      openEditor,
+    } = this.props;
+
+    const data = ev.dataTransfer.getData('text/plain');
+    const content = JSON.parse(data);
+
+    if (!_.get(content, 'catalogName')) {
+      return;
     }
+
+    const parsedData = parseDragData(content);
+    addEntryPoint(parsedData);
+    openEditor();
+
+    ev.stopPropagation();
   }
-
-  onScrollDown = () => {
-    if (this.state.position < this.getLastPosition()) {
-      this.setState(_.update('position', _.add(1)));
-    }
-  }
-
-  getLastPosition = (props = this.props) => (
-    Math.max(0, (props.data.lines.length - this.getNbElems(props)) + 1)
-  )
-
-  getNbElems = (props = this.props) => Math.floor(props.containerHeight / props.rowHeight)
-
-  getScrollAreaHeight = () => this.props.containerHeight - (this.props.rowHeight * 2)
-
-  getScrollBarPosition = () => (
-    (this.state.position / this.getLastPosition()) * this.getScrollAreaHeight()
-  )
 
   render() {
-    const style = {
-      height: this.props.containerHeight,
-      width: this.props.containerWidth,
-    };
+    console.log(this.props);
     return (
-      <div
-        className={classnames('HistoryView', styles.container)}
-        style={style}
+      <DroppableContainer
+        className={'HistoryView'}
+        onDrop={this.onDrop}
+        ref={(node) => {
+          this.container = node;
+        }}
       >
-        <div style={{ top: `calc(${this.getScrollBarPosition()}px + 33px)` }} className={styles.scrollbar} />
-        <Table
-          scrollBarPosition={this.getScrollBarPosition()}
-          rowHeight={this.props.rowHeight}
-          position={this.state.position}
-          displayedRows={this.getNbElems()}
-          {...this.props.data}
+        <NTableViewContainer
+          {...this.props}
+          tableId={0}
+          config={this.props.config.tables[0]}
+          container={this.container}
         />
-      </div>
+      </DroppableContainer>
     );
   }
 }
 
-export default _.compose(
-  withDimensions({ elementResize: true }),
-  withBatchedSetState({ delay: 60 }), // throttled every 60ms
-  withMouseWheelEvents()
-)(HistoryView);
+export default HistoryView;

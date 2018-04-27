@@ -93,6 +93,7 @@ export const updateLegend = simple(types.WS_VIEW_UPDATE_LEGEND, 'viewId', 'legen
 export const updateContent = simple(types.WS_VIEW_UPDATE_CONTENT, 'viewId', 'content');
 export const updateShowYAxes = simple(types.WS_VIEW_UPDATE_SHOWYAXES, 'viewId', 'showYAxes');
 export const updateDimensions = simple(types.WS_VIEW_UPDATE_DIMENSIONS, 'viewId', 'width', 'height');
+export const updateTableCols = simple(types.WS_VIEW_UPDATE_TABLE_COLS, 'viewId', 'cols');
 
 export const updateEditorSearch = simple(types.WS_VIEW_UPDATE_EDITOR_SEARCH, 'viewId', 'search');
 
@@ -147,6 +148,9 @@ export const askOpenView = simple(types.WS_ASK_OPEN_VIEW, 'absolutePath');
 export const askCloseView = simple(types.WS_ASK_CLOSE_VIEW, 'viewId');
 export const askReloadView = simple(types.WS_ASK_RELOAD_VIEW, 'viewId');
 export const askSaveViewAsModel = simple(types.WS_ASK_SAVE_VIEW_AS_MODEL, 'viewId');
+export const askExportAsCsv = simple(types.WS_ASK_EXPORT_AS_CSV, 'viewId');
+export const askExportAsImage = simple(types.WS_ASK_EXPORT_AS_IMAGE, 'viewId', 'imageData');
+export const askExportAsImageHasFailed = simple(types.WS_ASK_EXPORT_AS_IMAGE_HAS_FAILED, 'viewId', 'errorMessage');
 
 // ************ EntryPoint
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'entryPointId', 'entryPoint');

@@ -1,3 +1,4 @@
+/* eslint-disable quote-props,no-unused-vars */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
@@ -6,17 +7,95 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { getData } from 'viewManager/HistoryView/store/dataReducer';
-import HistoryView from './HistoryView';
 
-const mapStateToProps = createStructuredSelector({
-  data: getData,
+import { getData, getConfiguration } from 'viewManager/HistoryView/store/dataReducer';
+import { addEntryPoint } from 'store/actions/views';
+import { toggleColumnSort, filterColumn, scrollRows } from 'store/actions/tableColumns';
+import formatData from '../../data/formatData';
+import HistoryView from './HistoryView';
+import { askUnit } from '../../../../store/actions/catalogs';
+import { getSessionByTimelineId } from '../../../../store/reducers/sessions';
+
+
+const mapStateToProps = (state, { viewId }) => {
+  const config = getConfiguration(state, { viewId });
+  const data = getData(state, { viewId });
+
+  const reducedConfig = {
+    ...config.tables[0],
+    entryPoints: config.entryPoints,
+  };
+  const formattedData = formatData(data, reducedConfig);
+
+  const entryPointReducer = (acc, entryPoint) => {
+    if (entryPoint.connectedData && entryPoint.connectedData.timeline) {
+      const {
+        domain,
+        catalog,
+        catalogItem,
+        timeline,
+      } = entryPoint.connectedData;
+
+      const session =
+        getSessionByTimelineId(
+          state,
+          {
+            timelineId: timeline,
+          }
+        );
+
+      const sessionId = session.id;
+
+      const unit = _.get(
+        state.catalogs,
+        [
+          `${domain}-${session.id}`,
+          catalog,
+          catalogItem,
+        ]
+      );
+
+      return [
+        ...acc,
+        {
+          ...entryPoint,
+          connectedData: {
+            ...entryPoint.connectedData,
+            sessionId,
+            unit,
+          },
+        },
+      ];
+    }
+
+    return [...acc, entryPoint];
+  };
+
+  const updatedConfig = {
+    ...config,
+    entryPoints: config.entryPoints.reduce(entryPointReducer, []),
+  };
+
+  return {
+    config: updatedConfig,
+    data: formattedData,
+  };
+};
+
+const mapDispatchToProps = (dispatch, { viewId }) => ({
+  addEntryPoint: (entryPoint) => {
+    dispatch(addEntryPoint(viewId, entryPoint));
+  },
+  askUnit: (domainId, sessionId, name, itemName) => {
+    // TODO: uncomment this and use askUnitSimple from 2.0.0.2 patch
+    // dispatch(askUnit(domainId, sessionId, name, itemName));
+  },
 });
 
-const HistoryViewContainer = connect(mapStateToProps)(HistoryView);
+const HistoryViewContainer = connect(mapStateToProps, mapDispatchToProps)(HistoryView);
 
 HistoryViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

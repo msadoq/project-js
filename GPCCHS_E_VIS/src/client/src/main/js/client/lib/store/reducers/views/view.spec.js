@@ -146,6 +146,81 @@ describe('store:reducer:views', () => {
         ],
       },
     },
+    groundAlarm1: {
+      search: { enabled: true },
+      columns: [
+        {
+          name: 'timestamp',
+          value: 'timestamp',
+          displayed: true,
+          position: 0,
+        },
+        {
+          name: 'parameterName',
+          value: 'parameterName',
+          displayed: true,
+          position: 1,
+        },
+        {
+          name: 'parameterType',
+          value: 'parameterType',
+          displayed: true,
+          position: 2,
+        },
+        {
+          name: 'firstOccurence',
+          value: 'firstOccurence',
+          displayed: true,
+          position: 3,
+        },
+        {
+          name: 'lastOccurence',
+          value: 'lastOccurence',
+          displayed: true,
+          position: 4,
+        },
+        {
+          name: 'durationtimestamp',
+          value: 'durationtimestamp',
+          displayed: true,
+          position: 5,
+        },
+        {
+          name: 'rawValuetimestamp',
+          value: 'rawValuetimestamp',
+          displayed: true,
+          position: 6,
+        },
+        {
+          name: 'physicalValue',
+          value: 'physicalValue',
+          displayed: true,
+          position: 7,
+        },
+        {
+          name: 'satellite',
+          value: 'satellite',
+          displayed: true,
+          position: 8,
+        },
+        {
+          name: 'ackStatetimestamp',
+          value: 'ackStatetimestamp',
+          displayed: true,
+          position: 9,
+        },
+      ],
+      entryPoints: [{
+        connectedData: {
+          domain: 'fr.cnes.isis.simupus',
+          timeline: 'Session 1',
+          mode: 0,
+        },
+        id: 'groundAlarm1ep1',
+        name: 'groundAlarmEP',
+        stateColors: [],
+      }],
+    },
   };
   describe('update action', () => {
     test('Link', () => {

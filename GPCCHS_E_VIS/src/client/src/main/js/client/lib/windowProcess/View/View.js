@@ -61,6 +61,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import domtoimage from 'dom-to-image';
 import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
@@ -99,6 +100,9 @@ export default class View extends PureComponent {
     saveAs: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
     saveViewAsModel: PropTypes.func.isRequired,
+    exportAsCsv: PropTypes.func.isRequired,
+    exportAsImage: PropTypes.func.isRequired,
+    exportAsImageHasFailed: PropTypes.func.isRequired,
     collapsed: PropTypes.bool.isRequired,
     absolutePath: PropTypes.string,
   };
@@ -120,7 +124,7 @@ export default class View extends PureComponent {
 
   onContextMenu = (mainMenu) => {
     handleContextMenu(mainMenu);
-  }
+  };
 
   getMainContextMenu = () => {
     const {
@@ -177,11 +181,31 @@ export default class View extends PureComponent {
       },
       {
         label: 'Save view as...',
+
         click: () => this.props.saveAs(),
       },
       {
         label: 'Save view as a model...',
         click: () => this.props.saveViewAsModel(),
+      },
+      {
+        label: 'Export as image...',
+        click: () => {
+          domtoimage.toPng(this.domref)
+          .then(
+            (dataUrl) => {
+              this.props.exportAsImage(dataUrl);
+            }
+          ).catch(
+            (error) => {
+              this.props.exportAsImageHasFailed('error in processing dom into png data --- ', error.message);
+            }
+          );
+        },
+      },
+      {
+        label: 'Export as csv...',
+        click: () => this.props.exportAsCsv(),
       },
       { type: 'separator' },
       {
@@ -193,7 +217,6 @@ export default class View extends PureComponent {
 
   borderColorStyle = _memoize(c => ({ borderColor: c }));
   backgroundColorStyle = _memoize(c => ({ backgroundColor: c }));
-
 
   render() {
     logger.debug('render');
@@ -218,6 +241,7 @@ export default class View extends PureComponent {
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (
       <div
+        ref={(div) => { this.domref = div; }}
         className={classnames('subdiv', styles.container, 'w100', !maximized && 'h100')}
         style={this.borderColorStyle(borderColor)}
         onContextMenu={() => handleContextMenu(mainMenu)}
@@ -229,22 +253,22 @@ export default class View extends PureComponent {
           saveView={save}
           onContextMenu={() => handleContextMenu(mainMenu)}
         />
-        { !collapsed &&
-        <div
-          className={styles.content}
-          style={this.backgroundColorStyle(backgroundColor)}
-        >
-          <MessagesContainer containerId={viewId} />
-          <ContentComponent
-            viewId={viewId}
-            pageId={pageId}
-            openInspector={args => askOpenInspector(pageId, viewId, type, args)}
-            isViewsEditorOpen={isViewsEditorOpen}
-            openEditor={openEditor}
-            closeEditor={closeEditor}
-            mainMenu={mainMenu}
-          />
-        </div>
+        {!collapsed &&
+          <div
+            className={styles.content}
+            style={this.backgroundColorStyle(backgroundColor)}
+          >
+            <MessagesContainer containerId={viewId} />
+            <ContentComponent
+              viewId={viewId}
+              pageId={pageId}
+              openInspector={args => askOpenInspector(pageId, viewId, type, args)}
+              isViewsEditorOpen={isViewsEditorOpen}
+              openEditor={openEditor}
+              closeEditor={closeEditor}
+              mainMenu={mainMenu}
+            />
+          </div>
         }
       </div>
     );

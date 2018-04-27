@@ -9,7 +9,7 @@
 
 const executionMonitor = require('../../../../common/logManager/execution');
 const logger = require('../../../../common/logManager')('controllers:onTimebasedArchiveDataADE');
-const { incomingRange, incomingLast } = require('../../../../store/actions/incomingData');
+const { incomingRange, incomingLast, incomingObsoleteEvent } = require('../../../../store/actions/incomingData');
 
 
 const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }) => {
@@ -49,6 +49,9 @@ const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }
       break;
     case 'LAST' :
       store.dispatch(incomingLast(tbdId, payloadBuffer, dataId));
+      break;
+    case 'OBSOLETE_EVENT' :
+      store.dispatch(incomingObsoleteEvent(tbdId, payloadBuffer, dataId));
       break;
     default:
       logger.warn('Unkwnown type of request');

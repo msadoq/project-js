@@ -11,6 +11,9 @@ import Rows from './Rows';
 
 import './NTableView.scss';
 
+const HEADER_HEIGHT = 70;
+const ROW_HEIGHT = 22;
+
 const computeOffset = (currentOffset, length, ev) => {
   const delta = ev.deltaY;
   const offset = Math.sign(delta) * Math.max(1, Math.floor(delta / 60));
@@ -29,43 +32,47 @@ const computeOffset = (currentOffset, length, ev) => {
 
 const NTableView = (
   {
+    height,
     config,
     data,
     onSort,
     onFilter,
     onScroll,
   }
-) => (
-  <div>
-    <table
-      className={'NTableView'}
-      onWheel={ev => onScroll(computeOffset(config.dataOffset, data.length, ev))}
-    >
-      <thead>
-      <GroupHeaders groups={data.groups} />
-      <ColumnHeaders
-        cols={data.cols}
-        sortState={config.sorting}
-        onSort={onSort}
-      />
-      <ColumnSearchHeaders
-        cols={data.cols}
-        filterState={data.filterState}
-        onSearch={onFilter}
-      />
-      </thead>
-      <tbody>
-      <Rows
-        rows={data.data}
-        config={config}
-        current={data.current}
-      />
-      </tbody>
-    </table>
-  </div>
-);
+) =>
+  (
+    <div>
+      <table
+        className={'NTableView'}
+        onWheel={ev => onScroll(ev, computeOffset(config.dataOffset, data.length, ev))}
+      >
+        <thead>
+        {data.groups ? <GroupHeaders groups={data.groups} /> : null}
+        <ColumnHeaders
+          cols={data.cols}
+          sortState={config.sorting}
+          onSort={onSort}
+        />
+        <ColumnSearchHeaders
+          cols={data.cols}
+          filterState={data.filterState}
+          onSearch={onFilter}
+        />
+        </thead>
+        <tbody>
+        <Rows
+          rows={data.data}
+          config={config}
+          current={data.current}
+          rowCount={Math.floor((height - HEADER_HEIGHT) / ROW_HEIGHT)}
+        />
+        </tbody>
+      </table>
+    </div>
+  );
 
 NTableView.propTypes = {
+  height: PropTypes.number.isRequired,
   config: PropTypes.shape({
     sorting: PropTypes.shape(),
     dataOffset: PropTypes.number,

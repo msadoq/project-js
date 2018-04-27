@@ -8,7 +8,7 @@ const onPageLayoutUpdate = ({ dispatch, getState }) => next => (action) => {
   const { payload } = action;
 
   switch (action.type) {
-    case WS_PAGE_UPDATE_LAYOUT: {
+    case WS_PAGE_UPDATE_LAYOUT: { // TODO: remove this, height should be dependant on parent DOM node height
       // assuming there is only one layout update at a time
       const { i: viewId, h: height } = payload.layout[0];
 

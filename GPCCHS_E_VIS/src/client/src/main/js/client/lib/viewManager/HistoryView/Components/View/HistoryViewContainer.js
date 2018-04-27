@@ -23,7 +23,12 @@ import { getSessionByTimelineId } from '../../../../store/reducers/sessions';
 const mapStateToProps = (state, { viewId }) => {
   const config = getConfiguration(state, { viewId });
   const data = getData(state, { viewId });
-  const formattedData = formatData(data, config);
+
+  const reducedConfig = {
+    ...config.tables[0],
+    entryPoints: config.entryPoints,
+  };
+  const formattedData = formatData(data, reducedConfig);
 
   const entryPointReducer = (acc, entryPoint) => {
     if (entryPoint.connectedData && entryPoint.connectedData.timeline) {
@@ -81,15 +86,6 @@ const mapStateToProps = (state, { viewId }) => {
 };
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
-  onFilter: (col, value) => {
-    dispatch(filterColumn(viewId, col, value));
-  },
-  onSort: (col, mode) => {
-    dispatch(toggleColumnSort(viewId, col, mode));
-  },
-  onScroll: (offset) => {
-    dispatch(scrollRows(viewId, offset));
-  },
   addEntryPoint: (entryPoint) => {
     dispatch(addEntryPoint(viewId, entryPoint));
   },

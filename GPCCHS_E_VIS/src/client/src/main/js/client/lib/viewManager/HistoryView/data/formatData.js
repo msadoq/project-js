@@ -141,7 +141,7 @@ const preformatData = (rawData, config) => {
  * @returns {Array}
  */
 const scopeData = (preformattedData, config) => {
-  const maxDisplayedRows = computeMaxDisplayedRows(config);
+  const maxDisplayedRows = 20; // TODO: use parent DOM element height
   const { dataOffset } = config;
   return preformattedData.slice(dataOffset, dataOffset + maxDisplayedRows);
 };
@@ -196,11 +196,11 @@ const sortData = (preformattedData, config) => {
  * @returns {Array}
  */
 const filterData = (preformattedData, config) => {
-  if (!config.filters) {
+  const { filters, columns: columnsConfig } = config;
+
+  if (!filters) {
     return preformattedData;
   }
-
-  const { filters, columns: columnsConfig } = config;
 
   const columns = getColumns(columnsConfig);
 
@@ -212,7 +212,7 @@ const filterData = (preformattedData, config) => {
       .forEach((key) => {
         const filterValue = filters[key];
         const rowValueToFilter = row[getColumnIndex(key, columns)];
-        if ((rowValueToFilter || '').indexOf(filterValue) === -1) {
+        if ((String(rowValueToFilter) || '').indexOf(filterValue) === -1) {
           ans = false;
         }
       });
@@ -273,7 +273,7 @@ const formatData = (rawData, config) => ({
   groups: computeGroupSizes(config.columns),
   cols: getColumnGroupMap(config.columns),
   data:
-    scopeData(sortData(filterData(preformatData(rawData, config), config), config), config),
+    sortData(filterData(preformatData(rawData, config), config), config),
   current: getCurrentLines(rawData),
 });
 

@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { connect } from 'react-redux';
 import VirtualizedTableView from './VirtualizedTableView';
 
-const mapStateToProps = () => {
+const mapStateToProps = (state, { viewId, tableId }) => {
   const generateColumns = n => Array(...Array(n)).map((_, index) => ({ name: `c${index}` }));
   const generateRows =
     (n, m) =>
@@ -25,14 +26,14 @@ const mapStateToProps = () => {
   };
 };
 
-const mapDispatchToProps = ({
+const mapDispatchToProps = (dispatch, { viewId, tableId }) => ({
   onCellClick: (i, j, content) => {
     console.error('[NotImplementedError] Click on cell has not yet been implemented');
-    console.info(`Clicked on cell (${i}, ${j}) with content: ${JSON.stringify(content)}`);
+    console.info(i, j, content);
   },
   onCellDoubleClick: (i, j, content) => {
     console.error('[NotImplementedError] Double-click on cell has not yet been implemented');
-    console.info(`Clicked on cell (${i}, ${j}) with content: ${JSON.stringify(content)}`);
+    console.info(i, j, content);
   },
 });
 

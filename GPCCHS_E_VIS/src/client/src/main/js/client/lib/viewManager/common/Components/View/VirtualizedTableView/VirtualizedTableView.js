@@ -48,11 +48,13 @@ const VirtualizedTableView =
       const content = _getValue(rows[rowIndex][columnIndex]);
       const rowClassName = rowIndex % 2 ? styles.oddRow : styles.evenRow;
 
-      const _onClick = () => {
+      const _onClick = (ev) => {
+        ev.preventDefault();
         onCellClick(rowIndex, columnIndex, content);
       };
 
-      const _onDoubleClick = () => {
+      const _onDoubleClick = (ev) => {
+        ev.preventDefault();
         onCellDoubleClick(rowIndex, columnIndex, content);
       };
 

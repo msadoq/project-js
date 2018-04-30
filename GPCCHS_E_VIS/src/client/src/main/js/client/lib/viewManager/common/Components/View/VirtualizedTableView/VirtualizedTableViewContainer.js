@@ -2,8 +2,18 @@
 import { connect } from 'react-redux';
 import VirtualizedTableView from './VirtualizedTableView';
 
+// TODO: remove mapStateToProps
+// This is only for test purposes and each component using VirtualizedTableViewContainer
+// should implement its own data management system
 const mapStateToProps = (state, { viewId, tableId }) => {
-  const generateColumns = n => Array(...Array(n)).map((_, index) => ({ name: `c${index}` }));
+  const generateColumns = n =>
+    Array(...Array(n))
+      .map((_, index) =>
+        ({
+          name: `c${index}`,
+          group: `g${Math.floor(index / 3)}`, // this groups elements by 3
+        })
+      );
   const generateRows =
     (n, m) =>
       Array(...Array(m))

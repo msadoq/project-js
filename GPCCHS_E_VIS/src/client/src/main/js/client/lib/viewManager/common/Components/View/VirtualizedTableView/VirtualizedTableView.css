@@ -19,7 +19,7 @@
 .HeaderGrid {
   width: 100%;
   overflow: hidden !important;
-  border: 1px solid #818181;
+  /* border: 1px solid #818181; */
   background-color: #bdbdbd;
 }
 
@@ -56,10 +56,12 @@
   left: 7px;
 }
 
+/*
 .headerCell,
 .leftCell {
   font-weight: bold;
   background-color: #bdbdbd;
   box-shadow: -.5px -.5px 0 #818181;
 }
+*/
 

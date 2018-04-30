@@ -15,6 +15,8 @@ const VirtualizedTableView =
      columnWidth,
      rowHeight,
      height,
+     onCellClick,
+     onCellDoubleClick,
    }) => {
     const columnCount = columns.length;
     const rowCount = rows.length;
@@ -46,9 +48,12 @@ const VirtualizedTableView =
       const content = _getValue(rows[rowIndex][columnIndex]);
       const rowClassName = rowIndex % 2 ? styles.oddRow : styles.evenRow;
 
-      const _onClick = (ev) => {
-        console.error('[NotImplementedError] Click on cell has not yet been implemented');
-        console.log(`Clicked on cell (${rowIndex}, ${columnIndex})`);
+      const _onClick = () => {
+        onCellClick(rowIndex, columnIndex, content);
+      };
+
+      const _onDoubleClick = () => {
+        onCellDoubleClick(rowIndex, columnIndex, content);
       };
 
       return (
@@ -57,6 +62,7 @@ const VirtualizedTableView =
           key={key}
           style={style}
           onClick={_onClick}
+          onDoubleClick={_onDoubleClick}
         >
           <span>{content}</span>
         </div>
@@ -136,28 +142,13 @@ VirtualizedTableView.propTypes = {
   columnWidth: PropTypes.number,
   rowHeight: PropTypes.number,
   height: PropTypes.number,
+  onCellClick: PropTypes.func.isRequired,
+  onCellDoubleClick: PropTypes.func.isRequired,
 };
 
-const generateColumns = n => Array(...Array(n)).map((_, index) => ({ name: `c${index}` }));
-const generateRows =
-  (n, m) =>
-    Array(...Array(m))
-      .map(
-        (_, rowIndex) =>
-          Array(...Array(n)).map((__, colIndex) =>
-            ({
-              value: `(${rowIndex}, ${colIndex})`,
-            })
-          ));
-
-const N = 10000;
-
-const COLS = generateColumns(10);
-const ROWS = generateRows(10, N);
-
 VirtualizedTableView.defaultProps = {
-  columns: COLS,
-  rows: ROWS,
+  columns: [],
+  rows: [],
   columnWidth: 220,
   rowHeight: 22,
   height: 400,

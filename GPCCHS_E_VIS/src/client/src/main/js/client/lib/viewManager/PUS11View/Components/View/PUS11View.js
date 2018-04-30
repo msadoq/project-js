@@ -3,7 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import './PUS11.scss';
-import VirtualizedTableView from '../../../common/Components/View/VirtualizedTableView';
+import VirtualizedTableViewContainer
+  from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 
 const { string, number, arrayOf, shape } = PropTypes;
 
@@ -63,7 +64,7 @@ export default class PUS11View extends React.Component {
     } = this.props;
     return (
       <div className="pus11">
-        <VirtualizedTableView height={500} />
+        <VirtualizedTableViewContainer height={500} />
         {/*
         <div className="header">
           {renderHeaders(

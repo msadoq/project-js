@@ -8,9 +8,35 @@ import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 
 import Color from 'color';
 import generateColor from 'string-to-color';
+import { Glyphicon } from 'react-bootstrap';
 
 import styles from './VirtualizedTableView.css';
 
+const SortArrow = ({ colKey, mode, active, onClick }) => (
+  <span
+    role={'presentation'}
+    onClick={() => onClick(colKey, mode)}
+    className={cn(styles.SortArrow, { [styles.active]: active })}
+  >
+    <Glyphicon
+      glyph={mode === 'DESC' ? 'chevron-down' : 'chevron-up'}
+    />
+  </span>
+);
+
+SortArrow.propTypes = {
+  colKey: PropTypes.string.isRequired,
+  mode: PropTypes.string,
+  active: PropTypes.bool,
+  onClick: PropTypes.func,
+};
+
+SortArrow.defaultProps = {
+  mode: 'DESC',
+  active: false,
+  onClick: () => {
+  },
+};
 
 const VirtualizedTableView =
   ({
@@ -23,8 +49,12 @@ const VirtualizedTableView =
                  // in this case, columns objects should have `group` key
                  // WARNING: columns still should be in the right order (by group)
                  // as this component does not reorder them to match groups
+     onSort,
+     onFilter,
      onCellClick,
      onCellDoubleClick,
+     sortState,
+     filterState,
    }) => {
     const columnCount = columns.length;
     const rowCount = rows.length;
@@ -90,7 +120,7 @@ const VirtualizedTableView =
 
 // eslint-disable-next-line react/prop-types
     const _headerCellRenderer = ({ columnIndex, key, style }) => {
-      const content = _getColumnName(columns[columnIndex]);
+      const colKey = _getColumnName(columns[columnIndex]);
 
       let headerStyle = _.cloneDeep(style);
 
@@ -112,7 +142,41 @@ const VirtualizedTableView =
           key={key}
           style={headerStyle}
         >
-          {content}
+          <span className={styles.Arrows}>
+            <SortArrow
+              colKey={colKey}
+              mode={'ASC'}
+              active={sortState.colName === colKey && sortState.direction === 'ASC'}
+              onClick={() => onSort(colKey, 'ASC')}
+            />
+            <SortArrow
+              colKey={colKey}
+              mode={'DESC'}
+              active={sortState.colName === colKey && sortState.direction === 'DESC'}
+              onClick={() => onSort(colKey, 'DESC')}
+            />
+          </span>
+          <span className={styles.Label}> {colKey} </span>
+        </div>
+      );
+    };
+
+// eslint-disable-next-line react/prop-types
+    const _filterCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
+      const colKey = columns[columnIndex].name;
+
+      return (
+        <div
+          key={key}
+          className={styles.Filter}
+          style={style}
+        >
+          <input
+            type={'text'}
+            value={filterState[columnIndex]}
+            onChange={ev => onFilter(colKey, ev.target.value)}
+            className={styles.SearchInput}
+          />
         </div>
       );
     };
@@ -216,6 +280,21 @@ const VirtualizedTableView =
                                 scrollToRow={scrollToRow}
                               />
                               <Grid
+                                cellRenderer={_filterCellRenderer}
+                                className={styles.HeaderGrid}
+                                width={width - scrollbarSize()}
+                                height={rowHeight}
+                                columnWidth={columnWidth}
+                                rowHeight={rowHeight}
+                                scrollLeft={scrollLeft}
+                                columnCount={columnCount}
+                                rowCount={1}
+                                overscanColumnCount={overscanColumnCount}
+                                onSectionRendered={onSectionRendered}
+                                scrollToColumn={scrollToColumn}
+                                scrollToRow={scrollToRow}
+                              />
+                              <Grid
                                 cellRenderer={_bodyCellRenderer}
                                 className={styles.BodyGrid}
                                 width={width}
@@ -253,8 +332,12 @@ VirtualizedTableView.propTypes = {
   rowHeight: PropTypes.number,
   height: PropTypes.number,
   withGroups: PropTypes.bool,
+  onSort: PropTypes.func.isRequired,
+  onFilter: PropTypes.func.isRequired,
   onCellClick: PropTypes.func.isRequired,
   onCellDoubleClick: PropTypes.func.isRequired,
+  sortState: PropTypes.shape(),
+  filterState: PropTypes.shape(),
 };
 
 VirtualizedTableView.defaultProps = {
@@ -264,6 +347,8 @@ VirtualizedTableView.defaultProps = {
   rowHeight: 22,
   height: 400,
   withGroups: false,
+  sortState: {},
+  filterState: {},
 };
 
 export default VirtualizedTableView;

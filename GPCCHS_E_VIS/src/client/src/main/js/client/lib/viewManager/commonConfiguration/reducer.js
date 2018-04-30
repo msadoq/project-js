@@ -61,7 +61,7 @@ export default (stateConf, action) => {
             ...stateConf.tables[tableId],
             dataOffset: 0,
             filters: {
-              ...stateConf.filters,
+              ...stateConf.tables[tableId].filters,
               [colName]: value,
             },
           },

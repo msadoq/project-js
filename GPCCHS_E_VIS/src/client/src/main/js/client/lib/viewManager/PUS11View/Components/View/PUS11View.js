@@ -65,8 +65,10 @@ export default class PUS11View extends React.Component {
     return (
       <div className="pus11">
         <VirtualizedTableViewContainer
-          withGroups
+          viewId={viewId}
+          tableId={0}
           height={500}
+          withGroups
         />
         {/*
         <div className="header">

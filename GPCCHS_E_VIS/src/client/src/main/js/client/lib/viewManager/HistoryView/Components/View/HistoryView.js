@@ -96,7 +96,6 @@ class HistoryView extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <DroppableContainer
         className={'HistoryView'}

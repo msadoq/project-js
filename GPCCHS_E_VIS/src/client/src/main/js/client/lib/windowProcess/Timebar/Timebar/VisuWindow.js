@@ -1,7 +1,9 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in windowProcess/Timebar
-// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Timebar : VisuWindow and SlideWindow as function components.
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in
+//  windowProcess/Timebar
+// VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Timebar : VisuWindow and SlideWindow as function
+//  components.
 // VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Added theme variables linked to main areas.
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
 // END-HISTORY

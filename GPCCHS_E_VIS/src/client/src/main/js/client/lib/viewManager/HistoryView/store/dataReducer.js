@@ -3,6 +3,14 @@
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #7111 : 20/09/2017 : Add editor in history view data and fix history view
+//  data reducer
+// VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #7111 : 25/09/2017 : Add current in history view data
+// VERSION : 2.0.0 : DM : #5806 : 26/09/2017 : alarm view folders creation .
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update viewManager with alarm parameters
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #8801 : 19/12/2017 : Do not clean data when reload a view
 // END-HISTORY
 // ====================================================================
 

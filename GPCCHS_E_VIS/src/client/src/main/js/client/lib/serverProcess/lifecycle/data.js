@@ -1,6 +1,7 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Cleanup main and server startup process
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

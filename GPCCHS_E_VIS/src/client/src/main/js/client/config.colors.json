@@ -1,7 +1,20 @@
 {
   "DOMAINS_COLORS" : [
-    { "fr.cnes.isis.simupus": "#339933" },
-    { "fr.cnes.isis": "#0066ff" },
-    { "multi": "#ff3300" }
+    { "fr": "#1abc9c" },
+    { "fr.cnes": "#2ecc71" },
+    { "fr.cnes.isis": "#3498db" },
+    { "fr.cnes.isis.simupus": "#8e44ad" },
+    { "fr.cnes.isis.spot3": "#2c3e50" },
+    { "fr.cnes.isis.msn2": "#f1c40f" },
+    { "fr.cnes.isis.msn2.babs": "#e74c3c" },
+    { "fr.cnes.isis.msn2.babs.babs1": "#339933" },
+    { "fr.cnes.isis.msn2.babt": "#d35400" },
+    { "fr.cnes.isis.station": "#7f8c8d" },
+    { "fr.cnes.isis.station.hbk": "#ccae62" },
+    { "fr.cnes.isis.station.krn": "#cd6133" },
+    { "fr.cnes.isis.station.aus": "#ff7675" },
+    { "fr.cnes.isis.station.kru": "#81ecec" },
+    { "fr.cnes.isis.station.ker": "#6c5ce7" },
+    { "fr.cnes.isis.station.tls": "#2d3436" }
   ]
 }

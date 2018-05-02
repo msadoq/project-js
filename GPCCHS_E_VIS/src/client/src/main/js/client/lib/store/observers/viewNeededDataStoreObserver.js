@@ -3,7 +3,11 @@
 // VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Creation of store observer and test state
 // VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Branch full cycle mechanism for rangeData
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : split of viewData cleaning in dataReducer for plot
-// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : update store observer to dispatch action only when data is present
+// VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : update store observer to dispatch action only when
+//  data is present
+// VERSION : 2.0.0 : DM : #7111 : 20/09/2017 : Add editor in history view data and fix history view
+//  data reducer
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

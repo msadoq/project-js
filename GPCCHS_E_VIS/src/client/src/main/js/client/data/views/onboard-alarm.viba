@@ -20,11 +20,12 @@
     "enabled": true
   },
   "entryPoint": {
-    "name": "onboardAlarmEP",
     "connectedData": {
       "domain": "*",
-      "timeline": "*",
-      "mode": 0
-    }
+      "mode": 0,
+      "timeline": "*"
+    },
+    "name": "onboardAlarmEP",
+    "stateColors": []
   }
 }

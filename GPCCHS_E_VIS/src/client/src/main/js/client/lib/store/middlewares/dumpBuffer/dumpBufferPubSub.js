@@ -1,6 +1,10 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : move dumpBuffer use in a specific middleware
+// VERSION : 2.0.0 : DM : #5806 : 13/10/2017 : change middleware behavior to manage alarm pubsub
+//  data
+// VERSION : 2.0.0 : DM : #9217 : 13/11/2017 : Add extensions for dump buffer
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

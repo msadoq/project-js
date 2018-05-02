@@ -1,15 +1,25 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in windowProcess/Timebar
-// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in
+//  windowProcess/Timebar
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline
+//  definition
 // VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : Timesetter is displayed with GenericModal component.
 // VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : Fix / refacto and test timebar controls components
-// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : fix lint warnings about proptypes in timebar controls
-// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Add realTimeHandler and goNowHandler in player middleware
-// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Use getCurrentSessionExists selector in ControlsContainer
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : fix lint warnings about proptypes in timebar
+//  controls
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Add realTimeHandler and goNowHandler in player
+//  middleware
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Use getCurrentSessionExists selector in
+//  ControlsContainer
 // VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Added theme variables linked to main areas.
-// VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit style easily.
+// VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit
+//  style easily.
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : link presentational component to redux
+// VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : init Presentational component + tests
+// VERSION : 2.0.0 : FA : #11444 : 20/03/2018 : Timebar accelerate time doesn't work
+// VERSION : 2.0.0 : FA : ISIS-FT-2823 : 06/04/2018 : pause on open modal .
 // END-HISTORY
 // ====================================================================
 
@@ -136,6 +146,7 @@ export default class ControlsLeft extends PureComponent {
     const {
       openModal,
       timebarUuid,
+      pause,
     } = this.props;
     openModal(
       this.context.windowId,
@@ -145,6 +156,7 @@ export default class ControlsLeft extends PureComponent {
         cursor: 'all',
       }
     );
+    pause(timebarUuid);
   };
 
   render() {

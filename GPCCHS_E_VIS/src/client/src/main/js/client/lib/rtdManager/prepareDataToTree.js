@@ -1,10 +1,13 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5822 : 15/03/2017 : add a tree component and format inspector data to be consumed
+// VERSION : 1.1.2 : DM : #5822 : 15/03/2017 : add a tree component and format inspector data to be
+//  consumed
 // VERSION : 1.1.2 : DM : #5822 : 15/03/2017 : add styles for the inspector
 // VERSION : 1.1.2 : DM : #5822 : 16/03/2017 : resolve a rtd link in the inspector
-// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : inspector view: separate general data from specific TM data
-// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : add buttons to collapse and expand inspector static data
+// VERSION : 1.1.2 : DM : #5822 : 24/03/2017 : inspector view: separate general data from specific
+//  TM data
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : add buttons to collapse and expand inspector static
+//  data
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
 // VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer

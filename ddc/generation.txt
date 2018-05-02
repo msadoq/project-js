@@ -1,4 +1,4 @@
-#GPCCHS 1.1.2 02/10/2017 generation.txt
+#GPCCHS 2.0.0.1 18/04/2018 generation.txt
 
 
 Cf. ISIS-GP-NT-01980-ATOS
@@ -8,12 +8,14 @@ For the generation, this article should be deployed as:
 
 The previous generation of the following articles is required:
         LPISIS/SYSTEM
-        LPISIS/COTS/ZEROMQ
-        LPISIS/COTS/node
-        LPISIS/COTS/npm_repository
+        LPISIS/COTS_FWK/PROTOBUF
+        LPISIS/COTS_FWK/ZEROMQ
+        LPISIS/COTS_FWK/node
         LPISIS/GPCC
+        LPISIS/GPCCHS_COTS
         LPISIS/GPCCTC
         LPISIS/GPDS
+        LPISIS/GPINUC
 
 This article will be generated through the execution of the jenkins job called GPCCHS
 which is itself launched by the jenkins job called BUILD_VI.

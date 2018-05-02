@@ -1,9 +1,13 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : First benchmark draft for the TextView, split between TextView - TextViewWrapper .
-// VERSION : 1.1.2 : DM : #7281 : 25/07/2017 : Fix error in textview benchmark, missing end of tag. #2
+// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : First benchmark draft for the TextView, split
+//  between TextView - TextViewWrapper .
+// VERSION : 1.1.2 : DM : #7281 : 25/07/2017 : Fix error in textview benchmark, missing end of tag.
+//  #2
 // VERSION : 1.1.2 : DM : #7281 : 25/07/2017 : Fix error in textview benchmark, missing end of tag.
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : FA : ISIS-FT-2430 : 03/11/2017 : benchmark text view fix performances
+// VERSION : 2.0.0 : FA : #10311 : 19/01/2018 : Fix lint issues in benchmarks/ folder
 // END-HISTORY
 // ====================================================================
 import _memoize from 'lodash/memoize';

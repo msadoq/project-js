@@ -1,6 +1,7 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add unit test for productLog middleware
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

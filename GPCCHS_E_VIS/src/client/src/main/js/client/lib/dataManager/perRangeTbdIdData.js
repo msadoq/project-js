@@ -1,7 +1,9 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 21/07/2017 : Separate perTdbId by structure type in dataMap
-// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
+//  viewData_clean
+// VERSION : 2.0.0 : DM : #5806 : 13/11/2017 : Pass mode into archive query (GMA/OBA)
 // END-HISTORY
 // ====================================================================
 
@@ -9,7 +11,7 @@ import _has from 'lodash/has';
 import _set from 'lodash/set';
 import _each from 'lodash/each';
 import _findIndex from 'lodash/findIndex';
-import { DATASTRUCTURETYPE_RANGE } from '../constants';
+import { DATASTRUCTURETYPE_RANGE, PROVIDER_FLOW_ALL } from '../constants';
 import { getStructureType } from '../viewManager';
 
 export function addEpInRangeTbdIdMap(rangeTbdIdMap, ep, viewId) {
@@ -21,8 +23,12 @@ export function addEpInRangeTbdIdMap(rangeTbdIdMap, ep, viewId) {
   const newMap = rangeTbdIdMap || {};
   if (!newMap[tbdId]) {
     const { dataId, filters, mode } = ep;
+    const provider = dataId.provider === PROVIDER_FLOW_ALL ? '' : dataId.provider;
     newMap[tbdId] = {
-      dataId,
+      dataId: {
+        ...dataId,
+        provider,
+      },
       localIds: {},
       views: [viewId],
       mode,

@@ -5,16 +5,19 @@
 // VERSION : 1.1.2 : DM : #3622 : 24/02/2017 : Refactoring of dataMap generation using reselect
 // VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse bugs
 // VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse views
-// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : first draft on inspector: retrieve data from rtd on right-click
+// VERSION : 1.1.2 : DM : #3622 : 07/03/2017 : first draft on inspector: retrieve data from rtd on
+//  right-click
 // VERSION : 1.1.2 : DM : #3622 : 08/03/2017 : merge dev in working branch
 // VERSION : 1.1.2 : DM : #3622 : 10/03/2017 : store collapsed & maximized bool in page layout
 // VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Move general variables at top level of a view
-// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Fix View components should not re-mount after open editor
+// VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Fix View components should not re-mount after open
+//  editor
 // VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Refacto collapsed maximized using selectors
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Move getPage and getPages selectors
 // VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Creation of data store for plotView
-// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getView/getViews simple selectors in store/reducers/views
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getView/getViews simple selectors in
+//  store/reducers/views
 // VERSION : 1.1.2 : DM : #5822 : 21/03/2017 : merge dev in working branch
 // VERSION : 1.1.2 : DM : #5822 : 22/03/2017 : merge dev in working branch
 // VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : add context menu on views
@@ -27,6 +30,7 @@
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add onSaveView documents middleware .
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Clean IPC about openInspector .
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

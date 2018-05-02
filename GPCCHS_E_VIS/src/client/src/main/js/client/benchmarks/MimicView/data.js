@@ -1,7 +1,11 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6816 : 02/08/2017 : add mimic benchmark with isolated mimicView component
+// VERSION : 1.1.2 : DM : #6816 : 02/08/2017 : add mimic benchmark with isolated mimicView
+//  component
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : DM : #6129 : 17/11/2017 : Fix mimic default components & transformations
+// VERSION : 2.0.0 : DM : #6129 : 17/11/2017 : Fix mimic bench & refacto
+// VERSION : 2.0.0 : FA : #10311 : 19/01/2018 : Fix lint issues in benchmarks/ folder
 // END-HISTORY
 // ====================================================================
 import vGauge from '../../lib/viewManager/MimicView/Components/Collection/vGauge';

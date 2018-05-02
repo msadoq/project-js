@@ -19,8 +19,8 @@ exports[`ProviderFieldContainer :: render should render correctly with valid dat
           "value": "HKTMP",
         },
         Object {
-          "label": "",
-          "value": "",
+          "label": "*",
+          "value": "*",
         },
       ]
     }

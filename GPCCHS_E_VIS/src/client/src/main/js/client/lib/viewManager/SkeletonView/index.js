@@ -1,6 +1,8 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Add basic SkeletonView . .
+// VERSION : 2.0.0 : DM : #5806 : 24/10/2017 : Fix DynamicView setEntryPointDefault and
+//  prepareViewForStore
 // END-HISTORY
 // ====================================================================
 

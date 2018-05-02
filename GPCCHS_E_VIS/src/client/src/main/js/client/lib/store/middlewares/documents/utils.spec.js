@@ -2,6 +2,7 @@
 // HISTORY
 // VERSION : 1.1.2 : FA : #7435 : 14/09/2017 : Add getDefaultFolder in documents utils
 // VERSION : 1.1.2 : FA : #7435 : 14/09/2017 : Rename documents/doctypes in documents/utils .
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

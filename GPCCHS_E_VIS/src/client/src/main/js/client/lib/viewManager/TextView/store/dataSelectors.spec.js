@@ -1,11 +1,14 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 31/03/2017 : Rename dataSelector in dataSelectors .
-// VERSION : 1.1.2 : DM : #5828 : 11/04/2017 : Implement automation for data reducers in viewManager
+// VERSION : 1.1.2 : DM : #5828 : 11/04/2017 : Implement automation for data reducers in
+//  viewManager
 // VERSION : 1.1.2 : DM : #5822 : 03/05/2017 : Inspector : display dynamic data
-// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of
+//  tests
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 01/02/2018 : Fix tests . . .
 // END-HISTORY
 // ====================================================================
 

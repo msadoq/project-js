@@ -15,7 +15,7 @@ export default class DataViewEntryPoints extends PureComponent {
     viewId: string.isRequired,
     pageId: string.isRequired,
     search: string,
-    viewType: oneOf(['TextView', 'MimicView', 'HistoryView']).isRequired,
+    viewType: oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
     // from container
     entryPoints: arrayOf(shape()),
   };

@@ -1,6 +1,9 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6835 : 12/09/2017 : PlotView parses entryPoints differently depending on entryPoints being parametric or not.
+// VERSION : 1.1.2 : DM : #6835 : 12/09/2017 : PlotView parses entryPoints differently depending on
+//  entryPoints being parametric or not.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
 // END-HISTORY
 // ====================================================================
 

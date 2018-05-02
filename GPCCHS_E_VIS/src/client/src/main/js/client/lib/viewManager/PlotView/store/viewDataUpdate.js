@@ -1,25 +1,40 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Creation of data store for plotView
-// VERSION : 1.1.2 : DM : #3622 : 22/03/2017 : Update viewData organization for last structure + cleaning
+// VERSION : 1.1.2 : DM : #3622 : 22/03/2017 : Update viewData organization for last structure +
+//  cleaning
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : converts long to string to ensure precision
 // VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : PlotView : plots string value
 // VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Remove viewManager utils folder .
-// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and
+//  un-needed relaxations
 // VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : Move filter application in main process
 // VERSION : 1.1.2 : DM : #5828 : 21/04/2017 : Fix long data recovery for plot view
 // VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Merge branch 'dev' into simplify_datamap
 // VERSION : 1.1.2 : FA : ISIS-FT-1952 : 16/05/2017 : Apply filters considering data type
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Multiple changes on the load mechansim of adapters : - To test with Jest, add a mock of config(MESSAGES_NAMESPACE) in jest/index.js - Test fix - Lint pass ( 1 test is still KO)
-// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Multiple changes on the load mechansim of adapters :
+//  - To test with Jest, add a mock of config(MESSAGES_NAMESPACE) in jest/index.js - Test fix -
+//  Lint pass ( 1 test is still KO)
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to
+//  limit visuWindow per view
 // VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Branch full cycle mechanism for rangeData
 // VERSION : 1.1.2 : DM : #6700 : 02/08/2017 : Update unit tests for Plot View store
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : Fixed few eslint errors / warnings no-console and spaced-comment.
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : Fixed few eslint errors / warnings no-console
+//  and spaced-comment.
 // VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : fix plot view data order
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
 // VERSION : 1.1.2 : FA : #7776 : 13/09/2017 : Fix plot drawing when timeline has offset
-// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json patch
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json
+//  patch
+// VERSION : 2.0.0 : DM : #6835 : 29/09/2017 : Update of parametric view Data
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 14/11/2017 : Remove monitoring state colors mecanism + add
+//  defult values for state colors + update unit tests + fix issue when removing a state color +
+//  fix css code style
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 31/01/2018 : Add unit convertion for plotview
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 31/01/2018 : surveillance du monitoringState pour
+//  parametres TM VIMA
 // END-HISTORY
 // ====================================================================
 
@@ -223,7 +238,7 @@ export function selectDataPerView(currentViewMap, configuration, intervalMap, pa
         epSubState = { ...epSubState, ...newSubState };
       } else {
         const ep = currentViewMap.entryPoints[entryPoint.name];
-        if (!payload[ep.tbdId]) {
+        if (!ep || !payload[ep.tbdId]) {
           return;
         }
         const newSubState = selectEpData(

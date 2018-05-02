@@ -21,6 +21,8 @@ exports[`Axis :: render Axis :: render :: nominal case horizontal 1`] = `
     className="label xAxisLineLabel"
   >
     TMMGT_BC_VIRTCHAN3
+     (
+    )
   </span>
   <svg
     className="xAxis"
@@ -54,6 +56,8 @@ exports[`Axis :: render Axis :: render :: nominal case vertical 1`] = `
     className="label yAxisLineLabel"
   >
     TMMGT_BC_VIRTCHAN3
+     (
+    )
   </span>
   <svg
     className="yAxis"

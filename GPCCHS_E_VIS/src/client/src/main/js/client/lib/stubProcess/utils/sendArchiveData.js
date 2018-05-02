@@ -4,7 +4,17 @@
 // VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move DC stub code in client/lib/stubProcess
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Remove data from protobuf in client - Change some stubProcesses and some controllers
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Remove data from protobuf in client - Change some
+//  stubProcesses and some controllers
+// VERSION : 2.0.0 : DM : #5806 : 20/10/2017 : Change alarm frequency and random generation
+// VERSION : 2.0.0 : DM : #5806 : 23/10/2017 : Generate and include out of time range alarms
+//  requiring an Ack
+// VERSION : 2.0.0 : DM : #5806 : 03/11/2017 : Fix generation of alarms ack
+// VERSION : 2.0.0 : DM : #5806 : 06/11/2017 : Out of range alarms treatment + double alarms
+//  corection
+// VERSION : 2.0.0 : DM : #5806 : 07/11/2017 : refacto for getpaiload for alarms
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix parseEntryPoint to take into account
+//  provider field and update dc stubs
 // END-HISTORY
 // ====================================================================
 

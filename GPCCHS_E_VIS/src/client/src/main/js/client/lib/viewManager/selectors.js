@@ -5,7 +5,13 @@
 // VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Fix 2 selectors in viewManager
 // VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Change prepareViewFor* behaviors . .
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Remove old configuration reducer .
-// VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Fix memoization issues with getConfigurationByViewId selector
+// VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Fix memoization issues with getConfigurationByViewId
+//  selector
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update viewManager with alarm parameters
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Change some protos, plus minor change
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Fix issue with comObject naming for GroundAlarms
+// VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : Refacto PubSub Alarm + tbd Alarm queries
+// VERSION : 2.0.0 : FA : ISIS-FT-2229 : 18/10/2017 : Resolve merge conflict . .
 // END-HISTORY
 // ====================================================================
 

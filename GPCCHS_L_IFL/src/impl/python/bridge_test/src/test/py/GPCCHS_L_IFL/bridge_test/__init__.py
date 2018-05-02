@@ -15,7 +15,8 @@ Component : GPCCHS_L_IFL
 # ====================================================================
 # Start of user code HistoryZone
 # HISTORY
-#
+# VERSION : 2.0.0 : FA : ISIS-FT-1937 : 01/12/2017 : Update of implementation after review of code
+#  with architect
 # END-HISTORY
 # End of user code HistoryZone
 # ====================================================================

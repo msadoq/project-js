@@ -18,7 +18,7 @@ const { string, oneOf } = PropTypes;
 EntryPointActionsContainer.PropTypes = {
   viewId: string.isRequired,
   search: string,
-  viewType: oneOf(['TextView', 'MimicView', 'HistoryView']).isRequired,
+  viewType: oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
 };
 
 export default EntryPointActionsContainer;

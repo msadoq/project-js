@@ -4,8 +4,22 @@
 // VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
 // VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
 // VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add throttle timing in configuration .
-// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add execution map trace in three middlewares to make performance analysis easier
-// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Merge branch 'pgaucher-redux-patch-improvment' into dev
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add execution map trace in three middlewares to make
+//  performance analysis easier
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Merge branch 'pgaucher-redux-patch-improvment' into
+//  dev
+// VERSION : 2.0.0 : DM : #7111 : 20/09/2017 : Add editor in history view data and fix history view
+//  data reducer
+// VERSION : 2.0.0 : DM : #7111 : 25/09/2017 : Add current in history view data
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update server process and data injection for alarms
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Fix in GroundAlarmView reducers .
+// VERSION : 2.0.0 : DM : #5806 : 13/10/2017 : change middleware behavior to manage alarm pubsub
+//  data
+// VERSION : 2.0.0 : DM : #5806 : 08/11/2017 : fix payload generation + fix middleware problems
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 30/01/2018 : Unit convertion, add python fork and
+//  convertion call mechanism
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 31/01/2018 : Add unit convertion for plotview
 // END-HISTORY
 // ====================================================================
 

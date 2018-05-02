@@ -84,3 +84,10 @@
   color: #a94442;
   font-size: 14px;
 }
+hr {
+  border: 0;
+  height: 1px;
+  background: #737373;
+  background-image: linear-gradient(to right, #e6e6e6, #737373, #e6e6e6);
+  margin: 10px 0 20px 0;
+}

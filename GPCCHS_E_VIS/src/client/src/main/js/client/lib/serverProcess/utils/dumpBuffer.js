@@ -1,7 +1,10 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : FA : #6794 : 18/07/2017 : Factorization of dumpBuffer module to call only one function
+// VERSION : 1.1.2 : FA : #6794 : 18/07/2017 : Factorization of dumpBuffer module to call only one
+//  function
 // VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : move dumpBuffer use in a specific middleware
+// VERSION : 2.0.0 : DM : #9217 : 13/11/2017 : Add error log to dump mechanism
+// VERSION : 2.0.0 : DM : #9217 : 13/11/2017 : Add extensions for dump buffer
 // END-HISTORY
 // ====================================================================
 

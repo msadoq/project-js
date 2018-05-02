@@ -1,11 +1,18 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : fix editor opening per view and rename longData to convertData
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : fix editor opening per view and rename longData to
+//  convertData
 // VERSION : 1.1.2 : DM : #5828 : 19/04/2017 : move deprotobufferization in main process
-// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Creation of display queries to pull data from server and always add new data to queue
+// VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Creation of display queries to pull data from server
+//  and always add new data to queue
 // VERSION : 1.1.2 : FA : ISIS-FT-1952 : 16/05/2017 : Apply filters considering data type
 // VERSION : 1.1.2 : DM : #6700 : 12/07/2017 : Fix bug with blob payload fields
 // VERSION : 1.1.2 : DM : #6700 : 19/07/2017 : Fix bug with blob payload fields
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update viewManager with alarm parameters
+// VERSION : 2.0.0 : DM : #5806 : 23/11/2017 : Improve convertData, can now understand Infinity
+//  duration
+// VERSION : 2.0.0 : FA : ISIS-FT-2726 : 05/02/2018 : mauvais format dates en-tete DynamicView
+// VERSION : 2.0.0 : FA : ISIS-FT-2949 : 22/03/2018 : dates now display in TAI
 // END-HISTORY
 // ====================================================================
 

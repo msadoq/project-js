@@ -1,7 +1,13 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add unit test on missing interval computing
-// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
+//  viewData_clean
+// VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Update unit tests and stubs for provider
+//  field and fix parseEntryPoint calls in all views
 // END-HISTORY
 // ====================================================================
 

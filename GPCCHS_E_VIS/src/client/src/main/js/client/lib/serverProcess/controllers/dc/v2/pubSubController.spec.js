@@ -1,8 +1,7 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add pubsub controller and its test
-// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Modify pubSub Controller to send dataId decoded
-// VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Update unit tests and stubs for provider
+//  field and fix parseEntryPoint calls in all views
 // END-HISTORY
 // ====================================================================
 

@@ -4,6 +4,7 @@
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Add PubSubController and retrieveLast/Range update
 // VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update retrieve range test and implemntation
 // VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Update retrieve range and last test
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

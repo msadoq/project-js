@@ -1,15 +1,28 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Modify protobuf loading strategy : - Move adapters in another folder - New architecture generated for adapters folder - Add raw adapter mechanism
-// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Add types.proto in dc - Add parse/stringify mechanism to configurationManager
-// VERSION : 1.1.2 : FA : #6798 : 16/06/2017 : Several changes : - Lint pass - Modify stub to use encode/decode of adapters (row AND protobuf) - Add a new stubs.js file to load the stubs present in the adapters plugins
-// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Remove data from protobuf in client - Change some stubProcesses and some controllers
-// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Multiple changes on the load mechansim of adapters : - To test with Jest, add a mock of config(MESSAGES_NAMESPACE) in jest/index.js - Test fix - Lint pass ( 1 test is still KO)
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Modify protobuf loading strategy : - Move adapters
+//  in another folder - New architecture generated for adapters folder - Add raw adapter mechanism
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Add types.proto in dc - Add parse/stringify
+//  mechanism to configurationManager
+// VERSION : 1.1.2 : FA : #6798 : 16/06/2017 : Several changes : - Lint pass - Modify stub to use
+//  encode/decode of adapters (row AND protobuf) - Add a new stubs.js file to load the stubs
+//  present in the adapters plugins
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Remove data from protobuf in client - Change some
+//  stubProcesses and some controllers
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Multiple changes on the load mechansim of adapters :
+//  - To test with Jest, add a mock of config(MESSAGES_NAMESPACE) in jest/index.js - Test fix -
+//  Lint pass ( 1 test is still KO)
 // VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : Fix dynamic require in packaging production mode
 // VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : Use path.join in registerGlobal in utils/adapters
-// VERSION : 1.1.2 : FA : #7355 : 28/07/2017 : Change adapters dc and lpisis config to relative path (config.default.json)
+// VERSION : 1.1.2 : FA : #7355 : 28/07/2017 : Change adapters dc and lpisis config to relative
+//  path (config.default.json)
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
 // VERSION : 1.1.2 : FA : #7453 : 08/08/2017 : Fix packaging about adapters .
+// VERSION : 2.0.0 : FA : #8557 : 18/10/2017 : Add configuration file management for missions
+//  adapters
+// VERSION : 2.0.0 : FA : #8557 : 18/12/2017 : Fix load configuration file . .
+// VERSION : 2.0.0 : FA : #8557 : 18/12/2017 : Update linting error on adapters file
+// VERSION : 2.0.0 : DM : #5806 : 18/12/2017 : Fix eslintignore + lint utils/adapters
 // END-HISTORY
 // ====================================================================
 
@@ -115,6 +128,17 @@ const decode = (type, buffer) => {
   }
 };
 
+const decodePayload = (buffer) => {
+  const builder = getMapper('dc.dataControllerUtils.ADEPayload');
+  const { genericPayload } = protobuf.decode(builder, buffer);
+  if (genericPayload.length === 1) {
+    return genericPayload[0].payload;
+  }
+  // Because the use of the comma operator is magnificient
+  // eslint-disable-next-line 
+  return genericPayload.reduce((acc, { header, payload }) => (acc[header.comObjectType] = protobuf.decode(getMapper(getType(header.comObjectType)), payload), acc), {});
+};
+
 const getFields = (comObjectName) => {
   const type = _get(fieldsMap, comObjectName);
   if (typeof type === 'undefined') {
@@ -140,6 +164,7 @@ module.exports = {
   registerGlobal,
   encode,
   decode,
+  decodePayload,
   getType,
   getFields,
 };

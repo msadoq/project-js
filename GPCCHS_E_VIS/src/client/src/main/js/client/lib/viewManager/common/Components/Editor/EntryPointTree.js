@@ -1,9 +1,7 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
-// VERSION : 1.1.2 : DM : #6129 : 04/05/2017 : merge dev on mimic branch
-// VERSION : 1.1.2 : DM : #6129 : 10/07/2017 : MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
-// VERSION : 1.1.2 : FA : #7773 : 13/09/2017 : Fixed bug when editing PlotView/TextView/MimicView EntryPoint's name.
+// VERSION : 2.0.0 : FA : #9494 : 01/12/2017 : Regression in View Editor ( domain ) // move
+//  TextView common components to dedicated folder
 // END-HISTORY
 // ====================================================================
 

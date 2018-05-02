@@ -1,6 +1,7 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge
+//  with dev
 // VERSION : 1.1.2 : DM : #6700 : 19/06/2017 : Refactor "patch action" decoration (patch in .meta)
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : . . . . .
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : split of viewData cleaning in dataReducer for plot
@@ -8,8 +9,12 @@
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update patch reducer and makeMasterDispatcher
 // VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
 // VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
-// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add redux and patch workflow improvment + remove store observer
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add redux and patch workflow improvment + remove
+//  store observer
 // VERSION : 1.1.2 : DM : #6700 : 29/08/2017 : Add throttle mechanism in patch reducer
+// VERSION : 2.0.0 : DM : #5806 : 27/10/2017 : Fix bad naming of viewdata for ground alarms +
+//  implement cleanviewdata + fix timestamps as string
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

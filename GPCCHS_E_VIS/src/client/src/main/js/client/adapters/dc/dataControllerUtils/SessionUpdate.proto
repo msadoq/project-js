@@ -1,6 +1,6 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : FA : #7026 : 28/07/2017 : Properly send a message to Client on Session update
+// VERSION : 2.0.0 : FA : ISIS-FT-2215 : 11/01/2018 : Retrieve proto from dc .
 // END-HISTORY
 // ====================================================================
 

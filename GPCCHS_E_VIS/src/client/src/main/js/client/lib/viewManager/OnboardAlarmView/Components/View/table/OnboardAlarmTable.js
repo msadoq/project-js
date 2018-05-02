@@ -10,7 +10,7 @@ import TableView from 'windowProcess/common/TableView';
 import styles from './OnboardAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
-const COLS = ['timestamp', 'onBoardDate', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
+const COLS = ['timestamp', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
 const PARAMETERS_COLS = ['name', 'value'];
 
 const initialState = {

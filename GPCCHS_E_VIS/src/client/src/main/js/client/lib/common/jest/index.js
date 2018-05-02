@@ -1,9 +1,14 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
-// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Multiple changes on the load mechansim of adapters : - To test with Jest, add a mock of config(MESSAGES_NAMESPACE) in jest/index.js - Test fix - Lint pass ( 1 test is still KO)
-// VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Automatically freeze given state to mockStore (in common/jest)
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js
+//  in jest/index.js
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Multiple changes on the load mechansim of adapters :
+//  - To test with Jest, add a mock of config(MESSAGES_NAMESPACE) in jest/index.js - Test fix -
+//  Lint pass ( 1 test is still KO)
+// VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Automatically freeze given state to mockStore (in
+//  common/jest)
 // VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Change adapters path in tests
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

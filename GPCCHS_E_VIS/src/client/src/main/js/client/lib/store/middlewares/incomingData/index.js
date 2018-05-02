@@ -3,6 +3,8 @@
 // VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
 // VERSION : 1.1.2 : DM : #6700 : 23/08/2017 : Update cache clean mechanism in dev tools
 // VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add throttle timing in configuration .
+// VERSION : 2.0.0 : FA : #8357 : 10/10/2017 : Add middleware to set PUB/SUB indicator in perf tool
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

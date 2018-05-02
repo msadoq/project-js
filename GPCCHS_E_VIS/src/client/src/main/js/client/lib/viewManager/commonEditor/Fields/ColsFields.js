@@ -46,6 +46,7 @@ export const onSortEnd = (oldIndex, newIndex, fields, onOrderChange) => {
     ...column,
     position: index,
   }));
+  fields.move(oldIndex, newIndex);
   onOrderChange({ cols: reorderedCols });
 };
 

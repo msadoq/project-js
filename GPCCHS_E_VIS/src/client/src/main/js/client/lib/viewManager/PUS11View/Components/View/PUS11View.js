@@ -11,7 +11,7 @@ const { string, number, arrayOf, shape } = PropTypes;
 export default class PUS11View extends React.Component {
   static propTypes = {
     // own props
-    viewId: number.isRequired,
+    viewId: string.isRequired,
     // From PUS11ViewContainer mapStateToProps
     applicationProcessName: string.isRequired,
     applicationProcessId: number.isRequired,
@@ -20,13 +20,7 @@ export default class PUS11View extends React.Component {
     spaceType: string.isRequired,
     lastUpdateTime: number.isRequired,
     lastUpdateType: string.isRequired,
-    subScheduleList: arrayOf(shape({
-      ssid: number.isRequired,
-      apid: number.isRequired,
-      name: string.isRequired,
-      status: string.isRequired,
-      firstTCTime: number.isRequired,
-    })).isRequired,
+    subScheduleRows: arrayOf(arrayOf(PropTypes.any)).isRequired,
     enabledApidList: arrayOf(shape({
       apid: number.isRequired,
       name: string.isRequired,
@@ -57,20 +51,13 @@ export default class PUS11View extends React.Component {
       spaceType,
       lastUpdateTime,
       lastUpdateType,
-      subScheduleList,
+      subScheduleRows,
       enabledApidList,
       tcList,
       viewId,
     } = this.props;
     return (
       <div className="pus11">
-        <VirtualizedTableViewContainer
-          viewId={viewId}
-          tableId={0}
-          height={500}
-          withGroups
-        />
-        {/*
         <div className="header">
           {renderHeaders(
             applicationProcessName,
@@ -83,7 +70,16 @@ export default class PUS11View extends React.Component {
         </div>
         <div className="header">
           <div className="col-sm-6">
-            {renderSubSchedulesTable(subScheduleList, viewId)}
+            <div>
+              <VirtualizedTableViewContainer
+                viewId={viewId}
+                tableId={'subSchedules'}
+                columnWidth={140}
+                width={140 * 5}
+                height={100}
+                rows={subScheduleRows}
+              />
+            </div>
           </div>
           <div className="col-sm-6">
             {renderEnabledApidsTable(enabledApidList, viewId)}
@@ -95,7 +91,6 @@ export default class PUS11View extends React.Component {
             {renderTCTable(tcList, viewId)}
           </div>
         </div>
-          */}
       </div>
     );
   }
@@ -145,33 +140,6 @@ export const renderHeaders = (ApplicationProcessName,
     </div>
     <div className="clearfix" />
   </React.Fragment>
-);
-
-export const renderSubSchedulesTable = (SubScheduleList, viewId) => (
-  <table className="table table-bordered">
-    <thead>
-      <tr>
-        <th>SSID</th>
-        <th>APID</th>
-        <th>Name</th>
-        <th>Status</th>
-        <th>First TC Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-      SubScheduleList.map((row, i) => (
-        <tr key={`${viewId}-sub-schedule-table-${i}`}>
-          <td>{row.ssid}</td>
-          <td>{row.apid}</td>
-          <td>{row.name}</td>
-          <td>{row.status}</td>
-          <td>{row.firstTCTime}</td>
-        </tr>
-      ))
-    }
-    </tbody>
-  </table>
 );
 
 export const renderEnabledApidsTable = (EnabledApidList, viewId) => (

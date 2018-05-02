@@ -44,6 +44,7 @@ const VirtualizedTableView =
      rows,
      columnWidth,
      rowHeight,
+     width,
      height,
      withGroups, // choose to display or not groups headers,
                  // in this case, columns objects should have `group` key
@@ -66,7 +67,7 @@ const VirtualizedTableView =
     const _getValue = obj => obj.value;
 
     const _groups = columns.reduce((acc, column) => {
-      if (columns.indexOf(column) > -1) {
+      if (column.group) {
         return [...acc, column.group];
       }
 
@@ -142,6 +143,7 @@ const VirtualizedTableView =
           key={key}
           style={headerStyle}
         >
+          <span className={styles.Label}> {colKey} </span>
           <span className={styles.Arrows}>
             <SortArrow
               colKey={colKey}
@@ -156,7 +158,6 @@ const VirtualizedTableView =
               onClick={() => onSort(colKey, 'DESC')}
             />
           </span>
-          <span className={styles.Label}> {colKey} </span>
         </div>
       );
     };
@@ -185,6 +186,8 @@ const VirtualizedTableView =
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
       const content = _getValue(rows[rowIndex][columnIndex]);
       const rowClassName = rowIndex % 2 ? styles.oddRow : styles.evenRow;
+      const lastRowClassName = rowIndex === rows.length - 1 ? styles.lastRow : '';
+      const lastColumnClassName = columnIndex === columns.length - 1 ? styles.lastColumn : '';
 
       let updatedStyle = {
         ...style,
@@ -213,7 +216,14 @@ const VirtualizedTableView =
 
       return (
         <div
-          className={cn(styles.bodyCell, rowClassName)}
+          className={
+            cn(
+              styles.bodyCell,
+              rowClassName,
+              lastRowClassName,
+              lastColumnClassName
+            )
+          }
           key={key}
           style={updatedStyle}
           onClick={_onClick}
@@ -235,88 +245,82 @@ const VirtualizedTableView =
           ) => (
             <div className={styles.GridRow}>
               <div className={styles.GridColumn}>
-                <AutoSizer disableHeight>
+                <ArrowKeyStepper
+                  columnCount={columnCount}
+                  rowCount={rowCount}
+                >
                   {
-                    ({ width }) => (
-                      <ArrowKeyStepper
-                        columnCount={columnCount}
-                        rowCount={rowCount}
-                      >
+                    ({ onSectionRendered, scrollToColumn, scrollToRow }) => (
+                      <div>
                         {
-                          ({ onSectionRendered, scrollToColumn, scrollToRow }) => (
-                            <div>
-                              {
-                                withGroups ?
-                                  <Grid
-                                    cellRenderer={_groupHeaderCellRenderer}
-                                    className={styles.HeaderGrid}
-                                    width={width - scrollbarSize()}
-                                    height={rowHeight}
-                                    columnWidth={columnWidth}
-                                    rowHeight={rowHeight}
-                                    scrollLeft={scrollLeft}
-                                    onScroll={onScroll}
-                                    columnCount={columnCount}
-                                    rowCount={1}
-                                    overscanColumnCount={overscanColumnCount}
-                                    onSectionRendered={onSectionRendered}
-                                    scrollToColumn={scrollToColumn}
-                                    scrollToRow={scrollToRow}
-                                  /> : null
-                              }
-                              <Grid
-                                cellRenderer={_headerCellRenderer}
-                                className={styles.HeaderGrid}
-                                width={width - scrollbarSize()}
-                                height={rowHeight}
-                                columnWidth={columnWidth}
-                                rowHeight={rowHeight}
-                                scrollLeft={scrollLeft}
-                                columnCount={columnCount}
-                                rowCount={1}
-                                overscanColumnCount={overscanColumnCount}
-                                onSectionRendered={onSectionRendered}
-                                scrollToColumn={scrollToColumn}
-                                scrollToRow={scrollToRow}
-                              />
-                              <Grid
-                                cellRenderer={_filterCellRenderer}
-                                className={styles.HeaderGrid}
-                                width={width - scrollbarSize()}
-                                height={rowHeight}
-                                columnWidth={columnWidth}
-                                rowHeight={rowHeight}
-                                scrollLeft={scrollLeft}
-                                columnCount={columnCount}
-                                rowCount={1}
-                                overscanColumnCount={overscanColumnCount}
-                                onSectionRendered={onSectionRendered}
-                                scrollToColumn={scrollToColumn}
-                                scrollToRow={scrollToRow}
-                              />
-                              <Grid
-                                cellRenderer={_bodyCellRenderer}
-                                className={styles.BodyGrid}
-                                width={width}
-                                height={height}
-                                columnWidth={columnWidth}
-                                rowHeight={rowHeight}
-                                columnCount={columnCount}
-                                rowCount={rowCount}
-                                onScroll={onScroll}
-                                overscanColumnCount={overscanColumnCount}
-                                overscanRowCount={overscanRowCount}
-                                onSectionRendered={onSectionRendered}
-                                scrollToColumn={scrollToColumn}
-                                scrollToRow={scrollToRow}
-                              />
-                            </div>
-                          )
+                          withGroups ?
+                            <Grid
+                              cellRenderer={_groupHeaderCellRenderer}
+                              className={styles.HeaderGrid}
+                              width={width}
+                              height={rowHeight}
+                              columnWidth={columnWidth}
+                              rowHeight={rowHeight}
+                              scrollLeft={scrollLeft}
+                              onScroll={onScroll}
+                              columnCount={columnCount}
+                              rowCount={1}
+                              overscanColumnCount={overscanColumnCount}
+                              onSectionRendered={onSectionRendered}
+                              scrollToColumn={scrollToColumn}
+                              scrollToRow={scrollToRow}
+                            /> : null
                         }
-                      </ArrowKeyStepper>
+                        <Grid
+                          cellRenderer={_headerCellRenderer}
+                          className={styles.HeaderGrid}
+                          width={width}
+                          height={30}
+                          columnWidth={columnWidth}
+                          rowHeight={30}
+                          scrollLeft={scrollLeft}
+                          columnCount={columnCount}
+                          rowCount={1}
+                          overscanColumnCount={overscanColumnCount}
+                          onSectionRendered={onSectionRendered}
+                          scrollToColumn={scrollToColumn}
+                          scrollToRow={scrollToRow}
+                        />
+                        <Grid
+                          cellRenderer={_filterCellRenderer}
+                          className={styles.HeaderGrid}
+                          width={width}
+                          height={rowHeight}
+                          columnWidth={columnWidth}
+                          rowHeight={rowHeight}
+                          scrollLeft={scrollLeft}
+                          columnCount={columnCount}
+                          rowCount={1}
+                          overscanColumnCount={overscanColumnCount}
+                          onSectionRendered={onSectionRendered}
+                          scrollToColumn={scrollToColumn}
+                          scrollToRow={scrollToRow}
+                        />
+                        <Grid
+                          cellRenderer={_bodyCellRenderer}
+                          className={styles.BodyGrid}
+                          width={width}
+                          height={height}
+                          columnWidth={columnWidth}
+                          rowHeight={rowHeight}
+                          columnCount={columnCount}
+                          rowCount={rowCount}
+                          onScroll={onScroll}
+                          overscanColumnCount={overscanColumnCount}
+                          overscanRowCount={overscanRowCount}
+                          onSectionRendered={onSectionRendered}
+                          scrollToColumn={scrollToColumn}
+                          scrollToRow={scrollToRow}
+                        />
+                      </div>
                     )
                   }
-                </AutoSizer>
+                </ArrowKeyStepper>
               </div>
             </div>
           )
@@ -330,6 +334,7 @@ VirtualizedTableView.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
   columnWidth: PropTypes.number,
   rowHeight: PropTypes.number,
+  width: PropTypes.number,
   height: PropTypes.number,
   withGroups: PropTypes.bool,
   onSort: PropTypes.func.isRequired,
@@ -345,6 +350,7 @@ VirtualizedTableView.defaultProps = {
   rows: [],
   columnWidth: 220,
   rowHeight: 22,
+  width: 400,
   height: 400,
   withGroups: false,
   sortState: {},

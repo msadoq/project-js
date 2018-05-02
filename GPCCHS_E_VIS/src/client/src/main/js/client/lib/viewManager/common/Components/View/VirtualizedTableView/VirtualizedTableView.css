@@ -43,27 +43,35 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
   padding: 0 .5em;
+}
+
+.headerCell {
+  text-align: center;
+}
+
+.headerCell > span {
+  height: 20px;
+}
+
+.headerCell > span:first-of-type {
+  margin-top: 4px;
 }
 
 .bodyCell {
   box-shadow: -.5px -.5px 0 #818181;
 }
 
-.bodyCell > span {
-  position: absolute;
-  left: 7px;
+.lastRow {
+  border-bottom: 1px solid gray;
 }
 
-.Arrows {
-  position: absolute;
-  left: 4px;
+.lastColumn {
+  border-right: 1px solid gray;
 }
 
 .Label {
-  margin-left: 2px;
-  width: 160px;
+  width: 80px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

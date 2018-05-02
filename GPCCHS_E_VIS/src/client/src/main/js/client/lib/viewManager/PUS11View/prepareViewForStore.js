@@ -7,24 +7,19 @@ const getDefaultView = view => _.merge({
   links: [],
   title: 'On-Board Scheduling Service Ground Model (PUS11)',
   configuration: {
-    tables: [
-      {
+    tables: {
+      subSchedules: {
         sorting: {},
         filters: {},
-        /*
         columns: [
-          [
-            null,
-            [
-              { field: 'referenceTimestamp', isDisplayed: true },
-              { field: 'epName', isDisplayed: true },
-              { field: 'unit', isDisplayed: true },
-            ],
-          ],
+          { name: 'SSID', isDisplayed: true },
+          { name: 'APID', isDisplayed: true },
+          { name: 'Name', isDisplayed: true },
+          { name: 'Status', isDisplayed: true },
+          { name: 'First TC Time', isDisplayed: true },
         ],
-        */
       },
-    ],
+    },
   },
 }, view);
 

@@ -49,15 +49,7 @@ La configuration des colonnes correspond à un tableau de tableaux de colonnes o
 
 ```
 [
-	[
-		'g1',
-	  	[{ field: 'c11', isDisplayed: true }, { field: 'c12', isDisplayed: true }],
-	],
-	[
-    	'g2',
-    	[{ field: 'c21', isDisplayed: true }],
-
-    ],
+  [{ name: 'c11', isDisplayed: true, group: 'g1' }, { name: 'c12', isDisplayed: true, group: 'g1' }],
 ]
 ```
 
@@ -91,10 +83,12 @@ Le composant `VirtualizedTableView` prend en paramètres les propriétés suivan
   	[3, true, 'critical'],
   ]
   ```
-  _Attention: le tableau passé en paramètre au composant VirtualizedTableViewContainer doit avoir 
+  _Attention: le tableau passé en paramètre au composant `VirtualizedTableViewContainer` doit avoir 
   des dimensions conformes à ce qui est précisé dans la configuration_.
-  - withGroups: boolean permettant d'afficher ou non les colonnes par groupes
-  - height (required): définit la hauteur fixe du tableau en pixels. La largeur est basée sur celle du composant parent.
+  - `withGroups`: boolean permettant d'afficher ou non les colonnes par groupes
+  - `width`: définit la largeur fixe du tableau en pixels.
+  - `height`: définit la hauteur fixe du tableau en pixels.
+  - `columnWidth` (default 220): définit la largeur fixe d'une colonne du tableau
   
   
   

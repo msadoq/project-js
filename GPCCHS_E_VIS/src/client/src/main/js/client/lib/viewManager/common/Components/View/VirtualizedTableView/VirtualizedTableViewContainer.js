@@ -5,10 +5,8 @@ import { filterColumn, toggleColumnSort } from 'store/actions/tableColumns';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
 
-// TODO: remove mapStateToProps
-// This is only for test purposes and each component using VirtualizedTableViewContainer
-// should implement its own data management system
-const mapStateToProps = (state, { viewId, tableId }) => {
+
+const mapStateToProps = (state, { viewId, tableId, rows }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const tableConfig = config.tables[tableId];
 

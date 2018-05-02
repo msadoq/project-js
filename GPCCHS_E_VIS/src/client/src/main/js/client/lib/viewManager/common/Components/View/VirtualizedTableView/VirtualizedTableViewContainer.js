@@ -9,42 +9,15 @@ import { getConfigurationByViewId } from '../../../../selectors';
 // This is only for test purposes and each component using VirtualizedTableViewContainer
 // should implement its own data management system
 const mapStateToProps = (state, { viewId, tableId }) => {
-  /* BEGIN toremove */
-  const generateColumns = n =>
-    Array(...Array(n))
-      .map((_, index) =>
-        ({
-          name: `c${index}`,
-          group: `g${Math.floor(index / 3)}`, // this groups elements by 3
-        })
-      );
-  const generateRows =
-    (n, m) =>
-      Array(...Array(m))
-        .map(
-          (_, rowIndex) =>
-            Array(...Array(n)).map((__, colIndex) =>
-              ({
-                value: `(${rowIndex}, ${colIndex})`,
-              })
-            ));
-
-  const N = 10000;
-
-  const COLS = generateColumns(10);
-  const ROWS = generateRows(10, N);
-  /* END toremove */
-
-  // TODO: get columns from configuration and remove test data
-
   const config = getConfigurationByViewId(state, { viewId });
   const tableConfig = config.tables[tableId];
 
+  const { columns, sorting, filters } = tableConfig;
+
   return {
-    columns: COLS,
-    rows: ROWS,
-    sortState: tableConfig.sorting,
-    filterState: tableConfig.filters,
+    columns,
+    sortState: sorting,
+    filterState: filters,
   };
 };
 

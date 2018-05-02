@@ -61,7 +61,12 @@ La configuration des colonnes correspond à un tableau de tableaux de colonnes o
 ```
 
 Pour pouvoir afficher effectivement les groupes dans le composant `VirtualizedTableViewContainer`,
-il faut utiliser la propriété `withGroups`;
+il faut utiliser la propriété `withGroups`.
+
+Cette configuration est à initialiser dans le fichier `prepareViewForStore.js` du composant développé
+et peut être modifiée dynamiquement _via_ des actions et reducers. Dans ce cas particulier,
+il faut également bien prendre soin de modifier également le format des données passées en paramètre
+au composant _via_ la propriété `rows`.
 
 ### Propriétés
 Le composant `VirtualizedTableView` prend en paramètres les propriétés suivantes:

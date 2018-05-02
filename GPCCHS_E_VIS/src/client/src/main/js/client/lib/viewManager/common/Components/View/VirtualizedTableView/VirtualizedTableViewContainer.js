@@ -35,6 +35,8 @@ const mapStateToProps = (state, { viewId, tableId }) => {
   const ROWS = generateRows(10, N);
   /* END toremove */
 
+  // TODO: get columns from configuration and remove test data
+
   const config = getConfigurationByViewId(state, { viewId });
   const tableConfig = config.tables[tableId];
 

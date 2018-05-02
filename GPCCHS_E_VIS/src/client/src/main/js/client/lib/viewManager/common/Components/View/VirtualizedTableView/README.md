@@ -50,15 +50,20 @@ La configuration des colonnes correspond à un tableau de tableaux de colonnes o
 ```
 [
 	[
-	  'g1',
-	  ['c11', 'c12', 'c13'],
+		'g1',
+	  	[{ field: 'c11', isDisplayed: true }, { field: 'c12', isDisplayed: true }],
 	],
 	[
-    	  'g2',
-    	  ['c21', 'c22'],
+    	'g2',
+    	[{ field: 'c21', isDisplayed: true }],
+
     ],
 ]
 ```
+
+Le champs `isDisplayed` permet en particulier de définir une colonne qui n'est pas affichée mais
+qui est disponible à la sélection, _i.e_ que l'utilisateur peut choisir d'afficher ; le cas échant,
+il faut mettre à jour cette configuration pour refléter les choix de l'utilisateur.
 
 Pour pouvoir afficher effectivement les groupes dans le composant `VirtualizedTableViewContainer`,
 il faut utiliser la propriété `withGroups`.

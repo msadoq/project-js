@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`windowProcess/Timebar/LeftTab/AddTimelineWrapper snapshot 1`] = `
+<ReduxForm
+  form="timebar-tb1-addTrack"
+  initialValues={
+    Object {
+      "color": undefined,
+      "id": "",
+      "kind": "session",
+      "master": false,
+      "offset": 0,
+      "sessionName": "Master",
+    }
+  }
+  onSubmit={[Function]}
+  sessions={
+    Array [
+      Object {
+        "id": 0,
+        "name": "Master",
+        "timestamp": Object {
+          "ms": 1420106890818,
+          "ps": 0,
+        },
+      },
+      Object {
+        "id": 42,
+        "name": "Session #42",
+        "timestamp": Object {
+          "ms": 1420106890818,
+          "ps": 0,
+        },
+      },
+      Object {
+        "id": 181,
+        "name": "Session# 181",
+        "timestamp": Object {
+          "ms": 1420106890818,
+          "ps": 0,
+        },
+      },
+    ]
+  }
+  timelines={
+    Object {
+      "tl1": Object {
+        "color": null,
+        "id": "Session 1",
+        "kind": "Session",
+        "offset": 0,
+        "sessionName": "Master",
+        "uuid": "tl1",
+      },
+      "tlOffset": Object {
+        "color": null,
+        "id": "Session Offset",
+        "kind": "Session",
+        "offset": 10000,
+        "sessionName": "Master",
+        "uuid": "tlOffset",
+      },
+      "truc": Object {
+        "color": null,
+        "id": "Session du bois",
+        "kind": "Session",
+        "offset": 10000,
+        "sessionName": "Session# 181",
+        "uuid": "tlOffset",
+      },
+    }
+  }
+/>
+`;

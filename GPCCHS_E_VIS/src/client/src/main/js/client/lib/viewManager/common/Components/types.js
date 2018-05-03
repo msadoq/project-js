@@ -61,7 +61,7 @@ export const timelineType = shape({
   uuid: string.isRequired,
 });
 
-export const timelinesType = arrayOf(timelineType.isRequired);
+export const timelinesType = shape(timelineType.isRequired);
 
 export const sessionType = shape({
   id: number.isRequired,

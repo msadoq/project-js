@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
+import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
 import { reduxFormFieldsType } from 'viewManager/common/Components/types';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
-
 
 const { string } = PropTypes;
 

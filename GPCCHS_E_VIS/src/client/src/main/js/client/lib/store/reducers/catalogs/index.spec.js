@@ -17,6 +17,7 @@ import catalogsReducer, {
   getCatalogItemIndexByName,
   getCatalogsByTupleId,
   getCatalogItemComObjects,
+  REQUESTING,
 } from '.';
 
 const reducer = freezeArgs(catalogsReducer);
@@ -59,7 +60,7 @@ const state2 = {
   'domain-id-session-id': [
     {
       name: 'catalogName',
-      items: 'requesting',
+      items: REQUESTING,
     },
   ],
 };
@@ -77,7 +78,7 @@ describe('store:catalogs:reducer', () => {
         sessionId: 'session-id',
       },
     })).toEqual({
-      'domain-id-session-id': 'requesting',
+      'domain-id-session-id': REQUESTING,
     });
   });
   test('catalogsReducer :: WS_CATALOGS_ADD', () => {
@@ -141,7 +142,7 @@ describe('store:catalogs:reducer', () => {
       'domain-id-session-id': [
         {
           name: 'catalogName',
-          items: 'requesting',
+          items: REQUESTING,
         },
       ],
     });
@@ -171,7 +172,7 @@ describe('store:catalogs:reducer', () => {
       'domain-id-session-id': [
         {
           name: 'catalogName',
-          items: 'requesting',
+          items: REQUESTING,
         },
       ],
     }), {
@@ -279,7 +280,7 @@ describe('store:catalogs:reducer', () => {
           items: [
             {
               name: 'itemName',
-              comObjects: 'requesting',
+              comObjects: REQUESTING,
             },
           ],
         },

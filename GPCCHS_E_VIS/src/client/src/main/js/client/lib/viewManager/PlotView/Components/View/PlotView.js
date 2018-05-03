@@ -539,6 +539,12 @@ export class GrizzlyPlotView extends React.Component {
     updateUnit: false,
   };
 
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.updateDimensions();
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     const {
       entryPoints,
@@ -567,26 +573,6 @@ export class GrizzlyPlotView extends React.Component {
         this.setState({ updateUnit: true });
       }
     });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.configuration.entryPoints !== this.props.configuration.entryPoints ||
-      nextProps.configuration.axes !== this.props.configuration.axes ||
-      nextProps.configuration.grids !== this.props.configuration.grids ||
-      nextProps.visuWindow !== this.props.visuWindow ||
-      nextProps.data !== this.props.data
-    ) {
-      const processedAxes = getUniqAxes(
-        nextProps.configuration.entryPoints,
-        nextProps.configuration.axes,
-        nextProps.configuration.grids,
-        nextProps.data,
-        nextProps.visuWindow
-      );
-      this.xAxes = processedAxes.xAxes;
-      this.yAxes = processedAxes.yAxes;
-    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -662,6 +648,7 @@ export class GrizzlyPlotView extends React.Component {
     };
     handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
   };
+
   onContextMenu = (e) => {
     e.stopPropagation();
     const {

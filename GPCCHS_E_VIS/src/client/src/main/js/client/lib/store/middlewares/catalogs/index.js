@@ -1,4 +1,4 @@
-import { getTupleId, getUnitByItemName } from 'store/reducers/catalogs';
+import { getTupleId, getUnitByItemName, REQUESTING } from 'store/reducers/catalogs';
 
 import {
   WS_CATALOG_ITEMS_ASK,
@@ -39,27 +39,44 @@ const asyncUnitFetcher = (sessionId, domainId, catalogName, catalogItemName, cb)
     }, cb);
 
 const getCatalogItems = (state, { sessionId, domainId, name }) => {
-  const tupleId = `${domainId}-${sessionId}`;
-
+  const tupleId = getTupleId(domainId, sessionId);
   const found =
-    state.catalogs && Array.isArray(state.catalogs[tupleId]) && state.catalogs[tupleId]
-      .filter(catalogObj => catalogObj.name === name);
+    state.catalogs &&
+    Array.isArray(state.catalogs[tupleId]) &&
+    state.catalogs[tupleId].filter(catalogObj =>
+      catalogObj.name === name &&
+      catalogObj.items !== REQUESTING
+    );
 
-  if (Array.isArray(found) && found.length > 0) {
+  if (found.length > 0) {
     return found[0];
   }
 
   return null;
 };
 
-const isCatalogLoaded = (state, { sessionId, domainId }) =>
-  state.catalogs && Object.keys(state.catalogs)
-    .includes(getTupleId(domainId, sessionId));
+/**
+ * @param state
+ * @param sessionId
+ * @param domainId
+ * @returns {state.catalogs|{'domain-id-session-id'}|boolean}
+ */
+export const isCatalogLoaded = (state, { sessionId, domainId }) =>
+  state.catalogs &&
+  Object.keys(state.catalogs).includes(getTupleId(domainId, sessionId)) &&
+  state.catalogs[getTupleId(domainId, sessionId)] !== REQUESTING
+;
 
-const areCatalogItemsLoaded = (state, { sessionId, domainId, name }) =>
+/**
+ * @param state
+ * @param sessionId
+ * @param domainId
+ * @param name
+ * @returns {state.catalogs|{'domain-id-session-id'}|boolean|boolean}
+ */
+export const areCatalogItemsLoaded = (state, { sessionId, domainId, name }) =>
   isCatalogLoaded(state, { sessionId, domainId }) &&
   getCatalogItems(state, { sessionId, domainId, name }) !== null;
-
 
 const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
@@ -89,10 +106,13 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
   if (action.type === WS_CATALOG_ITEMS_ASK) {
     const { sessionId, domainId, name } = action.payload;
 
+    console.log('catalogMiddleware :: WS_CATALOG_ITEMS_ASK');
     if (areCatalogItemsLoaded(state, { sessionId, domainId, name })) {
+      console.log('catalogMiddleware :: areCatalogItemsLoaded');
       return nextAction;
     }
 
+    console.log('catalogMiddleware :: asyncCatalogItemFetcher');
     asyncCatalogItemFetcher(
       sessionId,
       domainId,

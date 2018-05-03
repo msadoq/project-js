@@ -83,10 +83,7 @@ function filterBySession(
 
 /**
  * Get data definitions for a view
- * @param state
- * @param timebarUuid
- * @param viewId
- * @param pageId
+ * @returns {*}
  */
 export default function makeGetPerViewData() {
   return createSelector(
@@ -151,8 +148,8 @@ export default function makeGetPerViewData() {
             workspaceSessionName
           );
           return {
-            ... acc, ...val,
-        };
+            ...acc, ...val,
+          };
         }, {}
         ),
       };

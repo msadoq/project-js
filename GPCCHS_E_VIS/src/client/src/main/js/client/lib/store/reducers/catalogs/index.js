@@ -14,13 +14,15 @@ import {
   WS_UNIT_ADD_SIMPLE,
 } from 'store/types';
 
+export const REQUESTING = 'requesting';
+
 // eslint-disable-next-line complexity
 export default function catalogsReducer(state = {}, action) {
   switch (action.type) {
     case WS_CATALOGS_ASK: {
       return _set(
         getTupleId(action.payload.domainId, action.payload.sessionId),
-        'requesting',
+        REQUESTING,
         state
       );
     }
@@ -47,7 +49,7 @@ export default function catalogsReducer(state = {}, action) {
 
       return _set(
         `[${tupleId}][${index}].items`,
-        'requesting',
+        REQUESTING,
         state
       );
     }
@@ -100,7 +102,7 @@ export default function catalogsReducer(state = {}, action) {
       const path = `[${tupleId}][${index}].items[${indexItem}].comObjects`;
       return _set(
         path,
-        'requesting',
+        REQUESTING,
         state
       );
     }

@@ -39,6 +39,7 @@
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // VERSION : 2.0.0 : FA : ISIS-FT-1937 : 30/01/2018 : Unit convertion, add python fork and
 //  convertion call mechanism
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 

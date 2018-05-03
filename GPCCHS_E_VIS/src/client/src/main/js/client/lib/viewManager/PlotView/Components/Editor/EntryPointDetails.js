@@ -32,6 +32,7 @@
 //  PlotEditor entry point form
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix parseEntryPoint to take into account
 //  provider field and update dc stubs
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
 // END-HISTORY
 // ====================================================================
 

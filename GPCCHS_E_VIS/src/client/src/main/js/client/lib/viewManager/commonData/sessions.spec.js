@@ -13,6 +13,8 @@
 //  modules
 // VERSION : 2.0.0 : FA : ISIS-FT-2248 : 18/10/2017 : Fallback/Wildcard for sessions and domains is
 //  now functionnal. Plus fixed page and workspace modal editor for undefined values.
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix master timeline sessionID passed to DC when
+//  entrypoint's timeline is *
 // END-HISTORY
 // ====================================================================
 

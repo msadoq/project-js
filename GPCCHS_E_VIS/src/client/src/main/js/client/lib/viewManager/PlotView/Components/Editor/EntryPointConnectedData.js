@@ -30,6 +30,10 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix provider field in entry point form in
 //  plot editor
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix provider field for MimicView
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Improve single unit retrieval .
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 

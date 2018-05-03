@@ -1,4 +1,4 @@
-#GPCCHS 2.0.0.1 18/04/2018 etat-fa.txt
+#GPCCHS 2.0.0.2 15/05/2018 etat-fa.txt
 
 
 FT en cours de traitement :
@@ -37,9 +37,42 @@ ISIS-FT-2797|En attente|2018-01-17 10:49:13||contenu dynamicView PUS 11.10 incor
 ISIS-FT-2820|En attente|2018-01-24 13:43:51||probl?me affichage param?tres TM VIMA si d?calage temps bord/sol|D|None
 ISIS-FT-2821|En attente|2018-01-24 13:43:51||probl?me timeBar VIMA|D|None
 ISIS-FT-2912|En attente|2018-02-16 15:29:26||mise ? jour de textViews VIMA et checkTM|D|None
-ISIS-FT-2949|En D?veloppement|2018-03-06 14:24:13||dates affich?es dans decommutedPacket|D|None
+ISIS-FT-2949|En Validation|2018-03-06 14:24:13||dates affich?es dans decommutedPacket|D|None
 ISIS-FT-2950|Pre Analyse|2018-03-06 14:24:13||affichage complet queries VIMA|D|None
 ISIS-FT-2959|Ouvert|2018-03-06 14:24:13||wildcard dans timeLine ep VIMA|D|None
+ISIS-FT-3054|Ouvert|2018-04-24 14:45:39||documentation wiki GPVI|None|None
+ISIS-FT-3058|En attente|2018-04-26 07:21:11||wiki TMTC conf simulateur config_sle.gcp|None|None
+ISIS-FT-3062|Ouvert|2018-04-27 12:15:53||info date tooltip plot format incorrect|N|None
+ISIS-FT-3064|Pre Analyse|2018-04-27 12:15:53||conf GPCCHS state color non prise en compte|D|None
+ISIS-FT-3065|Ouvert|2018-04-27 12:15:53||state colors non d?activables|D|None
+ISIS-FT-3066|Ouvert|2018-04-27 12:15:53||optional color non disponible|D|None
+ISIS-FT-3067|Ouvert|2018-04-27 12:15:53||change color non op?rationnel|D|None
+ISIS-FT-3068|Ouvert|2018-04-27 12:15:53||mode realTime TimeBar divergence temporelle|D|None
+ISIS-FT-3069|En attente|2018-04-27 12:15:53||unit? SDB non r?cup?r?e VIMA|D|None
+ISIS-FT-3070|En attente|2018-04-27 12:15:53||conversion unit? editeur|D|None
+ISIS-FT-3071|Ouvert|2018-04-27 12:15:53||perfo conversion unit?|D|None
+ISIS-FT-3072|En attente|2018-04-27 12:15:53||conversion voltage non fonctionnelle|D|None
+ISIS-FT-3073|Ouvert|2018-04-27 12:15:53||log GPCCHS|D|None
+ISIS-FT-3076|En attente|2018-04-27 12:15:53||wildcard session non g?r?|D|None
+ISIS-FT-3083|Ouvert|2018-04-27 12:15:53||test GPVI decommutedPacket incomplet|None|None
+ISIS-FT-3086|Ouvert|2018-05-02 07:51:33||editeur dynamicView bug|D|None
+ISIS-FT-3088|Ouvert|2018-05-02 07:51:34||ordre des champ decommutedPacket dynamicView|N|None
+ISIS-FT-3089|Ouvert|2018-05-02 07:51:34||affichage des decommutedPackets 11_10 et 14_4 impossible|D|None
+ISIS-FT-3092|Ouvert|2018-05-02 07:51:34||links dans dynamicViews|D|None
+ISIS-FT-3095|Ouvert|2018-05-02 07:51:34||test on-board alarm incomplet|None|None
+ISIS-FT-3096|Ouvert|2018-05-02 07:51:34||ergonomie on board alarm view|None|None
+ISIS-FT-3101|Ouvert|2018-04-30 13:17:57||on board alarms non visibles OBA view VIMA|None|None
+ISIS-FT-3103|En attente|2018-05-02 07:51:34||IHM lanc?es dans session system|D|None
+ISIS-FT-3104|Ouvert|2018-05-02 07:51:34||filtrage provider TM VIMA|D|None
+ISIS-FT-3105|En attente|2018-05-02 07:51:34||filtrage provider TM VIMA comboBox|D|None
+ISIS-FT-3106|Ouvert|2018-05-02 07:51:34||champs filtrage domain/timeline VIMA|D|None
+ISIS-FT-3107|Ouvert|2018-05-02 07:51:34||perfo VIMA et TBD pour param?tres d'en-t?te|P|None
+ISIS-FT-3108|Ouvert|2018-05-02 07:51:34||filter sub-data entryPoint VIMA|D|None
+ISIS-FT-3109|Ouvert|2018-05-02 07:51:34||drag&drop RTE to VIMA|D|None
+ISIS-FT-3110|Ouvert|2018-05-02 07:51:34||subdata filter dans refonte entryPoint|D|None
+ISIS-FT-3111|Ouvert|2018-05-02 07:51:34||ergonomie ground alarm view|None|None
+ISIS-FT-3112|Ouvert|2018-05-02 07:51:34||test ground alarm incomplet|None|None
+ISIS-FT-3117|Ouvert|2018-05-02 07:51:35||test time bar incomplet|None|None
 
 
 FT deja livre en attente de cloture :

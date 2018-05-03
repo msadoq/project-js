@@ -17,6 +17,7 @@
 // VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
 // VERSION : 2.0.0 : FA : ISIS-FT-1992 : 31/10/2017 : Fix broken TUs . .
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : core implementation of dealing with sessions
 // END-HISTORY
 // ====================================================================
 

@@ -1,43 +1,119 @@
-#GPCCHS 2.0.0.1 18/04/2018 delta-reference.txt
+#GPCCHS 2.0.0.2 15/05/2018 delta-reference.txt
 
 
 Fichiers modifies :
 ===================
 GPCCHS_E_VIS/src/client/pom.xml
-GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/domain.stub.js
-GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/domains.stub.js
-GPCCHS_E_VIS/src/client/src/main/js/client/config.colors.json
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/documentManager/createBlankWorkspace.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/views/view.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/ADEPayload.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/ADEPayload.stub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/isis/statAggregation/statValue.stub.js
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/flattenDataId.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/mocks/stateAlarms.json
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/stateTest.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/constants.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/map.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/perViewData.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/map.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perLastTbdIdData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perRangeTbdIdData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perViewData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/perViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/controllers/dc/v2/archiveController.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/serverProcess/ipc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/actions/catalogs.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/cache/cacheCleanUp.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/catalogs/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareLastADE.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/preparePubSubADE.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareRange.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/middlewares/incomingData/prepareRangeADE.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/catalogs/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/reducers/timebars/index.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/sessions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/dc.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/getPayload.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/stubProcess/utils/isParameterSupported.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/utils/adapters/index.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/Components/View/DynamicView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/DynamicView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/Components/Editor/GroundAlarmEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/parseConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/parseEntryPoint.js
 GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/store/selectors.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/ViewParams.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/Components/Editor/ViewParamsForm.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParams.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/ViewParamsForm.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParams.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/ViewParamsForm.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.spec.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/__snapshots__/TabsContainer.spec.js.snap
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/EditPage.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Page/EditPageWrapper.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/HeaderContainer.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Window/Window.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Workspace/EditWorkspace.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Workspace/EditWorkspaceWrapper.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/colors.js
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/colors.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/Components/View/MimicViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/store/dataReducer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/Editor/OnboardAlarmEditor.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/Components/Editor/OnboardAlarmEditorContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/parseConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/AddPlotAxisWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/EntryPointDetails.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/Editor/__snapshots__/EntryPointDetails.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/Chart.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/LineCanvasCommon.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/XAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/YAxis.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/GrizzlyParametric/__snapshots__/LineCanvasCommon.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotView.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/Components/View/PlotViewContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/setEntryPointDefault.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/setEntryPointDefault.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/PlotView/store/viewDataUpdate.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/TextView/data/parseEntryPoint.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointConnectedDataFields.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointUnit.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointUnit.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointUnitContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/EntryPointUnitContainer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointDetails.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointDetailsContainer.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointUnit.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/Editor/__snapshots__/EntryPointUnitContainer.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/common/Components/types.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sessions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/sessions.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/DataViewEntryPoints.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/DataViewEntryPointsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/DynamicViewEntryPoints.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/EntryPointActions.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/EntryPoint/EntryPointActionsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/DomainField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/TimelineField.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/__snapshots__/ProviderFieldContainer.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/EditTimeline.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/EditTimelineWrapper.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Timebar/LeftTab/TimelineFields.js
 
 Fichiers ajoutes :
 ==================
-Pas de fichiers ajoutes.
+GPCCHS_E_VIS/src/client/src/main/js/client/adapters/dc/dataControllerUtils/statExecution.js
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/statAggreg.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/deepCompare.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/utils/deepCompare.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/getUnitParams.js
 
 Fichiers supprimes :
 ====================
-GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/test/Header.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonEditor/Fields/types/index.js
 
 
 Operations sur les fichiers de l'article.

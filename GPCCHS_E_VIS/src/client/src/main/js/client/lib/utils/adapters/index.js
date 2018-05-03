@@ -23,6 +23,9 @@
 // VERSION : 2.0.0 : FA : #8557 : 18/12/2017 : Fix load configuration file . .
 // VERSION : 2.0.0 : FA : #8557 : 18/12/2017 : Update linting error on adapters file
 // VERSION : 2.0.0 : DM : #5806 : 18/12/2017 : Fix eslintignore + lint utils/adapters
+// VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Add management of StatsAggregation in VIMA +
+//  update stub
+// VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Fix bug on decode of StatAgg
 // END-HISTORY
 // ====================================================================
 

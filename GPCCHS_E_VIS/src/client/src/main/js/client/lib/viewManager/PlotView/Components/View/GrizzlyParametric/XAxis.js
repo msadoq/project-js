@@ -17,6 +17,8 @@
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // VERSION : 2.0.0 : FA : ISIS-FT-2280 : 06/12/2017 : ergonomie plotView VIMA // afficher la grille
 //  (celle-ci ne s'affiche pas malgre un etat a ON)
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 

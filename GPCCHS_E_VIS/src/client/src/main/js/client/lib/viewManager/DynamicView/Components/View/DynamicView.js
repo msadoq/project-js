@@ -38,6 +38,7 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2237 : 20/03/2018 : Update how an entry point formula is built
 // VERSION : 2.0.0 : FA : #11616 : 06/04/2018 : Fix drag and drop .
 // VERSION : 2.0.0 : FA : #11616 : 06/04/2018 : Fix drag and drop feature in DynamicView
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 

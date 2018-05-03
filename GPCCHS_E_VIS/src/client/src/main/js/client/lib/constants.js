@@ -75,6 +75,7 @@
 // VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
 // VERSION : 2.0.0 : FA : #11346 : 16/03/2018 : Change type mime for onboard and ground view
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11854 : 18/04/2018 : Vima JS does not receive PUB/SUB data
 // END-HISTORY
 // ====================================================================
 

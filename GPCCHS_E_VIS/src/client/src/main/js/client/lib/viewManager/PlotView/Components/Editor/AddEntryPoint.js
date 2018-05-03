@@ -8,6 +8,8 @@
 // VERSION : 2.0.0 : DM : #6835 : 27/10/2017 : Fixed issue with tooltip crashing when PlotView is
 //  empty. Fixed small warning bug in PlotAxes editor.
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 

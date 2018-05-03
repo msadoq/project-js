@@ -7,6 +7,7 @@
 // VERSION : 2.0.0 : DM : #5806 : 26/10/2017 : Add Supported parameter
 //  alarm.alarm<OnBoardAlarmAckRequest> in stubProcess
 // VERSION : 2.0.0 : DM : #5806 : 02/11/2017 : Change formula for alarms .
+// VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Add entrypoint stat aggreg in stub
 // END-HISTORY
 // ====================================================================
 

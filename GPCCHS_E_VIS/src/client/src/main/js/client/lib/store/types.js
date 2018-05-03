@@ -181,6 +181,8 @@
 // VERSION : 2.0.0 : FA : #10670 : 09/02/2018 : Detach a page no dispatch WIP
 // VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : init Presentational component + tests
 // VERSION : 2.0.0 : FA : ISIS-FT-2215 : 05/03/2018 : Fix unit test . .
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Improve single unit retrieval .
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
 // END-HISTORY
 // ====================================================================
 

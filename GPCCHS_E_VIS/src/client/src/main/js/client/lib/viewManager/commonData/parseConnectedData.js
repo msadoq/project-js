@@ -13,6 +13,8 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-1937 : 30/01/2018 : Unit convertion, add python fork and
 //  convertion call mechanism
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix master timeline sessionID passed to DC when
+//  entrypoint's timeline is *
 // END-HISTORY
 // ====================================================================
 

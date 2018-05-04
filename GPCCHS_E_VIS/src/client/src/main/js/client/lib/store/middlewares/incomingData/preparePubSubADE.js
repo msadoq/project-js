@@ -1,5 +1,4 @@
 import _isBuffer from 'lodash/isBuffer';
-import _forEach from 'lodash/forEach';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
 import {
   isDataIdInCache,
@@ -7,9 +6,8 @@ import {
   getKnownRanges,
 } from 'store/reducers/knownRanges';
 import {
-  isDataIdInEventCache,
-  isTimestampEventInEvents,
-} from 'store/reducers/Events';
+  isTimestampInObsoleteEvents,
+} from 'store/reducers/ObsoleteEvents';
 import {
   isDataIdInDatamapLast,
   isTimestampInLastDatamapInterval,
@@ -23,8 +21,9 @@ import { newData } from 'store/actions/incomingData';
 import * as types from 'store/types';
 
 const logger = require('../../../common/logManager')('middleware:preparePubSub');
+const ObsoleteEventHeaderType = 'isis.logbookEvent.LogbookEvent';
 
-const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action) => {
+const preparePubSub = (lokiKnownRangesManager, lokiObsoleteEventManager) => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
   if (action.type !== types.INCOMING_PUBSUB_DATA
     && action.type !== types.INCOMING_PUBSUBALARM_DATA
@@ -103,7 +102,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
               decodedPayload,
               isInIntervals: isTimestampInKnownRanges,
               filters,
-              addRecord: lokiManager.addRecord,
+              addRecord: lokiKnownRangesManager.addRecord,
             }, payloadsJson);
           }
           execution.stop('process for ranges');
@@ -125,20 +124,28 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
             }
           }
           execution.stop('process for lasts');
-
           execution.start('process for events');
-          if ('eventDate' in decodedPayload) {
-            let parameter = '';
-            _forEach(decodedPayload.specificAttributes, (specificAttribute) => {
-              if (specificAttribute.name.value === 'ParameterName') {
-                parameter = specificAttribute.value.value;
-              }
-            });
-            if (isDataIdInEventCache(state, { dataId, parameter })){
-              if (!isTimestampEventInEvents(state, { dataId, parameter, timestamp })) {
-                console.log('AJOUT DU TIME STAMP DANS LE CACHE');
-              }
+          if (getType(header.comObjectType) === ObsoleteEventHeaderType) {
+            const specificAttributes = decodedPayload.specificAttributes;
+            const eventDate = decodedPayload.eventDate.value;
+            let parameterName = '';
+            if (specificAttributes[0].name.value === 'ParameterName') {
+              parameterName = specificAttributes[0].value.value;
+            } else {
+              parameterName = specificAttributes[1].value.value;
             }
+            const utilPayload = {
+              eventDate,
+            };
+            const flatId = `${parameterName}:${dataId.sessionId}:${dataId.domainId}`;
+            payloadsJson = updateFinalPayload(state, {
+              flatId,
+              timestamp: timestamp.ms,
+              utilPayload,
+              isInIntervals: isTimestampInObsoleteEvents,
+              filters: {},
+              addRecord: lokiObsoleteEventManager.addRecord,
+            }, payloadsJson);
           }
           execution.stop('process for events');
         }

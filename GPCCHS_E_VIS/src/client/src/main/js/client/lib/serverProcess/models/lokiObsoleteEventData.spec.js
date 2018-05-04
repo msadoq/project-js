@@ -10,18 +10,14 @@
 // ====================================================================
 
 const {
-  getRangesRecords,
-  removeRecords,
-  getLastRecords,
   addRecord,
   addRecords,
-  listCachedCollections,
   removeAllCollections,
-  getOrCreateCollection,
   displayCollection,
-  removeAllExceptIntervals,
-  getDb,
-} = require('./lokiKnownRangesData');
+  getRecordByTimestamp,
+  listCachedCollections,
+  getObsoleteEventRecordsByInterval,
+} = require('./lokiObsoleteEventData');
 
 const myRecords = [
   {
@@ -49,7 +45,7 @@ describe('models/timebasedDataFactory', () => {
     removeAllCollections();
   });
 
-  describe('lokiKnownRangesData: addRecord', () => {
+  describe('lokiObsoleteEventData: addRecord', () => {
     test('given an empty database, call addRecord then with displayCollection return an array with one object containing our record', () => {
       const oneRecord = { timestamp: 42, payload: 42 };
       const id = 'myId';
@@ -106,27 +102,57 @@ describe('models/timebasedDataFactory', () => {
     });
   });
 
-  describe('lokiKnownRangesData: addRecords', () => {
+  describe('lokiObsoleteEventData: listCachedCollections', () => {
+    test('given populate database, call listCachedCollections then length equal 1', () => {
+      const id = 'myId';
+      addRecords(id, myRecords);
+      expect(listCachedCollections().length).toEqual(1);
+    });
+  });
+
+  describe('lokiObsoleteEventData: addRecords', () => {
     test('given an empty database, call addRecords then with displayCollection return an array with one object containing our records', () => {
       const id = 'myId';
       addRecords(id, myRecords);
+      expect(listCachedCollections().length).toEqual(1);
       expect(displayCollection(id)).toMatchObject(myRecords);
     });
   });
 
-  describe('lokiKnownRangesData: getRangesRecords', () => {
-    test('tbdId is not present', () => {
+  describe('lokiObsoleteEventData: getRecordByTimestamp', () => {
+    test('given populate database, call getRecordByTimestamp return an array with one object containing our records', () => {
+      const id = 'myId';
+      addRecords(id, myRecords);
+      const created = new Date().getTime();
+      expect(listCachedCollections().length).toEqual(1);
+      expect(getRecordByTimestamp(id, 6)).toMatchObject(
+        [
+          {
+            $loki: 2,
+            meta: {
+              created,
+              revision: 0,
+              version: 0,
+            },
+            payload: 6,
+            timestamp: 6,
+          },
+        ]
+      );
+    });
+  });
+
+  describe('lokiObsoleteEventData: getObsoleteEventRecordsByInterval', () => {
+    test('given an empty database, call getObsoleteEventRecordsByInterval return an empty set of record values', () => {
       const tbdId = 'myTbdId';
-      const range = getRangesRecords(tbdId, [[6, 12]]);
+      const range = getObsoleteEventRecordsByInterval(tbdId, [[6, 12]]);
       expect(range).toMatchObject({ [tbdId]: {} });
     });
-    test('tbdId is already present ', () => {
+    test('given a populate database, call getObsoleteEventRecordsByInterval return a set of records values', () => {
       const tbdId = 'myTbdId';
-      getOrCreateCollection(tbdId);
       addRecords(tbdId, myRecords);
-
-      const range = getRangesRecords(tbdId, [[6, 12]]);
-      expect(range).toMatchObject({
+      const obsoleteEvents = getObsoleteEventRecordsByInterval(tbdId, [[6, 12]]);
+      expect(obsoleteEvents).toMatchObject({
         myTbdId: {
           6: 6,
           7: 7,
@@ -134,83 +160,6 @@ describe('models/timebasedDataFactory', () => {
           12: 12,
         },
       });
-    });
-  });
-
-  describe('getLastData', () => {
-    test('tbdId is not present', () => {
-      const tbdId = 'myTbdId';
-      const range = getLastRecords(tbdId, [6, 9]);
-      expect(range).toMatchObject({});
-    });
-
-    test('tbdId is already present ', () => {
-      const tbdId = 'myTbdId';
-      getOrCreateCollection(tbdId);
-      addRecords(tbdId, myRecords);
-
-      const range = getLastRecords(tbdId, [6, 9]);
-      expect(range).toMatchObject({ myTbdId: { 7: 7 } });
-    });
-  });
-
-  describe('removeRecords', () => {
-    test('tbdId is not present', () => {
-    });
-
-    test('tbdId is already present ', () => {
-      const tbdId = 'myTbdId';
-      getOrCreateCollection(tbdId);
-      addRecords(tbdId, myRecords);
-
-      removeRecords(tbdId, 6, 11);
-      expect(displayCollection(tbdId)).toMatchObject(
-        [{
-          timestamp: 5,
-          payload: 5,
-        },
-        {
-          timestamp: 12,
-          payload: 12,
-        }]);
-    });
-  });
-
-  describe('removeAllExceptIntervals', () => {
-    test('removeAllExceptIntervals', () => {
-      const tbdId = 'myTbdId';
-      const tbdId2 = 'myTbdId2';
-      const tbdId3 = 'myTbdId3';
-      getOrCreateCollection(tbdId);
-      getOrCreateCollection(tbdId2);
-      getOrCreateCollection(tbdId3);
-      const collections = getDb().listCollections();
-      expect(collections.map(e => e.name)).toEqual(expect.arrayContaining(
-        ['knownRanges.myTbdId', 'knownRanges.myTbdId2', 'knownRanges.myTbdId3']
-      ));
-      expect(listCachedCollections().length).toEqual(3);
-      addRecords(tbdId, myRecords);
-      removeAllExceptIntervals({
-        [tbdId]: {
-          interval: [[4, 6], [12, 14]],
-        },
-      });
-      expect(displayCollection(tbdId)).toMatchObject(
-        [
-          {
-            timestamp: 5,
-            payload: 5,
-          },
-          {
-            timestamp: 6,
-            payload: 6,
-          },
-          {
-            timestamp: 12,
-            payload: 12,
-          },
-        ]);
-      expect(listCachedCollections().length).toEqual(1);
     });
   });
 });

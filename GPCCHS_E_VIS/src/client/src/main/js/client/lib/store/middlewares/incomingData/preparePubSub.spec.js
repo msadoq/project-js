@@ -42,7 +42,7 @@ describe('store:middlewares:preparePubSub', () => {
           addRecord: lokiManager.addRecord },
         {});
       expect(finalPayloads).toEqual({ [tbdId]: { 320000: decodedPayload } });
-      expect(lokiManager.listCollections()).toEqual([tbdId]);
+      expect(lokiManager.listCachedCollections()).toEqual([tbdId]);
     });
     test('in store, tbdId in store, timestamp nok, empty finalPayloads', () => {
       const store = mockStore(state);
@@ -55,7 +55,7 @@ describe('store:middlewares:preparePubSub', () => {
           addRecord: lokiManager.addRecord },
         {});
       expect(finalPayloads).toEqual({ });
-      expect(lokiManager.listCollections()).toEqual([]);
+      expect(lokiManager.listCachedCollections()).toEqual([]);
       expect(lokiManager.displayCollection('Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::'))
       .toEqual([]);
     });
@@ -69,7 +69,7 @@ describe('store:middlewares:preparePubSub', () => {
           addRecord: lokiManager.addRecord },
         {});
       expect(finalPayloads).toEqual({ });
-      expect(lokiManager.listCollections()).toEqual([]);
+      expect(lokiManager.listCachedCollections()).toEqual([]);
     });
     test('in store, tbdId not in store, finalPayloads not empty', () => {
       const finalPayloads = updateFinalPayload(state,
@@ -82,7 +82,7 @@ describe('store:middlewares:preparePubSub', () => {
         { 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 15: decodedPayload } });
       expect(finalPayloads)
       .toEqual({ 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 15: decodedPayload } });
-      expect(lokiManager.listCollections()).toEqual([]);
+      expect(lokiManager.listCachedCollections()).toEqual([]);
     });
     test('in store, tbdId in store, timestamp ok, finalPayloads not empty', () => {
       const tbdId1 = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::';
@@ -109,7 +109,7 @@ describe('store:middlewares:preparePubSub', () => {
         [tbdId1]: { 320000: decodedPayload },
         [tbdId2]: { 300000: decodedPayload },
       });
-      expect(lokiManager.listCollections()).toEqual([tbdId1]);
+      expect(lokiManager.listCachedCollections()).toEqual([tbdId1]);
     });
     test('in dataMap, tbdId not in last', () => {
       const finalPayloads = updateFinalPayload(state,
@@ -121,7 +121,7 @@ describe('store:middlewares:preparePubSub', () => {
         { 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 320000: decodedPayload } });
       expect(finalPayloads)
       .toEqual({ 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 320000: decodedPayload } });
-      expect(lokiManager.listCollections()).toEqual([]);
+      expect(lokiManager.listCachedCollections()).toEqual([]);
     });
     test('in dataMap, tbdId in last', () => {
       const finalPayloads = updateFinalPayload(state,
@@ -134,7 +134,7 @@ describe('store:middlewares:preparePubSub', () => {
       expect(finalPayloads).toEqual({
         'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': { 320000: decodedPayload },
       });
-      expect(lokiManager.listCollections()).toEqual([]);
+      expect(lokiManager.listCachedCollections()).toEqual([]);
     });
     test('in dataMap, tbdId in last but does not validate filters', () => {
       const finalPayloads = updateFinalPayload(state,

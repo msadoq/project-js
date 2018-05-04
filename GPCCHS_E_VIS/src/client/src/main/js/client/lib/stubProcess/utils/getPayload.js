@@ -39,7 +39,7 @@ function getMonitoringState() {
 
 function getSpecificAttributes(timestamp) {
   const parameterName = {
-    name: 'ParamterName',
+    name: 'ParameterName',
     value: predictibleRand.getFrom([
       'TMMGT_BC_VIRTCHAN0', 'ATT_BC_REVCOUNT1', 'ATT_BC_REVCOUNT2', 'ATT_BC_REVCOUNT3', 'TMMGT_BC_VIRTCHAN1', 'TMMGT_BC_VIRTCHAN2',
     ]),

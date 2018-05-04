@@ -44,7 +44,9 @@ import createCacheMiddleware from '../store/middlewares/cache';
 import reducer from '../store/reducers';
 import ipc from './ipc';
 import documentManager from './documentManager';
-import lokiManager from './models/lokiKnownRangesData';
+import lokiKnownRangesManager from './models/lokiKnownRangesData';
+import lokiObsoleteEventManager from './models/lokiObsoleteEventData';
+import lokiGenericManager from './models/lokiGeneric';
 import makeAckMiddleware from '../store/middlewares/ack';
 import { isDumpActivated } from '../serverProcess/utils/dumpBuffer';
 import createIncomingDataMiddleware from '../store/middlewares/incomingData';
@@ -71,9 +73,9 @@ const createMiddlewares = (identity, isDebugOn) => {
   const middlewares = [
     thunk,
     catalogMiddleware,
-    createIncomingDataMiddleware(lokiManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
+    createIncomingDataMiddleware(lokiKnownRangesManager, lokiObsoleteEventManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),
-    createCacheMiddleware(lokiManager),
+    createCacheMiddleware(lokiGenericManager),
     makeAckMiddleware(ipc.dc.requestAck),
     makeMessagesMiddleware(),
     makeOnProcessOverload(),

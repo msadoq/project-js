@@ -11,13 +11,14 @@
 // VERSION : 1.1.2 : DM : #6700 : 28/08/2017 : Add some exectuion map + minor lint fix
 // END-HISTORY
 // ====================================================================
-import _forEach from 'lodash/forEach';
 import executionMonitor from 'common/logManager/execution';
+import { getObsoleteEventRecordsByInterval } from 'serverProcess/models/lokiObsoleteEventData';
 import * as types from '../../types';
 import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
 import { newData } from '../../actions/incomingData';
-import { getLastRecords } from '../../../serverProcess/models/lokiKnownRangesData';
-import { getUpperIntervalIsInKnownRanges } from '../../reducers/knownRanges';
+import { sendArchiveQuery } from '../../actions/ObsoleteEvents';
+import { getMissingIntervals } from '../../reducers/ObsoleteEvents';
+import mergeIntervals from '../../../common/intervals/merge';
 
 const type = 'OBSOLETE_EVENT';
 
@@ -32,40 +33,49 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
     for (let i = 0; i < tbdIds.length; i += 1) {
       const tbdId = tbdIds[i];
       const { dataId, intervals } = neededEvents[tbdIds[i]];
-      for (let j = 0; j < intervals.length; j += 1) {
-        execution.start('Check if in known ranges');
-        const { isInInterval, interval, filters } = getUpperIntervalIsInKnownRanges(getState(),
-          tbdId,
-          intervals[j]);
-        execution.stop('Check if in known ranges');
-        const flatIdLogBookEvent =
-          `LogbookEventDefinition.OBSOLETE_PARAMETER<LogbookEvent>:${dataId.sessionId}:${dataId.domainId}:${dataId.provider}::`;
-        const dataIdLogBookEvent = {
-          catalog: 'LogbookEventDefinition',
-          parameterName: 'OBSOLETE_PARAMETER',
-          comObject: 'LogbookEvent',
-          domainId: dataId.domainId,
-          domain: dataId.domain,
-          sessionName: dataId.sessionName,
-          sessionId: dataId.sessionId,
-          provider: dataId.provider,
-        };
-        // if not in known ranges a query to DC is needed
-        if (!isInInterval) {
-          const queryId =
-            ipc.dc.requestTimebasedQuery(
-              flatIdLogBookEvent,
-              dataIdLogBookEvent,
-              intervals[j],
-              { filters });
-          add(queryId, flatIdLogBookEvent, type, dataId);
-        } else {
-          // if in known range, first we need to know if events are present in cache
-
-          // in this case dispatch newData from event cache
-          // else we need to make a query to DC
-        }
+      const flatObsoleteEventId = `${dataId.parameterName}:${dataId.domainId}:${dataId.sessionId}`;
+      const obsoleteEventsRecords =
+        getObsoleteEventRecordsByInterval(flatObsoleteEventId, intervals);
+      if (Object.keys(obsoleteEventsRecords[flatObsoleteEventId]).length !== 0) {
+        dispatch(newData(obsoleteEventsRecords));
       }
+
+      let mergedInterval = [];
+      for (let k = 0; k < intervals.length; k += 1) {
+        execution.start('get missing intervals');
+        const missingIntervals = getMissingIntervals(getState(),
+          { tbdId,
+            queryInterval: intervals[k],
+          });
+        execution.stop('get missing intervals');
+
+        for (let j = 0; j < missingIntervals.length; j += 1) {
+          const flatIdLogBookEvent =
+            `LogbookEventDefinition.OBSOLETE_PARAMETER<LogbookEvent>:${dataId.sessionId}:${dataId.domainId}:${dataId.provider}::`;
+          const dataIdLogBookEvent = {
+            catalog: 'LogbookEventDefinition',
+            parameterName: 'OBSOLETE_PARAMETER',
+            comObject: 'LogbookEvent',
+            domainId: dataId.domainId,
+            domain: dataId.domain,
+            sessionName: dataId.sessionName,
+            sessionId: dataId.sessionId,
+            provider: dataId.provider,
+          };
+          const queryId = ipc.dc.requestTimebasedQuery(
+            flatIdLogBookEvent,
+            dataIdLogBookEvent,
+            intervals[k],
+            {});
+
+          add(queryId, flatIdLogBookEvent, type, dataId);
+        }
+
+        execution.start('merge interval');
+        mergedInterval = mergeIntervals(mergedInterval, missingIntervals);
+        execution.stop('merge interval');
+      }
+      dispatch(sendArchiveQuery(tbdId, dataId, mergedInterval));
     }
     execution.stop('global');
     execution.print();

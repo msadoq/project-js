@@ -5,36 +5,23 @@ import { newData } from 'store/actions/incomingData';
 import { decode, getType } from 'utils/adapters';
 import dataMapGenerator from 'dataManager/map';
 import { isTimestampInLastInterval } from 'dataManager/mapSelector';
-import { add } from 'serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from 'common/logManager/execution';
 import { add as addMessage } from 'store/actions/messages';
 
-
 const logger = require('../../../common/logManager')('middleware:prepareRangeADE');
 
-const prepareRange = lokiKnownRangesManager => ({ dispatch, getState }) => next => (action) => {
+const prepareObsoleteEvent = lokiObsoleteEventManager => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
-  if (action.type !== types.INCOMING_RANGE_DATA) {
+  if (action.type !== types.INCOMING_OBSOLETE_EVENT) {
     return nextAction;
   }
 
-  const execution = executionMonitor('middleware:prepareRangeADE');
+  const execution = executionMonitor('middleware:prepareObsoleteEventADE');
   execution.start('global');
-
+  let index = 0;
   const tbdId = action.payload.tbdId;
   const dataId = action.payload.dataId;
   const peers = action.payload.peers;
-  add(tbdId, dataId);
-
-  const payloadsJson = { [tbdId]: {} };
-
-  execution.start('dataMap');
-  const dataMap = dataMapGenerator(getState());
-  execution.stop('dataMap');
-
-  let index = 0;
-
-  const isIn = !!dataMap.expectedRangeIntervals[tbdId];
 
   while (index + 1 < peers.length) {
     // robustness code, LPISIS could send empty ZeroMQ frame
@@ -48,21 +35,22 @@ const prepareRange = lokiKnownRangesManager => ({ dispatch, getState }) => next 
         const decoded = decode('dc.dataControllerUtils.ADEPayload', peers[index + 1]);
         const decodedPayload = decode(getType(decoded.header.comObjectType), decoded.payload);
         // console.log(JSON.stringify(decodedPayload, null, 2));
-        execution.stop('decode payload');
-
-        execution.start('addRecord');
-        lokiKnownRangesManager.addRecord(tbdId, { timestamp, payload: decodedPayload });
-        execution.stop('addRecord');
-
-        execution.start('persist');
-        /**
-         * isIn {bool}: We required an interval
-         * isTimestampInLastInterval(...): specific treatment for forecast & last data
-         */
-        if (isIn || isTimestampInLastInterval(dataMap, { tbdId, timestamp })) {
-          payloadsJson[tbdId][timestamp] = decodedPayload;
+        const specificAttributes = decodedPayload.specificAttributes;
+        const eventDate = decodedPayload.eventDate.value;
+        let parameterName = '';
+        if (specificAttributes[0].name.value === 'ParameterName') {
+          parameterName = specificAttributes[0].value.value;
+        } else {
+          parameterName = specificAttributes[1].value.value;
         }
-        execution.stop('persist');
+        const jsonPayload = {
+          eventDate,
+        };
+        execution.stop('decode payload');
+        execution.start('addRecord');
+        const flatId = `${parameterName}:${dataId.sessionId}:${dataId.domainId}`;
+        lokiObsoleteEventManager.addRecord(flatId, { timestamp: eventDate, payload: jsonPayload });
+        execution.stop('addRecord');
       } catch (e) {
         logger.error('error on processing buffer', e);
         dispatch(addMessage('global', 'warning', 'error on processing header buffer '.concat(e)));
@@ -71,14 +59,9 @@ const prepareRange = lokiKnownRangesManager => ({ dispatch, getState }) => next 
     index += 2;
   }
 
-  // If data needs to be send to reducers, dispatch action
-  if (!_isEmpty(payloadsJson[tbdId])) {
-    dispatch(newData(payloadsJson));
-  }
-
   execution.stop('global', `${peers.length / 2} payloads`);
   execution.print();
   return nextAction;
 };
 
-export default prepareRange;
+export default prepareObsoleteEvent;

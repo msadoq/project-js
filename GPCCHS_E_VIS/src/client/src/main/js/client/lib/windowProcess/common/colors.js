@@ -24,6 +24,7 @@ import { get } from 'common/configurationManager';
 import _pull from 'lodash/pull';
 import _uniq from 'lodash/uniq';
 import _flatMap from 'lodash/flatMap';
+import _ from 'lodash';
 
 export const STATE_COLOR_NOMINAL = 'nominal';
 export const STATE_COLOR_WARNING = 'warning';
@@ -186,7 +187,7 @@ export const getBorderColorForNav = (workspaceDomain, pages, viewsDomains) => {
           [].concat(
             [],
             ...configurations.map(configuration =>
-              configuration.entryPoints.map(
+              _.get(configuration, 'entryPoints', []).map(
                 entryPoint => entryPoint.connectedData.domain
               )
             )

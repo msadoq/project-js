@@ -59,6 +59,7 @@ import inspector from './inspector';
 import knownRanges from './knownRanges';
 import ui from './ui';
 import catalogs from './catalogs';
+import apids from './apids';
 import rte from './rte';
 import comObjectMap from './comObjectMap';
 import cache from './cache';
@@ -85,6 +86,7 @@ const rootReducer = combineReducers({
   inspector,
   ui,
   catalogs,
+  apids,
   rte,
   knownRanges,
   comObjectMap,

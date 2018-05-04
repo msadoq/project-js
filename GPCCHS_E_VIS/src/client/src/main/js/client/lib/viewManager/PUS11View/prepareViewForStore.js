@@ -7,6 +7,7 @@ const getDefaultView = view => _.merge({
   links: [],
   title: 'On-Board Scheduling Service Ground Model (PUS11)',
   configuration: {
+    entryPoint: {},
     tables: {
       subSchedules: {
         sorting: {},

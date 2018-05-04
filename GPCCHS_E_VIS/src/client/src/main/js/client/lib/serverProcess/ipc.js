@@ -311,6 +311,8 @@ const dcVersionMap = {
         RETRIEVE_CATALOG_ITEM_FIELD_UNIT = 3;
         RETRIEVE_CATALOG_ITEM_EXISTS     = 4;
         RETRIEVE_SATELLITE_ITEMS         = 5;
+        RETRIEVE_CATALOG_ITEM_STRUCTURE  = 6;
+        RETRIEVE_APIDS                   = 7;
     }
     required METHOD method = 1;
     optional uint32 sessionId = 2;
@@ -346,6 +348,10 @@ const dcVersionMap = {
       callback),
     retrieveSatelliteItems: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_SATELLITE_ITEMS,
+      args,
+      callback),
+    retrieveApids: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_APIDS,
       args,
       callback),
     requestSDBQuery: (method, args, callback) => (

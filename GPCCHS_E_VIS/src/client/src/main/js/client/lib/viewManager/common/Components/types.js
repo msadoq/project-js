@@ -113,8 +113,11 @@ export const fieldArrayPropsType = shape({
 });
 
 export const applicationProcessType = shape({
-  APId: number,
-  name: string,
+  apidRawValue: string,
+  apidName: string,
 });
 
-export const applicationProcessesType = arrayOf(applicationProcessType.isRequired);
+export const applicationProcessesType = oneOfType([
+  string, // when requesting
+  arrayOf(applicationProcessType),
+]);

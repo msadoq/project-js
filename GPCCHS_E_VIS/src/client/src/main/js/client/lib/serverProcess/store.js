@@ -83,6 +83,7 @@ import windowSessionOrDomainUpdated
 import getLogger from '../common/logManager';
 import makePlayerMiddleware from '../store/middlewares/player';
 import catalogMiddleware from '../store/middlewares/catalogs';
+import apidsMiddleware from '../store/middlewares/apids';
 import makeOnUserAction from '../store/middlewares/user/makeOnUserAction';
 import onPageLayoutUpdate from '../store/middlewares/smartViews/onPageLayoutUpdate';
 import onEntryPointData from '../store/middlewares/smartViews/onEntryPointData';
@@ -96,6 +97,7 @@ const createMiddlewares = (identity, isDebugOn) => {
   const middlewares = [
     thunk,
     catalogMiddleware,
+    apidsMiddleware,
     createIncomingDataMiddleware(lokiManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),
     createCacheMiddleware(lokiManager),

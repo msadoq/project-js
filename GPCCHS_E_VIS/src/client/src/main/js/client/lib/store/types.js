@@ -411,6 +411,11 @@ export const WS_UNIT_ASK = 'WS_UNIT_ASK';
 export const WS_UNIT_ADD = 'WS_UNIT_ADD';
 export const WS_UNIT_ADD_SIMPLE = 'WS_UNIT_ADD_SIMPLE';
 
+// application process
+
+export const WS_APIDS_ASK = 'WS_APIDS_ASK';
+export const WS_APIDS_ADD = 'WS_APIDS_ADD';
+
 export const WS_KNOWNINTERVAL_ADD = 'WS_KNOWNINTERVAL_ADD';
 export const WS_KNOWNINTERVAL_DELETE = 'WS_KNOWNINTERVAL_DELETE';
 export const RESET_KNOWN_RANGES = 'RESET_KNOWN_RANGES';

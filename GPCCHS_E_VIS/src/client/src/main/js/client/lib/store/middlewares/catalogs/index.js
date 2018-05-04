@@ -106,13 +106,10 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
   if (action.type === WS_CATALOG_ITEMS_ASK) {
     const { sessionId, domainId, name } = action.payload;
 
-    console.log('catalogMiddleware :: WS_CATALOG_ITEMS_ASK');
     if (areCatalogItemsLoaded(state, { sessionId, domainId, name })) {
-      console.log('catalogMiddleware :: areCatalogItemsLoaded');
       return nextAction;
     }
 
-    console.log('catalogMiddleware :: asyncCatalogItemFetcher');
     asyncCatalogItemFetcher(
       sessionId,
       domainId,

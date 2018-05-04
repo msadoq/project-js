@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment,no-unused-vars */
 // import _get from 'lodash/get';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -5,16 +6,18 @@ import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import styles from 'viewManager/commonEditor/Editor.css';
-import PUS11EditorForm from './PUS11EditorForm';
+import WithForm from 'viewManager/common/Hoc/WithForm';
+import DefaultPusDataContainer from 'viewManager/commonEditor/DefaultPusDataContainer';
 
+const PUS11EditorForm = WithForm(DefaultPusDataContainer);
 const navItems = ['Connected Data', 'View', 'Misc'];
-
 const { string, number, bool, shape, func } = PropTypes;
 
 export default class PUS11Editor extends Component {
   static propTypes = {
     // own props
     viewId: string.isRequired,
+    pageId: string.isRequired,
     // Container's mapStateToProps
     title: string,
     titleStyle: shape({
@@ -30,6 +33,7 @@ export default class PUS11Editor extends Component {
     }),
     tab: number,
     panels: shape({}).isRequired,
+    configuration: shape().isRequired,
     // Container's mapDispatchToProps
     updateViewTab: func.isRequired,
     updateViewPanels: func.isRequired,
@@ -61,13 +65,16 @@ export default class PUS11Editor extends Component {
   render() {
     const {
       viewId,
+      pageId,
       tab,
       updateViewPanels,
       panels,
       openModal,
       title,
       titleStyle,
+      configuration,
     } = this.props;
+    console.log('configuration', configuration);
     const nullObject = {};
     return (
       <div className={styles.contentWrapper}>
@@ -86,6 +93,8 @@ export default class PUS11Editor extends Component {
         <div className={styles.content}>
           {(tab === 0 || tab === null) && <div className={styles.content}>
             <PUS11EditorForm
+              viewId={viewId}
+              pageId={pageId}
               form={`entrypoint-connectedData-form-${viewId}`}
               onSubmit={values => this.handleSubmit({ connectedData: values })}
               initialValues={nullObject}

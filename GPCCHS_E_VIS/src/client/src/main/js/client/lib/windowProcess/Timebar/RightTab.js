@@ -37,6 +37,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
+import moment from 'moment/moment';
 import TimeBar from './Timebar/Timebar';
 import ControlsContainer from './Controls/ControlsContainer';
 import styles from './RightTab.css';
@@ -212,7 +213,9 @@ class RightTabContent extends PureComponent {
         <span
           ref={this.assignFormattedFullDateEl}
           className={classnames('FormatedFullDate', styles.formatedFullDate)}
-        />
+        >
+          {moment(timebar.visuWindow.current).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS')}
+        </span>
         <ControlsContainer
           timebarRealTime={timebar.realTime}
           timebarMode={timebar.mode}

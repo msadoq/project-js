@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import cn from 'classnames';
 import { ScrollSync, AutoSizer, ArrowKeyStepper, Grid } from 'react-virtualized';
-import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 
 import Color from 'color';
 import generateColor from 'string-to-color';
-import { Glyphicon } from 'react-bootstrap';
+import shortid from 'shortid';
+import { Glyphicon, Popover, OverlayTrigger } from 'react-bootstrap';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
 
 import styles from './VirtualizedTableView.css';
 
@@ -52,6 +53,8 @@ const VirtualizedTableView =
                  // as this component does not reorder them to match groups
      onSort,
      onFilter,
+     bodyCellActions, // the user defined actions
+     onBodyCellAction, // VirtualizedTableViewContainer way to dispacth user defined action
      onCellClick,
      onCellDoubleClick,
      sortState,
@@ -184,7 +187,7 @@ const VirtualizedTableView =
 
 // eslint-disable-next-line react/prop-types
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const content = _getValue(rows[rowIndex][columnIndex]);
+      const content = rows[rowIndex][columnIndex];
       const rowClassName = rowIndex % 2 ? styles.oddRow : styles.evenRow;
       const lastRowClassName = rowIndex === rows.length - 1 ? styles.lastRow : '';
       const lastColumnClassName = columnIndex === columns.length - 1 ? styles.lastColumn : '';
@@ -214,7 +217,7 @@ const VirtualizedTableView =
         onCellDoubleClick(rowIndex, columnIndex, content);
       };
 
-      return (
+      const cellBody = (
         <div
           className={
             cn(
@@ -229,9 +232,62 @@ const VirtualizedTableView =
           onClick={_onClick}
           onDoubleClick={_onDoubleClick}
         >
-          <span>{content}</span>
+          <span>{content.value}</span>
         </div>
       );
+
+      const cellId = shortid.generate();
+
+      // Display tooltip
+      if (!content.tooltip) {
+        return cellBody;
+      }
+
+      const popoverRight = (
+        <Popover id="popover-positioned-right" title="Popover right">
+          <strong>Holy guacamole!</strong> Check this info.
+        </Popover>
+      );
+
+      const cellBodyWithTooltip = (
+        <OverlayTrigger
+          placement={'right'}
+          overlay={popoverRight}
+        >
+          {cellBody}
+        </OverlayTrigger>
+      );
+
+      // Creates cell context menu
+      if (bodyCellActions === null) {
+        return cellBodyWithTooltip;
+      }
+
+      return [
+        <ContextMenuTrigger id={`contextmenu-${cellId}`}>
+          {cellBodyWithTooltip}
+        </ContextMenuTrigger>,
+        <ContextMenu id={`contextmenu-${cellId}`}>
+          {
+            bodyCellActions.map(
+              action =>
+                <MenuItem
+                  data={content}
+                  onClick={
+                    onBodyCellAction(
+                      action.label,
+                      content,
+                      rowIndex,
+                      columnIndex
+                    )
+                  }
+                >
+                  {action.label}
+                </MenuItem>
+            )
+          }
+        </ContextMenu>,
+      ];
     };
 
     return (
@@ -339,6 +395,8 @@ VirtualizedTableView.propTypes = {
   withGroups: PropTypes.bool,
   onSort: PropTypes.func.isRequired,
   onFilter: PropTypes.func.isRequired,
+  bodyCellActions: PropTypes.shape(),
+  onBodyCellAction: PropTypes.func.isRequired,
   onCellClick: PropTypes.func.isRequired,
   onCellDoubleClick: PropTypes.func.isRequired,
   sortState: PropTypes.shape(),
@@ -352,6 +410,7 @@ VirtualizedTableView.defaultProps = {
   rowHeight: 22,
   width: 400,
   height: 400,
+  bodyCellActions: null,
   withGroups: false,
   sortState: {},
   filterState: {},

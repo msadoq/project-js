@@ -19,12 +19,23 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId, tableId }) => ({
+const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => ({
   onFilter: (col, value) => {
     dispatch(filterColumn(viewId, tableId, col, value));
   },
   onSort: (col, mode) => {
     dispatch(toggleColumnSort(viewId, tableId, col, mode));
+  },
+  onBodyCellAction: (name, data, rowIndex, columnIndex) => {
+    const action = bodyCellActions.find(actionElem => actionElem.label === name);
+
+    if (action) {
+      if (!action.onClick) {
+        console.error(`[NotImplementedError] onClick is not defined for action [${action.label}]`);
+      }
+
+      action.onClick(dispatch, data, rowIndex, columnIndex);
+    }
   },
   onCellClick: (i, j, content) => {
     console.error('[NotImplementedError] Click on cell has not yet been implemented');

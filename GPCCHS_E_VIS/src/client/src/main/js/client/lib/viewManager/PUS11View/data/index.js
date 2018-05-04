@@ -3,11 +3,11 @@ import { filter, sort } from '../../common/data/table';
 
 const _cell = value => ({
   value,
+  tooltip: value,
 });
 
 /**
  * Format subSchedule table rows
- * TODO: use config to filter or sort data
  *
  * @param data
  * @param config

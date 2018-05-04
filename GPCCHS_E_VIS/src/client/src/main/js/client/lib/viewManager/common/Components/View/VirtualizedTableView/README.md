@@ -91,4 +91,43 @@ Le composant `VirtualizedTableView` prend en paramètres les propriétés suivan
   - `columnWidth` (default 220): définit la largeur fixe d'une colonne du tableau
   
   
+### Propriétés optionnel
+
+Le composant `VirtualizedTableView` permet d'afficher une tooltip ainsi qu'un menu contextuel pour
+chacune des cellules.
+
+Pour mettre en place ces éléments :
+
+- tooltip: ajouter un champs tooltip dans les éléments pour lesquels on voudrait afficher une tooltip
+Pour rappel, ces éléments sont passés via un tableau de tableau par la propriété `rows`.
+
+Voir exemple `lib/viewManager/PUS11View/data/index.js`.
+
+- menu contextuel : passer en propriété un tableau décrivant le menu et les actions associées.
+Ce menu est commun à toutes les cellules.
+
+Voici un exemple de définition d'un menu :
+
+<VirtualizedTableViewContainer
+  bodyCellActions={
+    [
+      {
+        label: 'Log info',
+        onClick: (dispatch, content, i, j) => { 
+        console.log(`Clicked on log info at cell ${(i, j)}`); 
+        }
+      },
+    ]
+  }
+/>
+
+La fonction `onClick` à définir prends 4 arguments en paramètres :
+dispatch: la fonction de dispatch permettant de dispatcher une action donnée.
+content: le contenu de la cellule
+i, j: les index de la ligne (resp. de la colonne) de la cellule sur laquelle le menu a été évoqué.
+
+
+
+  
+  
   

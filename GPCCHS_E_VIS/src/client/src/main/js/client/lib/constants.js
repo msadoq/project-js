@@ -307,5 +307,6 @@ module.exports = {
   // Providers
   PROVIDER_FLOW_HKTMR: 'HKTMR',
   PROVIDER_FLOW_HKTMP: 'HKTMP',
+  PROVIDER_FLOW_RM: 'RM',
   PROVIDER_FLOW_ALL: '*',
 };

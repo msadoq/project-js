@@ -14,6 +14,7 @@ ISIS-FT-1657|En attente|2016-04-22 08:01:03||plantage VIMA sur manipulation des 
 ISIS-FT-1947|En attente|2017-03-21 17:15:17||SDB lite VIMA JS|None|None
 ISIS-FT-1951|En attente|2017-03-21 17:15:18||champ session TBD VIMA JS|None|None
 ISIS-FT-1971|En attente|2017-03-23 07:58:39||d?marrage VIMA JS|None|None
+ISIS-FT-1994|Ouvert|2017-03-23 17:50:51||textual data plot VIMA JS|None|None
 ISIS-FT-2031|En attente|2017-03-28 16:24:40||inspector View VIMA Qt|None|None
 ISIS-FT-2034|En attente|2017-03-28 16:24:40||packetView VIMA Qt|None|None
 ISIS-FT-2037|En attente|2017-03-28 16:24:40||ground alarm view VIMA Qt|None|None
@@ -68,7 +69,6 @@ ISIS-FT-3103|En attente|2018-05-02 07:51:34||IHM lanc?es dans session system|D|N
 ISIS-FT-3104|En Validation|2018-05-02 07:51:34||filtrage provider TM VIMA|D|None
 ISIS-FT-3105|En attente|2018-05-02 07:51:34||filtrage provider TM VIMA comboBox|D|None
 ISIS-FT-3106|Ouvert|2018-05-02 07:51:34||champs filtrage domain/timeline VIMA|D|None
-ISIS-FT-3107|En D?veloppement|2018-05-02 07:51:34||perfo VIMA et TBD pour param?tres d'en-t?te|P|None
 ISIS-FT-3108|En attente|2018-05-02 07:51:34||filter sub-data entryPoint VIMA|D|None
 ISIS-FT-3109|Ouvert|2018-05-02 07:51:34||drag&drop RTE to VIMA|D|None
 ISIS-FT-3110|Ouvert|2018-05-02 07:51:34||subdata filter dans refonte entryPoint|D|None
@@ -97,6 +97,8 @@ ISIS-FT-3179|Ouvert|2018-05-04 07:28:20||highlighted curve from legend plotView|
 ISIS-FT-3180|Ouvert|2018-05-04 07:28:20||unit n?cessaire pour axes plotView|D|None
 ISIS-FT-3181|Ouvert|2018-05-04 07:28:20||trac?s param?triques plotView|D|None
 ISIS-FT-3182|Ouvert|2018-05-04 07:28:20||interpolation multi-param?tres plotView manquant|D|None
+ISIS-FT-3185|Ouvert|2018-05-07 07:06:17||save workspace si modif timebar VIMA|D|None
+ISIS-FT-3186|Ouvert|2018-05-07 07:06:17||cast type filter subdata VIMA|D|None
 
 
 FT deja livre en attente de cloture :
@@ -110,7 +112,6 @@ ISIS-FT-1937|Livr?|2017-03-21 17:15:17||conversion d'unit?s|None|2.0.0-rc4.2
 ISIS-FT-1968|Livr?|2017-03-23 07:58:39||?diteur de vue VIMA JS|None|1.1.0.5
 ISIS-FT-1970|Livr?|2017-03-23 07:58:39||idSession dans le session time properties et idSession/Domain conf DC de la ligne d'essai VIMA|None|1.1.0.6
 ISIS-FT-1992|Livr?|2017-03-23 17:50:51||custom color plot VIMA JS|None|2.0.0
-ISIS-FT-1994|Livr?|2017-03-23 17:50:51||textual data plot VIMA JS|None|2.0.0
 ISIS-FT-2032|Livr?|2017-03-28 16:24:40||on board alarm VIMA Qt|None|1.1.0.8
 ISIS-FT-2036|Livr?|2017-03-28 16:24:40||ground alarm injecteur VIMA Qt|None|2.0.0-rc1
 ISIS-FT-2058|Livr?|2017-03-30 07:08:02||Trop de logs produits par VIMA Qt|D|

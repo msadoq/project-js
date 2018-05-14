@@ -122,7 +122,10 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
       dispatch({
         type: types.WS_TIMEBAR_UPDATE_CURSORS,
         payload: {
-          visuWindow,
+          visuWindow: {
+            ...visuWindow,
+            saved: timebar.visuWindow.saved,
+          },
           slideWindow: newSlideWindow,
           timebarUuid,
         },

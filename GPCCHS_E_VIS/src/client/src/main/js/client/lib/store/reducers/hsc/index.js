@@ -123,7 +123,8 @@ export default function hsc(state = initialState, action) {
       return _.set('isModified', action.payload.flag, state);
     }
     case types.WS_WORKSPACE_OPENED:
-      return { ...state,
+      return {
+        ...state,
         isWorkspaceOpened: true,
         isModified: !!action.payload.isModified,
         domainName: action.payload.domainName,
@@ -140,10 +141,12 @@ export default function hsc(state = initialState, action) {
     case types.WS_WINDOW_PAGE_FOCUS:
       return Object.assign({}, state, { forecast: {} });
     case types.HSC_UPDATE_FORECAST:
-      return Object.assign({}, state, { forecast: {
-        upper: action.payload.upper,
-        lower: action.payload.lower,
-      } });
+      return Object.assign({}, state, {
+        forecast: {
+          upper: action.payload.upper,
+          lower: action.payload.lower,
+        },
+      });
     case types.WS_WORKSPACE_UPDATE_DOMAINNAME:
       if (action.payload.domainName) {
         return { ...state, domainName: action.payload.domainName, isModified: true };
@@ -160,6 +163,12 @@ export default function hsc(state = initialState, action) {
         detachWindow: action.payload.detachWindow,
         attachWindow: action.payload.attachWindow,
       };
+    case types.WS_TIMEBAR_SAVE_VISUALIZATION:
+      return { ...state, isModified: true };
+    case types.WS_TIMEBAR_UPDATE_CURSORS:
+      return action.payload.visuWindow.saved
+        ? { ...state, isModified: true }
+        : state;
     default:
       return state;
   }

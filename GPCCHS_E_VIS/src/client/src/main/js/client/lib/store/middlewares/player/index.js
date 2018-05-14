@@ -46,11 +46,15 @@ const nextTick = (delta, currentUpperMargin, dispatch, getState) => {
   if (!playingTimebar) {
     return;
   }
-  const newCurrent = nextCurrent(
+
+  const newCurrent = playingTimebar.realTime
+    ? new Date().getTime() + delta
+    : nextCurrent(
     playingTimebar.visuWindow.current,
     playingTimebar.speed,
     delta
   );
+
   const nextCursors = computeCursors(
     newCurrent,
     playingTimebar.visuWindow.current,

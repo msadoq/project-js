@@ -97,7 +97,7 @@ describe('store:middlewares:player', () => {
       store.dispatch(pause());
       expect(store.getActions()).toMatchSnapshot();
     });
-    test('play update cursors at regular intervals until pause', () => {
+    test('play non-real-time update cursors at regular intervals until pause', () => {
       const store = mockStore({
         health: {},
         hsc: { playingTimebarId: 'tb1' },
@@ -112,6 +112,24 @@ describe('store:middlewares:player', () => {
 
       jest.runAllTimers();
       expect(store.getActions()).toMatchSnapshot();
+    });
+    test('play real-time update cursors at regular intervals until pause', () => {
+      const store = mockStore({
+        health: {},
+        hsc: { playingTimebarId: 'tb1' },
+        timebars: { tb1: { ...timebarFixture, realTime: true } },
+        messages: {},
+      });
+
+      store.dispatch(play());
+      jest.runOnlyPendingTimers();
+      jest.runOnlyPendingTimers();
+      jest.runOnlyPendingTimers();
+      store.dispatch(pause());
+
+      jest.runAllTimers();
+
+      // what to test ? Hard to say...
     });
   });
 

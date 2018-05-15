@@ -25,7 +25,7 @@
 // ====================================================================
 
 import React, { PropTypes } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field } from 'redux-form';
 import classnames from 'classnames';
 import {
   Form,
@@ -174,21 +174,4 @@ class ViewParamsForm extends React.Component {
   }
 }
 
-
-const requiredFields = ['title'];
-const validate = (values = {}) => {
-  const errors = {};
-
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-  return errors;
-};
-
-export default reduxForm({
-  validate,
-  warn: () => ({}),
-  enableReinitialize: true,
-})(ViewParamsForm);
+export default ViewParamsForm;

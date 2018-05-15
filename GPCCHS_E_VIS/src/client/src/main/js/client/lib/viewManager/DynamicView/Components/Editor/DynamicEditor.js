@@ -39,7 +39,6 @@ import DynamicTab from 'viewManager/DynamicView/Components/Editor/DynamicTab';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
 const { string, number, bool, func, shape, array } = PropTypes;
-const DynamicViewEntryPointsWithForm = WithForm(DynamicViewEntryPointsContainer);
 
 export default class DynamicEditor extends Component {
   static propTypes = {
@@ -73,6 +72,23 @@ export default class DynamicEditor extends Component {
     tab: null,
     title: '',
   };
+
+  /**
+   * empty form in the state
+   * this form will be fill in componentWillReceiveProps with initial values
+   * TODO jmira voir avec Yann et Jean si ce fonctionnement convient (redondance)
+   */
+  state = {
+    DynamicViewEntryPointsWithForm: WithForm(DynamicViewEntryPointsContainer),
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.viewId !== this.props.viewId) {
+      this.setState({
+        DynamicViewEntryPointsWithForm: WithForm(DynamicViewEntryPointsContainer),
+      });
+    }
+  }
 
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
@@ -117,6 +133,11 @@ export default class DynamicEditor extends Component {
         timeline: '*',
       }
       : nullObject;
+
+    /**
+     * get form from the state
+     */
+    const { DynamicViewEntryPointsWithForm } = this.state;
 
     return (
       <div className={styles.contentWrapper}>

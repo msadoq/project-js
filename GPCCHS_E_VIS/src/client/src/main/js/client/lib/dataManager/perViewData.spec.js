@@ -61,7 +61,9 @@ describe('dataManager/perViewData', () => {
   test('should keep all entrypoints when wildcard at every level', () => {
     const localState = _cloneDeep(state);
     const { entryPoints } = localState.PlotViewConfiguration.plot1;
-    entryPoints.forEach((e) => { e.connectedData.timeline = WILDCARD; });
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
     localState.views.plot1.sessionName = WILDCARD;
     localState.pages.page1.sessionName = WILDCARD;
     localState.hsc.sessionName = WILDCARD;
@@ -81,7 +83,9 @@ describe('dataManager/perViewData', () => {
       uuid: 'tl1',
     };
     const { entryPoints } = localState.PlotViewConfiguration.plot1;
-    entryPoints.forEach((e) => { e.connectedData.timeline = 'truc'; }); // a session which does not match
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = 'truc';
+    }); // a session which does not match
     entryPoints[0].connectedData.timeline = 'Session 1'; // timeline associated to 'Master' session
     entryPoints[1].connectedData.timeline = WILDCARD;
     localState.views.plot1.sessionName = WILDCARD;
@@ -94,7 +98,9 @@ describe('dataManager/perViewData', () => {
   test('should take no entryPoints when plot session is different from masterSession', () => {
     const localState = _cloneDeep(state);
     const { entryPoints } = localState.PlotViewConfiguration.plot1;
-    entryPoints.forEach((e) => { e.connectedData.timeline = WILDCARD; });
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
     localState.views.plot1.sessionName = 'Master';
     localState.pages.page1.sessionName = WILDCARD;
     localState.hsc.sessionName = WILDCARD;
@@ -106,7 +112,9 @@ describe('dataManager/perViewData', () => {
   test('should take all entryPoints when plot session is equal to masterSession', () => {
     const localState = _cloneDeep(state);
     const { entryPoints } = localState.PlotViewConfiguration.plot1;
-    entryPoints.forEach((e) => { e.connectedData.timeline = WILDCARD; });
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
     localState.views.plot1.sessionName = 'Master';
     localState.pages.page1.sessionName = WILDCARD;
     localState.hsc.sessionName = WILDCARD;
@@ -118,7 +126,9 @@ describe('dataManager/perViewData', () => {
   test('should take no entryPoints when page session is different from masterSession', () => {
     const localState = _cloneDeep(state);
     const { entryPoints } = localState.PlotViewConfiguration.plot1;
-    entryPoints.forEach((e) => { e.connectedData.timeline = WILDCARD; });
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
     localState.views.plot1.sessionName = WILDCARD;
     localState.pages.page1.sessionName = 'truc';
     localState.hsc.sessionName = WILDCARD;
@@ -129,7 +139,9 @@ describe('dataManager/perViewData', () => {
   test('should take no entryPoints when hsc session is different from masterSession', () => {
     const localState = _cloneDeep(state);
     const { entryPoints } = localState.PlotViewConfiguration.plot1;
-    entryPoints.forEach((e) => { e.connectedData.timeline = WILDCARD; });
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
     localState.views.plot1.sessionName = WILDCARD;
     localState.pages.page1.sessionName = WILDCARD;
     localState.hsc.sessionName = 'truc';
@@ -140,7 +152,9 @@ describe('dataManager/perViewData', () => {
   test('should consider no hsc.sessionName as a wildcard', () => {
     const localState = _cloneDeep(state);
     const { entryPoints } = localState.PlotViewConfiguration.plot1;
-    entryPoints.forEach((e) => { e.connectedData.timeline = WILDCARD; });
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
     localState.views.plot1.sessionName = WILDCARD;
     localState.pages.page1.sessionName = WILDCARD;
     delete localState.hsc.sessionName;

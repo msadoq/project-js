@@ -126,7 +126,7 @@ export default {
         stateColors: [],
       }, {
         connectedData: {
-          domain: 'fr.cnes.isis',
+          domain: 'fr.cnes.isis.simupus',
           filter: [],
           formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>',
           timeline: 'Session 1',
@@ -371,7 +371,7 @@ export default {
           connectedData: {
             axisId: 'VBat',
             digits: 5,
-            domain: 'fr.cnes.isis',
+            domain: 'fr.cnes.isis.simupus',
             fieldX: 'groundDate',
             filter: [],
             format: 'decimal',
@@ -398,7 +398,7 @@ export default {
           connectedData: {
             axisId: 'VBat',
             digits: 5,
-            domain: 'fr.cnes.isis',
+            domain: 'fr.cnes.isis.simupus',
             fieldX: 'groundDate',
             filter: [],
             format: 'decimal',
@@ -1065,7 +1065,7 @@ export default {
         length: 5,
         width: 3,
       },
-      domainName: 'fr.cnes.isis',
+      domainName: 'fr.cnes.isis.simupus',
       isModified: false,
       links: [],
       pageFolder: '/mydata/data/pages',
@@ -1093,7 +1093,7 @@ export default {
         length: 5,
         width: 3,
       },
-      domainName: 'fr.cnes.isis',
+      domainName: 'fr.cnes.isis.simupus',
       isModified: false,
       links: [],
       pageFolder: '/mydata/data/pages',

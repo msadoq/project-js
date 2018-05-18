@@ -86,6 +86,7 @@ jest.mock('windowProcess/common/colors', () => ({
   getRandomColor: () => '#00FF00',
   getBorderColorForTab: () => '#CCC',
   getBorderColorForNav: () => '#CCC',
+  getColorWithDomainDetermination: () => '#CCC',
 }));
 describe('windowProcess', () => {
   describe('windowProcess :: Navigation', () => {

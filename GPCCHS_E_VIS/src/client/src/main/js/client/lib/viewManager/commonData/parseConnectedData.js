@@ -19,6 +19,7 @@
 // ====================================================================
 
 import { get } from 'common/configurationManager';
+import { domainDeterminationForDisplay } from 'windowProcess/common/domains';
 import formulaParser from './formula';
 import domainsFilter from './domains';
 import sessionsFilter from './sessions';
@@ -46,6 +47,13 @@ export default function parseConnectedData(
   }
   const { catalog, parameterName, comObject, field } = parameter;
   const expectedField = field || get('DEFAULT_FIELD')[comObject];
+
+  if ((workspaceDomain || '*') && pageDomain && viewDomain && domain) {
+    const display = domainDeterminationForDisplay(workspaceDomain || '*', pageDomain, viewDomain, domain);
+    if (!display) {
+      return { error: `Domains does not match for ${parameterName}` };
+    }
+  }
 
   const domainSearch = domainsFilter(domains, domain, viewDomain, pageDomain, workspaceDomain);
   if (domainSearch.error) {

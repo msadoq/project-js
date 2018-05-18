@@ -49,8 +49,8 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
       domains.push(domain);
     }
   });
-
   domains = _uniqBy(domains);
+  domains = domains.length === 0 ? ['*'] : domains;
 
   const { getFullTitle } = getDataSelectors(type);
   const title = getFullTitle(state, { viewId });

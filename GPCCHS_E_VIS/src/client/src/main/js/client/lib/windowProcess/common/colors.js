@@ -24,6 +24,7 @@ import { get } from 'common/configurationManager';
 import _pull from 'lodash/pull';
 import _uniq from 'lodash/uniq';
 import _flatMap from 'lodash/flatMap';
+import { domainDeterminationForColor } from './domains';
 
 export const STATE_COLOR_NOMINAL = 'nominal';
 export const STATE_COLOR_WARNING = 'warning';
@@ -89,9 +90,9 @@ export const getStateColorFilters = _memoize(
 export const getStateColor = _memoize(
   (obsolete = false, significant = true, state = STATE_COLOR_NOMINAL) =>
     _find(getStateColorFilters(obsolete, significant), o => (
-      o.condition.operand === state
-    )
-  ),
+        o.condition.operand === state
+      )
+    ),
   (obsolete, significant, state) =>
     `${obsolete}-${significant}-${state}`
 );
@@ -111,13 +112,14 @@ export const isCustomizable = (monitoringState, obsolete, significant) =>
  * @returns {{}}
  */
 const getStateColorsCSSVars =
-  () => Object.keys(getStateColors()).map(k => ({
-    [`--monit-${k}`]: getStateColors()[k],
-  }))
-  .reduce((acc, c) => ({
-    ...acc,
-    ...c,
-  }), {});
+  () => Object.keys(getStateColors())
+    .map(k => ({
+      [`--monit-${k}`]: getStateColors()[k],
+    }))
+    .reduce((acc, c) => ({
+      ...acc,
+      ...c,
+    }), {});
 
 export const getBackgroundColorByDomains = (workspaceDomain, pageDomain, viewDomain, epDomains) => {
   let domain = null;
@@ -203,6 +205,13 @@ export const getBorderColorForNav = (workspaceDomain, pages, viewsDomains) => {
   return colorObject !== undefined ? colorObject[domain] : '#CCC';
 };
 
+export const getColorWithDomainDetermination =
+  (workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from) => {
+    const domain =
+      domainDeterminationForColor(workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from);
+    const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
+    return colorObject[domain];
+  };
 
 export default {
   colors,

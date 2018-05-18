@@ -83,6 +83,7 @@ global.testConfig = {
     { 'fr.cnes.isis.simupus': '#339933' },
     { 'fr.cnes.isis': '#0066ff' },
     { multi: '#ff3300' },
+    { unresolved: '#CCCCCC' },
   ],
   DATE_FORMAT_TAI: 'YYYY-MM-DDTHH:mm:ss.SSS',
 };

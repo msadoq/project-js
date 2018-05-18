@@ -49,7 +49,7 @@ Object {
     },
   },
   "expectedRangeIntervals": Object {
-    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
+    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::": Object {
       "groundDate/extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           100000,
@@ -107,7 +107,7 @@ Object {
         ],
       },
     },
-    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
+    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::": Object {
       "groundDate/extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           500000,
@@ -290,12 +290,12 @@ Object {
     },
   },
   "perRangeTbdId": Object {
-    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
+    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::": Object {
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
-        "domain": "fr.cnes.isis",
-        "domainId": 1,
+        "domain": "fr.cnes.isis.simupus",
+        "domainId": 4,
         "parameterName": "ATT_BC_REVTCOUNT1",
         "provider": "",
         "sessionId": 0,
@@ -422,8 +422,8 @@ Object {
           "dataId": Object {
             "catalog": "Reporting",
             "comObject": "ReportingParameter",
-            "domain": "fr.cnes.isis",
-            "domainId": 1,
+            "domain": "fr.cnes.isis.simupus",
+            "domainId": 4,
             "parameterName": "ATT_BC_REVTCOUNT1",
             "provider": "*",
             "sessionId": 0,
@@ -434,7 +434,7 @@ Object {
           "localId": "undefined.tb1:0",
           "offset": 0,
           "stateColors": Array [],
-          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::",
+          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "HistoryView",
         },
@@ -552,8 +552,8 @@ Object {
           "dataId": Object {
             "catalog": "Reporting",
             "comObject": "ReportingParameter",
-            "domain": "fr.cnes.isis",
-            "domainId": 1,
+            "domain": "fr.cnes.isis.simupus",
+            "domainId": 4,
             "parameterName": "ATT_BC_REVTCOUNT1",
             "provider": "*",
             "sessionId": 0,
@@ -566,7 +566,7 @@ Object {
           "localId": "groundDate/extractedValue.tb1:0",
           "offset": 0,
           "stateColors": Array [],
-          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::",
+          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "PlotView",
         },
@@ -576,8 +576,8 @@ Object {
           "dataId": Object {
             "catalog": "Reporting",
             "comObject": "ReportingParameter",
-            "domain": "fr.cnes.isis",
-            "domainId": 1,
+            "domain": "fr.cnes.isis.simupus",
+            "domainId": 4,
             "parameterName": "ATT_BC_REVTCOUNT1",
             "provider": "*",
             "sessionId": 0,
@@ -590,7 +590,7 @@ Object {
           "localId": "groundDate/extractedValue.tb1:10000",
           "offset": 10000,
           "stateColors": Array [],
-          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::",
+          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "PlotView",
         },

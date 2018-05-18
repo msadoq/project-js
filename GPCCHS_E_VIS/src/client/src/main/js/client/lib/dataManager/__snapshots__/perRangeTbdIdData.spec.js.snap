@@ -2,12 +2,12 @@
 
 exports[`dataManager/perRangeTbdIdData perRangeTbdIdMap 1`] = `
 Object {
-  "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
+  "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::": Object {
     "dataId": Object {
       "catalog": "Reporting",
       "comObject": "ReportingParameter",
-      "domain": "fr.cnes.isis",
-      "domainId": 1,
+      "domain": "fr.cnes.isis.simupus",
+      "domainId": 4,
       "parameterName": "ATT_BC_REVTCOUNT1",
       "provider": "",
       "sessionId": 0,

@@ -22,6 +22,8 @@
     "width": 50
   },
   "procedures": [],
+  "domainName": "*",
+  "sessionName": "*",
   "axes": [
     {
       "label": "Time",
@@ -142,8 +144,7 @@
         "provider": "",
         "stringParameter": false,
         "timeline": "Session 1",
-        "unit": "V",
-        "provider": ""
+        "unit": "V"
       },
       "connectedDataParametric": {
         "domainX": "",
@@ -171,45 +172,45 @@
       "stateColors": []
     },
     {
-      "name": "ATT_BC_REVTCOUNT1",
-      "parametric": false,
       "connectedData": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
-        "fieldX": "groundDate",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.isis",
-        "timeline": "Session 1",
         "axisId": "VBat",
-        "stringParameter": false,
-        "defaultY": 1,
-        "provider": "",
         "convertFrom": "",
-        "convertTo": ""
+        "convertTo": "",
+        "defaultY": 1,
+        "digits": 5,
+        "domain": "fr.cnes",
+        "fieldX": "groundDate",
+        "filter": [],
+        "format": "decimal",
+        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
+        "provider": "",
+        "stringParameter": false,
+        "timeline": "Session 1",
+        "unit": "V"
       },
       "connectedDataParametric": {
-        "formulaX": "",
-        "formulaY": "",
         "domainX": "",
         "domainY": "",
+        "formulaX": "",
+        "formulaY": "",
         "unitX": "",
         "unitY": "",
         "xAxisId": "",
         "yAxisId": ""
       },
+      "name": "ATT_BC_REVTCOUNT1",
       "objectStyle": {
+        "curveColor": "#ff9800",
         "line": {
-          "style": "Continuous",
-          "size": 3
+          "size": 3,
+          "style": "Continuous"
         },
         "points": {
-          "style": "None",
-          "size": 3
-        },
-        "curveColor": "#ff9800"
+          "size": 3,
+          "style": "None"
+        }
       },
+      "parametric": false,
       "stateColors": []
     }
   ],

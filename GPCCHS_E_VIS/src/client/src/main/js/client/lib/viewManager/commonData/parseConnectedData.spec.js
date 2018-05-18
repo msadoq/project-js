@@ -135,7 +135,10 @@ describe('viewManager/commonData/parseConnectedData', () => {
     connectedData.timeline = '*';
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
       'cnes', 'cnes.isis', 'cnes', 'session1', 'session2');
-    expect(res).toEqual({
+    const res2 = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
+      'cnes', 'cnes', 'cnes', 'session1', 'session2');
+    expect(res).toEqual({ error: 'Domains does not match for ATT_BC_STR1VOLTAGE' });
+    expect(res2).toEqual({
       dataId: {
         catalog: 'Reporting',
         parameterName: 'ATT_BC_STR1VOLTAGE',

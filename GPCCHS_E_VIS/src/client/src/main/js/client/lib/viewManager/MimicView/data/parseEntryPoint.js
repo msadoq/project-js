@@ -41,7 +41,13 @@ function parseEntryPoint(
   entryPoint,
   masterTimelineSession,
   timebarUuid,
-  viewType) {
+  viewType,
+  viewDomain,
+  pageDomain,
+  workspaceDomain,
+  viewSessionName,
+  pageSessionName,
+  workspaceSessionName) {
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
@@ -56,12 +62,12 @@ function parseEntryPoint(
       timelines,
       connectedData,
       masterTimelineSession,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
+      viewDomain,
+      pageDomain,
+      workspaceDomain,
+      viewSessionName,
+      pageSessionName,
+      workspaceSessionName,
       provider
     );
 

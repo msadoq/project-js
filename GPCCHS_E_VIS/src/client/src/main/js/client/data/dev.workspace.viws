@@ -5,10 +5,10 @@
       "type": "documentWindow",
       "title": "Development workspace",
       "geometry": {
-        "w": 1850,
-        "h": 1087,
-        "x": 1629,
-        "y": 84,
+        "w": 1596,
+        "h": 820,
+        "x": 1602,
+        "y": 51,
         "kind": "Absolute"
       },
       "pages": [
@@ -23,9 +23,9 @@
     {
       "id": "TB1",
       "type": "timeBarConfiguration",
-      "rulerResolution": 1471.2643678160919,
+      "rulerResolution": 1708.836617927527,
       "speed": 0.15,
-      "masterId": "idiou",
+      "masterId": "Session 1",
       "mode": "Normal",
       "visuWindow": {
         "defaultWidth": 60000

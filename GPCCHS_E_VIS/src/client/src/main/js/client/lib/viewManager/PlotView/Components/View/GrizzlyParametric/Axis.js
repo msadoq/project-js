@@ -123,7 +123,6 @@ export default class Axis extends Component {
       lineLabel = styles.xAxisLineLabel;
       axisClassName = styles.xAxis;
     }
-    lines.map(line => console.log('disp: ', line.id, ' ', line.displayLine));
     return (
       <div
         style={divStyle}

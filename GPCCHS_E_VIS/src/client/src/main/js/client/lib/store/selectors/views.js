@@ -46,6 +46,8 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import _ from 'lodash/fp';
 import _map from 'lodash/map';
+import _uniq from 'lodash/uniq';
+import _pull from 'lodash/pull';
 import _isEqual from 'lodash/isEqual';
 import makeGetPerViewData from 'dataManager/perViewData';
 import { getPage, getPages, getPageIdByViewId } from '../reducers/pages';
@@ -142,12 +144,17 @@ export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPo
 );
 
 export const getViewEntryPointsDomain = createSelector(getViewEntryPoints, entryPoints =>
-  _map(entryPoints, (ep) => {
-    if (ep.dataId) {
-      return ep.dataId.domain;
-    }
-    return null;
-  })
+  _pull(
+    _uniq(
+      _map(entryPoints, (ep) => {
+        if (ep.dataId) {
+          return ep.dataId.domain;
+        }
+        return undefined;
+      })
+    ),
+    undefined
+  )
 );
 
 // composed

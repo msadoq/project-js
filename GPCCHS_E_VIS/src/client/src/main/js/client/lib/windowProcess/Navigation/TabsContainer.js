@@ -49,7 +49,7 @@ const mapStateToProps = () => (state, { windowId }) => {
         _.map(page.views, viewId => getViewDomainName(state, { viewId }))
       );
     const epDomains =
-      _uniq(_flatMap(page.views, viewId => getViewEntryPointsDomain(state, { viewId })));
+      _flatMap(page.views, viewId => getViewEntryPointsDomain(state, { viewId }));
     viewsDomainsByPage[page.pageId] = viewsDomains;
     epDomainsByPage[page.pageId] = epDomains;
     workspaceViewsDomains = workspaceViewsDomains.concat(viewsDomains);

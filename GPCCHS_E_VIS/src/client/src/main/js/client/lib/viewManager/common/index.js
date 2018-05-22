@@ -1,3 +1,7 @@
+const constants = require('constants');
+
+const PACKETS_TYPES = constants.PACKETS_TYPES;
+
 // eslint-disable-next-line import/prefer-default-export
 export const buildFormula = (catalog, catalogItem, comObject, comObjectField) => {
   let result = '';
@@ -10,10 +14,10 @@ export const buildFormula = (catalog, catalogItem, comObject, comObjectField) =>
       if (comObject) {
         result += `<${comObject}>`;
 
-        if (comObject.indexOf('ReportingParameter') > -1) {
+        if (comObject === PACKETS_TYPES.REPORTING_PARAMETER) {
           result += '.convertedValue';
           return result;
-        } else if (comObject.indexOf('DecommutedPacket') > -1) {
+        } else if (comObject === PACKETS_TYPES.DECOMMUTED_PACKET) {
           return result;
         }
 

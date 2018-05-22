@@ -50,7 +50,7 @@ Array [
 ]
 `;
 
-exports[`store:middlewares:player play/pause play update cursors at regular intervals until pause 1`] = `
+exports[`store:middlewares:player play/pause play non-real-time update cursors at regular intervals until pause 1`] = `
 Array [
   Object {
     "type": "HSC_PLAY",

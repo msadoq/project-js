@@ -220,7 +220,7 @@ export default class Tabs extends PureComponent {
               viewsDomainsForPage,
               epDomainsForPage,
               'page'
-            );
+            ) || '#CCC';
             const styleTab = {
               borderBottom: '5px solid',
               borderLeft: '0',

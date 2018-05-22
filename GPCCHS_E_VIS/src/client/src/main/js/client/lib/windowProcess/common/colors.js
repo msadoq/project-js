@@ -207,10 +207,14 @@ export const getBorderColorForNav = (workspaceDomain, pages, viewsDomains) => {
 
 export const getColorWithDomainDetermination =
   (workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from) => {
+    let color = null;
     const domain =
       domainDeterminationForColor(workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from);
-    const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
-    return colorObject[domain];
+    if (domain) {
+      const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
+      color = colorObject[domain];
+    }
+    return color;
   };
 
 export default {

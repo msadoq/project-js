@@ -54,7 +54,7 @@ if (global.parameters.get('WDYU') === 'on') {
   const excludeList = [
     'Connect', 'Glyphicon', 'NavItem', 'SafeAnchor', 'DraggableCore', 'Resizable',
     'ReactGridLayout', 'ResponsiveReactGridLayout', 'Button', 'Tabs', 'GridItem', 'Grid', 'Row',
-    'Col', 'DropdownMenu', 'DropdownToggle', 'MenuItem', 'Tooltip', 'Modal',
+    'Col', 'DropdownMenu', 'DropdownToggle', 'MenuItem', 'Tooltip', 'ModalComponent',
   ];
   whyDidYouUpdate(React, {
     exclude: new RegExp(excludeList.join('|')),

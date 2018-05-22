@@ -5,7 +5,6 @@ import { getConfigurationByViewId } from 'viewManager/selectors';
 import { getDomains } from 'store/reducers/domains';
 import { getSessions } from 'store/reducers/sessions';
 import {
-  updateBgColor,
   updateTitle,
   updateLegend,
   toggleLegend,
@@ -34,7 +33,6 @@ const mapStateToProps = (state, { viewId }) => {
 };
 
 const ViewParamsContainer = connect(mapStateToProps, {
-  updateBgColor,
   updateTitle,
   updateTitleStyle,
   updateDomainName,

@@ -188,11 +188,6 @@ describe('store:reducer:views', () => {
       expect(state.plot1.titleStyle).toEqual(style);
       expect(state.plot1.isModified).toBe(true);
     });
-    test('bg color', () => {
-      const state = reducer(stateViews, actions.updateBgColor('plot1', '#FFFFAA'));
-      expect(state.plot1.backgroundColor).toEqual('#FFFFAA');
-      expect(state.plot1.isModified).toBe(true);
-    });
   });
   describe('Add element in array', () => {
     test('link', () => {

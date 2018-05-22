@@ -85,7 +85,6 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_MARKER,
     types.WS_VIEW_UPDATE_PROCEDURE,
     types.WS_VIEW_UPDATE_TITLESTYLE,
-    types.WS_VIEW_UPDATE_BGCOLOR,
     types.WS_VIEW_UPDATE_LEGEND,
     types.WS_VIEW_UPDATE_CONTENT,
     types.WS_VIEW_UPDATE_SHOWYAXES,
@@ -166,8 +165,6 @@ function simpleView(stateView = initialState, action) {
       return _.set('title', action.payload.title, stateView);
     case types.WS_VIEW_UPDATE_TITLESTYLE:
       return _.set('titleStyle', action.payload.titleStyle, stateView);
-    case types.WS_VIEW_UPDATE_BGCOLOR:
-      return _.set('backgroundColor', action.payload.bgColor, stateView);
     case types.WS_VIEW_UPDATE_LINK:
       return _.set(`links[${action.payload.index}]`, action.payload.link, stateView);
     case types.WS_VIEW_ADD_LINK:

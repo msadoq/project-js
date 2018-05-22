@@ -994,7 +994,6 @@ export default {
       title: 'Plot view',
       titleStyle: {
         align: 'center',
-        bgColor: '#009688',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1026,7 +1025,6 @@ export default {
       title: 'New Text View',
       titleStyle: {
         align: 'center',
-        bgColor: '#3F51B5',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1052,7 +1050,6 @@ export default {
       title: 'New Mimic View',
       titleStyle: {
         align: 'center',
-        bgColor: '#2196f3',
         color: '#FFFFF',
         underline: true,
       },
@@ -1075,7 +1072,6 @@ export default {
       title: 'Dynamic view',
       titleStyle: {
         align: 'center',
-        bgColor: '#E91E63',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1103,7 +1099,6 @@ export default {
       title: 'History view',
       titleStyle: {
         align: 'center',
-        bgColor: '#E91E63',
         bold: false,
         color: '#ffffff',
         font: 'Arial',

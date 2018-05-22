@@ -100,7 +100,7 @@ export default class Header extends PureComponent {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
-      background: titleStyle.bgColor ? titleStyle.bgColor : getColorWithDomainDetermination(
+      background: getColorWithDomainDetermination(
         workspaceDomain,
         [pageDomain],
         [viewDomain],

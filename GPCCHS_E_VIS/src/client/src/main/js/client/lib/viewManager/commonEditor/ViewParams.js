@@ -20,7 +20,6 @@ export default class ViewParams extends React.Component {
     viewId: PropTypes.string.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
-    updateBgColor: PropTypes.func.isRequired,
     updateDomainName: PropTypes.func.isRequired,
     updateSessionName: PropTypes.func.isRequired,
     backgroundColor: PropTypes.string,
@@ -90,14 +89,10 @@ export default class ViewParams extends React.Component {
 
   handleSubmit = (values) => {
     const {
-      updateTitle, updateTitleStyle,
-      updateBgColor, viewId,
+      updateTitle, updateTitleStyle, viewId,
       updateDomainName, updateSessionName,
     } = this.props;
 
-    if (this.props.backgroundColor !== values.backgroundColor) {
-      updateBgColor(viewId, values.backgroundColor);
-    }
     if (this.props.title !== values.title) {
       updateTitle(viewId, values.title);
     }

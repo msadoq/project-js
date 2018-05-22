@@ -47,7 +47,6 @@ export default class DynamicEditor extends Component {
     tab: number,
     titleStyle: shape({
       align: string,
-      bgColor: string,
       bold: bool,
       color: string,
       font: string,
@@ -123,7 +122,6 @@ export default class DynamicEditor extends Component {
       panels,
       openModal,
       title,
-      titleStyle,
     } = this.props;
     const nullObject = {};
     const initialValues = entryPoints.length
@@ -144,7 +142,7 @@ export default class DynamicEditor extends Component {
         <h4
           className="text-center mb10"
         >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <span className="mr5 EditorVignette" />
           <b>{title}</b>
         </h4>
         <ReloadAndSaveViewButtonsContainer viewId={viewId} />

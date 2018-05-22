@@ -9,7 +9,7 @@ export default class Axis extends Component {
   static propTypes = {
     direction: oneOf(['horizontal', 'vertical']).isRequired,
     lines: arrayOf(lineType.isRequired).isRequired,
-    showLabels: bool,
+    // showLabels: bool,
     label: string.isRequired,
     height: number.isRequired,
     xAxisHeight: number.isRequired,
@@ -31,7 +31,7 @@ export default class Axis extends Component {
     direction: 'horizontal',
     yAxesAt: 'left',
     xAxesAt: 'bottom',
-    showLabels: false,
+    // showLabels: false,
     showGrid: true,
     labelStyle: {
       color: '#333333',
@@ -49,7 +49,7 @@ export default class Axis extends Component {
     const {
       direction,
       lines,
-      showLabels,
+      // showLabels,
       label,
       height,
       xAxisHeight,
@@ -123,7 +123,6 @@ export default class Axis extends Component {
       lineLabel = styles.xAxisLineLabel;
       axisClassName = styles.xAxis;
     }
-
     return (
       <div
         style={divStyle}
@@ -150,7 +149,7 @@ export default class Axis extends Component {
               className={classnames(
                 'label',
                 lineLabel,
-                { hidden: !showLabels }
+                { hidden: !line.displayLine }
               )}
               ref={memoizeAssignRef(line.id)}
             >

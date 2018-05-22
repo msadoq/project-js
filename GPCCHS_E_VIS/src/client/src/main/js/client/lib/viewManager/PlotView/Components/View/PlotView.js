@@ -1010,13 +1010,15 @@ export class GrizzlyPlotView extends PureComponent {
                 xAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'xAxisId']) : 'time',
                 yAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'yAxisId']) : _get(ep, ['connectedData', 'axisId']),
                 fill: _get(ep, ['objectStyle', 'curveColor']),
+                displayLine: _get(ep, ['objectStyle', 'displayLine'], true),
                 lineSize: _get(ep, ['objectStyle', 'displayLine'], true) === true
                   ? _get(ep, ['objectStyle', 'line', 'size'])
                   : 0,
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
+                displayPoints: _get(ep, ['objectStyle', 'displayPoints'], true),
                 pointStyle: _get(ep, ['objectStyle', 'displayPoints'], true) === true
                   ? _get(ep, ['objectStyle', 'points', 'style'])
-                  : 0,
+                  : 'None',
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                 dataAccessor: ep.name,
                 stopInstruction: packet => (packet.isObsolete || false),

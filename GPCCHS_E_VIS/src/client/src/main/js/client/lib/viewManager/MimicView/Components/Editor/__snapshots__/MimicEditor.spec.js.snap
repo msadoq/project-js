@@ -67,7 +67,7 @@ ShallowWrapper {
                               pageId="pageId"
                               search="search"
                               viewId="view-id"
-                              viewType="TextView"
+                              viewType="MimicView"
                     />
           </div>
 </div>,
@@ -164,7 +164,7 @@ ShallowWrapper {
                             pageId="pageId"
                             search="search"
                             viewId="view-id"
-                            viewType="TextView"
+                            viewType="MimicView"
               />
 </div>,
             false,
@@ -184,7 +184,7 @@ ShallowWrapper {
                 pageId="pageId"
                 search="search"
                 viewId="view-id"
-                viewType="TextView"
+                viewType="MimicView"
 />,
             },
             "ref": null,
@@ -197,7 +197,7 @@ ShallowWrapper {
                 "pageId": "pageId",
                 "search": "search",
                 "viewId": "view-id",
-                "viewType": "TextView",
+                "viewType": "MimicView",
               },
               "ref": null,
               "rendered": null,
@@ -256,7 +256,7 @@ ShallowWrapper {
                                     pageId="pageId"
                                     search="search"
                                     viewId="view-id"
-                                    viewType="TextView"
+                                    viewType="MimicView"
                         />
             </div>
 </div>,
@@ -353,7 +353,7 @@ ShallowWrapper {
                                 pageId="pageId"
                                 search="search"
                                 viewId="view-id"
-                                viewType="TextView"
+                                viewType="MimicView"
                 />
 </div>,
               false,
@@ -373,7 +373,7 @@ ShallowWrapper {
                   pageId="pageId"
                   search="search"
                   viewId="view-id"
-                  viewType="TextView"
+                  viewType="MimicView"
 />,
               },
               "ref": null,
@@ -386,7 +386,7 @@ ShallowWrapper {
                   "pageId": "pageId",
                   "search": "search",
                   "viewId": "view-id",
-                  "viewType": "TextView",
+                  "viewType": "MimicView",
                 },
                 "ref": null,
                 "rendered": null,

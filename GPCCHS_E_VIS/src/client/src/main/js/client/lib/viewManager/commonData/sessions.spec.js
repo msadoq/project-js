@@ -68,7 +68,7 @@ describe('viewManager:commonData:sessions', () => {
       { name: 'Session#181', id: 181 },
       { name: 'Master', id: 3 }];
     expect(filter(newList, 'Master', { id: 10, name: 'Youhou' }))
-      .toEqual({ error: 'invalid entry point, more than one session match', });
+      .toEqual({ error: 'invalid entry point, more than one session match' });
   });
   test('should memoize', () => {
     const result = filter(list, 'Master', { id: 10, name: 'Youhou' });

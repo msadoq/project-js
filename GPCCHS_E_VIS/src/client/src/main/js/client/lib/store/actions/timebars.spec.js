@@ -102,6 +102,12 @@ describe('store:actions:timebars', () => {
         slideWindow: { lower: 110, upper: 160 },
         realTime: false,
       },
+      tb9: {
+        mode: 'Normal',
+        speed: 1,
+        visuWindow: { lower: 100, current: 150, upper: 200, saved: true },
+        slideWindow: { lower: 160, upper: 170 },
+      },
     },
     timelines: {
       tl1: { id: 'myTimelineId', sessionId: 1 },
@@ -166,6 +172,19 @@ describe('store:actions:timebars', () => {
             visuWindow: {},
             slideWindow: { lower: 100, upper: 170 },
             timebarUuid: 'tb3',
+          },
+        },
+      ]);
+    });
+    test('cursors update on saved timebar => ', () => {
+      store.dispatch(actions.updateCursors('tb9', {}, {}));
+      expect(store.getActions()).toEqual([
+        {
+          type: 'WS_TIMEBAR_UPDATE_CURSORS',
+          payload: {
+            visuWindow: { saved: true },
+            slideWindow: { lower: 100, upper: 170 },
+            timebarUuid: 'tb9',
           },
         },
       ]);
@@ -383,7 +402,7 @@ describe('store:actions:timebars', () => {
         {
           type: 'WS_TIMEBAR_UPDATE_CURSORS',
           payload: {
-            visuWindow: null,
+            visuWindow: {},
             slideWindow: { lower: 100, upper: 175 },
             timebarUuid: 'tb4',
           },
@@ -576,7 +595,7 @@ describe('store:actions:timebars', () => {
         {
           type: 'WS_TIMEBAR_UPDATE_CURSORS',
           payload: {
-            visuWindow: null,
+            visuWindow: {},
             slideWindow: {
               lower: 100,
               upper: 200,
@@ -606,7 +625,7 @@ describe('store:actions:timebars', () => {
         {
           type: 'WS_TIMEBAR_UPDATE_CURSORS',
           payload: {
-            visuWindow: null,
+            visuWindow: {},
             slideWindow: {
               lower: 100,
               upper: 117200000,
@@ -643,7 +662,7 @@ describe('store:actions:timebars', () => {
         {
           type: 'WS_TIMEBAR_UPDATE_CURSORS',
           payload: {
-            visuWindow: null,
+            visuWindow: {},
             slideWindow: {
               lower: 100,
               upper: 175,
@@ -692,7 +711,7 @@ describe('store:actions:timebars', () => {
         {
           type: 'WS_TIMEBAR_UPDATE_CURSORS',
           payload: {
-            visuWindow: null,
+            visuWindow: {},
             slideWindow: {
               lower: 100,
               upper: 175,

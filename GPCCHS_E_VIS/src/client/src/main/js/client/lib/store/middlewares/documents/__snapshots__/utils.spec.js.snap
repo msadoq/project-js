@@ -12,6 +12,7 @@ Array [
       "vihv",
       "viga",
       "viba",
+      "pus11",
     ],
     "name": "Any VIMA views",
   },
@@ -62,6 +63,12 @@ Array [
       "viba",
     ],
     "name": "OnboardAlarmView",
+  },
+  Object {
+    "extensions": Array [
+      "pus11",
+    ],
+    "name": "PUS11View",
   },
 ]
 `;
@@ -130,6 +137,14 @@ Array [
         "viba",
       ],
       "name": "OnboardAlarmView",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "pus11",
+      ],
+      "name": "PUS11View",
     },
   ],
 ]

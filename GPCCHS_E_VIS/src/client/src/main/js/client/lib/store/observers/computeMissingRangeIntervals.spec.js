@@ -67,6 +67,20 @@ describe('store/observers/computeMissingRangeIntervals', () => {
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingRangeIntervals(newMap, lastMap)).toEqual({
+      '.<GroundMonitoringAlarmAckRequest>:0:4:::': {
+        dataId: {
+          catalog: '',
+          comObject: 'GroundMonitoringAlarmAckRequest',
+          domain: 'fr.cnes.isis.simupus',
+          domainId: 4,
+          parameterName: '',
+          provider: undefined,
+          sessionId: 0,
+          sessionName: 'Master',
+        },
+        intervals:
+          [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
+      },
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
@@ -107,6 +121,20 @@ describe('store/observers/computeMissingRangeIntervals', () => {
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingRangeIntervals(newMap, lastMap)).toEqual({
+      '.<GroundMonitoringAlarmAckRequest>:0:4:::': {
+        dataId: {
+          catalog: '',
+          comObject: 'GroundMonitoringAlarmAckRequest',
+          domain: 'fr.cnes.isis.simupus',
+          domainId: 4,
+          parameterName: '',
+          provider: undefined,
+          sessionId: 0,
+          sessionName: 'Master',
+        },
+        intervals:
+          [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],
+      },
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{

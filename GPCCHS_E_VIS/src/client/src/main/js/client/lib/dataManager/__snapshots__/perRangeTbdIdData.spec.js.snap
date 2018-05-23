@@ -9,6 +9,7 @@ Object {
       "domain": "fr.cnes.isis.simupus",
       "domainId": 4,
       "parameterName": "",
+      "provider": undefined,
       "sessionId": 0,
       "sessionName": "Master",
     },

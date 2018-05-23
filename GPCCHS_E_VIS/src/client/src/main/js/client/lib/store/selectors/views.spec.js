@@ -86,7 +86,7 @@ describe('store:views:selectors', () => {
     });
     test('returns an empty array', () => {
       expect(getViewConfigurationTableCols(state, { viewId: 'groundAlarm1' }))
-        .toEqual(state.GroundAlarmViewConfiguration.groundAlarm1.columns);
+        .toEqual(state.GroundAlarmViewConfiguration.groundAlarm1.cols);
     });
   });
 });

@@ -3,6 +3,7 @@ import { shallowRenderSnapshot } from 'common/jest/utils';
 import stateTest from 'common/jest/stateTest';
 
 const propsStub = {
+  onOrderChange: () => null,
 };
 
 describe('TableViewColumns :: render', () => {
@@ -10,4 +11,3 @@ describe('TableViewColumns :: render', () => {
     shallowRenderSnapshot(TimelineField, propsStub, stateTest);
   });
 });
-

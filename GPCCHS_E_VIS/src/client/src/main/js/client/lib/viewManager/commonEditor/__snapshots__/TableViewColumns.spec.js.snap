@@ -4,5 +4,6 @@ exports[`TableViewColumns :: render snapshot 1`] = `
 <FieldArray
   component={[Function]}
   name="cols"
+  onOrderChange={[Function]}
 />
 `;

@@ -1,4 +1,5 @@
 import _get from 'lodash/get';
+import _getOr from 'lodash/fp/getOr';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
@@ -82,7 +83,7 @@ export default class GroundAlarmEditor extends Component {
   };
 
   render() {
-    const { entryPoints } = this.props.configuration;
+    const entryPoints = _getOr(this.props, 'configuration.entryPoints', {});
     const {
       viewId,
       tab,
@@ -92,14 +93,13 @@ export default class GroundAlarmEditor extends Component {
       title,
       titleStyle,
     } = this.props;
-    const nullObject = {};
     const initialValues = entryPoints.length
       ? {
         ...entryPoints[0].connectedData,
         timeline: '*', // reset timeline & domain in GA because the field disappears
         domain: '*',
       }
-      : nullObject;
+      : entryPoints;
 
     /**
      * get form from the state

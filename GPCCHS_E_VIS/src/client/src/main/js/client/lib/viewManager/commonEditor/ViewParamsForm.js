@@ -38,7 +38,7 @@ import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import FormSectionFontStyle from './FormSections/FormSectionFontStyle';
 import { computeOptions } from '../../viewManager/commonEditor/Fields/common';
-import { validateRequiredFields } from '../common';
+// import { validateRequiredFields } from '../common';
 
 class ViewParamsForm extends React.Component {
   static propTypes = {

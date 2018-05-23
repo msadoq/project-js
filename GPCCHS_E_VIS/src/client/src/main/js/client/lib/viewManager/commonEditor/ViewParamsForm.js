@@ -26,7 +26,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Field } from 'redux-form';
 import classnames from 'classnames';
 import {
   Form,
@@ -176,11 +176,11 @@ class ViewParamsForm extends React.Component {
   }
 }
 
-
-const requiredFields = ['title'];
-
-export default reduxForm({
-  validate: validateRequiredFields(requiredFields),
-  warn: () => ({}),
-  enableReinitialize: true,
-})(ViewParamsForm);
+export default ViewParamsForm;
+// const requiredFields = ['title'];
+//
+// export default reduxForm({
+//   validate: validateRequiredFields(requiredFields),
+//   warn: () => ({}),
+//   enableReinitialize: true,
+// })(ViewParamsForm);

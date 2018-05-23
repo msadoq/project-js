@@ -23,6 +23,10 @@ export default class Navbar extends React.Component {
     this.setState({ activeTab: this.props.currentDisplay });
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ activeTab: nextProps.currentDisplay });
+  }
+
   onNavItemClick = (tabIndex) => {
     this.setState({ activeTab: tabIndex });
     this.props.changeCurrentDisplay(tabIndex);

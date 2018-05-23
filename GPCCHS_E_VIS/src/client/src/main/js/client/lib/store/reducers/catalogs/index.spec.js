@@ -19,6 +19,7 @@ import catalogsReducer, {
   getCatalogItemComObjects,
   REQUESTING,
 } from '.';
+import { getUnitByItemName } from './index';
 
 const reducer = freezeArgs(catalogsReducer);
 const tupleId = 'domain-id-session-id';
@@ -463,5 +464,49 @@ describe('store:catalogs:selectors', () => {
   });
   test('getCatalogItemComObjects :: nominal case', () => {
     expect(getCatalogItemComObjects(state.catalogs, { tupleId, name: 'catalogName', itemName: 'itemName' })).toEqual([comObject]);
+  });
+
+  describe('getUnitByItemName', () => {
+    const localState = {
+      catalogs: {
+        units: {
+          '4-0': {
+            StatValueDefinition: {
+              TMMGT_BC_VIRTCHAN3: 'V',
+              TEST_AGGREG: 'defaultString',
+            },
+          },
+        },
+      },
+    };
+    test('nominal case', () => {
+      expect(getUnitByItemName(
+        localState,
+        { tupleId: '4-0', name: 'StatValueDefinition', itemName: 'TMMGT_BC_VIRTCHAN3' })
+      ).toEqual('V');
+
+      expect(getUnitByItemName(
+        localState,
+        { tupleId: '4-0', name: 'StatValueDefinition', itemName: 'TEST_AGGREG' })
+      ).toEqual('defaultString');
+    });
+    test('non-existing itemName', () => {
+      expect(getUnitByItemName(
+        localState,
+        { tupleId: '4-0', name: 'StatValueDefinition', itemName: 'NON-existing key' })
+      ).toEqual(undefined);
+    });
+    test('non-existing name', () => {
+      expect(getUnitByItemName(
+        localState,
+        { tupleId: '4-0', name: 'Braaaaaah', itemName: 'TEST_AGGREG' })
+      ).toEqual(undefined);
+    });
+    test('non-existing name', () => {
+      expect(getUnitByItemName(
+        localState,
+        { tupleId: 'ploup', name: 'StatValueDefinition', itemName: 'TEST_AGGREG' })
+      ).toEqual(undefined);
+    });
   });
 });

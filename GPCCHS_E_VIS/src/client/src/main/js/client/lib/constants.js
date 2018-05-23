@@ -253,6 +253,15 @@ module.exports = {
   NODE_TYPE_KEY: 'key',
   NODE_TYPE_LINK: 'link',
   NODE_TYPE_RESOLVED_LINK: 'resolvedLink',
+  // PACKETS TYPES
+  PACKETS_TYPES: {
+    REPORTING_PARAMETER: 'ReportingParameter',
+    DECOMMUTED_PACKET: 'DecommutedPacket',
+    CLCW: 'CLCW',
+    ISIS_AGGREGATION: 'IsisAggregation',
+    RM: 'RM',
+    TM: 'TM',
+  },
   // MIME
   MIME_TYPES: {
     WorkSpace: 'WorkspaceDoc',

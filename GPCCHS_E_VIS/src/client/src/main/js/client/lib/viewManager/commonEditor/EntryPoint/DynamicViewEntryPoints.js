@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { PureComponent } from 'react';
 import { Field } from 'redux-form';
 import PropTypes from 'prop-types';

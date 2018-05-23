@@ -44,39 +44,68 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
-import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel } from 'react-bootstrap';
+import {
+  Table,
+  Form,
+  FormGroup,
+  Grid,
+  Row,
+  Col,
+  ControlLabel,
+  Panel,
+  ButtonGroup,
+  Button,
+} from 'react-bootstrap';
+import Select from 'react-select';
 import classnames from 'classnames';
 import _get from 'lodash/get';
+import _has from 'lodash/has';
 import _isArray from 'lodash/isArray';
 import _lowerCase from 'lodash/lowerCase';
 import _isObject from 'lodash/isObject';
+import _map from 'lodash/map';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 import styles from './DynamicView.css';
 import { buildFormulaForAutocomplete } from '../../../common';
+import ModalComponent from '../../../../windowProcess/common/ModalComponent';
+import { get } from '../../../../common/configurationManager';
 
-const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
+const WILDCARD = get('WILDCARD_CHARACTER');
 
-// parse clipboard data to create partial entry point
-function parseDragData(data) {
-  const formula =
-    buildFormulaForAutocomplete(
-      data.catalogName, data.item,
-      getComObject(data.comObjects),
-      data.comObjectFields
-    );
-
-  return {
+/**
+ * @param catalogName
+ * @param item
+ * @param comObject
+ * @param comObjectField
+ * @param addEntryPoint
+ * @param openEditor
+ */
+export const populateFormulaField = ({
+  catalogName,
+  item,
+  comObject,
+  comObjectField,
+  addEntryPoint,
+  openEditor,
+}) => {
+  const formula = buildFormulaForAutocomplete(
+    catalogName,
+    item,
+    comObject,
+    comObjectField
+  );
+  addEntryPoint({
     name: 'dynamicEP',
     connectedData: {
       formula,
-      domain: '*',
-      timeline: '*',
+      domain: WILDCARD,
+      timeline: WILDCARD,
     },
-  };
-}
-
+  });
+  openEditor();
+};
 function dataToShow(data) {
   if (data.value === undefined || (_isObject(data.value) && data.type !== 'time')) {
     if (_isObject(data)) {
@@ -112,7 +141,6 @@ function dataToShow(data) {
   }
   return data.value;
 }
-
 function objectHeader(ep) {
   const objectKeys = Object.keys(ep).filter(key => !_isArray(ep[key]));
   const staticHeader = [];
@@ -130,7 +158,6 @@ function objectHeader(ep) {
   });
   return <Form horizontal>{staticHeader}</Form>;
 }
-
 function arrayHeader(arrayData) {
   if (!arrayData.length) {
     return <thead />;
@@ -150,7 +177,6 @@ function arrayHeader(arrayData) {
     </thead>
   );
 }
-
 function arrayLine(arrayData) {
   if (!arrayData.length) {
     return '';
@@ -161,7 +187,6 @@ function arrayLine(arrayData) {
     (<tr key={item.concat(idx)}>{header.map((key, idy) => <td key={item.concat(idy)}>
       {dataToShow(value[key])}</td>)}</tr>));
 }
-
 
 export default class DynamicView extends PureComponent {
   static propTypes = {
@@ -198,6 +223,14 @@ export default class DynamicView extends PureComponent {
     showLinks: false,
   };
 
+  state = {
+    isOpened: false,
+    comObjects: null,
+    selectedComObject: null,
+    draggedData: {},
+  };
+
+  // eslint-disable-next-line consistent-return
   onContextMenu = (event) => {
     event.stopPropagation();
     const {
@@ -234,37 +267,130 @@ export default class DynamicView extends PureComponent {
     };
     const separator = { type: 'separator' };
     handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
-  }
-
-
+  };
+  /**
+   * Called on any drop in the DroppableContainer
+   * @param e
+   */
   onDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
 
-    if (!_get(content, 'catalogName')) {
+    // reset previously populated comObjects
+    this.reset();
+
+    // check if EP dropped is valid
+    if (!isDroppedDataValid(content)) {
       return;
     }
 
-    this.props.addEntryPoint(
-      parseDragData(content)
-    );
-    this.props.openEditor();
-
-    e.stopPropagation();
-  }
-
+    // only one comObject in the dropped EP
+    if (_get(content, 'comObjects').length === 1) {
+      populateFormulaField({
+        catalogName: content.catalogName,
+        item: content.item,
+        comObject: _.head(content.comObjects),
+        comObjectField: content.comObjectFields,
+        addEntryPoint: this.props.addEntryPoint,
+        openEditor: this.props.openEditor,
+      });
+    // more than one comObject dropped, we need to choose one through popup
+    } else {
+      this.setState({ draggedData: content });
+      this.populateModalComObjects(_get(content, 'comObjects'));
+      this.showModal();
+    }
+  };
+  reset = () => this.setState({
+    isOpened: false,
+    comObjects: null,
+    selectedComObject: null,
+    draggedData: {},
+  });
+  handleSelectedComObjectChange = selectedComObject =>
+    this.setState({ selectedComObject: selectedComObject.value });
+  showModal = () => this.setState({ isOpened: true });
+  hideModal = () => this.setState({ isOpened: false });
+  populateModalComObjects = comObjects => this.setState({ comObjects });
+  selectComObject = () => {
+    this.hideModal();
+    populateFormulaField({
+      catalogName: this.state.draggedData.catalogName,
+      item: this.state.draggedData.item,
+      comObject: this.state.selectedComObject,
+      comObjectField: this.state.draggedData.comObjectFields,
+      addEntryPoint: this.props.addEntryPoint,
+      openEditor: this.props.openEditor,
+    });
+  };
   toggleShowLinks = (e) => {
     e.preventDefault();
     const { showLinks, updateShowLinks, viewId } = this.props;
     updateShowLinks(viewId, !showLinks);
-  }
-
+  };
   removeLink = (e, index) => {
     e.preventDefault();
     const { removeLink, viewId } = this.props;
     removeLink(viewId, index);
-  }
+  };
 
+  /**
+   * @param onDrop
+   * @param onContextMenu
+   * @param error
+   * @returns {*}
+   */
+  renderInvalid = (onDrop, onContextMenu, error) => (
+    <div>
+      <DroppableContainer
+        onDrop={onDrop}
+        onContextMenu={onContextMenu}
+        className={classnames('h100', 'posRelative', styles.container)}
+      >
+        <div className={`flex ${styles.container}`}>
+          <div className={styles.renderErrorText}>
+            Unable to render view <br />
+            {error}
+          </div>
+        </div>
+      </DroppableContainer>
+      {this.renderModal()}
+    </div>
+  );
+
+  renderModal = () => (
+    <ModalComponent isOpened={this.state.isOpened} title="please select a comObject" onClose={this.hideModal}>
+      <Select
+        name="selectComObject"
+        onChange={this.handleSelectedComObjectChange}
+        value={this.state.selectedComObject}
+        options={_map(this.state.comObjects, comObject => ({
+          value: comObject,
+          label: comObject,
+        }))}
+      />
+      <Row>
+        <ButtonGroup className={classnames('pull-right', 'mt10')}>
+          <Button
+            bsStyle="success"
+            type="button"
+            className="mr10"
+            onClick={this.selectComObject}
+          >
+            Submit
+          </Button>
+          <Button
+            type="button"
+            onClick={this.hideModal}
+          >
+            Cancel
+          </Button>
+        </ButtonGroup>
+      </Row>
+    </ModalComponent>
+  );
 
   render() {
     const {
@@ -273,75 +399,62 @@ export default class DynamicView extends PureComponent {
     const ep = data.value;
     const { dynamicEP } = entryPoints;
     const error = _get(entryPoints, 'dynamicEP.error');
+
     if (!ep || !dynamicEP || error) {
-      return (
-        <DroppableContainer
-          onDrop={this.onDrop}
-          onContextMenu={this.onContextMenu}
-          className={classnames('h100', 'posRelative', styles.container)}
-        >
-          <div className={`flex ${styles.container}`}>
-            <div className={styles.renderErrorText}>
-              Unable to render view <br />
-              {error}
-            </div>
-          </div>
-        </DroppableContainer>
-      );
+      return this.renderInvalid(this.onDrop, this.onContextMenu, error);
+    } else if (isMaxVisuDurationExceeded) {
+      return this.renderInvalid(this.onDrop, this.onContextMenu, 'Visu Window is too long for this type of view');
     }
-    if (isMaxVisuDurationExceeded) {
-      return (
-        <DroppableContainer
-          onDrop={this.onDrop}
-          onContextMenu={this.onContextMenu}
-          className={classnames('h100', 'posRelative', styles.container)}
-        >
-          <div className={`flex ${styles.container}`}>
-            <div className={styles.renderErrorText}>
-              Unable to render view <br />
-              Visu Window is too long for this type of view
-            </div>
-          </div>
-        </DroppableContainer>
-      );
-    }
+
     const { parameterName } = entryPoints.dynamicEP.dataId;
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
-      <DroppableContainer
-        onDrop={this.onDrop}
-        onContextMenu={this.onContextMenu}
-        className={classnames('h100', 'posRelative', styles.container)}
-      >
-        <header className={styles.header}>
-          <h1>{parameterName}</h1>
-        </header>
-        <Grid fluid className="ml10 mr10">
-          <Row><Panel>{objectHeader(ep)}</Panel></Row>
-          { arrayKeys.map((key, i) => (
-            <Row key={'row'.concat(i)}>
-              <header className={styles.arrayHeader}><h2>{_lowerCase(key)}</h2></header>
-              <Col sm={12}>
-                <Table striped bordered condensed hover>
-                  {arrayHeader(ep[key])}
-                  <tbody>
-                    {arrayLine(ep[key])}
-                  </tbody>
-                </Table>
-              </Col>
-            </Row>))}
-        </Grid>
-        <div style={{ padding: '10px' }}>
-          <LinksContainer
-            show={showLinks}
-            toggleShowLinks={this.toggleShowLinks}
-            links={links}
-            removeLink={this.removeLink}
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </div>
-      </DroppableContainer>
+      <div>
+        <DroppableContainer
+          onDrop={this.onDrop}
+          onContextMenu={this.onContextMenu}
+          className={classnames('h100', 'posRelative', styles.container)}
+        >
+          <header className={styles.header}>
+            <h1>{parameterName}</h1>
+          </header>
+          <Grid fluid className="ml10 mr10">
+            <Row><Panel>{objectHeader(ep)}</Panel></Row>
+            { arrayKeys.map((key, i) => (
+              <Row key={'row'.concat(i)}>
+                <header className={styles.arrayHeader}><h2>{_lowerCase(key)}</h2></header>
+                <Col sm={12}>
+                  <Table striped bordered condensed hover>
+                    {arrayHeader(ep[key])}
+                    <tbody>
+                      {arrayLine(ep[key])}
+                    </tbody>
+                  </Table>
+                </Col>
+              </Row>))}
+          </Grid>
+          <div style={{ padding: '10px' }}>
+            <LinksContainer
+              show={showLinks}
+              toggleShowLinks={this.toggleShowLinks}
+              links={links}
+              removeLink={this.removeLink}
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </div>
+        </DroppableContainer>
+        {this.renderModal()}
+      </div>
     );
   }
 }
+
+/**
+ * @param content
+ * @returns {*}
+ */
+export const isDroppedDataValid = content =>
+  !!content &&
+  _has(content, 'catalogName') &&
+  _has(content, 'comObjects');

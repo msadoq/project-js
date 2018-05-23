@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
-import GroundAlarmEditorForm from './GroundAlarmEditorForm';
 import styles from '../../../commonEditor/Editor.css';
 import GroundAlarmTabContainer from './GroundAlarmTabContainer';
+import WithForm from '../../../common/Hoc/WithForm';
+import AlarmViewEntryPoints from '../../../commonEditor/EntryPoint/AlarmViewEntryPoints';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
 
@@ -49,6 +50,23 @@ export default class GroundAlarmEditor extends Component {
     title: '',
   };
 
+  /**
+   * empty form in the state
+   * this form will be fill in componentWillReceiveProps with initial values
+   * TODO jmira voir avec Yann et Jean si ce fonctionnement convient (redondance)
+   */
+  state = {
+    GroundAlarmEditorForm: WithForm(AlarmViewEntryPoints),
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.viewId !== this.props.viewId) {
+      this.setState({
+        GroundAlarmEditorForm: WithForm(AlarmViewEntryPoints),
+      });
+    }
+  }
+
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
@@ -82,6 +100,11 @@ export default class GroundAlarmEditor extends Component {
         domain: '*',
       }
       : nullObject;
+
+    /**
+     * get form from the state
+     */
+    const { GroundAlarmEditorForm } = this.state;
 
     return (
       <div className={styles.contentWrapper}>

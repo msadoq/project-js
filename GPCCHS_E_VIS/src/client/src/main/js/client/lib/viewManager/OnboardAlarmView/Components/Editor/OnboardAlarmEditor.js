@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
-import OnboardAlarmEditorForm from './OnboardAlarmEditorForm';
 import styles from '../../../commonEditor/Editor.css';
 import OnboardAlarmTab from './OnboardAlarmTab';
+import WithForm from '../../../common/Hoc/WithForm';
+import AlarmViewEntryPoints from '../../../commonEditor/EntryPoint/AlarmViewEntryPoints';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
 
@@ -42,6 +43,23 @@ export default class OnboardAlarmEditor extends Component {
     title: '',
   };
 
+  /**
+   * empty form in the state
+   * this form will be fill in componentWillReceiveProps with initial values
+   * TODO jmira voir avec Yann et Jean si ce fonctionnement convient (redondance)
+  */
+  state = {
+    OnBoardAlarmEditorForm: WithForm(AlarmViewEntryPoints),
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.viewId !== this.props.viewId) {
+      this.setState({
+        OnBoardAlarmEditorForm: WithForm(AlarmViewEntryPoints),
+      });
+    }
+  }
+
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
@@ -75,6 +93,12 @@ export default class OnboardAlarmEditor extends Component {
         timeline: '*',
       }
       : nullObject;
+
+    /**
+     * get form from the state
+     */
+    const { OnBoardAlarmEditorForm } = this.state;
+
     return (
       <div className={styles.contentWrapper}>
         <h4
@@ -91,7 +115,7 @@ export default class OnboardAlarmEditor extends Component {
         />
         <div className={styles.content}>
           {(tab === 0 || tab === null) && <div className={styles.content}>
-            <OnboardAlarmEditorForm
+            <OnBoardAlarmEditorForm
               form={`entrypoint-connectedData-form-${viewId}`}
               onSubmit={values => this.handleSubmit({ connectedData: values })}
               initialValues={initialValues}

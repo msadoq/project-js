@@ -208,7 +208,6 @@ export const getTupleId = (domainId, sessionId) => `${domainId}-${sessionId}`;
 export const getPathToCatalogs = (state, tupleId) => _getOr(null, tupleId, state);
 export const getPathToCatalogItems = catalog => _getOr(undefined, 'items', catalog);
 export const getPathToCatalogItemComObjects = catalogItem => _getOr(undefined, 'comObjects', catalogItem);
-export const getPathToCatalogItemUnit = catalogItem => _getOr(undefined, 'unit', catalogItem);
 
 /**
  * @param state
@@ -279,13 +278,11 @@ export const getCatalogItemComObjects = createSelector(
   item => getPathToCatalogItemComObjects(item)
 );
 
-/**
- * @param state
- * @param tupleId
- * @param name
- * @param itemName
- */
+const getUnitsCatalog = state => state.catalogs.units;
+
 export const getUnitByItemName = createSelector(
-  getCatalogItemByName,
-  item => getPathToCatalogItemUnit(item)
+  getUnitsCatalog,
+  (state, { tupleId, name, itemName }) => ({ tupleId, name, itemName }),
+  (unitsCatalog, { tupleId, name, itemName }) =>
+    _getOr(undefined, [tupleId, name, itemName], unitsCatalog)
 );

@@ -148,7 +148,7 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
     const tupleId = getTupleId(domainId, sessionId);
 
     const existingUnit = getUnitByItemName(
-      state.catalogs,
+      state,
       {
         tupleId,
         name,

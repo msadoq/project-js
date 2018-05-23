@@ -148,6 +148,7 @@
     "react-flatpickr": "~3.6.3",
     "react-grid-layout": "~0.16.3",
     "react-json-inspector": "^7.0.0",
+    "react-modal": "^3.4.4",
     "react-panelgroup": "^1.0.2",
     "react-redux": "~5.0.3",
     "react-select": "~1.0.0-rc.3",

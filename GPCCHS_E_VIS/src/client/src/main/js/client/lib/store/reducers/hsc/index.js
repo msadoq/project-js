@@ -166,13 +166,12 @@ export default function hsc(state = initialState, action) {
         forecast: {},
       };
     case types.HSC_UPDATE_FORECAST:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         forecast: {
           upper: action.payload.upper,
           lower: action.payload.lower,
         },
-      };
+      });
     case types.WS_WORKSPACE_UPDATE_DOMAINNAME:
       if (action.payload.domainName) {
         return {
@@ -203,6 +202,12 @@ export default function hsc(state = initialState, action) {
         detachWindow: action.payload.detachWindow,
         attachWindow: action.payload.attachWindow,
       };
+    case types.WS_TIMEBAR_SAVE_VISUALIZATION:
+      return { ...state, isModified: true };
+    case types.WS_TIMEBAR_UPDATE_CURSORS:
+      return action.payload.visuWindow.saved
+        ? { ...state, isModified: true }
+        : state;
     default:
       return state;
   }

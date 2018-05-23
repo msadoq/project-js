@@ -50,7 +50,7 @@ Array [
 ]
 `;
 
-exports[`store:middlewares:player play/pause play update cursors at regular intervals until pause 1`] = `
+exports[`store:middlewares:player play/pause play non-real-time update cursors at regular intervals until pause 1`] = `
 Array [
   Object {
     "type": "HSC_PLAY",
@@ -65,6 +65,7 @@ Array [
       "visuWindow": Object {
         "current": 1498643157647,
         "lower": 1498642860647,
+        "saved": undefined,
         "upper": 1498643190647,
       },
     },
@@ -80,6 +81,7 @@ Array [
       "visuWindow": Object {
         "current": 1498643157647,
         "lower": 1498642860647,
+        "saved": undefined,
         "upper": 1498643190647,
       },
     },
@@ -95,6 +97,7 @@ Array [
       "visuWindow": Object {
         "current": 1498643157647,
         "lower": 1498642860647,
+        "saved": undefined,
         "upper": 1498643190647,
       },
     },
@@ -129,6 +132,7 @@ Array [
       "visuWindow": Object {
         "current": 1337,
         "lower": -295663,
+        "saved": undefined,
         "upper": 34337,
       },
     },
@@ -162,6 +166,7 @@ Array [
       "visuWindow": Object {
         "current": 1337,
         "lower": -295663,
+        "saved": undefined,
         "upper": 34337,
       },
     },

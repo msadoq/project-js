@@ -829,8 +829,9 @@ export default class Timebar extends PureComponent {
   };
 
   hideCursorTime = () => {
+    const { retrieveFormattedFullDateEl, visuWindow } = this.props;
     setTimeout(() => {
-      this.props.retrieveFormattedFullDateEl().innerHTML = '';
+      retrieveFormattedFullDateEl().innerHTML = moment(visuWindow.current).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS');
     }, 150);
   };
 

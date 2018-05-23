@@ -13,6 +13,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { reduxForm } from 'redux-form';
 import ViewParamsForm from './ViewParamsForm';
 
 export default class ViewParams extends React.Component {
@@ -47,7 +48,7 @@ export default class ViewParams extends React.Component {
     sessions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     domainName: PropTypes.string,
     sessionName: PropTypes.string,
-  }
+  };
 
   static defaultProps = {
     title: '',
@@ -64,6 +65,28 @@ export default class ViewParams extends React.Component {
     backgroundColor: '#000000',
     domainName: '*',
     sessionName: '*',
+  };
+
+  static getNewForm() {
+    return reduxForm({
+      validate,
+    })(ViewParamsForm);
+  }
+
+  /**
+   * empty form in the state
+   * this form will be fill in componentWillReceiveProps with initial values
+   * TODO jmira check with Yann and Jean (redundance)
+   * common code here, less severe
+   */
+  state = {
+    FormForView: ViewParams.getNewForm(),
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.viewId !== this.props.viewId) {
+      this.setState({ FormForView: ViewParams.getNewForm() });
+    }
   }
 
   handleSubmit = (values) => {
@@ -88,7 +111,7 @@ export default class ViewParams extends React.Component {
     if (this.props.sessionName !== values.sessionName) {
       updateSessionName(viewId, values.sessionName);
     }
-  }
+  };
 
   render() {
     const {
@@ -112,8 +135,13 @@ export default class ViewParams extends React.Component {
       domainName,
       sessionName,
     };
+
+    /**
+     * get form from the state
+     */
+    const { FormForView } = this.state;
     return (
-      <ViewParamsForm
+      <FormForView
         initialValues={initVals}
         onSubmit={this.handleSubmit}
         form={`view-title-form-${viewId}`}
@@ -123,3 +151,15 @@ export default class ViewParams extends React.Component {
     );
   }
 }
+
+const requiredFields = ['title'];
+const validate = (values = {}) => {
+  const errors = {};
+
+  requiredFields.forEach((field) => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
+  return errors;
+};

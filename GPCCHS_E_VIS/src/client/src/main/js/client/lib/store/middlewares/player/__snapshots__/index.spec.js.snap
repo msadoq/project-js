@@ -23,6 +23,9 @@ Array [
 exports[`store:middlewares:player play/pause cannot play if no page has a focus 1`] = `
 Array [
   Object {
+    "payload": Object {
+      "timebarUuid": null,
+    },
     "type": "HSC_PLAY",
   },
 ]
@@ -31,6 +34,9 @@ Array [
 exports[`store:middlewares:player play/pause does not update cursors when no playingTimebarId 1`] = `
 Array [
   Object {
+    "payload": Object {
+      "timebarUuid": null,
+    },
     "type": "HSC_PLAY",
   },
   Object {
@@ -42,6 +48,9 @@ Array [
 exports[`store:middlewares:player play/pause does not update cursors when playing timebar does not exist 1`] = `
 Array [
   Object {
+    "payload": Object {
+      "timebarUuid": null,
+    },
     "type": "HSC_PLAY",
   },
   Object {
@@ -53,6 +62,9 @@ Array [
 exports[`store:middlewares:player play/pause play non-real-time update cursors at regular intervals until pause 1`] = `
 Array [
   Object {
+    "payload": Object {
+      "timebarUuid": null,
+    },
     "type": "HSC_PLAY",
   },
   Object {
@@ -109,6 +121,9 @@ Array [
 exports[`store:middlewares:player play/pause simple play and pause 1`] = `
 Array [
   Object {
+    "payload": Object {
+      "timebarUuid": null,
+    },
     "type": "HSC_PLAY",
   },
   Object {

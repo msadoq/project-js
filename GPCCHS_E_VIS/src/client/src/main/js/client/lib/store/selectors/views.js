@@ -160,11 +160,12 @@ export const getWindowAllViewsIds = createSelector(
 );
 
 /**
- * @param viewId string
  * @param state object
+ * @param {viewId, tableId} object
  * @return cols array
  */
 export const getViewConfigurationTableCols = createSelector(
+  (state, { tableId }) => tableId,
   getConfigurationByViewId,
-  viewConfiguration => _getOr([], 'cols', viewConfiguration)
+  (tableId, viewConfiguration) => _getOr([], `tables.${tableId}.cols`, viewConfiguration)
 );

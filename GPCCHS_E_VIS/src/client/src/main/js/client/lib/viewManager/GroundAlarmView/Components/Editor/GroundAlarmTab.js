@@ -2,25 +2,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Collapse, { Panel } from 'rc-collapse';
+import _get from 'lodash/get';
+import _getOr from 'lodash/fp/getOr';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
 import TableViewColumns from 'viewManager/commonEditor/TableViewColumns';
-import _getOr from 'lodash/fp/getOr';
 import WithForm from 'viewManager/common/Hoc/WithForm';
 import { TableConfigurationColumnType } from '../../../common/Components/types';
 
 const TableViewColumnsForm = WithForm(TableViewColumns);
-const { string, shape, func, arrayOf } = PropTypes;
+const { string, shape, func, arrayOf, array } = PropTypes;
 
 export default class GroundAlarmTab extends React.Component {
   static propTypes = {
     // own props
     viewId: string.isRequired,
     panels: shape({}).isRequired,
-    updateViewPanels: func.isRequired,
     // from GroundAlarmTabContainer mapStateToProps
-    cols: arrayOf(TableConfigurationColumnType).isRequired,
+    configuration: shape({
+      entryPoints: array,
+      tables: shape({
+        main: shape({
+          cols: arrayOf(TableConfigurationColumnType).isRequired,
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
     // from GroundAlarmTabContainer mapDispatchToProps
     updateTableCols: func.isRequired,
+    updateViewPanels: func.isRequired,
   };
   state = {
     isTitleOpen: false,
@@ -32,12 +40,14 @@ export default class GroundAlarmTab extends React.Component {
   };
 
   handleSubmit = (values) => {
-    const { updateTableCols, viewId, cols } = this.props;
-    updateTableCols(viewId, _getOr(cols, 'cols', values));
+    const { updateTableCols, viewId, configuration } = this.props;
+    const cols = _get(configuration, ['tables', 'main', 'cols']); // default initial value from config
+    updateTableCols(viewId, 'main', _getOr(cols, 'cols', values)); // update cols value in config
   };
 
   render() {
-    const { panels, viewId, cols } = this.props;
+    const { panels, viewId, configuration } = this.props;
+    const cols = _get(configuration, ['tables', 'main', 'cols']); // default initial value from config
     const initialValues = { cols };
 
     return (
@@ -58,7 +68,6 @@ export default class GroundAlarmTab extends React.Component {
             key="columns"
           >
             {panels.columns && <TableViewColumnsForm
-              cols={cols}
               initialValues={initialValues}
               viewId={viewId}
               onSubmit={this.handleSubmit}

@@ -80,13 +80,17 @@ describe('store:views:selectors', () => {
     });
   });
   describe('getViewConfigurationTableCols', () => {
-    test('returns an empty array', () => {
-      expect(getViewConfigurationTableCols(state, { viewId: 'unknownView' }))
+    test('returns an empty array for unknown view', () => {
+      expect(getViewConfigurationTableCols(state, { viewId: 'unknownView', tableId: 'main' }))
         .toEqual([]);
     });
-    test('returns an empty array', () => {
-      expect(getViewConfigurationTableCols(state, { viewId: 'groundAlarm1' }))
-        .toEqual(state.GroundAlarmViewConfiguration.groundAlarm1.cols);
+    test('returns an empty array for unknown table', () => {
+      expect(getViewConfigurationTableCols(state, { viewId: 'groundAlarm1', tableId: undefined }))
+        .toEqual([]);
+    });
+    test('returns existing cols', () => {
+      expect(getViewConfigurationTableCols(state, { viewId: 'groundAlarm1', tableId: 'main' }))
+        .toEqual(state.GroundAlarmViewConfiguration.groundAlarm1.tables.main.cols);
     });
   });
 });

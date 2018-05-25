@@ -9,10 +9,11 @@ import styles from '../../../commonEditor/Editor.css';
 import GroundAlarmTabContainer from './GroundAlarmTabContainer';
 import WithForm from '../../../common/Hoc/WithForm';
 import AlarmViewEntryPoints from '../../../commonEditor/EntryPoint/AlarmViewEntryPoints';
+import { TableConfigurationColumnType } from '../../../common/Components/types';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
 
-const { string, number, bool, arrayOf, shape, array, func } = PropTypes;
+const { string, number, bool, shape, array, func, arrayOf } = PropTypes;
 
 export default class GroundAlarmEditor extends Component {
   static propTypes = {
@@ -33,9 +34,12 @@ export default class GroundAlarmEditor extends Component {
     }),
     configuration: shape({
       entryPoints: array,
+      tables: shape({
+        main: shape({
+          cols: arrayOf(TableConfigurationColumnType).isRequired,
+        }).isRequired,
+      }).isRequired,
     }).isRequired,
-    timelines: arrayOf(shape({})).isRequired,
-    domains: arrayOf(shape({})).isRequired,
     tab: number,
     panels: shape({}).isRequired,
     // Container's mapDispatchToProps
@@ -131,7 +135,6 @@ export default class GroundAlarmEditor extends Component {
           {
             tab === 1 &&
             <GroundAlarmTabContainer
-              updateViewPanels={updateViewPanels}
               viewId={viewId}
               panels={panels}
             />

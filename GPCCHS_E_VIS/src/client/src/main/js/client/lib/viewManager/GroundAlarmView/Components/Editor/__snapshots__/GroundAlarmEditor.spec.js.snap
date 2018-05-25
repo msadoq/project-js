@@ -38,7 +38,6 @@ exports[`GroundAlarmEditor :: render snapshot 1`] = `
   >
     <Connect(GroundAlarmTab)
       panels={Object {}}
-      updateViewPanels={[Function]}
       viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
     />
   </div>

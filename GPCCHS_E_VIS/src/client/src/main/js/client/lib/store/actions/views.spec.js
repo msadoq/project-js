@@ -29,7 +29,6 @@
 // ====================================================================
 
 import { mockStore, freezeMe } from 'common/jest';
-import _set from 'lodash/fp/set';
 import stateTest from 'common/jest/stateTest';
 import * as types from 'store/types';
 import * as actions from './views';
@@ -541,7 +540,7 @@ describe('store:actions:views', () => {
   describe('updateTableCols', () => {
     const store = mockStore(stateTest);
     test('updateTableCols when view exists', () => {
-      store.dispatch(actions.updateTableCols('groundAlarm1', [{
+      store.dispatch(actions.updateTableCols('groundAlarm1', 'main', [{
         title: 'timestamp',
         value: 'timestamp',
         position: 0,
@@ -553,6 +552,7 @@ describe('store:actions:views', () => {
           type: types.WS_VIEW_UPDATE_TABLE_COLS,
           payload: {
             viewId: 'groundAlarm1',
+            tableId: 'main',
             cols: [{
               title: 'timestamp',
               value: 'timestamp',

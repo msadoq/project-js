@@ -3,7 +3,14 @@ import { shallowRenderSnapshot } from 'common/jest/utils';
 import stateTest from 'common/jest/stateTest';
 
 const propsStub = {
-  configuration: {},
+  configuration: {
+    entryPoints: [],
+    tables: {
+      main: {
+        cols: [],
+      },
+    },
+  },
   domains: [],
   openModal: () => {},
   pageId: '36928294-0955-43c4-bc95-dcde52fadc47',

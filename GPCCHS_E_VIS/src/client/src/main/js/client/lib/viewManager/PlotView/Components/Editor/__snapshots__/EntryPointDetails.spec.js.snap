@@ -12,7 +12,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render ::  1`] = `
     style={undefined}
   >
     <div
-      aria-expanded="false"
+      aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
       onKeyPress={[Function]}
@@ -31,7 +31,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render ::  1`] = `
     style={undefined}
   >
     <div
-      aria-expanded="false"
+      aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
       onKeyPress={[Function]}
@@ -50,7 +50,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render ::  1`] = `
     style={undefined}
   >
     <div
-      aria-expanded="false"
+      aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
       onKeyPress={[Function]}
@@ -78,7 +78,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render :: true 1`] = `
     style={undefined}
   >
     <div
-      aria-expanded="false"
+      aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
       onKeyPress={[Function]}
@@ -97,7 +97,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render :: true 1`] = `
     style={undefined}
   >
     <div
-      aria-expanded="false"
+      aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
       onKeyPress={[Function]}
@@ -116,7 +116,7 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render :: true 1`] = `
     style={undefined}
   >
     <div
-      aria-expanded="false"
+      aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
       onKeyPress={[Function]}

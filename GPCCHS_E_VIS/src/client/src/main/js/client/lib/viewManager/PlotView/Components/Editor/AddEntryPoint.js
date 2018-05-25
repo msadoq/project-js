@@ -37,25 +37,21 @@ class AddEntryPoint extends Component {
       submitting,
       valid,
       axes,
-      axisId,
-      unit,
     } = this.props;
 
     let filteredAxes;
-    if (axes && unit) {
+    if (axes) {
       filteredAxes = Object.keys(axes)
       .map(key => ({
         ...axes[key],
         axisId: key,
-      })).filter(axis =>
-        axis.unit === unit || axis.id === axisId
-      );
+      }));
     } else {
       filteredAxes = Object.keys(axes)
         .map(key => ({
           ...axes[key],
           axisId: key,
-        })).filter(axis => axis.unit === 'Unknown');
+        }));
     }
 
     return (
@@ -67,22 +63,6 @@ class AddEntryPoint extends Component {
             className="form-control input-sm"
             type="text"
           />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Unit">
-          <Field
-            name="connectedData.unit"
-            component={InputField}
-            type="text"
-            className="form-control input-sm"
-          />
-          {axes &&
-            <p
-              style={{ fontSize: '0.9em', paddingTop: '2px' }}
-            >
-              { Object.values(axes).filter(axe => (axe.unit !== 'Unknown')).map(axe => `${axe.label}: ${axe.unit}`).join(', ') }
-            </p>
-          }
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Axis">
@@ -136,14 +116,10 @@ AddEntryPoint.propTypes = {
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired,
-  axisId: PropTypes.string,
-  unit: PropTypes.string,
 };
 
 AddEntryPoint.defaultProps = {
   initialValues: { name: '' },
-  axisId: null,
-  unit: null,
 };
 
 export default reduxForm({
@@ -155,7 +131,6 @@ export default reduxForm({
       const selector = formValueSelector(props.form);
       return {
         axisId: selector(state, 'connectedData.axisId'),
-        unit: selector(state, 'connectedData.unit'),
       };
     }
   )(AddEntryPoint)

@@ -14,7 +14,6 @@
 // END-HISTORY
 // ====================================================================
 
-/* eslint import/no-webpack-loader-syntax:0 */
 import React, { PropTypes } from 'react';
 import {
   Table,
@@ -22,13 +21,14 @@ import {
   Alert,
 } from 'react-bootstrap';
 import _each from 'lodash/map';
+import _ from 'lodash';
 import classnames from 'classnames';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import ColorPicker from 'windowProcess/commonReduxForm/ColorPicker';
 import { operators } from 'common/operators';
 import {
   getStateColorFilters,
-  STATE_COLOR_TYPES,
+  getStateColorTypes,
   STATE_COLOR_NOMINAL,
 } from 'windowProcess/common/colors';
 import styles from './fields.css';
@@ -173,10 +173,8 @@ export default class StateColorsFields extends React.Component {
           <tr>
             <th>Obs</th>
             <th>Sig</th>
-            {_each(STATE_COLOR_TYPES, (type, key) => (
-              <th
-                key={`table-header-${key}-${type}`}
-              >{type.substr(0, 3)}</th>
+            {_each(getStateColorTypes(), (o, k) => (
+              <th key={`table-header-${k}-${o}`}>{_.capitalize(o.substr(0, 3))}</th>
             ))}
           </tr>
         </thead>
@@ -185,8 +183,8 @@ export default class StateColorsFields extends React.Component {
             ['true', 'false'].map(obsolete =>
               ['true', 'false'].map(significant =>
                 <tr>
-                  <td>{ obsolete === 'true' ? 'Yes' : 'No' }</td>
-                  <td>{ significant === 'true' ? 'Yes' : 'No' }</td>
+                  <td>{obsolete === 'true' ? 'Yes' : 'No'}</td>
+                  <td>{significant === 'true' ? 'Yes' : 'No'}</td>
                   {_each(monitoringStateColors[`${obsolete}-${significant}`], (o, k) => (
                     <td
                       key={`table-row-${obsolete}-${significant}-${k}`}

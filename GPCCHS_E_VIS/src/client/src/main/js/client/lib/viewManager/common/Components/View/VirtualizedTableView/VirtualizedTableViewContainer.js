@@ -10,12 +10,15 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const tableConfig = config.tables[tableId];
 
-  const { columns, sorting, filters } = tableConfig;
+  const { columns, sorting, filters, name } = tableConfig;
 
   return {
+    rows: rows.rows,
     columns,
     sortState: sorting,
     filterState: filters,
+    tableName: name,
+    totalCount: rows.totalCount,
   };
 };
 

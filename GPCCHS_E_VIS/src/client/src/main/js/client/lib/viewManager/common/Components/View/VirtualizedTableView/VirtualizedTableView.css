@@ -120,3 +120,8 @@
   background-color: rgba(0, 0, 0, 0.1);
   font-weight: bold;
 }
+
+.tableHeader {
+  padding: 15px;
+  font-weight: bold;
+}

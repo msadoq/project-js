@@ -29,5 +29,8 @@ export const formatSubScheduleRows = (data, config) => {
       _cell(row.firstTCTime),
     ]);
 
-  return sort(filter(formattedData, subSchedulesConfig), subSchedulesConfig);
+  return {
+    totalCount: formattedData.length,
+    rows: sort(filter(formattedData, subSchedulesConfig), subSchedulesConfig),
+  };
 };

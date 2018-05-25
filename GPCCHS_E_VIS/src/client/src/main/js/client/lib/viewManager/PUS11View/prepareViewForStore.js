@@ -10,6 +10,7 @@ const getDefaultView = view => _.merge({
     entryPoint: {},
     tables: {
       subSchedules: {
+        name: 'Sub-schedules',
         sorting: {},
         filters: {},
         columns: [

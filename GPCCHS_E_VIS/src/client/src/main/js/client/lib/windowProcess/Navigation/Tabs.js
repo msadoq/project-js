@@ -53,8 +53,16 @@ const wildcardCharacter = get('WILDCARD_CHARACTER');
 const popoverDraggingStyle = { display: 'none' };
 
 function popoverHoverFocus(page) {
+  const popoverStyle = {
+    height: 'auto',
+  };
+
   return (
-    <Popover id={page.pageId} title="Document properties">
+    <Popover
+      id={page.pageId}
+      title="Document properties"
+      style={popoverStyle}
+    >
       <Table>
         <tbody>
           {page.properties.length ?

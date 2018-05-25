@@ -243,9 +243,17 @@ const VirtualizedTableView =
         return cellBody;
       }
 
+      const popoverStyle = {
+        height: 'auto',
+      };
+
       const popoverRight = (
-        <Popover id="popover-positioned-right" title="Popover right">
-          <strong>Holy guacamole!</strong> Check this info.
+        <Popover
+          id="popover-positioned-right"
+          title="Popover right"
+          style={popoverStyle}
+        >
+          {`(${columnIndex}, ${rowIndex})`}
         </Popover>
       );
 

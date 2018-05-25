@@ -20,7 +20,11 @@ import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
 
 import cleanCurrentViewData from './cleanViewData';
-import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
+import {
+  viewRangeAdd,
+  selectDataPerView,
+  // viewObsoleteEventAdd,
+} from './viewDataUpdate';
 
 const initialState = {
   indexes: {},
@@ -44,21 +48,20 @@ export default function plotViewData(state = {}, action) {
       }
       return { ...state, [action.payload.view.uuid]: initialState };
     case types.WS_PAGE_OPENED:
-    case types.WS_WORKSPACE_OPENED:
-      {
-        const { views } = action.payload;
-        if (!views) {
-          return state;
-        }
-        const newState = {};
-        views.forEach((view) => {
-          if (view.type !== constants.VM_VIEW_PLOT) {
-            return;
-          }
-          newState[view.uuid] = initialState;
-        });
-        return { ...state, ...newState };
+    case types.WS_WORKSPACE_OPENED: {
+      const { views } = action.payload;
+      if (!views) {
+        return state;
       }
+      const newState = {};
+      views.forEach((view) => {
+        if (view.type !== constants.VM_VIEW_PLOT) {
+          return;
+        }
+        newState[view.uuid] = initialState;
+      });
+      return { ...state, ...newState };
+    }
     case types.WS_VIEW_CLOSE: {
       const { viewId } = action.payload;
       if (state[viewId]) {
@@ -80,8 +83,12 @@ export default function plotViewData(state = {}, action) {
       return newState;
     }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap,
-              newExpectedRangeIntervals, configurations } = action.payload;
+      const {
+        dataToInject,
+        newViewMap,
+        newExpectedRangeIntervals,
+        configurations,
+      } = action.payload;
       const { PlotViewConfiguration } = configurations;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
@@ -96,10 +103,10 @@ export default function plotViewData(state = {}, action) {
         // Data Selection
         const epSubState =
           selectDataPerView(newViewMap[viewId],
-                            PlotViewConfiguration[viewId],
-                            newExpectedRangeIntervals,
-                            dataToInject,
-                            state[viewId]);
+            PlotViewConfiguration[viewId],
+            newExpectedRangeIntervals,
+            dataToInject,
+            state[viewId]);
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
           const viewState = viewRangeAdd(newState[viewId], epSubState);
@@ -108,6 +115,22 @@ export default function plotViewData(state = {}, action) {
           }
         }
       }
+      return newState || {};
+    }
+    case types.INJECT_DATA_OBSOLETE_EVENT: {
+      const { dataToInject } = action.payload;
+      const dataKeys = Object.keys(dataToInject);
+      // If nothing changed and no data to import, return state
+      if (!dataKeys.length) {
+        return state;
+      }
+
+      const newState = state;
+/*      const viewIds = Object.keys(state);
+      for (const viewId of viewIds) {
+        const viewState = viewObsoleteEventAdd(newState[viewId], dataToInject);
+        console.log(viewState);
+      } */
       return newState || {};
     }
     case types.WS_VIEWDATA_CLEAN: {

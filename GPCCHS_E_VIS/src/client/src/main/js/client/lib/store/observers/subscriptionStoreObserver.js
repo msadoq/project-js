@@ -39,7 +39,7 @@ export default function makeSubscriptionStoreObserver(store) {
       requestSubscriptionAdd(tbdId, dataId);
       savedSubscriptions[tbdId] = dataId;
       const flatIdLogBookEvent =
-        `LogbookEventDefinition.OBSOLETE_PARAMETER<LogbookEvent>:${dataId.sessionId}:${dataId.domainId}:${dataId.domainId}::`;
+        `LogbookEventDefinition.OBSOLETE_PARAMETER<LogbookEvent>:${dataId.sessionId}:${dataId.domainId}:::`;
       const dataIdLogBookEvent = {
         catalog: 'LogbookEventDefinition',
         parameterName: 'OBSOLETE_PARAMETER',

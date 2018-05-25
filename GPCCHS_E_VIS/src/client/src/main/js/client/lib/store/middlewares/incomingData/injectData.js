@@ -12,7 +12,7 @@
 import _ from 'lodash/fp';
 
 import * as types from 'store/types';
-import { injectDataRange, injectDataLast } from 'store/actions/incomingData';
+import { injectDataRange, injectDataLast, injectDataObsoleteEvent } from 'store/actions/incomingData';
 import dataMapGenerator from 'dataManager/map';
 import executionMonitor from 'common/logManager/execution';
 import { getCurrentVisuWindow } from 'store/selectors/timebars';
@@ -67,8 +67,12 @@ const injectData = (timing) => {
         newExpectedLastIntervals,
         convertedDataToInject
       );
+      const updateObsoleteEventData = injectDataObsoleteEvent(
+        convertedDataToInject
+      );
       dispatch(updateRangeData);
       dispatch(updateLastData);
+      dispatch(updateObsoleteEventData);
 
       previousDataMap = dataMap;
     });

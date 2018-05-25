@@ -388,6 +388,7 @@ export const NEW_DATA = 'NEW_DATA';
 // Is it a good idea to seprate both ?
 export const INJECT_DATA_RANGE = 'INJECT_DATA_RANGE';
 export const INJECT_DATA_LAST = 'INJECT_DATA_LAST';
+export const INJECT_DATA_OBSOLETE_EVENT = 'INJECT_DATA_OBSOLETE_EVENT';
 
 export const VIEWS_NEED_LAST = 'VIEWS_NEED_LAST';
 export const VIEWS_NEED_RANGE = 'VIEWS_NEED_RANGE';

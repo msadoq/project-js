@@ -41,7 +41,16 @@ function getSpecificAttributes(timestamp) {
   const parameterName = {
     name: 'ParameterName',
     value: predictibleRand.getFrom([
-      'TMMGT_BC_VIRTCHAN0', 'ATT_BC_REVCOUNT1', 'ATT_BC_REVCOUNT2', 'ATT_BC_REVCOUNT3', 'TMMGT_BC_VIRTCHAN1', 'TMMGT_BC_VIRTCHAN2',
+      'TMMGT_BC_VIRTCHAN0',
+      'ATT_BC_REVCOUNT1',
+      'ATT_BC_REVCOUNT2',
+      'ATT_BC_REVCOUNT3',
+      'TMMGT_BC_VIRTCHAN1',
+      'TMMGT_BC_VIRTCHAN2',
+      'CLCW_TM_CLCWPACKET',
+      'ATT_TM_AKEXENOK42',
+      'AGA_AM_CCSDSAPID',
+      'AGA_AM_QP2',
     ]),
   };
   const groundDate = {

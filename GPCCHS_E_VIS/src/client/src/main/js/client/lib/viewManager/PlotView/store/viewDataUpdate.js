@@ -202,6 +202,23 @@ export function viewRangeAdd(state = {}, payloads) {
   }
   return newState;
 }
+
+
+export function viewObsoleteEventAdd(state, payloads) {
+  const epNames = Object.keys(payloads || {}); // get tbdIds
+  if (!epNames.length) {
+    // no data
+    return state;
+  }
+
+  for (const epName of epNames) {
+    console.log('####################');
+    console.log(epName);
+    console.log('####################');
+  }
+
+  return state;
+}
 /* ************************************
  * Select payload to add for current view
  * @param: current view data map

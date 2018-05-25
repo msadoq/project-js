@@ -6,7 +6,7 @@
 // VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update tests and implementation . .
 // VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
 // VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix error in retrieveLast and update its related tests
-// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Clean console log . . .
+// VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Clean consoleconsole log . . .
 // VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
 // VERSION : 1.1.2 : DM : #6700 : 28/08/2017 : Add some exectuion map + minor lint fix
 // END-HISTORY
@@ -33,7 +33,8 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
     for (let i = 0; i < tbdIds.length; i += 1) {
       const tbdId = tbdIds[i];
       const { dataId, intervals } = neededEvents[tbdIds[i]];
-      const flatObsoleteEventId = `${dataId.parameterName}:${dataId.domainId}:${dataId.sessionId}`;
+      const flatObsoleteEventId = `${dataId.parameterName}:${dataId.sessionId}:${dataId.domainId}`;
+      // getObsoleteEventData
       const obsoleteEventsRecords =
         getObsoleteEventRecordsByInterval(flatObsoleteEventId, intervals);
       if (Object.keys(obsoleteEventsRecords[flatObsoleteEventId]).length !== 0) {
@@ -75,7 +76,9 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
         mergedInterval = mergeIntervals(mergedInterval, missingIntervals);
         execution.stop('merge interval');
       }
-      dispatch(sendArchiveQuery(tbdId, dataId, mergedInterval));
+      if (mergedInterval.length !== 0) {
+        dispatch(sendArchiveQuery(tbdId, dataId, mergedInterval));
+      }
     }
     execution.stop('global');
     execution.print();

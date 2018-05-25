@@ -221,13 +221,23 @@ class VirtualizedTableView extends React.Component {
               colKey={colKey}
               mode={'ASC'}
               active={sortState.colName === colKey && sortState.direction === 'ASC'}
-              onClick={() => onSort(colKey, 'ASC')}
+              onClick={() => {
+                this.setState({
+                  selectedCell: null,
+                });
+                onSort(colKey, 'ASC');
+              }}
             />
             <SortArrow
               colKey={colKey}
               mode={'DESC'}
               active={sortState.colName === colKey && sortState.direction === 'DESC'}
-              onClick={() => onSort(colKey, 'DESC')}
+              onClick={() => {
+                this.setState({
+                  selectedCell: null,
+                });
+                onSort(colKey, 'DESC');
+              }}
             />
           </span>
         </div>
@@ -247,7 +257,12 @@ class VirtualizedTableView extends React.Component {
           <input
             type={'text'}
             value={filterState[columnIndex]}
-            onChange={ev => onFilter(colKey, ev.target.value)}
+            onChange={(ev) => {
+              this.setState({
+                selectedCell: null,
+              });
+              onFilter(colKey, ev.target.value);
+            }}
             className={styles.SearchInput}
           />
         </div>

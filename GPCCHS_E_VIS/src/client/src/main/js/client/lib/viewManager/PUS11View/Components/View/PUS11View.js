@@ -56,6 +56,16 @@ export default class PUS11View extends React.Component {
       tcList,
       viewId,
     } = this.props;
+
+    const tableCellActions = [
+      {
+        label: 'Log info',
+        onClick: (dispatch, content, i, j) => {
+          console.log(`Clicked on log info at cell (${i}, ${j})}`);
+        },
+      },
+    ];
+
     return (
       <div className="pus11">
         <div className="header">
@@ -78,6 +88,7 @@ export default class PUS11View extends React.Component {
                 width={140 * 5}
                 height={100}
                 rows={subScheduleRows}
+                bodyCellActions={tableCellActions}
               />
             </div>
           </div>

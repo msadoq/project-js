@@ -114,7 +114,7 @@ Voici un exemple de définition d'un menu :
       {
         label: 'Log info',
         onClick: (dispatch, content, i, j) => { 
-        console.log(`Clicked on log info at cell ${(i, j)}`); 
+        console.log(`Clicked on log info at cell (${i}, ${j})}`);
         }
       },
     ]

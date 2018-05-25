@@ -7,7 +7,7 @@ import { ScrollSync, AutoSizer, ArrowKeyStepper, Grid } from 'react-virtualized'
 
 import Color from 'color';
 import generateColor from 'string-to-color';
-// import shortid from 'shortid';
+import shortid from 'shortid';
 import { Glyphicon, Popover, Overlay } from 'react-bootstrap';
 
 import styles from './VirtualizedTableView.css';
@@ -50,7 +50,7 @@ class VirtualizedTableView extends React.Component {
     withGroups: PropTypes.bool,
     onSort: PropTypes.func.isRequired,
     onFilter: PropTypes.func.isRequired,
-    bodyCellActions: PropTypes.shape(),
+    bodyCellActions: PropTypes.arrayOf(PropTypes.shape()),
     onBodyCellAction: PropTypes.func.isRequired,
     onCellClick: PropTypes.func.isRequired,
     onCellDoubleClick: PropTypes.func.isRequired,
@@ -313,10 +313,20 @@ class VirtualizedTableView extends React.Component {
     let bodyCellOverlay = null;
 
     if (this.state.selectedCell) {
-      const { content } = this.state.selectedCell;
+      const { content, rowIndex, columnIndex } = this.state.selectedCell;
 
       const popoverContent = _.get(content, ['tooltip', 'body'], null);
-      const actionsMenu = null;
+      const actionsMenu = bodyCellActions.map(
+        actionElem =>
+          <a
+            key={shortid.generate()}
+            onClick={() => {
+              onBodyCellAction(actionElem.label, content, rowIndex, columnIndex);
+            }}
+          >
+            {actionElem.label}
+          </a>
+      );
 
       const popover = (
         <Popover
@@ -325,6 +335,7 @@ class VirtualizedTableView extends React.Component {
         >
           {popoverContent}
           {popoverContent && actionsMenu ? <hr /> : null}
+          {actionsMenu}
         </Popover>
       );
 

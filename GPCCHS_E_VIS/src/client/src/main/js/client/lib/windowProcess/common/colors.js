@@ -31,14 +31,6 @@ export const STATE_COLOR_ALARM = 'danger';
 export const STATE_COLOR_SEVERE = 'severe';
 export const STATE_COLOR_CRITICAL = 'critical';
 export const STATE_COLOR_OUT_OF_RANGE = 'outOfRange';
-export const STATE_COLOR_TYPES = [
-  STATE_COLOR_NOMINAL,
-  STATE_COLOR_WARNING,
-  STATE_COLOR_ALARM,
-  STATE_COLOR_SEVERE,
-  STATE_COLOR_CRITICAL,
-  STATE_COLOR_OUT_OF_RANGE,
-];
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 const Domainscolors = get('DOMAINS_COLORS');
@@ -94,6 +86,14 @@ export const getStateColor = _memoize(
   ),
   (obsolete, significant, state) =>
     `${obsolete}-${significant}-${state}`
+);
+
+/**
+ * @type {Function}
+ * @returns {array}
+ */
+export const getStateColorTypes = _memoize(
+  () => Object.keys(getStateColors())
 );
 
 /**

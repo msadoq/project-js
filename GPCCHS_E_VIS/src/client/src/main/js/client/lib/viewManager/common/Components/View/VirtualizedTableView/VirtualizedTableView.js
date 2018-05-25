@@ -7,9 +7,8 @@ import { ScrollSync, AutoSizer, ArrowKeyStepper, Grid } from 'react-virtualized'
 
 import Color from 'color';
 import generateColor from 'string-to-color';
-import shortid from 'shortid';
-import { Glyphicon, Popover, OverlayTrigger } from 'react-bootstrap';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
+// import shortid from 'shortid';
+import { Glyphicon, Popover, Overlay } from 'react-bootstrap';
 
 import styles from './VirtualizedTableView.css';
 
@@ -39,27 +38,92 @@ SortArrow.defaultProps = {
   },
 };
 
-const VirtualizedTableView =
-  ({
-     columns,
-     rows,
-     columnWidth,
-     rowHeight,
-     width,
-     height,
-     withGroups, // choose to display or not groups headers,
-                 // in this case, columns objects should have `group` key
-                 // WARNING: columns still should be in the right order (by group)
-                 // as this component does not reorder them to match groups
-     onSort,
-     onFilter,
-     bodyCellActions, // the user defined actions
-     onBodyCellAction, // VirtualizedTableViewContainer way to dispacth user defined action
-     onCellClick,
-     onCellDoubleClick,
-     sortState,
-     filterState,
-   }) => {
+class VirtualizedTableView extends React.Component {
+
+  static propTypes = {
+    columns: PropTypes.arrayOf(PropTypes.any),
+    rows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
+    columnWidth: PropTypes.number,
+    rowHeight: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    withGroups: PropTypes.bool,
+    onSort: PropTypes.func.isRequired,
+    onFilter: PropTypes.func.isRequired,
+    bodyCellActions: PropTypes.shape(),
+    onBodyCellAction: PropTypes.func.isRequired,
+    onCellClick: PropTypes.func.isRequired,
+    onCellDoubleClick: PropTypes.func.isRequired,
+    sortState: PropTypes.shape(),
+    filterState: PropTypes.shape(),
+  };
+
+  static defaultProps = {
+    columns: [],
+    rows: [],
+    columnWidth: 220,
+    rowHeight: 22,
+    width: 400,
+    height: 400,
+    bodyCellActions: null,
+    withGroups: false,
+    sortState: {},
+    filterState: {},
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      selectedCell: null,
+    };
+  }
+
+  _onSelectCell(ev, rowIndex, columnIndex, content) {
+    const isAlreadySelected =
+      this.state.selectedCell &&
+      this.state.selectedCell.rowIndex === rowIndex &&
+      this.state.selectedCell.columnIndex === columnIndex;
+
+    if (isAlreadySelected) { // unselect cell if user clicked on it again
+      this.setState({
+        selectedCell: null,
+      });
+
+      return;
+    }
+
+    this.setState({
+      selectedCell: {
+        target: ev.target,
+        rowIndex,
+        columnIndex,
+        content,
+      },
+    });
+  }
+
+  render() {
+    const {
+      columns,
+      rows,
+      columnWidth,
+      rowHeight,
+      width,
+      height,
+      withGroups, // choose to display or not groups headers,
+                  // in this case, columns objects should have `group` key
+                  // WARNING: columns still should be in the right order (by group)
+                  // as this component does not reorder them to match groups
+      onSort,
+      onFilter,
+      bodyCellActions, // the user defined actions
+      onBodyCellAction, // VirtualizedTableViewContainer way to dispacth user defined action
+      onCellClick,
+      onCellDoubleClick,
+      sortState,
+      filterState,
+    } = this.props;
+
     const columnCount = columns.length;
     const rowCount = rows.length;
 
@@ -209,7 +273,8 @@ const VirtualizedTableView =
 
       const _onClick = (ev) => {
         ev.preventDefault();
-        onCellClick(rowIndex, columnIndex, content);
+        // onCellClick(rowIndex, columnIndex, content);
+        this._onSelectCell(ev, rowIndex, columnIndex, content);
       };
 
       const _onDoubleClick = (ev) => {
@@ -217,14 +282,22 @@ const VirtualizedTableView =
         onCellDoubleClick(rowIndex, columnIndex, content);
       };
 
-      const cellBody = (
+      const isCellSelected =
+        this.state.selectedCell &&
+        this.state.selectedCell.rowIndex === rowIndex &&
+        this.state.selectedCell.columnIndex === columnIndex;
+
+      return (
         <div
           className={
             cn(
               styles.bodyCell,
               rowClassName,
               lastRowClassName,
-              lastColumnClassName
+              lastColumnClassName,
+              {
+                [styles.selectedCell]: isCellSelected,
+              }
             )
           }
           key={key}
@@ -235,70 +308,37 @@ const VirtualizedTableView =
           <span>{content.value}</span>
         </div>
       );
+    };
 
-      const cellId = shortid.generate();
+    let bodyCellOverlay = null;
 
-      // Display tooltip
-      if (!content.tooltip) {
-        return cellBody;
-      }
+    if (this.state.selectedCell) {
+      const { content } = this.state.selectedCell;
 
-      const { tooltip } = content;
+      const popoverContent = _.get(content, ['tooltip', 'body'], null);
+      const actionsMenu = null;
 
-      const popoverStyle = {
-        height: 'auto',
-      };
-
-      const popoverRight = (
+      const popover = (
         <Popover
-          id="popover-positioned-right"
-          title={tooltip.title}
-          style={popoverStyle}
+          id="cell-popover"
+          title={_.get(content, ['tooltip', 'title'], null)}
         >
-          {tooltip.body}
+          {popoverContent}
+          {popoverContent && actionsMenu ? <hr /> : null}
         </Popover>
       );
 
-      const cellBodyWithTooltip = (
-        <OverlayTrigger
-          placement={tooltip.placement || 'right'}
-          overlay={popoverRight}
+      bodyCellOverlay = (
+        <Overlay
+          show
+          container={this}
+          placement={'right'}
+          target={this.state.selectedCell.target}
         >
-          {cellBody}
-        </OverlayTrigger>
+          {popover}
+        </Overlay>
       );
-
-      // Creates cell context menu
-      if (bodyCellActions === null) {
-        return cellBodyWithTooltip;
-      }
-
-      return [
-        <ContextMenuTrigger id={`contextmenu-${cellId}`}>
-          {cellBodyWithTooltip}
-        </ContextMenuTrigger>,
-        <ContextMenu id={`contextmenu-${cellId}`}>
-          {
-            bodyCellActions.map(
-              action =>
-                <MenuItem
-                  data={content}
-                  onClick={
-                    onBodyCellAction(
-                      action.label,
-                      content,
-                      rowIndex,
-                      columnIndex
-                    )
-                  }
-                >
-                  {action.label}
-                </MenuItem>
-            )
-          }
-        </ContextMenu>,
-      ];
-    };
+    }
 
     return (
       <ScrollSync className={styles.container}>
@@ -310,6 +350,7 @@ const VirtualizedTableView =
             }
           ) => (
             <div className={styles.GridRow}>
+              {bodyCellOverlay}
               <div className={styles.GridColumn}>
                 <ArrowKeyStepper
                   columnCount={columnCount}
@@ -393,37 +434,7 @@ const VirtualizedTableView =
         }
       </ScrollSync>
     );
-  };
-
-VirtualizedTableView.propTypes = {
-  columns: PropTypes.arrayOf(PropTypes.any),
-  rows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
-  columnWidth: PropTypes.number,
-  rowHeight: PropTypes.number,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  withGroups: PropTypes.bool,
-  onSort: PropTypes.func.isRequired,
-  onFilter: PropTypes.func.isRequired,
-  bodyCellActions: PropTypes.shape(),
-  onBodyCellAction: PropTypes.func.isRequired,
-  onCellClick: PropTypes.func.isRequired,
-  onCellDoubleClick: PropTypes.func.isRequired,
-  sortState: PropTypes.shape(),
-  filterState: PropTypes.shape(),
-};
-
-VirtualizedTableView.defaultProps = {
-  columns: [],
-  rows: [],
-  columnWidth: 220,
-  rowHeight: 22,
-  width: 400,
-  height: 400,
-  bodyCellActions: null,
-  withGroups: false,
-  sortState: {},
-  filterState: {},
-};
+  }
+}
 
 export default VirtualizedTableView;

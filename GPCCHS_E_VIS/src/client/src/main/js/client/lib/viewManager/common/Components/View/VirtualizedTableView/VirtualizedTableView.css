@@ -60,6 +60,7 @@
 
 .bodyCell {
   box-shadow: -.5px -.5px 0 #818181;
+  cursor: pointer;
 }
 
 .lastRow {
@@ -113,4 +114,9 @@
 
 .active {
   color: black;
+}
+
+.selectedCell {
+  background-color: rgba(0, 0, 0, 0.1);
+  font-weight: bold;
 }

@@ -6,6 +6,7 @@ import {
   getBackgroundColorByDomains,
   getBorderColorForNav,
   getBorderColorForTab,
+  getStateColorTypes,
   STATE_COLOR_NOMINAL,
   STATE_COLOR_WARNING,
   STATE_COLOR_ALARM,
@@ -556,6 +557,13 @@ describe('windowProcess', () => {
           };
           expect(getBorderColorForNav(workspaceDomain, pages, viewsDomains))
             .toEqual('#CCC');
+        });
+      });
+      describe('getStateColorTypes', () => {
+        test('getStateColorTypes :: memoize', () => {
+          const firstRun = getStateColorTypes();
+          const secondRun = getStateColorTypes();
+          expect(secondRun).toBe(firstRun);
         });
       });
     });

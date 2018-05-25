@@ -243,6 +243,8 @@ const VirtualizedTableView =
         return cellBody;
       }
 
+      const { tooltip } = content;
+
       const popoverStyle = {
         height: 'auto',
       };
@@ -250,16 +252,16 @@ const VirtualizedTableView =
       const popoverRight = (
         <Popover
           id="popover-positioned-right"
-          title="Popover right"
+          title={tooltip.title}
           style={popoverStyle}
         >
-          {`(${columnIndex}, ${rowIndex})`}
+          {tooltip.body}
         </Popover>
       );
 
       const cellBodyWithTooltip = (
         <OverlayTrigger
-          placement={'right'}
+          placement={tooltip.placement || 'right'}
           overlay={popoverRight}
         >
           {cellBody}

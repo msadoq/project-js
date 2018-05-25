@@ -3,7 +3,11 @@ import { filter, sort } from '../../common/data/table';
 
 const _cell = value => ({
   value,
-  tooltip: value,
+  tooltip: {
+    title: 'Tooltip title',
+    body: 'Tooltip body',
+    placement: 'right', // default right, possible values top, right, bottom, left
+  },
 });
 
 /**

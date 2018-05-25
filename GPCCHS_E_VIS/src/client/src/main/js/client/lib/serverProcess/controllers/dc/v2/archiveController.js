@@ -56,7 +56,7 @@ const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }
         break;
     }
   } catch (e) {
-    const errorMessage = 'WTF !'.concat(e);
+    const errorMessage = ''.concat(e);
     getStore().dispatch(addMessage('global', 'warning', errorMessage));
     logger.error(e);
   }

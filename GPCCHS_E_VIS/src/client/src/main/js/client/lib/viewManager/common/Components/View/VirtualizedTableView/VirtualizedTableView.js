@@ -316,7 +316,7 @@ class VirtualizedTableView extends React.Component {
       const { content, rowIndex, columnIndex } = this.state.selectedCell;
 
       const popoverContent = _.get(content, ['tooltip', 'body'], null);
-      const actionsMenu = bodyCellActions.map(
+      const actionsMenu = (bodyCellActions || []).map(
         actionElem =>
           <a
             key={shortid.generate()}

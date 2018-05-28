@@ -15,8 +15,14 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
 
   const { columns, sorting, filters, name } = tableConfig;
 
+  let formattedRows = rows.rows;
+
+  if (formattedRows.length === 0) { // add dummy row to avoid scroll issues
+    formattedRows = [[...Array(columns.length)].reduce(acc => [...acc, { value: undefined }], [])];
+  }
+
   return {
-    rows: rows.rows,
+    rows: formattedRows,
     columns,
     sortState: sorting,
     filterState: filters,

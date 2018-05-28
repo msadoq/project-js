@@ -129,7 +129,7 @@ class HistoryView extends React.Component {
       data,
       currentLines,
     } = this.props;
-
+    
     const referenceTimestampIndex = 0; // TODO: get this dynamically
     const epNameIndex = 1; // TODO: get this dynamically
 

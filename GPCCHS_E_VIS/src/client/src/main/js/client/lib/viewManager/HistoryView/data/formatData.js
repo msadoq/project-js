@@ -1,7 +1,5 @@
 /* eslint-disable quote-props,no-unused-vars */
 
-import _ from 'lodash';
-
 
 /**
  * Formats received data to appropriate format, i.e an array of values, e.g:

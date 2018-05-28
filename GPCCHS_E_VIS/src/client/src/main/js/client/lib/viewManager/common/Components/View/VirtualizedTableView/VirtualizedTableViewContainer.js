@@ -2,6 +2,7 @@
 import { connect } from 'react-redux';
 
 import { filterColumn, toggleColumnSort } from 'store/actions/tableColumns';
+import { pause } from 'store/actions/hsc';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
 
@@ -22,7 +23,12 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => ({
+const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseOnScroll }) => ({
+  onScrollTop: () => {
+    if (pauseOnScroll) {
+      dispatch(pause());
+    }
+  },
   onFilter: (col, value) => {
     dispatch(filterColumn(viewId, tableId, col, value));
   },

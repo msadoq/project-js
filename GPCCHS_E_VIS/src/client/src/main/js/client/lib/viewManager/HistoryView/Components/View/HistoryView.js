@@ -148,7 +148,6 @@ class HistoryView extends React.Component {
       return acc;
     }, []);
 
-
     const _outlineStyleIfCurrent = (style, rowIndex) => {
       if (_currentRowIndexes.indexOf(rowIndex) > -1) {
         return {
@@ -187,6 +186,7 @@ class HistoryView extends React.Component {
           rows={data}
           withGroups
           bodyCellRendererDecorator={_bodyCellRendererDecorator}
+          pauseOnScroll
         />
 
       </DroppableContainer>

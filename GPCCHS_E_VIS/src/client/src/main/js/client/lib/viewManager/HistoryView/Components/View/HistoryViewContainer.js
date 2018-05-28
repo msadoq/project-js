@@ -35,7 +35,7 @@ const mapStateToProps = (state, { viewId }) => {
     entryPoints: config.entryPoints,
   };
 
-  const preformattedData = formatData(data, reducedConfig);
+  const { data: preformattedData, currentLines } = formatData(data, reducedConfig);
   const formattedData = formatHistoryRows(preformattedData, reducedConfig);
 
 
@@ -91,6 +91,7 @@ const mapStateToProps = (state, { viewId }) => {
   return {
     config: updatedConfig,
     data: formattedData,
+    currentLines,
   };
 };
 

@@ -58,7 +58,7 @@ class VirtualizedTableView extends React.Component {
     onCellDoubleClick: PropTypes.func.isRequired,
     sortState: PropTypes.shape(),
     filterState: PropTypes.shape(),
-    container: PropTypes.shape(),
+    bodyCellRendererDecorator: PropTypes.func,
   };
 
   static defaultProps = {
@@ -73,7 +73,8 @@ class VirtualizedTableView extends React.Component {
     withGroups: false,
     sortState: {},
     filterState: {},
-    container: null,
+    bodyCellRendererDecorator:
+      (decoratedBodyCellRenderer, props) => decoratedBodyCellRenderer(props),
   };
 
   constructor(props, context) {
@@ -129,9 +130,8 @@ class VirtualizedTableView extends React.Component {
       onCellDoubleClick,
       sortState,
       filterState,
-      container,
+      bodyCellRendererDecorator,
     } = this.props;
-    console.log(this.props);
 
     const columnCount = columns.length;
     const rowCount = rows.length;
@@ -297,7 +297,7 @@ class VirtualizedTableView extends React.Component {
 
         updatedStyle = {
           ...style,
-          backgroundColor: groupColorInfo.fadedColor,
+          backgroundColor: style.backgroundColor || groupColorInfo.fadedColor,
           boxShadow: `-.5px -.5px 0 ${groupColorInfo.darkenedColor}`,
         };
       }
@@ -341,6 +341,9 @@ class VirtualizedTableView extends React.Component {
       );
     };
 
+    const _enhancedBodyCellRenderer = props =>
+      bodyCellRendererDecorator(_bodyCellRenderer, props);
+
     let bodyCellOverlay = null;
 
     if (this.state.selectedCell) {
@@ -358,8 +361,6 @@ class VirtualizedTableView extends React.Component {
             {actionElem.label}
           </a>
       );
-
-      console.log('popover', popoverContent, actionsMenu);
 
       const popover = (
         <Popover
@@ -471,7 +472,7 @@ class VirtualizedTableView extends React.Component {
                             scrollToRow={scrollToRow}
                           />
                           <Grid
-                            cellRenderer={_bodyCellRenderer}
+                            cellRenderer={_enhancedBodyCellRenderer}
                             className={styles.BodyGrid}
                             width={tableWidth}
                             height={tableHeight}

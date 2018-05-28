@@ -69,8 +69,13 @@ class HistoryView extends React.Component {
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     askUnit: PropTypes.func.isRequired,
-    data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    data: PropTypes.shape().isRequired,
     viewId: PropTypes.string.isRequired,
+    currentLines: PropTypes.arrayOf(PropTypes.shape()),
+  };
+
+  static defaultProps = {
+    currentLines: [],
   };
 
   componentWillReceiveProps(nextProps) {
@@ -122,7 +127,48 @@ class HistoryView extends React.Component {
     const {
       viewId,
       data,
+      currentLines,
     } = this.props;
+
+    const referenceTimestampIndex = 0; // TODO: get this dynamically
+    const epNameIndex = 1; // TODO: get this dynamically
+
+
+    const _isCurrent = row => currentLines.some(
+      line =>
+        line.epName === row[epNameIndex].value &&
+        line.timestamp === String((new Date(row[referenceTimestampIndex].value)).getTime())
+    );
+
+    const _currentRowIndexes = data.rows.reduce((acc, cur, index) => {
+      if (_isCurrent(cur)) {
+        return [...acc, index];
+      }
+
+      return acc;
+    }, []);
+
+
+    const _outlineStyleIfCurrent = (style, rowIndex) => {
+      if (_currentRowIndexes.indexOf(rowIndex) > -1) {
+        return {
+          ...style,
+          borderTop: '2px solid green',
+          borderBottom: '2px solid green',
+          backgroundColor: 'rgba(0, 100, 0, 0.5)',
+        };
+      }
+
+      return style;
+    };
+
+    const _bodyCellRendererDecorator =
+      (decoratedRenderer, { columnIndex, key, rowIndex, style }) => decoratedRenderer({
+        columnIndex,
+        key,
+        rowIndex,
+        style: _outlineStyleIfCurrent(style, rowIndex),
+      });
 
     return (
       <DroppableContainer
@@ -140,6 +186,7 @@ class HistoryView extends React.Component {
           height={500}
           rows={data}
           withGroups
+          bodyCellRendererDecorator={_bodyCellRendererDecorator}
         />
 
       </DroppableContainer>

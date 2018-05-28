@@ -13,6 +13,18 @@
 import _without from 'lodash/without';
 import * as types from 'store/types';
 
+/**
+ * List of all comObjected (group names) that could be displayed in HistoryView
+ *
+ * @type {Array}
+ */
+const availableComObjects = [
+  'ReportingParameter',
+  'LogbookEvent',
+  'ComputedEvent',
+  'UserEvent',
+  'COP1Status',
+];
 
 const comObjectFieldsAreAlreadyDefined = (stateConf, comObject) =>
   stateConf.tables.history.columns.some(col => col.group === comObject);
@@ -29,7 +41,11 @@ const syncDisplayedColumns = (stateConf) => {
 
   const shouldKeepComObject = comObject =>
     comObject === 'default' ||
-    entryPoints.some(ep => ep.connectedData && ep.connectedData.comObject === comObject);
+    entryPoints.some(
+      ep => ep.connectedData &&
+        ep.connectedData.comObject === comObject &&
+        availableComObjects.indexOf(ep.connectedData.comObject) > -1
+    );
 
   const updatedColumns =
     columns.filter(comObjectField => shouldKeepComObject(comObjectField.group));

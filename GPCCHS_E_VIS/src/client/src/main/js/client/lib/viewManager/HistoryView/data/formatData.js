@@ -2,18 +2,6 @@
 
 import _ from 'lodash';
 
-/**
- * List of all comObjected (group names) that could be displayed in HistoryView
- *
- * @type {Array}
- */
-const availableComObjects = [
-  'ReportingParameter',
-  'LogbookEvent',
-  'ComputedEvent',
-  'UserEvent',
-  'COP1Status',
-];
 
 /**
  * Formats received data to appropriate format, i.e an array of values, e.g:
@@ -97,6 +85,9 @@ const getCurrentLines = (rawData) => {
  * @param config
  * @return {{length: *, groups: *}}
  */
-const formatData = (rawData, config) => preformatData(rawData, config);
+const formatData = (rawData, config) => ({
+  currentLines: getCurrentLines(rawData, config),
+  data: preformatData(rawData, config),
+});
 
 export default formatData;

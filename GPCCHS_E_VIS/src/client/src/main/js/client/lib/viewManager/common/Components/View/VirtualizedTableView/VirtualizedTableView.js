@@ -269,7 +269,7 @@ class VirtualizedTableView extends React.Component {
         >
           <input
             type={'text'}
-            value={filterState[columnIndex]}
+            value={filterState[colKey]}
             onChange={(ev) => {
               this.setState({
                 selectedCell: null,

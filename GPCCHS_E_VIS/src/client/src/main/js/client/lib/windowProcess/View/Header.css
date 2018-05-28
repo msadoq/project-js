@@ -6,9 +6,6 @@
   display: flex;
   background-color: #dfdfdf;
 }
-.containerActive {
-  background-color: rgb(63, 81, 181);
-}
 .title {
   display: inline-block;
   flex-grow: 100;

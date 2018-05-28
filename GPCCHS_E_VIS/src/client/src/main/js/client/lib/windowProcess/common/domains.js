@@ -29,11 +29,11 @@ const domainDeterminationForColor = (
         domain = pagesDomains[0];
       } else if (viewsDomains.length > 1) {
         domain = 'unresolved';
-      } else if (viewsDomains[0] !== '*') {
+      } else if (viewsDomains.length === 1 && viewsDomains[0] !== '*') {
         domain = viewsDomains[0];
       } else if (EpsDomains.length > 1) {
         domain = 'unresolved';
-      } else if (EpsDomains[0] !== '*') {
+      } else if (EpsDomains.length === 1 && EpsDomains[0] !== '*') {
         domain = EpsDomains[0];
       } else {
         domain = 'unresolved';
@@ -46,11 +46,11 @@ const domainDeterminationForColor = (
         domain = pagesDomains[0];
       } else if (viewsDomains.length > 1) {
         domain = 'unresolved';
-      } else if (viewsDomains[0] !== '*') {
+      } else if (viewsDomains.length === 1 && viewsDomains[0] !== '*') {
         domain = viewsDomains[0];
       } else if (EpsDomains.length > 1) {
         domain = 'unresolved';
-      } else if (EpsDomains[0] !== '*') {
+      } else if (EpsDomains.length === 1 && EpsDomains[0] !== '*') {
         domain = EpsDomains[0];
       } else {
         domain = 'unresolved';
@@ -65,7 +65,7 @@ const domainDeterminationForColor = (
         domain = viewsDomains[0];
       } else if (EpsDomains.length > 1) {
         domain = 'unresolved';
-      } else if (EpsDomains[0] !== '*') {
+      } else if (EpsDomains.length === 1 && EpsDomains[0] !== '*') {
         domain = EpsDomains[0];
       } else {
         domain = 'unresolved';

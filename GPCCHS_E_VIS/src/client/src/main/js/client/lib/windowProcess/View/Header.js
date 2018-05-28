@@ -152,9 +152,7 @@ export default class Header extends PureComponent {
 
     return (
       <div
-        className={classnames(styles.container, {
-          [styles.containerActive]: isViewsEditorOpen,
-        })}
+        className={classnames(styles.container)}
       >
         <div
           style={titleStyle}

@@ -37,7 +37,6 @@ import state from 'common/jest/stateTest';
 import {
   getViewEntryPoint,
   getWindowAllViewsIds,
-  getViewEntryPointsDomain,
   getViewEntryPoints,
 } from './views';
 import { get } from '../../common/configurationManager';
@@ -155,11 +154,6 @@ describe('store:views:selectors', () => {
           },
         }
       );
-    });
-  });
-  describe('getViewEntryPointsDomain', () => {
-    test('returns an empty array', () => {
-      expect(getViewEntryPointsDomain(state, { viewId: 'text1' })).toEqual(['fr.cnes.isis.simupus']);
     });
   });
 });

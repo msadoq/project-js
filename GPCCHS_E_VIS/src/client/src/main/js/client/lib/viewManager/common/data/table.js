@@ -1,5 +1,7 @@
+import _ from 'lodash';
+
 const _getColumnIndex = (colName, columns) =>
-  columns.findIndex(col => col.name === colName);
+  columns.findIndex(col => col.field === colName);
 
 /**
  * Filters preformatted data with the specified filters in config
@@ -22,7 +24,8 @@ export const filter = (preformattedData, config) => {
       .keys(filters)
       .forEach((key) => {
         const filterValue = filters[key];
-        const rowValueToFilter = row[_getColumnIndex(key, columns)].value;
+        const colIndex = _getColumnIndex(key, columns);
+        const rowValueToFilter = row[colIndex].value;
         if ((String(rowValueToFilter) || '').indexOf(filterValue) === -1) {
           ans = false;
         }
@@ -64,7 +67,10 @@ export const sort = (preformattedData, config) => {
   const direction = config.sorting.direction || 'ASC';
 
   const compareRows = (arr1, arr2) => {
-    const [v1, v2] = [arr1[colIndex].value, arr2[colIndex].value];
+    const [v1, v2] = [
+      _.get(arr1, [colIndex], { value: undefined }).value,
+      _.get(arr2, [colIndex], { value: undefined }).value,
+    ];
 
     const [a, b] = {
       ASC: [v1, v2],

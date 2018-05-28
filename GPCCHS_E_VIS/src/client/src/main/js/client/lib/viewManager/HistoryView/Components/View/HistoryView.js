@@ -37,7 +37,8 @@ import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import './HistoryView.scss';
 
 import { buildFormulaForAutocomplete } from '../../../common';
-import NTableViewContainer from '../../../common/Components/View/NTableView/NTableViewContainer';
+import VirtualizedTableViewContainer
+  from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 
 const getComObject = __.propOr('UNKNOWN_COM_OBJECT', 0);
 
@@ -68,6 +69,8 @@ class HistoryView extends React.Component {
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     askUnit: PropTypes.func.isRequired,
+    data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    viewId: PropTypes.string.isRequired,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -116,6 +119,11 @@ class HistoryView extends React.Component {
   }
 
   render() {
+    const {
+      viewId,
+      data,
+    } = this.props;
+
     return (
       <DroppableContainer
         className={'HistoryView'}
@@ -124,12 +132,16 @@ class HistoryView extends React.Component {
           this.container = node;
         }}
       >
-        <NTableViewContainer
-          {...this.props}
-          tableId={0}
-          config={this.props.config.tables[0]}
-          container={this.container}
+        <VirtualizedTableViewContainer
+          viewId={viewId}
+          tableId={'history'}
+          columnWidth={190}
+          width={140 * 8}
+          height={500}
+          rows={data}
+          withGroups
         />
+
       </DroppableContainer>
     );
   }

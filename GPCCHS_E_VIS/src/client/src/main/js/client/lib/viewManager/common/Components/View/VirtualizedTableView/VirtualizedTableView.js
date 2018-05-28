@@ -3,12 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import cn from 'classnames';
-import { ScrollSync, AutoSizer, ArrowKeyStepper, Grid } from 'react-virtualized';
+import { ArrowKeyStepper, Grid, ScrollSync } from 'react-virtualized';
 
 import Color from 'color';
 import generateColor from 'string-to-color';
 import shortid from 'shortid';
-import { Glyphicon, Popover, Overlay } from 'react-bootstrap';
+import { Glyphicon, Overlay, Popover } from 'react-bootstrap';
 
 import styles from './VirtualizedTableView.css';
 
@@ -58,6 +58,7 @@ class VirtualizedTableView extends React.Component {
     onCellDoubleClick: PropTypes.func.isRequired,
     sortState: PropTypes.shape(),
     filterState: PropTypes.shape(),
+    container: PropTypes.shape(),
   };
 
   static defaultProps = {
@@ -72,6 +73,7 @@ class VirtualizedTableView extends React.Component {
     withGroups: false,
     sortState: {},
     filterState: {},
+    container: null,
   };
 
   constructor(props, context) {
@@ -127,16 +129,20 @@ class VirtualizedTableView extends React.Component {
       onCellDoubleClick,
       sortState,
       filterState,
+      container,
     } = this.props;
+    console.log(this.props);
 
     const columnCount = columns.length;
     const rowCount = rows.length;
 
+    const tableWidth = width;
+    const tableHeight = height;
+
     const overscanColumnCount = 0;
     const overscanRowCount = 0;
 
-    const _getColumnName = col => col.name;
-    const _getValue = obj => obj.value;
+    const _getColumnName = col => col.field;
 
     const _groups = columns.reduce((acc, column) => {
       if (column.group) {
@@ -215,7 +221,12 @@ class VirtualizedTableView extends React.Component {
           key={key}
           style={headerStyle}
         >
-          <span className={styles.Label}> {colKey} </span>
+          <span
+            className={styles.Label}
+            title={colKey}
+          >
+            {colKey}
+          </span>
           <span className={styles.Arrows}>
             <SortArrow
               colKey={colKey}
@@ -246,7 +257,7 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _filterCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const colKey = columns[columnIndex].name;
+      const colKey = columns[columnIndex].field;
 
       return (
         <div
@@ -348,27 +359,36 @@ class VirtualizedTableView extends React.Component {
           </a>
       );
 
+      console.log('popover', popoverContent, actionsMenu);
+
       const popover = (
         <Popover
           id="cell-popover"
           title={_.get(content, ['tooltip', 'title'], null)}
         >
           {popoverContent}
-          {popoverContent && actionsMenu ? <hr /> : null}
+          {
+            popoverContent &&
+            actionsMenu &&
+            (actionsMenu.length > 0) ?
+              <hr /> :
+              null
+          }
           {actionsMenu}
         </Popover>
       );
 
-      bodyCellOverlay = (
-        <Overlay
-          show
-          container={this}
-          placement={'right'}
-          target={this.state.selectedCell.target}
-        >
-          {popover}
-        </Overlay>
-      );
+      bodyCellOverlay = (popoverContent || (actionsMenu && actionsMenu.length > 0)) ?
+        (
+          <Overlay
+            show
+            container={this}
+            placement={'right'}
+            target={this.state.selectedCell.target}
+          >
+            {popover}
+          </Overlay>
+        ) : null;
     }
 
     let countStr = `${rows.length}`;
@@ -386,6 +406,7 @@ class VirtualizedTableView extends React.Component {
               {
                 onScroll,
                 scrollLeft,
+                scrollTop,
               }
             ) => (
               <div className={styles.GridRow}>
@@ -403,12 +424,12 @@ class VirtualizedTableView extends React.Component {
                               <Grid
                                 cellRenderer={_groupHeaderCellRenderer}
                                 className={styles.HeaderGrid}
-                                width={width}
+                                width={tableWidth}
                                 height={rowHeight}
                                 columnWidth={columnWidth}
                                 rowHeight={rowHeight}
                                 scrollLeft={scrollLeft}
-                                onScroll={onScroll}
+                                scrollTop={scrollTop}
                                 columnCount={columnCount}
                                 rowCount={1}
                                 overscanColumnCount={overscanColumnCount}
@@ -420,11 +441,12 @@ class VirtualizedTableView extends React.Component {
                           <Grid
                             cellRenderer={_headerCellRenderer}
                             className={styles.HeaderGrid}
-                            width={width}
+                            width={tableWidth}
                             height={30}
                             columnWidth={columnWidth}
                             rowHeight={30}
                             scrollLeft={scrollLeft}
+                            scrollTop={scrollTop}
                             columnCount={columnCount}
                             rowCount={1}
                             overscanColumnCount={overscanColumnCount}
@@ -435,11 +457,12 @@ class VirtualizedTableView extends React.Component {
                           <Grid
                             cellRenderer={_filterCellRenderer}
                             className={styles.HeaderGrid}
-                            width={width}
+                            width={tableWidth}
                             height={rowHeight}
                             columnWidth={columnWidth}
                             rowHeight={rowHeight}
                             scrollLeft={scrollLeft}
+                            scrollTop={scrollTop}
                             columnCount={columnCount}
                             rowCount={1}
                             overscanColumnCount={overscanColumnCount}
@@ -450,8 +473,8 @@ class VirtualizedTableView extends React.Component {
                           <Grid
                             cellRenderer={_bodyCellRenderer}
                             className={styles.BodyGrid}
-                            width={width}
-                            height={height}
+                            width={tableWidth}
+                            height={tableHeight}
                             columnWidth={columnWidth}
                             rowHeight={rowHeight}
                             columnCount={columnCount}

@@ -320,6 +320,14 @@ class VirtualizedTableView extends React.Component {
         this.state.selectedCell.rowIndex === rowIndex &&
         this.state.selectedCell.columnIndex === columnIndex;
 
+      if (content.textColor) {
+        console.log(content.textColor);
+        updatedStyle = {
+          ...updatedStyle,
+          color: content.textColor,
+        };
+      }
+
       return (
         <div
           className={

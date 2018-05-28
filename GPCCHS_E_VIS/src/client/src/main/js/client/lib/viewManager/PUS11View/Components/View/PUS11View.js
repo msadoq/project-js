@@ -1,12 +1,9 @@
 /* eslint-disable no-unused-vars,react/no-find-dom-node */
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import './PUS11.scss';
-import VirtualizedTableViewContainer
-  from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 
-const { string, number, arrayOf, shape } = PropTypes;
+const { string, number, arrayOf, shape, oneOf } = PropTypes;
 
 export default class PUS11View extends React.Component {
   static propTypes = {
@@ -20,24 +17,37 @@ export default class PUS11View extends React.Component {
     spaceType: string.isRequired,
     lastUpdateTime: number.isRequired,
     lastUpdateType: string.isRequired,
-    subScheduleRows: arrayOf(arrayOf(PropTypes.any)).isRequired,
-    enabledApidList: arrayOf(shape({
-      apid: number.isRequired,
-      name: string.isRequired,
+    subSchedules: arrayOf(shape({
+      ssid: number,
+      ssidLabel: string,
+      name: string,
+      status: string,
+      firstTCTime: number,
+      updateType: string,
+      updateTime: number,
+      nbTc: number,
     })).isRequired,
-    tcList: arrayOf(shape({
-      apid: number.isRequired,
-      ssid: number.isRequired,
-      cmdName: string.isRequired,
-      cmdDescription: string.isRequired,
-      cmdApName: string.isRequired,
-      seqCount: number.isRequired,
-      sourceId: string.isRequired,
-      cmdStatus: string.isRequired,
-      groundStatus: string.isRequired,
-      initExecTime: number.isRequired,
-      curExecTime: number.isRequired,
-      totShiftTime: number.isRequired,
+    enabledApids: arrayOf(shape({
+      apid: number,
+      name: string,
+      updateType: string,
+      updateTime: number,
+    })).isRequired,
+    commands: arrayOf(shape({
+      apid: number,
+      ssid: number,
+      cmdName: string,
+      cmdShortDescription: string,
+      cmdApName: string,
+      seqCount: number,
+      sourceId: string,
+      cmdStatus: string,
+      groundStatus: string,
+      initExecTime: number,
+      curExecTime: number,
+      totShiftTime: number,
+      updateType: string,
+      updateTime: number,
     })).isRequired,
   };
   static defaultProps = {};
@@ -51,20 +61,11 @@ export default class PUS11View extends React.Component {
       spaceType,
       lastUpdateTime,
       lastUpdateType,
-      subScheduleRows,
-      enabledApidList,
-      tcList,
+      subSchedules,
+      enabledApids,
+      commands,
       viewId,
     } = this.props;
-
-    const tableCellActions = [
-      {
-        label: 'Log info',
-        onClick: (dispatch, content, i, j) => {
-          console.log(`Clicked on log info at cell (${i}, ${j})}`);
-        },
-      },
-    ];
 
     return (
       <div className="pus11">
@@ -80,26 +81,17 @@ export default class PUS11View extends React.Component {
         </div>
         <div className="header">
           <div className="col-sm-6">
-            <div>
-              <VirtualizedTableViewContainer
-                viewId={viewId}
-                tableId={'subSchedules'}
-                columnWidth={140}
-                width={140 * 5}
-                height={100}
-                rows={subScheduleRows}
-                bodyCellActions={tableCellActions}
-              />
-            </div>
+            {renderSubSchedulesTable(subSchedules, viewId)}
           </div>
+          <div className="clearfix" />
           <div className="col-sm-6">
-            {renderEnabledApidsTable(enabledApidList, viewId)}
+            {renderEnabledApidsTable(enabledApids, viewId)}
           </div>
           <div className="clearfix" />
         </div>
         <div className="header">
           <div className="info col-sm-12">
-            {renderTCTable(tcList, viewId)}
+            {renderTCTable(commands, viewId)}
           </div>
         </div>
       </div>
@@ -153,7 +145,34 @@ export const renderHeaders = (ApplicationProcessName,
   </React.Fragment>
 );
 
-export const renderEnabledApidsTable = (EnabledApidList, viewId) => (
+export const renderSubSchedulesTable = (subSchedules, viewId) => (
+  <table className="table table-bordered">
+    <thead>
+      <tr>
+        <th>SSID</th>
+        <th>APID</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>First TC Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        subSchedules.map((row, i) => (
+          <tr key={`${viewId}-sub-schedule-table-${i}`}>
+            <td>{row.ssid}</td>
+            <td>{row.apid}</td>
+            <td>{row.name}</td>
+            <td>{row.status}</td>
+            <td>{row.firstTCTime}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+);
+
+export const renderEnabledApidsTable = (enabledApids, viewId) => (
   <table className="table table-bordered">
     <thead>
       <tr>
@@ -163,7 +182,7 @@ export const renderEnabledApidsTable = (EnabledApidList, viewId) => (
     </thead>
     <tbody>
       {
-      EnabledApidList.map((row, i) => (
+      enabledApids.map((row, i) => (
         <tr key={`${viewId}-enabled-apids-table-${i}`}>
           <td>{row.apid}</td>
           <td>{row.name}</td>
@@ -174,7 +193,7 @@ export const renderEnabledApidsTable = (EnabledApidList, viewId) => (
   </table>
 );
 
-export const renderTCTable = (tcList, viewId) => (
+export const renderTCTable = (commands, viewId) => (
   <table className="table table-bordered">
     <thead>
       <tr>
@@ -194,7 +213,7 @@ export const renderTCTable = (tcList, viewId) => (
     </thead>
     <tbody>
       {
-      tcList.map((row, i) => (
+      commands.map((row, i) => (
         <tr key={`${viewId}-tc-table-${i}`}>
           <td>{row.apid}</td>
           <td>{row.ssid}</td>

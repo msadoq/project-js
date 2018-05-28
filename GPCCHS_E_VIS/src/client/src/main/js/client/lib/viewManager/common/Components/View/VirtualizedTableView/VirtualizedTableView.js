@@ -321,7 +321,6 @@ class VirtualizedTableView extends React.Component {
         this.state.selectedCell.columnIndex === columnIndex;
 
       if (content.textColor) {
-        console.log(content.textColor);
         updatedStyle = {
           ...updatedStyle,
           color: content.textColor,
@@ -490,8 +489,12 @@ class VirtualizedTableView extends React.Component {
                             rowHeight={rowHeight}
                             columnCount={columnCount}
                             rowCount={rowCount}
+                            scrollLeft={scrollLeft}
+                            scrollTop={scrollTop}
                             onScroll={(...args) => {
-                              onScrollTop();
+                              if (scrollTop !== args[0].scrollTop) {
+                                onScrollTop();
+                              }
                               onScroll(...args);
                             }}
                             overscanColumnCount={overscanColumnCount}

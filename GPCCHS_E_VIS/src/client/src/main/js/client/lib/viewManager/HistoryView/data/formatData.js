@@ -16,60 +16,6 @@ const availableComObjects = [
 ];
 
 /**
- * Returns an object mapping each group name with its respective size,
- * i.e the number of fields that are in this group
- *
- * @param columns
- * @returns {*|{}}
- */
-const computeGroupSizes = (columns = []) =>
-  columns.reduce((acc, group) => {
-    const groupName = group[0];
-    const groupParams = group[1];
-    const groupSize = groupParams.length;
-
-    return {
-      ...acc,
-      [groupName]: groupSize,
-    };
-  }, {});
-
-/**
- * Get the ordered list of the parameters to display
- *
- * @param columns
- * @returns {*|*[]}
- */
-export const getColumns = (columns = []) =>
-  columns.reduce((acc, group) => {
-    const groupParams =
-      group[1]
-        .filter(param => param.isDisplayed)
-        .map(param => param.field);
-
-    return [
-      ...acc,
-      ...groupParams,
-    ];
-  }, []);
-
-const getColumnGroupMap = (columns = []) =>
-  columns.reduce((acc, group) => {
-    const groupName = group[0];
-    const groupParams = group[1];
-
-    return {
-      ...acc,
-      ...groupParams.reduce((paramAcc, param) => ({
-        ...paramAcc,
-        [param.field]: groupName,
-      }), {}),
-    };
-  }, {});
-
-export const getColumnIndex = (colKey, columns) => columns.indexOf(colKey);
-
-/**
  * Formats received data to appropriate format, i.e an array of values, e.g:
  *
  * [
@@ -90,9 +36,6 @@ const preformatData = (rawData, config) => {
     const timestamp = parts[1];
     const ep = data[epName] && data[epName][timestamp];
 
-    const hasCurrent = getCurrentLines(rawData)
-      .some(e => Number(e.timestamp) === Number(timestamp));
-
     if (!ep) {
       return acc;
     }
@@ -101,10 +44,10 @@ const preformatData = (rawData, config) => {
       acc[index] = [];
     }
 
-    const columns = getColumns(config.columns);
+    const { columns } = config;
 
     const getParamValue = (colIndex) => {
-      const paramName = columns[colIndex];
+      const paramName = columns[colIndex].field;
 
       if (paramName === 'unit') { // extract data from config
         const getEntryPointUnit = () => {
@@ -124,129 +67,14 @@ const preformatData = (rawData, config) => {
 
     Object
       .keys(columns)
-      .forEach(colIndex => acc[index].push(getParamValue(colIndex)));
+      .forEach(colIndex => acc[index].push({
+        value: getParamValue(colIndex),
+      }));
 
     return acc;
   };
 
   return lines.reduce(reducer, []);
-};
-
-/**
- * Returns only the part of the data that is displayed to the user,
- * depending on config.offset and config.maxDisplayedRows
- *
- * @param preformattedData
- * @param config
- * @returns {Array}
- */
-const scopeData = (preformattedData, config) => {
-  const maxDisplayedRows = 20; // TODO: use parent DOM element height
-  const { dataOffset } = config;
-  return preformattedData.slice(dataOffset, dataOffset + maxDisplayedRows);
-};
-
-/**
- * Sorts preformatted data over the specified column in config
- *
- * @param preformattedData
- * @param config
- * @returns {Array}
- */
-const sortData = (preformattedData, config) => {
-  if (!config.sorting) {
-    return preformattedData;
-  }
-
-  const sortedData = preformattedData.slice();
-
-  const columns = getColumns(config.columns);
-
-  const colName = config.sorting.colName;
-  const colIndex = getColumnIndex(colName, columns);
-  const direction = config.sorting.direction || 'ASC';
-
-  const compareRows = (arr1, arr2) => {
-    const [a, b] = {
-      'ASC': [arr1[colIndex], arr2[colIndex]],
-      'DESC': [arr2[colIndex], arr1[colIndex]],
-    }[direction];
-
-    if (a < b) {
-      return -1;
-    }
-
-    if (a > b) {
-      return 1;
-    }
-
-    return 0;
-  };
-
-  sortedData.sort(compareRows);
-
-  return sortedData;
-};
-
-/**
- * Filters preformatted data with the specified filters in config
- *
- * @param preformattedData
- * @param config
- * @returns {Array}
- */
-const filterData = (preformattedData, config) => {
-  const { filters, columns: columnsConfig } = config;
-
-  if (!filters) {
-    return preformattedData;
-  }
-
-  const columns = getColumns(columnsConfig);
-
-  const shouldKeepRow = (row) => {
-    let ans = true;
-
-    Object
-      .keys(filters)
-      .forEach((key) => {
-        const filterValue = filters[key];
-        const rowValueToFilter = row[getColumnIndex(key, columns)];
-        if ((String(rowValueToFilter) || '').indexOf(filterValue) === -1) {
-          ans = false;
-        }
-      });
-
-    return ans;
-  };
-
-  const filterRowsReducer = (acc, row) => {
-    if (shouldKeepRow(row)) {
-      acc.push(row);
-    }
-
-    return acc;
-  };
-
-  return preformattedData.reduce(filterRowsReducer, []);
-};
-
-/**
- * Returns the value of rows we should display given the view layout height
- *
- * @param config
- * @returns {number}
- */
-const computeMaxDisplayedRows = (config) => {
-  if (config.layoutHeight > 12) {
-    return Math.min(config.maxDisplayedRows, Math.floor((config.layoutHeight - 1) * 1.5));
-  }
-
-  if (config.layoutHeight > 6) {
-    return Math.min(config.maxDisplayedRows, config.layoutHeight);
-  }
-
-  return Math.min(config.maxDisplayedRows, Math.max(0, config.layoutHeight - 1));
 };
 
 const getCurrentLines = (rawData) => {
@@ -269,12 +97,6 @@ const getCurrentLines = (rawData) => {
  * @param config
  * @return {{length: *, groups: *}}
  */
-const formatData = (rawData, config) => ({
-  groups: computeGroupSizes(config.columns),
-  cols: getColumnGroupMap(config.columns),
-  data:
-    sortData(filterData(preformatData(rawData, config), config), config),
-  current: getCurrentLines(rawData),
-});
+const formatData = (rawData, config) => preformatData(rawData, config);
 
 export default formatData;

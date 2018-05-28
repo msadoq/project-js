@@ -20,10 +20,10 @@ import { connect } from 'react-redux';
 import { getData, getConfiguration } from 'viewManager/HistoryView/store/dataReducer';
 import { addEntryPoint } from 'store/actions/views';
 import { toggleColumnSort, filterColumn, scrollRows } from 'store/actions/tableColumns';
-import formatData from '../../data/formatData';
 import HistoryView from './HistoryView';
-import { askUnit } from '../../../../store/actions/catalogs';
 import { getSessionByTimelineId } from '../../../../store/reducers/sessions';
+import { formatHistoryRows } from '../../data';
+import formatData from '../../data/formatData';
 
 
 const mapStateToProps = (state, { viewId }) => {
@@ -31,10 +31,13 @@ const mapStateToProps = (state, { viewId }) => {
   const data = getData(state, { viewId });
 
   const reducedConfig = {
-    ...config.tables[0],
+    ...config.tables.history,
     entryPoints: config.entryPoints,
   };
-  const formattedData = formatData(data, reducedConfig);
+
+  const preformattedData = formatData(data, reducedConfig);
+  const formattedData = formatHistoryRows(preformattedData, reducedConfig);
+
 
   const entryPointReducer = (acc, entryPoint) => {
     if (entryPoint.connectedData && entryPoint.connectedData.timeline) {

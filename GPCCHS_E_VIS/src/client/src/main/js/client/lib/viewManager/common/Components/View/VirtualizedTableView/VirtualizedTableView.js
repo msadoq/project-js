@@ -59,6 +59,7 @@ class VirtualizedTableView extends React.Component {
     sortState: PropTypes.shape(),
     filterState: PropTypes.shape(),
     bodyCellRendererDecorator: PropTypes.func,
+    onScrollTop: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -131,6 +132,7 @@ class VirtualizedTableView extends React.Component {
       sortState,
       filterState,
       bodyCellRendererDecorator,
+      onScrollTop,
     } = this.props;
 
     const columnCount = columns.length;
@@ -480,7 +482,10 @@ class VirtualizedTableView extends React.Component {
                             rowHeight={rowHeight}
                             columnCount={columnCount}
                             rowCount={rowCount}
-                            onScroll={onScroll}
+                            onScroll={(...args) => {
+                              onScrollTop();
+                              onScroll(...args);
+                            }}
                             overscanColumnCount={overscanColumnCount}
                             overscanRowCount={overscanRowCount}
                             onSectionRendered={onSectionRendered}

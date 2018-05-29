@@ -19,8 +19,8 @@ import _concat from 'lodash/concat';
 import _without from 'lodash/without';
 import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
-
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
+
 
 const initialState = {
   cols: [],

@@ -353,53 +353,59 @@ class VirtualizedTableView extends React.Component {
     const _enhancedBodyCellRenderer = props =>
       bodyCellRendererDecorator(_bodyCellRenderer, props);
 
-    let bodyCellOverlay = null;
+    const _createBodyCellMenu = () => {
+      let bodyCellOverlay = null;
 
-    if (this.state.selectedCell) {
-      const { content, rowIndex, columnIndex } = this.state.selectedCell;
+      if (this.state.selectedCell) {
+        const { content, rowIndex, columnIndex } = this.state.selectedCell;
 
-      const popoverContent = _.get(content, ['tooltip', 'body'], null);
-      const actionsMenu = (bodyCellActions || []).map(
-        actionElem =>
-          <a
-            key={shortid.generate()}
-            onClick={() => {
-              onBodyCellAction(actionElem.label, content, rowIndex, columnIndex);
-            }}
+        const popoverContent = _.get(content, ['tooltip', 'body'], null);
+        const actionsMenu = (bodyCellActions || []).map(
+          actionElem =>
+            <a
+              key={shortid.generate()}
+              onClick={() => {
+                onBodyCellAction(actionElem.label, content, rowIndex, columnIndex);
+              }}
+            >
+              {actionElem.label}
+            </a>
+        );
+
+        const popover = (
+          <Popover
+            id="cell-popover"
+            title={_.get(content, ['tooltip', 'title'], null)}
           >
-            {actionElem.label}
-          </a>
-      );
+            {popoverContent}
+            {
+              popoverContent &&
+              actionsMenu &&
+              (actionsMenu.length > 0) ?
+                <hr /> :
+                null
+            }
+            {actionsMenu}
+          </Popover>
+        );
 
-      const popover = (
-        <Popover
-          id="cell-popover"
-          title={_.get(content, ['tooltip', 'title'], null)}
-        >
-          {popoverContent}
-          {
-            popoverContent &&
-            actionsMenu &&
-            (actionsMenu.length > 0) ?
-              <hr /> :
-              null
-          }
-          {actionsMenu}
-        </Popover>
-      );
+        bodyCellOverlay = (popoverContent || (actionsMenu && actionsMenu.length > 0)) ?
+          (
+            <Overlay
+              show
+              container={this}
+              placement={'right'}
+              target={this.state.selectedCell.target}
+            >
+              {popover}
+            </Overlay>
+          ) : null;
+      }
 
-      bodyCellOverlay = (popoverContent || (actionsMenu && actionsMenu.length > 0)) ?
-        (
-          <Overlay
-            show
-            container={this}
-            placement={'right'}
-            target={this.state.selectedCell.target}
-          >
-            {popover}
-          </Overlay>
-        ) : null;
-    }
+      return bodyCellOverlay;
+    };
+
+    const bodyCellMenu = _createBodyCellMenu();
 
     let countStr = `${formattedRows.length}`;
 
@@ -444,7 +450,7 @@ class VirtualizedTableView extends React.Component {
                       }
                     ) => (
                       <div className={styles.GridRow}>
-                        {bodyCellOverlay}
+                        {bodyCellMenu}
                         <div className={styles.GridColumn}>
                           <ArrowKeyStepper
                             columnCount={columnCount}

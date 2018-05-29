@@ -154,7 +154,7 @@ class HistoryView extends React.Component {
           ...style,
           borderTop: '2px solid green',
           borderBottom: '2px solid green',
-          backgroundColor: 'rgba(0, 100, 0, 0.5)',
+          backgroundColor: 'rgba(0, 100, 0, 0.1)',
         };
       }
 

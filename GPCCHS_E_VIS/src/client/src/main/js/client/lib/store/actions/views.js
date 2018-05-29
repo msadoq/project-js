@@ -115,6 +115,13 @@ export const updateContent = simple(types.WS_VIEW_UPDATE_CONTENT, 'viewId', 'con
 export const updateShowYAxes = simple(types.WS_VIEW_UPDATE_SHOWYAXES, 'viewId', 'showYAxes');
 export const updateDimensions = simple(types.WS_VIEW_UPDATE_DIMENSIONS, 'viewId', 'width', 'height');
 export const updateTableCols = simple(types.WS_VIEW_UPDATE_TABLE_COLS, 'viewId', 'tableId', 'cols');
+export const updateTableColumns =
+  simple(
+    types.WS_VIEW_UPDATE_TABLE_COLUMNS,
+    'viewId',
+    'tableId',
+    'columns'
+  );
 
 export const updateEditorSearch = simple(types.WS_VIEW_UPDATE_EDITOR_SEARCH, 'viewId', 'search');
 export const searchInView = simple(types.WS_SEARCH_IN_VIEW, 'viewId', 'searchTerm');

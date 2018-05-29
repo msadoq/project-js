@@ -63,7 +63,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
     const state1 = _cloneDeep(state);
     state1.timebars.tb1.visuWindow.lower += 10;
     state1.timebars.tb1.visuWindow.upper += 10;
-    state1.timebars.tb1.visuWindow.current += 10;
+    state1.timebars.tb1.visuWindow.currentLines += 10;
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingRangeIntervals(newMap, lastMap)).toEqual({
@@ -117,7 +117,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
     const state1 = _cloneDeep(state);
     state1.timebars.tb1.visuWindow.lower -= 10000;
     state1.timebars.tb1.visuWindow.upper -= 10000;
-    state1.timebars.tb1.visuWindow.current -= 10000;
+    state1.timebars.tb1.visuWindow.currentLines -= 10000;
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingRangeIntervals(newMap, lastMap)).toEqual({

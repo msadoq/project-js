@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars,quote-props,react/prefer-stateless-function */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
@@ -37,7 +36,8 @@ import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import './HistoryView.scss';
 
 import { buildFormulaForAutocomplete } from '../../../common';
-import NTableViewContainer from '../../../common/Components/View/NTableView/NTableViewContainer';
+import VirtualizedTableViewContainer
+  from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 
 const getComObject = __.propOr('UNKNOWN_COM_OBJECT', 0);
 
@@ -63,35 +63,17 @@ function parseDragData(data) {
 
 class HistoryView extends React.Component {
   static propTypes = {
-// eslint-disable-next-line react/no-unused-prop-types
     config: PropTypes.shape().isRequired,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    askUnit: PropTypes.func.isRequired,
+    data: PropTypes.shape().isRequired,
+    viewId: PropTypes.string.isRequired,
+    currentRowIndexes: PropTypes.arrayOf(PropTypes.number),
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { askUnit, config } = nextProps;
-    const { entryPoints } = config;
-
-    entryPoints.forEach((entryPoint) => {
-      const {
-        domain,
-        sessionId,
-        catalog,
-        catalogItem,
-      } = entryPoint;
-
-      if (
-        domain !== null &&
-        sessionId !== null &&
-        catalog !== null &&
-        catalogItem !== null
-      ) {
-        askUnit(domain, sessionId, catalog, catalogItem);
-      }
-    });
-  }
+  static defaultProps = {
+    currentRowIndexes: [],
+  };
 
   onDrop = this.drop.bind(this);
 
@@ -116,20 +98,42 @@ class HistoryView extends React.Component {
   }
 
   render() {
+    const {
+      viewId,
+      data,
+      currentRowIndexes,
+    } = this.props;
+
+    const _outlineStyle = style => ({
+      ...style,
+      borderTop: '2px solid green',
+      borderBottom: '2px solid green',
+      backgroundColor: 'rgba(0, 100, 0, 0.1)',
+    });
+
+    const _bodyCellRendererDecorator =
+      (decoratedRenderer, { columnIndex, key, rowIndex, style }) =>
+        decoratedRenderer({
+          columnIndex,
+          key,
+          rowIndex,
+          style: currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : style,
+        });
+
     return (
       <DroppableContainer
         className={'HistoryView'}
         onDrop={this.onDrop}
-        ref={(node) => {
-          this.container = node;
-        }}
       >
-        <NTableViewContainer
-          {...this.props}
-          tableId={0}
-          config={this.props.config.tables[0]}
-          container={this.container}
+        <VirtualizedTableViewContainer
+          viewId={viewId}
+          tableId={'history'}
+          rows={data}
+          withGroups
+          bodyCellRendererDecorator={_bodyCellRendererDecorator}
+          pauseOnScroll
         />
+
       </DroppableContainer>
     );
   }

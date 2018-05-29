@@ -13,9 +13,21 @@
 import _without from 'lodash/without';
 import * as types from 'store/types';
 
+/**
+ * List of all comObjected (group names) that could be displayed in HistoryView
+ *
+ * @type {Array}
+ */
+const availableComObjects = [
+  'ReportingParameter',
+  'LogbookEvent',
+  'ComputedEvent',
+  'UserEvent',
+  'COP1Status',
+];
 
 const comObjectFieldsAreAlreadyDefined = (stateConf, comObject) =>
-  stateConf.tables[0].columns.some(col => col[0] === comObject);
+  stateConf.tables.history.columns.some(col => col.group === comObject);
 
 /**
  * Remove comObject fields that are used by no entry point
@@ -25,21 +37,25 @@ const comObjectFieldsAreAlreadyDefined = (stateConf, comObject) =>
 
 const syncDisplayedColumns = (stateConf) => {
   const { entryPoints, tables } = stateConf;
-  const { columns } = tables[0];
+  const { columns } = tables.history;
 
   const shouldKeepComObject = comObject =>
     comObject === 'default' ||
-    entryPoints.some(ep => ep.connectedData && ep.connectedData.comObject === comObject);
+    entryPoints.some(
+      ep => ep.connectedData &&
+        ep.connectedData.comObject === comObject &&
+        availableComObjects.indexOf(ep.connectedData.comObject) > -1
+    );
 
   const updatedColumns =
-    columns.filter(comObjectArr => shouldKeepComObject(comObjectArr[0]));
+    columns.filter(comObjectField => shouldKeepComObject(comObjectField.group));
 
   return {
     ...stateConf,
     tables: {
       ...stateConf.tables,
-      0: {
-        ...stateConf.tables[0],
+      history: {
+        ...stateConf.tables.history,
         columns: updatedColumns,
       },
     },
@@ -92,29 +108,20 @@ export default (stateConf, action) => {
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
     case types.WS_VIEW_REMOVE_ENTRYPOINT:
       return syncDisplayedColumns(stateConf);
-    case types.WS_VIEW_TABLE_UPDATE_HEIGHT: {
-      const { height } = action.payload;
-
-      return {
-        ...stateConf,
-        layoutHeight: height,
-      };
-    }
     case types.WS_VIEW_TABLE_ADD_COLUMNS: {
       const { groupName, fields } = action.payload;
-      const tableId = 0;
+      const tableId = 'history';
 
       if (comObjectFieldsAreAlreadyDefined(stateConf, groupName)) {
         return stateConf;
       }
 
-      const newColumnEntry = [
-        groupName,
+      const newColumns =
         fields.map(field => ({
           field,
           isDisplayed: true,
-        })),
-      ];
+          group: groupName,
+        }));
 
       return {
         ...stateConf,
@@ -124,7 +131,7 @@ export default (stateConf, action) => {
             ...stateConf.tables[tableId],
             columns: [
               ...stateConf.tables[tableId].columns,
-              newColumnEntry,
+              ...newColumns,
             ],
           },
         },

@@ -73,9 +73,6 @@
 
 .Label {
   width: 80px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .Arrow, .Label {
@@ -124,4 +121,10 @@
 .tableHeader {
   padding: 15px;
   font-weight: bold;
+}
+
+.Label, .bodyCell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

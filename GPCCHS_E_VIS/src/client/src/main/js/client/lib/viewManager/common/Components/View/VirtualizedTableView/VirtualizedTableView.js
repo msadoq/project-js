@@ -3,12 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import cn from 'classnames';
-import { ScrollSync, AutoSizer, ArrowKeyStepper, Grid } from 'react-virtualized';
+import { ArrowKeyStepper, Grid, ScrollSync } from 'react-virtualized';
+import ContainerDimensions from 'react-container-dimensions';
+import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 
 import Color from 'color';
 import generateColor from 'string-to-color';
 import shortid from 'shortid';
-import { Glyphicon, Popover, Overlay } from 'react-bootstrap';
+import { Glyphicon, Overlay, Popover } from 'react-bootstrap';
 
 import styles from './VirtualizedTableView.css';
 
@@ -47,8 +49,6 @@ class VirtualizedTableView extends React.Component {
     rows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
     columnWidth: PropTypes.number,
     rowHeight: PropTypes.number,
-    width: PropTypes.number,
-    height: PropTypes.number,
     withGroups: PropTypes.bool,
     onSort: PropTypes.func.isRequired,
     onFilter: PropTypes.func.isRequired,
@@ -58,20 +58,22 @@ class VirtualizedTableView extends React.Component {
     onCellDoubleClick: PropTypes.func.isRequired,
     sortState: PropTypes.shape(),
     filterState: PropTypes.shape(),
+    bodyCellRendererDecorator: PropTypes.func,
+    onScrollTop: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    tableName: null,
+    tableName: 'Data table',
     columns: [],
     rows: [],
     columnWidth: 220,
     rowHeight: 22,
-    width: 400,
-    height: 400,
     bodyCellActions: null,
     withGroups: false,
     sortState: {},
     filterState: {},
+    bodyCellRendererDecorator:
+      (decoratedBodyCellRenderer, props) => decoratedBodyCellRenderer(props),
   };
 
   constructor(props, context) {
@@ -113,8 +115,6 @@ class VirtualizedTableView extends React.Component {
       rows,
       columnWidth,
       rowHeight,
-      width,
-      height,
       withGroups, // choose to display or not groups headers,
                   // in this case, columns objects should have `group` key
                   // WARNING: columns still should be in the right order (by group)
@@ -127,16 +127,24 @@ class VirtualizedTableView extends React.Component {
       onCellDoubleClick,
       sortState,
       filterState,
+      bodyCellRendererDecorator,
+      onScrollTop,
     } = this.props;
 
+    let formattedRows = rows;
+
+    if (formattedRows.length === 0) { // add dummy row to avoid scroll issues
+      formattedRows =
+        [[...Array(columns.length)].reduce(acc => [...acc, { value: undefined }], [])];
+    }
+
     const columnCount = columns.length;
-    const rowCount = rows.length;
+    const rowCount = formattedRows.length;
 
     const overscanColumnCount = 0;
     const overscanRowCount = 0;
 
-    const _getColumnName = col => col.name;
-    const _getValue = obj => obj.value;
+    const _getColumnName = col => col.field;
 
     const _groups = columns.reduce((acc, column) => {
       if (column.group) {
@@ -215,7 +223,12 @@ class VirtualizedTableView extends React.Component {
           key={key}
           style={headerStyle}
         >
-          <span className={styles.Label}> {colKey} </span>
+          <span
+            className={styles.Label}
+            title={colKey}
+          >
+            {colKey}
+          </span>
           <span className={styles.Arrows}>
             <SortArrow
               colKey={colKey}
@@ -246,7 +259,7 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _filterCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const colKey = columns[columnIndex].name;
+      const colKey = columns[columnIndex].field;
 
       return (
         <div
@@ -256,7 +269,7 @@ class VirtualizedTableView extends React.Component {
         >
           <input
             type={'text'}
-            value={filterState[columnIndex]}
+            value={filterState[colKey]}
             onChange={(ev) => {
               this.setState({
                 selectedCell: null,
@@ -271,9 +284,9 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const content = rows[rowIndex][columnIndex];
+      const content = formattedRows[rowIndex][columnIndex];
       const rowClassName = rowIndex % 2 ? styles.oddRow : styles.evenRow;
-      const lastRowClassName = rowIndex === rows.length - 1 ? styles.lastRow : '';
+      const lastRowClassName = rowIndex === formattedRows.length - 1 ? styles.lastRow : '';
       const lastColumnClassName = columnIndex === columns.length - 1 ? styles.lastColumn : '';
 
       let updatedStyle = {
@@ -286,7 +299,7 @@ class VirtualizedTableView extends React.Component {
 
         updatedStyle = {
           ...style,
-          backgroundColor: groupColorInfo.fadedColor,
+          backgroundColor: style.backgroundColor || groupColorInfo.fadedColor,
           boxShadow: `-.5px -.5px 0 ${groupColorInfo.darkenedColor}`,
         };
       }
@@ -306,6 +319,13 @@ class VirtualizedTableView extends React.Component {
         this.state.selectedCell &&
         this.state.selectedCell.rowIndex === rowIndex &&
         this.state.selectedCell.columnIndex === columnIndex;
+
+      if (content.textColor) {
+        updatedStyle = {
+          ...updatedStyle,
+          color: content.textColor,
+        };
+      }
 
       return (
         <div
@@ -329,6 +349,9 @@ class VirtualizedTableView extends React.Component {
         </div>
       );
     };
+
+    const _enhancedBodyCellRenderer = props =>
+      bodyCellRendererDecorator(_bodyCellRenderer, props);
 
     let bodyCellOverlay = null;
 
@@ -354,125 +377,170 @@ class VirtualizedTableView extends React.Component {
           title={_.get(content, ['tooltip', 'title'], null)}
         >
           {popoverContent}
-          {popoverContent && actionsMenu ? <hr /> : null}
+          {
+            popoverContent &&
+            actionsMenu &&
+            (actionsMenu.length > 0) ?
+              <hr /> :
+              null
+          }
           {actionsMenu}
         </Popover>
       );
 
-      bodyCellOverlay = (
-        <Overlay
-          show
-          container={this}
-          placement={'right'}
-          target={this.state.selectedCell.target}
-        >
-          {popover}
-        </Overlay>
-      );
+      bodyCellOverlay = (popoverContent || (actionsMenu && actionsMenu.length > 0)) ?
+        (
+          <Overlay
+            show
+            container={this}
+            placement={'right'}
+            target={this.state.selectedCell.target}
+          >
+            {popover}
+          </Overlay>
+        ) : null;
     }
 
-    let countStr = `${rows.length}`;
+    let countStr = `${formattedRows.length}`;
 
-    if (rows.length < totalCount) {
+    if (rows.length === 0) {
+      // do not take into account dummy row
+      // (the table has always at least one row to avoid alignment issues)
+      countStr = '0';
+    }
+
+    if (formattedRows.length < totalCount) {
       countStr = `${countStr}/${totalCount}`;
     }
 
+    const columnsWidth = columnWidth * columnCount;
+    const headerHeight = 42;
+
+    const extendedRowHeight = rowHeight * 2;
+
     return (
-      <div>
-        <div className={styles.tableHeader}>{`${tableName} (${countStr})`}</div>
-        <ScrollSync className={styles.container}>
-          {
-            (
-              {
-                onScroll,
-                scrollLeft,
-              }
-            ) => (
-              <div className={styles.GridRow}>
-                {bodyCellOverlay}
-                <div className={styles.GridColumn}>
-                  <ArrowKeyStepper
-                    columnCount={columnCount}
-                    rowCount={rowCount}
-                  >
-                    {
-                      ({ onSectionRendered, scrollToColumn, scrollToRow }) => (
-                        <div>
-                          {
-                            withGroups ?
-                              <Grid
-                                cellRenderer={_groupHeaderCellRenderer}
-                                className={styles.HeaderGrid}
-                                width={width}
-                                height={rowHeight}
-                                columnWidth={columnWidth}
-                                rowHeight={rowHeight}
-                                scrollLeft={scrollLeft}
-                                onScroll={onScroll}
-                                columnCount={columnCount}
-                                rowCount={1}
-                                overscanColumnCount={overscanColumnCount}
-                                onSectionRendered={onSectionRendered}
-                                scrollToColumn={scrollToColumn}
-                                scrollToRow={scrollToRow}
-                              /> : null
-                          }
-                          <Grid
-                            cellRenderer={_headerCellRenderer}
-                            className={styles.HeaderGrid}
-                            width={width}
-                            height={30}
-                            columnWidth={columnWidth}
-                            rowHeight={30}
-                            scrollLeft={scrollLeft}
-                            columnCount={columnCount}
-                            rowCount={1}
-                            overscanColumnCount={overscanColumnCount}
-                            onSectionRendered={onSectionRendered}
-                            scrollToColumn={scrollToColumn}
-                            scrollToRow={scrollToRow}
-                          />
-                          <Grid
-                            cellRenderer={_filterCellRenderer}
-                            className={styles.HeaderGrid}
-                            width={width}
-                            height={rowHeight}
-                            columnWidth={columnWidth}
-                            rowHeight={rowHeight}
-                            scrollLeft={scrollLeft}
-                            columnCount={columnCount}
-                            rowCount={1}
-                            overscanColumnCount={overscanColumnCount}
-                            onSectionRendered={onSectionRendered}
-                            scrollToColumn={scrollToColumn}
-                            scrollToRow={scrollToRow}
-                          />
-                          <Grid
-                            cellRenderer={_bodyCellRenderer}
-                            className={styles.BodyGrid}
-                            width={width}
-                            height={height}
-                            columnWidth={columnWidth}
-                            rowHeight={rowHeight}
+      <ContainerDimensions>
+        {
+          ({ width, height }) => {
+            const adjustedWidth = Math.min(width - scrollbarSize(), columnsWidth);
+            let adjustedHeight = height - headerHeight - (3 * rowHeight) - scrollbarSize();
+
+            if (withGroups) {
+              // take into account the space taken by the additional row
+              // used to display group names
+              adjustedHeight -= rowHeight;
+            }
+
+            return (
+              <div>
+                <div className={styles.tableHeader}>{`${tableName} (${countStr})`}</div>
+                <ScrollSync className={styles.container}>
+                  {
+                    (
+                      {
+                        onScroll,
+                        scrollLeft,
+                        scrollTop,
+                      }
+                    ) => (
+                      <div className={styles.GridRow}>
+                        {bodyCellOverlay}
+                        <div className={styles.GridColumn}>
+                          <ArrowKeyStepper
                             columnCount={columnCount}
                             rowCount={rowCount}
-                            onScroll={onScroll}
-                            overscanColumnCount={overscanColumnCount}
-                            overscanRowCount={overscanRowCount}
-                            onSectionRendered={onSectionRendered}
-                            scrollToColumn={scrollToColumn}
-                            scrollToRow={scrollToRow}
-                          />
+                          >
+                            {
+                              ({ onSectionRendered, scrollToColumn, scrollToRow }) => (
+                                <div>
+                                  {
+                                    withGroups ?
+                                      <Grid
+                                        cellRenderer={_groupHeaderCellRenderer}
+                                        className={styles.HeaderGrid}
+                                        width={adjustedWidth}
+                                        height={rowHeight}
+                                        columnWidth={columnWidth}
+                                        rowHeight={rowHeight}
+                                        scrollLeft={scrollLeft}
+                                        scrollTop={scrollTop}
+                                        columnCount={columnCount}
+                                        rowCount={1}
+                                        overscanColumnCount={overscanColumnCount}
+                                        onSectionRendered={onSectionRendered}
+                                        scrollToColumn={scrollToColumn}
+                                        scrollToRow={scrollToRow}
+                                      /> : null
+                                  }
+                                  <Grid
+                                    cellRenderer={_headerCellRenderer}
+                                    className={styles.HeaderGrid}
+                                    width={adjustedWidth}
+                                    height={extendedRowHeight}
+                                    columnWidth={columnWidth}
+                                    rowHeight={extendedRowHeight}
+                                    scrollLeft={scrollLeft}
+                                    scrollTop={scrollTop}
+                                    columnCount={columnCount}
+                                    rowCount={1}
+                                    overscanColumnCount={overscanColumnCount}
+                                    onSectionRendered={onSectionRendered}
+                                    scrollToColumn={scrollToColumn}
+                                    scrollToRow={scrollToRow}
+                                  />
+                                  <Grid
+                                    cellRenderer={_filterCellRenderer}
+                                    className={styles.HeaderGrid}
+                                    width={adjustedWidth}
+                                    height={rowHeight}
+                                    columnWidth={columnWidth}
+                                    rowHeight={rowHeight}
+                                    scrollLeft={scrollLeft}
+                                    scrollTop={scrollTop}
+                                    columnCount={columnCount}
+                                    rowCount={1}
+                                    overscanColumnCount={overscanColumnCount}
+                                    onSectionRendered={onSectionRendered}
+                                    scrollToColumn={scrollToColumn}
+                                    scrollToRow={scrollToRow}
+                                  />
+                                  <Grid
+                                    cellRenderer={_enhancedBodyCellRenderer}
+                                    className={styles.BodyGrid}
+                                    width={adjustedWidth}
+                                    height={adjustedHeight}
+                                    columnWidth={columnWidth}
+                                    rowHeight={rowHeight}
+                                    columnCount={columnCount}
+                                    rowCount={rowCount}
+                                    scrollLeft={scrollLeft}
+                                    scrollTop={scrollTop}
+                                    onScroll={(...args) => {
+                                      if (scrollTop !== args[0].scrollTop) {
+                                        onScrollTop();
+                                      }
+                                      onScroll(...args);
+                                    }}
+                                    overscanColumnCount={overscanColumnCount}
+                                    overscanRowCount={overscanRowCount}
+                                    onSectionRendered={onSectionRendered}
+                                    scrollToColumn={scrollToColumn}
+                                    scrollToRow={scrollToRow}
+                                  />
+                                </div>
+                              )
+                            }
+                          </ArrowKeyStepper>
                         </div>
-                      )
-                    }
-                  </ArrowKeyStepper>
-                </div>
+                      </div>
+                    )
+                  }
+                </ScrollSync>
               </div>
-            )
+            );
           }
-        </ScrollSync>
-      </div>
+        }
+      </ContainerDimensions>
     );
   }
 }

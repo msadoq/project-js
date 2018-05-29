@@ -20,10 +20,10 @@ import { connect } from 'react-redux';
 import { getData, getConfiguration } from 'viewManager/HistoryView/store/dataReducer';
 import { addEntryPoint } from 'store/actions/views';
 import { toggleColumnSort, filterColumn, scrollRows } from 'store/actions/tableColumns';
-import formatData from '../../data/formatData';
 import HistoryView from './HistoryView';
-import { askUnit } from '../../../../store/actions/catalogs';
 import { getSessionByTimelineId } from '../../../../store/reducers/sessions';
+import { formatHistoryRows } from '../../data';
+import formatData from '../../data/formatData';
 
 
 const mapStateToProps = (state, { viewId }) => {
@@ -31,10 +31,12 @@ const mapStateToProps = (state, { viewId }) => {
   const data = getData(state, { viewId });
 
   const reducedConfig = {
-    ...config.tables[0],
+    ...config.tables.history,
     entryPoints: config.entryPoints,
   };
-  const formattedData = formatData(data, reducedConfig);
+
+  const { data: preformattedData, currentLines } = formatData(data, reducedConfig);
+  const formattedData = formatHistoryRows(preformattedData, reducedConfig);
 
   const entryPointReducer = (acc, entryPoint) => {
     if (entryPoint.connectedData && entryPoint.connectedData.timeline) {
@@ -85,19 +87,38 @@ const mapStateToProps = (state, { viewId }) => {
     entryPoints: config.entryPoints.reduce(entryPointReducer, []),
   };
 
+  // current rows
+  const historyConfig = config.tables.history;
+
+  const _getFieldIndex = field => historyConfig.columns.findIndex(col => col.field === field);
+
+  const referenceTimestampIndex = _getFieldIndex('referenceTimestamp');
+  const epNameIndex = _getFieldIndex('epName');
+
+  const _isCurrent = row => currentLines.some(
+    line =>
+      line.epName === row[epNameIndex].value &&
+      line.timestamp === String((new Date(row[referenceTimestampIndex].value)).getTime())
+  );
+
+  const currentRowIndexes = formattedData.rows.reduce((acc, cur, index) => {
+    if (_isCurrent(cur)) {
+      return [...acc, index];
+    }
+
+    return acc;
+  }, []);
+
   return {
     config: updatedConfig,
     data: formattedData,
+    currentRowIndexes,
   };
 };
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
   addEntryPoint: (entryPoint) => {
     dispatch(addEntryPoint(viewId, entryPoint));
-  },
-  askUnit: (domainId, sessionId, name, itemName) => {
-    // TODO: uncomment this and use askUnitSimple from 2.0.0.2 patch
-    // dispatch(askUnit(domainId, sessionId, name, itemName));
   },
 });
 
@@ -106,4 +127,5 @@ const HistoryViewContainer = connect(mapStateToProps, mapDispatchToProps)(Histor
 HistoryViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
 };
+
 export default HistoryViewContainer;

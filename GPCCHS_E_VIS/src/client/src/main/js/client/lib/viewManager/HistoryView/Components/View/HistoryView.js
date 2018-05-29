@@ -173,16 +173,10 @@ class HistoryView extends React.Component {
       <DroppableContainer
         className={'HistoryView'}
         onDrop={this.onDrop}
-        ref={(node) => {
-          this.container = node;
-        }}
       >
         <VirtualizedTableViewContainer
           viewId={viewId}
           tableId={'history'}
-          columnWidth={190}
-          width={140 * 8}
-          height={500}
           rows={data}
           withGroups
           bodyCellRendererDecorator={_bodyCellRendererDecorator}

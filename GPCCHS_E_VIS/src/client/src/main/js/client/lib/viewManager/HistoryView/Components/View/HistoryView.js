@@ -33,8 +33,6 @@ import __ from 'lodash/fp';
 
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 
-import './HistoryView.scss';
-
 import { buildFormulaForAutocomplete } from '../../../common';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
@@ -122,7 +120,6 @@ class HistoryView extends React.Component {
 
     return (
       <DroppableContainer
-        className={'HistoryView'}
         onDrop={this.onDrop}
       >
         <VirtualizedTableViewContainer

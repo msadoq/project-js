@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars,quote-props,react/prefer-stateless-function */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
@@ -64,42 +63,17 @@ function parseDragData(data) {
 
 class HistoryView extends React.Component {
   static propTypes = {
-// eslint-disable-next-line react/no-unused-prop-types
     config: PropTypes.shape().isRequired,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    askUnit: PropTypes.func.isRequired,
     data: PropTypes.shape().isRequired,
     viewId: PropTypes.string.isRequired,
-    currentLines: PropTypes.arrayOf(PropTypes.shape()),
+    currentRowIndexes: PropTypes.arrayOf(PropTypes.number),
   };
 
   static defaultProps = {
-    currentLines: [],
+    currentRowIndexes: [],
   };
-
-  componentWillReceiveProps(nextProps) {
-    const { askUnit, config } = nextProps;
-    const { entryPoints } = config;
-
-    entryPoints.forEach((entryPoint) => {
-      const {
-        domain,
-        sessionId,
-        catalog,
-        catalogItem,
-      } = entryPoint;
-
-      if (
-        domain !== null &&
-        sessionId !== null &&
-        catalog !== null &&
-        catalogItem !== null
-      ) {
-        askUnit(domain, sessionId, catalog, catalogItem);
-      }
-    });
-  }
 
   onDrop = this.drop.bind(this);
 
@@ -127,47 +101,24 @@ class HistoryView extends React.Component {
     const {
       viewId,
       data,
-      currentLines,
+      currentRowIndexes,
     } = this.props;
 
-    const referenceTimestampIndex = 0; // TODO: get this dynamically
-    const epNameIndex = 1; // TODO: get this dynamically
-
-
-    const _isCurrent = row => currentLines.some(
-      line =>
-        line.epName === row[epNameIndex].value &&
-        line.timestamp === String((new Date(row[referenceTimestampIndex].value)).getTime())
-    );
-
-    const _currentRowIndexes = data.rows.reduce((acc, cur, index) => {
-      if (_isCurrent(cur)) {
-        return [...acc, index];
-      }
-
-      return acc;
-    }, []);
-
-    const _outlineStyleIfCurrent = (style, rowIndex) => {
-      if (_currentRowIndexes.indexOf(rowIndex) > -1) {
-        return {
-          ...style,
-          borderTop: '2px solid green',
-          borderBottom: '2px solid green',
-          backgroundColor: 'rgba(0, 100, 0, 0.1)',
-        };
-      }
-
-      return style;
-    };
+    const _outlineStyle = style => ({
+      ...style,
+      borderTop: '2px solid green',
+      borderBottom: '2px solid green',
+      backgroundColor: 'rgba(0, 100, 0, 0.1)',
+    });
 
     const _bodyCellRendererDecorator =
-      (decoratedRenderer, { columnIndex, key, rowIndex, style }) => decoratedRenderer({
-        columnIndex,
-        key,
-        rowIndex,
-        style: _outlineStyleIfCurrent(style, rowIndex),
-      });
+      (decoratedRenderer, { columnIndex, key, rowIndex, style }) =>
+        decoratedRenderer({
+          columnIndex,
+          key,
+          rowIndex,
+          style: currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : style,
+        });
 
     return (
       <DroppableContainer

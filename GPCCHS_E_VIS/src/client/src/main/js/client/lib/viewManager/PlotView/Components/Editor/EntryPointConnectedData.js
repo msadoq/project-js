@@ -146,39 +146,33 @@ class EntryPointConnectedData extends Component {
         .concat({ label: axisId, value: axisId, disabled: true });
     }
 
-    let connectedDataParametricFilteredAxisX = filteredAxes;
-    let connectedDataParametricFilteredAxisY = filteredAxes;
+    let connectedDataParametricFilteredAxisX = [...filteredAxes];
+    let connectedDataParametricFilteredAxisY = [...filteredAxes];
     let noCorrespondingAxisX = false;
     let noCorrespondingAxisY = false;
     if (parametric) {
       // X
       noCorrespondingAxisX = !connectedDataParametricFilteredAxisX
-        .find(axis => axis.id === xAxisId);
+        .find(axis => axis.value === xAxisId);
       connectedDataParametricFilteredAxisX = connectedDataParametricFilteredAxisX
         .map(axis => ({
           label: axis.label,
-          value: axis.axisId,
-        }))
-        .concat({
-          label: '-',
-          value: '-',
-        });
+          value: axis.value,
+        }));
       if (noCorrespondingAxisX && xAxisId !== '-') {
         connectedDataParametricFilteredAxisX = connectedDataParametricFilteredAxisX
           .concat({ label: xAxisId, value: xAxisId, disabled: true });
       }
+      // console.log('filteredAxes b: ', filteredAxes);
+      // console.log('connectedDataParametricFilteredAxisX b: ', connectedDataParametricFilteredAxisX);
       // Y
       noCorrespondingAxisY = !connectedDataParametricFilteredAxisY
-        .find(axis => axis.id === yAxisId);
+        .find(axis => axis.value === yAxisId);
       connectedDataParametricFilteredAxisY = connectedDataParametricFilteredAxisY
         .map(axis => ({
           label: axis.label,
-          value: axis.axisId,
-        }))
-        .concat({
-          label: '-',
-          value: '-',
-        });
+          value: axis.value,
+        }));
       if (noCorrespondingAxisY && yAxisId !== '-') {
         connectedDataParametricFilteredAxisY = connectedDataParametricFilteredAxisY
           .concat({ label: yAxisId, value: yAxisId, disabled: true });
@@ -203,6 +197,9 @@ class EntryPointConnectedData extends Component {
             { label: timeline, value: timeline, disabled: true } : []
         );
     }
+
+    // console.log('filteredAxes c: ', filteredAxes);
+    // console.log('connectedDataParametricFilteredAxisX c: ', connectedDataParametricFilteredAxisX);
 
     return (
       <Form
@@ -241,7 +238,7 @@ class EntryPointConnectedData extends Component {
                     className="form-control input-sm"
                   />
                 </HorizontalFormGroup>
-                <HorizontalFormGroup label="Unit X">
+                { /* <HorizontalFormGroup label="Unit X">
                   <Field
                     name="connectedDataParametric.unitX"
                     component={InputField}
@@ -257,7 +254,7 @@ class EntryPointConnectedData extends Component {
                       .join(', ')}
                   </p>
                   }
-                </HorizontalFormGroup>
+                </HorizontalFormGroup> */ }
                 <HorizontalFormGroup label="Axis X">
                   <Field
                     name="connectedDataParametric.xAxisId"
@@ -265,10 +262,10 @@ class EntryPointConnectedData extends Component {
                     component={ReactSelectField}
                     options={connectedDataParametricFilteredAxisX}
                   />
-                  {
-                    noCorrespondingAxisX &&
+                  { /*
+                    false && noCorrespondingAxisX &&
                     <span className="text-danger">No corresponding axis, create it or change it</span>
-                  }
+                  */ }
                 </HorizontalFormGroup>
                 <HorizontalFormGroup label="Domain X">
                   <Field
@@ -298,7 +295,7 @@ class EntryPointConnectedData extends Component {
                     className="form-control input-sm"
                   />
                 </HorizontalFormGroup>
-                <HorizontalFormGroup label="Unit Y">
+                { /* <HorizontalFormGroup label="Unit Y">
                   <Field
                     name="connectedDataParametric.unitY"
                     component={InputField}
@@ -314,7 +311,7 @@ class EntryPointConnectedData extends Component {
                       .join(', ')}
                   </p>
                   }
-                </HorizontalFormGroup>
+                </HorizontalFormGroup> */ }
                 <HorizontalFormGroup label="Axis Y">
                   <Field
                     name="connectedDataParametric.yAxisId"
@@ -322,10 +319,10 @@ class EntryPointConnectedData extends Component {
                     component={ReactSelectField}
                     options={connectedDataParametricFilteredAxisY}
                   />
-                  {
+                  { /*
                     noCorrespondingAxisY &&
                     <span className="text-danger">No corresponding axis, create it or change it</span>
-                  }
+                  */ }
                 </HorizontalFormGroup>
                 <HorizontalFormGroup label="Domain Y">
                   <Field

@@ -13,7 +13,7 @@ import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import styles from 'viewManager/commonEditor/Editor.css';
-import HistoryTab from 'viewManager/HistoryView/Components/Editor/HistoryTab';
+import HistoryTabContainer from 'viewManager/HistoryView/Components/Editor/HistoryTabContainer';
 import DataViewEntryPointsContainer from 'viewManager/commonEditor/EntryPoint/DataViewEntryPointsContainer';
 
 const navBarItems = ['Entry Points', 'History', 'Misc'];
@@ -47,6 +47,7 @@ export default class Editor extends Component {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
   };
+
   render() {
     const {
       openModal,
@@ -78,18 +79,28 @@ export default class Editor extends Component {
           changeCurrentDisplay={this.changeCurrentDisplay}
         />
         <div className={styles.content}>
-          {(tab === 0 || tab === null) &&
-          <div>
-            <DataViewEntryPointsContainer
-              entryPoints={entryPoints}
+          {
+            (tab === 0 || tab === null) &&
+            <div>
+              <DataViewEntryPointsContainer
+                entryPoints={entryPoints}
+                viewId={viewId}
+                pageId={pageId}
+                search={search}
+                viewType={'HistoryView'}
+              />
+            </div>
+          }
+          {
+            tab === 1 &&
+            <HistoryTabContainer
+              updateViewPanels={updateViewPanels}
               viewId={viewId}
-              pageId={pageId}
-              search={search}
-              viewType={'HistoryView'}
+              panels={panels}
             />
-          </div>}
-          {tab === 1 && <HistoryTab />}
-          {tab === 2 &&
+          }
+          {
+            tab === 2 &&
             <Misc
               updateViewPanels={updateViewPanels}
               viewId={viewId}

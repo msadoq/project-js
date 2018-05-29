@@ -1,28 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Panel,
-} from 'react-bootstrap';
+import Collapse, { Panel } from 'rc-collapse';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
 
-export default class DynamicTab extends React.Component {
-  static contextTypes = {
-    viewId: PropTypes.string,
+
+export default class HistoryTab extends React.Component {
+  static propTypes = {
+    viewId: PropTypes.string.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    panels: PropTypes.shape({}).isRequired,
+    tables: PropTypes.shape().isRequired,
+    updateTableCols: PropTypes.func.isRequired,
   };
+
   state = {
     isTitleOpen: false,
   };
 
-  openTitle = () => this.setState({ isTitleOpen: true });
-  closeTitle = () => this.setState({ isTitleOpen: false });
+  onChange = (openPanels) => {
+    const { updateViewPanels, viewId } = this.props;
+    updateViewPanels(viewId, 'panels', openPanels);
+  };
 
   render() {
-    const { viewId } = this.context;
+    const { viewId, panels } = this.props;
 
     return (
-      <Panel>
-        <ViewParamsContainer viewId={viewId} />
-      </Panel>
+      <div>
+        <Collapse
+          accordion={false}
+          onChange={this.onChange}
+        >
+          <Panel
+            header="Parameters"
+            key="parameters"
+          >
+            {panels.parameters && <ViewParamsContainer viewId={viewId} />}
+          </Panel>
+          <Panel
+            header="Columns"
+            key="columns"
+          >
+            {/* Multi-table column reordering here... */}
+          </Panel>
+        </Collapse>
+      </div>
     );
   }
 }

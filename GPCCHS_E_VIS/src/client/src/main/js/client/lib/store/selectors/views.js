@@ -58,6 +58,7 @@ export const createDeepEqualSelector = createSelectorCreator(
 );
 
 const configurationReducers = getConfigurationReducers();
+
 /* ********************************************************
 * Comparison function to omit timebars in comparison
 * Useful to compute perView and perRemoteId which are independent of visuWinow
@@ -160,6 +161,8 @@ export const getWindowAllViewsIds = createSelector(
 );
 
 /**
+ * TODO: refactor cols into columns and deprecate this function
+ *
  * @param viewId string
  * @param state object
  * @return cols array
@@ -167,4 +170,14 @@ export const getWindowAllViewsIds = createSelector(
 export const getViewConfigurationTableCols = createSelector(
   getConfigurationByViewId,
   viewConfiguration => _getOr([], 'cols', viewConfiguration)
+);
+
+/**
+ * @param viewId string
+ * @param state object
+ * @return tables configurations array
+ */
+export const getViewConfigurationTables = createSelector(
+  getConfigurationByViewId,
+  viewConfiguration => _getOr([], 'tables', viewConfiguration)
 );

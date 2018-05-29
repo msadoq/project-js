@@ -60,11 +60,10 @@ class VirtualizedTableView extends React.Component {
     filterState: PropTypes.shape(),
     bodyCellRendererDecorator: PropTypes.func,
     onScrollTop: PropTypes.func.isRequired,
-    noDataToShow: PropTypes.bool,
   };
 
   static defaultProps = {
-    tableName: null,
+    tableName: 'Data table',
     columns: [],
     rows: [],
     columnWidth: 220,
@@ -75,7 +74,6 @@ class VirtualizedTableView extends React.Component {
     filterState: {},
     bodyCellRendererDecorator:
       (decoratedBodyCellRenderer, props) => decoratedBodyCellRenderer(props),
-    noDataToShow: false,
   };
 
   constructor(props, context) {
@@ -131,11 +129,17 @@ class VirtualizedTableView extends React.Component {
       filterState,
       bodyCellRendererDecorator,
       onScrollTop,
-      noDataToShow,
     } = this.props;
 
+    let formattedRows = rows;
+
+    if (formattedRows.length === 0) { // add dummy row to avoid scroll issues
+      formattedRows =
+        [[...Array(columns.length)].reduce(acc => [...acc, { value: undefined }], [])];
+    }
+
     const columnCount = columns.length;
-    const rowCount = rows.length;
+    const rowCount = formattedRows.length;
 
     const overscanColumnCount = 0;
     const overscanRowCount = 0;
@@ -280,9 +284,9 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const content = rows[rowIndex][columnIndex];
+      const content = formattedRows[rowIndex][columnIndex];
       const rowClassName = rowIndex % 2 ? styles.oddRow : styles.evenRow;
-      const lastRowClassName = rowIndex === rows.length - 1 ? styles.lastRow : '';
+      const lastRowClassName = rowIndex === formattedRows.length - 1 ? styles.lastRow : '';
       const lastColumnClassName = columnIndex === columns.length - 1 ? styles.lastColumn : '';
 
       let updatedStyle = {
@@ -397,20 +401,22 @@ class VirtualizedTableView extends React.Component {
         ) : null;
     }
 
-    let countStr = `${rows.length}`;
+    let countStr = `${formattedRows.length}`;
 
-    if (noDataToShow) {
+    if (rows.length === 0) {
       // do not take into account dummy row
       // (the table has always at least one row to avoid alignment issues)
       countStr = '0';
     }
 
-    if (rows.length < totalCount) {
+    if (formattedRows.length < totalCount) {
       countStr = `${countStr}/${totalCount}`;
     }
 
     const columnsWidth = columnWidth * columnCount;
     const headerHeight = 42;
+
+    const extendedRowHeight = rowHeight * 2;
 
     return (
       <ContainerDimensions>
@@ -470,9 +476,9 @@ class VirtualizedTableView extends React.Component {
                                     cellRenderer={_headerCellRenderer}
                                     className={styles.HeaderGrid}
                                     width={adjustedWidth}
-                                    height={rowHeight}
+                                    height={extendedRowHeight}
                                     columnWidth={columnWidth}
-                                    rowHeight={rowHeight}
+                                    rowHeight={extendedRowHeight}
                                     scrollLeft={scrollLeft}
                                     scrollTop={scrollTop}
                                     columnCount={columnCount}

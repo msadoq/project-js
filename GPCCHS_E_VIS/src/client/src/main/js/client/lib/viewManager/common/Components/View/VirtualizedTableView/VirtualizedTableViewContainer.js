@@ -15,23 +15,14 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
 
   const { columns, sorting, filters, name } = tableConfig;
 
-  let formattedRows = rows.rows;
-  let noDataToShow = false;
-
-  if (formattedRows.length === 0) { // add dummy row to avoid scroll issues
-    formattedRows = [[...Array(columns.length)].reduce(acc => [...acc, { value: undefined }], [])];
-    noDataToShow = true;
-  }
-
   return {
-    rows: formattedRows,
+    rows: rows.rows,
     columns,
     sortState: sorting,
     filterState: filters,
     tableName: name,
     totalCount: rows.totalCount,
     isPlaying,
-    noDataToShow,
   };
 };
 
@@ -55,7 +46,7 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
         console.error(`[NotImplementedError] onClick is not defined for action [${action.label}]`);
       }
 
-      action.onClick(dispatch, data, rowIndex, columnIndex);
+      action.onClick(data, rowIndex, columnIndex);
     }
   },
   onCellClick: (i, j, content) => {

@@ -16,9 +16,11 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
   const { columns, sorting, filters, name } = tableConfig;
 
   let formattedRows = rows.rows;
+  let noDataToShow = false;
 
   if (formattedRows.length === 0) { // add dummy row to avoid scroll issues
     formattedRows = [[...Array(columns.length)].reduce(acc => [...acc, { value: undefined }], [])];
+    noDataToShow = true;
   }
 
   return {
@@ -29,6 +31,7 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
     tableName: name,
     totalCount: rows.totalCount,
     isPlaying,
+    noDataToShow,
   };
 };
 

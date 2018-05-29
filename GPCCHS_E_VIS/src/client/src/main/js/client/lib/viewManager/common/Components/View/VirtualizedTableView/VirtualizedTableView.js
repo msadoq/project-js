@@ -60,7 +60,7 @@ class VirtualizedTableView extends React.Component {
     filterState: PropTypes.shape(),
     bodyCellRendererDecorator: PropTypes.func,
     onScrollTop: PropTypes.func.isRequired,
-    container: PropTypes.shape(),
+    noDataToShow: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -75,7 +75,7 @@ class VirtualizedTableView extends React.Component {
     filterState: {},
     bodyCellRendererDecorator:
       (decoratedBodyCellRenderer, props) => decoratedBodyCellRenderer(props),
-    container: null,
+    noDataToShow: false,
   };
 
   constructor(props, context) {
@@ -131,7 +131,7 @@ class VirtualizedTableView extends React.Component {
       filterState,
       bodyCellRendererDecorator,
       onScrollTop,
-      container,
+      noDataToShow,
     } = this.props;
 
     const columnCount = columns.length;
@@ -399,6 +399,12 @@ class VirtualizedTableView extends React.Component {
 
     let countStr = `${rows.length}`;
 
+    if (noDataToShow) {
+      // do not take into account dummy row
+      // (the table has always at least one row to avoid alignment issues)
+      countStr = '0';
+    }
+
     if (rows.length < totalCount) {
       countStr = `${countStr}/${totalCount}`;
     }
@@ -411,9 +417,11 @@ class VirtualizedTableView extends React.Component {
         {
           ({ width, height }) => {
             const adjustedWidth = Math.min(width - scrollbarSize(), columnsWidth);
-            let adjustedHeight = height - scrollbarSize() - headerHeight - (3 * rowHeight);
+            let adjustedHeight = height - headerHeight - (3 * rowHeight) - scrollbarSize();
 
             if (withGroups) {
+              // take into account the space taken by the additional row
+              // used to display group names
               adjustedHeight -= rowHeight;
             }
 
@@ -462,9 +470,9 @@ class VirtualizedTableView extends React.Component {
                                     cellRenderer={_headerCellRenderer}
                                     className={styles.HeaderGrid}
                                     width={adjustedWidth}
-                                    height={30}
+                                    height={rowHeight}
                                     columnWidth={columnWidth}
-                                    rowHeight={30}
+                                    rowHeight={rowHeight}
                                     scrollLeft={scrollLeft}
                                     scrollTop={scrollTop}
                                     columnCount={columnCount}

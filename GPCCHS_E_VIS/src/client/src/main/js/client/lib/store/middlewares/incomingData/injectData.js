@@ -48,12 +48,17 @@ const injectData = (timing) => {
         // eslint-disable-next-line no-console
         console.error(err);
       }
+
+      const ranges = convertedDataToInject.ranges || {};
+      const lasts = convertedDataToInject.lasts || {};
+      const obsoleteEvents = convertedDataToInject.obsoleteEvents || {};
+
       const updateRangeData = injectDataRange(
         oldViewMap,
         newViewMap,
         oldExpectedRangeIntervals,
         newExpectedRangeIntervals,
-        convertedDataToInject,
+        ranges,
         { HistoryViewConfiguration: state.HistoryViewConfiguration,
           GroundAlarmViewConfiguration: state.GroundAlarmViewConfiguration,
           OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration,
@@ -65,10 +70,10 @@ const injectData = (timing) => {
         newViewMap,
         oldExpectedLastIntervals,
         newExpectedLastIntervals,
-        convertedDataToInject
+        lasts
       );
       const updateObsoleteEventData = injectDataObsoleteEvent(
-        convertedDataToInject
+        obsoleteEvents
       );
       dispatch(updateRangeData);
       dispatch(updateLastData);

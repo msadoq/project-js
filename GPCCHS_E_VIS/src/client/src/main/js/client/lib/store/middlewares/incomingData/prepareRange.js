@@ -88,7 +88,7 @@ const prepareRange = lokiKnownRangesManager => ({ dispatch, getState }) => next 
 
   // If data needs to be send to reducers, dispatch action
   if (!_isEmpty(payloadsJson[tbdId])) {
-    dispatch(newData(payloadsJson));
+    dispatch(newData({ ranges: payloadsJson }));
   }
 
   execution.stop('global', `${peers.length / 2} payloads`);

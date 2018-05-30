@@ -71,9 +71,12 @@ const prepareRange = lokiKnownRangesManager => ({ dispatch, getState }) => next 
     index += 2;
   }
 
+  // dispatch data per tbdId
+  const tbdIds = Object.keys(payloadsJson);
+
   // If data needs to be send to reducers, dispatch action
-  if (!_isEmpty(payloadsJson[tbdId])) {
-    dispatch(newData(payloadsJson));
+  if (tbdIds.length) {
+    dispatch(newData({ ranges: payloadsJson }));
   }
 
   execution.stop('global', `${peers.length / 2} payloads`);

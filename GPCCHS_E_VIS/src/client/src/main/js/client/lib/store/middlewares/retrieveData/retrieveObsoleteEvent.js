@@ -39,7 +39,7 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
       const obsoleteEventsRecords =
         getObsoleteEventRecordsByInterval(flatObsoleteEventId, intervals);
       if (Object.keys(obsoleteEventsRecords[flatObsoleteEventId]).length !== 0) {
-        dispatch(newData(obsoleteEventsRecords));
+        dispatch(newData({ obsoleteEvents: obsoleteEventsRecords }));
       }
 
       let mergedInterval = [];

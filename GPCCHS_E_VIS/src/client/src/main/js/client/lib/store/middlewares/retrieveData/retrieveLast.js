@@ -50,7 +50,7 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
           const lastRecords = getLastRecords(tbdId, interval)[tbdId];
           execution.stop('get last records');
           if (Object.keys(lastRecords).length !== 0) {
-            dispatch(newData({ [tbdId]: lastRecords }));
+            dispatch(newData({ lasts: { [tbdId]: lastRecords } }));
           } else {
             const args = { ...getLastArguments, filters };
             const queryId = ipc.dc.requestTimebasedQuery(tbdId,

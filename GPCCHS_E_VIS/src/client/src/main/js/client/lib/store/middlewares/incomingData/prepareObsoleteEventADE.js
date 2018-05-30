@@ -23,9 +23,9 @@ const prepareObsoleteEvent =
 
     const dataId = action.payload.dataId;
     const peers = action.payload.peers;
-    const tbdId = action.payload.tbdId;
+    const flatId = getFlattenDataIdForObsoleteEvent(dataId);
 
-    const payloadsJson = { [tbdId]: {} };
+    const payloadsJson = { [flatId]: {} };
 
     let index = 0;
 
@@ -46,7 +46,6 @@ const prepareObsoleteEvent =
             referenceTimestamp: decodedPayload.referenceTimestamp,
           };
           execution.stop('decode payload');
-          const flatId = getFlattenDataIdForObsoleteEvent(dataId);
           add(flatId, dataId);
           execution.start('addRecord');
           lokiObsoleteEventManager.addRecord(
@@ -58,7 +57,7 @@ const prepareObsoleteEvent =
           execution.stop('addRecord');
 
           execution.start('persist');
-          payloadsJson[tbdId][timestamp] = obsoleteEventDecodedPayload;
+          payloadsJson[flatId][timestamp] = obsoleteEventDecodedPayload;
           execution.stop('persist');
         } catch (e) {
           logger.error('error on processing buffer', e);
@@ -69,8 +68,8 @@ const prepareObsoleteEvent =
     }
 
     // If data needs to be send to reducers, dispatch action
-    if (!_isEmpty(payloadsJson[tbdId])) {
-      dispatch(newData(payloadsJson));
+    if (!_isEmpty(payloadsJson[flatId])) {
+      dispatch(newData({ obsoleteEvents: payloadsJson }));
     }
 
     execution.stop('global', `${peers.length / 2} payloads`);

@@ -23,7 +23,7 @@ import cleanCurrentViewData from './cleanViewData';
 import {
   viewRangeAdd,
   selectDataPerView,
-  // viewObsoleteEventAdd,
+  viewObsoleteEventAdd,
 } from './viewDataUpdate';
 
 const initialState = {
@@ -126,11 +126,10 @@ export default function plotViewData(state = {}, action) {
       }
 
       const newState = state;
-/*      const viewIds = Object.keys(state);
+      const viewIds = Object.keys(state);
       for (const viewId of viewIds) {
-        const viewState = viewObsoleteEventAdd(newState[viewId], dataToInject);
-        console.log(viewState);
-      } */
+        viewObsoleteEventAdd(newState[viewId], dataToInject);
+      }
       return newState || {};
     }
     case types.WS_VIEWDATA_CLEAN: {

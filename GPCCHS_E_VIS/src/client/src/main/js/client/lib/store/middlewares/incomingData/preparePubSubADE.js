@@ -47,7 +47,11 @@ const preparePubSub =
       const dataMap = dataMapGenerator(state);
       execution.stop('dataMap');
 
-      let payloadsJson = {};
+      let payloadsJson = {
+        ranges: {},
+        lasts: {},
+        obsoleteEvents: {},
+      };
 
       for (let i = 0; i < payloadBuffersArray.length; i += 1) {
         const { dataId, payloadBuffers } = payloadBuffersMap[payloadBuffersArray[i]];
@@ -107,6 +111,7 @@ const preparePubSub =
                   isInIntervals: isTimestampInKnownRanges,
                   filters,
                   addRecord: lokiKnownRangesManager.addRecord,
+                  dataType: 'ranges',
                 }, payloadsJson);
               }
               execution.stop('process for ranges');
@@ -124,6 +129,7 @@ const preparePubSub =
                     decodedPayload,
                     isInIntervals: isTimestampInLastDatamapInterval,
                     filters,
+                    dataType: 'lasts',
                   }, payloadsJson);
                 }
               }
@@ -156,6 +162,7 @@ const preparePubSub =
                     isInIntervals: isTimestampInObsoleteEvents,
                     filters: [],
                     addRecord: lokiObsoleteEventManager.addRecord,
+                    dataType: 'obsoleteEvents',
                   },
                   payloadsJson);
               }
@@ -202,6 +209,7 @@ export const updateFinalPayload =
      isInIntervals,
      filters,
      addRecord,
+     dataType,
    },
    finalPayloads) => {
     const updatedPayloads = finalPayloads;
@@ -214,10 +222,10 @@ export const updateFinalPayload =
           addRecord(tbdId, { timestamp, payload: decodedPayload });
         }
         // Add data to final object with the current tbdId
-        if (!updatedPayloads[tbdId]) {
-          updatedPayloads[tbdId] = {};
+        if (!updatedPayloads[dataType][tbdId]) {
+          updatedPayloads[dataType][tbdId] = {};
         }
-        updatedPayloads[tbdId][timestamp] = decodedPayload;
+        updatedPayloads[dataType][tbdId][timestamp] = decodedPayload;
       }
     }
     return updatedPayloads;

@@ -35,7 +35,7 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
       const { dataId, filters, intervals, mode } = neededRange[tbdIds[i]];
       const rangesRecords = getRangesRecords(tbdId, intervals);
       if (Object.keys(rangesRecords[tbdId]).length !== 0) {
-        dispatch(newData(rangesRecords));
+        dispatch(newData({ ranges: rangesRecords }));
       }
 
       let mergedInterval = [];

@@ -212,9 +212,9 @@ export function viewObsoleteEventAdd(state, payloads) {
   }
 
   for (const epName of epNames) {
-    console.log('####################');
+    console.log('############# PAYLOAD BY EP NAME ############');
     console.log(epName);
-    console.log('####################');
+    console.log('#########################');
   }
 
   return state;

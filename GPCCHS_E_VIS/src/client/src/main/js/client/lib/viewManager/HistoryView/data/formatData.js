@@ -30,10 +30,10 @@ const preformatData = (rawData, config) => {
       acc[index] = [];
     }
 
-    const { columns } = config;
+    const { cols } = config;
 
     const getParamValue = (colIndex) => {
-      const paramName = columns[colIndex].title;
+      const paramName = cols[colIndex].title;
 
       const foundEntryPoint = config.entryPoints.find(e => e.name === ep.epName);
 
@@ -54,7 +54,7 @@ const preformatData = (rawData, config) => {
     const _stateColor = ep.color;
 
     Object
-      .keys(columns)
+      .keys(cols)
       .forEach(colIndex => acc[index].push({
         value: getParamValue(colIndex),
         textColor: _stateColor,

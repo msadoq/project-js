@@ -45,7 +45,7 @@ class VirtualizedTableView extends React.Component {
   static propTypes = {
     totalCount: PropTypes.number.isRequired,
     tableName: PropTypes.string,
-    columns: PropTypes.arrayOf(PropTypes.any),
+    cols: PropTypes.arrayOf(PropTypes.any),
     rows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
     columnWidth: PropTypes.number,
     rowHeight: PropTypes.number,
@@ -110,13 +110,13 @@ class VirtualizedTableView extends React.Component {
     const {
       totalCount,
       tableName,
-      columns,
+      cols,
       rows,
       columnWidth,
       rowHeight,
       withGroups, // choose to display or not groups headers,
-                  // in this case, columns objects should have `group` key
-                  // WARNING: columns still should be in the right order (by group)
+                  // in this case, cols objects should have `group` key
+                  // WARNING: cols still should be in the right order (by group)
                   // as this component does not reorder them to match groups
       onSort,
       onFilter,
@@ -134,10 +134,10 @@ class VirtualizedTableView extends React.Component {
 
     if (formattedRows.length === 0) { // add dummy row to avoid scroll issues
       formattedRows =
-        [[...Array(columns.length)].reduce(acc => [...acc, { value: undefined }], [])];
+        [[...Array(cols.length)].reduce(acc => [...acc, { value: undefined }], [])];
     }
 
-    const columnCount = columns.length;
+    const columnCount = cols.length;
     const rowCount = formattedRows.length;
 
     const overscanColumnCount = 0;
@@ -145,7 +145,7 @@ class VirtualizedTableView extends React.Component {
 
     const _getColumnName = col => col.title;
 
-    const _groups = columns.reduce((acc, column) => {
+    const _groups = cols.reduce((acc, column) => {
       if (column.group) {
         return [...acc, column.group];
       }
@@ -176,7 +176,7 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _groupHeaderCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const groupName = columns[columnIndex].group;
+      const groupName = cols[columnIndex].group;
 
       const groupColorInfo = _groupColors[groupName];
 
@@ -200,12 +200,12 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _headerCellRenderer = ({ columnIndex, key, style }) => {
-      const colKey = _getColumnName(columns[columnIndex]);
+      const colKey = _getColumnName(cols[columnIndex]);
 
       let headerStyle = _.cloneDeep(style);
 
       if (withGroups) {
-        const groupName = columns[columnIndex].group;
+        const groupName = cols[columnIndex].group;
         const groupColorInfo = _groupColors[groupName];
 
         headerStyle = {
@@ -258,7 +258,7 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _filterCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const colKey = columns[columnIndex].title;
+      const colKey = cols[columnIndex].title;
 
       return (
         <div
@@ -286,14 +286,14 @@ class VirtualizedTableView extends React.Component {
       const content = formattedRows[rowIndex][columnIndex];
       const rowClassName = rowIndex % 2 ? styles.oddRow : styles.evenRow;
       const lastRowClassName = rowIndex === formattedRows.length - 1 ? styles.lastRow : '';
-      const lastColumnClassName = columnIndex === columns.length - 1 ? styles.lastColumn : '';
+      const lastColumnClassName = columnIndex === cols.length - 1 ? styles.lastColumn : '';
 
       let updatedStyle = {
         ...style,
       };
 
       if (withGroups) {
-        const groupName = columns[columnIndex].group;
+        const groupName = cols[columnIndex].group;
         const groupColorInfo = _groupColors[groupName];
 
         updatedStyle = {

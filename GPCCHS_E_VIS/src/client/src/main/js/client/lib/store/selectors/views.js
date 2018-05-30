@@ -161,7 +161,7 @@ export const getWindowAllViewsIds = createSelector(
 );
 
 /**
- * TODO: refactor cols into columns and deprecate this function
+ * TODO: refactor cols into cols and deprecate this function
  *
  * @param viewId string
  * @param state object

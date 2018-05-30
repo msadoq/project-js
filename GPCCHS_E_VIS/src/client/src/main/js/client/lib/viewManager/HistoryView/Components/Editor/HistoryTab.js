@@ -23,6 +23,14 @@ export default class HistoryTab extends React.Component {
     HistoryTableViewColumnsForm: WithForm(TableViewColumns),
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.viewId !== this.props.viewId) {
+      this.setState({
+        HistoryViewColumnsForm: WithForm(TableViewColumns),
+      });
+    }
+  }
+
   onChange = (openPanels) => {
     const { updateViewPanels, viewId } = this.props;
     updateViewPanels(viewId, 'panels', openPanels);
@@ -30,16 +38,27 @@ export default class HistoryTab extends React.Component {
 
   handleSubmit = (values) => {
     const { updateTableCols, viewId, tables } = this.props;
-    const cols = _get(tables, ['history', 'columns']);
-    updateTableCols(viewId, 'history', _getOr(cols, 'columns', values));
+    const cols = _get(tables, ['history', 'cols']);
+    updateTableCols(viewId, 'history', _getOr(cols, 'cols', values));
   };
 
   render() {
     const { viewId, panels, tables } = this.props;
     const { HistoryTableViewColumnsForm } = this.state;
 
-    const cols = _get(tables, ['history', 'columns']);
-    const initialValues = { cols };
+    const cols = _get(tables, ['history', 'cols']);
+
+    const colsWithValueKey = cols.reduce((acc, cur) => (
+      [
+        ...acc,
+        {
+          ...cur,
+          value: cur.title,
+        },
+      ]
+    ), []);
+
+    const initialValues = { cols: colsWithValueKey };
 
     return (
       <div>

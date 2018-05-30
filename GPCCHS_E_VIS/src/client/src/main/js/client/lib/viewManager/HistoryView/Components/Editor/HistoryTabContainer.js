@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateTableColumns } from 'store/actions/views';
+import { updateTableCols } from 'store/actions/views';
 import { getViewConfigurationTables } from 'store/selectors/views';
 import HistoryTab from './HistoryTab';
 
@@ -9,7 +9,7 @@ const mapStateToProps = (state, { viewId }) => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  updateTableColumns,
+  updateTableCols,
 }, dispatch);
 
 const HistoryTabContainer = connect(mapStateToProps, mapDispatchToProps)(HistoryTab);

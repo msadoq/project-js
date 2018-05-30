@@ -525,7 +525,7 @@ export class GrizzlyPlotView extends React.Component {
   static defaultProps = {
     data: {
       lines: [],
-      columns: [],
+      cols: [],
     },
     visuWindow: null,
     inspectorEpId: null,

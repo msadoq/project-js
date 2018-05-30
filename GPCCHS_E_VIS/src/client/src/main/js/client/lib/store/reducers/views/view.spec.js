@@ -156,7 +156,7 @@ describe('store:reducer:views', () => {
     },
     groundAlarm1: {
       search: { enabled: true },
-      columns: [
+      cols: [
         {
           name: 'timestamp',
           value: 'timestamp',

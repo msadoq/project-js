@@ -13,11 +13,11 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
   const tableConfig = config.tables[tableId];
   const isPlaying = getIsPlaying(state);
 
-  const { columns, sorting, filters, name } = tableConfig;
+  const { cols, sorting, filters, name } = tableConfig;
 
   return {
     rows: rows.rows,
-    columns,
+    cols,
     sortState: sorting,
     filterState: filters,
     tableName: name,

@@ -48,7 +48,6 @@ export default (stateConf, action) => {
           ...stateConf.tables,
           [tableId]: {
             ...stateConf.tables[tableId],
-            dataOffset: 0,
             sorting: {
               colName,
               direction,
@@ -65,7 +64,6 @@ export default (stateConf, action) => {
           ...stateConf.tables,
           [tableId]: {
             ...stateConf.tables[tableId],
-            dataOffset: 0,
             filters: {
               ...stateConf.tables[tableId].filters,
               [colName]: value,

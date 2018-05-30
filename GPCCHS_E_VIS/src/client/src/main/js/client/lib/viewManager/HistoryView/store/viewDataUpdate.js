@@ -160,11 +160,11 @@ export function updateLines(state, epName, timestamp, colToSort, direction) {
 }
 
 /* ************************************
- * Update state columns with columns read in payloads
- * @param: current columns in state
- * @param: columns read in payloads
- * @param: hidden columns from configuration
- * @return: updated state columns
+ * Update state cols with cols read in payloads
+ * @param: current cols in state
+ * @param: cols read in payloads
+ * @param: hidden cols from configuration
+ * @return: updated state cols
 /* *********************************** */
 export function updateColToShow(stateCols, payloadCols, hiddenColumns) {
   const newCols = stateCols;
@@ -199,7 +199,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
   // Get sorting column
   const colToSort = _get(viewConfig, ['sorting', 'colName'], 'masterTime');
   const direction = _get(viewConfig, ['sorting', 'direction'], SORTING_ASC);
-  // hidden columns
+  // hidden cols
   const hiddenColumns = _get(viewConfig, 'hiddenColumns', []);
 
   // Loop on payloads to update state
@@ -212,7 +212,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
     newState = { cols: [], lines: [], indexes: {}, data: {} };
   }
 
-  // Update of columns to show
+  // Update of cols to show
   newState.cols = updateColToShow(newState.cols, Object.keys(payloads.cols), hiddenColumns);
 
   // loop on EP name to add payload sorted by masterTime in EP table

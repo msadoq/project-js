@@ -27,7 +27,7 @@ const availableComObjects = [
 ];
 
 const comObjectFieldsAreAlreadyDefined = (stateConf, comObject) =>
-  stateConf.tables.history.columns.some(col => col.group === comObject);
+  stateConf.tables.history.cols.some(col => col.group === comObject);
 
 /**
  * Remove comObject fields that are used by no entry point
@@ -37,7 +37,7 @@ const comObjectFieldsAreAlreadyDefined = (stateConf, comObject) =>
 
 const syncDisplayedColumns = (stateConf) => {
   const { entryPoints, tables } = stateConf;
-  const { columns } = tables.history;
+  const { cols } = tables.history;
 
   const shouldKeepComObject = comObject =>
     comObject === 'default' ||
@@ -48,7 +48,7 @@ const syncDisplayedColumns = (stateConf) => {
     );
 
   const updatedColumns =
-    columns.filter(comObjectField => shouldKeepComObject(comObjectField.group));
+    cols.filter(comObjectField => shouldKeepComObject(comObjectField.group));
 
   return {
     ...stateConf,
@@ -56,7 +56,7 @@ const syncDisplayedColumns = (stateConf) => {
       ...stateConf.tables,
       history: {
         ...stateConf.tables.history,
-        columns: updatedColumns,
+        cols: updatedColumns,
       },
     },
   };
@@ -129,8 +129,8 @@ export default (stateConf, action) => {
           ...stateConf.tables,
           [tableId]: {
             ...stateConf.tables[tableId],
-            columns: [
-              ...stateConf.tables[tableId].columns,
+            cols: [
+              ...stateConf.tables[tableId].cols,
               ...newColumns,
             ],
           },

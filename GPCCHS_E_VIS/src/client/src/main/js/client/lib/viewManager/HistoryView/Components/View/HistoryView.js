@@ -111,14 +111,11 @@ class HistoryView extends React.Component {
       backgroundColor: 'rgba(0, 100, 0, 0.1)',
     });
 
-    const _bodyCellRendererDecorator =
-      (decoratedRenderer, { columnIndex, key, rowIndex, style }) =>
-        decoratedRenderer({
-          columnIndex,
-          key,
-          rowIndex,
-          style: currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : style,
-        });
+// eslint-disable-next-line no-unused-vars
+    const _overrideStyle = ({ columnIndex, key, rowIndex, style }) => ({
+      ...(currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : {}),
+    }
+    );
 
     return (
       <DroppableContainer
@@ -130,7 +127,7 @@ class HistoryView extends React.Component {
           tableId={'history'}
           rows={data}
           withGroups
-          bodyCellRendererDecorator={_bodyCellRendererDecorator}
+          overrideStyle={_overrideStyle}
           pauseOnScroll
         />
 

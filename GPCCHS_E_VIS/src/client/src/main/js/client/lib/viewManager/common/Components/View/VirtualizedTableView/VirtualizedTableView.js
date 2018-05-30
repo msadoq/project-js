@@ -58,8 +58,8 @@ class VirtualizedTableView extends React.Component {
     onCellDoubleClick: PropTypes.func.isRequired,
     sortState: PropTypes.shape(),
     filterState: PropTypes.shape(),
-    bodyCellRendererDecorator: PropTypes.func,
     onScrollTop: PropTypes.func.isRequired,
+    overrideStyle: PropTypes.shape(),
   };
 
   static defaultProps = {
@@ -72,8 +72,7 @@ class VirtualizedTableView extends React.Component {
     withGroups: false,
     sortState: {},
     filterState: {},
-    bodyCellRendererDecorator:
-      (decoratedBodyCellRenderer, props) => decoratedBodyCellRenderer(props),
+    overrideStyle: {},
   };
 
   constructor(props, context) {
@@ -127,7 +126,7 @@ class VirtualizedTableView extends React.Component {
       onCellDoubleClick,
       sortState,
       filterState,
-      bodyCellRendererDecorator,
+      overrideStyle,
       onScrollTop,
     } = this.props;
 
@@ -341,7 +340,10 @@ class VirtualizedTableView extends React.Component {
             )
           }
           key={key}
-          style={updatedStyle}
+          style={{
+            ...updatedStyle,
+            ...overrideStyle({ columnIndex, key, rowIndex, style }),
+          }}
           onClick={_onClick}
           onDoubleClick={_onDoubleClick}
         >
@@ -349,9 +351,6 @@ class VirtualizedTableView extends React.Component {
         </div>
       );
     };
-
-    const _enhancedBodyCellRenderer = props =>
-      bodyCellRendererDecorator(_bodyCellRenderer, props);
 
     let bodyCellOverlay = null;
 
@@ -505,7 +504,7 @@ class VirtualizedTableView extends React.Component {
                                     scrollToRow={scrollToRow}
                                   />
                                   <Grid
-                                    cellRenderer={_enhancedBodyCellRenderer}
+                                    cellRenderer={_bodyCellRenderer}
                                     className={styles.BodyGrid}
                                     width={adjustedWidth}
                                     height={adjustedHeight}

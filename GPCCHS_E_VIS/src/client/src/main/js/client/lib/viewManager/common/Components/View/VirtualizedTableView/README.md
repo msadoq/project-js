@@ -151,21 +151,16 @@ La fonction `onClick` à définir prends 3 arguments en paramètres :
 
 ### Spécialisation du rendu d'une cellule
 
-On peut agir sur la fonction de rendu d'une cellule du corps du tableau en ajoutant un décorateur.
-Cela est possible à l'aide de la propriété `bodyCellRendererDecorator`.
+On peut agir sur la fonction de rendu d'une cellule du corps du tableau en ajoutant
+une fonction permettant de modifier les styles d'une cellule.
+Cela est possible à l'aide de la propriété `overrideStyle`.
 
 Voici l'exemple de la `HistoryView`:
-
-Définition du décorateur :
 ```
-const _bodyCellRendererDecorator =
-  (decoratedRenderer, { columnIndex, key, rowIndex, style }) =>
-	decoratedRenderer({
-	  columnIndex,
-	  key,
-	  rowIndex,
-	  style: currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : style,
-	});
+const _overrideStyle = ({ columnIndex, key, rowIndex, style }) => ({
+  ...(currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : style),
+}
+);
 ```
 
 Utilisation du composant : 
@@ -175,11 +170,9 @@ Utilisation du composant :
 	  tableId={'history'}
 	  rows={data}
 	  withGroups
-	  bodyCellRendererDecorator={_bodyCellRendererDecorator}
+	  overrideStyle={_overrideStyle}
 	  pauseOnScroll
 	/>
 ``` 
-
-Ce décorateur permet essentiellement de modifier le style d'une cellule donnée. 
 Dans ce cas particulier, cela permet d'ajouter une bordure aux cellules correspondant à
 une ligne courante.

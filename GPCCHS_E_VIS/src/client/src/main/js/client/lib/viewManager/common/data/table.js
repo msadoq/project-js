@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const _getColumnIndex = (colName, columns) =>
-  columns.findIndex(col => col.field === colName);
+  columns.findIndex(col => col.title === colName);
 
 /**
  * Filters preformatted data with the specified filters in config

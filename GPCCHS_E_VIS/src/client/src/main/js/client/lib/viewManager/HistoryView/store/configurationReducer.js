@@ -118,7 +118,7 @@ export default (stateConf, action) => {
 
       const newColumns =
         fields.map(field => ({
-          field,
+          title: field,
           isDisplayed: true,
           group: groupName,
         }));

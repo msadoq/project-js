@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Collapse, { Panel } from 'rc-collapse';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
+import _get from 'lodash/get';
+import _getOr from 'lodash/fp/getOr';
+
+import TableViewColumns from 'viewManager/commonEditor/TableViewColumns';
+import WithForm from 'viewManager/common/Hoc/WithForm';
 
 
 export default class HistoryTab extends React.Component {
@@ -15,6 +20,7 @@ export default class HistoryTab extends React.Component {
 
   state = {
     isTitleOpen: false,
+    HistoryTableViewColumnsForm: WithForm(TableViewColumns),
   };
 
   onChange = (openPanels) => {
@@ -22,8 +28,18 @@ export default class HistoryTab extends React.Component {
     updateViewPanels(viewId, 'panels', openPanels);
   };
 
+  handleSubmit = (values) => {
+    const { updateTableCols, viewId, tables } = this.props;
+    const cols = _get(tables, ['history', 'columns']);
+    updateTableCols(viewId, 'history', _getOr(cols, 'columns', values));
+  };
+
   render() {
-    const { viewId, panels } = this.props;
+    const { viewId, panels, tables } = this.props;
+    const { HistoryTableViewColumnsForm } = this.state;
+
+    const cols = _get(tables, ['history', 'columns']);
+    const initialValues = { cols };
 
     return (
       <div>
@@ -41,7 +57,13 @@ export default class HistoryTab extends React.Component {
             header="Columns"
             key="columns"
           >
-            {/* Multi-table column reordering here... */}
+            {panels.columns && <HistoryTableViewColumnsForm
+              initialValues={initialValues}
+              viewId={viewId}
+              onSubmit={this.handleSubmit}
+              onOrderChange={this.handleSubmit}
+              form={`history-tab-form-${viewId}`}
+            />}
           </Panel>
         </Collapse>
       </div>

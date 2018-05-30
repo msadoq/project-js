@@ -90,7 +90,7 @@ const mapStateToProps = (state, { viewId }) => {
   // current rows
   const historyConfig = config.tables.history;
 
-  const _getFieldIndex = field => historyConfig.columns.findIndex(col => col.field === field);
+  const _getFieldIndex = field => historyConfig.columns.findIndex(col => col.title === field);
 
   const referenceTimestampIndex = _getFieldIndex('referenceTimestamp');
   const epNameIndex = _getFieldIndex('epName');

@@ -33,7 +33,7 @@ const preformatData = (rawData, config) => {
     const { columns } = config;
 
     const getParamValue = (colIndex) => {
-      const paramName = columns[colIndex].field;
+      const paramName = columns[colIndex].title;
 
       const foundEntryPoint = config.entryPoints.find(e => e.name === ep.epName);
 

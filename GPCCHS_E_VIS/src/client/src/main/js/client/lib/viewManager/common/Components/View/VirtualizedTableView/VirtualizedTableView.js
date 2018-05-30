@@ -143,7 +143,7 @@ class VirtualizedTableView extends React.Component {
     const overscanColumnCount = 0;
     const overscanRowCount = 0;
 
-    const _getColumnName = col => col.field;
+    const _getColumnName = col => col.title;
 
     const _groups = columns.reduce((acc, column) => {
       if (column.group) {
@@ -258,7 +258,7 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _filterCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const colKey = columns[columnIndex].field;
+      const colKey = columns[columnIndex].title;
 
       return (
         <div

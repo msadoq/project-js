@@ -25,8 +25,8 @@ const getDefaultView = _.merge({
           direction: 'DESC',
         },
         columns: [
-          { field: 'referenceTimestamp', isDisplayed: true, group: 'default' },
-          { field: 'epName', isDisplayed: true, group: 'default' },
+          { title: 'referenceTimestamp', isDisplayed: true, group: 'default' },
+          { title: 'epName', isDisplayed: true, group: 'default' },
         ],
       },
     },

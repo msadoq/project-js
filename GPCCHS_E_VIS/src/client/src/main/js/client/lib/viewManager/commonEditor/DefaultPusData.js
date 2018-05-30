@@ -2,22 +2,24 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
-import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
 import ApplicationProcessFieldContainer from 'viewManager/commonEditor/Fields/ApplicationProcessFieldContainer';
+import SessionFieldContainer from './Fields/SessionFieldContainer';
 
 const { string } = PropTypes;
 
 export default class DefaultPusData extends PureComponent {
   static propTypes = {
+    // Own props
     viewId: string.isRequired,
     pageId: string.isRequired,
+    // From DefaultPusDataContainer's mapStateToProps
     selectedDomainName: string,
-    selectedTimelineId: string,
+    selectedSessionName: string,
   };
 
   static defaultProps = {
     selectedDomainName: null,
-    selectedTimelineId: null,
+    selectedSessionName: null,
     selectedCatalogName: null,
     selectedItemName: null,
   };
@@ -27,12 +29,11 @@ export default class DefaultPusData extends PureComponent {
   };
 
   render() {
-    const { windowId } = this.context;
     const {
       viewId,
       pageId,
       selectedDomainName,
-      selectedTimelineId,
+      selectedSessionName,
     } = this.props;
 
     return (
@@ -41,16 +42,14 @@ export default class DefaultPusData extends PureComponent {
           <DomainFieldContainer />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Timeline">
-          <TimelineFieldContainer
-            windowId={windowId}
-          />
+        <HorizontalFormGroup label="Session">
+          <SessionFieldContainer />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Application Process">
           <ApplicationProcessFieldContainer
             domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
+            sessionName={selectedSessionName}
             viewId={viewId}
             pageId={pageId}
           />

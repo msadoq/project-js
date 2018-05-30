@@ -37,7 +37,7 @@ export const entryPointType = shape({
     YAxisId: string,
   }),
   objectStyle: shape(),
-  stateColors: arrayOf(stateColorType).isRequired,
+  stateColors: arrayOf(stateColorType),
   obsolete: bool,
   nonsignificant: bool,
 });

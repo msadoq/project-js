@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
+import _get from 'lodash/get';
 import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
@@ -7,7 +7,7 @@ import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAn
 import styles from 'viewManager/commonEditor/Editor.css';
 import WithForm from 'viewManager/common/Hoc/WithForm';
 import DefaultPusDataContainer from 'viewManager/commonEditor/DefaultPusDataContainer';
-import { TableConfigurationColumnType } from '../../../common/Components/types';
+import { entryPointType, TableConfigurationColumnType } from '../../../common/Components/types';
 import PUS11TabContainer from './PUS11TabContainer';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
@@ -32,6 +32,7 @@ export default class PUS11Editor extends Component {
       underline: bool,
     }),
     configuration: shape({
+      entryPoints: arrayOf(entryPointType),
       tables: shape({
         subSchedules: shape({
           cols: arrayOf(TableConfigurationColumnType).isRequired,
@@ -47,6 +48,7 @@ export default class PUS11Editor extends Component {
     tab: number,
     panels: shape({}).isRequired,
     // Container's mapDispatchToProps
+    updateEntryPoint: func.isRequired,
     updateViewTab: func.isRequired,
     updateViewPanels: func.isRequired,
     openModal: func.isRequired,
@@ -79,14 +81,14 @@ export default class PUS11Editor extends Component {
     updateViewTab(viewId, id);
   };
 
-  // @todo finalize updatePusData implementation
   handleSubmit = (values) => {
-    // const { configuration, updatePusData, viewId } = this.props;
-    // const entryPoint = _get(configuration, ['entryPoints', 0]);
-    // updatePusData(viewId, entryPoint.id, {
-    //   ...entryPoint,
-    //   ...values,
-    // });
+    const { configuration, updateEntryPoint, viewId } = this.props;
+    const entryPoint = _get(configuration, ['entryPoints', 0]);
+
+    updateEntryPoint(viewId, entryPoint.id, {
+      ...entryPoint,
+      ...values,
+    });
   };
 
   render() {
@@ -99,9 +101,9 @@ export default class PUS11Editor extends Component {
       openModal,
       title,
       titleStyle,
-      configuration,
     } = this.props;
-    const nullObject = {};
+    const initialValues = _get(this.props, ['configuration', 'entryPoints', 0], {});
+
     const { PUS11EditorForm } = this.state;
     return (
       <div className={styles.contentWrapper}>
@@ -123,8 +125,8 @@ export default class PUS11Editor extends Component {
               viewId={viewId}
               pageId={pageId}
               form={`entrypoint-connectedData-form-${viewId}`}
-              onSubmit={values => this.handleSubmit({ connectedData: values })}
-              initialValues={nullObject}
+              onSubmit={this.handleSubmit}
+              initialValues={initialValues}
             />
           </div>}
           {

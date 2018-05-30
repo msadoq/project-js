@@ -8,12 +8,11 @@ import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 import { applicationProcessesType } from 'viewManager/common/Components/types';
 import './ApplicationProcessField.scss';
 
-const { func, string, number } = PropTypes;
+const { func, number } = PropTypes;
 
 export default class ApplicationProcessField extends PureComponent {
   static propTypes = {
     onChange: func,
-    timelineId: string,
     // from container mapStateToProps
     applicationProcesses: applicationProcessesType,
     domainId: number,
@@ -28,7 +27,6 @@ export default class ApplicationProcessField extends PureComponent {
     applicationProcess: null,
     sessionId: null,
     domainId: null,
-    timelineId: null,
   };
 
   componentDidMount() {
@@ -40,15 +38,15 @@ export default class ApplicationProcessField extends PureComponent {
   }
 
   requestApids = (props) => {
-    const { domainId, timelineId, sessionId, applicationProcesses, askApids } = props;
-    if (!!(domainId && timelineId) && applicationProcesses === null) {
+    const { domainId, sessionId, applicationProcesses, askApids } = props;
+    if (!!(domainId && sessionId) && applicationProcesses === null) {
       askApids(domainId, sessionId);
     }
   };
 
   render() {
-    const { domainId, timelineId } = this.props;
-    const disabled = (!domainId || !timelineId);
+    const { domainId, sessionId } = this.props;
+    const disabled = (!domainId || !sessionId);
     const applicationProcessOptions = _map(this.props.applicationProcesses, ap => ({
       name: ap.apidName,
     }));

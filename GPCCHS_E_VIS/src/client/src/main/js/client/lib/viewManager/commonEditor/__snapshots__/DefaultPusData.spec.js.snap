@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DefaultPusData :: render snapshot 1`] = `
+<Unknown>
+  <HorizontalFormGroup
+    className=""
+    label="Domain"
+  >
+    <Connect(DomainField) />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    className=""
+    label="Session"
+  >
+    <Connect(SessionField) />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    className=""
+    label="Application Process"
+  >
+    <Connect(ApplicationProcessField)
+      domainName="fr.cnes.isis.simupus"
+      pageId="page1"
+      sessionName="Master"
+      viewId="text1"
+    />
+  </HorizontalFormGroup>
+</Unknown>
+`;

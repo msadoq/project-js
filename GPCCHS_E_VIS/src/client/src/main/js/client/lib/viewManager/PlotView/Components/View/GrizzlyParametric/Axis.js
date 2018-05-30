@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 import classnames from 'classnames';
 import styles from './GrizzlyChart.css';
 import { lineType, labelStyleType } from './types';
@@ -150,7 +151,7 @@ export default class Axis extends Component {
               className={classnames(
                 'label',
                 lineLabel,
-                { hidden: !showLabels }
+                { hidden: _.isEmpty(line.data) || !showLabels }
               )}
               ref={memoizeAssignRef(line.id)}
             >

@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { filter, sort } from '../../common/data/table';
+import parseEntryPoint from './parseEntryPoint';
 
 const _cell = value => ({
   value,
@@ -33,4 +34,8 @@ export const formatSubScheduleRows = (data, config) => {
     totalCount: formattedData.length,
     rows: sort(filter(formattedData, subSchedulesConfig), subSchedulesConfig),
   };
+};
+
+export default {
+  parseEntryPoint,
 };

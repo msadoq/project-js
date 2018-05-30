@@ -67,7 +67,7 @@
     ],
     "coverageDirectory": "coverage/test",
     "moduleNameMapper": {
-      "\\.(less|css)$": "identity-obj-proxy"
+      "\\.(less|css|scss)$": "identity-obj-proxy"
     },
     "setupFiles": [
       "./lib/common/jest/polyfill.js"

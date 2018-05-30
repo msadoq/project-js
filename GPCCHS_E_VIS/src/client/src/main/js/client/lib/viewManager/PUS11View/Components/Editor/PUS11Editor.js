@@ -1,6 +1,5 @@
-/* eslint-disable spaced-comment,no-unused-vars */
-// import _get from 'lodash/get';
 import React, { Component } from 'react';
+import _get from 'lodash/get';
 import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
@@ -8,10 +7,11 @@ import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAn
 import styles from 'viewManager/commonEditor/Editor.css';
 import WithForm from 'viewManager/common/Hoc/WithForm';
 import DefaultPusDataContainer from 'viewManager/commonEditor/DefaultPusDataContainer';
+import { entryPointType, TableConfigurationColumnType } from '../../../common/Components/types';
+import PUS11TabContainer from './PUS11TabContainer';
 
-const PUS11EditorForm = WithForm(DefaultPusDataContainer);
 const navItems = ['Connected Data', 'View', 'Misc'];
-const { string, number, bool, shape, func } = PropTypes;
+const { string, number, bool, shape, func, arrayOf } = PropTypes;
 
 export default class PUS11Editor extends Component {
   static propTypes = {
@@ -31,10 +31,24 @@ export default class PUS11Editor extends Component {
       strikeOut: bool,
       underline: bool,
     }),
+    configuration: shape({
+      entryPoints: arrayOf(entryPointType),
+      tables: shape({
+        subSchedules: shape({
+          cols: arrayOf(TableConfigurationColumnType).isRequired,
+        }).isRequired,
+        enabledApids: shape({
+          cols: arrayOf(TableConfigurationColumnType).isRequired,
+        }).isRequired,
+        commands: shape({
+          cols: arrayOf(TableConfigurationColumnType).isRequired,
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
     tab: number,
     panels: shape({}).isRequired,
-    configuration: shape().isRequired,
     // Container's mapDispatchToProps
+    updateEntryPoint: func.isRequired,
     updateViewTab: func.isRequired,
     updateViewPanels: func.isRequired,
     openModal: func.isRequired,
@@ -46,20 +60,35 @@ export default class PUS11Editor extends Component {
     title: '',
   };
 
+  /**
+   * empty form in the state
+   * this form will be fill in componentWillReceiveProps with initial values
+   */
+  state = {
+    PUS11EditorForm: WithForm(DefaultPusDataContainer),
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.viewId !== this.props.viewId) {
+      this.setState({
+        PUS11EditorForm: WithForm(DefaultPusDataContainer),
+      });
+    }
+  }
+
   changeCurrentDisplay = (id) => {
     const { updateViewTab, viewId } = this.props;
     updateViewTab(viewId, id);
   };
 
-  // @todo finalize updatePusData implementation
   handleSubmit = (values) => {
-    // const { configuration, updatePusData, viewId } = this.props;
-    // const entryPoint = _get(configuration, ['entryPoints', 0]);
-    // updatePusData(viewId, entryPoint.id, {
-    //   ...entryPoint,
-    //   ...values,
-    // });
-    console.log('handleSubmit', values);
+    const { configuration, updateEntryPoint, viewId } = this.props;
+    const entryPoint = _get(configuration, ['entryPoints', 0]);
+
+    updateEntryPoint(viewId, entryPoint.id, {
+      ...entryPoint,
+      ...values,
+    });
   };
 
   render() {
@@ -72,10 +101,10 @@ export default class PUS11Editor extends Component {
       openModal,
       title,
       titleStyle,
-      configuration,
     } = this.props;
-    console.log('configuration', configuration);
-    const nullObject = {};
+    const initialValues = _get(this.props, ['configuration', 'entryPoints', 0], {});
+
+    const { PUS11EditorForm } = this.state;
     return (
       <div className={styles.contentWrapper}>
         <h4
@@ -96,15 +125,16 @@ export default class PUS11Editor extends Component {
               viewId={viewId}
               pageId={pageId}
               form={`entrypoint-connectedData-form-${viewId}`}
-              onSubmit={values => this.handleSubmit({ connectedData: values })}
-              initialValues={nullObject}
+              onSubmit={this.handleSubmit}
+              initialValues={initialValues}
             />
           </div>}
           {
             tab === 1 &&
-            <div>
-              Display Configuration
-            </div>
+            <PUS11TabContainer
+              viewId={viewId}
+              panels={panels}
+            />
           }
           {tab === 2 &&
             <Misc

@@ -1,6 +1,5 @@
 import { formValueSelector } from 'redux-form';
 
-
 function connectedDataSelector(form, state, fieldPath) {
   return formValueSelector(form)(state, fieldPath);
 }
@@ -11,6 +10,10 @@ export function getSelectedDomainInForm(form, state) {
 
 export function getSelectedTimelineId(form, state) {
   return connectedDataSelector(form, state, 'connectedData.timeline');
+}
+
+export function getSelectedSessionName(form, state) {
+  return connectedDataSelector(form, state, 'connectedData.session');
 }
 
 export function getSelectedCatalogName(form, state) {

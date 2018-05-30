@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: Fields viewManager :: commonEditor :: Fields :: SessionField snapshot 1`] = `
+<ReduxForm
+  onChange={[Function]}
+  sessions={
+    Array [
+      Object {
+        "items": Array [],
+        "name": "SessionFieldName",
+      },
+    ]
+  }
+/>
+`;

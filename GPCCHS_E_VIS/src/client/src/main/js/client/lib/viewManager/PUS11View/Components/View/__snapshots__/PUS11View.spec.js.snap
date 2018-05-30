@@ -1,0 +1,223 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PUS11View :: render snapshot 1`] = `
+<div
+  className="pus11"
+>
+  <div
+    className="header"
+  >
+    <Unknown>
+      <div
+        className="info col-sm-3"
+      >
+        <span
+          className="spacing"
+        />
+        <span>
+          Application Process
+          <input
+            disabled={true}
+            type="text"
+            value="string"
+          />
+          <input
+            className="mw50"
+            disabled={true}
+            type="text"
+            value={11}
+          />
+        </span>
+        <span
+          className="spacing"
+        />
+      </div>
+      <div
+        className="info col-sm-3"
+      >
+        <span
+          className="spacing"
+        />
+        <span>
+          Schedule Status 
+          <input
+            className="mw100"
+            disabled={true}
+            type="text"
+            value="string"
+          />
+        </span>
+        <span
+          className="spacing"
+        />
+      </div>
+      <div
+        className="info col-sm-3"
+      >
+        <span
+          className="spacing"
+        />
+        <span>
+          Application Space 
+          <input
+            className="mw100"
+            disabled={true}
+            type="text"
+            value="string"
+          />
+           
+          string
+        </span>
+        <span
+          className="spacing"
+        />
+      </div>
+      <div
+        className="info col-sm-3"
+      >
+        <span
+          className="spacing"
+        />
+        <span>
+          Last Uptate 
+          <input
+            className="mw100"
+            disabled={true}
+            type="text"
+            value={1527673698364}
+          />
+           
+          <input
+            className="mw50"
+            disabled={true}
+            type="text"
+            value="string"
+          />
+        </span>
+        <span
+          className="spacing"
+        />
+      </div>
+      <div
+        className="clearfix"
+      />
+    </Unknown>
+  </div>
+  <div
+    className="header"
+  >
+    <div
+      className="col-sm-6"
+    >
+      <table
+        className="table table-bordered"
+      >
+        <thead>
+          <tr>
+            <th>
+              SSID
+            </th>
+            <th>
+              APID
+            </th>
+            <th>
+              Name
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+              First TC Time
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+    <div
+      className="clearfix"
+    />
+    <div
+      className="col-sm-6"
+    >
+      <table
+        className="table table-bordered"
+      >
+        <thead>
+          <tr>
+            <th>
+              APID
+            </th>
+            <th>
+              Name
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+    <div
+      className="clearfix"
+    />
+  </div>
+  <div
+    className="header"
+  >
+    <div
+      className="info col-sm-12"
+    >
+      <table
+        className="table table-bordered"
+      >
+        <thead>
+          <tr>
+            <th>
+              Apid
+            </th>
+            <th>
+              Ssid
+            </th>
+            <th>
+              Cmd. Name
+            </th>
+            <th>
+              Cmd. Description
+            </th>
+            <th>
+              Cmd. AP. Name
+            </th>
+            <th>
+              Seq. Count
+            </th>
+            <th>
+              Source Id
+            </th>
+            <th>
+              Cmd. Status
+            </th>
+            <th>
+              Ground Status
+            </th>
+            <th>
+              Init. Exec. Time
+            </th>
+            <th>
+              Cur. Exec. Time
+            </th>
+            <th>
+              Tot. Shift Time
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;

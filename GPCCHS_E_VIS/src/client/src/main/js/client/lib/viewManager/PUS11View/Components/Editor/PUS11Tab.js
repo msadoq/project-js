@@ -6,7 +6,7 @@ import _get from 'lodash/get';
 import _getOr from 'lodash/fp/getOr';
 import TableViewColumns from 'viewManager/commonEditor/TableViewColumns';
 import WithForm from 'viewManager/common/Hoc/WithForm';
-import { TableConfigurationColumnType } from '../../../common/Components/types';
+import { entryPointType, TableConfigurationColumnType } from '../../../common/Components/types';
 
 const { string, shape, func, arrayOf } = PropTypes;
 
@@ -17,6 +17,7 @@ export default class PUS11Tab extends React.Component {
     panels: shape({}).isRequired,
     // from PUS11TabContainer mapStateToProps
     configuration: shape({
+      entryPoints: arrayOf(entryPointType),
       tables: shape({
         subSchedules: shape({
           cols: arrayOf(TableConfigurationColumnType).isRequired,

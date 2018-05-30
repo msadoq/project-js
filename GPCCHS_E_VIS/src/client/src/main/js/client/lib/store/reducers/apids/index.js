@@ -5,13 +5,15 @@ import {
   WS_APIDS_ADD,
 } from 'store/types';
 
+export const REQUESTING = 'requesting';
+
 // eslint-disable-next-line complexity
 export default function apidsReducer(state = {}, action) {
   switch (action.type) {
     case WS_APIDS_ASK: {
       return _set(
         getTupleId(action.payload.domainId, action.payload.sessionId),
-        'requesting',
+        REQUESTING,
         state
       );
     }

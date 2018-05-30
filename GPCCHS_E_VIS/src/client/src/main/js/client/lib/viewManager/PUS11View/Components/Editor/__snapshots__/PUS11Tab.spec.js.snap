@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GroundAlarmTab :: render snapshot 1`] = `
+<div>
+  <Collapse
+    accordion={false}
+    defaultActiveKey={Array []}
+    destroyInactivePanel={false}
+    onChange={[Function]}
+    prefixCls="rc-collapse"
+  >
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Parameters"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Columns"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+  </Collapse>
+</div>
+`;
+
+exports[`PUS11Tab :: render snapshot 1`] = `
+<div>
+  <Collapse
+    accordion={false}
+    defaultActiveKey={Array []}
+    destroyInactivePanel={false}
+    onChange={[Function]}
+    prefixCls="rc-collapse"
+  >
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Sub-Schedule Columns"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Commands Columns"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Enabled Apids Columns"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+  </Collapse>
+</div>
+`;

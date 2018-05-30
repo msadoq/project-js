@@ -1,11 +1,11 @@
 import _ from 'lodash/fp';
 
-import commonInput from '../commonInput';
-import commonOutput from '../commonOutput';
-import setEntryPointDefault from './setEntryPointDefault';
+import commonInput from 'viewManager/commonInput';
+import commonOutput from 'viewManager/commonOutput';
 import prepareViewForFile from './prepareViewForFile';
 import prepareViewForModel from './prepareViewForModel';
 import prepareViewForStore from './prepareViewForStore';
+import setEntryPointDefault from './setEntryPointDefault';
 
 const removeEntryPointsIds = _.update('configuration.entryPoints', _.map(_.omit('id')));
 const setEntryPoints = _.update('configuration.entryPoints', _.map(setEntryPointDefault));
@@ -13,12 +13,12 @@ const setEntryPoints = _.update('configuration.entryPoints', _.map(setEntryPoint
 export default {
   setEntryPointDefault,
   prepareViewForModel,
-  prepareViewForFile: _.pipe(
+  prepareViewForFile: _.flow(
     removeEntryPointsIds,
     prepareViewForFile,
     commonOutput
   ),
-  prepareViewForStore: _.pipe(
+  prepareViewForStore: _.flow(
     commonInput,
     prepareViewForStore,
     setEntryPoints

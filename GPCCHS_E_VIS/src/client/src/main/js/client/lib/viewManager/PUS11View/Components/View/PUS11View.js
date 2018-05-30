@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars,react/no-find-dom-node */
 import React from 'react';
 import PropTypes from 'prop-types';
 import './PUS11.scss';
 
-const { string, number, arrayOf, shape, oneOf } = PropTypes;
+const { string, number, arrayOf, shape } = PropTypes;
 
 export default class PUS11View extends React.Component {
   static propTypes = {

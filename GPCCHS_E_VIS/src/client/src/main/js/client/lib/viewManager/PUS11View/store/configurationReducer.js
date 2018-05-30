@@ -1,6 +1,7 @@
 import * as types from 'store/types';
-import _ from 'lodash/fp';
 import _getOr from 'lodash/fp/getOr';
+import _has from 'lodash/fp/has';
+import _set from 'lodash/fp/set';
 
 const initialConfiguration = {
   tables: {
@@ -215,7 +216,7 @@ export default (stateConf = {}, action) => {
     }
     case types.WS_VIEW_UPDATE_TABLE_COLS: {
       return isValidTableId(action)
-        ? _.set(`tables.${action.payload.tableId}.cols`, _getOr([], 'payload.cols', action), stateConf)
+        ? _set(`tables.${action.payload.tableId}.cols`, _getOr([], 'payload.cols', action), stateConf)
         : stateConf
         ;
     }
@@ -225,6 +226,6 @@ export default (stateConf = {}, action) => {
 };
 
 export const isValidTableId = action =>
-  _.has('payload.tableId', action) &&
+  _has('payload.tableId', action) &&
   ['enabledApids', 'subSchedules', 'commands'].indexOf(action.payload.tableId) !== -1
 ;

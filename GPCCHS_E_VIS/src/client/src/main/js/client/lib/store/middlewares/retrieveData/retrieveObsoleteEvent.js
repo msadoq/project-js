@@ -13,6 +13,7 @@
 // ====================================================================
 import executionMonitor from 'common/logManager/execution';
 import { getObsoleteEventRecordsByInterval } from 'serverProcess/models/lokiObsoleteEventData';
+import flattenDataId, { getFlattenDataIdForObsoleteEvent } from 'common/flattenDataId';
 import * as types from '../../types';
 import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
 import { newData } from '../../actions/incomingData';
@@ -33,7 +34,7 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
     for (let i = 0; i < tbdIds.length; i += 1) {
       const tbdId = tbdIds[i];
       const { dataId, intervals } = neededEvents[tbdIds[i]];
-      const flatObsoleteEventId = `${dataId.parameterName}:${dataId.sessionId}:${dataId.domainId}`;
+      const flatObsoleteEventId = getFlattenDataIdForObsoleteEvent(dataId);
       // getObsoleteEventData
       const obsoleteEventsRecords =
         getObsoleteEventRecordsByInterval(flatObsoleteEventId, intervals);
@@ -51,8 +52,6 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
         execution.stop('get missing intervals');
 
         for (let j = 0; j < missingIntervals.length; j += 1) {
-          const flatIdLogBookEvent =
-            `LogbookEventDefinition.OBSOLETE_PARAMETER<LogbookEvent>:${dataId.sessionId}:${dataId.domainId}:${dataId.provider}::`;
           const dataIdLogBookEvent = {
             catalog: 'LogbookEventDefinition',
             parameterName: 'OBSOLETE_PARAMETER',
@@ -61,8 +60,9 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
             domain: dataId.domain,
             sessionName: dataId.sessionName,
             sessionId: dataId.sessionId,
-            provider: dataId.provider,
+            provider: '',
           };
+          const flatIdLogBookEvent = flattenDataId(dataIdLogBookEvent);
           const queryId = ipc.dc.requestTimebasedQuery(
             flatIdLogBookEvent,
             dataIdLogBookEvent,
@@ -77,7 +77,7 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
         execution.stop('merge interval');
       }
       if (mergedInterval.length !== 0) {
-        dispatch(sendArchiveQuery(tbdId, dataId, mergedInterval));
+        dispatch(sendArchiveQuery(flatObsoleteEventId, dataId, mergedInterval));
       }
     }
     execution.stop('global');

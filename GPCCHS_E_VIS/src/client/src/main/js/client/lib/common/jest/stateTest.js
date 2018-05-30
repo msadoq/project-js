@@ -777,6 +777,18 @@ export default {
       intervals: [[0, 60], [100000, 500000]],
     },
   },
+  ObsoleteEvents: {
+    'TMMGT_BC_VIRTCHAN3:0:4:::': {
+      flatDataId: 'TMMGT_BC_VIRTCHAN3:0:4:::',
+      filters: [],
+      intervals: [[2, 6], [100000, 500000]],
+    },
+    'ATT_BC_REVTCOUNT1:0:1:::': {
+      flatDataId: 'ATT_BC_REVTCOUNT1:0:1:::',
+      filters: [],
+      intervals: [[0, 60], [100000, 500000]],
+    },
+  },
   masterSession: {
     sessionId: 42,
   },

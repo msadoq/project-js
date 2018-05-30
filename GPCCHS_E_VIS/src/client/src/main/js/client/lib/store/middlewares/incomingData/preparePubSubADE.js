@@ -19,6 +19,7 @@ import executionMonitor from 'common/logManager/execution';
 import dataMapGenerator from 'dataManager/map';
 import { newData } from 'store/actions/incomingData';
 import * as types from 'store/types';
+import { getFlattenDataIdForObsoleteEvent } from 'common/flattenDataId';
 
 const logger = require('../../../common/logManager')('middleware:preparePubSub');
 
@@ -141,15 +142,22 @@ const preparePubSub =
                   eventDate,
                   referenceTimestamp: decodedPayload.referenceTimestamp,
                 };
-                const flatId = `${parameterName}:${dataId.sessionId}:${dataId.domainId}`;
-                payloadsJson = updateFinalPayload(state, {
-                  flatId,
-                  timestamp: timestamp.ms,
-                  obsoleteEventDecodedPayload,
-                  isInIntervals: isTimestampInObsoleteEvents,
-                  filters: {},
-                  addRecord: lokiObsoleteEventManager.addRecord,
-                }, payloadsJson);
+                const flatId = getFlattenDataIdForObsoleteEvent({
+                  parameterName,
+                  sessionId: dataId.sessionId,
+                  domainId: dataId.domainId,
+                });
+                payloadsJson = updateFinalPayload(
+                  state,
+                  {
+                    tbdId: flatId,
+                    timestamp: timestamp.ms,
+                    decodedPayload: obsoleteEventDecodedPayload,
+                    isInIntervals: isTimestampInObsoleteEvents,
+                    filters: [],
+                    addRecord: lokiObsoleteEventManager.addRecord,
+                  },
+                  payloadsJson);
               }
               execution.stop('process for events');
             }
@@ -187,7 +195,14 @@ const preparePubSub =
  */
 export const updateFinalPayload =
   (state,
-   { tbdId, timestamp, decodedPayload, isInIntervals, filters, addRecord },
+   {
+     tbdId,
+     timestamp,
+     decodedPayload,
+     isInIntervals,
+     filters,
+     addRecord,
+   },
    finalPayloads) => {
     const updatedPayloads = finalPayloads;
     // If timestamp is in a known interval

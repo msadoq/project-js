@@ -51,6 +51,7 @@ function getSpecificAttributes(timestamp) {
       'ATT_TM_AKEXENOK42',
       'AGA_AM_CCSDSAPID',
       'AGA_AM_QP2',
+      'ATT_BC_ENABLED10',
     ]),
   };
   const groundDate = {

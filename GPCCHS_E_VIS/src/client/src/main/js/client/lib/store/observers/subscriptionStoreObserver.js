@@ -14,6 +14,7 @@ import _ from 'lodash/fp';
 import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
 import { dc } from 'serverProcess/ipc';
 import { getPerLastTbdIdMap, getPerRangeTbdIdMap } from 'dataManager/map';
+import flattenDataId from 'common/flattenDataId';
 
 const { requestSubscriptionAdd } = dc;
 
@@ -38,8 +39,6 @@ export default function makeSubscriptionStoreObserver(store) {
       // adding subscription to entrypoint
       requestSubscriptionAdd(tbdId, dataId);
       savedSubscriptions[tbdId] = dataId;
-      const flatIdLogBookEvent =
-        `LogbookEventDefinition.OBSOLETE_PARAMETER<LogbookEvent>:${dataId.sessionId}:${dataId.domainId}:::`;
       const dataIdLogBookEvent = {
         catalog: 'LogbookEventDefinition',
         parameterName: 'OBSOLETE_PARAMETER',
@@ -48,8 +47,9 @@ export default function makeSubscriptionStoreObserver(store) {
         domain: dataId.domain,
         sessionName: dataId.sessionName,
         sessionId: dataId.sessionId,
-        provider: dataId.provider,
+        provider: '',
       };
+      const flatIdLogBookEvent = flattenDataId(dataIdLogBookEvent);
       if (!savedSubscriptions[flatIdLogBookEvent]) {
         // adding subscription to entrypoint logbook events
         requestSubscriptionAdd(flatIdLogBookEvent, dataIdLogBookEvent);

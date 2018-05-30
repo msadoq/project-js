@@ -1,6 +1,5 @@
 // import _ from 'lodash';
 import _always from 'lodash/fp/always';
-import _omit from 'lodash/fp/omit';
 import _isEmpty from 'lodash/isEmpty';
 import * as types from 'store/types';
 import { get } from 'common/configurationManager';

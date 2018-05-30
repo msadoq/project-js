@@ -56,8 +56,6 @@ describe('store:middlewares:preparePubSub', () => {
         {});
       expect(finalPayloads).toEqual({ });
       expect(lokiManager.listCachedCollections()).toEqual([]);
-      expect(lokiManager.displayCollection('Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::'))
-      .toEqual([]);
     });
     test('in store, tbdId not in store, empty finalPayloads', () => {
       const finalPayloads = updateFinalPayload(state,

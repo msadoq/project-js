@@ -3,11 +3,9 @@ import _isBuffer from 'lodash/isBuffer';
 import * as types from 'store/types';
 import { newData } from 'store/actions/incomingData';
 import { decode, getType } from 'utils/adapters';
-import dataMapGenerator from 'dataManager/map';
-import { isTimestampInLastInterval } from 'dataManager/mapSelector';
 import executionMonitor from 'common/logManager/execution';
-import flattenDataId from 'common/flattenDataId';
 import { add as addMessage } from 'store/actions/messages';
+import { getFlattenDataIdForObsoleteEvent } from 'common/flattenDataId';
 import { add } from '../../../serverProcess/models/tbdIdDataIdMap';
 
 
@@ -48,7 +46,7 @@ const prepareObsoleteEvent =
             referenceTimestamp: decodedPayload.referenceTimestamp,
           };
           execution.stop('decode payload');
-          const flatId = `${dataId.parameterName}:${dataId.sessionId}:${dataId.domainId}`;
+          const flatId = getFlattenDataIdForObsoleteEvent(dataId);
           add(flatId, dataId);
           execution.start('addRecord');
           lokiObsoleteEventManager.addRecord(

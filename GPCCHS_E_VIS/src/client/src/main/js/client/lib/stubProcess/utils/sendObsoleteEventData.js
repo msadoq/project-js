@@ -33,10 +33,7 @@ function shouldPushANewValue(timestamp) {
   if (timestamp > Date.now()) {
     return false; // stub never send value in the future
   }
-  if (timestamp % 7 === 0) {
-    return true;
-  }
-  return false;
+  return timestamp % 7 === 0;
 }
 
 module.exports = function sendObsoleteEventData(

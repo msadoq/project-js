@@ -190,9 +190,9 @@ const getComObject = (dataId, timestamp, options) => {
         dataId.provider === constants.PROVIDER_FLOW_HKTMR ? 0.5 : 1;
 
       const value = scale * predictibleRand.getSinValue(timestamp, options.epName);
-
-      // TODO: add offset depending on provider field
-      return stubData.getReportingParameterProtobuf({
+      const isisAggreg = stubData.getIsisAggregationProtobuf();
+      const parameter = stubData.getParameterProtobuf();
+      const reportingParam = stubData.getReportingParameterProtobuf({
         groundDate: timestamp + 20,
         onboardDate: timestamp,
         convertedValue: value,
@@ -200,6 +200,12 @@ const getComObject = (dataId, timestamp, options) => {
         extractedValue: value,
         monitoringState: getMonitoringState(timestamp),
       });
+      // TODO: add offset depending on provider field
+      return [
+        { p: isisAggreg, com: 'IsisAggregation' },
+        { p: parameter, com: 'Parameter' },
+        { p: reportingParam, com: 'ReportingParameter' },
+      ];
     }
 
     case 'DecommutedPacket': {

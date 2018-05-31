@@ -2,7 +2,7 @@ import _isEmpty from 'lodash/isEmpty';
 import _isBuffer from 'lodash/isBuffer';
 import * as types from 'store/types';
 import { newData } from 'store/actions/incomingData';
-import { decode, getType, decodePayload } from 'utils/adapters';
+import { decode, getTypeAggreg, decodePayload } from 'utils/adapters';
 import dataMapGenerator from 'dataManager/map';
 import { isTimestampInLastInterval } from 'dataManager/mapSelector';
 import { add } from 'serverProcess/models/tbdIdDataIdMap';
@@ -46,7 +46,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
 
         execution.start('decode payload');
         const decoded = decodePayload(peers[index + 1]);
-        const decodedPayload = decode(getType(dataId.comObject), decoded);
+        const decodedPayload = decode(getTypeAggreg(dataId.comObject), decoded);
         execution.stop('decode payload');
 
         execution.start('addRecord');

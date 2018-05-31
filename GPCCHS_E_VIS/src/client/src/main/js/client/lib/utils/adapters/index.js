@@ -43,6 +43,9 @@ const rootVimaFolder = process.env.IS_BUNDLED === 'on' ? __dirname : resolve(__d
 const TYPE_PROTO = 'protobuf';
 const TYPE_RAW = 'raw';
 const comObjectTypes = {};
+const comObjectTypesAggreg = {
+  ReportingParameter: 'ReportingParameterAggregation',
+};
 const types = {};
 const fieldsMap = {};
 const logger = getLogger('AdaptersManager');
@@ -162,6 +165,10 @@ const getMapper = (key) => {
 };
 
 const getType = key => comObjectTypes[key];
+const getTypeAggreg = (key) => {
+  const type = comObjectTypesAggreg[key];
+  return type ? getType(type) : getType(key);
+};
 
 module.exports = {
   registerGlobal,
@@ -170,4 +177,5 @@ module.exports = {
   decodePayload,
   getType,
   getFields,
+  getTypeAggreg,
 };

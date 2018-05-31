@@ -3,21 +3,19 @@
 exports[`EntryPointDetails :: render EntryPointDetails :: render 1`] = `
 <div
   className="rc-collapse"
-  role={null}
   style={undefined}
 >
   <div
     className="rc-collapse-item"
     id={undefined}
+    role="tablist"
     style={undefined}
   >
     <div
       aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex={0}
+      role="tab"
     >
       <i
         className="arrow"
@@ -28,15 +26,14 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render 1`] = `
   <div
     className="rc-collapse-item"
     id={undefined}
+    role="tablist"
     style={undefined}
   >
     <div
       aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex={0}
+      role="tab"
     >
       <i
         className="arrow"
@@ -47,15 +44,14 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render 1`] = `
   <div
     className="rc-collapse-item"
     id={undefined}
+    role="tablist"
     style={undefined}
   >
     <div
       aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex={0}
+      role="tab"
     >
       <i
         className="arrow"
@@ -66,15 +62,14 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render 1`] = `
   <div
     className="rc-collapse-item"
     id={undefined}
+    role="tablist"
     style={undefined}
   >
     <div
       aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex={0}
+      role="tab"
     >
       <i
         className="arrow"
@@ -85,15 +80,14 @@ exports[`EntryPointDetails :: render EntryPointDetails :: render 1`] = `
   <div
     className="rc-collapse-item"
     id={undefined}
+    role="tablist"
     style={undefined}
   >
     <div
       aria-expanded={false}
       className="rc-collapse-header"
       onClick={[Function]}
-      onKeyPress={[Function]}
-      role="button"
-      tabIndex={0}
+      role="tab"
     >
       <i
         className="arrow"

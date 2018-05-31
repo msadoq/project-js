@@ -59,12 +59,12 @@ class VirtualizedTableView extends React.Component {
     sortState: PropTypes.shape(),
     filterState: PropTypes.shape(),
     onScrollTop: PropTypes.func.isRequired,
-    overrideStyle: PropTypes.shape(),
+    overrideStyle: PropTypes.func,
   };
 
   static defaultProps = {
     tableName: 'Data table',
-    columns: [],
+    cols: [],
     rows: [],
     columnWidth: 220,
     rowHeight: 22,
@@ -72,7 +72,7 @@ class VirtualizedTableView extends React.Component {
     withGroups: false,
     sortState: {},
     filterState: {},
-    overrideStyle: {},
+    overrideStyle: () => ({}),
   };
 
   constructor(props, context) {

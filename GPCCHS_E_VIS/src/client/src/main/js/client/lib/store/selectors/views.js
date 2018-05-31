@@ -161,7 +161,7 @@ export const getWindowAllViewsIds = createSelector(
 );
 
 /**
- * TODO: refactor cols into cols and deprecate this function
+ * TODO: refactor cols into columns and deprecate this function
  *
  * @param viewId string
  * @param state object
@@ -182,4 +182,10 @@ export const getViewConfigurationTableCols = createSelector(
 export const getViewConfigurationTables = createSelector(
   getConfigurationByViewId,
   viewConfiguration => _getOr([], 'tables', viewConfiguration)
+);
+
+export const getViewConfigurationTableColumns = createSelector(
+  (state, { tableId }) => tableId,
+  getConfigurationByViewId,
+  (tableId, viewConfiguration) => _getOr([], `tables.${tableId}.cols`, viewConfiguration)
 );

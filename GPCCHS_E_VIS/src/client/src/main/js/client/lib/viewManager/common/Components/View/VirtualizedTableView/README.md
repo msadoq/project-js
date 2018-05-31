@@ -58,7 +58,7 @@ La configuration des colonnes correspond à un tableau de tableaux de colonnes o
 ]
 ```
 
-Le champs `isDisplayed` permet en particulier de définir une colonne qui n'est pas affichée mais
+Le champs `displayed` permet en particulier de définir une colonne qui n'est pas affichée mais
 qui est disponible à la sélection, _i.e_ que l'utilisateur peut choisir d'afficher ; le cas échant,
 il faut mettre à jour cette configuration pour refléter les choix de l'utilisateur.
 

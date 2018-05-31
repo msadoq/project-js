@@ -8,6 +8,8 @@ import {
   WS_VIEW_TABLE_SCROLL,
   WS_VIEW_TABLE_UPDATE_HEIGHT,
   WS_VIEW_TABLE_ADD_COLUMNS,
+  WS_VIEW_TABLE_REORDER_COLUMNS,
+  WS_VIEW_TABLE_TOGGLE_COLUMN,
 } from '../types';
 
 export const toggleColumnSort = simple(WS_VIEW_TABLE_UPDATE_SORT, 'viewId', 'tableId', 'colName', 'direction');
@@ -27,4 +29,21 @@ export const updateDisplayedColumns =
     'viewId',
     'groupName',
     'fields'
+  );
+
+export const reorderColumns =
+  simple(
+    WS_VIEW_TABLE_REORDER_COLUMNS,
+    'viewId',
+    'tableId',
+    'oldIndex',
+    'newIndex'
+  );
+
+export const toggleColumn =
+  simple(
+    WS_VIEW_TABLE_TOGGLE_COLUMN,
+    'viewId',
+    'tableId',
+    'index'
   );

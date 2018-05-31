@@ -14,7 +14,6 @@
 // VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update viewManager with alarm parameters
 // END-HISTORY
 // ====================================================================
-
 export const VM_VIEW_PLOT = 'PlotView';
 export const VM_VIEW_TEXT = 'TextView';
 export const VM_VIEW_DYNAMIC = 'DynamicView';
@@ -36,3 +35,9 @@ export const VM_COMMON_PROPERTIES = [
   'domainName',
   'sessionName',
 ];
+
+/**
+ * @param type
+ * @returns {boolean}
+ */
+export const isPusView = type => [VM_VIEW_PUS11].includes(type);

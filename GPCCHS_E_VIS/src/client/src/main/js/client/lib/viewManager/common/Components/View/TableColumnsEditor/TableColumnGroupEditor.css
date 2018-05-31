@@ -2,3 +2,12 @@
 .TableColumnGroupEditor {
   margin: 10px;
 }
+
+.TableColumnGroupEditor:not(:last-of-type) {
+  border-bottom: 1px solid grey;
+  padding-bottom: 10px;
+}
+
+.ColumnLabel {
+  margin-left: 5px;
+}

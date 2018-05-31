@@ -33,7 +33,12 @@ const TableColumnInput = ({ item, toggle }) => {
             onClick={() => toggle(index)}
             readOnly
           />
-          <label htmlFor={checkboxId}>{title}</label>
+          <label
+            className={styles.ColumnLabel}
+            htmlFor={checkboxId}
+          >
+            {title}
+          </label>
         </div>
       )}
     </Draggable>
@@ -48,7 +53,7 @@ TableColumnInput.propTypes = {
 const TableColumnGroup =
   ({ groupKey, columns, toggle }) => (
     <div>
-      <div>{groupKey}</div>
+      <h4>{groupKey}</h4>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
           <div

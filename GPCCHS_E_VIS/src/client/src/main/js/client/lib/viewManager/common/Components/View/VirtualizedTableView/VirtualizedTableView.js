@@ -46,6 +46,7 @@ class VirtualizedTableView extends React.Component {
     totalCount: PropTypes.number.isRequired,
     tableName: PropTypes.string,
     cols: PropTypes.arrayOf(PropTypes.any),
+    columnCount: PropTypes.number.isRequired,
     rows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
     columnWidth: PropTypes.number,
     rowHeight: PropTypes.number,
@@ -128,6 +129,7 @@ class VirtualizedTableView extends React.Component {
       filterState,
       overrideStyle,
       onScrollTop,
+      columnCount,
     } = this.props;
 
     let formattedRows = rows;
@@ -137,7 +139,6 @@ class VirtualizedTableView extends React.Component {
         [[...Array(cols.length)].reduce(acc => [...acc, { value: undefined }], [])];
     }
 
-    const columnCount = cols.length;
     const rowCount = formattedRows.length;
 
     const overscanColumnCount = 0;

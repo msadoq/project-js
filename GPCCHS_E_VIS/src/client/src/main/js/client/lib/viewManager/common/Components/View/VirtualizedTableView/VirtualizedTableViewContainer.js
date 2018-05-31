@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { connect } from 'react-redux';
 
 import { filterColumn, toggleColumnSort } from 'store/actions/tableColumns';
@@ -15,12 +14,36 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
 
   const { cols, sorting, filters, name } = tableConfig;
 
+  const colIndexesToRemove = cols.reduce((acc, cur, index) => {
+    if (!cur.displayed) {
+      return [...acc, index];
+    }
+
+    return acc;
+  }, []);
+
+  const reducedRows = rows.rows.reduce((acc, cur) => [
+    ...acc,
+    cur.filter((_, index) => colIndexesToRemove.indexOf(index) === -1),
+  ], []);
+
+  const reducedColumns = cols.reduce((acc, cur) => {
+    if (cur.displayed) {
+      return [...acc, cur];
+    }
+
+    return acc;
+  }, []);
+
+  const reducedColumnCount = reducedColumns.length;
+
   return {
-    rows: rows.rows,
-    cols,
+    rows: reducedRows,
+    cols: reducedColumns,
     sortState: sorting,
     filterState: filters,
     tableName: name,
+    columnCount: reducedColumnCount,
     totalCount: rows.totalCount,
     isPlaying,
   };

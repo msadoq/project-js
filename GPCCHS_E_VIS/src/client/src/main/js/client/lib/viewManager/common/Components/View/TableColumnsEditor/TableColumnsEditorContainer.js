@@ -34,7 +34,6 @@ const mapDispatchToProps = (dispatch, { viewId, tableId }) => ({
     dispatch(toggleColumn(viewId, tableId, index));
   },
   reorder: (oldIndex, newIndex) => {
-    console.log(oldIndex, newIndex);
     dispatch(reorderColumns(viewId, tableId, oldIndex, newIndex));
   },
 });

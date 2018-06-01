@@ -5,20 +5,25 @@
       "type": "documentWindow",
       "title": "Development workspace",
       "geometry": {
-        "w": 1916,
-        "h": 1000,
-        "x": 2,
-        "y": 51,
+        "w": 1608,
+        "h": 949,
+        "x": 1620,
+        "y": 111,
         "kind": "Absolute"
       },
-      "pages": []
+      "pages": [
+        {
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg",
+          "timebarId": "TB1"
+        }
+      ]
     }
   ],
   "timebars": [
     {
       "id": "TB1",
       "type": "timeBarConfiguration",
-      "rulerResolution": 2599.613152804642,
+      "rulerResolution": 1695.8990536277602,
       "speed": 0.15,
       "masterId": "Session 1",
       "mode": "Normal",
@@ -30,7 +35,7 @@
           "id": "Session 1",
           "offset": 0,
           "kind": "Session",
-          "sessionName": "Session#42",
+          "sessionName": "Master",
           "color": null
         }
       ]

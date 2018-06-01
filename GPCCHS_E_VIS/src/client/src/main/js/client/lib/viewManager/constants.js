@@ -24,6 +24,7 @@ export const VM_VIEW_HISTORY = 'HistoryView';
 export const VM_VIEW_GROUNDALARM = 'GroundAlarmView';
 export const VM_VIEW_ONBOARDALARM = 'OnboardAlarmView';
 export const VM_VIEW_PUS11 = 'PUS11View';
+export const VM_VIEW_DECOMMUTEDPACKET = 'DecommutedPacketView';
 
 export const VM_COMMON_PROPERTIES = [
   'type',

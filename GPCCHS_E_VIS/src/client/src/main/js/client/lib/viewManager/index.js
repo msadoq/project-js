@@ -59,6 +59,7 @@ import packetViewSchema from 'common/viewConfigurationFiles/schemas/PacketView.s
 import groundAlarmViewSchema from 'common/viewConfigurationFiles/schemas/GroundAlarmView.schema.json';
 import onboardAlarmViewSchema from 'common/viewConfigurationFiles/schemas/OnboardAlarmView.schema.json';
 import PUS11ViewSchema from 'common/viewConfigurationFiles/schemas/PUS11View.schema.json'; // @todo finalize schema
+import decommutedPacketViewSchema from '../common/viewConfigurationFiles/schemas/DecommutedPacketView.schema.json';
 
 import {
   DATASTRUCTURETYPE_HISTORIZED,
@@ -68,6 +69,7 @@ import {
 
 import textViewData from './TextView/data';
 import dynamicViewData from './DynamicView/data';
+import decommutedPacketViewData from './DecommutedPacketView/data';
 import mimicViewData from './MimicView/data';
 import historyViewData from './HistoryView/data';
 import packetViewData from './PacketView/data';
@@ -79,6 +81,7 @@ import PUS11ViewData from '../viewManager/PUS11View/data';
 import plotViewDataSelectors from './PlotView/store/dataSelectors';
 import textViewDataSelectors from './TextView/store/dataSelectors';
 import dynamicViewDataSelectors from './DynamicView/store/dataSelectors';
+import decommutedPacketViewDataSelectors from './DecommutedPacketView/store/dataSelectors';
 import mimicViewDataSelectors from './MimicView/store/dataSelector';
 import groundAlarmViewDataSelectors from './GroundAlarmView/store/dataSelectors';
 import onboardAlarmViewDataSelectors from './OnboardAlarmView/store/dataSelectors';
@@ -92,6 +95,7 @@ import plotViewModule from './PlotView';
 import textViewModule from './TextView';
 import mimicViewModule from './MimicView';
 import dynamicViewModule from './DynamicView';
+import decommutedPacketViewModule from './DecommutedPacketView';
 import historyViewModule from './HistoryView';
 import packetViewModule from './PacketView';
 import groundAlarmViewModule from './GroundAlarmView';
@@ -119,6 +123,13 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dynamicViewData,
     dataSelectors: dynamicViewDataSelectors,
+  },
+  [constants.VM_VIEW_DECOMMUTEDPACKET]: {
+    schema: decommutedPacketViewSchema,
+    viewModule: decommutedPacketViewModule,
+    structureType: DATASTRUCTURETYPE_LAST,
+    structureModule: decommutedPacketViewData,
+    dataSelectors: decommutedPacketViewDataSelectors,
   },
   [constants.VM_VIEW_HISTORY]: {
     schema: historyViewSchema,

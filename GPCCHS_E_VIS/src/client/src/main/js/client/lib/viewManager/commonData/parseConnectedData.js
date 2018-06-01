@@ -39,6 +39,7 @@ export default function parseConnectedData(
   const { formula, domain, timeline, filter, convertTo, convertFrom } = connectedData;
   // formula
   const parameter = formulaParser(formula);
+  console.log('#####', formula, parameter, domain);
   if (!parameter) {
     return { error: `unable to parse this connectedData formula ${formula}` };
   }

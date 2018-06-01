@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './PUS11.scss';
 
-const { string, number, arrayOf, shape } = PropTypes;
+const { string, number, arrayOf, shape, func } = PropTypes;
 
 export default class PUS11View extends React.Component {
   static propTypes = {
@@ -48,8 +48,66 @@ export default class PUS11View extends React.Component {
       updateType: string,
       updateTime: number,
     })).isRequired,
+    // from container's mapDispatchToProps
+    openModal: func.isRequired,
   };
   static defaultProps = {};
+  static contextTypes = {
+    windowId: PropTypes.string,
+  };
+
+  handleRowDoubleClicked(e, row) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(row);
+    const { openModal, viewId } = this.props;
+    const { windowId } = this.context;
+    openModal(windowId, { type: 'pus11Modal', viewId, title: 'Details for command ###', bsSize: 'lg' });
+  }
+
+  renderTCTable(commands, viewId) {
+    return (
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th>Apid</th>
+            <th>Ssid</th>
+            <th>Cmd. Name</th>
+            <th>Cmd. Description</th>
+            <th>Cmd. AP. Name</th>
+            <th>Seq. Count</th>
+            <th>Source Id</th>
+            <th>Cmd. Status</th>
+            <th>Ground Status</th>
+            <th>Init. Exec. Time</th>
+            <th>Cur. Exec. Time</th>
+            <th>Tot. Shift Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            commands.map((row, i) => (
+              <tr key={`${viewId}-tc-table-${i}`} onDoubleClick={e => this.handleRowDoubleClicked(e, row)}>
+                <td>{row.apid}</td>
+                <td>{row.ssid}</td>
+                <td>{row.cmdName}</td>
+                <td>{row.cmdDescription}</td>
+                <td>{row.cmdApName}</td>
+                <td>{row.seqCount}</td>
+                <td>{row.sourceId}</td>
+                <td>{row.cmdStatus}</td>
+                <td>{row.groundStatus}</td>
+                <td>{row.initExecTime}</td>
+                <td>{row.curExecTime}</td>
+                <td>{row.totShiftTime}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    );
+  }
+
 
   render() {
     const {
@@ -90,7 +148,7 @@ export default class PUS11View extends React.Component {
         </div>
         <div className="header">
           <div className="info col-sm-12">
-            {renderTCTable(commands, viewId)}
+            {this.renderTCTable(commands, viewId)}
           </div>
         </div>
       </div>
@@ -185,47 +243,6 @@ export const renderEnabledApidsTable = (enabledApids, viewId) => (
         <tr key={`${viewId}-enabled-apids-table-${i}`}>
           <td>{row.apid}</td>
           <td>{row.name}</td>
-        </tr>
-      ))
-    }
-    </tbody>
-  </table>
-);
-
-export const renderTCTable = (commands, viewId) => (
-  <table className="table table-bordered">
-    <thead>
-      <tr>
-        <th>Apid</th>
-        <th>Ssid</th>
-        <th>Cmd. Name</th>
-        <th>Cmd. Description</th>
-        <th>Cmd. AP. Name</th>
-        <th>Seq. Count</th>
-        <th>Source Id</th>
-        <th>Cmd. Status</th>
-        <th>Ground Status</th>
-        <th>Init. Exec. Time</th>
-        <th>Cur. Exec. Time</th>
-        <th>Tot. Shift Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-      commands.map((row, i) => (
-        <tr key={`${viewId}-tc-table-${i}`}>
-          <td>{row.apid}</td>
-          <td>{row.ssid}</td>
-          <td>{row.cmdName}</td>
-          <td>{row.cmdDescription}</td>
-          <td>{row.cmdApName}</td>
-          <td>{row.seqCount}</td>
-          <td>{row.sourceId}</td>
-          <td>{row.cmdStatus}</td>
-          <td>{row.groundStatus}</td>
-          <td>{row.initExecTime}</td>
-          <td>{row.curExecTime}</td>
-          <td>{row.totShiftTime}</td>
         </tr>
       ))
     }

@@ -20,7 +20,11 @@ import { convertData, mapUnitConvertion } from '../../helpers/unitConverterHelpe
 
 let dataMap = {};
 let previousDataMap = {};
-let buffer = {};
+let buffer = {
+  ranges: {},
+  lasts: {},
+  obsoleteEvents: {},
+};
 const injectData = (timing) => {
   /**
    * A throttled function that pass action to reducer
@@ -89,15 +93,18 @@ const injectData = (timing) => {
    * @param {Object} data { [tbdId]: { [timestamp]: payload } }
    */
   function addToBuffer(data) {
-    const tbdIds = Object.keys(data);
-    for (let i = 0; i < tbdIds.length; i += 1) {
-      if (typeof buffer[tbdIds[i]] === 'undefined') {
-        buffer[tbdIds[i]] = {};
+    const dataTypes = Object.keys(data);
+    for (const dataType of dataTypes) {
+      const tbdIds = Object.keys(data[dataType]);
+      for (const tbdId of tbdIds) {
+        if (typeof buffer[dataType][tbdId] === 'undefined') {
+          buffer[dataType][tbdId] = {};
+        }
+        buffer[dataType][tbdId] = {
+          ...buffer[dataType][tbdId],
+          ...data[dataType][tbdId],
+        };
       }
-      buffer[tbdIds[i]] = {
-        ...buffer[tbdIds[i]],
-        ...data[tbdIds[i]],
-      };
     }
   }
 
@@ -107,7 +114,11 @@ const injectData = (timing) => {
    */
   function cleanBuffer() {
     const data = buffer;
-    buffer = {};
+    buffer = {
+      ranges: {},
+      lasts: {},
+      obsoleteEvents: {},
+    };
     return data;
   }
 

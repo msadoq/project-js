@@ -102,11 +102,13 @@ export default function plotViewData(state = {}, action) {
         const viewId = viewIds[i];
         // Data Selection
         const epSubState =
-          selectDataPerView(newViewMap[viewId],
+          selectDataPerView(
+            newViewMap[viewId],
             PlotViewConfiguration[viewId],
             newExpectedRangeIntervals,
             dataToInject,
-            state[viewId]);
+            state[viewId]
+          );
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
           const viewState = viewRangeAdd(newState[viewId], epSubState);
@@ -125,10 +127,13 @@ export default function plotViewData(state = {}, action) {
         return state;
       }
 
-      const newState = state;
+      let newState = state;
       const viewIds = Object.keys(state);
       for (const viewId of viewIds) {
-        viewObsoleteEventAdd(newState[viewId], dataToInject);
+        const viewState = viewObsoleteEventAdd(newState[viewId], dataToInject);
+        if (viewState !== newState[viewId]) {
+          newState = { ...newState, [viewId]: viewState };
+        }
       }
       return newState || {};
     }

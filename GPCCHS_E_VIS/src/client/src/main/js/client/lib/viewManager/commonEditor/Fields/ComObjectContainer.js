@@ -43,11 +43,16 @@ const mapStateToProps = (state, {
     getCatalogItemComObjects(state.catalogs, { tupleId, name: catalogName, itemName });
 
   const _filterAllowedComObjects =
-    comObjectsArr =>
-      (comObjectsArr || []).filter(
+    (comObjectsArr) => {
+      if (!Array.isArray(comObjectsArr)) {
+        return [];
+      }
+
+      return comObjectsArr.filter(
         comObject =>
           !allowedComObjects || (allowedComObjects.indexOf(comObject.name) > -1)
       );
+    };
 
   return {
     comObjects: _filterAllowedComObjects(comObjects),

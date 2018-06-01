@@ -60,8 +60,10 @@ const TableColumnGroup =
             ref={provided.innerRef}
           >
             {
+              /* WARNING: adding a key to TableColumnInput will break drag and drop feature. */
               columns.map((item, index) => (
                 <TableColumnInput
+                  key={`${groupKey}-${item.title}`}
                   item={item}
                   toggle={toggle}
                 />

@@ -5,39 +5,31 @@ import TableColumnGroupEditor from './TableColumnGroupEditor';
 
 import styles from './TableColumnsEditor.css';
 
-class TableColumnsEditor extends React.Component {
-  static propTypes = {
-    groupedColumns: PropTypes.shape().isRequired,
-    toggle: PropTypes.func.isRequired,
-    reorder: PropTypes.func.isRequired,
-  };
+const TableColumnsEditor =
+  ({ groupedColumns, toggle, reorder }) => (
+    <div className={styles.TableColumnEditor}>
+      {
+        Object.keys(groupedColumns).map((groupKey) => {
+          const columns = groupedColumns[groupKey];
 
-  static defaultProps = {
-    withGroups: false,
-  };
+          return (
+            <TableColumnGroupEditor
+              key={groupKey}
+              groupKey={groupKey}
+              columns={columns}
+              toggle={toggle}
+              reorder={reorder}
+            />
+          );
+        })
+      }
+    </div>
+  );
 
-  render() {
-    const { groupedColumns, toggle, reorder } = this.props;
-
-    return (
-      <div className={styles.TableColumnEditor}>
-        {
-          Object.keys(groupedColumns).map((groupKey) => {
-            const columns = groupedColumns[groupKey];
-
-            return (
-              <TableColumnGroupEditor
-                groupKey={groupKey}
-                columns={columns}
-                toggle={toggle}
-                reorder={reorder}
-              />
-            );
-          })
-        }
-      </div>
-    );
-  }
-}
+TableColumnsEditor.propTypes = {
+  groupedColumns: PropTypes.shape().isRequired,
+  toggle: PropTypes.func.isRequired,
+  reorder: PropTypes.func.isRequired,
+};
 
 export default TableColumnsEditor;

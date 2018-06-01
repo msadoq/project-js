@@ -26,20 +26,19 @@ const emptyArray = [];
   Permet également d'appliquer un filtre sur le nom
 */
 
-const { arrayOf, string, shape, func } = PropTypes;
-
 export default class EntryPointTree extends Component {
   static propTypes = {
-    viewId: string.isRequired,
-    pageId: string.isRequired,
-    search: string,
-    entryPoints: arrayOf(entryPointType),
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    entryPoints: PropTypes.arrayOf(entryPointType),
     // from container mapDispatchToProps
-    askRemoveEntryPoint: func.isRequired,
-    updateEntryPoint: func.isRequired,
-    updateViewPanels: func.isRequired,
+    askRemoveEntryPoint: PropTypes.func.isRequired,
+    updateEntryPoint: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
     // from container mapStateToProps
-    entryPointsPanels: shape({}).isRequired,
+    entryPointsPanels: PropTypes.shape({}).isRequired,
+    entryPointConnectedDataForm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -76,6 +75,7 @@ export default class EntryPointTree extends Component {
       pageId,
       viewId,
       entryPointsPanels,
+      entryPointConnectedDataForm,
     } = this.props;
 
     const mask = `${this.props.search || ''}.*`;
@@ -134,6 +134,7 @@ export default class EntryPointTree extends Component {
                 onSubmit={this.handleSubmit}
                 initialValues={entryPoint}
                 form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
+                entryPointConnectedDataForm={entryPointConnectedDataForm}
               />}
             </Panel>
           );

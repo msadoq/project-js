@@ -7,6 +7,7 @@ import {
   getSelectedItemName,
   getSelectedTimelineId,
 } from '../../../commonEditor/Fields/selectors';
+import { TIME_BASED_DATA_OPTION } from '../../../commonEditor/Fields/DataTypeField';
 
 const mapStateToProps = (state, { form }) => ({
   selectedDomainName: getSelectedDomainInForm(form, state),
@@ -14,6 +15,7 @@ const mapStateToProps = (state, { form }) => ({
   selectedCatalogName: getSelectedCatalogName(form, state),
   selectedItemName: getSelectedItemName(form, state),
   selectedComObjectName: getSelectedComObjectName(form, state),
+  dataType: TIME_BASED_DATA_OPTION.value,
 });
 
 const HistoryEntryPointConnectedDataFieldsContainer = connect(

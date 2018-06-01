@@ -25,7 +25,7 @@ const { string } = PropTypes;
 
 /*
   All the fields used in Connected data form
-  It can be used with a prefix to map exactly form's initialValues'ss tructure
+  It can be used with a prefix to map exactly form's initialValues's tructure
 */
 export default class EntryPointConnectedDataFields extends PureComponent {
   static propTypes = {
@@ -53,10 +53,6 @@ export default class EntryPointConnectedDataFields extends PureComponent {
     windowId: PropTypes.string,
   };
 
-  state = {
-    dataType: this.props.dataType,
-  };
-
   render() {
     const { windowId } = this.context;
     const {
@@ -67,11 +63,10 @@ export default class EntryPointConnectedDataFields extends PureComponent {
       selectedCatalogName,
       selectedItemName,
       selectedComObjectName,
-      dataType,
     } = this.props;
 
-    const classForSdbValues = classnames(dataType === TIME_BASED_DATA_OPTION.value && 'hidden');
-    const classForTimeBasedValues = classnames(dataType === SDB_VALUE_OPTION.value && 'hidden');
+    const classForSdbValues = classnames('hidden');
+    const classForTimeBasedValues = classnames('');
 
     return (
       <React.Fragment>
@@ -99,7 +94,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Data type">
+        <HorizontalFormGroup label="Data type" className="hidden">
           <DataTypeField />
         </HorizontalFormGroup>
 
@@ -139,16 +134,6 @@ export default class EntryPointConnectedDataFields extends PureComponent {
             catalogName={selectedCatalogName}
             itemName={selectedItemName}
             comObjectName={selectedComObjectName} // FIXME: are all those fields required ?
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Com object Field" className={classForTimeBasedValues}>
-          <ComObjectFieldContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
-            catalogName={selectedCatalogName}
-            itemName={selectedItemName}
-            comObjectName={selectedComObjectName}
           />
         </HorizontalFormGroup>
 

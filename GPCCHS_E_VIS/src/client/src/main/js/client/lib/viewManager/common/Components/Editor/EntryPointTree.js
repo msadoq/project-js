@@ -7,6 +7,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash/fp';
 import {
   Glyphicon,
   Alert,
@@ -18,6 +19,9 @@ import { handleSubmit } from 'viewManager/common';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 import styles from './EntryPointTree.css';
 import { entryPointType } from '../types';
+import HistoryEntryPointConnectedDataFieldsContainer
+  from '../../../HistoryView/Components/Editor/HistoryEntryPointConnectedDataFieldsContainer';
+import { TIME_BASED_DATA_OPTION } from '../../../commonEditor/Fields/DataTypeField';
 
 const emptyArray = [];
 
@@ -96,6 +100,18 @@ export default class EntryPointTree extends Component {
       >
         {list.map((entryPoint) => {
           const isOpen = entryPointsPanels[entryPoint.id];
+
+          let updatedEntryPoint = entryPoint;
+
+          if (entryPointConnectedDataForm === HistoryEntryPointConnectedDataFieldsContainer) {
+            updatedEntryPoint =
+              _.set(
+                'connectedData.dataType',
+                TIME_BASED_DATA_OPTION.value,
+                updatedEntryPoint
+              );
+          }
+
           return (
             <Panel
               key={entryPoint.id}
@@ -127,13 +143,13 @@ export default class EntryPointTree extends Component {
               }
             >
               {isOpen && <EntryPointDetailsContainer
-                key={`${entryPoint.id}#detailsContainer`}
+                key={`${updatedEntryPoint.id}#detailsContainer`}
                 viewId={viewId}
                 pageId={pageId}
-                entryPoint={entryPoint}
+                entryPoint={updatedEntryPoint}
                 onSubmit={this.handleSubmit}
-                initialValues={entryPoint}
-                form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
+                initialValues={updatedEntryPoint}
+                form={`entrypoint-title-form-${updatedEntryPoint.id}-${viewId}`}
                 entryPointConnectedDataForm={entryPointConnectedDataForm}
               />}
             </Panel>

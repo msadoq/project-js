@@ -55,7 +55,7 @@ export default class ComObject extends PureComponent {
 
     if (
       !!(domainId && timelineId && catalogName && itemName)
-      && comObjects === null
+      && (comObjects === null || comObjects.length === 0)
       && catalogItemsLoaded
     ) {
       askComObjects(domainId, sessionId, catalogName, itemName);

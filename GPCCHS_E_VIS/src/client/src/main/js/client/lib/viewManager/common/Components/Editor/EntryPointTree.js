@@ -42,7 +42,7 @@ export default class EntryPointTree extends Component {
     updateViewPanels: PropTypes.func.isRequired,
     // from container mapStateToProps
     entryPointsPanels: PropTypes.shape({}).isRequired,
-    entryPointConnectedDataForm: PropTypes.shape().isRequired,
+    entryPointConnectedDataForm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

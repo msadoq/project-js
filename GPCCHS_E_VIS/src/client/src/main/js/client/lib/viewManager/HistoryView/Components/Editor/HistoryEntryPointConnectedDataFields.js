@@ -26,7 +26,7 @@ const { string } = PropTypes;
   All the fields used in Connected data form
   It can be used with a prefix to map exactly form's initialValues's tructure
 */
-export default class EntryPointConnectedDataFields extends PureComponent {
+export default class HistoryEntryPointConnectedDataFields extends PureComponent {
   static propTypes = {
     // own props
     viewId: string.isRequired,

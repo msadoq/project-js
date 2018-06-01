@@ -8,7 +8,6 @@ import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFiel
 import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
-import ComObjectFieldContainer from 'viewManager/commonEditor/Fields/ComObjectFieldContainer';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
 import
   DataTypeField, {
@@ -63,6 +62,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
       selectedCatalogName,
       selectedItemName,
       selectedComObjectName,
+      allowedComObjects,
     } = this.props;
 
     const classForSdbValues = classnames('hidden');
@@ -124,6 +124,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
             itemName={selectedItemName}
             viewId={viewId}
             pageId={pageId}
+            allowedComObjects={allowedComObjects}
           />
         </HorizontalFormGroup>
 

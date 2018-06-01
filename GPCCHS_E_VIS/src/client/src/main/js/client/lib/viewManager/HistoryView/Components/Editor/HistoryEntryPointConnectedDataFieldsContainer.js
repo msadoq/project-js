@@ -16,6 +16,7 @@ const mapStateToProps = (state, { form }) => ({
   selectedItemName: getSelectedItemName(form, state),
   selectedComObjectName: getSelectedComObjectName(form, state),
   dataType: TIME_BASED_DATA_OPTION.value,
+  allowedComObjects: ['ReportingParameter', 'LogbookEvent', 'ComputedEvent', 'UserEvent', 'COP1Status'],
 });
 
 const HistoryEntryPointConnectedDataFieldsContainer = connect(

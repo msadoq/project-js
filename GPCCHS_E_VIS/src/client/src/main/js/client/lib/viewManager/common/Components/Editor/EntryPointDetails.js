@@ -21,7 +21,6 @@ import InputField from 'windowProcess/commonReduxForm/InputField';
 import FiltersFieldsContainer from 'viewManager/commonEditor/Fields/FiltersFieldsContainer';
 
 const { Panel } = Collapse;
-const { string, arrayOf, oneOfType, func, bool } = PropTypes;
 const emptyArray = [];
 /*
   EntryPointDetails représente un Point d'entrée,
@@ -29,16 +28,16 @@ const emptyArray = [];
 */
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
-    viewId: string.isRequired,
+    viewId: PropTypes.string.isRequired,
     entryPoint: entryPointType.isRequired,
     // From container mapStateToProps
-    panels: oneOfType([
-      arrayOf(string),
-      bool,
+    panels: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.bool,
     ]).isRequired,
     // From container mapDispatchToProps
-    updateViewSubPanels: func.isRequired,
-    entryPointConnectedDataForm: func.isRequired,
+    updateViewSubPanels: PropTypes.func.isRequired,
+    entryPointConnectedDataForm: PropTypes.shape().isRequired,
   };
 
   static defaultProps = {

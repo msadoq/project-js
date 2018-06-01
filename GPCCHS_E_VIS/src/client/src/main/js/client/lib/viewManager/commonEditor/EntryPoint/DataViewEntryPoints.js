@@ -19,7 +19,7 @@ export default class DataViewEntryPoints extends PureComponent {
     viewType: PropTypes.oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
     // from container
     entryPoints: PropTypes.arrayOf(PropTypes.shape()),
-    entryPointConnectedDataForm: PropTypes.func,
+    entryPointConnectedDataForm: PropTypes.shape(),
   };
 
   static defaultProps = {

@@ -33,7 +33,7 @@ import __ from 'lodash/fp';
 
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 
-import './HistoryView.scss';
+import styles from './HistoryView.css';
 
 import { buildFormulaForAutocomplete } from '../../../common';
 import VirtualizedTableViewContainer
@@ -112,14 +112,12 @@ class HistoryView extends React.Component {
     });
 
 // eslint-disable-next-line no-unused-vars
-    const _overrideStyle = ({ columnIndex, key, rowIndex, style }) => ({
-      ...(currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : {}),
-    }
-    );
+    const _overrideStyle = ({ columnIndex, key, rowIndex, style }) =>
+      ({ ...(currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : {}) });
 
     return (
       <DroppableContainer
-        className={'HistoryView'}
+        className={styles.HistoryView}
         onDrop={this.onDrop}
       >
         <VirtualizedTableViewContainer

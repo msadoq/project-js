@@ -4,27 +4,28 @@ import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 
-const { bool, string, arrayOf, oneOfType, func, number, shape } = PropTypes;
 
 export default class ComObject extends PureComponent {
   static propTypes = {
-    timelineId: string,
+    timelineId: PropTypes.string,
     // from container mapStateToProps
-    comObjects: oneOfType([
-      string,
-      arrayOf(shape),
+    comObjects: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.shape()),
     ]),
-    sessionId: number,
-    domainId: number,
-    catalogName: string,
-    itemName: string,
-    catalogItemsLoaded: bool,
+    allowedComObjects: PropTypes.arrayOf(PropTypes.shape()),
+    sessionId: PropTypes.number,
+    domainId: PropTypes.number,
+    catalogName: PropTypes.string,
+    itemName: PropTypes.string,
+    catalogItemsLoaded: PropTypes.bool,
     // from container mapDispatchToProps
-    askComObjects: func.isRequired,
+    askComObjects: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     comObjects: null,
+    allowedComObjects: null,
     sessionId: null,
     domainId: null,
     timelineId: null,
@@ -55,7 +56,7 @@ export default class ComObject extends PureComponent {
 
     if (
       !!(domainId && timelineId && catalogName && itemName)
-      && (comObjects === null || comObjects.length === 0)
+      && comObjects === null
       && catalogItemsLoaded
     ) {
       askComObjects(domainId, sessionId, catalogName, itemName);
@@ -63,7 +64,15 @@ export default class ComObject extends PureComponent {
   };
 
   render() {
-    const { comObjects, domainId, timelineId, catalogName, itemName } = this.props;
+    const {
+      comObjects,
+      allowedComObjects,
+      domainId,
+      timelineId,
+      catalogName,
+      itemName,
+    } = this.props;
+
     const disabled = (!domainId || !timelineId || !catalogName || !itemName || comObjects === null);
     return (
       <Field
@@ -72,7 +81,7 @@ export default class ComObject extends PureComponent {
         component={ReactSelectField}
         clearable
         disabled={disabled}
-        options={computeOptions(comObjects)}
+        options={computeOptions(allowedComObjects)}
       />
     );
   }

@@ -55,7 +55,8 @@ const mapStateToProps = (state, {
     };
 
   return {
-    comObjects: _filterAllowedComObjects(comObjects),
+    comObjects,
+    allowedComObjects: _filterAllowedComObjects(comObjects),
     sessionId,
     domainId,
     catalogName,

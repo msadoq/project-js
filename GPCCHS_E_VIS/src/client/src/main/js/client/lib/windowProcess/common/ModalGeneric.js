@@ -74,6 +74,7 @@ import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import SaveWizardModalContainer from './SaveWizardModal/SaveWizardModalContainer';
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
+import PUS11ModalContainer from '../../viewManager/PUS11View/Components/View/PUS11ModalContainer';
 
 /* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
 
@@ -85,6 +86,15 @@ const ModalGeneric = (props) => {
       title = props.props.title;
       child = (
         <DialogModal
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'pus11Modal':
+      title = props.props.title;
+      child = (
+        <PUS11ModalContainer
           {...props.props}
           closeModal={props.onClose}
         />
@@ -240,6 +250,7 @@ const ModalGeneric = (props) => {
         show={props.isOpened}
         onHide={props.onClose}
         onExited={props.onExited}
+        bsSize={props.props.bsSize ? props.props.bsSize : null}
       >
         <Modal.Header>
           <Modal.Title>{title}</Modal.Title>

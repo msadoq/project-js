@@ -5,7 +5,6 @@ const PusInitialize = require('./pusInitialize');
 const PusSubscribe = require('./pusSubscribe');
 const PusUnsubscribe = require('./pusUnsubscribe');
 const PusReset = require('./pusReset');
-// const PusOnCompare = require('./pusCompare');
 const PusOnInitialize = require('./pusOnInitialize');
 const PusOnPubSub = require('./pusOnPubSub');
 // const PusOnCompare = require('./pusOnCompare');

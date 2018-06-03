@@ -1,5 +1,3 @@
-const tIME = require('../ccsds_mal/tIME');
-
 module.exports = {
   encode: data => ({
     pusId: data.pusId,

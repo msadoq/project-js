@@ -122,7 +122,7 @@ export default function historyViewData(state = {}, action) {
       if (!dataKeys.length) {
         return state;
       }
-      // Gets configurationfor history views
+      // Gets configuration for history views
       const configuration = configurations.HistoryViewConfiguration;
       // since now, state will change
       let newState = state;

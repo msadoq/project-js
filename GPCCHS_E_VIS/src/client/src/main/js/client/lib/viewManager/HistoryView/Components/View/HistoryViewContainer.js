@@ -17,7 +17,8 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getData, getConfiguration } from 'viewManager/HistoryView/store/dataReducer';
+import { getConfigurationByViewId } from 'viewManager';
+import { getData } from 'viewManager/HistoryView/store/dataReducer';
 import { addEntryPoint } from 'store/actions/views';
 import { toggleColumnSort, filterColumn, scrollRows } from 'store/actions/tableColumns';
 import HistoryView from './HistoryView';
@@ -27,7 +28,7 @@ import formatData from '../../data/formatData';
 
 
 const mapStateToProps = (state, { viewId }) => {
-  const config = getConfiguration(state, { viewId });
+  const config = getConfigurationByViewId(state, { viewId });
   const data = getData(state, { viewId });
 
   const reducedConfig = {

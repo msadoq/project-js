@@ -29,6 +29,7 @@ import formatData from '../../data/formatData';
 
 const mapStateToProps = (state, { viewId }) => {
   const config = getConfigurationByViewId(state, { viewId });
+
   const data = getData(state, { viewId });
 
   const reducedConfig = {

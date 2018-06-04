@@ -21,6 +21,7 @@ import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
 
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
+import cleanCurrentViewData from '../../HistoryView/store/cleanViewData';
 
 const initialState = {
   cols: [],
@@ -142,6 +143,29 @@ export default function historyViewData(state = {}, action) {
         }
       }
       return newState || {};
+    }
+    case types.WS_VIEWDATA_CLEAN: {
+      const { previousDataMap, dataMap, configuration } = action.payload;
+      const { HistoryViewConfiguration } = configuration;
+      // since now, state will changed
+      let newState = state;
+      const viewIds = Object.keys(state);
+      for (let i = 0; i < viewIds.length; i += 1) {
+        const viewId = viewIds[i];
+        const viewData = state[viewId];
+        // Cleaning
+        const subState = cleanCurrentViewData(
+          viewData,
+          previousDataMap.perView[viewId],
+          dataMap.perView[viewId],
+          previousDataMap.expectedRangeIntervals,
+          dataMap.expectedRangeIntervals,
+          HistoryViewConfiguration[viewId]);
+        if (subState !== viewData) {
+          newState = { ...newState, [viewId]: subState };
+        }
+      }
+      return newState;
     }
     default:
       return state;

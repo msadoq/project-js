@@ -127,12 +127,9 @@ function removeEpData(state, epName) {
 }
 
 function isInvalidEntryPoint(oldEp, newEp) {
-  if (!newEp || (newEp.error && newEp.error !== oldEp.error)
+  return (!newEp || (newEp.error && newEp.error !== oldEp.error)
     || oldEp.field !== newEp.field  // TODO check if this comparison is ok
-    || oldEp.tbdId !== newEp.tbdId) {
-    return true;
-  }
-  return false;
+    || oldEp.tbdId !== newEp.tbdId);
 }
 
 

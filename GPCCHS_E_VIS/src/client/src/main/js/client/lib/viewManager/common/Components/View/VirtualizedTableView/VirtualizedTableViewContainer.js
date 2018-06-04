@@ -4,13 +4,11 @@ import { filterColumn, toggleColumnSort } from 'store/actions/tableColumns';
 import { pause } from 'store/actions/hsc';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
-import { getIsPlaying } from '../../../../../store/reducers/hsc';
 
 
 const mapStateToProps = (state, { viewId, tableId, rows }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const tableConfig = config.tables[tableId];
-  const isPlaying = getIsPlaying(state);
 
   const { cols, sorting, filters, name } = tableConfig;
 
@@ -45,7 +43,6 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
     tableName: name,
     columnCount: reducedColumnCount,
     totalCount: rows.totalCount,
-    isPlaying,
   };
 };
 
@@ -78,19 +75,8 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
   },
 });
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...ownProps,
-  ...stateProps,
-  ...dispatchProps,
-  onScrollTop: () => {
-    if (stateProps.isPlaying) {
-      dispatchProps.onScrollTop();
-    }
-  },
-});
-
 const VirtualizedTableViewContainer =
-  connect(mapStateToProps, mapDispatchToProps, mergeProps)(VirtualizedTableView);
+  connect(mapStateToProps, mapDispatchToProps)(VirtualizedTableView);
 
 
 export default VirtualizedTableViewContainer;

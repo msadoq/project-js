@@ -427,26 +427,33 @@ describe('store:middlewares:prepareRange', () => {
   test('tbdId is in dataMap.expectedRange', () => {
     const store = mockStore(store1);
     store.dispatch(incomingRangeData());
-    expect(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1:::')).toMatchObject(
-      [{
-        timestamp: 1420106790820,
-        payload: deprotoRp1,
-      },
-      {
-        timestamp: 1420106790830,
-        payload: deprotoRp2,
-      }]);
+    expect(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'))
+      .toMatchObject([
+        {
+          timestamp: 1420106790820,
+          payload: deprotoRp1,
+        },
+        {
+          timestamp: 1420106790830,
+          payload: deprotoRp2,
+        },
+      ]);
     const actions = store.getActions();
-    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {} };
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][t1] = deprotoRp1;
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][t2] = deprotoRp2;
+    const data = {
+      ranges: {
+        'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {},
+      },
+    };
+    data.ranges['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][t1] = deprotoRp1;
+    data.ranges['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][t2] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
         data,
       },
     };
-    expect(actions[1]).toMatchObject(expectedPayload);
+    expect(actions[1])
+      .toMatchObject(expectedPayload);
   });
 
   test('tbdId is not in dataMap.expectedRange and no timestamp is in expectedLast ', () => {
@@ -456,22 +463,29 @@ describe('store:middlewares:prepareRange', () => {
     const expectedPayload = {
       type: 'NEW_DATA',
     };
-    expect(actions).not.toContainEqual(expectedPayload);
+    expect(actions)
+      .not
+      .toContainEqual(expectedPayload);
   });
 
   test('tbdId is not in dataMap.expectedRange and only one timestamp is in expectedLast ', () => {
     const store = mockStore(store2);
     store.dispatch(incomingDataOneInLast());
     const actions = store.getActions();
-    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {} };
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast1] = deprotoRp2;
+    const data = {
+      ranges: {
+        'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {},
+      },
+    };
+    data.ranges['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast1] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
         data,
       },
     };
-    expect(actions[1]).toMatchObject(expectedPayload);
+    expect(actions[1])
+      .toMatchObject(expectedPayload);
   });
 
   test('tbdId is not in dataMap.expectedRange and all timestamp are in expectedLast ', () => {
@@ -479,15 +493,20 @@ describe('store:middlewares:prepareRange', () => {
     store.dispatch(incomingDataAllInLast());
 
     const actions = store.getActions();
-    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {} };
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast1] = deprotoRp1;
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast2] = deprotoRp2;
+    const data = {
+      ranges: {
+        'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {},
+      },
+    };
+    data.ranges['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast1] = deprotoRp1;
+    data.ranges['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast2] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
         data,
       },
     };
-    expect(actions[1]).toMatchObject(expectedPayload);
+    expect(actions[1])
+      .toMatchObject(expectedPayload);
   });
 });

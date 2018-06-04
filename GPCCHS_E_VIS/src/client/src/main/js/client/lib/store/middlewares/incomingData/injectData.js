@@ -10,7 +10,7 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
-
+import _forEach from 'lodash/forEach';
 import * as types from 'store/types';
 import { injectDataRange, injectDataLast, injectDataObsoleteEvent } from 'store/actions/incomingData';
 import dataMapGenerator from 'dataManager/map';
@@ -77,7 +77,8 @@ const injectData = (timing) => {
         lasts
       );
       const updateObsoleteEventData = injectDataObsoleteEvent(
-        obsoleteEvents
+        obsoleteEvents,
+        newViewMap
       );
       dispatch(updateRangeData);
       dispatch(updateLastData);
@@ -94,9 +95,9 @@ const injectData = (timing) => {
    */
   function addToBuffer(data) {
     const dataTypes = Object.keys(data);
-    for (const dataType of dataTypes) {
+    _forEach(dataTypes, (dataType) => {
       const tbdIds = Object.keys(data[dataType]);
-      for (const tbdId of tbdIds) {
+      _forEach(tbdIds, (tbdId) => {
         if (typeof buffer[dataType][tbdId] === 'undefined') {
           buffer[dataType][tbdId] = {};
         }
@@ -104,8 +105,8 @@ const injectData = (timing) => {
           ...buffer[dataType][tbdId],
           ...data[dataType][tbdId],
         };
-      }
-    }
+      });
+    });
   }
 
   /**

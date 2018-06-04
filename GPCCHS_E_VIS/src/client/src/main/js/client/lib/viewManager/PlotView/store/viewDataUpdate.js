@@ -30,6 +30,8 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
 import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
+import _map from 'lodash/map';
+import _forEach from 'lodash/forEach';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
 import _isEmpty from 'lodash/isEmpty';
 import getLogger from 'common/logManager';
@@ -37,6 +39,7 @@ import parameters from 'common/configurationManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import _findIndex from 'lodash/findIndex';
 import { STATE_COLOR_NOMINAL } from 'windowProcess/common/colors';
+import { getFlattenDataIdForObsoleteEvent } from 'common/flattenDataId';
 
 const logger = getLogger('data:rangeValues:PlotView');
 
@@ -127,7 +130,15 @@ export function viewRangeAdd(state = {}, payloads) {
 
   let newState;
   if (_isEmpty(state)) {
-    newState = { indexes: {}, lines: {}, min: {}, max: {}, minTime: {}, maxTime: {} };
+    newState = {
+      indexes: {},
+      lines: {},
+      min: {},
+      max: {},
+      minTime: {},
+      maxTime: {},
+      obsoleteEvents: {},
+    };
   } else {
     newState = _cloneDeep(state);
   }
@@ -204,20 +215,42 @@ export function viewRangeAdd(state = {}, payloads) {
 }
 
 
-export function viewObsoleteEventAdd(state, payloads) {
+export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
   const epNames = Object.keys(payloads || {}); // get tbdIds
   if (!epNames.length) {
     // no data
     return state;
   }
 
-  for (const epName of epNames) {
-    console.log('############# PAYLOAD BY EP NAME ############');
-    console.log(epName);
-    console.log('#########################');
-  }
+  const entryPointsFlatIdForObsolete =
+    _map(entryPoints, ep => getFlattenDataIdForObsoleteEvent(ep.dataId));
 
-  return state;
+  let newState;
+  if (_isEmpty(state)) {
+    newState = {
+      indexes: {},
+      lines: {},
+      min: {},
+      max: {},
+      minTime: {},
+      maxTime: {},
+      obsoleteEvents: {},
+    };
+  } else {
+    newState = _cloneDeep(state);
+    newState.obsoleteEvents = newState.obsoleteEvents || {};
+  }
+  _forEach(epNames, (epName) => {
+    if (entryPointsFlatIdForObsolete.indexOf(epName) !== -1) {
+      if (!newState.obsoleteEvents[epName]) {
+        newState.obsoleteEvents[epName] = {};
+      }
+      const obsoleteEvents = { ...newState.obsoleteEvents[epName], ...payloads[epName] };
+      newState.obsoleteEvents[epName] = obsoleteEvents;
+    }
+  });
+
+  return newState;
 }
 /* ************************************
  * Select payload to add for current view

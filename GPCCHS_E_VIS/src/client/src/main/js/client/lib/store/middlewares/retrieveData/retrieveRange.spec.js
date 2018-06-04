@@ -18,7 +18,11 @@ const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 mockRegister();
 mockLoadStubs();
 
-const mockIpc = { dc: { requestTimebasedQuery: () => {} } };
+const mockIpc = {
+  dc: {
+    requestTimebasedQuery: () => {},
+  },
+};
 const mockStore = configureMockStore([retrieveRange(mockIpc)]);
 
 const store1 = {
@@ -92,9 +96,20 @@ describe('store:middlewares:retrieveRange', () => {
 
     store.dispatch(viewsNeedRangeData());
     const actions = store.getActions();
-    expect(actions[1]).toMatchObject({
-      type: 'NEW_DATA',
-      payload: { data: { tbdId1: { 4: '4', 5: '5', 6: '6' } } },
-    });
+    expect(actions[1])
+      .toMatchObject({
+        type: 'NEW_DATA',
+        payload: {
+          data: {
+            ranges: {
+              tbdId1: {
+                4: '4',
+                5: '5',
+                6: '6',
+              },
+            },
+          },
+        },
+      });
   });
 });

@@ -15,6 +15,7 @@
 // ====================================================================
 
 import _omit from 'lodash/omit';
+import _forEach from 'lodash/forEach';
 
 import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
@@ -120,7 +121,10 @@ export default function plotViewData(state = {}, action) {
       return newState || {};
     }
     case types.INJECT_DATA_OBSOLETE_EVENT: {
-      const { dataToInject } = action.payload;
+      const {
+        dataToInject,
+        newViewMap,
+      } = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
       if (!dataKeys.length) {
@@ -129,12 +133,16 @@ export default function plotViewData(state = {}, action) {
 
       let newState = state;
       const viewIds = Object.keys(state);
-      for (const viewId of viewIds) {
-        const viewState = viewObsoleteEventAdd(newState[viewId], dataToInject);
+      _forEach(viewIds, (viewId) => {
+        const viewState = viewObsoleteEventAdd(
+          newState[viewId],
+          dataToInject,
+          newViewMap[viewId].entryPoints
+        );
         if (viewState !== newState[viewId]) {
           newState = { ...newState, [viewId]: viewState };
         }
-      }
+      });
       return newState || {};
     }
     case types.WS_VIEWDATA_CLEAN: {

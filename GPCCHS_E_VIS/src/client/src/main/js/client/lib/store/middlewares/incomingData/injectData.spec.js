@@ -250,9 +250,11 @@ const store1 = {
 describe('store:middlewares:injectData', () => {
   const timestamp = '1502433311413';
   const data = {
-    'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4': {
-      [timestamp]: {
-        truc: 'truc',
+    ranges: {
+      'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4': {
+        [timestamp]: {
+          truc: 'truc',
+        },
       },
     },
   };

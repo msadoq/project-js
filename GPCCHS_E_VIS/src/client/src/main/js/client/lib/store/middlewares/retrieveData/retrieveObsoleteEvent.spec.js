@@ -8,7 +8,11 @@ const { mockRegister, mockLoadStubs } = require('../../../common/jest');
 mockRegister();
 mockLoadStubs();
 
-const mockIpc = { dc: { requestTimebasedQuery: () => {} } };
+const mockIpc = {
+  dc: {
+    requestTimebasedQuery: () => {},
+  },
+};
 const mockStore = configureMockStore([retrieveObsoleteEvent(mockIpc)]);
 
 const store1 = {
@@ -61,9 +65,20 @@ describe('store:middlewares:retrieveObsoleteEvent', () => {
 
     store.dispatch(viewsNeedObsoleteEventData());
     const actions = store.getActions();
-    expect(actions[1]).toMatchObject({
-      type: 'NEW_DATA',
-      payload: { data: { 'TMMGT_BC_VIRTCHAN3:0:4:::': { 4: '4', 5: '5', 6: '6' } } },
-    });
+    expect(actions[1])
+      .toMatchObject({
+        type: 'NEW_DATA',
+        payload: {
+          data: {
+            obsoleteEvents: {
+              'TMMGT_BC_VIRTCHAN3:0:4:::': {
+                4: '4',
+                5: '5',
+                6: '6',
+              },
+            },
+          },
+        },
+      });
   });
 });

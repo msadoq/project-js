@@ -47,15 +47,20 @@ describe('store:middlewares:prepareLast', () => {
     const store = mockStore();
     store.dispatch(incomingLastData());
     const actions = store.getActions();
-    const data = { 'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {} };
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][t1] = deprotoRp1;
-    data['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][t2] = deprotoRp2;
+    const data = {
+      lasts: {
+        'Reporting.STAT_SU_PID<ReportingParameter>:1:1': {},
+      },
+    };
+    data.lasts['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][t1] = deprotoRp1;
+    data.lasts['Reporting.STAT_SU_PID<ReportingParameter>:1:1'][t2] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
         data,
       },
     };
-    expect(actions[1]).toMatchObject(expectedPayload);
+    expect(actions[1])
+      .toMatchObject(expectedPayload);
   });
 });

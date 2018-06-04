@@ -42,11 +42,7 @@ function getSpecificAttributes(timestamp) {
     name: 'ParameterName',
     value: predictibleRand.getFrom([
       'TMMGT_BC_VIRTCHAN0',
-      'ATT_BC_REVCOUNT1',
-      'ATT_BC_REVCOUNT2',
-      'ATT_BC_REVCOUNT3',
-      'TMMGT_BC_VIRTCHAN1',
-      'TMMGT_BC_VIRTCHAN2',
+      'ATT_BC_REVTCOUNT1',
       'CLCW_TM_CLCWPACKET',
       'ATT_TM_AKEXENOK42',
       'AGA_AM_CCSDSAPID',

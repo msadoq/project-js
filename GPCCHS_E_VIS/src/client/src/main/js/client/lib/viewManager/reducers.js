@@ -35,6 +35,7 @@ import mimicViewConfigurationReducer from './MimicView/store/configurationReduce
 import historyViewConfigurationReducer from './HistoryView/store/configurationReducer';
 import groundAlarmViewConfigurationReducer from './GroundAlarmView/store/configurationReducer';
 import onboardAlarmViewConfigurationReducer from './OnboardAlarmView/store/configurationReducer';
+import pus05ViewConfigurationReducer from './PUS05View/store/configurationReducer';
 import pus11ViewConfigurationReducer from './PUS11View/store/configurationReducer';
 
 import textViewDataReducer from './TextView/store/dataReducer';
@@ -45,6 +46,7 @@ import historyViewDataReducer from './HistoryView/store/dataReducer';
 import groundAlarmViewDataReducer from './GroundAlarmView/store/dataReducer';
 import onboardAlarmViewDataReducer from './OnboardAlarmView/store/dataReducer';
 import packetViewDataReducer from './PacketView/store/dataReducer';
+import pus05ViewDataReducer from './PUS05View/store/dataReducer';
 import pus11ViewDataReducer from './PUS11View/store/dataReducer';
 
 import alarmViewUiReducer from './GroundAlarmView/store/uiReducer';
@@ -82,6 +84,7 @@ export const getConfigurationReducers = () => createConfigurationReducers({
   [constants.VM_VIEW_PACKET]: packetViewConfigurationReducer,
   [constants.VM_VIEW_GROUNDALARM]: groundAlarmViewConfigurationReducer,
   [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewConfigurationReducer,
+  [constants.VM_VIEW_PUS05]: pus05ViewConfigurationReducer,
   [constants.VM_VIEW_PUS11]: pus11ViewConfigurationReducer,
 });
 
@@ -94,6 +97,7 @@ export const getDataReducers = () => createDataReducers({
   [constants.VM_VIEW_PACKET]: packetViewDataReducer,
   [constants.VM_VIEW_GROUNDALARM]: groundAlarmViewDataReducer,
   [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewDataReducer,
+  [constants.VM_VIEW_PUS05]: pus05ViewDataReducer,
   [constants.VM_VIEW_PUS11]: pus11ViewDataReducer,
 });
 

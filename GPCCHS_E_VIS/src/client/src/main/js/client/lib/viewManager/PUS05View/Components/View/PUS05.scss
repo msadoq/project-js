@@ -1,0 +1,22 @@
+.pus05 {
+  width: 100%;
+  height: 100%;
+
+  overflow: scroll;
+
+  .header {
+	margin: 10px;
+	.info {
+	  display: flex;
+	  flex-direction: row;
+	  align-items: center;
+	  justify-content: space-between;
+	  .mw50 {
+		max-width: 50px;
+	  }
+	  .mw100 {
+		max-width: 100px;
+	  }
+	}
+  }
+}

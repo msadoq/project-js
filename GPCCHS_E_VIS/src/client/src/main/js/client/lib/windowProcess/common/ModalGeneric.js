@@ -74,6 +74,7 @@ import MoveViewToPageContainer from '../View/MoveViewToPageContainer';
 import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import SaveWizardModalContainer from './SaveWizardModal/SaveWizardModalContainer';
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
+import PUS05ModalContainer from '../../viewManager/PUS05View/Components/View/PUS05ModalContainer';
 import PUS11ModalContainer from '../../viewManager/PUS11View/Components/View/PUS11ModalContainer';
 
 /* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
@@ -86,6 +87,15 @@ const ModalGeneric = (props) => {
       title = props.props.title;
       child = (
         <DialogModal
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'pus05Modal':
+      title = props.props.title;
+      child = (
+        <PUS05ModalContainer
           {...props.props}
           closeModal={props.onClose}
         />

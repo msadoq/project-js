@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PUS05Editor :: render snapshot 1`] = `
+<div
+  className="contentWrapper"
+>
+  <h4
+    className="text-center mb10"
+  >
+    <span
+      className="mr5 EditorVignette"
+      style={
+        Object {
+          "background": undefined,
+        }
+      }
+    />
+    <b />
+  </h4>
+  <Connect(ViewParams)
+    viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+  />
+  <Navbar
+    changeCurrentDisplay={[Function]}
+    currentDisplay={0}
+    items={
+      Array [
+        "Connected Data",
+        "View",
+        "Misc",
+      ]
+    }
+  />
+  <div
+    className="content"
+  >
+    <div
+      className="content"
+    >
+      <ReduxForm
+        form="entrypoint-connectedData-form-1838f507-156b-4734-bf6d-69d0e96b39b8"
+        initialValues={Object {}}
+        onSubmit={[Function]}
+        pageId="pageId"
+        viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+      />
+    </div>
+  </div>
+</div>
+`;

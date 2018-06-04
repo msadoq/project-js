@@ -8,6 +8,14 @@ import TableColumnsEditor from './TableColumnsEditor';
 const mapStateToProps = (state, { viewId, tableId }) => {
   const columns = getViewConfigurationTableColumns(state, { viewId, tableId });
 
+  /**
+   * Groups `columns` by group key. The returned object is a mapping between group keys and
+   * the sub-array representing the columns belonging to the group,
+   * _i.e_ the columns whose group field is set to the group key.
+   * whose
+   *
+   * @var groupedColumns
+   */
   const groupedColumns = columns.reduce((acc, cur, index) => {
     const currentGroupKey = cur.group || '';
     const currentGroup = acc[currentGroupKey] || {};

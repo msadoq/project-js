@@ -72,10 +72,6 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
       action.onClick(data, rowIndex, columnIndex);
     }
   },
-  onCellClick: (i, j, content) => {
-    console.error('[NotImplementedError] Click on cell has not yet been implemented');
-    console.info(i, j, content);
-  },
   onCellDoubleClick: (i, j, content) => {
     console.error('[NotImplementedError] Double-click on cell has not yet been implemented');
     console.info(i, j, content);

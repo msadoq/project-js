@@ -1,7 +1,6 @@
-/* eslint-disable react/prefer-stateless-function,no-unused-vars */
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import TableColumnInput from './TableColumnInput';
 
 import styles from './TableColumnGroupEditor.css';
@@ -27,7 +26,7 @@ class TableColumnGroupEditor extends React.Component {
   };
 
   render() {
-    const { groupKey, columns, toggle, reorder } = this.props;
+    const { groupKey, columns, toggle } = this.props;
 
     return (
       <div className={styles.TableColumnGroupEditor}>
@@ -35,12 +34,12 @@ class TableColumnGroupEditor extends React.Component {
           <div>
             <h4>{groupKey}</h4>
             <Droppable droppableId="droppable">
-              {(provided, snapshot) => (
+              {provided => (
                 <div
                   ref={provided.innerRef}
                 >
                   {
-                    columns.map((item, index) => (
+                    columns.map(item => (
                       <TableColumnInput
                         key={`${groupKey}-${item.title}`}
                         item={item}

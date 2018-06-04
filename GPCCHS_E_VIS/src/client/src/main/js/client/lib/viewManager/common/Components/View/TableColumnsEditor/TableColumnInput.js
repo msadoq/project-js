@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Draggable } from 'react-beautiful-dnd';
 import shortid from 'shortid';
 
 import styles from './TableColumnInput.css';
@@ -22,7 +22,7 @@ class TableColumnInput extends React.Component {
         draggableId={index}
         index={index}
       >
-        {(provided, snapshot) => (
+        {provided => (
           <div
             ref={provided.innerRef}
             {...provided.draggableProps}

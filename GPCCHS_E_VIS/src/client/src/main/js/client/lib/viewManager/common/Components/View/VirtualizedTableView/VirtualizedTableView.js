@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars,no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -6,42 +5,17 @@ import cn from 'classnames';
 import { ArrowKeyStepper, Grid, ScrollSync } from 'react-virtualized';
 import ContainerDimensions from 'react-container-dimensions';
 import scrollbarSize from 'dom-helpers/util/scrollbarSize';
-
 import Color from 'color';
 import generateColor from 'string-to-color';
 import shortid from 'shortid';
-import { Glyphicon, Overlay, Popover } from 'react-bootstrap';
+import { Overlay, Popover } from 'react-bootstrap';
+
+import SortArrow from './SortArrow';
 
 import styles from './VirtualizedTableView.css';
 
-const SortArrow = ({ colKey, mode, active, onClick }) => (
-  <span
-    role={'presentation'}
-    onClick={() => onClick(colKey, mode)}
-    className={cn(styles.SortArrow, { [styles.active]: active })}
-  >
-    <Glyphicon
-      glyph={mode === 'DESC' ? 'chevron-down' : 'chevron-up'}
-    />
-  </span>
-);
-
-SortArrow.propTypes = {
-  colKey: PropTypes.string.isRequired,
-  mode: PropTypes.string,
-  active: PropTypes.bool,
-  onClick: PropTypes.func,
-};
-
-SortArrow.defaultProps = {
-  mode: 'DESC',
-  active: false,
-  onClick: () => {
-  },
-};
 
 class VirtualizedTableView extends React.Component {
-
   static propTypes = {
     totalCount: PropTypes.number.isRequired,
     tableName: PropTypes.string,
@@ -55,7 +29,6 @@ class VirtualizedTableView extends React.Component {
     onFilter: PropTypes.func.isRequired,
     bodyCellActions: PropTypes.arrayOf(PropTypes.shape()),
     onBodyCellAction: PropTypes.func.isRequired,
-    onCellClick: PropTypes.func.isRequired,
     onCellDoubleClick: PropTypes.func.isRequired,
     sortState: PropTypes.shape(),
     filterState: PropTypes.shape(),
@@ -123,7 +96,6 @@ class VirtualizedTableView extends React.Component {
       onFilter,
       bodyCellActions, // the user defined actions
       onBodyCellAction, // VirtualizedTableViewContainer way to dispacth user defined action
-      onCellClick,
       onCellDoubleClick,
       sortState,
       filterState,
@@ -176,7 +148,7 @@ class VirtualizedTableView extends React.Component {
     }, {});
 
 // eslint-disable-next-line react/prop-types
-    const _groupHeaderCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
+    const _groupHeaderCellRenderer = ({ columnIndex, key, style }) => {
       const groupName = cols[columnIndex].group;
 
       const groupColorInfo = _groupColors[groupName];
@@ -258,7 +230,7 @@ class VirtualizedTableView extends React.Component {
     };
 
 // eslint-disable-next-line react/prop-types
-    const _filterCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
+    const _filterCellRenderer = ({ columnIndex, key, style }) => {
       const colKey = cols[columnIndex].title;
 
       return (
@@ -285,10 +257,6 @@ class VirtualizedTableView extends React.Component {
 // eslint-disable-next-line react/prop-types
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
       const content = formattedRows[rowIndex][columnIndex];
-      const rowClassName = rowIndex % 2 ? styles.oddRow : styles.evenRow;
-      const lastRowClassName = rowIndex === formattedRows.length - 1 ? styles.lastRow : '';
-      const lastColumnClassName = columnIndex === cols.length - 1 ? styles.lastColumn : '';
-
       let updatedStyle = {
         ...style,
       };
@@ -306,7 +274,6 @@ class VirtualizedTableView extends React.Component {
 
       const _onClick = (ev) => {
         ev.preventDefault();
-        // onCellClick(rowIndex, columnIndex, content);
         this._onSelectCell(ev, rowIndex, columnIndex, content);
       };
 
@@ -332,10 +299,11 @@ class VirtualizedTableView extends React.Component {
           className={
             cn(
               styles.bodyCell,
-              rowClassName,
-              lastRowClassName,
-              lastColumnClassName,
               {
+                [styles.oddRow]: rowIndex % 2,
+                [styles.evenRow]: !(rowIndex % 2),
+                [styles.lastRow]: rowIndex === (formattedRows.length - 1),
+                [styles.lastColumn]: columnIndex === (cols.length - 1),
                 [styles.selectedCell]: isCellSelected,
               }
             )

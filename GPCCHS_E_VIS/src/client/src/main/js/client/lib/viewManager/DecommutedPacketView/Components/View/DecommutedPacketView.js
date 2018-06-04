@@ -45,14 +45,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import {
-  Table,
-  Form,
-  FormGroup,
-  Grid,
   Row,
-  Col,
-  ControlLabel,
-  Panel,
   ButtonGroup,
   Button,
 } from 'react-bootstrap';
@@ -60,17 +53,15 @@ import Select from 'react-select';
 import classnames from 'classnames';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
-import _isArray from 'lodash/isArray';
-import _lowerCase from 'lodash/lowerCase';
-import _isObject from 'lodash/isObject';
 import _map from 'lodash/map';
+import { NODE_TYPE_KEY, NODE_TYPE_OBJECT } from 'constants';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
-import LinksContainer from 'windowProcess/View/LinksContainer';
 import styles from './DecommutedPacketView.css';
 import { buildFormulaForAutocomplete } from '../../../common';
 import ModalComponent from '../../../../windowProcess/common/ModalComponent';
 import { get } from '../../../../common/configurationManager';
+import Tree from '../../../../windowProcess/Explorer/widgets/Tree';
 
 const WILDCARD = get('WILDCARD_CHARACTER');
 
@@ -83,13 +74,13 @@ const WILDCARD = get('WILDCARD_CHARACTER');
  * @param openEditor
  */
 export const populateFormulaField = ({
-  catalogName,
-  item,
-  comObject,
-  comObjectField,
-  addEntryPoint,
-  openEditor,
-}) => {
+                                       catalogName,
+                                       item,
+                                       comObject,
+                                       comObjectField,
+                                       addEntryPoint,
+                                       openEditor,
+                                     }) => {
   const formula = buildFormulaForAutocomplete(
     catalogName,
     item,
@@ -106,87 +97,7 @@ export const populateFormulaField = ({
   });
   openEditor();
 };
-function dataToShow(data) {
-  if (data.value === undefined || (_isObject(data.value) && data.type !== 'time')) {
-    if (_isObject(data)) {
-      const keys = Object.keys(data);
-      return (<dl
-        className={classnames(
-          'dl-horizontal',
-          'margin: 0 0 4px 0',
-          'display: inline-flex',
-          'padding: 20px'
-        )}
-      >
-        {keys.map((k) => {
-          if (data[k].value !== undefined) {
-            return ([<dt>{k}</dt>,
-              <dd>{data[k].value}</dd>]);
-          }
-          return ([<dt>{k}</dt>,
-            <dd>
-              { Object.keys(data[k]).map((val, key) => {
-                if (data[k][val].value !== undefined) {
-                  return (<li key={'li'.concat(key)}><b>{val}:</b> {data[k][val]}</li>);
-                }
-                return ([<dt>{val}</dt>,
-                  <dd>{dataToShow(data[k][val])}</dd>]);
-              })}
-            </dd>]);
-        }
-        )}
-      </dl>);
-    }
-    return '';
-  }
-  return data.value;
-}
-function objectHeader(ep) {
-  const objectKeys = Object.keys(ep).filter(key => !_isArray(ep[key]));
-  const staticHeader = [];
-  objectKeys.forEach((key, idx) => {
-    staticHeader.push(
-      <FormGroup controlId="formHorizontal" key={'group'.concat(idx)}>
-        <Col componentClass={ControlLabel} sm={3}>
-          <strong>{_lowerCase(key)}</strong>
-        </Col>
-        <Col sm={8}>
-          <Panel className={styles.panel}>{dataToShow(ep[key])}</Panel>
-        </Col>
-      </FormGroup>
-    );
-  });
-  return <Form horizontal>{staticHeader}</Form>;
-}
-function arrayHeader(arrayData) {
-  if (!arrayData.length) {
-    return <thead />;
-  }
-  return (
-    <thead>
-      <tr key="header">
-        {Object.keys(arrayData[0]).map((value, idx) =>
-          <th
-            key={'head'.concat(idx)}
-            className="text-center"
-          >
-            {_lowerCase(value)}
-          </th>
-        )}
-      </tr>
-    </thead>
-  );
-}
-function arrayLine(arrayData) {
-  if (!arrayData.length) {
-    return '';
-  }
-  const header = Object.keys(arrayData[0]);
-  const item = 'item';
-  return arrayData.map((value, idx) =>
-    (<tr key={item.concat(idx)}>{header.map((key, idy) => <td key={item.concat(idy)}>
-      {dataToShow(value[key])}</td>)}</tr>));
-}
+
 
 export default class DecommutedPacketView extends PureComponent {
   static propTypes = {
@@ -257,14 +168,15 @@ export default class DecommutedPacketView extends PureComponent {
       }),
       checked: opened,
     };
-    const editorMenu = (isViewsEditorOpen) ?
-    {
-      label: 'Close Editor',
-      click: () => closeEditor(),
-    } : {
-      label: `Open ${dataId.parameterName} in Editor`,
-      click: () => openEditor(),
-    };
+    const editorMenu = (isViewsEditorOpen)
+      ? {
+        label: 'Close Editor',
+        click: () => closeEditor(),
+      }
+      : {
+        label: `Open ${dataId.parameterName} in Editor`,
+        click: () => openEditor(),
+      };
     const separator = { type: 'separator' };
     handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   };
@@ -296,19 +208,21 @@ export default class DecommutedPacketView extends PureComponent {
         addEntryPoint: this.props.addEntryPoint,
         openEditor: this.props.openEditor,
       });
-    // more than one comObject dropped, we need to choose one through popup
+      // more than one comObject dropped, we need to choose one through popup
     } else {
       this.setState({ draggedData: content });
       this.populateModalComObjects(_get(content, 'comObjects'));
       this.showModal();
     }
   };
+
   reset = () => this.setState({
     isOpened: false,
     comObjects: null,
     selectedComObject: null,
     draggedData: {},
   });
+
   handleSelectedComObjectChange = selectedComObject =>
     this.setState({ selectedComObject: selectedComObject.value });
   showModal = () => this.setState({ isOpened: true });
@@ -325,11 +239,7 @@ export default class DecommutedPacketView extends PureComponent {
       openEditor: this.props.openEditor,
     });
   };
-  toggleShowLinks = (e) => {
-    e.preventDefault();
-    const { showLinks, updateShowLinks, viewId } = this.props;
-    updateShowLinks(viewId, !showLinks);
-  };
+
   removeLink = (e, index) => {
     e.preventDefault();
     const { removeLink, viewId } = this.props;
@@ -394,7 +304,7 @@ export default class DecommutedPacketView extends PureComponent {
 
   render() {
     const {
-      data, entryPoints, links, viewId, pageId, showLinks, isMaxVisuDurationExceeded,
+      data, entryPoints, isMaxVisuDurationExceeded,
     } = this.props;
     const ep = data.value;
     const { decommutedPacketEP } = entryPoints;
@@ -407,7 +317,7 @@ export default class DecommutedPacketView extends PureComponent {
     }
 
     const { parameterName } = entryPoints.decommutedPacketEP.dataId;
-    const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
+    // const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
       <div>
         <DroppableContainer
@@ -418,31 +328,38 @@ export default class DecommutedPacketView extends PureComponent {
           <header className={styles.header}>
             <h1>{parameterName}</h1>
           </header>
-          <Grid fluid className="ml10 mr10">
-            <Row><Panel>{objectHeader(ep)}</Panel></Row>
-            { arrayKeys.map((key, i) => (
-              <Row key={'row'.concat(i)}>
-                <header className={styles.arrayHeader}><h2>{_lowerCase(key)}</h2></header>
-                <Col sm={12}>
-                  <Table striped bordered condensed hover>
-                    {arrayHeader(ep[key])}
-                    <tbody>
-                      {arrayLine(ep[key])}
-                    </tbody>
-                  </Table>
-                </Col>
-              </Row>))}
-          </Grid>
-          <div style={{ padding: '10px' }}>
-            <LinksContainer
-              show={showLinks}
-              toggleShowLinks={this.toggleShowLinks}
-              links={links}
-              removeLink={this.removeLink}
-              viewId={viewId}
-              pageId={pageId}
-            />
-          </div>
+          <Tree
+            data={[
+              {
+                name: 'parent',
+                children: [
+                  { name: 'child1' },
+                  { name: 'child2' },
+                ],
+              },
+              {
+                name: 'loading parent',
+                value: 'bidule',
+                type: NODE_TYPE_KEY,
+              },
+              {
+                name: 'parent',
+                toggled: true,
+                type: NODE_TYPE_OBJECT,
+                children: [
+                  {
+                    name: 'nested parent',
+                    toggled: true,
+                    type: NODE_TYPE_OBJECT,
+                    children: [
+                      { name: 'nested child 1', value: 'machin', type: NODE_TYPE_KEY },
+                      { name: 'nested child 2', value: 'truc', type: NODE_TYPE_KEY },
+                    ],
+                  },
+                ],
+              },
+            ]}
+          />
         </DroppableContainer>
         {this.renderModal()}
       </div>

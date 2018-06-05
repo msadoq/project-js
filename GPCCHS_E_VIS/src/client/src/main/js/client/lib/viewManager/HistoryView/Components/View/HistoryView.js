@@ -97,22 +97,21 @@ class HistoryView extends React.Component {
     ev.stopPropagation();
   }
 
+  _outlineStyle = style => ({
+    ...style,
+    borderTop: '2px solid green',
+    borderBottom: '2px solid green',
+    backgroundColor: 'rgba(0, 100, 0, 0.1)',
+  });
+
+  _overrideStyle = ({ rowIndex, style }) =>
+    ({ ...(this.props.currentRowIndexes.indexOf(rowIndex) > -1 ? this._outlineStyle(style) : {}) });
+
   render() {
     const {
       viewId,
       data,
-      currentRowIndexes,
     } = this.props;
-
-    const _outlineStyle = style => ({
-      ...style,
-      borderTop: '2px solid green',
-      borderBottom: '2px solid green',
-      backgroundColor: 'rgba(0, 100, 0, 0.1)',
-    });
-
-    const _overrideStyle = ({ rowIndex, style }) =>
-      ({ ...(currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : {}) });
 
     return (
       <DroppableContainer
@@ -124,7 +123,7 @@ class HistoryView extends React.Component {
           tableId={'history'}
           rows={data}
           withGroups
-          overrideStyle={_overrideStyle}
+          overrideStyle={this._overrideStyle}
           pauseOnScroll
         />
 

@@ -9,7 +9,7 @@ exports[`PUS05View :: render snapshot 1`] = `
   >
     <Unknown>
       <div
-        className="info col-sm-3"
+        className="info col-sm-12"
       >
         <span
           className="spacing"
@@ -25,73 +25,7 @@ exports[`PUS05View :: render snapshot 1`] = `
             className="mw50"
             disabled={true}
             type="text"
-            value={05}
-          />
-        </span>
-        <span
-          className="spacing"
-        />
-      </div>
-      <div
-        className="info col-sm-3"
-      >
-        <span
-          className="spacing"
-        />
-        <span>
-          Schedule Status
-          <input
-            className="mw100"
-            disabled={true}
-            type="text"
-            value="string"
-          />
-        </span>
-        <span
-          className="spacing"
-        />
-      </div>
-      <div
-        className="info col-sm-3"
-      >
-        <span
-          className="spacing"
-        />
-        <span>
-          Application Space
-          <input
-            className="mw100"
-            disabled={true}
-            type="text"
-            value="string"
-          />
-
-          string
-        </span>
-        <span
-          className="spacing"
-        />
-      </div>
-      <div
-        className="info col-sm-3"
-      >
-        <span
-          className="spacing"
-        />
-        <span>
-          Last Uptate
-          <input
-            className="mw100"
-            disabled={true}
-            type="text"
-            value={1527673698364}
-          />
-
-          <input
-            className="mw50"
-            disabled={true}
-            type="text"
-            value="string"
+            value={11}
           />
         </span>
         <span
@@ -107,7 +41,7 @@ exports[`PUS05View :: render snapshot 1`] = `
     className="header"
   >
     <div
-      className="col-sm-6"
+      className="col-sm-12"
     >
       <table
         className="table table-bordered"
@@ -115,48 +49,42 @@ exports[`PUS05View :: render snapshot 1`] = `
         <thead>
           <tr>
             <th>
-              SSID
+              rid
             </th>
             <th>
-              APID
+              rid Label
             </th>
             <th>
-              Name
+              name
             </th>
             <th>
-              Status
+              status
             </th>
             <th>
-              First TC Time
+              event Short Description
+            </th>
+            <th>
+              event Default Status
+            </th>
+            <th>
+              alarm Level
+            </th>
+            <th>
+              action Name
+            </th>
+            <th>
+              event Long Description
+            </th>
+            <th>
+              update Type
+            </th>
+            <th>
+              update Time
             </th>
           </tr>
         </thead>
         <tbody>
-
-        </tbody>
-      </table>
-    </div>
-    <div
-      className="clearfix"
-    />
-    <div
-      className="col-sm-6"
-    >
-      <table
-        className="table table-bordered"
-      >
-        <thead>
-          <tr>
-            <th>
-              APID
-            </th>
-            <th>
-              Name
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-
+          
         </tbody>
       </table>
     </div>
@@ -176,45 +104,27 @@ exports[`PUS05View :: render snapshot 1`] = `
         <thead>
           <tr>
             <th>
-              Apid
+              onBoard Time
             </th>
             <th>
-              Ssid
+              reception Time
             </th>
             <th>
-              Cmd. Name
+              rid
             </th>
             <th>
-              Cmd. Description
+              rid Label
             </th>
             <th>
-              Cmd. AP. Name
+              name
             </th>
             <th>
-              Seq. Count
-            </th>
-            <th>
-              Source Id
-            </th>
-            <th>
-              Cmd. Status
-            </th>
-            <th>
-              Ground Status
-            </th>
-            <th>
-              Init. Exec. Time
-            </th>
-            <th>
-              Cur. Exec. Time
-            </th>
-            <th>
-              Tot. Shift Time
+              report Type
             </th>
           </tr>
         </thead>
         <tbody>
-
+          
         </tbody>
       </table>
     </div>

@@ -5,7 +5,7 @@ import stateTest from 'common/jest/stateTest';
 const propsStub = {
   viewId: '1838f507-156b-4734-bf6d-69d0e96b39b8',
   applicationProcessName: 'string',
-  applicationProcessId: 05,
+  applicationProcessId: 11,
   scheduleStatus: 'string',
   availableSpace: 'string',
   spaceType: 'string',

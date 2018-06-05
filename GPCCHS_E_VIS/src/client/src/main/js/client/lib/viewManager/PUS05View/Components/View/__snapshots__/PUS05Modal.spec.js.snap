@@ -22,18 +22,12 @@ exports[`PUS05Modal :: render snapshot 1`] = `
             <th>
               Value
             </th>
-            <th>
-              Description
-            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>
               APID_GENE_PARAM
-            </td>
-            <td>
-              xxx
             </td>
             <td>
               xxx
@@ -46,6 +40,11 @@ exports[`PUS05Modal :: render snapshot 1`] = `
             <td>
               xxx
             </td>
+          </tr>
+          <tr>
+            <td>
+              APID_GENE_PARAM
+            </td>
             <td>
               xxx
             </td>
@@ -57,182 +56,53 @@ exports[`PUS05Modal :: render snapshot 1`] = `
             <td>
               xxx
             </td>
+          </tr>
+          <tr>
+            <td>
+              APID_GENE_PARAM
+            </td>
             <td>
               xxx
             </td>
           </tr>
-        </tbody>
-      </table>
-    </div>
-    <div
-      className="col-xs-4"
-    >
-      <h4>
-        Time shifts
-      </h4>
-      <table
-        className="table table-bordered"
-      >
-        <thead>
-          <tr>
-            <th>
-              App. Time
-            </th>
-            <th>
-              Shift
-            </th>
-          </tr>
-        </thead>
-        <tbody>
           <tr>
             <td>
-              1527779682256
+              APID_GENE_PARAM
             </td>
             <td>
-              1310
+              xxx
             </td>
           </tr>
           <tr>
             <td>
-              1527779682256
+              APID_GENE_PARAM
             </td>
             <td>
-              1310
+              xxx
+            </td>
+          </tr>
+          <tr>
+            <td>
+              APID_GENE_PARAM
+            </td>
+            <td>
+              xxx
             </td>
           </tr>
           <tr>
             <td>
-              1527779682256
+              APID_GENE_PARAM
             </td>
             <td>
-              1310
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div
-      className="col-xs-4"
-    >
-      <h4>
-        Binary profile
-      </h4>
-      <table
-        className="table table-bordered"
-      >
-        <thead>
-          <tr>
-            <th />
-            <th>
-              01
-            </th>
-            <th>
-              02
-            </th>
-            <th>
-              03
-            </th>
-            <th>
-              04
-            </th>
-            <th>
-              05
-            </th>
-            <th>
-              06
-            </th>
-            <th>
-              07
-            </th>
-            <th>
-              08
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th />
-            <td>
-              AA
-            </td>
-            <td>
-              75
-            </td>
-            <td>
-              66
-            </td>
-            <td>
-              66
-            </td>
-            <td>
-              65
-            </td>
-            <td>
-              72
-            </td>
-            <td>
-              65
-            </td>
-            <td>
-              72
+              xxx
             </td>
           </tr>
           <tr>
-            <th>
-              1
-            </th>
             <td>
-              AA
+              APID_GENE_PARAM
             </td>
             <td>
-              75
-            </td>
-            <td>
-              66
-            </td>
-            <td>
-              66
-            </td>
-            <td>
-              65
-            </td>
-            <td>
-              72
-            </td>
-            <td>
-              65
-            </td>
-            <td>
-              72
-            </td>
-          </tr>
-          <tr>
-            <th>
-              2
-            </th>
-            <td>
-              AA
-            </td>
-            <td>
-              75
-            </td>
-            <td>
-              66
-            </td>
-            <td>
-              66
-            </td>
-            <td>
-              65
-            </td>
-            <td>
-              72
-            </td>
-            <td>
-              65
-            </td>
-            <td>
-              72
+              xxx
             </td>
           </tr>
         </tbody>

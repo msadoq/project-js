@@ -20,6 +20,7 @@ exports[`DefaultPusData :: render snapshot 1`] = `
   >
     <Connect(ApplicationProcessField)
       domainName="fr.cnes.isis.simupus"
+      onChange={[Function]}
       pageId="page1"
       sessionName="Master"
       viewId="text1"

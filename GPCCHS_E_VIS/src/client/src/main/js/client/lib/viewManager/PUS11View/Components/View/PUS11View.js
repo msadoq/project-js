@@ -1,6 +1,8 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-import './PUS11.scss';
+import './PUS11View.scss';
 
 const { string, number, arrayOf, shape, func } = PropTypes;
 
@@ -9,8 +11,8 @@ export default class PUS11View extends React.Component {
     // own props
     viewId: string.isRequired,
     // From PUS11ViewContainer mapStateToProps
-    applicationProcessName: string.isRequired,
-    applicationProcessId: number.isRequired,
+    applicationProcessName: string,
+    applicationProcessId: number,
     scheduleStatus: string.isRequired,
     availableSpace: string.isRequired,
     spaceType: string.isRequired,
@@ -51,7 +53,10 @@ export default class PUS11View extends React.Component {
     // from container's mapDispatchToProps
     openModal: func.isRequired,
   };
-  static defaultProps = {};
+  static defaultProps = {
+    applicationProcessName: null,
+    applicationProcessId: null,
+  };
   static contextTypes = {
     windowId: PropTypes.string,
   };
@@ -59,7 +64,6 @@ export default class PUS11View extends React.Component {
   handleRowDoubleClicked(e, row) {
     e.preventDefault();
     e.stopPropagation();
-    console.log(row);
     const { openModal, viewId } = this.props;
     const { windowId } = this.context;
     openModal(windowId, { type: 'pus11Modal', viewId, title: 'Details for command ###', bsSize: 'lg' });
@@ -108,7 +112,6 @@ export default class PUS11View extends React.Component {
     );
   }
 
-
   render() {
     const {
       applicationProcessName,
@@ -123,6 +126,10 @@ export default class PUS11View extends React.Component {
       commands,
       viewId,
     } = this.props;
+
+    if (!isValid(applicationProcessName, applicationProcessId)) {
+      return renderInvald('Please fill-in configuration');
+    }
 
     return (
       <div className="pus11">
@@ -248,4 +255,21 @@ export const renderEnabledApidsTable = (enabledApids, viewId) => (
     }
     </tbody>
   </table>
+);
+
+export const isValid = (applicationProcessName, applicationProcessId) =>
+  typeof applicationProcessName === 'string' &&
+  applicationProcessName.length > 0 &&
+  typeof applicationProcessId === 'number'
+;
+
+export const renderInvald = error => (
+  <div className="pus11 h100 posRelative">
+    <div className="flex">
+      <div className="renderErrorText">
+        Unable to render view <br />
+        {error}
+      </div>
+    </div>
+  </div>
 );

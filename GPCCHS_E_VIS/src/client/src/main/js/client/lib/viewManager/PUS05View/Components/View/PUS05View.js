@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 import './PUS05.scss';
@@ -118,7 +119,7 @@ export default class PUS05View extends React.Component {
 
 export const renderHeaders = (ApplicationProcessName, ApplicationProcessId) => (
   <React.Fragment>
-    <div className="info col-sm-3">
+    <div className="info col-sm-12">
       <span className="spacing" />
       <span>
         Application Process

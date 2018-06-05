@@ -36,6 +36,7 @@ exports[`HistoryEditor :: render snapshot 1`] = `
   >
     <div>
       <Connect(DataViewEntryPoints)
+        entryPointConnectedDataForm={[Function]}
         entryPoints={undefined}
         pageId="pageId"
         search="search"

@@ -27,9 +27,11 @@ Array [
             <input
                 className="form-control input-sm"
                 defaultValue=""
+                disabled={false}
                 onChange={[Function]}
                 placeholder=""
                 type="text"
+                value=""
             />
         </div>
     </div>
@@ -189,9 +191,11 @@ Array [
             <input
                 className="form-control input-sm"
                 defaultValue=""
+                disabled={false}
                 onChange={[Function]}
                 placeholder=""
                 type="text"
+                value=""
             />
         </div>
     </div>
@@ -579,9 +583,11 @@ Array [
             <input
                 className="form-control input-sm"
                 defaultValue=""
+                disabled={false}
                 onChange={[Function]}
                 placeholder=""
                 type="number"
+                value=""
             />
         </div>
     </div>
@@ -616,9 +622,11 @@ Array [
             <input
                 className="form-control input-sm"
                 defaultValue=""
+                disabled={false}
                 onChange={[Function]}
                 placeholder=""
                 type="text"
+                value=""
             />
         </div>
     </div>
@@ -936,9 +944,11 @@ Array [
             <input
                 className="form-control input-sm"
                 defaultValue=""
+                disabled={false}
                 onChange={[Function]}
                 placeholder=""
                 type="number"
+                value=""
             />
         </div>
     </div>
@@ -1002,9 +1012,11 @@ Array [
             <input
                 className="form-control input-sm"
                 defaultValue=""
+                disabled={false}
                 onChange={[Function]}
                 placeholder=""
                 type="text"
+                value=""
             />
         </div>
     </div>
@@ -1322,9 +1334,11 @@ Array [
             <input
                 className="form-control input-sm"
                 defaultValue=""
+                disabled={false}
                 onChange={[Function]}
                 placeholder=""
                 type="number"
+                value=""
             />
         </div>
     </div>
@@ -1616,9 +1630,11 @@ Array [
             <input
                 className="form-control input-sm"
                 defaultValue=""
+                disabled={false}
                 onChange={[Function]}
                 placeholder=""
                 type="number"
+                value=""
             />
         </div>
     </div>

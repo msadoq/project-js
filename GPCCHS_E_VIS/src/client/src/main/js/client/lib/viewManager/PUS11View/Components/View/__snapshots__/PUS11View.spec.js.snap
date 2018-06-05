@@ -84,7 +84,7 @@ exports[`PUS11View :: render snapshot 1`] = `
             className="mw100"
             disabled={true}
             type="text"
-            value={1527673698364}
+            value={1528209658553}
           />
            
           <input
@@ -217,6 +217,24 @@ exports[`PUS11View :: render snapshot 1`] = `
           
         </tbody>
       </table>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PUS11View :: render snapshot 2`] = `
+<div
+  className="pus11 h100 posRelative"
+>
+  <div
+    className="flex"
+  >
+    <div
+      className="renderErrorText"
+    >
+      Unable to render view 
+      <br />
+      this is an error message
     </div>
   </div>
 </div>

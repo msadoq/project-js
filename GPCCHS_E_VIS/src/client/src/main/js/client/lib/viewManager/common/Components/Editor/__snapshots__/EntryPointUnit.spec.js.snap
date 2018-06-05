@@ -39,9 +39,11 @@ exports[`EntryPointUnit :: render EntryPointUnit :: render 1`] = `
         <input
           className="form-control input-sm"
           defaultValue={undefined}
+          disabled={false}
           onChange={[Function]}
           placeholder=""
           type="text"
+          value={undefined}
         />
       </div>
     </div>
@@ -64,9 +66,11 @@ exports[`EntryPointUnit :: render EntryPointUnit :: render 1`] = `
         <input
           className="form-control input-sm"
           defaultValue={undefined}
+          disabled={false}
           onChange={[Function]}
           placeholder=""
           type="text"
+          value={undefined}
         />
       </div>
     </div>

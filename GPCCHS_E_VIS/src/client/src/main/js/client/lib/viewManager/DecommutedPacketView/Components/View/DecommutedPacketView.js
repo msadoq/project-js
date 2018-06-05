@@ -124,6 +124,7 @@ export default class DecommutedPacketView extends PureComponent {
     showLinks: PropTypes.bool,
     updateShowLinks: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
+    askItemStructure: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -140,6 +141,12 @@ export default class DecommutedPacketView extends PureComponent {
     selectedComObject: null,
     draggedData: {},
   };
+
+
+  componentWillMount() {
+    this.props.askItemStructure();
+  }
+
 
   // eslint-disable-next-line consistent-return
   onContextMenu = (event) => {

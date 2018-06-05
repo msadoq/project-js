@@ -10,6 +10,7 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
+import { createSelector } from 'reselect';
 
 import { getViewTitle } from 'store/reducers/views';
 
@@ -19,10 +20,16 @@ const getEntryPointsByViewId = (state, { viewId }) => (
   _.get(`DecommutedPacketViewConfiguration.${viewId}.entryPoints`, state)
 );
 
+const getSingleEntryPoint = createSelector(
+  getEntryPointsByViewId,
+  entryPoints => entryPoints[0]
+);
+
 const getLastValue = () => null;
 
 export default {
   getFullTitle,
   getEntryPointsByViewId,
   getLastValue,
+  getSingleEntryPoint,
 };

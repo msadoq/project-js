@@ -5,10 +5,10 @@
       "type": "documentWindow",
       "title": "Development workspace",
       "geometry": {
-        "w": 1608,
-        "h": 949,
-        "x": 1620,
-        "y": 111,
+        "w": 1850,
+        "h": 975,
+        "x": 1622,
+        "y": 135,
         "kind": "Absolute"
       },
       "pages": [

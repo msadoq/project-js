@@ -12,6 +12,7 @@ import {
   WS_COM_OBJECTS_ADD,
   WS_UNIT_ADD,
   WS_UNIT_ADD_SIMPLE,
+  WS_ITEM_STRUCTURE_ADD,
 } from 'store/types';
 
 export const REQUESTING = 'requesting';
@@ -179,6 +180,23 @@ export default function catalogsReducer(state = {}, action) {
         unit,
         state
       );
+    }
+    case WS_ITEM_STRUCTURE_ADD: {
+      const { tupleId, itemName, name, structure } = action.payload;
+
+      const index = getCatalogIndexByName(state, { tupleId, name });
+      if (index === -1) {
+        return state;
+      }
+
+      const indexItem = getCatalogItemIndexByName(state, { tupleId, name, itemName });
+      if (indexItem === -1) {
+        return state;
+      }
+
+      const path = `[${tupleId}][${index}].items[${indexItem}].structure`;
+      return _set(path, structure, state);
+      // return state;
     }
     default:
       return state;

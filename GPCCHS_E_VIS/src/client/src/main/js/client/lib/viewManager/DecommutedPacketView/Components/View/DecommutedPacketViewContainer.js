@@ -34,6 +34,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { askItemStructure } from 'store/actions/catalogs';
 import { getPageIdByViewId, getPage } from 'store/reducers/pages';
 import { getConfigurationByViewId } from 'viewManager';
 import { getViewEntryPoints } from 'store/selectors/views';
@@ -46,10 +47,10 @@ import { getInspectorEpId } from 'store/reducers/inspector';
 import { getFormula } from './selectors';
 import DecommutedPacketView from './DecommutedPacketView';
 
-
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
+
   return {
     formula: getFormula(state, { viewId }),
     configuration: getConfigurationByViewId(state, { viewId }),
@@ -64,11 +65,14 @@ const mapStateToProps = (state, { viewId }) => {
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
   };
 };
-const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
-  removeLink,
-  updateShowLinks,
-  addEntryPoint: data => addEntryPoint(viewId, data),
-}, dispatch);
+
+const mapDispatchToProps = (dispatch, { viewId }) =>
+  bindActionCreators({
+    removeLink,
+    updateShowLinks,
+    askItemStructure: () => askItemStructure(viewId),
+    addEntryPoint: data => addEntryPoint(viewId, data),
+  }, dispatch);
 
 const DecommutedPacketViewContainer =
   connect(mapStateToProps, mapDispatchToProps)(DecommutedPacketView);

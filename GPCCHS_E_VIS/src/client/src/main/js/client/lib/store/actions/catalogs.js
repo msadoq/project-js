@@ -10,6 +10,7 @@ import {
   WS_UNIT_ADD,
   WS_ITEM_STRUCTURE_ASK,
   WS_UNIT_ADD_SIMPLE,
+  WS_ITEM_STRUCTURE_ADD,
 } from '../types';
 
 export const askCatalogs = simple(
@@ -72,12 +73,16 @@ export const addUnit = simple(
 
 export const askItemStructure = simple(
   WS_ITEM_STRUCTURE_ASK,
-  'domainId',
-  'sessionId',
-  'name',
-  'itemName'
+  'viewId'
 );
 
+export const addItemStructure = simple(
+  WS_ITEM_STRUCTURE_ADD,
+  'tupleId',
+  'name',
+  'itemName',
+  'structure'
+);
 
 export const addUnitSimple = simple(
   WS_UNIT_ADD_SIMPLE,

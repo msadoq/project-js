@@ -111,8 +111,7 @@ class HistoryView extends React.Component {
       backgroundColor: 'rgba(0, 100, 0, 0.1)',
     });
 
-// eslint-disable-next-line no-unused-vars
-    const _overrideStyle = ({ columnIndex, key, rowIndex, style }) =>
+    const _overrideStyle = ({ rowIndex, style }) =>
       ({ ...(currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : {}) });
 
     return (

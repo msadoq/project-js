@@ -211,7 +211,8 @@ const specificViewsMenu = getAvailableViews()
 const specificPusViewsMenu = getAvailableViews()
   .filter(viewType =>
     [DATASTRUCTURETYPE_HISTORIZED, DATASTRUCTURETYPE_NO_HISTORY]
-      .indexOf(getStructureType(viewType)) !== -1) // only keep pus views
+      .includes(getStructureType(viewType)) // only keep pus views
+  )
   .map(viewType => ({
     label: `Add ${viewType}...`,
     accelerator: '',

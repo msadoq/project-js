@@ -290,6 +290,7 @@ module.exports = {
     OnboardAlarmView: 'viba',
     CommaSeparatedValues: 'csv',
     PortableNetworkGraphics: 'png',
+    PUS05View: 'pus05',
     PUS11View: 'pus11',
   },
   DUMP_EXTENSIONS: {

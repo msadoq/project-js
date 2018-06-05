@@ -199,8 +199,6 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
   // Get sorting column
   const colToSort = _get(viewConfig, ['sorting', 'colName'], 'masterTime');
   const direction = _get(viewConfig, ['sorting', 'direction'], SORTING_ASC);
-  // hidden cols
-  const hiddenColumns = _get(viewConfig, 'hiddenColumns', []);
 
   // Loop on payloads to update state
   // data: contains all fields filtered by EP and by time [epName]: { [timestamp]: { values }}
@@ -208,12 +206,6 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
   // lines: ordered table grouping all EP [ ep1 t1, ep2 t1, ep1 t2, ...]
   // cols: list of column names
   let newState = _cloneDeep(state);
-  if (!newState.cols) {
-    newState = { cols: [], lines: [], indexes: {}, data: {} };
-  }
-
-  // Update of cols to show
-  newState.cols = updateColToShow(newState.cols, Object.keys(payloads.cols), hiddenColumns);
 
   // loop on EP name to add payload sorted by masterTime in EP table
   for (let iEp = 0; iEp < epNames.length; iEp += 1) {
@@ -316,7 +308,6 @@ export function selectDataPerView(currentViewMap, intervalMap, payload) {
       epSubState = {
         ...epSubState,
         ...newSubState,
-        cols: { ...epSubState.cols, ...newSubState.cols },
       };
     });
   }
@@ -342,7 +333,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
   const upper = expectedInterval[1];
 
   const timestamps = Object.keys(tbdIdPayload);
-  const newState = { cols: {} };
+  const newState = {};
 
   // Loop on payload timestamps
   for (let i = 0; i < timestamps.length; i += 1) {
@@ -372,10 +363,6 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
         ...valueToInsert,
         [fields[iField]]: convertData(currentValue[fields[iField]]),
       };
-      // Check if field names are already in cols table
-      if (!newState.cols[fields[iField]]) {
-        newState.cols[fields[iField]] = true;
-      }
     }
 
     if (!newState[epName]) {

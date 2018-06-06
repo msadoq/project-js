@@ -69,7 +69,6 @@ export default class Editor extends Component {
       pageId,
       search,
       panels,
-      titleStyle,
       title,
       updateViewPanels,
       configuration: {
@@ -82,7 +81,7 @@ export default class Editor extends Component {
         <h4
           className="text-center mb10"
         >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <span className="mr5 EditorVignette" />
           <b>{title}</b>
         </h4>
         <ReloadAndSaveViewButtonsContainer viewId={viewId} />

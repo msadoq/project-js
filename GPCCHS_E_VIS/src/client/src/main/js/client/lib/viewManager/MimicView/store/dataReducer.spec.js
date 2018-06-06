@@ -17,6 +17,7 @@
 // VERSION : 2.0.0 : FA : #8801 : 19/12/2017 : Do not clean data when reload a view
 // VERSION : 2.0.0 : FA : ISIS-FT-2309 : 31/01/2018 : surveillance du monitoringState pour
 //  parametres TM VIMA
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 

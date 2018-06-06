@@ -17,6 +17,7 @@
 // VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
 // VERSION : 2.0.0 : FA : ISIS-FT-1992 : 31/10/2017 : Fix broken TUs . .
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : core implementation of dealing with sessions
 // END-HISTORY
 // ====================================================================
 
@@ -551,7 +552,7 @@ export default {
         stateColors: [],
       }, {
         connectedData: {
-          domain: 'fr.cnes.isis',
+          domain: 'fr.cnes.isis.simupus',
           filter: [],
           formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>',
           timeline: 'Session 1',
@@ -796,7 +797,7 @@ export default {
           connectedData: {
             axisId: 'VBat',
             digits: 5,
-            domain: 'fr.cnes.isis',
+            domain: 'fr.cnes.isis.simupus',
             fieldX: 'groundDate',
             filter: [],
             format: 'decimal',
@@ -823,7 +824,7 @@ export default {
           connectedData: {
             axisId: 'VBat',
             digits: 5,
-            domain: 'fr.cnes.isis',
+            domain: 'fr.cnes.isis.simupus',
             fieldX: 'groundDate',
             filter: [],
             format: 'decimal',
@@ -1420,7 +1421,6 @@ export default {
       title: 'Plot view',
       titleStyle: {
         align: 'center',
-        bgColor: '#009688',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1452,7 +1452,6 @@ export default {
       title: 'New Text View',
       titleStyle: {
         align: 'center',
-        bgColor: '#3F51B5',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1478,7 +1477,6 @@ export default {
       title: 'New Mimic View',
       titleStyle: {
         align: 'center',
-        bgColor: '#2196f3',
         color: '#FFFFF',
         underline: true,
       },
@@ -1491,7 +1489,7 @@ export default {
         length: 5,
         width: 3,
       },
-      domainName: 'fr.cnes.isis',
+      domainName: 'fr.cnes.isis.simupus',
       isModified: false,
       links: [],
       pageFolder: '/mydata/data/pages',
@@ -1501,7 +1499,6 @@ export default {
       title: 'Dynamic view',
       titleStyle: {
         align: 'center',
-        bgColor: '#E91E63',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1545,7 +1542,7 @@ export default {
         length: 5,
         width: 3,
       },
-      domainName: 'fr.cnes.isis',
+      domainName: 'fr.cnes.isis.simupus',
       isModified: false,
       links: [],
       pageFolder: '/mydata/data/pages',
@@ -1555,7 +1552,6 @@ export default {
       title: 'History view',
       titleStyle: {
         align: 'center',
-        bgColor: '#E91E63',
         bold: false,
         color: '#ffffff',
         font: 'Arial',

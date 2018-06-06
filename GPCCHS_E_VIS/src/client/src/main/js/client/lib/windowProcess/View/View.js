@@ -94,9 +94,7 @@ export default class View extends PureComponent {
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    titleStyle: PropTypes.shape({
-      bgColor: PropTypes.string,
-    }).isRequired,
+    titleStyle: PropTypes.shape({}).isRequired,
     backgroundColor: PropTypes.string,
     maximized: PropTypes.bool,
     isViewsEditorOpen: PropTypes.bool.isRequired,
@@ -125,9 +123,7 @@ export default class View extends PureComponent {
     oId: '',
     absolutePath: '',
     backgroundColor: '#FFFFFF',
-    titleStyle: {
-      bgColor: '#FEFEFE',
-    },
+    titleStyle: {},
     visuWindow: null,
     maximized: false,
   };

@@ -17,7 +17,6 @@ export default class OnboardAlarmEditor extends Component {
     tab: PropTypes.number,
     titleStyle: PropTypes.shape({
       align: PropTypes.string,
-      bgColor: PropTypes.string,
       bold: PropTypes.bool,
       color: PropTypes.string,
       font: PropTypes.string,
@@ -83,7 +82,6 @@ export default class OnboardAlarmEditor extends Component {
       panels,
       openModal,
       title,
-      titleStyle,
     } = this.props;
     const nullObject = {};
     const initialValues = entryPoints.length
@@ -104,7 +102,7 @@ export default class OnboardAlarmEditor extends Component {
         <h4
           className="text-center mb10"
         >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <span className="mr5 EditorVignette" />
           <b>{title}</b>
         </h4>
         <ReloadAndSaveViewButtonsContainer viewId={viewId} />

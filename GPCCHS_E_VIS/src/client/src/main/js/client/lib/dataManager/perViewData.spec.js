@@ -23,6 +23,8 @@
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
 //  viewData_clean
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : update unit tests . .
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : core implementation of dealing with sessions
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix tests + clean code
 // END-HISTORY
 // ====================================================================
 

@@ -6,6 +6,8 @@ import {
   getBackgroundColorByDomains,
   getBorderColorForNav,
   getBorderColorForTab,
+  getStateColorTypes,
+  getColorWithDomainDetermination,
   STATE_COLOR_NOMINAL,
   STATE_COLOR_WARNING,
   STATE_COLOR_ALARM,
@@ -556,6 +558,41 @@ describe('windowProcess', () => {
           };
           expect(getBorderColorForNav(workspaceDomain, pages, viewsDomains))
             .toEqual('#CCC');
+        });
+      });
+      describe('getStateColorTypes', () => {
+        test('getStateColorTypes :: memoize', () => {
+          const firstRun = getStateColorTypes();
+          const secondRun = getStateColorTypes();
+          expect(secondRun).toBe(firstRun);
+        });
+      });
+      describe('getColorWithDomainDetermination', () => {
+        test('returns no color when only wildcard', () => {
+          const workspaceDomain = '*';
+          const pageDomain = ['*'];
+          const viewsDomains = ['*'];
+          const epDomains = ['*'];
+          expect(getColorWithDomainDetermination(
+            workspaceDomain,
+            pageDomain,
+            viewsDomains,
+            epDomains,
+            'workspace'
+          )).toEqual('#CCCCCC');
+        });
+        test('returns color when a domain is defined', () => {
+          const workspaceDomain = 'fr.cnes.isis.simupus';
+          const pageDomain = ['*'];
+          const viewsDomains = ['*'];
+          const epDomains = ['*'];
+          expect(getColorWithDomainDetermination(
+            workspaceDomain,
+            pageDomain,
+            viewsDomains,
+            epDomains,
+            'workspace'
+          )).toEqual('#339933');
         });
       });
     });

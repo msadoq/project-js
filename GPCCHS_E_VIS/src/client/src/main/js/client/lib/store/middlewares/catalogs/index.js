@@ -156,7 +156,7 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       }
     );
 
-    if (existingUnit) {
+    if (existingUnit !== undefined) { // /!\ existingUnit could be an empty string
       return nextAction;
     }
 

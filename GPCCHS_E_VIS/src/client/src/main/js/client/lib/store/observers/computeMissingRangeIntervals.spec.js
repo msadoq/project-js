@@ -31,8 +31,8 @@ describe('store/observers/computeMissingRangeIntervals', () => {
   const dataId_ATT_BC_REVTCOUNT1 = {
     catalog: 'Reporting',
     comObject: 'ReportingParameter',
-    domain: 'fr.cnes.isis',
-    domainId: 1,
+    domain: 'fr.cnes.isis.simupus',
+    domainId: 4,
     sessionId: 0,
     sessionName: 'Master',
     parameterName: 'ATT_BC_REVTCOUNT1',
@@ -101,7 +101,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         intervals:
           [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
       },
-      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': {
+      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::': {
         dataId: dataId_ATT_BC_REVTCOUNT1,
         intervals: [
           [
@@ -155,7 +155,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         intervals:
           [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],
       },
-      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': {
+      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::': {
         dataId: dataId_ATT_BC_REVTCOUNT1,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower - offset,

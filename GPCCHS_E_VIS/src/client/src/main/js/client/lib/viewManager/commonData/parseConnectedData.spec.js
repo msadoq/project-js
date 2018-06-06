@@ -54,152 +54,173 @@ describe('viewManager/commonData/parseConnectedData', () => {
   test('no domains', () => {
     expect(
       parseConnectedData([], sessions, timelines, connectedData, 'Session master')
-    ).toEqual({ error: 'invalid entry point, no domain available' });
+    )
+      .toEqual({ error: 'invalid entry point, no domain available' });
   });
   test('multiple domains', () => {
     connectedData.domain = 'cnes*';
     expect(
       parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
-    ).toEqual({ error: 'invalid entry point, no domain matches' });
+    )
+      .toEqual({ error: 'invalid entry point, no domain matches' });
   });
   test('no session defined', () => {
     connectedData.timeline = 'tl10';
     expect(
       parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
-    ).toEqual({ error: 'invalid entry point, no timeline matches' });
+    )
+      .toEqual({ error: 'invalid entry point, no timeline matches' });
   });
   test('no session', () => {
     expect(
       parseConnectedData(domains, [], timelines, connectedData, 'Session master')
-    ).toEqual({ error: 'invalid entry point, no session available' });
+    )
+      .toEqual({ error: 'invalid entry point, no session available' });
   });
   test('multiple session', () => {
     connectedData.timeline = 'tl*';
     expect(
       parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
-    ).toEqual({ error: 'invalid entry point, no timeline matches' });
+    )
+      .toEqual({ error: 'invalid entry point, no timeline matches' });
   });
   test('invalid formula', () => {
     connectedData.formula = 'formula';
     expect(
       parseConnectedData(domains, sessions, timelines, connectedData, 'Session master')
-    ).toEqual(
-      { error: `unable to parse this connectedData formula ${connectedData.formula}` }
-    );
+    )
+      .toEqual(
+        { error: `unable to parse this connectedData formula ${connectedData.formula}` }
+      );
   });
   test('valid', () => {
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master');
-    expect(res).toEqual({
-      dataId: {
-        catalog: 'Reporting',
-        parameterName: 'ATT_BC_STR1VOLTAGE',
-        comObject: 'ReportingParameter',
-        domainId: 'd1',
-        domain: 'cnes',
-        sessionName: 'session1',
-        sessionId: 1,
-      },
-      filters: [],
-      field: 'extractedValue',
-      offset: 0,
-      convert: {
-        from: 'g',
-        to: 'kg',
-      },
-    });
+    expect(res)
+      .toEqual({
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd1',
+          domain: 'cnes',
+          sessionName: 'session1',
+          sessionId: 1,
+        },
+        filters: [],
+        field: 'extractedValue',
+        offset: 0,
+        convert: {
+          from: 'g',
+          to: 'kg',
+        },
+      });
   });
   test('decommuted param => no field', () => {
     connectedData.formula = 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>';
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master');
-    expect(res).toEqual({
-      dataId: {
-        catalog: 'TelemetryPacket',
-        parameterName: 'CLCW_TM_NOMINAL',
-        comObject: 'DecommutedPacket',
-        domainId: 'd1',
-        domain: 'cnes',
-        sessionName: 'session1',
-        sessionId: 1,
-      },
-      filters: [],
-      offset: 0,
-      field: undefined,
-      convert: {
-        from: 'g',
-        to: 'kg',
-      },
-    });
+    expect(res)
+      .toEqual({
+        dataId: {
+          catalog: 'TelemetryPacket',
+          parameterName: 'CLCW_TM_NOMINAL',
+          comObject: 'DecommutedPacket',
+          domainId: 'd1',
+          domain: 'cnes',
+          sessionName: 'session1',
+          sessionId: 1,
+        },
+        filters: [],
+        offset: 0,
+        field: undefined,
+        convert: {
+          from: 'g',
+          to: 'kg',
+        },
+      });
   });
   test('wildcard => view Data', () => {
     connectedData.domain = '*';
     connectedData.timeline = '*';
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
       'cnes', 'cnes.isis', 'cnes', 'session1', 'session2');
-    expect(res).toEqual({
-      dataId: {
-        catalog: 'Reporting',
-        parameterName: 'ATT_BC_STR1VOLTAGE',
-        comObject: 'ReportingParameter',
-        domainId: 'd1',
-        domain: 'cnes',
-        sessionName: 'session1',
-        sessionId: 1,
-      },
-      filters: [],
-      field: 'extractedValue',
-      offset: 0,
-      convert: {
-        from: 'g',
-        to: 'kg',
-      },
-    });
+    const res2 = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
+      'cnes', 'cnes', 'cnes', 'session1', 'session2');
+    expect(res)
+      .toEqual({ error: 'Domains does not match for ATT_BC_STR1VOLTAGE' });
+    expect(res2)
+      .toEqual({
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd1',
+          domain: 'cnes',
+          sessionName: 'session1',
+          sessionId: 1,
+        },
+        filters: [],
+        field: 'extractedValue',
+        offset: 0,
+        convert: {
+          from: 'g',
+          to: 'kg',
+        },
+      });
   });
   test('wildcard => page Data', () => {
     connectedData.domain = '*';
     connectedData.timeline = '*';
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
       undefined, 'cnes.isis', 'cnes', undefined, 'session1', 'session2');
-    expect(res).toEqual({
-      dataId: {
-        catalog: 'Reporting',
-        parameterName: 'ATT_BC_STR1VOLTAGE',
-        comObject: 'ReportingParameter',
-        domainId: 'd2',
-        domain: 'cnes.isis',
-        sessionName: 'session1',
-        sessionId: 1,
-      },
-      filters: [],
-      field: 'extractedValue',
-      offset: 0,
-      convert: {
-        from: 'g',
-        to: 'kg',
-      },
-    });
+    expect(res)
+      .toEqual({
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionName: 'session1',
+          sessionId: 1,
+        },
+        filters: [],
+        field: 'extractedValue',
+        offset: 0,
+        convert: {
+          from: 'g',
+          to: 'kg',
+        },
+      });
   });
   test('wildcard => workspace Data', () => {
     connectedData.domain = '*';
     connectedData.timeline = '*';
     const res = parseConnectedData(domains, sessions, timelines, connectedData, 'Session master',
       undefined, undefined, 'cnes.isis', undefined, undefined, 'session1');
-    expect(res).toEqual({
-      dataId: {
-        catalog: 'Reporting',
-        parameterName: 'ATT_BC_STR1VOLTAGE',
-        comObject: 'ReportingParameter',
-        domainId: 'd2',
-        domain: 'cnes.isis',
-        sessionName: 'session1',
-        sessionId: 1,
-      },
-      filters: [],
-      field: 'extractedValue',
-      offset: 0,
-      convert: {
-        from: 'g',
-        to: 'kg',
-      },
-    });
+    expect(res)
+      .toEqual({
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'ATT_BC_STR1VOLTAGE',
+          comObject: 'ReportingParameter',
+          domainId: 'd2',
+          domain: 'cnes.isis',
+          sessionName: 'session1',
+          sessionId: 1,
+        },
+        filters: [],
+        field: 'extractedValue',
+        offset: 0,
+        convert: {
+          from: 'g',
+          to: 'kg',
+        },
+      });
+  });
+  test('domains does not match', () => {
+    expect(
+      parseConnectedData(domains, sessions, timelines, connectedData, 'Session master', 'cnes.isis', 'cnes.isis', 'cnes.isis')
+    )
+      .toEqual({ error: 'Domains does not match for ATT_BC_STR1VOLTAGE' });
   });
 });

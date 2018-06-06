@@ -35,6 +35,8 @@
 // VERSION : 2.0.0 : DM : #6818 : 29/11/2017 : PlotView/Grizzly Every pan action takes place in the
 //  Zones component.
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 

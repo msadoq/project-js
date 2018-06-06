@@ -15,7 +15,7 @@
     "length": 5,
     "width": 3
   },
-  "domainName": "fr.cnes.isis",
+  "domainName": "fr.cnes",
   "sessionName": "Master",
   "entryPoint": {
     "connectedData": {

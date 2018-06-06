@@ -23,7 +23,6 @@ export default class GroundAlarmEditor extends Component {
     title: string,
     titleStyle: shape({
       align: string,
-      bgColor: string,
       bold: bool,
       color: string,
       font: string,
@@ -95,7 +94,6 @@ export default class GroundAlarmEditor extends Component {
       panels,
       openModal,
       title,
-      titleStyle,
     } = this.props;
     const initialValues = entryPoints.length
       ? {
@@ -115,7 +113,7 @@ export default class GroundAlarmEditor extends Component {
         <h4
           className="text-center mb10"
         >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <span className="mr5 EditorVignette" />
           <b>{title}</b>
         </h4>
         <ReloadAndSaveViewButtonsContainer viewId={viewId} />

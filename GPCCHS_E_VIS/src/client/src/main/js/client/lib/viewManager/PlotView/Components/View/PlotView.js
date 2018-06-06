@@ -123,6 +123,8 @@
 //  timebar has been selected
 // VERSION : 2.0.0 : FA : ISIS-FT-2949 : 22/03/2018 : dates now display in TAI
 // VERSION : 2.0.0 : FA : #11614 : 06/04/2018 : Plotview unit display + snap
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 

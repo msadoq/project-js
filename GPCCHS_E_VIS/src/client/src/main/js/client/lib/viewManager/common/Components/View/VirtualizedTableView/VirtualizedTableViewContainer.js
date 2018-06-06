@@ -4,26 +4,35 @@ import { filterColumn, toggleColumnSort } from 'store/actions/tableColumns';
 import { pause } from 'store/actions/hsc';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
+import { filter, sort } from '../../../../common/data/table';
 
 
-const mapStateToProps = (state, { viewId, tableId, rows }) => {
+const mapStateToProps = (state, { viewId, tableId, rows, rowCount, totalRowCount }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const tableConfig = config.tables[tableId];
 
   const { cols, sorting, filters, name } = tableConfig;
 
-  const colIndexesToRemove = cols.reduce((acc, cur, index) => {
-    if (!cur.displayed) {
-      return [...acc, index];
+  const _getRows = () => {
+    if (Array.isArray(rows)) {
+      const formattedRows = sort(filter(rows, tableConfig), tableConfig);
+
+      const colIndexesToRemove = cols.reduce((acc, cur, index) => {
+        if (!cur.displayed) {
+          return [...acc, index];
+        }
+
+        return acc;
+      }, []);
+
+      return formattedRows.reduce((acc, cur) => [
+        ...acc,
+        cur.filter((_, index) => colIndexesToRemove.indexOf(index) === -1),
+      ], []);
     }
 
-    return acc;
-  }, []);
-
-  const reducedRows = rows.rows.reduce((acc, cur) => [
-    ...acc,
-    cur.filter((_, index) => colIndexesToRemove.indexOf(index) === -1),
-  ], []);
+    return rows;
+  };
 
   const reducedColumns = cols.reduce((acc, cur) => {
     if (cur.displayed) {
@@ -33,16 +42,15 @@ const mapStateToProps = (state, { viewId, tableId, rows }) => {
     return acc;
   }, []);
 
-  const reducedColumnCount = reducedColumns.length;
-
   return {
-    rows: reducedRows,
+    tableName: name,
+    rows: _getRows(),
+    rowCount,
+    totalRowCount,
     cols: reducedColumns,
+    columnCount: reducedColumns.length,
     sortState: sorting,
     filterState: filters,
-    tableName: name,
-    columnCount: reducedColumnCount,
-    totalCount: rows.totalCount,
   };
 };
 

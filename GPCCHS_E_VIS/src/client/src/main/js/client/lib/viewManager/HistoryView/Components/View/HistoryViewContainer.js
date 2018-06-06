@@ -1,4 +1,4 @@
-/* eslint-disable quote-props,no-unused-vars */
+/* eslint-disable quote-props,no-unused-vars,arrow-body-style */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
@@ -13,7 +13,8 @@
 // END-HISTORY
 // ====================================================================
 
-import _ from 'lodash';
+import _ from 'lodash/fp';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -22,9 +23,6 @@ import { getData } from 'viewManager/HistoryView/store/dataReducer';
 import { addEntryPoint } from 'store/actions/views';
 import { toggleColumnSort, filterColumn, scrollRows } from 'store/actions/tableColumns';
 import HistoryView from './HistoryView';
-import { getSessionByTimelineId } from '../../../../store/reducers/sessions';
-import { formatHistoryRows } from '../../data';
-import formatData from '../../data/formatData';
 
 
 const mapStateToProps = (state, { viewId }) => {
@@ -32,88 +30,26 @@ const mapStateToProps = (state, { viewId }) => {
 
   const data = getData(state, { viewId });
 
-  const reducedConfig = {
-    ...config.tables.history,
-    entryPoints: config.entryPoints,
+  const totalRowCount = data.indexes.length; // TODO: get total row count
+  const rowCount = totalRowCount; // TODO: get data count from state, rowCount = total if not filtered
+
+  const { indexes } = data;
+
+  const rows = ({ rowIndex, columnIndex, cols }) => {
+    const content = _.get(indexes[rowIndex].split(' '), data);
+    const colKey = cols[columnIndex];
+    return content[colKey];
   };
 
-  const { data: preformattedData, currentLines } = formatData(data, reducedConfig);
-  const formattedData = formatHistoryRows(preformattedData, reducedConfig);
-
-  const entryPointReducer = (acc, entryPoint) => {
-    if (entryPoint.connectedData && entryPoint.connectedData.timeline) {
-      const {
-        domain,
-        catalog,
-        catalogItem,
-        timeline,
-      } = entryPoint.connectedData;
-
-      const session =
-        getSessionByTimelineId(
-          state,
-          {
-            timelineId: timeline,
-          }
-        );
-
-      const sessionId = session.id;
-
-      const unit = _.get(
-        state.catalogs,
-        [
-          `${domain}-${session.id}`,
-          catalog,
-          catalogItem,
-        ]
-      );
-
-      return [
-        ...acc,
-        {
-          ...entryPoint,
-          connectedData: {
-            ...entryPoint.connectedData,
-            sessionId,
-            unit,
-          },
-        },
-      ];
-    }
-
-    return [...acc, entryPoint];
-  };
-
-  const updatedConfig = {
-    ...config,
-    entryPoints: config.entryPoints.reduce(entryPointReducer, []),
-  };
-
-  // current rows
   const historyConfig = config.tables.history;
 
-  const _getFieldIndex = field => historyConfig.cols.findIndex(col => col.title === field);
-
-  const referenceTimestampIndex = _getFieldIndex('referenceTimestamp');
-  const epNameIndex = _getFieldIndex('epName');
-
-  const _isCurrent = row => currentLines.some(
-    line =>
-      line.epName === row[epNameIndex].value &&
-      line.timestamp === String((new Date(row[referenceTimestampIndex].value)).getTime())
-  );
-
-  const currentRowIndexes = formattedData.rows.reduce((acc, cur, index) => {
-    if (_isCurrent(cur)) {
-      return [...acc, index];
-    }
-
-    return acc;
-  }, []);
+  const currentRowIndexes = [];
 
   return {
-    config: updatedConfig,
-    data: formattedData,
+    config: historyConfig,
+    rows,
+    rowCount,
+    totalRowCount,
     currentRowIndexes,
   };
 };

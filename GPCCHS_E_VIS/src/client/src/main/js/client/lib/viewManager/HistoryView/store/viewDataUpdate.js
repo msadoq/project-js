@@ -15,171 +15,95 @@
 // END-HISTORY
 // ====================================================================
 
-/* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
-import _findIndex from 'lodash/findIndex';
-import _split from 'lodash/split';
-import _indexOf from 'lodash/indexOf';
-import _cloneDeep from 'lodash/cloneDeep';
-import _concat from 'lodash/concat';
+/* eslint-disable no-unused-vars */
+
+import _ from 'lodash/fp';
+
 import _get from 'lodash/get';
 import { convertData } from 'viewManager/commonData/convertData';
 import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
-import { SORTING_DESC, SORTING_ASC, HISTORYVIEW_SEPARATOR } from 'constants';
+import { SORTING_DESC, SORTING_ASC } from 'constants';
 import _findLastIndex from 'lodash/findLastIndex';
 
 const logger = getLogger('data:rangeValues');
 
+/**
+ * Returns an object mapping entry point data for the specified entry point `epKey`
+ * to indexes in the form `epKey timestamp`
+ *
+ * The function takes as argument an object in the following format:
+ *
+ * {
+ *   [epKey]: {
+ *     [timestamp]: { ...epData }
+ *   }
+ * }
+ *
+ * and returns the indexed representation of it, using the couple (epKey, timestamp)
+ * to index entry point data:
+ *
+ * {
+ *   [`[epKey] [timestamp]`]: { ...epData }
+ * }
+ *
+ * @param epKey string
+ * @param epData object
+ * @returns object
+ * @private
+ */
+const _indexEntryPointData =
+  (epKey, epData) =>
+    Object.keys(epData).reduce((acc, timestamp) => ({
+      ...acc,
+      [`${epKey} ${timestamp}`]: epData[timestamp],
+    }), {});
 
-/* ************************************
- * Compare 2 values considering direction
- * @param: reference value
- * @param: value to compare
- * @param: direction (SORTING_ASC or SORTING_DESC)
- * @return: true if valueRef is >= to value when direction is SORTING_ASC or <= if SORTING_DESC
-/* *********************************** */
-export function compareValue(valueRef, valueToCompare, direction) {
-  // Case of unknown column for sorting
-  if (!valueRef) {
-    return true;
-  }
-  if (direction === SORTING_DESC) {
-    return valueToCompare >= valueRef;
-  }
-  return valueToCompare <= valueRef;
-}
+/**
+ *
+ * Returns an indexed version of entry points data, in the form:
+ *
+ * {
+ *   [`[epKey] [timestamp]`]: { ...epData }
+ * }
+ *
+ * @param data
+ * @returns {{}}
+ * @private
+ */
+const _indexData =
+  data =>
+    Object.keys(data).reduce((acc, epKey) => ({
+      ...acc,
+      ..._indexEntryPointData(epKey, data[epKey]),
+    }), {});
 
-/* ************************************
- * Add payload in ep table
- * @param: data state of current view
- * @param: EP Name
- * @param: index to insert data
- * @param: current payload
- * @return: updated state and inserted index in 'lines' table
-/* *********************************** */
-export function addDataInEpTable(epState, index, payload) {
-  let newState = epState;
-  let indexInLines;
-  if (index === -1) {
-    // indexInLines = newState.length - 1;
-    newState.push(payload);
-  } else {
-    // indexInLines = index;
-    newState = _concat(
-      newState.slice(0, index),
-      payload,
-      newState.slice(index)
-    );
-  }
-  return { indexInLines, newState };
-}
 
-/* ************************************
- * Returns true if name corresponds to time
- * @param: column name
- * @return: Returns true if name corresponds to time
-/* *********************************** */
-export function sortData(state, sortingConfig) {
-  const epNames = Object.keys(state.data);
-  if (!epNames.length) {
-    return state;
-  }
-  let newState = _cloneDeep(state);
-  newState.lines = [];
-  const colToSort = sortingConfig.colName || 'masterTime';
-  const direction = sortingConfig.direction || SORTING_ASC;
-  for (let i = 0; i < epNames.length; i += 1) {
-    const epName = epNames[i];
-    const timestamps = Object.keys(state.data[epName]);
-    for (let j = 0; j < timestamps.length; j += 1) {
-      newState = updateLines(newState, epNames[i], timestamps[j], colToSort, direction);
-    }
-  }
-  return newState;
-}
+const _insertSortedBy = (by, el, dest, offset = 0) => {
+  const index = _.sortedIndexBy(by, el, dest.slice(offset)) + offset;
+  dest.splice(index, 0, el);
+  return index;
+};
 
-/* ************************************
- * Returns true if name corresponds to time
- * @param: column name
- * @return: Returns true if name corresponds to time
-/* *********************************** */
-// function isSortingByTime(colToSort) {
-//   if (colToSort === 'referenceTimestamp' || colToSort === 'masterTime'
-//     || colToSort === 'onboardDate' || colToSort === 'groundDate') {
-//     return true;
-//   }
-//   return false;
-// }
-/* ************************************
- * Update 'lines' table with payload considering sorting parameters
- * @param: data state of current view
- * @param: EP Name
- * @param: current timestamp
- * @param: column name for sorting
- * @param: direction for sorting
- * @return: updated state
-/* *********************************** */
-export function updateLines(state, epName, timestamp, colToSort, direction) {
-  const valueToCompare = _get(state, ['data', epName, timestamp, colToSort]);
-  if (!valueToCompare) {
-    return state;
-  }
-  // loop on 'lines' table to find index for insertion
+/**
+ *
+ * Inserts the elements in source array into a sorted destination array
+ *
+ * @param by
+ * @param source
+ * @param dest
+ * @private
+ */
+const _mergeSortedArrayBy = (by, source, dest) => {
   let i = 0;
-  let indexToInsert = -1;
-  while (i < state.lines.length) {
-    const args = _split(state.lines[i], HISTORYVIEW_SEPARATOR);
-    if (args.length !== 2) {
-      logger.warn('Error updating Plot view data:', state.lines[i]);
-      i += 1;
-      continue;
-    }
-    const ep = args[0];
-    const time = args[1];
-    const valRef = _get(state, ['data', ep, time, colToSort]);
-    if (compareValue(valRef, valueToCompare, direction)) {
-      indexToInsert = i;
-      i = state.lines.length;
-    }
+  let offset = 0;
+
+  while (i < source.length) {
+    offset = _insertSortedBy(by, source[i], dest, offset);
     i += 1;
   }
-
-  const valueToInsert = epName.concat(' ').concat(timestamp);
-  if (indexToInsert === -1) {
-    const newState = state;
-    newState.lines.push(valueToInsert);
-    return newState;
-  }
-
-  return {
-    ...state,
-    lines: _concat(state.lines.slice(0, indexToInsert), valueToInsert,
-      state.lines.slice(indexToInsert)),
-  };
-}
-
-/* ************************************
- * Update state cols with cols read in payloads
- * @param: current cols in state
- * @param: cols read in payloads
- * @param: hidden cols from configuration
- * @return: updated state cols
-/* *********************************** */
-export function updateColToShow(stateCols, payloadCols, hiddenColumns) {
-  const newCols = stateCols;
-  for (let i = 0; i < payloadCols.length; i += 1) {
-    // look for col name in cols
-    if (_indexOf(stateCols, payloadCols[i]) === -1) {
-      // Checks if current name is hidden
-      if (_indexOf(hiddenColumns, payloadCols[i]) === -1) {
-        // Add column name in cols table
-        newCols.push(payloadCols[i]);
-      }
-    }
-  }
-  return newCols;
-}
+};
 
 /* ************************************
  * Add payloads in plot view data state
@@ -190,81 +114,48 @@ export function updateColToShow(stateCols, payloadCols, hiddenColumns) {
  * @return: updated state
 /* *********************************** */
 export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindow) {
-  // get EP names
-  const epNames = Object.keys(payloads || {});
-  if (!epNames.length) {
-    // no data
+  const epKeys = Object.keys(payloads || {});
+  if (!epKeys.length) {
     return state;
   }
-  // Get sorting column
-  const colToSort = _get(viewConfig, ['sorting', 'colName'], 'masterTime');
-  const direction = _get(viewConfig, ['sorting', 'direction'], SORTING_ASC);
 
-  // Loop on payloads to update state
-  // data: contains all fields filtered by EP and by time [epName]: { [timestamp]: { values }}
-  // indexes: contains timestamps per EP and ordered [epName]: [t1, t2, ...]
-  // lines: ordered table grouping all EP [ ep1 t1, ep2 t1, ep1 t2, ...]
-  // cols: list of column names
-  let newState = _cloneDeep(state);
+  const sorting = _.get(['tables', 'history', 'sorting'], viewConfig);
+  const sortingColKey = _.get(['colKey'], sorting);
 
-  // loop on EP name to add payload sorted by masterTime in EP table
-  for (let iEp = 0; iEp < epNames.length; iEp += 1) {
-    const epName = epNames[iEp];
-    // Does not consider cols as an entry point name
-    if (epName === 'cols') {
-      continue;
-    }
-    if (!newState.data[epName]) {
-      newState.data[epName] = {};
-      newState.indexes[epName] = [];
-    }
-    // Update of EP data
-    newState.data[epName] = {
-      ...newState.data[epName],
-      ...payloads[epName],
-    };
-    const timestamps = Object.keys(payloads[epName]);
-    let lastIndex = -1;
-    let lastTime;
-    // loop on payload timestamps
-    for (let iTime = 0; iTime < timestamps.length; iTime += 1) {
-      // let indexInLines = -1;
-      const time = timestamps[iTime];
-      let updLines = true;
-      // Add payload in EP Table sorted by ascending time
-      if (lastIndex === -1 && lastTime && lastTime < time) {
-        newState.indexes[epName].push(time);
-      } else {
-        let index = -1;
-        if (newState.indexes[epName].length) {
-          index = _findIndex(newState.indexes[epName], val => val >= time);
-        }
-        lastIndex = index;
-        if (index === -1) {
-          newState.indexes[epName].push(time);
-        } else if (newState.indexes[epName][index] !== time) {
-          newState.indexes[epName] = _concat(
-            newState.indexes[epName].slice(0, index),
-            time,
-            newState.indexes[epName].slice(index));
-        } else {
-          // Data is already present in tables
-          updLines = false;
-        }
-      }
-      lastTime = time;
+  let updatedState = _.clone(state);
 
-      if (updLines) {
-        // Sorting considering specified column
-        newState = updateLines(newState, epName, time, colToSort, direction);
-      }
-    }
-  }
-  newState = updateCurrent(newState, epNames, visuWindow);
+  // injects payloads "as is" in data
+  updatedState = _.set(
+    ['data'],
+    {
+      ..._.get(['data'], updatedState),
+      ...payloads,
+    },
+    updatedState
+  );
 
-  return newState;
+  // indexes payloads and insert them in sorted indexes
+  const indexedPayloads = _indexData(payloads);
+  const payloadIndexes = Object.keys(indexedPayloads);
+
+  const sortedPayloadIndexes =
+    _.sortBy(
+      payloadIndex => indexedPayloads[payloadIndex][sortingColKey],
+      payloadIndexes
+    );
+
+  _mergeSortedArrayBy(
+    index => _.get([...index.split(''), sortingColKey], updatedState.data),
+    sortedPayloadIndexes,
+    updatedState.indexes
+  );
+
+  // updatedState = updateCurrent(updatedState, epKeys, visuWindow);
+
+  return updatedState;
 }
 
+/*
 function updateCurrent(state, epNames, visuWindow) {
   if (!visuWindow) {
     return state;
@@ -278,16 +169,13 @@ function updateCurrent(state, epNames, visuWindow) {
       if (!newState.current) {
         newState.current = {};
       }
-      newState.current[epName] = epName.concat(' ').concat(newState.indexes[epName][current]);
+      newState.current[epName] = [epName, newState.indexes[epName][current]];
     }
   }
   return newState;
 }
+*/
 
-// function getIndex(state, epName, payload, colToSort, direction, iBegin) {
-//   return _findIndex(state.lines, val => compareValue(
-//     state[val.epName][val.index][colToSort], payload[colToSort], direction), iBegin);
-// }
 /* ************************************
  * Select payload to add for current view
  * @param: current view data map

@@ -30,7 +30,6 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
 import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
-import _map from 'lodash/map';
 import _forEach from 'lodash/forEach';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
 import _isEmpty from 'lodash/isEmpty';
@@ -67,7 +66,7 @@ export function getExtremValue(state, epName, minOrMax, minOrMaxTime, isMin) {
   if (stateMinOrMax) {
     // Value needs update
     if ((isMin && stateMinOrMax >= minOrMax[epName])
-    || (!isMin && stateMinOrMax <= minOrMax[epName])) {
+      || (!isMin && stateMinOrMax <= minOrMax[epName])) {
       stateMinOrMax = minOrMax[epName];
       stateMinOrMaxTime = minOrMaxTime[epName];
     } else {
@@ -77,12 +76,14 @@ export function getExtremValue(state, epName, minOrMax, minOrMaxTime, isMin) {
   } else {
     if (!state.lines[epName]) {
       if (isMin) {
-        return { ...state,
+        return {
+          ...state,
           min: { ...state.min, ...minOrMax },
           minTime: { ...state.minTime, ...minOrMaxTime },
         };
       }
-      return { ...state,
+      return {
+        ...state,
         max: { ...state.max, ...minOrMax },
         maxTime: { ...state.maxTime, ...minOrMaxTime },
       };
@@ -104,22 +105,26 @@ export function getExtremValue(state, epName, minOrMax, minOrMaxTime, isMin) {
     stateMinOrMaxTime = extremValTime;
   }
   if (isMin) {
-    return { ...state,
+    return {
+      ...state,
       min: { ...state.min, [epName]: stateMinOrMax },
       minTime: { ...state.minTime, [epName]: stateMinOrMaxTime },
     };
   }
-  return { ...state,
+  return {
+    ...state,
     max: { ...state.max, [epName]: stateMinOrMax },
     maxTime: { ...state.maxTime, [epName]: stateMinOrMaxTime },
   };
 }
+
 /* ************************************
  * Add payloads in plot view data state
  * @param: data state of current view
  * @param: data to add in state
  * @return: updated state
 /* *********************************** */
+
 // eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity without perf. leak"
 export function viewRangeAdd(state = {}, payloads) {
   const epNames = Object.keys(payloads || {}); // get tbdIds
@@ -142,12 +147,16 @@ export function viewRangeAdd(state = {}, payloads) {
   } else {
     newState = _cloneDeep(state);
   }
+
+  const obsoleteEvents = newState.obsoleteEvents || {};
+
   // min and max
   if (payloads.min) {
-    Object.keys(payloads.min || {}).forEach((epName) => {
-      newState = getExtremValue(newState, epName, payloads.min, payloads.minTime, true);
-      newState = getExtremValue(newState, epName, payloads.max, payloads.maxTime, false);
-    });
+    Object.keys(payloads.min || {})
+      .forEach((epName) => {
+        newState = getExtremValue(newState, epName, payloads.min, payloads.minTime, true);
+        newState = getExtremValue(newState, epName, payloads.max, payloads.maxTime, false);
+      });
   }
   // newState[epName][masterTime] = { x: value.payload[ep.fieldX], value: value.payload[ep.fieldY],
   // masterTime: time };
@@ -159,10 +168,19 @@ export function viewRangeAdd(state = {}, payloads) {
     }
     let lastIndex = 0;
     let lastTime = 0;
+    let lastObsoleteEventIndex = 0;
     const tbdIdPayloads = payloads[epName];
-    const masterTimes = Object.keys(tbdIdPayloads);
+    // ascending sort for master times
+    const masterTimes = Object.keys(tbdIdPayloads)
+      .sort((a, b) => a - b);
+
+    // ascending sort for obsolete events
+    const obsoleteEventsIndexes =
+      obsoleteEvents[epName] ?
+        Object.keys(obsoleteEvents[epName]).sort((a, b) => a - b) : [];
     for (let j = 0; j < masterTimes.length; j += 1) {
       const masterTime = masterTimes[j];
+      const nextMasterTime = masterTimes[j + 1] || -1;
       // Check validity of current payload
       let currentValue = tbdIdPayloads[masterTime];
       if (!_isNumber(currentValue.value)) {
@@ -180,18 +198,31 @@ export function viewRangeAdd(state = {}, payloads) {
       }
 
       const timestamp = parseInt(masterTime, 10); // TODO : avoid by passing .index[] in payload
-      newState.lines[epName][timestamp] = { masterTime: timestamp, ...currentValue };
+      const nextTimestamp = parseInt(nextMasterTime, 10);
+      // compute the obsolescence of the data
+      const { isDataObsolete, lastComputedObsoleteEventIndex } = isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes
+      );
+
+      lastObsoleteEventIndex = lastComputedObsoleteEventIndex;
+
+      newState.lines[epName][timestamp] = {
+        masterTime: timestamp,
+        isDataObsolete,
+        ...currentValue,
+      };
+
+      // compute ascending indexes array
       // if new value should be pushed at end (most common case in play mode)
       if (lastIndex === -1 && timestamp > lastTime) {
         newState.indexes[epName].push(timestamp);
         lastTime = timestamp;
         continue;
       }
-      if (timestamp < lastTime) {
-        lastIndex = 0; // fix the Object.keys() not always sorted behavior
-      }
       lastTime = timestamp;
-
       const index = _findIndex(newState.indexes[epName], t => t >= timestamp, lastIndex);
       lastIndex = index;
       if (index === -1) {
@@ -214,16 +245,13 @@ export function viewRangeAdd(state = {}, payloads) {
   return newState;
 }
 
-
 export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
-  const epNames = Object.keys(payloads || {}); // get tbdIds
-  if (!epNames.length) {
+  const obsoleteEventsFlatIds = Object.keys(payloads || {});
+  const epNames = Object.keys(entryPoints || {});
+  if (!obsoleteEventsFlatIds.length || !epNames.length) {
     // no data
     return state;
   }
-
-  const entryPointsFlatIdForObsolete =
-    _map(entryPoints, ep => getFlattenDataIdForObsoleteEvent(ep.dataId));
 
   let newState;
   if (_isEmpty(state)) {
@@ -241,17 +269,18 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
     newState.obsoleteEvents = newState.obsoleteEvents || {};
   }
   _forEach(epNames, (epName) => {
-    if (entryPointsFlatIdForObsolete.indexOf(epName) !== -1) {
-      if (!newState.obsoleteEvents[epName]) {
-        newState.obsoleteEvents[epName] = {};
-      }
-      const obsoleteEvents = { ...newState.obsoleteEvents[epName], ...payloads[epName] };
-      newState.obsoleteEvents[epName] = obsoleteEvents;
+    const { dataId } = entryPoints[epName];
+    const flattenDataId = getFlattenDataIdForObsoleteEvent(dataId);
+    if (!newState.obsoleteEvents[epName]) {
+      newState.obsoleteEvents[epName] = {};
     }
+    const obsoleteEvents = { ...newState.obsoleteEvents[epName], ...payloads[flattenDataId] };
+    newState.obsoleteEvents[epName] = obsoleteEvents;
   });
 
   return newState;
 }
+
 /* ************************************
  * Select payload to add for current view
  * @param: current view data map
@@ -267,10 +296,10 @@ export function selectDataPerView(currentViewMap, configuration, intervalMap, pa
         const epX = currentViewMap.entryPoints[`${entryPoint.name}-X`];
         const epY = currentViewMap.entryPoints[`${entryPoint.name}-Y`];
         const newSubState = selectEpDataParametric(payload[epX.tbdId], epX, `${entryPoint.name}-X`,
-                                                   payload[epY.tbdId], epY, `${entryPoint.name}-Y`,
-                                                   entryPoint.name, epSubState, intervalMap,
-                                                   viewState.lines[epX.dataId.parameterName],
-                                                   viewState.lines[epY.dataId.parameterName]);
+          payload[epY.tbdId], epY, `${entryPoint.name}-Y`,
+          entryPoint.name, epSubState, intervalMap,
+          viewState.lines[epX.dataId.parameterName],
+          viewState.lines[epY.dataId.parameterName]);
         epSubState = { ...epSubState, ...newSubState };
       } else {
         const ep = currentViewMap.entryPoints[entryPoint.name];
@@ -291,8 +320,19 @@ export function selectDataPerView(currentViewMap, configuration, intervalMap, pa
 }
 
 // eslint-disable-next-line complexity, "DV6 TBC_CNES Un-avoidable complexity without perf. leak"
-export function selectEpDataParametric(_tbdIdPayloadX, epX, epNameX,
-  _tbdIdPayloadY, epY, epNameY, epName, viewState, intervalMap, linesX, linesY) {
+export function selectEpDataParametric(
+  _tbdIdPayloadX,
+  epX,
+  epNameX,
+  _tbdIdPayloadY,
+  epY,
+  epNameY,
+  epName,
+  viewState,
+  intervalMap,
+  linesX,
+  linesY
+) {
   let minX;
   let minY;
   let maxX;
@@ -337,11 +377,11 @@ export function selectEpDataParametric(_tbdIdPayloadX, epX, epNameX,
       // chexck if Y-1 exist
       if (indexY > 0) {
         valY = interpolatePoint(
-        tbdIdPayloadX[timestampsX[indexX]].refTime,
-        tbdIdPayloadY[timestampsY[indexY - 1]].refTime,
-        tbdIdPayloadY[timestampsY[indexY - 1]].value,
-        tbdIdPayloadY[timestampsY[indexY]].refTime,
-        tbdIdPayloadY[timestampsY[indexY]].value);
+          tbdIdPayloadX[timestampsX[indexX]].refTime,
+          tbdIdPayloadY[timestampsY[indexY - 1]].refTime,
+          tbdIdPayloadY[timestampsY[indexY - 1]].value,
+          tbdIdPayloadY[timestampsY[indexY]].refTime,
+          tbdIdPayloadY[timestampsY[indexY]].value);
         valX = tbdIdPayloadX[timestampsX[indexX]].value;
       }
       indexX += 1;
@@ -349,11 +389,11 @@ export function selectEpDataParametric(_tbdIdPayloadX, epX, epNameX,
       // chexck if X-1 exist
       if (indexX > 0) {
         valX = interpolatePoint(
-        tbdIdPayloadY[timestampsY[indexY]].refTime,
-        tbdIdPayloadX[timestampsX[indexX - 1]].refTime,
-        tbdIdPayloadX[timestampsX[indexX - 1]].value,
-        tbdIdPayloadX[timestampsX[indexX]].refTime,
-        tbdIdPayloadX[timestampsX[indexX]].value);
+          tbdIdPayloadY[timestampsY[indexY]].refTime,
+          tbdIdPayloadX[timestampsX[indexX - 1]].refTime,
+          tbdIdPayloadX[timestampsX[indexX - 1]].value,
+          tbdIdPayloadX[timestampsX[indexX]].refTime,
+          tbdIdPayloadX[timestampsX[indexX]].value);
         valY = tbdIdPayloadY[timestampsY[indexY]].value;
       }
       indexY += 1;
@@ -417,14 +457,14 @@ export function computeNewPayload(_allPayload, _newPayload, field) {
   const mutatedPayload = {};
   while (indexA < allPayload.length && indexB < newPayload.length) {
     if (_allPayload[allPayload[indexA]].refTime <
-        _newPayload[newPayload[indexB]].referenceTimestamp.value) {
+      _newPayload[newPayload[indexB]].referenceTimestamp.value) {
       mutatedPayload[_allPayload[allPayload[indexA]].refTime] = {
         refTime: _allPayload[allPayload[indexA]].refTime,
         value: _allPayload[allPayload[indexA]].value,
       };
       indexA += 1;
     } else if (_allPayload[allPayload[indexA]].refTime >
-               _newPayload[newPayload[indexB]].referenceTimestamp.value) {
+      _newPayload[newPayload[indexB]].referenceTimestamp.value) {
       mutatedPayload[_newPayload[newPayload[indexB]].referenceTimestamp.value] = {
         refTime: _newPayload[newPayload[indexB]].referenceTimestamp.value,
         value: getFieldValue(_newPayload[newPayload[indexB]], field),
@@ -461,19 +501,22 @@ export function computeNewPayload(_allPayload, _newPayload, field) {
 /* ************************************
  * Calculate new point interpolated ( order 1)
 /* *********************************** */
+
 // pgaucher-plot
 export function interpolatePoint(
   toInterpolateTs,
   lowerTs,
   lowerValue,
   upperTs,
-  upperValue) {
-    // Y = AX + B
+  upperValue
+) {
+  // Y = AX + B
   const A = (lowerValue - upperValue) / (lowerTs - upperTs);
   const B = ((lowerTs * upperValue) - (lowerValue * upperTs)) / (lowerTs - upperTs);
 
   return (A * toInterpolateTs) + B;
 }
+
 /* ************************************
  * Select payload to add for current entry Point
  * @param: payload of current entry point
@@ -532,8 +575,9 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
         // Case of long : add string representation in tooltip to keep precision
         // Case of double : add string representation in tooltip to keep precision
         symbol: _get(value, [ep.fieldY, 'symbol']),
-        isNominal: _get(value, 'isNominal.value'),
-        isObsolete: _get(value, 'isObsolete.value'),
+        // isNominal: _get(value, 'isNominal.value'), // not use anymore
+        // isObsolete: _get(value, 'isObsolete.value'), // not use anymore
+        validityState: _get(value, 'validityState.value'),
       };
     }
     if (valForMax) {
@@ -605,3 +649,27 @@ function getMax(lastMax, valY, lastTime, masterTime) {
   }
   return { max: lastMax, maxTime: lastTime };
 }
+
+export const isRangeDataObsolete =
+  (currentTimestamp, nextTimestamp, lastObsoleteEventIndex, obsoleteEventsIndexes) => {
+    let isDataObsolete = false;
+    let lastComputedObsoleteEventIndex = 0;
+
+    if (obsoleteEventsIndexes.length > 0) {
+      lastComputedObsoleteEventIndex = lastObsoleteEventIndex !== -1 ?
+        _findIndex(obsoleteEventsIndexes, t => t >= currentTimestamp, lastObsoleteEventIndex) :
+        lastObsoleteEventIndex;
+      // it is the last range timestamp from payloads
+      if (nextTimestamp === -1) {
+        isDataObsolete = lastComputedObsoleteEventIndex !== -1;
+      } else if (lastComputedObsoleteEventIndex !== -1 &&
+        obsoleteEventsIndexes[lastComputedObsoleteEventIndex] < nextTimestamp) {
+        isDataObsolete = true;
+      }
+    }
+
+    return {
+      isDataObsolete,
+      lastComputedObsoleteEventIndex,
+    };
+  };

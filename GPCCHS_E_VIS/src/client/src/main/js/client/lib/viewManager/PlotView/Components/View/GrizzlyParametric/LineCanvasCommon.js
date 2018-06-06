@@ -204,8 +204,8 @@ export const drawLine = (perfOutput,
   let stoppedCurrent;
   let stoppedPrevious = false;
   const shouldDrawPoint = pointOffset && ['Square', 'Dot', 'Triangle'].indexOf(line.pointStyle) !== -1;
-  const shouldDrawSubLine = (i, stopCurrent, stopPrevious) =>
-    lineSize && i > 0 && !stopCurrent && !stopPrevious;
+  const shouldDrawSubLine = (i, stopCurrent, stopPrevious, packet) =>
+    !packet.isDataObsolete && lineSize && i > 0 && !stopCurrent && !stopPrevious;
   const drawPoint = drawPointType(line, pointOffset, pointSize, fontSize);
 
   const lineIndexesLength = lineIndexes.length;
@@ -256,7 +256,7 @@ export const drawLine = (perfOutput,
     }
 
     // should draw a subline between current data and next data
-    if (shouldDrawSubLine(i, stoppedCurrent, stoppedPrevious)) {
+    if (shouldDrawSubLine(i, stoppedCurrent, stoppedPrevious, packet)) {
       ctx.lineTo(nextX, nextY);
     } else {
       ctx.moveTo(nextX, nextY);

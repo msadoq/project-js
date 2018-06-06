@@ -23,6 +23,7 @@ import {
   selectDataPerView,
   selectEpData,
   viewObsoleteEventAdd,
+  isRangeDataObsolete,
 } from './viewDataUpdate';
 
 describe('viewManager/PlotView/store/viewDataUpdate', () => {
@@ -176,7 +177,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           max: {},
           maxTime: {},
           obsoleteEvents: {
-            'ep1:2:4:::': {
+            ep1: {
               10: {
                 eventDate: 10,
               },
@@ -185,6 +186,70 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
               },
               12: {
                 eventDate: 12,
+              },
+            },
+          },
+        });
+    });
+    test('should add obsolete events and sort them by key', () => {
+      const payload1 = {
+        'ep1:2:4:::': {
+          10: {
+            eventDate: 10,
+          },
+          12: {
+            eventDate: 12,
+          },
+          14: {
+            eventDate: 14,
+          },
+          9: {
+            eventDate: 9,
+          },
+          13: {
+            eventDate: 13,
+          },
+          11: {
+            eventDate: 11,
+          },
+        },
+      };
+      const entryPoints = {
+        ep1: {
+          dataId: {
+            parameterName: 'ep1',
+            domainId: 4,
+            sessionId: 2,
+          },
+        },
+      };
+      expect(viewObsoleteEventAdd(freezeMe({}), payload1, entryPoints))
+        .toEqual({
+          indexes: {},
+          lines: {},
+          min: {},
+          minTime: {},
+          max: {},
+          maxTime: {},
+          obsoleteEvents: {
+            ep1: {
+              9: {
+                eventDate: 9,
+              },
+              10: {
+                eventDate: 10,
+              },
+              11: {
+                eventDate: 11,
+              },
+              12: {
+                eventDate: 12,
+              },
+              13: {
+                eventDate: 13,
+              },
+              14: {
+                eventDate: 14,
               },
             },
           },
@@ -221,7 +286,9 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
           minTime: {},
           max: {},
           maxTime: {},
-          obsoleteEvents: {},
+          obsoleteEvents: {
+            ep1: {},
+          },
         });
     });
   });
@@ -463,6 +530,94 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         expect(newState)
           .toEqual({});
       });
+    });
+  });
+});
+
+describe.only('PlotView : viewDataUpdate : isRangeDataObsolete', () => {
+  it('given empty array of obsolete events, should return false', () => {
+    // given rangesTimes = [10,20,30,40,50];
+    const obsoleteEventsIndexes = [];
+    const timestamp = 10;
+    const nextTimestamp = 20;
+    const lastObsoleteEventIndex = 0;
+    expect(
+      isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes)
+    ).toEqual({
+      isDataObsolete: false,
+      lastComputedObsoleteEventIndex: 0,
+    });
+  });
+  it('given last range timestamp and no obsolete events after, should return false', () => {
+    // given rangesTimes = [10,20,30,40,50];
+    const obsoleteEventsIndexes = [11, 28];
+    const timestamp = 50;
+    const nextTimestamp = -1;
+    const lastObsoleteEventIndex = -1;
+    expect(
+      isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes)
+    ).toEqual({
+      isDataObsolete: false,
+      lastComputedObsoleteEventIndex: -1,
+    });
+  });
+  it('given last range timestamp and obsolete events after, should return true', () => {
+    // given rangesTimes = [10,20,30,40,50];
+    const obsoleteEventsIndexes = [11, 28, 57];
+    const timestamp = 50;
+    const nextTimestamp = -1;
+    const lastObsoleteEventIndex = 1;
+    expect(
+      isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes)
+    ).toEqual({
+      isDataObsolete: true,
+      lastComputedObsoleteEventIndex: 2,
+    });
+  });
+  it('given a range timestamp and one obsolete events after, should return true', () => {
+    // given rangesTimes = [10,20,30,40,50];
+    const obsoleteEventsIndexes = [11, 28];
+    const timestamp = 20;
+    const nextTimestamp = 30;
+    const lastObsoleteEventIndex = 0;
+    expect(
+      isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes)
+    ).toEqual({
+      isDataObsolete: true,
+      lastComputedObsoleteEventIndex: 1,
+    });
+  });
+  it('given a range timestamp and no obsolete events after, should return false', () => {
+    // given rangesTimes = [10,20,30,40,50];
+    const obsoleteEventsIndexes = [11, 28];
+    const timestamp = 30;
+    const nextTimestamp = 40;
+    const lastObsoleteEventIndex = 1;
+    expect(
+      isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes)
+    ).toEqual({
+      isDataObsolete: false,
+      lastComputedObsoleteEventIndex: -1,
     });
   });
 });

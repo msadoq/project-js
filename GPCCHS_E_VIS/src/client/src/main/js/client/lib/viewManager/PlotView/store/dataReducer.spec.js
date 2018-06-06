@@ -210,11 +210,17 @@ describe('viewManager/PlotView/store/dataReducer', () => {
       const newState = plotViewData(frozen, action);
       expect(newState.plot1.obsoleteEvents)
         .toEqual({
-          'ATT_BC_REVTCOUNT1:0:1:::': {
+          ATT_BC_REVTCOUNT1: {
             10: {
               eventDate: 10,
             },
           },
+          ATT_BC_REVTCOUNT1_Offset: {
+            10: {
+              eventDate: 10,
+            },
+          },
+          TMMGT_BC_VIRTCHAN3: {},
         });
     });
   });

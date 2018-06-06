@@ -86,7 +86,8 @@ import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
-import { buildFormulaForAutocomplete } from '../../../common';
+import { buildFormulaForAutocomplete, memoizeIsSignificantValue } from '../../../common';
+// import { getFlattenDataIdForObsoleteEvent } from '../../../../common/flattenDataId';
 
 const logger = getLogger('view:plot');
 
@@ -373,6 +374,16 @@ const tooltipFormatter = (id, foundColor, color, value, x, formattedValue, forma
       </p>
     </div>
   );
+
+const stopInstruction = (packet, entryPoint, showEpNonNominal) => {
+  let stop = false;
+  if (showEpNonNominal.includes(entryPoint.id)) {
+    stop = false;
+  } else {
+    stop = !memoizeIsSignificantValue(packet.validityState);
+  }
+  return stop;
+};
 
 /**
  * @param data
@@ -953,17 +964,7 @@ export class GrizzlyPlotView extends React.Component {
                   : 0,
                 pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 dataAccessor: ep.name,
-                stopInstruction: (packet) => {
-                  let stop = false;
-                  if (packet.isObsolete === true) {
-                    stop = true;
-                  } else if (this.state.showEpNonNominal.includes(ep.id)) {
-                    stop = false;
-                  } else {
-                    stop = !packet.isNominal;
-                  }
-                  return stop;
-                },
+                stopInstruction: packet => stopInstruction(packet, ep, this.state.showEpNonNominal),
                 xAccessor: null, // default packet => packet.x
                 yAccessor: stringParameter ? () => defaultY : null, // default packet => packet.value
                 xTooltipAccessor: null, // default packet => packet.x

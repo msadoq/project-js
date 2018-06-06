@@ -285,4 +285,7 @@ module.exports = {
   // Input, output separators
   CSV_COLUMN_SEPARATOR: '; ',
   CSV_ROW_SEPARATOR: '\n',
+
+  // nominal value for significant data
+  SIGNIFICANT_VALIDITY_STATE_VALUE: 2,
 };

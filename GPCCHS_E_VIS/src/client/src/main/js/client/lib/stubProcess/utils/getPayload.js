@@ -21,16 +21,16 @@ const constants = require('../../constants');
 
 const stubData = stubs.getStubData();
 
-// function getMonitoringState(timestamp) {
-//   const arr = ['info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete'];
-//   const states = _compose(
-//     _concat(arr),
-//     _compose(_times, _constant, _head)(arr),
-//     l => l * 4,
-//     _prop('length')
-//   )(arr);
-//   return states[timestamp % states.length];
-// }
+// INVALID = 0;
+// VALID = 2;
+// VALID_RAW_ONLY = 3;
+// UNVERIFIED = 4;
+// EXPIRED = 8;
+// trying to have 70% of significant value
+function getValidityState() {
+  return predictibleRand.getBool(0.7) ? 2 : predictibleRand.getFrom([0, 3, 4, 8]);
+}
+
 function getMonitoringState() {
   return predictibleRand.getFrom([
     'nominal', 'warning', 'danger', 'severe', 'critical', 'outOfRange',
@@ -141,7 +141,7 @@ const getComObject = (dataId, timestamp, options) => {
         hasAckRequest: withAckRequest,
         alarmId: predictibleRand.getInt([0, 100000]),
         transitions: [],
-        isNominal: predictibleRand.getBool(0.25),
+        validityState: getValidityState(),
       };
 
       const transitionNumber = predictibleRand.getInt([1, 6]);
@@ -181,7 +181,7 @@ const getComObject = (dataId, timestamp, options) => {
         rawValue: value,
         extractedValue: value,
         monitoringState: getMonitoringState(timestamp),
-        isNominal: predictibleRand.getBool(0.8),
+        validityState: getValidityState(),
         isObsolete: predictibleRand.getBool(0.1),
       });
     }

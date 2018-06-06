@@ -43,9 +43,8 @@ import PropTypes from 'prop-types';
 import { basename } from 'path';
 import classnames from 'classnames';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
-import _ from 'lodash';
 import { get } from 'common/configurationManager';
-import { getBorderColorForNav, getBorderColorForTab, getColorWithDomainDetermination } from 'windowProcess/common/colors';
+import { getColorWithDomainDetermination } from 'windowProcess/common/colors';
 import styles from './Tabs.css';
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');

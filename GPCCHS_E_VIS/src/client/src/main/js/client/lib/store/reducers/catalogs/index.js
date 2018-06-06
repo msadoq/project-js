@@ -184,17 +184,17 @@ export default function catalogsReducer(state = {}, action) {
     case WS_ITEM_STRUCTURE_ADD: {
       const { tupleId, itemName, name, structure } = action.payload;
 
-      const index = getCatalogIndexByName(state, { tupleId, name });
-      if (index === -1) {
+      const catalogIndex = getCatalogIndexByName(state, { tupleId, name });
+      if (catalogIndex === -1) {
         return state;
       }
 
-      const indexItem = getCatalogItemIndexByName(state, { tupleId, name, itemName });
-      if (indexItem === -1) {
+      const itemIndex = getCatalogItemIndexByName(state, { tupleId, name, itemName });
+      if (itemIndex === -1) {
         return state;
       }
 
-      const path = `[${tupleId}][${index}].items[${indexItem}].structure`;
+      const path = getStructurePath(tupleId, catalogIndex, itemIndex);
       return _set(path, structure, state);
       // return state;
     }
@@ -304,3 +304,33 @@ export const getUnitByItemName = createSelector(
   (unitsCatalog, { tupleId, name, itemName }) =>
     _getOr(undefined, [tupleId, name, itemName], unitsCatalog)
 );
+
+const getStructurePath = (tupleId, catalogIndex, itemIndex) =>
+  `[${tupleId}][${catalogIndex}].items[${itemIndex}].structure`;
+
+export const getComObjectStructureData = createSelector(
+  (state, { domainId, sessionId }) => getTupleId(domainId, sessionId),
+  state => state.catalogs,
+  getCatalogIndexByName,
+  getCatalogItemIndexByName,
+  (state, { data }) => data,
+  (tupleId, catalogs, catalogIndex, itemIndex) => {
+    const path = getStructurePath(tupleId, catalogIndex, itemIndex);
+    const structure = _getOr({}, path, catalogs);
+    return structure;
+  }
+);
+
+export const getStructureData = ({ children, itemName, ...attributes }, data) => {
+  const values = children
+    ? undefined
+    : data.filter(d => d.name === itemName).map(({ name, ...rest }) => rest)
+  ;
+  const result = {
+    itemName,
+    ...attributes,
+    values,
+    children: children && children.map(c => getStructureData(c, data)),
+  };
+  return result;
+};

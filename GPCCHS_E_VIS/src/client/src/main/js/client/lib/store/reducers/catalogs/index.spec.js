@@ -19,7 +19,7 @@ import catalogsReducer, {
   getCatalogItemComObjects,
   REQUESTING,
 } from '.';
-import { getUnitByItemName } from './index';
+import { getUnitByItemName, getStructureData } from './index';
 
 const reducer = freezeArgs(catalogsReducer);
 const tupleId = 'domain-id-session-id';
@@ -421,13 +421,25 @@ describe('store:catalogs:selectors', () => {
       .toEqual(null);
   });
   test('getCatalogByName :: undefined domain', () => {
-    expect(getCatalogByName(state.catalogs, { domainId: 'undefined', sessionId: 'session-id', name: 'catalogName' })).toEqual(undefined);
+    expect(getCatalogByName(state.catalogs, {
+      domainId: 'undefined',
+      sessionId: 'session-id',
+      name: 'catalogName'
+    })).toEqual(undefined);
   });
   test('getCatalogByName :: undefined session', () => {
-    expect(getCatalogByName(state.catalogs, { domainId: 'domain-id', sessionId: 'undefined', name: 'catalogName' })).toEqual(undefined);
+    expect(getCatalogByName(state.catalogs, {
+      domainId: 'domain-id',
+      sessionId: 'undefined',
+      name: 'catalogName'
+    })).toEqual(undefined);
   });
   test('getCatalogByName :: undefined name', () => {
-    expect(getCatalogByName(state.catalogs, { domainId: 'domain-id', sessionId: 'session-id', name: 'undefined' })).toEqual(undefined);
+    expect(getCatalogByName(state.catalogs, {
+      domainId: 'domain-id',
+      sessionId: 'session-id',
+      name: 'undefined'
+    })).toEqual(undefined);
   });
   test('getCatalogByName :: nominal case', () => {
     expect(getCatalogByName(state.catalogs, { tupleId, name: 'catalogName' })).toEqual(catalog);
@@ -457,13 +469,21 @@ describe('store:catalogs:selectors', () => {
     expect(getCatalogItemByName(state.catalogs, { tupleId, name: 'catalogName', itemName: 'itemName' })).toEqual(item);
   });
   test('getCatalogItemIndexByName :: nominal case', () => {
-    expect(getCatalogItemIndexByName(state.catalogs, { tupleId, name: 'catalogName', itemName: 'itemName' })).toEqual(0);
+    expect(getCatalogItemIndexByName(state.catalogs, {
+      tupleId,
+      name: 'catalogName',
+      itemName: 'itemName'
+    })).toEqual(0);
   });
   test('getCatalogsByTupleId :: nominal case', () => {
     expect(getCatalogsByTupleId(state.catalogs, { tupleId })).toEqual([catalog]);
   });
   test('getCatalogItemComObjects :: nominal case', () => {
-    expect(getCatalogItemComObjects(state.catalogs, { tupleId, name: 'catalogName', itemName: 'itemName' })).toEqual([comObject]);
+    expect(getCatalogItemComObjects(state.catalogs, {
+      tupleId,
+      name: 'catalogName',
+      itemName: 'itemName'
+    })).toEqual([comObject]);
   });
 
   describe('getUnitByItemName', () => {
@@ -507,6 +527,159 @@ describe('store:catalogs:selectors', () => {
         localState,
         { tupleId: 'ploup', name: 'StatValueDefinition', itemName: 'TEST_AGGREG' })
       ).toEqual(undefined);
+    });
+  });
+
+  describe('getStructureData', () => {
+    const data = [
+      {
+        name: 'GENE_AM_CCSDSVERS1',
+        extractedValue: 1,
+        rawValue: 2,
+        convertedValue: 5,
+      }, {
+        name: 'GENE_AM_CCSDSVERS2',
+        extractedValue: 12,
+        rawValue: 32,
+        convertedValue: 'a5',
+      }, {
+        name: 'GENE_AM_CCSDSVERS1',
+        extractedValue: 11,
+        rawValue: 12,
+        convertedValue: 15,
+      }, {
+        name: 'GENE_AM_CCSDSVERS2',
+        extractedValue: 112,
+        rawValue: 132,
+        convertedValue: '1a6',
+      }, {
+        name: 'GENE_AM_CCSDSVERS3',
+        rawValue: 12,
+        convertedValue: 5,
+      },
+    ];
+    test('only one leaf', () => {
+      const structure = { itemName: 'Root', children: [{ itemName: 'GENE_AM_CCSDSVERS1' }] };
+      expect(getStructureData(structure, data)).toEqual({
+        itemName: 'Root',
+        children: [{
+          itemName: 'GENE_AM_CCSDSVERS1',
+          values: [
+            {
+              extractedValue: 1,
+              rawValue: 2,
+              convertedValue: 5,
+            }, {
+              extractedValue: 11,
+              rawValue: 12,
+              convertedValue: 15,
+            },
+          ],
+        }],
+      });
+    });
+    test('unknown leaf', () => {
+      const structure = { itemName: 'Root', children: [{ itemName: 'POUET' }] };
+      expect(getStructureData(structure, data)).toEqual({
+        itemName: 'Root',
+        children: [{
+          itemName: 'POUET',
+          values: [],
+        }],
+      });
+    });
+    test('full example', () => {
+      const structure = {
+        itemName: 'Root',
+        children: [
+          {
+            itemName: 'Bidule',
+            children: [
+              {
+                itemName: 'GENE_AM_CCSDSVERS1',
+              },
+            ],
+          },
+          {
+            itemName: 'GENE_AM_CCSDSVERS3',
+          },
+          {
+            itemName: 'Machin',
+            children: [
+              {
+                itemName: 'GENE_AM_CCSDSVERS1',
+              },
+              {
+                itemName: 'GENE_AM_CCSDSVERS2',
+              },
+            ],
+          },
+        ],
+      };
+      expect(getStructureData(structure, data)).toEqual({
+        itemName: 'Root',
+        children: [
+          {
+            itemName: 'Bidule',
+            children: [
+              {
+                itemName: 'GENE_AM_CCSDSVERS1',
+                values: [
+                  {
+                    extractedValue: 1,
+                    rawValue: 2,
+                    convertedValue: 5,
+                  }, {
+                    extractedValue: 11,
+                    rawValue: 12,
+                    convertedValue: 15,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            itemName: 'GENE_AM_CCSDSVERS3',
+            values: [{
+              rawValue: 12,
+              convertedValue: 5,
+            }],
+          },
+          {
+            itemName: 'Machin',
+            children: [
+              {
+                itemName: 'GENE_AM_CCSDSVERS1',
+                values: [
+                  {
+                    extractedValue: 1,
+                    rawValue: 2,
+                    convertedValue: 5,
+                  }, {
+                    extractedValue: 11,
+                    rawValue: 12,
+                    convertedValue: 15,
+                  },
+                ],
+              },
+              {
+                itemName: 'GENE_AM_CCSDSVERS2',
+                values: [
+                  {
+                    extractedValue: 12,
+                    rawValue: 32,
+                    convertedValue: 'a5',
+                  }, {
+                    extractedValue: 112,
+                    rawValue: 132,
+                    convertedValue: '1a6',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
     });
   });
 });

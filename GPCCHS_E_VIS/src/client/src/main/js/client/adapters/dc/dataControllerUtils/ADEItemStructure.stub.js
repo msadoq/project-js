@@ -4,32 +4,35 @@ const Adapter = require('./ADEItemStructure');
 
 const Builder = new ProtoBuf.Root().loadSync(`${__dirname}/ADEItemStructure.proto`, { keepCase: true }).lookup('dataControllerUtils.protobuf.ADEItemStructure');
 
-const getADEItemStructure = () => {  
+const getADEItemStructure = () => {
   return {
-    itemName: 'Machin_1',
+    itemName: 'Root',
     children: [
       {
-        itemName: 'Machin_2',
+        itemName: 'Bidule',
         children: [
           {
-            itemName: 'Machin_3',
+            itemName: 'GENE_AM_CCSDSVERS1',
           },
         ],
       },
       {
-        itemName: 'Truc_2',
+        itemName: 'GENE_AM_CCSDSVERS3',
       },
       {
-        itemName: 'Bidule_2',
+        itemName: 'Machin',
         children: [
           {
-            itemName: 'Bidule_3',
+            itemName: 'GENE_AM_CCSDSVERS1',
           },
           {
-            itemName: 'Tartanpion_3',
+            itemName: 'GENE_AM_CCSDSVERS2',
           },
           {
-            itemName: 'Stub_3',
+            itemName: 'GENE_AM_CCSDSVERS1',
+          },
+          {
+            itemName: 'GENE_AM_CCSDSVERS2',
           },
         ],
       },

@@ -15,7 +15,7 @@
 // END-HISTORY
 // ====================================================================
 
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,no-continue */
 
 import _ from 'lodash/fp';
 
@@ -76,14 +76,17 @@ const _indexData =
   data =>
     Object.keys(data).reduce((acc, epKey) => ({
       ...acc,
-      ..._indexEntryPointData(epKey, data[epKey]),
+      ..._indexEntryPointData(epKey, data[epKey] || {}),
     }), {});
 
 
 const _insertSortedBy = (by, el, dest, offset = 0) => {
   const index = _.sortedIndexBy(by, el, dest.slice(offset)) + offset;
-  dest.splice(index, 0, el);
-  return index;
+
+  return [
+    index,
+    [...dest.slice(0, index), el, ...dest.slice(index + 1)],
+  ];
 };
 
 /**
@@ -98,12 +101,45 @@ const _insertSortedBy = (by, el, dest, offset = 0) => {
 const _mergeSortedArrayBy = (by, source, dest) => {
   let i = 0;
   let offset = 0;
+  let ret = _.clone(dest);
 
   while (i < source.length) {
-    offset = _insertSortedBy(by, source[i], dest, offset);
+    const [updatedOffset, updatedDest] = _insertSortedBy(by, source[i], ret, offset);
     i += 1;
+    offset = updatedOffset;
+    ret = updatedDest;
   }
+
+  return ret;
 };
+
+
+const _syncIndexesByType = (state, indexedPayloads, sortingColKey) => {
+  const payloadIndexes = Object.keys(indexedPayloads);
+
+  const _sortFunc = payloadIndex => _.get([payloadIndex, sortingColKey], indexedPayloads);
+
+  // sort new payload indexes by sortingColKey
+  const sortedPayloadIndexes =
+    _.sortBy(
+      _sortFunc,
+      payloadIndexes
+    );
+
+  let updatedIndexes = _.clone(_.getOr([], ['indexes', sortingColKey], state));
+
+  // merge payload indexes with current indexes
+  updatedIndexes = _mergeSortedArrayBy(
+    _sortFunc,
+    sortedPayloadIndexes,
+    updatedIndexes
+  );
+
+  updatedIndexes = _.set(['indexes', sortingColKey], updatedIndexes, state);
+
+  return updatedIndexes;
+};
+
 
 /* ************************************
  * Add payloads in plot view data state
@@ -127,54 +163,26 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
   // injects payloads "as is" in data
   updatedState = _.set(
     ['data'],
-    {
-      ..._.get(['data'], updatedState),
-      ...payloads,
-    },
+    _.merge(_.get(['data'], updatedState), payloads),
     updatedState
   );
 
-  // indexes payloads and insert them in sorted indexes
+  // maintains indexed payloads
   const indexedPayloads = _indexData(payloads);
-  const payloadIndexes = Object.keys(indexedPayloads);
 
-  const sortedPayloadIndexes =
-    _.sortBy(
-      payloadIndex => indexedPayloads[payloadIndex][sortingColKey],
-      payloadIndexes
-    );
+  updatedState = _syncIndexesByType(updatedState, indexedPayloads, 'referenceTimestamp');
 
-  _mergeSortedArrayBy(
-    index => _.get([...index.split(''), sortingColKey], updatedState.data),
-    sortedPayloadIndexes,
-    updatedState.indexes
-  );
+  if (
+    sortingColKey &&
+    sortingColKey !== 'referenceTimestamp'
+  ) { // take into account additional sortingKey
+    updatedState = _syncIndexesByType(updatedState, indexedPayloads, sortingColKey);
+  }
 
-  // updatedState = updateCurrent(updatedState, epKeys, visuWindow);
+  updatedState = _.set(['indexes'], _.clone(_.get(['indexes'], updatedState)), updatedState);
 
   return updatedState;
 }
-
-/*
-function updateCurrent(state, epNames, visuWindow) {
-  if (!visuWindow) {
-    return state;
-  }
-  const newState = state;
-  // Update current position
-  for (let i = 0; i < epNames.length; i += 1) {
-    const epName = epNames[i];
-    const current = _findLastIndex(newState.indexes[epName], t => t < visuWindow.current);
-    if (current !== -1) {
-      if (!newState.current) {
-        newState.current = {};
-      }
-      newState.current[epName] = [epName, newState.indexes[epName][current]];
-    }
-  }
-  return newState;
-}
-*/
 
 /* ************************************
  * Select payload to add for current view

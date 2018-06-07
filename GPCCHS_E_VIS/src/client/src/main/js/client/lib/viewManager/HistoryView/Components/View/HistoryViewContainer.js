@@ -27,21 +27,38 @@ import HistoryView from './HistoryView';
 
 const mapStateToProps = (state, { viewId }) => {
   const config = getConfigurationByViewId(state, { viewId });
+  const historyConfig = config.tables.history;
 
-  const data = getData(state, { viewId });
+  const { data, indexes } = getData(state, { viewId });
 
-  const totalRowCount = data.indexes.length; // TODO: get total row count
-  const rowCount = totalRowCount; // TODO: get data count from state, rowCount = total if not filtered
+  const usedIndexName = _.getOr('referenceTimestamp', ['sorting', 'colName'], historyConfig);
+  const sortingDirection = _.getOr('DESC', ['sorting', 'direction'], historyConfig);
 
-  const { indexes } = data;
+  const usedIndex = _.getOr([], [usedIndexName], indexes);
+
+  const totalRowCount = usedIndex.length;
+  const rowCount = totalRowCount;
 
   const rows = ({ rowIndex, columnIndex, cols }) => {
-    const content = _.get(indexes[rowIndex].split(' '), data);
-    const colKey = cols[columnIndex];
-    return content[colKey];
-  };
+    const virtualRowIndex =
+      sortingDirection === 'DESC' ?
+        totalRowCount - rowIndex - 1 :
+        rowIndex;
 
-  const historyConfig = config.tables.history;
+    const content = _.get(usedIndex[virtualRowIndex].split(' '), data);
+
+    if (content) {
+      const colKey = cols[columnIndex].title;
+      const { color } = content;
+
+      return {
+        value: content[colKey],
+        color,
+      };
+    }
+
+    return { value: undefined };
+  };
 
   const currentRowIndexes = [];
 

@@ -21,8 +21,10 @@ class VirtualizedTableView extends React.Component {
     cols: PropTypes.arrayOf(PropTypes.any),
     columnCount: PropTypes.number.isRequired,
     rows: PropTypes.oneOfType(
-      PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
-      PropTypes.func
+      [
+        PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
+        PropTypes.func,
+      ]
     ).isRequired,
     rowCount: PropTypes.number,
     totalRowCount: PropTypes.number,
@@ -301,10 +303,10 @@ class VirtualizedTableView extends React.Component {
         this.state.selectedCell.rowIndex === rowIndex &&
         this.state.selectedCell.columnIndex === columnIndex;
 
-      if (content.textColor) {
+      if (content.color) {
         updatedStyle = {
           ...updatedStyle,
-          color: content.textColor,
+          color: content.color,
         };
       }
 

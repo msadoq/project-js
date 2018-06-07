@@ -14,9 +14,8 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
 import _omit from 'lodash/omit';
-import _concat from 'lodash/concat';
-import _without from 'lodash/without';
 import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
 
@@ -25,10 +24,10 @@ import cleanCurrentViewData from '../../HistoryView/store/cleanViewData';
 
 const initialState = {
   cols: [],
-  lines: [],
   data: {},
-  indexes: {},
-  current: {},
+  indexes: {
+    referenceTimestamp: [],
+  },
 };
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function historyViewData(state = {}, action) {
@@ -76,44 +75,6 @@ export default function historyViewData(state = {}, action) {
         }
       });
       return newState;
-    }
-    case types.WS_VIEW_SHOW_COL: {
-      const viewId = action.payload.viewId;
-      // Add at the end if no index defined
-      let index = action.payload.index;
-      if (!index) {
-        index = -1;
-      }
-      let newCols = [];
-      if (index > 0 && index < state[viewId].cols.length) {
-        newCols = _concat(
-          state[viewId].cols.slice(0, index),
-          action.payload.colName,
-          state[viewId].cols.slice(index)
-        );
-      } else if (index === 0) {
-        newCols = _concat(action.payload.colName, state[viewId].cols);
-      } else {
-        newCols = _concat(state[viewId].cols, action.payload.colName);
-      }
-
-      return {
-        ...state,
-        [viewId]: {
-          ...state[viewId],
-          cols: newCols,
-        },
-      };
-    }
-    case types.WS_VIEW_HIDE_COL: {
-      const viewId = action.payload.viewId;
-      return {
-        ...state,
-        [viewId]: {
-          ...state[viewId],
-          cols: _without(state[action.payload.viewId].cols || [], action.payload.colName),
-        },
-      };
     }
     case types.INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations, visuWindow }
@@ -165,6 +126,36 @@ export default function historyViewData(state = {}, action) {
           newState = { ...newState, [viewId]: subState };
         }
       }
+      return newState;
+    }
+    case types.WS_VIEW_TABLE_UPDATE_SORT: {
+      const { colName } = action.payload;
+
+      let newState = state;
+      const viewIds = Object.keys(state);
+      for (let i = 0; i < viewIds.length; i += 1) {
+        const viewId = viewIds[i];
+// eslint-disable-next-line no-loop-func
+        const _sortFunc = index => _.get([...index.split(' '), colName], newState[viewId].data);
+
+        const newIndex =
+          _.sortBy(
+            _sortFunc,
+            _.clone(newState[viewId].indexes.referenceTimestamp)
+          );
+
+        newState = {
+          ...newState,
+          [viewId]: {
+            ...newState[viewId],
+            indexes: {
+              referenceTimestamp: newState[viewId].indexes.referenceTimestamp,
+              [colName]: newIndex,
+            },
+          },
+        };
+      }
+
       return newState;
     }
     default:

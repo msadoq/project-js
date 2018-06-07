@@ -63,10 +63,13 @@ function parseDragData(data) {
 
 class HistoryView extends React.Component {
   static propTypes = {
+    viewId: PropTypes.string.isRequired,
+    config: PropTypes.shape().isRequired,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    data: PropTypes.shape().isRequired,
-    viewId: PropTypes.string.isRequired,
+    rows: PropTypes.func.isRequired,
+    rowCount: PropTypes.number.isRequired,
+    totalRowCount: PropTypes.number.isRequired,
     currentRowIndexes: PropTypes.arrayOf(PropTypes.number),
   };
 
@@ -109,7 +112,9 @@ class HistoryView extends React.Component {
   render() {
     const {
       viewId,
-      data,
+      rows,
+      rowCount,
+      totalRowCount,
     } = this.props;
 
     return (
@@ -120,9 +125,11 @@ class HistoryView extends React.Component {
         <VirtualizedTableViewContainer
           viewId={viewId}
           tableId={'history'}
-          rows={data}
-          withGroups
+          rows={rows}
+          rowCount={rowCount}
+          totalRowCount={totalRowCount}
           overrideStyle={this._overrideStyle}
+          withGroups
           pauseOnScroll
         />
 

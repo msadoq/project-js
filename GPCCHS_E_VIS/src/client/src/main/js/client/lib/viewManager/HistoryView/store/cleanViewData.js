@@ -9,16 +9,33 @@
 // ====================================================================
 
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
+import _ from 'lodash/fp';
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _omit from 'lodash/omit';
-import _last from 'lodash/last';
-import _findIndex from 'lodash/findIndex';
-import _findLastIndex from 'lodash/findLastIndex';
-import _split from 'lodash/split';
-import _pick from 'lodash/pick';
-import { HISTORYVIEW_SEPARATOR } from 'constants';
+
+/**
+ * Keeps only indexes that correspond to actual data
+ *
+ * @param state
+ * @param type
+ * @returns {void|*}
+ * @private
+ */
+const _scopeIndexesByType = (state, type) => {
+  let updatedIndexes = _.clone(_.get(['indexes', type], state));
+
+  const _shouldKeepIndex =
+    (index) => {
+      const epContent = _.getOr(null, ['data', ...index.split(' ')], state);
+      return epContent !== null;
+    };
+
+  updatedIndexes = _.filter(_shouldKeepIndex, updatedIndexes);
+
+  return _.set(['indexes', type], updatedIndexes, state);
+};
 
 /* ************************************************
  * Clean viewData for current viewData
@@ -51,9 +68,8 @@ export default function cleanCurrentViewData(
   if (!newViewFromMap) {
     return {
       cols: [],
-      lines: [],
       data: {},
-      indexes: {},
+      indexes: [],
     };
   }
   // entry point updates
@@ -102,26 +118,16 @@ export default function cleanCurrentViewData(
       newState = removeViewDataByEp(newState, epName, lower, upper, historyConfig);
     }
   }
+
   return newState;
 }
-function removeEpData(state, epName) {
-  let newState = _omit(state, ['data', epName]);
-  newState = _omit(newState, ['indexes', epName]);
-  // const hiddenCols = historyConfig.hiddenCols;
 
-  newState.lines = [];
-  for (let i = 0; i < state.lines.length; i += 1) {
-    const args = _split(state.lines[i], HISTORYVIEW_SEPARATOR);
-    if (args.length !== 2) {
-      continue;
-    }
-    if (args[0] !== epName) {
-      newState.lines.push(state.lines[i]);
-    }
-  }
+function removeEpData(state, epName) {
+  const newState = _omit(state, ['data', epName]);
+
   if (!newState.data) {
     newState.data = {};
-    newState.indexes = {};
+    newState.indexes = [];
   }
   return newState;
 }
@@ -141,76 +147,35 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
   if (!viewData.data || !viewData.data[oldLabel]) {
     return viewData;
   }
-  let newState = _omit(viewData, ['data', oldLabel]);
+  const newState = _omit(viewData, ['data', oldLabel]);
   if (!newState.data) {
     newState.data = {};
   }
   newState.data[newLabel] = viewData.data[oldLabel];
-  newState = _omit(newState, ['indexes', oldLabel]);
+
   if (!newState.indexes) {
-    newState.indexes = {};
-  }
-  newState.indexes[newLabel] = viewData.indexes[oldLabel];
-  // Update ep name in 'lines' table
-  newState.lines = [];
-  for (let i = 0; i < viewData.lines.length; i += 1) {
-    const args = _split(viewData.lines[i], HISTORYVIEW_SEPARATOR);
-    if (args.length !== 2) {
-      continue;
-    }
-    if (args[0] === oldLabel) {
-      newState.lines.push(newLabel.concat(' ').concat(args[1]));
-    }
+    newState.indexes = [];
   }
 
   return newState;
 }
 
+export function removeViewDataByEp(viewData, epName, lower, upper) {
+  let updatedViewData = _.clone(viewData);
+  let epData = _.clone(_.get(['data', epName], viewData));
 
-export function removeViewDataByEp(viewData, epName, lower, upper) { // , historyConfig);
-  if (lower > upper) {
-    // unpredictable usage
-    return removeEpData(viewData, epName); // , historyConfig);
-  }
-  // keep everything
-  if (!viewData || !viewData.indexes
-    || !viewData.indexes[epName] || !viewData.indexes[epName].length) {
-    // state contains no data
-    return viewData;
-  }
-  // all points of entryPoint are in visuWindow
-  if (viewData.indexes[epName][0] >= lower && _last(viewData.indexes[epName]) <= upper) {
-    return viewData;
-  }
-  // drop everything
-  if (viewData.indexes[epName][0] > upper || _last(viewData.indexes[epName]) < lower) {
-    return removeEpData(viewData, epName);
-  }
-  // keep some
-  // cut: keep inside min and max
-  const iLower = _findIndex(viewData.indexes[epName], val => val >= lower);
-  let iUpper = _findLastIndex(viewData.indexes[epName], val => val <= upper);
-  iUpper = (iUpper === -1) ? viewData.indexes[epName].length - 1 : iUpper;
+  const timestampsToRemove =
+    Object
+      .keys(epData)
+      .filter(timestamp => (timestamp < lower) || (timestamp > upper));
 
-  const newIndexes = viewData.indexes[epName].slice(iLower, iUpper + 1);
-  const newLines = [];
-  for (let i = 0; i < viewData.lines.length; i += 1) {
-    const args = _split(viewData.lines[i], HISTORYVIEW_SEPARATOR);
-    if (args[0] !== epName || (args[1] >= lower && args[1] <= upper)) {
-      newLines.push(viewData.lines[i]);
-    }
-  }
+  epData = _.omit(timestampsToRemove, epData);
 
-  return {
-    ...viewData,
-    data: {
-      ...viewData.data,
-      [epName]: _pick(viewData.data[epName], newIndexes),
-    },
-    indexes: {
-      ...viewData.indexes,
-      [epName]: newIndexes,
-    },
-    lines: newLines,
-  };
+  updatedViewData = _.set(['data', epName], epData, viewData);
+
+  Object.keys(updatedViewData.indexes).forEach((key) => {
+    updatedViewData = _scopeIndexesByType(updatedViewData, key);
+  });
+
+  return updatedViewData;
 }

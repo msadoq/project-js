@@ -17,11 +17,17 @@ import styles from './VirtualizedTableView.css';
 
 class VirtualizedTableView extends React.Component {
   static propTypes = {
-    totalCount: PropTypes.number.isRequired,
     tableName: PropTypes.string,
     cols: PropTypes.arrayOf(PropTypes.any),
     columnCount: PropTypes.number.isRequired,
-    rows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
+    rows: PropTypes.oneOfType(
+      [
+        PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
+        PropTypes.func,
+      ]
+    ).isRequired,
+    rowCount: PropTypes.number,
+    totalRowCount: PropTypes.number,
     columnWidth: PropTypes.number,
     rowHeight: PropTypes.number,
     withGroups: PropTypes.bool,
@@ -40,6 +46,8 @@ class VirtualizedTableView extends React.Component {
     tableName: 'Data table',
     cols: [],
     rows: [],
+    rowCount: null,
+    totalRowCount: null,
     columnWidth: 220,
     rowHeight: 22,
     bodyCellActions: null,
@@ -82,10 +90,11 @@ class VirtualizedTableView extends React.Component {
 
   render() {
     const {
-      totalCount,
       tableName,
       cols,
       rows,
+      rowCount,
+      totalRowCount,
       columnWidth,
       rowHeight,
       withGroups, // choose to display or not groups headers,
@@ -110,8 +119,6 @@ class VirtualizedTableView extends React.Component {
       formattedRows =
         [[...Array(cols.length)].reduce(acc => [...acc, { value: undefined }], [])];
     }
-
-    const rowCount = formattedRows.length;
 
     const overscanColumnCount = 0;
     const overscanRowCount = 0;
@@ -256,7 +263,16 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const content = formattedRows[rowIndex][columnIndex];
+      let content = { value: undefined };
+
+      if (Array.isArray(rows)) {
+        content = rows[rowIndex][columnIndex];
+      }
+
+      if (typeof rows === 'function') {
+        content = rows({ rowIndex, columnIndex, cols });
+      }
+
       let updatedStyle = {
         ...style,
       };
@@ -287,10 +303,10 @@ class VirtualizedTableView extends React.Component {
         this.state.selectedCell.rowIndex === rowIndex &&
         this.state.selectedCell.columnIndex === columnIndex;
 
-      if (content.textColor) {
+      if (content.color) {
         updatedStyle = {
           ...updatedStyle,
-          color: content.textColor,
+          color: content.color,
         };
       }
 
@@ -302,7 +318,7 @@ class VirtualizedTableView extends React.Component {
               {
                 [styles.oddRow]: rowIndex % 2,
                 [styles.evenRow]: !(rowIndex % 2),
-                [styles.lastRow]: rowIndex === (formattedRows.length - 1),
+                [styles.lastRow]: rowIndex === (rowCount - 1),
                 [styles.lastColumn]: columnIndex === (cols.length - 1),
                 [styles.selectedCell]: isCellSelected,
               }
@@ -369,17 +385,14 @@ class VirtualizedTableView extends React.Component {
         ) : null;
     }
 
-    let countStr = `${formattedRows.length}`;
 
-    if (rows.length === 0) {
-      // do not take into account dummy row
-      // (the table has always at least one row to avoid alignment issues)
-      countStr = '0';
-    }
+    const _getCountStr = () => {
+      if (rowCount && totalRowCount) {
+        return `${rowCount}/${totalRowCount}`;
+      }
 
-    if (formattedRows.length < totalCount) {
-      countStr = `${countStr}/${totalCount}`;
-    }
+      return null;
+    };
 
     const columnsWidth = columnWidth * columnCount;
     const headerHeight = 42;
@@ -401,7 +414,7 @@ class VirtualizedTableView extends React.Component {
 
             return (
               <div>
-                <div className={styles.tableHeader}>{`${tableName} (${countStr})`}</div>
+                <div className={styles.tableHeader}>{`${tableName} (${_getCountStr()})`}</div>
                 <ScrollSync className={styles.container}>
                   {
                     (

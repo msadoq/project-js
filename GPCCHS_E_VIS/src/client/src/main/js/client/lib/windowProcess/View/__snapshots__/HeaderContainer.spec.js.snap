@@ -20,6 +20,13 @@ exports[`windowProcess windowProcess :: View windowProcess :: View:: HeaderConta
       }
     }
   >
+    <span
+      className="searchOpen"
+    >
+      <span
+        className="glyphicon glyphicon-search"
+      />
+    </span>
     Untitled 
     
   </div>

@@ -79,7 +79,7 @@ export default class Header extends PureComponent {
     domains: PropTypes.arrayOf(PropTypes.string).isRequired,
     pageDomain: PropTypes.string.isRequired,
     workspaceDomain: PropTypes.string.isRequired,
-    isSearhOpenForView: PropTypes.bool.isRequired,
+    isSearchOpenForView: PropTypes.bool.isRequired,
     viewDomain: PropTypes.string.isRequired,
   };
 
@@ -145,7 +145,7 @@ export default class Header extends PureComponent {
       collapsed,
       isModified,
       onContextMenu,
-      isSearhOpenForView,
+      isSearchOpenForView,
     } = this.props;
 
     const title = `${this.props.title} ${isModified ? ' *' : ''}`;
@@ -161,7 +161,7 @@ export default class Header extends PureComponent {
           style={titleStyle}
           className={`moveHandler ellipsis ${styles.title}`}
         >
-          {isSearhOpenForView &&
+          {isSearchOpenForView &&
           <span className={styles.searchOpen}>
             <Glyphicon glyph="search" />
           </span>

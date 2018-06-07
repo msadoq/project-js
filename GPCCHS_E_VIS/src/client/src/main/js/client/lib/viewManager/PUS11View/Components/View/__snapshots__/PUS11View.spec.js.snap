@@ -84,7 +84,7 @@ exports[`PUS11View :: render snapshot 1`] = `
             className="mw100"
             disabled={true}
             type="text"
-            value={1528209658553}
+            value={1528359679639}
           />
            
           <input
@@ -222,7 +222,7 @@ exports[`PUS11View :: render snapshot 1`] = `
 </div>
 `;
 
-exports[`PUS11View :: render snapshot 2`] = `
+exports[`PUS11View :: renderInvald snapshot 1`] = `
 <div
   className="pus11 h100 posRelative"
 >

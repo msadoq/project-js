@@ -27,7 +27,6 @@ export default class Editor extends Component {
     pageId: PropTypes.string.isRequired,
     // from container mapStateToProps
     title: PropTypes.string,
-    titleStyle: PropTypes.shape(),
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
     }).isRequired,
@@ -39,7 +38,6 @@ export default class Editor extends Component {
     updateViewPanels: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    titleStyle: {},
     tab: null,
     title: '',
     search: null,

@@ -17,6 +17,7 @@ const propsStub = {
   pageDomain: 'fr.cnes',
   workspaceDomain: '*',
   viewDomain: '*',
+  isSearchOpenForView: true,
 };
 
 describe('windowProcess', () => {

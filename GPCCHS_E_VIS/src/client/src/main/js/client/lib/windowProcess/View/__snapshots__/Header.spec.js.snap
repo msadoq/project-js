@@ -24,6 +24,7 @@ ShallowWrapper {
               ]
         }
         isModified={false}
+        isSearchOpenForView={true}
         isViewsEditorOpen={false}
         onContextMenu={[Function]}
         pageDomain="fr.cnes"
@@ -52,6 +53,7 @@ ShallowWrapper {
         "fr.cnes",
       ],
       "isModified": false,
+      "isSearchOpenForView": true,
       "isViewsEditorOpen": false,
       "onContextMenu": [Function],
       "pageDomain": "fr.cnes",
@@ -77,6 +79,7 @@ ShallowWrapper {
           "fr.cnes",
         ],
         "isModified": false,
+        "isSearchOpenForView": true,
         "isViewsEditorOpen": false,
         "onContextMenu": [Function],
         "pageDomain": "fr.cnes",
@@ -92,9 +95,9 @@ ShallowWrapper {
     },
   ],
   Symbol(enzyme.__options__): Object {
-    "adapter": ReactFifteenFourAdapter {
+    "adapter": ReactSixteenAdapter {
       "options": Object {
-        "supportPrevContextArgumentOfComponentDidUpdate": true,
+        "enableComponentDidUpdateOnSetState": true,
       },
     },
   },

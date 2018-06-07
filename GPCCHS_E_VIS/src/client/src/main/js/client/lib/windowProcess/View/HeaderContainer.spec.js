@@ -43,6 +43,9 @@ const stubState = {
   },
   pages: {
     'page-id': {
+      panels: {
+        searchViewId: 'view-id',
+      },
       domainName: 'pageDomainName',
       properties: [],
       layout: [

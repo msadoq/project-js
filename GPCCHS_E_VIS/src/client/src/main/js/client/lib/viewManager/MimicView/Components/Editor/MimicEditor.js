@@ -40,7 +40,6 @@ export default class Editor extends Component {
     pageId: string.isRequired,
     // from container mapStateToProps
     title: string,
-    titleStyle: shape(),
     configuration: shape({
       entryPoints: array,
     }).isRequired,
@@ -52,7 +51,6 @@ export default class Editor extends Component {
     updateViewPanels: func.isRequired,
   };
   static defaultProps = {
-    titleStyle: {},
     tab: null,
     title: '',
     search: null,

@@ -10,7 +10,7 @@ const propsStub = {
   scheduleStatus: 'string',
   availableSpace: 'string',
   spaceType: 'string',
-  lastUpdateTime: Date.now(),
+  lastUpdateTime: 1528359679639,
   lastUpdateType: 'string',
   subSchedules: [],
   enabledApids: [],
@@ -24,7 +24,7 @@ describe('PUS11View :: render', () => {
   });
 });
 
-describe('PUS11View :: render', () => {
+describe('PUS11View :: renderInvald', () => {
   test('snapshot', () => {
     const tree = renderer.create(renderInvald('this is an error message'))
       .toJSON()

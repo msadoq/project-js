@@ -292,7 +292,7 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
           min < axis.min ? min : axis.min,
           max > axis.max ? max : axis.max,
         ],
-      orient: 'bottom',
+      orient: 'top',
       format: '.3f',
       showAxis: axis.showAxis === true,
       showLabels: axis.showLabels === true,

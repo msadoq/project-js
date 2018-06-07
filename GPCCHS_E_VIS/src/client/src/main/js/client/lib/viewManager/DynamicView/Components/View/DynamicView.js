@@ -108,7 +108,7 @@ export const populateFormulaField = ({
   openEditor();
 };
 function dataToShow(data) {
-  if (data.value === undefined || (_isObject(data.value) && data.type !== 'time')) {
+  if (!data || data.value === undefined || (_isObject(data.value) && data.type !== 'time')) {
     if (_isObject(data)) {
       const keys = Object.keys(data);
       return (<dl

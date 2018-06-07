@@ -358,6 +358,7 @@ Object {
       },
       "300100": Object {
         "color": "green",
+        "isDataObsolete": false,
         "masterTime": 300120,
         "symbol": 150,
         "value": 150,
@@ -438,6 +439,7 @@ Object {
       },
       "300010": Object {
         "color": "green",
+        "isDataObsolete": false,
         "masterTime": 300020,
         "symbol": 159,
         "value": 159,
@@ -459,6 +461,7 @@ Object {
       },
       "500010": Object {
         "color": "green",
+        "isDataObsolete": false,
         "masterTime": 500020,
         "symbol": 169,
         "value": 169,
@@ -489,6 +492,7 @@ Object {
       },
       "200100": Object {
         "color": "blue",
+        "isDataObsolete": false,
         "masterTime": 200120,
         "symbol": 144,
         "value": 144,
@@ -517,6 +521,7 @@ Object {
       },
       "90100": Object {
         "color": "darkred",
+        "isDataObsolete": false,
         "masterTime": 90120,
         "symbol": 139,
         "value": 139,

@@ -271,11 +271,36 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
   _forEach(epNames, (epName) => {
     const { dataId } = entryPoints[epName];
     const flattenDataId = getFlattenDataIdForObsoleteEvent(dataId);
-    if (!newState.obsoleteEvents[epName]) {
-      newState.obsoleteEvents[epName] = {};
+
+    let lastRangeIndex = 0;
+
+    const tbdIdPayload = payloads[flattenDataId];
+    if (tbdIdPayload) {
+      if (!newState.obsoleteEvents[epName]) {
+        newState.obsoleteEvents[epName] = {};
+      }
+      // ascending sort for master times
+      const masterTimes = Object.keys(tbdIdPayload)
+        .sort((a, b) => a - b);
+      _forEach(masterTimes, (masterTime) => {
+        const timestamp = parseInt(masterTime, 10);
+        // get index of obsolete ranges data
+        // const index = _findIndex(newState.indexes[epName], t => t >= timestamp, lastRangeIndex) - 1;
+        const { newLastRangeIndex, isDataObsolete } =
+          rangesNeedObsoleteDataUpdate(newState.indexes[epName], timestamp, lastRangeIndex);
+        lastRangeIndex = newLastRangeIndex;
+        if (isDataObsolete) {
+          const rangeTimestamp = newState.indexes[epName][newLastRangeIndex];
+          newState.lines[epName][rangeTimestamp] = {
+            ...newState.lines[epName][rangeTimestamp],
+            isDataObsolete,
+          };
+        }
+      });
+
+      const obsoleteEvents = { ...newState.obsoleteEvents[epName], ...payloads[flattenDataId] };
+      newState.obsoleteEvents[epName] = obsoleteEvents;
     }
-    const obsoleteEvents = { ...newState.obsoleteEvents[epName], ...payloads[flattenDataId] };
-    newState.obsoleteEvents[epName] = obsoleteEvents;
   });
 
   return newState;
@@ -671,5 +696,18 @@ export const isRangeDataObsolete =
     return {
       isDataObsolete,
       lastComputedObsoleteEventIndex,
+    };
+  };
+
+export const rangesNeedObsoleteDataUpdate =
+  (rangesIndexes, timestamp, lastRangeIndex) => {
+    const index = _findIndex(rangesIndexes, t => t >= timestamp, lastRangeIndex) - 1;
+    let isDataObsolete = false;
+    if (index >= 0) {
+      isDataObsolete = true;
+    }
+    return {
+      newLastRangeIndex: index,
+      isDataObsolete,
     };
   };

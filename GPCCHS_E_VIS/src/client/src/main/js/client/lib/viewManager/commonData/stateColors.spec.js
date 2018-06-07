@@ -48,11 +48,8 @@ describe('viewManager', () => {
       });
       test('getStateColorObj :: not customizable value', () => {
         const payload = {
-          isObsolete: {
-            value: true,
-          },
-          isNominal: {
-            value: true,
+          validityState: {
+            value: 2,
           },
         };
         const customColors = [];
@@ -60,7 +57,7 @@ describe('viewManager', () => {
         const defaultStateColors = get('STATE_COLORS').nominal;
         const defaultNominalStateColor = _find(
           defaultStateColors,
-          c => c.obsolete === true && c.significant === true
+          c => c.obsolete === false && c.significant === true
         );
 
         expect(getStateColorObj(payload, customColors, 'nominal')).toEqual({

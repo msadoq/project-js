@@ -220,7 +220,6 @@ describe('viewManager/PlotView/store/dataReducer', () => {
               eventDate: 10,
             },
           },
-          TMMGT_BC_VIRTCHAN3: {},
         });
     });
   });

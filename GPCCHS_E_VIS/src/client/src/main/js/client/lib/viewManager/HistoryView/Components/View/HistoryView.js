@@ -63,7 +63,6 @@ function parseDragData(data) {
 
 class HistoryView extends React.Component {
   static propTypes = {
-    config: PropTypes.shape().isRequired,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     data: PropTypes.shape().isRequired,

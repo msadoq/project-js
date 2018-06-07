@@ -86,11 +86,6 @@ class EntryPointConnectedData extends React.Component {
     selectedItemName: PropTypes.string,
     selectedComObjectName: PropTypes.string,
     entryPoint: PropTypes.shape({}), // eslint-disable-line react/no-unused-prop-types
-    domainId: PropTypes.number,
-    sessionId: PropTypes.number,
-    catalog: PropTypes.string,
-    catalogItem: PropTypes.string,
-    askUnit: PropTypes.func,
   };
 
   static defaultProps = {
@@ -110,11 +105,6 @@ class EntryPointConnectedData extends React.Component {
     selectedItemName: null,
     selectedComObjectName: null,
     entryPoint: null,
-    domainId: null,
-    sessionId: null,
-    catalog: null,
-    catalogItem: null,
-    askUnit: () => {},
   };
 
   state = {

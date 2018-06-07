@@ -93,9 +93,6 @@ export default (stateConf, action) => {
     case types.WS_VIEW_TABLE_TOGGLE_COLUMN: {
       const { tableId, index } = action.payload;
       const selectedColumnIsDisplayedPath = ['tables', tableId, 'cols', index, 'displayed'];
-
-      console.log('isDisplayed = ', _.get([selectedColumnIsDisplayedPath]));
-
       return _.set(
         selectedColumnIsDisplayedPath,
         !_.get(selectedColumnIsDisplayedPath, stateConf),

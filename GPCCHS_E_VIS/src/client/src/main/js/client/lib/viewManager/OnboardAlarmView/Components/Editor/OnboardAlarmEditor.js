@@ -15,16 +15,6 @@ export default class OnboardAlarmEditor extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     tab: PropTypes.number,
-    titleStyle: PropTypes.shape({
-      align: PropTypes.string,
-      bold: PropTypes.bool,
-      color: PropTypes.string,
-      font: PropTypes.string,
-      italic: PropTypes.bool,
-      size: PropTypes.number,
-      strikeOut: PropTypes.bool,
-      underline: PropTypes.bool,
-    }),
     title: PropTypes.string,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
@@ -37,7 +27,6 @@ export default class OnboardAlarmEditor extends Component {
   };
 
   static defaultProps = {
-    titleStyle: {},
     tab: null,
     title: '',
   };

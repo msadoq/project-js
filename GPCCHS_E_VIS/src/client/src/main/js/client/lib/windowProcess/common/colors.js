@@ -213,7 +213,10 @@ export const getColorWithDomainDetermination =
       domainDeterminationForColor(workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from);
     if (domain) {
       const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
-      color = colorObject[domain];
+      color = colorObject
+        ? colorObject[domain]
+        : null
+      ;
     }
     return color;
   };

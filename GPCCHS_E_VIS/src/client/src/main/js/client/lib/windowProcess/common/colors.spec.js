@@ -594,6 +594,19 @@ describe('windowProcess', () => {
             'workspace'
           )).toEqual('#339933');
         });
+        it('should returns no color when domain is unresolved', () => {
+          const workspaceDomain = '*';
+          const pageDomain = 'unresolved';
+          const viewsDomains = ['*'];
+          const epDomains = ['*'];
+          expect(getColorWithDomainDetermination(
+            workspaceDomain,
+            pageDomain,
+            viewsDomains,
+            epDomains,
+            'workspace'
+          )).toEqual('#CCCCCC');
+        });
       });
     });
   });

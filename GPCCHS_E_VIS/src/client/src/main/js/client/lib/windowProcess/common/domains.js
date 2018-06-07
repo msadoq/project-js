@@ -80,10 +80,10 @@ const domainDeterminationForColor = (
 
 /**
  * allows to know if it can be displayed according to the given domains
- * @param string workspaceDomain
- * @param string pagesDomain
- * @param string viewsDomain
- * @param string epDomain
+ * @param workspaceDomain string
+ * @param pagesDomain string
+ * @param viewDomain string
+ * @param epDomain string
  * @returns boolean
  */
 const domainDeterminationForDisplay = (

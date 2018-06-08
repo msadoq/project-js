@@ -25,7 +25,7 @@ import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
 import { SORTING_DESC, SORTING_ASC } from 'constants';
-import _findLastIndex from 'lodash/findLastIndex';
+import { update } from '../../../store/actions/timelines';
 
 const logger = getLogger('data:rangeValues');
 
@@ -85,7 +85,7 @@ const _insertSortedBy = (by, el, dest, offset = 0) => {
 
   return [
     index,
-    [...dest.slice(0, index), el, ...dest.slice(index + 1)],
+    [...dest.slice(0, index), el, ...dest.slice(index)],
   ];
 };
 
@@ -101,7 +101,7 @@ const _insertSortedBy = (by, el, dest, offset = 0) => {
 const _mergeSortedArrayBy = (by, source, dest) => {
   let i = 0;
   let offset = 0;
-  let ret = _.clone(dest);
+  let ret = dest;
 
   while (i < source.length) {
     const [updatedOffset, updatedDest] = _insertSortedBy(by, source[i], ret, offset);
@@ -115,18 +115,18 @@ const _mergeSortedArrayBy = (by, source, dest) => {
 
 
 const _syncIndexesByType = (state, indexedPayloads, sortingColKey) => {
-  const payloadIndexes = Object.keys(indexedPayloads);
-
   const _sortFunc = payloadIndex => _.get([payloadIndex, sortingColKey], indexedPayloads);
 
   // sort new payload indexes by sortingColKey
+  const payloadIndexes = Object.keys(indexedPayloads);
+
   const sortedPayloadIndexes =
     _.sortBy(
       _sortFunc,
       payloadIndexes
     );
 
-  let updatedIndexes = _.clone(_.getOr([], ['indexes', sortingColKey], state));
+  let updatedIndexes = _.getOr([], ['indexes', sortingColKey], state);
 
   // merge payload indexes with current indexes
   updatedIndexes = _mergeSortedArrayBy(
@@ -142,14 +142,14 @@ const _syncIndexesByType = (state, indexedPayloads, sortingColKey) => {
 
 
 /* ************************************
- * Add payloads in plot view data state
+ * Add payloads in history view data state
  * @param: data state of current view
  * @param: current view ID
  * @param: data to add in state per EP name
  * @param: current view configuration
  * @return: updated state
 /* *********************************** */
-export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindow) {
+export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
   const epKeys = Object.keys(payloads || {});
   if (!epKeys.length) {
     return state;
@@ -158,13 +158,13 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
   const sorting = _.get(['tables', 'history', 'sorting'], viewConfig);
   const sortingColKey = _.get(['colKey'], sorting);
 
-  let updatedState = _.clone(state);
+  let updatedState = state;
 
   // injects payloads "as is" in data
   updatedState = _.set(
     ['data'],
     _.merge(_.get(['data'], updatedState), payloads),
-    updatedState
+    state
   );
 
   // maintains indexed payloads
@@ -179,7 +179,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig, visuWindo
     updatedState = _syncIndexesByType(updatedState, indexedPayloads, sortingColKey);
   }
 
-  updatedState = _.set(['indexes'], _.clone(_.get(['indexes'], updatedState)), updatedState);
+  updatedState = _.set(['indexes'], _.get(['indexes'], updatedState), updatedState);
 
   return updatedState;
 }

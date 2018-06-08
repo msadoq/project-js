@@ -24,17 +24,44 @@ import _omit from 'lodash/omit';
  * @private
  */
 const _scopeIndexesByType = (state, type) => {
-  let updatedIndexes = _.clone(_.get(['indexes', type], state));
+  const updatedIndexes = _.get(['indexes', type], state);
+
+  const _shouldKeepIndex =
+    index => _.has(['data', ...index.split(' ')], state);
+
+  return _.set(
+    ['indexes', type],
+    _.filter(_shouldKeepIndex, updatedIndexes),
+    state
+  );
+};
+
+/**
+ * Keeps only indexes that corresponds to data inside visualization window
+ *
+ * @param state
+ * @param type
+ * @param lower
+ * @param upper
+ * @returns {void|*}
+ * @private
+ */
+const _scopeIndexesByVisualizationWindow = (state, type, lower, upper) => {
+  const updatedIndexes = _.get(['indexes', type], state);
 
   const _shouldKeepIndex =
     (index) => {
-      const epContent = _.getOr(null, ['data', ...index.split(' ')], state);
-      return epContent !== null;
+      const timestamp = index.split(' ')[1];
+      const time = Number(timestamp);
+
+      return (time >= lower) && (time <= upper);
     };
 
-  updatedIndexes = _.filter(_shouldKeepIndex, updatedIndexes);
-
-  return _.set(['indexes', type], updatedIndexes, state);
+  return _.set(
+    ['indexes', type],
+    _.filter(_shouldKeepIndex, updatedIndexes),
+    state
+  );
 };
 
 /* ************************************************
@@ -44,7 +71,6 @@ const _scopeIndexesByType = (state, type) => {
  * @param newViewFromMap current view definition
  * @param oldIntervals expected intervals for all entry points
  * @param newIntervals expected intervals for all entry points
- * @param historyConfig configuration of current history view
  * @return cleaned state for current view
 /** *********************************************** */
 export default function cleanCurrentViewData(
@@ -52,8 +78,7 @@ export default function cleanCurrentViewData(
   oldViewFromMap,
   newViewFromMap,
   oldIntervals,
-  newIntervals,
-  historyConfig
+  newIntervals
 ) {
   // Check if viewMap has changed
   if (_isEqual(newViewFromMap, oldViewFromMap) && _isEqual(oldIntervals, newIntervals)) {
@@ -69,7 +94,9 @@ export default function cleanCurrentViewData(
     return {
       cols: [],
       data: {},
-      indexes: [],
+      indexes: {
+        referenceTimestamp: [],
+      },
     };
   }
   // entry point updates
@@ -97,7 +124,7 @@ export default function cleanCurrentViewData(
     // removed entry point if invalid
     // EP definition modified: remove entry point from viewData
     if (isInvalidEntryPoint(oldEp, newEp)) {
-      newState = removeEpData(newState, epName, historyConfig);
+      newState = removeEpData(newState, epName);
       continue;
     }
     // Case of point already in error
@@ -110,26 +137,35 @@ export default function cleanCurrentViewData(
     const oldInterval = _get(oldIntervals, [oldEp.tbdId, oldEp.localId, 'expectedInterval']);
     const newInterval = _get(newIntervals, [oldEp.tbdId, newEp.localId, 'expectedInterval']);
     if (!newInterval || oldEp.localId !== newEp.localId) {
-      newState = removeEpData(newState, epName, historyConfig);
+      newState = removeEpData(newState, epName);
     } else if (oldInterval &&
       (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
       const lower = newInterval[0] + newEp.offset;
       const upper = newInterval[1] + newEp.offset;
-      newState = removeViewDataByEp(newState, epName, lower, upper, historyConfig);
+      newState = removeViewDataByEp(newState, epName, lower, upper);
+
+// eslint-disable-next-line no-loop-func
+      Object.keys(newState.indexes).forEach((key) => {
+        // removes indexes outside current visualization window
+        newState = _scopeIndexesByVisualizationWindow(newState, key, lower, upper);
+      });
     }
   }
+
+  Object.keys(newState.indexes).forEach((key) => {
+    // keeps only indexes that correspond to actual ep data
+    newState = _scopeIndexesByType(newState, key);
+  });
 
   return newState;
 }
 
 function removeEpData(state, epName) {
-  const newState = _omit(state, ['data', epName]);
-
-  if (!newState.data) {
-    newState.data = {};
-    newState.indexes = [];
+  if (epName && epName.length > 0) {
+    return _.omit(['data', epName], state);
   }
-  return newState;
+
+  return state;
 }
 
 function isInvalidEntryPoint(oldEp, newEp) {
@@ -154,28 +190,26 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
   newState.data[newLabel] = viewData.data[oldLabel];
 
   if (!newState.indexes) {
-    newState.indexes = [];
+    newState.indexes = {
+      referenceTimestamp: [],
+    };
   }
 
   return newState;
 }
 
 export function removeViewDataByEp(viewData, epName, lower, upper) {
-  let updatedViewData = _.clone(viewData);
-  let epData = _.clone(_.get(['data', epName], viewData));
+  let epData = _.getOr({}, ['data', epName], viewData);
+  epData = Object.keys(epData).reduce((acc, timestamp) => {
+    const time = Number(timestamp);
+    if ((time >= lower) && (time <= upper)) {
+      return {
+        ...acc,
+        [time]: epData[time],
+      };
+    }
+    return acc;
+  }, {});
 
-  const timestampsToRemove =
-    Object
-      .keys(epData)
-      .filter(timestamp => (timestamp < lower) || (timestamp > upper));
-
-  epData = _.omit(timestampsToRemove, epData);
-
-  updatedViewData = _.set(['data', epName], epData, viewData);
-
-  Object.keys(updatedViewData.indexes).forEach((key) => {
-    updatedViewData = _scopeIndexesByType(updatedViewData, key);
-  });
-
-  return updatedViewData;
+  return _.set(['data', epName], epData, viewData);
 }

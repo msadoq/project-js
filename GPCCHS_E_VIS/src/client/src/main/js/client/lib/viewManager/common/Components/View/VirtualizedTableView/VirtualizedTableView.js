@@ -265,12 +265,12 @@ class VirtualizedTableView extends React.Component {
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
       let content = { value: undefined };
 
-      if (Array.isArray(rows)) {
-        content = rows[rowIndex][columnIndex];
+      if (Array.isArray(formattedRows)) {
+        content = formattedRows[rowIndex][columnIndex];
       }
 
-      if (typeof rows === 'function') {
-        content = rows({ rowIndex, columnIndex, cols });
+      if (typeof formattedRows === 'function') {
+        content = formattedRows({ rowIndex, columnIndex, cols });
       }
 
       let updatedStyle = {

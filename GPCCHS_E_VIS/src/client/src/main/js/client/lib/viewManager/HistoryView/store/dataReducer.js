@@ -106,8 +106,7 @@ export default function historyViewData(state = {}, action) {
       return newState || {};
     }
     case types.WS_VIEWDATA_CLEAN: {
-      const { previousDataMap, dataMap, configuration } = action.payload;
-      const { HistoryViewConfiguration } = configuration;
+      const { previousDataMap, dataMap } = action.payload;
       // since now, state will changed
       let newState = state;
       const viewIds = Object.keys(state);
@@ -120,8 +119,7 @@ export default function historyViewData(state = {}, action) {
           previousDataMap.perView[viewId],
           dataMap.perView[viewId],
           previousDataMap.expectedRangeIntervals,
-          dataMap.expectedRangeIntervals,
-          HistoryViewConfiguration[viewId]);
+          dataMap.expectedRangeIntervals);
         if (subState !== viewData) {
           newState = { ...newState, [viewId]: subState };
         }
@@ -141,7 +139,7 @@ export default function historyViewData(state = {}, action) {
         const newIndex =
           _.sortBy(
             _sortFunc,
-            _.clone(newState[viewId].indexes.referenceTimestamp)
+            newState[viewId].indexes.referenceTimestamp
           );
 
         newState = {

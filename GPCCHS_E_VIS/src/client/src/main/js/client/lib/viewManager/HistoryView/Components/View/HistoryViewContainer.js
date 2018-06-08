@@ -42,8 +42,8 @@ const mapStateToProps = (state, { viewId }) => {
   const rows = ({ rowIndex, columnIndex, cols }) => {
     const virtualRowIndex =
       sortingDirection === 'DESC' ?
-        totalRowCount - rowIndex - 1 :
-        rowIndex;
+        rowIndex :
+        totalRowCount - rowIndex - 1;
 
     const content = _.get(usedIndex[virtualRowIndex].split(' '), data);
 

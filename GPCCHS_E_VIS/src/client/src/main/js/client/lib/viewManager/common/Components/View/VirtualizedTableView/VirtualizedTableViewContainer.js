@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import { connect } from 'react-redux';
 
 import { filterColumn, toggleColumnSort } from 'store/actions/tableColumns';
@@ -16,31 +18,15 @@ const mapStateToProps = (state, { viewId, tableId, rows, rowCount, totalRowCount
   const _getRows = () => {
     if (Array.isArray(rows)) {
       const formattedRows = sort(filter(rows, tableConfig), tableConfig);
+      const colIndexesToRemove = cols.filter(col => !col.displayed);
 
-      const colIndexesToRemove = cols.reduce((acc, cur, index) => {
-        if (!cur.displayed) {
-          return [...acc, index];
-        }
-
-        return acc;
-      }, []);
-
-      return formattedRows.reduce((acc, cur) => [
-        ...acc,
-        cur.filter((_, index) => colIndexesToRemove.indexOf(index) === -1),
-      ], []);
+      return formattedRows.map(row => _.omit(colIndexesToRemove, row));
     }
 
     return rows;
   };
 
-  const reducedColumns = cols.reduce((acc, cur) => {
-    if (cur.displayed) {
-      return [...acc, cur];
-    }
-
-    return acc;
-  }, []);
+  const reducedColumns = cols.filter(col => col.displayed);
 
   return {
     tableName: name,

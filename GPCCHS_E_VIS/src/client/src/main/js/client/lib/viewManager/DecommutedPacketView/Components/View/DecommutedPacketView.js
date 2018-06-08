@@ -54,14 +54,14 @@ import classnames from 'classnames';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import _map from 'lodash/map';
-import { NODE_TYPE_KEY, NODE_TYPE_OBJECT } from 'constants';
+// import { NODE_TYPE_KEY, NODE_TYPE_OBJECT } from 'constants';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
+import Tree from 'windowProcess/Explorer/widgets/Tree';
+import ModalComponent from 'windowProcess/common/ModalComponent';
 import styles from './DecommutedPacketView.css';
 import { buildFormulaForAutocomplete } from '../../../common';
-import ModalComponent from '../../../../windowProcess/common/ModalComponent';
 import { get } from '../../../../common/configurationManager';
-import Tree from '../../../../windowProcess/Explorer/widgets/Tree';
 
 const WILDCARD = get('WILDCARD_CHARACTER');
 
@@ -105,6 +105,7 @@ export default class DecommutedPacketView extends PureComponent {
       value: PropTypes.object,
       index: PropTypes.number,
     }),
+    structuredData: PropTypes.shape({}),
     entryPoints: PropTypes.objectOf(PropTypes.object),
     addEntryPoint: PropTypes.func.isRequired,
     openInspector: PropTypes.func.isRequired,
@@ -336,36 +337,7 @@ export default class DecommutedPacketView extends PureComponent {
             <h1>{parameterName}</h1>
           </header>
           <Tree
-            data={[
-              {
-                name: 'parent',
-                children: [
-                  { name: 'child1' },
-                  { name: 'child2' },
-                ],
-              },
-              {
-                name: 'loading parent',
-                value: 'bidule',
-                type: NODE_TYPE_KEY,
-              },
-              {
-                name: 'parent',
-                toggled: true,
-                type: NODE_TYPE_OBJECT,
-                children: [
-                  {
-                    name: 'nested parent',
-                    toggled: true,
-                    type: NODE_TYPE_OBJECT,
-                    children: [
-                      { name: 'nested child 1', value: 'machin', type: NODE_TYPE_KEY },
-                      { name: 'nested child 2', value: 'truc', type: NODE_TYPE_KEY },
-                    ],
-                  },
-                ],
-              },
-            ]}
+            data={this.props.structuredData}
           />
         </DroppableContainer>
         {this.renderModal()}
@@ -373,6 +345,32 @@ export default class DecommutedPacketView extends PureComponent {
     );
   }
 }
+
+// const stubData = {
+//   name: 'Root',
+//   type: NODE_TYPE_OBJECT,
+//   toggled: true,
+//   children: [{
+//     name: 'GENE_AM_CCSDSVERS2',
+//     toggled: true,
+//     type: NODE_TYPE_OBJECT,
+//     children: [{
+//       name: 'truc',
+//       toggled: true,
+//       type: NODE_TYPE_KEY,
+//       values: [
+//         {
+//           rawValue: 12,
+//           convertedValue: 5,
+//         },
+//         {
+//           rawValue: 'nest',
+//           convertedValue: '0x1346F65FA',
+//         },
+//       ],
+//     }],
+//   }],
+// };
 
 /**
  * @param content

@@ -33,13 +33,14 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
+import _get from 'lodash/get';
 import { askItemStructure } from 'store/actions/catalogs';
 import { getPageIdByViewId, getPage } from 'store/reducers/pages';
 import { getConfigurationByViewId } from 'viewManager';
 import { getViewEntryPoints } from 'store/selectors/views';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
+import { innerGetStructuredData, getComObjectStructure, getTupleId } from 'store/reducers/catalogs';
 import { removeLink, updateShowLinks, addEntryPoint } from 'store/actions/views';
 import { getData } from 'viewManager/DecommutedPacketView/store/dataReducer';
 import { getLinks, areLinksShown } from 'store/reducers/views';
@@ -51,11 +52,26 @@ const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
 
+  const entryPoints = getViewEntryPoints(state, { viewId });
+  const {
+    parameterName: itemName,
+    catalog: name,
+    domainId,
+    sessionId,
+  } = entryPoints.decommutedPacketEP.dataId;
+
+  const tupleId = getTupleId(domainId, sessionId);
+
+  const data = getData(state, { viewId });
+  const structure = getComObjectStructure(state.catalogs, { tupleId, itemName, name });
+  const structuredData = innerGetStructuredData(structure, _get(data, ['value', 'decommutedValues']));
+
   return {
     formula: getFormula(state, { viewId }),
     configuration: getConfigurationByViewId(state, { viewId }),
-    entryPoints: getViewEntryPoints(state, { viewId }),
-    data: getData(state, { viewId }),
+    entryPoints,
+    data,
+    structuredData,
     isInspectorOpened: isAnyInspectorOpened(state),
     inspectorEpId: getInspectorEpId(state),
     links: getLinks(state, { viewId }),

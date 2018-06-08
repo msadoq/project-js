@@ -21,6 +21,7 @@ import {
   NODE_TYPE_LINK as LINK,
   NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK,
 } from 'constants';
+import TableInTreeNode from './TableInTreeNode';
 
 const Loading = props => (
   <div style={props.style}>
@@ -47,16 +48,20 @@ const Header = (props) => {
           </div>
         </div>
       );
-    case KEY:
+    case KEY: {
       return (
         <div style={style.base}>
           <div>
             <span style={style.title}>{node.name}:</span>
             {' '}
-            <span style={style.value}>{node.value}</span>
+            {node.values
+              ? <TableInTreeNode values={node.values} />
+              : <span style={style.value}>{node.value}</span>
+              }
           </div>
         </div>
       );
+    }
     case ITEM:
       return (
         <div style={style.base}>

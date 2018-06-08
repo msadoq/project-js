@@ -4,6 +4,7 @@ import {
   WS_APIDS_ASK,
   WS_APIDS_ADD,
 } from 'store/types';
+import { getTupleId } from '../catalogs';
 
 export const REQUESTING = 'requesting';
 
@@ -41,13 +42,6 @@ export const getApidsByDomainIdAndSessionId = (state, { domainId, sessionId }) =
   _getOr(null, getTupleId(domainId, sessionId), state.apids);
 
 /* --- Reducer -------------------------------------------------------------- */
-
-/**
- * @param domainId
- * @param sessionId
- * @returns {string}
- */
-export const getTupleId = (domainId, sessionId) => `${domainId}-${sessionId}`;
 
 /**
  * @param state

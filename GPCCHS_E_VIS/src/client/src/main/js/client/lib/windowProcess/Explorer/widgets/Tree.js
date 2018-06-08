@@ -32,7 +32,6 @@ export default class Tree extends PureComponent {
   state = {};
 
   onToggle = (node, toggled) => {
-    console.log(this.state.cursor);
     // eslint-disable-next-line no-param-reassign
     node.active = true;
     if (node.children) {

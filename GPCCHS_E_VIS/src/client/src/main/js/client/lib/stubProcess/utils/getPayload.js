@@ -212,6 +212,18 @@ const getComObject = (dataId, timestamp, options) => {
             convertedValue: 2,
           }),
           stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS1',
+            extractedValue: Buffer.alloc(10, 12),
+            rawValue: 2,
+            convertedValue: 2,
+          }),
+          stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS2',
+            extractedValue: Buffer.alloc(10, 1),
+            rawValue: 0,
+            convertedValue: 0,
+          }),
+          stubData.getDecommutedValue({
             name: 'GENE_AM_CCSDSVERS2',
             extractedValue: Buffer.alloc(10, 1),
             rawValue: 0,
@@ -224,16 +236,24 @@ const getComObject = (dataId, timestamp, options) => {
             convertedValue: 12.1,
           }),
           stubData.getDecommutedValue({
-            name: 'GENE_AM_CCSDSVERS1',
-            extractedValue: Buffer.alloc(10, 12),
-            rawValue: 2,
-            convertedValue: 2,
-          }),
-          stubData.getDecommutedValue({
-            name: 'GENE_AM_CCSDSVERS2',
-            extractedValue: Buffer.alloc(10, 1),
+            name: 'GENE_AM_CCSDSVERS4',
             rawValue: 0,
             convertedValue: 0,
+          }),
+          stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS4',
+            rawValue: 1,
+            convertedValue: 30,
+          }),
+          stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS5',
+            rawValue: 20,
+            convertedValue: 0,
+          }),
+          stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS5',
+            rawValue: 13,
+            convertedValue: 'a31',
           }),
         ],
       });

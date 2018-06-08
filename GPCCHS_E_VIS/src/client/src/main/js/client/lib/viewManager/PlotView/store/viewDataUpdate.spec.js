@@ -633,11 +633,11 @@ describe('PlotView : viewDataUpdate : rangesNeedObsoleteDataUpdate', () => {
         lastRangeIndex
       )
     ).toEqual({
-      newLastRangeIndex: -2,
+      newLastRangeIndex: -1,
       isDataObsolete: false,
     });
   });
-  it('given an obsolete event timestamp (< first data) and range indexes, should return false', () => {
+  it('given an obsolete event timestamp (< first data) and range indexes, should return true', () => {
     const rangesIndexes = [20, 30, 40];
     const timestamp = 10;
     const lastRangeIndex = 0;
@@ -648,8 +648,8 @@ describe('PlotView : viewDataUpdate : rangesNeedObsoleteDataUpdate', () => {
         lastRangeIndex
       )
     ).toEqual({
-      newLastRangeIndex: -1,
-      isDataObsolete: false,
+      newLastRangeIndex: 0,
+      isDataObsolete: true,
     });
   });
   it('given an obsolete event timestamp (22) and range indexes, should return true', () => {
@@ -663,7 +663,7 @@ describe('PlotView : viewDataUpdate : rangesNeedObsoleteDataUpdate', () => {
         lastRangeIndex
       )
     ).toEqual({
-      newLastRangeIndex: 0,
+      newLastRangeIndex: 1,
       isDataObsolete: true,
     });
   });
@@ -678,7 +678,7 @@ describe('PlotView : viewDataUpdate : rangesNeedObsoleteDataUpdate', () => {
         lastRangeIndex
       )
     ).toEqual({
-      newLastRangeIndex: 2,
+      newLastRangeIndex: 3,
       isDataObsolete: true,
     });
   });

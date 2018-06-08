@@ -285,12 +285,12 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
       _forEach(masterTimes, (masterTime) => {
         const timestamp = parseInt(masterTime, 10);
         // get index of obsolete ranges data
-        // const index = _findIndex(newState.indexes[epName], t => t >= timestamp, lastRangeIndex) - 1;
         const { newLastRangeIndex, isDataObsolete } =
           rangesNeedObsoleteDataUpdate(newState.indexes[epName], timestamp, lastRangeIndex);
         lastRangeIndex = newLastRangeIndex;
         if (isDataObsolete) {
-          const rangeTimestamp = newState.indexes[epName][newLastRangeIndex];
+          // need previous index from indexes, the index tagged before is the next one from the obsolete event
+          const rangeTimestamp = newState.indexes[epName][newLastRangeIndex - 1];
           newState.lines[epName][rangeTimestamp] = {
             ...newState.lines[epName][rangeTimestamp],
             isDataObsolete,
@@ -701,13 +701,34 @@ export const isRangeDataObsolete =
 
 export const rangesNeedObsoleteDataUpdate =
   (rangesIndexes, timestamp, lastRangeIndex) => {
-    const index = _findIndex(rangesIndexes, t => t >= timestamp, lastRangeIndex) - 1;
     let isDataObsolete = false;
-    if (index >= 0) {
-      isDataObsolete = true;
+    let newLastRangeIndex = lastRangeIndex;
+    if (lastRangeIndex + 1 >= 0) {
+      const index = _findIndex(rangesIndexes, t => t >= timestamp, lastRangeIndex);
+      newLastRangeIndex = index;
+      if (index >= 0) {
+        isDataObsolete = true;
+      }
     }
     return {
-      newLastRangeIndex: index,
+      newLastRangeIndex,
       isDataObsolete,
     };
   };
+
+// export const rangesNeedObsoleteDataUpdate =
+//   (rangesIndexes, timestamp, lastRangeIndex) => {
+//     let isDataObsolete = false;
+//     let newLastRangeIndex = lastRangeIndex;
+//     if (lastRangeIndex + 1 >= 0) {
+//       const index = _findIndex(rangesIndexes, t => t >= timestamp, lastRangeIndex + 1) - 1;
+//       newLastRangeIndex = index;
+//       if (index >= 0) {
+//         isDataObsolete = true;
+//       }
+//     }
+//     return {
+//       newLastRangeIndex,
+//       isDataObsolete,
+//     };
+//   };

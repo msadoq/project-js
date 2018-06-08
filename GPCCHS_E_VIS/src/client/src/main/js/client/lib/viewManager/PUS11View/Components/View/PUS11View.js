@@ -172,37 +172,35 @@ export const renderHeaders = (ApplicationProcessName,
                               LastUpdateType
 ) => (
   <React.Fragment>
-    <div className="info col-sm-3">
-      <span className="spacing" />
+    <div className="info col-sm-6">
       <span>
-        Application Process
-        <input type="text" disabled value={ApplicationProcessName} />
-        <input
-          className="mw50"
-          type="text" disabled
-          value={ApplicationProcessId}
-        />
+        Application Process&nbsp;
+        <input type="text" disabled value={ApplicationProcessName} />&nbsp;
+        <input className="mw50" type="text" disabled value={ApplicationProcessId} />
       </span>
       <span className="spacing" />
     </div>
-    <div className="info col-sm-3">
-      <span className="spacing" />
-      <span>Schedule Status <input type="text" className="mw100" disabled value={ScheduleStatus} /></span>
-      <span className="spacing" />
-    </div>
-    <div className="info col-sm-3">
-      <span className="spacing" />
-      <span>Application Space <input type="text" className="mw100" disabled value={AvailableSpace} /> {SpaceType}</span>
+    <div className="info col-sm-6">
+      <span>
+        Schedule Status&nbsp;
+        <input type="text" className="mw100" disabled value={ScheduleStatus} />
+      </span>
       <span className="spacing" />
     </div>
-    <div className="info col-sm-3">
+    <div className="info col-sm-6">
+      <span>
+        Application Space&nbsp;
+        <input type="text" className="mw100" disabled value={AvailableSpace} />
+        &nbsp;{SpaceType}
+      </span>
       <span className="spacing" />
-      <span>Last Uptate <input type="text" className="mw100" disabled value={LastUpdateTime} /> <input
-        className="mw50"
-        type="text"
-        disabled
-        value={LastUpdateType}
-      /></span>
+    </div>
+    <div className="info col-sm-6">
+      <span>
+        Last Uptate&nbsp;
+        <input type="text" className="mw100" disabled value={LastUpdateTime} />&nbsp;
+        <input className="mw50" type="text" disabled value={LastUpdateType} />
+      </span>
       <span className="spacing" />
     </div>
     <div className="clearfix" />

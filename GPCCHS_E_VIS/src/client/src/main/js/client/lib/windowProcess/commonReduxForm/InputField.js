@@ -78,7 +78,6 @@ export default class InputField extends React.Component {
       >
         <input
           onChange={this.onChange}
-          defaultValue={input.value}
           value={input.value}
           className={className}
           placeholder={placeholder}

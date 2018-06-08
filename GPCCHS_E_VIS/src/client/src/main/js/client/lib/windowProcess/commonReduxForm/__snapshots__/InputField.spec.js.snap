@@ -6,7 +6,6 @@ exports[`Navigation renders correctly 1`] = `
 >
   <input
     className=""
-    defaultValue="testval"
     disabled={false}
     onChange={[Function]}
     placeholder=""

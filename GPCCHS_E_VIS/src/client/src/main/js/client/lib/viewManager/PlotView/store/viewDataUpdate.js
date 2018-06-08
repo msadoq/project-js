@@ -715,20 +715,3 @@ export const rangesNeedObsoleteDataUpdate =
       isDataObsolete,
     };
   };
-
-// export const rangesNeedObsoleteDataUpdate =
-//   (rangesIndexes, timestamp, lastRangeIndex) => {
-//     let isDataObsolete = false;
-//     let newLastRangeIndex = lastRangeIndex;
-//     if (lastRangeIndex + 1 >= 0) {
-//       const index = _findIndex(rangesIndexes, t => t >= timestamp, lastRangeIndex + 1) - 1;
-//       newLastRangeIndex = index;
-//       if (index >= 0) {
-//         isDataObsolete = true;
-//       }
-//     }
-//     return {
-//       newLastRangeIndex,
-//       isDataObsolete,
-//     };
-//   };

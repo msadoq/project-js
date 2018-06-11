@@ -15,7 +15,7 @@
 // END-HISTORY
 // ====================================================================
 
-/* eslint-disable no-unused-vars,no-continue */
+/* eslint-disable no-unused-vars,no-continue,no-restricted-syntax */
 
 import _ from 'lodash/fp';
 
@@ -25,7 +25,7 @@ import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
 import { SORTING_DESC, SORTING_ASC } from 'constants';
-import { update } from '../../../store/actions/timelines';
+import { shouldKeepIndex } from './dataReducer';
 
 const logger = getLogger('data:rangeValues');
 
@@ -140,6 +140,31 @@ const _syncIndexesByType = (state, indexedPayloads, sortingColKey) => {
   return updatedIndexes;
 };
 
+const _syncFilterIndexes = (state, indexedPayloads, filters) => {
+  const payloadIndexes = Object.keys(indexedPayloads);
+
+  const referenceIndex = _.get(['indexes', 'referenceTimestamp'], state);
+
+  const filteredPayloadIndexes =
+    payloadIndexes.filter(index => shouldKeepIndex(index, state, filters));
+
+  const previousFilterIndexes =
+    (_.get(['indexes', 'keep'], state) || []).map(index => referenceIndex[index]);
+
+  const newFilterIndexes =
+    _mergeSortedArrayBy(_.identity, filteredPayloadIndexes, previousFilterIndexes);
+
+  /**
+   * @const newFilterIndexesMap specifies the array indexes that should be kept
+   *
+   *     When using referenceTimestamp index, we get the i-th displayed value by:
+   *         referenceTimestampIndex[filterIndexesMap[i]]
+   */
+  const newFilterIndexesMap = newFilterIndexes.map((current, index) => index);
+
+  return _.set(['indexes', 'keep'], newFilterIndexesMap, state);
+};
+
 
 /* ************************************
  * Add payloads in history view data state
@@ -150,6 +175,7 @@ const _syncIndexesByType = (state, indexedPayloads, sortingColKey) => {
  * @return: updated state
 /* *********************************** */
 export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
+  const historyConfig = viewConfig.tables.history;
   const epKeys = Object.keys(payloads || {});
   if (!epKeys.length) {
     return state;
@@ -179,6 +205,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
     updatedState = _syncIndexesByType(updatedState, indexedPayloads, sortingColKey);
   }
 
+  updatedState = _syncFilterIndexes(updatedState, indexedPayloads, historyConfig.filters);
   updatedState = _.set(['indexes'], _.get(['indexes'], updatedState), updatedState);
 
   return updatedState;

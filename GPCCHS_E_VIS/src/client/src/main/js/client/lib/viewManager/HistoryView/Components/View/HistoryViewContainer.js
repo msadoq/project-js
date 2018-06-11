@@ -35,15 +35,22 @@ const mapStateToProps = (state, { viewId }) => {
   const sortingDirection = _.getOr('DESC', ['sorting', 'direction'], historyConfig);
 
   const usedIndex = _.getOr([], [usedIndexName], indexes);
+  const filterIndex = _.getOr(null, ['keep'], indexes);
 
   const totalRowCount = usedIndex.length;
-  const rowCount = totalRowCount;
+  let rowCount = totalRowCount;
+
+  if (Array.isArray(filterIndex)) {
+    rowCount = filterIndex.length;
+  }
 
   const rows = ({ rowIndex, columnIndex, cols }) => {
+    const currentIndex = (filterIndex && filterIndex[rowIndex]) || rowIndex;
+
     const virtualRowIndex =
       sortingDirection === 'DESC' ?
-        rowIndex :
-        totalRowCount - rowIndex - 1;
+        currentIndex :
+        totalRowCount - currentIndex - 1;
 
     const content = _.get(usedIndex[virtualRowIndex].split(' '), data);
 

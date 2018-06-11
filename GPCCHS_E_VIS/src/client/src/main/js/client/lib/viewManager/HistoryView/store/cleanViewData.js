@@ -8,12 +8,14 @@
 // END-HISTORY
 // ====================================================================
 
-/* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
+/* eslint-disable no-restricted-syntax,no-continue,no-unused-vars */
 import _ from 'lodash/fp';
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _omit from 'lodash/omit';
+
+import { updateFilteredIndexes } from './dataReducer';
 
 /**
  * Keeps only indexes that correspond to actual data
@@ -78,7 +80,8 @@ export default function cleanCurrentViewData(
   oldViewFromMap,
   newViewFromMap,
   oldIntervals,
-  newIntervals
+  newIntervals,
+  historyConfig
 ) {
   // Check if viewMap has changed
   if (_isEqual(newViewFromMap, oldViewFromMap) && _isEqual(oldIntervals, newIntervals)) {
@@ -153,9 +156,13 @@ export default function cleanCurrentViewData(
   }
 
   Object.keys(newState.indexes).forEach((key) => {
-    // keeps only indexes that correspond to actual ep data
-    newState = _scopeIndexesByType(newState, key);
+    if (key !== 'keep') {
+      // keeps only indexes that correspond to actual ep data
+      newState = _scopeIndexesByType(newState, key);
+    }
   });
+
+  newState = updateFilteredIndexes(newState, historyConfig.tables.history.filters);
 
   return newState;
 }

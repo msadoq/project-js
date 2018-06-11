@@ -13,7 +13,15 @@ import {
 } from '../types';
 
 export const toggleColumnSort = simple(WS_VIEW_TABLE_UPDATE_SORT, 'viewId', 'tableId', 'colName', 'direction');
-export const filterColumn = simple(WS_VIEW_CHANGE_COL_FILTERS, 'viewId', 'tableId', 'colName', 'value');
+export const filterColumn =
+  simple(
+    WS_VIEW_CHANGE_COL_FILTERS,
+    'viewId',
+    'tableId',
+    'colName',
+    'value',
+    'filters' // all active filters
+  );
 export const scrollRows =
   simple(
     WS_VIEW_TABLE_SCROLL,

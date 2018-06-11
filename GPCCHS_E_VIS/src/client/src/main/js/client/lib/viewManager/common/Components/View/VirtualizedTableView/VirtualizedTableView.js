@@ -46,8 +46,8 @@ class VirtualizedTableView extends React.Component {
     tableName: 'Data table',
     cols: [],
     rows: [],
-    rowCount: null,
-    totalRowCount: null,
+    rowCount: 0,
+    totalRowCount: 0,
     columnWidth: 220,
     rowHeight: 22,
     bodyCellActions: null,
@@ -387,11 +387,15 @@ class VirtualizedTableView extends React.Component {
 
 
     const _getCountStr = () => {
-      if (rowCount && totalRowCount) {
+      if (rowCount !== null && totalRowCount !== null) {
+        if (!rowCount && !totalRowCount) {
+          return 'NO DATA';
+        }
+
         return `${rowCount}/${totalRowCount}`;
       }
 
-      return null;
+      return 'NO DATA';
     };
 
     const columnsWidth = columnWidth * columnCount;

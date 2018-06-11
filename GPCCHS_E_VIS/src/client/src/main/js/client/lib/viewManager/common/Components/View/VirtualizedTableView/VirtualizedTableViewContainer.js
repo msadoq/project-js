@@ -46,8 +46,8 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
       dispatch(pause());
     }
   },
-  onFilter: (col, value) => {
-    dispatch(filterColumn(viewId, tableId, col, value));
+  onFilter: (col, value, filters) => {
+    dispatch(filterColumn(viewId, tableId, col, value, filters));
   },
   onSort: (col, mode) => {
     dispatch(toggleColumnSort(viewId, tableId, col, mode));
@@ -69,8 +69,20 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
   },
 });
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  onFilter: (col, value) => {
+    dispatchProps.onFilter(col, value, {
+      ...stateProps.filterState,
+      [col]: value,
+    });
+  },
+});
+
 const VirtualizedTableViewContainer =
-  connect(mapStateToProps, mapDispatchToProps)(VirtualizedTableView);
+  connect(mapStateToProps, mapDispatchToProps, mergeProps)(VirtualizedTableView);
 
 
 export default VirtualizedTableViewContainer;

@@ -34,6 +34,9 @@ deploy_cots() {
   cp -RT ${find.dependencies.dir}/lib/js/gpcchs_e_vis_client ${api.work.dir}/js/client
   cd ${api.work.dir}/js/client
 
+  mkdir -p ${api.work.dir}/tmp
+  export TMP=${api.work.dir}/tmp
+
   Log "deploy_cots" "specific COTS handling (e.g.: ZMQ)" ${INFO}
   export PKG_CONFIG_PATH=${find.dependencies.dir}/lib/pkgconfig
   sed -i "s@^prefix=.*\$@prefix=${find.dependencies.dir}@" ${PKG_CONFIG_PATH}/*.pc
@@ -51,8 +54,25 @@ deploy_cots() {
   PATH=${find.dependencies.dir}/bin:$PATH
   export npm_config_nodedir=${find.dependencies.dir}
 
+  cd $TMP
+  for p in $(find ${find.dependencies.dir}/npm_cache -name package.tgz)
+  do
+    tar xzf $p 2> /dev/null
+    for s in $(find -name npm-shrinkwrap.json)
+    do
+      echo "Neutering $s in $p"
+      clean-shrinkwrap $s
+    done
+    tar czf $p *
+    rm -rf ./*
+  done
+  cd -
+
   npm ${NPM_OPTS1} config set cache ${find.dependencies.dir}/npm_cache
   npm ${NPM_OPTS1} config set cache-min ${NPM_CACHE_DURATION}
+  npm ${NPM_OPTS1} config set fetch-retry-mintimeout 2000
+  npm ${NPM_OPTS1} config set fetch-retry-maxtimeout 5000
+  npm ${NPM_OPTS1} config set zmq_external true
   # workaround for electron downloads
   HOME=${find.dependencies.dir}
 

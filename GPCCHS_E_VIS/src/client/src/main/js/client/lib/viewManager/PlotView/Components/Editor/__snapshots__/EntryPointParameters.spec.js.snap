@@ -26,7 +26,6 @@ Array [
         >
             <input
                 className="form-control input-sm"
-                defaultValue=""
                 disabled={false}
                 onChange={[Function]}
                 placeholder=""
@@ -190,7 +189,6 @@ Array [
         >
             <input
                 className="form-control input-sm"
-                defaultValue=""
                 disabled={false}
                 onChange={[Function]}
                 placeholder=""
@@ -582,7 +580,6 @@ Array [
         >
             <input
                 className="form-control input-sm"
-                defaultValue=""
                 disabled={false}
                 onChange={[Function]}
                 placeholder=""
@@ -621,7 +618,6 @@ Array [
         >
             <input
                 className="form-control input-sm"
-                defaultValue=""
                 disabled={false}
                 onChange={[Function]}
                 placeholder=""
@@ -943,7 +939,6 @@ Array [
         >
             <input
                 className="form-control input-sm"
-                defaultValue=""
                 disabled={false}
                 onChange={[Function]}
                 placeholder=""
@@ -1011,7 +1006,6 @@ Array [
         >
             <input
                 className="form-control input-sm"
-                defaultValue=""
                 disabled={false}
                 onChange={[Function]}
                 placeholder=""
@@ -1333,7 +1327,6 @@ Array [
         >
             <input
                 className="form-control input-sm"
-                defaultValue=""
                 disabled={false}
                 onChange={[Function]}
                 placeholder=""
@@ -1629,7 +1622,6 @@ Array [
         >
             <input
                 className="form-control input-sm"
-                defaultValue=""
                 disabled={false}
                 onChange={[Function]}
                 placeholder=""

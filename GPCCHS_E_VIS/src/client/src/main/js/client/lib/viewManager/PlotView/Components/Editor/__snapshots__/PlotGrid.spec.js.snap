@@ -266,7 +266,6 @@ exports[`PlotGrid :: render PlotGrid :: render 1`] = `
       >
         <input
           className="form-control input-sm"
-          defaultValue=""
           disabled={false}
           onChange={[Function]}
           placeholder=""

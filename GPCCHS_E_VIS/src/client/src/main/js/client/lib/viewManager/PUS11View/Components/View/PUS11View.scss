@@ -5,8 +5,9 @@
   overflow: scroll;
 
   .header {
-	margin: 10px;
+	margin: 0 10px 10px;
 	.info {
+	  margin-top: 10px;
 	  display: flex;
 	  flex-direction: row;
 	  align-items: center;

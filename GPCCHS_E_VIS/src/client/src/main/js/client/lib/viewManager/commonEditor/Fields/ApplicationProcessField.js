@@ -31,7 +31,7 @@ export default class ApplicationProcessField extends PureComponent {
   };
 
   state = {
-    apidRawValue: null,
+    apidRawValue: '',
   };
 
   componentDidMount() {
@@ -51,8 +51,8 @@ export default class ApplicationProcessField extends PureComponent {
 
   handleChange = (event, newValue) => {
     const apid = findAPID(this.props.applicationProcesses, newValue);
-    this.setState({ apidRawValue: apid.apidRawValue });
-    this.props.onChange(apid.apidRawValue, 'connectedData.apidRawValue');
+    this.setState({ apidRawValue: parseInt(apid.apidRawValue, 10) });
+    this.props.onChange(parseInt(apid.apidRawValue, 10), 'connectedData.apidRawValue');
   };
 
   render() {

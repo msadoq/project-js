@@ -2,7 +2,6 @@ import _find from 'lodash/fp/find';
 import _findIndex from 'lodash/findIndex';
 import _getOr from 'lodash/fp/getOr';
 import _set from 'lodash/fp/set';
-import _memoize from 'lodash/memoize';
 import { createSelector } from 'reselect';
 import {
   WS_CATALOGS_ASK,
@@ -15,7 +14,6 @@ import {
   WS_UNIT_ADD_SIMPLE,
   WS_ITEM_STRUCTURE_ADD,
 } from 'store/types';
-import { NODE_TYPE_OBJECT, NODE_TYPE_KEY } from 'constants';
 
 export const REQUESTING = 'requesting';
 
@@ -321,50 +319,3 @@ export const getComObjectStructure = createSelector(
     return structure;
   }
 );
-
-// FIXME: MOVE ME somewhere more 'UI'
-export const getStructuredData = (structure, data) => (
-  _memoize(() => {
-    console.log('getStructuredData called');
-    return innerGetStructuredData(structure, data);
-  })()
-);
-
-/**
- * a packet is defined as follows:
- * {
- *  convertedValue: { type: 'ulong', value: 0, ... },
- *  extractedValue: { type: 'double', value: '73.45824635' },
- * }
- *
- * Unboxing this packet will push up the value to the parent level:
- * {
- *  convertedValue: 0,
- *  extractedValue: '73.45824635',
- * }
- */
-export const unboxPacketAttributes = packet => Object.entries(packet)
-  .map(([key, valueObject]) => ({ [key]: valueObject.value }))
-  .reduce((agg, attr) => Object.assign(agg, attr), {});
-
-export const innerGetStructuredData = ({ children, itemName, ...attributes }, data = []) => {
-  const values = children
-    ? undefined
-    : data
-      .filter(d => d.name.value === itemName)
-      .map(({ name, ...rest }) => rest)
-      .map(unboxPacketAttributes)
-  ;
-
-  if (values) {
-    console.log(values);
-  }
-  return {
-    name: itemName,
-    ...attributes,
-    values: values && values.length ? values : undefined,
-    children: children && children.map(c => innerGetStructuredData(c, data)),
-    type: children ? NODE_TYPE_OBJECT : NODE_TYPE_KEY,
-    // toggled: true,
-  };
-};

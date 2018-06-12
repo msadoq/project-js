@@ -3,6 +3,13 @@
   overflow: auto;
 }
 
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  text-wrap: avoid;
+}
+
 .obj {
   margin: 0.5;
   font-size: 2.0rem;
@@ -12,21 +19,26 @@
 }
 
 .header, .footer {
-    padding: 1em;
-    color: #999;
-    background-color: #eee;
-    clear: left;
-    text-align: center;
-    margin-bottom: 30px;
+  padding: 0.1em;
+  color: #999;
+  background-color: #eee;
+  clear: left;
+  text-align: center;
+  margin-bottom: 10px;
 }
-.arrayHeader {
-    padding: 1em;
-    color: #999;
-    background-color: #eee;
-    clear: left;
-    text-align: left;
-    margin-bottom: 5px;
+
+.title {
+  margin-top: 6px;
 }
+
+.noWrap {
+  text-wrap: none;
+}
+
+.headerElement {
+  margin: 3px;
+}
+
 .renderErrorText {
   margin: auto;
   font-size: 3em;
@@ -34,6 +46,7 @@
   text-align: center;
   font-weight: 600;
 }
+
 .dt {
   text-align: left;
   margin: 0 0 4px 0;
@@ -41,25 +54,29 @@
   clear: left;
   width: 100px;
 }
+
 .dd {
   margin: 0 0 4px 200px;
 }
+
 .panel {
   overflow: auto;
 }
 
-.details{
+.details {
   display: inline-flex;
   margin-top: 10px;
   margin-bottom: 10px;
   white-space: nowrap;
 }
-.listLeft{
+
+.listLeft {
   list-style-type: none;;
   text-align: right;
   padding: 2px;
 }
-.listRight{
+
+.listRight {
   list-style-type: none;
   padding: 2px;
   white-space: nowrap;
@@ -71,6 +88,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .renderErrorText {
   margin: auto;
   font-size: 3em;

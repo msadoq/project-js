@@ -10,12 +10,52 @@
 
 import _ from 'lodash/fp';
 import { getConfigurationByViewId } from 'viewManager';
+import _memoize from 'lodash/memoize';
+import { NODE_TYPE_KEY, NODE_TYPE_OBJECT } from 'constants';
 
-const getFormula = (state, ownProps) => {
+
+export const getFormula = (state, ownProps) => {
   const configuration = getConfigurationByViewId(state, ownProps);
   return _.get('entryPoints[0].connectedData.formula', configuration);
 };
 
-export default {
-  getFormula,
+export const getStructuredData = (structure, data) => (
+  _memoize(() => innerGetStructuredData(structure, data))()
+);
+
+/**
+ * a packet is defined as follows:
+ * {
+ *  convertedValue: { type: 'ulong', value: 0, ... },
+ *  extractedValue: { type: 'double', value: '73.45824635' },
+ * }
+ *
+ * Unboxing this packet will push up the value to the parent level:
+ * {
+ *  convertedValue: 0,
+ *  extractedValue: '73.45824635',
+ * }
+ */
+export const unboxPacketAttributes = packet => Object.entries(packet)
+  .map(([key, valueObject]) => ({ [key]: valueObject.value }))
+  .reduce((agg, attr) => Object.assign(agg, attr), {});
+
+export const innerGetStructuredData = ({ children, itemName, ...attributes }, data = []) => {
+  const values = children
+    ? undefined
+    : data
+      .filter(d => d.name.value === itemName)
+      .map(({ name, ...rest }) => rest)
+      .map(unboxPacketAttributes)
+  ;
+  // values && values.length && console.log(values);
+
+  return {
+    name: itemName,
+    ...attributes,
+    values: values && values.length ? values : undefined,
+    children: children && children.map(c => innerGetStructuredData(c, data)),
+    type: children ? NODE_TYPE_OBJECT : NODE_TYPE_KEY,
+    // toggled: true,
+  };
 };

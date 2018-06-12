@@ -44,6 +44,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
+import _lowerCase from 'lodash/lowerCase';
 import {
   Row,
   ButtonGroup,
@@ -62,6 +63,7 @@ import ModalComponent from 'windowProcess/common/ModalComponent';
 import styles from './DecommutedPacketView.css';
 import { buildFormulaForAutocomplete } from '../../../common';
 import { get } from '../../../../common/configurationManager';
+import { getStructuredData } from './selectors';
 
 const WILDCARD = get('WILDCARD_CHARACTER');
 
@@ -98,6 +100,27 @@ export const populateFormulaField = ({
   openEditor();
 };
 
+const headerFieldsToDisplay = ['onboardDate', 'groundDate'];
+
+const PacketHeader = ({ headerData }) => {
+  const fieldsToDisplay = Object.entries(headerData)
+    .filter(([name]) => headerFieldsToDisplay.indexOf(name) !== -1);
+
+  return (
+    <div className={styles.headerContainer}>
+      {fieldsToDisplay.map(([key, value]) =>
+        <span key={key} className={styles.headerElement}>
+          <strong className={styles.noWrap}>{_lowerCase(key)}: </strong>
+          <span>{value.value}</span>
+        </span>
+      )}
+    </div>
+  );
+};
+PacketHeader.propTypes = {
+  headerData: PropTypes.shape({}).isRequired,
+};
+
 
 export default class DecommutedPacketView extends PureComponent {
   static propTypes = {
@@ -105,7 +128,7 @@ export default class DecommutedPacketView extends PureComponent {
       value: PropTypes.object,
       index: PropTypes.number,
     }),
-    structuredData: PropTypes.shape({}),
+    structure: PropTypes.shape({}),
     entryPoints: PropTypes.objectOf(PropTypes.object),
     addEntryPoint: PropTypes.func.isRequired,
     openInspector: PropTypes.func.isRequired,
@@ -141,6 +164,11 @@ export default class DecommutedPacketView extends PureComponent {
     comObjects: null,
     selectedComObject: null,
     draggedData: {},
+    structuredData: getStructuredData(
+      this.props.structure,
+      _get(this.props.data, ['value', 'decommutedValues'])
+    ),
+    globalExpand: true,
   };
 
 
@@ -254,6 +282,23 @@ export default class DecommutedPacketView extends PureComponent {
     removeLink(viewId, index);
   };
 
+  innerExpandAll = (node) => {
+    // eslint-disable-next-line no-param-reassign
+    node.toggled = !this.state.globalExpand;
+    if (node.children) {
+      node.children.forEach(this.innerExpandAll);
+    }
+  };
+
+  toggleExpandAll = () => {
+    const { structuredData, globalExpand } = this.state;
+    this.innerExpandAll(structuredData);
+    this.setState({
+      globalExpand: !globalExpand,
+      structuredData: { ...structuredData },
+    });
+  };
+
   /**
    * @param onDrop
    * @param onContextMenu
@@ -277,7 +322,6 @@ export default class DecommutedPacketView extends PureComponent {
       {this.renderModal()}
     </div>
   );
-
   renderModal = () => (
     <ModalComponent isOpened={this.state.isOpened} title="please select a comObject" onClose={this.hideModal}>
       <Select
@@ -325,7 +369,6 @@ export default class DecommutedPacketView extends PureComponent {
     }
 
     const { parameterName } = entryPoints.decommutedPacketEP.dataId;
-    // const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
       <div>
         <DroppableContainer
@@ -334,10 +377,12 @@ export default class DecommutedPacketView extends PureComponent {
           className={classnames('h100', 'posRelative', styles.container)}
         >
           <header className={styles.header}>
-            <h1>{parameterName}</h1>
+            <h1 className={styles.title}>{parameterName}</h1>
           </header>
+          <PacketHeader headerData={data.value} />
+          <button onClick={this.toggleExpandAll}>expand all</button>
           <Tree
-            data={this.props.structuredData}
+            data={this.state.structuredData}
           />
         </DroppableContainer>
         {this.renderModal()}

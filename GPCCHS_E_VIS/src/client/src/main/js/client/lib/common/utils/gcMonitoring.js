@@ -4,7 +4,8 @@
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Use logger in gc monitoring
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Remove use of console.time from gcMonitoring
 // VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Fix production webpack build errors
-// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Update project dependencies and remove broken code (gcMonitoring)
+// VERSION : 1.1.2 : DM : #5828 : 06/04/2017 : Update project dependencies and remove broken code
+//  (gcMonitoring)
 // END-HISTORY
 // ====================================================================
 

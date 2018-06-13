@@ -1,8 +1,8 @@
-#GPCCHS 1.1.2 02/10/2017 ddc.txt
+#GPCCHS 2.0.0.2 15/05/2018 ddc.txt
 
 Dossier descriptif de configuration
 ===================================
-Fait le  : 02/10/2017
+Fait le  : 15/05/2018
 par      : Philippe Combes
 selon specification :
  - RNC-CNES-M-ST-40-102 Version 4
@@ -41,24 +41,22 @@ The ISIS Product Line provides all basic elements required to the elaboration of
 1. Identification de l'article de Configuration
 ===============================================
 Nom de l'article      : GPCCHS
-Code OT               : GPCC
+Code OT               : GPVI
 Criticite             : normale
 Confidentialite       : DLP
 Fournisseur           : Atos / ATOS
 Rappel de la fonction :
-
-*** A completer ***
-
+The GPVI component provides the VIMA-JS application
 
 
 2. Identification de la version
 ===============================
-Date Version                : 2017/10/02
-Numero Version              : 1.1.2
-Numero Version de reference : 1.1.0
+Date Version                : 2018/05/15
+Numero Version              : 2.0.0.2
+Numero Version de reference : 2.0.0.1
 Branche Version             : principale
 Etat Version                : 
-Justification               : Delivery of LPISIS, version 1.1.2
+Justification               : Delivery of LPISIS, patch version 2.0.0.2
 Nature d'arborescence       : produit source
 Type de livraison           : complete
 

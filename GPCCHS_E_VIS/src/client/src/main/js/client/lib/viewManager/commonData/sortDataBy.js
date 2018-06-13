@@ -1,28 +1,4 @@
 import _ from 'lodash/fp';
-import Long from 'long';
-import BigNumber from 'bignumber.js';
-
-const sort = (comparator, t) => t.slice().sort(comparator);
-
-const double = {
-  lt: (a, b) => new BigNumber(a).lessThan(new BigNumber(b)),
-  gt: (a, b) => new BigNumber(a).greaterThan(new BigNumber(b)),
-};
-
-const long = {
-  lt: (a, b) => new Long(a).lessThan(new Long(b)),
-  gt: (a, b) => new Long(a).greaterThan(new Long(b)),
-};
-
-const comparators = {
-  double: { ASC: double.gt, DESC: double.lt },
-  long: { ASC: long.gt, DESC: long.lt },
-  string: { ASC: _.gt, DESC: _.lt },
-  number: { ASC: _.gt, DESC: _.lt },
-  boolean: { ASC: _.gt, DESC: _.lt },
-  time: { ASC: _.gt, DESC: _.lt },
-  duration: { ASC: _.gt, DESC: _.lt },
-};
 
 /*
   iteratee : The iteratees to sort by
@@ -51,15 +27,17 @@ const sortDataBy = _.curry((iteratee, sortMode, array) => {
     }
     return value;
   };
-  return sort((a, b) => {
-    const dataA = getData(a);
-    const dataB = getData(b);
-    if (!comparators[dataA.type]) {
-      throw new TypeError(`Unknown comparator for specified type '${dataA.type}'`);
-    }
-    const getValue = dataA.type === 'double' || dataA.type === 'long' ? _.get('symbol') : _.get('value');
-    return comparators[dataA.type][sortMode](getValue(dataA), getValue(dataB));
-  }, array);
+
+  const data = array.map(oid => getData(oid));
+  const dataType = _.getOr(null, 'type', data[0]);
+  const field = dataType === 'double' || dataType === 'long' ? 'symbol' : 'value';
+  const result = _.sortBy(
+    _.flow(getData, _.get(field))
+    , array
+  );
+  return sortMode === 'ASC'
+    ? result
+    : result.reverse();
 });
 
 export default sortDataBy;

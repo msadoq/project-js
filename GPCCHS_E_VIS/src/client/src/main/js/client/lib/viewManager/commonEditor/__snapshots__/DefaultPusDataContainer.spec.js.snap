@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager :: commonEditor :: Fields :: DefaultPusDataContainer snapshot 1`] = `
+<ReduxForm
+  form="form-name"
+/>
+`;

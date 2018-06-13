@@ -1,15 +1,25 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Add types.proto in dc - Add parse/stringify mechanism to configurationManager
-// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix a configurationManager bug that ignore CLI parameters.
-// VERSION : 1.1.2 : FA : #6798 : 21/06/2017 : Modify configuration parameter to parse conf in forked process
+// VERSION : 1.1.2 : FA : #6798 : 15/06/2017 : Add types.proto in dc - Add parse/stringify
+//  mechanism to configurationManager
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix a configurationManager bug that ignore CLI
+//  parameters.
+// VERSION : 1.1.2 : FA : #6798 : 21/06/2017 : Modify configuration parameter to parse conf in
+//  forked process
 // VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Merge branch 'dev' into dbrugne-lifecycle
-// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix event loop blocking due to systematic JSON.parse in configurationManager
-// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix important performance leak due to systematic JSON.parse
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix event loop blocking due to systematic JSON.parse
+//  in configurationManager
+// VERSION : 1.1.2 : DM : #6700 : 21/06/2017 : Fix important performance leak due to systematic
+//  JSON.parse
 // VERSION : 1.1.2 : FA : #6798 : 23/06/2017 : Merge branch 'dev' into pgaucher-464-proto-config
 // VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : branch 'dev' into pgaucher-464-proto-config
-// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Modify health monitoring mechanism : - Handle properly start and stop - Add critical delay value in conf - Only start monitoring on DEBUG
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Modify health monitoring mechanism : - Handle
+//  properly start and stop - Add critical delay value in conf - Only start monitoring on DEBUG
+// VERSION : 2.0.0 : FA : #8557 : 18/10/2017 : Add configuration file management for missions
+//  adapters
+// VERSION : 2.0.0 : FA : #8557 : 18/12/2017 : Fix load configuration file . .
+// VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
 // END-HISTORY
 // ====================================================================
 

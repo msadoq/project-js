@@ -3,19 +3,41 @@
 // VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move serverProcess code one level upper
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper modules
-// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Cleanup client/ file organization and test helper
+//  modules
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge
+//  with dev
 // VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Cleanup main and server startup process
 // VERSION : 1.1.2 : DM : #6700 : 23/06/2017 : Implement timebased data subscription observer
-// VERSION : 1.1.2 : DM : #6700 : 23/06/2017 : First draft implementation of dataRequesting management on server
+// VERSION : 1.1.2 : DM : #6700 : 23/06/2017 : First draft implementation of dataRequesting
+//  management on server
 // VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Implement timebased data subscription observer
-// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : First draft implementation of dataRequesting management on server
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : First draft implementation of dataRequesting
+//  management on server
 // VERSION : 1.1.2 : FA : #6798 : 27/06/2017 : branch 'dev' into pgaucher-464-proto-config
 // VERSION : 1.1.2 : FA : #7185 : 05/07/2017 : Fix lint errors and warnings
-// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Refactor DC error handling (direct dispatch from server)
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Refactor DC error handling (direct dispatch from
+//  server)
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
-// VERSION : 1.1.2 : FA : #7145 : 03/08/2017 : Refacto onFmdCreateData and onFmdGetData dc controllers
-// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add sendProductLog middleware in serverProcess + replace old IPC productLog
+// VERSION : 1.1.2 : FA : #7145 : 03/08/2017 : Refacto onFmdCreateData and onFmdGetData dc
+//  controllers
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add sendProductLog middleware in serverProcess +
+//  replace old IPC productLog
+// VERSION : 2.0.0 : FA : #8022 : 27/09/2017 : Add good filter operator in request to dc
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update server process and data injection for alarms
+// VERSION : 2.0.0 : FA : #8606 : 17/10/2017 : Display error popup when dc return a response error
+// VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : Refacto PubSub Alarm + tbd Alarm queries
+// VERSION : 2.0.0 : FA : ISIS-FT-2229 : 18/10/2017 : Resolve merge conflict . .
+// VERSION : 2.0.0 : DM : #5806 : 03/11/2017 : Manage ackrequests in stub .
+// VERSION : 2.0.0 : FA : #8699 : 17/11/2017 : Fix bug 'Display entryPoint name in data consumer
+//  errors'
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2215 : 05/03/2018 : Small fixes due to test with DC over ssh
+//  connection
+// VERSION : 2.0.0 : FA : ISIS-FT-2215 : 05/03/2018 : Fix filters and provider flow
+// VERSION : 2.0.0 : FA : ISIS-FT-2215 : 06/03/2018 : Fix provider flow wrong value
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
 // END-HISTORY
 // ====================================================================
 
@@ -290,6 +312,8 @@ const dcVersionMap = {
         RETRIEVE_CATALOG_ITEM_FIELD_UNIT = 3;
         RETRIEVE_CATALOG_ITEM_EXISTS     = 4;
         RETRIEVE_SATELLITE_ITEMS         = 5;
+        RETRIEVE_CATALOG_ITEM_STRUCTURE  = 6;
+        RETRIEVE_APIDS                   = 7;
     }
     required METHOD method = 1;
     optional uint32 sessionId = 2;
@@ -327,11 +351,15 @@ const dcVersionMap = {
       constants.ADE_SDB_RETRIEVE_SATELLITE_ITEMS,
       args,
       callback),
+    retrieveApids: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_APIDS,
+      args,
+      callback),
     requestSDBQuery: (method, args, callback) => (
       commands.dc.rpc(constants.ADE_SDB_QUERY, [
         encode('dc.dataControllerUtils.ADESDBQuery', {
           method,
-          sessionsId: args.sessionId,
+          sessionId: args.sessionId,
           domainId: args.domainId,
           catalogName: args.catalogName,
           catalogItemName: args.catalogItemName,

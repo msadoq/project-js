@@ -1,16 +1,40 @@
 # ====================================================================
 # HISTORY
 # VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Correction after test with VIMA Js
-# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Create a script to automatically generate all files necessary to let GPDSTD_P_INJ send required aggregations for GPCCHS validation
-# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Correction of a aggregation generation problem with large number of aggregations
-# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Correction of error in case of use with minimal options set
-# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 21/08/2017 : Addition of a feature to also generate the ParameterAggregation file for the SDB
-# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 22/08/2017 : Correction of oid value to use lower case for hexadecimal (tests show it doesn't work otherwise)
-# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 22/08/2017 : Addition of the generation of Order field in telemetry packet file
-# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 24/08/2017 : Update the script to be able to manage big catalogs like the simuPUS
-# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 25/08/2017 : Update ParameterAggregation generation to fix oid and uid computation problems
-# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 04/09/2017 : Correction of a bug with Uid to Oid conversion for negative Uid values
-# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 05/09/2017 : Correct a bug when the requested aggreations are only a part of the given TelemetryPacket file
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Create a script to automatically generate all
+#  files necessary to let GPDSTD_P_INJ send required aggregations for GPCCHS validation
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Correction of a aggregation generation problem
+#  with large number of aggregations
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 18/08/2017 : Correction of error in case of use with
+#  minimal options set
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 21/08/2017 : Addition of a feature to also generate the
+#  ParameterAggregation file for the SDB
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 22/08/2017 : Correction of oid value to use lower case for
+#  hexadecimal (tests show it doesn't work otherwise)
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 22/08/2017 : Addition of the generation of Order field in
+#  telemetry packet file
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 24/08/2017 : Update the script to be able to manage big
+#  catalogs like the simuPUS
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 25/08/2017 : Update ParameterAggregation generation to fix
+#  oid and uid computation problems
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 04/09/2017 : Correction of a bug with Uid to Oid conversion
+#  for negative Uid values
+# VERSION : 1.1.2 : FA : ISIS-FT-1934 : 05/09/2017 : Correct a bug when the requested aggreations
+#  are only a part of the given TelemetryPacket file
+# VERSION : 2.0.0 : FA : ISIS-FT-2277 : 12/10/2017 : Update injected data script to generate
+#  correct monitoringState values
+# VERSION : 2.0.0 : FA : ISIS-FT-2277 : 13/10/2017 : Update injected data script to generate the
+#  list of monitoringState actually used by MC configuration
+# VERSION : 2.0.0 : FA : #8728 : 23/10/2017 : Update injected data generator in order to easily
+#  investigate the origin of the problem raised by this FA
+# VERSION : 2.0.0 : FA : ISIS-FT-2236 : 28/11/2017 : Update injected data generator script to
+#  support of aggration which are not in Reporting catalog (but in TelemetryStructureContainer)
+# VERSION : 2.0.0 : FA : #7832 : 04/12/2017 : Update injection data generator to add the datatypes
+#  from Reporting catalog in injection data file
+# VERSION : 2.0.0 : FA : #7832 : 04/12/2017 : Fix problem with Reporting catalog read (datatypes
+#  was not correctly retrieved)
+# VERSION : 2.0.0 : DM : #9989 : 18/01/2018 : Update injected data generator to support multi
+#  domain Id aggregations
 # END-HISTORY
 # ====================================================================
 

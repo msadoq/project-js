@@ -1,7 +1,8 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 21/07/2017 : Modify querySingleton => pass queryId as a parameter
-// VERSION : 1.1.2 : DM : #6700 : 21/07/2017 : Create registeredArchiveQueriesSingleton models ( and its test)
+// VERSION : 1.1.2 : DM : #6700 : 21/07/2017 : Create registeredArchiveQueriesSingleton models (
+//  and its test)
 // VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Branch full cycle mechanism for rangeData
 // END-HISTORY
 // ====================================================================

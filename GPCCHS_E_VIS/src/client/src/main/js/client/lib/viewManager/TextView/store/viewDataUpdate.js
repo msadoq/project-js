@@ -1,16 +1,29 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #3622 : 22/03/2017 : Update viewData organization for last structure + cleaning
+// VERSION : 1.1.2 : DM : #3622 : 22/03/2017 : Update viewData organization for last structure +
+//  cleaning
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : converts long to string to ensure precision
 // VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Remove viewManager utils folder .
-// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and
+//  un-needed relaxations
 // VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : Fix crash when a textView EP has an invalid field
-// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : fix editor opening per view and rename longData to convertData
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : fix editor opening per view and rename longData to
+//  convertData
 // VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : Move filter application in main process
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to limit visuWindow per view
+// VERSION : 1.1.2 : DM : #7111 : 03/07/2017 : Add config parameter VISU_WINDOW_MAX_DURATION to
+//  limit visuWindow per view
 // VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : Fixed few eslint errors / warnings no-console and spaced-comment.
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 24/08/2017 : Fixed few eslint errors / warnings no-console
+//  and spaced-comment.
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 14/11/2017 : Remove monitoring state colors mecanism + add
+//  defult values for state colors + update unit tests + fix issue when removing a state color +
+//  fix css code style
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 30/01/2018 : Unit convertion, add python fork and
+//  convertion call mechanism
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 31/01/2018 : surveillance du monitoringState pour
+//  parametres TM VIMA
 // END-HISTORY
 // ====================================================================
 

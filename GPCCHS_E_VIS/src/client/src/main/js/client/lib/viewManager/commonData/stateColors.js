@@ -2,6 +2,12 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : remove structure last and range
 // VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Fix broken tests . .
+// VERSION : 2.0.0 : FA : #8416 : 10/10/2017 : Fix stateColor applying for all types
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 14/11/2017 : Remove monitoring state colors mecanism + add
+//  defult values for state colors + update unit tests + fix issue when removing a state color +
+//  fix css code style
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 31/01/2018 : surveillance du monitoringState pour
+//  parametres TM VIMA
 // END-HISTORY
 // ====================================================================
 

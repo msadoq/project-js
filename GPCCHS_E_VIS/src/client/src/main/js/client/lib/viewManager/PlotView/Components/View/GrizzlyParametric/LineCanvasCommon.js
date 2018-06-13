@@ -193,6 +193,10 @@ export const drawLine = (perfOutput,
     : lineData[lineIndexes[0]].x)
   ;
   lastColor = lineData[lineIndexes[0]][line.colorAccessor];
+  // Init ctx with the right color
+  ctx.fillStyle = lastColor;
+  ctx.strokeStyle = lastColor;
+
   ctx.moveTo(currentX, currentY); // required as beginPath set to {0,0}
   ctx.fillStyle = lastColor; // for dots
   ctx.strokeStyle = lastColor; // for sub-lines

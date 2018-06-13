@@ -1,10 +1,16 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Add skeleton for incomingData and retrieveData middleware + their test
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Add skeleton for incomingData and retrieveData
+//  middleware + their test
 // VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Implements prepare LAst middleware and its test
 // VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Branch full cycle mechanism for rangeData
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : update unit tests . .
 // VERSION : 1.1.2 : FA : #7578 : 23/08/2017 : Add throttle mechanism to pubSubController
+// VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #7111 : 25/09/2017 : Add current in history view data
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update server process and data injection for alarms
+// VERSION : 2.0.0 : DM : #5806 : 12/10/2017 : Create AlarmPubSubController and include it in the
+//  code
 // END-HISTORY
 // ====================================================================
 

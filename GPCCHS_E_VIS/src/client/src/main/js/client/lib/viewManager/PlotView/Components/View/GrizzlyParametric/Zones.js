@@ -4,8 +4,15 @@
 // VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Few tooltip revisions + Zones.
 // VERSION : 1.1.2 : DM : #6830 : 25/07/2017 : Parametric PlotView : logarithmic axes available.
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
-// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
-// VERSION : 1.1.2 : DM : #6835 : 15/09/2017 : Added defaultProps for new lasso props on Grizzly and GrizzlyParametric.
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both
+//  Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test
+//  GrizzlyParametric.
+// VERSION : 1.1.2 : DM : #6835 : 15/09/2017 : Added defaultProps for new lasso props on Grizzly
+//  and GrizzlyParametric.
+// VERSION : 2.0.0 : DM : #6818 : 16/11/2017 : cleanup PropTypes declaration / tests / debounce
+//  linesListener action on zoom & pan
+// VERSION : 2.0.0 : DM : #6818 : 29/11/2017 : PlotView/Grizzly Every pan action takes place in the
+//  Zones component.
 // END-HISTORY
 // ====================================================================
 

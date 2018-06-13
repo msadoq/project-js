@@ -542,7 +542,7 @@
     }
   },
   "masterSession": {
-    "sessionId": 42
+    "sessionId": 0
   },
   "messages": {},
   "modals": {},

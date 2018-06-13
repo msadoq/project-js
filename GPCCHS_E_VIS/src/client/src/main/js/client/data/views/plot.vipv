@@ -22,6 +22,8 @@
     "width": 50
   },
   "procedures": [],
+  "domainName": "*",
+  "sessionName": "*",
   "axes": [
     {
       "label": "Time",
@@ -136,7 +138,6 @@
         "comObjectField": "convertedValue",
         "convertFrom": "",
         "convertTo": "",
-        "dataType": "time_based_data",
         "defaultY": 1,
         "digits": 5,
         "domain": "fr.cnes.isis.simupus",
@@ -168,15 +169,13 @@
       "name": "TMMGT_BC_VIRTCHAN3",
       "objectStyle": {
         "curveColor": "#FFBF00",
-        "displayLine": true,
-        "displayPoints": false,
         "line": {
-          "size": 3,
+          "size": 2,
           "style": "Continuous"
         },
         "points": {
-          "size": 1,
-          "style": "Dot"
+          "size": 0,
+          "style": "None"
         }
       },
       "parametric": false,
@@ -185,23 +184,24 @@
     {
       "connectedData": {
         "axisId": "VBat",
-        "catalog": "Reporting",
-        "catalogItem": "ATT_BC_REVTCOUNT1",
-        "comObject": "ReportingParameter",
-        "comObjectField": "extractedValue",
         "convertFrom": "",
         "convertTo": "",
-        "dataType": "time_based_data",
         "defaultY": 1,
         "digits": 5,
-        "domain": "fr.cnes.isis",
+        "domain": "fr.cnes",
         "fieldX": "groundDate",
         "filter": [],
         "format": "decimal",
         "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
-        "provider": "*",
+        "provider": "",
         "stringParameter": false,
         "timeline": "Session 1",
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1,
+        "provider": "*",
+        "convertFrom": "",
+        "convertTo": "",
         "unit": "V"
       },
       "connectedDataParametric": {
@@ -217,11 +217,9 @@
       "name": "ATT_BC_REVTCOUNT1",
       "objectStyle": {
         "curveColor": "#ff9800",
-        "displayLine": true,
-        "displayPoints": false,
         "line": {
           "size": 3,
-          "style": "Dotted"
+          "style": "Continuous"
         },
         "points": {
           "size": 3,

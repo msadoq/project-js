@@ -3,6 +3,10 @@ import _memoize from 'lodash/memoize';
 import { SIGNIFICANT_VALIDITY_STATE_VALUE } from 'constants';
 import { SDB_VALUE_OPTION, TIME_BASED_DATA_OPTION } from '../commonEditor/Fields/DataTypeField';
 
+const constants = require('constants');
+
+const PACKETS_TYPES = constants.PACKETS_TYPES;
+
 export const buildFormula = (catalog, catalogItem, comObject, comObjectField) => {
   let result = '';
   if (catalog) {
@@ -20,7 +24,6 @@ export const buildFormula = (catalog, catalogItem, comObject, comObjectField) =>
   if (catalog && catalogItem && comObject && comObjectField) {
     result += `.${comObjectField}`;
   }
-
   return result;
 };
 
@@ -35,10 +38,10 @@ export const buildFormulaForAutocomplete = (catalog, catalogItem, comObject, com
       if (comObject) {
         result += `<${comObject}>`;
 
-        if (comObject.indexOf('ReportingParameter') > -1) {
+        if (comObject === PACKETS_TYPES.REPORTING_PARAMETER) {
           result += '.convertedValue';
           return result;
-        } else if (comObject.indexOf('DecommutedPacket') > -1) {
+        } else if (comObject === PACKETS_TYPES.DECOMMUTED_PACKET) {
           return result;
         }
 
@@ -52,7 +55,6 @@ export const buildFormulaForAutocomplete = (catalog, catalogItem, comObject, com
   }
   return result;
 };
-
 /**
  * Handles entry point editor form submission
  * @param values

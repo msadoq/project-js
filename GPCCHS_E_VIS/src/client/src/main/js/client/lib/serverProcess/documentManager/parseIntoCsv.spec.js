@@ -21,7 +21,7 @@ describe('consistency in parsing', () => {
     proceedWithView(dynamicViewId);
     proceedWithView(mimicViewId);
   });
-  test('number of columns should be equal in every line in result', () => {
+  test('number of cols should be equal in every line in result', () => {
     const proceedWithView = (viewId) => {
       const result = parseIntoCsv.parseIntoCsv(testState, viewId);
       const arrayOfLines = _.split(result, ROW_SEP);

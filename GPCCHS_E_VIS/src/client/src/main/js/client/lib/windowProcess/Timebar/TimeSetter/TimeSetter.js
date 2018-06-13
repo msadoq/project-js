@@ -1,13 +1,22 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in windowProcess/Timebar
-// VERSION : 1.1.2 : DM : #6302 : 06/04/2017 : Fix some lint errors, added justification and DV6 TBC_CNES prefix on others.
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in
+//  windowProcess/Timebar
+// VERSION : 1.1.2 : DM : #6302 : 06/04/2017 : Fix some lint errors, added justification and DV6
+//  TBC_CNES prefix on others.
 // VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : Timesetter is displayed with GenericModal component.
 // VERSION : 1.1.2 : FA : #6670 : 13/06/2017 : Fix Timebar jest snapshots .
 // VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Automatically remove messages after a while
 // VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Add animation to messages removing
-// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Message removing can be cancel by passing the mouse over the message
+// VERSION : 1.1.2 : FA : ISIS-FT-2135 : 16/06/2017 : Message removing can be cancel by passing the
+//  mouse over the message
 // VERSION : 1.1.2 : FA : ISIS-FT-1998 : 28/06/2017 : Add units in timesetter window
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2823 : 22/03/2018 : Revert modification du temps max pour les
+//  jumps
+// VERSION : 2.0.0 : FA : ISIS-FT-2823 : 22/03/2018 : modification du temps max pour les jumps
+// VERSION : 2.0.0 : FA : #11617 : 06/04/2018 : Time setter ergonomy . .
+// VERSION : 2.0.0 : FA : ISIS-FT-2823 : 06/04/2018 : revert du revert -_- .
 // END-HISTORY
 // ====================================================================
 
@@ -226,7 +235,7 @@ export default class TimeSetter extends PureComponent {
           // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop, "DV6 TBC_CNES Flatpickr"
                 options={{
                   minDate: '1990-01-01',
-                  maxDate: moment().add(1, 'year').format('YYYY-MM-DD'),
+                  maxDate: moment().add(100, 'year').format('YYYY-MM-DD'),
                   value: moment(visuWindow.current).format('YYYY-MM-DD'),
                   format: 'Y-m-d',
                 }}
@@ -247,6 +256,7 @@ export default class TimeSetter extends PureComponent {
           </div>
         </div>
         <br />
+        <hr />
         <h4>Visu window default width</h4>
         <span className="">&nbsp;&nbsp;&nbsp;
           hours &nbsp; &nbsp; &nbsp;
@@ -288,6 +298,7 @@ export default class TimeSetter extends PureComponent {
         </div>
         <form onSubmit={this.willUpdateCursors} >
           <br />
+          <hr />
           <h4>Cursor timestamps</h4>
           {
             this.props.messages && this.props.messages.length ?
@@ -340,7 +351,7 @@ export default class TimeSetter extends PureComponent {
               );
             })
           }
-          <div className="text-center">
+          <div>
             <input
               type="submit"
               value="Save"

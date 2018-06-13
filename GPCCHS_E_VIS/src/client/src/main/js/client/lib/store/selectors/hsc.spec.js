@@ -4,7 +4,8 @@
 // VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Add getIsWorkspaceOpening selector in project
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Remove useless workspaceOpened in state.hsc
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove store/selectors/hsc . . .
-// VERSION : 1.1.2 : FA : #7081 : 27/06/2017 : Fix crash while closing application with document to save (a merge was probably deleted some code)
+// VERSION : 1.1.2 : FA : #7081 : 27/06/2017 : Fix crash while closing application with document to
+//  save (a merge was probably deleted some code)
 // END-HISTORY
 // ====================================================================
 

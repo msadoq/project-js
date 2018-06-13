@@ -1,12 +1,19 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting
+//  between commonEditor and commonReduxForm.
 // VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : importing exact path instead of .. from index.js .
 // VERSION : 1.1.2 : FA : #6780 : 21/06/2017 : Apply default state colors in views
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 14/11/2017 : Remove monitoring state colors mecanism + add
+//  defult values for state colors + update unit tests + fix issue when removing a state color +
+//  fix css code style
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2241 : 31/01/2018 : Refacto state colors // cleanup
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 31/01/2018 : surveillance du monitoringState pour
+//  parametres TM VIMA
 // END-HISTORY
 // ====================================================================
 
-/* eslint import/no-webpack-loader-syntax:0 */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -15,13 +22,14 @@ import {
   Alert,
 } from 'react-bootstrap';
 import _each from 'lodash/map';
+import _ from 'lodash';
 import classnames from 'classnames';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import ColorPicker from 'windowProcess/commonReduxForm/ColorPicker';
 import { operators } from 'common/operators';
 import {
   getStateColorFilters,
-  STATE_COLOR_TYPES,
+  getStateColorTypes,
   STATE_COLOR_NOMINAL,
 } from 'windowProcess/common/colors';
 import styles from './fields.css';
@@ -166,10 +174,8 @@ export default class StateColorsFields extends React.Component {
           <tr>
             <th>Obs</th>
             <th>Sig</th>
-            {_each(STATE_COLOR_TYPES, (type, key) => (
-              <th
-                key={`table-header-${key}-${type}`}
-              >{type.substr(0, 3)}</th>
+            {_each(getStateColorTypes(), (o, k) => (
+              <th key={`table-header-${k}-${o}`}>{_.capitalize(o.substr(0, 3))}</th>
             ))}
           </tr>
         </thead>
@@ -178,8 +184,8 @@ export default class StateColorsFields extends React.Component {
             ['true', 'false'].map(obsolete =>
               ['true', 'false'].map(significant =>
                 <tr key={`table-row-${obsolete}-${significant}`}>
-                  <td key={`table-row-${obsolete}-${significant}-obs`}>{ obsolete === 'true' ? 'Yes' : 'No' }</td>
-                  <td key={`table-row-${obsolete}-${significant}-sign`}>{ significant === 'true' ? 'Yes' : 'No' }</td>
+                  <td key={`table-row-${obsolete}-${significant}-obs`}>{obsolete === 'true' ? 'Yes' : 'No'}</td>
+                  <td key={`table-row-${obsolete}-${significant}-sign`}>{significant === 'true' ? 'Yes' : 'No'}</td>
                   {_each(monitoringStateColors[`${obsolete}-${significant}`], (o, k) => (
                     <td
                       key={`table-row-${obsolete}-${significant}-${k}`}

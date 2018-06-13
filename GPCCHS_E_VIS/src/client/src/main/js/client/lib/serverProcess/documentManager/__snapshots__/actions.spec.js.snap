@@ -190,7 +190,6 @@ Array [
           "title": "Collapsed view",
           "titleStyle": Object {
             "align": "left",
-            "bgColor": "#f44336",
             "bold": false,
             "color": "#ffffff",
             "font": "Arial",
@@ -330,7 +329,6 @@ Array [
           "title": "Collapsed view",
           "titleStyle": Object {
             "align": "left",
-            "bgColor": "#f44336",
             "bold": false,
             "color": "#ffffff",
             "font": "Arial",
@@ -469,7 +467,6 @@ Array [
           "title": "Collapsed view",
           "titleStyle": Object {
             "align": "left",
-            "bgColor": "#f44336",
             "bold": false,
             "color": "#ffffff",
             "font": "Arial",
@@ -608,7 +605,6 @@ Array [
           "title": "Collapsed view",
           "titleStyle": Object {
             "align": "left",
-            "bgColor": "#f44336",
             "bold": false,
             "color": "#ffffff",
             "font": "Arial",

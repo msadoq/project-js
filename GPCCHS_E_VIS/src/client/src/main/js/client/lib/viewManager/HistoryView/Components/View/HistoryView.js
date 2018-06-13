@@ -2,166 +2,140 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Optimize HistoryView render . .
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Use withBatchedSetState hoc in HistoryView
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Remove labels from props.data in HistoryView
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Create first basic table for HistoryView
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Move common/Dimensions.js in
+//  common/hoc/withDimensions .
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Add read only scrollbar in HistoryView
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Add onScrollUp and onScrollDown event to HistoryView
+//  component
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : HistoryView work with real data .
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Improve HistoryView React key .
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Add withMouseWheelEvents hoc in windowProcess
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Refacto onWheel method in HistoryView
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Add rowHeight prop to HistoryView component
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Add selected current to HistoryView
+// VERSION : 2.0.0 : DM : #6127 : 26/09/2017 : Use light theme on HistoryView
+// VERSION : 2.0.0 : DM : #6127 : 26/09/2017 : Fix scrolling bug in HistoryView when resize the
+//  view or visuWindow
+// VERSION : 2.0.0 : DM : #5806 : 03/10/2017 : Remove useless ref in HistoryView component
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import _ from 'lodash/fp';
-import withMouseWheelEvents from 'windowProcess/common/hoc/withMouseWheelEvents';
-import withDimensions from 'windowProcess/common/hoc/withDimensions';
-import withBatchedSetState from 'windowProcess/common/hoc/withBatchedSetState';
-import { HISTORYVIEW_SEPARATOR } from 'constants';
+
+import _ from 'lodash';
+import __ from 'lodash/fp';
+
+import DroppableContainer from 'windowProcess/common/DroppableContainer';
 
 import styles from './HistoryView.css';
 
-const getDataByLine = (lineId, allData) => {
-  const [ep, timestamp] = lineId.split(HISTORYVIEW_SEPARATOR);
-  return allData[ep][timestamp];
-};
+import { buildFormulaForAutocomplete } from '../../../common';
+import VirtualizedTableViewContainer
+  from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 
-const THEAD_DEFAULT_HEIGHT = 33; // in pixel
+const getComObject = __.propOr('UNKNOWN_COM_OBJECT', 0);
 
-const Table = ({
-  lines, cols, position, displayedRows, rowHeight, current, data: allData,
-}) => (
-  <table>
-    <thead>
-      <tr
-        className={classnames({ [styles.prevCurrent]: current === position })}
-      >
-        {
-          cols.map(col => (
-            <th style={{ height: `${THEAD_DEFAULT_HEIGHT}px` }} key={col}>
-              {col}
-            </th>
-          ))
-        }
-      </tr>
-    </thead>
-    <tbody>
-      {
-        _.slice(position, displayedRows + position)(lines).map((line, i) => {
-          const data = getDataByLine(line, allData);
-          const lineId = position + i;
-          const isCurrent = current === lineId;
-          const isPrevCurrent = current - 1 === lineId;
-          const rowKey = data.epName + data.masterTime;
-          return (
-            <tr
-              className={classnames({
-                [styles.current]: isCurrent,
-                [styles.prevCurrent]: isPrevCurrent,
-              })}
-              key={rowKey}
-            >
-              {
-                cols.map(col => (
-                  <td
-                    style={{ height: `${rowHeight}px` }}
-                    key={col + rowKey}
-                  >
-                    {data[col]}
-                  </td>
-                ))
-              }
-            </tr>
-          );
-        })
-      }
-    </tbody>
-  </table>
-);
+// parse clipboard data to create partial entry point
+function parseDragData(data) {
+  const formula =
+    buildFormulaForAutocomplete(
+      data.catalogName,
+      data.item,
+      getComObject(data.comObjects),
+      data.comObjectFields
+    );
 
-Table.propTypes = {
-  position: PropTypes.number,
-  current: PropTypes.shape({}),
-  data: PropTypes.shape({}).isRequired,
-  cols: PropTypes.arrayOf(PropTypes.string).isRequired,
-  lines: PropTypes.arrayOf(PropTypes.string).isRequired,
-  rowHeight: PropTypes.number.isRequired,
-  displayedRows: PropTypes.number.isRequired,
-};
-Table.defaultProps = {
-  current: {},
-  position: 0,
-};
+  return {
+    name: 'HistoryViewEP',
+    connectedData: {
+      formula,
+      domain: '*',
+      timeline: '*',
+    },
+  };
+}
 
 class HistoryView extends React.Component {
   static propTypes = {
-    data: PropTypes.shape({
-      current: PropTypes.shape({}),
-      data: PropTypes.shape({}).isRequired,
-      cols: PropTypes.arrayOf(PropTypes.string).isRequired,
-      lines: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
-    containerWidth: PropTypes.number.isRequired,
-    containerHeight: PropTypes.number.isRequired,
-    rowHeight: PropTypes.number,
-  }
+    viewId: PropTypes.string.isRequired,
+    config: PropTypes.shape().isRequired,
+    openEditor: PropTypes.func.isRequired,
+    addEntryPoint: PropTypes.func.isRequired,
+    rows: PropTypes.func.isRequired,
+    rowCount: PropTypes.number.isRequired,
+    totalRowCount: PropTypes.number.isRequired,
+    currentRowIndexes: PropTypes.arrayOf(PropTypes.number),
+  };
 
   static defaultProps = {
-    rowHeight: THEAD_DEFAULT_HEIGHT, // in pixel
-  }
+    currentRowIndexes: [],
+  };
 
-  state = { position: 0 }
+  onDrop = this.drop.bind(this);
 
-  componentWillReceiveProps(nextProps) {
-    if (this.state.position >= this.getLastPosition(nextProps)) {
-      this.setState(_.set('position', this.getLastPosition(nextProps)));
+  drop(ev) {
+    const {
+      addEntryPoint,
+      openEditor,
+    } = this.props;
+
+    const data = ev.dataTransfer.getData('text/plain');
+    const content = JSON.parse(data);
+
+    if (!_.get(content, 'catalogName')) {
+      return;
     }
+
+    const parsedData = parseDragData(content);
+    addEntryPoint(parsedData);
+    openEditor();
+
+    ev.stopPropagation();
   }
 
-  onScrollUp = () => {
-    if (this.state.position > 0) {
-      this.setState(_.update('position', _.add(-1)));
-    }
-  }
+  _outlineStyle = style => ({
+    ...style,
+    borderTop: '2px solid green',
+    borderBottom: '2px solid green',
+    backgroundColor: 'rgba(0, 100, 0, 0.1)',
+  });
 
-  onScrollDown = () => {
-    if (this.state.position < this.getLastPosition()) {
-      this.setState(_.update('position', _.add(1)));
-    }
-  }
-
-  getLastPosition = (props = this.props) => (
-    Math.max(0, (props.data.lines.length - this.getNbElems(props)) + 1)
-  )
-
-  getNbElems = (props = this.props) => Math.floor(props.containerHeight / props.rowHeight)
-
-  getScrollAreaHeight = () => this.props.containerHeight - (this.props.rowHeight * 2)
-
-  getScrollBarPosition = () => (
-    (this.state.position / this.getLastPosition()) * this.getScrollAreaHeight()
-  )
+  _overrideStyle = ({ rowIndex, style }) =>
+    ({ ...(this.props.currentRowIndexes.indexOf(rowIndex) > -1 ? this._outlineStyle(style) : {}) });
 
   render() {
-    const style = {
-      height: this.props.containerHeight,
-      width: this.props.containerWidth,
-    };
+    const {
+      viewId,
+      rows,
+      rowCount,
+      totalRowCount,
+    } = this.props;
+
     return (
-      <div
-        className={classnames('HistoryView', styles.container)}
-        style={style}
+      <DroppableContainer
+        className={styles.HistoryView}
+        onDrop={this.onDrop}
       >
-        <div style={{ top: `calc(${this.getScrollBarPosition()}px + 33px)` }} className={styles.scrollbar} />
-        <Table
-          scrollBarPosition={this.getScrollBarPosition()}
-          rowHeight={this.props.rowHeight}
-          position={this.state.position}
-          displayedRows={this.getNbElems()}
-          {...this.props.data}
+        <VirtualizedTableViewContainer
+          viewId={viewId}
+          tableId={'history'}
+          rows={rows}
+          rowCount={rowCount}
+          totalRowCount={totalRowCount}
+          overrideStyle={this._overrideStyle}
+          withGroups
+          pauseOnScroll
         />
-      </div>
+
+      </DroppableContainer>
     );
   }
 }
 
-export default _.compose(
-  withDimensions({ elementResize: true }),
-  withBatchedSetState({ delay: 60 }), // throttled every 60ms
-  withMouseWheelEvents()
-)(HistoryView);
+export default HistoryView;

@@ -1,9 +1,11 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Refactoring view reducer (configuration) .
-// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : This is views reducer that will catch WD_VIEW_ADD action
+// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : This is views reducer that will catch WD_VIEW_ADD
+//  action
 // VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Split views reducer in several files
-// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Rename some points in views reducer + change getAxes parameters
+// VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Rename some points in views reducer + change getAxes
+//  parameters
 // VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Refactoring + tests about views reducer
 // VERSION : 1.1.2 : DM : #3622 : 15/02/2017 : Add some comments about views reducer
 // VERSION : 1.1.2 : DM : #3622 : 24/02/2017 : Fix bug about isModified in a single view reducer
@@ -20,16 +22,29 @@
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Filter unused value in view state
 // VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Move general variables at top level of a view
 // VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add some eslint relaxation rules
-// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and
+//  un-needed relaxations
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Remove old configuration reducer .
-// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page
+//  and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page
+//  and hsc in store
 // VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
-// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge
+//  with dev
 // VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : showLegend information stored in file.
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
 // VERSION : 1.1.2 : DM : #6700 : 29/08/2017 : fix unnecessary datamap generation .
-// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the
+//  view ezeditor
+// VERSION : 2.0.0 : FA : #8086 : 26/09/2017 : WHen an EP is deleted from a view, view has its
+//  isModified attribute updated to true.
+// VERSION : 2.0.0 : DM : #5806 : 13/10/2017 : Add alarm mode filter in GroundAlarmView
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : DM : #5806 : 12/12/2017 : Save GMA search filter in documents
+// VERSION : 2.0.0 : DM : #5806 : 18/12/2017 : Set view "isModified" when receive an
+//  ALARM_INPUT_TOGGLE action
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -37,6 +52,7 @@ import _ from 'lodash/fp';
 
 import composeReducers from 'store/helpers/composeReducers';
 import * as types from 'store/types';
+import { get } from '../../../common/configurationManager';
 
 const setIsModified = _.set('isModified');
 const getIsModified = (action) => {
@@ -45,7 +61,6 @@ const getIsModified = (action) => {
   }
   return _.get('payload.isModified', action);
 };
-
 
 // This reducer take care of action types and update the isModified property
 // this is a temporary fix, waiting for the savableMiddleware
@@ -69,7 +84,6 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_MARKER,
     types.WS_VIEW_UPDATE_PROCEDURE,
     types.WS_VIEW_UPDATE_TITLESTYLE,
-    types.WS_VIEW_UPDATE_BGCOLOR,
     types.WS_VIEW_UPDATE_LEGEND,
     types.WS_VIEW_UPDATE_CONTENT,
     types.WS_VIEW_UPDATE_SHOWYAXES,
@@ -86,6 +100,7 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_SESSIONNAME,
     types.WS_VIEW_TOGGLE_LEGEND,
     types.WS_VIEW_UPDATE_DIMENSIONS,
+    types.WS_VIEW_UPDATE_TABLE_COLS,
     types.WS_VIEW_REMOVE_ENTRYPOINT,
     types.WS_VIEW_UPDATE_ALARMDOMAIN,
     types.WS_VIEW_UPDATE_ALARMTIMELINE,
@@ -108,11 +123,16 @@ const viewIsModified = (stateView, action) => {
 
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
 const addElementIn = (key, val, state) => _.update(key, _.concat(_, val), state);
+const wildcardCharacter = get('WILDCARD_CHARACTER');
 
 const initialState = {
   type: null,
   isModified: true,
   showLinks: false,
+  domainName: wildcardCharacter,
+  sessionName: wildcardCharacter,
+  domain: wildcardCharacter,
+  session: wildcardCharacter,
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
@@ -145,8 +165,6 @@ function simpleView(stateView = initialState, action) {
       return _.set('title', action.payload.title, stateView);
     case types.WS_VIEW_UPDATE_TITLESTYLE:
       return _.set('titleStyle', action.payload.titleStyle, stateView);
-    case types.WS_VIEW_UPDATE_BGCOLOR:
-      return _.set('backgroundColor', action.payload.bgColor, stateView);
     case types.WS_VIEW_UPDATE_LINK:
       return _.set(`links[${action.payload.index}]`, action.payload.link, stateView);
     case types.WS_VIEW_ADD_LINK:

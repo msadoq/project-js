@@ -1,6 +1,9 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : FA : #6794 : 18/07/2017 : Factorization of dumpBuffer module to call only one function
+// VERSION : 1.1.2 : FA : #6794 : 18/07/2017 : Factorization of dumpBuffer module to call only one
+//  function
+// VERSION : 2.0.0 : DM : #5806 : 14/11/2017 : Skip dumpBuffer broken test .
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

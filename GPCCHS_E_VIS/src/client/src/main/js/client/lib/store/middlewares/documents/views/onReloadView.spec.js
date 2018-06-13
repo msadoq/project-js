@@ -1,9 +1,11 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Add "make" prefix to each documents middleware
-// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Fix jest describe in onReloadView and onSaveView middlewares
+// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Fix jest describe in onReloadView and onSaveView
+//  middlewares
 // VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Write documents/onReloadView middleware unit tests
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

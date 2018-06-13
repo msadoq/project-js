@@ -1,14 +1,13 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
-// VERSION : 1.1.2 : DM : #6129 : 04/05/2017 : merge dev on mimic branch
-// VERSION : 1.1.2 : DM : #6129 : 10/07/2017 : MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
-// VERSION : 1.1.2 : FA : #7773 : 13/09/2017 : Fixed bug when editing PlotView/TextView/MimicView EntryPoint's name.
+// VERSION : 2.0.0 : FA : #9494 : 01/12/2017 : Regression in View Editor ( domain ) // move
+//  TextView common components to dedicated folder
 // END-HISTORY
 // ====================================================================
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash/fp';
 import {
   Glyphicon,
   Alert,
@@ -20,6 +19,9 @@ import { handleSubmit } from 'viewManager/common';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 import styles from './EntryPointTree.css';
 import { entryPointType } from '../types';
+import HistoryEntryPointConnectedDataFieldsContainer
+  from '../../../HistoryView/Components/Editor/HistoryEntryPointConnectedDataFieldsContainer';
+import { TIME_BASED_DATA_OPTION } from '../../../commonEditor/Fields/DataTypeField';
 
 const emptyArray = [];
 
@@ -28,20 +30,19 @@ const emptyArray = [];
   Permet également d'appliquer un filtre sur le nom
 */
 
-const { arrayOf, string, shape, func } = PropTypes;
-
 export default class EntryPointTree extends Component {
   static propTypes = {
-    viewId: string.isRequired,
-    pageId: string.isRequired,
-    search: string,
-    entryPoints: arrayOf(entryPointType),
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    entryPoints: PropTypes.arrayOf(entryPointType),
     // from container mapDispatchToProps
-    askRemoveEntryPoint: func.isRequired,
-    updateEntryPoint: func.isRequired,
-    updateViewPanels: func.isRequired,
+    askRemoveEntryPoint: PropTypes.func.isRequired,
+    updateEntryPoint: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
     // from container mapStateToProps
-    entryPointsPanels: shape({}).isRequired,
+    entryPointsPanels: PropTypes.shape({}).isRequired,
+    entryPointConnectedDataForm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -78,6 +79,7 @@ export default class EntryPointTree extends Component {
       pageId,
       viewId,
       entryPointsPanels,
+      entryPointConnectedDataForm,
     } = this.props;
 
     const mask = `${this.props.search || ''}.*`;
@@ -98,6 +100,18 @@ export default class EntryPointTree extends Component {
       >
         {list.map((entryPoint) => {
           const isOpen = entryPointsPanels[entryPoint.id];
+
+          let updatedEntryPoint = entryPoint;
+
+          if (entryPointConnectedDataForm === HistoryEntryPointConnectedDataFieldsContainer) {
+            updatedEntryPoint =
+              _.set(
+                'connectedData.dataType',
+                TIME_BASED_DATA_OPTION.value,
+                updatedEntryPoint
+              );
+          }
+
           return (
             <Panel
               key={entryPoint.id}
@@ -129,13 +143,14 @@ export default class EntryPointTree extends Component {
               }
             >
               {isOpen && <EntryPointDetailsContainer
-                key={`${entryPoint.id}#detailsContainer`}
+                key={`${updatedEntryPoint.id}#detailsContainer`}
                 viewId={viewId}
                 pageId={pageId}
-                entryPoint={entryPoint}
+                entryPoint={updatedEntryPoint}
                 onSubmit={this.handleSubmit}
-                initialValues={entryPoint}
-                form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
+                initialValues={updatedEntryPoint}
+                form={`entrypoint-title-form-${updatedEntryPoint.id}-${viewId}`}
+                entryPointConnectedDataForm={entryPointConnectedDataForm}
               />}
             </Panel>
           );

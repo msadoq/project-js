@@ -1,6 +1,9 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files.
+//  Possibility to add it in editor using context menu
+// VERSION : 2.0.0 : DM : #6129 : 17/11/2017 : Fix mimic default components & transformations
+// VERSION : 2.0.0 : DM : #6129 : 17/11/2017 : Fix mimic bench & refacto
 // END-HISTORY
 // ====================================================================
 

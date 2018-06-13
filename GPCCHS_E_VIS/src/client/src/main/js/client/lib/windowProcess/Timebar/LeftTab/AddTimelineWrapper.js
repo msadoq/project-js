@@ -1,45 +1,30 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : New GenericModal component displayed or not displayed at root (Window.js) AddTimeline and EditTimeline forms displayed through it.
-// VERSION : 1.1.2 : DM : #5828 : 13/04/2017 : Lint errors fixes and useless props removed in LeftTab / AddTimelineWrapper.
+// VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : New GenericModal component displayed or not
+//  displayed at root (Window.js) AddTimeline and EditTimeline forms displayed through it.
+// VERSION : 1.1.2 : DM : #5828 : 13/04/2017 : Lint errors fixes and useless props removed in
+//  LeftTab / AddTimelineWrapper.
 // END-HISTORY
 // ====================================================================
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { schemeCategory20b } from 'd3-scale';
+import { sessionsType, timelinesType } from 'viewManager/common/Components/types';
 import AddTimeline from './AddTimeline';
+
+const { func, string } = PropTypes;
 
 export default class AddTimelineWrapper extends PureComponent {
   static propTypes = {
-    closeModal: PropTypes.func.isRequired,
-    createNewTimeline: PropTypes.func.isRequired,
-    updateMasterId: PropTypes.func.isRequired,
-    updateOffset: PropTypes.func.isRequired,
-    timebarUuid: PropTypes.string.isRequired,
-    timelines: PropTypes.arrayOf(
-      PropTypes.shape({
-        color: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        kind: PropTypes.string.isRequired,
-        uuid: PropTypes.string.isRequired,
-        offset: PropTypes.number.isRequired,
-        sessionName: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    sessions: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        delta: PropTypes.number.isRequired,
-        id: PropTypes.number.isRequired,
-        missionEpoch: PropTypes.number.isRequired,
-        timestamp: PropTypes.shape({
-          ms: PropTypes.number,
-          ps: PropTypes.number,
-        }),
-      })
-    ).isRequired,
-  }
+    closeModal: func.isRequired,
+    createNewTimeline: func.isRequired,
+    updateMasterId: func.isRequired,
+    updateOffset: func.isRequired,
+    timebarUuid: string.isRequired,
+    timelines: timelinesType.isRequired,
+    sessions: sessionsType.isRequired,
+  };
 
   willAddTimeline = (values) => {
     const {
@@ -70,7 +55,7 @@ export default class AddTimelineWrapper extends PureComponent {
       );
       updateMasterId(timebarUuid, values.id);
     }
-  }
+  };
 
   render() {
     const {

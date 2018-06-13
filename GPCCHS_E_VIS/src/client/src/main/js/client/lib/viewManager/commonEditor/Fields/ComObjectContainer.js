@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-getCatalogByName,
-getCatalogItemComObjects,
-getTupleId,
+  getCatalogByName,
+  getCatalogItemComObjects,
+  getTupleId,
 } from 'store/reducers/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
@@ -21,6 +21,7 @@ const mapStateToProps = (state, {
   pageId,
   catalogName,
   itemName,
+  allowedComObjects,
 }) => {
   const wildcardCharacter = get('WILDCARD_CHARACTER');
   const domain = getDomainByNameWithFallback(state, { domainName, viewId, pageId });
@@ -38,8 +39,24 @@ const mapStateToProps = (state, {
   const catalog = getCatalogByName(state.catalogs, { tupleId, name: catalogName });
   const catalogItemsLoaded = !!Object.keys(_get(catalog, 'items', {})).length;
 
+  const comObjects =
+    getCatalogItemComObjects(state.catalogs, { tupleId, name: catalogName, itemName });
+
+  const _filterAllowedComObjects =
+    (comObjectsArr) => {
+      if (!Array.isArray(comObjectsArr)) {
+        return [];
+      }
+
+      return comObjectsArr.filter(
+        comObject =>
+          !allowedComObjects || (allowedComObjects.indexOf(comObject.name) > -1)
+      );
+    };
+
   return {
-    comObjects: getCatalogItemComObjects(state.catalogs, { tupleId, name: catalogName, itemName }),
+    comObjects,
+    allowedComObjects: _filterAllowedComObjects(comObjects),
     sessionId,
     domainId,
     catalogName,

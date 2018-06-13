@@ -1,6 +1,7 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting
+//  between commonEditor and commonReduxForm.
 // VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : No vertical bar when editor minimized.
 // END-HISTORY
 // ====================================================================
@@ -20,6 +21,10 @@ export default class Navbar extends React.Component {
 
   componentWillMount() {
     this.setState({ activeTab: this.props.currentDisplay });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ activeTab: nextProps.currentDisplay });
   }
 
   onNavItemClick = (tabIndex) => {

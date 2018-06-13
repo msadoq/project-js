@@ -7,8 +7,18 @@
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
 // VERSION : 1.1.2 : FA : #7164 : 07/07/2017 : Apply filters on getLast request
 // VERSION : 1.1.2 : DM : #6700 : 21/07/2017 : Separate perTdbId by structure type in dataMap
-// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Separate expectedIntervalsMap by structure type in dataMap
-// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Separate expectedIntervalsMap by structure type in
+//  dataMap
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
+//  viewData_clean
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 31/01/2018 : Add mimic view compatibility with convertion
+//  unit mechanism
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix imports . . .
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Update unit tests and stubs for provider
+//  field and fix parseEntryPoint calls in all views
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix master timeline sessionID passed to DC when
+//  entrypoint's timeline is *
 // END-HISTORY
 // ====================================================================
 
@@ -29,9 +39,15 @@ function parseEntryPoint(
   sessions,
   timelines,
   entryPoint,
-  masterSessionId,
+  masterTimelineSession,
   timebarUuid,
-  viewType) {
+  viewType,
+  viewDomain,
+  pageDomain,
+  workspaceDomain,
+  viewSessionName,
+  pageSessionName,
+  workspaceSessionName) {
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
@@ -45,13 +61,13 @@ function parseEntryPoint(
       sessions,
       timelines,
       connectedData,
-      masterSessionId,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
+      masterTimelineSession,
+      viewDomain,
+      pageDomain,
+      workspaceDomain,
+      viewSessionName,
+      pageSessionName,
+      workspaceSessionName,
       provider
     );
 

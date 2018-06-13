@@ -2,21 +2,29 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 07/04/2017 : add entry points to mimic view
 // VERSION : 1.1.2 : DM : #5828 : 16/05/2017 : Fix tests on mimic view
-// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of
+//  tests
 // VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for mocha .
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
-// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js
+//  in jest/index.js
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
 // VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Plug mimic view to data consumption
-// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json patch
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json
+//  patch
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #8801 : 19/12/2017 : Do not clean data when reload a view
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 31/01/2018 : surveillance du monitoringState pour
+//  parametres TM VIMA
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 
 import moment from 'moment';
 import * as types from 'store/types';
 import { freezeMe } from 'common/jest';
-import mimicViewData from './dataReducer';
+import mimicViewData, { getDataFilteredByEP } from './dataReducer';
 
 describe('viewManager/MimicView/store/dataReducer', () => {
   const payload = { rId1: {}, rId2: {} };
@@ -89,8 +97,8 @@ describe('viewManager/MimicView/store/dataReducer', () => {
     const action = { type: types.WS_PAGE_CLOSE, payload: { viewIds: ['myPlot', 'myMimic'] } };
     expect(
       mimicViewData(freezeMe({ myMimic: {}, myOtherMimic: {} }), action))
-        .toEqual({ myOtherMimic: {} }
-    );
+      .toEqual({ myOtherMimic: {} }
+      );
   });
   test('Unknown action', () => {
     const action = { type: types.UNKNOWN, payload: { viewId: 'myText' } };
@@ -212,28 +220,72 @@ describe('viewManager/MimicView/store/dataReducer', () => {
       });
     });
     test('valid viewData with state', () => {
-      const state = freezeMe({ text: {
-        index: { ep1: 9, ep4: 9 },
-        values: {
-          ep1: { color: '#2ecc71', value: moment(9).utc().toISOString().slice(0, -1) },
-          ep4: { color: '#2ecc71', value: 'val9', monit: undefined } },
-      } });
-      const action = { type: types.INJECT_DATA_LAST,
+      const state = freezeMe({
+        text: {
+          index: { ep1: 9, ep4: 9 },
+          values: {
+            ep1: { color: '#2ecc71', value: moment(9).utc().toISOString().slice(0, -1) },
+            ep4: { color: '#2ecc71', value: 'val9', monit: undefined },
+          },
+        },
+      });
+      const action = {
+        type: types.INJECT_DATA_LAST,
         payload: {
           oldViewMap,
           newViewMap,
           oldExpectedLastIntervals: oldExpectedIntervals,
           newExpectedLastIntervals: newExpectedIntervals,
           dataToInject,
-        } };
+        },
+      };
       expect(mimicViewData(state, action)).toEqual({
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
             ep1: { color: '#2ecc71', value: moment(10).utc().toISOString().slice(0, -1) },
-            ep4: { color: '#2ecc71', value: 'val9' } },
+            ep4: { color: '#2ecc71', value: 'val9' },
+          },
         },
       });
+    });
+  });
+
+  describe('getDataFilteredByEP', () => {
+    const state = freezeMe({
+      MimicViewData: {
+        anyViewID: {
+          index: { ep1: 9, ep4: 9 },
+          values: {
+            ep1: { color: '#2ecc71', value: 5 },
+            ep4: { color: '#2ecc71', value: 'val9', monit: undefined },
+          },
+        },
+      },
+    });
+    test('should return an empty data object when receiving an empty array of EP', () => {
+      expect(getDataFilteredByEP(state, { viewId: 'anyViewID' }))
+        .toEqual({ index: {}, values: {} });
+    });
+    test('should return a data with only the given entry points', () => {
+      expect(getDataFilteredByEP(state, { viewId: 'anyViewID' }, { ep1: 9 }))
+        .toEqual({
+          index: { ep1: 9 },
+          values: {
+            ep1: { color: '#2ecc71', value: 5 },
+          },
+
+        });
+    });
+    test('should return a data with only the given entry points', () => {
+      expect(getDataFilteredByEP(state, { viewId: 'anyViewID' }, { ep1: 9, ep4: 34 }))
+        .toEqual({
+          index: { ep1: 9, ep4: 9 },
+          values: {
+            ep1: { color: '#2ecc71', value: 5 },
+            ep4: { color: '#2ecc71', value: 'val9', monit: undefined },
+          },
+        });
     });
   });
 });

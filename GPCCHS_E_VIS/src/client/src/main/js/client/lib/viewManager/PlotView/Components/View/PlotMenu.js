@@ -1,6 +1,7 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in dataManager.
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in
+//  dataManager.
 // END-HISTORY
 // ====================================================================
 
@@ -76,7 +77,7 @@
  margin={marginChart}
  pointsPerPxThreshold={4}
  seriesName="PlotView"
- data={columns}
+ data={cols}
  type="hybrid"
  xAccessor={this.xAccessor}
  xScale={scaleTime()}

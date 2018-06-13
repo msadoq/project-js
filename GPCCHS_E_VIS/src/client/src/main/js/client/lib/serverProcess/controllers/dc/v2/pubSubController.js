@@ -1,9 +1,7 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Modify pubSub Controller to send dataId decoded
-// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add pubsub controller and its test
-// VERSION : 1.1.2 : FA : #7578 : 23/08/2017 : Add throttle mechanism to pubSubController
-// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add throttle timing in configuration .
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix parseEntryPoint to take into account
+//  provider field and update dc stubs
 // END-HISTORY
 // ====================================================================
 

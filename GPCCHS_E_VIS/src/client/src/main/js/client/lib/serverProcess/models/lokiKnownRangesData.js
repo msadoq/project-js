@@ -10,6 +10,7 @@
 // VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
 // VERSION : 1.1.2 : DM : #6700 : 23/08/2017 : Update cache clean mechanism in dev tools
 // VERSION : 1.1.2 : DM : #6700 : 24/08/2017 : Clean console log . . .
+// VERSION : 2.0.0 : FA : #9883 : 08/01/2018 : Add DISABLE_LOKI_CACHE config variable .
 // END-HISTORY
 // ====================================================================
 

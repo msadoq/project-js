@@ -2,6 +2,7 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
 // VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix some tests and remove some old code
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

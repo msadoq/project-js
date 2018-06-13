@@ -1,0 +1,349 @@
+{
+  "type": "HistoryView",
+  "title": "New History View",
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "domainName": "*",
+  "sessionName": "*",
+  "entryPoints": [
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC13",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC13<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep1"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC14",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC14<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep2"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC15",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC15<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep3"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC16",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC16<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep4"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC17",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC17<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep5"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC18",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC18<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep6"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC19",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC19<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep7"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC2",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC2<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep8"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC20",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC20<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep9"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC3",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC3<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep10"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC4",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC4<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep11"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC6",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC6<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep12"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTCMAX",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTCMAX<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep13"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_OBCPENGINE1",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_OBCPENGINE1<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep14"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_OBCPS5B",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_OBCPS5B<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep15"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "GENE_AM_MONITSTATUS",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.GENE_AM_MONITSTATUS<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep16"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "BASETYPE_AM_PACKETDATA",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.BASETYPE_AM_PACKETDATA<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep17"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_OFFSETGPS",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_OFFSETGPS<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep18"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_REVTCOUNT3",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_REVTCOUNT3<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep19"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "AIV_TM_HK9007P043",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.AIV_TM_HK9007P043<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep20"
+    }
+  ],
+  "tables": {
+    "history": {
+      "name": "Entry points history",
+      "sorting": {
+        "colName": "referenceTimestamp",
+        "direction": "DESC"
+      },
+      "cols": [
+        {
+          "title": "referenceTimestamp",
+          "displayed": true,
+          "group": "default"
+        },
+        {
+          "title": "epName",
+          "displayed": true,
+          "group": "default"
+        },
+        {
+          "title": "onboardDate",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "groundDate",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "rawValue",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "extractedValue",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "monitoringState",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "convertedValue",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "triggerOnCounter",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "triggerOffCounter",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "validityState",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "isObsolete",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "isNominal",
+          "displayed": false,
+          "group": "ReportingParameter"
+        }
+      ]
+    }
+  }
+}

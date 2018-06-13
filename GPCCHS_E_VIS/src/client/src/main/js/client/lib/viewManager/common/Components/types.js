@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const { shape, number, string, bool, arrayOf, oneOfType } = PropTypes;
+const { func, shape, number, string, bool, arrayOf, oneOfType } = PropTypes;
 
 export const connectedDataType = shape({
   axisId: string,
@@ -37,7 +37,7 @@ export const entryPointType = shape({
     YAxisId: string,
   }),
   objectStyle: shape(),
-  stateColors: arrayOf(stateColorType).isRequired,
+  stateColors: arrayOf(stateColorType),
   obsolete: bool,
   nonsignificant: bool,
 });
@@ -61,12 +61,20 @@ export const timelineType = shape({
   uuid: string.isRequired,
 });
 
-export const timelinesType = arrayOf(timelineType.isRequired);
+export const timelinesType = shape(timelineType.isRequired);
 
 export const sessionType = shape({
   id: number.isRequired,
   name: string.isRequired,
+  delta: PropTypes.number,
+  missionEpoch: PropTypes.number,
+  timestamp: PropTypes.shape({
+    ms: PropTypes.number,
+    ps: PropTypes.number,
+  }),
 });
+
+export const sessionsType = arrayOf(sessionType.isRequired);
 
 export const catalogItemType = shape({
   name: string.isRequired,
@@ -88,3 +96,28 @@ export const comObjectType = shape({
   name: string.isRequired,
   type: string.isRequired,
 });
+
+export const TableConfigurationColumnType = shape({
+  title: string.isRequired,
+  value: string.isRequired,
+  position: number.isRequired,
+  displayed: bool.isRequired,
+  group: number,
+});
+
+export const fieldArrayPropsType = shape({
+  push: func,
+  remove: func,
+  insert: func,
+  getAll: func,
+});
+
+export const applicationProcessType = shape({
+  apidRawValue: string,
+  apidName: string,
+});
+
+export const applicationProcessesType = oneOfType([
+  string, // when requesting
+  arrayOf(applicationProcessType),
+]);

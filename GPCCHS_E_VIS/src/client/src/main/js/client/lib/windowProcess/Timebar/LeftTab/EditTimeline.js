@@ -1,7 +1,9 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in windowProcess/Timebar
-// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in
+//  windowProcess/Timebar
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline
+//  definition
 // END-HISTORY
 // ====================================================================
 
@@ -17,33 +19,14 @@ import {
 } from 'react-bootstrap';
 import { reduxForm } from 'redux-form';
 import TimelineFields from './TimelineFields';
+import { sessionType, timelinesType } from '../../../viewManager/common/Components/types';
 
 class EditTimeline extends PureComponent {
 
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    timelines: PropTypes.arrayOf(
-      PropTypes.shape({
-        color: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        kind: PropTypes.string.isRequired,
-        uuid: PropTypes.string.isRequired,
-        offset: PropTypes.number.isRequired,
-        sessionName: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    sessions: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        delta: PropTypes.number.isRequired,
-        id: PropTypes.number.isRequired,
-        missionEpoch: PropTypes.number.isRequired,
-        timestamp: PropTypes.shape({
-          ms: PropTypes.number,
-          ps: PropTypes.number,
-        }),
-      })
-    ).isRequired,
+    timelines: timelinesType.isRequired,
+    sessions: PropTypes.arrayOf(sessionType).isRequired,
     masterId: PropTypes.string,
     id: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,

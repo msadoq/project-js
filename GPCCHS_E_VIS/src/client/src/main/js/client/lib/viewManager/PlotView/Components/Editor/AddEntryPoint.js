@@ -1,7 +1,15 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 27/04/2017 : Uniforming new EP process for PlotView and textView. Fot PlotView EP, user might choose unit and axis in form to prevent VIMA from auto-creating Y axis.
-// VERSION : 1.1.2 : DM : #6829 : 07/07/2017 : Resolved issue on empty ReactSelectFields, by calling this.props.reset() onMount.
+// VERSION : 1.1.2 : DM : #5828 : 27/04/2017 : Uniforming new EP process for PlotView and textView.
+//  Fot PlotView EP, user might choose unit and axis in form to prevent VIMA from auto-creating Y
+//  axis.
+// VERSION : 1.1.2 : DM : #6829 : 07/07/2017 : Resolved issue on empty ReactSelectFields, by
+//  calling this.props.reset() onMount.
+// VERSION : 2.0.0 : DM : #6835 : 27/10/2017 : Fixed issue with tooltip crashing when PlotView is
+//  empty. Fixed small warning bug in PlotAxes editor.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 
@@ -30,21 +38,21 @@ class AddEntryPoint extends Component {
       submitting,
       valid,
       axes,
-      axisId,
-      unit,
     } = this.props;
 
     let filteredAxes;
-    if (axes && unit) {
+    if (axes) {
       filteredAxes = Object.keys(axes)
       .map(key => ({
         ...axes[key],
         axisId: key,
-      })).filter(axis =>
-        axis.unit === unit || axis.id === axisId
-      );
+      }));
     } else {
-      filteredAxes = [];
+      filteredAxes = Object.keys(axes)
+        .map(key => ({
+          ...axes[key],
+          axisId: key,
+        }));
     }
 
     return (
@@ -56,22 +64,6 @@ class AddEntryPoint extends Component {
             className="form-control input-sm"
             type="text"
           />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Unit">
-          <Field
-            name="connectedData.unit"
-            component={InputField}
-            type="text"
-            className="form-control input-sm"
-          />
-          {axes &&
-            <p
-              style={{ fontSize: '0.9em', paddingTop: '2px' }}
-            >
-              { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-            </p>
-          }
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Axis">
@@ -125,8 +117,6 @@ AddEntryPoint.propTypes = {
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired,
-  axisId: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired,
 };
 
 AddEntryPoint.defaultProps = {
@@ -142,7 +132,6 @@ export default reduxForm({
       const selector = formValueSelector(props.form);
       return {
         axisId: selector(state, 'connectedData.axisId'),
-        unit: selector(state, 'connectedData.unit'),
       };
     }
   )(AddEntryPoint)

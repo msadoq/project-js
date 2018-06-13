@@ -2,6 +2,7 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Add retrieveMIddleware test skeleton implementation
 // VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Update retrieve range and last test
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

@@ -232,8 +232,8 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     if (ep.mode === constants.ALARM_MODE_NONNOMINAL) {
       const { creationDate, closingDate } = groundMonitoringAlarm;
       const isNonNominal = (
-        creationDate < visuWindow.current
-        && (closingDate > visuWindow.current || !closingDate)
+        creationDate.value < visuWindow.current
+        && (!closingDate || closingDate.value > visuWindow.current)
       );
       const isNominal = !isNonNominal;
       if (isNominal) {

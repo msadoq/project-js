@@ -1,15 +1,25 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : remove structure last and range
-// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline
+//  definition
 // VERSION : 1.1.2 : DM : #5828 : 14/04/2017 : Move filter application in main process
-// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : remove domain and session on window apply domain and session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : remove domain and session on window apply domain and
+//  session of view, page or workspace in case of wildcard
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : remove domain and session on window apply domain and
+//  session of view, page or workspace in case of wildcard
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Move common/log and common/parameters in client/
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 30/01/2018 : Unit convertion, add python fork and
+//  convertion call mechanism
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix master timeline sessionID passed to DC when
+//  entrypoint's timeline is *
 // END-HISTORY
 // ====================================================================
 
 import { get } from 'common/configurationManager';
+import { domainDeterminationForDisplay } from 'windowProcess/common/domains';
 import formulaParser from './formula';
 import domainsFilter from './domains';
 import sessionsFilter from './sessions';
@@ -20,7 +30,7 @@ export default function parseConnectedData(
   sessions,
   timelines,
   connectedData,
-  masterSessionId,
+  masterTimelineSession,
   viewDomain,
   pageDomain,
   workspaceDomain,
@@ -38,6 +48,13 @@ export default function parseConnectedData(
   const { catalog, parameterName, comObject, field } = parameter;
   const expectedField = field || get('DEFAULT_FIELD')[comObject];
 
+  if ((workspaceDomain || '*') && pageDomain && viewDomain && domain) {
+    const display = domainDeterminationForDisplay(workspaceDomain || '*', pageDomain, viewDomain, domain);
+    if (!display) {
+      return { error: `Domains does not match for ${parameterName}` };
+    }
+  }
+
   const domainSearch = domainsFilter(domains, domain, viewDomain, pageDomain, workspaceDomain);
   if (domainSearch.error) {
     return domainSearch;
@@ -52,7 +69,7 @@ export default function parseConnectedData(
   const session = sessionsFilter(
     sessions,
     sessionName,
-    masterSessionId,
+    masterTimelineSession,
     viewSessionName,
     pageSessionName,
     workspaceSessionName

@@ -1,6 +1,7 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Refactor window management in main process in a viewManager
+// VERSION : 1.1.2 : DM : #3622 : 23/02/2017 : Refactor window management in main process in a
+//  viewManager
 // END-HISTORY
 // ====================================================================
 

@@ -5,6 +5,23 @@
 // VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Clean console log . . .
 // VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Update subscription store observer . .
 // VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Rollback on subscription store observer
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update server process and data injection for alarms
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Fix issue with comObject naming for GroundAlarms
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Fix in GroundAlarmView reducers .
+// VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : UPDATE PUBSUB alarm controler to read properly
+//  payload + bug fixes
+// VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : Refacto PubSub Alarm + tbd Alarm queries
+// VERSION : 2.0.0 : FA : ISIS-FT-2229 : 17/10/2017 : Fix subscription store observer .
+// VERSION : 2.0.0 : DM : #5806 : 18/10/2017 : Merge branch jmaupeti_alarmstub into dev
+// VERSION : 2.0.0 : FA : ISIS-FT-2229 : 18/10/2017 : Resolve merge conflict . .
+// VERSION : 2.0.0 : FA : ISIS-FT-2448 : 15/11/2017 : Minor fix on decomPacket unsubscription
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #9497 : 13/12/2017 : Merge branch 'dev' of
+//  isis.cnes-isis.toulouse.atos.net:gpcc/LPISIS/GPCCHS into dev
+// VERSION : 2.0.0 : FA : #9497 : 13/12/2017 : Add method in subscription store observer
+// VERSION : 2.0.0 : FA : ISIS-FT-2800 : 27/02/2018 : Remove all delete subscription requests
+// VERSION : 2.0.0 : FA : ISIS-FT-2800 : 27/02/2018 : Rewrite component subscriptionStoreObserver
+//  that sends data subscription requests
 // END-HISTORY
 // ====================================================================
 

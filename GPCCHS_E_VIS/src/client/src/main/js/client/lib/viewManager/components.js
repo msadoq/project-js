@@ -2,6 +2,10 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 04/05/2017 : Fix 'npm run build' .
 // VERSION : 1.1.2 : DM : #6129 : 09/05/2017 : apply viewManager modifications to mimicView
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update viewManager with alarm parameters
+// VERSION : 2.0.0 : DM : #5806 : 13/10/2017 : Replace GroundAlarmViewContainer by
+//  GroundAlarmTableContainer .
+// VERSION : 2.0.0 : DM : #5806 : 26/10/2017 : Fork GMA to OBA (viewManager)
 // END-HISTORY
 // ====================================================================
 
@@ -43,6 +47,14 @@ const list = {
     getViewComponent: () => require('./OnboardAlarmView/Components/View/OnboardAlarmView'),
     getEditorComponent: () =>
       require('./OnboardAlarmView/Components/Editor/OnboardAlarmEditorContainer'),
+  },
+  [constants.VM_VIEW_PUS05]: {
+    getViewComponent: () => require('../viewManager/PUS05View/Components/View/PUS05ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS05View/Components/Editor/PUS05EditorContainer'),
+  },
+  [constants.VM_VIEW_PUS11]: {
+    getViewComponent: () => require('../viewManager/PUS11View/Components/View/PUS11ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS11View/Components/Editor/PUS11EditorContainer'),
   },
 };
 

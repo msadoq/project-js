@@ -10,6 +10,12 @@ Component : GPCCHS_L_IFL.bridge.timestampFromPosixToMissionHandler
 """
 # ====================================================================
 # HISTORY
+# VERSION : 2.0.0 : FA : ISIS-FT-1937 : 07/12/2017 : Implement all the conversion handler in their
+#  first version (without using protobuf)
+# VERSION : 2.0.0 : FA : ISIS-FT-1937 : 12/12/2017 : Update implementation to use protobuf for
+#  converted data and results
+# VERSION : 2.0.0 : FA : ISIS-FT-1937 : 02/01/2018 : Update code to take into account R10S3 version
+#  of GPINUC
 # END-HISTORY
 # ====================================================================
 

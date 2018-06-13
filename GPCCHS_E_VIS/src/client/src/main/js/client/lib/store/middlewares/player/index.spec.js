@@ -5,6 +5,11 @@
 // VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Player middleware : Write all others tests
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rename all create* middleware by make*
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : FA : ISIS-FT-2241 : 29/11/2017 : editeur et multi pages VIMA // fix unit tests
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2254 : 14/12/2017 : mode normal timeBar VIMA .
+// VERSION : 2.0.0 : FA : ISIS-FT-2241 : 25/01/2018 : editeur et multi pages VIMA .
+// VERSION : 2.0.0 : FA : ISIS-FT-2241 : 01/02/2018 : Allow to play when an editor is opened
 // END-HISTORY
 // ====================================================================
 
@@ -28,7 +33,7 @@ const timebarFixture = {
   },
 };
 
-const play = () => ({ type: types.HSC_PLAY });
+const play = () => ({ type: types.HSC_PLAY, payload: { timebarUuid: null } });
 const pause = () => ({ type: types.HSC_PAUSE });
 // const openEditor = () => ({ type: types.WS_PAGE_PANELS_LOAD_IN_EDITOR });
 const focusPage = pageId => ({
@@ -53,7 +58,12 @@ jest.mock('../../../serverProcess/ipc', () => ({
 }));
 
 
-let state = { hsc: { focusWindow: 'w1' }, windows: { w1: { pages: ['p1'] } }, health: {}, pages: { p1: { panels: { editorIsMinimized: false } } } };
+let state = {
+  hsc: { focusWindow: 'w1' },
+  windows: { w1: { pages: ['p1'] } },
+  health: {},
+  pages: { p1: { panels: { editorIsMinimized: false } } },
+};
 
 describe('store:middlewares:player', () => {
   jest.useFakeTimers();
@@ -92,7 +102,7 @@ describe('store:middlewares:player', () => {
       store.dispatch(pause());
       expect(store.getActions()).toMatchSnapshot();
     });
-    test('play update cursors at regular intervals until pause', () => {
+    test('play non-real-time update cursors at regular intervals until pause', () => {
       const store = mockStore({
         health: {},
         hsc: { playingTimebarId: 'tb1' },
@@ -107,6 +117,24 @@ describe('store:middlewares:player', () => {
 
       jest.runAllTimers();
       expect(store.getActions()).toMatchSnapshot();
+    });
+    test('play real-time update cursors at regular intervals until pause', () => {
+      const store = mockStore({
+        health: {},
+        hsc: { playingTimebarId: 'tb1' },
+        timebars: { tb1: { ...timebarFixture, realTime: true } },
+        messages: {},
+      });
+
+      store.dispatch(play());
+      jest.runOnlyPendingTimers();
+      jest.runOnlyPendingTimers();
+      jest.runOnlyPendingTimers();
+      store.dispatch(pause());
+
+      jest.runAllTimers();
+
+      // what to test ? Hard to say...
     });
   });
 

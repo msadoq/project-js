@@ -2,11 +2,12 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move few common/ modules in client/ folder
 // VERSION : 1.1.2 : FA : #7164 : 07/07/2017 : Apply filters on getLast request
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
 // END-HISTORY
 // ====================================================================
 
 import _map from 'lodash/map';
-import { PROVIDER_FLOW_HKTMR, PROVIDER_FLOW_HKTMP } from '../constants';
+import { PROVIDER_FLOW_HKTMR, PROVIDER_FLOW_HKTMP, PROVIDER_FLOW_RM } from '../constants';
 
 import flattenDataId, { getDataId, getFilters, getMode } from './flattenDataId';
 
@@ -35,6 +36,7 @@ const providers = {
   'no provider': '',
   HKTMR: PROVIDER_FLOW_HKTMR,
   HKTMP: PROVIDER_FLOW_HKTMP,
+  RM: PROVIDER_FLOW_RM,
 };
 
 const results = {
@@ -43,11 +45,13 @@ const results = {
       'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:::',
       HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR::',
       HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP::',
+      RM: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:RM::',
     },
     'mode defined': {
       'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:::mode',
       HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR::mode',
       HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP::mode',
+      RM: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:RM::mode',
     },
   },
   'single filter': {
@@ -55,11 +59,13 @@ const results = {
       'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200::extracted.=.2:',
       HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR:extracted.=.2:',
       HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP:extracted.=.2:',
+      RM: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:RM:extracted.=.2:',
     },
     'mode defined': {
       'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200::extracted.=.2:mode',
       HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR:extracted.=.2:mode',
       HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP:extracted.=.2:mode',
+      RM: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:RM:extracted.=.2:mode',
     },
   },
   'dual filters': {
@@ -67,11 +73,13 @@ const results = {
       'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200::extracted.=.2,raw.!=.3:',
       HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR:extracted.=.2,raw.!=.3:',
       HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP:extracted.=.2,raw.!=.3:',
+      RM: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:RM:extracted.=.2,raw.!=.3:',
     },
     'mode defined': {
       'no provider': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200::extracted.=.2,raw.!=.3:mode',
       HKTMR: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMR:extracted.=.2,raw.!=.3:mode',
       HKTMP: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:HKTMP:extracted.=.2,raw.!=.3:mode',
+      RM: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:RM:extracted.=.2,raw.!=.3:mode',
     },
   },
 };

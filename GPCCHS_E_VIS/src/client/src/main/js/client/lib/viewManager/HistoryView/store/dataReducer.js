@@ -3,24 +3,31 @@
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #7111 : 20/09/2017 : Add editor in history view data and fix history view
+//  data reducer
+// VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #7111 : 25/09/2017 : Add current in history view data
+// VERSION : 2.0.0 : DM : #5806 : 26/09/2017 : alarm view folders creation .
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update viewManager with alarm parameters
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #8801 : 19/12/2017 : Do not clean data when reload a view
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
 import _omit from 'lodash/omit';
-import _concat from 'lodash/concat';
-import _without from 'lodash/without';
 import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
 
-import cleanCurrentViewData from './cleanViewData';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
+import cleanCurrentViewData from '../../HistoryView/store/cleanViewData';
 
 const initialState = {
   cols: [],
-  lines: [],
   data: {},
-  indexes: {},
-  current: {},
+  indexes: {
+    referenceTimestamp: [],
+  },
 };
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function historyViewData(state = {}, action) {
@@ -35,21 +42,20 @@ export default function historyViewData(state = {}, action) {
       }
       return { ...state, [action.payload.view.uuid]: initialState };
     case types.WS_PAGE_OPENED:
-    case types.WS_WORKSPACE_OPENED:
-      {
-        const { views } = action.payload;
-        if (!views) {
-          return state;
-        }
-        const newState = {};
-        views.forEach((view) => {
-          if (view.type !== constants.VM_VIEW_HISTORY) {
-            return;
-          }
-          newState[view.uuid] = initialState;
-        });
-        return { ...state, ...newState };
+    case types.WS_WORKSPACE_OPENED: {
+      const { views } = action.payload;
+      if (!views) {
+        return state;
       }
+      const newState = {};
+      views.forEach((view) => {
+        if (view.type !== constants.VM_VIEW_HISTORY) {
+          return;
+        }
+        newState[view.uuid] = initialState;
+      });
+      return { ...state, ...newState };
+    }
     case types.WS_VIEW_CLOSE: {
       const { viewId } = action.payload;
       if (state[viewId]) {
@@ -70,42 +76,6 @@ export default function historyViewData(state = {}, action) {
       });
       return newState;
     }
-    case types.WS_VIEW_SHOW_COL: {
-      const viewId = action.payload.viewId;
-      // Add at the end if no index defined
-      let index = action.payload.index;
-      if (!index) {
-        index = -1;
-      }
-      let newCols = [];
-      if (index > 0 && index < state[viewId].cols.length) {
-        newCols = _concat(
-          state[viewId].cols.slice(0, index),
-          action.payload.colName,
-          state[viewId].cols.slice(index)
-        );
-      } else if (index === 0) {
-        newCols = _concat(action.payload.colName, state[viewId].cols);
-      } else {
-        newCols = _concat(state[viewId].cols, action.payload.colName);
-      }
-
-      return { ...state,
-        [viewId]: {
-          ...state[viewId],
-          cols: newCols,
-        },
-      };
-    }
-    case types.WS_VIEW_HIDE_COL: {
-      const viewId = action.payload.viewId;
-      return { ...state,
-        [viewId]: {
-          ...state[viewId],
-          cols: _without(state[action.payload.viewId].cols || [], action.payload.colName),
-        },
-      };
-    }
     case types.INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations, visuWindow }
         = action.payload;
@@ -114,9 +84,9 @@ export default function historyViewData(state = {}, action) {
       if (!dataKeys.length) {
         return state;
       }
-      // Gets configurationfor history views
+      // Gets configuration for history views
       const configuration = configurations.HistoryViewConfiguration;
-      // since now, state will changed
+      // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {
@@ -136,28 +106,54 @@ export default function historyViewData(state = {}, action) {
       return newState || {};
     }
     case types.WS_VIEWDATA_CLEAN: {
-      const { previousDataMap, dataMap, configuration } = action.payload;
-
+      const { previousDataMap, dataMap } = action.payload;
       // since now, state will changed
       let newState = state;
       const viewIds = Object.keys(state);
       for (let i = 0; i < viewIds.length; i += 1) {
         const viewId = viewIds[i];
         const viewData = state[viewId];
-
         // Cleaning
         const subState = cleanCurrentViewData(
           viewData,
           previousDataMap.perView[viewId],
           dataMap.perView[viewId],
           previousDataMap.expectedRangeIntervals,
-          dataMap.expectedRangeIntervals,
-          configuration
-        );
+          dataMap.expectedRangeIntervals);
         if (subState !== viewData) {
           newState = { ...newState, [viewId]: subState };
         }
       }
+      return newState;
+    }
+    case types.WS_VIEW_TABLE_UPDATE_SORT: {
+      const { colName } = action.payload;
+
+      let newState = state;
+      const viewIds = Object.keys(state);
+      for (let i = 0; i < viewIds.length; i += 1) {
+        const viewId = viewIds[i];
+// eslint-disable-next-line no-loop-func
+        const _sortFunc = index => _.get([...index.split(' '), colName], newState[viewId].data);
+
+        const newIndex =
+          _.sortBy(
+            _sortFunc,
+            newState[viewId].indexes.referenceTimestamp
+          );
+
+        newState = {
+          ...newState,
+          [viewId]: {
+            ...newState[viewId],
+            indexes: {
+              referenceTimestamp: newState[viewId].indexes.referenceTimestamp,
+              [colName]: newIndex,
+            },
+          },
+        };
+      }
+
       return newState;
     }
     default:
@@ -168,3 +164,4 @@ export default function historyViewData(state = {}, action) {
 export const getHistoryViewData = state => state.HistoryViewData;
 
 export const getData = (state, { viewId }) => state.HistoryViewData[viewId];
+export const getConfiguration = (state, { viewId }) => state.HistoryViewConfiguration[viewId];

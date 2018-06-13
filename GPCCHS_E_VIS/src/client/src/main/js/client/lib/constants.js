@@ -2,37 +2,80 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
 // VERSION : 1.1.2 : FA : ISIS-FT-2132 : 15/06/2017 : Ask to save before closing view or page
-// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge
+//  with dev
 // VERSION : 1.1.2 : DM : #6700 : 19/06/2017 : Refactor "patch action" decoration (patch in .meta)
 // VERSION : 1.1.2 : DM : #6700 : 20/06/2017 : Cleanup main and server startup process
-// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Change windowProcess health management to dispatch a Redux action directly.
-// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Fix server process lauching timeout issue in development
-// VERSION : 1.1.2 : DM : #6785 : 29/06/2017 : Fix opening view link in a new page and read only path for link definition
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Change windowProcess health management to dispatch a
+//  Redux action directly.
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Fix server process lauching timeout issue in
+//  development
+// VERSION : 1.1.2 : DM : #6785 : 29/06/2017 : Fix opening view link in a new page and read only
+//  path for link definition
 // VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : First draft on catalog explorer
 // VERSION : 1.1.2 : DM : #6688 : 05/07/2017 : catalog explorer : open, close and browse items
-// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Refactor DC error handling (direct dispatch from server)
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Refactor DC error handling (direct dispatch from
+//  server)
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing info to meta action's
-// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Modify health monitoring mechanism : - Handle properly start and stop - Add critical delay value in conf - Only start monitoring on DEBUG
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Modify health monitoring mechanism : - Handle
+//  properly start and stop - Add critical delay value in conf - Only start monitoring on DEBUG
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Remove SAVE_PAGE ipc method .
-// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing decorator on DEBUG only (for each process) - Move decorator on makeSlave/MasterDispatcher
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing decorator on DEBUG only (for each
+//  process) - Move decorator on makeSlave/MasterDispatcher
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Remove health management obsolete code
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Replace ipc openPage by askOpenPage redux action
-// VERSION : 1.1.2 : DM : #6700 : 20/07/2017 : Remove obsolete onServerDebug interface, ipcs and model
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Replace ipc openPage by askOpenPage redux
+//  action
+// VERSION : 1.1.2 : DM : #6700 : 20/07/2017 : Remove obsolete onServerDebug interface, ipcs and
+//  model
 // VERSION : 1.1.2 : DM : #6700 : 21/07/2017 : Separate perTdbId by structure type in dataMap
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Clean IPC about openInspector .
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Clean IPC about FMD_GET/FMD_CREATE and RELOAD_SESSIONS/GET_SESSION_TIME
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Clean IPC about FMD_GET/FMD_CREATE and
+//  RELOAD_SESSIONS/GET_SESSION_TIME
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Clean IPC about documents .
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Remove serverDebug ipc . .
-// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : remove lastFrom0 from datamap add a test to keep the good interval in datamap
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : remove lastFrom0 from datamap add a test to keep the
+//  good interval in datamap
 // VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : remove lower bound type from viewManager
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
-// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Clean IPC about opening wiki helper + create a store folder in mainProcess
-// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 01/09/2017 : MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY now outputs ViewDoc as mime type instead of TextViewDoc, PlotViewDoc...
-// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 04/09/2017 : REVERT MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY now outputs ViewDoc as mime type instead of TextViewDoc, PlotViewDoc...
-// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : Page / Views / Workspace are saved with extensions.
-// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : New extensions. Updated extensions of data files, updated config.sample.json.
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Clean IPC about opening wiki helper + create a store
+//  folder in mainProcess
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 01/09/2017 : MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY now
+//  outputs ViewDoc as mime type instead of TextViewDoc, PlotViewDoc...
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 04/09/2017 : REVERT MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY
+//  now outputs ViewDoc as mime type instead of TextViewDoc, PlotViewDoc...
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : Page / Views / Workspace are saved with
+//  extensions.
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : New extensions. Updated extensions of data
+//  files, updated config.sample.json.
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
 // VERSION : 1.1.2 : FA : #7435 : 14/09/2017 : Change EXTENSIONS constants . .
+// VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #7111 : 20/09/2017 : Add editor in history view data and fix history view
+//  data reducer
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update server process and data injection for alarms
+// VERSION : 2.0.0 : DM : #6127 : 02/10/2017 : Add GroundAlarmView and onBoardAlarView extensions
+//  in constants
+// VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : Refacto PubSub Alarm + tbd Alarm queries
+// VERSION : 2.0.0 : FA : ISIS-FT-2229 : 18/10/2017 : Resolve merge conflict . .
+// VERSION : 2.0.0 : DM : #5806 : 20/10/2017 : Merge branch jmaupeti_alarmstub into dev
+// VERSION : 2.0.0 : DM : #5806 : 26/10/2017 : Add GMA prefix to all GroundMonitoringAlarm
+//  constants
+// VERSION : 2.0.0 : DM : #5806 : 02/11/2017 : Remove code about non nominal alarms in OBA
+// VERSION : 2.0.0 : DM : #5806 : 03/11/2017 : Manage ackrequests in stub .
+// VERSION : 2.0.0 : DM : #5806 : 07/11/2017 : refacto for getpaiload for alarms
+// VERSION : 2.0.0 : DM : #6832 : 07/11/2017 : Add ALARM_ACK_TIMEOUT in lib/constants .
+// VERSION : 2.0.0 : DM : #9217 : 13/11/2017 : Add extensions for dump buffer
+// VERSION : 2.0.0 : DM : #5806 : 13/11/2017 : Pass mode into archive query (GMA/OBA)
+// VERSION : 2.0.0 : DM : #5806 : 14/11/2017 : Merge branch 'alarm_5806' into dev
+// VERSION : 2.0.0 : DM : #5806 : 27/11/2017 : Remove specific GMA and OBA ALARM_ACKSTATE
+// VERSION : 2.0.0 : DM : #5806 : 27/11/2017 : Remove specific GMA and OBA ALARM_MODE
+// VERSION : 2.0.0 : FA : ISIS-FT-1937 : 30/01/2018 : Unit convertion, add python fork and
+//  convertion call mechanism
+// VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
+// VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
+// VERSION : 2.0.0 : FA : #11346 : 16/03/2018 : Change type mime for onboard and ground view
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11854 : 18/04/2018 : Vima JS does not receive PUB/SUB data
 // END-HISTORY
 // ====================================================================
 
@@ -45,6 +88,8 @@ module.exports = {
   // DATA STRUCTURE TYPES
   DATASTRUCTURETYPE_LAST: 'last',
   DATASTRUCTURETYPE_RANGE: 'range',
+  DATASTRUCTURETYPE_HISTORIZED: 'historized',
+  DATASTRUCTURETYPE_NO_HISTORY: 'no-history',
   // SESSION_ID
   UNKNOWN_SESSION_ID: 65535,
   // DC_COMMUNICATION_VERSION,
@@ -97,6 +142,8 @@ module.exports = {
   ADE_SDB_RETRIEVE_CATALOG_ITEM_FIELD_UNIT: 3,
   ADE_SDB_RETRIEVE_CATALOG_ITEM_EXISTS: 4,
   ADE_SDB_RETRIEVE_SATELLITE_ITEMS: 5,
+  ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE: 6, // not used yet
+  ADE_SDB_RETRIEVE_APIDS: 7,
 
   FILE_TYPE_COLLECTION: 0,
   FILE_TYPE_COLLECTION_DOCUMENT: 1,
@@ -207,6 +254,15 @@ module.exports = {
   NODE_TYPE_KEY: 'key',
   NODE_TYPE_LINK: 'link',
   NODE_TYPE_RESOLVED_LINK: 'resolvedLink',
+  // PACKETS TYPES
+  PACKETS_TYPES: {
+    REPORTING_PARAMETER: 'ReportingParameter',
+    DECOMMUTED_PACKET: 'DecommutedPacket',
+    CLCW: 'CLCW',
+    ISIS_AGGREGATION: 'IsisAggregation',
+    RM: 'RM',
+    TM: 'TM',
+  },
   // MIME
   MIME_TYPES: {
     WorkSpace: 'WorkspaceDoc',
@@ -235,6 +291,8 @@ module.exports = {
     OnboardAlarmView: 'viba',
     CommaSeparatedValues: 'csv',
     PortableNetworkGraphics: 'png',
+    PUS05View: 'pus05',
+    PUS11View: 'pus11',
   },
   DUMP_EXTENSIONS: {
     ARCHIVE: 'arc',
@@ -268,7 +326,8 @@ module.exports = {
   // Providers
   PROVIDER_FLOW_HKTMR: 'HKTMR',
   PROVIDER_FLOW_HKTMP: 'HKTMP',
-  PROVIDER_FLOW_ALL: '',
+  PROVIDER_FLOW_RM: 'RM',
+  PROVIDER_FLOW_ALL: '*',
 
   // Code couleur for views
   COLOR_ISIS_SAT: '#0066ff',

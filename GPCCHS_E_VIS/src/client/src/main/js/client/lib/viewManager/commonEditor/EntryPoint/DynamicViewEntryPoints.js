@@ -1,14 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React, { PureComponent } from 'react';
+import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
-import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
-import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
+import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
 import { reduxFormFieldsType } from 'viewManager/common/Components/types';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
-
 
 const { string } = PropTypes;
 
@@ -34,12 +34,7 @@ export default class DynamicViewEntryPoints extends PureComponent {
     selectedItemName: null,
   };
 
-  static contextTypes = {
-    windowId: PropTypes.string,
-  };
-
   render() {
-    const { windowId } = this.context;
     const {
       viewId,
       pageId,
@@ -51,16 +46,12 @@ export default class DynamicViewEntryPoints extends PureComponent {
 
     return (
       <div>
-        <HorizontalFormGroup label="Domain">
-          <DomainFieldContainer
-            domainName={selectedDomainName}
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Timeline">
-          <TimelineFieldContainer
-            timelineName={selectedTimelineId}
-            windowId={windowId}
+        <HorizontalFormGroup label="Formula">
+          <Field
+            name="formula"
+            component={TextareaField}
+            rows="4"
+            className="form-control input-sm"
           />
         </HorizontalFormGroup>
 

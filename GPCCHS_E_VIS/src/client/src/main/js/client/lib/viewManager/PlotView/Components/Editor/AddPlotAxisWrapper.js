@@ -1,9 +1,16 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : General Editor Refacto : using GenericModal, using rc-collapse module instead of bootstrap accordion.
-// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 19/06/2017 : Plot axis edition general revision. Fields min, max and tickStep are stored in store as float, float, int, but handled in ReduxForm as strings.
-// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : Plot axes log settings stored in store and documents.
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : General Editor Refacto : using GenericModal, using
+//  rc-collapse module instead of bootstrap accordion.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : General Editor Refacto : using GenericModal, using
+//  rc-collapse module instead of bootstrap accordion.
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 19/06/2017 : Plot axis edition general revision. Fields
+//  min, max and tickStep are stored in store as float, float, int, but handled in ReduxForm as
+//  strings.
+// VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : Plot axes log settings stored in store and
+//  documents.
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 
@@ -66,6 +73,7 @@ export default class AddEntryPointWrapper extends Component {
           max: parseFloat(values.logSettings.max),
           base: parseInt(values.logSettings.base, 10),
         },
+        unit: values.unit.length === 0 ? 'Unknown' : values.unit,
       }
     );
     closeModal();

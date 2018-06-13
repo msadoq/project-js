@@ -87,7 +87,7 @@ import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
 import { buildFormulaForAutocomplete, memoizeIsSignificantValue } from '../../../common';
-// import { getFlattenDataIdForObsoleteEvent } from '../../../../common/flattenDataId';
+import { getTupleId } from '../../../../store/reducers/catalogs';
 
 const logger = getLogger('view:plot');
 
@@ -228,7 +228,7 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
           min < axis.min ? min : axis.min,
           max > axis.max ? max : axis.max,
         ],
-      orient: 'bottom',
+      orient: 'top',
       format: '.3f',
       showAxis: axis.showAxis === true,
       showLabels: axis.showLabels === true,
@@ -422,7 +422,7 @@ export class GrizzlyPlotView extends React.Component {
   static propTypes = {
     containerWidth: number.isRequired,
     containerHeight: number.isRequired,
-    updateDimensions: func.isRequired,
+    updateDimensions: func.isRequired, // eslint-disable-line react/no-unused-prop-types
     saveLiveExtents: func.isRequired,
     pause: func.isRequired,
     data: shape({
@@ -464,13 +464,15 @@ export class GrizzlyPlotView extends React.Component {
     pageId: string.isRequired,
     showLinks: bool,
     updateShowLinks: func.isRequired,
+    askUnit: func.isRequired,
     isMaxVisuDurationExceeded: bool.isRequired,
+    catalogs: object.isRequired, // eslint-disable-line react/forbid-prop-types
   };
 
   static defaultProps = {
     data: {
       lines: [],
-      columns: [],
+      cols: [],
     },
     visuWindow: null,
     inspectorEpId: null,
@@ -482,6 +484,7 @@ export class GrizzlyPlotView extends React.Component {
     showEpNames: [],
     hideEpNames: [],
     showEpNonNominal: [],
+    updateUnit: false,
   };
 
   componentDidMount() {
@@ -491,23 +494,33 @@ export class GrizzlyPlotView extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.configuration.entryPoints !== this.props.configuration.entryPoints ||
-      nextProps.configuration.axes !== this.props.configuration.axes ||
-      nextProps.configuration.grids !== this.props.configuration.grids ||
-      nextProps.visuWindow !== this.props.visuWindow ||
-      nextProps.data !== this.props.data
-    ) {
-      const processedAxes = getUniqAxes(
-        nextProps.configuration.entryPoints,
-        nextProps.configuration.axes,
-        nextProps.configuration.grids,
-        nextProps.data,
-        nextProps.visuWindow
-      );
-      this.xAxes = processedAxes.xAxes;
-      this.yAxes = processedAxes.yAxes;
-    }
+    const {
+      entryPoints,
+      askUnit,
+    } = nextProps;
+
+    Object.keys(entryPoints).forEach((catalogItem) => {
+      if (entryPoints[catalogItem].dataId) {
+        const {
+          domainId,
+          sessionId,
+          catalog,
+        } = entryPoints[catalogItem].dataId;
+        if (
+          domainId !== null &&
+          sessionId !== null &&
+          catalog !== null &&
+          catalogItem !== null
+        ) {
+          askUnit(domainId, sessionId, catalog, catalogItem);
+          this.setState({ updateUnit: true });
+        } else {
+          this.setState({ updateUnit: false });
+        }
+      } else {
+        this.setState({ updateUnit: true });
+      }
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -515,7 +528,8 @@ export class GrizzlyPlotView extends React.Component {
       nextProps.showLinks !== this.props.showLinks ||
       nextState.showEpNames !== this.state.showEpNames ||
       nextState.hideEpNames !== this.state.hideEpNames ||
-      nextState.showEpNonNominal !== this.state.showEpNonNominal
+      nextState.showEpNonNominal !== this.state.showEpNonNominal ||
+      nextState.updateUnit
     ) {
       return true;
     }
@@ -583,6 +597,7 @@ export class GrizzlyPlotView extends React.Component {
     };
     handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
   };
+
   onContextMenu = (e) => {
     e.stopPropagation();
     const {
@@ -759,8 +774,8 @@ export class GrizzlyPlotView extends React.Component {
   hideEp = (e, lineId) => {
     e.preventDefault();
     const {
-      showEpNames,
       hideEpNames,
+      showEpNames,
       showEpNonNominal,
     } = this.state;
     const newState = {};
@@ -844,10 +859,10 @@ export class GrizzlyPlotView extends React.Component {
       showLinks,
       saveLiveExtents,
       pause,
+      catalogs,
+      entryPoints,
     } = this.props;
-    let {
-      configuration: { entryPoints },
-    } = this.props;
+    let entryPointsConfiguration = this.props.configuration.entryPoints;
     const {
       showEpNames,
       hideEpNames,
@@ -868,9 +883,11 @@ export class GrizzlyPlotView extends React.Component {
     }
 
     if (showEpNames.length) {
-      entryPoints = entryPoints.filter(ep => showEpNames.includes(ep.id));
+      entryPointsConfiguration =
+        entryPointsConfiguration.filter(ep => showEpNames.includes(ep.id));
     } else if (hideEpNames.length) {
-      entryPoints = entryPoints.filter(ep => !hideEpNames.includes(ep.id));
+      entryPointsConfiguration =
+        entryPointsConfiguration.filter(ep => !hideEpNames.includes(ep.id));
     }
 
     const yAxesLegendHeight = this.yAxes.map((a) => {
@@ -944,10 +961,19 @@ export class GrizzlyPlotView extends React.Component {
           additionalStyle={memoizeMainStyle(legend.location)}
           yAxes={this.yAxes}
           xAxes={this.xAxes}
+          updateAxis={this.state.updateUnit}
           lines={
-            entryPoints.map((ep) => {
+            entryPointsConfiguration.map((ep) => {
               const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
               const stringParameter = !ep.parametric && _get(ep, ['connectedData', 'stringParameter']);
+              let unit;
+              if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
+                const { domainId, sessionId, catalog, parameterName } = entryPoints[ep.name].dataId;
+                const tupleId = getTupleId(domainId, sessionId);
+                unit = _get(catalogs, ['units', tupleId, catalog, parameterName], 'Unknown');
+              } else {
+                unit = ep.unit;
+              }
               return {
                 data: lines[ep.name],
                 indexes: indexes[ep.name],
@@ -955,14 +981,16 @@ export class GrizzlyPlotView extends React.Component {
                 xAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'xAxisId']) : 'time',
                 yAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'yAxisId']) : _get(ep, ['connectedData', 'axisId']),
                 fill: _get(ep, ['objectStyle', 'curveColor']),
+                displayLine: _get(ep, ['objectStyle', 'displayLine'], true),
                 lineSize: _get(ep, ['objectStyle', 'displayLine'], true) === true
                   ? _get(ep, ['objectStyle', 'line', 'size'])
                   : 0,
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
-                pointSize: _get(ep, ['objectStyle', 'displayPoints'], true) === true
-                  ? _get(ep, ['objectStyle', 'points', 'size'])
-                  : 0,
-                pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
+                displayPoints: _get(ep, ['objectStyle', 'displayPoints'], true),
+                pointStyle: _get(ep, ['objectStyle', 'displayPoints'], true) === true
+                  ? _get(ep, ['objectStyle', 'points', 'style'])
+                  : 'None',
+                pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                 dataAccessor: ep.name,
                 stopInstruction: packet => stopInstruction(packet, ep, this.state.showEpNonNominal),
                 xAccessor: null, // default packet => packet.x
@@ -971,6 +999,8 @@ export class GrizzlyPlotView extends React.Component {
                 yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
                 colorAccessor: 'color',
                 tooltipFormatter,
+                unit: ep.connectedData.convertTo ?
+                  ep.connectedData.convertTo : unit,
               };
             })
           }

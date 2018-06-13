@@ -2,6 +2,7 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename ui/editor reducer test describe
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Split ui reducer + prepare ui/dialog reducer
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

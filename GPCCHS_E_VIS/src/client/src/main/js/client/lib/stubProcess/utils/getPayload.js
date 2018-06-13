@@ -172,9 +172,9 @@ const getComObject = (dataId, timestamp, options) => {
         dataId.provider === constants.PROVIDER_FLOW_HKTMR ? 0.5 : 1;
 
       const value = scale * predictibleRand.getSinValue(timestamp, options.epName);
-
-      // TODO: add offset depending on provider field
-      return stubData.getReportingParameterProtobuf({
+      const isisAggreg = stubData.getIsisAggregationProtobuf();
+      const parameter = stubData.getParameterProtobuf();
+      const reportingParam = stubData.getReportingParameterProtobuf({
         groundDate: timestamp + 20,
         onboardDate: timestamp,
         convertedValue: value,
@@ -182,8 +182,13 @@ const getComObject = (dataId, timestamp, options) => {
         extractedValue: value,
         monitoringState: getMonitoringState(timestamp),
         validityState: getValidityState(),
-        isObsolete: predictibleRand.getBool(0.1),
       });
+      // TODO: add offset depending on provider field
+      return [
+        { p: isisAggreg, com: 'IsisAggregation' },
+        { p: parameter, com: 'Parameter' },
+        { p: reportingParam, com: 'ReportingParameter' },
+      ];
     }
 
     case 'DecommutedPacket': {
@@ -206,6 +211,13 @@ const getComObject = (dataId, timestamp, options) => {
         ],
       });
     }
+
+    case 'StatExecution':
+      return [
+        { p: stubData.getExecutionProtobuf(), com: 'Execution' },
+        { p: stubData.getStatValueProtobuf(), com: 'StatValue' },
+        { p: stubData.getStatAggregationProtobuf({ statDate: timestamp }), com: 'StatAggregation' },
+      ];
 
     case 'Pus003Model':
       return stubData.getPus003ModelProtobuf({
@@ -299,12 +311,22 @@ module.exports = function getPayload(timestamp, dataId, versionDCCom, options = 
 
   // Decorate payload with ADEGenericPayload in case of proto ADE
   if (versionDCCom === constants.DC_COM_V2) {
-    payload = stubData.getADEPayloadProtobuf({
-      payload,
-      providerId: 0,
-      comObjectType: dataId.comObject,
-      instanceOid: 0,
-    });
+    if (Array.isArray(payload)) {
+      payload = stubData.getADEPayloadProtobuf(payload.map(payloadPart => ({
+        payload: payloadPart.p,
+        providerId: 0,
+        comObjectType: payloadPart.com,
+        instanceOid: 0,
+      })
+      ));
+    } else {
+      payload = stubData.getADEPayloadProtobuf({
+        payload,
+        providerId: 0,
+        comObjectType: dataId.comObject,
+        instanceOid: 0,
+      });
+    }
   }
 
   return {

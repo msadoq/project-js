@@ -9,7 +9,6 @@ export default class ViewParams extends React.Component {
     updateLegend: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
-    updateBgColor: PropTypes.func.isRequired,
     updateDomainName: PropTypes.func.isRequired,
     updateSessionName: PropTypes.func.isRequired,
     showLegend: PropTypes.boolean,
@@ -55,14 +54,13 @@ export default class ViewParams extends React.Component {
     backgroundColor: '#000000',
     showLegend: false,
     legend: { location: 'bottom' },
-    domainName: '',
-    sessionName: '',
+    domainName: '*',
+    sessionName: '*',
   }
 
   handleSubmit = (values) => {
     const {
-      updateTitle, updateTitleStyle,
-      updateBgColor, viewId,
+      updateTitle, updateTitleStyle, viewId,
       updateDomainName, updateSessionName,
       showLegend, legend,
       toggleLegend, updateLegend,
@@ -73,9 +71,6 @@ export default class ViewParams extends React.Component {
     }
     if (legend.location !== values.legend.location) {
       updateLegend(viewId, values.legend);
-    }
-    if (this.props.backgroundColor !== values.backgroundColor) {
-      updateBgColor(viewId, values.backgroundColor);
     }
     if (this.props.title !== values.title) {
       updateTitle(viewId, values.title);

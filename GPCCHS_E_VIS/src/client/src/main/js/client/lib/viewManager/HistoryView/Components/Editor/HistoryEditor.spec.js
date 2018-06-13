@@ -9,7 +9,6 @@ const propsStub = {
   openModal: () => null,
   updateViewTab: () => null,
   title: '',
-  titleStyle: {},
   panels: {},
   updateViewPanels: () => null,
   configuration: {},

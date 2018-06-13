@@ -273,6 +273,7 @@ const dcVersionMap = {
               ...filter,
               operator: operators[filter.operator],
             })),
+            getLastNumber: args.getLastNumber,
           }),
         ],
         err => (onDcResponseCallback(err, flatDataId))

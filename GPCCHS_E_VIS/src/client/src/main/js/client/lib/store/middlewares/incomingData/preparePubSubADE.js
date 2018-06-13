@@ -134,7 +134,7 @@ const preparePubSub =
               }
               execution.stop('process for lasts');
               execution.start('process for events');
-              if (getType(dataId.comObjectType) === ObsoleteEventHeaderType) {
+              if (getType(dataId.comObject) === ObsoleteEventHeaderType) {
                 const specificAttributes = decodedPayload.specificAttributes;
                 const eventDate = decodedPayload.eventDate.value;
                 let parameterName = '';

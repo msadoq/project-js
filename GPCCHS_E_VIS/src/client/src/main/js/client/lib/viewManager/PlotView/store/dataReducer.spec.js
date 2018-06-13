@@ -204,7 +204,7 @@ describe('viewManager/PlotView/store/dataReducer', () => {
         payload: {
           newViewMap: dataMap.perView,
           dataToInject: {
-            'ATT_BC_REVTCOUNT1:0:1:::': {
+            'ATT_BC_REVTCOUNT1:0:4:::': {
               10: {
                 eventDate: 10,
               },

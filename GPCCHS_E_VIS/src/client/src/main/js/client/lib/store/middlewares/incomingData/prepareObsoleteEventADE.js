@@ -2,11 +2,11 @@ import _isEmpty from 'lodash/isEmpty';
 import _isBuffer from 'lodash/isBuffer';
 import * as types from 'store/types';
 import { newData } from 'store/actions/incomingData';
-import { decode, getType } from 'utils/adapters';
 import executionMonitor from 'common/logManager/execution';
 import { add as addMessage } from 'store/actions/messages';
 import { getFlattenDataIdForObsoleteEvent } from 'common/flattenDataId';
 import { add } from '../../../serverProcess/models/tbdIdDataIdMap';
+import { decode, decodePayload, getTypeAggreg } from '../../../utils/adapters';
 
 
 const logger = require('../../../common/logManager')('middleware:prepareObsoleteEventADE');
@@ -38,8 +38,8 @@ const prepareObsoleteEvent =
           execution.stop('decode timestamp');
 
           execution.start('decode payload');
-          const decoded = decode('dc.dataControllerUtils.ADEPayload', peers[index + 1]);
-          const decodedPayload = decode(getType(decoded.header.comObjectType), decoded.payload);
+          const decoded = decodePayload(peers[index + 1]);
+          const decodedPayload = decode(getTypeAggreg('LogbookEvent'), decoded);
           const eventDate = decodedPayload.eventDate.value;
           const obsoleteEventDecodedPayload = {
             eventDate,
@@ -61,6 +61,7 @@ const prepareObsoleteEvent =
           execution.stop('persist');
         } catch (e) {
           logger.error('error on processing buffer', e);
+          console.log(e);
           dispatch(addMessage('global', 'warning', 'error on processing header buffer '.concat(e)));
         }
       }

@@ -39,10 +39,11 @@ describe('getStructuredData', () => {
         rawValue: 'Nio',
       },
     ];
-    const structure = { itemName: 'Root', children: [{ itemName: 'POUET' }] };
+    const structure = { itemName: 'Root', children: [{ itemName: 'POUET', unit: 'V' }] };
     expect(getStructuredData(structure, data)).toEqual({
       name: 'Root',
       type: NODE_TYPE_OBJECT,
+      toggled: true,
       children: [{
         name: 'POUET',
         type: NODE_TYPE_KEY,
@@ -58,18 +59,21 @@ describe('getStructuredData', () => {
         convertedValue: { value: 'a5' },
       },
     ];
-    const structure = { itemName: 'Root', children: [{ itemName: 'GENE_AM_CCSDSVERS2' }] };
+    const structure = {
+      itemName: 'Root',
+      children: [{
+        itemName: 'GENE_AM_CCSDSVERS2',
+        unit: 'V',
+      }],
+    };
     expect(getStructuredData(structure, data)).toEqual({
       name: 'Root',
       type: NODE_TYPE_OBJECT,
+      toggled: true,
       children: [{
         name: 'GENE_AM_CCSDSVERS2',
         type: NODE_TYPE_KEY,
-        values: [{
-          extractedValue: 12,
-          rawValue: 32,
-          convertedValue: 'a5',
-        }],
+        value: 'a5 V',
       }],
     });
   });
@@ -83,35 +87,40 @@ describe('getStructuredData', () => {
       },
       {
         name: { value: 'GENE_AM_CCSDSVERS2' },
-        extractedValue: { value: 13 },
+        convertedValue: { value: 13 },
       },
       {
         name: { value: 'GENE_AM_CCSDSVERS2' },
-        extractedValue: { value: 14 },
+        convertedValue: { value: 14 },
       },
     ];
-    const structure = { itemName: 'Root', children: [{ itemName: 'GENE_AM_CCSDSVERS2' }] };
+    const structure = {
+      itemName: 'Root',
+      children: [{
+        itemName: 'GENE_AM_CCSDSVERS2',
+        unit: 'V',
+      }],
+    };
     expect(getStructuredData(structure, data)).toEqual({
       name: 'Root',
       type: NODE_TYPE_OBJECT,
+      toggled: true,
       children: [
         {
           name: 'GENE_AM_CCSDSVERS2',
           type: NODE_TYPE_KEY,
-          values: [
-            {
-              extractedValue: 12,
-              rawValue: 32,
-              convertedValue: 'a5',
-            },
-            {
-              extractedValue: 13,
-            },
-            {
-              extractedValue: 14,
-            }],
+          value: 'a5 V',
         },
-      ],
+        {
+          name: 'GENE_AM_CCSDSVERS2',
+          type: NODE_TYPE_KEY,
+          value: '13 V',
+        },
+        {
+          name: 'GENE_AM_CCSDSVERS2',
+          type: NODE_TYPE_KEY,
+          value: '14 V',
+        }],
     });
   });
   test('full example', () => {
@@ -141,10 +150,10 @@ describe('getStructuredData', () => {
         convertedValue: { value: '0x1346F65FA' },
       }, {
         name: { value: 'GENE_AM_CCSDSVERS4' },
-        extractedValue: { value: 48 },
+        convertedValue: { value: 48 },
       }, {
         name: { value: 'GENE_AM_CCSDSVERS5' },
-        extractedValue: { value: 40 },
+        convertedValue: { value: 40 },
         rawValue: { value: 'Nio' },
       },
     ];
@@ -155,14 +164,14 @@ describe('getStructuredData', () => {
         {
           itemName: 'Bidule',
           children: [
-            { itemName: 'GENE_AM_CCSDSVERS1' },
-            { itemName: 'GENE_AM_CCSDSVERS2' },
+            { itemName: 'GENE_AM_CCSDSVERS1', unit: '°C' },
+            { itemName: 'GENE_AM_CCSDSVERS2', unit: 'km' },
           ],
         },
         {
           itemName: 'Machin',
           children: [
-            { itemName: 'GENE_AM_CCSDSVERS3' },
+            { itemName: 'GENE_AM_CCSDSVERS3', unit: 'V' },
           ],
         },
       ],
@@ -170,57 +179,45 @@ describe('getStructuredData', () => {
     expect(getStructuredData(structure, data)).toEqual({
       name: 'Root',
       type: NODE_TYPE_OBJECT,
+      toggled: true,
       children: [
         {
           name: 'Bidule',
           type: NODE_TYPE_OBJECT,
+          toggled: true,
           children: [
             {
               name: 'GENE_AM_CCSDSVERS1',
               type: NODE_TYPE_KEY,
-              values: [
-                {
-                  extractedValue: 1,
-                  rawValue: 2,
-                  convertedValue: 5,
-                },
-              ],
+              value: '5 °C',
+
             },
             {
               name: 'GENE_AM_CCSDSVERS2',
               type: NODE_TYPE_KEY,
-              values: [
-                {
-                  extractedValue: 12,
-                  rawValue: 32,
-                  convertedValue: 'a5',
-                },
-                {
-                  extractedValue: 112,
-                  rawValue: 132,
-                  convertedValue: '1a6',
-                },
-              ],
+              value: 'a5 km',
+            },
+            {
+              name: 'GENE_AM_CCSDSVERS2',
+              type: NODE_TYPE_KEY,
+              value: '1a6 km',
             },
           ],
         },
         {
           name: 'Machin',
           type: NODE_TYPE_OBJECT,
+          toggled: true,
           children: [
             {
               name: 'GENE_AM_CCSDSVERS3',
               type: NODE_TYPE_KEY,
-              values: [
-                {
-                  rawValue: 12,
-                  convertedValue: 5,
-                },
-                {
-                  rawValue: 'nest',
-                  convertedValue: '0x1346F65FA',
-                },
-              ],
+              value: '5 V',
+            },
+            {
+              name: 'GENE_AM_CCSDSVERS3',
+              type: NODE_TYPE_KEY,
+              value: '0x1346F65FA V',
             },
           ],
         },
@@ -275,24 +272,16 @@ describe('getStructuredData', () => {
         {
           itemName: 'Bidule',
           children: [
-            {
-              itemName: 'GENE_AM_CCSDSVERS1',
-            }, {
-              itemName: 'GENE_AM_CCSDSVERS2',
-            }, {
-              itemName: 'GENE_AM_CCSDSVERS3',
-            },
+            { itemName: 'GENE_AM_CCSDSVERS1', unit: 'V' },
+            { itemName: 'GENE_AM_CCSDSVERS2', unit: 'V' },
+            { itemName: 'GENE_AM_CCSDSVERS3', unit: 'V' },
           ],
         },
         {
           itemName: 'Machin',
           children: [
-            {
-              itemName: 'GENE_AM_CCSDSVERS4',
-            },
-            {
-              itemName: 'GENE_AM_CCSDSVERS5',
-            },
+            { itemName: 'GENE_AM_CCSDSVERS4', unit: 'V' },
+            { itemName: 'GENE_AM_CCSDSVERS5', unit: 'V' },
           ],
         },
       ],
@@ -300,39 +289,57 @@ describe('getStructuredData', () => {
     expect(getStructuredData(structure, data)).toEqual({
       name: 'Root',
       type: NODE_TYPE_OBJECT,
+      toggled: true,
       children: [
         {
           name: 'Bidule',
           type: NODE_TYPE_OBJECT,
+          toggled: true,
           children: [
             {
               name: 'GENE_AM_CCSDSVERS1',
               type: NODE_TYPE_KEY,
-              values: [{ convertedValue: 12 }, { convertedValue: 23 }],
+              value: '12 V',
+            }, {
+              name: 'GENE_AM_CCSDSVERS1',
+              type: NODE_TYPE_KEY,
+              value: '23 V',
             }, {
               name: 'GENE_AM_CCSDSVERS2',
               type: NODE_TYPE_KEY,
-              values: [{ convertedValue: 0 }, { convertedValue: 610 }],
+              value: '0 V',
+            }, {
+              name: 'GENE_AM_CCSDSVERS2',
+              type: NODE_TYPE_KEY,
+              value: '610 V',
             }, {
               name: 'GENE_AM_CCSDSVERS3',
               type: NODE_TYPE_KEY,
-              values: [{ convertedValue: 12.1 }],
+              value: '12.1 V',
             },
           ],
         },
         {
           name: 'Machin',
           type: NODE_TYPE_OBJECT,
+          toggled: true,
           children: [
             {
               name: 'GENE_AM_CCSDSVERS4',
               type: NODE_TYPE_KEY,
-              values: [{ convertedValue: 0, rawValue: 0 }, { convertedValue: 1 }],
-            },
-            {
+              value: '0 V',
+            }, {
+              name: 'GENE_AM_CCSDSVERS4',
+              type: NODE_TYPE_KEY,
+              value: '1 V',
+            }, {
               name: 'GENE_AM_CCSDSVERS5',
               type: NODE_TYPE_KEY,
-              values: [{ convertedValue: 0, rawValue: 'Niobé' }, { convertedValue: 'a31' }],
+              value: '0 V',
+            }, {
+              name: 'GENE_AM_CCSDSVERS5',
+              type: NODE_TYPE_KEY,
+              value: 'a31 V',
             },
           ],
         },

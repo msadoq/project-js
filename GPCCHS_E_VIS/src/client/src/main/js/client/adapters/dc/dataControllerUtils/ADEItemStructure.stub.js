@@ -11,24 +11,16 @@ const getADEItemStructure = () => {
       {
         itemName: 'Bidule',
         children: [
-          {
-            itemName: 'GENE_AM_CCSDSVERS1',
-          }, {
-            itemName: 'GENE_AM_CCSDSVERS2',
-          }, {
-            itemName: 'GENE_AM_CCSDSVERS3',
-          },
+          { itemName: 'GENE_AM_CCSDSVERS1', unit: 'Ω' },
+          { itemName: 'GENE_AM_CCSDSVERS2', unit: 'K' },
+          { itemName: 'GENE_AM_CCSDSVERS3', unit: 'inches' },
         ],
       },
       {
         itemName: 'Machin',
         children: [
-          {
-            itemName: 'GENE_AM_CCSDSVERS4',
-          },
-          {
-            itemName: 'GENE_AM_CCSDSVERS5',
-          },
+          { itemName: 'GENE_AM_CCSDSVERS4', unit: 'Pa' },
+          { itemName: 'GENE_AM_CCSDSVERS5', unit: 'H/m' },
         ],
       },
     ],

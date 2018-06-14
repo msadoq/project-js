@@ -53,9 +53,10 @@ import {
 import Select from 'react-select';
 import classnames from 'classnames';
 import _get from 'lodash/get';
+import _set from 'lodash/fp/set';
 import _has from 'lodash/has';
 import _map from 'lodash/map';
-// import { NODE_TYPE_KEY, NODE_TYPE_OBJECT } from 'constants';
+import ToggleButton, { ON } from 'windowProcess/common/ToggleButton';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import Tree from 'windowProcess/Explorer/widgets/Tree';
@@ -164,16 +165,28 @@ export default class DecommutedPacketView extends PureComponent {
     comObjects: null,
     selectedComObject: null,
     draggedData: {},
-    structuredData: getStructuredData(
+    structuredData: _set('type', undefined, getStructuredData(
       this.props.structure,
       _get(this.props.data, ['value', 'decommutedValues'])
-    ),
+    )),
     globalExpand: true,
   };
 
-
   componentWillMount() {
     this.props.askItemStructure();
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.structure !== nextProps.structure
+      || this.props.data !== nextProps.data) {
+      this.setState({
+        structuredData: getStructuredData(
+          nextProps.structure,
+          _get(nextProps.data, ['value', 'decommutedValues'])
+        ),
+      });
+    }
   }
 
 
@@ -293,6 +306,8 @@ export default class DecommutedPacketView extends PureComponent {
   toggleExpandAll = () => {
     const { structuredData, globalExpand } = this.state;
     this.innerExpandAll(structuredData);
+    // keep root node open
+    structuredData.toggled = true;
     this.setState({
       globalExpand: !globalExpand,
       structuredData: { ...structuredData },
@@ -358,6 +373,7 @@ export default class DecommutedPacketView extends PureComponent {
     const {
       data, entryPoints, isMaxVisuDurationExceeded,
     } = this.props;
+    const { structuredData } = this.state;
     const ep = data.value;
     const { decommutedPacketEP } = entryPoints;
     const error = _get(entryPoints, 'decommutedPacketEP.error');
@@ -380,10 +396,20 @@ export default class DecommutedPacketView extends PureComponent {
             <h1 className={styles.title}>{parameterName}</h1>
           </header>
           <PacketHeader headerData={data.value} />
-          <button onClick={this.toggleExpandAll}>expand all</button>
-          <Tree
-            data={this.state.structuredData}
-          />
+          {structuredData &&
+            <React.Fragment>
+              <ToggleButton
+                on="close all"
+                off="expand all"
+                className="btn btn-primary"
+                default={ON}
+                onChange={this.toggleExpandAll}
+              />
+              <Tree
+                data={structuredData}
+              />
+            </React.Fragment>
+          }
         </DroppableContainer>
         {this.renderModal()}
       </div>
@@ -391,31 +417,6 @@ export default class DecommutedPacketView extends PureComponent {
   }
 }
 
-// const stubData = {
-//   name: 'Root',
-//   type: NODE_TYPE_OBJECT,
-//   toggled: true,
-//   children: [{
-//     name: 'GENE_AM_CCSDSVERS2',
-//     toggled: true,
-//     type: NODE_TYPE_OBJECT,
-//     children: [{
-//       name: 'truc',
-//       toggled: true,
-//       type: NODE_TYPE_KEY,
-//       values: [
-//         {
-//           rawValue: 12,
-//           convertedValue: 5,
-//         },
-//         {
-//           rawValue: 'nest',
-//           convertedValue: '0x1346F65FA',
-//         },
-//       ],
-//     }],
-//   }],
-// };
 
 /**
  * @param content

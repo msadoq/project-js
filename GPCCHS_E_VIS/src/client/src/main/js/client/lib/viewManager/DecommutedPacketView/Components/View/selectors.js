@@ -19,9 +19,9 @@ export const getFormula = (state, ownProps) => {
   return _.get('entryPoints[0].connectedData.formula', configuration);
 };
 
-export const getStructuredData = (structure, data) => (
+export const getStructuredData = (structure, data) =>
   _memoize(() => innerGetStructuredData(structure, data))()
-);
+;
 
 /**
  * a packet is defined as follows:
@@ -40,22 +40,24 @@ export const unboxPacketAttributes = packet => Object.entries(packet)
   .map(([key, valueObject]) => ({ [key]: valueObject.value }))
   .reduce((agg, attr) => Object.assign(agg, attr), {});
 
-export const innerGetStructuredData = ({ children, itemName, ...attributes }, data = []) => {
-  const values = children
-    ? undefined
-    : data
-      .filter(d => d.name.value === itemName)
-      .map(({ name, ...rest }) => rest)
-      .map(unboxPacketAttributes)
-  ;
-  // values && values.length && console.log(values);
+export const innerGetStructuredData = ({ children, itemName, unit }, data = []) => {
+  if (children) {
+    return {
+      name: itemName,
+      children: _.flattenDepth(1, children.map(c => innerGetStructuredData(c, data))),
+      type: NODE_TYPE_OBJECT,
+      toggled: true,
+    };
+  }
 
-  return {
-    name: itemName,
-    ...attributes,
-    values: values && values.length ? values : undefined,
-    children: children && children.map(c => innerGetStructuredData(c, data)),
-    type: children ? NODE_TYPE_OBJECT : NODE_TYPE_KEY,
-    // toggled: true,
-  };
+  const presentationalData = data
+    .filter(d => d.name.value === itemName)
+    .map(d => ({
+      name: itemName,
+      value: `${d.convertedValue.value} ${unit}`,
+      type: NODE_TYPE_KEY,
+    }));
+  return presentationalData.length
+    ? presentationalData
+    : ({ name: itemName, type: NODE_TYPE_KEY });
 };

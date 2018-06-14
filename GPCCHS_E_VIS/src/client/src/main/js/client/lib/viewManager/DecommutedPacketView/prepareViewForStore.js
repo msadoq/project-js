@@ -18,7 +18,7 @@ const singleton = x => [x];
 
 const getDefaultView = _.merge({
   type: 'DecommutedPacketView',
-  title: 'New DecommutedPacketView View',
+  title: 'New decommuted packet view',
   links: [],
   defaultRatio: { length: 5, width: 5 },
   configuration: {

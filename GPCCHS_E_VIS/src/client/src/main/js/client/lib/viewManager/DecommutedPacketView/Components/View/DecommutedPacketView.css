@@ -5,13 +5,14 @@
 
 .headerContainer {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   flex-wrap: wrap;
   text-wrap: avoid;
 }
 
 .obj {
-  margin: 0.5;
+  margin: 0.5rem;
   font-size: 2.0rem;
   font-weight: bold;
   letter-spacing: -.025em;

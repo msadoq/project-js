@@ -253,7 +253,7 @@ const getComObject = (dataId, timestamp, options) => {
           stubData.getDecommutedValue({
             name: 'GENE_AM_CCSDSVERS5',
             rawValue: 13,
-            convertedValue: 'a31',
+            convertedValue: '31',
           }),
         ],
       });

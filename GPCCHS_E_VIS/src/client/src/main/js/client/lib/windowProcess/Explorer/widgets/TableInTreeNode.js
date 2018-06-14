@@ -12,7 +12,7 @@ const styles = {
 
 const Tuple = ({ name, value }) => (
   <td key={name} style={styles.row}>
-    <span style={styles.entryName}>{name}:</span> {value}
+    <span>{name}:</span> {value}
   </td>
 );
 

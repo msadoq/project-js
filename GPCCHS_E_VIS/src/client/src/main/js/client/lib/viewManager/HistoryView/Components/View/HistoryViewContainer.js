@@ -45,14 +45,15 @@ const mapStateToProps = (state, { viewId }) => {
   }
 
   const rows = ({ rowIndex, columnIndex, cols }) => {
-    const currentIndex = (filterIndex && filterIndex[rowIndex]) || rowIndex;
-
     const virtualRowIndex =
       sortingDirection === 'DESC' ?
-        currentIndex :
-        totalRowCount - currentIndex - 1;
+        rowIndex :
+        rowCount - rowIndex - 1;
 
-    const content = _.get(usedIndex[virtualRowIndex].split(' '), data);
+    const virtualFilteredIndex = (filterIndex && filterIndex[virtualRowIndex]) || rowIndex;
+
+    const content =
+      _.get(usedIndex[virtualFilteredIndex] && usedIndex[virtualFilteredIndex].split(' '), data);
 
     if (content) {
       const colKey = cols[columnIndex].title;

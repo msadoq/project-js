@@ -12,7 +12,15 @@ import {
   WS_VIEW_TABLE_TOGGLE_COLUMN,
 } from '../types';
 
-export const toggleColumnSort = simple(WS_VIEW_TABLE_UPDATE_SORT, 'viewId', 'tableId', 'colName', 'direction');
+export const toggleColumnSort =
+  simple(
+    WS_VIEW_TABLE_UPDATE_SORT,
+    'viewId',
+    'tableId',
+    'colName',
+    'direction',
+    'filters' // we need filter state to sort data and update filter indexes at the same time
+  );
 export const filterColumn =
   simple(
     WS_VIEW_CHANGE_COL_FILTERS,

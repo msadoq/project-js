@@ -150,7 +150,9 @@ export default function cleanCurrentViewData(
 // eslint-disable-next-line no-loop-func
       Object.keys(newState.indexes).forEach((key) => {
         // removes indexes outside current visualization window
-        newState = _scopeIndexesByVisualizationWindow(newState, key, lower, upper);
+        if (key !== 'keep') {
+          newState = _scopeIndexesByVisualizationWindow(newState, key, lower, upper);
+        }
       });
     }
   }

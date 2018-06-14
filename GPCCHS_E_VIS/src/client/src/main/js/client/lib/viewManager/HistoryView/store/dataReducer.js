@@ -50,7 +50,18 @@ export const shouldKeepIndex = (index, state, filters = {}) => {
  * @private
  */
 export const updateFilteredIndexes = (state, filters) => {
-  const referenceIndexes = _.get(['indexes', 'referenceTimestamp'], state);
+  let usedIndex = _.get(['indexes', 'referenceTimestamp'], state);
+
+  const availableIndexes = _.get(['indexes'], state);
+
+  const otherIndexes =
+    Object
+      .keys(availableIndexes)
+      .filter(indexKey => indexKey !== 'referenceTimestamp' && indexKey !== 'keep');
+
+  if (otherIndexes.length > 0) {
+    usedIndex = availableIndexes[otherIndexes[0]];
+  }
 
   /**
    * @const filterIndexesMap specifies the array indexes that should be kept
@@ -58,7 +69,7 @@ export const updateFilteredIndexes = (state, filters) => {
    *     When using referenceTimestamp index, we get the i-th displayed value by:
    *         referenceTimestampIndex[filterIndexesMap[i]]
    */
-  const filterIndexesMap = referenceIndexes.reduce((acc, cur, index) => {
+  const filterIndexesMap = usedIndex.reduce((acc, cur, index) => {
     if (shouldKeepIndex(cur, state, filters)) {
       return [...acc, index];
     }
@@ -78,7 +89,6 @@ export const updateFilteredIndexes = (state, filters) => {
 
 
 const initialState = {
-  cols: [],
   data: {},
   indexes: {
     referenceTimestamp: [],
@@ -184,32 +194,35 @@ export default function historyViewData(state = {}, action) {
       return newState;
     }
     case types.WS_VIEW_TABLE_UPDATE_SORT: {
-      const { colName } = action.payload;
+      const { viewId, colName, filters } = action.payload;
 
       let newState = state;
-      const viewIds = Object.keys(state);
-      for (let i = 0; i < viewIds.length; i += 1) {
-        const viewId = viewIds[i];
+
 // eslint-disable-next-line no-loop-func
-        const _sortFunc = index => _.get([...index.split(' '), colName], newState[viewId].data);
+      const _sortFunc = index => _.get([...index.split(' '), colName], newState[viewId].data);
 
-        const newIndex =
-          _.sortBy(
-            _sortFunc,
-            newState[viewId].indexes.referenceTimestamp
-          );
+      const newIndex =
+        _.sortBy(
+          _sortFunc,
+          newState[viewId].indexes.referenceTimestamp
+        );
 
-        newState = {
-          ...newState,
-          [viewId]: {
-            ...newState[viewId],
-            indexes: {
-              referenceTimestamp: newState[viewId].indexes.referenceTimestamp,
-              [colName]: newIndex,
-            },
+      newState = {
+        ...newState,
+        [viewId]: {
+          ...newState[viewId],
+          indexes: {
+            referenceTimestamp: newState[viewId].indexes.referenceTimestamp,
+            [colName]: newIndex,
           },
-        };
-      }
+        },
+      };
+
+      // re-index filters against updated sort index
+      newState = {
+        ...newState,
+        [viewId]: updateFilteredIndexes(newState[viewId], filters),
+      };
 
       return newState;
     }

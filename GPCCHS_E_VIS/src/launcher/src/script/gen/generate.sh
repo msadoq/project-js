@@ -29,6 +29,7 @@ deploy_cots() {
   Log "deploy_cots" "remove previous build (work)" ${INFO}
   rm -rf ${api.work.dir}
   mkdir -p ${api.work.dir}/js/client
+  mkdir -p ${api.work.dir}/.git
 
   Log "deploy_cots" "copy client code in work dir" ${INFO}
   cp -RT ${find.dependencies.dir}/lib/js/gpcchs_e_vis_client ${api.work.dir}/js/client
@@ -82,7 +83,8 @@ deploy_cots() {
   npm run prepare:maven:build
 
   Log "deploy_cots" "installing NPM dependencies in client" ${INFO}
-  npm ${NPM_OPTS2} install --production
+  # Don't use production, as build uses dev dependencies
+  npm ${NPM_OPTS2} install
 
   Log "deploy_cots" "building main process package" ${INFO}
   npm run build:main

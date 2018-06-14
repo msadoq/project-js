@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _set from 'lodash/fp/set';
+import _flow from 'lodash/fp/flow';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
@@ -73,12 +74,13 @@ export default class DecommutedPacketEditor extends Component {
   handleSubmit = (values) => {
     const { updateEntryPoint, viewId } = this.props;
     const entryPoint = this.props.configuration.entryPoints[0];
-    const timeBasedValues = _set('connectedData.dataType', TIME_BASED_DATA_OPTION.value, values);
-    handleSubmit(timeBasedValues,
-      updateEntryPoint(viewId, entryPoint.id, {
-        ...entryPoint,
-        ...values,
-      }));
+    const timeBasedValues = _flow(
+      _set('connectedData.dataType', TIME_BASED_DATA_OPTION.value),
+      _set('name', 'decommutedPacketEP'),
+      _set('id', entryPoint.id),
+      _set('connectedData.comObject', 'DecommutedPacket')
+    )(values);
+    handleSubmit(timeBasedValues, updateEntryPoint, viewId);
   };
 
   render() {

@@ -9,9 +9,10 @@ import CatalogField from './CatalogField';
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 
-const mapStateToProps = (state, { domainName, timelineId, viewId, pageId }) => {
+const mapStateToProps = (state, { domainName, timelineId, viewId, pageId, viewSessionName }) => {
   const domainId = getDomainId(state, { domainName, viewId, pageId });
-  const sessionName = getSessionNameFromTimeline(state, { timelineId, wildcardCharacter });
+  const sessionName = viewSessionName
+    || getSessionNameFromTimeline(state, { timelineId, wildcardCharacter });
   const sessionId = getSessionIdWithFallback(state, { sessionName, viewId, pageId });
   const catalogs = getCatalogsByDomainIdAndSessionId(state, { domainId, sessionId });
 

@@ -56,6 +56,7 @@ import _get from 'lodash/get';
 import _set from 'lodash/fp/set';
 import _has from 'lodash/has';
 import _map from 'lodash/map';
+import _isEmpty from 'lodash/isEmpty';
 import ToggleButton, { ON } from 'windowProcess/common/ToggleButton';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
@@ -186,6 +187,9 @@ export default class DecommutedPacketView extends PureComponent {
           _get(nextProps.data, ['value', 'decommutedValues'])
         ),
       });
+    }
+    if (_isEmpty(nextProps.structure)) {
+      this.props.askItemStructure();
     }
   }
 

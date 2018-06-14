@@ -2,8 +2,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
-import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
-import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
 import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
@@ -20,16 +18,14 @@ export default class DecommutedPacketViewEntryPoints extends PureComponent {
   static propTypes = {
     viewId: string.isRequired,
     pageId: string.isRequired,
-    selectedDomainName: string,
-    selectedTimelineId: string,
+    domainName: string,
     selectedCatalogName: string,
-    selectedItemName: string,
+    sessionName: string,
     ...reduxFormFieldsType,
   };
 
   static defaultProps = {
-    selectedDomainName: null,
-    selectedTimelineId: null,
+    domainName: null,
     selectedCatalogName: null,
     selectedItemName: null,
   };
@@ -39,37 +35,21 @@ export default class DecommutedPacketViewEntryPoints extends PureComponent {
   };
 
   render() {
-    const { windowId } = this.context;
     const {
       viewId,
       pageId,
-      selectedDomainName,
-      selectedTimelineId,
+      domainName,
       selectedCatalogName,
-      selectedItemName,
+      sessionName,
     } = this.props;
 
     return (
       <React.Fragment>
-        <HorizontalFormGroup label="Domain">
-          <DomainFieldContainer
-            name="connectedData.domain"
-            domainName={selectedDomainName}
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Timeline">
-          <TimelineFieldContainer
-            name="connectedData.timeline"
-            windowId={windowId}
-            timelineName={selectedTimelineId}
-          />
-        </HorizontalFormGroup>
-
         <HorizontalFormGroup label="Catalog">
           <CatalogFieldContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
+            domainName={domainName}
+            viewSessionName={sessionName}
+            timelineId="no timeline selector in the view"
             viewId={viewId}
             pageId={pageId}
           />
@@ -77,20 +57,10 @@ export default class DecommutedPacketViewEntryPoints extends PureComponent {
 
         <HorizontalFormGroup label="Catalog item">
           <CatalogItemFieldContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
+            domainName={domainName}
+            viewSessionName={sessionName}
+            timelineId="no timeline selector in the view"
             catalogName={selectedCatalogName}
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Com object">
-          <ComObjectContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
-            catalogName={selectedCatalogName}
-            itemName={selectedItemName}
             viewId={viewId}
             pageId={pageId}
           />

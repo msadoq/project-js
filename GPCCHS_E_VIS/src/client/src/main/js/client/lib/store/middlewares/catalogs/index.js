@@ -219,6 +219,7 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       catalog: name,
     } = getSingleEntryPoint(state, { viewId }).connectedData;
 
+    if (!itemName || !name) return nextAction;
 
     const fetchItemStructure = () => asyncItemStructureFetcher(sessionId, domainId, name, itemName,
       structure => dispatch(addItemStructure(tupleId, name, itemName, structure))

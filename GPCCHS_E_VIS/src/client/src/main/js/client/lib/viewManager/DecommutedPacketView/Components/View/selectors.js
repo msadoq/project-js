@@ -19,9 +19,10 @@ export const getFormula = (state, ownProps) => {
   return _.get('entryPoints[0].connectedData.formula', configuration);
 };
 
-export const getStructuredData = (structure, data) =>
-  _memoize(() => innerGetStructuredData(structure, data))()
-;
+export const getStructuredData = (structure, data) => {
+  if (!structure || !data) return;
+  return _memoize(() => innerGetStructuredData(structure, data))();
+};
 
 /**
  * a packet is defined as follows:

@@ -52,17 +52,20 @@ const mapStateToProps = (state, { viewId }) => {
   const page = getPage(state, { pageId });
 
   const entryPoints = getViewEntryPoints(state, { viewId });
-  const {
-    parameterName: itemName,
-    catalog: name,
-    domainId,
-    sessionId,
-  } = entryPoints.decommutedPacketEP.dataId;
+  let structure;
+  if (entryPoints.decommutedPacketEP && entryPoints.decommutedPacketEP.dataId) {
+    const {
+      parameterName: itemName,
+      catalog: name,
+      domainId,
+      sessionId,
+    } = entryPoints.decommutedPacketEP.dataId;
 
-  const tupleId = getTupleId(domainId, sessionId);
+    const tupleId = getTupleId(domainId, sessionId);
 
+    structure = getComObjectStructure(state.catalogs, { tupleId, itemName, name });
+  }
   const data = getData(state, { viewId });
-  const structure = getComObjectStructure(state.catalogs, { tupleId, itemName, name });
 
   return {
     formula: getFormula(state, { viewId }),

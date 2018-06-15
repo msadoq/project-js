@@ -341,10 +341,10 @@ module.exports = {
   // time format
   DATETIME_TILL_MS_FORMAT: 'DD/MM/YYYY HH:mm:ss.SSS',
 
-  // list of view's type for search
-  SEARCH_VIEWS_TYPE: ['TextView', 'PlotView', 'MimicView'],
-
   // Input, output separators
   CSV_COLUMN_SEPARATOR: '; ',
   CSV_ROW_SEPARATOR: '\n',
+
+  // list of view's type for search
+  SEARCH_VIEWS_TYPE: ['TextView', 'PlotView', 'MimicView'],
 };

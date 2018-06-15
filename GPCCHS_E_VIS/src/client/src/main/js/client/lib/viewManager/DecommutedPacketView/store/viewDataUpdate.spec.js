@@ -108,7 +108,12 @@ describe('viewManager/DecommutedPacketView/store/viewDataUpdate', () => {
           time: { type: 'time', value: '1970-01-01T00:00:00.022Z' },
           monitoringState: { type: 'uinteger', value: 'ok' },
         } };
-      const data = selectDataPerView(viewDataMap.decommutedPacket, expectedIntervals, payload, oldState);
+      const data = selectDataPerView(
+        viewDataMap.decommutedPacket,
+        expectedIntervals,
+        payload,
+        oldState
+      );
       expect(data.index).toEqual(20);
       expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },
@@ -127,7 +132,11 @@ describe('viewManager/DecommutedPacketView/store/viewDataUpdate', () => {
           time: { type: 'time', value: '1970-01-01T00:00:00.019Z' },
           monitoringState: { type: 'uinteger', value: 'ok' },
         } };
-      const data = selectDataPerView(viewDataMap.decommutedPacket, expectedIntervals, payload, oldState);
+      const data = selectDataPerView(viewDataMap.decommutedPacket,
+        expectedIntervals,
+        payload,
+        oldState
+      );
       expect(data.index).toEqual(20);
       expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },
@@ -146,7 +155,11 @@ describe('viewManager/DecommutedPacketView/store/viewDataUpdate', () => {
           time: { type: 'time', value: '1970-01-01T00:00:00.020Z' },
           monitoringState: { type: 'uinteger', value: 'ok' },
         } };
-      const data = selectDataPerView(viewDataMap.decommutedPacket, expectedIntervals, payload, oldState);
+      const data = selectDataPerView(viewDataMap.decommutedPacket,
+        expectedIntervals,
+        payload,
+        oldState
+      );
       expect(data.index).toEqual(20);
       expect(data.value).toEqual({
         val1: { type: 'uinteger', value: 201 },

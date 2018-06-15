@@ -18,9 +18,8 @@ import catalogsReducer, {
   getCatalogsByTupleId,
   getCatalogItemComObjects,
   REQUESTING,
+  getUnitByItemName,
 } from '.';
-import { getUnitByItemName, getStructuredData, unboxPacketAttributes } from './index';
-import { NODE_TYPE_OBJECT, NODE_TYPE_KEY } from "constants";
 
 const reducer = freezeArgs(catalogsReducer);
 const tupleId = 'domain-id-session-id';
@@ -414,8 +413,9 @@ describe('store:catalogs:selectors', () => {
     expect(getTupleId('domain-id', 'session-id')).toBe('domain-id-session-id');
   });
   test('getCatalogsByDomainIdAndSessionId :: should return the required catalog', () => {
-    expect(getCatalogsByDomainIdAndSessionId(state, { domainId: 'domain-id', sessionId: 'session-id' }))
-      .toEqual([catalog]);
+    expect(getCatalogsByDomainIdAndSessionId(state,
+      { domainId: 'domain-id', sessionId: 'session-id' })
+    ).toEqual([catalog]);
   });
   test('getCatalogsByDomainIdAndSessionId :: should return null', () => {
     expect(getCatalogsByDomainIdAndSessionId(state, { domainId: 'domain-id', sessionId: 'undefined' }))
@@ -425,21 +425,21 @@ describe('store:catalogs:selectors', () => {
     expect(getCatalogByName(state.catalogs, {
       domainId: 'undefined',
       sessionId: 'session-id',
-      name: 'catalogName'
+      name: 'catalogName',
     })).toEqual(undefined);
   });
   test('getCatalogByName :: undefined session', () => {
     expect(getCatalogByName(state.catalogs, {
       domainId: 'domain-id',
       sessionId: 'undefined',
-      name: 'catalogName'
+      name: 'catalogName',
     })).toEqual(undefined);
   });
   test('getCatalogByName :: undefined name', () => {
     expect(getCatalogByName(state.catalogs, {
       domainId: 'domain-id',
       sessionId: 'session-id',
-      name: 'undefined'
+      name: 'undefined',
     })).toEqual(undefined);
   });
   test('getCatalogByName :: nominal case', () => {
@@ -449,7 +449,8 @@ describe('store:catalogs:selectors', () => {
     expect(getCatalogItems({}, { tupleId, name: 'catalogName' })).toEqual(undefined);
   });
   test('getCatalogItems :: undefined tuple', () => {
-    expect(getCatalogItems(state.catalogs, { tupleId: undefined, name: 'catalogName' })).toEqual(undefined);
+    expect(getCatalogItems(state.catalogs, { tupleId: undefined, name: 'catalogName' }))
+      .toEqual(undefined);
   });
   test('getCatalogItems :: undefined catalog name', () => {
     expect(getCatalogItems(state.catalogs, { tupleId, name: 'undefined' })).toEqual(undefined);
@@ -467,13 +468,15 @@ describe('store:catalogs:selectors', () => {
     expect(getCatalogIndexByName([], { tupleId, name: 'catalogName' })).toEqual(-1);
   });
   test('getCatalogItemByName :: nominal case', () => {
-    expect(getCatalogItemByName(state.catalogs, { tupleId, name: 'catalogName', itemName: 'itemName' })).toEqual(item);
+    expect(getCatalogItemByName(state.catalogs,
+      { tupleId, name: 'catalogName', itemName: 'itemName' })
+    ).toEqual(item);
   });
   test('getCatalogItemIndexByName :: nominal case', () => {
     expect(getCatalogItemIndexByName(state.catalogs, {
       tupleId,
       name: 'catalogName',
-      itemName: 'itemName'
+      itemName: 'itemName',
     })).toEqual(0);
   });
   test('getCatalogsByTupleId :: nominal case', () => {
@@ -483,7 +486,7 @@ describe('store:catalogs:selectors', () => {
     expect(getCatalogItemComObjects(state.catalogs, {
       tupleId,
       name: 'catalogName',
-      itemName: 'itemName'
+      itemName: 'itemName',
     })).toEqual([comObject]);
   });
 

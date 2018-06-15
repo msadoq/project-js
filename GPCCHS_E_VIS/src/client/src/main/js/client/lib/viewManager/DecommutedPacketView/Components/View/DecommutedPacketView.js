@@ -159,6 +159,8 @@ export default class DecommutedPacketView extends PureComponent {
     inspectorEpId: null,
     links: [],
     showLinks: false,
+    data: [],
+    structure: {},
   };
 
   state = {

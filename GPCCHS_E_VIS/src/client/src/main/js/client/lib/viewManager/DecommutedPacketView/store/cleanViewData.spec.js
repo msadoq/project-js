@@ -96,7 +96,13 @@ describe('viewManager/DecommutedPacketView/store/cleanViewData', () => {
   test('no update', () => {
     const frozen = freezeMe(viewDataState.decommutedPacket);
     expect(
-      cleanCurrentViewData(frozen, viewMap.decommutedPacket, viewMap.decommutedPacket, oldIntervals, oldIntervals)
+      cleanCurrentViewData(
+        frozen,
+        viewMap.decommutedPacket,
+        viewMap.decommutedPacket,
+        oldIntervals,
+        oldIntervals
+      )
     ).toBe(frozen);
   });
   test('interval update decommutedPacket: keep', () => {
@@ -106,7 +112,13 @@ describe('viewManager/DecommutedPacketView/store/cleanViewData', () => {
       = [12, 17];
     const frozen = freezeMe(viewDataState.decommutedPacket);
     expect(
-      cleanCurrentViewData(frozen, viewMap.decommutedPacket, newMap.decommutedPacket, oldIntervals, newIntervals)
+      cleanCurrentViewData(
+        frozen,
+        viewMap.decommutedPacket,
+        newMap.decommutedPacket,
+        oldIntervals,
+        newIntervals
+      )
     ).toBe(frozen);
   });
   test('interval update decommutedPacket: remove', () => {
@@ -116,14 +128,26 @@ describe('viewManager/DecommutedPacketView/store/cleanViewData', () => {
       = [3, 8];
     const frozen = freezeMe(viewDataState.decommutedPacket);
     expect(
-      cleanCurrentViewData(frozen, viewMap.decommutedPacket, newMap.decommutedPacket, oldIntervals, newIntervals)
+      cleanCurrentViewData(
+        frozen,
+        viewMap.decommutedPacket,
+        newMap.decommutedPacket,
+        oldIntervals,
+        newIntervals
+      )
     ).toEqual({});
   });
   test('interval error decommutedPacket: remove', () => {
     const newMap = _cloneDeep(viewMap);
     const frozen = freezeMe(viewDataState.decommutedPacket);
     expect(
-      cleanCurrentViewData(frozen, viewMap.decommutedPacket, newMap.decommutedPacket, oldIntervals, undefined)
+      cleanCurrentViewData(
+        frozen,
+        viewMap.decommutedPacket,
+        newMap.decommutedPacket,
+        oldIntervals,
+        undefined
+      )
     ).toEqual({ index: {}, value: {} });
   });
 });

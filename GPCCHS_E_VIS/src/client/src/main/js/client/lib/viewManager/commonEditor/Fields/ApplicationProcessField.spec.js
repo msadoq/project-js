@@ -20,7 +20,7 @@ describe('viewManager :: commonEditor :: Fields :: ApplicationProcessField', () 
     shallowRenderSnapshot(ApplicationProcessField, propsStub, {});
   });
   test('snapshot 2', () => {
-    const propsStub2 = { ...propsStub, apids: REQUESTING};
+    const propsStub2 = { ...propsStub, apids: REQUESTING };
     shallowRenderSnapshot(ApplicationProcessField, propsStub2, {});
   });
 });

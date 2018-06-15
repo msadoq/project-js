@@ -21,8 +21,6 @@ module.exports = (queryId, rawBuffer, zmq, decodedSDBQuery) => {
     method,
     catalogName,
     catalogItemName,
-    sessionId,
-    domainId,
   } = decodedSDBQuery;
 
   let dataBuffer = null;

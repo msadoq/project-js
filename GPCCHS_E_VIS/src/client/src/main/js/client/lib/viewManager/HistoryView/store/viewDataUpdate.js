@@ -25,7 +25,7 @@ import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
 import { SORTING_DESC, SORTING_ASC } from 'constants';
-import { shouldKeepIndex } from './dataReducer';
+import { shouldKeepIndex } from '../../commonData/reducer';
 
 const logger = getLogger('data:rangeValues');
 

@@ -15,7 +15,7 @@ import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _omit from 'lodash/omit';
 
-import { updateFilteredIndexes } from './dataReducer';
+import { updateFilteredIndexes } from '../../commonData/reducer';
 
 /**
  * Keeps only indexes that correspond to actual data

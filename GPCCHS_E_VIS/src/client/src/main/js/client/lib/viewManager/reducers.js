@@ -22,11 +22,13 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
+
 import * as constants from './constants';
 
 import packetViewConfigurationReducer from './PacketView/store/configurationReducer';
 import createReducerByViews from '../store/helpers/createReducerByViews';
 import commonConfigurationReducer from './commonConfiguration/reducer';
+import commonDataReducer from './commonData/reducer';
 
 import textViewConfigurationReducer from './TextView/store/configurationReducer';
 import plotViewConfigurationReducer from './PlotView/store/configurationReducer';
@@ -64,14 +66,23 @@ const createViewConfigurationReducer = ([type, reducer]) => ([
   ),
 ]);
 
-const createConfigurationReducers = _.pipe(
+const createViewDataReducer = ([type, reducer]) => ([
+  type,
+  composeReducers(reducer, commonDataReducer),
+]);
+
+const createReducers = (createCommonReducer, suffix) => _.pipe(
   _.toPairs,
-  _.map(createViewConfigurationReducer),
+  _.map(createCommonReducer),
   _.fromPairs,
-  _.mapKeys(appendString('Configuration'))
+  _.mapKeys(appendString(suffix))
 );
 
-const createDataReducers = _.mapKeys(appendString('Data'));
+const createConfigurationReducers =
+  createReducers(createViewConfigurationReducer, 'Configuration');
+
+const createDataReducers =
+  createReducers(createViewDataReducer, 'Data');
 
 /* --- Reducers ------------------------------------------------------------- */
 

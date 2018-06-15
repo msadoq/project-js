@@ -11,7 +11,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NODE_TYPE_ARRAY as ARRAY, NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM, NODE_TYPE_OBJECT as OBJECT, NODE_TYPE_OBJECT_ITEM as OBJECT_ITEM, NODE_TYPE_ITEM as ITEM, NODE_TYPE_KEY as KEY, NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from 'constants';
+import {
+  NODE_TYPE_ARRAY as ARRAY,
+  NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM,
+  NODE_TYPE_OBJECT as OBJECT,
+  NODE_TYPE_OBJECT_ITEM as OBJECT_ITEM,
+  NODE_TYPE_ITEM as ITEM,
+  NODE_TYPE_KEY as KEY,
+  NODE_TYPE_LINK as LINK,
+  NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK,
+} from 'constants';
+import TableInTreeNode from './TableInTreeNode';
 
 const Loading = props => (
   <div style={props.style}>
@@ -38,16 +48,20 @@ const Header = (props) => {
           </div>
         </div>
       );
-    case KEY:
+    case KEY: {
       return (
         <div style={style.base}>
           <div>
             <span style={style.title}>{node.name}:</span>
             {' '}
-            <span style={style.value}>{node.value}</span>
+            {node.values
+              ? <TableInTreeNode values={node.values} />
+              : <span style={style.value}>{node.value}</span>
+              }
           </div>
         </div>
       );
+    }
     case ITEM:
       return (
         <div style={style.base}>
@@ -126,7 +140,12 @@ Toggle.defaultProps = {
 const createContainer = (func) => {
   const Container = (props) => {
     const { node, style } = props;
-    const onMouseDown = event => func(event, node);
+    // eslint-disable-next-line no-confusing-arrow
+    const onMouseDown = event => event.nativeEvent.which === 1
+      ? props.onClick() // left click => toggle
+      : func(event, node) // right click => contextual menu
+    ;
+
     const containerStyle = style.link;
     const activeStyle = (node.active)
       ? { ...style.link, ...style.activeLink }
@@ -177,6 +196,7 @@ const createContainer = (func) => {
       toggled: PropTypes.bool,
       type: PropTypes.string,
     }).isRequired,
+    onClick: PropTypes.func,
   };
   return Container;
 };

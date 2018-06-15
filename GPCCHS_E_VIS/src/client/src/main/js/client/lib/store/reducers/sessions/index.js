@@ -104,3 +104,17 @@ export const getSessionByNameWithFallback = createSelector(
     return sessionIds[0];
   }
 );
+
+export const getSessionIdWithFallback = createSelector(
+  getSessionByNameWithFallback,
+  selectedSession => (selectedSession ? selectedSession.id : null)
+);
+
+export const getSessionNameFromTimeline = createSelector(
+  getTimelineById,
+  (state, { timelineId, wildcardCharacter }) => ({ timelineId, wildcardCharacter }),
+  (timeline, { timelineId, wildcardCharacter }) =>
+    (timeline && timeline.sessionName)
+    || ((timelineId === wildcardCharacter) && wildcardCharacter)
+    || null
+);

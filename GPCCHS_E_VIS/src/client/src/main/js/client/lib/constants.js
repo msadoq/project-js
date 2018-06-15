@@ -144,7 +144,7 @@ module.exports = {
   ADE_SDB_RETRIEVE_SATELLITE_ITEMS: 5,
   ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE: 6, // not used yet
   ADE_SDB_RETRIEVE_APIDS: 7,
-
+  // FILE
   FILE_TYPE_COLLECTION: 0,
   FILE_TYPE_COLLECTION_DOCUMENT: 1,
   FILE_TYPE_DOCUMENT: 2,
@@ -270,6 +270,7 @@ module.exports = {
     TextView: 'TextViewDoc',
     PlotView: 'PlotViewDoc',
     DynamicView: 'DynamicViewDoc',
+    DecommutedPacketView: 'DecommutedPacketViewDoc',
     MimicView: 'MimicViewDoc',
     PacketView: 'PacketViewDoc',
     HistoryView: 'HistoryViewDoc',
@@ -284,6 +285,7 @@ module.exports = {
     TextView: 'vitv',
     PlotView: 'vipv',
     DynamicView: 'vidv',
+    DecommutedPacketView: 'vidp',
     MimicView: 'vimv',
     PacketView: 'vikv',
     HistoryView: 'vihv',

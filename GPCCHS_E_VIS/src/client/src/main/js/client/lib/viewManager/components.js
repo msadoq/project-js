@@ -26,6 +26,10 @@ const list = {
     getViewComponent: () => require('./DynamicView/Components/View/DynamicViewContainer'),
     getEditorComponent: () => require('./DynamicView/Components/Editor/DynamicEditorContainer'),
   },
+  [constants.VM_VIEW_DECOMMUTEDPACKET]: {
+    getViewComponent: () => require('./DecommutedPacketView/Components/View/DecommutedPacketViewContainer'),
+    getEditorComponent: () => require('./DecommutedPacketView/Components/Editor/DecommutedPacketEditorContainer'),
+  },
   [constants.VM_VIEW_HISTORY]: {
     getViewComponent: () => require('./HistoryView/Components/View/HistoryViewContainer'),
     getEditorComponent: () => require('./HistoryView/Components/Editor/HistoryEditorContainer'),

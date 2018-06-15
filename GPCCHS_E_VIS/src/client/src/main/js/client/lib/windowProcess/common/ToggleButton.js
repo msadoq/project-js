@@ -6,23 +6,30 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import { Button, Glyphicon } from 'react-bootstrap';
+
+export const ON = 'ON';
+export const OFF = 'OFF';
 
 export default class ToggleButton extends React.Component {
   static propTypes = {
     on: PropTypes.string.isRequired,
     off: PropTypes.string.isRequired,
-    default: PropTypes.oneOf(['ON', 'OFF']).isRequired,
-    styleOn: PropTypes.string.isRequired,
-    styleOff: PropTypes.string.isRequired,
+    default: PropTypes.oneOf([ON, OFF]).isRequired,
+    styleOn: PropTypes.string,
+    styleOff: PropTypes.string,
+    iconOn: PropTypes.string,
+    iconOff: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     size: PropTypes.string,
     className: PropTypes.string,
-  }
+  };
   static defaultProps = {
-    size: '',
+    size: 'sm',
     className: '',
-  }
+    styleOn: undefined,
+    styleOff: undefined,
+  };
 
   componentWillMount() {
     this.setState({
@@ -32,7 +39,7 @@ export default class ToggleButton extends React.Component {
   }
 
   handleToggle = () => {
-    const newVal = this.state.onoff === 'ON' ? 'OFF' : 'ON';
+    const newVal = this.state.onoff === ON ? OFF : ON;
     this.setState({
       onoff: newVal,
     });
@@ -40,14 +47,19 @@ export default class ToggleButton extends React.Component {
   }
 
   render() {
+    const { size, styleOn, styleOff, className, on, off, iconOn, iconOff } = this.props;
     return (
       <Button
-        bsSize={this.props.size}
-        bsStyle={(this.state.onoff === 'ON') ? this.props.styleOn : this.props.styleOff}
+        bsSize={size}
+        bsStyle={(this.state.onoff === ON) ? styleOn : styleOff}
         onClick={this.handleToggle}
-        className={this.props.className}
+        className={className}
       >
-        {(this.state.onoff === 'ON') ? this.props.on : this.props.off}
+        {(this.state.onoff === ON)
+          ? iconOn && <Glyphicon glyph={iconOn} />
+          : iconOff && <Glyphicon glyph={iconOff} />
+        }
+        {(this.state.onoff === ON) ? on : off}
       </Button>
     );
   }

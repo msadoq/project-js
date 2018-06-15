@@ -70,8 +70,8 @@ export default class EntryPointConnectedDataFields extends PureComponent {
       dataType,
     } = this.props;
 
-    const classForSdbValues = classnames(dataType === TIME_BASED_DATA_OPTION.value && 'hidden');
-    const classForTimeBasedValues = classnames(dataType === SDB_VALUE_OPTION.value && 'hidden');
+    const classForSdbValues = classnames(dataType !== SDB_VALUE_OPTION.value && 'hidden');
+    const classForTimeBasedValues = classnames(dataType !== TIME_BASED_DATA_OPTION.value && 'hidden');
 
     return (
       <React.Fragment>

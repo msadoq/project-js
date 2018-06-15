@@ -15,8 +15,6 @@
     "length": 5,
     "width": 3
   },
-  "domainName": "fr.cnes",
-  "sessionName": "Master",
   "entryPoint": {
     "connectedData": {
       "catalog": "TelemetryPacket",
@@ -104,4 +102,4 @@
       }
     ]
   }
- }
+}

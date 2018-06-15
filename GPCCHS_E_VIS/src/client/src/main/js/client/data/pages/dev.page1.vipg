@@ -73,6 +73,17 @@
       },
       "hideBorders": false,
       "windowState": "Normalized"
+    },
+    {
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/decomPacket.vidp",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 5,
+        "h": 5
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
     }
   ]
 }

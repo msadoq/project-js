@@ -235,6 +235,10 @@ export default function pageReducer(statePage = initialState, action) {
         ..._.omit('sessionName', statePage),
         isModified: true,
       };
+    case types.WS_PAGE_SEARCH:
+      return { ...statePage, searching: action.payload.searchTerm };
+    case types.WS_PAGE_RESET_SEARCH:
+      return _.omit('searching', statePage);
     default:
       return statePage;
   }

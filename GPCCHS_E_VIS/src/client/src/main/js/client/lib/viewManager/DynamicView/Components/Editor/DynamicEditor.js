@@ -28,6 +28,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _set from 'lodash/fp/set';
+import _flow from 'lodash/fp/flow';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
@@ -37,9 +39,11 @@ import { handleSubmit } from 'viewManager/common';
 import styles from 'viewManager/commonEditor/Editor.css';
 import DynamicTab from 'viewManager/DynamicView/Components/Editor/DynamicTab';
 import { entryPointType } from 'viewManager/common/Components/types';
+import { TIME_BASED_DATA_OPTION } from 'viewManager/commonEditor/Fields/DataTypeField';
+
 
 const navItems = ['Connected Data', 'View', 'Misc'];
-const { string, number, func, shape } = PropTypes;
+const { string, number, func, shape, arrayOf } = PropTypes;
 
 export default class DynamicEditor extends Component {
   static propTypes = {
@@ -48,7 +52,7 @@ export default class DynamicEditor extends Component {
     tab: number,
     title: string,
     configuration: shape({
-      entryPoints: entryPointType,
+      entryPoints: arrayOf(entryPointType),
     }).isRequired,
     updateEntryPoint: func.isRequired,
     updateViewTab: func.isRequired,
@@ -86,7 +90,13 @@ export default class DynamicEditor extends Component {
 
   handleSubmit = (values) => {
     const { updateEntryPoint, viewId } = this.props;
-    handleSubmit(values, updateEntryPoint, viewId);
+    const entryPoint = this.props.configuration.entryPoints[0];
+    const timeBasedValues = _flow(
+      _set('connectedData.dataType', TIME_BASED_DATA_OPTION.value),
+      _set('name', 'dynamicEP'),
+    _set('id', entryPoint.id)
+    )(values);
+    handleSubmit(timeBasedValues, updateEntryPoint, viewId);
   };
 
   render() {
@@ -103,9 +113,11 @@ export default class DynamicEditor extends Component {
     const nullObject = {};
     const initialValues = entryPoints.length
       ? {
-        ...entryPoints[0].connectedData,
-        domain: '*',
-        timeline: '*',
+        connectedData: {
+          ...entryPoints[0].connectedData,
+          domain: '*',
+          timeline: '*',
+        },
       }
       : nullObject;
 
@@ -134,7 +146,7 @@ export default class DynamicEditor extends Component {
               viewId={viewId}
               pageId={pageId}
               form={`entrypoint-connectedData-form-${viewId}`}
-              onSubmit={values => this.handleSubmit({ connectedData: values })}
+              onSubmit={values => this.handleSubmit(values)}
               initialValues={initialValues}
             />
           </div>}

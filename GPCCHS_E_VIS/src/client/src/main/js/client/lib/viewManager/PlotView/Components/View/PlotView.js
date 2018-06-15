@@ -70,6 +70,7 @@ import _get from 'lodash/get';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _sum from 'lodash/sum';
+import _keys from 'lodash/keys';
 import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';
 import _ from 'lodash/fp';
@@ -81,6 +82,7 @@ import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import dateFormat, { TAI } from 'viewManager/commonData/date';
 
 import getLogger from 'common/logManager';
+import { updateSearchCountArray } from 'store/reducers/pages';
 import Legend from './Legend';
 import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
@@ -416,7 +418,7 @@ export const parseDragData = (data, id, defaultTimelineId) => {
 const plotPadding = 15;
 const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
-const { shape, string, arrayOf, number, func, object, array, bool } = PropTypes;
+const { shape, string, arrayOf, number, func, object, array, bool, objectOf } = PropTypes;
 
 export class GrizzlyPlotView extends React.Component {
   static propTypes = {
@@ -467,6 +469,10 @@ export class GrizzlyPlotView extends React.Component {
     askUnit: func.isRequired,
     isMaxVisuDurationExceeded: bool.isRequired,
     catalogs: object.isRequired, // eslint-disable-line react/forbid-prop-types
+    searchForThisView: bool.isRequired,
+    updateSearchCount: func.isRequired,
+    searching: string,
+    searchCount: objectOf(shape),
   };
 
   static defaultProps = {
@@ -485,6 +491,9 @@ export class GrizzlyPlotView extends React.Component {
     hideEpNames: [],
     showEpNonNominal: [],
     updateUnit: false,
+    epNamesMatchWithSearching: [],
+    searching: null,
+    update: false,
   };
 
   componentDidMount() {
@@ -521,6 +530,32 @@ export class GrizzlyPlotView extends React.Component {
         this.setState({ updateUnit: true });
       }
     });
+
+    // TODO @jmira check after merge
+    if (
+      nextProps.configuration.entryPoints !== this.props.configuration.entryPoints ||
+      nextProps.configuration.axes !== this.props.configuration.axes ||
+      nextProps.configuration.grids !== this.props.configuration.grids ||
+      nextProps.visuWindow !== this.props.visuWindow ||
+      nextProps.data !== this.props.data
+    ) {
+      const processedAxes = getUniqAxes(
+        nextProps.configuration.entryPoints,
+        nextProps.configuration.axes,
+        nextProps.configuration.grids,
+        nextProps.data,
+        nextProps.visuWindow
+      );
+      this.xAxes = processedAxes.xAxes;
+      this.yAxes = processedAxes.yAxes;
+    }
+    const { searching, searchForThisView } = nextProps;
+    if (searching && this.state.searching !== searching) {
+      this.state.searching = searching;
+      this.state.update = true;
+    }
+    this.state.epNamesMatchWithSearching =
+      this.getEntryPointSearchingAndUpdateCount(searching, searchForThisView);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -529,6 +564,8 @@ export class GrizzlyPlotView extends React.Component {
       nextState.showEpNames !== this.state.showEpNames ||
       nextState.hideEpNames !== this.state.hideEpNames ||
       nextState.showEpNonNominal !== this.state.showEpNonNominal ||
+      this.state.update ||
+      nextState.hideEpNames !== this.state.hideEpNames ||
       nextState.updateUnit
     ) {
       return true;
@@ -666,6 +703,18 @@ export class GrizzlyPlotView extends React.Component {
             ))}
         </div>
       </CloseableAlert> : undefined;
+  }
+  getEntryPointSearchingAndUpdateCount = (searching, searchForThisView) => {
+    const { viewId, searchCount, updateSearchCount, entryPoints } = this.props;
+    if (searchForThisView && searching && searching.length > 1) {
+      const epNamesMatchWithSearching =
+        _keys(entryPoints).filter(name => name.match(searching) !== null);
+      const searchCountArray =
+        updateSearchCountArray(searchCount, viewId, epNamesMatchWithSearching.length);
+      updateSearchCount(searchCountArray);
+      return epNamesMatchWithSearching;
+    }
+    return [];
   }
   drop(e) {
     const {
@@ -999,6 +1048,7 @@ export class GrizzlyPlotView extends React.Component {
                 yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
                 colorAccessor: 'color',
                 tooltipFormatter,
+                highlighted: this.state.epNamesMatchWithSearching.indexOf(ep.name) !== -1,
                 unit: ep.connectedData.convertTo ?
                   ep.connectedData.convertTo : unit,
               };

@@ -20,11 +20,14 @@ const list = {
   [constants.VM_VIEW_TEXT]: {
     getViewComponent: () => require('./TextView/Components/View/TextViewContainer'),
     getEditorComponent: () => require('./TextView/Components/Editor/TextEditorContainer'),
-    getSearchComponent: () => require('./TextView/Components/Search/TextSearchContainer'),
   },
   [constants.VM_VIEW_DYNAMIC]: {
     getViewComponent: () => require('./DynamicView/Components/View/DynamicViewContainer'),
     getEditorComponent: () => require('./DynamicView/Components/Editor/DynamicEditorContainer'),
+  },
+  [constants.VM_VIEW_DECOMMUTEDPACKET]: {
+    getViewComponent: () => require('./DecommutedPacketView/Components/View/DecommutedPacketViewContainer'),
+    getEditorComponent: () => require('./DecommutedPacketView/Components/Editor/DecommutedPacketEditorContainer'),
   },
   [constants.VM_VIEW_HISTORY]: {
     getViewComponent: () => require('./HistoryView/Components/View/HistoryViewContainer'),
@@ -66,11 +69,6 @@ export const getViewComponent = (type) => {
 export const getEditorComponent = (type) => {
   isViewTypeExists(type);
   return list[type].getEditorComponent();
-};
-
-export const getSearchComponent = (type) => {
-  isViewTypeExists(type);
-  return list[type].getSearchComponent();
 };
 
 function isViewTypeExists(type) {

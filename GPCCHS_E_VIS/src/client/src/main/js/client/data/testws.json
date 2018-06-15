@@ -1,0 +1,60 @@
+{
+  "type": "WorkSpace",
+  "windows": [
+    {
+      "type": "documentWindow",
+      "title": "Multi-satellite Workspace",
+      "geometry": {
+        "w": 1920,
+        "h": 1080,
+        "x": 0,
+        "y": 20
+      },
+      "pages": [
+        {
+          "path": "/data/isis/documents/GENERIC_MISSION_REF/ALL_TARGETS/DISPLAY/VIMA/PAGES/Quaternion-Multisat.vipg",
+          "timebarId": "TB1"
+        },
+        {
+          "path": "/data/isis/documents/GENERIC_MISSION_REF/ALL_TARGETS/DISPLAY/VIMA/PAGES/GetParam-Multisat.vipg",
+          "timebarId": "TB1"
+        },
+        {
+          "path": "/data/isis/documents/GENERIC_MISSION_REF/ALL_TARGETS/DISPLAY/VIMA/PAGES/GroundAlarms-Multisat.vipg",
+          "timebarId": "TB1"
+        },
+        {
+          "path": "/data/isis/documents/GENERIC_MISSION_REF/ALL_TARGETS/DISPLAY/VIMA/PAGES/OnBoardAlarms-Multisat.vipg",
+          "timebarId": "TB1"
+        },
+        {
+          "path": "/data/isis/documents/GENERIC_MISSION_REF/ALL_TARGETS/DISPLAY/VIMA/PAGES/AIV-RM-AUS.vipg",
+          "timebarId": "TB1"
+        }
+      ]
+    }
+  ],
+  "timebars": [
+    {
+      "id": "TB1",
+      "type": "timeBarConfiguration",
+      "rulerResolution": 1416.9741697416973,
+      "speed": 1,
+      "masterId": "AIV-TimeBar",
+      "mode": "Normal",
+      "visuWindow": {
+        "defaultWidth": 720000
+      },
+      "timelines": [
+        {
+          "id": "AIV-TimeBar",
+          "offset": 0,
+          "kind": "session",
+          "sessionName": "AIV-multisat",
+          "color": "#393b79"
+        }
+      ]
+    }
+  ],
+  "sessionName": "AIV-multisat"
+}

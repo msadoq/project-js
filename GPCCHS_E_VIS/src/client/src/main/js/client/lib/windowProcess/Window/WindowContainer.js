@@ -40,10 +40,11 @@ import {
   getWindowFocusedPageId,
   getDisplayHelp,
 } from 'store/reducers/windows';
-import { getPanels } from 'store/reducers/pages';
+import { getPanels, getPageViewsIdsForSearch } from 'store/reducers/pages';
 import { getModal } from 'store/reducers/modals';
 import { setIsLoaded, displayHelp } from 'store/actions/windows';
-import { close as closeModal, modalClosed } from 'store/actions/modals';
+import { close as closeModal, modalClosed, open as openModal } from 'store/actions/modals';
+import { pause } from 'store/actions/hsc';
 import {
   resizeEditor,
   resizeSearch,
@@ -54,13 +55,17 @@ import {
   minimizeSearch,
   minimizeTimebar,
   focusTabInExplorer,
+  addBlankPage,
+  askOpenPage,
+  askSavePage,
+  loadInSearch,
 } from 'store/actions/pages';
-
 import WindowWrapper from './WindowWrapper';
 
 const mapStateToProps = (state, { windowId }) => {
   const pageId = getWindowFocusedPageId(state, { windowId });
   const { isModified } = getWindow(state, { windowId });
+  const pageViewsIdsForSearch = getPageViewsIdsForSearch(state, { pageId });
   const {
     editorWidth,
     editorIsMinimized,
@@ -85,6 +90,7 @@ const mapStateToProps = (state, { windowId }) => {
     explorerWidth,
     explorerIsMinimized,
     modal: getModal(state, { windowId }),
+    pageViewsIdsForSearch,
   };
 };
 
@@ -102,4 +108,10 @@ export default connect(mapStateToProps, {
   closeModal,
   modalClosed,
   focusTabInExplorer,
+  addBlankPage,
+  askOpenPage,
+  openModal,
+  askSavePage,
+  pause,
+  loadInSearch,
 })(WindowWrapper);

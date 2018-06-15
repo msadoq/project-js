@@ -57,15 +57,17 @@ import { isAnyInspectorOpened } from 'store/selectors/pages';
 import { getInspectorEpId } from 'store/reducers/inspector';
 import { getData } from 'viewManager/TextView/store/dataSelectors';
 import { getViewContent } from 'viewManager/TextView/store/configurationSelectors';
-import { getLinks, areLinksShown, getSearchingByView } from 'store/reducers/views';
-import { getPageIdByViewId, getPage } from 'store/reducers/pages';
+import { getLinks, areLinksShown } from 'store/reducers/views';
+import { getPageIdByViewId, getPage, getSearchingByPage, getSearchViewsIds, getSearchCount } from 'store/reducers/pages';
 import { getConfigurationByViewId } from 'viewManager';
 import TextViewWrapper from './TextViewWrapper';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
-  const searching = getSearchingByView(state, { viewId });
+  const searching = getSearchingByPage(state, { pageId });
+  const searchViewsIds = getSearchViewsIds(state, { pageId });
+  const searchCount = getSearchCount(state, { pageId });
 
   return {
     content: getViewContent(state, { viewId, searching }),
@@ -77,9 +79,11 @@ const mapStateToProps = (state, { viewId }) => {
     links: getLinks(state, { viewId }),
     pageId,
     searching,
+    searchCount,
     showLinks: areLinksShown(state, { viewId }),
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
+    searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
   };
 };
 const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators({
@@ -87,7 +91,7 @@ const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators(
   addEntryPoint: data => addEntryPoint(viewId, data),
   removeLink: key => removeLink(viewId, key),
   updateShowLinks: flag => updateShowLinks(viewId, flag),
-  updateSearchCount: count => updateSearchCount(pageId, count),
+  updateSearchCount: count => updateSearchCount(pageId, viewId, count),
   openLink: linkId => askOpenLink(viewId, linkId),
 }, dispatch);
 

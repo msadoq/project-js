@@ -1,51 +1,46 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { getSearchComponent } from 'viewManager/components';
 import styles from './Search.css';
+import SearchComponentContainer from './Component/SearchComponentContainer';
 
 const InvalidConfiguration = () => (
   <div>
     <h4
       className="text-center mb10"
     >
-      Search in Text View
+      An error occured, no view selected
     </h4>
-    <div>
-      No Text View Selected
-    </div>
   </div>
 );
 
 export default class Search extends PureComponent {
   static propTypes = {
     pageId: PropTypes.string.isRequired,
-    viewId: PropTypes.string,
-    type: PropTypes.string,
+    searchViewsIds: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
-    viewId: null,
+    searchViewsIds: [],
   };
 
   render() {
     const {
       pageId,
-      viewId,
-      type,
+      searchViewsIds,
     } = this.props;
 
     let SearchComponent;
-    if (!viewId) {
+    if (searchViewsIds.length === 0) {
       SearchComponent = InvalidConfiguration;
     } else {
-      SearchComponent = getSearchComponent(type);
+      SearchComponent = SearchComponentContainer;
     }
 
     return (
       <div className={classnames('Search', 'subdiv', 'h100', styles.search)}>
         <SearchComponent
-          viewId={viewId}
+          viewsIds={searchViewsIds}
           pageId={pageId}
         />
       </div>

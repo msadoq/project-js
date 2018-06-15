@@ -430,7 +430,7 @@ export default class MimicView extends Component {
   svgEls = [];
   render() {
     return (
-      <svg width={`${this.props.width}px`} height={`${this.props.height}px`}>{this.content}</svg>
+      <svg width={`${this.props.width}px`} height={`${this.props.height}px`} style={{ paddingTop: 10 }}>{this.content}</svg>
     );
   }
 }

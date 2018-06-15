@@ -75,14 +75,15 @@ describe('documentManager/io', () => {
 
     describe('inside fmd folder', () => {
       test('works with oid', (done) => {
-        io.readDocument({ oId: 'oid:/small.workspace.json' }, (err, data, properties, resolvedPath) => {
-          expect(err).not.toBeInstanceOf(Error);
-          expect(data).toBeAnObject();
-          expect(properties).toEqual(42);
-          expect(resolvedPath).toBeAString();
-          expect(fileExist(resolvedPath)).toBe(true);
-          done();
-        });
+        io.readDocument({ oId: 'oid:/small.workspace.json' },
+          (err, data, properties, resolvedPath) => {
+            expect(err).not.toBeInstanceOf(Error);
+            expect(data).toBeAnObject();
+            expect(properties).toEqual(42);
+            expect(resolvedPath).toBeAString();
+            expect(fileExist(resolvedPath)).toBe(true);
+            done();
+          });
       });
       test('fails with unknow oid', (done) => {
         io.readDocument({ oId: 'unknownOid' }, (err) => {
@@ -432,11 +433,12 @@ describe('documentManager/io', () => {
       });
       test('should give an oid', (done) => {
         const exportDataPath = getPath();
-        io.exportData(CSV_EXPORT_DATA, MIME_TYPES.CommaSeparatedValues, exportDataPath, (err, oid) => {
-          expect(err).not.toBeInstanceOf(Error);
-          expect(oid).toBeUndefined();
-          done();
-        });
+        io.exportData(CSV_EXPORT_DATA, MIME_TYPES.CommaSeparatedValues, exportDataPath,
+          (err, oid) => {
+            expect(err).not.toBeInstanceOf(Error);
+            expect(oid).toBeUndefined();
+            done();
+          });
       });
       test('fails with a relative path', (done) => {
         const exportDataPath = './document.csv';
@@ -507,22 +509,24 @@ describe('documentManager/io', () => {
 
       test('should give an oid', (done) => {
         const exportDataPath = getExportDataPath();
-        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath, (err, oid) => {
-          expect(err).not.toBeInstanceOf(Error);
-          expect(oid).toEqual('oid:/document.png');
-          done();
-        });
+        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath,
+          (err, oid) => {
+            expect(err).not.toBeInstanceOf(Error);
+            expect(oid).toEqual('oid:/document.png');
+            done();
+          });
       });
 
       test('fails with a relative path', (done) => {
         const exportDataPath = './document.png';
-        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath, (err) => {
-          expect(err).toBeInstanceOf(Error);
-          access(exportDataPath, (accessErr) => {
-            expect(accessErr).toBeAnObject();
-            done();
+        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath,
+          (err) => {
+            expect(err).toBeInstanceOf(Error);
+            access(exportDataPath, (accessErr) => {
+              expect(accessErr).toBeAnObject();
+              done();
+            });
           });
-        });
       });
     });
 
@@ -542,11 +546,12 @@ describe('documentManager/io', () => {
       });
       test('should give an oid', (done) => {
         const exportDataPath = getExportDataPath();
-        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath, (err, oid) => {
-          expect(err).not.toBeInstanceOf(Error);
-          expect(oid).toBeUndefined();
-          done();
-        });
+        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath,
+          (err, oid) => {
+            expect(err).not.toBeInstanceOf(Error);
+            expect(oid).toBeUndefined();
+            done();
+          });
       });
       test('fails with a relative path', (done) => {
         const exportDataPath = './document.png';

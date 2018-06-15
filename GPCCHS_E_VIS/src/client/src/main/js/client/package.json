@@ -109,7 +109,7 @@
     "devtron": "~1.4.0",
     "dom-helpers": "^3.3.1",
     "dom-to-image": "^2.6.0",
-    "electron": "^1.8.4",
+    "electron": "^1.8.2",
     "element-resize-event": "^2.0.9",
     "exit": "~0.1.2",
     "express": "~4.15.2",
@@ -159,7 +159,7 @@
     "react-test-renderer": "~16.2.0",
     "react-tooltip": "^3.5.1",
     "react-treebeard": "^2.1.0",
-    "react-virtualized": "^9.18.5",
+    "react-virtualized": "^9.19.1",
     "react-virtualized-select": "3.1.3",
     "redux": "~3.7.2",
     "redux-form": "~7.2.3",
@@ -170,7 +170,6 @@
     "rimraf": "~2.6.1",
     "shortid": "^2.2.8",
     "sinon": "~2.1.0",
-    "spectron": "~3.6.1",
     "string-to-color": "^2.0.0",
     "style-loader": "~0.16.1",
     "updeep": "~1.0.0",
@@ -229,6 +228,7 @@
     "sass-loader": "^7.0.1",
     "scss-loader": "0.0.1",
     "source-map-support": "~0.4.14",
+    "spectron": "^3.8.0",
     "webpack": "~1.14.0",
     "webpack-dashboard": "^0.3.0",
     "webpack-dev-middleware": "~1.10.1",
@@ -239,6 +239,9 @@
   "peerDependencies": {
     "common": "../../../../../common/src/main/js/common",
     "rtd": "../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd"
+  },
+  "engines": {
+    "node": "6.13.1"
   },
   "devEngines": {
     "node": "6.x",

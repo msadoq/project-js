@@ -49,6 +49,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
       domains.push(domain);
     }
   });
+
   domains = _uniqBy(domains);
   domains = domains.length === 0 ? ['*'] : domains;
 

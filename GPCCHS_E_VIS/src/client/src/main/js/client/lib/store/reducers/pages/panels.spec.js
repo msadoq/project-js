@@ -41,7 +41,7 @@ describe('store:pages:reducer:panels', () => {
       explorerWidth: 250,
       searchIsMinimized: true,
       explorerTab: undefined,
-      searchViewId: undefined,
+      searchViewsIds: [],
       searchWidth: 300,
       explorerIsMinimized: true,
     });

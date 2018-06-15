@@ -19,7 +19,7 @@ export const connectedDataType = shape({
 });
 
 export const stateColorType = shape({
-  color: string.isRequired,
+  color: oneOfType([string, number]).isRequired,
   condition: shape({
     field: string.isRequired,
     operand: string.isRequired,

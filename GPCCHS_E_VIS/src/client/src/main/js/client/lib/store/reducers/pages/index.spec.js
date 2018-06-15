@@ -50,6 +50,12 @@ import pagesReducer, {
   getPageDomainName,
   getPageSessionName,
   getPageViewsConfiguration,
+  getSearchingByPage,
+  getSearchViewsIds,
+  getPageViewsIdsForSearch,
+  getPageTitle,
+  updateSearchCountArray,
+  computeSearhCount,
 } from '.';
 import { freezeMe, freezeArgs } from '../../../common/jest';
 
@@ -366,6 +372,100 @@ describe('store:page:selectors', () => {
         },
       });
       expect(getSearchCount(state, { pageId: 'myPageId' })).toBeFalsy();
+    });
+  });
+  describe('getSearchingByPage', () => {
+    test('should returns AGA', () => {
+      const state = freezeMe({
+        pages: {
+          myPageId: {
+            searching: 'AGA',
+          },
+        },
+      });
+      expect(getSearchingByPage(state, { pageId: 'myPageId' })).toEqual('AGA');
+    });
+    test('getSearchCount should be falsy', () => {
+      const state = freezeMe({
+        pages: {
+          myPageId: {
+          },
+        },
+      });
+      expect(getSearchingByPage(state, { pageId: 'myPageId' })).toBeFalsy();
+    });
+  });
+  describe('getSearchViewsIds', () => {
+    test('should returns an array with ids of views concerned by searching', () => {
+      const state = freezeMe({
+        pages: {
+          myPageId: {
+            panels: {
+              searchViewsIds: ['id1', 'id2'],
+            },
+          },
+        },
+      });
+      expect(getSearchViewsIds(state, { pageId: 'myPageId' })).toEqual(['id1', 'id2']);
+    });
+  });
+  describe('get page title', () => {
+    test('should returns page\'s title', () => {
+      const state = freezeMe({
+        pages: {
+          myPageId: {
+            title: 'title',
+          },
+        },
+      });
+      expect(getPageTitle(state, { pageId: 'myPageId' })).toEqual('title');
+    });
+  });
+  describe('updateSearchCountArray', () => {
+    test('should update Search count', () => {
+      const state = freezeMe({
+        pages: {
+          myPageId: {
+            title: 'title',
+          },
+        },
+      });
+      expect(getPageTitle(state, { pageId: 'myPageId' })).toEqual('title');
+    });
+  });
+  describe('getPageViewsIdsForSearch, returns all views ids for the focus page', () => {
+    test('getPageViewsIdsForSearch', () => {
+      const state = freezeMe({
+        pages: {
+          myPageId: {
+            views: [
+              'textview1',
+              'textview2',
+              'mimicview',
+            ],
+          },
+        },
+        views: {
+          textview1: {
+            type: 'TextView',
+          },
+          textview2: {
+            type: 'TextView',
+          },
+        },
+      });
+      expect(getPageViewsIdsForSearch(state, { pageId: 'myPageId' })).toEqual(['textview1', 'textview2']);
+    });
+  });
+  describe('computeSearhCount, returns sum of all matches (21)', () => {
+    test('computeSearhCount', () => {
+      const searchCountObject = {
+        id1: 5,
+        id2: 4,
+        id3: 0,
+        id4: 12,
+      };
+      expect(computeSearhCount(searchCountObject)).toEqual(21);
     });
   });
 });

@@ -123,8 +123,6 @@ export const updateTableColumns =
   );
 
 export const updateEditorSearch = simple(types.WS_VIEW_UPDATE_EDITOR_SEARCH, 'viewId', 'search');
-export const searchInView = simple(types.WS_SEARCH_IN_VIEW, 'viewId', 'searchTerm');
-export const resetSearchInView = simple(types.WS_RESET_SEARCH_IN_VIEW, 'viewId');
 
 // ************ Axis
 export const addAxis = simple(types.WS_VIEW_ADD_AXIS, 'viewId', 'axis');

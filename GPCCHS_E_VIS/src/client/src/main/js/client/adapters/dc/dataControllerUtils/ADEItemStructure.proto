@@ -1,0 +1,8 @@
+package dataControllerUtils.protobuf;
+
+message ADEItemStructure {
+extensions 3 to 102;
+    required string itemName = 1;
+    repeated ADEItemStructure children = 2;
+    optional string unit = 3;
+}

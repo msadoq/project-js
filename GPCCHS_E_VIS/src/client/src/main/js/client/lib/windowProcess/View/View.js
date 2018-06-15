@@ -157,7 +157,6 @@ export default class View extends PureComponent {
     } : {
       label: 'Search in this view',
       click: () => openSearch(),
-      enabled: (type === 'TextView'),
     };
     const pusViewMenu = isPusView(type) ?
     [
@@ -212,7 +211,6 @@ export default class View extends PureComponent {
       },
       {
         label: 'Save view as...',
-
         click: () => this.props.saveAs(),
       },
       {

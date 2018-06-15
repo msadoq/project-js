@@ -25,6 +25,7 @@ import getLogger from 'common/logManager';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 import styles from './MimicView.css';
 import MimicView from './MimicView';
+import { updateSearchCountArray } from '../../../../store/reducers/pages';
 
 const logger = getLogger('view:mimic');
 
@@ -53,13 +54,30 @@ export default class MimicViewWrapper extends PureComponent {
     openLink: PropTypes.func.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
+    searchForThisView: PropTypes.bool.isRequired,
+    searching: PropTypes.string,
+    searchCount: PropTypes.objectOf(PropTypes.shape),
+    updateSearchCount: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     links: [],
     showLinks: false,
     inspectorEpId: null,
+    searching: null,
+    searchCount: null,
   };
+
+  state = { content: this.props.content };
+
+  componentWillReceiveProps(nextProps) {
+    const { content, searching, searchForThisView } = nextProps;
+    if (searchForThisView) {
+      this.setState({ content: this.getContentWithSearchingHighlight(content, searching) });
+    } else {
+      this.setState({ content });
+    }
+  }
 
   onContextMenu = (event) => {
     event.stopPropagation();
@@ -98,22 +116,35 @@ export default class MimicViewWrapper extends PureComponent {
     handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
 
+  getContentWithSearchingHighlight = (content, searching) => {
+    const { updateSearchCount, viewId, searchCount } = this.props;
+    const regex = new RegExp(`(<g.*isis_ep="${searching}.*isis_search="on".*)(>)`, 'g');
+    let count = 0;
+    const newContent = content.replace(regex, (fullMatch, matchGroup1, matchGroup2) => {
+      count += 1;
+      return `${matchGroup1} style="outline: 5px #FC0 solid"${matchGroup2}`;
+    });
+    const searchCountArray = updateSearchCountArray(searchCount, viewId, count);
+    updateSearchCount(searchCountArray);
+    return newContent;
+  };
+
   toggleShowLinks = (e) => {
     e.preventDefault();
     const { showLinks, updateShowLinks, viewId } = this.props;
     updateShowLinks(viewId, !showLinks);
-  }
+  };
   removeLink = (e, index) => {
     e.preventDefault();
     const { removeLink, viewId } = this.props;
     removeLink(viewId, index);
-  }
+  };
 
   handleClicked = (e) => {
     if (e.target.getAttribute('data-isis-link')) {
       this.props.openLink(e.target.getAttribute('data-isis-link'));
     }
-  }
+  };
 
   render() {
     const {
@@ -122,7 +153,6 @@ export default class MimicViewWrapper extends PureComponent {
       pageId,
       showLinks,
       isMaxVisuDurationExceeded,
-      content,
       entryPoints,
       data,
     } = this.props;
@@ -154,7 +184,7 @@ export default class MimicViewWrapper extends PureComponent {
           </Col>
           <Col xs={12} className="h100 posRelative" onClick={e => this.handleClicked(e)}>
             <MimicView
-              content={content}
+              content={this.state.content}
               entryPoints={entryPoints}
               data={data}
               perfOutput={false}

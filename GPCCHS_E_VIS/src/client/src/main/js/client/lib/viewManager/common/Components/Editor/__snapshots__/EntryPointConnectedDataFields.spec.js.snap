@@ -41,19 +41,19 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
-    className=""
+    className="hidden"
     label="Path"
   >
     <Unknown />
   </HorizontalFormGroup>
   <HorizontalFormGroup
-    className=""
+    className="hidden"
     label="Display mode"
   >
     <Unknown />
   </HorizontalFormGroup>
   <HorizontalFormGroup
-    className=""
+    className="hidden"
     label="Catalog item"
   >
     <Connect(CatalogItemField)
@@ -65,7 +65,7 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
-    className=""
+    className="hidden"
     label="Com object"
   >
     <Connect(ComObject)
@@ -78,7 +78,7 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
-    className=""
+    className="hidden"
     label="Ref. timestamp"
   >
     <Connect(ComObjectField)
@@ -90,7 +90,7 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
-    className=""
+    className="hidden"
     label="Com object Field"
   >
     <Connect(ComObjectField)
@@ -102,7 +102,7 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
     />
   </HorizontalFormGroup>
   <HorizontalFormGroup
-    className=""
+    className="hidden"
     label="Provider"
   >
     <Connect(ProviderField) />

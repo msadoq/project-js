@@ -1,28 +1,42 @@
-/* eslint-disable no-unused-vars */
+import _ from 'lodash/fp';
+
 import { connect } from 'react-redux';
 
 import { filterColumn, toggleColumnSort } from 'store/actions/tableColumns';
 import { pause } from 'store/actions/hsc';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
-import { getIsPlaying } from '../../../../../store/reducers/hsc';
+import { filter, sort } from '../../../../common/data/table';
 
 
-const mapStateToProps = (state, { viewId, tableId, rows }) => {
+const mapStateToProps = (state, { viewId, tableId, rows, rowCount, totalRowCount }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const tableConfig = config.tables[tableId];
-  const isPlaying = getIsPlaying(state);
 
-  const { columns, sorting, filters, name } = tableConfig;
+  const { cols, sorting, filters, name } = tableConfig;
+
+  const _getRows = () => {
+    if (Array.isArray(rows)) {
+      const formattedRows = sort(filter(rows, tableConfig), tableConfig);
+      const colIndexesToRemove = cols.filter(col => !col.displayed);
+
+      return formattedRows.map(row => _.omit(colIndexesToRemove, row));
+    }
+
+    return rows;
+  };
+
+  const reducedColumns = cols.filter(col => col.displayed);
 
   return {
-    rows: rows.rows,
-    columns,
+    tableName: name,
+    rows: _getRows(),
+    rowCount,
+    totalRowCount,
+    cols: reducedColumns,
+    columnCount: reducedColumns.length,
     sortState: sorting,
     filterState: filters,
-    tableName: name,
-    totalCount: rows.totalCount,
-    isPlaying,
   };
 };
 
@@ -32,11 +46,11 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
       dispatch(pause());
     }
   },
-  onFilter: (col, value) => {
-    dispatch(filterColumn(viewId, tableId, col, value));
+  onFilter: (col, value, filters) => {
+    dispatch(filterColumn(viewId, tableId, col, value, filters));
   },
-  onSort: (col, mode) => {
-    dispatch(toggleColumnSort(viewId, tableId, col, mode));
+  onSort: (col, mode, filters) => {
+    dispatch(toggleColumnSort(viewId, tableId, col, mode, filters));
   },
   onBodyCellAction: (name, data, rowIndex, columnIndex) => {
     const action = bodyCellActions.find(actionElem => actionElem.label === name);
@@ -49,10 +63,6 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
       action.onClick(data, rowIndex, columnIndex);
     }
   },
-  onCellClick: (i, j, content) => {
-    console.error('[NotImplementedError] Click on cell has not yet been implemented');
-    console.info(i, j, content);
-  },
   onCellDoubleClick: (i, j, content) => {
     console.error('[NotImplementedError] Double-click on cell has not yet been implemented');
     console.info(i, j, content);
@@ -63,10 +73,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,
   ...dispatchProps,
-  onScrollTop: () => {
-    if (stateProps.isPlaying) {
-      dispatchProps.onScrollTop();
-    }
+  onFilter: (col, value) => {
+    dispatchProps.onFilter(col, value, {
+      ...stateProps.filterState,
+      [col]: value,
+    });
+  },
+  onSort: (col, mode) => {
+    dispatchProps.onSort(col, mode, stateProps.filterState);
   },
 });
 

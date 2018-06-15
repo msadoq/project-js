@@ -1,0 +1,102 @@
+{
+  "type": "HistoryView",
+  "title": "New History View",
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "domainName": "*",
+  "sessionName": "*",
+  "entryPoints": [
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC13",
+        "comObject": "ReportingParameter",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC13<ReportingParameter>",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep1"
+    }
+  ],
+  "tables": {
+    "history": {
+      "name": "Entry points history",
+      "sorting": {
+        "colName": "referenceTimestamp",
+        "direction": "DESC"
+      },
+      "cols": [
+        {
+          "title": "referenceTimestamp",
+          "displayed": true,
+          "group": "default"
+        },
+        {
+          "title": "epName",
+          "displayed": true,
+          "group": "default"
+        },
+        {
+          "title": "onboardDate",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "groundDate",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "convertedValue",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "rawValue",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "extractedValue",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "monitoringState",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "triggerOnCounter",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "triggerOffCounter",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "validityState",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "isObsolete",
+          "displayed": false,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "isNominal",
+          "displayed": false,
+          "group": "ReportingParameter"
+        }
+      ]
+    }
+  }
+}

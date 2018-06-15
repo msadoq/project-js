@@ -16,29 +16,28 @@ import styles from 'viewManager/commonEditor/Editor.css';
 import HistoryTabContainer from 'viewManager/HistoryView/Components/Editor/HistoryTabContainer';
 import DataViewEntryPointsContainer from 'viewManager/commonEditor/EntryPoint/DataViewEntryPointsContainer';
 
+import HistoryEntryPointConnectedDataFieldsContainer from './HistoryEntryPointConnectedDataFieldsContainer';
+
 const navBarItems = ['Entry Points', 'History', 'Misc'];
-const { string, number, func, shape, array } = PropTypes;
 
 export default class Editor extends Component {
   static propTypes = {
-    search: string,
-    viewId: string.isRequired,
-    pageId: string.isRequired,
+    search: PropTypes.string,
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     // from container mapStateToProps
-    title: string,
-    titleStyle: shape(),
-    configuration: shape({
-      entryPoints: array,
+    title: PropTypes.string,
+    configuration: PropTypes.shape({
+      entryPoints: PropTypes.array,
     }).isRequired,
-    panels: shape({}).isRequired,
-    tab: number,
+    panels: PropTypes.shape({}).isRequired,
+    tab: PropTypes.number,
     // from container mapDispatchToProps
-    openModal: func.isRequired,
-    updateViewTab: func.isRequired,
-    updateViewPanels: func.isRequired,
+    openModal: PropTypes.func.isRequired,
+    updateViewTab: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    titleStyle: {},
     tab: null,
     title: '',
     search: null,
@@ -56,7 +55,6 @@ export default class Editor extends Component {
       pageId,
       search,
       panels,
-      titleStyle,
       title,
       updateViewPanels,
       configuration: {
@@ -69,7 +67,7 @@ export default class Editor extends Component {
         <h4
           className="text-center mb10"
         >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <span className="mr5 EditorVignette" />
           <b>{title}</b>
         </h4>
         <ReloadAndSaveViewButtonsContainer viewId={viewId} />
@@ -88,6 +86,7 @@ export default class Editor extends Component {
                 pageId={pageId}
                 search={search}
                 viewType={'HistoryView'}
+                entryPointConnectedDataForm={HistoryEntryPointConnectedDataFieldsContainer}
               />
             </div>
           }

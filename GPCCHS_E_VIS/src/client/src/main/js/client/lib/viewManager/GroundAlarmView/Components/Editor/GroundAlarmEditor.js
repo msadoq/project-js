@@ -13,7 +13,7 @@ import { TableConfigurationColumnType } from '../../../common/Components/types';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
 
-const { string, number, bool, shape, array, func, arrayOf } = PropTypes;
+const { string, number, shape, array, func, arrayOf } = PropTypes;
 
 export default class GroundAlarmEditor extends Component {
   static propTypes = {
@@ -21,17 +21,6 @@ export default class GroundAlarmEditor extends Component {
     viewId: string.isRequired,
     // Container's mapStateToProps
     title: string,
-    titleStyle: shape({
-      align: string,
-      bgColor: string,
-      bold: bool,
-      color: string,
-      font: string,
-      italic: bool,
-      size: number,
-      strikeOut: bool,
-      underline: bool,
-    }),
     configuration: shape({
       entryPoints: array,
       tables: shape({
@@ -50,7 +39,6 @@ export default class GroundAlarmEditor extends Component {
   };
 
   static defaultProps = {
-    titleStyle: {},
     tab: null,
     title: '',
   };
@@ -95,7 +83,6 @@ export default class GroundAlarmEditor extends Component {
       panels,
       openModal,
       title,
-      titleStyle,
     } = this.props;
     const initialValues = entryPoints.length
       ? {
@@ -115,7 +102,7 @@ export default class GroundAlarmEditor extends Component {
         <h4
           className="text-center mb10"
         >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <span className="mr5 EditorVignette" />
           <b>{title}</b>
         </h4>
         <ReloadAndSaveViewButtonsContainer viewId={viewId} />

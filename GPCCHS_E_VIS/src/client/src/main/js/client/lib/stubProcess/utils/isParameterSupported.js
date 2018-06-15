@@ -2,6 +2,12 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move DC stub code in client/lib/stubProcess
 // VERSION : 1.1.2 : DM : #6816 : 09/08/2017 : add textviews with 10, 1000 and >5000 EP
+// VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update server process and data injection for alarms
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Change some protos, plus minor change
+// VERSION : 2.0.0 : DM : #5806 : 26/10/2017 : Add Supported parameter
+//  alarm.alarm<OnBoardAlarmAckRequest> in stubProcess
+// VERSION : 2.0.0 : DM : #5806 : 02/11/2017 : Change formula for alarms .
+// VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Add entrypoint stat aggreg in stub
 // END-HISTORY
 // ====================================================================
 

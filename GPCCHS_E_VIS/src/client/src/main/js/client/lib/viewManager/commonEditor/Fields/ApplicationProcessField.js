@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import _map from 'lodash/map';
+import _find from 'lodash/find';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
@@ -29,6 +30,10 @@ export default class ApplicationProcessField extends PureComponent {
     domainId: null,
   };
 
+  state = {
+    apidRawValue: '',
+  };
+
   componentDidMount() {
     this.requestApids(this.props);
   }
@@ -44,6 +49,12 @@ export default class ApplicationProcessField extends PureComponent {
     }
   };
 
+  handleChange = (event, newValue) => {
+    const apid = findAPID(this.props.applicationProcesses, newValue);
+    this.setState({ apidRawValue: parseInt(apid.apidRawValue, 10) });
+    this.props.onChange(parseInt(apid.apidRawValue, 10), 'connectedData.apidRawValue');
+  };
+
   render() {
     const { domainId, sessionId } = this.props;
     const disabled = (!domainId || !sessionId);
@@ -52,14 +63,14 @@ export default class ApplicationProcessField extends PureComponent {
     }));
 
     return (
-      <div className="row mr0">
+      <div className="row mr0 applicationProcess">
         <Field
           format={null}
           name="connectedData.apidName"
           component={ReactSelectField}
           options={computeOptions(applicationProcessOptions, false)}
           className="col-xs-8"
-          onChange={this.props.onChange}
+          onChange={this.handleChange}
           disabled={disabled}
         />
         <Field
@@ -70,9 +81,14 @@ export default class ApplicationProcessField extends PureComponent {
           type="text"
           className="col-xs-4 inputField"
           onChange={this.props.onChange}
-          disabled={disabled}
+          disabled
+          value={this.state.apidRawValue}
         />
       </div>
     );
   }
 }
+
+export const findAPID = (applicationProcesses, apidName) =>
+  _find(applicationProcesses, apid => apid.apidName === apidName
+);

@@ -13,16 +13,14 @@ import PropTypes from 'prop-types';
 import Collapse from 'rc-collapse';
 import { Field, FieldArray } from 'redux-form';
 import { entryPointType } from 'viewManager/common/Components/types';
-import EntryPointConnectedDataFieldsContainer from 'viewManager/common/Components/Editor/EntryPointConnectedDataFieldsContainer';
-import EntryPointUnit from 'viewManager/common/Components/Editor/EntryPointUnit';
 // import { buildFormula } from 'viewManager/common'; // @todo uncomment
 import StateColorsFields from 'viewManager/commonEditor/Fields/StateColorsFields';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import FiltersFieldsContainer from 'viewManager/commonEditor/Fields/FiltersFieldsContainer';
+import EntryPointUnitContainer from './EntryPointUnitContainer';
 
 const { Panel } = Collapse;
-const { string, arrayOf, oneOfType, func, bool } = PropTypes;
 const emptyArray = [];
 /*
   EntryPointDetails représente un Point d'entrée,
@@ -30,15 +28,16 @@ const emptyArray = [];
 */
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
-    viewId: string.isRequired,
+    viewId: PropTypes.string.isRequired,
     entryPoint: entryPointType.isRequired,
     // From container mapStateToProps
-    panels: oneOfType([
-      arrayOf(string),
-      bool,
+    panels: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.bool,
     ]).isRequired,
     // From container mapDispatchToProps
-    updateViewSubPanels: func.isRequired,
+    updateViewSubPanels: PropTypes.func.isRequired,
+    entryPointConnectedDataForm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -57,7 +56,11 @@ export default class EntryPointDetails extends PureComponent {
   render() {
     const {
       panels,
+      entryPoint,
+      entryPointConnectedDataForm,
     } = this.props;
+
+    const EntryPointConnectedDataFieldsContainer = entryPointConnectedDataForm;
 
     return (
       <Collapse
@@ -70,14 +73,14 @@ export default class EntryPointDetails extends PureComponent {
           header="Name"
         >
           {Array.isArray(panels) && panels.includes('name') &&
-            <HorizontalFormGroup label="Label">
-              <Field
-                name="name"
-                component={InputField}
-                className="form-control input-sm"
-                type="text"
-              />
-            </HorizontalFormGroup>
+          <HorizontalFormGroup label="Label">
+            <Field
+              name="name"
+              component={InputField}
+              className="form-control input-sm"
+              type="text"
+            />
+          </HorizontalFormGroup>
           }
         </Panel>
         <Panel
@@ -85,9 +88,9 @@ export default class EntryPointDetails extends PureComponent {
           header="Connected data"
         >
           {Array.isArray(panels) && panels.includes('ConnData') &&
-            <EntryPointConnectedDataFieldsContainer
-              {...this.props}
-            />
+          <EntryPointConnectedDataFieldsContainer
+            {...this.props}
+          />
           }
         </Panel>
         <Panel
@@ -95,9 +98,10 @@ export default class EntryPointDetails extends PureComponent {
           header="Unit"
         >
           {Array.isArray(panels) && panels.includes('Unit') &&
-            <EntryPointUnit
-              {...this.props}
-            />
+          <EntryPointUnitContainer
+            {...this.props}
+            {...entryPoint}
+          />
           }
         </Panel>
         <Panel
@@ -105,11 +109,11 @@ export default class EntryPointDetails extends PureComponent {
           header="Filter"
         >
           {Array.isArray(panels) && panels.includes('Filter') &&
-            <FieldArray
-              name={'connectedData.filter'}
-              component={FiltersFieldsContainer}
-              {...this.props}
-            />
+          <FieldArray
+            name={'connectedData.filter'}
+            component={FiltersFieldsContainer}
+            {...this.props}
+          />
           }
         </Panel>
         <Panel
@@ -117,11 +121,11 @@ export default class EntryPointDetails extends PureComponent {
           header="State colors"
         >
           {Array.isArray(panels) && panels.includes('stateColors') &&
-            <FieldArray
-              name={'stateColors'}
-              component={StateColorsFields}
-              {...this.props}
-            />
+          <FieldArray
+            name={'stateColors'}
+            component={StateColorsFields}
+            {...this.props}
+          />
           }
         </Panel>
       </Collapse>

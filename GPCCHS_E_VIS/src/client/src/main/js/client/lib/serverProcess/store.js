@@ -85,7 +85,6 @@ import makePlayerMiddleware from '../store/middlewares/player';
 import catalogMiddleware from '../store/middlewares/catalogs';
 import apidsMiddleware from '../store/middlewares/apids';
 import makeOnUserAction from '../store/middlewares/user/makeOnUserAction';
-import onPageLayoutUpdate from '../store/middlewares/smartViews/onPageLayoutUpdate';
 import onEntryPointData from '../store/middlewares/smartViews/onEntryPointData';
 
 const log = getLogger('server:store:enhancer');
@@ -112,7 +111,6 @@ const createMiddlewares = (identity, isDebugOn) => {
     pageSessionOrDomainUpdated,
     windowSessionOrDomainUpdated,
     makeOnUserAction(),
-    onPageLayoutUpdate,
     onEntryPointData,
     makePatchGenerator(ipc.main.sendReduxPatch, identity, log, isDebugOn, get('PATCH_THROTTLE_TIMING')),
   ];

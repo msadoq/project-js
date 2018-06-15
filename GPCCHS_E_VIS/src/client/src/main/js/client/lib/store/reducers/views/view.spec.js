@@ -156,7 +156,7 @@ describe('store:reducer:views', () => {
     },
     groundAlarm1: {
       search: { enabled: true },
-      columns: [
+      cols: [
         {
           name: 'timestamp',
           value: 'timestamp',
@@ -262,11 +262,6 @@ describe('store:reducer:views', () => {
       const style = { bold: true };
       const state = reducer(stateViews, actions.updateTitleStyle('plot1', style));
       expect(state.plot1.titleStyle).toEqual(style);
-      expect(state.plot1.isModified).toBe(true);
-    });
-    test('bg color', () => {
-      const state = reducer(stateViews, actions.updateBgColor('plot1', '#FFFFAA'));
-      expect(state.plot1.backgroundColor).toEqual('#FFFFAA');
       expect(state.plot1.isModified).toBe(true);
     });
   });

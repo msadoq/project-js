@@ -123,6 +123,8 @@
 //  timebar has been selected
 // VERSION : 2.0.0 : FA : ISIS-FT-2949 : 22/03/2018 : dates now display in TAI
 // VERSION : 2.0.0 : FA : #11614 : 06/04/2018 : Plotview unit display + snap
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 
@@ -291,7 +293,7 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
           min < axis.min ? min : axis.min,
           max > axis.max ? max : axis.max,
         ],
-      orient: 'bottom',
+      orient: 'top',
       format: '.3f',
       showAxis: axis.showAxis === true,
       showLabels: axis.showLabels === true,
@@ -525,7 +527,7 @@ export class GrizzlyPlotView extends React.Component {
   static defaultProps = {
     data: {
       lines: [],
-      columns: [],
+      cols: [],
     },
     visuWindow: null,
     inspectorEpId: null,

@@ -43,24 +43,13 @@ import { TIME_BASED_DATA_OPTION } from 'viewManager/commonEditor/Fields/DataType
 
 
 const navItems = ['Connected Data', 'View', 'Misc'];
-const { string, number, bool, func, shape, arrayOf } = PropTypes;
+const { string, number, func, shape, arrayOf } = PropTypes;
 
 export default class DynamicEditor extends Component {
   static propTypes = {
     viewId: string.isRequired,
     pageId: string.isRequired,
     tab: number,
-    titleStyle: shape({
-      align: string,
-      bgColor: string,
-      bold: bool,
-      color: string,
-      font: string,
-      italic: bool,
-      size: number,
-      strikeOut: bool,
-      underline: bool,
-    }),
     title: string,
     configuration: shape({
       entryPoints: arrayOf(entryPointType),
@@ -73,7 +62,6 @@ export default class DynamicEditor extends Component {
   };
 
   static defaultProps = {
-    titleStyle: {},
     tab: null,
     title: '',
   };
@@ -121,7 +109,6 @@ export default class DynamicEditor extends Component {
       panels,
       openModal,
       title,
-      titleStyle,
     } = this.props;
     const nullObject = {};
     const initialValues = entryPoints.length
@@ -144,7 +131,7 @@ export default class DynamicEditor extends Component {
         <h4
           className="text-center mb10"
         >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <span className="mr5 EditorVignette" />
           <b>{title}</b>
         </h4>
         <ReloadAndSaveViewButtonsContainer viewId={viewId} />

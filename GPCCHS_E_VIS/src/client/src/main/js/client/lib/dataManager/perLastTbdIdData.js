@@ -9,6 +9,7 @@
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
 //  viewData_clean
 // VERSION : 2.0.0 : DM : #5806 : 13/11/2017 : Pass mode into archive query (GMA/OBA)
+// VERSION : 2.0.0.2 : FA : #11854 : 18/04/2018 : Fix provider flow field in data map
 // END-HISTORY
 // ====================================================================
 

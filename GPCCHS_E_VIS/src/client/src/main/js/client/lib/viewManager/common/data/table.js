@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const _getColumnIndex = (colName, columns) =>
-  columns.findIndex(col => col.field === colName);
+  columns.findIndex(col => col.title === colName);
 
 /**
  * Filters preformatted data with the specified filters in config
@@ -11,7 +11,7 @@ const _getColumnIndex = (colName, columns) =>
  * @returns {Array}
  */
 export const filter = (preformattedData, config) => {
-  const { filters, columns } = config;
+  const { filters, cols } = config;
 
   if (!filters) {
     return preformattedData;
@@ -24,7 +24,7 @@ export const filter = (preformattedData, config) => {
       .keys(filters)
       .forEach((key) => {
         const filterValue = filters[key];
-        const colIndex = _getColumnIndex(key, columns);
+        const colIndex = _getColumnIndex(key, cols);
         const rowValueToFilter = row[colIndex].value;
         if ((String(rowValueToFilter) || '').indexOf(filterValue) === -1) {
           ans = false;
@@ -54,7 +54,7 @@ export const filter = (preformattedData, config) => {
  * @returns {Array}
  */
 export const sort = (preformattedData, config) => {
-  const { columns, sorting } = config;
+  const { cols, sorting } = config;
 
   if (!sorting || !sorting.colName) {
     return preformattedData;
@@ -63,7 +63,7 @@ export const sort = (preformattedData, config) => {
   const sortedData = preformattedData.slice();
 
   const colName = config.sorting.colName;
-  const colIndex = _getColumnIndex(colName, columns);
+  const colIndex = _getColumnIndex(colName, cols);
   const direction = config.sorting.direction || 'ASC';
 
   const compareRows = (arr1, arr2) => {

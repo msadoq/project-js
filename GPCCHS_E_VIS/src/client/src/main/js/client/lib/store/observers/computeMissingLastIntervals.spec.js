@@ -62,7 +62,7 @@ describe('store/observers/computeMissingLastIntervals', () => {
     const newMap = dataMapGenerator(state1);
     expect(computeMissingLastIntervals(newMap, lastMap)).toEqual({});
   });
-  test('New interval included in last one, new upper > last upper', () => {
+  test.skip('New interval included in last one, new upper > last upper', () => {
     const state1 = _cloneDeep(state);
     state1.timebars.tb1.visuWindow.lower += 10;
     state1.timebars.tb1.visuWindow.upper += 10;
@@ -136,7 +136,7 @@ describe('store/observers/computeMissingLastIntervals', () => {
       },
     });
   });
-  test('New interval before last one', () => {
+  test.skip('New interval before last one', () => {
     const state1 = _cloneDeep(state);
     state1.timebars.tb1.visuWindow.lower = 10000;
     state1.timebars.tb1.visuWindow.upper = 15000;

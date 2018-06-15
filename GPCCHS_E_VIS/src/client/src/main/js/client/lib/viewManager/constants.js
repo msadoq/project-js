@@ -14,7 +14,6 @@
 // VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update viewManager with alarm parameters
 // END-HISTORY
 // ====================================================================
-
 export const VM_VIEW_PLOT = 'PlotView';
 export const VM_VIEW_TEXT = 'TextView';
 export const VM_VIEW_DYNAMIC = 'DynamicView';
@@ -23,6 +22,7 @@ export const VM_VIEW_PACKET = 'PacketView';
 export const VM_VIEW_HISTORY = 'HistoryView';
 export const VM_VIEW_GROUNDALARM = 'GroundAlarmView';
 export const VM_VIEW_ONBOARDALARM = 'OnboardAlarmView';
+export const VM_VIEW_PUS05 = 'PUS05View';
 export const VM_VIEW_PUS11 = 'PUS11View';
 export const VM_VIEW_DECOMMUTEDPACKET = 'DecommutedPacketView';
 
@@ -37,3 +37,9 @@ export const VM_COMMON_PROPERTIES = [
   'domainName',
   'sessionName',
 ];
+
+/**
+ * @param type
+ * @returns {boolean}
+ */
+export const isPusView = type => [VM_VIEW_PUS11].includes(type);

@@ -1,19 +1,23 @@
-.Select {
-  .Select-menu-outer { width: calc(100% - 11px); }
-}
-.inputField {
-  background-color: #fff;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  color: #333;
-  cursor: default;
-  display: table;
-  border-spacing: 0;
-  border-collapse: separate;
-  height: 36px;
-  outline: none;
-}
+.applicationProcess {
+  .Select {
+	.Select-menu-outer { width: calc(100% - 11px); }
+  }
+  .inputField {
+	background-color: #fff;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	color: #333;
+	cursor: default;
+	border-spacing: 0;
+	border-collapse: separate;
+	height: 36px;
+	outline: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
 
-.mr0 {
-  margin-right: 0;
+  &.mr0 {
+	margin-right: 0;
+  }
 }

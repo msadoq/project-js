@@ -109,13 +109,6 @@ export default class FormSectionFontStyle extends FormSection {
             component={ColorPickerField}
           />
         </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Bg Color">
-          <Field
-            name="bgColor"
-            component={ColorPickerField}
-          />
-        </HorizontalFormGroup>
       </div>
     );
   }

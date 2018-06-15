@@ -9,11 +9,6 @@ exports[`GroundAlarmEditor :: render snapshot 1`] = `
   >
     <span
       className="mr5 EditorVignette"
-      style={
-        Object {
-          "background": undefined,
-        }
-      }
     />
     <b>
       Ground Alarm View

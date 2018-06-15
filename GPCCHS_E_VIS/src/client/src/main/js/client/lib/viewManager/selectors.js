@@ -16,6 +16,7 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
+import _map from 'lodash/map';
 import { createSelector } from 'reselect';
 
 import { getView, getViewType } from '../store/reducers/views';
@@ -31,4 +32,11 @@ export const getViewWithConfiguration = createSelector(
   getView,
   getConfigurationByViewId,
   (view, configuration) => _.set('configuration', configuration, view)
+);
+
+export const getViewEntryPointsDomains = createSelector(
+  getView,
+  getConfigurationByViewId,
+  (view, configuration) =>
+    _map(configuration.entryPoints, entryPoint => entryPoint.connectedData.domain)
 );

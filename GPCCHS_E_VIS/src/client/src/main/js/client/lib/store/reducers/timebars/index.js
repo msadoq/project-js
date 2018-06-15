@@ -17,6 +17,7 @@
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
 // VERSION : 2.0.0 : DM : #7111 : 25/09/2017 : Add current in history view data
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 

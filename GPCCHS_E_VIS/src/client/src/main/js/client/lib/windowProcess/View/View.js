@@ -77,13 +77,14 @@ import PropTypes from 'prop-types';
 import domtoimage from 'dom-to-image';
 import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
+import _flattenDeep from 'lodash/flattenDeep';
 import classnames from 'classnames';
 import getLogger from 'common/logManager';
 import { getViewComponent } from 'viewManager/components';
+import { isPusView } from 'viewManager/constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from '../common/MessagesContainer';
 import handleContextMenu from '../common/handleContextMenu';
-
 import styles from './View.css';
 
 const logger = getLogger('View');
@@ -93,9 +94,7 @@ export default class View extends PureComponent {
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    titleStyle: PropTypes.shape({
-      bgColor: PropTypes.string,
-    }).isRequired,
+    titleStyle: PropTypes.shape({}).isRequired,
     backgroundColor: PropTypes.string,
     maximized: PropTypes.bool,
     isViewsEditorOpen: PropTypes.bool.isRequired,
@@ -124,9 +123,7 @@ export default class View extends PureComponent {
     oId: '',
     absolutePath: '',
     backgroundColor: '#FFFFFF',
-    titleStyle: {
-      bgColor: '#FEFEFE',
-    },
+    titleStyle: {},
     visuWindow: null,
     maximized: false,
   };
@@ -151,9 +148,7 @@ export default class View extends PureComponent {
       click: () => closeEditor(),
     } : {
       label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
+      click: () => openEditor(),
     };
     const searchMenu = (isViewsSearchOpen) ?
     {
@@ -161,15 +156,37 @@ export default class View extends PureComponent {
       click: () => closeSearch(),
     } : {
       label: 'Search in this view',
-      click: () => {
-        openSearch();
-      },
+      click: () => openSearch(),
       enabled: (type === 'TextView'),
     };
+    const pusViewMenu = isPusView(type) ?
+    [
+      { type: 'separator' },
+      {
+        label: 'Compare (Alt+c)',
+        click: () => console.log('Compare requested'),
+      },
+      {
+        label: 'Reset (Alt+r)',
+        click: () => console.log('Reset requested'),
+      },
+      {
+        label: 'Save in file (Alt+s)',
+        click: () => console.log('Save in file requested'),
+      },
+      {
+        label: 'Synchronize',
+        click: () => console.log('Synchronize requested'),
+      },
+    ] :
+    []
+    ;
     const isPathDefined = !!absolutePath;
-    return [
+
+    return _flattenDeep([
       editorMenu,
       searchMenu,
+      pusViewMenu,
       { type: 'separator' },
       {
         label: 'Move view to...',
@@ -226,7 +243,7 @@ export default class View extends PureComponent {
         label: 'Close view',
         click: () => closeView(),
       },
-    ];
+    ]);
   };
 
   borderColorStyle = _memoize(c => ({ borderColor: c }));

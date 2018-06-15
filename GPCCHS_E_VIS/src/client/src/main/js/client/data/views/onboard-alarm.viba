@@ -16,6 +16,8 @@
     "length": 5,
     "width": 5
   },
+  "domainName": "fr.cnes.isis.simupus",
+  "sessionName": "*",
   "search": {
     "enabled": true
   },

@@ -49,8 +49,8 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
       domains.push(domain);
     }
   });
-
   domains = _uniqBy(domains);
+  domains = domains.length === 0 ? ['*'] : domains;
 
   const { getFullTitle } = getDataSelectors(type);
   const title = getFullTitle(state, { viewId });
@@ -60,7 +60,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
   const pageDomain = state.pages[pageId].domainName || '*';
   const workspaceDomain = state.hsc.domainName || '*';
   const viewDomain = getViewDomainName(state, { viewId });
-  const isSearhOpenForView = state.pages[pageId].panels.searchViewId === viewId;
+  const isSearchOpenForView = _get(state, ['pages', pageId, 'panels', 'searchViewId'], null) === viewId;
 
   return {
     backgroundColor,
@@ -71,7 +71,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
     domains,
     pageDomain,
     workspaceDomain,
-    isSearhOpenForView,
+    isSearchOpenForView,
     viewDomain,
     isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
     collapsed:

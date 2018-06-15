@@ -77,7 +77,7 @@
  margin={marginChart}
  pointsPerPxThreshold={4}
  seriesName="PlotView"
- data={columns}
+ data={cols}
  type="hybrid"
  xAccessor={this.xAccessor}
  xScale={scaleTime()}

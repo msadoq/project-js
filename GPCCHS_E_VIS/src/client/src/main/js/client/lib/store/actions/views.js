@@ -109,12 +109,18 @@ export const updateProcedure = simple(types.WS_VIEW_UPDATE_PROCEDURE, 'viewId', 
 export const updateRatio = simple(types.WS_VIEW_UPDATE_RATIO, 'viewId', 'ratio');
 export const updateTitle = simple(types.WS_VIEW_UPDATE_TITLE, 'viewId', 'title');
 export const updateTitleStyle = simple(types.WS_VIEW_UPDATE_TITLESTYLE, 'viewId', 'titleStyle');
-export const updateBgColor = simple(types.WS_VIEW_UPDATE_BGCOLOR, 'viewId', 'bgColor');
 export const updateLegend = simple(types.WS_VIEW_UPDATE_LEGEND, 'viewId', 'legend');
 export const updateContent = simple(types.WS_VIEW_UPDATE_CONTENT, 'viewId', 'content');
 export const updateShowYAxes = simple(types.WS_VIEW_UPDATE_SHOWYAXES, 'viewId', 'showYAxes');
 export const updateDimensions = simple(types.WS_VIEW_UPDATE_DIMENSIONS, 'viewId', 'width', 'height');
 export const updateTableCols = simple(types.WS_VIEW_UPDATE_TABLE_COLS, 'viewId', 'tableId', 'cols');
+export const updateTableColumns =
+  simple(
+    types.WS_VIEW_UPDATE_TABLE_COLUMNS,
+    'viewId',
+    'tableId',
+    'columns'
+  );
 
 export const updateEditorSearch = simple(types.WS_VIEW_UPDATE_EDITOR_SEARCH, 'viewId', 'search');
 export const searchInView = simple(types.WS_SEARCH_IN_VIEW, 'viewId', 'searchTerm');

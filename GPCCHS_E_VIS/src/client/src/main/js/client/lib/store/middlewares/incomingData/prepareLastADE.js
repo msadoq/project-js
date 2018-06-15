@@ -2,7 +2,7 @@ import _isEmpty from 'lodash/isEmpty';
 import _isBuffer from 'lodash/isBuffer';
 import * as types from 'store/types';
 import { newData } from 'store/actions/incomingData';
-import { decode, getType, decodePayload } from 'utils/adapters';
+import { decode, getTypeAggreg, decodePayload } from 'utils/adapters';
 import { add } from 'serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from 'common/logManager/execution';
 import { add as addMessage } from 'store/actions/messages';
@@ -35,7 +35,7 @@ const prepareLast = () => ({ dispatch }) => next => (action) => {
 
         execution.start('decode payload');
         const decoded = decodePayload(peers[index + 1]);
-        const decodedPayload = decode(getType(dataId.comObject), decoded);
+        const decodedPayload = decode(getTypeAggreg(dataId.comObject), decoded);
         execution.stop('decode payload');
 
         // queue new data in spool

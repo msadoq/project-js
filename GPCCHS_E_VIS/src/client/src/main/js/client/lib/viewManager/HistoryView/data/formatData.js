@@ -17,9 +17,8 @@ const preformatData = (rawData, config) => {
   const { data, lines } = rawData;
 
   const reducer = (acc, line, index) => {
-    const parts = line.split(' ');
-    const epName = parts[0];
-    const timestamp = parts[1];
+    const epName = line[0];
+    const timestamp = line[1];
     const ep = data[epName] && data[epName][timestamp];
 
     if (!ep) {
@@ -30,31 +29,17 @@ const preformatData = (rawData, config) => {
       acc[index] = [];
     }
 
-    const { columns } = config;
+    const { cols } = config;
 
     const getParamValue = (colIndex) => {
-      const paramName = columns[colIndex].field;
-
-      const foundEntryPoint = config.entryPoints.find(e => e.name === ep.epName);
-
-      if (paramName === 'unit') { // extract data from config
-        const getEntryPointUnit = () => {
-          if (foundEntryPoint) {
-            return foundEntryPoint.connectedData.unit;
-          }
-
-          return null;
-        };
-
-        return getEntryPointUnit();
-      }
-
+      const paramName = cols[colIndex].title;
       return ep[paramName];
     };
+
     const _stateColor = ep.color;
 
     Object
-      .keys(columns)
+      .keys(cols)
       .forEach(colIndex => acc[index].push({
         value: getParamValue(colIndex),
         textColor: _stateColor,
@@ -71,7 +56,7 @@ const getCurrentLines = (rawData) => {
     return Object.keys(rawData.current).map(
       epKey => ({
         epName: epKey,
-        timestamp: rawData.current[epKey].split(' ')[1],
+        timestamp: rawData.current[epKey][1],
       })
     );
   }

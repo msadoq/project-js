@@ -34,7 +34,6 @@ import {
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import InputField from 'windowProcess/commonReduxForm/InputField';
-import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import FormSectionFontStyle from './FormSections/FormSectionFontStyle';
 import { computeOptions } from '../../viewManager/commonEditor/Fields/common';
@@ -57,7 +56,6 @@ class ViewParamsForm extends React.Component {
         strikeOut: PropTypes.bool,
         align: PropTypes.string,
         color: PropTypes.string,
-        bgColor: PropTypes.string,
       }),
     }).isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -140,13 +138,6 @@ class ViewParamsForm extends React.Component {
         <div className="page-header">
           <h4>Content</h4>
         </div>
-
-        <HorizontalFormGroup label="Bg Color">
-          <Field
-            name="backgroundColor"
-            component={ColorPickerField}
-          />
-        </HorizontalFormGroup>
 
         <div className="page-header">
           <h4>Configuration</h4>

@@ -17,6 +17,7 @@
 // VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
 // VERSION : 2.0.0 : FA : ISIS-FT-1992 : 31/10/2017 : Fix broken TUs . .
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : core implementation of dealing with sessions
 // END-HISTORY
 // ====================================================================
 
@@ -198,6 +199,140 @@ export default {
       },
     },
   },
+  PUS05ViewConfiguration: {
+    pus05: {
+      tables: {
+        onBoardEvents: {
+          cols: [
+            {
+              title: 'rid',
+              value: 'rid',
+              position: 0,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'ridLabel',
+              value: 'ridLabel',
+              position: 1,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'name',
+              value: 'name',
+              position: 2,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'status',
+              value: 'status',
+              displayed: true,
+              position: 3,
+              group: 0,
+            },
+            {
+              title: 'eventShortDescription',
+              value: 'eventShortDescription',
+              displayed: true,
+              position: 4,
+              group: 0,
+            },
+            {
+              title: 'eventDefaultStatus',
+              value: 'eventDefaultStatus',
+              displayed: true,
+              position: 5,
+              group: 0,
+            },
+            {
+              title: 'alarmLevel',
+              value: 'alarmLevel',
+              displayed: true,
+              position: 6,
+              group: 0,
+            },
+            {
+              title: 'actionName',
+              value: 'actionName',
+              displayed: true,
+              position: 7,
+              group: 0,
+            },
+            {
+              title: 'eventLongDescription',
+              value: 'eventLongDescription',
+              displayed: true,
+              position: 8,
+              group: 0,
+            },
+            {
+              title: 'updateType',
+              value: 'updateType',
+              displayed: true,
+              position: 9,
+              group: 0,
+            },
+            {
+              title: 'updateTime',
+              value: 'updateTime',
+              displayed: true,
+              position: 10,
+              group: 0,
+            },
+          ],
+        },
+        receivedOnBoardEvents: {
+          cols: [
+            {
+              title: 'onBoardTime',
+              value: 'onBoardTime',
+              position: 0,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'receptionTime',
+              value: 'receptionTime',
+              position: 1,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'rid',
+              value: 'rid',
+              position: 2,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'ridLabel',
+              value: 'ridLabel',
+              displayed: true,
+              position: 3,
+              group: 0,
+            },
+            {
+              title: 'name',
+              value: 'name',
+              displayed: true,
+              position: 4,
+              group: 0,
+            },
+            {
+              title: 'reportType',
+              value: 'reportType',
+              displayed: true,
+              position: 5,
+              group: 0,
+            },
+          ],
+        },
+      },
+    },
+  },
+  PUS05ViewData: {},
   PUS11ViewConfiguration: {
     pus11: {
       tables: {
@@ -417,7 +552,7 @@ export default {
         stateColors: [],
       }, {
         connectedData: {
-          domain: 'fr.cnes.isis',
+          domain: 'fr.cnes.isis.simupus',
           filter: [],
           formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>',
           timeline: 'Session 1',
@@ -662,7 +797,7 @@ export default {
           connectedData: {
             axisId: 'VBat',
             digits: 5,
-            domain: 'fr.cnes.isis',
+            domain: 'fr.cnes.isis.simupus',
             fieldX: 'groundDate',
             filter: [],
             format: 'decimal',
@@ -689,7 +824,7 @@ export default {
           connectedData: {
             axisId: 'VBat',
             digits: 5,
-            domain: 'fr.cnes.isis',
+            domain: 'fr.cnes.isis.simupus',
             fieldX: 'groundDate',
             filter: [],
             format: 'decimal',
@@ -1286,7 +1421,6 @@ export default {
       title: 'Plot view',
       titleStyle: {
         align: 'center',
-        bgColor: '#009688',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1318,7 +1452,6 @@ export default {
       title: 'New Text View',
       titleStyle: {
         align: 'center',
-        bgColor: '#3F51B5',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1344,7 +1477,6 @@ export default {
       title: 'New Mimic View',
       titleStyle: {
         align: 'center',
-        bgColor: '#2196f3',
         color: '#FFFFF',
         underline: true,
       },
@@ -1357,7 +1489,7 @@ export default {
         length: 5,
         width: 3,
       },
-      domainName: 'fr.cnes.isis',
+      domainName: 'fr.cnes.isis.simupus',
       isModified: false,
       links: [],
       pageFolder: '/mydata/data/pages',
@@ -1367,7 +1499,6 @@ export default {
       title: 'Dynamic view',
       titleStyle: {
         align: 'center',
-        bgColor: '#E91E63',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1411,7 +1542,7 @@ export default {
         length: 5,
         width: 3,
       },
-      domainName: 'fr.cnes.isis',
+      domainName: 'fr.cnes.isis.simupus',
       isModified: false,
       links: [],
       pageFolder: '/mydata/data/pages',
@@ -1421,7 +1552,6 @@ export default {
       title: 'History view',
       titleStyle: {
         align: 'center',
-        bgColor: '#E91E63',
         bold: false,
         color: '#ffffff',
         font: 'Arial',

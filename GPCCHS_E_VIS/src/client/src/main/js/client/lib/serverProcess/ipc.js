@@ -37,6 +37,7 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2215 : 05/03/2018 : Fix filters and provider flow
 // VERSION : 2.0.0 : FA : ISIS-FT-2215 : 06/03/2018 : Fix provider flow wrong value
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
 // END-HISTORY
 // ====================================================================
 

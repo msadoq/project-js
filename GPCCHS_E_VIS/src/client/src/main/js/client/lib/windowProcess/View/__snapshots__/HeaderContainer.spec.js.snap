@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`windowProcess windowProcess :: View windowProcess :: View:: HeaderContainer should render correctly with valid data 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="moveHandler ellipsis title"
+    style={
+      Object {
+        "background": "#CCC",
+        "color": "#FFF",
+        "fontFamily": null,
+        "fontSize": null,
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+        "paddingRight": "57px",
+        "textAlign": null,
+        "textDecoration": "none",
+      }
+    }
+  >
+    <span
+      className="searchOpen"
+    >
+      <span
+        className="glyphicon glyphicon-search"
+      />
+    </span>
+    Untitled 
+    
+  </div>
+  <div
+    className="dropDownButtonContainer"
+  >
+    <button
+      className="expandButton"
+      onClick={[Function]}
+    >
+      <span
+        className="glyphicon glyphicon-minus"
+      />
+    </button>
+    <button
+      className="expandButton btn btn-default"
+      disabled={false}
+      onClick={[Function]}
+      title="Display Menu"
+      type="button"
+    >
+      <span
+        className="glyphicon glyphicon-align-justify"
+      />
+    </button>
+  </div>
+</div>
+`;

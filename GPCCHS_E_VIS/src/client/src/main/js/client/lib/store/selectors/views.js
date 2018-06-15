@@ -39,6 +39,7 @@
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // VERSION : 2.0.0 : FA : ISIS-FT-1937 : 30/01/2018 : Unit convertion, add python fork and
 //  convertion call mechanism
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 
@@ -161,12 +162,9 @@ export const getWindowAllViewsIds = createSelector(
 );
 
 /**
-<<<<<<< HEAD
-=======
  * TODO: refactor cols into columns and deprecate this function
  *
  * @param viewId string
->>>>>>> FA_6127_2
  * @param state object
  * @param {viewId, tableId} object
  * @return cols array
@@ -185,4 +183,10 @@ export const getViewConfigurationTableCols = createSelector(
 export const getViewConfigurationTables = createSelector(
   getConfigurationByViewId,
   viewConfiguration => _getOr([], 'tables', viewConfiguration)
+);
+
+export const getViewConfigurationTableColumns = createSelector(
+  (state, { tableId }) => tableId,
+  getConfigurationByViewId,
+  (tableId, viewConfiguration) => _getOr([], `tables.${tableId}.cols`, viewConfiguration)
 );

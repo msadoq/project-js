@@ -23,6 +23,9 @@
 // VERSION : 2.0.0 : FA : #8557 : 18/12/2017 : Fix load configuration file . .
 // VERSION : 2.0.0 : FA : #8557 : 18/12/2017 : Update linting error on adapters file
 // VERSION : 2.0.0 : DM : #5806 : 18/12/2017 : Fix eslintignore + lint utils/adapters
+// VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Add management of StatsAggregation in VIMA +
+//  update stub
+// VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Fix bug on decode of StatAgg
 // END-HISTORY
 // ====================================================================
 
@@ -40,6 +43,9 @@ const rootVimaFolder = process.env.IS_BUNDLED === 'on' ? __dirname : resolve(__d
 const TYPE_PROTO = 'protobuf';
 const TYPE_RAW = 'raw';
 const comObjectTypes = {};
+const comObjectTypesAggreg = {
+  ReportingParameter: 'ReportingParameterAggregation',
+};
 const types = {};
 const fieldsMap = {};
 const logger = getLogger('AdaptersManager');
@@ -159,6 +165,10 @@ const getMapper = (key) => {
 };
 
 const getType = key => comObjectTypes[key];
+const getTypeAggreg = (key) => {
+  const type = comObjectTypesAggreg[key];
+  return type ? getType(type) : getType(key);
+};
 
 module.exports = {
   registerGlobal,
@@ -167,4 +177,5 @@ module.exports = {
   decodePayload,
   getType,
   getFields,
+  getTypeAggreg,
 };

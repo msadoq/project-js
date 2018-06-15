@@ -9,7 +9,7 @@ import {
   isDataIdInDatamapLast,
   isTimestampInLastDatamapInterval,
 } from 'dataManager/mapSelector';
-import { decode, getType, decodePayload } from 'utils/adapters';
+import { decode, getType, getTypeAggreg, decodePayload } from 'utils/adapters';
 import { add as addMessage } from 'store/actions/messages';
 import { set as setLastPubSubTimestamp } from 'serverProcess/models/lastPubSubTimestamp';
 import executionMonitor from 'common/logManager/execution';
@@ -83,7 +83,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
           // decode Payload only once by payloadBuffer loop to avoid resource-consuming
           execution.start('decode payload');
           const decoded = decodePayload(dataBuffer);
-          const decodedPayload = decode(getType(dataId.comObject), decoded);
+          const decodedPayload = decode(getTypeAggreg(dataId.comObject), decoded);
           execution.stop('decode payload');
 
           // For each tbdId in storeList

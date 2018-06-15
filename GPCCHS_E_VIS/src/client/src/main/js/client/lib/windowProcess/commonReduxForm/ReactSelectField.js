@@ -1,8 +1,15 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting between commonEditor and commonReduxForm.
-// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add possibility to modify domainName and sessionName from GUI for view, page, window and workspace
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add possibility to modify domainName and sessionName from GUI for view, page, window and workspace
+// VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting
+//  between commonEditor and commonReduxForm.
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add possibility to modify domainName and sessionName
+//  from GUI for view, page, window and workspace
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add possibility to modify domainName and sessionName
+//  from GUI for view, page, window and workspace
+// VERSION : 2.0.0 : FA : #8123 : 27/09/2017 : Fixed redux-form bug with a delay before render in
+//  EditPage.
+// VERSION : 2.0.0 : DM : #5806 : 13/11/2017 : Fix propTypes in ReactSelectField commonRedux
+//  component
 // END-HISTORY
 // ====================================================================
 

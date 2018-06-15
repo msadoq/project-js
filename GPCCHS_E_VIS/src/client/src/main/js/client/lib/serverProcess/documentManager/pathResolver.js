@@ -4,6 +4,8 @@
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
 // VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : Add some TODO test in documentManager
 // VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : VIMA can be opened with --PAGE
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #8343 : 19/12/2017 : Fix absolute FMD path documents
 // END-HISTORY
 // ====================================================================
 

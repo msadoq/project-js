@@ -4,6 +4,7 @@
 // VERSION : 1.1.2 : FA : #7355 : 27/07/2017 : RTD is now optional on VIMA installation
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
 // VERSION : 1.1.2 : DM : #6700 : 09/08/2017 : Fix onResolveRteLink mainProcess controller crash
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

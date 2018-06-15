@@ -1,7 +1,9 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5822 : 22/03/2017 : change context menus with native electron context menu
+// VERSION : 1.1.2 : DM : #5822 : 22/03/2017 : change context menus with native electron context
+//  menu
 // VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : add context menu on views
+// VERSION : 2.0.0 : DM : #5806 : 20/10/2017 : Merge branch jmaupeti_alarmstub into dev
 // END-HISTORY
 // ====================================================================
 

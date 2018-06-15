@@ -1,6 +1,7 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
+// VERSION : 2.0.0 : DM : #5806 : 13/11/2017 : Pass mode into archive query (GMA/OBA)
 // END-HISTORY
 // ====================================================================
 

@@ -1,7 +1,13 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #7281 : 18/07/2017 : Added bench for color changing only 3 times, + fixed webpack error.
-// VERSION : 1.1.2 : DM : #7281 : 18/07/2017 : First benchmark of Grizzly charting lib used in PlotView.
+// VERSION : 1.1.2 : DM : #7281 : 18/07/2017 : Added bench for color changing only 3 times, + fixed
+//  webpack error.
+// VERSION : 1.1.2 : DM : #7281 : 18/07/2017 : First benchmark of Grizzly charting lib used in
+//  PlotView.
+// VERSION : 2.0.0 : FA : #9028 : 13/11/2017 : fix benchmark grizzly + .
+// VERSION : 2.0.0 : DM : #6818 : 21/11/2017 : add stop instruction to grizzly & update tests
+//  (obsolete data)
+// VERSION : 2.0.0 : FA : #10311 : 19/01/2018 : Fix lint issues in benchmarks/ folder
 // END-HISTORY
 // ====================================================================
 

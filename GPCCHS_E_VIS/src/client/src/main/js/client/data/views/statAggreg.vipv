@@ -1,0 +1,119 @@
+{
+  "type": "PlotView",
+  "title": "New Plot View",
+  "backgroundColor": "#FFFFFF",
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "domainName": "*",
+  "sessionName": "*",
+  "axes": [
+    {
+      "id": "time",
+      "label": "Time",
+      "autoTick": true,
+      "showTicks": true,
+      "tickStep": 0.5,
+      "style": {
+        "size": 12,
+        "font": "Arial",
+        "align": "center",
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "color": "#000000"
+      },
+      "unit": "s",
+      "autoLimits": true,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      }
+    },
+    {
+      "autoLimits": true,
+      "showTicks": true,
+      "autoTick": true,
+      "showAxis": true,
+      "showLabels": true,
+      "max": 300,
+      "min": -300,
+      "logarithmic": false,
+      "logSettings": {
+        "min": 0.1,
+        "max": 1000000000,
+        "base": 10
+      },
+      "label": "Mes boules",
+      "unit": "Mes boules",
+      "id": "mes_boules"
+    }
+  ],
+  "grids": [
+    {
+      "showGrid": true,
+      "line": {
+        "size": 1,
+        "style": "Dashed"
+      }
+    }
+  ],
+  "legend": {
+    "location": "bottom"
+  },
+  "markers": [],
+  "entryPoints": [
+    {
+      "axisId": "mes_boules",
+      "connectedData": {
+        "axisId": "mes_boules",
+        "convertFrom": "",
+        "convertTo": "",
+        "defaultY": 1,
+        "digits": 5,
+        "domain": "*",
+        "fieldX": "onboardDate",
+        "filter": [],
+        "format": "decimal",
+        "formula": "StatValueDefinition.TEST_AGGREG<StatExecution>.attrValue",
+        "provider": "",
+        "stringParameter": false,
+        "timeline": "*",
+        "unit": "Mes boules"
+      },
+      "connectedDataParametric": {
+        "domainX": "",
+        "domainY": "",
+        "formulaX": "",
+        "formulaY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "name": "Mes boules",
+      "objectStyle": {
+        "curveColor": "#00bcd4",
+        "line": {
+          "size": 3,
+          "style": "Continuous"
+        },
+        "points": {
+          "size": 3,
+          "style": "None"
+        }
+      },
+      "parametric": false,
+      "stateColors": [],
+      "unit": ""
+    }
+  ],
+  "showYAxes": "left",
+  "showLegend": false,
+  "search": ""
+}

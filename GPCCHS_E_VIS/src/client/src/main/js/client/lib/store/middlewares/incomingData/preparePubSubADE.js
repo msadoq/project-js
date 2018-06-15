@@ -9,7 +9,7 @@ import {
   isDataIdInDatamapLast,
   isTimestampInLastDatamapInterval,
 } from 'dataManager/mapSelector';
-import { decode, getType } from 'utils/adapters';
+import { decode, getType, getTypeAggreg, decodePayload } from 'utils/adapters';
 import { add as addMessage } from 'store/actions/messages';
 import { set as setLastPubSubTimestamp } from 'serverProcess/models/lastPubSubTimestamp';
 import executionMonitor from 'common/logManager/execution';
@@ -17,7 +17,7 @@ import dataMapGenerator from 'dataManager/map';
 import { newData } from 'store/actions/incomingData';
 import * as types from 'store/types';
 
-const logger = require('../../../common/logManager')('middleware:preparePubSub');
+const logger = require('../../../common/logManager')('middleware:preparePubSubADE');
 
 const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
@@ -82,9 +82,8 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
 
           // decode Payload only once by payloadBuffer loop to avoid resource-consuming
           execution.start('decode payload');
-          const { header, payload } = decode('dc.dataControllerUtils.ADEPayload', dataBuffer);
-          const decodedPayload = decode(getType(header.comObjectType), payload);
-          // const decodedPayload = decode(payloadProtobufType, dataBuffer);
+          const decoded = decodePayload(dataBuffer);
+          const decodedPayload = decode(getTypeAggreg(dataId.comObject), decoded);
           execution.stop('decode payload');
 
           // For each tbdId in storeList

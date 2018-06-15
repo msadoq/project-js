@@ -1,6 +1,7 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6829 : 27/06/2017 : PlotView legend : left right top bottom.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 
@@ -10,9 +11,7 @@ import { getView } from 'store/reducers/views';
 import { getConfigurationByViewId } from 'viewManager/selectors';
 import { getDomains } from 'store/reducers/domains';
 import { getSessions } from 'store/reducers/sessions';
-import {
-  updateBgColor,
-  updateTitle,
+import { updateTitle,
   updateLegend,
   toggleLegend,
   updateTitleStyle,
@@ -40,7 +39,6 @@ const mapStateToProps = (state, { viewId }) => {
 };
 
 const ViewParamsContainer = connect(mapStateToProps, {
-  updateBgColor,
   updateTitle,
   updateTitleStyle,
   updateDomainName,

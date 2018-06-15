@@ -1,7 +1,11 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : First benchmark draft for the TextView, split between TextView - TextViewWrapper .
-// VERSION : 1.1.2 : FA : #7834 : 14/09/2017 : Fixed right click bug on TextView, confusion between TextView and TextViewWrapper
+// VERSION : 1.1.2 : DM : #7281 : 19/07/2017 : First benchmark draft for the TextView, split
+//  between TextView - TextViewWrapper .
+// VERSION : 1.1.2 : FA : #7834 : 14/09/2017 : Fixed right click bug on TextView, confusion between
+//  TextView and TextViewWrapper
+// VERSION : 2.0.0 : FA : ISIS-FT-2430 : 03/11/2017 : benchmark text view fix performances
+// VERSION : 2.0.0 : FA : #10311 : 19/01/2018 : Fix lint issues in benchmarks/ folder
 // END-HISTORY
 // ====================================================================
 

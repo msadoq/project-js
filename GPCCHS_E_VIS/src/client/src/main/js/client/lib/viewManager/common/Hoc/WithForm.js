@@ -8,7 +8,7 @@ import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons
 const { bool, func } = PropTypes;
 
 export default function WithForm(WrappedComponent) {
-// eslint-disable-next-line react/prefer-stateless-function
+  // eslint-disable-next-line react/prefer-stateless-function
   class WrapperForm extends React.Component {
     static propTypes = {
       pristine: bool.isRequired,

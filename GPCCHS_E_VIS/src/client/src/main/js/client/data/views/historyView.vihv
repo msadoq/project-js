@@ -1,22 +1,65 @@
 {
   "type": "HistoryView",
   "title": "New History View",
+  "titleStyle": {
+    "align": "left",
+    "bold": false,
+    "color": "#000000",
+    "font": "Arial",
+    "italic": false,
+    "size": 12,
+    "strikeOut": false,
+    "underline": false
+  },
   "links": [],
   "defaultRatio": {
     "length": 5,
     "width": 5
   },
+  "domainName": "fr.cnes.isis",
+  "sessionName": "Session#42",
   "entryPoints": [
     {
       "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC13",
+        "comObject": "ReportingParameter",
+        "comObjectField": "onboardDate",
+        "dataType": "time_based_data",
         "domain": "fr.cnes.isis",
-        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>",
+        "formula": "Reporting.SAT_BC_NUMTC13<ReportingParameter>.onboardDate",
+        "provider": "HKTMR",
+        "refTimestamp": "onboardDate",
         "timeline": "Session 1"
       },
       "name": "ep1"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC13",
+        "comObject": "ReportingParameter",
+        "comObjectField": "onboardDate",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC13<ReportingParameter>.onboardDate",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep2"
     }
   ],
   "allColumns": {},
-  "sorting": {},
-  "hiddenColumns": {}
+  "sorting": {
+    "colName": "referenceTimestamp",
+    "direction": "DESC"
+  },
+  "hiddenColumns": {},
+  "dataOffset": 1,
+  "maxDisplayedRows": 1000,
+  "layoutHeight": 19,
+  "filters": {
+    "epName": "",
+    "referenceTimestamp": ""
+  }
 }

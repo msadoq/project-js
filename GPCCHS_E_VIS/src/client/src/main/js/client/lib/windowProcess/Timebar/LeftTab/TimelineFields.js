@@ -1,7 +1,12 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in windowProcess/Timebar
-// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline definition
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Reorganized files and folders in
+//  windowProcess/Timebar
+// VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Replace sessionId by sessionName in timeline
+//  definition
+// VERSION : 2.0.0 : FA : ISIS-FT-2311 : 31/10/2017 : Timeline's offset is now expressed in
+//  d-h-m-s-ms format.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 
@@ -14,6 +19,7 @@ import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import OffsetFields from './OffsetFields';
+import { sessionsType, timelinesType } from '../../../viewManager/common/Components/types';
 
 /*
   All the fields used in Connected data form
@@ -22,28 +28,8 @@ import OffsetFields from './OffsetFields';
 export default class TimelineFields extends PureComponent {
   static propTypes = {
     disableSubmit: PropTypes.func.isRequired,
-    timelines: PropTypes.arrayOf(
-      PropTypes.shape({
-        color: PropTypes.string,
-        id: PropTypes.string.isRequired,
-        kind: PropTypes.string.isRequired,
-        uuid: PropTypes.string.isRequired,
-        offset: PropTypes.number.isRequired,
-        sessionName: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    sessions: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        delta: PropTypes.number.isRequired,
-        id: PropTypes.number.isRequired,
-        missionEpoch: PropTypes.number.isRequired,
-        timestamp: PropTypes.shape({
-          ms: PropTypes.number,
-          ps: PropTypes.number,
-        }),
-      })
-    ).isRequired,
+    timelines: timelinesType.isRequired,
+    sessions: sessionsType.isRequired,
     id: PropTypes.string,
     masterId: PropTypes.string,
     uuid: PropTypes.string,

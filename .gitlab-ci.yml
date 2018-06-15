@@ -18,10 +18,17 @@ job_build:
     stage: build
     script:
     - RUNNER_TOKEN=23659357
+<<<<<<< HEAD
     - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS/vima/$CI_COMMIT_REF_SLUG
     - export RSA_WORKSPACE=$BUILD_DIR/build/LPISIS
     - echo $BUILD_DIR
     - CHECKOUT_DIR=$BUILD_DIR/build/LPISIS
+=======
+    - export RSA_WORKSPACE=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS
+    - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS/vima/$CI_COMMIT_REF_SLUG
+    - echo $BUILD_DIR
+    - CHECKOUT_DIR=$BUILD_DIR/build
+>>>>>>> [HL] Update gitlab configurationfile . .
     - NODE_MODULES=$BUILD_DIR/node_modules
     - echo $CHECKOUT_DIR
     - rm -rf $CHECKOUT_DIR
@@ -33,14 +40,22 @@ job_build:
     - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
     - ln -s $NODE_MODULES node_modules
     - npm run hello
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> [HL] Update gitlab configurationfile . .
 job_lint:
   stage: test
   script:
    - RUNNER_TOKEN=23659357
    - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS/vima/$CI_COMMIT_REF_SLUG
    - echo $BUILD_DIR
+<<<<<<< HEAD
    - CHECKOUT_DIR=$BUILD_DIR/build/LPISIS
+=======
+   - CHECKOUT_DIR=$BUILD_DIR/build
+>>>>>>> [HL] Update gitlab configurationfile . .
    - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
    - npm run lint
 
@@ -50,12 +65,17 @@ job_test_coverage:
    - RUNNER_TOKEN=23659357
    - BUILD_DIR=/home_local/sduchesn/builds/$RUNNER_TOKEN/0/root/LPISIS/vima/$CI_COMMIT_REF_SLUG
    - echo $BUILD_DIR
+<<<<<<< HEAD
    - CHECKOUT_DIR=$BUILD_DIR/build/LPISIS
+=======
+   - CHECKOUT_DIR=$BUILD_DIR/build
+>>>>>>> [HL] Update gitlab configurationfile . .
    - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
    - npm run test:coverage
 
 job_slack_notif:
     stage: slack_notif
+<<<<<<< HEAD
     script:
         - >-
             curl
@@ -74,3 +94,13 @@ job_validate_viewconf:
     - CHECKOUT_DIR=$BUILD_DIR/build/LPISIS
     - cd $CHECKOUT_DIR/vima/GPCCHS_E_VIS/src/client/src/main/js/client
     - npm run test:validateViewConfigurationFiles -- ./data
+=======
+    script: 
+        - >-
+            curl 
+            -x http://193.56.47.8:8080 
+            -X POST 
+            --data-urlencode "payload={\"channel\": \"#gitlab\", \"username\": \"CI - $GITLAB_USER_LOGIN\", \"text\": \" $GITLAB_USER_LOGIN tu fais que de la merde ! :poop: :poop: \nJob failed . \n<http://isisdev153.cnes-isis.toulouse.atos.net/root/vima/pipelines/$CI_PIPELINE_ID|Go to pipeline result>.\", \"icon_emoji\": \":avatar_$GITLAB_USER_ID:\"}"
+            https://hooks.slack.com/services/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 
+    when: on_failure
+>>>>>>> [HL] Update gitlab configurationfile . .

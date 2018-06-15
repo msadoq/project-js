@@ -28,11 +28,9 @@ export default class CatalogField extends Component {
     timelineId: null,
   };
 
-
   componentDidMount() {
     this.requestCatalogs(this.props);
   }
-
 
   componentWillReceiveProps(nextProps) {
     this.requestCatalogs(nextProps);

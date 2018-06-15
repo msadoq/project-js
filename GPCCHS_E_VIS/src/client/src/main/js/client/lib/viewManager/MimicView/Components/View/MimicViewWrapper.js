@@ -1,11 +1,18 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6816 : 02/08/2017 : add mimic benchmark with isolated mimicView component
+// VERSION : 1.1.2 : DM : #6816 : 02/08/2017 : add mimic benchmark with isolated mimicView
+//  component
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
-// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : imicView Fixed rotate animation error, set visibility to visible.
-// VERSION : 1.1.2 : DM : #6127 : 04/09/2017 : View component now do not automatically set overflow to auto
-// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
+// VERSION : 1.1.2 : DM : #6816 : 30/08/2017 : imicView Fixed rotate animation error, set
+//  visibility to visible.
+// VERSION : 1.1.2 : DM : #6127 : 04/09/2017 : View component now do not automatically set overflow
+//  to auto
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the
+//  view ezeditor
 // VERSION : 1.1.2 : DM : #6816 : 15/09/2017 : Fixed proptype error in MimicViewWrapper.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : DM : #5806 : 11/12/2017 : Fix Open/Close Editor bunny code in MimicView,
+//  PlotView and TextView
 // END-HISTORY
 // ====================================================================
 

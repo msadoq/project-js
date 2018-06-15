@@ -1,8 +1,14 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Removed useless props from PlotViewParametricFake.
-// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test GrizzlyParametric.
-// VERSION : 1.1.2 : FA : #7814 : 19/09/2017 : GrizzlyParametric now also works with indexes and data.
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : Added support for alsso functionnality in both
+//  Grizzly and GrizzlyParametric. Fixed few bugs. Added a fake PlotViewParametricFake file to test
+//  GrizzlyParametric.
+// VERSION : 1.1.2 : FA : #7814 : 19/09/2017 : GrizzlyParametric now also works with indexes and
+//  data.
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Move common/Dimensions.js in
+//  common/hoc/withDimensions .
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 
@@ -225,7 +231,7 @@ export class GrizzlyPlotView extends PureComponent {
   static defaultProps = {
     data: {
       lines: [],
-      columns: [],
+      cols: [],
     },
     visuWindow: null,
     inspectorEpId: null,

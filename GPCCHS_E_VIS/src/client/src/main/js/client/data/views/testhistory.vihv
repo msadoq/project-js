@@ -1,0 +1,127 @@
+{
+  "type": "HistoryView",
+  "title": "New History View",
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "entryPoints": [
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC13",
+        "comObject": "ReportingParameter",
+        "comObjectField": "onboardDate",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC13<ReportingParameter>.onboardDate",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep1"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC17",
+        "comObject": "ReportingParameter",
+        "comObjectField": "onboardDate",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC17<ReportingParameter>.onboardDate",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep2"
+    },
+    {
+      "connectedData": {
+        "catalog": "Reporting",
+        "catalogItem": "SAT_BC_NUMTC15",
+        "comObject": "ReportingParameter",
+        "comObjectField": "onboardDate",
+        "dataType": "time_based_data",
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.SAT_BC_NUMTC15<ReportingParameter>.onboardDate",
+        "refTimestamp": "onboardDate",
+        "timeline": "Session 1"
+      },
+      "name": "ep3"
+    }
+  ],
+  "sorting": {
+    "colName": "referenceTimestamp",
+    "direction": "DESC"
+  },
+  "dataOffset": 0,
+  "maxDisplayedRows": 1000,
+  "columns": [
+    [
+      "default",
+      [
+        {
+          "field": "epName",
+          "isDisplayed": true
+        },
+        {
+          "field": "referenceTimestamp",
+          "isDisplayed": true
+        }
+      ]
+    ],
+    [
+      "ReportingParameter",
+      [
+        {
+          "field": "onboardDate",
+          "isDisplayed": true
+        },
+        {
+          "field": "groundDate",
+          "isDisplayed": true
+        },
+        {
+          "field": "convertedValue",
+          "isDisplayed": true
+        },
+        {
+          "field": "rawValue",
+          "isDisplayed": true
+        },
+        {
+          "field": "extractedValue",
+          "isDisplayed": true
+        },
+        {
+          "field": "monitoringState",
+          "isDisplayed": true
+        },
+        {
+          "field": "triggerOnCounter",
+          "isDisplayed": true
+        },
+        {
+          "field": "triggerOffCounter",
+          "isDisplayed": true
+        },
+        {
+          "field": "validityState",
+          "isDisplayed": true
+        },
+        {
+          "field": "isObsolete",
+          "isDisplayed": true
+        },
+        {
+          "field": "isNominal",
+          "isDisplayed": true
+        }
+      ]
+    ]
+  ],
+  "layoutHeight": 17,
+  "filters": {
+    "epName": ""
+  }
+}

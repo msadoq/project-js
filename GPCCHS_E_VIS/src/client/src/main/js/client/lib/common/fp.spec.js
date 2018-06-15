@@ -1,6 +1,9 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Wrtie common/fp tests . .
+// VERSION : 2.0.0 : DM : #5806 : 11/10/2017 : Add ifElse fp utils .
+// VERSION : 2.0.0 : DM : #5806 : 11/10/2017 : Add reduce fp utils function
+// VERSION : 2.0.0 : DM : #5806 : 11/10/2017 : Add 'when' conditional transformer utils
 // END-HISTORY
 // ====================================================================
 import _ from 'lodash/fp';

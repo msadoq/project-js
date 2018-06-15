@@ -2,6 +2,8 @@
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
+// VERSION : 2.0.0 : DM : #5806 : 24/10/2017 : Fix DynamicView setEntryPointDefault and
+//  prepareViewForStore
 // END-HISTORY
 // ====================================================================
 

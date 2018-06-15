@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
-import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
-import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
 import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
@@ -39,7 +37,6 @@ export default class DynamicViewEntryPoints extends PureComponent {
   };
 
   render() {
-    const { windowId } = this.context;
     const {
       viewId,
       pageId,
@@ -50,20 +47,7 @@ export default class DynamicViewEntryPoints extends PureComponent {
     } = this.props;
 
     return (
-      <div>
-        <HorizontalFormGroup label="Domain">
-          <DomainFieldContainer
-            domainName={selectedDomainName}
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Timeline">
-          <TimelineFieldContainer
-            timelineName={selectedTimelineId}
-            windowId={windowId}
-          />
-        </HorizontalFormGroup>
-
+      <React.Fragment>
         <HorizontalFormGroup label="Catalog">
           <CatalogFieldContainer
             domainName={selectedDomainName}
@@ -97,7 +81,7 @@ export default class DynamicViewEntryPoints extends PureComponent {
         <HorizontalFormGroup label="Provider">
           <ProviderFieldContainer />
         </HorizontalFormGroup>
-      </div>
+      </React.Fragment>
     );
   }
 }

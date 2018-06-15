@@ -1,13 +1,14 @@
 import domainsFilter from 'viewManager/commonData/domains';
 import sessionsFilter from 'viewManager/commonData/sessions';
 import timelinesFilter from 'viewManager/commonData/timelines';
+import { domainDeterminationForDisplay } from '../../../windowProcess/common/domains';
 
 export default function parseConnectedData(
   domains,
   sessions,
   timelines,
   connectedData,
-  masterSessionId,
+  masterTimelineSession,
   viewDomain,
   pageDomain,
   workspaceDomain,
@@ -17,6 +18,13 @@ export default function parseConnectedData(
 ) {
   const { domain, timeline, filter, mode } = connectedData;
   const comObject = 'GroundMonitoringAlarmAckRequest';
+
+  if ((workspaceDomain || '*') && pageDomain && viewDomain && domain) {
+    const display = domainDeterminationForDisplay(workspaceDomain || '*', pageDomain, viewDomain, domain);
+    if (!display) {
+      return { error: 'Domains does not match' };
+    }
+  }
 
   const domainSearch = domainsFilter(domains, domain, viewDomain, pageDomain, workspaceDomain);
   if (domainSearch.error) {
@@ -32,7 +40,7 @@ export default function parseConnectedData(
   const session = sessionsFilter(
     sessions,
     sessionName,
-    masterSessionId,
+    masterTimelineSession,
     viewSessionName,
     pageSessionName,
     workspaceSessionName

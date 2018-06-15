@@ -21,6 +21,7 @@ exports[`Timesetter renders correctly 1`] = `
     </div>
   </div>
   <br />
+  <hr />
   <h4>
     Visu window default width
   </h4>
@@ -98,6 +99,7 @@ exports[`Timesetter renders correctly 1`] = `
     onSubmit={[Function]}
   >
     <br />
+    <hr />
     <h4>
       Cursor timestamps
     </h4>
@@ -661,9 +663,7 @@ exports[`Timesetter renders correctly 1`] = `
         />
       </div>
     </div>
-    <div
-      className="text-center"
-    >
+    <div>
       <input
         className="btn btn-primary disabled"
         type="submit"

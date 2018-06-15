@@ -1,13 +1,20 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Player middleware now pause when focus a page with another timebar
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Player middleware now pause when focus a page with
+//  another timebar
 // VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Refacto player middleware + move store/play.js
-// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Add realTimeHandler and goNowHandler in player middleware
+// VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Add realTimeHandler and goNowHandler in player
+//  middleware
 // VERSION : 1.1.2 : DM : #6700 : 27/06/2017 : Remove Timebar/Controls/ControlsSelectors + tests .
 // VERSION : 1.1.2 : DM : #6129 : 27/06/2017 : merge dev on abesson-mimic branch .
 // VERSION : 1.1.2 : DM : #6700 : 28/06/2017 : Change interval signature in common/utils/interval
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rename all create* middleware by make*
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : FA : ISIS-FT-2241 : 28/11/2017 : zoom plotView VIMA trigger pause on zoom
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2254 : 14/12/2017 : mode normal timeBar VIMA .
+// VERSION : 2.0.0 : FA : ISIS-FT-2241 : 25/01/2018 : editeur et multi pages VIMA .
+// VERSION : 2.0.0 : FA : ISIS-FT-2241 : 01/02/2018 : Allow to play when an editor is opened
 // END-HISTORY
 // ====================================================================
 
@@ -27,9 +34,24 @@ import { HEALTH_STATUS_CRITICAL } from 'constants';
 import * as types from 'store/types';
 import { add as addMessage } from 'store/actions/messages';
 
+import parameters from 'common/configurationManager';
+
 import { nextCurrent, computeCursors } from './cursors';
 
-const nextTick = (delta, currentUpperMargin, dispatch, getState) => {
+const TICKS_MODULO_TO_RESYNCHRO =
+  parseInt(parameters.get('REAL_TIME_RESYNCHRO_EACH_X_TICKS'), 10)
+  || 60;
+
+
+/**
+ *
+ * @param delta
+ * @param currentUpperMargin
+ * @param dispatch
+ * @param getState
+ * @param sessionTime - optional parameter giving the refreshed sessionTime. When set, nextTick is resynchronized.
+ */
+const nextTick = (delta, currentUpperMargin, dispatch, getState, sessionTime) => {
   const state = getState();
   const playingTimebarUuid = getPlayingTimebarId(state);
   if (!playingTimebarUuid) {
@@ -39,11 +61,15 @@ const nextTick = (delta, currentUpperMargin, dispatch, getState) => {
   if (!playingTimebar) {
     return;
   }
-  const newCurrent = nextCurrent(
+
+  const newCurrent = playingTimebar.realTime && sessionTime
+    ? sessionTime + delta
+    : nextCurrent(
     playingTimebar.visuWindow.current,
     playingTimebar.speed,
     delta
   );
+
   const nextCursors = computeCursors(
     newCurrent,
     playingTimebar.visuWindow.current,
@@ -70,9 +96,21 @@ const playHandler = ({ dispatch, getState, interval, currentUpperMargin }, next,
     && health.main !== HEALTH_STATUS_CRITICAL
     && health.windows !== HEALTH_STATUS_CRITICAL
   ) {
-    interval.resume(delta => (
-      nextTick(delta, currentUpperMargin, dispatch, getState)
-    ));
+    let ticksCounter = 0;
+    interval.resume((delta) => {
+      // resynchro nextTick to sessionTime to prevent time shifting
+      if (ticksCounter % TICKS_MODULO_TO_RESYNCHRO === 0) {
+        const { timebarUuid } = action.payload;
+        const sessionId = getCurrentSessionId(getState(), { timebarUuid });
+        ipc.dc.requestSessionTime(sessionId, ({ timestamp: sessionTime }) => {
+          nextTick(delta, currentUpperMargin, dispatch, getState, sessionTime);
+          ticksCounter += 1;
+        });
+      } else {
+        nextTick(delta, currentUpperMargin, dispatch, getState);
+        ticksCounter += 1;
+      }
+    });
     return next(action);
   }
 

@@ -3,19 +3,28 @@
 // VERSION : 1.1.0 : : : 28/02/2017 : Initial version
 // VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : fix reselect signature linting errors
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Remove add/_add/addAndMount thunks . .
-// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_VIEW_CLOSE action + remove unmountAndRemove (view)
-// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add readView + loadDocumentsInStore in documentManager
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_VIEW_CLOSE action + remove unmountAndRemove
+//  (view)
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add readView + loadDocumentsInStore in
+//  documentManager
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Cleanup actions . . .
 // VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : Refacto collapsed maximized using selectors
 // VERSION : 1.1.2 : DM : #5828 : 16/03/2017 : maximized view recovered in ContentContainer .
 // VERSION : 1.1.2 : DM : #5828 : 17/03/2017 : Write first example with local selectors
-// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Replace selectors/pages/makeGetLayout by getPageLayoutWithCollapsed .
-// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Draft the resizable panels and cleanup components props (views not functionnal)
-// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Rename Page/ContentSelector in Page/ContentSelectors .
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Replace ipc openPage by askOpenPage redux action
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Replace selectors/pages/makeGetLayout by
+//  getPageLayoutWithCollapsed .
+// VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Draft the resizable panels and cleanup components
+//  props (views not functionnal)
+// VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Rename Page/ContentSelector in Page/ContentSelectors
+//  .
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Replace ipc openPage by askOpenPage redux
+//  action
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : On open view middleware .
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add onSaveView documents middleware .
-// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 01/09/2017 : Added error message when dropped item's mime type is not supported.
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 01/09/2017 : Added error message when dropped item's mime
+//  type is not supported.
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #9865 : 19/12/2017 : Fix dragNdrop workspace . .
 // END-HISTORY
 // ====================================================================
 

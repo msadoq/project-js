@@ -1,6 +1,8 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Refacto player middleware + move store/play.js
+// VERSION : 2.0.0 : FA : ISIS-FT-2255 : 24/11/2017 : mode fixed timeBar VIMA Fix
+// VERSION : 2.0.0 : FA : ISIS-FT-2254 : 14/12/2017 : mode normal timeBar VIMA .
 // END-HISTORY
 // ====================================================================
 

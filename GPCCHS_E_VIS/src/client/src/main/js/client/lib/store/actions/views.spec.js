@@ -2,7 +2,8 @@
 // HISTORY
 // VERSION : 1.1.0 : : : 28/02/2017 : Initial version
 // VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Test all views thunks .
-// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Write tests about setCollapsedAndUpdateLayout thunk in actions/views
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Write tests about setCollapsedAndUpdateLayout thunk
+//  in actions/views
 // VERSION : 1.1.2 : DM : #3622 : 20/02/2017 : Fix addEntryPoint tests in views.spec.js
 // VERSION : 1.1.2 : FA : #5475 : 22/02/2017 : Debug ifPathChanged higher order action creator
 // VERSION : 1.1.2 : DM : #3622 : 22/02/2017 : Add dropEntrypoint thunk in actions/views
@@ -13,84 +14,24 @@
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Cleanup React components tree and props
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Fix few broken unit tests
 // VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Migrate merged new tests in jest
-// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of
+//  tests
 // VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Fix jest tests in store/actions
 // VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
-// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js
+//  in jest/index.js
+// VERSION : 2.0.0 : FA : ISIS-FT-2248 : 18/10/2017 : Fallback/Wildcard for sessions and domains is
+//  now functionnal. Plus fixed page and workspace modal editor for undefined values.
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 14/11/2017 : Skip / fix unit tests
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 
 import { mockStore, freezeMe } from 'common/jest';
+import stateTest from 'common/jest/stateTest';
+import * as types from 'store/types';
 import * as actions from './views';
-
-
-const defaultStateColor = [
-  {
-    color: 'orangered',
-    condition: {
-      field: 'monitoringState',
-      operand: 'alarm',
-      operator: '=',
-    },
-  },
-  {
-    color: 'red',
-    condition: {
-      field: 'monitoringState',
-      operand: 'critical',
-      operator: '=',
-    },
-  },
-  {
-    color: 'white',
-    condition: {
-      field: 'monitoringState',
-      operand: 'info',
-      operator: '=',
-    },
-  },
-  {
-    color: 'grey',
-    condition: {
-      field: 'monitoringState',
-      operand: 'outOfRange',
-      operator: '=',
-    },
-  },
-  {
-    color: 'darkred',
-    condition: {
-      field: 'monitoringState',
-      operand: 'severe',
-      operator: '=',
-    },
-  },
-  {
-    color: 'orange',
-    condition: {
-      field: 'monitoringState',
-      operand: 'warning',
-      operator: '=',
-    },
-  },
-  {
-    color: 'lightgrey',
-    condition: {
-      field: 'monitoringState',
-      operand: 'nonsignificant',
-      operator: '=',
-    },
-  },
-  {
-    color: 'tan',
-    condition: {
-      field: 'monitoringState',
-      operand: 'obsolete',
-      operator: '=',
-    },
-  },
-];
 
 const initialState = freezeMe({
   domains: [{ name: 'fr.cnes.isis' }],
@@ -161,7 +102,6 @@ const initialState = freezeMe({
     axis_2: { label: 'AXIS2', id: 'axis_2', unit: 'seconds' },
   },
 });
-
 
 describe('store:actions:views', () => {
   const referenceStore = mockStore(initialState);
@@ -364,7 +304,7 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
@@ -396,7 +336,7 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
@@ -516,7 +456,7 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
@@ -560,7 +500,7 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
@@ -595,6 +535,34 @@ describe('store:actions:views', () => {
     test('focusView with unknown view', () => {
       referenceStore.dispatch(actions.focusView('unknownView'));
       expect(referenceStore.getActions()).toEqual([]);
+    });
+  });
+  describe('updateTableCols', () => {
+    const store = mockStore(stateTest);
+    test('updateTableCols when view exists', () => {
+      store.dispatch(actions.updateTableCols('groundAlarm1', 'main', [{
+        title: 'timestamp',
+        value: 'timestamp',
+        position: 0,
+        displayed: true,
+        group: 0,
+      }]));
+      expect(store.getActions()).toEqual([
+        {
+          type: types.WS_VIEW_UPDATE_TABLE_COLS,
+          payload: {
+            viewId: 'groundAlarm1',
+            tableId: 'main',
+            cols: [{
+              title: 'timestamp',
+              value: 'timestamp',
+              position: 0,
+              displayed: true,
+              group: 0,
+            }],
+          },
+        },
+      ]);
     });
   });
 });

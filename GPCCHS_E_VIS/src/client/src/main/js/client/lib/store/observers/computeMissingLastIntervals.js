@@ -1,7 +1,13 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Creation of store observer and test state
-// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : fix datamap for collapsed view add filter on mimic entry point fix computation of missing last interval Add filter on tbdId computation for plot view
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : fix datamap for collapsed view add filter on mimic
+//  entry point fix computation of missing last interval Add filter on tbdId computation for plot
+//  view
+// VERSION : 2.0.0 : DM : #5806 : 13/11/2017 : Pass mode into archive query (GMA/OBA)
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Update unit tests and stubs for provider
+//  field and fix parseEntryPoint calls in all views
 // END-HISTORY
 // ====================================================================
 

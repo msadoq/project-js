@@ -188,6 +188,12 @@ GatewayPorts yes
 AllowTcpForwarding yes
  ```
 
+------------------------------------------------------------------
+# Isis Best pratices
+
+- If you have to dispatch multiple events at once, use an action creator
+- Always run tests before commit on impacted (depends of your modifications) files with ```npm test -- -o```
+
 
 --------------------------------------------
 # Troubleshoot

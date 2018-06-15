@@ -9,6 +9,8 @@
 // VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
 // VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
 // VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : Fix forecast error and fix related tests
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #9883 : 08/01/2018 : Add DISABLE_LOKI_CACHE config variable .
 // END-HISTORY
 // ====================================================================
 

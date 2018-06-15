@@ -16,22 +16,22 @@ exports[`StateColorsFields renders correctly 1`] = `
             Sig
           </th>
           <th>
-            nom
+            Nom
           </th>
           <th>
-            war
+            War
           </th>
           <th>
-            dan
+            Dan
           </th>
           <th>
-            sev
+            Sev
           </th>
           <th>
-            cri
+            Cri
           </th>
           <th>
-            out
+            Out
           </th>
         </tr>
       </thead>

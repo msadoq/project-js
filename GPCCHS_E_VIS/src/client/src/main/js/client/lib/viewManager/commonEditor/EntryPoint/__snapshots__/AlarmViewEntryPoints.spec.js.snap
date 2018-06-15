@@ -1,49 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: AlarmViewEntryPoints snapshot 1`] = `
-<div>
-  <HorizontalFormGroup
-    className=""
-    label="Domain"
-  >
-    <Connect(DomainField)
-      domainName={null}
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className=""
-    label="Timeline"
-  >
-    <Connect(TimelineField)
-      timelineName={null}
-      windowId={undefined}
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className=""
-    label="Mode"
-  >
-    <Field
-      clearable={false}
-      component={[Function]}
-      name="mode"
-      options={
-        Array [
-          Object {
-            "label": "All",
-            "value": 0,
-          },
-          Object {
-            "label": "Non nominal",
-            "value": 1,
-          },
-          Object {
-            "label": "To Acknowledge",
-            "value": 2,
-          },
-        ]
-      }
-    />
-  </HorizontalFormGroup>
-</div>
+<HorizontalFormGroup
+  className=""
+  label="Mode"
+>
+  <Field
+    clearable={false}
+    component={[Function]}
+    name="mode"
+    options={
+      Array [
+        Object {
+          "label": "All",
+          "value": 0,
+        },
+        Object {
+          "label": "Non nominal",
+          "value": 1,
+        },
+        Object {
+          "label": "To Acknowledge",
+          "value": 2,
+        },
+      ]
+    }
+  />
+</HorizontalFormGroup>
 `;

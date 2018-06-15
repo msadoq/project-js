@@ -1,7 +1,13 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add unit test on missing interval computing
-// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
+//  viewData_clean
+// VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Update unit tests and stubs for provider
+//  field and fix parseEntryPoint calls in all views
 // END-HISTORY
 // ====================================================================
 
@@ -25,8 +31,8 @@ describe('store/observers/computeMissingRangeIntervals', () => {
   const dataId_ATT_BC_REVTCOUNT1 = {
     catalog: 'Reporting',
     comObject: 'ReportingParameter',
-    domain: 'fr.cnes.isis',
-    domainId: 1,
+    domain: 'fr.cnes.isis.simupus',
+    domainId: 4,
     sessionId: 0,
     sessionName: 'Master',
     parameterName: 'ATT_BC_REVTCOUNT1',
@@ -57,10 +63,24 @@ describe('store/observers/computeMissingRangeIntervals', () => {
     const state1 = _cloneDeep(state);
     state1.timebars.tb1.visuWindow.lower += 10;
     state1.timebars.tb1.visuWindow.upper += 10;
-    state1.timebars.tb1.visuWindow.current += 10;
+    state1.timebars.tb1.visuWindow.currentLines += 10;
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingRangeIntervals(newMap, lastMap)).toEqual({
+      '.<GroundMonitoringAlarmAckRequest>:0:4:::': {
+        dataId: {
+          catalog: '',
+          comObject: 'GroundMonitoringAlarmAckRequest',
+          domain: 'fr.cnes.isis.simupus',
+          domainId: 4,
+          parameterName: '',
+          provider: undefined,
+          sessionId: 0,
+          sessionName: 'Master',
+        },
+        intervals:
+          [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
+      },
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
@@ -81,7 +101,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         intervals:
           [[state.timebars.tb1.visuWindow.upper, state1.timebars.tb1.visuWindow.upper]],
       },
-      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': {
+      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::': {
         dataId: dataId_ATT_BC_REVTCOUNT1,
         intervals: [
           [
@@ -97,10 +117,24 @@ describe('store/observers/computeMissingRangeIntervals', () => {
     const state1 = _cloneDeep(state);
     state1.timebars.tb1.visuWindow.lower -= 10000;
     state1.timebars.tb1.visuWindow.upper -= 10000;
-    state1.timebars.tb1.visuWindow.current -= 10000;
+    state1.timebars.tb1.visuWindow.currentLines -= 10000;
     const lastMap = dataMapGenerator(state);
     const newMap = dataMapGenerator(state1);
     expect(computeMissingRangeIntervals(newMap, lastMap)).toEqual({
+      '.<GroundMonitoringAlarmAckRequest>:0:4:::': {
+        dataId: {
+          catalog: '',
+          comObject: 'GroundMonitoringAlarmAckRequest',
+          domain: 'fr.cnes.isis.simupus',
+          domainId: 4,
+          parameterName: '',
+          provider: undefined,
+          sessionId: 0,
+          sessionName: 'Master',
+        },
+        intervals:
+          [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],
+      },
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:': {
         dataId: dataId_TMMGT_BC_VIRTCHAN3,
         filters: [{
@@ -121,7 +155,7 @@ describe('store/observers/computeMissingRangeIntervals', () => {
         intervals:
           [[state1.timebars.tb1.visuWindow.lower, state.timebars.tb1.visuWindow.lower]],
       },
-      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': {
+      'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::': {
         dataId: dataId_ATT_BC_REVTCOUNT1,
         intervals:
         [[state1.timebars.tb1.visuWindow.lower - offset,

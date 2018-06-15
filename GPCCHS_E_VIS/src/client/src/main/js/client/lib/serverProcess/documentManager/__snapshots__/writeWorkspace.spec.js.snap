@@ -43,7 +43,6 @@ Object {
       },
       "pages": Array [
         Object {
-          "oId": "oid:/testPlot.json",
           "timebarId": "tb1",
         },
         Object {
@@ -104,7 +103,7 @@ Object {
       },
       "pages": Array [
         Object {
-          "oId": "oid:/testPlot.json",
+          "path": "testPlot.json",
           "timebarId": "tb1",
         },
         Object {
@@ -135,7 +134,7 @@ exports[`documentManager/writeWorkspace writeWorkspaceAs saves 1`] = `
       },
       \\"pages\\": [
         {
-          \\"oId\\": \\"oid:/testPlot.json\\",
+          \\"path\\": \\"testPlot.json\\",
           \\"timebarId\\": \\"tb1\\"
         },
         {

@@ -3,10 +3,14 @@
 // VERSION : 1.1.0 : : : 28/02/2017 : Initial version
 // VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Remove last eslint-disable default-case .
 // VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Remove actions/enhancers/index.js . . .
-// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Change ifPathChanged action creator enhancer arguments
-// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Rename addUuids action creator enhancer into addUuidsToEntryPoints
-// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Refacto setCollapsedAndUpdateLayout thunk in actions/views
-// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Move VIVL files in lib/viewManager and fix plenty of inline view/structure type specific code
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Change ifPathChanged action creator enhancer
+//  arguments
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Rename addUuids action creator enhancer into
+//  addUuidsToEntryPoints
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Refacto setCollapsedAndUpdateLayout thunk in
+//  actions/views
+// VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Move VIVL files in lib/viewManager and fix plenty of
+//  inline view/structure type specific code
 // VERSION : 1.1.2 : DM : #3622 : 17/02/2017 : Test all views thunks .
 // VERSION : 1.1.2 : DM : #3622 : 22/02/2017 : Add dropEntrypoint thunk in actions/views
 // VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse bugs
@@ -15,30 +19,47 @@
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Fix missing generated id to entryPoints
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Fix view reloading . .
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Cleanup redux actions . .
-// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_VIEW_CLOSE action + remove unmountAndRemove (view)
+// VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Add WS_VIEW_CLOSE action + remove unmountAndRemove
+//  (view)
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Replace WS_VIEW_ADD by WS_VIEW_ADD_BLANK .
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Move reloadView in documentManager .
-// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getPageIdByViewId simple selector in reducers/pages
+// VERSION : 1.1.2 : DM : #5828 : 21/03/2017 : Move getPageIdByViewId simple selector in
+//  reducers/pages
 // VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Cleanup React components tree and props
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Refacto opening a view .
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Cleanup React components tree and props
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Merge branch 'dbrugne-boxmodel2' into dev
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : Change addBlankView action creator signature
-// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : PlotView: x axis is always time/s , not editable. Newly created Ep always stick to time axis or create one.
+// VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : PlotView: x axis is always time/s , not editable.
+//  Newly created Ep always stick to time axis or create one.
 // VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Use selector in action/views#addEntryPoint .
 // VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : open parameter in editor via context menu
-// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 05/05/2017 : Add domainName and sessionName on view, window, page
+//  and hsc in store
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add domainName and sessionName on view, window, page
+//  and hsc in store
 // VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
-// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
-// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 19/06/2017 : Improve PlotView editor UI -> legend in store.
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge
+//  with dev
+// VERSION : 1.1.2 : FA : ISIS-FT-2107 : 19/06/2017 : Improve PlotView editor UI -> legend in
+//  store.
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : On open view middleware .
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add onSaveViewAsModel documents middleware .
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add onReloadView documents middleware .
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add onSaveView documents middleware .
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add types and action creator for views middlewares
-// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the view ezeditor
-// VERSION : 1.1.2 : FA : #7773 : 14/09/2017 : Argument in updateEntryPoint action should change index -> entryPointId.
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Add types and action creator for views
+//  middlewares
+// VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the
+//  view ezeditor
+// VERSION : 1.1.2 : FA : #7773 : 14/09/2017 : Argument in updateEntryPoint action should change
+//  index -> entryPointId.
+// VERSION : 2.0.0 : FA : ISIS-FT-2248 : 18/10/2017 : Fallback/Wildcard for sessions and domains is
+//  now functionnal. Plus fixed page and workspace modal editor for undefined values.
+// VERSION : 2.0.0 : FA : #8088 : 03/11/2017 : Fixed DynamicView editor and removeEntryPoint
+//  behavior uses entryPoint.id.
+// VERSION : 2.0.0 : DM : #6818 : 20/11/2017 : save live extents zooms & pans (plot view) in the
+//  store
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 
@@ -88,11 +109,18 @@ export const updateProcedure = simple(types.WS_VIEW_UPDATE_PROCEDURE, 'viewId', 
 export const updateRatio = simple(types.WS_VIEW_UPDATE_RATIO, 'viewId', 'ratio');
 export const updateTitle = simple(types.WS_VIEW_UPDATE_TITLE, 'viewId', 'title');
 export const updateTitleStyle = simple(types.WS_VIEW_UPDATE_TITLESTYLE, 'viewId', 'titleStyle');
-export const updateBgColor = simple(types.WS_VIEW_UPDATE_BGCOLOR, 'viewId', 'bgColor');
 export const updateLegend = simple(types.WS_VIEW_UPDATE_LEGEND, 'viewId', 'legend');
 export const updateContent = simple(types.WS_VIEW_UPDATE_CONTENT, 'viewId', 'content');
 export const updateShowYAxes = simple(types.WS_VIEW_UPDATE_SHOWYAXES, 'viewId', 'showYAxes');
 export const updateDimensions = simple(types.WS_VIEW_UPDATE_DIMENSIONS, 'viewId', 'width', 'height');
+export const updateTableCols = simple(types.WS_VIEW_UPDATE_TABLE_COLS, 'viewId', 'tableId', 'cols');
+export const updateTableColumns =
+  simple(
+    types.WS_VIEW_UPDATE_TABLE_COLUMNS,
+    'viewId',
+    'tableId',
+    'columns'
+  );
 
 export const updateEditorSearch = simple(types.WS_VIEW_UPDATE_EDITOR_SEARCH, 'viewId', 'search');
 
@@ -147,6 +175,9 @@ export const askOpenView = simple(types.WS_ASK_OPEN_VIEW, 'absolutePath');
 export const askCloseView = simple(types.WS_ASK_CLOSE_VIEW, 'viewId');
 export const askReloadView = simple(types.WS_ASK_RELOAD_VIEW, 'viewId');
 export const askSaveViewAsModel = simple(types.WS_ASK_SAVE_VIEW_AS_MODEL, 'viewId');
+export const askExportAsCsv = simple(types.WS_ASK_EXPORT_AS_CSV, 'viewId');
+export const askExportAsImage = simple(types.WS_ASK_EXPORT_AS_IMAGE, 'viewId', 'imageData');
+export const askExportAsImageHasFailed = simple(types.WS_ASK_EXPORT_AS_IMAGE_HAS_FAILED, 'viewId', 'errorMessage');
 
 // ************ EntryPoint
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'entryPointId', 'entryPoint');

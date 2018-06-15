@@ -1,6 +1,7 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Rename addUuids action creator enhancer into addUuidsToEntryPoints
+// VERSION : 1.1.2 : DM : #3622 : 16/02/2017 : Rename addUuids action creator enhancer into
+//  addUuidsToEntryPoints
 // END-HISTORY
 // ====================================================================
 

@@ -2,6 +2,8 @@
 // HISTORY
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : DM : #5806 : 08/01/2018 : Improve error logging in documentManager/io
 // END-HISTORY
 // ====================================================================
 
@@ -10,7 +12,9 @@ import fs from 'fs';
 
 import { read, parse } from 'common/fs';
 
+import { MIME_TYPES } from 'constants';
 import * as fmd from './fmd';
+
 import resolvePath from './pathResolver';
 
 export const readDocument = (
@@ -64,6 +68,40 @@ export const writeDocument = (path, json, cb) => {
     return fmd.createDocument(path, json.type, (err, oid) => {
       if (err) {
         return cb(new Error(`FMD createDocument : ${err}`));
+      }
+      return writeFile(oid);
+    });
+  }
+  return writeFile();
+};
+
+export const exportData = (content, contentType, path, callback) => {
+  if (!_.startsWith('/', path)) {
+    return callback(new Error('path should be absolute'));
+  }
+  const encoding = (type) => {
+    switch (type) {
+      case MIME_TYPES.PortableNetworkGraphics: {
+        return 'base64';
+      }
+      case MIME_TYPES.CommaSeparatedValues: {
+        return 'utf8';
+      }
+      default: {
+        return 'utf8';
+      }
+    }
+  };
+  const writeFile = oid => fs.writeFile(path, content, encoding(contentType), (errWriting) => {
+    if (errWriting) {
+      return callback(errWriting);
+    }
+    return callback(null, oid);
+  });
+  if (fmd.isInFmd(path)) {
+    return fmd.createDocument(path, contentType, (err, oid) => {
+      if (err) {
+        return callback(new Error(`FMD createDocument : ${err}`));
       }
       return writeFile(oid);
     });

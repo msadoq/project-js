@@ -3,8 +3,46 @@
 // VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move data stubs in common/protobuf
 // VERSION : 1.1.2 : DM : #5828 : 23/05/2017 : Move DC stub code in client/lib/stubProcess
 // VERSION : 1.1.2 : FA : #6780 : 21/06/2017 : Apply default state colors in views
-// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Remove data from protobuf in client - Change some stubProcesses and some controllers
+// VERSION : 1.1.2 : FA : #6798 : 22/06/2017 : Remove data from protobuf in client - Change some
+//  stubProcesses and some controllers
 // VERSION : 1.1.2 : FA : #6798 : 23/06/2017 : Merge branch 'dev' into pgaucher-464-proto-config
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : add payload generation for grounAlarms
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Update stubdata for groundAlarm to use ack proto
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Fix issue with comObject naming for GroundAlarms
+// VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Change some protos, plus minor change
+// VERSION : 2.0.0 : DM : #5806 : 11/10/2017 : Fix issues with encode/decode groundAlarms protobuf
+// VERSION : 2.0.0 : DM : #5806 : 11/10/2017 : Improve decoding and encoding for alarm proto
+// VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : Add closing date to alarm stubs
+// VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : UPDATE PUBSUB alarm controler to read properly
+//  payload + bug fixes
+// VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : Improve encoding of protobuf for alarms
+// VERSION : 2.0.0 : FA : ISIS-FT-2229 : 18/10/2017 : Resolve merge conflict . .
+// VERSION : 2.0.0 : DM : #5806 : 18/10/2017 : Merge branch jmaupeti_alarmstub into dev
+// VERSION : 2.0.0 : DM : #5806 : 20/10/2017 : Merge branch jmaupeti_alarmstub into dev
+// VERSION : 2.0.0 : DM : #5806 : 20/10/2017 : Change alarm frequency and random generation
+// VERSION : 2.0.0 : DM : #5806 : 20/10/2017 : Add onboard alarm stubs generation
+// VERSION : 2.0.0 : DM : #5806 : 23/10/2017 : Generate and include out of time range alarms
+//  requiring an Ack
+// VERSION : 2.0.0 : DM : #5806 : 23/10/2017 : Fix issue with generated toAck alarms
+// VERSION : 2.0.0 : DM : #5806 : 27/10/2017 : Fix bad naming of viewdata for ground alarms +
+//  implement cleanviewdata + fix timestamps as string
+// VERSION : 2.0.0 : DM : #5806 : 27/10/2017 : Oba ack status up date
+// VERSION : 2.0.0 : FA : ISIS-FT-1992 : 31/10/2017 : Fix issue with custom color reloading in plot
+//  view + better monitoring state generation
+// VERSION : 2.0.0 : DM : #5806 : 03/11/2017 : Fix generation of alarms ack
+// VERSION : 2.0.0 : DM : #5806 : 03/11/2017 : Manage ackrequests in stub .
+// VERSION : 2.0.0 : DM : #5806 : 06/11/2017 : Out of range alarms treatment + double alarms
+//  corection
+// VERSION : 2.0.0 : DM : #5806 : 07/11/2017 : refacto for getpaiload for alarms
+// VERSION : 2.0.0 : DM : #5806 : 07/11/2017 : Merge branch 'alarm_5806' into dev
+// VERSION : 2.0.0 : DM : #5806 : 08/11/2017 : fix payload generation + fix middleware problems
+// VERSION : 2.0.0 : DM : #5806 : 14/11/2017 : Merge branch 'alarm_5806' into dev
+// VERSION : 2.0.0 : FA : ISIS-FT-2309 : 31/01/2018 : surveillance du monitoringState pour
+//  parametres TM VIMA
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix parseEntryPoint to take into account
+//  provider field and update dc stubs
+// VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Add management of StatsAggregation in VIMA +
+//  update stub
 // END-HISTORY
 // ====================================================================
 
@@ -32,7 +70,7 @@ const stubData = stubs.getStubData();
 //   return states[timestamp % states.length];
 // }
 function getMonitoringState() {
-  return predictibleRand.getBool(0.25) ? predictibleRand.getFrom([
+  return predictibleRand.getBool(0.80) ? predictibleRand.getFrom([
     'info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete', 'danger',
   ]) : undefined;
 }
@@ -152,9 +190,9 @@ const getComObject = (dataId, timestamp, options) => {
         dataId.provider === constants.PROVIDER_FLOW_HKTMR ? 0.5 : 1;
 
       const value = scale * predictibleRand.getSinValue(timestamp, options.epName);
-
-      // TODO: add offset depending on provider field
-      return stubData.getReportingParameterProtobuf({
+      const isisAggreg = stubData.getIsisAggregationProtobuf();
+      const parameter = stubData.getParameterProtobuf();
+      const reportingParam = stubData.getReportingParameterProtobuf({
         groundDate: timestamp + 20,
         onboardDate: timestamp,
         convertedValue: value,
@@ -162,6 +200,12 @@ const getComObject = (dataId, timestamp, options) => {
         extractedValue: value,
         monitoringState: getMonitoringState(timestamp),
       });
+      // TODO: add offset depending on provider field
+      return [
+        { p: isisAggreg, com: 'IsisAggregation' },
+        { p: parameter, com: 'Parameter' },
+        { p: reportingParam, com: 'ReportingParameter' },
+      ];
     }
 
     case 'DecommutedPacket': {
@@ -184,6 +228,13 @@ const getComObject = (dataId, timestamp, options) => {
         ],
       });
     }
+
+    case 'StatExecution':
+      return [
+        { p: stubData.getExecutionProtobuf(), com: 'Execution' },
+        { p: stubData.getStatValueProtobuf(), com: 'StatValue' },
+        { p: stubData.getStatAggregationProtobuf({ statDate: timestamp }), com: 'StatAggregation' },
+      ];
 
     case 'Pus003Model':
       return stubData.getPus003ModelProtobuf({
@@ -274,12 +325,22 @@ module.exports = function getPayload(timestamp, dataId, versionDCCom, options = 
 
   // Decorate payload with ADEGenericPayload in case of proto ADE
   if (versionDCCom === constants.DC_COM_V2) {
-    payload = stubData.getADEPayloadProtobuf({
-      payload,
-      providerId: 0,
-      comObjectType: dataId.comObject,
-      instanceOid: 0,
-    });
+    if (Array.isArray(payload)) {
+      payload = stubData.getADEPayloadProtobuf(payload.map(payloadPart => ({
+        payload: payloadPart.p,
+        providerId: 0,
+        comObjectType: payloadPart.com,
+        instanceOid: 0,
+      })
+      ));
+    } else {
+      payload = stubData.getADEPayloadProtobuf({
+        payload,
+        providerId: 0,
+        comObjectType: dataId.comObject,
+        instanceOid: 0,
+      });
+    }
   }
 
   return {

@@ -1,0 +1,105 @@
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.GridRow {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+.GridColumn {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.HeaderGrid {
+  width: 100%;
+  overflow: hidden !important;
+  background-color: #bdbdbd;
+}
+
+.BodyGrid {
+  width: 100%;
+  border: 1px solid #818181;
+}
+
+.evenRow {
+}
+
+.oddRow {
+}
+
+.cell,
+.headerCell,
+.bodyCell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 .5em;
+}
+
+.headerCell {
+  text-align: center;
+}
+
+.headerCell > span {
+  height: 20px;
+}
+
+.headerCell > span:first-of-type {
+  margin-top: 4px;
+}
+
+.bodyCell {
+  box-shadow: -.5px -.5px 0 #818181;
+  cursor: pointer;
+}
+
+.lastRow {
+  border-bottom: 1px solid gray;
+}
+
+.lastColumn {
+  border-right: 1px solid gray;
+}
+
+.Label {
+  display: inline-block;
+  width: 80px;
+}
+
+.Filter {
+  width: 100%;
+}
+
+.SearchInput {
+  width: 100%;
+  height: 100%;
+}
+
+.active {
+  color: black;
+}
+
+.selectedCell {
+  background-color: rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+.tableHeader {
+  padding: 15px;
+  font-weight: bold;
+}
+
+.Label, .bodyCell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

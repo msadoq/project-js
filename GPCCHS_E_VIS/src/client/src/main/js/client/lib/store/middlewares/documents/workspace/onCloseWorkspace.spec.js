@@ -1,7 +1,11 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : FA : #7145 : 26/07/2017 : Write documents/onCloseWorkspace middleware unit tests
+// VERSION : 1.1.2 : FA : #7145 : 26/07/2017 : Write documents/onCloseWorkspace middleware unit
+//  tests
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : ISIS-FT-2256 : 07/03/2018 : Display confirmation dialog before closing a
+//  window or a workspace
 // END-HISTORY
 // ====================================================================
 

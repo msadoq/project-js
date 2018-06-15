@@ -5,12 +5,19 @@
 // VERSION : 1.1.2 : DM : #6785 : 31/05/2017 : Add Misc/links in view editor
 // VERSION : 1.1.2 : DM : #6129 : 31/05/2017 : add digital display feature and fix lint warnings
 // VERSION : 1.1.2 : DM : #6785 : 06/06/2017 : Fix links in mimic view
-// VERSION : 1.1.2 : DM : #6129 : 10/07/2017 : MimicView editor rc-collapse implementation + fixes on Plot and Text editors too.
+// VERSION : 1.1.2 : DM : #6129 : 10/07/2017 : MimicView editor rc-collapse implementation + fixes
+//  on Plot and Text editors too.
 // VERSION : 1.1.2 : FA : #7256 : 25/07/2017 : Added top title in editor with colored vignette.
 // VERSION : 1.1.2 : FA : #7145 : 27/07/2017 : Fix renderer crash when titleStyle is missing
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 23/08/2017 : On Plot/Text/Mimic/Dynamic editors: Save and Reload buttons beneath the title.
-// VERSION : 1.1.2 : FA : #7753 : 19/09/2017 : MimicTab editor component uses rc-collapse instead of bootstrap collapse.
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 23/08/2017 : On Plot/Text/Mimic/Dynamic editors: Save and
+//  Reload buttons beneath the title.
+// VERSION : 1.1.2 : FA : #7753 : 19/09/2017 : MimicTab editor component uses rc-collapse instead
+//  of bootstrap collapse.
+// VERSION : 2.0.0 : FA : #9494 : 01/12/2017 : Regression in View Editor ( domain ) // move
+//  MimicView common components to dedicated folder
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : DM : #10790 : 27/02/2018 : merge R10dev P1 into bridge REVERT
 // END-HISTORY
 // ====================================================================
 
@@ -33,7 +40,6 @@ export default class Editor extends Component {
     pageId: string.isRequired,
     // from container mapStateToProps
     title: string,
-    titleStyle: shape(),
     configuration: shape({
       entryPoints: array,
     }).isRequired,
@@ -45,7 +51,6 @@ export default class Editor extends Component {
     updateViewPanels: func.isRequired,
   };
   static defaultProps = {
-    titleStyle: {},
     tab: null,
     title: '',
     search: null,
@@ -62,7 +67,6 @@ export default class Editor extends Component {
       pageId,
       search,
       panels,
-      titleStyle,
       title,
       updateViewPanels,
       configuration: {
@@ -75,7 +79,7 @@ export default class Editor extends Component {
         <h4
           className="text-center mb10"
         >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <span className="mr5 EditorVignette" />
           <b>{title}</b>
         </h4>
         <ReloadAndSaveViewButtonsContainer viewId={viewId} />

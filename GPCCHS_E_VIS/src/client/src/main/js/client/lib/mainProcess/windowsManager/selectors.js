@@ -1,10 +1,14 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Move getEditorWindowTitle from selectors/editor to windowsManager/selectors
+// VERSION : 1.1.2 : DM : #5828 : 22/03/2017 : Move getEditorWindowTitle from selectors/editor to
+//  windowsManager/selectors
 // VERSION : 1.1.2 : DM : #5828 : 23/03/2017 : Move getWindowsTitle in windowsManager/selectors .
-// VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Remove configuration check in windowsManagers/selectors
+// VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : Remove configuration check in
+//  windowsManagers/selectors
 // VERSION : 1.1.2 : DM : #5828 : 12/04/2017 : Move isModified from state.windows to state.hsc
-// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files. Possibility to add it in editor using context menu
+// VERSION : 1.1.2 : DM : #6129 : 19/06/2017 : moved components/animations in separate files.
+//  Possibility to add it in editor using context menu
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

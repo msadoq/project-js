@@ -1,14 +1,23 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Creation of store observer and test state
-// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : fix datamap for collapsed view add filter on mimic entry point fix computation of missing last interval Add filter on tbdId computation for plot view
+// VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : fix datamap for collapsed view add filter on mimic
+//  entry point fix computation of missing last interval Add filter on tbdId computation for plot
+//  view
 // VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add entryPoints with offset in state for test
 // VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Update state for unit tests
 // VERSION : 1.1.2 : DM : #6700 : 31/07/2017 : Add unit test on missing interval computing
 // VERSION : 1.1.2 : DM : #6700 : 02/08/2017 : Update unit tests for Plot View store
-// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action viewData_clean
-// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : New extensions. Updated extensions of data files, updated config.sample.json.
-// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json patch
+// VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
+//  viewData_clean
+// VERSION : 1.1.2 : FA : ISIS-FT-2138 : 05/09/2017 : New extensions. Updated extensions of data
+//  files, updated config.sample.json.
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Update plot view data structure to improve json
+//  patch
+// VERSION : 2.0.0 : DM : #6127 : 20/09/2017 : Update of history view data store
+// VERSION : 2.0.0 : FA : ISIS-FT-1992 : 31/10/2017 : Fix broken TUs . .
+// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : core implementation of dealing with sessions
 // END-HISTORY
 // ====================================================================
 
@@ -99,6 +108,432 @@ export default {
       },
     },
   },
+  GroundAlarmViewConfiguration: {
+    groundAlarm1: {
+      search: { enabled: true },
+      entryPoints: [{
+        connectedData: {
+          domain: 'fr.cnes.isis.simupus',
+          timeline: 'Session 1',
+          mode: 0,
+        },
+        id: 'groundAlarm1ep1',
+        name: 'groundAlarmEP',
+        stateColors: [],
+      }],
+      tables: {
+        main: {
+          cols: [
+            {
+              title: 'timestamp',
+              value: 'timestamp',
+              position: 0,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'parameterName',
+              value: 'parameterName',
+              position: 1,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'parameterType',
+              value: 'parameterType',
+              position: 2,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'firstOccurence',
+              value: 'firstOccurence',
+              displayed: true,
+              position: 3,
+              group: 0,
+            },
+            {
+              title: 'lastOccurence',
+              value: 'lastOccurence',
+              displayed: true,
+              position: 4,
+              group: 0,
+            },
+            {
+              title: 'durationtimestamp',
+              value: 'durationtimestamp',
+              displayed: true,
+              position: 5,
+              group: 0,
+            },
+            {
+              title: 'rawValuetimestamp',
+              value: 'rawValuetimestamp',
+              displayed: true,
+              position: 6,
+              group: 0,
+            },
+            {
+              title: 'physicalValue',
+              value: 'physicalValue',
+              displayed: true,
+              position: 7,
+              group: 0,
+            },
+            {
+              title: 'satellite',
+              value: 'satellite',
+              displayed: true,
+              position: 8,
+              group: 0,
+            },
+            {
+              title: 'ackStatetimestamp',
+              value: 'ackStatetimestamp',
+              displayed: true,
+              position: 9,
+              group: 0,
+            },
+          ],
+        },
+      },
+    },
+  },
+  PUS05ViewConfiguration: {
+    pus05: {
+      tables: {
+        onBoardEvents: {
+          cols: [
+            {
+              title: 'rid',
+              value: 'rid',
+              position: 0,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'ridLabel',
+              value: 'ridLabel',
+              position: 1,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'name',
+              value: 'name',
+              position: 2,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'status',
+              value: 'status',
+              displayed: true,
+              position: 3,
+              group: 0,
+            },
+            {
+              title: 'eventShortDescription',
+              value: 'eventShortDescription',
+              displayed: true,
+              position: 4,
+              group: 0,
+            },
+            {
+              title: 'eventDefaultStatus',
+              value: 'eventDefaultStatus',
+              displayed: true,
+              position: 5,
+              group: 0,
+            },
+            {
+              title: 'alarmLevel',
+              value: 'alarmLevel',
+              displayed: true,
+              position: 6,
+              group: 0,
+            },
+            {
+              title: 'actionName',
+              value: 'actionName',
+              displayed: true,
+              position: 7,
+              group: 0,
+            },
+            {
+              title: 'eventLongDescription',
+              value: 'eventLongDescription',
+              displayed: true,
+              position: 8,
+              group: 0,
+            },
+            {
+              title: 'updateType',
+              value: 'updateType',
+              displayed: true,
+              position: 9,
+              group: 0,
+            },
+            {
+              title: 'updateTime',
+              value: 'updateTime',
+              displayed: true,
+              position: 10,
+              group: 0,
+            },
+          ],
+        },
+        receivedOnBoardEvents: {
+          cols: [
+            {
+              title: 'onBoardTime',
+              value: 'onBoardTime',
+              position: 0,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'receptionTime',
+              value: 'receptionTime',
+              position: 1,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'rid',
+              value: 'rid',
+              position: 2,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'ridLabel',
+              value: 'ridLabel',
+              displayed: true,
+              position: 3,
+              group: 0,
+            },
+            {
+              title: 'name',
+              value: 'name',
+              displayed: true,
+              position: 4,
+              group: 0,
+            },
+            {
+              title: 'reportType',
+              value: 'reportType',
+              displayed: true,
+              position: 5,
+              group: 0,
+            },
+          ],
+        },
+      },
+    },
+  },
+  PUS05ViewData: {},
+  PUS11ViewConfiguration: {
+    pus11: {
+      tables: {
+        enabledApids: {
+          cols: [
+            {
+              title: 'apid',
+              value: 'apid',
+              position: 0,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'name',
+              value: 'name',
+              position: 1,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'updateType',
+              value: 'updateType',
+              position: 2,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'updateTime',
+              value: 'updateTime',
+              displayed: true,
+              position: 3,
+              group: 0,
+            },
+          ],
+        },
+        subSchedules: {
+          cols: [
+            {
+              title: 'ssid',
+              value: 'ssid',
+              position: 0,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'ssidLabel',
+              value: 'ssidLabel',
+              position: 1,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'name',
+              value: 'name',
+              position: 2,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'status',
+              value: 'status',
+              displayed: true,
+              position: 3,
+              group: 0,
+            },
+            {
+              title: 'firstTcTime',
+              value: 'firstTcTime',
+              displayed: true,
+              position: 4,
+              group: 0,
+            },
+            {
+              title: 'updateType',
+              value: 'updateType',
+              displayed: true,
+              position: 5,
+              group: 0,
+            },
+            {
+              title: 'updateTime',
+              value: 'updateTime',
+              displayed: true,
+              position: 6,
+              group: 0,
+            },
+            {
+              title: 'nbTc',
+              value: 'nbTc',
+              displayed: true,
+              position: 7,
+              group: 0,
+            },
+          ],
+        },
+        commands: {
+          cols: [
+            {
+              title: 'apid',
+              value: 'apid',
+              position: 0,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'ssid',
+              value: 'ssid',
+              position: 1,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'cmdName',
+              value: 'cmdName',
+              position: 2,
+              displayed: true,
+              group: 0,
+            },
+            {
+              title: 'cmdShortDescription',
+              value: 'cmdShortDescription',
+              displayed: true,
+              position: 3,
+              group: 0,
+            },
+            {
+              title: 'cmdApName',
+              value: 'cmdApName',
+              displayed: true,
+              position: 4,
+              group: 0,
+            },
+            {
+              title: 'seqCount',
+              value: 'seqCount',
+              displayed: true,
+              position: 5,
+              group: 0,
+            },
+            {
+              title: 'sourceId',
+              value: 'sourceId',
+              displayed: true,
+              position: 6,
+              group: 0,
+            },
+            {
+              title: 'cmdStatus',
+              value: 'cmdStatus',
+              displayed: true,
+              position: 7,
+              group: 0,
+            },
+            {
+              title: 'groundStatus',
+              value: 'groundStatus',
+              displayed: true,
+              position: 8,
+              group: 0,
+            },
+            {
+              title: 'initExecTime',
+              value: 'initExecTime',
+              displayed: true,
+              position: 9,
+              group: 0,
+            },
+            {
+              title: 'curExecTime',
+              value: 'curExecTime',
+              displayed: true,
+              position: 10,
+              group: 0,
+            },
+            {
+              title: 'totTimeShift',
+              value: 'totTimeShift',
+              displayed: true,
+              position: 11,
+              group: 0,
+            },
+            {
+              title: 'updateType',
+              value: 'updateType',
+              displayed: true,
+              position: 12,
+              group: 0,
+            },
+            {
+              title: 'updateTime',
+              value: 'updateTime',
+              displayed: true,
+              position: 13,
+              group: 0,
+            },
+          ],
+        },
+      },
+    },
+  },
+  PUS11ViewData: {},
   HistoryViewConfiguration: {
     hist1: {
       entryPoints: [{
@@ -117,7 +552,7 @@ export default {
         stateColors: [],
       }, {
         connectedData: {
-          domain: 'fr.cnes.isis',
+          domain: 'fr.cnes.isis.simupus',
           filter: [],
           formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>',
           timeline: 'Session 1',
@@ -319,99 +754,100 @@ export default {
           unit: 's',
         },
       },
-      entryPoints: [{
-        connectedData: {
-          axisId: 'VBat',
-          digits: 5,
-          domain: 'fr.cnes.isis.simupus',
-          fieldX: 'groundDate',
-          filter: [{
-            field: 'extractedValue',
-            operand: '100',
-            operator: '<',
+      entryPoints: [
+        {
+          connectedData: {
+            axisId: 'VBat',
+            digits: 5,
+            domain: 'fr.cnes.isis.simupus',
+            fieldX: 'groundDate',
+            filter: [{
+              field: 'extractedValue',
+              operand: '100',
+              operator: '<',
+            }],
+            format: 'decimal',
+            formula: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue',
+            timeline: 'Session 1',
+            unit: 'V',
+          },
+          id: 'plot1ep1',
+          name: 'TMMGT_BC_VIRTCHAN3',
+          objectStyle: {
+            curveColor: '#FFBF00',
+            line: {
+              size: 2,
+              style: 'Continuous',
+            },
+            points: {
+              size: 0,
+              style: 'None',
+            },
+          },
+          stateColors: [{
+            color: '#000000',
+            condition: {
+              field: 'monitoringState',
+              operand: 'waiting',
+              operator: '=',
+            },
           }],
-          format: 'decimal',
-          formula: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue',
-          timeline: 'Session 1',
-          unit: 'V',
-        },
-        id: 'plot1ep1',
-        name: 'TMMGT_BC_VIRTCHAN3',
-        objectStyle: {
-          curveColor: '#FFBF00',
-          line: {
-            size: 2,
-            style: 'Continuous',
+          timeBasedData: true,
+        }, {
+          connectedData: {
+            axisId: 'VBat',
+            digits: 5,
+            domain: 'fr.cnes.isis.simupus',
+            fieldX: 'groundDate',
+            filter: [],
+            format: 'decimal',
+            formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
+            timeline: 'Session 1',
+            unit: 'V',
           },
-          points: {
-            size: 0,
-            style: 'None',
+          id: 'plot1ep2',
+          name: 'ATT_BC_REVTCOUNT1',
+          objectStyle: {
+            curveColor: '#ff9800',
+            line: {
+              size: 3,
+              style: 'Continuous',
+            },
+            points: {
+              size: 3,
+              style: 'None',
+            },
           },
-        },
-        stateColors: [{
-          color: '#000000',
-          condition: {
-            field: 'monitoringState',
-            operand: 'waiting',
-            operator: '=',
+          stateColors: [],
+          timeBasedData: true,
+        }, {
+          connectedData: {
+            axisId: 'VBat',
+            digits: 5,
+            domain: 'fr.cnes.isis.simupus',
+            fieldX: 'groundDate',
+            filter: [],
+            format: 'decimal',
+            formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
+            timeline: 'Session Offset',
+            unit: 'V',
           },
+          id: 'plot1ep3',
+          name: 'ATT_BC_REVTCOUNT1_Offset',
+          objectStyle: {
+            curveColor: '#ff9800',
+            line: {
+              size: 3,
+              style: 'Continuous',
+            },
+            points: {
+              size: 3,
+              style: 'None',
+            },
+          },
+          stateColors: [],
+          timeBasedData: true,
         }],
-        timeBasedData: true,
-      }, {
-        connectedData: {
-          axisId: 'VBat',
-          digits: 5,
-          domain: 'fr.cnes.isis',
-          fieldX: 'groundDate',
-          filter: [],
-          format: 'decimal',
-          formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
-          timeline: 'Session 1',
-          unit: 'V',
-        },
-        id: 'plot1ep2',
-        name: 'ATT_BC_REVTCOUNT1',
-        objectStyle: {
-          curveColor: '#ff9800',
-          line: {
-            size: 3,
-            style: 'Continuous',
-          },
-          points: {
-            size: 3,
-            style: 'None',
-          },
-        },
-        stateColors: [],
-        timeBasedData: true,
-      }, {
-        connectedData: {
-          axisId: 'VBat',
-          digits: 5,
-          domain: 'fr.cnes.isis',
-          fieldX: 'groundDate',
-          filter: [],
-          format: 'decimal',
-          formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue',
-          timeline: 'Session Offset',
-          unit: 'V',
-        },
-        id: 'plot1ep3',
-        name: 'ATT_BC_REVTCOUNT1_Offset',
-        objectStyle: {
-          curveColor: '#ff9800',
-          line: {
-            size: 3,
-            style: 'Continuous',
-          },
-          points: {
-            size: 3,
-            style: 'None',
-          },
-        },
-        stateColors: [],
-        timeBasedData: true,
-      }],
       grids: [{
         line: {
           size: 1,
@@ -706,19 +1142,21 @@ export default {
   codeEditor: {
     viewId: null,
   },
-  domains: [{
-    domainId: 1,
-    itemNamespace: 'Domains',
-    name: 'fr.cnes.isis',
-    oid: '0051525005151000565215465660515',
-    parentDomainId: 0,
-  }, {
-    domainId: 4,
-    itemNamespace: 'Domains',
-    name: 'fr.cnes.isis.simupus',
-    oid: '0051525005151000565215465660515',
-    parentDomainId: 1,
-  }],
+  domains: [
+    {
+      domainId: 1,
+      itemNamespace: 'Domains',
+      name: 'fr.cnes.isis',
+      oid: '0051525005151000565215465660515',
+      parentDomainId: 0,
+    }, {
+      domainId: 4,
+      itemNamespace: 'Domains',
+      name: 'fr.cnes.isis.simupus',
+      oid: '0051525005151000565215465660515',
+      parentDomainId: 1,
+    },
+  ],
   form: {},
   health: {
     dcStatus: 'HEALTHY',
@@ -742,6 +1180,7 @@ export default {
     isModified: true,
     isWorkspaceOpening: false,
     lastCacheInvalidation: 1501244084031,
+    sessionName: 'Master',
     playingTimebarId: null,
     windowsOpened: true,
   },
@@ -778,7 +1217,7 @@ export default {
     },
   },
   masterSession: {
-    sessionId: 42,
+    sessionId: 0,
   },
   messages: {
     global: [],
@@ -796,44 +1235,46 @@ export default {
       absolutePath: '/mydata/data/pages/dev.page1.json',
       domainName: 'fr.cnes.isis.simupus',
       isModified: true,
-      layout: [{
-        h: 3,
-        i: 'text1',
-        maxH: 100,
-        maxW: 100,
-        w: 6,
-        x: 0,
-        y: 0,
-      }, {
-        h: 24,
-        i: 'plot1',
-        maxH: 100,
-        maxW: 100,
-        w: 6,
-        x: 6,
-        y: 0,
-      }, {
-        h: 8,
-        i: 'dynamic1',
-        w: 6,
-        x: 0,
-        y: 16,
-      }, {
-        collapsed: false,
-        h: 13,
-        i: 'mimic1',
-        maximized: false,
-        w: 6,
-        x: 0,
-        y: 3,
-      }, {
-        h: 5,
-        i: 'plotCollapsed',
-        w: 5,
-        x: 0,
-        y: 0,
-        collapsed: true,
-      }],
+      layout: [
+        {
+          h: 3,
+          i: 'text1',
+          maxH: 100,
+          maxW: 100,
+          w: 6,
+          x: 0,
+          y: 0,
+        }, {
+          h: 24,
+          i: 'plot1',
+          maxH: 100,
+          maxW: 100,
+          w: 6,
+          x: 6,
+          y: 0,
+        }, {
+          h: 8,
+          i: 'dynamic1',
+          w: 6,
+          x: 0,
+          y: 16,
+        }, {
+          collapsed: false,
+          h: 13,
+          i: 'mimic1',
+          maximized: false,
+          w: 6,
+          x: 0,
+          y: 3,
+        }, {
+          h: 5,
+          i: 'plotCollapsed',
+          w: 5,
+          x: 0,
+          y: 0,
+          collapsed: true,
+        },
+      ],
       panels: {
         editorIsMinimized: true,
         editorWidth: 250,
@@ -860,6 +1301,7 @@ export default {
         'mimic1',
         'plotCollapsed',
         'hist1',
+        'groundAlarm1',
       ],
     },
   },
@@ -879,28 +1321,30 @@ export default {
     openedItems: {},
     sessions: [],
   },
-  sessions: [{
-    id: 0,
-    name: 'Master',
-    timestamp: {
-      ms: 1420106890818,
-      ps: 0,
+  sessions: [
+    {
+      id: 0,
+      name: 'Master',
+      timestamp: {
+        ms: 1420106890818,
+        ps: 0,
+      },
+    }, {
+      id: 42,
+      name: 'Session #42',
+      timestamp: {
+        ms: 1420106890818,
+        ps: 0,
+      },
+    }, {
+      id: 181,
+      name: 'Session# 181',
+      timestamp: {
+        ms: 1420106890818,
+        ps: 0,
+      },
     },
-  }, {
-    id: 42,
-    name: 'Session #42',
-    timestamp: {
-      ms: 1420106890818,
-      ps: 0,
-    },
-  }, {
-    id: 181,
-    name: 'Session# 181',
-    timestamp: {
-      ms: 1420106890818,
-      ps: 0,
-    },
-  }],
+  ],
   timebarTimelines: {
     tb1: ['tl1', 'tlOffset'],
   },
@@ -943,6 +1387,14 @@ export default {
       sessionName: 'Master',
       uuid: 'tlOffset',
     },
+    truc: {
+      color: null,
+      id: 'Session du bois',
+      kind: 'Session',
+      offset: 10000,
+      sessionName: 'Session# 181',
+      uuid: 'tlOffset',
+    },
   },
   ui: {
     dialog: {},
@@ -956,6 +1408,7 @@ export default {
         length: 50,
         width: 50,
       },
+      domainName: '*',
       isModified: false,
       links: [{
         name: 'page4',
@@ -968,7 +1421,6 @@ export default {
       title: 'Plot view',
       titleStyle: {
         align: 'center',
-        bgColor: '#009688',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1000,7 +1452,6 @@ export default {
       title: 'New Text View',
       titleStyle: {
         align: 'center',
-        bgColor: '#3F51B5',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1026,7 +1477,6 @@ export default {
       title: 'New Mimic View',
       titleStyle: {
         align: 'center',
-        bgColor: '#2196f3',
         color: '#FFFFF',
         underline: true,
       },
@@ -1039,7 +1489,7 @@ export default {
         length: 5,
         width: 3,
       },
-      domainName: 'fr.cnes.isis',
+      domainName: 'fr.cnes.isis.simupus',
       isModified: false,
       links: [],
       pageFolder: '/mydata/data/pages',
@@ -1049,7 +1499,6 @@ export default {
       title: 'Dynamic view',
       titleStyle: {
         align: 'center',
-        bgColor: '#E91E63',
         bold: false,
         color: '#ffffff',
         font: 'Arial',
@@ -1061,13 +1510,39 @@ export default {
       type: 'DynamicView',
       uuid: 'dynamic1',
     },
+    groundAlarm1: {
+      absolutePath: '/mydata/data/views/ground-alarm.viga',
+      defaultRatio: {
+        length: 5,
+        width: 5,
+      },
+      isModified: false,
+      links: [],
+      pageFolder: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages',
+      path: '/mydata/data/views/ground-alarm.viga',
+      showLinks: 'false',
+      title: 'Ground Alarm View',
+      titleStyle: {
+        align: 'center',
+        bgColor: '#E91E63',
+        bold: false,
+        color: '#ffffff',
+        font: 'Arial',
+        italic: false,
+        size: 12,
+        strikeOut: false,
+        underline: true,
+      },
+      type: 'GroundAlarmView',
+      uuid: 'groundAlarm1',
+    },
     hist1: {
       absolutePath: '/mydata/data/views/historyView.json',
       defaultRatio: {
         length: 5,
         width: 3,
       },
-      domainName: 'fr.cnes.isis',
+      domainName: 'fr.cnes.isis.simupus',
       isModified: false,
       links: [],
       pageFolder: '/mydata/data/pages',
@@ -1077,7 +1552,6 @@ export default {
       title: 'History view',
       titleStyle: {
         align: 'center',
-        bgColor: '#E91E63',
         bold: false,
         color: '#ffffff',
         font: 'Arial',

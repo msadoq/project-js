@@ -1,18 +1,29 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
-// VERSION : 1.1.2 : FA : #7328 : 02/08/2017 : Fix closing vima when default workspace is unknown or invalid
+// VERSION : 1.1.2 : FA : #7328 : 02/08/2017 : Fix closing vima when default workspace is unknown
+//  or invalid
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
-// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add sendProductLog middleware in serverProcess + replace old IPC productLog
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add sendProductLog middleware in serverProcess +
+//  replace old IPC productLog
 // VERSION : 1.1.2 : FA : #7774 : 19/09/2017 : Add some TODO test in documentManager
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #8084 : 08/12/2017 : Timebar doesn't implement requirement 0790 as
+//  specified // La largeur par defaut de la fenetre de visualisation est stockee dans le workspace
+// VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : link presentational component to redux
+// VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : fix a few regressions in tests
 // END-HISTORY
 // ====================================================================
 
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
+
 import { dirname, basename } from 'path';
 
-import { LOG_DOCUMENT_OPEN } from 'constants';
+import {
+  LOG_DOCUMENT_OPEN,
+  MIME_TYPES,
+} from 'constants';
 import getLogger from 'common/logManager';
 import parameters from 'common/configurationManager';
 
@@ -51,6 +62,8 @@ import { readPageAndViews } from './readPage';
 import { writeWorkspace } from './writeWorkspace';
 import { writePage } from './writePage';
 import { writeView } from './writeView';
+import { exportData } from './io';
+import { parseIntoCsv } from './parseIntoCsv';
 
 import readView from './readView';
 
@@ -273,7 +286,33 @@ export const saveViewAsModel = (viewId, path) => (dispatch, getState) => { // TO
     }
   });
 };
-// -------------------------------------------------------------------------- //
+
+export const exportAsCsv = (viewId, path) => (dispatch, getState) => {
+  const state = getState();
+  const content = parseIntoCsv(state, viewId);
+  exportData(content, MIME_TYPES.CommaSeparatedValues, path, (errSaving) => {
+    if (errSaving) {
+      dispatch(addMessage(viewId, 'danger', `Data unsaved ${errSaving}`));
+    } else {
+      dispatch(addMessage(viewId, 'success', 'Data saved'));
+    }
+  });
+};
+
+export const exportAsImage = (viewId, path, imagedata) => (dispatch) => {
+  const content = imagedata.replace(/^data:image\/\w+;base64,/, '');
+  exportData(content, MIME_TYPES.PortableNetworkGraphics, path, (errSaving) => {
+    if (errSaving) {
+      dispatch(addMessage(viewId, 'danger', `Image unsaved: ${errSaving}`));
+    } else {
+      dispatch(addMessage(viewId, 'success', 'Image saved'));
+    }
+  });
+};
+
+export const exportAsImageHasFailed = (viewId, errorMessage) => (dispatch) => {
+  dispatch(addMessage(viewId, 'danger', `Image unsaved: ${errorMessage}`));
+};
 
 // --- save a workspace ----------------------------------------------------------//
 export const saveWorkspace = path => (dispatch, getState) => { // TODO test this function

@@ -2,7 +2,8 @@
 // HISTORY
 // VERSION : 1.1.0 : : : 28/02/2017 : Initial version
 // VERSION : 1.1.2 : FA : #5316 : 09/02/2017 : Remove an useless eslint-disable noparam-reassign
-// VERSION : 1.1.2 : DM : #3622 : 14/02/2017 : Maj design : remove data & html buttons, add new open editor button
+// VERSION : 1.1.2 : DM : #3622 : 14/02/2017 : Maj design : remove data & html buttons, add new
+//  open editor button
 // VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse bugs
 // VERSION : 1.1.2 : DM : #3622 : 03/03/2017 : Work on Maximize and collapse views
 // VERSION : 1.1.2 : DM : #3622 : 10/03/2017 : store collapsed & maximized bool in page layout
@@ -20,19 +21,32 @@
 // VERSION : 1.1.2 : DM : #5828 : 29/03/2017 : Move page items order in navbar
 // VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : Save / Expand buttons on view, style review.
 // VERSION : 1.1.2 : DM : #5828 : 03/05/2017 : update MoveViewToPage modal to the generic modal
-// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : Collapsed view : SAVE here when isModified: true, bolds in editor, eslint-disable with reason, colors for bgcolor are full colors.
+// VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : Collapsed view : SAVE here when isModified: true,
+//  bolds in editor, eslint-disable with reason, colors for bgcolor are full colors.
 // VERSION : 1.1.2 : DM : #5828 : 09/05/2017 : fix save view in contextual menu
 // VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Clarify renderer/onSaveView controller . .
 // VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : fix save view in contextual menu
-// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Collapsed view : SAVE here when isModified: true, bolds in editor, eslint-disable with reason, colors for bgcolor are full colors.
-// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : User can now show/hide/remove EP from Plot in legend.
-// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : view title is bold when openned in editor. + other fixes.
-// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : react-grid-layout handles are hidden when view is collapsed.
+// VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Collapsed view : SAVE here when isModified: true,
+//  bolds in editor, eslint-disable with reason, colors for bgcolor are full colors.
+// VERSION : 1.1.2 : DM : #5828 : 11/05/2017 : User can now show/hide/remove EP from Plot in
+//  legend.
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : view title is bold when openned in editor. + other
+//  fixes.
+// VERSION : 1.1.2 : DM : #5828 : 12/05/2017 : react-grid-layout handles are hidden when view is
+//  collapsed.
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move common/constants/ in client/ folder
 // VERSION : 1.1.2 : FA : ISIS-FT-2132 : 15/06/2017 : Ask to save before closing view or page
 // VERSION : 1.1.2 : DM : #6129 : 27/06/2017 : Fix saving view . .
 // VERSION : 1.1.2 : FA : ISIS-FT-2132 : 27/06/2017 : Fix view saving . .
-// VERSION : 1.1.2 : FA : #7217 : 07/07/2017 : Go back to previous mechanism to save a view + fix crash on minify view save
+// VERSION : 1.1.2 : FA : #7217 : 07/07/2017 : Go back to previous mechanism to save a view + fix
+//  crash on minify view save
+// VERSION : 2.0.0 : FA : #8086 : 26/09/2017 : Saving view by clicking SAVE on a collapse view
+//  fixed.
+// VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
+// VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
+// VERSION : 2.0.0 : FA : #10835 : 01/03/2018 : if EntryPoint's domain is '*', uses the page
+//  domain, or workspace domain.
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -40,9 +54,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Button, Glyphicon } from 'react-bootstrap';
-import _uniqBy from 'lodash/uniqBy';
-import { get } from 'common/configurationManager';
 import styles from './Header.css';
+import { getColorWithDomainDetermination } from '../common/colors';
 
 export default class Header extends PureComponent {
   static propTypes = {
@@ -66,7 +79,8 @@ export default class Header extends PureComponent {
     domains: PropTypes.arrayOf(PropTypes.string).isRequired,
     pageDomain: PropTypes.string.isRequired,
     workspaceDomain: PropTypes.string.isRequired,
-    isSearhOpenForView: PropTypes.bool.isRequired,
+    isSearchOpenForView: PropTypes.bool.isRequired,
+    viewDomain: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -74,26 +88,27 @@ export default class Header extends PureComponent {
     titleStyle: {},
   };
 
-  getBackgroundColorByViewDomains() {
-    const { domains, pageDomain, workspaceDomain } = this.props;
-    const colors = get('DOMAINS_COLORS');
-    const inheritedDomain = pageDomain || workspaceDomain;
-    const domainsWithReplacedWildCard = domains.map(d => (d === '*' ? inheritedDomain : d));
-    const domain = _uniqBy(domainsWithReplacedWildCard).length > 1
-        ? 'multi'
-        : domains[0];
-    const colorObject = colors.find(obj => Object.keys(obj)[0] === domain);
-    return colorObject !== undefined ? colorObject[domain] : null;
-  }
-
   getTitleStyle() {
-    const { titleStyle, isViewsEditorOpen } = this.props;
+    const {
+      titleStyle,
+      isViewsEditorOpen,
+      domains,
+      pageDomain,
+      workspaceDomain,
+      viewDomain,
+    } = this.props;
+
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
-      background: titleStyle.bgColor ? titleStyle.bgColor :
-        this.getBackgroundColorByViewDomains(),
+      background: getColorWithDomainDetermination(
+        workspaceDomain,
+        [pageDomain],
+        [viewDomain],
+        domains,
+        'view'
+      ),
       color: titleStyle.color ? titleStyle.color : null,
       fontWeight: isViewsEditorOpen ? 'bold' : 'normal',
       fontStyle: 'normal',
@@ -130,7 +145,7 @@ export default class Header extends PureComponent {
       collapsed,
       isModified,
       onContextMenu,
-      isSearhOpenForView,
+      isSearchOpenForView,
     } = this.props;
 
     const title = `${this.props.title} ${isModified ? ' *' : ''}`;
@@ -140,15 +155,13 @@ export default class Header extends PureComponent {
 
     return (
       <div
-        className={classnames(styles.container, {
-          [styles.containerActive]: isViewsEditorOpen,
-        })}
+        className={classnames(styles.container)}
       >
         <div
           style={titleStyle}
           className={`moveHandler ellipsis ${styles.title}`}
         >
-          {isSearhOpenForView &&
+          {isSearchOpenForView &&
           <span className={styles.searchOpen}>
             <Glyphicon glyph="search" />
           </span>

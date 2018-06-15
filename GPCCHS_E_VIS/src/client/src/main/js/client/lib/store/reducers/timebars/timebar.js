@@ -8,10 +8,15 @@
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Refacto loadDocumentsInStore from documentManager .
 // VERSION : 1.1.2 : DM : #5828 : 27/03/2017 : Remove unused parameter from timebar
 // VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : Add some eslint relaxation rules
-// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and un-needed relaxations
-// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : Timebar creation : timebar is created with uuid attribute.
+// VERSION : 1.1.2 : DM : #6302 : 03/04/2017 : Add comment and fix coding convetions warning and
+//  un-needed relaxations
+// VERSION : 1.1.2 : DM : #5828 : 18/04/2017 : Timebar creation : timebar is created with uuid
+//  attribute.
 // VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Rename documentManager actions . .
 // VERSION : 1.1.2 : DM : #6816 : 09/08/2017 : Repace updeep by spread operator in timebar reducer
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #9725 : 20/12/2017 : Fix weird behavior with visuWindow
+// VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : link presentational component to redux
 // END-HISTORY
 // ====================================================================
 

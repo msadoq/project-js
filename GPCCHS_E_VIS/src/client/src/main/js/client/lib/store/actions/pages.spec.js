@@ -7,13 +7,17 @@
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : FIlter unused values in page state
 // VERSION : 1.1.2 : DM : #3622 : 13/03/2017 : Rewrite action/pages tests . .
 // VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Migrate merged new tests in jest
-// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of tests
+// VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of
+//  tests
 // VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Fix jest tests in store/actions
 // VERSION : 1.1.2 : DM : #6785 : 12/06/2017 : activate links in views .
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
-// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js in jest/index.js
+// VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js
+//  in jest/index.js
 // VERSION : 1.1.2 : FA : #6670 : 20/06/2017 : Fix store coverage (actions/pages) .
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Fix closePage test in store/actions/pages
+// VERSION : 2.0.0 : FA : ISIS-FT-2267 : 23/11/2017 : creation page VIMA choix timebar
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

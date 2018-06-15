@@ -5,12 +5,12 @@
   <groupId>fr.cnes.lpisis.gpcc.js</groupId>
   <artifactId>gpcchs_e_vis_launcher_test</artifactId>
   <packaging>pom</packaging>
-  <version>2.0.0-R10S4-SNAPSHOT</version>
+  <version>2.2.1-R12S1-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis.gpcc</groupId>
     <artifactId>gpcchs-parent</artifactId>
-    <version>2.0.0-R10S4-SNAPSHOT</version>
+    <version>2.2.1-R12S1-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <dependencies>

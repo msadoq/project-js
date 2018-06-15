@@ -4,16 +4,23 @@
   <groupId>fr.cnes.lpisis.gpcc</groupId>
   <artifactId>gpcchs_tests_builder</artifactId>
   <packaging>pom</packaging>
-  <version>2.0.0-R10S4-SNAPSHOT</version>
+  <version>2.2.1-R12S1-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis</groupId>
     <artifactId>isis-system</artifactId>
-    <version>2.0.0-R10S4-SNAPSHOT</version>
+    <version>2.2.1-R12S1-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <modules>
     <module>GPCCHS_E_VIS/src/launcher-test</module>
+    <module>GPCCHS_L_IFL/src/api/python/bridge</module>
+    <module>GPCCHS_E_VIS/src/common</module>
+    <module>GPCCHS_E_VIS/src/client</module>
+    <module>GPCCHS_E_VIS/src/launcher</module>
+    <module>GPCCHS_E_VIS/src/impl/editor</module>
+    <module>GPCCHS_E_VIS/src/impl/python/ihmLauncher</module>
+    <module>src/impl/catalogs_stub</module>
   </modules>
   <build>
     <plugins>

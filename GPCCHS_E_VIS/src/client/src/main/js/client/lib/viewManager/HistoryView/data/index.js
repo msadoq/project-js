@@ -7,6 +7,14 @@
 
 import parseEntryPoint from './parseEntryPoint';
 import getExpectedInterval from './intervalManagement';
+import { sort, filter } from '../../common/data/table';
+
+
+export const formatHistoryRows = (data, config) => ({
+  totalCount: data.length,
+  rows: sort(filter(data, config), config),
+});
+
 
 export default {
   parseEntryPoint,

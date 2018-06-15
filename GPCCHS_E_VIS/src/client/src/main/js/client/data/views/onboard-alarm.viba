@@ -16,15 +16,18 @@
     "length": 5,
     "width": 5
   },
+  "domainName": "fr.cnes.isis.simupus",
+  "sessionName": "*",
   "search": {
     "enabled": true
   },
   "entryPoint": {
-    "name": "onboardAlarmEP",
     "connectedData": {
       "domain": "*",
-      "timeline": "*",
-      "mode": 0
-    }
+      "mode": 0,
+      "timeline": "*"
+    },
+    "name": "onboardAlarmEP",
+    "stateColors": []
   }
 }

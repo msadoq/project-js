@@ -4,12 +4,28 @@
 // VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Few tooltip revisions + Zones.
 // VERSION : 1.1.2 : DM : #6829 : 04/07/2017 : Grizzly parametric version 1.3 : magnet points.
 // VERSION : 1.1.2 : DM : #6829 : 06/07/2017 : Added format X and Y to tooltip. Grizzly Parametric.
-// VERSION : 1.1.2 : DM : #6830 : 24/07/2017 : Reproducing styles memoization for Grizzly Parametric.
+// VERSION : 1.1.2 : DM : #6830 : 24/07/2017 : Reproducing styles memoization for Grizzly
+//  Parametric.
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
-// VERSION : 1.1.2 : DM : #6835 : 28/08/2017 : PlotView is never parametric, fixed positionned tooltip in Parametric and PlotView.
-// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Simplified style for canvas divs and tooltip divs, calculated only once in main Chart component.
+// VERSION : 1.1.2 : DM : #6835 : 28/08/2017 : PlotView is never parametric, fixed positionned
+//  tooltip in Parametric and PlotView.
+// VERSION : 1.1.2 : DM : #6835 : 08/09/2017 : Simplified style for canvas divs and tooltip divs,
+//  calculated only once in main Chart component.
 // VERSION : 1.1.2 : DM : #6835 : 12/09/2017 : Fixed unused proptype lint error.
-// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : On Grizzly and GrizzlyParametric, tooltip goes on right or left, always avoiding hovering cursor.
+// VERSION : 1.1.2 : DM : #6835 : 14/09/2017 : On Grizzly and GrizzlyParametric, tooltip goes on
+//  right or left, always avoiding hovering cursor.
+// VERSION : 2.0.0 : DM : #6835 : 09/10/2017 : PlotView always renders GrizzlyParametric with one x
+//  axis. Tooltip reviewed. Current cursor reviewed for parametric and basic.
+// VERSION : 2.0.0 : DM : #6835 : 24/10/2017 : Fixed some bugs on GrizzlyParametric and tooltip.
+// VERSION : 2.0.0 : DM : #6835 : 27/10/2017 : Fix issue with tooltip not going away when mouse
+//  leaves PlotView.
+// VERSION : 2.0.0 : DM : #6835 : 27/10/2017 : Fixed issue with tooltip crashing when PlotView is
+//  empty. Fixed small warning bug in PlotAxes editor.
+// VERSION : 2.0.0 : FA : #8045 : 06/11/2017 : PlotView can draw string parameters, and a defaultY
+//  property can be set.
+// VERSION : 2.0.0 : DM : #6818 : 16/11/2017 : cleanup PropTypes declaration / tests / debounce
+//  linesListener action on zoom & pan
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
 // ====================================================================
 

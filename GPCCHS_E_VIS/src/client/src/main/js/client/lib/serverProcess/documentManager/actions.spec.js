@@ -243,7 +243,6 @@ describe('documentManager:actions', () => {
               strikeOut: false,
               align: 'left',
               color: '#ffffff',
-              bgColor: '#f44336',
             },
             isModified: false,
             absolutePath:

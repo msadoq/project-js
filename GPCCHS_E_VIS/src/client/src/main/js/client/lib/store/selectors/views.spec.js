@@ -37,6 +37,7 @@ import state from 'common/jest/stateTest';
 import {
   getViewEntryPoint,
   getWindowAllViewsIds,
+  getViewEntryPoints,
   getViewConfigurationTableCols,
 } from './views';
 import { get } from '../../common/configurationManager';
@@ -91,6 +92,83 @@ describe('store:views:selectors', () => {
     test('returns existing cols', () => {
       expect(getViewConfigurationTableCols(state, { viewId: 'groundAlarm1', tableId: 'main' }))
         .toEqual(state.GroundAlarmViewConfiguration.groundAlarm1.tables.main.cols);
+    });
+  });
+  describe('getViewEntryPoints', () => {
+    test('returns Entrypoints for text1 with an error for TMMGT_AC_APP (no connected formula)', () => {
+      expect(getViewEntryPoints(state, { viewId: 'text1' })).toEqual(
+        {
+          AGA_AM_PRIORITY: {
+            convertFrom: undefined,
+            convertTo: undefined,
+            dataId: {
+              catalog: 'Reporting',
+              comObject: 'ReportingParameter',
+              domain: 'fr.cnes.isis.simupus',
+              domainId: 4,
+              parameterName: 'AGA_AM_PRIORITY',
+              provider: '*',
+              sessionId: 0,
+              sessionName: 'Master',
+            },
+            field: 'extractedValue',
+            filters: [],
+            id: 'text1ep1',
+            localId: 'extractedValue.tb1:0',
+            offset: 0,
+            tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
+            timebarUuid: 'tb1',
+            type: 'TextView',
+          },
+          AGA_AM_PRIOR_OFFSET: {
+            convertFrom: undefined,
+            convertTo: undefined,
+            dataId: {
+              catalog: 'Reporting',
+              comObject: 'ReportingParameter',
+              domain: 'fr.cnes.isis.simupus',
+              domainId: 4,
+              parameterName: 'AGA_AM_PRIORITY',
+              provider: '*',
+              sessionId: 0,
+              sessionName: 'Master',
+            },
+            field: 'extractedValue',
+            filters: [],
+            id: 'text1ep10',
+            localId: 'extractedValue.tb1:10000',
+            offset: 10000,
+            tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
+            timebarUuid: 'tb1',
+            type: 'TextView',
+          },
+          TMMGT_AC_APP: {
+            error: 'unable to parse this connectedData formula ',
+          },
+          TMMGT_BC_VIRTCHAN3: {
+            convertFrom: undefined,
+            convertTo: undefined,
+            dataId: {
+              catalog: 'Reporting',
+              comObject: 'ReportingParameter',
+              domain: 'fr.cnes.isis.simupus',
+              domainId: 4,
+              parameterName: 'TMMGT_BC_VIRTCHAN3',
+              provider: '*',
+              sessionId: 0,
+              sessionName: 'Master',
+            },
+            field: 'extractedValue',
+            filters: [],
+            id: 'text1ep2',
+            localId: 'extractedValue.tb1:0',
+            offset: 0,
+            tbdId: 'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:::',
+            timebarUuid: 'tb1',
+            type: 'TextView',
+          },
+        }
+      );
     });
   });
 });

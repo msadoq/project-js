@@ -33,6 +33,8 @@ import __ from 'lodash/fp';
 
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 
+import styles from './HistoryView.css';
+
 import { buildFormulaForAutocomplete } from '../../../common';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
@@ -61,11 +63,13 @@ function parseDragData(data) {
 
 class HistoryView extends React.Component {
   static propTypes = {
+    viewId: PropTypes.string.isRequired,
     config: PropTypes.shape().isRequired,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    data: PropTypes.shape().isRequired,
-    viewId: PropTypes.string.isRequired,
+    rows: PropTypes.func.isRequired,
+    rowCount: PropTypes.number.isRequired,
+    totalRowCount: PropTypes.number.isRequired,
     currentRowIndexes: PropTypes.arrayOf(PropTypes.number),
   };
 
@@ -95,39 +99,37 @@ class HistoryView extends React.Component {
     ev.stopPropagation();
   }
 
+  _outlineStyle = style => ({
+    ...style,
+    borderTop: '2px solid green',
+    borderBottom: '2px solid green',
+    backgroundColor: 'rgba(0, 100, 0, 0.1)',
+  });
+
+  _overrideStyle = ({ rowIndex, style }) =>
+    ({ ...(this.props.currentRowIndexes.indexOf(rowIndex) > -1 ? this._outlineStyle(style) : {}) });
+
   render() {
     const {
       viewId,
-      data,
-      currentRowIndexes,
+      rows,
+      rowCount,
+      totalRowCount,
     } = this.props;
-
-    const _outlineStyle = style => ({
-      ...style,
-      borderTop: '2px solid green',
-      borderBottom: '2px solid green',
-      backgroundColor: 'rgba(0, 100, 0, 0.1)',
-    });
-
-    const _bodyCellRendererDecorator =
-      (decoratedRenderer, { columnIndex, key, rowIndex, style }) =>
-        decoratedRenderer({
-          columnIndex,
-          key,
-          rowIndex,
-          style: currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : style,
-        });
 
     return (
       <DroppableContainer
+        className={styles.HistoryView}
         onDrop={this.onDrop}
       >
         <VirtualizedTableViewContainer
           viewId={viewId}
           tableId={'history'}
-          rows={data}
+          rows={rows}
+          rowCount={rowCount}
+          totalRowCount={totalRowCount}
+          overrideStyle={this._overrideStyle}
           withGroups
-          bodyCellRendererDecorator={_bodyCellRendererDecorator}
           pauseOnScroll
         />
 

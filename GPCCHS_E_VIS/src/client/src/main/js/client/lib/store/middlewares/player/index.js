@@ -34,9 +34,24 @@ import { HEALTH_STATUS_CRITICAL } from 'constants';
 import * as types from 'store/types';
 import { add as addMessage } from 'store/actions/messages';
 
+import parameters from 'common/configurationManager';
+
 import { nextCurrent, computeCursors } from './cursors';
 
-const nextTick = (delta, currentUpperMargin, dispatch, getState) => {
+const TICKS_MODULO_TO_RESYNCHRO =
+  parseInt(parameters.get('REAL_TIME_RESYNCHRO_EACH_X_TICKS'), 10)
+  || 60;
+
+
+/**
+ *
+ * @param delta
+ * @param currentUpperMargin
+ * @param dispatch
+ * @param getState
+ * @param sessionTime - optional parameter giving the refreshed sessionTime. When set, nextTick is resynchronized.
+ */
+const nextTick = (delta, currentUpperMargin, dispatch, getState, sessionTime) => {
   const state = getState();
   const playingTimebarUuid = getPlayingTimebarId(state);
   if (!playingTimebarUuid) {
@@ -47,8 +62,8 @@ const nextTick = (delta, currentUpperMargin, dispatch, getState) => {
     return;
   }
 
-  const newCurrent = playingTimebar.realTime
-    ? new Date().getTime() + delta
+  const newCurrent = playingTimebar.realTime && sessionTime
+    ? sessionTime + delta
     : nextCurrent(
     playingTimebar.visuWindow.current,
     playingTimebar.speed,
@@ -81,9 +96,21 @@ const playHandler = ({ dispatch, getState, interval, currentUpperMargin }, next,
     && health.main !== HEALTH_STATUS_CRITICAL
     && health.windows !== HEALTH_STATUS_CRITICAL
   ) {
-    interval.resume(delta => (
-      nextTick(delta, currentUpperMargin, dispatch, getState)
-    ));
+    let ticksCounter = 0;
+    interval.resume((delta) => {
+      // resynchro nextTick to sessionTime to prevent time shifting
+      if (ticksCounter % TICKS_MODULO_TO_RESYNCHRO === 0) {
+        const { timebarUuid } = action.payload;
+        const sessionId = getCurrentSessionId(getState(), { timebarUuid });
+        ipc.dc.requestSessionTime(sessionId, ({ timestamp: sessionTime }) => {
+          nextTick(delta, currentUpperMargin, dispatch, getState, sessionTime);
+          ticksCounter += 1;
+        });
+      } else {
+        nextTick(delta, currentUpperMargin, dispatch, getState);
+        ticksCounter += 1;
+      }
+    });
     return next(action);
   }
 

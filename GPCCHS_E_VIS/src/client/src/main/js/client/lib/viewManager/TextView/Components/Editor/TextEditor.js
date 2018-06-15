@@ -52,7 +52,6 @@ export default class Editor extends Component {
     pageId: string.isRequired,
     // from container mapStateToProps
     title: string,
-    titleStyle: shape(),
     configuration: shape({
       entryPoints: array,
     }).isRequired,
@@ -64,7 +63,6 @@ export default class Editor extends Component {
     updateViewPanels: func.isRequired,
   };
   static defaultProps = {
-    titleStyle: {},
     tab: null,
     title: '',
     search: null,
@@ -81,7 +79,6 @@ export default class Editor extends Component {
       pageId,
       search,
       panels,
-      titleStyle,
       title,
       updateViewPanels,
       configuration: {
@@ -94,7 +91,7 @@ export default class Editor extends Component {
         <h4
           className="text-center mb10"
         >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <span className="mr5 EditorVignette" />
           <b>{title}</b>
         </h4>
         <ReloadAndSaveViewButtonsContainer viewId={viewId} />

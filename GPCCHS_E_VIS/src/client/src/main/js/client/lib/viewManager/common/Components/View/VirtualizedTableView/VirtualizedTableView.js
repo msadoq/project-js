@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars,no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -6,47 +5,29 @@ import cn from 'classnames';
 import { ArrowKeyStepper, Grid, ScrollSync } from 'react-virtualized';
 import ContainerDimensions from 'react-container-dimensions';
 import scrollbarSize from 'dom-helpers/util/scrollbarSize';
-
 import Color from 'color';
 import generateColor from 'string-to-color';
 import shortid from 'shortid';
-import { Glyphicon, Overlay, Popover } from 'react-bootstrap';
+import { Overlay, Popover } from 'react-bootstrap';
+
+import SortArrow from './SortArrow';
 
 import styles from './VirtualizedTableView.css';
 
-const SortArrow = ({ colKey, mode, active, onClick }) => (
-  <span
-    role={'presentation'}
-    onClick={() => onClick(colKey, mode)}
-    className={cn(styles.SortArrow, { [styles.active]: active })}
-  >
-    <Glyphicon
-      glyph={mode === 'DESC' ? 'chevron-down' : 'chevron-up'}
-    />
-  </span>
-);
-
-SortArrow.propTypes = {
-  colKey: PropTypes.string.isRequired,
-  mode: PropTypes.string,
-  active: PropTypes.bool,
-  onClick: PropTypes.func,
-};
-
-SortArrow.defaultProps = {
-  mode: 'DESC',
-  active: false,
-  onClick: () => {
-  },
-};
 
 class VirtualizedTableView extends React.Component {
-
   static propTypes = {
-    totalCount: PropTypes.number.isRequired,
     tableName: PropTypes.string,
-    columns: PropTypes.arrayOf(PropTypes.any),
-    rows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
+    cols: PropTypes.arrayOf(PropTypes.any),
+    columnCount: PropTypes.number.isRequired,
+    rows: PropTypes.oneOfType(
+      [
+        PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.any)),
+        PropTypes.func,
+      ]
+    ).isRequired,
+    rowCount: PropTypes.number,
+    totalRowCount: PropTypes.number,
     columnWidth: PropTypes.number,
     rowHeight: PropTypes.number,
     withGroups: PropTypes.bool,
@@ -54,26 +35,26 @@ class VirtualizedTableView extends React.Component {
     onFilter: PropTypes.func.isRequired,
     bodyCellActions: PropTypes.arrayOf(PropTypes.shape()),
     onBodyCellAction: PropTypes.func.isRequired,
-    onCellClick: PropTypes.func.isRequired,
     onCellDoubleClick: PropTypes.func.isRequired,
     sortState: PropTypes.shape(),
     filterState: PropTypes.shape(),
-    bodyCellRendererDecorator: PropTypes.func,
     onScrollTop: PropTypes.func.isRequired,
+    overrideStyle: PropTypes.func,
   };
 
   static defaultProps = {
     tableName: 'Data table',
-    columns: [],
+    cols: [],
     rows: [],
+    rowCount: 0,
+    totalRowCount: 0,
     columnWidth: 220,
     rowHeight: 22,
     bodyCellActions: null,
     withGroups: false,
     sortState: {},
     filterState: {},
-    bodyCellRendererDecorator:
-      (decoratedBodyCellRenderer, props) => decoratedBodyCellRenderer(props),
+    overrideStyle: () => ({}),
   };
 
   constructor(props, context) {
@@ -109,44 +90,42 @@ class VirtualizedTableView extends React.Component {
 
   render() {
     const {
-      totalCount,
       tableName,
-      columns,
+      cols,
       rows,
+      rowCount,
+      totalRowCount,
       columnWidth,
       rowHeight,
       withGroups, // choose to display or not groups headers,
-                  // in this case, columns objects should have `group` key
-                  // WARNING: columns still should be in the right order (by group)
+                  // in this case, cols objects should have `group` key
+                  // WARNING: cols still should be in the right order (by group)
                   // as this component does not reorder them to match groups
       onSort,
       onFilter,
       bodyCellActions, // the user defined actions
       onBodyCellAction, // VirtualizedTableViewContainer way to dispacth user defined action
-      onCellClick,
       onCellDoubleClick,
       sortState,
       filterState,
-      bodyCellRendererDecorator,
+      overrideStyle,
       onScrollTop,
+      columnCount,
     } = this.props;
 
     let formattedRows = rows;
 
     if (formattedRows.length === 0) { // add dummy row to avoid scroll issues
       formattedRows =
-        [[...Array(columns.length)].reduce(acc => [...acc, { value: undefined }], [])];
+        [[...Array(cols.length)].reduce(acc => [...acc, { value: undefined }], [])];
     }
-
-    const columnCount = columns.length;
-    const rowCount = formattedRows.length;
 
     const overscanColumnCount = 0;
     const overscanRowCount = 0;
 
-    const _getColumnName = col => col.field;
+    const _getColumnName = col => col.title;
 
-    const _groups = columns.reduce((acc, column) => {
+    const _groups = cols.reduce((acc, column) => {
       if (column.group) {
         return [...acc, column.group];
       }
@@ -176,8 +155,8 @@ class VirtualizedTableView extends React.Component {
     }, {});
 
 // eslint-disable-next-line react/prop-types
-    const _groupHeaderCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const groupName = columns[columnIndex].group;
+    const _groupHeaderCellRenderer = ({ columnIndex, key, style }) => {
+      const groupName = cols[columnIndex].group;
 
       const groupColorInfo = _groupColors[groupName];
 
@@ -201,12 +180,12 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _headerCellRenderer = ({ columnIndex, key, style }) => {
-      const colKey = _getColumnName(columns[columnIndex]);
+      const colKey = _getColumnName(cols[columnIndex]);
 
       let headerStyle = _.cloneDeep(style);
 
       if (withGroups) {
-        const groupName = columns[columnIndex].group;
+        const groupName = cols[columnIndex].group;
         const groupColorInfo = _groupColors[groupName];
 
         headerStyle = {
@@ -258,8 +237,8 @@ class VirtualizedTableView extends React.Component {
     };
 
 // eslint-disable-next-line react/prop-types
-    const _filterCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const colKey = columns[columnIndex].field;
+    const _filterCellRenderer = ({ columnIndex, key, style }) => {
+      const colKey = cols[columnIndex].title;
 
       return (
         <div
@@ -284,17 +263,22 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-      const content = formattedRows[rowIndex][columnIndex];
-      const rowClassName = rowIndex % 2 ? styles.oddRow : styles.evenRow;
-      const lastRowClassName = rowIndex === formattedRows.length - 1 ? styles.lastRow : '';
-      const lastColumnClassName = columnIndex === columns.length - 1 ? styles.lastColumn : '';
+      let content = { value: undefined };
+
+      if (Array.isArray(formattedRows)) {
+        content = formattedRows[rowIndex][columnIndex];
+      }
+
+      if (typeof formattedRows === 'function') {
+        content = formattedRows({ rowIndex, columnIndex, cols });
+      }
 
       let updatedStyle = {
         ...style,
       };
 
       if (withGroups) {
-        const groupName = columns[columnIndex].group;
+        const groupName = cols[columnIndex].group;
         const groupColorInfo = _groupColors[groupName];
 
         updatedStyle = {
@@ -306,7 +290,6 @@ class VirtualizedTableView extends React.Component {
 
       const _onClick = (ev) => {
         ev.preventDefault();
-        // onCellClick(rowIndex, columnIndex, content);
         this._onSelectCell(ev, rowIndex, columnIndex, content);
       };
 
@@ -320,10 +303,10 @@ class VirtualizedTableView extends React.Component {
         this.state.selectedCell.rowIndex === rowIndex &&
         this.state.selectedCell.columnIndex === columnIndex;
 
-      if (content.textColor) {
+      if (content.color) {
         updatedStyle = {
           ...updatedStyle,
-          color: content.textColor,
+          color: content.color,
         };
       }
 
@@ -332,16 +315,20 @@ class VirtualizedTableView extends React.Component {
           className={
             cn(
               styles.bodyCell,
-              rowClassName,
-              lastRowClassName,
-              lastColumnClassName,
               {
+                [styles.oddRow]: rowIndex % 2,
+                [styles.evenRow]: !(rowIndex % 2),
+                [styles.lastRow]: rowIndex === (rowCount - 1),
+                [styles.lastColumn]: columnIndex === (cols.length - 1),
                 [styles.selectedCell]: isCellSelected,
               }
             )
           }
           key={key}
-          style={updatedStyle}
+          style={{
+            ...updatedStyle,
+            ...overrideStyle({ columnIndex, key, rowIndex, style }),
+          }}
           onClick={_onClick}
           onDoubleClick={_onDoubleClick}
         >
@@ -350,74 +337,66 @@ class VirtualizedTableView extends React.Component {
       );
     };
 
-    const _enhancedBodyCellRenderer = props =>
-      bodyCellRendererDecorator(_bodyCellRenderer, props);
+    let bodyCellOverlay = null;
 
-    const _createBodyCellMenu = () => {
-      let bodyCellOverlay = null;
+    if (this.state.selectedCell) {
+      const { content, rowIndex, columnIndex } = this.state.selectedCell;
 
-      if (this.state.selectedCell) {
-        const { content, rowIndex, columnIndex } = this.state.selectedCell;
-
-        const popoverContent = _.get(content, ['tooltip', 'body'], null);
-        const actionsMenu = (bodyCellActions || []).map(
-          actionElem =>
-            <a
-              key={shortid.generate()}
-              onClick={() => {
-                onBodyCellAction(actionElem.label, content, rowIndex, columnIndex);
-              }}
-            >
-              {actionElem.label}
-            </a>
-        );
-
-        const popover = (
-          <Popover
-            id="cell-popover"
-            title={_.get(content, ['tooltip', 'title'], null)}
+      const popoverContent = _.get(content, ['tooltip', 'body'], null);
+      const actionsMenu = (bodyCellActions || []).map(
+        actionElem =>
+          <a
+            key={shortid.generate()}
+            onClick={() => {
+              onBodyCellAction(actionElem.label, content, rowIndex, columnIndex);
+            }}
           >
-            {popoverContent}
-            {
-              popoverContent &&
-              actionsMenu &&
-              (actionsMenu.length > 0) ?
-                <hr /> :
-                null
-            }
-            {actionsMenu}
-          </Popover>
-        );
+            {actionElem.label}
+          </a>
+      );
 
-        bodyCellOverlay = (popoverContent || (actionsMenu && actionsMenu.length > 0)) ?
-          (
-            <Overlay
-              show
-              container={this}
-              placement={'right'}
-              target={this.state.selectedCell.target}
-            >
-              {popover}
-            </Overlay>
-          ) : null;
+      const popover = (
+        <Popover
+          id="cell-popover"
+          title={_.get(content, ['tooltip', 'title'], null)}
+        >
+          {popoverContent}
+          {
+            popoverContent &&
+            actionsMenu &&
+            (actionsMenu.length > 0) ?
+              <hr /> :
+              null
+          }
+          {actionsMenu}
+        </Popover>
+      );
+
+      bodyCellOverlay = (popoverContent || (actionsMenu && actionsMenu.length > 0)) ?
+        (
+          <Overlay
+            show
+            container={this}
+            placement={'right'}
+            target={this.state.selectedCell.target}
+          >
+            {popover}
+          </Overlay>
+        ) : null;
+    }
+
+
+    const _getCountStr = () => {
+      if (rowCount !== null && totalRowCount !== null) {
+        if (!rowCount && !totalRowCount) {
+          return 'NO DATA';
+        }
+
+        return `${rowCount}/${totalRowCount}`;
       }
 
-      return bodyCellOverlay;
+      return 'NO DATA';
     };
-
-    const bodyCellMenu = _createBodyCellMenu();
-
-    let countStr = `${formattedRows.length}`;
-
-    if (rows.length === 0) {
-      // do not take into account dummy row
-      // (the table has always at least one row to avoid alignment issues)
-      countStr = '0';
-    }
-
-    if (formattedRows.length < totalCount) {
-      countStr = `${countStr}/${totalCount}`;
-    }
 
     const columnsWidth = columnWidth * columnCount;
     const headerHeight = 42;
@@ -439,7 +418,7 @@ class VirtualizedTableView extends React.Component {
 
             return (
               <div>
-                <div className={styles.tableHeader}>{`${tableName} (${countStr})`}</div>
+                <div className={styles.tableHeader}>{`${tableName} (${_getCountStr()})`}</div>
                 <ScrollSync className={styles.container}>
                   {
                     (
@@ -450,7 +429,7 @@ class VirtualizedTableView extends React.Component {
                       }
                     ) => (
                       <div className={styles.GridRow}>
-                        {bodyCellMenu}
+                        {bodyCellOverlay}
                         <div className={styles.GridColumn}>
                           <ArrowKeyStepper
                             columnCount={columnCount}
@@ -511,7 +490,7 @@ class VirtualizedTableView extends React.Component {
                                     scrollToRow={scrollToRow}
                                   />
                                   <Grid
-                                    cellRenderer={_enhancedBodyCellRenderer}
+                                    cellRenderer={_bodyCellRenderer}
                                     className={styles.BodyGrid}
                                     width={adjustedWidth}
                                     height={adjustedHeight}

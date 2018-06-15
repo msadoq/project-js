@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
@@ -14,20 +15,83 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
 import _omit from 'lodash/omit';
-import _concat from 'lodash/concat';
-import _without from 'lodash/without';
 import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
+import cleanCurrentViewData from './cleanViewData';
+
+
+export const shouldKeepIndex = (index, state, filters = {}) => {
+  const epData = _.get(['data', ...index.split(' ')], state);
+
+  let ret = true;
+  for (const filterKey of Object.keys(filters)) {
+    if (
+      !epData ||
+      epData[filterKey].indexOf(filters[filterKey]) === -1
+    ) {
+      ret = false;
+      break;
+    }
+  }
+
+  return ret;
+};
+
+/**
+ * Maintain a list of array indexes of indexes to keep depending on user filters
+ *
+ * @param state
+ * @param filters
+ * @returns {void|*}
+ * @private
+ */
+export const updateFilteredIndexes = (state, filters) => {
+  let usedIndex = _.get(['indexes', 'referenceTimestamp'], state);
+
+  const availableIndexes = _.get(['indexes'], state);
+
+  const otherIndexes =
+    Object
+      .keys(availableIndexes)
+      .filter(indexKey => indexKey !== 'referenceTimestamp' && indexKey !== 'keep');
+
+  if (otherIndexes.length > 0) {
+    usedIndex = availableIndexes[otherIndexes[0]];
+  }
+
+  /**
+   * @const filterIndexesMap specifies the array indexes that should be kept
+   *
+   *     When using referenceTimestamp index, we get the i-th displayed value by:
+   *         referenceTimestampIndex[filterIndexesMap[i]]
+   */
+  const filterIndexesMap = usedIndex.reduce((acc, cur, index) => {
+    if (shouldKeepIndex(cur, state, filters)) {
+      return [...acc, index];
+    }
+
+    return acc;
+  }, []);
+
+  const updatedIndexes =
+    _.set(
+      ['keep'],
+      filterIndexesMap,
+      _.get(['indexes'], state)
+    );
+
+  return _.set(['indexes'], updatedIndexes, state);
+};
 
 
 const initialState = {
-  cols: [],
-  lines: [],
   data: {},
-  indexes: {},
-  current: {},
+  indexes: {
+    referenceTimestamp: [],
+  },
 };
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function historyViewData(state = {}, action) {
@@ -76,44 +140,6 @@ export default function historyViewData(state = {}, action) {
       });
       return newState;
     }
-    case types.WS_VIEW_SHOW_COL: {
-      const viewId = action.payload.viewId;
-      // Add at the end if no index defined
-      let index = action.payload.index;
-      if (!index) {
-        index = -1;
-      }
-      let newCols = [];
-      if (index > 0 && index < state[viewId].cols.length) {
-        newCols = _concat(
-          state[viewId].cols.slice(0, index),
-          action.payload.colName,
-          state[viewId].cols.slice(index)
-        );
-      } else if (index === 0) {
-        newCols = _concat(action.payload.colName, state[viewId].cols);
-      } else {
-        newCols = _concat(state[viewId].cols, action.payload.colName);
-      }
-
-      return {
-        ...state,
-        [viewId]: {
-          ...state[viewId],
-          cols: newCols,
-        },
-      };
-    }
-    case types.WS_VIEW_HIDE_COL: {
-      const viewId = action.payload.viewId;
-      return {
-        ...state,
-        [viewId]: {
-          ...state[viewId],
-          cols: _without(state[action.payload.viewId].cols || [], action.payload.colName),
-        },
-      };
-    }
     case types.INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations, visuWindow }
         = action.payload;
@@ -122,7 +148,7 @@ export default function historyViewData(state = {}, action) {
       if (!dataKeys.length) {
         return state;
       }
-      // Gets configurationfor history views
+      // Gets configuration for history views
       const configuration = configurations.HistoryViewConfiguration;
       // since now, state will change
       let newState = state;
@@ -142,6 +168,70 @@ export default function historyViewData(state = {}, action) {
         }
       }
       return newState || {};
+    }
+    case types.WS_VIEWDATA_CLEAN: {
+      const { previousDataMap, dataMap, configuration } = action.payload;
+      // since now, state will changed
+      let newState = state;
+      const viewIds = Object.keys(state);
+      for (let i = 0; i < viewIds.length; i += 1) {
+        const viewId = viewIds[i];
+        const viewData = state[viewId];
+        // Cleaning
+        const subState = cleanCurrentViewData(
+          viewData,
+          previousDataMap.perView[viewId],
+          dataMap.perView[viewId],
+          previousDataMap.expectedRangeIntervals,
+          dataMap.expectedRangeIntervals,
+          configuration.HistoryViewConfiguration[viewId]
+        );
+        if (subState !== viewData) {
+          newState = { ...newState, [viewId]: subState };
+        }
+      }
+      return newState;
+    }
+    case types.WS_VIEW_TABLE_UPDATE_SORT: {
+      const { viewId, colName, filters } = action.payload;
+
+      let newState = state;
+
+// eslint-disable-next-line no-loop-func
+      const _sortFunc = index => _.get([...index.split(' '), colName], newState[viewId].data);
+
+      const newIndex =
+        _.sortBy(
+          _sortFunc,
+          newState[viewId].indexes.referenceTimestamp
+        );
+
+      newState = {
+        ...newState,
+        [viewId]: {
+          ...newState[viewId],
+          indexes: {
+            referenceTimestamp: newState[viewId].indexes.referenceTimestamp,
+            [colName]: newIndex,
+          },
+        },
+      };
+
+      // re-index filters against updated sort index
+      newState = {
+        ...newState,
+        [viewId]: updateFilteredIndexes(newState[viewId], filters),
+      };
+
+      return newState;
+    }
+    case types.WS_VIEW_CHANGE_COL_FILTERS: {
+      const { viewId, filters } = action.payload;
+
+      return {
+        ...state,
+        [viewId]: updateFilteredIndexes(state[viewId], filters),
+      };
     }
     default:
       return state;

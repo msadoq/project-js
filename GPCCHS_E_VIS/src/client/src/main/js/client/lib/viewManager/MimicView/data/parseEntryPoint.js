@@ -17,6 +17,8 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix imports . . .
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Update unit tests and stubs for provider
 //  field and fix parseEntryPoint calls in all views
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix master timeline sessionID passed to DC when
+//  entrypoint's timeline is *
 // END-HISTORY
 // ====================================================================
 
@@ -39,7 +41,13 @@ function parseEntryPoint(
   entryPoint,
   masterTimelineSession,
   timebarUuid,
-  viewType) {
+  viewType,
+  viewDomain,
+  pageDomain,
+  workspaceDomain,
+  viewSessionName,
+  pageSessionName,
+  workspaceSessionName) {
   if (!timebarUuid) {
     logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
     return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
@@ -54,12 +62,12 @@ function parseEntryPoint(
       timelines,
       connectedData,
       masterTimelineSession,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
+      viewDomain,
+      pageDomain,
+      workspaceDomain,
+      viewSessionName,
+      pageSessionName,
+      workspaceSessionName,
       provider
     );
 

@@ -18,7 +18,6 @@ const propsStub = {
   tab: 1,
   timelines: [],
   title: 'Ground Alarm View',
-  titleStyle: {},
   updateEntryPoint: () => {},
   updateViewPanels: () => {},
   updateViewTab: () => {},

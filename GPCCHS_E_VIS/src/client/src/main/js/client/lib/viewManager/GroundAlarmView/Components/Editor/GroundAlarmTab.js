@@ -9,7 +9,6 @@ import TableViewColumns from 'viewManager/commonEditor/TableViewColumns';
 import WithForm from 'viewManager/common/Hoc/WithForm';
 import { TableConfigurationColumnType } from '../../../common/Components/types';
 
-const TableViewColumnsForm = WithForm(TableViewColumns);
 const { string, shape, func, arrayOf, array } = PropTypes;
 
 export default class GroundAlarmTab extends React.Component {
@@ -32,7 +31,16 @@ export default class GroundAlarmTab extends React.Component {
   };
   state = {
     isTitleOpen: false,
+    GroundAlarmTableViewColumnsForm: WithForm(TableViewColumns),
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.viewId !== this.props.viewId) {
+      this.setState({
+        GroundAlarmTableViewColumnsForm: WithForm(TableViewColumns),
+      });
+    }
+  }
 
   onChange = (openPanels) => {
     const { updateViewPanels, viewId } = this.props;
@@ -47,6 +55,7 @@ export default class GroundAlarmTab extends React.Component {
 
   render() {
     const { panels, viewId, configuration } = this.props;
+    const { GroundAlarmTableViewColumnsForm } = this.state;
     const cols = _get(configuration, ['tables', 'main', 'cols']); // default initial value from config
     const initialValues = { cols };
 
@@ -67,7 +76,7 @@ export default class GroundAlarmTab extends React.Component {
             header="Columns"
             key="columns"
           >
-            {panels.columns && <TableViewColumnsForm
+            {panels.columns && <GroundAlarmTableViewColumnsForm
               initialValues={initialValues}
               viewId={viewId}
               onSubmit={this.handleSubmit}

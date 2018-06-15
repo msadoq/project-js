@@ -19,7 +19,6 @@
 .HeaderGrid {
   width: 100%;
   overflow: hidden !important;
-  /* border: 1px solid #818181; */
   background-color: #bdbdbd;
 }
 
@@ -72,32 +71,8 @@
 }
 
 .Label {
-  width: 80px;
-}
-
-.Arrow, .Label {
   display: inline-block;
-}
-
-.Arrow {
-  cursor: pointer;
-}
-
-.SortArrow {
-  margin-right: 7px;
-}
-
-.SortArrow:not(.active) {
-  cursor: pointer;
-  color: darkgrey;
-}
-
-.SortArrow:hover {
-  color: black;
-}
-
-.SortArrow.active {
-  color: black;
+  width: 80px;
 }
 
 .Filter {

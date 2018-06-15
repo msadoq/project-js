@@ -25,6 +25,7 @@ import _pull from 'lodash/pull';
 import _uniq from 'lodash/uniq';
 import _flatMap from 'lodash/flatMap';
 import _ from 'lodash';
+import { domainDeterminationForColor } from './domains';
 
 export const STATE_COLOR_NOMINAL = 'nominal';
 export const STATE_COLOR_WARNING = 'warning';
@@ -32,14 +33,6 @@ export const STATE_COLOR_ALARM = 'danger';
 export const STATE_COLOR_SEVERE = 'severe';
 export const STATE_COLOR_CRITICAL = 'critical';
 export const STATE_COLOR_OUT_OF_RANGE = 'outOfRange';
-export const STATE_COLOR_TYPES = [
-  STATE_COLOR_NOMINAL,
-  STATE_COLOR_WARNING,
-  STATE_COLOR_ALARM,
-  STATE_COLOR_SEVERE,
-  STATE_COLOR_CRITICAL,
-  STATE_COLOR_OUT_OF_RANGE,
-];
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 const Domainscolors = get('DOMAINS_COLORS');
@@ -90,11 +83,19 @@ export const getStateColorFilters = _memoize(
 export const getStateColor = _memoize(
   (obsolete = false, significant = true, state = STATE_COLOR_NOMINAL) =>
     _find(getStateColorFilters(obsolete, significant), o => (
-      o.condition.operand === state
-    )
-  ),
+        o.condition.operand === state
+      )
+    ),
   (obsolete, significant, state) =>
     `${obsolete}-${significant}-${state}`
+);
+
+/**
+ * @type {Function}
+ * @returns {array}
+ */
+export const getStateColorTypes = _memoize(
+  () => Object.keys(getStateColors())
 );
 
 /**
@@ -112,13 +113,14 @@ export const isCustomizable = (monitoringState, obsolete, significant) =>
  * @returns {{}}
  */
 const getStateColorsCSSVars =
-  () => Object.keys(getStateColors()).map(k => ({
-    [`--monit-${k}`]: getStateColors()[k],
-  }))
-  .reduce((acc, c) => ({
-    ...acc,
-    ...c,
-  }), {});
+  () => Object.keys(getStateColors())
+    .map(k => ({
+      [`--monit-${k}`]: getStateColors()[k],
+    }))
+    .reduce((acc, c) => ({
+      ...acc,
+      ...c,
+    }), {});
 
 export const getBackgroundColorByDomains = (workspaceDomain, pageDomain, viewDomain, epDomains) => {
   let domain = null;
@@ -204,6 +206,20 @@ export const getBorderColorForNav = (workspaceDomain, pages, viewsDomains) => {
   return colorObject !== undefined ? colorObject[domain] : '#CCC';
 };
 
+export const getColorWithDomainDetermination =
+  (workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from) => {
+    let color = null;
+    const domain =
+      domainDeterminationForColor(workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from);
+    if (domain) {
+      const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
+      color = colorObject
+        ? colorObject[domain]
+        : null
+      ;
+    }
+    return color;
+  };
 
 export default {
   colors,

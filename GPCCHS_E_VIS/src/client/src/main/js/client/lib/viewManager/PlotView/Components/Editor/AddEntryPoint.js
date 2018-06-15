@@ -8,6 +8,8 @@
 // VERSION : 2.0.0 : DM : #6835 : 27/10/2017 : Fixed issue with tooltip crashing when PlotView is
 //  empty. Fixed small warning bug in PlotAxes editor.
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 
@@ -36,25 +38,21 @@ class AddEntryPoint extends Component {
       submitting,
       valid,
       axes,
-      axisId,
-      unit,
     } = this.props;
 
     let filteredAxes;
-    if (axes && unit) {
+    if (axes) {
       filteredAxes = Object.keys(axes)
       .map(key => ({
         ...axes[key],
         axisId: key,
-      })).filter(axis =>
-        axis.unit === unit || axis.id === axisId
-      );
+      }));
     } else {
       filteredAxes = Object.keys(axes)
         .map(key => ({
           ...axes[key],
           axisId: key,
-        })).filter(axis => axis.unit === 'Unknown');
+        }));
     }
 
     return (
@@ -66,22 +64,6 @@ class AddEntryPoint extends Component {
             className="form-control input-sm"
             type="text"
           />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Unit">
-          <Field
-            name="connectedData.unit"
-            component={InputField}
-            type="text"
-            className="form-control input-sm"
-          />
-          {axes &&
-            <p
-              style={{ fontSize: '0.9em', paddingTop: '2px' }}
-            >
-              { Object.values(axes).filter(axe => (axe.unit !== 'Unknown')).map(axe => `${axe.label}: ${axe.unit}`).join(', ') }
-            </p>
-          }
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Axis">
@@ -135,14 +117,10 @@ AddEntryPoint.propTypes = {
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   valid: PropTypes.bool.isRequired,
-  axisId: PropTypes.string,
-  unit: PropTypes.string,
 };
 
 AddEntryPoint.defaultProps = {
   initialValues: { name: '' },
-  axisId: null,
-  unit: null,
 };
 
 export default reduxForm({
@@ -154,7 +132,6 @@ export default reduxForm({
       const selector = formValueSelector(props.form);
       return {
         axisId: selector(state, 'connectedData.axisId'),
-        unit: selector(state, 'connectedData.unit'),
       };
     }
   )(AddEntryPoint)

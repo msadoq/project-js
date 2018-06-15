@@ -10,6 +10,7 @@ import {
 import { getViewTitle, getViewTitleStyle } from 'store/reducers/views/index';
 import { updateViewPanels, updateViewTab } from 'store/actions/ui';
 import PUS11Editor from 'viewManager/PUS11View/Components/Editor/PUS11Editor';
+import { updateEntryPoint } from 'store/actions/views';
 
 const mapStateToProps = createStructuredSelector({
   title: getViewTitle,
@@ -23,6 +24,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   openModal,
   updateViewTab,
   updateViewPanels,
+  updateEntryPoint,
 }, dispatch);
 
 const PUS11EditorContainer = connect(mapStateToProps, mapDispatchToProps)(PUS11Editor);

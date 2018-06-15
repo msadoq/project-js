@@ -6,6 +6,9 @@ et personnalisable. Il permet également de gérer les différentes actions perm
 la configuration du tableau dans la configuration de la vue dans laquelle il se trouve 
 (champs 'table' dans la configuration de la vue dans le store).
 
+Ce composant va de pair avec le composant `TableColumnsEditorContainer` qui permet d'éditer la
+visibilité et l'ordre des colonnes
+
 ## Actions par défaut
 
 Les actions suivantes sonts définies dans le composant `VirtualizedTableViewContainer` :
@@ -58,7 +61,7 @@ La configuration des colonnes correspond à un tableau de tableaux de colonnes o
 ]
 ```
 
-Le champs `isDisplayed` permet en particulier de définir une colonne qui n'est pas affichée mais
+Le champs `displayed` permet en particulier de définir une colonne qui n'est pas affichée mais
 qui est disponible à la sélection, _i.e_ que l'utilisateur peut choisir d'afficher ; le cas échant,
 il faut mettre à jour cette configuration pour refléter les choix de l'utilisateur.
 
@@ -151,21 +154,16 @@ La fonction `onClick` à définir prends 3 arguments en paramètres :
 
 ### Spécialisation du rendu d'une cellule
 
-On peut agir sur la fonction de rendu d'une cellule du corps du tableau en ajoutant un décorateur.
-Cela est possible à l'aide de la propriété `bodyCellRendererDecorator`.
+On peut agir sur la fonction de rendu d'une cellule du corps du tableau en ajoutant
+une fonction permettant de modifier les styles d'une cellule.
+Cela est possible à l'aide de la propriété `overrideStyle`.
 
 Voici l'exemple de la `HistoryView`:
-
-Définition du décorateur :
 ```
-const _bodyCellRendererDecorator =
-  (decoratedRenderer, { columnIndex, key, rowIndex, style }) =>
-	decoratedRenderer({
-	  columnIndex,
-	  key,
-	  rowIndex,
-	  style: currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : style,
-	});
+const _overrideStyle = ({ columnIndex, key, rowIndex, style }) => ({
+  ...(currentRowIndexes.indexOf(rowIndex) > -1 ? _outlineStyle(style) : style),
+}
+);
 ```
 
 Utilisation du composant : 
@@ -175,11 +173,26 @@ Utilisation du composant :
 	  tableId={'history'}
 	  rows={data}
 	  withGroups
-	  bodyCellRendererDecorator={_bodyCellRendererDecorator}
+	  overrideStyle={_overrideStyle}
 	  pauseOnScroll
 	/>
 ``` 
-
-Ce décorateur permet essentiellement de modifier le style d'une cellule donnée. 
 Dans ce cas particulier, cela permet d'ajouter une bordure aux cellules correspondant à
 une ligne courante.
+
+### Edition du table via le composant `TableColumnsEditorContainer`.
+
+Le composant `TableColumnsEditorContainer` prend en paramètre un couple `(viewId, tableId)` et
+ s'utilise de la façon suivante (exemple de la HistoryView):
+
+```
+<TableColumnsEditorContainer
+			viewId={viewId}
+			tableId={'history'}
+		  />
+```
+
+L'application se charge alors de mettre à jour la configuration du tableau référencé par le couple
+`(viewId, tableId)`. Cette configuration impactera automatiquement le composant
+`VirtualizedTableViewContainer` qui se mettra à jour à chaque changement réalisé _via_ l'éditeur
+de colonnes.

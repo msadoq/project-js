@@ -88,10 +88,11 @@ exports[`AddTimeline component AddTimeline (redux-form) renders correctly 1`] = 
         >
           <input
             className="form-control input-sm"
-            defaultValue=""
+            disabled={false}
             onChange={[Function]}
             placeholder=""
             type="text"
+            value=""
           />
         </div>
       </div>

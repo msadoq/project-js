@@ -181,6 +181,8 @@
 // VERSION : 2.0.0 : FA : #10670 : 09/02/2018 : Detach a page no dispatch WIP
 // VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : init Presentational component + tests
 // VERSION : 2.0.0 : FA : ISIS-FT-2215 : 05/03/2018 : Fix unit test . .
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Improve single unit retrieval .
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
 // END-HISTORY
 // ====================================================================
 
@@ -318,7 +320,6 @@ export const WS_VIEW_UPDATE_PROCEDURE = 'WS_VIEW_UPDATE_PROCEDURE';
 export const WS_VIEW_UPDATE_RATIO = 'WS_VIEW_UPDATE_RATIO';
 export const WS_VIEW_UPDATE_TITLE = 'WS_VIEW_UPDATE_TITLE';
 export const WS_VIEW_UPDATE_TITLESTYLE = 'WS_VIEW_UPDATE_TITLESTYLE';
-export const WS_VIEW_UPDATE_BGCOLOR = 'WS_VIEW_UPDATE_BGCOLOR';
 export const WS_VIEW_UPDATE_LEGEND = 'WS_VIEW_UPDATE_LEGEND';
 export const WS_VIEW_UPDATE_CONTENT = 'WS_VIEW_UPDATE_CONTENT';
 export const WS_VIEW_UPDATE_SHOWYAXES = 'WS_VIEW_UPDATE_SHOWYAXES';
@@ -354,6 +355,8 @@ export const WS_VIEW_REMOVE_COL = 'WS_VIEW_REMOVE_COL';
 export const WS_VIEW_TABLE_SCROLL = 'WS_VIEW_TABLE_SCROLL';
 export const WS_VIEW_TABLE_UPDATE_HEIGHT = 'WS_VIEW_TABLE_UPDATE_HEIGHT';
 export const WS_VIEW_TABLE_ADD_COLUMNS = 'WS_VIEW_TABLE_ADD_COLUMNS';
+export const WS_VIEW_TABLE_REORDER_COLUMNS = 'WS_VIEW_TABLE_REORDER_COLUMNS';
+export const WS_VIEW_TABLE_TOGGLE_COLUMN = 'WS_VIEW_TABLE_TOGGLE_COLUMN';
 
 
 export const WS_SEARCH_IN_VIEW = 'WS_SEARCH_IN_VIEW';

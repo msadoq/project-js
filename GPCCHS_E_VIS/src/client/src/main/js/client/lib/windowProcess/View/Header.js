@@ -55,7 +55,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Button, Glyphicon } from 'react-bootstrap';
 import styles from './Header.css';
-import { getBackgroundColorByDomains } from '../common/colors';
+import { getColorWithDomainDetermination } from '../common/colors';
 
 export default class Header extends PureComponent {
   static propTypes = {
@@ -79,7 +79,7 @@ export default class Header extends PureComponent {
     domains: PropTypes.arrayOf(PropTypes.string).isRequired,
     pageDomain: PropTypes.string.isRequired,
     workspaceDomain: PropTypes.string.isRequired,
-    isSearhOpenForView: PropTypes.bool.isRequired,
+    isSearchOpenForView: PropTypes.bool.isRequired,
     viewDomain: PropTypes.string.isRequired,
   };
 
@@ -97,17 +97,18 @@ export default class Header extends PureComponent {
       workspaceDomain,
       viewDomain,
     } = this.props;
+
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
-      background: titleStyle.bgColor ? titleStyle.bgColor :
-        getBackgroundColorByDomains(
-          workspaceDomain,
-          pageDomain,
-          viewDomain,
-          domains
-        ),
+      background: getColorWithDomainDetermination(
+        workspaceDomain,
+        [pageDomain],
+        [viewDomain],
+        domains,
+        'view'
+      ),
       color: titleStyle.color ? titleStyle.color : null,
       fontWeight: isViewsEditorOpen ? 'bold' : 'normal',
       fontStyle: 'normal',
@@ -144,7 +145,7 @@ export default class Header extends PureComponent {
       collapsed,
       isModified,
       onContextMenu,
-      isSearhOpenForView,
+      isSearchOpenForView,
     } = this.props;
 
     const title = `${this.props.title} ${isModified ? ' *' : ''}`;
@@ -154,15 +155,13 @@ export default class Header extends PureComponent {
 
     return (
       <div
-        className={classnames(styles.container, {
-          [styles.containerActive]: isViewsEditorOpen,
-        })}
+        className={classnames(styles.container)}
       >
         <div
           style={titleStyle}
           className={`moveHandler ellipsis ${styles.title}`}
         >
-          {isSearhOpenForView &&
+          {isSearchOpenForView &&
           <span className={styles.searchOpen}>
             <Glyphicon glyph="search" />
           </span>

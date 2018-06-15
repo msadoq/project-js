@@ -16,7 +16,11 @@ import _ from 'lodash/fp';
 
 import * as types from 'store/types';
 
+import { arrayMove } from 'react-sortable-hoc';
+
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
+
+// TODO: replace nested spread operators by _.set use
 
 export default (stateConf, action) => {
   switch (action.type) {
@@ -48,7 +52,6 @@ export default (stateConf, action) => {
           ...stateConf.tables,
           [tableId]: {
             ...stateConf.tables[tableId],
-            dataOffset: 0,
             sorting: {
               colName,
               direction,
@@ -65,7 +68,6 @@ export default (stateConf, action) => {
           ...stateConf.tables,
           [tableId]: {
             ...stateConf.tables[tableId],
-            dataOffset: 0,
             filters: {
               ...stateConf.tables[tableId].filters,
               [colName]: value,
@@ -74,8 +76,8 @@ export default (stateConf, action) => {
         },
       };
     }
-    case types.WS_VIEW_TABLE_SCROLL: {
-      const { tableId, offset } = action.payload;
+    case types.WS_VIEW_TABLE_REORDER_COLUMNS: {
+      const { tableId, oldIndex, newIndex } = action.payload;
 
       return {
         ...stateConf,
@@ -83,11 +85,19 @@ export default (stateConf, action) => {
           ...stateConf.tables,
           [tableId]: {
             ...stateConf.tables[tableId],
-            dataOffset: offset,
+            cols: arrayMove(stateConf.tables[tableId].cols, oldIndex, newIndex),
           },
         },
-        dataOffset: offset,
       };
+    }
+    case types.WS_VIEW_TABLE_TOGGLE_COLUMN: {
+      const { tableId, index } = action.payload;
+      const selectedColumnIsDisplayedPath = ['tables', tableId, 'cols', index, 'displayed'];
+      return _.set(
+        selectedColumnIsDisplayedPath,
+        !_.get(selectedColumnIsDisplayedPath, stateConf),
+        stateConf
+      );
     }
     default:
       return stateConf;

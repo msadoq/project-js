@@ -35,6 +35,9 @@
 // VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : Refacto PubSub Alarm + tbd Alarm queries
 // VERSION : 2.0.0 : FA : ISIS-FT-2229 : 18/10/2017 : Resolve merge conflict . .
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Improve single unit retrieval .
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : core implementation of dealing with sessions
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
 // END-HISTORY
 // ====================================================================
 
@@ -82,7 +85,7 @@ const controllersV1 = {
     archiveController(args, getStore, { get, remove });
   },
   [constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: (args) => {
-    // pubSubController(args, getStore);
+    pubSubController(args, getStore);
   },
   [constants.MESSAGETYPE_FMD_CREATE_DATA]: onFmdCreateData,
   [constants.MESSAGETYPE_FMD_GET_DATA]: onFmdGetData,
@@ -98,7 +101,7 @@ const controllersV2 = {
     archiveControllerADE({ buffers, requestId, isLast, isError }, getStore, { get, remove });
   },
   [constants.ADE_TIMEBASED_SUBSCRIPTION]: (buffers, requestId, isLast, isError) => {
-    // pubSubControllerADE({ buffers, requestId, isLast, isError }, getStore);
+    pubSubControllerADE({ buffers, requestId, isLast, isError }, getStore);
   },
   [constants.ADE_FMD_CREATE_DOCUMENT]: onFmdCreateDataADE,
   [constants.ADE_FMD_GET]: onFmdGetDataADE,

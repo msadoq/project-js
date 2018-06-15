@@ -8,6 +8,7 @@ exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: 
     viewType="TextView"
   />
   <Connect(EntryPointTree)
+    entryPointConnectedDataForm={[Function]}
     entryPoints={Array []}
     pageId="pageId"
     search={null}

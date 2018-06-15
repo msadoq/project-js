@@ -33,7 +33,7 @@ const timebarFixture = {
   },
 };
 
-const play = () => ({ type: types.HSC_PLAY });
+const play = () => ({ type: types.HSC_PLAY, payload: { timebarUuid: null } });
 const pause = () => ({ type: types.HSC_PAUSE });
 // const openEditor = () => ({ type: types.WS_PAGE_PANELS_LOAD_IN_EDITOR });
 const focusPage = pageId => ({
@@ -58,7 +58,12 @@ jest.mock('../../../serverProcess/ipc', () => ({
 }));
 
 
-let state = { hsc: { focusWindow: 'w1' }, windows: { w1: { pages: ['p1'] } }, health: {}, pages: { p1: { panels: { editorIsMinimized: false } } } };
+let state = {
+  hsc: { focusWindow: 'w1' },
+  windows: { w1: { pages: ['p1'] } },
+  health: {},
+  pages: { p1: { panels: { editorIsMinimized: false } } },
+};
 
 describe('store:middlewares:player', () => {
   jest.useFakeTimers();

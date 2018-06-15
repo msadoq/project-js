@@ -11,6 +11,7 @@
 // VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : Fix cleaning data in last type views
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // VERSION : 2.0.0 : FA : #8801 : 19/12/2017 : Do not clean data when reload a view
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 

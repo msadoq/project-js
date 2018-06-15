@@ -28,7 +28,7 @@ import _ from 'lodash/fp';
 import { askOpenLink } from 'store/actions/links';
 import { getConfigurationByViewId } from 'viewManager';
 import { getViewContent, getViewDimensions } from 'viewManager/MimicView/store/configurationSelectors';
-import { getPageIdByViewId, getPage } from 'store/reducers/pages';
+import { getPageIdByViewId, getPage, getSearchCount, getSearchingByPage, getSearchViewsIds } from 'store/reducers/pages';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
 import { getInspectorEpId } from 'store/reducers/inspector';

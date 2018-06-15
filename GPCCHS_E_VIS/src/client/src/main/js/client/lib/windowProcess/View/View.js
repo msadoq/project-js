@@ -140,7 +140,7 @@ export default class View extends PureComponent {
     const {
       collapsed, maximized, absolutePath, isViewsEditorOpen, isViewsSearchOpen,
       closeEditor, openEditor, openSearch, closeSearch, openModal,
-      collapseView, maximizeView, closeView, reloadView,
+      collapseView, maximizeView, closeView, reloadView, type,
     } = this.props;
     const editorMenu = (isViewsEditorOpen) ?
     {

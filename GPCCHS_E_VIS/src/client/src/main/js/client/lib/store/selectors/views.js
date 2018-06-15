@@ -50,8 +50,9 @@ import _isEqual from 'lodash/isEqual';
 import makeGetPerViewData from 'dataManager/perViewData';
 import { getConfigurationByViewId } from 'viewManager/selectors';
 import { getConfigurationReducers } from 'viewManager/reducers';
-import { getPage, getPages, getPageIdByViewId } from '../reducers/pages';
+import { getPage, getPages, getPageIdByViewId, getPageTimebarId } from '../reducers/pages';
 import { getWindowPageIds } from '../reducers/windows';
+import { getTimebarVisuWindow } from '../reducers/timebars';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -190,3 +191,11 @@ export const getViewConfigurationTableColumns = createSelector(
   getConfigurationByViewId,
   (tableId, viewConfiguration) => _getOr([], `tables.${tableId}.cols`, viewConfiguration)
 );
+
+export const getVisuWindowByViewId = (state, { viewId }) => {
+  const pageId = getPageIdByViewId(state, { viewId });
+  const timebarUuid = getPageTimebarId(state, { pageId });
+  const visuWindow = getTimebarVisuWindow(state, { timebarUuid });
+
+  return visuWindow;
+};

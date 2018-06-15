@@ -321,7 +321,7 @@ const onHssMessageADE = (...args) => {
         providerFlow: provider,
       } = protobuf.decode('dc.dataControllerUtils.ADETimebasedQuery', args[1]);
 
-      logger.info('ADE_TIMEBASED_QUERY sessionId: ', sessionId);
+      logger.debug('ADE_TIMEBASED_QUERY sessionId: ', sessionId);
       const dataId = {
         sessionId,
         domainId,

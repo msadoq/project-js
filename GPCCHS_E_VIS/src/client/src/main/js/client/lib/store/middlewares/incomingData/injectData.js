@@ -71,6 +71,8 @@ const injectData = (timing) => {
       const lasts = convertedDataToInject.lasts || {};
       const obsoleteEvents = convertedDataToInject.obsoleteEvents || {};
 
+      const visuWindow = getCurrentVisuWindow(state);
+
       const updateRangeData = injectDataRange(
         oldViewMap,
         newViewMap,
@@ -81,7 +83,7 @@ const injectData = (timing) => {
           GroundAlarmViewConfiguration: state.GroundAlarmViewConfiguration,
           OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration,
           PlotViewConfiguration: state.PlotViewConfiguration },
-        getCurrentVisuWindow(state)
+        visuWindow
       );
       const updateLastData = injectDataLast(
         oldViewMap,
@@ -92,7 +94,8 @@ const injectData = (timing) => {
       );
       const updateObsoleteEventData = injectDataObsoleteEvent(
         obsoleteEvents,
-        newViewMap
+        newViewMap,
+        state
       );
       dispatch(updateRangeData);
       dispatch(updateLastData);

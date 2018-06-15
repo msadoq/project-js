@@ -32,4 +32,4 @@ export const injectDataRange = simple(types.INJECT_DATA_RANGE, 'oldViewMap', 'ne
   'configurations', 'visuWindow'); // for historyView
 export const injectDataLast = simple(types.INJECT_DATA_LAST, 'oldViewMap', 'newViewMap',
   'oldExpectedLastIntervals', 'newExpectedLastIntervals', 'dataToInject');
-export const injectDataObsoleteEvent = simple(types.INJECT_DATA_OBSOLETE_EVENT, 'dataToInject', 'newViewMap');
+export const injectDataObsoleteEvent = simple(types.INJECT_DATA_OBSOLETE_EVENT, 'dataToInject', 'newViewMap', 'globalState');

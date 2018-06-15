@@ -138,13 +138,15 @@ export default function plotViewData(state = {}, action) {
       let newState = state;
       const viewIds = Object.keys(state);
       _forEach(viewIds, (viewId) => {
-        const viewState = viewObsoleteEventAdd(
-          newState[viewId],
-          dataToInject,
-          newViewMap[viewId].entryPoints
-        );
-        if (viewState !== newState[viewId]) {
-          newState = { ...newState, [viewId]: viewState };
+        if (newViewMap[viewId] && newViewMap[viewId].entryPoints) {
+          const viewState = viewObsoleteEventAdd(
+            newState[viewId],
+            dataToInject,
+            newViewMap[viewId].entryPoints
+          );
+          if (viewState !== newState[viewId]) {
+            newState = { ...newState, [viewId]: viewState };
+          }
         }
       });
       return newState || {};

@@ -31,9 +31,11 @@ const getPrefixedId = (cacheId, id) => `${cacheId}.${id}`;
  * @param string cacheId
  * @param string id
  */
-const getCollection = (cacheId, id) => ({ collection: database.getCollection(getPrefixedId(cacheId, id)) });
+const getCollection =
+  (cacheId, id) => ({ collection: database.getCollection(getPrefixedId(cacheId, id)) });
 
-const displayCollection = (cacheId, id) => database.getCollection(getPrefixedId(cacheId, id)).find();
+const displayCollection =
+  (cacheId, id) => database.getCollection(getPrefixedId(cacheId, id)).find();
 
 /**
  * Get or create the collection indexed by the given tbdId

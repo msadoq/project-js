@@ -27,7 +27,7 @@ const getStateColorObj = (
   customColors = [], // operator's defined
   monitoringState = STATE_COLOR_NOMINAL
 ) => {
-  const obsolete = false;
+  const obsolete = _get(payload, 'isDataObsolete', false);
   const significant = _get(payload, 'validityState.value', 2) === 2;
   const monitoringColor = getStateColor(obsolete, significant, monitoringState);
   // if no monitoring state has been found, there is a conf error to raise

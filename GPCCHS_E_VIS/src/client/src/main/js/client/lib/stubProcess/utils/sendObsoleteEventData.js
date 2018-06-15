@@ -60,38 +60,20 @@ module.exports = function sendObsoleteEventData(
   const payloads = [];
   const now = Date.now();
 
-  if (isLast) {
-    // compute number of steps from lower time to current
-    const n = Math.floor((to - from) / constants.DC_STUB_VALUE_TIMESTEP);
-    let timestamp = from + (n * constants.DC_STUB_VALUE_TIMESTEP);
-    if (timestamp > now) {
-      // stub never send value in the future
-      timestamp = now - constants.DC_STUB_VALUE_TIMESTEP;
-    }
-    const payload = getPayload(
-      timestamp,
-      dataId,
-      versionDCCom,
-      { epName: dataId.parameterName }
-    );
-    if (payload !== null) {
-      payloads.push(payload);
-    }
-  } else {
-    for (let timestamp = from;
-         timestamp <= to && timestamp < now;
-         timestamp += constants.DC_STUB_VALUE_TIMESTEP
-    ) {
-      if (shouldPushANewValue(timestamp)) {
-        const payload = getPayload(timestamp, dataId, versionDCCom, {
-          epName: dataId.parameterName,
-        });
-        if (payload !== null) {
-          payloads.push(payload);
-        }
+  for (let timestamp = from;
+       timestamp <= to && timestamp < now;
+       timestamp += constants.DC_STUB_VALUE_TIMESTEP
+  ) {
+    if (shouldPushANewValue(timestamp)) {
+      const payload = getPayload(timestamp, dataId, versionDCCom, {
+        epName: dataId.parameterName,
+      });
+      if (payload !== null) {
+        payloads.push(payload);
       }
     }
   }
+
   if (!payloads.length) {
     return;
   }

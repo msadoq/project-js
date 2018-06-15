@@ -22,6 +22,7 @@ Array [
               "vitv",
               "vipv",
               "vidv",
+              "vidp",
               "vimv",
               "vikv",
               "vihv",
@@ -49,6 +50,12 @@ Array [
               "vidv",
             ],
             "name": "DynamicView",
+          },
+          Object {
+            "extensions": Array [
+              "vidp",
+            ],
+            "name": "DecommutedPacketView",
           },
           Object {
             "extensions": Array [
@@ -151,6 +158,7 @@ Array [
               "vitv",
               "vipv",
               "vidv",
+              "vidp",
               "vimv",
               "vikv",
               "vihv",
@@ -178,6 +186,12 @@ Array [
               "vidv",
             ],
             "name": "DynamicView",
+          },
+          Object {
+            "extensions": Array [
+              "vidp",
+            ],
+            "name": "DecommutedPacketView",
           },
           Object {
             "extensions": Array [

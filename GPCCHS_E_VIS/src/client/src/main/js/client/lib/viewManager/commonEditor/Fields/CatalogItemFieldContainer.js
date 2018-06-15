@@ -9,7 +9,14 @@ import { askCatalogItems, askUnit } from 'store/actions/catalogs';
 import { get } from 'common/configurationManager';
 import CatalogItemField from 'viewManager/commonEditor/Fields/CatalogItemField';
 
-const mapStateToProps = (state, { domainName, timelineId, viewId, pageId, catalogName }) => {
+const mapStateToProps = (state, {
+  domainName,
+  timelineId,
+  viewId,
+  pageId,
+  catalogName,
+  viewSessionName,
+}) => {
   const wildcardCharacter = get('WILDCARD_CHARACTER');
   const domain = getDomainByNameWithFallback(state, { domainName, viewId, pageId });
   const domainId = domain ? domain.domainId : null;
@@ -19,6 +26,8 @@ const mapStateToProps = (state, { domainName, timelineId, viewId, pageId, catalo
     sessionName = timeline.sessionName;
   } else if (timelineId === wildcardCharacter) {
     sessionName = wildcardCharacter;
+  } else if (viewSessionName) {
+    sessionName = viewSessionName;
   }
   const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
   const sessionId = selectedSession ? selectedSession.id : null;

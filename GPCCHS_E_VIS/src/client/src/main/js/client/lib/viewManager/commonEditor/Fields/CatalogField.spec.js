@@ -21,7 +21,7 @@ describe('viewManager', () => {
           shallowRenderSnapshotInReduxForm(CatalogField, propsStub, {});
         });
         test('snapshot 2', () => {
-          const propsStub2 = { ...propsStub, catalogs: REQUESTING};
+          const propsStub2 = { ...propsStub, catalogs: REQUESTING };
           shallowRenderSnapshotInReduxForm(CatalogField, propsStub2, {});
         });
       });

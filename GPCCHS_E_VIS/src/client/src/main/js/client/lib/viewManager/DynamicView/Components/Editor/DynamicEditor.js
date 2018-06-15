@@ -43,7 +43,7 @@ import { TIME_BASED_DATA_OPTION } from 'viewManager/commonEditor/Fields/DataType
 
 
 const navItems = ['Connected Data', 'View', 'Misc'];
-const { string, number, func, shape } = PropTypes;
+const { string, number, func, shape, arrayOf } = PropTypes;
 
 export default class DynamicEditor extends Component {
   static propTypes = {
@@ -52,7 +52,7 @@ export default class DynamicEditor extends Component {
     tab: number,
     title: string,
     configuration: shape({
-      entryPoints: entryPointType,
+      entryPoints: arrayOf(entryPointType),
     }).isRequired,
     updateEntryPoint: func.isRequired,
     updateViewTab: func.isRequired,
@@ -113,9 +113,11 @@ export default class DynamicEditor extends Component {
     const nullObject = {};
     const initialValues = entryPoints.length
       ? {
-        ...entryPoints[0].connectedData,
-        domain: '*',
-        timeline: '*',
+        connectedData: {
+          ...entryPoints[0].connectedData,
+          domain: '*',
+          timeline: '*',
+        },
       }
       : nullObject;
 
@@ -144,7 +146,7 @@ export default class DynamicEditor extends Component {
               viewId={viewId}
               pageId={pageId}
               form={`entrypoint-connectedData-form-${viewId}`}
-              onSubmit={values => this.handleSubmit({ connectedData: values })}
+              onSubmit={values => this.handleSubmit(values)}
               initialValues={initialValues}
             />
           </div>}

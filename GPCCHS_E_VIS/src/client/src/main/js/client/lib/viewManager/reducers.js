@@ -31,6 +31,8 @@ import commonConfigurationReducer from './commonConfiguration/reducer';
 import textViewConfigurationReducer from './TextView/store/configurationReducer';
 import plotViewConfigurationReducer from './PlotView/store/configurationReducer';
 import dynamicViewConfigurationReducer from './DynamicView/store/configurationReducer';
+import decommutedPacketViewConfigurationReducer
+  from './DecommutedPacketView/store/configurationReducer';
 import mimicViewConfigurationReducer from './MimicView/store/configurationReducer';
 import historyViewConfigurationReducer from './HistoryView/store/configurationReducer';
 import groundAlarmViewConfigurationReducer from './GroundAlarmView/store/configurationReducer';
@@ -41,6 +43,7 @@ import pus11ViewConfigurationReducer from './PUS11View/store/configurationReduce
 import textViewDataReducer from './TextView/store/dataReducer';
 import plotViewDataReducer from './PlotView/store/dataReducer';
 import dynamicViewDataReducer from './DynamicView/store/dataReducer';
+import decommutedPacketViewDataReducer from './DecommutedPacketView/store/dataReducer';
 import mimicViewDataReducer from './MimicView/store/dataReducer';
 import historyViewDataReducer from './HistoryView/store/dataReducer';
 import groundAlarmViewDataReducer from './GroundAlarmView/store/dataReducer';
@@ -79,6 +82,7 @@ export const getConfigurationReducers = () => createConfigurationReducers({
   [constants.VM_VIEW_TEXT]: textViewConfigurationReducer,
   [constants.VM_VIEW_PLOT]: plotViewConfigurationReducer,
   [constants.VM_VIEW_DYNAMIC]: dynamicViewConfigurationReducer,
+  [constants.VM_VIEW_DECOMMUTEDPACKET]: decommutedPacketViewConfigurationReducer,
   [constants.VM_VIEW_MIMIC]: mimicViewConfigurationReducer,
   [constants.VM_VIEW_HISTORY]: historyViewConfigurationReducer,
   [constants.VM_VIEW_PACKET]: packetViewConfigurationReducer,
@@ -92,6 +96,7 @@ export const getDataReducers = () => createDataReducers({
   [constants.VM_VIEW_TEXT]: textViewDataReducer,
   [constants.VM_VIEW_PLOT]: plotViewDataReducer,
   [constants.VM_VIEW_DYNAMIC]: dynamicViewDataReducer,
+  [constants.VM_VIEW_DECOMMUTEDPACKET]: decommutedPacketViewDataReducer,
   [constants.VM_VIEW_MIMIC]: mimicViewDataReducer,
   [constants.VM_VIEW_HISTORY]: historyViewDataReducer,
   [constants.VM_VIEW_PACKET]: packetViewDataReducer,

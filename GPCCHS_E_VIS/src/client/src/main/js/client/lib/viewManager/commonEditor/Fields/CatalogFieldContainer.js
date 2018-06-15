@@ -1,26 +1,19 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getCatalogsByDomainIdAndSessionId } from 'store/reducers/catalogs';
-import { getDomainByNameWithFallback } from 'store/reducers/domains';
-import { getSessionByNameWithFallback } from 'store/reducers/sessions';
-import { getTimelineById } from 'store/reducers/timelines';
+import { getDomainId } from 'store/reducers/domains';
+import { getSessionIdWithFallback, getSessionNameFromTimeline } from 'store/reducers/sessions';
 import { askCatalogs } from 'store/actions/catalogs';
 import { get } from 'common/configurationManager';
 import CatalogField from './CatalogField';
 
-const mapStateToProps = (state, { domainName, timelineId, viewId, pageId }) => {
-  const wildcardCharacter = get('WILDCARD_CHARACTER');
-  const domain = getDomainByNameWithFallback(state, { domainName, viewId, pageId });
-  const domainId = domain ? domain.domainId : null;
-  const timeline = getTimelineById(state, { timelineId });
-  let sessionName = null;
-  if (timeline && timeline.sessionName) {
-    sessionName = timeline.sessionName;
-  } else if (timelineId === wildcardCharacter) {
-    sessionName = wildcardCharacter;
-  }
-  const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
-  const sessionId = selectedSession ? selectedSession.id : null;
+const wildcardCharacter = get('WILDCARD_CHARACTER');
+
+const mapStateToProps = (state, { domainName, timelineId, viewId, pageId, viewSessionName }) => {
+  const domainId = getDomainId(state, { domainName, viewId, pageId });
+  const sessionName = viewSessionName
+    || getSessionNameFromTimeline(state, { timelineId, wildcardCharacter });
+  const sessionId = getSessionIdWithFallback(state, { sessionName, viewId, pageId });
   const catalogs = getCatalogsByDomainIdAndSessionId(state, { domainId, sessionId });
 
   return {

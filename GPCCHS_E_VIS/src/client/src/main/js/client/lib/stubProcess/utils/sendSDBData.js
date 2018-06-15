@@ -15,6 +15,7 @@ const generateStringListProto = payload => stubData.getADEStringListProtobuf(pay
 const generateSingleStringProto = payload => stubData.getStringProtobuf(payload);
 const generateBooleanProto = bool => stubData.getBooleanProtobuf(bool);
 
+
 module.exports = (queryId, rawBuffer, zmq, decodedSDBQuery) => {
   const {
     method,
@@ -46,6 +47,9 @@ module.exports = (queryId, rawBuffer, zmq, decodedSDBQuery) => {
       );
       break;
     case constants.ADE_SDB_RETRIEVE_SATELLITE_ITEMS:
+      break;
+    case constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE:
+      dataBuffer = stubData.getADEItemStructureProtobuf();
       break;
     default:
       break;

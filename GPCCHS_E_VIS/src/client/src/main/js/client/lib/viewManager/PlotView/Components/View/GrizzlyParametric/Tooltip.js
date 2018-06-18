@@ -41,7 +41,14 @@ import { levelsRules, getZoomLevel } from 'windowProcess/common/timeFormats';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import styles from './GrizzlyChart.css';
-import { divStyleType } from './types';
+import { divStyleType, lineType } from './types';
+
+const configurationXAxisId = (configurationLines, lineId) => {
+  const result = configurationLines
+    .filter(item => item.id === lineId)
+    .map(item => item.xAxisId);
+  return result[0];
+};
 
 export default class Tooltip extends React.Component {
   static propTypes = {
@@ -56,6 +63,7 @@ export default class Tooltip extends React.Component {
     yAxesAt: PropTypes.string.isRequired,
     xAxesAt: PropTypes.string.isRequired,
     divStyle: divStyleType.isRequired,
+    plotViewConfigurationLines: PropTypes.arrayOf(lineType.isRequired).isRequired,
   };
 
   shouldComponentUpdate(nextProps) {
@@ -210,7 +218,9 @@ export default class Tooltip extends React.Component {
       yAxisWidth,
       xAxisHeight,
       divStyle,
+      plotViewConfigurationLines,
     } = this.props;
+
     const {
       showTooltip,
       linesList,
@@ -424,7 +434,13 @@ export default class Tooltip extends React.Component {
                                 <span
                                   className={styles.tooltipLineValue}
                                 >
-                                  X : { line.x } Y : { line.y }
+                                  X : {
+                                  this.axesFormatters[
+                                    `${configurationXAxisId(plotViewConfigurationLines, line.id)}-x`
+                                  ](line.x)
+                                }
+                                {' '}
+                                Y : { line.y }
                                 </span>
                               </p>
                             </div>

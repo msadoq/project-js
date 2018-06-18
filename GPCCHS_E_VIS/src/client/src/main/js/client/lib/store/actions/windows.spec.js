@@ -83,8 +83,6 @@ describe('store:actions:windows', () => {
           type: 'WS_WINDOW_CLOSE',
           payload: {
             windowId: 'w2',
-            views: [4, 5, 6, 7, 8, 9],
-            pages: ['p2', 'p3', 'p4'],
           },
         },
       ]);
@@ -99,7 +97,7 @@ describe('store:actions:windows', () => {
           payload: { pageId: 'p1', fromWindowId: 'w1', toWindowId: 'w2' },
         },
         {
-          type: 'WS_ASK_CLOSE_WINDOW',
+          type: 'WS_WINDOW_CLOSE',
           payload: { windowId: 'w1' },
         },
         {

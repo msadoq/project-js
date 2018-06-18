@@ -39,16 +39,19 @@
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // VERSION : 2.0.0 : FA : ISIS-FT-1937 : 30/01/2018 : Unit convertion, add python fork and
 //  convertion call mechanism
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import _ from 'lodash/fp';
+import _getOr from 'lodash/fp/getOr';
 import _isEqual from 'lodash/isEqual';
 import makeGetPerViewData from 'dataManager/perViewData';
+import { getConfigurationByViewId } from 'viewManager/selectors';
+import { getConfigurationReducers } from 'viewManager/reducers';
 import { getPage, getPages, getPageIdByViewId } from '../reducers/pages';
 import { getWindowPageIds } from '../reducers/windows';
-import { getConfigurationReducers } from '../../viewManager/reducers';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -56,6 +59,7 @@ export const createDeepEqualSelector = createSelectorCreator(
 );
 
 const configurationReducers = getConfigurationReducers();
+
 /* ********************************************************
 * Comparison function to omit timebars in comparison
 * Useful to compute perView and perRemoteId which are independent of visuWinow
@@ -84,7 +88,9 @@ function perViewDataEqualityCheck(current, previous) {
     || current.domains !== previous.domains
     || current.sessions !== previous.sessions
     || current.masterSession !== previous.masterSession
-    || current.timebarTimelines !== previous.timebarTimelines) {
+    || current.timebarTimelines !== previous.timebarTimelines
+    || current.timebars !== previous.timebars
+  ) {
     return false;
   }
   if (current.pages !== previous.pages) {
@@ -104,6 +110,11 @@ function perViewDataEqualityCheck(current, previous) {
   }
   return true;
 }
+
+/**
+ *   /!\ CAUTION: createDeepEqualSelectorPerViewData makes a deep equal on some fields only, not on the whole state.
+ *   If you expect some data re-fetching that does not happen
+ */
 export const createDeepEqualSelectorPerViewData = createSelectorCreator(
   defaultMemoize,
   perViewDataEqualityCheck
@@ -118,8 +129,6 @@ export const getPerViewData = createDeepEqualSelectorPerViewData(
     if (!perViewDataSelectors[viewId]) {
       perViewDataSelectors[viewId] = makeGetPerViewData();
     }
-    // const pageId = getPageIdByViewId(state, { viewId });
-    // const page = getPage(state, { pageId });
     const { timebarUuid } = page;
     return perViewDataSelectors[viewId](state, { viewId, timebarUuid, pageId: page.uuid });
   });
@@ -135,8 +144,12 @@ export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPo
 );
 
 // composed
-export const getViewEntryPoint = (state, { viewId, epName }) =>
-  Object.assign({}, getViewEntryPoints(state, { viewId })[epName], { name: epName });
+export const getViewEntryPoint = (state, { viewId, epName }) => (
+  {
+    ...getViewEntryPoints(state, { viewId })[epName],
+    name: epName,
+  }
+);
 
 export const getWindowAllViewsIds = createSelector(
   getWindowPageIds,
@@ -146,4 +159,34 @@ export const getWindowAllViewsIds = createSelector(
     _.flatMap('views'),
     _.compact
   )(pages)
+);
+
+/**
+ * TODO: refactor cols into columns and deprecate this function
+ *
+ * @param viewId string
+ * @param state object
+ * @param {viewId, tableId} object
+ * @return cols array
+ */
+export const getViewConfigurationTableCols = createSelector(
+  (state, { tableId }) => tableId,
+  getConfigurationByViewId,
+  (tableId, viewConfiguration) => _getOr([], `tables.${tableId}.cols`, viewConfiguration)
+);
+
+/**
+ * @param viewId string
+ * @param state object
+ * @return tables configurations array
+ */
+export const getViewConfigurationTables = createSelector(
+  getConfigurationByViewId,
+  viewConfiguration => _getOr([], 'tables', viewConfiguration)
+);
+
+export const getViewConfigurationTableColumns = createSelector(
+  (state, { tableId }) => tableId,
+  getConfigurationByViewId,
+  (tableId, viewConfiguration) => _getOr([], `tables.${tableId}.cols`, viewConfiguration)
 );

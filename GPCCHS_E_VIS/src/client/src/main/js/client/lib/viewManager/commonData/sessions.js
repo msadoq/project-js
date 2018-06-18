@@ -10,6 +10,8 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2248 : 18/10/2017 : Fallback/Wildcard for sessions and domains is
 //  now functionnal. Plus fixed page and workspace modal editor for undefined values.
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix master timeline sessionID passed to DC when
+//  entrypoint's timeline is *
 // END-HISTORY
 // ====================================================================
 
@@ -38,7 +40,7 @@ export function save(search, result) {
 export function find(
   search,
   sessions,
-  masterSessionId,
+  masterTimelineSession,
   viewSessionName,
   pageSessionName,
   workspaceSessionName
@@ -56,7 +58,8 @@ export function find(
     } else if (workspaceSessionName && workspaceSessionName !== wildcardCharacter) {
       sessionName = workspaceSessionName;
     } else {
-      return { id: masterSessionId, name: '*' };
+      // TODO except the following line, the whole method looks similar to reducers/sessions/index.j
+      return { id: masterTimelineSession.id, name: masterTimelineSession.name };
     }
   }
   if (!sessions || !sessions.length) {
@@ -91,7 +94,7 @@ export function find(
 export default function findSession(
   sessions,
   sessionName,
-  masterSessionId,
+  masterTimelineSession,
   viewSessionName,
   pageSessionName,
   workspaceSessionName
@@ -106,7 +109,7 @@ export default function findSession(
     const sessionId = find(
       sessionName,
       memoizedSessions,
-      masterSessionId,
+      masterTimelineSession,
       viewSessionName,
       pageSessionName,
       workspaceSessionName

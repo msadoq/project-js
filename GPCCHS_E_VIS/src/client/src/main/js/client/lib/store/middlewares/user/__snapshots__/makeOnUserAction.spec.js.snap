@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store:serverProcess:middlewares:user:onUserAction display confirmation message before removing entry point 1`] = `
+Array [
+  Object {
+    "meta": Object {
+      "jestSerialized": true,
+    },
+    "payload": Object {
+      "props": Object {
+        "buttons": Array [
+          Object {
+            "label": "Remove",
+            "type": "primary",
+            "value": "remove",
+          },
+          Object {
+            "label": "Cancel",
+            "type": "default",
+            "value": "cancel",
+          },
+        ],
+        "message": "Are you sure you want to remove entry point ATT_BC_REVTCOUNT4 ?",
+        "title": "Confirmation",
+        "type": "dialog",
+      },
+      "windowId": undefined,
+    },
+    "type": "WS_MODAL_OPEN",
+  },
+  Object {
+    "payload": Object {
+      "entryPoint": Object {
+        "connectedData": Object {
+          "axisId": "axis2",
+        },
+        "id": "a-0",
+        "name": "ATT_BC_REVTCOUNT4",
+      },
+      "viewId": "plotview",
+    },
+    "type": "WS_VIEW_ASK_REMOVE_ENTRYPOINT",
+  },
+]
+`;

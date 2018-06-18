@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -9,8 +9,6 @@ import { updateViewTab, updateViewPanels } from 'store/actions/ui';
 import { getViewTab, getViewPanels } from 'store/reducers/ui/editor';
 import {
   updateEntryPoint,
-  updateTitle,
-  updateTitleStyle,
 } from 'store/actions/views';
 import GroundAlarmEditor from './GroundAlarmEditor';
 
@@ -24,8 +22,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = {
   updateEntryPoint,
-  updateTitle,
-  updateTitleStyle,
   updateViewTab,
   updateViewPanels,
   openModal,

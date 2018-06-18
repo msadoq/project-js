@@ -1,4 +1,5 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import path from 'path';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';

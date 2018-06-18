@@ -30,7 +30,7 @@
 .panel-button-expand{
   font-size: 1.0em;
 }
-.panel-editor-button{
+.panel-editor-button, .panel-search-button{
   width: 20px;
   height: 20px;
   font-size: 1em;

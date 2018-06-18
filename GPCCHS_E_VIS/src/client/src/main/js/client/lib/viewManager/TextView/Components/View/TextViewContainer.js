@@ -39,10 +39,9 @@
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import { createStructuredSelector } from 'reselect';
 import _ from 'lodash/fp';
 import {
   addEntryPoint,
@@ -50,6 +49,7 @@ import {
   removeLink,
   updateShowLinks,
 } from 'store/actions/views';
+import { updateSearchCount } from 'store/actions/pages';
 import { askOpenLink } from 'store/actions/links';
 import { getViewEntryPoints } from 'store/selectors/views';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
@@ -58,15 +58,19 @@ import { getInspectorEpId } from 'store/reducers/inspector';
 import { getData } from 'viewManager/TextView/store/dataSelectors';
 import { getViewContent } from 'viewManager/TextView/store/configurationSelectors';
 import { getLinks, areLinksShown } from 'store/reducers/views';
-import { getPageIdByViewId, getPage } from 'store/reducers/pages';
+import { getPageIdByViewId, getPage, getSearchingByPage, getSearchViewsIds, getSearchCount } from 'store/reducers/pages';
 import { getConfigurationByViewId } from 'viewManager';
 import TextViewWrapper from './TextViewWrapper';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
+  const searching = getSearchingByPage(state, { pageId });
+  const searchViewsIds = getSearchViewsIds(state, { pageId });
+  const searchCount = getSearchCount(state, { pageId });
+
   return {
-    content: getViewContent(state, { viewId }),
+    content: getViewContent(state, { viewId, searching }),
     configuration: getConfigurationByViewId(state, { viewId }),
     entryPoints: getViewEntryPoints(state, { viewId }),
     data: getData(state, { viewId }),
@@ -74,18 +78,23 @@ const mapStateToProps = (state, { viewId }) => {
     inspectorEpId: getInspectorEpId(state),
     links: getLinks(state, { viewId }),
     pageId,
+    searching,
+    searchCount,
     showLinks: areLinksShown(state, { viewId }),
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
+    searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
   };
 };
-const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
+const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators({
   updateContent: html => updateContent(viewId, html),
   addEntryPoint: data => addEntryPoint(viewId, data),
   removeLink: key => removeLink(viewId, key),
   updateShowLinks: flag => updateShowLinks(viewId, flag),
+  updateSearchCount: count => updateSearchCount(pageId, viewId, count),
   openLink: linkId => askOpenLink(viewId, linkId),
 }, dispatch);
+
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,

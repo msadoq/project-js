@@ -70,12 +70,14 @@ const propsStub = {
     catalog: 'catalogName',
     timeline: 'timeline-id',
     catalogItem: 'itemName',
+    formula: 'catalogName.itemName<ReportingParameter>.convertedValue',
   },
 };
 describe('EntryPointUnitContainer :: render', () => {
   test('EntryPointUnitContainer :: render', () => {
     const Decorated = reduxForm({ form: 'testForm' })(EntryPointUnitContainer);
     const store = createStore(state => state, stubState);
+
     const tree = renderer.create(
       <Provider store={store}>
         <Decorated
@@ -83,6 +85,7 @@ describe('EntryPointUnitContainer :: render', () => {
         />
       </Provider>
     ).toJSON();
+
     expect(tree).toMatchSnapshot();
   });
 });

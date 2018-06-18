@@ -18,10 +18,11 @@
 // VERSION : 2.0.0 : FA : #10670 : 09/02/2018 : Detach a page no dispatch WIP
 // VERSION : 2.0.0 : FA : #10670 : 12/02/2018 : Detach a page and attach window with tests
 // VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getWindowPagesWithConfiguration } from 'store/selectors/windows';
@@ -29,33 +30,71 @@ import { focusPage, moveTabOrder, movePageToWindow, pageDragEvent } from 'store/
 import { askClosePage } from 'store/actions/pages';
 import { getViewDomainName } from 'store/reducers/views';
 import { close as closeModal } from 'store/actions/modals';
+import { domainDeterminationForColor } from 'windowProcess/common/domains';
 import _ from 'lodash';
-import _pull from 'lodash/pull';
+import { getViewEntryPointsDomains } from 'viewManager/selectors';
+import _flatMap from 'lodash/flatMap';
+import _uniq from 'lodash/uniq';
 import { get } from '../../common/configurationManager';
+// import _map from 'lodash/map';
 import Tabs from './Tabs';
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 
 const mapStateToProps = () => (state, { windowId }) => {
+  const workspaceDomain = state.hsc.domainName || wildcardCharacter;
   const pages = getWindowPagesWithConfiguration(state, { windowId });
-  const viewsDomains = [];
+  const viewsDomainsByPage = [];
+  const epDomainsByPage = [];
+  let workspaceViewsDomains = [];
+  let workspaceEpDomains = [];
+  let pagesDomains = [];
   _.forEach(pages, (page) => {
-    viewsDomains[page.pageId] =
-      _pull(
-        _.uniq(
-          _.map(page.views, viewId => getViewDomainName(state, { viewId }))
-        ),
-        wildcardCharacter
+    // get uniq views domains by page
+    const viewsDomains = _uniq(
+      _.map(page.views, viewId => getViewDomainName(state, { viewId }))
+    );
+    // get uniq entry points domains by page
+    const epDomains =
+      _uniq(
+        _flatMap(page.views, viewId => getViewEntryPointsDomains(state, { viewId }))
       );
+
+    // data for page domain color calculation
+    viewsDomainsByPage[page.pageId] = viewsDomains;
+    epDomainsByPage[page.pageId] = epDomains;
+
+    // data for workspace domain color calculation
+    workspaceViewsDomains = workspaceViewsDomains.concat(viewsDomains);
+    workspaceEpDomains = workspaceEpDomains.concat(epDomains);
+
+    // calculation of page domain,
+    // if page domain is wildcard, value depends on views and entry points domains
+    if (page.domainName && page.domainName !== wildcardCharacter) {
+      pagesDomains.push(page.domainName);
+    } else {
+      pagesDomains.push(domainDeterminationForColor(
+        workspaceDomain,
+        [wildcardCharacter],
+        viewsDomains,
+        epDomains,
+        'page')
+      );
+    }
   });
-  const workspaceDomain = state.hsc.domainName || '*';
+  pagesDomains = _uniq(pagesDomains);
+
   return {
     pages,
     windowId,
     detachWindow: state.hsc.detachWindow,
     attachWindow: state.hsc.attachWindow,
     workspaceDomain,
-    viewsDomains,
+    pagesDomains,
+    viewsDomainsByPage,
+    workspaceViewsDomains,
+    epDomainsByPage,
+    workspaceEpDomains,
   };
 };
 

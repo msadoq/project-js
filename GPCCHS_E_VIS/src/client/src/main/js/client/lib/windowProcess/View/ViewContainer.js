@@ -38,20 +38,32 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getPage, getPanels } from 'store/reducers/pages';
 import { getView } from 'store/reducers/views';
-import { updateEditorSearch, askSaveView, askCloseView, askReloadView, askSaveViewAsModel } from 'store/actions/views';
+import {
+  updateEditorSearch,
+  askSaveView,
+  askCloseView,
+  askReloadView,
+  askSaveViewAsModel,
+  askExportAsCsv,
+  askExportAsImage,
+  askExportAsImageHasFailed } from 'store/actions/views';
 import { open as openModal, close as closeModal } from 'store/actions/modals';
-import { setCollapsed, setMaximized, openEditor, minimizeEditor } from 'store/actions/pages';
+import { setCollapsed, setMaximized, openEditor, minimizeEditor, openSearch, closeSearch } from 'store/actions/pages';
 import { askOpenInspector } from 'store/actions/inspector';
 import View from './View';
 
 const makeMapStateToProps = () => {
   const mapStateToProps = (state, { viewId, pageId }) => {
-    const { type, oId, absolutePath, isModified, backgroundColor, titleStyle, title }
-        = getView(state, { viewId });
-
+    const { type, oId, absolutePath, isModified, backgroundColor, titleStyle, title, searching }
+      = getView(state, { viewId });
     const page = getPage(state, { pageId });
     const collapsedLayout = page.layout.find(e => e.i === viewId && e.collapsed);
-    const { editorIsMinimized, editorViewId } = getPanels(state, { pageId });
+    const {
+      editorIsMinimized,
+      editorViewId,
+      searchIsMinimized,
+      searchViewsIds,
+    } = getPanels(state, { pageId });
 
     return {
       backgroundColor,
@@ -62,8 +74,10 @@ const makeMapStateToProps = () => {
       absolutePath,
       isModified,
       pageId,
+      searching,
       collapsed: !!collapsedLayout,
       isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
+      isViewsSearchOpen: !searchIsMinimized && searchViewsIds.indexOf(viewId) !== -1,
     };
   };
   return mapStateToProps;
@@ -78,6 +92,8 @@ const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActio
     disp(updateEditorSearch(viewId, pattern));
     disp(openEditor(pageId, viewId));
   },
+  closeSearch: () => closeSearch(pageId, viewId),
+  openSearch: () => openSearch(pageId, viewId),
   closeEditor: () => minimizeEditor(pageId, true),
   openModal: args => openModal(windowId, { windowId, pageId, viewId, ...args }),
   closeModal: () => closeModal(windowId),
@@ -86,6 +102,9 @@ const mapDispatchToProps = (dispatch, { windowId, pageId, viewId }) => bindActio
   closeView: () => askCloseView(viewId),
   reloadView: () => askReloadView(viewId),
   saveViewAsModel: () => askSaveViewAsModel(viewId),
+  exportAsCsv: () => askExportAsCsv(viewId),
+  exportAsImage: imageData => askExportAsImage(viewId, imageData),
+  exportAsImageHasFailed: errorMessage => askExportAsImageHasFailed(viewId, errorMessage),
   askOpenInspector,
 }, dispatch);
 

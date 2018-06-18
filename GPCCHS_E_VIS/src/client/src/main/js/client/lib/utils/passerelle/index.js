@@ -26,7 +26,6 @@ exports.spawnPasserelle = function spawnPasserelle() {
       PYTHONPATH,
     },
   });
-
   spawned.on('error', (err) => {
     logger.error('Failed to start subprocess.');
     logger.error(err);

@@ -33,7 +33,8 @@
 // ====================================================================
 
 // import _ from 'lodash/fp';
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import getLogger from 'common/logManager';
 import { getEditorComponent } from 'viewManager/components';
@@ -64,7 +65,7 @@ export default class Editor extends PureComponent {
   };
 
   static childContextTypes = {
-    viewId: React.PropTypes.string,
+    viewId: PropTypes.string,
   }
 
   getChildContext() {

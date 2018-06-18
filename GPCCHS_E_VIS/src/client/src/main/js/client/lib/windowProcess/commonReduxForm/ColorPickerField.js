@@ -7,7 +7,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ColorPicker from './ColorPicker';
 import { colors as initialColors } from '../common/colors';
 

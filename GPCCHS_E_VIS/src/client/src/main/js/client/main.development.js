@@ -24,6 +24,7 @@ init(__dirname, true);
 
 // avoid using host proxy configuration and perturbing local HTTP access (e.g.: index.html)
 // but block chromium DevTools downloads (comment and start to re-install DevTools)
+// TODO when having "Failed to fetch extension" message while stating the app, uncomment the following line temporarly
 app.commandLine.appendSwitch('no-proxy-server');
 
 // const { start } = require('./lib/common/utils/gcMonitoring');

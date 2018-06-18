@@ -46,7 +46,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './GrizzlyChart.css';
 
 export default class LinesCanvas extends Component {

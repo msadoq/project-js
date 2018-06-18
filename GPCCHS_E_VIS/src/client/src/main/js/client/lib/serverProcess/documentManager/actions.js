@@ -17,9 +17,13 @@
 
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
+
 import { dirname, basename } from 'path';
 
-import { LOG_DOCUMENT_OPEN } from 'constants';
+import {
+  LOG_DOCUMENT_OPEN,
+  MIME_TYPES,
+} from 'constants';
 import getLogger from 'common/logManager';
 import parameters from 'common/configurationManager';
 
@@ -58,6 +62,8 @@ import { readPageAndViews } from './readPage';
 import { writeWorkspace } from './writeWorkspace';
 import { writePage } from './writePage';
 import { writeView } from './writeView';
+import { exportData } from './io';
+import { parseIntoCsv } from './parseIntoCsv';
 
 import readView from './readView';
 
@@ -92,9 +98,16 @@ export const openView = (viewInfo, pageId) => (dispatch) => {
       dispatch(addGlobalError(view.error));
       return;
     }
+
+    const updatedViewContent = view.value;
+
+    if (updatedViewContent.isModified && updatedViewContent.absolutePath) {
+      delete updatedViewContent.absolutePath;
+    }
+
     dispatch({
       type: types.WS_VIEW_OPENED,
-      payload: { view: view.value, pageId },
+      payload: { view: updatedViewContent, pageId },
     });
     dispatch(sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.value.absolutePath));
   });
@@ -117,12 +130,21 @@ export const openPage = pageInfo => (dispatch, getState) => {
     }
     const page = documents.pages[0].value;
     const firstTimebarId = getFirstTimebarId(getState());
+    const updatedPage = {
+      ...page,
+      timebarUuid: firstTimebarId,
+    };
+
+    if (updatedPage.isModified && updatedPage.absolutePath) {
+      delete updatedPage.absolutePath;
+    }
+
     dispatch({
       type: types.WS_PAGE_OPENED,
       payload: {
         windowId: page.windowId,
         views: keepValues(views),
-        page: _.set('timebarUuid', firstTimebarId, page),
+        page: updatedPage,
       },
     });
 
@@ -264,7 +286,33 @@ export const saveViewAsModel = (viewId, path) => (dispatch, getState) => { // TO
     }
   });
 };
-// -------------------------------------------------------------------------- //
+
+export const exportAsCsv = (viewId, path) => (dispatch, getState) => {
+  const state = getState();
+  const content = parseIntoCsv(state, viewId);
+  exportData(content, MIME_TYPES.CommaSeparatedValues, path, (errSaving) => {
+    if (errSaving) {
+      dispatch(addMessage(viewId, 'danger', `Data unsaved ${errSaving}`));
+    } else {
+      dispatch(addMessage(viewId, 'success', 'Data saved'));
+    }
+  });
+};
+
+export const exportAsImage = (viewId, path, imagedata) => (dispatch) => {
+  const content = imagedata.replace(/^data:image\/\w+;base64,/, '');
+  exportData(content, MIME_TYPES.PortableNetworkGraphics, path, (errSaving) => {
+    if (errSaving) {
+      dispatch(addMessage(viewId, 'danger', `Image unsaved: ${errSaving}`));
+    } else {
+      dispatch(addMessage(viewId, 'success', 'Image saved'));
+    }
+  });
+};
+
+export const exportAsImageHasFailed = (viewId, errorMessage) => (dispatch) => {
+  dispatch(addMessage(viewId, 'danger', `Image unsaved: ${errorMessage}`));
+};
 
 // --- save a workspace ----------------------------------------------------------//
 export const saveWorkspace = path => (dispatch, getState) => { // TODO test this function

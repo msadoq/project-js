@@ -65,7 +65,8 @@
 
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
-
+import { change, formValueSelector } from 'redux-form';
+import { add as addMessage } from 'store/actions/messages';
 import { getViewModule } from 'viewManager';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
@@ -103,22 +104,52 @@ export const toggleLegend = simple(types.WS_VIEW_TOGGLE_LEGEND, 'viewId', 'flag'
 export const updateLink = simple(types.WS_VIEW_UPDATE_LINK, 'viewId', 'index', 'link');
 export const updateMarker = simple(types.WS_VIEW_UPDATE_MARKER, 'viewId', 'index', 'marker');
 export const updateProcedure = simple(types.WS_VIEW_UPDATE_PROCEDURE, 'viewId', 'index',
- 'procedure');
+  'procedure');
 
 export const updateRatio = simple(types.WS_VIEW_UPDATE_RATIO, 'viewId', 'ratio');
 export const updateTitle = simple(types.WS_VIEW_UPDATE_TITLE, 'viewId', 'title');
 export const updateTitleStyle = simple(types.WS_VIEW_UPDATE_TITLESTYLE, 'viewId', 'titleStyle');
-export const updateBgColor = simple(types.WS_VIEW_UPDATE_BGCOLOR, 'viewId', 'bgColor');
 export const updateLegend = simple(types.WS_VIEW_UPDATE_LEGEND, 'viewId', 'legend');
 export const updateContent = simple(types.WS_VIEW_UPDATE_CONTENT, 'viewId', 'content');
 export const updateShowYAxes = simple(types.WS_VIEW_UPDATE_SHOWYAXES, 'viewId', 'showYAxes');
 export const updateDimensions = simple(types.WS_VIEW_UPDATE_DIMENSIONS, 'viewId', 'width', 'height');
+export const updateTableCols = simple(types.WS_VIEW_UPDATE_TABLE_COLS, 'viewId', 'tableId', 'cols');
+export const updateTableColumns =
+  simple(
+    types.WS_VIEW_UPDATE_TABLE_COLUMNS,
+    'viewId',
+    'tableId',
+    'columns'
+  );
 
 export const updateEditorSearch = simple(types.WS_VIEW_UPDATE_EDITOR_SEARCH, 'viewId', 'search');
 
 // ************ Axis
 export const addAxis = simple(types.WS_VIEW_ADD_AXIS, 'viewId', 'axis');
-export const removeAxis = simple(types.WS_VIEW_REMOVE_AXIS, 'viewId', 'axisId');
+
+export const isAxisReferencedByEntryPoint = (axisId, entryPointCollection) =>
+  Object
+    .keys(entryPointCollection)
+    .map(key => entryPointCollection[key])
+    .filter(entryPoint => (entryPoint.connectedData && entryPoint.connectedData.axisId === axisId))
+    .length > 0;
+
+export const removeAxisAction = simple(types.WS_VIEW_REMOVE_AXIS, 'viewId', 'axisId');
+
+export function removeAxis(viewId, axisId, entryPointCollection) {
+  return (dispatch) => {
+    if (!isAxisReferencedByEntryPoint(axisId, entryPointCollection)) {
+      return dispatch(removeAxisAction(viewId, axisId));
+    }
+
+    return dispatch(addMessage(
+      'global',
+      'danger',
+      'Cannot remove an axis referenced by at least one entry point'
+    ));
+  };
+}
+
 export const updateAxis = simple(types.WS_VIEW_UPDATE_AXIS, 'viewId', 'axisId', 'axis');
 
 // ************ Grids
@@ -144,11 +175,33 @@ export const askOpenView = simple(types.WS_ASK_OPEN_VIEW, 'absolutePath');
 export const askCloseView = simple(types.WS_ASK_CLOSE_VIEW, 'viewId');
 export const askReloadView = simple(types.WS_ASK_RELOAD_VIEW, 'viewId');
 export const askSaveViewAsModel = simple(types.WS_ASK_SAVE_VIEW_AS_MODEL, 'viewId');
+export const askExportAsCsv = simple(types.WS_ASK_EXPORT_AS_CSV, 'viewId');
+export const askExportAsImage = simple(types.WS_ASK_EXPORT_AS_IMAGE, 'viewId', 'imageData');
+export const askExportAsImageHasFailed = simple(types.WS_ASK_EXPORT_AS_IMAGE_HAS_FAILED, 'viewId', 'errorMessage');
 
 // ************ EntryPoint
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'entryPointId', 'entryPoint');
 export const removeEntryPoint = simple(types.WS_VIEW_REMOVE_ENTRYPOINT, 'viewId', 'entryPointId');
+
+export const askRemoveEntryPoint = simple(types.WS_VIEW_ASK_REMOVE_ENTRYPOINT, 'viewId', 'entryPoint');
+
 const simpleAddEntryPoint = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entryPoint');
+
+/**
+ * In case TextView HTML Editor is open, updates the field value
+ * @param viewId
+ * @param entryPointName
+ * @returns {function(*, *)}
+ */
+function appendEntryPointToHtmlEditorForm(viewId, entryPointName) {
+  return (dispatch, getState) => {
+    const formName = `textView-form-${viewId}`;
+    const selector = formValueSelector(formName);
+    const currentValue = selector(getState(), 'html') || '';
+    const newEndPointHtml = `\n<div><span class='name'>${entryPointName}</span><span class='value'>{{${entryPointName}}}</span></div>`;
+    dispatch(change(formName, 'html', currentValue + newEndPointHtml));
+  };
+}
 
 export function addEntryPoint(viewId, entryPoint) {
   return (dispatch, getState) => {
@@ -157,6 +210,10 @@ export function addEntryPoint(viewId, entryPoint) {
     const ep = getViewModule(currentView.type).setEntryPointDefault(entryPoint);
     const injectUuid = _.update('id', v4);
     dispatch(simpleAddEntryPoint(viewId, injectUuid(ep)));
+
+    if (currentView.type === 'TextView') {
+      dispatch(appendEntryPointToHtmlEditorForm(viewId, entryPoint.name));
+    }
   };
 }
 

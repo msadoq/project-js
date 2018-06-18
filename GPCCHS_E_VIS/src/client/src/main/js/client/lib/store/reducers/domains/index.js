@@ -81,3 +81,8 @@ export const getDomainByNameWithFallback = createSelector(
     return _find(_domains, d => d.name === resolvedDomainName);
   }
 );
+
+export const getDomainId = createSelector(
+  getDomainByNameWithFallback,
+  domain => (domain ? domain.domainId : null)
+);

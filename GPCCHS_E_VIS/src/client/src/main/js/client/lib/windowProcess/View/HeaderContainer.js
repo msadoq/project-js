@@ -19,13 +19,14 @@
 // VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
 // VERSION : 2.0.0 : FA : #10835 : 01/03/2018 : if EntryPoint's domain is '*', uses the page
 //  domain, or workspace domain.
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _uniqBy from 'lodash/uniqBy';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getPage, getPanels } from 'store/reducers/pages';
 import { getViewDomainName } from 'store/reducers/views';
@@ -50,6 +51,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
   });
 
   domains = _uniqBy(domains);
+  domains = domains.length === 0 ? ['*'] : domains;
 
   const { getFullTitle } = getDataSelectors(type);
   const title = getFullTitle(state, { viewId });
@@ -60,6 +62,8 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
   const workspaceDomain = state.hsc.domainName || '*';
   const viewDomain = getViewDomainName(state, { viewId });
 
+  const isSearchOpenForView = _get(state, ['pages', pageId, 'panels', 'searchViewId'], null) === viewId;
+
   return {
     backgroundColor,
     type,
@@ -69,6 +73,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
     domains,
     pageDomain,
     workspaceDomain,
+    isSearchOpenForView,
     viewDomain,
     isViewsEditorOpen: !editorIsMinimized && editorViewId === viewId,
     collapsed:

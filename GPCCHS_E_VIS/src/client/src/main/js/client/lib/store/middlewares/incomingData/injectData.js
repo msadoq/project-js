@@ -36,7 +36,7 @@ let dataMap = {};
 let previousDataMap = {};
 let buffer = {};
 const injectData = (timing) => {
-    /**
+  /**
    * A throttled function that pass action to reducer
    *
    * @type {function}
@@ -59,7 +59,7 @@ const injectData = (timing) => {
     convertData(toConvertMap, dataToInject, (err, convertedDataToInject) => {
       // TODO HANDLE ERROR
       if (err) {
-      // eslint-disable-next-line no-console
+        // eslint-disable-next-line no-console
         console.error(err);
       }
       const updateRangeData = injectDataRange(
@@ -99,7 +99,10 @@ const injectData = (timing) => {
       if (typeof buffer[tbdIds[i]] === 'undefined') {
         buffer[tbdIds[i]] = {};
       }
-      buffer[tbdIds[i]] = Object.assign(buffer[tbdIds[i]], data[tbdIds[i]]);
+      buffer[tbdIds[i]] = {
+        ...buffer[tbdIds[i]],
+        ...data[tbdIds[i]],
+      };
     }
   }
 

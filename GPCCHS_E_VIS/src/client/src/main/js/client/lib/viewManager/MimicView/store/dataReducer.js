@@ -11,13 +11,12 @@
 // VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : Fix cleaning data in last type views
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // VERSION : 2.0.0 : FA : #8801 : 19/12/2017 : Do not clean data when reload a view
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 
 import _isEqual from 'lodash/isEqual';
 import _omit from 'lodash/omit';
-
-// import cleanViewData from './cleanViewData';
 
 import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
@@ -42,21 +41,20 @@ export default function mimicViewData(state = {}, action) {
       }
       return { ...state, [action.payload.view.uuid]: initialState };
     case types.WS_PAGE_OPENED:
-    case types.WS_WORKSPACE_OPENED:
-      {
-        const { views } = action.payload;
-        if (!views) {
-          return state;
-        }
-        const newState = {};
-        views.forEach((view) => {
-          if (view.type !== constants.VM_VIEW_MIMIC) {
-            return;
-          }
-          newState[view.uuid] = initialState;
-        });
-        return { ...state, ...newState };
+    case types.WS_WORKSPACE_OPENED: {
+      const { views } = action.payload;
+      if (!views) {
+        return state;
       }
+      const newState = {};
+      views.forEach((view) => {
+        if (view.type !== constants.VM_VIEW_MIMIC) {
+          return;
+        }
+        newState[view.uuid] = initialState;
+      });
+      return { ...state, ...newState };
+    }
     case types.WS_VIEW_CLOSE: {
       const { viewId } = action.payload;
       if (state[viewId]) {
@@ -140,3 +138,17 @@ export default function mimicViewData(state = {}, action) {
 export const getMimicViewData = state => state.MimicViewData;
 
 export const getData = (state, { viewId }) => state.MimicViewData[viewId];
+
+// TODO: use createSelector(getData, getEntryPoints, () => {...})
+export const getDataFilteredByEP = (state, { viewId }, entryPoints = {}) => {
+  const data = getData(state, { viewId });
+  const epKeys = Object.keys(entryPoints);
+  return {
+    index: epKeys.reduce((aggregator, key) => ({ ...aggregator, [key]: data.index[key] }), {}),
+    values: epKeys.reduce((aggregator, key) => ({
+      ...aggregator,
+      [key]: data.values[key],
+    }), {}),
+  };
+};
+

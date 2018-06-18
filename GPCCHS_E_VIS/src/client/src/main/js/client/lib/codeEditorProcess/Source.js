@@ -15,7 +15,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { html as beautifyHtml } from 'js-beautify';
 import HtmlSourceForm from './HtmlSourceForm';
 import SvgSourceForm from './SvgSourceForm';
@@ -26,7 +27,7 @@ export default class Source extends PureComponent {
     closeCodeEditor: PropTypes.func.isRequired,
     viewId: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.string),
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
     type: PropTypes.string.isRequired,
   };
   static defaultProps = {

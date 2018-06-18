@@ -1,0 +1,1324 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getPayload getPayload :: COP1Context .<COP1Context> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: COP1Context .undefined<COP1Context> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: COP1Context undefined.<COP1Context> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: COP1Context undefined.undefined<COP1Context> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ClcwPacket .<ClcwPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ClcwPacket .undefined<ClcwPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ClcwPacket TelemetryPacket.<ClcwPacket> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ClcwPacket TelemetryPacket.undefined<ClcwPacket> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ClcwPacket undefined.<ClcwPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ClcwPacket undefined.undefined<ClcwPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ComputedEvent .<ComputedEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ComputedEvent .undefined<ComputedEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ComputedEvent ComputedEventDefinition.<ComputedEvent> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ComputedEvent ComputedEventDefinition.undefined<ComputedEvent> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ComputedEvent undefined.<ComputedEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ComputedEvent undefined.undefined<ComputedEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ExternalEvent .<ExternalEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ExternalEvent .undefined<ExternalEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ExternalEvent UserEventDefinition.<ExternalEvent> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ExternalEvent UserEventDefinition.undefined<ExternalEvent> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ExternalEvent undefined.<ExternalEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ExternalEvent undefined.undefined<ExternalEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: GroundMonitoringAlarm .<GroundMonitoringAlarm> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: GroundMonitoringAlarm .undefined<GroundMonitoringAlarm> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: GroundMonitoringAlarm Monitoring.<GroundMonitoringAlarm> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: GroundMonitoringAlarm Monitoring.undefined<GroundMonitoringAlarm> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: GroundMonitoringAlarm undefined.<GroundMonitoringAlarm> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: GroundMonitoringAlarm undefined.undefined<GroundMonitoringAlarm> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: GroundMonitoringAlarmAckRequest .<GroundMonitoringAlarmAckRequest> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: GroundMonitoringAlarmAckRequest .undefined<GroundMonitoringAlarmAckRequest> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: GroundMonitoringAlarmAckRequest undefined.<GroundMonitoringAlarmAckRequest> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: GroundMonitoringAlarmAckRequest undefined.undefined<GroundMonitoringAlarmAckRequest> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: IsisAggregation .<IsisAggregation> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: IsisAggregation .undefined<IsisAggregation> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: IsisAggregation TelemetryPacket.<IsisAggregation> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: IsisAggregation TelemetryPacket.undefined<IsisAggregation> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: IsisAggregation undefined.<IsisAggregation> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: IsisAggregation undefined.undefined<IsisAggregation> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: LogbookEvent .<LogbookEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: LogbookEvent .undefined<LogbookEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: LogbookEvent LogbookEventDefinition.<LogbookEvent> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: LogbookEvent LogbookEventDefinition.undefined<LogbookEvent> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: LogbookEvent undefined.<LogbookEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: LogbookEvent undefined.undefined<LogbookEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: OnBoardAlarmAckRequest .<OnBoardAlarmAckRequest> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: OnBoardAlarmAckRequest .undefined<OnBoardAlarmAckRequest> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: OnBoardAlarmAckRequest undefined.<OnBoardAlarmAckRequest> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: OnBoardAlarmAckRequest undefined.undefined<OnBoardAlarmAckRequest> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: OperationParameter .<OperationParameter> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: OperationParameter .undefined<OperationParameter> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: OperationParameter OperationParameter.<OperationParameter> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: OperationParameter OperationParameter.undefined<OperationParameter> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: OperationParameter undefined.<OperationParameter> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: OperationParameter undefined.undefined<OperationParameter> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus003Model .<Pus003Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus003Model .undefined<Pus003Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus003Model Pus003.parameter<Pus003Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus003Model PusGroundModelDefinition.<Pus003Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus003Model PusGroundModelDefinition.undefined<Pus003Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus003Model undefined.<Pus003Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus003Model undefined.undefined<Pus003Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus005Model .<Pus005Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus005Model .undefined<Pus005Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus005Model Pus005.parameter<Pus005Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus005Model PusGroundModelDefinition.<Pus005Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus005Model PusGroundModelDefinition.undefined<Pus005Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus005Model undefined.<Pus005Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus005Model undefined.undefined<Pus005Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Command .<Pus011Command> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Command .undefined<Pus011Command> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Command PusGroundModelDefinition.<Pus011Command> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Command PusGroundModelDefinition.undefined<Pus011Command> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Command undefined.<Pus011Command> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Command undefined.undefined<Pus011Command> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Model .<Pus011Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Model .undefined<Pus011Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Model PusGroundModelDefinition.<Pus011Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Model PusGroundModelDefinition.undefined<Pus011Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Model undefined.<Pus011Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011Model undefined.undefined<Pus011Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SubSchedule .<Pus011SubSchedule> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SubSchedule .undefined<Pus011SubSchedule> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SubSchedule PusGroundModelDefinition.<Pus011SubSchedule> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SubSchedule PusGroundModelDefinition.undefined<Pus011SubSchedule> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SubSchedule undefined.<Pus011SubSchedule> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SubSchedule undefined.undefined<Pus011SubSchedule> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SyncPoint .<Pus011SyncPoint> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SyncPoint .undefined<Pus011SyncPoint> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SyncPoint PusGroundModelDefinition.<Pus011SyncPoint> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SyncPoint PusGroundModelDefinition.undefined<Pus011SyncPoint> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SyncPoint undefined.<Pus011SyncPoint> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus011SyncPoint undefined.undefined<Pus011SyncPoint> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus012Model .<Pus012Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus012Model .undefined<Pus012Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus012Model Pus012.parameter<Pus012Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus012Model PusGroundModelDefinition.<Pus012Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus012Model PusGroundModelDefinition.undefined<Pus012Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus012Model undefined.<Pus012Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus012Model undefined.undefined<Pus012Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus013Model .<Pus013Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus013Model .undefined<Pus013Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus013Model PusGroundModelDefinition.<Pus013Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus013Model PusGroundModelDefinition.undefined<Pus013Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus013Model undefined.<Pus013Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus013Model undefined.undefined<Pus013Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus014Model .<Pus014Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus014Model .undefined<Pus014Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus014Model PusGroundModelDefinition.<Pus014Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus014Model PusGroundModelDefinition.undefined<Pus014Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus014Model undefined.<Pus014Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus014Model undefined.undefined<Pus014Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus015Model .<Pus015Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus015Model .undefined<Pus015Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus015Model PusGroundModelDefinition.<Pus015Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus015Model PusGroundModelDefinition.undefined<Pus015Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus015Model undefined.<Pus015Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus015Model undefined.undefined<Pus015Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus018Model .<Pus018Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus018Model .undefined<Pus018Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus018Model PusGroundModelDefinition.<Pus018Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus018Model PusGroundModelDefinition.undefined<Pus018Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus018Model undefined.<Pus018Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus018Model undefined.undefined<Pus018Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus019Model .<Pus019Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus019Model .undefined<Pus019Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus019Model PusGroundModelDefinition.<Pus019Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus019Model PusGroundModelDefinition.undefined<Pus019Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus019Model undefined.<Pus019Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus019Model undefined.undefined<Pus019Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus140Model .<Pus140Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus140Model .undefined<Pus140Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus140Model PusGroundModelDefinition.<Pus140Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus140Model PusGroundModelDefinition.undefined<Pus140Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus140Model undefined.<Pus140Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus140Model undefined.undefined<Pus140Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus142Model .<Pus142Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus142Model .undefined<Pus142Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus142Model PusGroundModelDefinition.<Pus142Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus142Model PusGroundModelDefinition.undefined<Pus142Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus142Model undefined.<Pus142Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus142Model undefined.undefined<Pus142Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus144Model .<Pus144Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus144Model .undefined<Pus144Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus144Model PusGroundModelDefinition.<Pus144Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus144Model PusGroundModelDefinition.undefined<Pus144Model> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus144Model undefined.<Pus144Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: Pus144Model undefined.undefined<Pus144Model> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ReportingParameter .<ReportingParameter> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ReportingParameter .undefined<ReportingParameter> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ReportingParameter Reporting.<ReportingParameter> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ReportingParameter Reporting.undefined<ReportingParameter> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ReportingParameter undefined.<ReportingParameter> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: ReportingParameter undefined.undefined<ReportingParameter> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: RmPacket .<RmPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: RmPacket .undefined<RmPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: RmPacket TelemetryPacket.<RmPacket> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: RmPacket TelemetryPacket.undefined<RmPacket> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: RmPacket undefined.<RmPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: RmPacket undefined.undefined<RmPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatAggregation .<StatAggregation> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatAggregation .undefined<StatAggregation> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatAggregation StatAggregationDefinition.<StatAggregation> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatAggregation StatAggregationDefinition.undefined<StatAggregation> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatAggregation undefined.<StatAggregation> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatAggregation undefined.undefined<StatAggregation> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatValue .<StatValue> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatValue .undefined<StatValue> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatValue StatValuesDefinition.<StatValue> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatValue StatValuesDefinition.undefined<StatValue> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatValue undefined.<StatValue> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: StatValue undefined.undefined<StatValue> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: TmPacket .<TmPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: TmPacket .undefined<TmPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: TmPacket TelemetryPacket.<TmPacket> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: TmPacket TelemetryPacket.undefined<TmPacket> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: TmPacket undefined.<TmPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: TmPacket undefined.undefined<TmPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: UserEvent .<UserEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: UserEvent .undefined<UserEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: UserEvent UserEventDefinition.<UserEvent> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: UserEvent UserEventDefinition.undefined<UserEvent> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: UserEvent undefined.<UserEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: UserEvent undefined.undefined<UserEvent> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: decommutedPacket .<DecommutedPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: decommutedPacket .undefined<DecommutedPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: decommutedPacket TelemetryPacket.<DecommutedPacket> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: decommutedPacket TelemetryPacket.undefined<DecommutedPacket> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: decommutedPacket undefined.<DecommutedPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
+exports[`getPayload getPayload :: decommutedPacket undefined.undefined<DecommutedPacket> should be false 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;

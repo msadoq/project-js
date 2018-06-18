@@ -18,7 +18,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Glyphicon, Button, Col, Row } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Links.css';

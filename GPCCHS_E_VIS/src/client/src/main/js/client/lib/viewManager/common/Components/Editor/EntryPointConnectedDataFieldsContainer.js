@@ -1,16 +1,22 @@
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 import EntryPointConnectedDataFields from 'viewManager/common/Components/Editor/EntryPointConnectedDataFields';
+import {
+  getSelectedCatalogName,
+  getSelectedComObjectName,
+  getSelectedDataType,
+  getSelectedDomainInForm,
+  getSelectedItemName,
+  getSelectedTimelineId,
+} from '../../../commonEditor/Fields/selectors';
 
-const mapStateToProps = (state, props) => (
-  {
-    selectedDomainName: formValueSelector(props.form)(state, 'domain'),
-    selectedTimelineId: formValueSelector(props.form)(state, 'timeline'),
-    selectedCatalogName: formValueSelector(props.form)(state, 'catalog'),
-    selectedItemName: formValueSelector(props.form)(state, 'catalogItem'),
-    selectedComObjectName: formValueSelector(props.form)(state, 'comObject'),
-  }
-);
+const mapStateToProps = (state, { form }) => ({
+  selectedDomainName: getSelectedDomainInForm(form, state),
+  selectedTimelineId: getSelectedTimelineId(form, state),
+  selectedCatalogName: getSelectedCatalogName(form, state),
+  selectedItemName: getSelectedItemName(form, state),
+  selectedComObjectName: getSelectedComObjectName(form, state),
+  dataType: getSelectedDataType(form, state),
+});
 
 const EntryPointConnectedDataFieldsContainer = connect(
   mapStateToProps, {}

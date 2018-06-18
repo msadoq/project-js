@@ -8,7 +8,10 @@ import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 const propsStub = {
   pageId: 'page1',
   viewId: 'view1',
-  entryPoint: {},
+  entryPoint: {
+    connectedData: {},
+    stateColors: [],
+  },
   updateEntryPoint: () => null,
   panels: [],
   updateViewSubPanels: () => null,

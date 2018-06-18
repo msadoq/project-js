@@ -43,7 +43,7 @@ export function removeAxis(stateConf, action) {
   if (!axisId) {
     return stateConf;
   }
-  return __.update('axes', __.omit(axisId), stateConf);
+  return __.update('axes', axes => __.omit(axisId, axes), stateConf);
 }
 
 function getUniqueAxisId(stateConf, label) {

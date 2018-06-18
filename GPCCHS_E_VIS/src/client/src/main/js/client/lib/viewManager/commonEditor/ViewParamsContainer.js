@@ -13,13 +13,12 @@
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getView } from 'store/reducers/views';
 import { getDomains } from 'store/reducers/domains';
 import { getSessions } from 'store/reducers/sessions';
 import {
-  updateBgColor,
   updateTitle,
   updateTitleStyle,
   updateDomainName,
@@ -43,7 +42,6 @@ const mapStateToProps = (state, { viewId }) => {
 };
 
 const ViewParamsContainer = connect(mapStateToProps, {
-  updateBgColor,
   updateTitle,
   updateTitleStyle,
   updateDomainName,

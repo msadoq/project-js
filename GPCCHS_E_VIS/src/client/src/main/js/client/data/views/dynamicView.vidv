@@ -15,8 +15,6 @@
     "length": 5,
     "width": 3
   },
-  "domainName": "fr.cnes.isis",
-  "sessionName": "Master",
   "entryPoint": {
     "connectedData": {
       "catalog": "TelemetryPacket",
@@ -24,7 +22,8 @@
       "comObject": "DecommutedPacket",
       "domain": "*",
       "filter": [],
-      "formula": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>",
+      "formula": "TelemetryPacket.CLCW_TM_CLCWPACKET<DecommutedPacket>",
+      "provider": "HKTMR",
       "timeline": "*"
     },
     "name": "dynamicEP",

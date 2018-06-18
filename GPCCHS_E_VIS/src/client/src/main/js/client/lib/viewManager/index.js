@@ -49,49 +49,62 @@
 // ====================================================================
 
 /* eslint-disable global-require, "DV6 TBC_CNES Because mainProcess can't statically resolve react components" */
+
+import plotViewSchema from 'common/viewConfigurationFiles/schemas/PlotView.schema.json';
+import textViewSchema from 'common/viewConfigurationFiles/schemas/TextView.schema.json';
+import mimicViewSchema from 'common/viewConfigurationFiles/schemas/MimicView.schema.json';
+import dynamicViewSchema from 'common/viewConfigurationFiles/schemas/DynamicView.schema.json';
+import historyViewSchema from 'common/viewConfigurationFiles/schemas/HistoryView.schema.json';
+import packetViewSchema from 'common/viewConfigurationFiles/schemas/PacketView.schema.json';
+import groundAlarmViewSchema from 'common/viewConfigurationFiles/schemas/GroundAlarmView.schema.json';
+import onboardAlarmViewSchema from 'common/viewConfigurationFiles/schemas/OnboardAlarmView.schema.json';
+import PUS05ViewSchema from 'common/viewConfigurationFiles/schemas/PUS05View.schema.json'; // @todo finalize schema
+import PUS11ViewSchema from 'common/viewConfigurationFiles/schemas/PUS11View.schema.json'; // @todo finalize schema
+import decommutedPacketViewSchema from '../common/viewConfigurationFiles/schemas/DecommutedPacketView.schema.json';
+
 import {
+  DATASTRUCTURETYPE_HISTORIZED,
   DATASTRUCTURETYPE_LAST,
   DATASTRUCTURETYPE_RANGE,
 } from '../constants';
 
-import plotViewSchema from './PlotView/PlotView.schema.json';
 import textViewData from './TextView/data';
 import dynamicViewData from './DynamicView/data';
+import decommutedPacketViewData from './DecommutedPacketView/data';
 import mimicViewData from './MimicView/data';
 import historyViewData from './HistoryView/data';
 import packetViewData from './PacketView/data';
 import groundAlarmViewData from './GroundAlarmView/data';
 import onboardAlarmViewData from './OnboardAlarmView/data';
+import plotViewData from './PlotView/data';
+import PUS05ViewData from '../viewManager/PUS05View/data';
+import PUS11ViewData from '../viewManager/PUS11View/data';
 
 import plotViewDataSelectors from './PlotView/store/dataSelectors';
 import textViewDataSelectors from './TextView/store/dataSelectors';
 import dynamicViewDataSelectors from './DynamicView/store/dataSelectors';
+import decommutedPacketViewDataSelectors from './DecommutedPacketView/store/dataSelectors';
 import mimicViewDataSelectors from './MimicView/store/dataSelector';
 import groundAlarmViewDataSelectors from './GroundAlarmView/store/dataSelectors';
 import onboardAlarmViewDataSelectors from './OnboardAlarmView/store/dataSelectors';
 import historyViewDataSelectors from './HistoryView/store/dataSelectors';
 import packetViewDataSelectors from './PacketView/store/dataSelectors';
+import PUS05ViewDataSelectors from '../viewManager/PUS05View/store/dataSelectors';
+import PUS11ViewDataSelectors from '../viewManager/PUS11View/store/dataSelectors';
 
 import * as constants from './constants';
-import textViewSchema from './TextView/TextView.schema.json';
-import mimicViewSchema from './MimicView/MimicView.schema.json';
-import dynamicViewSchema from './DynamicView/DynamicView.schema.json';
-import historyViewSchema from './HistoryView/HistoryView.schema.json';
-import packetViewSchema from './PacketView/PacketView.schema.json';
-import groundAlarmViewSchema from './GroundAlarmView/GroundAlarmView.schema.json';
-import onboardAlarmViewSchema from './OnboardAlarmView/OnboardAlarmView.schema.json';
 
 import plotViewModule from './PlotView';
 import textViewModule from './TextView';
 import mimicViewModule from './MimicView';
 import dynamicViewModule from './DynamicView';
+import decommutedPacketViewModule from './DecommutedPacketView';
 import historyViewModule from './HistoryView';
 import packetViewModule from './PacketView';
 import groundAlarmViewModule from './GroundAlarmView';
 import onboardAlarmViewModule from './OnboardAlarmView';
-
-
-import plotViewData from './PlotView/data';
+import PUS05ViewModule from '../viewManager/PUS05View';
+import PUS11ViewModule from '../viewManager/PUS11View';
 
 const list = {
   [constants.VM_VIEW_PLOT]: {
@@ -114,6 +127,13 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dynamicViewData,
     dataSelectors: dynamicViewDataSelectors,
+  },
+  [constants.VM_VIEW_DECOMMUTEDPACKET]: {
+    schema: decommutedPacketViewSchema,
+    viewModule: decommutedPacketViewModule,
+    structureType: DATASTRUCTURETYPE_LAST,
+    structureModule: decommutedPacketViewData,
+    dataSelectors: decommutedPacketViewDataSelectors,
   },
   [constants.VM_VIEW_HISTORY]: {
     schema: historyViewSchema,
@@ -150,7 +170,20 @@ const list = {
     structureModule: onboardAlarmViewData,
     dataSelectors: onboardAlarmViewDataSelectors,
   },
-
+  [constants.VM_VIEW_PUS05]: {
+    schema: PUS05ViewSchema,
+    viewModule: PUS05ViewModule,
+    structureType: DATASTRUCTURETYPE_HISTORIZED,
+    structureModule: PUS05ViewData,
+    dataSelectors: PUS05ViewDataSelectors,
+  },
+  [constants.VM_VIEW_PUS11]: {
+    schema: PUS11ViewSchema,
+    viewModule: PUS11ViewModule,
+    structureType: DATASTRUCTURETYPE_HISTORIZED,
+    structureModule: PUS11ViewData,
+    dataSelectors: PUS11ViewDataSelectors,
+  },
 };
 
 export default list;

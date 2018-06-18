@@ -47,7 +47,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import getLogger from 'common/logManager';
 import styles from './TimebarWrapper.css';
 import LeftTabContainer from './LeftTab/LeftTabContainer';

@@ -1,0 +1,177 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "titleStyle": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "minLength": 1
+        },
+        "underline": {
+          "type": "boolean"
+        },
+        "align": {
+          "type": "string",
+          "minLength": 1
+        },
+        "font": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "backgroundColor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
+      }
+    },
+    "defaultRatio": {
+      "type": "object",
+      "properties": {
+        "length": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "length",
+        "width"
+      ]
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entryPoints": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "connectedData": {
+            "type": "object",
+            "properties": {
+              "catalog": {
+                "type": "string",
+                "minLength": 1
+              },
+              "catalogItem": {
+                "type": "string",
+                "minLength": 1
+              },
+              "comObject": {
+                "type": "string",
+                "minLength": 1
+              },
+              "comObjectField": {
+                "type": "string",
+                "minLength": 1
+              },
+              "convertFrom": {
+                "type": "string"
+              },
+              "convertTo": {
+                "type": "string"
+              },
+              "digits": {
+                "type": "number"
+              },
+              "domain": {
+                "type": "string",
+                "minLength": 1
+              },
+              "filter": {
+                "type": "array",
+                "items": {
+                  "required": [],
+                  "properties": {}
+                }
+              },
+              "format": {
+                "type": "string",
+                "minLength": 1
+              },
+              "formula": {
+                "type": "string",
+                "minLength": 1
+              },
+              "provider": {
+                "type": "string",
+                "minLength": 1
+              },
+              "timeline": {
+                "type": "string",
+                "minLength": 1
+              },
+              "unit": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "digits",
+              "domain",
+              "format",
+              "formula",
+              "timeline",
+              "unit"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stateColors": {
+            "type": "array",
+            "items": {
+              "required": [],
+              "properties": {}
+            }
+          }
+        }
+      }
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "width",
+        "height"
+      ]
+    }
+  },
+  "required": [
+    "type",
+    "content",
+    "entryPoints"
+  ],
+  "additionalProperties": false
+}

@@ -35,10 +35,13 @@
 // VERSION : 2.0.0 : DM : #6818 : 29/11/2017 : PlotView/Grizzly Every pan action takes place in the
 //  Zones component.
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import _max from 'lodash/max';
@@ -86,6 +89,7 @@ export default class Chart extends React.Component {
     lines: arrayOf(lineType.isRequired).isRequired,
     linesListener: func.isRequired,
     zoomPanListener: func.isRequired,
+    updateAxis: bool.isRequired,
   };
   static defaultProps = {
     yAxesAt: 'left',
@@ -116,7 +120,7 @@ export default class Chart extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    let shouldRender = false;
+    let shouldRender = nextProps.updateAxis;
     Object.keys(nextProps).forEach((k) => {
       if (this.props[k] !== nextProps[k]) {
         shouldRender = true;
@@ -644,6 +648,7 @@ export default class Chart extends React.Component {
       tooltipColor,
       current,
       parametric,
+      updateAxis,
     } = this.props;
 
     const {
@@ -724,6 +729,7 @@ export default class Chart extends React.Component {
               margin={((this.yAxesUniq.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
               lines={this.linesUniq.filter(l => l.yAxisId === yAxis.id)}
               axisId={yAxis.id}
+              updateAxis={updateAxis}
               format={yAxis.format}
               showLabels={yAxis.showLabels}
               showTicks={yAxis.showTicks}
@@ -762,6 +768,7 @@ export default class Chart extends React.Component {
               top={marginTop}
               side={this.yAxesUniq.length * this.yAxisWidth}
               axisId={xAxis.id}
+              updateAxis={updateAxis}
               format={xAxis.format}
               showLabels={xAxis.showLabels}
               showTicks={xAxis.showTicks}

@@ -21,9 +21,8 @@
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import { getFocusedPageTimelines } from 'store/selectors/timelines';
 
@@ -36,12 +35,25 @@ import {
   removeEntryPoint,
 } from 'store/actions/views';
 import EntryPointDetails from './EntryPointDetails';
+import WithForm from '../../../common/Hoc/WithForm';
+import {
+  getSelectedComObjectName,
+  getSelectedDomainInForm,
+  getSelectedTimelineId,
+  getSelectedCatalogName,
+  getSelectedItemName,
+} from '../../../commonEditor/Fields/selectors';
 
-const mapStateToProps = createStructuredSelector({
-  axes: getAxes,
-  timelines: getFocusedPageTimelines,
-  panels: getViewEntryPointsSubPanels,
-  domains: getDomains,
+const mapStateToProps = (state, props) => ({
+  axes: getAxes(state, props),
+  timelines: getFocusedPageTimelines(state, props),
+  panels: getViewEntryPointsSubPanels(state, props),
+  domains: getDomains(state),
+  selectedDomainName: getSelectedDomainInForm(props.form, state),
+  selectedTimelineId: getSelectedTimelineId(props.form, state),
+  selectedCatalogName: getSelectedCatalogName(props.form, state),
+  selectedItemName: getSelectedItemName(props.form, state),
+  selectedComObjectName: getSelectedComObjectName(props.form, state),
 });
 
 const mapDispatchToProps = {
@@ -50,7 +62,9 @@ const mapDispatchToProps = {
   removeEntryPoint,
 };
 
-const EntryPointDetailsContainer = connect(mapStateToProps, mapDispatchToProps)(EntryPointDetails);
+const EntryPointDetailsContainer = connect(mapStateToProps, mapDispatchToProps)(
+  WithForm(EntryPointDetails)
+);
 
 EntryPointDetailsContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

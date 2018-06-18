@@ -1,5 +1,7 @@
 import CatalogField from 'viewManager/commonEditor/Fields/CatalogField';
+import { REQUESTING } from 'store/reducers/catalogs';
 import { shallowRenderSnapshotInReduxForm } from '../../../common/jest/utils';
+
 
 const propsStub = {
   timelineId: 'timelineId',
@@ -19,7 +21,7 @@ describe('viewManager', () => {
           shallowRenderSnapshotInReduxForm(CatalogField, propsStub, {});
         });
         test('snapshot 2', () => {
-          const propsStub2 = { ...propsStub, catalogs: 'requesting' };
+          const propsStub2 = { ...propsStub, catalogs: REQUESTING };
           shallowRenderSnapshotInReduxForm(CatalogField, propsStub2, {});
         });
       });

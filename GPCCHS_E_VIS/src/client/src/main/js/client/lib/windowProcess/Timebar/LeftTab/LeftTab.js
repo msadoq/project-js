@@ -30,7 +30,8 @@
 // ====================================================================
 
 import classnames from 'classnames';
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Col, Glyphicon, Button } from 'react-bootstrap';
 import Timeline from './Timeline';
 import styles from './LeftTab.css';

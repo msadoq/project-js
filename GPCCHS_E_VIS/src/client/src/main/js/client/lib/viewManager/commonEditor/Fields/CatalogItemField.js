@@ -1,10 +1,11 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { catalogItemType } from 'viewManager/common/Components/types';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
+import VirtualizedSelectField from 'windowProcess/commonReduxForm/VirtualizedSelectField';
 
-const { string, arrayOf, oneOfType, func, number } = PropTypes;
+const { bool, string, arrayOf, oneOfType, func, number } = PropTypes;
 
 export default class CatalogItemField extends PureComponent {
   static propTypes = {
@@ -17,6 +18,7 @@ export default class CatalogItemField extends PureComponent {
     domainId: number,
     timelineId: string,
     catalogName: string,
+    catalogsLoaded: bool,
     askUnit: func.isRequired,
   };
 
@@ -26,9 +28,19 @@ export default class CatalogItemField extends PureComponent {
     domainId: null,
     timelineId: null,
     catalogName: null,
+    catalogsLoaded: false,
   };
 
+  componentWillMount() {
+    this.tryToLoadCatalogItems(this.props);
+  }
+
+
   componentWillReceiveProps(nextProps) {
+    this.tryToLoadCatalogItems(nextProps);
+  }
+
+  tryToLoadCatalogItems = (props) => {
     const {
       domainId,
       timelineId,
@@ -36,21 +48,22 @@ export default class CatalogItemField extends PureComponent {
       catalogItems,
       askCatalogItems,
       catalogName,
-    } = nextProps;
+      catalogsLoaded,
+    } = props;
 
-    if (!!(domainId && timelineId && catalogName) && catalogItems === null) {
+    if (!!(domainId && timelineId && catalogName) && catalogItems === null && catalogsLoaded) {
       askCatalogItems(domainId, sessionId, catalogName);
     }
   }
 
   render() {
-    const { catalogItems, sessionId, domainId, timelineId, catalogName, askUnit } = this.props;
+    const { catalogItems, domainId, timelineId, catalogName, askUnit, sessionId } = this.props;
     const disabled = (!domainId || !timelineId || !catalogName || catalogItems === null);
     return (
       <Field
         format={null}
-        name="catalogItem"
-        component={ReactSelectField}
+        name="connectedData.catalogItem"
+        component={VirtualizedSelectField}
         clearable
         disabled={disabled}
         options={computeOptions(catalogItems)}

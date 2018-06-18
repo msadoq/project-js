@@ -10,7 +10,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Window from './Window';
 
 export default class WindowWrapper extends Component {

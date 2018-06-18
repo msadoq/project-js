@@ -18,10 +18,10 @@ module.exports = (id) => {
 
   const params = encodeURIComponent(
     JSON.stringify(
-      Object.assign(
-        getAll(),
-        { IS_BUNDLED: process.env.IS_BUNDLED } // IS_BUNDLED is set in env during webpack build
-      )
+      {
+        ...getAll(),
+        IS_BUNDLED: process.env.IS_BUNDLED, // IS_BUNDLED is set in env during webpack build
+      }
     )
   );
 

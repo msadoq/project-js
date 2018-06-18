@@ -1,8 +1,5 @@
-import React from 'react';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 import Tabs from 'windowProcess/Navigation/Tabs';
-import { shallow } from 'enzyme';
+import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 
 const propsStub = {
   pages: [
@@ -23,14 +20,8 @@ const propsStub = {
 describe('windowProcess', () => {
   describe('windowProcess :: Navigation', () => {
     describe('windowProcess :: Navigation :: Tabs', () => {
-      test('Tabs :: render', () => {
-        const store = createStore(state => state, {});
-        const tree = shallow(
-          <Provider store={store}>
-            <Tabs {...propsStub} />
-          </Provider>
-        );
-        expect(tree).toMatchSnapshot();
+      test('snapshot', () => {
+        shallowRenderSnapshotInReduxForm(Tabs, propsStub, {});
       });
     });
   });

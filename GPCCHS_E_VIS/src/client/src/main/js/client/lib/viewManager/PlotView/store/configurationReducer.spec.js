@@ -140,10 +140,13 @@ describe('store:reducer:PlotViewConfiguration', () => {
     test('update axis', () => {
       const axis = { label: '3', unit: 'z' };
       const state = reducer(stateConf, actions.updateAxis('plot1', 'axis1', axis));
-      expect(state.axes.axis1).toEqual(Object.assign({}, axis, { id: 'axis1' }));
+      expect(state.axes.axis1).toEqual({
+        ...axis,
+        id: 'axis1',
+      });
     });
     test('remove axis', () => {
-      const state = reducer(stateConf, actions.removeAxis('plot1', 'axis2'));
+      const state = reducer(stateConf, actions.removeAxisAction('plot1', 'axis2'));
       expect(state.axes).toEqual({ time: { label: 'Time', unit: 's', id: 'time' },
         axis3: { label: '3', unit: 'p', id: 'axis3' } });
     });

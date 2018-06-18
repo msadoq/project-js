@@ -13,12 +13,15 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { ButtonGroup, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { lint } from '../common/htmllint';
 import CodeMirrorField from '../windowProcess/commonReduxForm/CodeMirrorField';
 import styles from './Source.css';
+import EditorButtonsBar from './EditorButtonsBar';
+import { validateRequiredFields } from '../viewManager/common';
 
 class HtmlSourceForm extends Component {
   static propTypes = {
@@ -28,23 +31,14 @@ class HtmlSourceForm extends Component {
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
     closeCodeEditor: PropTypes.func.isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.string),
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
     viewType: PropTypes.string.isRequired,
   }
   static defaultProps = {
     entryPoints: [],
-  }
+  };
 
   onChange = editorState => this.setState({ editorState });
-
-  resetAndClose = () => {
-    this.props.reset();
-    this.props.closeCodeEditor();
-  }
-  saveAndClose = () => {
-    this.props.handleSubmit();
-    this.props.closeCodeEditor();
-  }
 
   render() {
     const {
@@ -55,6 +49,7 @@ class HtmlSourceForm extends Component {
       valid,
       entryPoints,
       viewType,
+      closeCodeEditor,
     } = this.props;
 
     return (
@@ -69,7 +64,7 @@ class HtmlSourceForm extends Component {
           name="html"
           className={styles.CodeMirrorField}
           component={CodeMirrorField}
-          autocompleteList={entryPoints}
+          autocompleteList={entryPoints.map(ep => ep.name)}
           type="test"
         />
         { viewType === 'MimicView_' &&
@@ -82,44 +77,14 @@ class HtmlSourceForm extends Component {
             <Button>Digital display</Button>
           </div>
         }
-        <div className={styles.footer}>
-          <ButtonGroup>
-            <Button
-              type="button"
-              disabled={pristine || submitting}
-              onClick={this.resetAndClose}
-              className={styles.footerButton}
-            >
-              Cancel
-            </Button>
-            <Button
-              bsStyle="warning"
-              type="button"
-              disabled={pristine || submitting}
-              onClick={reset}
-              className={styles.footerButton}
-            >
-              Reset
-            </Button>
-            <Button
-              bsStyle="success"
-              type="submit"
-              disabled={pristine || submitting || !valid}
-              className={styles.footerButton}
-            >
-              Save
-            </Button>
-            <Button
-              bsStyle="success"
-              type="button"
-              disabled={pristine || submitting || !valid}
-              className={styles.footerButton}
-              onClick={this.saveAndClose}
-            >
-              Save & Close
-            </Button>
-          </ButtonGroup>
-        </div>
+        <EditorButtonsBar
+          pristine={pristine}
+          submitting={submitting}
+          valid={valid}
+          reset={reset}
+          closeCodeEditor={closeCodeEditor}
+          handleSubmit={handleSubmit}
+        />
       </form>
     );
   }
@@ -128,11 +93,6 @@ class HtmlSourceForm extends Component {
 const requiredFields = ['html'];
 const validate = (values = {}, props) => {
   const errors = {};
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
 
   const htmlErrors = props.viewType === 'MimicView' ?
     lint(values.html, { 'spec-char-escape': false }) :
@@ -141,8 +101,10 @@ const validate = (values = {}, props) => {
   if (htmlErrors.length) {
     errors.html = `You have ${htmlErrors.length} errors`;
   }
-
-  return errors;
+  return {
+    ...errors,
+    ...validateRequiredFields(requiredFields, values),
+  };
 };
 
 export default reduxForm({

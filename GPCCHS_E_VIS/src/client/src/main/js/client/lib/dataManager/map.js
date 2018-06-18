@@ -41,6 +41,8 @@
 // VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : Refacto PubSub Alarm + tbd Alarm queries
 // VERSION : 2.0.0 : FA : ISIS-FT-2229 : 18/10/2017 : Resolve merge conflict . .
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix tests + clean code
 // END-HISTORY
 // ====================================================================
 
@@ -117,25 +119,22 @@ export default createSelector(
   getPerLastTbdIdMap,
   getTimebars,
   (viewMap, rangeTbdIdMap, lastTbdIdMap, timebars) => {
-    // console.log('viewMap: ', viewMap);
-    // console.log('rangeTbdIdMap: ', rangeTbdIdMap);
-    // console.log('lastTbdIdMap: ', lastTbdIdMap);
-    // console.log('timebars: ', timebars);
     // compute expected intervals
     let forecastIntervalsMap = {};
     const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
     const rangeIntervals = expectedRangeIntervalMap(
-        timebars,
-        rangeTbdIdMap,
-        forecastIntervalsMap,
-        forecastTime);
+      timebars,
+      rangeTbdIdMap,
+      forecastIntervalsMap,
+      forecastTime);
     forecastIntervalsMap = rangeIntervals.forecastIntervals;
     const lastIntervals = expectedLastIntervalMap(
-        timebars,
-        lastTbdIdMap,
-        forecastIntervalsMap,
-        forecastTime);
+      timebars,
+      lastTbdIdMap,
+      forecastIntervalsMap,
+      forecastTime);
     forecastIntervalsMap = lastIntervals.forecastIntervals;
+
     return {
       perView: viewMap,
       perRangeTbdId: rangeTbdIdMap,

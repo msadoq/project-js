@@ -29,135 +29,82 @@
 // ====================================================================
 
 import { mockStore, freezeMe } from 'common/jest';
+import stateTest from 'common/jest/stateTest';
+import * as types from 'store/types';
 import * as actions from './views';
 
-const defaultStateColor = [
-  {
-    color: 'orangered',
-    condition: {
-      field: 'monitoringState',
-      operand: 'alarm',
-      operator: '=',
+const initialState = freezeMe({
+  domains: [{ name: 'fr.cnes.isis' }],
+  windows: {
+    w1: {
+      pages: ['pageWithLayout', 'emptyPage'],
     },
   },
-  {
-    color: 'red',
-    condition: {
-      field: 'monitoringState',
-      operand: 'critical',
-      operator: '=',
+  views: {
+    textview: {
+      uuid: 'textview',
+      type: 'TextView',
+      configuration: { collapsed: false },
+      path: '/folder1/oldPath',
+      absolutePath: '/folder1/oldPath',
+    },
+    plotview: {
+      uuid: 'plotview',
+      type: 'PlotView',
     },
   },
-  {
-    color: 'white',
-    condition: {
-      field: 'monitoringState',
-      operand: 'info',
-      operator: '=',
+  pages: {
+    pageWithLayout: {
+      uuid: 'pageWithLayout',
+      views: ['textview'],
+      timebarUuid: 'tb1',
+      layout: [
+        {
+          i: 'textview',
+          maxH: 100,
+          maxW: 100,
+          x: 0,
+          y: 0,
+          h: 3,
+          w: 5,
+        },
+        {
+          i: 'unknown',
+          maxH: 100,
+          maxW: 100,
+          x: 0,
+          y: 0,
+          h: 3,
+          w: 5,
+        },
+      ],
+    },
+    emptyPage: {
+      uuid: 'emptyPage',
+      views: ['plotview'],
+      timebarUuid: 'unknownTimbarId',
     },
   },
-  {
-    color: 'grey',
-    condition: {
-      field: 'monitoringState',
-      operand: 'outOfRange',
-      operator: '=',
+  timebars: {
+    tb1: {
+      masterId: 'masterId',
     },
   },
-  {
-    color: 'darkred',
-    condition: {
-      field: 'monitoringState',
-      operand: 'severe',
-      operator: '=',
+  entryPoints: {
+    e1: {
+      connectedData: {
+        axisId: 'axis_1',
+      },
     },
   },
-  {
-    color: 'orange',
-    condition: {
-      field: 'monitoringState',
-      operand: 'warning',
-      operator: '=',
-    },
+  axes: {
+    axis_1: { label: 'AXIS1', id: 'axis_1', unit: 'volts' },
+    axis_2: { label: 'AXIS2', id: 'axis_2', unit: 'seconds' },
   },
-  {
-    color: 'lightgrey',
-    condition: {
-      field: 'monitoringState',
-      operand: 'nonsignificant',
-      operator: '=',
-    },
-  },
-  {
-    color: 'tan',
-    condition: {
-      field: 'monitoringState',
-      operand: 'obsolete',
-      operator: '=',
-    },
-  },
-];
+});
 
 describe('store:actions:views', () => {
-  const state = freezeMe({
-    domains: [{ name: 'fr.cnes.isis' }],
-    windows: {
-      w1: {
-        pages: ['pageWithLayout', 'emptyPage'],
-      },
-    },
-    views: {
-      textview: {
-        uuid: 'textview',
-        type: 'TextView',
-        configuration: { collapsed: false },
-        path: '/folder1/oldPath',
-        absolutePath: '/folder1/oldPath',
-      },
-      plotview: {
-        uuid: 'plotview',
-        type: 'PlotView',
-      },
-    },
-    pages: {
-      pageWithLayout: {
-        uuid: 'pageWithLayout',
-        views: ['textview'],
-        timebarUuid: 'tb1',
-        layout: [
-          {
-            i: 'textview',
-            maxH: 100,
-            maxW: 100,
-            x: 0,
-            y: 0,
-            h: 3,
-            w: 5,
-          },
-          {
-            i: 'unknown',
-            maxH: 100,
-            maxW: 100,
-            x: 0,
-            y: 0,
-            h: 3,
-            w: 5,
-          },
-        ],
-      },
-      emptyPage: {
-        uuid: 'emptyPage',
-        views: ['plotview'],
-        timebarUuid: 'unknownTimbarId',
-      },
-    },
-    timebars: {
-      tb1: {
-        masterId: 'masterId',
-      },
-    },
-  });
-  const store = mockStore(state);
+  const referenceStore = mockStore(initialState);
   const emptyEntryPoint = {
     connectedData: {},
   };
@@ -166,13 +113,13 @@ describe('store:actions:views', () => {
   };
 
   afterEach(() => {
-    store.clearActions();
+    referenceStore.clearActions();
   });
 
   describe('touchViewConfiguration', () => {
     test('should dispatch', () => {
-      store.dispatch(actions.touchViewConfiguration('textview'));
-      expect(store.getActions()).toEqual([
+      referenceStore.dispatch(actions.touchViewConfiguration('textview'));
+      expect(referenceStore.getActions()).toEqual([
         {
           type: 'WS_VIEW_TOUCH',
           payload: { viewId: 'textview' },
@@ -181,11 +128,41 @@ describe('store:actions:views', () => {
     });
   });
 
+  describe('isAxisReferencedByEntryPoint', () => {
+    test('should return false if axis is referenced by no entrypoint', () => {
+      expect(
+        actions.isAxisReferencedByEntryPoint('axis_2', referenceStore.getState().entryPoints)
+      ).toBeFalsy();
+    });
+    test('should return true if axis is referenced by at least one entrypoint', () => {
+      expect(
+        actions.isAxisReferencedByEntryPoint('axis_1', referenceStore.getState().entryPoints)
+      ).toBeTruthy();
+    });
+  });
+
+  describe('user removes axis', () => {
+    test('should dispatch', () => {
+      referenceStore.dispatch(
+        actions.removeAxis('plotview', 'axis_2', referenceStore.getState().entryPoints)
+      );
+      expect(referenceStore.getActions()).toEqual([
+        {
+          type: 'WS_VIEW_REMOVE_AXIS',
+          payload: {
+            axisId: 'axis_2',
+            viewId: 'plotview',
+          },
+        },
+      ]);
+    });
+  });
+
   describe('update path', () => {
     describe('updatePath', () => {
       test('should dispatch', () => {
-        store.dispatch(actions.updatePath('textview', '/folder1/newPath'));
-        expect(store.getActions()).toEqual([
+        referenceStore.dispatch(actions.updatePath('textview', '/folder1/newPath'));
+        expect(referenceStore.getActions()).toEqual([
           {
             type: 'WS_VIEW_UPDATEPATH',
             payload: { viewId: 'textview', newPath: '/folder1/newPath' },
@@ -193,8 +170,8 @@ describe('store:actions:views', () => {
         ]);
       });
       test('should dispatch when newPath is falsy', () => {
-        store.dispatch(actions.updatePath('textview', ''));
-        expect(store.getActions()).toEqual([
+        referenceStore.dispatch(actions.updatePath('textview', ''));
+        expect(referenceStore.getActions()).toEqual([
           {
             type: 'WS_VIEW_UPDATEPATH',
             payload: { viewId: 'textview', newPath: '' },
@@ -202,19 +179,19 @@ describe('store:actions:views', () => {
         ]);
       });
       test('should not dispatch when view is unknow', () => {
-        store.dispatch(actions.updatePath('unknown_view', '/folder1/newPath'));
-        expect(store.getActions()).toEqual([]);
+        referenceStore.dispatch(actions.updatePath('unknown_view', '/folder1/newPath'));
+        expect(referenceStore.getActions()).toEqual([]);
       });
       test('should not dispatch when newPath and oldPath are the same', () => {
-        store.dispatch(actions.updatePath('textview', '/../folder1/oldPath'));
-        expect(store.getActions()).toEqual([]);
+        referenceStore.dispatch(actions.updatePath('textview', '/../folder1/oldPath'));
+        expect(referenceStore.getActions()).toEqual([]);
       });
     });
 
     describe('updateAbsolutePath', () => {
       test('should dispatch', () => {
-        store.dispatch(actions.updateAbsolutePath('textview', 'folder1/newPath'));
-        expect(store.getActions()).toEqual([
+        referenceStore.dispatch(actions.updateAbsolutePath('textview', 'folder1/newPath'));
+        expect(referenceStore.getActions()).toEqual([
           {
             type: 'WS_VIEW_UPDATE_ABSOLUTEPATH',
             payload: { viewId: 'textview', newPath: 'folder1/newPath' },
@@ -222,8 +199,8 @@ describe('store:actions:views', () => {
         ]);
       });
       test('should not dispatch when newPath is falsy', () => {
-        store.dispatch(actions.updateAbsolutePath('textview', ''));
-        expect(store.getActions()).toEqual([
+        referenceStore.dispatch(actions.updateAbsolutePath('textview', ''));
+        expect(referenceStore.getActions()).toEqual([
           {
             type: 'WS_VIEW_UPDATE_ABSOLUTEPATH',
             payload: { viewId: 'textview', newPath: '' },
@@ -231,25 +208,26 @@ describe('store:actions:views', () => {
         ]);
       });
       test('should not dispatch when view is unknow', () => {
-        store.dispatch(actions.updateAbsolutePath('unknown_view', 'folder1/newPath'));
-        expect(store.getActions()).toEqual([]);
+        referenceStore.dispatch(actions.updateAbsolutePath('unknown_view', 'folder1/newPath'));
+        expect(referenceStore.getActions()).toEqual([]);
       });
       test('should not dispatch when newPath and oldPath are the same', () => {
-        store.dispatch(actions.updateAbsolutePath('textview', '/../folder1/oldPath'));
-        expect(store.getActions()).toEqual([]);
+        referenceStore.dispatch(actions.updateAbsolutePath('textview', '/../folder1/oldPath'));
+        expect(referenceStore.getActions()).toEqual([]);
       });
     });
   });
   describe('addEntryPoint', () => {
-    test.skip('should works with a TexView, with empty entryPoint', () => {
-      store.dispatch(actions.addEntryPoint('textview', emptyEntryPoint));
-      expect(store.getActions()).toMatchObject([
+    test('should works with a TextView, with empty entryPoint', () => {
+      referenceStore.dispatch(actions.addEntryPoint('textview', emptyEntryPoint));
+      expect(referenceStore.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_ADD_ENTRYPOINT',
           payload: {
             viewId: 'textview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'textEP',
+              stateColors: [],
               connectedData: {
                 formula: '',
                 unit: 's',
@@ -258,22 +236,30 @@ describe('store:actions:views', () => {
                 filter: [],
                 domain: '*',
                 timeline: '*',
+                provider: '*',
+                convertFrom: '',
+                convertTo: '',
               },
             },
           },
         },
+        {
+          type: '@@redux-form/CHANGE',
+        },
       ]);
-      expect(store.getActions()[0].payload.entryPoint.id).toBeAnUuid();
+      expect(referenceStore.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
-    test.skip('should works with a TexView, with entryPoint', () => {
-      store.dispatch(actions.addEntryPoint('textview', entryPoint));
-      expect(store.getActions()).toMatchObject([
+
+    test('should works with a TextView, with entryPoint', () => {
+      referenceStore.dispatch(actions.addEntryPoint('textview', entryPoint));
+      expect(referenceStore.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_ADD_ENTRYPOINT',
           payload: {
             viewId: 'textview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'textEP',
+              stateColors: [],
               connectedData: {
                 formula: '',
                 unit: 's',
@@ -282,22 +268,28 @@ describe('store:actions:views', () => {
                 filter: [],
                 domain: 2,
                 timeline: 1,
+                provider: '*',
+                convertFrom: '',
+                convertTo: '',
               },
             },
           },
         },
+        {
+          type: '@@redux-form/CHANGE',
+        },
       ]);
-      expect(store.getActions()[0].payload.entryPoint.id).toBeAnUuid();
+      expect(referenceStore.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
     test.skip('should works with a PlotView, with empty entryPoint', () => {
-      store.dispatch(actions.addEntryPoint('plotview', emptyEntryPoint));
-      expect(store.getActions()).toMatchObject([
+      referenceStore.dispatch(actions.addEntryPoint('plotview', emptyEntryPoint));
+      expect(referenceStore.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_ADD_ENTRYPOINT',
           payload: {
             viewId: 'plotview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'plotEP',
               connectedData: {
                 domain: '*',
                 timeline: '*',
@@ -312,24 +304,24 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
       ]);
-      const firstAction = store.getActions()[0];
+      const firstAction = referenceStore.getActions()[0];
       expect(firstAction.payload.entryPoint.id).toBeAnUuid();
       expect(firstAction.payload.entryPoint.objectStyle.curveColor).toBeAnHexadecimalValue();
     });
-    test.skip('should works with a TexView, with entryPoint', () => {
-      store.dispatch(actions.addEntryPoint('plotview', entryPoint));
-      expect(store.getActions()).toMatchObject([
+    test.skip('should works with a PlotView, with entryPoint', () => {
+      referenceStore.dispatch(actions.addEntryPoint('plotview', entryPoint));
+      expect(referenceStore.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_ADD_ENTRYPOINT',
           payload: {
             viewId: 'plotview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'plotEP',
               connectedData: {
                 domain: 2,
                 timeline: 1,
@@ -344,26 +336,27 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
       ]);
-      const firstAction = store.getActions()[0];
+      const firstAction = referenceStore.getActions()[0];
       expect(firstAction.payload.entryPoint.id).toBeAnUuid();
       expect(firstAction.payload.entryPoint.objectStyle.curveColor).toBeAnHexadecimalValue();
     });
   });
   describe('dropEntryPoint', () => {
-    test.skip('should works with a TexView, with empty entryPoint', () => {
-      store.dispatch(actions.dropEntryPoint('textview', emptyEntryPoint));
-      expect(store.getActions()).toMatchObject([
+    test('should works with a TextView, with empty entryPoint', () => {
+      referenceStore.dispatch(actions.dropEntryPoint('textview', emptyEntryPoint));
+      expect(referenceStore.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_ADD_ENTRYPOINT',
           payload: {
             viewId: 'textview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'textEP',
+              stateColors: [],
               connectedData: {
                 formula: '',
                 unit: 's',
@@ -372,9 +365,15 @@ describe('store:actions:views', () => {
                 filter: [],
                 domain: '*',
                 timeline: '*',
+                provider: '*',
+                convertFrom: '',
+                convertTo: '',
               },
             },
           },
+        },
+        {
+          type: '@@redux-form/CHANGE',
         },
         {
           type: 'WS_PAGE_PANELS_MINIMIZE_EDITOR',
@@ -389,17 +388,18 @@ describe('store:actions:views', () => {
           payload: { pageId: 'pageWithLayout', viewId: 'textview' },
         },
       ]);
-      expect(store.getActions()[0].payload.entryPoint.id).toBeAnUuid();
+      expect(referenceStore.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
-    test.skip('should works with a TexView, with entryPoint', () => {
-      store.dispatch(actions.dropEntryPoint('textview', entryPoint));
-      expect(store.getActions()).toMatchObject([
+    test('should works with a TextView, with entryPoint', () => {
+      referenceStore.dispatch(actions.dropEntryPoint('textview', entryPoint));
+      expect(referenceStore.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_ADD_ENTRYPOINT',
           payload: {
             viewId: 'textview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'textEP',
+              stateColors: [],
               connectedData: {
                 formula: '',
                 unit: 's',
@@ -408,9 +408,15 @@ describe('store:actions:views', () => {
                 filter: [],
                 domain: 2,
                 timeline: 1,
+                convertFrom: '',
+                convertTo: '',
+                provider: '*',
               },
             },
           },
+        },
+        {
+          type: '@@redux-form/CHANGE',
         },
         {
           type: 'WS_PAGE_PANELS_MINIMIZE_EDITOR',
@@ -425,17 +431,17 @@ describe('store:actions:views', () => {
           payload: { pageId: 'pageWithLayout', viewId: 'textview' },
         },
       ]);
-      expect(store.getActions()[0].payload.entryPoint.id).toBeAnUuid();
+      expect(referenceStore.getActions()[0].payload.entryPoint.id).toBeAnUuid();
     });
     test.skip('should works with a PlotView, with empty entryPoint', () => {
-      store.dispatch(actions.dropEntryPoint('plotview', emptyEntryPoint));
-      expect(store.getActions()).toMatchObject([
+      referenceStore.dispatch(actions.dropEntryPoint('plotview', emptyEntryPoint));
+      expect(referenceStore.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_ADD_ENTRYPOINT',
           payload: {
             viewId: 'plotview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'plotEP',
               connectedData: {
                 domain: '*',
                 timeline: '*',
@@ -450,7 +456,7 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
@@ -467,19 +473,19 @@ describe('store:actions:views', () => {
           payload: { pageId: 'emptyPage', viewId: 'plotview' },
         },
       ]);
-      const firstAction = store.getActions()[0];
+      const firstAction = referenceStore.getActions()[0];
       expect(firstAction.payload.entryPoint.id).toBeAnUuid();
       expect(firstAction.payload.entryPoint.objectStyle.curveColor).toBeAnHexadecimalValue();
     });
-    test.skip('should works with a TexView, with entryPoint', () => {
-      store.dispatch(actions.dropEntryPoint('plotview', entryPoint));
-      expect(store.getActions()).toMatchObject([
+    test.skip('should works with a PlotView, with entryPoint', () => {
+      referenceStore.dispatch(actions.dropEntryPoint('plotview', entryPoint));
+      expect(referenceStore.getActions()).toMatchObject([
         {
           type: 'WS_VIEW_ADD_ENTRYPOINT',
           payload: {
             viewId: 'plotview',
             entryPoint: {
-              name: 'NewEntryPoint',
+              name: 'plotEP',
               connectedData: {
                 domain: 2,
                 timeline: 1,
@@ -494,7 +500,7 @@ describe('store:actions:views', () => {
                 line: { style: 'Continuous', size: 3 },
                 points: { style: 'None', size: 3 },
               },
-              stateColors: defaultStateColor,
+              stateColors: [],
             },
           },
         },
@@ -511,15 +517,15 @@ describe('store:actions:views', () => {
           payload: { pageId: 'emptyPage', viewId: 'plotview' },
         },
       ]);
-      const firstAction = store.getActions()[0];
+      const firstAction = referenceStore.getActions()[0];
       expect(firstAction.payload.entryPoint.id).toBeAnUuid();
       expect(firstAction.payload.entryPoint.objectStyle.curveColor).toBeAnHexadecimalValue();
     });
   });
   describe('focusView', () => {
     test('focusView when view exists', () => {
-      store.dispatch(actions.focusView('textview'));
-      expect(store.getActions()).toEqual([
+      referenceStore.dispatch(actions.focusView('textview'));
+      expect(referenceStore.getActions()).toEqual([
         {
           type: 'WS_WINDOW_PAGE_FOCUS',
           payload: { windowId: 'w1', pageId: 'pageWithLayout' },
@@ -527,8 +533,36 @@ describe('store:actions:views', () => {
       ]);
     });
     test('focusView with unknown view', () => {
-      store.dispatch(actions.focusView('unknownView'));
-      expect(store.getActions()).toEqual([]);
+      referenceStore.dispatch(actions.focusView('unknownView'));
+      expect(referenceStore.getActions()).toEqual([]);
+    });
+  });
+  describe('updateTableCols', () => {
+    const store = mockStore(stateTest);
+    test('updateTableCols when view exists', () => {
+      store.dispatch(actions.updateTableCols('groundAlarm1', 'main', [{
+        title: 'timestamp',
+        value: 'timestamp',
+        position: 0,
+        displayed: true,
+        group: 0,
+      }]));
+      expect(store.getActions()).toEqual([
+        {
+          type: types.WS_VIEW_UPDATE_TABLE_COLS,
+          payload: {
+            viewId: 'groundAlarm1',
+            tableId: 'main',
+            cols: [{
+              title: 'timestamp',
+              value: 'timestamp',
+              position: 0,
+              displayed: true,
+              group: 0,
+            }],
+          },
+        },
+      ]);
     });
   });
 });

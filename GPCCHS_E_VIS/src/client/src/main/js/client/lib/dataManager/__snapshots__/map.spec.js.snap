@@ -49,7 +49,15 @@ Object {
     },
   },
   "expectedRangeIntervals": Object {
-    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
+    ".<GroundMonitoringAlarmAckRequest>:0:4:::": Object {
+      "nofield.tb1:0": Object {
+        "expectedInterval": Array [
+          100000,
+          500000,
+        ],
+      },
+    },
+    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::": Object {
       "groundDate/extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           100000,
@@ -87,6 +95,14 @@ Object {
     },
   },
   "forecastIntervals": Object {
+    ".<GroundMonitoringAlarmAckRequest>:0:4:::": Object {
+      "nofield.tb1:0": Object {
+        "expectedInterval": Array [
+          500000,
+          505000,
+        ],
+      },
+    },
     "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::": Object {
       "extractedValue.tb1:0": Object {
         "expectedInterval": Array [
@@ -107,7 +123,7 @@ Object {
         ],
       },
     },
-    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
+    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::": Object {
       "groundDate/extractedValue.tb1:0": Object {
         "expectedInterval": Array [
           500000,
@@ -290,12 +306,36 @@ Object {
     },
   },
   "perRangeTbdId": Object {
-    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::": Object {
+    ".<GroundMonitoringAlarmAckRequest>:0:4:::": Object {
+      "dataId": Object {
+        "catalog": "",
+        "comObject": "GroundMonitoringAlarmAckRequest",
+        "domain": "fr.cnes.isis.simupus",
+        "domainId": 4,
+        "parameterName": "",
+        "provider": undefined,
+        "sessionId": 0,
+        "sessionName": "Master",
+      },
+      "filters": undefined,
+      "localIds": Object {
+        "nofield.tb1:0": Object {
+          "offset": 0,
+          "timebarUuid": "tb1",
+          "viewType": "GroundAlarmView",
+        },
+      },
+      "mode": 0,
+      "views": Array [
+        "groundAlarm1",
+      ],
+    },
+    "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::": Object {
       "dataId": Object {
         "catalog": "Reporting",
         "comObject": "ReportingParameter",
-        "domain": "fr.cnes.isis",
-        "domainId": 1,
+        "domain": "fr.cnes.isis.simupus",
+        "domainId": 4,
         "parameterName": "ATT_BC_REVTCOUNT1",
         "provider": "",
         "sessionId": 0,
@@ -402,7 +442,7 @@ Object {
             "domain": "fr.cnes.isis.simupus",
             "domainId": 4,
             "parameterName": "CLCW_TM_NOMINAL",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -416,16 +456,41 @@ Object {
       },
       "type": "DynamicView",
     },
+    "groundAlarm1": Object {
+      "entryPoints": Object {
+        "groundAlarmEP": Object {
+          "dataId": Object {
+            "catalog": "",
+            "comObject": "GroundMonitoringAlarmAckRequest",
+            "domain": "fr.cnes.isis.simupus",
+            "domainId": 4,
+            "parameterName": "",
+            "sessionId": 0,
+            "sessionName": "Master",
+          },
+          "filters": undefined,
+          "id": "groundAlarm1ep1",
+          "localId": "nofield.tb1:0",
+          "mode": 0,
+          "offset": 0,
+          "stateColors": Array [],
+          "tbdId": ".<GroundMonitoringAlarmAckRequest>:0:4:::",
+          "timebarUuid": "tb1",
+          "type": "GroundAlarmView",
+        },
+      },
+      "type": "GroundAlarmView",
+    },
     "hist1": Object {
       "entryPoints": Object {
         "ATT_BC_REVTCOUNT1": Object {
           "dataId": Object {
             "catalog": "Reporting",
             "comObject": "ReportingParameter",
-            "domain": "fr.cnes.isis",
-            "domainId": 1,
+            "domain": "fr.cnes.isis.simupus",
+            "domainId": 4,
             "parameterName": "ATT_BC_REVTCOUNT1",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -434,7 +499,7 @@ Object {
           "localId": "undefined.tb1:0",
           "offset": 0,
           "stateColors": Array [],
-          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::",
+          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "HistoryView",
         },
@@ -445,7 +510,7 @@ Object {
             "domain": "fr.cnes.isis.simupus",
             "domainId": 4,
             "parameterName": "TMMGT_BC_VIRTCHAN3",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -478,7 +543,7 @@ Object {
             "domain": "fr.cnes.isis.simupus",
             "domainId": 4,
             "parameterName": "AGA_AM_PRIORITY",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -500,7 +565,7 @@ Object {
             "domain": "fr.cnes.isis.simupus",
             "domainId": 4,
             "parameterName": "AGA_AM_PRIORITY",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -522,7 +587,7 @@ Object {
             "domain": "fr.cnes.isis.simupus",
             "domainId": 4,
             "parameterName": "TMMGT_BC_VIRTCHAN3",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -552,10 +617,10 @@ Object {
           "dataId": Object {
             "catalog": "Reporting",
             "comObject": "ReportingParameter",
-            "domain": "fr.cnes.isis",
-            "domainId": 1,
+            "domain": "fr.cnes.isis.simupus",
+            "domainId": 4,
             "parameterName": "ATT_BC_REVTCOUNT1",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -566,7 +631,7 @@ Object {
           "localId": "groundDate/extractedValue.tb1:0",
           "offset": 0,
           "stateColors": Array [],
-          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::",
+          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "PlotView",
         },
@@ -576,10 +641,10 @@ Object {
           "dataId": Object {
             "catalog": "Reporting",
             "comObject": "ReportingParameter",
-            "domain": "fr.cnes.isis",
-            "domainId": 1,
+            "domain": "fr.cnes.isis.simupus",
+            "domainId": 4,
             "parameterName": "ATT_BC_REVTCOUNT1",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -590,7 +655,7 @@ Object {
           "localId": "groundDate/extractedValue.tb1:10000",
           "offset": 10000,
           "stateColors": Array [],
-          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::",
+          "tbdId": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::",
           "timebarUuid": "tb1",
           "type": "PlotView",
         },
@@ -603,7 +668,7 @@ Object {
             "domain": "fr.cnes.isis.simupus",
             "domainId": 4,
             "parameterName": "TMMGT_BC_VIRTCHAN3",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -647,7 +712,7 @@ Object {
             "domain": "fr.cnes.isis.simupus",
             "domainId": 4,
             "parameterName": "AGA_AM_PRIORITY",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -669,7 +734,7 @@ Object {
             "domain": "fr.cnes.isis.simupus",
             "domainId": 4,
             "parameterName": "AGA_AM_PRIORITY",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },
@@ -694,7 +759,7 @@ Object {
             "domain": "fr.cnes.isis.simupus",
             "domainId": 4,
             "parameterName": "TMMGT_BC_VIRTCHAN3",
-            "provider": "",
+            "provider": "*",
             "sessionId": 0,
             "sessionName": "Master",
           },

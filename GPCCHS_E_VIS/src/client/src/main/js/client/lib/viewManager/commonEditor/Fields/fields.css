@@ -11,3 +11,7 @@
   height: 18px;
   display: block;
 }
+
+div[role=alert] {
+  margin-bottom: 1px !important;
+}

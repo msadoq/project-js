@@ -7,7 +7,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Collapse from 'rc-collapse';
 import { Button, Glyphicon } from 'react-bootstrap';
 import LinksContainer from './LinksContainer';

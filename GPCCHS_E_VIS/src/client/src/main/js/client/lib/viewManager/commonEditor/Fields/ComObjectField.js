@@ -1,4 +1,5 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
@@ -17,6 +18,7 @@ export default class ComObjectField extends PureComponent {
       string,
       arrayOf(shape),
     ]),
+    formFieldName: string.isRequired,
   };
 
   static defaultProps = {
@@ -29,14 +31,21 @@ export default class ComObjectField extends PureComponent {
   };
 
   render() {
-    const { comObjectFields, domainName, timelineId, catalogName, itemName, comObjectName } =
-      this.props;
+    const {
+      comObjectFields,
+      domainName,
+      timelineId,
+      catalogName,
+      itemName,
+      comObjectName,
+      formFieldName,
+    } = this.props;
     const disabled = (!domainName || !timelineId || !catalogName || !itemName ||
       !comObjectName || comObjectFields === null);
     return (
       <Field
         format={null}
-        name="comObjectField"
+        name={formFieldName}
         component={ReactSelectField}
         clearable
         disabled={disabled}

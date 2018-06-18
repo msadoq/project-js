@@ -9,16 +9,24 @@
 // ====================================================================
 
 /* eslint import/no-webpack-loader-syntax:0 */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import _get from 'lodash/get';
 import {
   Table,
   Glyphicon,
   Alert,
 } from 'react-bootstrap';
+import moment from 'moment';
 import classnames from 'classnames';
+import { DATETIME_TILL_MS_FORMAT } from 'constants';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import { operators } from 'common/operators';
+import ComObjectFilterFieldContainer from './ComObjectFilterFieldContainer';
 import styles from './fields.css';
+import { comObjectType } from '../../common/Components/types';
+
+const PROTOBUF_TIME_TYPE = 'ccsds_mal.protobuf.TIME';
 
 export default class FiltersFields extends React.Component {
 
@@ -29,30 +37,63 @@ export default class FiltersFields extends React.Component {
       insert: PropTypes.func,
       getAll: PropTypes.func,
     }).isRequired,
+    form: PropTypes.string.isRequired,
+    // from container
+    comObjectFields: PropTypes.arrayOf(comObjectType),
   }
+
+  static defaultProps = {
+    comObjectFields: [],
+  };
 
   state = {
-    error: null,
+    errors: [],
     editingIndex: null,
+    operandPlaceHolder: null,
   }
 
-  onInputChange = () => {
-    const { error } = this.state;
-    const fieldLength = this.fieldField.value.length;
+  getFilteredOperators = (allOperators, field) => (
+    this.isATimeType(field)
+      ? Object.keys(allOperators)
+        .filter(o => !o.match(/CONTAINS/)) // CONTAINS and !CONTAINS are meaningless with a time
+        .map(o => <option key={o} value={o}>{o}</option>)
+      : Object.keys(allOperators)
+        .map(o => <option key={o} value={o}>{o}</option>)
+  );
+
+  isATimeType = (field) => {
+    const comObjectField = field && this.props.comObjectFields.find(co => co.name === field.value);
+    return comObjectField && comObjectField.type === PROTOBUF_TIME_TYPE;
+  };
+
+  handleFieldInputChange = (selected) => {
+    this.handleInputChange('fieldField', selected);
+    const selectedField = this.props.comObjectFields.find(o => o.name === selected);
+    const operandPlaceHolder = selectedField && selectedField.type === PROTOBUF_TIME_TYPE
+      ? DATETIME_TILL_MS_FORMAT
+      : undefined;
+    this.setState({ operandPlaceHolder });
+  };
+
+  handleOperandInputChange = input => this.handleInputChange('operandField', input.target.value);
+
+  handleInputChange = (input, value) => {
+    this[input].value = value;
+    const fieldLength = _get(this.fieldField, 'value.length');
     const operandLength = this.operandField.value.length;
-    if (error && (
-      (fieldLength && operandLength) ||
-      (!fieldLength && !operandLength)
-    )) {
-      this.setState({
-        error: null,
-      });
-    } else if (!error && (!fieldLength || !operandLength)) {
-      this.setState({
-        error: 'Field and operand are required',
-      });
+    const errors = [];
+    if (this.isATimeType(this.fieldField)
+      && operandLength // if no operand defined, no error
+      && !moment(this.operandField.value, DATETIME_TILL_MS_FORMAT, true).isValid()) {
+      errors.push('Invalid operand date format.');
     }
-  }
+    /* eslint-disable no-bitwise */
+    if (!fieldLength ^ !operandLength) {
+      errors.push('Field and operand are required.');
+    }
+
+    this.setState({ errors });
+  };
 
   addFilter = (e) => {
     e.preventDefault();
@@ -70,11 +111,9 @@ export default class FiltersFields extends React.Component {
   /*
     Reset with default values if no argument is given
   */
-  resetFields = (
-    field = '',
-    opt = Object.keys(operators)[0],
-    opd = ''
-  ) => {
+  resetFields = (field = '',
+                 opt = Object.keys(operators)[0],
+                 opd = '') => {
     this.fieldField.value = field;
     this.operatorField.value = opt;
     this.operandField.value = opd;
@@ -126,13 +165,11 @@ export default class FiltersFields extends React.Component {
   }
 
   render() {
-    const { fields } = this.props;
-    const { editingIndex } = this.state;
-    const { error } = this.state;
+    const { fields, form } = this.props;
+    const { editingIndex, errors, operandPlaceHolder } = this.state;
     const filters = fields.getAll();
     const canEdit = editingIndex !== null;
-    const canAdd = this.operandField && this.fieldField &&
-      this.operandField.value.length && this.fieldField.value.length;
+    const canAdd = _get(this.operandField, 'value.length') && _get(this.fieldField, 'value.length');
     const tableStyle = { fontSize: '12px' };
     const glyphTrashStyle = { cursor: 'pointer' };
     const glyphPencilStyle = { cursor: 'pointer', color: 'inherit' };
@@ -149,8 +186,8 @@ export default class FiltersFields extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {
-              (filters && filters.length) ? filters.map(
+            {(filters && filters.length)
+              ? filters.map(
                 (filter, index) => (
                   <tr
                     key={`${filter.field}${filter.operator}${filter.operand}`}
@@ -158,7 +195,7 @@ export default class FiltersFields extends React.Component {
                   >
                     <td className="col-xs-10" style={{ verticalAlign: 'middle' }}>
                       {filter.field}{' '}
-                      <b>{ filter.operator }{' '}</b>
+                      <b>{filter.operator}{' '}</b>
                       {filter.operand}
                     </td>
                     <td className="col-xs-1">
@@ -179,46 +216,49 @@ export default class FiltersFields extends React.Component {
                     </td>
                   </tr>
                 )
-              ) : (<tr><td colSpan={3} >no filter</td></tr>)
+              )
+              : (<tr><td colSpan={3}>no filter</td></tr>)
             }
           </tbody>
         </Table>
-        {error && (<div><br /><Alert bsStyle="danger" className="m0">
-          {error}
-        </Alert><br /></div>)}
+        {errors && errors.map(e => <Alert bsStyle="danger">{e}</Alert>)}
         <HorizontalFormGroup label="field">
-          <input
-            className="form-control"
+          <ComObjectFilterFieldContainer
+            onChange={this.handleFieldInputChange}
+            value={this.fieldField ? this.fieldField.value : ''}
             ref={(el) => { this.fieldField = el; }}
-            onChange={this.onInputChange}
+            formName={form}
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup label="operator">
           <select
             className="form-control"
-            ref={(el) => { this.operatorField = el; }}
+            ref={(el) => {
+              this.operatorField = el;
+            }}
           >
-            {
-              Object.keys(operators).map(o => <option key={o} value={o}>{o}</option>)
-            }
+            {this.getFilteredOperators(operators, this.fieldField)}
           </select>
         </HorizontalFormGroup>
         <HorizontalFormGroup label="operand">
           <input
             className="form-control"
-            ref={(el) => { this.operandField = el; }}
-            onChange={this.onInputChange}
+            ref={(el) => {
+              this.operandField = el;
+            }}
+            onChange={this.handleOperandInputChange}
+            placeholder={operandPlaceHolder}
           />
         </HorizontalFormGroup>
         <HorizontalFormGroup>
-          { canEdit ?
+          {canEdit ?
             <input
               className={classnames('btn', 'btn-success')}
               style={{ width: '90px' }}
               type="submit"
               value="Edit filter"
               onClick={this.updateFilter}
-              disabled={error}
+              disabled={errors.length}
             />
             :
             <input
@@ -227,7 +267,7 @@ export default class FiltersFields extends React.Component {
               type="submit"
               value="Add filter"
               onClick={this.addFilter}
-              disabled={!canAdd || error}
+              disabled={!canAdd || errors.length}
             />
           }
         </HorizontalFormGroup>

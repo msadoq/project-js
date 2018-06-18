@@ -44,6 +44,7 @@
 // VERSION : 2.0.0 : DM : #5806 : 12/12/2017 : Save GMA search filter in documents
 // VERSION : 2.0.0 : DM : #5806 : 18/12/2017 : Set view "isModified" when receive an
 //  ALARM_INPUT_TOGGLE action
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -60,7 +61,6 @@ const getIsModified = (action) => {
   }
   return _.get('payload.isModified', action);
 };
-
 
 // This reducer take care of action types and update the isModified property
 // this is a temporary fix, waiting for the savableMiddleware
@@ -84,7 +84,6 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_MARKER,
     types.WS_VIEW_UPDATE_PROCEDURE,
     types.WS_VIEW_UPDATE_TITLESTYLE,
-    types.WS_VIEW_UPDATE_BGCOLOR,
     types.WS_VIEW_UPDATE_LEGEND,
     types.WS_VIEW_UPDATE_CONTENT,
     types.WS_VIEW_UPDATE_SHOWYAXES,
@@ -101,6 +100,7 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_SESSIONNAME,
     types.WS_VIEW_TOGGLE_LEGEND,
     types.WS_VIEW_UPDATE_DIMENSIONS,
+    types.WS_VIEW_UPDATE_TABLE_COLS,
     types.WS_VIEW_REMOVE_ENTRYPOINT,
     types.WS_VIEW_UPDATE_ALARMDOMAIN,
     types.WS_VIEW_UPDATE_ALARMTIMELINE,
@@ -165,8 +165,6 @@ function simpleView(stateView = initialState, action) {
       return _.set('title', action.payload.title, stateView);
     case types.WS_VIEW_UPDATE_TITLESTYLE:
       return _.set('titleStyle', action.payload.titleStyle, stateView);
-    case types.WS_VIEW_UPDATE_BGCOLOR:
-      return _.set('backgroundColor', action.payload.bgColor, stateView);
     case types.WS_VIEW_UPDATE_LINK:
       return _.set(`links[${action.payload.index}]`, action.payload.link, stateView);
     case types.WS_VIEW_ADD_LINK:

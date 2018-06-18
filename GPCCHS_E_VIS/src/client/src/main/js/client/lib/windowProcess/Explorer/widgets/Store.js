@@ -8,7 +8,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { ButtonToolbar, SplitButton, MenuItem } from 'react-bootstrap';
 import Inspector from 'react-json-inspector';
 import { clipboard } from 'electron';

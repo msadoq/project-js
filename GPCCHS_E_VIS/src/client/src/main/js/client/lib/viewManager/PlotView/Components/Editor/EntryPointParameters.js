@@ -15,15 +15,10 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
-import classnames from 'classnames';
-import {
-  Form,
-} from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { Field, formValueSelector, reduxForm } from 'redux-form';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Field } from 'redux-form';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
-import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
@@ -36,7 +31,7 @@ const lineStyleButtons = [
   { label: 'Dotted', icon: 'doted' },
 ];
 
-const { shape, string, number, bool, func } = PropTypes;
+const { shape, string, number, bool } = PropTypes;
 
 class EntryPointParameters extends React.Component {
   static propTypes = {
@@ -52,47 +47,22 @@ class EntryPointParameters extends React.Component {
       }).isRequired,
       curveColor: string,
     }).isRequired,
-    handleSubmit: func.isRequired,
-    pristine: bool.isRequired,
-    reset: func.isRequired,
-    submitting: bool,
-    valid: bool,
     displayLine: bool,
     displayPoints: bool,
   };
   static defaultProps = {
-    submitting: false,
-    valid: false,
     displayLine: true,
     displayPoints: true,
   };
 
   render() {
     const {
-      handleSubmit,
-      pristine,
-      reset,
-      submitting,
-      valid,
       displayLine,
       displayPoints,
     } = this.props;
 
     return (
-      <Form
-        horizontal
-        onSubmit={handleSubmit}
-        className={classnames(
-          { 'redux-form-dirty': !pristine },
-          'redux-form-padded'
-        )}
-      >
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
+      <React.Fragment>
         <div className="page-header">
           <h4>Name</h4>
         </div>
@@ -177,34 +147,9 @@ class EntryPointParameters extends React.Component {
             />
           </HorizontalFormGroup>
         }
-      </Form>
+      </React.Fragment>
     );
   }
 }
 
-const requiredFields = ['name'];
-const validate = (values = {}) => {
-  const errors = {};
-
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-  return errors;
-};
-
-export default reduxForm({
-  validate,
-  enableReinitialize: true,
-})(
-  connect(
-    (state, props) => {
-      const selector = formValueSelector(props.form);
-      return {
-        displayLine: selector(state, 'displayLine'),
-        displayPoints: selector(state, 'displayPoints'),
-      };
-    }
-  )(EntryPointParameters)
-);
+export default EntryPointParameters;

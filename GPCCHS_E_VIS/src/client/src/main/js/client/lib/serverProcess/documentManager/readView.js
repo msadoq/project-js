@@ -38,9 +38,9 @@ const simpleReadView = async.reflect((viewInfo, cb) => {
     const view = getViewModule(viewContent.type).prepareViewForStore({ ...viewContent, uuid });
 
     return cb(null, {
+      isModified: false,
       ...viewInfo,
       ...view,
-      isModified: false,
       path: viewInfo.path,
       oId: viewInfo.oId,
       absolutePath: viewPath,

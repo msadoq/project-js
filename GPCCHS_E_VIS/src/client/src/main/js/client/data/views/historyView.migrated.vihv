@@ -1,0 +1,22 @@
+{
+  "type": "HistoryView",
+  "title": "New History View",
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "entryPoints": [
+    {
+      "connectedData": {
+        "domain": "fr.cnes.isis",
+        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>",
+        "timeline": "Session 1"
+      },
+      "name": "ep1"
+    }
+  ],
+  "allColumns": {},
+  "sorting": {},
+  "hiddenColumns": {}
+}

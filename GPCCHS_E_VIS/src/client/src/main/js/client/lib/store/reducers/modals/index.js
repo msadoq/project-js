@@ -7,7 +7,6 @@
 // ====================================================================
 
 import * as types from 'store/types';
-
 /* --- Reducer -------------------------------------------------------------- */
 
 export default function modalsReducer(state = {}, action) {
@@ -22,13 +21,21 @@ export default function modalsReducer(state = {}, action) {
       };
     }
     case types.WS_MODAL_CLOSE: {
-      return {
+      const { choice, windowId } = action.payload;
+      // if choice is 'close' it means that the user clicks on the modal button 'close' or 'close without saving'
+      // in this case the page is close and not saving
+      // we need to remove it from PageIds to prevent application crash
+      const nextState = {
         ...state,
-        [action.payload.windowId]: {
-          ...state[action.payload.windowId],
+        [windowId]: {
+          ...state[windowId],
           opened: false,
+          pageIds: choice === 'close'
+            ? []
+            : state[windowId].pageIds,
         },
       };
+      return nextState;
     }
     default:
       return state;

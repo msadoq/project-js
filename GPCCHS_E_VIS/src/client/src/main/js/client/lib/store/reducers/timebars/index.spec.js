@@ -18,6 +18,8 @@
 // VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js
 //  in jest/index.js
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix tests + clean code
 // END-HISTORY
 // ====================================================================
 
@@ -30,6 +32,7 @@ import timebarsReducer, {
   getTimebars,
   getFirstTimebarId,
   getTimebarMasterId,
+  getMasterTimelines,
 } from '.';
 
 const reducer = freezeArgs(timebarsReducer);
@@ -111,5 +114,28 @@ describe('store:timebars:selectors', () => {
       },
     });
     expect(getTimebarMasterId(state, { timebarUuid: 'tb1' })).toEqual('master id');
+  });
+
+  test('getMasterTimelines should return an empty object if no timebar', () => {
+    const state = freezeMe({});
+    expect(getMasterTimelines(state)).toEqual({ });
+  });
+  test('getMasterTimelines should return a map containing as many keys as timebars amount', () => {
+    const state = freezeMe({
+      timebars: {
+        tb1: {
+          masterId: 'master#1',
+          uuid: 'tb1',
+        },
+        tb2: {
+          masterId: 'master#2',
+          uuid: 'tb2',
+        },
+      },
+    });
+    expect(getMasterTimelines(state)).toEqual({
+      tb1: 'master#1',
+      tb2: 'master#2',
+    });
   });
 });

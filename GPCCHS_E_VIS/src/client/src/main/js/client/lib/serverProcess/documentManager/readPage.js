@@ -37,10 +37,10 @@ export const simpleReadPage = async.reflect((pageInfo, cb) => {
     const uuid = pageInfo.uuid || v4();
     return cb(null, {
       ...preparePageViews(page),
+      isModified: false,
       ...pageInfo,
       properties, // Table with document props from FMD
       uuid,
-      isModified: false,
       absolutePath: pagePath,
     });
   });

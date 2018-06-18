@@ -22,6 +22,8 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix imports . . .
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Update unit tests and stubs for provider
 //  field and fix parseEntryPoint calls in all views
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix master timeline sessionID passed to DC when
+//  entrypoint's timeline is *
 // END-HISTORY
 // ====================================================================
 
@@ -41,7 +43,7 @@ function parseEntryPoint(
   sessions,
   timelines,
   entryPoint,
-  masterSessionId,
+  masterTimelineSession,
   timebarUuid,
   viewType,
   viewDomain,
@@ -63,7 +65,7 @@ function parseEntryPoint(
     sessions,
     timelines,
     connectedData,
-    masterSessionId,
+    masterTimelineSession,
     viewDomain,
     pageDomain,
     workspaceDomain,

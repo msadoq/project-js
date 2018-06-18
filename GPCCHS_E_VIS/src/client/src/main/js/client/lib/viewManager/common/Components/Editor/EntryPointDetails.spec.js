@@ -1,29 +1,30 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { shallowRenderSnapshot } from 'common/jest/utils';
 import EntryPointDetails from './EntryPointDetails';
 
 const propsStub = {
   viewId: 'view1',
   pageId: 'page1',
-  entryPoint: {},
+  entryPoint: {
+    id: 'e484fb2d-88f7-4327-95dc-3458ef381ea6',
+    connectedData: {
+      formula: 'Reporting.AGA_AM_ACQPRIORITY<ReportingParameter>.convertedValue',
+    },
+    stateColors: [],
+  },
   updateEntryPoint: () => null,
   panels: [],
   updateViewSubPanels: () => null,
 };
-describe('EntryPointDetails :: render', () => {
-  test('EntryPointDetails :: render', () => {
-    const Decorated = reduxForm({ form: 'testForm' })(EntryPointDetails);
-    const store = createStore(state => state, {});
-    const tree = renderer.create(
-      <Provider store={store}>
-        <Decorated
-          {...propsStub}
-        />
-      </Provider>
-    ).toJSON();
-    expect(tree).toMatchSnapshot();
+describe('viewManager', () => {
+  describe('viewManager/common', () => {
+    describe('viewManager/common/Components', () => {
+      describe('viewManager/common/Components/Editor', () => {
+        describe('viewManager/common/Components/Editor/EntryPointDetails', () => {
+          test('EntryPointDetails :: snapshot', () => {
+            shallowRenderSnapshot(EntryPointDetails, propsStub, {});
+          });
+        });
+      });
+    });
   });
 });

@@ -54,20 +54,25 @@
 // ====================================================================
 
 import { v4 } from 'uuid';
-import { getAvailableViews } from 'viewManager';
+import { getAvailableViews, getStructureType } from 'viewManager';
 import { getWindowFocusedPageId, getDisplayHelp } from 'store/reducers/windows';
-import { getPanels } from 'store/reducers/pages';
+import { getPanels, getPageViewsIdsForSearch } from 'store/reducers/pages';
 import { addWindow, displayHelp } from 'store/actions/windows';
 import { openWikiHelper } from 'store/actions/ui';
 import { open as openModal } from 'store/actions/modals';
 import { getFocusedPageId } from 'store/selectors/pages';
-import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace } from 'store/actions/hsc';
+import { askSaveWorkspace, askOpenWorkspace, askCloseWorkspace, pause } from 'store/actions/hsc';
 import { askOpenView } from 'store/actions/views';
-import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage } from 'store/actions/pages';
+import { minimizeEditor, minimizeExplorer, minimizeTimebar, askOpenPage, askSavePage, minimizeSearch, loadInSearch } from 'store/actions/pages';
 import viewAddBlank from './viewAddBlank';
-
 import pageAddBlank from './pageAddBlank';
 import { getStore } from '../store';
+import {
+  DATASTRUCTURETYPE_LAST,
+  DATASTRUCTURETYPE_RANGE,
+  DATASTRUCTURETYPE_HISTORIZED,
+  DATASTRUCTURETYPE_NO_HISTORY,
+} from '../../constants';
 
 const { Menu } = require('electron');
 
@@ -192,16 +197,34 @@ const page = {
   }],
 };
 
-const specificViewsMenu = getAvailableViews().map(viewType => ({
-  label: `Add ${viewType}...`,
-  accelerator: '',
-  click: (item, focusedWindow) => viewAddBlank(viewType, focusedWindow),
-}));
+const specificViewsMenu = getAvailableViews()
+  .filter(viewType =>
+    [DATASTRUCTURETYPE_RANGE, DATASTRUCTURETYPE_LAST]
+      .indexOf(getStructureType(viewType)) !== -1) // only keep non-pus views
+  .map(viewType => ({
+    label: `Add ${viewType}...`,
+    accelerator: '',
+    click: (item, focusedWindow) => viewAddBlank(viewType, focusedWindow),
+  }));
+
+const specificPusViewsMenu = getAvailableViews()
+  .filter(viewType =>
+    [DATASTRUCTURETYPE_HISTORIZED, DATASTRUCTURETYPE_NO_HISTORY]
+      .includes(getStructureType(viewType)) // only keep pus views
+  )
+  .map(viewType => ({
+    label: `Add ${viewType}...`,
+    accelerator: '',
+    click: (item, focusedWindow) => viewAddBlank(viewType, focusedWindow),
+  }));
 
 const view = {
   label: 'View',
   submenu: [
     ...specificViewsMenu,
+    { type: 'separator' },
+    ...specificPusViewsMenu,
+    { type: 'separator' },
     {
       label: 'Open...',
       accelerator: '',
@@ -223,6 +246,22 @@ const panel = {
           const pageId = getWindowFocusedPageId(getState(), { windowId });
           const panels = getPanels(getState(), { pageId });
           dispatch(minimizeEditor(pageId, !panels.editorIsMinimized));
+        }
+      },
+    },
+    {
+      label: 'Toggle Search',
+      accelerator: 'CmdOrCtrl+F',
+      click(item, focusedWindow) {
+        if (focusedWindow && focusedWindow.windowId) {
+          const { getState, dispatch } = getStore();
+          const { windowId } = focusedWindow;
+          const pageId = getWindowFocusedPageId(getState(), { windowId });
+          const panels = getPanels(getState(), { pageId });
+          dispatch(minimizeSearch(pageId, !panels.searchIsMinimized));
+          // getPageViewsIdsForSearch => get all view's ids concerned by searching
+          dispatch(loadInSearch(pageId, getPageViewsIdsForSearch(getState(), { pageId })));
+          dispatch(pause());
         }
       },
     },

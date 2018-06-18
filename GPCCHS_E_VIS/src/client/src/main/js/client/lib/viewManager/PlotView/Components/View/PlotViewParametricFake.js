@@ -12,7 +12,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import getLogger from 'common/logManager';
 import withDimensions from 'windowProcess/common/hoc/withDimensions';
@@ -230,7 +231,7 @@ export class GrizzlyPlotView extends PureComponent {
   static defaultProps = {
     data: {
       lines: [],
-      columns: [],
+      cols: [],
     },
     visuWindow: null,
     inspectorEpId: null,

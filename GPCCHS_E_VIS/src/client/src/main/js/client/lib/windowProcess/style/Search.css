@@ -1,0 +1,9 @@
+@import './variables.css';
+
+.Search {
+  background-color: var(--theme-light-2);
+  .searchMatches{
+    font-size: 1em;
+    margin-top: 15px;
+  }
+}

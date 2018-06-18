@@ -1,4 +1,5 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
@@ -22,7 +23,7 @@ export default class ProviderField extends PureComponent {
       <div>
         <Field
           format={null}
-          name="provider"
+          name="connectedData.provider"
           component={ReactSelectField}
           clearable
           options={computeOptions(this.props.providers, false)}

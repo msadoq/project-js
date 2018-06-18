@@ -34,24 +34,33 @@
 // VERSION : 2.0.0 : FA : #10835 : 23/02/2018 : head color on views depends on domains
 // VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
 // VERSION : 2.0.0 : FA : #11591 : 06/04/2018 : Vima Drag and drop removal
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { basename } from 'path';
 import classnames from 'classnames';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
-import _ from 'lodash';
 import { get } from 'common/configurationManager';
-import { getBorderColorForNav, getBorderColorForTab } from 'windowProcess/common/colors';
+import { getColorWithDomainDetermination } from 'windowProcess/common/colors';
 import styles from './Tabs.css';
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 const popoverDraggingStyle = { display: 'none' };
 
 function popoverHoverFocus(page) {
+  const popoverStyle = {
+    height: 'auto',
+  };
+
   return (
-    <Popover id={page.pageId} title="Document properties">
+    <Popover
+      id={page.pageId}
+      title="Document properties"
+      style={popoverStyle}
+    >
       <Table>
         <tbody>
           {page.properties.length ?
@@ -96,6 +105,11 @@ export default class Tabs extends PureComponent {
     pageDragEvent: func.isRequired,
     workspaceDomain: PropTypes.string.isRequired,
     viewsDomains: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+    pagesDomains: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+    viewsDomainsByPage: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+    workspaceViewsDomains: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+    epDomainsByPage: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+    workspaceEpDomains: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   };
 
   handleSelect = (eventKey) => {
@@ -171,9 +185,24 @@ export default class Tabs extends PureComponent {
   };
 
   render() {
-    const { pages, focusedPageId, workspaceDomain, viewsDomains } = this.props;
-    const borderColorForNav =
-      getBorderColorForNav(workspaceDomain, pages, viewsDomains);
+    const {
+      pages,
+      focusedPageId,
+      workspaceDomain,
+      pagesDomains,
+      viewsDomainsByPage,
+      epDomainsByPage,
+      workspaceViewsDomains,
+      workspaceEpDomains,
+    } = this.props;
+
+    const borderColorForNav = getColorWithDomainDetermination(
+      workspaceDomain,
+      pagesDomains,
+      workspaceViewsDomains,
+      workspaceEpDomains,
+      'workspace'
+    );
     const styleNav = {
       borderTop: '5px solid',
       borderBottom: '0',
@@ -194,27 +223,16 @@ export default class Tabs extends PureComponent {
           pages.map((page, key) => {
             // get the style for tabs
             // color of tabs depends on domains of each view contained in the page
-            const { configurations } = page;
-            const epDomains = _.pull(_.uniqBy(
-              [].concat(
-                [],
-                ...configurations.map(configuration =>
-                  configuration.entryPoints.map(
-                    entryPoint => entryPoint.connectedData.domain
-                  )
-                )
-              )
-            ), wildcardCharacter);
-
-            const viewsDomainsForPage = viewsDomains[page.pageId];
-
-            const borderColorForTab =
-              getBorderColorForTab(
-                workspaceDomain,
-                page.domainName || wildcardCharacter,
-                viewsDomainsForPage,
-                epDomains
-              );
+            const viewsDomainsForPage = viewsDomainsByPage[page.pageId];
+            const epDomainsForPage = epDomainsByPage[page.pageId];
+            const pageDomain = page.domainName || wildcardCharacter;
+            const borderColorForTab = getColorWithDomainDetermination(
+              workspaceDomain,
+              [pageDomain],
+              viewsDomainsForPage,
+              epDomainsForPage,
+              'page'
+            );
             const styleTab = {
               borderBottom: '5px solid',
               borderLeft: '0',

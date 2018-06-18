@@ -242,10 +242,10 @@ export function scanForMinAndMax(viewDataState) {
     return viewDataState;
   }
   return { ...viewDataState,
-    min: Object.assign({}, viewDataState.min, minVal),
-    max: Object.assign({}, viewDataState.max, maxVal),
-    minTime: Object.assign({}, viewDataState.minTime, minTimeVal),
-    maxTime: Object.assign({}, viewDataState.maxTime, maxTimeVal),
+    min: { ...viewDataState.min, ...minVal },
+    max: { ...viewDataState.max, ...maxVal },
+    minTime: { ...viewDataState.minTime, ...minTimeVal },
+    maxTime: { ...viewDataState.maxTime, ...maxTimeVal },
   };
 }
 

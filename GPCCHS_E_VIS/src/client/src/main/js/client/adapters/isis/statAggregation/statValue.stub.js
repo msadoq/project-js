@@ -1,5 +1,7 @@
 // ====================================================================
 // HISTORY
+// VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Add management of StatsAggregation in VIMA +
+//  update stub
 // END-HISTORY
 // ====================================================================
 
@@ -10,9 +12,9 @@ const _random = require('lodash/random');
 const _defaultsDeep = require('lodash/defaultsDeep');
 
 
-const statValue = {
+const getStatValue = () => ({
   related: -1000,
   attrValue: _random(1, 100, true),
-};
+});
 
-module.exports = override => (override ? _defaultsDeep({}, override, statValue) : statValue);
+module.exports = override => (override ? _defaultsDeep({}, override, getStatValue()) : getStatValue());

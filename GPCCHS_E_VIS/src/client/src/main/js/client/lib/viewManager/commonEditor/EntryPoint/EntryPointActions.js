@@ -9,10 +9,13 @@
 // VERSION : 1.1.2 : DM : #5828 : 27/04/2017 : Uniforming new EP process for PlotView and textView.
 //  Fot PlotView EP, user might choose unit and axis in form to prevent VIMA from auto-creating Y
 //  axis.
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Glyphicon, FormGroup, InputGroup, FormControl, Button, Col } from 'react-bootstrap';
 
 const { Addon } = InputGroup;
@@ -22,7 +25,7 @@ export default class EntryPointActions extends React.Component {
   static propTypes = {
     viewId: string.isRequired,
     search: string,
-    viewType: oneOf(['TextView', 'MimicView', 'HistoryView']).isRequired,
+    viewType: oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
     // from container
     changeSearch: func.isRequired,
     openModal: func.isRequired,

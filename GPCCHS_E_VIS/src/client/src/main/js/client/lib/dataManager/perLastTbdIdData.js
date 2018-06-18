@@ -9,6 +9,7 @@
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
 //  viewData_clean
 // VERSION : 2.0.0 : DM : #5806 : 13/11/2017 : Pass mode into archive query (GMA/OBA)
+// VERSION : 2.0.0.2 : FA : #11854 : 18/04/2018 : Fix provider flow field in data map
 // END-HISTORY
 // ====================================================================
 
@@ -16,7 +17,7 @@ import _has from 'lodash/has';
 import _set from 'lodash/set';
 import _each from 'lodash/each';
 import _findIndex from 'lodash/findIndex';
-import { DATASTRUCTURETYPE_LAST } from '../constants';
+import { DATASTRUCTURETYPE_LAST, PROVIDER_FLOW_ALL } from '../constants';
 import { getStructureType } from '../viewManager';
 
 export function addEpInLastTbdIdMap(lastTbdIdMap, ep, viewId) {
@@ -28,9 +29,14 @@ export function addEpInLastTbdIdMap(lastTbdIdMap, ep, viewId) {
   const newMap = lastTbdIdMap || {};
   if (!newMap[tbdId]) {
     const { dataId, filters, mode } = ep;
+    const provider = dataId.provider === PROVIDER_FLOW_ALL ? '' : dataId.provider;
+
     newMap[tbdId] = {
       mode,
-      dataId,
+      dataId: {
+        ...dataId,
+        provider,
+      },
       localIds: {},
       views: [viewId],
       filters,

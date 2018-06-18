@@ -54,7 +54,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import { html as beautifyHtml } from 'js-beautify';
 import updateSpanValues from './TextViewFunctions';
@@ -76,7 +77,7 @@ const getEpSpan = (target) => {
   return getEpSpan(parent);
 };
 
-export default class TextView extends PureComponent {
+export default class TextView extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
@@ -116,18 +117,14 @@ export default class TextView extends PureComponent {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    let shouldRender = false;
-    if (
-      nextProps.content !== this.props.content ||
-      nextProps.entryPoints !== this.props.entryPoints
-    ) {
-      shouldRender = true;
+  componentWillReceiveProps(nextProps) {
+    const willComponentUpdate = nextProps.content !== this.props.content ||
+      nextProps.entryPoints !== this.props.entryPoints;
+
+    if (willComponentUpdate) {
       this.template = { html: beautifyHtml(nextProps.content, { indent_size: 2 }) };
       this.content = this.getContentComponent();
-    }
-    if (!shouldRender) {
-      // updateSpanValues(nextProps.data);
+    } else {
       updateSpanValues(nextProps.data,
         this.spanValues,
         this.props.entryPoints,
@@ -136,11 +133,14 @@ export default class TextView extends PureComponent {
         this.props.copySpanValues(this.spanValues);
       }
     }
-    return shouldRender;
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.content !== this.props.content ||
+      nextProps.entryPoints !== this.props.entryPoints;
   }
 
   componentDidUpdate() {
-    // updateSpanValues(this.props.data);
     updateSpanValues(this.props.data,
       this.spanValues,
       this.props.entryPoints,
@@ -185,7 +185,6 @@ export default class TextView extends PureComponent {
             const epName = match.substring(2, match.length - 2);
             const rand = Math.round(Math.random() * 100000);
             const id = `${this.props.viewId}_tv_${epName}_${rand}`;
-
             let textString = '';
             if (node.data.length !== match.length) {
               const indexOf = innerHtml.indexOf(match);
@@ -197,13 +196,11 @@ export default class TextView extends PureComponent {
                 innerHtml = innerHtml.substring(indexOf);
               }
             }
-
             this.spanValues[id] = { ep: epName };
             nodes.push(
               <span className="ep" key={`${epName}-${index}-${i}`} id={id} />
             );
             innerHtml = innerHtml.substring(match.length);
-
             // Is there text after the last match ?
             if (i === matches.length - 1 && innerHtml.length) {
               nodes.push(<span key={`${epName}-${index}-text-${i}-end`}>{innerHtml}</span>);

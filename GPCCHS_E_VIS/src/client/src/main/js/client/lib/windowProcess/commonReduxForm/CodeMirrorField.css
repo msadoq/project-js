@@ -3,3 +3,13 @@
     background-color: #ffebeb;
   }
 }
+
+.codemirror-container {
+  height: 100%; /* takes the whole parent height so that there's a vertical scrollbar. */
+}
+
+.error {
+  position: relative;
+  z-index: 10;
+  width: 50%;
+}

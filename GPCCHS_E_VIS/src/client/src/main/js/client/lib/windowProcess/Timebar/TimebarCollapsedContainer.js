@@ -16,6 +16,7 @@ import { getTimebar } from 'store/reducers/timebars';
 import { getPage } from 'store/reducers/pages';
 import { getPlayingTimebarId } from 'store/reducers/hsc';
 import { minimizeTimebar } from 'store/actions/pages';
+import _ from 'lodash';
 import TimebarCollapsed from './TimebarCollapsed';
 
 export default connect(
@@ -28,7 +29,7 @@ export default connect(
     return {
       timebarUuid,
       isPlaying,
-      current: timebar.visuWindow.current,
+      current: _.get(timebar, 'visuWindow.current', null),
     };
   }, {
     pause,

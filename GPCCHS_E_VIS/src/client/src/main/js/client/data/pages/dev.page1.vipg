@@ -9,7 +9,7 @@
     {
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.vidv",
       "geometry": {
-        "x": 9,
+        "x": 8,
         "y": 0,
         "w": 3,
         "h": 5
@@ -20,11 +20,11 @@
     {
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic_demo.vimv",
       "geometry": {
-        "x": 6,
-        "y": 6,
-        "w": 6,
-        "h": 13,
-        "collapsed": true
+        "x": 0,
+        "y": 10,
+        "w": 5,
+        "h": 12,
+        "collapsed": false
       },
       "hideBorders": false,
       "windowState": "Normalized"
@@ -32,7 +32,7 @@
     {
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.vitv",
       "geometry": {
-        "x": 6,
+        "x": 5,
         "y": 0,
         "w": 3,
         "h": 5
@@ -43,10 +43,10 @@
     {
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/ground-alarm.viga",
       "geometry": {
-        "x": 0,
+        "x": 5,
         "y": 10,
-        "w": 9,
-        "h": 9
+        "w": 6,
+        "h": 6
       },
       "hideBorders": false,
       "windowState": "Normalized"
@@ -54,11 +54,11 @@
     {
       "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/onboard-alarm.viba",
       "geometry": {
-        "x": 6,
+        "x": 5,
         "y": 5,
         "w": 6,
         "h": 5,
-        "collapsed": true
+        "collapsed": false
       },
       "hideBorders": false,
       "windowState": "Normalized"
@@ -70,6 +70,17 @@
         "y": 0,
         "w": 5,
         "h": 10
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    },
+    {
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/decomPacket.vidp",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 5,
+        "h": 5
       },
       "hideBorders": false,
       "windowState": "Normalized"

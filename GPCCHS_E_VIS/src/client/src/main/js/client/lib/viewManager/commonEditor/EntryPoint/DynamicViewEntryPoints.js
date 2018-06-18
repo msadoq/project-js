@@ -1,11 +1,10 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
 import { reduxFormFieldsType } from 'viewManager/common/Components/types';
-import { Field } from 'redux-form';
-import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
 
 
@@ -33,6 +32,10 @@ export default class DynamicViewEntryPoints extends PureComponent {
     selectedItemName: null,
   };
 
+  static contextTypes = {
+    windowId: PropTypes.string,
+  };
+
   render() {
     const {
       viewId,
@@ -44,16 +47,7 @@ export default class DynamicViewEntryPoints extends PureComponent {
     } = this.props;
 
     return (
-      <div>
-        <HorizontalFormGroup label="Formula">
-          <Field
-            name="formula"
-            component={TextareaField}
-            rows="4"
-            className="form-control input-sm"
-          />
-        </HorizontalFormGroup>
-
+      <React.Fragment>
         <HorizontalFormGroup label="Catalog">
           <CatalogFieldContainer
             domainName={selectedDomainName}
@@ -87,7 +81,7 @@ export default class DynamicViewEntryPoints extends PureComponent {
         <HorizontalFormGroup label="Provider">
           <ProviderFieldContainer />
         </HorizontalFormGroup>
-      </div>
+      </React.Fragment>
     );
   }
 }

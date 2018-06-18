@@ -49,111 +49,90 @@ export default function rte(state = initialState, action) {
   switch (action.type) {
     // GENERAL
     case types.HSC_SET_RTE_SESSIONS:
-      return Object.assign(
-        {},
-        state,
-        {
-          sessions: action.payload.sessions,
-        }
-      );
+      return {
+        ...state,
+        sessions: action.payload.sessions,
+      };
     case types.HSC_SET_RTE_DOMAINS: {
-      return Object.assign(
-        {},
-        state,
-        {
-          domains: action.payload.domains,
-          focusedInfo: {
-            session: action.payload.session,
-          },
-          catalogs: [],
-          itemNames: [],
-        }
-      );
+      return {
+        ...state,
+        domains: action.payload.domains,
+        focusedInfo: {
+          session: action.payload.session,
+        },
+        catalogs: [],
+        itemNames: [],
+      };
     }
     case types.HSC_SET_RTE_CATALOGS: {
-      const ret = Object.assign(
-        {},
-        state,
-        {
-          catalogs: action.payload.catalogs,
-          focusedInfo: {
-            session: action.payload.session,
-            domain: action.payload.domain,
-          },
-          itemNames: [],
-        }
-      );
-      return ret;
+      return {
+        ...state,
+        catalogs: action.payload.catalogs,
+        focusedInfo: {
+          session: action.payload.session,
+          domain: action.payload.domain,
+        },
+        itemNames: [],
+      };
     }
     case types.HSC_SET_RTE_ITEM_NAMES:
-      return Object.assign(
-        {},
-        state,
-        {
-          itemNames: action.payload.itemNames,
-          focusedInfo: {
-            session: state.focusedInfo.session,
-            domain: state.focusedInfo.domain,
-            catalog: action.payload.catalog,
-            version: action.payload.version,
-          },
-        }
-      );
+      return {
+        ...state,
+        itemNames: action.payload.itemNames,
+        focusedInfo: {
+          session: state.focusedInfo.session,
+          domain: state.focusedInfo.domain,
+          catalog: action.payload.catalog,
+          version: action.payload.version,
+        },
+      };
     case types.HSC_OPEN_RTE_ITEM:
-      return Object.assign(
-        {},
-        state,
-        {
-          openedItems: {
-            ...state.openedItems,
-            [action.payload.key]: {
-              attributes: {
-                session: action.payload.session,
-                domain: action.payload.domain,
-                catalog: action.payload.catalog,
-                version: action.payload.version,
-                namespace: action.payload.namespace,
-                name: action.payload.name,
-              },
-              item: action.payload.item,
+      return {
+        ...state,
+        openedItems: {
+          ...state.openedItems,
+          [action.payload.key]: {
+            attributes: {
+              session: action.payload.session,
+              domain: action.payload.domain,
+              catalog: action.payload.catalog,
+              version: action.payload.version,
+              namespace: action.payload.namespace,
+              name: action.payload.name,
             },
+            item: action.payload.item,
           },
-          focusedItem: action.payload.key,
-          focusedInfo: {
-            session: action.payload.session,
-            domain: action.payload.domain,
-            catalog: action.payload.catalog,
-            version: action.payload.version,
-            namespace: action.payload.namespace,
-            name: action.payload.name,
-          },
-        }
-      );
+        },
+        focusedItem: action.payload.key,
+        focusedInfo: {
+          session: action.payload.session,
+          domain: action.payload.domain,
+          catalog: action.payload.catalog,
+          version: action.payload.version,
+          namespace: action.payload.namespace,
+          name: action.payload.name,
+        },
+      };
     case types.HSC_CLOSE_RTE_ITEM: {
-      return Object.assign(
-        {},
-        state,
-        {
-          openedItems: _omit(state.openedItems, action.payload.key),
-        }
-      );
+      return {
+        ...state,
+        openedItems: _omit(state.openedItems, action.payload.key),
+
+      };
     }
     case types.HSC_SET_RTE_FOCUSED_ITEM:
-      return Object.assign(
-        {},
-        state,
-        {
-          focusedItem: action.payload.key,
-          focusedInfo: {
-            session: action.payload.session,
-            domain: action.payload.domain,
-            catalog: action.payload.catalog,
-            version: action.payload.version,
-            namespace: action.payload.namespace,
-            name: action.payload.name,
-          },
-        }
-      );
+      return {
+        ...state,
+        focusedItem: action.payload.key,
+        focusedInfo: {
+          session: action.payload.session,
+          domain: action.payload.domain,
+          catalog: action.payload.catalog,
+          version: action.payload.version,
+          namespace: action.payload.namespace,
+          name: action.payload.name,
+        },
+      };
     // OPENED ITEM
     /* case types.HSC_TOGGLE_ALL_INSPECTOR_STATIC_DATA_NODES:
        return Object.assign(
@@ -200,21 +179,19 @@ export default function rte(state = initialState, action) {
       return u.updateIn(
         ['catalogs', ...action.payload.path],
         { active: action.payload.active },
-        Object.assign(
-          {},
-          state,
-          { catalogs: recursiveAssignNodeField(state.catalogs, 'active', false) }
-        )
+        {
+          ...state,
+          catalogs: recursiveAssignNodeField(state.catalogs, 'active', false),
+        }
       );
     case types.HSC_IS_RTE_ITEM_NAME_NODE_ACTIVE:
       return u.updateIn(
         ['itemNames', ...action.payload.path],
         { active: action.payload.active },
-        Object.assign(
-          {},
-          state,
-          { itemNames: recursiveAssignNodeField(state.itemNames, 'active', false) }
-        )
+        {
+          ...state,
+          itemNames: recursiveAssignNodeField(state.itemNames, 'active', false),
+        }
       );
     default:
       return state;

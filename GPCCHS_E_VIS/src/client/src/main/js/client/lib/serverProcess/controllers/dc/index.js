@@ -35,6 +35,9 @@
 // VERSION : 2.0.0 : DM : #5806 : 17/10/2017 : Refacto PubSub Alarm + tbd Alarm queries
 // VERSION : 2.0.0 : FA : ISIS-FT-2229 : 18/10/2017 : Resolve merge conflict . .
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Improve single unit retrieval .
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : core implementation of dealing with sessions
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
 // END-HISTORY
 // ====================================================================
 
@@ -136,21 +139,21 @@ module.exports = function dcController() {
 
   const headerBuffer = args[1];
   const buffers = Array.prototype.slice.call(args, 2);
-
   try {
     const {
       messageType,
       requestId,
       isLast,
-      isError } = controllers[versionDCComProtocol].decoder(headerBuffer);
+      isError,
+    } = controllers[versionDCComProtocol].decoder(headerBuffer);
     if (messageType === undefined || messageType === null) {
       return logger.warn('invalid message received (no messageType)');
     }
     if (isError) {
       const decodedError = decode('dc.dataControllerUtils.ADEError', args[2]);
-      getStore().dispatch(addMessage('global', 'warning',
-      'error on processing header buffer '.concat(decodedError.message)));
-      return logger.error('error on processing header buffer '.concat(decodedError.message));
+      const errorMessage = 'error on processing header buffer '.concat(decodedError.message);
+      getStore().dispatch(addMessage('global', 'warning', errorMessage));
+      return logger.error(errorMessage);
     }
     const fn = controllers[versionDCComProtocol].controller[messageType];
     if (!fn) {
@@ -159,8 +162,10 @@ module.exports = function dcController() {
     logger.silly(`running '${messageType}'`);
     return fn(buffers, requestId, isLast);
   } catch (e) {
-    getStore().dispatch(addMessage('global', 'warning',
-      'error on processing header buffer '.concat(e)));
-    return logger.error('error on processing header buffer '.concat(e));
+    // FIXME: when logging an error with logger.error, the stack trace is truncated
+    // and we don't know the error comes from.
+    const errorMessage = 'error on processing header buffer '.concat(e);
+    getStore().dispatch(addMessage('global', 'warning', errorMessage));
+    return logger.error(errorMessage);
   }
 };

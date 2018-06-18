@@ -8,6 +8,9 @@ import {
   WS_COM_OBJECTS_ADD,
   WS_UNIT_ASK,
   WS_UNIT_ADD,
+  WS_ITEM_STRUCTURE_ASK,
+  WS_UNIT_ADD_SIMPLE,
+  WS_ITEM_STRUCTURE_ADD,
 } from '../types';
 
 export const askCatalogs = simple(
@@ -62,6 +65,27 @@ export const askUnit = simple(
 
 export const addUnit = simple(
   WS_UNIT_ADD,
+  'tupleId',
+  'name',
+  'itemName',
+  'unit'
+);
+
+export const askItemStructure = simple(
+  WS_ITEM_STRUCTURE_ASK,
+  'viewId'
+);
+
+export const addItemStructure = simple(
+  WS_ITEM_STRUCTURE_ADD,
+  'tupleId',
+  'name',
+  'itemName',
+  'structure'
+);
+
+export const addUnitSimple = simple(
+  WS_UNIT_ADD_SIMPLE,
   'tupleId',
   'name',
   'itemName',

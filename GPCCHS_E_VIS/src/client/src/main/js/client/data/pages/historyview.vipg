@@ -1,0 +1,17 @@
+{
+  "type": "Page",
+  "title": "Unknown",
+  "views": [
+    {
+      "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/historyView.vihv",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 11,
+        "h": 10
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    }
+  ]
+}

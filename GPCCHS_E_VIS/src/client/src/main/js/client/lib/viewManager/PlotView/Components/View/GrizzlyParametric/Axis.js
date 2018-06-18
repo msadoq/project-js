@@ -1,4 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 import classnames from 'classnames';
 import styles from './GrizzlyChart.css';
 import { lineType, labelStyleType } from './types';
@@ -9,7 +11,7 @@ export default class Axis extends Component {
   static propTypes = {
     direction: oneOf(['horizontal', 'vertical']).isRequired,
     lines: arrayOf(lineType.isRequired).isRequired,
-    showLabels: bool,
+    // showLabels: bool,
     label: string.isRequired,
     height: number.isRequired,
     xAxisHeight: number.isRequired,
@@ -31,7 +33,7 @@ export default class Axis extends Component {
     direction: 'horizontal',
     yAxesAt: 'left',
     xAxesAt: 'bottom',
-    showLabels: false,
+    // showLabels: false,
     showGrid: true,
     labelStyle: {
       color: '#333333',
@@ -49,7 +51,7 @@ export default class Axis extends Component {
     const {
       direction,
       lines,
-      showLabels,
+      // showLabels,
       label,
       height,
       xAxisHeight,
@@ -123,7 +125,6 @@ export default class Axis extends Component {
       lineLabel = styles.xAxisLineLabel;
       axisClassName = styles.xAxis;
     }
-
     return (
       <div
         style={divStyle}
@@ -149,8 +150,9 @@ export default class Axis extends Component {
               key={line.id}
               className={classnames(
                 'label',
+                line.highlighted ? styles.highlighted : '',
                 lineLabel,
-                { hidden: !showLabels }
+                { hidden: _.isEmpty(line.data) || !line.displayLine }
               )}
               ref={memoizeAssignRef(line.id)}
             >

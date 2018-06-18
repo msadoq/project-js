@@ -16,7 +16,7 @@ const _has = require('lodash/has');
 const _get = require('lodash/get');
 const _omit = require('lodash/omit');
 const async = require('async');
-const zmq = require('zmq');
+const zmq = require('zeromq');
 
 const defaultLogger = {
   silly: _noop,
@@ -203,5 +203,5 @@ module.exports = {
   push,
   request,
   respond,
-  realZmq: zmq
+  realZmq: zmq,
 };

@@ -123,15 +123,19 @@
 //  timebar has been selected
 // VERSION : 2.0.0 : FA : ISIS-FT-2949 : 22/03/2018 : dates now display in TAI
 // VERSION : 2.0.0 : FA : #11614 : 06/04/2018 : Plotview unit display + snap
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _sum from 'lodash/sum';
+import _keys from 'lodash/keys';
 import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';
 import _ from 'lodash/fp';
@@ -143,12 +147,14 @@ import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import dateFormat, { TAI } from 'viewManager/commonData/date';
 
 import getLogger from 'common/logManager';
+import { updateSearchCountArray } from 'store/reducers/pages';
 import Legend from './Legend';
 import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
-import { buildFormula } from '../../../common';
+import { buildFormulaForAutocomplete } from '../../../common';
+import { getTupleId } from '../../../../store/reducers/catalogs';
 
 const logger = getLogger('view:plot');
 
@@ -217,8 +223,8 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
       id: axis.id,
       extents:
         axis.autoLimits === true ?
-        [min, max]
-        :
+          [min, max]
+          :
         [
           min < axis.min ? min : axis.min,
           max > axis.max ? max : axis.max,
@@ -283,13 +289,13 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
       id: axis.id,
       extents:
         axis.autoLimits === true ?
-        [min, max]
-        :
+          [min, max]
+          :
         [
           min < axis.min ? min : axis.min,
           max > axis.max ? max : axis.max,
         ],
-      orient: 'bottom',
+      orient: 'top',
       format: '.3f',
       showAxis: axis.showAxis === true,
       showLabels: axis.showLabels === true,
@@ -373,8 +379,8 @@ export const defaultAxisConfig = (axis, grid, min, max) => ({
           ? min
           : axis.min,
         max > axis.max
-            ? max
-            : axis.max,
+          ? max
+          : axis.max,
       ],
   orient: 'top',
   format: '.3f',
@@ -446,7 +452,12 @@ const tooltipFormatter = (id, foundColor, color, value, x, formattedValue, forma
 export const parseDragData = (data, id, defaultTimelineId) => {
   const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
   const formula =
-    buildFormula(data.catalogName, data.item, getComObject(data.comObjects), data.comObjectFields);
+    buildFormulaForAutocomplete(
+      data.catalogName,
+      data.item,
+      getComObject(data.comObjects),
+      data.comObjectFields
+    );
   return {
     name: id,
     connectedData: {
@@ -462,13 +473,13 @@ export const parseDragData = (data, id, defaultTimelineId) => {
 const plotPadding = 15;
 const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
-const { shape, string, arrayOf, number, func, object, array, bool } = PropTypes;
+const { shape, string, arrayOf, number, func, object, array, bool, objectOf } = PropTypes;
 
-export class GrizzlyPlotView extends PureComponent {
+export class GrizzlyPlotView extends React.Component {
   static propTypes = {
     containerWidth: number.isRequired,
     containerHeight: number.isRequired,
-    updateDimensions: func.isRequired,
+    updateDimensions: func.isRequired, // eslint-disable-line react/no-unused-prop-types
     saveLiveExtents: func.isRequired,
     pause: func.isRequired,
     data: shape({
@@ -498,7 +509,7 @@ export class GrizzlyPlotView extends PureComponent {
     inspectorEpId: string,
     openEditor: func.isRequired,
     closeEditor: func.isRequired,
-    removeEntryPoint: func.isRequired,
+    askRemoveEntryPoint: func.isRequired,
     isViewsEditorOpen: bool.isRequired,
     mainMenu: arrayOf(object).isRequired,
     defaultTimelineId: string.isRequired,
@@ -510,13 +521,19 @@ export class GrizzlyPlotView extends PureComponent {
     pageId: string.isRequired,
     showLinks: bool,
     updateShowLinks: func.isRequired,
+    askUnit: func.isRequired,
     isMaxVisuDurationExceeded: bool.isRequired,
+    catalogs: object.isRequired, // eslint-disable-line react/forbid-prop-types
+    searchForThisView: bool.isRequired,
+    updateSearchCount: func.isRequired,
+    searching: string,
+    searchCount: objectOf(shape),
   };
 
   static defaultProps = {
     data: {
       lines: [],
-      columns: [],
+      cols: [],
     },
     visuWindow: null,
     inspectorEpId: null,
@@ -527,6 +544,10 @@ export class GrizzlyPlotView extends PureComponent {
   state = {
     showEpNames: [],
     hideEpNames: [],
+    updateUnit: false,
+    epNamesMatchWithSearching: [],
+    searching: null,
+    update: false,
   };
 
   componentDidMount() {
@@ -535,15 +556,36 @@ export class GrizzlyPlotView extends PureComponent {
     });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    let shouldRender = false;
-    const attrs = ['data', 'entryPoints', 'visuWindow', 'configuration',
-      'containerWidth', 'containerHeight'];
-    for (let i = 0; i < attrs.length; i += 1) {
-      if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
-        shouldRender = true;
+  componentWillReceiveProps(nextProps) {
+    const {
+      entryPoints,
+      askUnit,
+    } = nextProps;
+
+    Object.keys(entryPoints).forEach((catalogItem) => {
+      if (entryPoints[catalogItem].dataId) {
+        const {
+          domainId,
+          sessionId,
+          catalog,
+        } = entryPoints[catalogItem].dataId;
+        if (
+          domainId !== null &&
+          sessionId !== null &&
+          catalog !== null &&
+          catalogItem !== null
+        ) {
+          askUnit(domainId, sessionId, catalog, catalogItem);
+          this.setState({ updateUnit: true });
+        } else {
+          this.setState({ updateUnit: false });
+        }
+      } else {
+        this.setState({ updateUnit: true });
       }
-    }
+    });
+
+    // TODO @jmira check after merge
     if (
       nextProps.configuration.entryPoints !== this.props.configuration.entryPoints ||
       nextProps.configuration.axes !== this.props.configuration.axes ||
@@ -561,19 +603,36 @@ export class GrizzlyPlotView extends PureComponent {
       this.xAxes = processedAxes.xAxes;
       this.yAxes = processedAxes.yAxes;
     }
-    if (shouldRender) {
+    const { searching, searchForThisView } = nextProps;
+    if (searching && this.state.searching !== searching) {
+      this.state.searching = searching;
+      this.state.update = true;
+    }
+    this.state.epNamesMatchWithSearching =
+      this.getEntryPointSearchingAndUpdateCount(searching, searchForThisView);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextProps.showLinks !== this.props.showLinks ||
+      nextState.showEpNames !== this.state.showEpNames ||
+      nextState.hideEpNames !== this.state.hideEpNames ||
+      this.state.update ||
+      nextState.hideEpNames !== this.state.hideEpNames ||
+      nextState.updateUnit
+    ) {
       return true;
     }
-    if (nextProps.showLinks !== this.props.showLinks) {
-      return true;
+
+    const attrs = ['data', 'entryPoints', 'visuWindow', 'configuration',
+      'containerWidth', 'containerHeight'];
+    for (let i = 0; i < attrs.length; i += 1) {
+      if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
+        return true;
+      }
     }
-    if (nextState.showEpNames !== this.state.showEpNames) {
-      return true;
-    }
-    if (nextState.hideEpNames !== this.state.hideEpNames) {
-      return true;
-    }
-    return shouldRender;
+
+    return false;
   }
 
   onContextMenuLegend = (event, name) => {
@@ -628,6 +687,7 @@ export class GrizzlyPlotView extends PureComponent {
     };
     handleContextMenu([inspectorMenu, ...editorMenu, separator, ...mainMenu]);
   };
+
   onContextMenu = (e) => {
     e.stopPropagation();
     const {
@@ -696,6 +756,18 @@ export class GrizzlyPlotView extends PureComponent {
             ))}
         </div>
       </CloseableAlert> : undefined;
+  }
+  getEntryPointSearchingAndUpdateCount = (searching, searchForThisView) => {
+    const { viewId, searchCount, updateSearchCount, entryPoints } = this.props;
+    if (searchForThisView && searching && searching.length > 1) {
+      const epNamesMatchWithSearching =
+        _keys(entryPoints).filter(name => name.match(searching) !== null);
+      const searchCountArray =
+        updateSearchCountArray(searchCount, viewId, epNamesMatchWithSearching.length);
+      updateSearchCount(searchCountArray);
+      return epNamesMatchWithSearching;
+    }
+    return [];
   }
   drop(e) {
     const {
@@ -808,12 +880,19 @@ export class GrizzlyPlotView extends PureComponent {
   removeEntryPoint = (e, id) => {
     e.preventDefault();
     const {
-      removeEntryPoint,
+      askRemoveEntryPoint,
+      entryPoints,
       viewId,
-      configuration: { entryPoints },
     } = this.props;
-    const index = entryPoints.findIndex(a => a.id === id);
-    removeEntryPoint(viewId, index);
+    const entryPointToRemove = Object.values(entryPoints).find(epk => epk.id === id);
+    if (entryPointToRemove) {
+      askRemoveEntryPoint(viewId, {
+        ...entryPointToRemove,
+        name: entryPointToRemove.dataId.parameterName,
+      });
+    } else {
+      logger.error('No entry point found for id', id);
+    }
   };
   removeLink = (e, index) => {
     e.preventDefault();
@@ -861,10 +940,10 @@ export class GrizzlyPlotView extends PureComponent {
       showLinks,
       saveLiveExtents,
       pause,
+      catalogs,
+      entryPoints,
     } = this.props;
-    let {
-      configuration: { entryPoints },
-    } = this.props;
+    let entryPointsConfiguration = this.props.configuration.entryPoints;
     const {
       showEpNames,
       hideEpNames,
@@ -884,9 +963,11 @@ export class GrizzlyPlotView extends PureComponent {
     }
 
     if (showEpNames.length) {
-      entryPoints = entryPoints.filter(ep => showEpNames.includes(ep.id));
+      entryPointsConfiguration =
+        entryPointsConfiguration.filter(ep => showEpNames.includes(ep.id));
     } else if (hideEpNames.length) {
-      entryPoints = entryPoints.filter(ep => !hideEpNames.includes(ep.id));
+      entryPointsConfiguration =
+        entryPointsConfiguration.filter(ep => !hideEpNames.includes(ep.id));
     }
 
     const yAxesLegendHeight = this.yAxes.map((a) => {
@@ -936,7 +1017,7 @@ export class GrizzlyPlotView extends PureComponent {
         style={mainStyle}
       >
         { (legend.location === 'top' || legend.location === 'left') &&
-          legendComponent
+        legendComponent
         }
         <GrizzlyChart
           height={plotHeight}
@@ -957,10 +1038,19 @@ export class GrizzlyPlotView extends PureComponent {
           additionalStyle={memoizeMainStyle(legend.location)}
           yAxes={this.yAxes}
           xAxes={this.xAxes}
+          updateAxis={this.state.updateUnit}
           lines={
-            entryPoints.map((ep) => {
+            entryPointsConfiguration.map((ep) => {
               const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
               const stringParameter = !ep.parametric && _get(ep, ['connectedData', 'stringParameter']);
+              let unit;
+              if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
+                const { domainId, sessionId, catalog, parameterName } = entryPoints[ep.name].dataId;
+                const tupleId = getTupleId(domainId, sessionId);
+                unit = _get(catalogs, ['units', tupleId, catalog, parameterName], 'Unknown');
+              } else {
+                unit = ep.unit;
+              }
               return {
                 data: lines[ep.name],
                 indexes: indexes[ep.name],
@@ -968,13 +1058,15 @@ export class GrizzlyPlotView extends PureComponent {
                 xAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'xAxisId']) : 'time',
                 yAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'yAxisId']) : _get(ep, ['connectedData', 'axisId']),
                 fill: _get(ep, ['objectStyle', 'curveColor']),
+                displayLine: _get(ep, ['objectStyle', 'displayLine'], true),
                 lineSize: _get(ep, ['objectStyle', 'displayLine'], true) === true
                   ? _get(ep, ['objectStyle', 'line', 'size'])
                   : 0,
                 lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
+                displayPoints: _get(ep, ['objectStyle', 'displayPoints'], true),
                 pointStyle: _get(ep, ['objectStyle', 'displayPoints'], true) === true
                   ? _get(ep, ['objectStyle', 'points', 'style'])
-                  : 0,
+                  : 'None',
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                 dataAccessor: ep.name,
                 stopInstruction: packet => (packet.isObsolete || false),
@@ -984,14 +1076,15 @@ export class GrizzlyPlotView extends PureComponent {
                 yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
                 colorAccessor: 'color',
                 tooltipFormatter,
+                highlighted: this.state.epNamesMatchWithSearching.indexOf(ep.name) !== -1,
                 unit: ep.connectedData.convertTo ?
-                  ep.connectedData.convertTo : ep.connectedData.unit,
+                  ep.connectedData.convertTo : unit,
               };
             })
           }
         />
         { (legend.location === 'bottom' || legend.location === 'right') &&
-          legendComponent
+        legendComponent
         }
         <LinksContainer
           show={showLinks}

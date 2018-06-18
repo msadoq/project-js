@@ -35,7 +35,7 @@
         "filter": [],
         "format": "decimal",
         "formula": "Reporting.AGA_AM_PRIORITY<ReportingParameter>.extractedValue",
-        "provider": "",
+        "provider": "*",
         "timeline": "Session 1",
         "unit": "V"
       },
@@ -103,7 +103,7 @@
         "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
         "timeline": "Session 1",
         "unit": "V",
-        "provider": ""
+        "provider": "*"
       },
       "stateColors": [
         {

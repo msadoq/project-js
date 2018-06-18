@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import { Field, reduxForm } from 'redux-form';
 import {
@@ -8,10 +9,10 @@ import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGro
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
-import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import FormSectionFontStyle from 'viewManager/commonEditor/FormSections/FormSectionFontStyle';
 import classnames from 'classnames';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
+import { validateRequiredFields } from '../../../common';
 
 class ViewParamsForm extends React.Component {
   static propTypes = {
@@ -32,7 +33,6 @@ class ViewParamsForm extends React.Component {
         strikeOut: PropTypes.bool,
         align: PropTypes.string,
         color: PropTypes.string,
-        bgColor: PropTypes.string,
       }),
     }).isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -114,13 +114,6 @@ class ViewParamsForm extends React.Component {
         <div className="page-header">
           <h4>Content</h4>
         </div>
-
-        <HorizontalFormGroup label="Bg Color">
-          <Field
-            name="backgroundColor"
-            component={ColorPickerField}
-          />
-        </HorizontalFormGroup>
         <div className="page-header">
           <h4>Legend</h4>
         </div>
@@ -171,21 +164,10 @@ class ViewParamsForm extends React.Component {
   }
 }
 
-
 const requiredFields = ['title'];
-const validate = (values = {}) => {
-  const errors = {};
-
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-  return errors;
-};
 
 export default reduxForm({
-  validate,
+  validate: validateRequiredFields(requiredFields),
   warn: () => ({}),
   enableReinitialize: true,
 })(ViewParamsForm);

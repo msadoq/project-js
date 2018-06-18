@@ -1,0 +1,25 @@
+
+.Arrow {
+  display: inline-block;
+}
+
+.Arrow {
+  cursor: pointer;
+}
+
+.SortArrow {
+  margin-right: 7px;
+}
+
+.SortArrow:not(.active) {
+  cursor: pointer;
+  color: darkgrey;
+}
+
+.SortArrow:hover {
+  color: black;
+}
+
+.SortArrow.active {
+  color: black;
+}

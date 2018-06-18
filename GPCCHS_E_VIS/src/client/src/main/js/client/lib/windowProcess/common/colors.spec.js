@@ -6,6 +6,11 @@ import {
   getBackgroundColorByDomains,
   getBorderColorForNav,
   getBorderColorForTab,
+<<<<<<< HEAD
+=======
+  getStateColorTypes,
+  getColorWithDomainDetermination,
+>>>>>>> R12-dev
   STATE_COLOR_NOMINAL,
   STATE_COLOR_WARNING,
   STATE_COLOR_ALARM,
@@ -558,6 +563,57 @@ describe('windowProcess', () => {
             .toEqual('#CCC');
         });
       });
+<<<<<<< HEAD
+=======
+      describe('getStateColorTypes', () => {
+        test('getStateColorTypes :: memoize', () => {
+          const firstRun = getStateColorTypes();
+          const secondRun = getStateColorTypes();
+          expect(secondRun).toBe(firstRun);
+        });
+      });
+      describe('getColorWithDomainDetermination', () => {
+        test('returns no color when only wildcard', () => {
+          const workspaceDomain = '*';
+          const pageDomain = ['*'];
+          const viewsDomains = ['*'];
+          const epDomains = ['*'];
+          expect(getColorWithDomainDetermination(
+            workspaceDomain,
+            pageDomain,
+            viewsDomains,
+            epDomains,
+            'workspace'
+          )).toEqual('#CCCCCC');
+        });
+        test('returns color when a domain is defined', () => {
+          const workspaceDomain = 'fr.cnes.isis.simupus';
+          const pageDomain = ['*'];
+          const viewsDomains = ['*'];
+          const epDomains = ['*'];
+          expect(getColorWithDomainDetermination(
+            workspaceDomain,
+            pageDomain,
+            viewsDomains,
+            epDomains,
+            'workspace'
+          )).toEqual('#339933');
+        });
+        it('should returns no color when domain is unresolved', () => {
+          const workspaceDomain = '*';
+          const pageDomain = 'unresolved';
+          const viewsDomains = ['*'];
+          const epDomains = ['*'];
+          expect(getColorWithDomainDetermination(
+            workspaceDomain,
+            pageDomain,
+            viewsDomains,
+            epDomains,
+            'workspace'
+          )).toEqual('#CCCCCC');
+        });
+      });
+>>>>>>> R12-dev
     });
   });
 });

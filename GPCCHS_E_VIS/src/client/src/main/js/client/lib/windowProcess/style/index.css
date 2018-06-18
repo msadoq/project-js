@@ -10,6 +10,7 @@
 @import './Nav.css';
 @import './Timebar.css';
 @import './Editor.css';
+@import './Search.css';
 
 @import 'react-json-inspector/json-inspector.css';
 @import 'react-grid-layout/css/styles.css';

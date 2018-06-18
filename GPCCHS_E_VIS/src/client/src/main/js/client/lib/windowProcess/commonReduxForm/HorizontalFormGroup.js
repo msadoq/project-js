@@ -5,7 +5,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   FormGroup,
   Col,
@@ -16,10 +17,11 @@ const HorizontalFormGroup = (props) => {
   const {
     label,
     children,
+    className,
   } = props;
 
   return (
-    <FormGroup controlId="formHorizontalName">
+    <FormGroup controlId="formHorizontalName" className={className}>
       <Col componentClass={ControlLabel} xs={4} >
         {label}
       </Col>
@@ -36,10 +38,12 @@ HorizontalFormGroup.propTypes = {
     PropTypes.string,
     PropTypes.node,
   ]),
+  className: PropTypes.string,
 };
 
 HorizontalFormGroup.defaultProps = {
   label: '',
+  className: '',
 };
 
 export default HorizontalFormGroup;

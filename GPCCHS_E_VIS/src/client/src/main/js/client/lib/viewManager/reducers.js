@@ -22,6 +22,7 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
+import * as constants from './constants';
 
 import packetViewConfigurationReducer from './PacketView/store/configurationReducer';
 import createReducerByViews from '../store/helpers/createReducerByViews';
@@ -30,19 +31,26 @@ import commonConfigurationReducer from './commonConfiguration/reducer';
 import textViewConfigurationReducer from './TextView/store/configurationReducer';
 import plotViewConfigurationReducer from './PlotView/store/configurationReducer';
 import dynamicViewConfigurationReducer from './DynamicView/store/configurationReducer';
+import decommutedPacketViewConfigurationReducer
+  from './DecommutedPacketView/store/configurationReducer';
 import mimicViewConfigurationReducer from './MimicView/store/configurationReducer';
 import historyViewConfigurationReducer from './HistoryView/store/configurationReducer';
 import groundAlarmViewConfigurationReducer from './GroundAlarmView/store/configurationReducer';
 import onboardAlarmViewConfigurationReducer from './OnboardAlarmView/store/configurationReducer';
-import * as constants from './constants';
+import pus05ViewConfigurationReducer from './PUS05View/store/configurationReducer';
+import pus11ViewConfigurationReducer from './PUS11View/store/configurationReducer';
 
+import textViewDataReducer from './TextView/store/dataReducer';
 import plotViewDataReducer from './PlotView/store/dataReducer';
 import dynamicViewDataReducer from './DynamicView/store/dataReducer';
+import decommutedPacketViewDataReducer from './DecommutedPacketView/store/dataReducer';
 import mimicViewDataReducer from './MimicView/store/dataReducer';
 import historyViewDataReducer from './HistoryView/store/dataReducer';
 import groundAlarmViewDataReducer from './GroundAlarmView/store/dataReducer';
 import onboardAlarmViewDataReducer from './OnboardAlarmView/store/dataReducer';
 import packetViewDataReducer from './PacketView/store/dataReducer';
+import pus05ViewDataReducer from './PUS05View/store/dataReducer';
+import pus11ViewDataReducer from './PUS11View/store/dataReducer';
 
 import alarmViewUiReducer from './GroundAlarmView/store/uiReducer';
 
@@ -70,28 +78,32 @@ const createDataReducers = _.mapKeys(appendString('Data'));
 
 /* --- Reducers ------------------------------------------------------------- */
 
-
 export const getConfigurationReducers = () => createConfigurationReducers({
   [constants.VM_VIEW_TEXT]: textViewConfigurationReducer,
   [constants.VM_VIEW_PLOT]: plotViewConfigurationReducer,
   [constants.VM_VIEW_DYNAMIC]: dynamicViewConfigurationReducer,
+  [constants.VM_VIEW_DECOMMUTEDPACKET]: decommutedPacketViewConfigurationReducer,
   [constants.VM_VIEW_MIMIC]: mimicViewConfigurationReducer,
   [constants.VM_VIEW_HISTORY]: historyViewConfigurationReducer,
   [constants.VM_VIEW_PACKET]: packetViewConfigurationReducer,
   [constants.VM_VIEW_GROUNDALARM]: groundAlarmViewConfigurationReducer,
   [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewConfigurationReducer,
+  [constants.VM_VIEW_PUS05]: pus05ViewConfigurationReducer,
+  [constants.VM_VIEW_PUS11]: pus11ViewConfigurationReducer,
 });
 
 export const getDataReducers = () => createDataReducers({
-  // eslint-disable-next-line global-require, "DV6 TBC_CNES Because its like that"
-  [constants.VM_VIEW_TEXT]: require('./TextView/store/dataReducer'),
+  [constants.VM_VIEW_TEXT]: textViewDataReducer,
   [constants.VM_VIEW_PLOT]: plotViewDataReducer,
   [constants.VM_VIEW_DYNAMIC]: dynamicViewDataReducer,
+  [constants.VM_VIEW_DECOMMUTEDPACKET]: decommutedPacketViewDataReducer,
   [constants.VM_VIEW_MIMIC]: mimicViewDataReducer,
   [constants.VM_VIEW_HISTORY]: historyViewDataReducer,
   [constants.VM_VIEW_PACKET]: packetViewDataReducer,
   [constants.VM_VIEW_GROUNDALARM]: groundAlarmViewDataReducer,
   [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewDataReducer,
+  [constants.VM_VIEW_PUS05]: pus05ViewDataReducer,
+  [constants.VM_VIEW_PUS11]: pus11ViewDataReducer,
 });
 
 export const getUiReducers = () => ({

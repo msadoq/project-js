@@ -25,6 +25,7 @@
 // VERSION : 1.1.2 : FA : #6670 : 16/06/2017 : Move and rename jest.js in jest/setup.js + test.js
 //  in jest/index.js
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
@@ -32,6 +33,7 @@ import _ from 'lodash/fp';
 import * as actions from 'store/actions/views';
 import { freezeArgs } from 'common/jest';
 import viewsReducer from '../views';
+import * as types from '../../types';
 
 const reducer = freezeArgs(viewsReducer);
 
@@ -152,6 +154,81 @@ describe('store:reducer:views', () => {
         ],
       },
     },
+    groundAlarm1: {
+      search: { enabled: true },
+      cols: [
+        {
+          name: 'timestamp',
+          value: 'timestamp',
+          displayed: true,
+          position: 0,
+        },
+        {
+          name: 'parameterName',
+          value: 'parameterName',
+          displayed: true,
+          position: 1,
+        },
+        {
+          name: 'parameterType',
+          value: 'parameterType',
+          displayed: true,
+          position: 2,
+        },
+        {
+          name: 'firstOccurence',
+          value: 'firstOccurence',
+          displayed: true,
+          position: 3,
+        },
+        {
+          name: 'lastOccurence',
+          value: 'lastOccurence',
+          displayed: true,
+          position: 4,
+        },
+        {
+          name: 'durationtimestamp',
+          value: 'durationtimestamp',
+          displayed: true,
+          position: 5,
+        },
+        {
+          name: 'rawValuetimestamp',
+          value: 'rawValuetimestamp',
+          displayed: true,
+          position: 6,
+        },
+        {
+          name: 'physicalValue',
+          value: 'physicalValue',
+          displayed: true,
+          position: 7,
+        },
+        {
+          name: 'satellite',
+          value: 'satellite',
+          displayed: true,
+          position: 8,
+        },
+        {
+          name: 'ackStatetimestamp',
+          value: 'ackStatetimestamp',
+          displayed: true,
+          position: 9,
+        },
+      ],
+      entryPoints: [{
+        connectedData: {
+          domain: 'fr.cnes.isis.simupus',
+          timeline: 'Session 1',
+          mode: 0,
+        },
+        id: 'groundAlarm1ep1',
+        name: 'groundAlarmEP',
+        stateColors: [],
+      }],
+    },
   };
   describe('update action', () => {
     test('Link', () => {
@@ -185,11 +262,6 @@ describe('store:reducer:views', () => {
       const style = { bold: true };
       const state = reducer(stateViews, actions.updateTitleStyle('plot1', style));
       expect(state.plot1.titleStyle).toEqual(style);
-      expect(state.plot1.isModified).toBe(true);
-    });
-    test('bg color', () => {
-      const state = reducer(stateViews, actions.updateBgColor('plot1', '#FFFFAA'));
-      expect(state.plot1.backgroundColor).toEqual('#FFFFAA');
       expect(state.plot1.isModified).toBe(true);
     });
   });

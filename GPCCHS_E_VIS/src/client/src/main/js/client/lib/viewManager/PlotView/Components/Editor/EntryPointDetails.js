@@ -32,10 +32,13 @@
 //  PlotEditor entry point form
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix parseEntryPoint to take into account
 //  provider field and update dc stubs
+// VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { FieldArray } from 'redux-form';
 import Collapse from 'rc-collapse';
 import _get from 'lodash/get';
 import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
@@ -43,6 +46,7 @@ import EntryPointParameters from './EntryPointParameters';
 import EntryPointConnectedData from './EntryPointConnectedData';
 
 import { entryPointType } from '../../../common/Components/types';
+import FiltersFieldsContainer from '../../../commonEditor/Fields/FiltersFieldsContainer';
 
 const { Panel } = Collapse;
 const emptyArray = [];
@@ -56,6 +60,7 @@ const { string, shape, arrayOf, bool, func, oneOfType } = PropTypes;
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: string.isRequired,
+    pageId: string.isRequired,
     timelines: arrayOf(shape({})).isRequired,
     axes: shape({}).isRequired,
     entryPoint: entryPointType.isRequired,
@@ -66,10 +71,22 @@ export default class EntryPointDetails extends PureComponent {
     ]).isRequired,
     updateViewSubPanels: func.isRequired,
     domains: arrayOf(shape({})).isRequired,
+    form: string.isRequired,
+    selectedDomainName: string,
+    selectedTimelineId: string,
+    selectedCatalogName: string,
+    selectedItemName: string,
+    selectedComObjectName: string,
+
   };
 
   static defaultProps = {
     panels: [],
+    selectedDomainName: null,
+    selectedTimelineId: null,
+    selectedCatalogName: null,
+    selectedItemName: null,
+    selectedComObjectName: null,
   };
 
   onChange = (openPanels) => {
@@ -114,10 +131,6 @@ export default class EntryPointDetails extends PureComponent {
       {
         ...entryPoint,
         parametric: values.parametric,
-        connectedData: {
-          ...values.connectedData,
-          provider: values.provider,
-        },
         connectedDataParametric: values.connectedDataParametric,
       }
     );
@@ -126,11 +139,17 @@ export default class EntryPointDetails extends PureComponent {
   render() {
     const {
       entryPoint,
+      pageId,
       viewId,
       axes,
       timelines,
       panels,
       domains,
+      selectedDomainName,
+      selectedTimelineId,
+      selectedCatalogName,
+      selectedItemName,
+      selectedComObjectName,
     } = this.props;
 
     // TODO Rerender (new ref)
@@ -166,7 +185,6 @@ export default class EntryPointDetails extends PureComponent {
         >
           {Array.isArray(panels) && panels.includes('parameters') && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
-            form={`entrypoint-parameters-form-${entryPoint.id}-${viewId}`}
             initialValues={initialValuesParameters}
           />}
         </Panel>
@@ -180,18 +198,38 @@ export default class EntryPointDetails extends PureComponent {
             timelines={timelines}
             domains={domains}
             viewId={viewId}
-            form={`entrypoint-connectedData-form-${entryPoint.id}-${viewId}`}
+            pageId={pageId}
             onSubmit={this.handleConnectedDataSubmit}
             initialValues={initialValuesConnectedData}
+            form={this.props.form}
+            entryPoint={entryPoint}
+            selectedDomainName={selectedDomainName}
+            selectedTimelineId={selectedTimelineId}
+            selectedCatalogName={selectedCatalogName}
+            selectedItemName={selectedItemName}
+            selectedComObjectName={selectedComObjectName}
           />}
         </Panel>
+
+        <Panel
+          key="Filter"
+          header="Filter"
+        >
+          {Array.isArray(panels) && panels.includes('Filter') &&
+          <FieldArray
+            name={'connectedData.filter'}
+            component={FiltersFieldsContainer}
+            {...this.props}
+          />
+          }
+        </Panel>
+
         <Panel
           key="stateColors"
           header="State colors"
         >
           {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
             initialValues={initialValuesStateColors}
-            form={`entrypoint-stateColors-form-${entryPoint.id}-${viewId}`}
             onSubmit={this.handleSubmit}
           />}
         </Panel>

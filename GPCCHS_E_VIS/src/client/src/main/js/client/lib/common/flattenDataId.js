@@ -5,6 +5,7 @@
 // VERSION : 2.0.0 : DM : #5806 : 24/10/2017 : Store hardcoded GMA entryPoint in the state
 //  GroudAlarmViewConfiguration
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11854 : 18/04/2018 : Vima JS does not receive PUB/SUB data
 // END-HISTORY
 // ====================================================================
 
@@ -28,7 +29,7 @@ export default (dataId, filters = [], mode = '') => {
     domainId,
     provider,
   } = dataId;
-  const _provider = provider || PROVIDER_FLOW_ALL;
+  const _provider = !provider || provider === PROVIDER_FLOW_ALL ? '' : provider;
   const _mode = mode || '';
   return `${catalog}.${parameterName}<${comObject}>:${sessionId}:${domainId}:${_provider}:${flattenFilters(filters)}:${_mode}`;
 };

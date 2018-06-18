@@ -15,6 +15,11 @@
     { "fr.cnes.isis.station.aus": "#ff7675" },
     { "fr.cnes.isis.station.kru": "#81ecec" },
     { "fr.cnes.isis.station.ker": "#6c5ce7" },
+<<<<<<< HEAD
     { "fr.cnes.isis.station.tls": "#2d3436" }
+=======
+    { "fr.cnes.isis.station.tls": "#2d3436" },
+    { "unresolved": "#CCCCCC" }
+>>>>>>> R12-dev
   ]
 }

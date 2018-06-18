@@ -1,0 +1,17 @@
+{
+  "type": "HistoryView",
+  "title": "New History View",
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "entryPoints": [],
+  "columns": [
+    ["default", ["epName", "timestamp"]]
+  ]
+  "sorting": {
+     "colName": "timestamp",
+     "direction": "DESC",
+   },
+}

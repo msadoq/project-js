@@ -62,10 +62,12 @@
 //  WS_MODAL_CLOSED
 // VERSION : 2.0.0 : DM : #5806 : 14/11/2017 : Merge branch 'alarm_5806' into dev
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Glyphicon } from 'react-bootstrap';
 import PanelGroup from 'react-panelgroup';
 import classnames from 'classnames';
@@ -79,6 +81,7 @@ import MessagesContainer from '../Navigation/MessagesContainer';
 import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import TabsContainer from '../Navigation/TabsContainer';
 import EditorContainer from '../Editor/EditorContainer';
+import SearchContainer from '../Search/SearchContainer';
 // import Page from '../Page/Page';
 import ContentContainer from '../Page/ContentContainer';
 import styles from './Window.css';
@@ -88,6 +91,7 @@ import ModalGeneric from '../common/ModalGeneric';
 import NoPageContainer from './NoPageContainer';
 
 import HelpContentContainer from '../Navigation/HelpContentContainer';
+import handleContextMenu from '../common/handleContextMenu';
 
 const logger = getLogger('Window');
 
@@ -95,6 +99,7 @@ const resizeHandleSize = 3;
 const scrollHandleSize = 15;
 const defaultExplorerWidth = 250;
 const defaultEditorWidth = 400;
+const defaultSearchWidth = 350;
 const minimizedTimebarHeigh = 35;
 const panelBorderColor = '#444';
 const tabsContainerStyle = { height: 50 };
@@ -116,20 +121,31 @@ class Window extends PureComponent {
     containerHeight: PropTypes.number,
     editorWidth: PropTypes.number,
     editorIsMinimized: PropTypes.bool,
+    searchWidth: PropTypes.number,
+    searchIsMinimized: PropTypes.bool,
     timebarHeight: PropTypes.number,
     timebarIsMinimized: PropTypes.bool,
     explorerIsMinimized: PropTypes.bool,
     explorerWidth: PropTypes.number,
     resizeEditor: PropTypes.func.isRequired,
+    resizeSearch: PropTypes.func.isRequired,
     resizeTimebar: PropTypes.func.isRequired,
     resizeExplorer: PropTypes.func.isRequired,
     minimizeExplorer: PropTypes.func.isRequired,
     minimizeEditor: PropTypes.func.isRequired,
+    minimizeSearch: PropTypes.func.isRequired,
     minimizeTimebar: PropTypes.func.isRequired,
     focusTabInExplorer: PropTypes.func.isRequired,
     modal: PropTypes.objectOf(PropTypes.shape),
     closeModal: PropTypes.func.isRequired,
     modalClosed: PropTypes.func.isRequired,
+    addBlankPage: PropTypes.func.isRequired,
+    askOpenPage: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
+    askSavePage: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
+    loadInSearch: PropTypes.func.isRequired,
+    pageViewsIdsForSearch: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
@@ -139,12 +155,15 @@ class Window extends PureComponent {
     containerHeight: 500,
     editorWidth: defaultEditorWidth,
     editorIsMinimized: true,
+    searchWidth: defaultSearchWidth,
+    searchIsMinimized: true,
     timebarHeight: 250,
     timebarIsMinimized: false,
     explorerWidth: defaultExplorerWidth,
     explorerIsMinimized: true,
     modal: null,
     pageId: null,
+    pageViewsIdsForSearch: [],
   }
 
   static childContextTypes = {
@@ -164,48 +183,18 @@ class Window extends PureComponent {
     setTimeout(() => setIsLoaded(windowId), 0);
   }
 
-  /**
-   * @deprecated
-   * @type {Function}
-   */
-  onHorizontalUpdateDebounce = _debounce((panelWidth) => {
-    const { pageId,
-      editorWidth,
-      resizeEditor,
-      explorerWidth,
-      resizeExplorer,
-      minimizeExplorer,
-      minimizeEditor,
-    } = this.props;
-
-    const newEditorWidth = _get(panelWidth, [0, 'size']);
-    if (editorWidth !== newEditorWidth) {
-      if (newEditorWidth < 50) {
-        minimizeEditor(pageId, true);
-      } else if (newEditorWidth > 0) {
-        minimizeEditor(pageId, false);
-        resizeEditor(pageId, newEditorWidth);
-      }
-    }
-    const newExplorerWidth = _get(panelWidth, [2, 'size']);
-    if (explorerWidth !== newExplorerWidth) {
-      if (newExplorerWidth < 50) {
-        minimizeExplorer(pageId, true);
-      } else if (newExplorerWidth > 0) {
-        minimizeExplorer(pageId, false);
-        resizeExplorer(pageId, newExplorerWidth);
-      }
-    }
-  }, 250);
-
   onHorizontalUpdate = _debounce((panelWidth) => {
-    const { pageId,
+    const {
+      pageId,
       editorWidth,
       resizeEditor,
+      searchWidth,
+      resizeSearch,
       explorerWidth,
       resizeExplorer,
       minimizeExplorer,
       minimizeEditor,
+      minimizeSearch,
     } = this.props;
 
     const newEditorWidth = _get(panelWidth, [0, 'size']);
@@ -213,16 +202,24 @@ class Window extends PureComponent {
       if (newEditorWidth < 50) {
         minimizeEditor(pageId, true);
       } else if (newEditorWidth > 0) {
-        minimizeEditor(pageId, false);
         resizeEditor(pageId, newEditorWidth);
       }
     }
-    const newExplorerWidth = _get(panelWidth, [2, 'size']);
+
+    const newSearchWidth = _get(panelWidth, [1, 'size']);
+    if (searchWidth !== newSearchWidth) {
+      if (newSearchWidth < 50) {
+        minimizeSearch(pageId, true);
+      } else if (newSearchWidth > 0) {
+        resizeSearch(pageId, newSearchWidth);
+      }
+    }
+
+    const newExplorerWidth = _get(panelWidth, [3, 'size']);
     if (explorerWidth !== newExplorerWidth) {
       if (newExplorerWidth < 50) {
         minimizeExplorer(pageId, true);
       } else if (newExplorerWidth > 0) {
-        minimizeExplorer(pageId, false);
         resizeExplorer(pageId, newExplorerWidth);
       }
     }
@@ -247,6 +244,78 @@ class Window extends PureComponent {
     }
   }, 250);
 
+  getPageContextMenu = () => {
+    const {
+      windowId,
+      addBlankPage,
+      askOpenPage,
+      openModal,
+      pageId,
+      askSavePage,
+      pause,
+      minimizeSearch,
+      searchIsMinimized,
+      pageViewsIdsForSearch,
+      loadInSearch,
+    } = this.props;
+    const menuItemNew = {
+      label: 'New...',
+      click() {
+        addBlankPage(windowId);
+      },
+    };
+    const menuItemOpen = {
+      label: 'Open...',
+      click() {
+        askOpenPage(windowId);
+      },
+    };
+    const menuItemEdit = {
+      label: 'Edit...',
+      click() {
+        if (windowId) {
+          openModal(
+            windowId,
+            {
+              type: 'editPage',
+              pageUuid: pageId,
+            }
+          );
+        }
+      },
+    };
+    const menuItemSave = {
+      label: 'Save',
+      click() {
+        askSavePage(pageId);
+      },
+    };
+    const menuItemSaveAs = {
+      label: 'Save As...',
+      click() {
+        askSavePage(pageId, true);
+      },
+    };
+    const SearchMenuItem = {
+      label: 'Toggle Search',
+      accelerator: 'CmdOrCtrl+F',
+      click() {
+        minimizeSearch(pageId, !searchIsMinimized);
+        loadInSearch(pageId, pageViewsIdsForSearch);
+        pause();
+      },
+    };
+    return [
+      SearchMenuItem,
+      { type: 'separator' },
+      menuItemNew,
+      menuItemOpen,
+      menuItemEdit,
+      menuItemSave,
+      menuItemSaveAs,
+    ];
+  };
+
   openExplorerTab = _memoize(tabId =>
     (e) => {
       const {
@@ -263,11 +332,12 @@ class Window extends PureComponent {
     }
   );
 
-  horizontalLayout = _memoize((editorWidth, explorerWidth) => [
+  horizontalLayout = _memoize((editorWidth, searchWidth, explorerWidth) => [
     { size: editorWidth, minSize: 0, resize: 'dynamic' },
+    { size: searchWidth, minSize: 0, resize: 'dynamic' },
     { resize: 'stretch' },
     { size: explorerWidth, minSize: 0, resize: 'dynamic' },
-  ], (editorWidth, explorerWidth) => `${editorWidth}:${explorerWidth}`);
+  ], (editorWidth, searchWidth, explorerWidth) => `${editorWidth}:${searchWidth}:${explorerWidth}`);
 
   verticalLayout = _memoize(timebarHeight => [
     { resize: 'stretch' },
@@ -282,6 +352,16 @@ class Window extends PureComponent {
       pageId,
     } = this.props;
     minimizeEditor(pageId, !editorIsMinimized);
+  }
+
+  willMinimizeSearch = (e) => {
+    e.preventDefault();
+    const {
+      minimizeSearch,
+      searchIsMinimized,
+      pageId,
+    } = this.props;
+    minimizeSearch(pageId, !searchIsMinimized);
   }
 
   willMinimizedExplorer = (e) => {
@@ -319,6 +399,10 @@ class Window extends PureComponent {
     e.preventDefault();
   }
 
+  /**
+   * @returns {*}
+   */
+  // eslint-disable-next-line complexity
   render() {
     const {
       pageId,
@@ -329,18 +413,25 @@ class Window extends PureComponent {
       containerHeight,
       editorWidth,
       editorIsMinimized,
+      searchWidth,
+      searchIsMinimized,
       timebarHeight,
       explorerWidth,
       explorerIsMinimized,
       timebarIsMinimized,
       modal,
     } = this.props;
-
     logger.debug('render');
+
+    const pageMenu = this.getPageContextMenu();
 
     let editorSize = editorIsMinimized ? 0 : editorWidth;
     if (!editorIsMinimized && editorSize < 50) {
       editorSize = defaultEditorWidth;
+    }
+    let searchSize = searchIsMinimized ? 0 : searchWidth;
+    if (!searchIsMinimized && searchSize < 50) {
+      searchSize = defaultSearchWidth;
     }
     let explorerSize = explorerIsMinimized ? 17 : explorerWidth;
     if (!explorerIsMinimized && explorerSize < 50) {
@@ -348,9 +439,12 @@ class Window extends PureComponent {
     }
     const height = containerHeight - tabsContainerStyle.height;
     const calcTimebarHeight = timebarIsMinimized ? minimizedTimebarHeigh : timebarHeight;
-    const centralWidth = containerWidth - editorSize - explorerSize - (resizeHandleSize * 2);
+    const centralWidth = containerWidth
+      - editorSize
+      - searchSize
+      - explorerSize
+      - (resizeHandleSize * 2);
     const viewsHeight = height - calcTimebarHeight - resizeHandleSize;
-
     // editor
     const editor = editorIsMinimized
       ? (
@@ -374,6 +468,29 @@ class Window extends PureComponent {
         </div>
       );
 
+    // search
+    const search = searchIsMinimized
+      ? (
+        <div
+          className={classnames(styles.searchContainerCollapsed)}
+        />
+      )
+      :
+      (
+        <div className={styles.searchContainer}>
+          <button
+            className={classnames('panel-search-button', styles.barButtonLeft)}
+            onClick={this.willMinimizeSearch}
+            title="Collapse search"
+          >
+            <Glyphicon
+              glyph="minus"
+            />
+          </button>
+          <SearchContainer pageId={pageId} />
+        </div>
+      );
+
     // views
     const views = centralWidth < 1
       ? <div />
@@ -391,13 +508,13 @@ class Window extends PureComponent {
     // timebar
     const timebar = timebarIsMinimized
       ?
-        (
-          <TimebarCollapsedContainer
-            pageId={pageId}
-            width={centralWidth}
-            height={calcTimebarHeight}
-          />
-        )
+      (
+        <TimebarCollapsedContainer
+          pageId={pageId}
+          width={centralWidth}
+          height={calcTimebarHeight}
+        />
+      )
       : (
         <div className="h100 w100">
           <button
@@ -501,35 +618,37 @@ class Window extends PureComponent {
           <TabsContainer className={styles.tabs} windowId={windowId} focusedPageId={pageId} />
         </div>
         { !pageId &&
-          <NoPageContainer
-            windowId={windowId}
-          />
+        <NoPageContainer
+          windowId={windowId}
+        />
         }
         { pageId &&
-          <div
-            className={classnames('h100', 'w100', 'posRelative', styles.panelsContainer)}
+        <div
+          className={classnames('h100', 'w100', 'posRelative', styles.panelsContainer)}
+          onContextMenu={() => handleContextMenu(pageMenu)}
+        >
+          <PanelGroup
+            direction="row"
+            spacing={resizeHandleSize}
+            borderColor={panelBorderColor}
+            panelWidths={this.horizontalLayout(editorSize, searchSize, explorerSize)}
+            onUpdate={this.onHorizontalUpdate}
           >
+            {editor}
+            {search}
             <PanelGroup
-              direction="row"
-              spacing={resizeHandleSize}
+              direction="column"
+              spacing={timebarIsMinimized ? 0 : 17}
               borderColor={panelBorderColor}
-              panelWidths={this.horizontalLayout(editorSize, explorerSize)}
-              onUpdate={this.onHorizontalUpdate}
+              panelWidths={this.verticalLayout(calcTimebarHeight)}
+              onUpdate={this.onVerticalUpdate}
             >
-              {editor}
-              <PanelGroup
-                direction="column"
-                spacing={timebarIsMinimized ? 0 : 17}
-                borderColor={panelBorderColor}
-                panelWidths={this.verticalLayout(calcTimebarHeight)}
-                onUpdate={this.onVerticalUpdate}
-              >
-                {views}
-                {timebar}
-              </PanelGroup>
-              {explorer}
+              {views}
+              {timebar}
             </PanelGroup>
-          </div>
+            {explorer}
+          </PanelGroup>
+        </div>
         }
       </div>
     );

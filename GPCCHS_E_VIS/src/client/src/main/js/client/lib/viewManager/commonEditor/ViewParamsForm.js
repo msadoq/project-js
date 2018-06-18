@@ -20,11 +20,13 @@
 // VERSION : 2.0.0 : FA : #8123 : 27/09/2017 : free attribute on ReactSelectFIeld disappears. Every
 //  session/domain form in vima is fixed and works (page, view).
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Field } from 'redux-form';
 import classnames from 'classnames';
 import {
   Form,
@@ -32,7 +34,6 @@ import {
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import InputField from 'windowProcess/commonReduxForm/InputField';
-import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import FormSectionFontStyle from './FormSections/FormSectionFontStyle';
 import { computeOptions } from '../../viewManager/commonEditor/Fields/common';
@@ -54,7 +55,6 @@ class ViewParamsForm extends React.Component {
         strikeOut: PropTypes.bool,
         align: PropTypes.string,
         color: PropTypes.string,
-        bgColor: PropTypes.string,
       }),
     }).isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -138,13 +138,6 @@ class ViewParamsForm extends React.Component {
           <h4>Content</h4>
         </div>
 
-        <HorizontalFormGroup label="Bg Color">
-          <Field
-            name="backgroundColor"
-            component={ColorPickerField}
-          />
-        </HorizontalFormGroup>
-
         <div className="page-header">
           <h4>Configuration</h4>
         </div>
@@ -173,21 +166,11 @@ class ViewParamsForm extends React.Component {
   }
 }
 
-
-const requiredFields = ['title'];
-const validate = (values = {}) => {
-  const errors = {};
-
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-  return errors;
-};
-
-export default reduxForm({
-  validate,
-  warn: () => ({}),
-  enableReinitialize: true,
-})(ViewParamsForm);
+export default ViewParamsForm;
+// const requiredFields = ['title'];
+//
+// export default reduxForm({
+//   validate: validateRequiredFields(requiredFields),
+//   warn: () => ({}),
+//   enableReinitialize: true,
+// })(ViewParamsForm);

@@ -40,28 +40,37 @@ import {
   getWindowFocusedPageId,
   getDisplayHelp,
 } from 'store/reducers/windows';
-import { getPanels } from 'store/reducers/pages';
+import { getPanels, getPageViewsIdsForSearch } from 'store/reducers/pages';
 import { getModal } from 'store/reducers/modals';
 import { setIsLoaded, displayHelp } from 'store/actions/windows';
-import { close as closeModal, modalClosed } from 'store/actions/modals';
+import { close as closeModal, modalClosed, open as openModal } from 'store/actions/modals';
+import { pause } from 'store/actions/hsc';
 import {
   resizeEditor,
+  resizeSearch,
   resizeTimebar,
   resizeExplorer,
   minimizeExplorer,
   minimizeEditor,
+  minimizeSearch,
   minimizeTimebar,
   focusTabInExplorer,
+  addBlankPage,
+  askOpenPage,
+  askSavePage,
+  loadInSearch,
 } from 'store/actions/pages';
-
 import WindowWrapper from './WindowWrapper';
 
 const mapStateToProps = (state, { windowId }) => {
   const pageId = getWindowFocusedPageId(state, { windowId });
   const { isModified } = getWindow(state, { windowId });
+  const pageViewsIdsForSearch = getPageViewsIdsForSearch(state, { pageId });
   const {
     editorWidth,
     editorIsMinimized,
+    searchWidth,
+    searchIsMinimized,
     timebarHeight,
     timebarIsMinimized,
     explorerWidth,
@@ -74,11 +83,14 @@ const mapStateToProps = (state, { windowId }) => {
     isHelpDisplayed: getDisplayHelp(state, { windowId }),
     editorWidth,
     editorIsMinimized,
+    searchWidth,
+    searchIsMinimized,
     timebarHeight,
     timebarIsMinimized,
     explorerWidth,
     explorerIsMinimized,
     modal: getModal(state, { windowId }),
+    pageViewsIdsForSearch,
   };
 };
 
@@ -86,12 +98,20 @@ export default connect(mapStateToProps, {
   setIsLoaded,
   displayHelp,
   resizeEditor,
+  resizeSearch,
   resizeTimebar,
   resizeExplorer,
   minimizeEditor,
+  minimizeSearch,
   minimizeExplorer,
   minimizeTimebar,
   closeModal,
   modalClosed,
   focusTabInExplorer,
+  addBlankPage,
+  askOpenPage,
+  openModal,
+  askSavePage,
+  pause,
+  loadInSearch,
 })(WindowWrapper);

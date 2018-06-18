@@ -17,10 +17,13 @@
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // VERSION : 2.0.0 : FA : ISIS-FT-2280 : 06/12/2017 : ergonomie plotView VIMA // afficher la grille
 //  (celle-ci ne s'affiche pas malgre un etat a ON)
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import { select } from 'd3-selection';
@@ -97,7 +100,7 @@ export default class XAxis extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    let shouldRender = false;
+    let shouldRender = nextProps.updateAxis;
     const attrs = ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
       'scale', 'autoTick', 'tickStep', 'format', 'gridStyle', 'gridSize', 'showGrid'];
     for (let i = 0; i < attrs.length; i += 1) {

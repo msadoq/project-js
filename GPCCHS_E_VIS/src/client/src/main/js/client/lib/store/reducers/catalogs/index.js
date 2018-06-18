@@ -11,7 +11,11 @@ import {
   WS_COM_OBJECTS_ASK,
   WS_COM_OBJECTS_ADD,
   WS_UNIT_ADD,
+  WS_UNIT_ADD_SIMPLE,
+  WS_ITEM_STRUCTURE_ADD,
 } from 'store/types';
+
+export const REQUESTING = 'requesting';
 
 // eslint-disable-next-line complexity
 export default function catalogsReducer(state = {}, action) {
@@ -19,7 +23,7 @@ export default function catalogsReducer(state = {}, action) {
     case WS_CATALOGS_ASK: {
       return _set(
         getTupleId(action.payload.domainId, action.payload.sessionId),
-        'requesting',
+        REQUESTING,
         state
       );
     }
@@ -45,10 +49,10 @@ export default function catalogsReducer(state = {}, action) {
       }
 
       return _set(
-              `[${tupleId}][${index}].items`,
-              'requesting',
-              state
-             );
+        `[${tupleId}][${index}].items`,
+        REQUESTING,
+        state
+      );
     }
     case WS_CATALOG_ITEMS_ADD: {
       if (!Array.isArray(state[action.payload.tupleId])) {
@@ -99,7 +103,7 @@ export default function catalogsReducer(state = {}, action) {
       const path = `[${tupleId}][${index}].items[${indexItem}].comObjects`;
       return _set(
         path,
-        'requesting',
+        REQUESTING,
         state
       );
     }
@@ -168,6 +172,32 @@ export default function catalogsReducer(state = {}, action) {
         state
       );
     }
+    case WS_UNIT_ADD_SIMPLE: {
+      const { tupleId, name, itemName, unit } = action.payload;
+      const path = `units[${tupleId}][${name}][${itemName}]`;
+      return _set(
+        path,
+        unit,
+        state
+      );
+    }
+    case WS_ITEM_STRUCTURE_ADD: {
+      const { tupleId, itemName, name, structure } = action.payload;
+
+      const catalogIndex = getCatalogIndexByName(state, { tupleId, name });
+      if (catalogIndex === -1) {
+        return state;
+      }
+
+      const itemIndex = getCatalogItemIndexByName(state, { tupleId, name, itemName });
+      if (itemIndex === -1) {
+        return state;
+      }
+
+      const path = getStructurePath(tupleId, catalogIndex, itemIndex);
+      return _set(path, structure, state);
+      // return state;
+    }
     default:
       return state;
   }
@@ -196,7 +226,6 @@ export const getTupleId = (domainId, sessionId) => `${domainId}-${sessionId}`;
 export const getPathToCatalogs = (state, tupleId) => _getOr(null, tupleId, state);
 export const getPathToCatalogItems = catalog => _getOr(undefined, 'items', catalog);
 export const getPathToCatalogItemComObjects = catalogItem => _getOr(undefined, 'comObjects', catalogItem);
-export const getPathToCatalogItemUnit = catalogItem => _getOr(undefined, 'unit', catalogItem);
 
 /**
  * @param state
@@ -267,13 +296,26 @@ export const getCatalogItemComObjects = createSelector(
   item => getPathToCatalogItemComObjects(item)
 );
 
-/**
- * @param state
- * @param tupleId
- * @param name
- * @param itemName
- */
+const getUnitsCatalog = state => state.catalogs.units;
+
 export const getUnitByItemName = createSelector(
-  getCatalogItemByName,
-  item => getPathToCatalogItemUnit(item)
+  getUnitsCatalog,
+  (state, { tupleId, name, itemName }) => ({ tupleId, name, itemName }),
+  (unitsCatalog, { tupleId, name, itemName }) =>
+    _getOr(undefined, [tupleId, name, itemName], unitsCatalog)
+);
+
+const getStructurePath = (tupleId, catalogIndex, itemIndex) =>
+  `[${tupleId}][${catalogIndex}].items[${itemIndex}].structure`;
+
+export const getComObjectStructure = createSelector(
+  (state, { tupleId }) => tupleId,
+  catalogsState => catalogsState,
+  getCatalogIndexByName,
+  getCatalogItemIndexByName,
+  (tupleId, catalogs, catalogIndex, itemIndex) => {
+    const path = getStructurePath(tupleId, catalogIndex, itemIndex);
+    const structure = _getOr({}, path, catalogs);
+    return structure;
+  }
 );

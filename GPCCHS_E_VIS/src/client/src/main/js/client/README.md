@@ -28,6 +28,13 @@ Launch webpack server (in a separate terminal):
 Launch client with hot reload:
 > npm run start-hot
 
+Enable dev tools:
+> in main.development.js, disable the following line:
+```app.commandLine.appendSwitch('no-proxy-server');```
+> npm run start-hot 
+=> will download the devtool extensions, which are visible in VIMA on ctrl+shift+i
+> restore main.development.js
+
 ## Package and run bundled project
 
 See PACKAGE.md.
@@ -181,6 +188,12 @@ GatewayPorts yes
 AllowTcpForwarding yes
  ```
 
+------------------------------------------------------------------
+# Isis Best pratices
+
+- If you have to dispatch multiple events at once, use an action creator
+- Always run tests before commit on impacted (depends of your modifications) files with ```npm test -- -o```
+
 
 --------------------------------------------
 # Troubleshoot
@@ -204,3 +217,19 @@ In case of error 'ImportError: No module named GPINUC_L_UCL.unitConverterLibrary
 
 ```
 ```
+
+------------------------------------------------------------------
+
+# Doxygen tags / Unit tests
+@see http://isis.cnes-isis.toulouse.atos.net/plugins/docman/?group_id=111&action=show&id=8533
+
+```javascript
+/** 
+ * @brief test description
+ * @ElementUnderTest /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/adapters/isis/userEvent/userEvent.spec.js
+**/ 
+```
+
+# Migrating view configuration file to a newer VIMA version
+@see
+`scripts/viewConfigurationFiles/README.md`

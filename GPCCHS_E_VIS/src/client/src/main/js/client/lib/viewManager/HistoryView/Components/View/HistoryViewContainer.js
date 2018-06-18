@@ -1,3 +1,4 @@
+/* eslint-disable quote-props,no-unused-vars,arrow-body-style */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
@@ -12,19 +13,82 @@
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'react';
-import { createStructuredSelector } from 'reselect';
+import _ from 'lodash/fp';
+
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import { getConfigurationByViewId } from 'viewManager';
 import { getData } from 'viewManager/HistoryView/store/dataReducer';
+import { addEntryPoint } from 'store/actions/views';
+import { toggleColumnSort, filterColumn, scrollRows } from 'store/actions/tableColumns';
 import HistoryView from './HistoryView';
 
-const mapStateToProps = createStructuredSelector({
-  data: getData,
+
+const mapStateToProps = (state, { viewId }) => {
+  const config = getConfigurationByViewId(state, { viewId });
+  const historyConfig = config.tables.history;
+
+  const { data, indexes } = getData(state, { viewId });
+
+  const usedIndexName = _.getOr('referenceTimestamp', ['sorting', 'colName'], historyConfig);
+  const sortingDirection = _.getOr('DESC', ['sorting', 'direction'], historyConfig);
+
+  const usedIndex = _.getOr([], [usedIndexName], indexes);
+  const filterIndex = _.getOr(null, ['keep'], indexes);
+
+  const totalRowCount = usedIndex.length;
+  let rowCount = totalRowCount;
+
+  if (Array.isArray(filterIndex)) {
+    rowCount = filterIndex.length;
+  }
+
+  const rows = ({ rowIndex, columnIndex, cols }) => {
+    const virtualRowIndex =
+      sortingDirection === 'DESC' ?
+        rowIndex :
+        rowCount - rowIndex - 1;
+
+    const virtualFilteredIndex = (filterIndex && filterIndex[virtualRowIndex]) || rowIndex;
+
+    const content =
+      _.get(usedIndex[virtualFilteredIndex] && usedIndex[virtualFilteredIndex].split(' '), data);
+
+    if (content) {
+      const colKey = cols[columnIndex].title;
+      const { color } = content;
+
+      return {
+        value: content[colKey],
+        color,
+      };
+    }
+
+    return { value: undefined };
+  };
+
+  const currentRowIndexes = [];
+
+  return {
+    config: historyConfig,
+    rows,
+    rowCount,
+    totalRowCount,
+    currentRowIndexes,
+  };
+};
+
+const mapDispatchToProps = (dispatch, { viewId }) => ({
+  addEntryPoint: (entryPoint) => {
+    dispatch(addEntryPoint(viewId, entryPoint));
+  },
 });
 
-const HistoryViewContainer = connect(mapStateToProps)(HistoryView);
+const HistoryViewContainer = connect(mapStateToProps, mapDispatchToProps)(HistoryView);
 
 HistoryViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
 };
+
 export default HistoryViewContainer;

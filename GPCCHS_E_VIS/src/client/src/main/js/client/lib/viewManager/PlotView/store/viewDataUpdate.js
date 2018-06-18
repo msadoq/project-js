@@ -35,6 +35,7 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-1937 : 31/01/2018 : Add unit convertion for plotview
 // VERSION : 2.0.0 : FA : ISIS-FT-2309 : 31/01/2018 : surveillance du monitoringState pour
 //  parametres TM VIMA
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 
@@ -238,7 +239,7 @@ export function selectDataPerView(currentViewMap, configuration, intervalMap, pa
         epSubState = { ...epSubState, ...newSubState };
       } else {
         const ep = currentViewMap.entryPoints[entryPoint.name];
-        if (!payload[ep.tbdId]) {
+        if (!ep || !payload[ep.tbdId]) {
           return;
         }
         const newSubState = selectEpData(

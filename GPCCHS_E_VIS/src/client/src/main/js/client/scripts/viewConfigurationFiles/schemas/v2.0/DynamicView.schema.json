@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "titleStyle": {
+      "type": "object",
+      "properties": {
+        "align": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bold": {
+          "type": "boolean"
+        },
+        "font": {
+          "type": "string",
+          "minLength": 1
+        },
+        "italic": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "number"
+        },
+        "strikeOut": {
+          "type": "boolean"
+        },
+        "underline": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "align",
+        "bold",
+        "font",
+        "italic",
+        "size",
+        "strikeOut",
+        "underline"
+      ]
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "required": [],
+        "properties": {}
+      }
+    },
+    "defaultRatio": {
+      "type": "object",
+      "properties": {
+        "length": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "length",
+        "width"
+      ]
+    },
+    "domainName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sessionName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entryPoint": {
+      "type": "object",
+      "properties": {
+        "connectedData": {
+          "type": "object",
+          "properties": {
+            "catalog": {
+              "type": "string",
+              "minLength": 1
+            },
+            "catalogItem": {
+              "type": "string",
+              "minLength": 1
+            },
+            "comObject": {
+              "type": "string",
+              "minLength": 1
+            },
+            "domain": {
+              "type": "string",
+              "minLength": 1
+            },
+            "filter": {
+              "type": "array",
+              "items": {
+                "required": [],
+                "properties": {}
+              }
+            },
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "provider": {
+              "type": "string",
+              "minLength": 1
+            },
+            "timeline": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "domain",
+            "formula",
+            "timeline"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stateColors": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "items": {
+            "required": [
+              "color"
+            ],
+            "properties": {
+              "color": {
+                "type": ["string", "integer"],
+                "minLength": 1
+              },
+              "condition": {
+                "type": "object",
+                "properties": {
+                  "field": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "operand": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "operator": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "field",
+                  "operand",
+                  "operator"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "connectedData"
+      ]
+    }
+  },
+  "required": [
+    "type",
+    "title"
+  ],
+  "additionalProperties": false
+}

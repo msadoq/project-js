@@ -33,7 +33,7 @@ const timebarFixture = {
   },
 };
 
-const play = () => ({ type: types.HSC_PLAY });
+const play = () => ({ type: types.HSC_PLAY, payload: { timebarUuid: null } });
 const pause = () => ({ type: types.HSC_PAUSE });
 // const openEditor = () => ({ type: types.WS_PAGE_PANELS_LOAD_IN_EDITOR });
 const focusPage = pageId => ({
@@ -58,7 +58,12 @@ jest.mock('../../../serverProcess/ipc', () => ({
 }));
 
 
-let state = { hsc: { focusWindow: 'w1' }, windows: { w1: { pages: ['p1'] } }, health: {}, pages: { p1: { panels: { editorIsMinimized: false } } } };
+let state = {
+  hsc: { focusWindow: 'w1' },
+  windows: { w1: { pages: ['p1'] } },
+  health: {},
+  pages: { p1: { panels: { editorIsMinimized: false } } },
+};
 
 describe('store:middlewares:player', () => {
   jest.useFakeTimers();
@@ -97,7 +102,7 @@ describe('store:middlewares:player', () => {
       store.dispatch(pause());
       expect(store.getActions()).toMatchSnapshot();
     });
-    test('play update cursors at regular intervals until pause', () => {
+    test('play non-real-time update cursors at regular intervals until pause', () => {
       const store = mockStore({
         health: {},
         hsc: { playingTimebarId: 'tb1' },
@@ -112,6 +117,24 @@ describe('store:middlewares:player', () => {
 
       jest.runAllTimers();
       expect(store.getActions()).toMatchSnapshot();
+    });
+    test('play real-time update cursors at regular intervals until pause', () => {
+      const store = mockStore({
+        health: {},
+        hsc: { playingTimebarId: 'tb1' },
+        timebars: { tb1: { ...timebarFixture, realTime: true } },
+        messages: {},
+      });
+
+      store.dispatch(play());
+      jest.runOnlyPendingTimers();
+      jest.runOnlyPendingTimers();
+      jest.runOnlyPendingTimers();
+      store.dispatch(pause());
+
+      jest.runAllTimers();
+
+      // what to test ? Hard to say...
     });
   });
 

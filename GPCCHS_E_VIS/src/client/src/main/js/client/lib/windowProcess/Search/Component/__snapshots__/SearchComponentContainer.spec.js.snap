@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchComponentContainer :: render snapshot 1`] = `
+<ReduxForm
+  closeSearch={[Function]}
+  pageId="page-id"
+  resetSearchInView={[Function]}
+  searchCount={0}
+  searchInView={[Function]}
+  searching=""
+  viewId="view-id"
+/>
+`;

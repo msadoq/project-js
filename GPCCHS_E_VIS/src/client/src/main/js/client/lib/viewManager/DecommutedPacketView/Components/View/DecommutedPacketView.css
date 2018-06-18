@@ -1,0 +1,99 @@
+.container {
+  height: 100%;
+  overflow: auto;
+}
+
+.headerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  text-wrap: avoid;
+}
+
+.obj {
+  margin: 0.5rem;
+  font-size: 2.0rem;
+  font-weight: bold;
+  letter-spacing: -.025em;
+  font-family: Arial, Helvetica, Helvetica Neue;
+}
+
+.header, .footer {
+  padding: 0.1em;
+  color: #999;
+  background-color: #eee;
+  clear: left;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.title {
+  margin-top: 6px;
+}
+
+.noWrap {
+  text-wrap: none;
+}
+
+.headerElement {
+  margin: 3px;
+}
+
+.renderErrorText {
+  margin: auto;
+  font-size: 3em;
+  color: #CCC;
+  text-align: center;
+  font-weight: 600;
+}
+
+.dt {
+  text-align: left;
+  margin: 0 0 4px 0;
+  float: left;
+  clear: left;
+  width: 100px;
+}
+
+.dd {
+  margin: 0 0 4px 200px;
+}
+
+.panel {
+  overflow: auto;
+}
+
+.details {
+  display: inline-flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  white-space: nowrap;
+}
+
+.listLeft {
+  list-style-type: none;;
+  text-align: right;
+  padding: 2px;
+}
+
+.listRight {
+  list-style-type: none;
+  padding: 2px;
+  white-space: nowrap;
+}
+
+.errorContent {
+  padding: 1em;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.renderErrorText {
+  margin: auto;
+  font-size: 3em;
+  color: #CCC;
+  text-align: center;
+  font-weight: 600;
+}

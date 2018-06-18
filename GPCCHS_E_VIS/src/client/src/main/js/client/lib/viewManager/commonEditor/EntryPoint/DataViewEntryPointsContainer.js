@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import DataViewEntryPoints from 'viewManager/commonEditor/EntryPoint/DataViewEntryPoints';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 
 const mapStateToProps = () => ({});
 
@@ -14,7 +14,7 @@ DataViewEntryPointsContainer.PropTypes = {
   viewId: string.isRequired,
   pageId: string.isRequired,
   search: string,
-  viewType: oneOf(['TextView', 'MimicView', 'HistoryView']).isRequired,
+  viewType: oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
 };
 
 

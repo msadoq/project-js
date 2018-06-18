@@ -16,10 +16,11 @@
 // VERSION : 1.1.2 : DM : #6816 : 13/09/2017 : Its possible to change the size of the mimic in the
 //  view ezeditor
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash/fp';
@@ -27,25 +28,32 @@ import _ from 'lodash/fp';
 import { askOpenLink } from 'store/actions/links';
 import { getConfigurationByViewId } from 'viewManager';
 import { getViewContent, getViewDimensions } from 'viewManager/MimicView/store/configurationSelectors';
-import { getPageIdByViewId, getPage } from 'store/reducers/pages';
+import { getPageIdByViewId, getPage, getSearchCount, getSearchingByPage, getSearchViewsIds } from 'store/reducers/pages';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
 import { getInspectorEpId } from 'store/reducers/inspector';
-import { getData } from 'viewManager/MimicView/store/dataReducer';
 import { getLinks, areLinksShown } from 'store/reducers/views';
 import { removeLink, updateShowLinks } from 'store/actions/views';
 import { getViewEntryPoints } from 'store/selectors/views';
 import MimicViewWrapper from './MimicViewWrapper';
+import { updateSearchCount } from '../../../../store/actions/pages';
+import { getDataFilteredByEP } from '../../store/dataReducer';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
   const dimensions = getViewDimensions(state, { viewId });
+  const searching = getSearchingByPage(state, { pageId });
+  const searchViewsIds = getSearchViewsIds(state, { pageId });
+  const searchCount = getSearchCount(state, { pageId });
+  const entryPoints = getViewEntryPoints(state, { viewId });
+  const data = getDataFilteredByEP(state, { viewId }, entryPoints);
+
   return {
     content: getViewContent(state, { viewId }),
     configuration: getConfigurationByViewId(state, { viewId }),
-    entryPoints: getViewEntryPoints(state, { viewId }),
-    data: getData(state, { viewId }),
+    entryPoints,
+    data,
     isInspectorOpened: isAnyInspectorOpened(state),
     inspectorEpId: getInspectorEpId(state),
     links: getLinks(state, { viewId }),
@@ -56,12 +64,16 @@ const mapStateToProps = (state, { viewId }) => {
     openLink: linkId => askOpenLink(viewId, linkId),
     width: dimensions.width,
     height: dimensions.height,
+    searching,
+    searchCount,
+    searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
+const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators({
   removeLink,
   updateShowLinks,
+  updateSearchCount: count => updateSearchCount(pageId, viewId, count),
   openLink: linkId => askOpenLink(viewId, linkId),
 }, dispatch);
 

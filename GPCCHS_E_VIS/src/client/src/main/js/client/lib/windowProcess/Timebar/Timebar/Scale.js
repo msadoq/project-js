@@ -10,7 +10,8 @@
 // ====================================================================
 
 import moment from 'moment';
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { levelsRules, getZoomLevel } from 'windowProcess/common/timeFormats';
 import styles from './Scale.css';

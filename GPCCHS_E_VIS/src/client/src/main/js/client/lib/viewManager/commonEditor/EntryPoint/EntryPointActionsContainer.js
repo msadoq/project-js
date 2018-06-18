@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { open as openModal } from 'store/actions/modals';
@@ -18,7 +18,7 @@ const { string, oneOf } = PropTypes;
 EntryPointActionsContainer.PropTypes = {
   viewId: string.isRequired,
   search: string,
-  viewType: oneOf(['TextView', 'MimicView', 'HistoryView']).isRequired,
+  viewType: oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
 };
 
 export default EntryPointActionsContainer;

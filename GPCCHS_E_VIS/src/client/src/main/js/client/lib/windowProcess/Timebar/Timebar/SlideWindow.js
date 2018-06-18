@@ -6,7 +6,8 @@
 // ====================================================================
 
 import classnames from 'classnames';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './SlideWindow.css';
 
 function SlideWindow(props) {

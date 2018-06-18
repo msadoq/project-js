@@ -7,7 +7,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { TwitterPicker } from 'react-color';
 import { Button } from 'react-bootstrap';
 import None from './icons/none';

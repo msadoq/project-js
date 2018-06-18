@@ -53,7 +53,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   scaleAnimation,
   translateAnimation,
@@ -429,7 +430,7 @@ export default class MimicView extends Component {
   svgEls = [];
   render() {
     return (
-      <svg width={`${this.props.width}px`} height={`${this.props.height}px`}>{this.content}</svg>
+      <svg width={`${this.props.width}px`} height={`${this.props.height}px`} style={{ paddingTop: 10 }}>{this.content}</svg>
     );
   }
 }

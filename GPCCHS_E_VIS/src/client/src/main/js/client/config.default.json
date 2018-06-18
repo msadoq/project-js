@@ -217,5 +217,6 @@
   "ZMQ_PASSERELLE_PUB": "ipc://convertUnitRequest.ipc",
   "ZMQ_PASSERELLE_SUB": "ipc://convertUnitResponse.ipc",
   "COLORS_CONFIGURATION": "config.colors.json",
-  "DATE_FORMAT_TAI": "YYYY-MM-DDTHH:mm:ss.SSS"
+  "DATE_FORMAT_TAI": "YYYY-MM-DDTHH:mm:ss.SSS",
+  "REAL_TIME_RESYNCHRO_EACH_X_TICKS": 10
 }

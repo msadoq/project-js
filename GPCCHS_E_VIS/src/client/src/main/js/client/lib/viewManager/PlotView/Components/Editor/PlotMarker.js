@@ -11,7 +11,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import {
@@ -23,6 +24,7 @@ import InputField from 'windowProcess/commonReduxForm/InputField';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import FormSectionFontStyle from 'viewManager/commonEditor/FormSections/FormSectionFontStyle';
 import FormSectionLineStyle from 'viewManager/commonEditor/FormSections/FormSectionLineStyle';
+import { validateRequiredFields } from '../../../common';
 
 const { Addon } = InputGroup;
 
@@ -155,16 +157,6 @@ class PlotMarker extends React.Component {
 }
 
 const requiredFields = ['label'];
-const validate = (values = {}) => {
-  const errors = {};
-
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-  return errors;
-};
 
 export default connect((state, { formName }) => {
   const kind = formValueSelector(formName)(state, 'kind');
@@ -178,7 +170,7 @@ export default connect((state, { formName }) => {
   };
 })(
   reduxForm({
-    validate,
+    validate: validateRequiredFields(requiredFields),
     warn: () => ({}),
     enableReinitialize: true,
   })(PlotMarker)

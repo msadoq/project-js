@@ -27,7 +27,7 @@
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -41,7 +41,7 @@ import { updateViewPanels, updateViewEntryPointsPanels, updateViewTab }
   from 'store/actions/ui';
 import { getViewTitle, getViewTitleStyle } from 'store/reducers/views';
 import {
-  removeEntryPoint,
+  askRemoveEntryPoint,
   updateEditorSearch,
 } from 'store/actions/views';
 import PlotEditor from './PlotEditor';
@@ -57,7 +57,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
   openModal,
-  removeEntryPoint,
+  askRemoveEntryPoint,
   updateViewPanels,
   updateViewTab,
   updateViewEntryPointsPanels,

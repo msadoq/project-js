@@ -41,6 +41,8 @@
 //  parametres TM VIMA
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix parseEntryPoint to take into account
 //  provider field and update dc stubs
+// VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Add management of StatsAggregation in VIMA +
+//  update stub
 // END-HISTORY
 // ====================================================================
 
@@ -68,7 +70,7 @@ const stubData = stubs.getStubData();
 //   return states[timestamp % states.length];
 // }
 function getMonitoringState() {
-  return predictibleRand.getBool(0.25) ? predictibleRand.getFrom([
+  return predictibleRand.getBool(0.80) ? predictibleRand.getFrom([
     'info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete', 'danger',
   ]) : undefined;
 }
@@ -188,9 +190,9 @@ const getComObject = (dataId, timestamp, options) => {
         dataId.provider === constants.PROVIDER_FLOW_HKTMR ? 0.5 : 1;
 
       const value = scale * predictibleRand.getSinValue(timestamp, options.epName);
-
-      // TODO: add offset depending on provider field
-      return stubData.getReportingParameterProtobuf({
+      const isisAggreg = stubData.getIsisAggregationProtobuf();
+      const parameter = stubData.getParameterProtobuf();
+      const reportingParam = stubData.getReportingParameterProtobuf({
         groundDate: timestamp + 20,
         onboardDate: timestamp,
         convertedValue: value,
@@ -198,6 +200,12 @@ const getComObject = (dataId, timestamp, options) => {
         extractedValue: value,
         monitoringState: getMonitoringState(timestamp),
       });
+      // TODO: add offset depending on provider field
+      return [
+        { p: isisAggreg, com: 'IsisAggregation' },
+        { p: parameter, com: 'Parameter' },
+        { p: reportingParam, com: 'ReportingParameter' },
+      ];
     }
 
     case 'DecommutedPacket': {
@@ -212,14 +220,59 @@ const getComObject = (dataId, timestamp, options) => {
             convertedValue: 2,
           }),
           stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS1',
+            extractedValue: Buffer.alloc(10, 12),
+            rawValue: 2,
+            convertedValue: 2,
+          }),
+          stubData.getDecommutedValue({
             name: 'GENE_AM_CCSDSVERS2',
             extractedValue: Buffer.alloc(10, 1),
             rawValue: 0,
             convertedValue: 0,
           }),
+          stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS2',
+            extractedValue: Buffer.alloc(10, 1),
+            rawValue: 0,
+            convertedValue: 0,
+          }),
+          stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS3',
+            extractedValue: Buffer.alloc(10, 4),
+            rawValue: 12,
+            convertedValue: 12.1,
+          }),
+          stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS4',
+            rawValue: 0,
+            convertedValue: 0,
+          }),
+          stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS4',
+            rawValue: 1,
+            convertedValue: 30,
+          }),
+          stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS5',
+            rawValue: 20,
+            convertedValue: 0,
+          }),
+          stubData.getDecommutedValue({
+            name: 'GENE_AM_CCSDSVERS5',
+            rawValue: 13,
+            convertedValue: '31',
+          }),
         ],
       });
     }
+
+    case 'StatExecution':
+      return [
+        { p: stubData.getExecutionProtobuf(), com: 'Execution' },
+        { p: stubData.getStatValueProtobuf(), com: 'StatValue' },
+        { p: stubData.getStatAggregationProtobuf({ statDate: timestamp }), com: 'StatAggregation' },
+      ];
 
     case 'Pus003Model':
       return stubData.getPus003ModelProtobuf({
@@ -235,7 +288,54 @@ const getComObject = (dataId, timestamp, options) => {
       return stubData.getPus012ModelProtobuf({
         groundDate: timestamp,
       });
-
+    case 'OperationParameter':
+      return stubData.getOperationParameterProtobuf();
+    case 'ComputedEvent':
+      return stubData.getComputedEventProtobuf();
+    case 'COP1Context':
+      return stubData.getCOP1ContextProtobuf();
+    case 'ClcwPacket':
+      return stubData.getClcwPacketProtobuf();
+    case 'IsisAggregation':
+      return stubData.getIsisAggregationProtobuf();
+    case 'RmPacket':
+      return stubData.getRmPacketProtobuf();
+    case 'TmPacket':
+      return stubData.getTmPacketProtobuf();
+    case 'GroundMonitoringAlarm':
+      return stubData.getGroundMonitoringAlarmProtobuf();
+    case 'LogbookEvent':
+      return stubData.getLogbookEventProtobuf();
+    case 'ExternalEvent':
+      return stubData.getExternalEventProtobuf();
+    case 'UserEvent':
+      return stubData.getUserEventProtobuf();
+    case 'Pus011Command':
+      return stubData.getPus011CommandProtobuf();
+    case 'Pus011Model':
+      return stubData.getPus011ModelProtobuf();
+    case 'Pus011SubSchedule':
+      return stubData.getPus011SubScheduleProtobuf();
+    case 'Pus011SyncPoint':
+      return stubData.getPus011SyncPointProtobuf();
+    case 'Pus013Model':
+      return stubData.getPus013ModelProtobuf();
+    case 'Pus014Model':
+      return stubData.getPus014ModelProtobuf();
+    case 'Pus015Model':
+      return stubData.getPus015ModelProtobuf();
+    case 'Pus018Model':
+      return stubData.getPus018ModelProtobuf();
+    case 'Pus019Model':
+      return stubData.getPus019ModelProtobuf();
+    case 'Pus140Model':
+      return stubData.getPus140ModelProtobuf();
+    case 'Pus142Model':
+      return stubData.getPus142ModelProtobuf();
+    case 'Pus144Model':
+      return stubData.getPus144ModelProtobuf();
+    case 'StatValue':
+      return stubData.getStatisticValueProtobuf();
     default: {
       return undefined;
     }
@@ -263,12 +363,22 @@ module.exports = function getPayload(timestamp, dataId, versionDCCom, options = 
 
   // Decorate payload with ADEGenericPayload in case of proto ADE
   if (versionDCCom === constants.DC_COM_V2) {
-    payload = stubData.getADEPayloadProtobuf({
-      payload,
-      providerId: 0,
-      comObjectType: dataId.comObject,
-      instanceOid: 0,
-    });
+    if (Array.isArray(payload)) {
+      payload = stubData.getADEPayloadProtobuf(payload.map(payloadPart => ({
+        payload: payloadPart.p,
+        providerId: 0,
+        comObjectType: payloadPart.com,
+        instanceOid: 0,
+      })
+      ));
+    } else {
+      payload = stubData.getADEPayloadProtobuf({
+        payload,
+        providerId: 0,
+        comObjectType: dataId.comObject,
+        instanceOid: 0,
+      });
+    }
   }
 
   return {

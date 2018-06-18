@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5822 : 21/03/2017 : add context menu on links in inspector
@@ -6,7 +7,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Treebeard } from 'react-treebeard';
 import theme from './TreeTheme';
 import createTreeDecorators from './TreeDecorators';
@@ -21,7 +23,25 @@ export default class Tree extends PureComponent {
 
   static defaultProps = {
     data: null,
-    onMouseDown: () => {},
+    onMouseDown: () => {
+    },
+    onToggle: () => {
+    },
+  };
+
+  state = {};
+
+  onToggle = (node, toggled) => {
+    // eslint-disable-next-line no-param-reassign
+    node.active = true;
+    if (node.children) {
+      node.toggled = toggled;
+    }
+    if (this.state.cursor) {
+      this.setState({ cursor: { active: false } });
+    } else {
+      this.setState({ cursor: node });
+    }
   }
 
   decorators = createTreeDecorators(this.props.onMouseDown);
@@ -36,6 +56,7 @@ export default class Tree extends PureComponent {
         style={theme}
         animations={false}
         decorators={this.decorators}
+        onToggle={this.onToggle}
       />
     );
   }

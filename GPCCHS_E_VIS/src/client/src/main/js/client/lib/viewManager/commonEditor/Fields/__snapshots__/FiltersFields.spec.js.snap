@@ -1,11 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component:FiltersFields FiltersFields renders correctly 1`] = `
+exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: Fields viewManager :: commonEditor :: Fields :: FiltersFields snapshot 1`] = `
 <div
   className="filterFields"
 >
-  <table
-    className="table table-striped table-condensed"
+  <Table
+    bordered={false}
+    bsClass="table"
+    condensed={true}
+    hover={false}
+    responsive={false}
+    striped={true}
     style={
       Object {
         "fontSize": "12px",
@@ -49,8 +54,9 @@ exports[`component:FiltersFields FiltersFields renders correctly 1`] = `
         <td
           className="col-xs-1"
         >
-          <span
-            className="glyphicon glyphicon-trash"
+          <Glyphicon
+            bsClass="glyphicon"
+            glyph="trash"
             onClick={[Function]}
             style={
               Object {
@@ -63,8 +69,9 @@ exports[`component:FiltersFields FiltersFields renders correctly 1`] = `
         <td
           className="col-xs-1"
         >
-          <span
-            className="glyphicon glyphicon-pencil"
+          <Glyphicon
+            bsClass="glyphicon"
+            glyph="pencil"
             onClick={[Function]}
             style={
               Object {
@@ -77,126 +84,92 @@ exports[`component:FiltersFields FiltersFields renders correctly 1`] = `
         </td>
       </tr>
     </tbody>
-  </table>
-  <div
-    className="form-group"
+  </Table>
+  <HorizontalFormGroup
+    className=""
+    label="field"
   >
-    <label
-      className="col-xs-4 control-label"
-      htmlFor="formHorizontalName"
-    >
-      field
-    </label>
-    <div
-      className="col-xs-8"
-    >
-      <input
-        className="form-control"
-        onChange={[Function]}
-      />
-    </div>
-  </div>
-  <div
-    className="form-group"
+    <Connect(ComObjectFilterField)
+      formName="form"
+      onChange={[Function]}
+      value=""
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    className=""
+    label="operator"
   >
-    <label
-      className="col-xs-4 control-label"
-      htmlFor="formHorizontalName"
+    <select
+      className="form-control"
     >
-      operator
-    </label>
-    <div
-      className="col-xs-8"
-    >
-      <select
-        className="form-control"
+      <option
+        value="="
       >
-        <option
-          value="="
-        >
-          =
-        </option>
-        <option
-          value="!="
-        >
-          !=
-        </option>
-        <option
-          value="<"
-        >
-          &lt;
-        </option>
-        <option
-          value="<="
-        >
-          &lt;=
-        </option>
-        <option
-          value=">"
-        >
-          &gt;
-        </option>
-        <option
-          value=">="
-        >
-          &gt;=
-        </option>
-        <option
-          value="CONTAINS"
-        >
-          CONTAINS
-        </option>
-        <option
-          value="ICONTAINS"
-        >
-          ICONTAINS
-        </option>
-      </select>
-    </div>
-  </div>
-  <div
-    className="form-group"
+        =
+      </option>
+      <option
+        value="!="
+      >
+        !=
+      </option>
+      <option
+        value="<"
+      >
+        &lt;
+      </option>
+      <option
+        value="<="
+      >
+        &lt;=
+      </option>
+      <option
+        value=">"
+      >
+        &gt;
+      </option>
+      <option
+        value=">="
+      >
+        &gt;=
+      </option>
+      <option
+        value="CONTAINS"
+      >
+        CONTAINS
+      </option>
+      <option
+        value="ICONTAINS"
+      >
+        ICONTAINS
+      </option>
+    </select>
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    className=""
+    label="operand"
   >
-    <label
-      className="col-xs-4 control-label"
-      htmlFor="formHorizontalName"
-    >
-      operand
-    </label>
-    <div
-      className="col-xs-8"
-    >
-      <input
-        className="form-control"
-        onChange={[Function]}
-      />
-    </div>
-  </div>
-  <div
-    className="form-group"
+    <input
+      className="form-control"
+      onChange={[Function]}
+      placeholder={null}
+    />
+  </HorizontalFormGroup>
+  <HorizontalFormGroup
+    className=""
+    label=""
   >
-    <label
-      className="col-xs-4 control-label"
-      htmlFor="formHorizontalName"
-    >
-      
-    </label>
-    <div
-      className="col-xs-8"
-    >
-      <input
-        className="btn btn-success"
-        disabled={true}
-        onClick={[Function]}
-        style={
-          Object {
-            "width": "90px",
-          }
+    <input
+      className="btn btn-success"
+      disabled={true}
+      onClick={[Function]}
+      style={
+        Object {
+          "width": "90px",
         }
-        type="submit"
-        value="Add filter"
-      />
-    </div>
-  </div>
+      }
+      type="submit"
+      value="Add filter"
+    />
+  </HorizontalFormGroup>
 </div>
 `;

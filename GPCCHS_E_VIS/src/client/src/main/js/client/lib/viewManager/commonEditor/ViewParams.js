@@ -7,10 +7,13 @@
 //  from GUI for view, page, window and workspace
 // VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add possibility to modify domainName and sessionName
 //  from GUI for view, page, window and workspace
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { reduxForm } from 'redux-form';
 import ViewParamsForm from './ViewParamsForm';
 
 export default class ViewParams extends React.Component {
@@ -18,7 +21,6 @@ export default class ViewParams extends React.Component {
     viewId: PropTypes.string.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
-    updateBgColor: PropTypes.func.isRequired,
     updateDomainName: PropTypes.func.isRequired,
     updateSessionName: PropTypes.func.isRequired,
     backgroundColor: PropTypes.string,
@@ -45,7 +47,7 @@ export default class ViewParams extends React.Component {
     sessions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     domainName: PropTypes.string,
     sessionName: PropTypes.string,
-  }
+  };
 
   static defaultProps = {
     title: '',
@@ -62,18 +64,39 @@ export default class ViewParams extends React.Component {
     backgroundColor: '#000000',
     domainName: '*',
     sessionName: '*',
+<<<<<<< HEAD
+=======
+  };
+
+  static getNewForm() {
+    return reduxForm({
+      validate,
+    })(ViewParamsForm);
+  }
+
+  /**
+   * empty form in the state
+   * this form will be fill in componentWillReceiveProps with initial values
+   * TODO jmira check with Yann and Jean (redundance)
+   * common code here, less severe
+   */
+  state = {
+    FormForView: ViewParams.getNewForm(),
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.viewId !== this.props.viewId) {
+      this.setState({ FormForView: ViewParams.getNewForm() });
+    }
+>>>>>>> R12-dev
   }
 
   handleSubmit = (values) => {
     const {
-      updateTitle, updateTitleStyle,
-      updateBgColor, viewId,
+      updateTitle, updateTitleStyle, viewId,
       updateDomainName, updateSessionName,
     } = this.props;
 
-    if (this.props.backgroundColor !== values.backgroundColor) {
-      updateBgColor(viewId, values.backgroundColor);
-    }
     if (this.props.title !== values.title) {
       updateTitle(viewId, values.title);
     }
@@ -86,7 +109,7 @@ export default class ViewParams extends React.Component {
     if (this.props.sessionName !== values.sessionName) {
       updateSessionName(viewId, values.sessionName);
     }
-  }
+  };
 
   render() {
     const {
@@ -110,8 +133,13 @@ export default class ViewParams extends React.Component {
       domainName,
       sessionName,
     };
+
+    /**
+     * get form from the state
+     */
+    const { FormForView } = this.state;
     return (
-      <ViewParamsForm
+      <FormForView
         initialValues={initVals}
         onSubmit={this.handleSubmit}
         form={`view-title-form-${viewId}`}
@@ -121,3 +149,15 @@ export default class ViewParams extends React.Component {
     );
   }
 }
+
+const requiredFields = ['title'];
+const validate = (values = {}) => {
+  const errors = {};
+
+  requiredFields.forEach((field) => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
+  return errors;
+};

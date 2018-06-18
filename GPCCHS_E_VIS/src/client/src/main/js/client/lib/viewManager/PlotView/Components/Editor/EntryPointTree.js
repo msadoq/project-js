@@ -22,7 +22,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
   Glyphicon,
   Alert,
@@ -30,6 +31,8 @@ import {
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import Collapse from 'rc-collapse';
+import { entryPointType } from 'viewManager/common/Components/types';
+import { handleSubmit } from 'viewManager/common';
 import styles from './EntryPointTree.css';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 /*
@@ -41,11 +44,15 @@ const emptyArray = [];
 
 export default class EntryPointTree extends PureComponent {
   static propTypes = {
-    entryPoints: PropTypes.arrayOf(PropTypes.object),
+    entryPoints: PropTypes.arrayOf(entryPointType),
     search: PropTypes.string,
     viewId: PropTypes.string.isRequired,
-    remove: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
+    // from container mapDispatchToProps
+    askRemoveEntryPoint: PropTypes.func.isRequired,
+    updateEntryPoint: PropTypes.func.isRequired,
     updateViewPanels: PropTypes.func.isRequired,
+    // from container mapStateToProps
     entryPointsPanels: PropTypes.shape({}).isRequired,
   }
 
@@ -55,7 +62,7 @@ export default class EntryPointTree extends PureComponent {
   };
 
   static contextTypes = {
-    windowId: React.PropTypes.string,
+    windowId: PropTypes.string,
   }
 
   onChange = (openPanels) => {
@@ -63,16 +70,27 @@ export default class EntryPointTree extends PureComponent {
     updateViewPanels(viewId, 'entryPoints', openPanels);
   }
 
+  getEntryPointByKey(key) {
+    const entryPoints = this.props.entryPoints;
+    return entryPoints.find(ep => ep.id === key);
+  }
+
   handleRemove = (e, key) => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.remove(key);
+    this.props.askRemoveEntryPoint(this.props.viewId, this.getEntryPointByKey(key));
   }
+
+
+  handleSubmit = (submittedValues) => {
+    const { updateEntryPoint, viewId } = this.props;
+    handleSubmit(submittedValues, updateEntryPoint, viewId);
+  };
 
   render() {
     const { windowId } = this.context;
     const mask = `${this.props.search}.*`;
-    const { entryPoints, entryPointsPanels, viewId } = this.props;
+    const { entryPoints, entryPointsPanels, viewId, pageId } = this.props;
     const list = entryPoints
       .filter(entryPoint => entryPoint.name.toLowerCase().match(mask.toLowerCase()));
 
@@ -123,10 +141,14 @@ export default class EntryPointTree extends PureComponent {
               }
             >
               {isOpen && <EntryPointDetailsContainer
-                key={`${entryPoint.id}#details`}
+                key={`${entryPoint.id}#detailsContainer`}
                 windowId={windowId}
                 viewId={viewId}
+                pageId={pageId}
                 entryPoint={entryPoint}
+                onSubmit={this.handleSubmit}
+                initialValues={entryPoint}
+                form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
               />}
             </Panel>
           );

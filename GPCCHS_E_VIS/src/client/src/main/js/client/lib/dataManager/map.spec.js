@@ -32,6 +32,7 @@
 // VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : creatin of selectors on datamap
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
 //  viewData_clean
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix tests + clean code
 // END-HISTORY
 // ====================================================================
 
@@ -57,9 +58,17 @@ describe('data:map', () => {
     map(newState);
     // Only intervals have to be recomputed
     expect(map.recomputations()).toEqual(2);
-    expect(getPerRangeTbdIdMap.recomputations()).toEqual(1);
-    expect(getPerLastTbdIdMap.recomputations()).toEqual(1);
-    expect(getPerViewMap.recomputations()).toEqual(1);
+    expect(getPerRangeTbdIdMap.recomputations()).toEqual(2);
+    expect(getPerLastTbdIdMap.recomputations()).toEqual(2);
+    expect(getPerViewMap.recomputations()).toEqual(2);
+
+    const anotherState = u({ messages: { global: ['Hello you!'] } }, newState);
+    map(anotherState);
+    // nothing changed from the selectors' perspective
+    expect(map.recomputations()).toEqual(2);
+    expect(getPerRangeTbdIdMap.recomputations()).toEqual(2);
+    expect(getPerLastTbdIdMap.recomputations()).toEqual(2);
+    expect(getPerViewMap.recomputations()).toEqual(2);
   });
   test('should compute dataMap', () => {
     const r = map(state);

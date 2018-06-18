@@ -175,17 +175,22 @@ export default function pageReducer(statePage = initialState, action) {
         isModified: true,
       };
     case types.WS_PAGE_PANELS_LOAD_IN_EDITOR:
+    case types.WS_PAGE_PANELS_LOAD_IN_SEARCH:
     case types.WS_PAGE_PANELS_RESIZE_EDITOR:
     case types.WS_PAGE_PANELS_RESIZE_TIMEBAR:
     case types.WS_PAGE_PANELS_MINIMIZE_TIMEBAR:
     case types.WS_PAGE_PANELS_FOCUS_IN_EXPLORER:
     case types.WS_PAGE_PANELS_RESIZE_EXPLORER:
+    case types.WS_PAGE_PANELS_RESIZE_SEARCH:
     case types.WS_PAGE_PANELS_MINIMIZE_EDITOR:
+    case types.WS_PAGE_PANELS_MINIMIZE_SEARCH:
     case types.WS_PAGE_PANELS_MINIMIZE_EXPLORER:
+    case types.WS_PAGE_PANELS_UPDATE_SEARCH_COUNT: {
       return {
         ...statePage,
         panels: panels(statePage.panels, action),
       };
+    }
     case types.WS_VIEW_SETCOLLAPSED:
       return _.set(['layout', _.findIndex(i => i.i === action.payload.viewId, statePage.layout), 'collapsed'],
         action.payload.flag,
@@ -208,14 +213,32 @@ export default function pageReducer(statePage = initialState, action) {
       return { ...statePage, isModified: true };
     case types.WS_PAGE_UPDATE_DOMAINNAME:
       if (action.payload.domainName) {
-        return { ...statePage, domainName: action.payload.domainName, isModified: true };
+        return {
+          ...statePage,
+          domainName: action.payload.domainName,
+          isModified: true,
+        };
       }
-      return Object.assign({}, _.omit('domainName', statePage), { isModified: true });
+      return {
+        ..._.omit('domainName', statePage),
+        isModified: true,
+      };
     case types.WS_PAGE_UPDATE_SESSIONNAME:
       if (action.payload.sessionName) {
-        return { ...statePage, sessionName: action.payload.sessionName, isModified: true };
+        return {
+          ...statePage,
+          sessionName: action.payload.sessionName,
+          isModified: true,
+        };
       }
-      return Object.assign({}, _.omit('sessionName', statePage), { isModified: true });
+      return {
+        ..._.omit('sessionName', statePage),
+        isModified: true,
+      };
+    case types.WS_PAGE_SEARCH:
+      return { ...statePage, searching: action.payload.searchTerm };
+    case types.WS_PAGE_RESET_SEARCH:
+      return _.omit('searching', statePage);
     default:
       return statePage;
   }

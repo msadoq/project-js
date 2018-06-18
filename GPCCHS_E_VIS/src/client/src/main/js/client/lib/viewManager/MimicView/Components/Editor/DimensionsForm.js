@@ -6,7 +6,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import classnames from 'classnames';
 import {
@@ -16,6 +17,7 @@ import {
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import { validateRequiredFields } from '../../../common';
 
 const { Addon } = InputGroup;
 
@@ -92,19 +94,9 @@ class DimensionsForm extends React.Component {
 
 
 const requiredFields = ['title'];
-const validate = (values = {}) => {
-  const errors = {};
-
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
-    }
-  });
-  return errors;
-};
 
 export default reduxForm({
-  validate,
+  validate: validateRequiredFields(requiredFields),
   warn: () => ({}),
   enableReinitialize: true,
 })(DimensionsForm);

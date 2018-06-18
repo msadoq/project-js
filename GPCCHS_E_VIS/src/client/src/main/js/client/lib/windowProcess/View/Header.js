@@ -46,14 +46,16 @@
 // VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
 // VERSION : 2.0.0 : FA : #10835 : 01/03/2018 : if EntryPoint's domain is '*', uses the page
 //  domain, or workspace domain.
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Button, Glyphicon } from 'react-bootstrap';
 import styles from './Header.css';
-import { getBackgroundColorByDomains } from '../common/colors';
+import { getColorWithDomainDetermination } from '../common/colors';
 
 export default class Header extends PureComponent {
   static propTypes = {
@@ -77,6 +79,7 @@ export default class Header extends PureComponent {
     domains: PropTypes.arrayOf(PropTypes.string).isRequired,
     pageDomain: PropTypes.string.isRequired,
     workspaceDomain: PropTypes.string.isRequired,
+    isSearchOpenForView: PropTypes.bool.isRequired,
     viewDomain: PropTypes.string.isRequired,
   };
 
@@ -98,13 +101,14 @@ export default class Header extends PureComponent {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
-      background: titleStyle.bgColor ? titleStyle.bgColor :
-        getBackgroundColorByDomains(
-          workspaceDomain,
-          pageDomain,
-          viewDomain,
-          domains
-        ),
+
+      background: getColorWithDomainDetermination(
+        workspaceDomain,
+        [pageDomain],
+        [viewDomain],
+        domains,
+        'view'
+      ),
       color: titleStyle.color ? titleStyle.color : null,
       fontWeight: isViewsEditorOpen ? 'bold' : 'normal',
       fontStyle: 'normal',
@@ -141,6 +145,7 @@ export default class Header extends PureComponent {
       collapsed,
       isModified,
       onContextMenu,
+      isSearchOpenForView,
     } = this.props;
 
     const title = `${this.props.title} ${isModified ? ' *' : ''}`;
@@ -150,14 +155,17 @@ export default class Header extends PureComponent {
 
     return (
       <div
-        className={classnames(styles.container, {
-          [styles.containerActive]: isViewsEditorOpen,
-        })}
+        className={classnames(styles.container)}
       >
         <div
           style={titleStyle}
           className={`moveHandler ellipsis ${styles.title}`}
         >
+          {isSearchOpenForView &&
+          <span className={styles.searchOpen}>
+            <Glyphicon glyph="search" />
+          </span>
+          }
           {title}{isViewsEditorOpen ? ' (in edition)' : ''}
         </div>
         <div className={styles.dropDownButtonContainer} >

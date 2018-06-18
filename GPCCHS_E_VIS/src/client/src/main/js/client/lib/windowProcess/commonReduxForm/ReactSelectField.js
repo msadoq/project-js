@@ -14,7 +14,8 @@
 // ====================================================================
 
 /* eslint import/no-webpack-loader-syntax:0 */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { Alert } from 'react-bootstrap';
 import classnames from 'classnames';
@@ -121,11 +122,10 @@ export default class ReactSelectField extends React.Component {
           onBlur={this.onBlur}
           options={options}
           onChange={this.onChange}
-          onInputChange={this.onInputChange}
           className={className}
           placeholder={placeholder}
           clearable={clearable}
-          autofocus
+          autoFocus
         />
         {touched && error && <Alert bsStyle="danger" className="m0">
           {error}

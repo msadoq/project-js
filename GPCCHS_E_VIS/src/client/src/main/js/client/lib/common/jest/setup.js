@@ -22,8 +22,10 @@ import { set } from 'lodash';
 import _, { difference, intersection } from 'lodash/fp';
 import { v4 } from 'uuid';
 import { resolve } from 'path';
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15.4';
+
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
 
 import * as serializers from './serializers';
 
@@ -83,11 +85,10 @@ global.testConfig = {
     { 'fr.cnes.isis.simupus': '#339933' },
     { 'fr.cnes.isis': '#0066ff' },
     { multi: '#ff3300' },
+    { unresolved: '#CCCCCC' },
   ],
   DATE_FORMAT_TAI: 'YYYY-MM-DDTHH:mm:ss.SSS',
 };
-
-Enzyme.configure({ adapter: new Adapter() });
 
 set(global, 'parameters.get', path => _.get(path, global.testConfig));
 
@@ -158,3 +159,6 @@ expect.extend({
   ...extendedAssertions,
   ...aliases,
 });
+
+configure({ adapter: new Adapter() });
+

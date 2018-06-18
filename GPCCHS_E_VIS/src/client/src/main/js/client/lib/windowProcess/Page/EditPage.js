@@ -12,11 +12,13 @@
 //  EditPage.
 // VERSION : 2.0.0 : FA : #8123 : 27/09/2017 : free attribute on ReactSelectFIeld disappears. Every
 //  session/domain form in vima is fixed and works (page, view).
+// VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
 // END-HISTORY
 // ====================================================================
 
 // import moment from 'moment';
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import classnames from 'classnames';

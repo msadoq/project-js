@@ -38,6 +38,10 @@ export default {
         test: /\.less$/,
         loader: 'style!css!less',
       },
+      {
+        test: /\.scss$/,
+        loader: 'webpack-sass',
+      },
     ],
   },
   output: {
@@ -46,7 +50,7 @@ export default {
     libraryTarget: 'commonjs2',
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json', '.less', '.css'],
+    extensions: ['', '.js', '.jsx', '.json', '.less', '.css', '.scss'],
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment\/locale$/, new RegExp('fr.js')),

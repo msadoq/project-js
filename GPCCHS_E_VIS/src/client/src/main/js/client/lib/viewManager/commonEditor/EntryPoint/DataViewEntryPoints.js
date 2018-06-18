@@ -1,8 +1,10 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import EntryPointActionsContainer from 'viewManager/commonEditor/EntryPoint/EntryPointActionsContainer';
 import EntryPointTreeContainer from 'viewManager/common/Components/Editor/EntryPointTreeContainer';
+import EntryPointConnectedDataFieldsContainer
+  from 'viewManager/common/Components/Editor/EntryPointConnectedDataFieldsContainer';
 
-const { string, oneOf, shape, arrayOf } = PropTypes;
 
 /**
  * Corresponding views:
@@ -11,17 +13,19 @@ const { string, oneOf, shape, arrayOf } = PropTypes;
  */
 export default class DataViewEntryPoints extends PureComponent {
   static propTypes = {
-    viewId: string.isRequired,
-    pageId: string.isRequired,
-    search: string,
-    viewType: oneOf(['TextView', 'MimicView', 'HistoryView']).isRequired,
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    viewType: PropTypes.oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
     // from container
-    entryPoints: arrayOf(shape()),
+    entryPoints: PropTypes.arrayOf(PropTypes.shape()),
+    entryPointConnectedDataForm: PropTypes.func,
   };
 
   static defaultProps = {
     search: null,
     entryPoints: [],
+    entryPointConnectedDataForm: EntryPointConnectedDataFieldsContainer,
   };
 
   render() {
@@ -31,12 +35,13 @@ export default class DataViewEntryPoints extends PureComponent {
       pageId,
       search,
       viewType,
+      entryPointConnectedDataForm,
     } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <EntryPointActionsContainer
           viewId={viewId}
-          search={search}
+          search={search || undefined} // will use EntryPointActions' default value if null
           viewType={viewType}
         />
         <EntryPointTreeContainer
@@ -44,8 +49,9 @@ export default class DataViewEntryPoints extends PureComponent {
           pageId={pageId}
           entryPoints={entryPoints}
           search={search}
+          entryPointConnectedDataForm={entryPointConnectedDataForm}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

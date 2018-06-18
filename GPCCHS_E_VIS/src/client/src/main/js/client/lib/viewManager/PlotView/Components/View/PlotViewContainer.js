@@ -36,25 +36,29 @@
 //  store
 // VERSION : 2.0.0 : FA : ISIS-FT-2281 : 24/11/2017 : zoom plotView VIMA trigger pause on zoom
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
 // END-HISTORY
 // ====================================================================
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
-import { addEntryPoint, removeEntryPoint, saveLiveExtents,
+import { addEntryPoint, askRemoveEntryPoint, saveLiveExtents,
   removeLink, updateShowLinks, toggleLegend } from 'store/actions/views';
 import { pause } from 'store/actions/hsc';
 import { getViewEntryPoints } from 'store/selectors/views';
 import { getData } from 'viewManager/PlotView/store/dataReducer';
 import { getLinks, areLinksShown } from 'store/reducers/views';
 import { getInspectorEpId } from 'store/reducers/inspector';
-import { getPage, getPageIdByViewId } from 'store/reducers/pages';
+import { getPage, getPageIdByViewId, getSearchCount, getSearchingByPage, getSearchViewsIds } from 'store/reducers/pages';
 import { getTimebarTimelines } from 'store/reducers/timebarTimelines';
 import { getTimeline } from 'store/reducers/timelines';
 import { getConfigurationByViewId } from 'viewManager';
 import { getTimebar, isMaxVisuDurationExceeded } from 'store/reducers/timebars';
+import { askUnit } from 'store/actions/catalogs';
 import SizablePlotView from './PlotView';
+import { updateSearchCount } from '../../../../store/actions/pages';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
@@ -62,6 +66,9 @@ const mapStateToProps = (state, { viewId }) => {
   const timebar = getTimebar(state, { timebarUuid: page.timebarUuid });
   const defaultTimelineUuid = getTimebarTimelines(state, { timebarUuid: page.timebarUuid })[0];
   const defaultTimeline = getTimeline(state, { timelineUuid: defaultTimelineUuid });
+  const searching = getSearchingByPage(state, { pageId });
+  const searchViewsIds = getSearchViewsIds(state, { pageId });
+  const searchCount = getSearchCount(state, { pageId });
   return {
     configuration: getConfigurationByViewId(state, { viewId }),
     entryPoints: getViewEntryPoints(state, { viewId }),
@@ -72,20 +79,26 @@ const mapStateToProps = (state, { viewId }) => {
     inspectorEpId: getInspectorEpId(state),
     links: getLinks(state, { viewId }),
     pageId,
+    searching,
+    searchCount,
     showLinks: areLinksShown(state, { viewId }),
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
+    catalogs: state.catalogs,
+    searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
   };
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators({
   saveLiveExtents,
   pause,
   addEntryPoint,
-  removeEntryPoint,
+  askRemoveEntryPoint,
   removeLink,
   updateShowLinks,
   toggleLegend,
+  updateSearchCount: count => updateSearchCount(pageId, viewId, count),
+  askUnit,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);

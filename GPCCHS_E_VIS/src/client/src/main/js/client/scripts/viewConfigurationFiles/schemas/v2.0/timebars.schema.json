@@ -1,0 +1,16 @@
+{
+  "schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "timebars.schema.json",
+  "definitions": {
+    "boundaries": {
+      "$ref": "definitions.schema.json#/definitions/boundaries"
+    },
+    "timeBar": {
+      "$ref": "definitions.schema.json#/definitions/timeBar"
+    }
+  },
+  "type": "array",
+  "items": {
+    "$ref": "definitions.schema.json#/definitions/timeBar"
+  }
+}

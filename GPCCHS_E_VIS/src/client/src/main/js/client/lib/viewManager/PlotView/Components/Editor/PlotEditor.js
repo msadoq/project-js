@@ -37,13 +37,14 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import EntryPointActions from 'viewManager/commonEditor/EntryPoint/EntryPointActions';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import PlotTab from './PlotTab';
-import EntryPointTree from './EntryPointTree';
+import EntryPointTreeContainer from './EntryPointTreeContainer';
 import styles from '../../../commonEditor/Editor.css';
 
 const navbarItems = ['Entry Points', 'Plot', 'Misc'];
@@ -53,12 +54,13 @@ export default class PlotEditor extends Component {
     openModal: PropTypes.func.isRequired,
     updateViewTab: PropTypes.func.isRequired,
     updateViewPanels: PropTypes.func.isRequired,
-    removeEntryPoint: PropTypes.func.isRequired,
+    askRemoveEntryPoint: PropTypes.func.isRequired,
     updateEditorSearch: PropTypes.func.isRequired,
     panels: PropTypes.shape({}).isRequired,
     entryPointsPanels: PropTypes.shape({}).isRequired,
     tab: PropTypes.number,
     viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     title: PropTypes.string,
     titleStyle: PropTypes.shape(),
     configuration: PropTypes.shape({
@@ -79,9 +81,14 @@ export default class PlotEditor extends Component {
     title: '',
   }
 
+  getEntryPointByKey(key) {
+    const entryPoints = this.props.configuration.entryPoints;
+    return entryPoints.find(ep => ep.id === key);
+  }
+
   removeEntryPoint = (key) => {
-    const { removeEntryPoint, viewId } = this.props;
-    removeEntryPoint(viewId, key);
+    const { askRemoveEntryPoint, viewId } = this.props;
+    askRemoveEntryPoint(viewId, this.getEntryPointByKey(key));
   }
 
   changeSearch = s => this.props.updateEditorSearch(s);
@@ -98,6 +105,7 @@ export default class PlotEditor extends Component {
       panels,
       entryPointsPanels,
       viewId,
+      pageId,
       updateViewPanels,
       title,
       titleStyle,
@@ -115,7 +123,7 @@ export default class PlotEditor extends Component {
         <h4
           className="text-center mb10"
         >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+          <span className="mr5 EditorVignette" />
           <b>{title}</b>
         </h4>
         <ReloadAndSaveViewButtonsContainer viewId={viewId} />
@@ -134,9 +142,9 @@ export default class PlotEditor extends Component {
                   viewType="PlotView"
                   openModal={openModal}
                   changeSearch={this.changeSearch}
-                  search={search}
+                  search={search || undefined} // will use EntryPointActions' default value if null
                 />,
-                <EntryPointTree
+                <EntryPointTreeContainer
                   key="EntryPointTree"
                   entryPoints={entryPoints}
                   entryPointsPanels={entryPointsPanels}
@@ -144,6 +152,7 @@ export default class PlotEditor extends Component {
                   search={search}
                   remove={this.removeEntryPoint}
                   viewId={viewId}
+                  pageId={pageId}
                 />,
               ]
           }
@@ -161,12 +170,12 @@ export default class PlotEditor extends Component {
             />
           }
           {tab === 2 &&
-            <Misc
-              updateViewPanels={updateViewPanels}
-              viewId={viewId}
-              panels={panels}
-              openModal={openModal}
-            />}
+          <Misc
+            updateViewPanels={updateViewPanels}
+            viewId={viewId}
+            panels={panels}
+            openModal={openModal}
+          />}
         </div>
       </div>
     );

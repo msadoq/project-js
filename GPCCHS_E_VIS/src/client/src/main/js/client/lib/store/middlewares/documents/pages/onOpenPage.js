@@ -30,22 +30,29 @@ import { askOpenWorkspace } from 'store/actions/hsc';
 import { openDialog } from 'store/actions/ui';
 import withListenAction from 'store/helpers/withListenAction';
 import { getFocusedWindowId, getIsWorkspaceOpened, getWorkspaceFolder } from 'store/reducers/hsc';
-
+import { open as openModal } from 'store/actions/modals';
+import { focusPage } from 'store/actions/windows';
 import { getUniqueWindowId } from '../selectors';
 import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';
+
+
+const findOpenedPage = (state, pageAbsolutePath) =>
+  state.pages && Object.values(state.pages).find(p => p.absolutePath === pageAbsolutePath);
 
 const makeOnOpenPage = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
     const nextAction = next(action);
+    const state = getState();
+
     if (action.type === types.WS_ASK_OPEN_PAGE) {
-      if (!getIsWorkspaceOpened(getState())) {
+      if (!getIsWorkspaceOpened(state)) {
         dispatch(askOpenWorkspace(null, null, true, true)); // TODO test this branch
       }
       const { absolutePath } = action.payload;
       const windowId = action.payload.windowId
-        || getFocusedWindowId(getState()) // TODO test this branch
-        || getUniqueWindowId(getState()); // TODO test this branch
-      const workspaceFolder = getWorkspaceFolder(getState());
+        || getFocusedWindowId(state) // TODO test this branch
+        || getUniqueWindowId(state); // TODO test this branch
+      const workspaceFolder = getWorkspaceFolder(state);
       if (absolutePath) {
         dispatch(documentManager.openPage({
           windowId,
@@ -55,16 +62,54 @@ const makeOnOpenPage = documentManager => withListenAction(
       } else {
         dispatch(openDialog(windowId, 'open', {
           filters: getOpenExtensionsFilters('Page'),
-          defaultPath: getDefaultFolder(getState()),
+          defaultPath: getDefaultFolder(state),
         }));
         listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
           const { choice } = closeAction.payload;
           if (choice) {
-            dispatch(documentManager.openPage({
-              windowId,
-              absolutePath: choice[0],
-              workspaceFolder,
-            }));
+            const toOpenPageAbsolutePath = choice[0];
+            const foundOpenedPage = findOpenedPage(state, toOpenPageAbsolutePath);
+
+            const askOpenPageConfirmation = () => {
+              dispatch(openModal(windowId, {
+                type: 'dialog',
+                title: 'Confirmation for opening page',
+                message: 'This page file is already open. Do you want to open a copy?',
+                buttons: [
+                  { label: 'Cancel', value: 'cancel', type: 'default' },
+                  { label: 'Display existing page', value: 'focus', type: 'default' },
+                  { label: 'Open a copy in a new tab', value: 'open', type: 'primary' },
+                ],
+              }));
+              listenAction(types.WS_MODAL_CLOSE, (confirmCloseAction) => {
+                if (confirmCloseAction.payload.choice === 'cancel') {
+                  // closes modal and do nothing
+                }
+
+                if (confirmCloseAction.payload.choice === 'open') {
+                  dispatch(documentManager.openPage({
+                    windowId,
+                    absolutePath: foundOpenedPage.absolutePath,
+                    workspaceFolder,
+                    isModified: true,
+                  }));
+                }
+
+                if (confirmCloseAction.payload.choice === 'focus') {
+                  dispatch(focusPage(windowId, foundOpenedPage.uuid));
+                }
+              });
+            };
+
+            if (foundOpenedPage) {
+              askOpenPageConfirmation();
+            } else {
+              dispatch(documentManager.openPage({
+                windowId,
+                absolutePath: choice[0],
+                workspaceFolder,
+              }));
+            }
           }
         });
       }

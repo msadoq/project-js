@@ -75,6 +75,7 @@
 // VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
 // VERSION : 2.0.0 : FA : #11346 : 16/03/2018 : Change type mime for onboard and ground view
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.2 : FA : #11854 : 18/04/2018 : Vima JS does not receive PUB/SUB data
 // END-HISTORY
 // ====================================================================
 
@@ -88,6 +89,8 @@ module.exports = {
   // DATA STRUCTURE TYPES
   DATASTRUCTURETYPE_LAST: 'last',
   DATASTRUCTURETYPE_RANGE: 'range',
+  DATASTRUCTURETYPE_HISTORIZED: 'historized',
+  DATASTRUCTURETYPE_NO_HISTORY: 'no-history',
   // SESSION_ID
   UNKNOWN_SESSION_ID: 65535,
   // DC_COMMUNICATION_VERSION,
@@ -140,6 +143,8 @@ module.exports = {
   ADE_SDB_RETRIEVE_CATALOG_ITEM_FIELD_UNIT: 3,
   ADE_SDB_RETRIEVE_CATALOG_ITEM_EXISTS: 4,
   ADE_SDB_RETRIEVE_SATELLITE_ITEMS: 5,
+  ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE: 6, // not used yet
+  ADE_SDB_RETRIEVE_APIDS: 7,
   // PUS METHOD IPC
   PUS_INITIALIZE: 0,
   PUS_SUBSCRIBE: 1,
@@ -259,6 +264,15 @@ module.exports = {
   NODE_TYPE_KEY: 'key',
   NODE_TYPE_LINK: 'link',
   NODE_TYPE_RESOLVED_LINK: 'resolvedLink',
+  // PACKETS TYPES
+  PACKETS_TYPES: {
+    REPORTING_PARAMETER: 'ReportingParameter',
+    DECOMMUTED_PACKET: 'DecommutedPacket',
+    CLCW: 'CLCW',
+    ISIS_AGGREGATION: 'IsisAggregation',
+    RM: 'RM',
+    TM: 'TM',
+  },
   // MIME
   MIME_TYPES: {
     WorkSpace: 'WorkspaceDoc',
@@ -266,11 +280,14 @@ module.exports = {
     TextView: 'TextViewDoc',
     PlotView: 'PlotViewDoc',
     DynamicView: 'DynamicViewDoc',
+    DecommutedPacketView: 'DecommutedPacketViewDoc',
     MimicView: 'MimicViewDoc',
     PacketView: 'PacketViewDoc',
     HistoryView: 'HistoryViewDoc',
     GroundAlarmView: 'GrounAlarmViewDoc',
     OnboardAlarmView: 'OnBoardAlarmViewDoc',
+    CommaSeparatedValues: 'CommaSeparatedValues',
+    PortableNetworkGraphics: 'PortableNetworkGraphics',
   },
   EXTENSIONS: {
     WorkSpace: 'viws',
@@ -278,11 +295,16 @@ module.exports = {
     TextView: 'vitv',
     PlotView: 'vipv',
     DynamicView: 'vidv',
+    DecommutedPacketView: 'vidp',
     MimicView: 'vimv',
     PacketView: 'vikv',
     HistoryView: 'vihv',
     GroundAlarmView: 'viga',
     OnboardAlarmView: 'viba',
+    CommaSeparatedValues: 'csv',
+    PortableNetworkGraphics: 'png',
+    PUS05View: 'pus05',
+    PUS11View: 'pus11',
   },
   DUMP_EXTENSIONS: {
     ARCHIVE: 'arc',
@@ -316,5 +338,25 @@ module.exports = {
   // Providers
   PROVIDER_FLOW_HKTMR: 'HKTMR',
   PROVIDER_FLOW_HKTMP: 'HKTMP',
-  PROVIDER_FLOW_ALL: '',
+  PROVIDER_FLOW_RM: 'RM',
+  PROVIDER_FLOW_ALL: '*',
+
+  // Code couleur for views
+  COLOR_ISIS_SAT: '#0066ff',
+  COLOR_SIMUPUS_SAT: '#339933',
+  COLOR_MULTIPLE_SAT: '#ff3300',
+
+  // list of domains
+  DOMAIN_SIMUPUS: 'fr.cnes.isis.simupus',
+  DOMAIN_ISIS: 'fr.cnes.isis',
+
+  // time format
+  DATETIME_TILL_MS_FORMAT: 'DD/MM/YYYY HH:mm:ss.SSS',
+
+  // Input, output separators
+  CSV_COLUMN_SEPARATOR: '; ',
+  CSV_ROW_SEPARATOR: '\n',
+
+  // list of view's type for search
+  SEARCH_VIEWS_TYPE: ['TextView', 'PlotView', 'MimicView'],
 };

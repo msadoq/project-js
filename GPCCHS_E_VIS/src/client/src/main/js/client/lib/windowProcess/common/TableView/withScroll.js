@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import withMouseWheelEvents from '../hoc/withMouseWheelEvents';
 import withBatchedSetState from '../hoc/withBatchedSetState';
@@ -29,13 +30,14 @@ const withScroll = _.compose(
       }
 
       state = initialState
-
       componentWillMount() {
         this.getWrappedInstance = () => this;
       }
 
       componentWillReceiveProps(nextProps) {
-        if (this.state.position >= this.getLastPosition(nextProps)) {
+        const { state } = this;
+
+        if (state >= this.getLastPosition(nextProps)) {
           this.setState(_.set('position', this.getLastPosition(nextProps)));
         }
       }

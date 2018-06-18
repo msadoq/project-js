@@ -1,11 +1,16 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCatalogItemComObjects, getTupleId } from 'store/reducers/catalogs';
+import {
+  getCatalogByName,
+  getCatalogItemComObjects,
+  getTupleId,
+} from 'store/reducers/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
 import { getTimelineById } from 'store/reducers/timelines';
 import { askComObjects } from 'store/actions/catalogs';
+import _get from 'lodash/get';
 import { get } from 'common/configurationManager';
 import ComObject from './ComObject';
 
@@ -16,6 +21,7 @@ const mapStateToProps = (state, {
   pageId,
   catalogName,
   itemName,
+  allowedComObjects,
 }) => {
   const wildcardCharacter = get('WILDCARD_CHARACTER');
   const domain = getDomainByNameWithFallback(state, { domainName, viewId, pageId });
@@ -30,13 +36,32 @@ const mapStateToProps = (state, {
   const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
   const sessionId = selectedSession ? selectedSession.id : null;
   const tupleId = getTupleId(domainId, sessionId);
+  const catalog = getCatalogByName(state.catalogs, { tupleId, name: catalogName });
+  const catalogItemsLoaded = !!Object.keys(_get(catalog, 'items', {})).length;
+
+  const comObjects =
+    getCatalogItemComObjects(state.catalogs, { tupleId, name: catalogName, itemName });
+
+  const _filterAllowedComObjects =
+    (comObjectsArr) => {
+      if (!Array.isArray(comObjectsArr)) {
+        return [];
+      }
+
+      return comObjectsArr.filter(
+        comObject =>
+          !allowedComObjects || (allowedComObjects.indexOf(comObject.name) > -1)
+      );
+    };
 
   return {
-    comObjects: getCatalogItemComObjects(state.catalogs, { tupleId, name: catalogName, itemName }),
+    comObjects,
+    allowedComObjects: _filterAllowedComObjects(comObjects),
     sessionId,
     domainId,
     catalogName,
     itemName,
+    catalogItemsLoaded,
   };
 };
 

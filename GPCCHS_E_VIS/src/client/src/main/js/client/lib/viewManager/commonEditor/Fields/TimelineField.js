@@ -1,20 +1,23 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
-import { timelinesType } from './types';
+import { timelinesType } from 'viewManager/common/Components/types';
 
-const { func } = PropTypes;
+const { func, string } = PropTypes;
 
 export default class TimelineField extends PureComponent {
   static propTypes = {
     onChange: func,
+    name: string,
     // from container mapStateToProps
     timelines: timelinesType.isRequired,
   };
 
   static defaultProps = {
     onChange: null,
+    name: 'connectedData.timeline',
   };
 
   render() {
@@ -22,7 +25,7 @@ export default class TimelineField extends PureComponent {
       <div>
         <Field
           format={null}
-          name="timeline"
+          name={this.props.name}
           component={ReactSelectField}
           clearable
           options={computeOptions(this.props.timelines, true)}

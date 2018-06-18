@@ -39,7 +39,10 @@ describe('store:pages:reducer:panels', () => {
       timebarHeight: 130,
       timebarIsMinimized: false,
       explorerWidth: 250,
+      searchIsMinimized: true,
       explorerTab: undefined,
+      searchViewsIds: [],
+      searchWidth: 300,
       explorerIsMinimized: true,
     });
   });

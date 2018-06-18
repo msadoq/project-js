@@ -6,7 +6,7 @@ exports[`ProviderFieldContainer :: render should render correctly with valid dat
     clearable={true}
     component={[Function]}
     format={null}
-    name="provider"
+    name="connectedData.provider"
     onChange={null}
     options={
       Array [
@@ -19,8 +19,12 @@ exports[`ProviderFieldContainer :: render should render correctly with valid dat
           "value": "HKTMP",
         },
         Object {
-          "label": "",
-          "value": "",
+          "label": "RM",
+          "value": "RM",
+        },
+        Object {
+          "label": "*",
+          "value": "*",
         },
       ]
     }

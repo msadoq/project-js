@@ -11,6 +11,7 @@
 import _ from 'lodash/fp';
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
+import { askOpenView } from 'store/actions/views';
 import makeOnOpenView from './onOpenView';
 
 const documentManager = {
@@ -54,5 +55,20 @@ describe('store:serverProcess:middlewares:documents:makeOnOpenView', () => {
     const dialogId = _.last(store.getActions()).payload.dialogId;
     store.dispatch({ type: 'HSC_DIALOG_CLOSED', payload: { dialogId } });
     expect(store.getActions()).toMatchSnapshot();
+  });
+
+  test('ask for confirmation before opening a view that has already been opened', () => {
+    const stateWithOpenView = {
+      views: {
+        dummyId: {
+          absolutePath: 'dummyPath',
+        },
+      },
+    };
+
+    const storeWithOpenView = mockStore(stateWithOpenView);
+
+    store.dispatch(askOpenView('dummyPath'));
+    expect(storeWithOpenView.getActions()).toMatchSnapshot();
   });
 });

@@ -72,16 +72,19 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import domtoimage from 'dom-to-image';
 import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
+import _flattenDeep from 'lodash/flattenDeep';
 import classnames from 'classnames';
 import getLogger from 'common/logManager';
 import { getViewComponent } from 'viewManager/components';
+import { isPusView } from 'viewManager/constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from '../common/MessagesContainer';
 import handleContextMenu from '../common/handleContextMenu';
-
 import styles from './View.css';
 
 const logger = getLogger('View');
@@ -91,15 +94,16 @@ export default class View extends PureComponent {
     pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    titleStyle: PropTypes.shape({
-      bgColor: PropTypes.string,
-    }).isRequired,
+    titleStyle: PropTypes.shape({}).isRequired,
     backgroundColor: PropTypes.string,
     maximized: PropTypes.bool,
     isViewsEditorOpen: PropTypes.bool.isRequired,
+    isViewsSearchOpen: PropTypes.bool.isRequired,
     askOpenInspector: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
+    closeSearch: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
+    openSearch: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
     maximizeView: PropTypes.func.isRequired,
     closeView: PropTypes.func.isRequired,
@@ -108,6 +112,9 @@ export default class View extends PureComponent {
     saveAs: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
     saveViewAsModel: PropTypes.func.isRequired,
+    exportAsCsv: PropTypes.func.isRequired,
+    exportAsImage: PropTypes.func.isRequired,
+    exportAsImageHasFailed: PropTypes.func.isRequired,
     collapsed: PropTypes.bool.isRequired,
     absolutePath: PropTypes.string,
   };
@@ -116,9 +123,7 @@ export default class View extends PureComponent {
     oId: '',
     absolutePath: '',
     backgroundColor: '#FFFFFF',
-    titleStyle: {
-      bgColor: '#FEFEFE',
-    },
+    titleStyle: {},
     visuWindow: null,
     maximized: false,
   };
@@ -129,12 +134,13 @@ export default class View extends PureComponent {
 
   onContextMenu = (mainMenu) => {
     handleContextMenu(mainMenu);
-  }
+  };
 
   getMainContextMenu = () => {
     const {
-      collapsed, maximized, absolutePath, isViewsEditorOpen, closeEditor, openEditor,
-      openModal, collapseView, maximizeView, closeView, reloadView,
+      collapsed, maximized, absolutePath, isViewsEditorOpen, isViewsSearchOpen,
+      closeEditor, openEditor, openSearch, closeSearch, openModal,
+      collapseView, maximizeView, closeView, reloadView, type,
     } = this.props;
     const editorMenu = (isViewsEditorOpen) ?
     {
@@ -142,13 +148,44 @@ export default class View extends PureComponent {
       click: () => closeEditor(),
     } : {
       label: 'Open Editor',
-      click: () => {
-        openEditor();
-      },
+      click: () => openEditor(),
     };
+    const searchMenu = (isViewsSearchOpen) ?
+    {
+      label: 'Close Search',
+      click: () => closeSearch(),
+    } : {
+      label: 'Search in this view',
+      click: () => openSearch(),
+    };
+    const pusViewMenu = isPusView(type) ?
+    [
+      { type: 'separator' },
+      {
+        label: 'Compare (Alt+c)',
+        click: () => console.log('Compare requested'),
+      },
+      {
+        label: 'Reset (Alt+r)',
+        click: () => console.log('Reset requested'),
+      },
+      {
+        label: 'Save in file (Alt+s)',
+        click: () => console.log('Save in file requested'),
+      },
+      {
+        label: 'Synchronize',
+        click: () => console.log('Synchronize requested'),
+      },
+    ] :
+    []
+    ;
     const isPathDefined = !!absolutePath;
-    return [
+
+    return _flattenDeep([
       editorMenu,
+      searchMenu,
+      pusViewMenu,
       { type: 'separator' },
       {
         label: 'Move view to...',
@@ -180,17 +217,35 @@ export default class View extends PureComponent {
         label: 'Save view as a model...',
         click: () => this.props.saveViewAsModel(),
       },
+      {
+        label: 'Export as image...',
+        click: () => {
+          domtoimage.toPng(this.domref)
+          .then(
+            (dataUrl) => {
+              this.props.exportAsImage(dataUrl);
+            }
+          ).catch(
+            (error) => {
+              this.props.exportAsImageHasFailed('error in processing dom into png data --- ', error.message);
+            }
+          );
+        },
+      },
+      {
+        label: 'Export as csv...',
+        click: () => this.props.exportAsCsv(),
+      },
       { type: 'separator' },
       {
         label: 'Close view',
         click: () => closeView(),
       },
-    ];
+    ]);
   };
 
   borderColorStyle = _memoize(c => ({ borderColor: c }));
   backgroundColorStyle = _memoize(c => ({ backgroundColor: c }));
-
 
   render() {
     logger.debug('render');
@@ -215,6 +270,7 @@ export default class View extends PureComponent {
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (
       <div
+        ref={(div) => { this.domref = div; }}
         className={classnames('subdiv', styles.container, 'w100', !maximized && 'h100')}
         style={this.borderColorStyle(borderColor)}
         onContextMenu={() => handleContextMenu(mainMenu)}
@@ -226,22 +282,22 @@ export default class View extends PureComponent {
           saveView={save}
           onContextMenu={() => handleContextMenu(mainMenu)}
         />
-        { !collapsed &&
-        <div
-          className={styles.content}
-          style={this.backgroundColorStyle(backgroundColor)}
-        >
-          <MessagesContainer containerId={viewId} />
-          <ContentComponent
-            viewId={viewId}
-            pageId={pageId}
-            openInspector={args => askOpenInspector(pageId, viewId, type, args)}
-            isViewsEditorOpen={isViewsEditorOpen}
-            openEditor={openEditor}
-            closeEditor={closeEditor}
-            mainMenu={mainMenu}
-          />
-        </div>
+        {!collapsed &&
+          <div
+            className={styles.content}
+            style={this.backgroundColorStyle(backgroundColor)}
+          >
+            <MessagesContainer containerId={viewId} />
+            <ContentComponent
+              viewId={viewId}
+              pageId={pageId}
+              openInspector={args => askOpenInspector(pageId, viewId, type, args)}
+              isViewsEditorOpen={isViewsEditorOpen}
+              openEditor={openEditor}
+              closeEditor={closeEditor}
+              mainMenu={mainMenu}
+            />
+          </div>
         }
       </div>
     );

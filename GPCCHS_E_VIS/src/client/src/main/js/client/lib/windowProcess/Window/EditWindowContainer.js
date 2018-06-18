@@ -14,7 +14,7 @@
 // END-HISTORY
 // ====================================================================
 
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { getWindow, getWindows } from 'store/reducers/windows';

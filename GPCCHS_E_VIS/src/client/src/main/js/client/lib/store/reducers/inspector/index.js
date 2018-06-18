@@ -47,53 +47,44 @@ export default function inspector(state = initialState, action) {
   switch (action.type) {
     // GENERAL
     case types.HSC_IS_INSPECTOR_DISPLAYING_A_TM:
-      return Object.assign(
-        {},
-        state,
-        {
-          generalData: {
-            ...state.generalData,
-            displayingTM: action.payload.displayingTM,
-          },
-        }
-      );
+      return {
+        ...state,
+        generalData: {
+          ...state.generalData,
+          displayingTM: action.payload.displayingTM,
+        },
+      };
     case types.HSC_SET_INSPECTOR_GENERAL_DATA:
-      return Object.assign(
-        {},
-        state,
-        {
-          generalData: {
-            viewId: action.payload.viewId,
-            viewType: action.payload.viewType,
-            epId: action.payload.epId,
-            epName: action.payload.epName,
-            dataId: action.payload.dataId,
-            field: action.payload.field,
-            displayingTM: false,
-          },
-        }
-      );
+      return {
+        ...state,
+        generalData: {
+          viewId: action.payload.viewId,
+          viewType: action.payload.viewType,
+          epId: action.payload.epId,
+          epName: action.payload.epName,
+          dataId: action.payload.dataId,
+          field: action.payload.field,
+          displayingTM: false,
+        },
+      };
     case types.HSC_DELETE_INSPECTOR_GENERAL_DATA:
       return initialState;
     // STATIC DATA
     case types.HSC_SET_INSPECTOR_STATIC_DATA:
-      return Object.assign(
-        {},
-        state,
-        { staticData: action.payload.data }
-      );
+      return {
+        ...state,
+        staticData: action.payload.data,
+      };
     case types.HSC_IS_INSPECTOR_STATIC_DATA_LOADING:
-      return Object.assign(
-        {},
-        state,
-        { staticData: { ...state.staticData, loading: action.payload.loading } }
-      );
+      return {
+        ...state,
+        staticData: { ...state.staticData, loading: action.payload.loading },
+      };
     case types.HSC_TOGGLE_ALL_INSPECTOR_STATIC_DATA_NODES:
-      return Object.assign(
-        {},
-        state,
-        { staticData: recursiveToggleNode(state.staticData, action.payload.toggled) }
-      );
+      return {
+        ...state,
+        staticData: recursiveToggleNode(state.staticData, action.payload.toggled),
+      };
     // STATIC DATA NODE
     case types.HSC_UPDATE_INSPECTOR_STATIC_DATA_NODE:
       return u.updateIn(
@@ -135,7 +126,7 @@ export const getInspectorStaticDataLoading = state => (_get(state.inspector.stat
 export const getInspectorStaticDataChildren = state => _get(state.inspector.staticData, 'children');
 // STATIC DATA NODE
 export const getInspectorStaticDataNode = (state, path) => (path.length ?
-  _get(state.inspector.staticData, path) :
-  state.inspector.staticData
+    _get(state.inspector.staticData, path) :
+    state.inspector.staticData
 );
 export const getInspectorStaticDataNodeToggled = (state, path) => (_get(state.inspector.staticData, [...path, 'toggled']) === true);

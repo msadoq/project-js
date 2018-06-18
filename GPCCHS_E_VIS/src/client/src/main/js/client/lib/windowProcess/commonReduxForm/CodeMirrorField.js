@@ -13,9 +13,15 @@
 // ====================================================================
 
 /* eslint import/no-webpack-loader-syntax:0 */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import CodeMirror from 'react-codemirror';
+import { UnControlled as CodeMirror } from 'react-codemirror2';
+import CodeMirrorStatic from 'codemirror';
+import '!style!css!codemirror/theme/material.css';
+import '!style!css!codemirror/theme/neat.css';
+import 'codemirror/mode/xml/xml';
+import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/html-hint';
@@ -24,12 +30,10 @@ import _debounce from 'lodash/debounce';
 import '!style!css!codemirror/lib/codemirror.css';
 import '!style!css!codemirror/addon/lint/lint.css';
 import '!style!css!codemirror/addon/hint/show-hint.css';
-import {
-  Alert,
-} from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import { lint } from 'common/htmllint';
 import handleContextMenu from '../common/handleContextMenu';
-import './CodeMirrorField.css';
+import styles from './CodeMirrorField.css';
 
 export default class CodeMirrorField extends React.Component {
   static propTypes = {
@@ -55,20 +59,62 @@ export default class CodeMirrorField extends React.Component {
     }).isRequired,
     options: PropTypes.shape({}),
     collection: PropTypes.arrayOf(PropTypes.shape),
-  }
+  };
 
   static defaultProps = {
     className: '',
     autocompleteList: [],
     options: {},
     collection: [],
+  };
+
+  componentWillReceiveProps(nextProps) {
+    // Bug on first render of codemirror, textarea is empty because props.input.value
+    // is empty on first render
+    if (this.codeMirrorInstance) {
+      if (this.props.input.value === '' && nextProps.input.value.length) {
+        this.codeMirrorInstance.doc.setValue(nextProps.input.value);
+      }
+      if (nextProps.meta.error && nextProps.meta.error.length) {
+        this.codeMirrorInstance.setOption('lint', true);
+      } else {
+        this.codeMirrorInstance.setOption('lint', false);
+      }
+    }
   }
 
-  componentDidMount() {
-    this.codeMirrorInstance = this.element.getCodeMirrorInstance();
-    this.codeMirror = this.element.getCodeMirror();
+  onContextMenuClick = (e) => {
+    const doc = this.codeMirrorInstance.getDoc();
+    const cursor = doc.getCursor();
+    const line = doc.getLine(cursor.line);
+    const pos = {
+      line: cursor.line,
+      ch: line.length - 1,
+    };
+    doc.replaceRange(`\n${e.code}\n`, pos);
+  };
 
-    this.codeMirrorInstance.registerHelper('lint', 'html', (text) => {
+  onContextMenu = () => {
+    handleContextMenu(
+      this.props.collection.map(col =>
+        ({
+          ...col,
+          click: this.onContextMenuClick,
+          submenu: col.submenu.map(sub => ({
+            ...sub,
+            click: this.onContextMenuClick,
+          })),
+        })
+      )
+    );
+  };
+
+  codeMirrorInstance;
+  currentPosition;
+
+  editorDidMount = (editor) => {
+    this.codeMirrorInstance = editor;
+    CodeMirrorStatic.registerHelper('lint', 'html', (text) => {
       const found = [];
       const errors = lint(text);
       for (let i = 0; i < errors.length; i += 1) {
@@ -77,9 +123,11 @@ export default class CodeMirrorField extends React.Component {
         const endLine = message.line - 1;
         const startCol = message.col - 1;
         const endCol = message.col;
+
+        // displays an icon in the left bar for each lint error
         found.push({
-          from: this.codeMirrorInstance.Pos(startLine, startCol),
-          to: this.codeMirrorInstance.Pos(endLine, endCol),
+          from: CodeMirrorStatic.Pos(startLine, startCol),
+          to: CodeMirrorStatic.Pos(endLine, endCol),
           message: message.message,
           severity: message.type,
         });
@@ -88,9 +136,9 @@ export default class CodeMirrorField extends React.Component {
     });
     /*
       linting is disabled by default, and will be activated only if
-      component receives eror(s) from redux-form (componentWillReceiveProps)
+      component receives error(s) from redux-form (componentWillReceiveProps)
     */
-    this.codeMirror.setOption('lint', false);
+    this.codeMirrorInstance.setOption('lint', false);
 
     /*
     this.props.cmOptions.forEach((event) => {
@@ -98,66 +146,31 @@ export default class CodeMirrorField extends React.Component {
       this.codeMirror.on(event.name, event.func);
     });
     */
-    this.codeMirror.on('contextmenu', () => this.onContextMenu());
+    this.codeMirrorInstance.on('contextmenu', this.onContextMenu);
 
     // Fix display bug with CodeMirror
     setTimeout(() => this.forceUpdate());
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // Bug on first render of codemirror, textarea is empty because props.input.value
-    // is empty on first render
-    if (this.props.input.value === '' && nextProps.input.value.length) {
-      this.codeMirror.doc.setValue(nextProps.input.value);
-    }
-    if (nextProps.meta.error && nextProps.meta.error.length) {
-      this.codeMirror.setOption('lint', true);
-    } else {
-      this.codeMirror.setOption('lint', false);
-    }
-  }
-
-  onContextMenuClick = (e) => {
-    const doc = this.codeMirror.getDoc();
-    const cursor = doc.getCursor();
-    const line = doc.getLine(cursor.line);
-    const pos = {
-      line: cursor.line,
-      ch: line.lenght - 1,
-    };
-    doc.replaceRange(`\n${e.code}\n`, pos);
-  }
-  onContextMenu =() => {
-    handleContextMenu(
-      this.props.collection.map(col =>
-       ({
-         ...col,
-         click: this.onContextMenuClick,
-         submenu: col.submenu.map(sub => ({
-           ...sub,
-           click: this.onContextMenuClick,
-         })),
-       })
-      )
-    );
-  }
-  element;
-  codeMirrorInstance;
-  codeMirror;
+  };
 
   autocomplete = (cm) => {
     const { autocompleteList } = this.props;
-    const codeMirror = this.element.getCodeMirrorInstance();
-    codeMirror.showHint(cm, cmd => ({
-      from: cmd.getCursor(), to: cmd.getCursor(), list: autocompleteList,
+    CodeMirrorStatic.showHint(cm, cmd => ({
+      from: cmd.getCursor(),
+      to: cmd.getCursor(),
+      list: autocompleteList,
     }));
-  }
+  };
 
-  handleOnChange = _debounce((value) => {
+  handleOnChange = _debounce((editor, data, value) => {
     const { input: { onChange } } = this.props;
+    /*
+     * for any reason, each time redux-form validation is called (and CodeMirrorField is rerendered
+     * to display possible errors), CodeMirror component resets cursor position to the very end of the field).
+     * the following trick keeps cursor position when validation occurs.
+     */
+    this.currentPosition = editor.doc.getCursor();
     onChange(value);
-    // asyncValidate();
-  }, 500)
+  }, 500);
 
   render() {
     const {
@@ -179,7 +192,6 @@ export default class CodeMirrorField extends React.Component {
       lint: true,
       ...options,
     };
-
     return (
       <div
         className={classnames({
@@ -187,12 +199,14 @@ export default class CodeMirrorField extends React.Component {
         }, 'CodeMirrorField', className)}
       >
         <CodeMirror
-          ref={(el) => { this.element = el; }}
-          {...input}
+          value={input.value}
           options={codeMirrorOptions}
+          editorDidMount={this.editorDidMount}
           onChange={this.handleOnChange}
+          className={styles['codemirror-container']}
+          cursor={this.currentPosition}
         />
-        {error && <Alert bsStyle="danger" className="m0">
+        {error && <Alert bsStyle="danger" className={classnames('m0', styles.error)}>
           {error}
         </Alert>}
       </div>

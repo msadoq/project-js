@@ -23,11 +23,17 @@
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : Update unit tests and add view reducers to action
 //  viewData_clean
 // VERSION : 1.1.2 : DM : #6700 : 04/08/2017 : update unit tests . .
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : core implementation of dealing with sessions
+// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix tests + clean code
 // END-HISTORY
 // ====================================================================
 
+import _cloneDeep from 'lodash/cloneDeep';
+import { get } from 'common/configurationManager';
 import makeGetPerViewData from './perViewData';
 import state from '../common/jest/stateTest';
+
+const WILDCARD = get('WILDCARD_CHARACTER');
 
 describe('dataManager/perViewData', () => {
   test('text view', () => {
@@ -50,5 +56,110 @@ describe('dataManager/perViewData', () => {
     expect(map.recomputations()).toEqual(1);
     map(state, { viewId: 'plot1', timebarUuid: 'tb1' });
     expect(map.recomputations()).toEqual(2);
+  });
+
+  test('should keep all entrypoints when wildcard at every level', () => {
+    const localState = _cloneDeep(state);
+    const { entryPoints } = localState.PlotViewConfiguration.plot1;
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
+    localState.views.plot1.sessionName = WILDCARD;
+    localState.pages.page1.sessionName = WILDCARD;
+    localState.hsc.sessionName = WILDCARD;
+
+    const map = makeGetPerViewData()(localState, { viewId: 'plot1', timebarUuid: 'tb1', pageId: 'page1' });
+    expect(Object.keys(map.entryPoints).length).toEqual(entryPoints.length);
+  });
+
+  test('should keep only entrypoints whose session is consistent with master session, every intermediate level\'s session being wildcard', () => {
+    const localState = _cloneDeep(state);
+    localState.timelines.truc = { // add a fake timeline not associated to 'Master' session
+      color: null,
+      id: 'truc',
+      kind: 'Session',
+      offset: 0,
+      sessionName: 'Session #42',
+      uuid: 'tl1',
+    };
+    const { entryPoints } = localState.PlotViewConfiguration.plot1;
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = 'truc';
+    }); // a session which does not match
+    entryPoints[0].connectedData.timeline = 'Session 1'; // timeline associated to 'Master' session
+    entryPoints[1].connectedData.timeline = WILDCARD;
+    localState.views.plot1.sessionName = WILDCARD;
+    localState.pages.page1.sessionName = WILDCARD;
+    localState.hsc.sessionName = WILDCARD;
+
+    const map = makeGetPerViewData()(localState, { viewId: 'plot1', timebarUuid: 'tb1', pageId: 'page1' });
+    expect(Object.keys(map.entryPoints).length).toEqual(2);
+  });
+  test('should take no entryPoints when plot session is different from masterSession', () => {
+    const localState = _cloneDeep(state);
+    const { entryPoints } = localState.PlotViewConfiguration.plot1;
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
+    localState.views.plot1.sessionName = 'Master';
+    localState.pages.page1.sessionName = WILDCARD;
+    localState.hsc.sessionName = WILDCARD;
+    localState.timebars.tb1.masterId = 'Session du bois';
+
+    const map = makeGetPerViewData()(localState, { viewId: 'plot1', timebarUuid: 'tb1', pageId: 'page1' });
+    expect(Object.keys(map.entryPoints).length).toEqual(0);
+  });
+  test('should take all entryPoints when plot session is equal to masterSession', () => {
+    const localState = _cloneDeep(state);
+    const { entryPoints } = localState.PlotViewConfiguration.plot1;
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
+    localState.views.plot1.sessionName = 'Master';
+    localState.pages.page1.sessionName = WILDCARD;
+    localState.hsc.sessionName = WILDCARD;
+    localState.timebars.tb1.masterId = 'Session 1';
+
+    const map = makeGetPerViewData()(localState, { viewId: 'plot1', timebarUuid: 'tb1', pageId: 'page1' });
+    expect(Object.keys(map.entryPoints).length).toEqual(3);
+  });
+  test('should take no entryPoints when page session is different from masterSession', () => {
+    const localState = _cloneDeep(state);
+    const { entryPoints } = localState.PlotViewConfiguration.plot1;
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
+    localState.views.plot1.sessionName = WILDCARD;
+    localState.pages.page1.sessionName = 'truc';
+    localState.hsc.sessionName = WILDCARD;
+
+    const map = makeGetPerViewData()(localState, { viewId: 'plot1', timebarUuid: 'tb1', pageId: 'page1' });
+    expect(Object.keys(map.entryPoints).length).toEqual(0);
+  });
+  test('should take no entryPoints when hsc session is different from masterSession', () => {
+    const localState = _cloneDeep(state);
+    const { entryPoints } = localState.PlotViewConfiguration.plot1;
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
+    localState.views.plot1.sessionName = WILDCARD;
+    localState.pages.page1.sessionName = WILDCARD;
+    localState.hsc.sessionName = 'truc';
+
+    const map = makeGetPerViewData()(localState, { viewId: 'plot1', timebarUuid: 'tb1', pageId: 'page1' });
+    expect(Object.keys(map.entryPoints).length).toEqual(0);
+  });
+  test('should consider no hsc.sessionName as a wildcard', () => {
+    const localState = _cloneDeep(state);
+    const { entryPoints } = localState.PlotViewConfiguration.plot1;
+    entryPoints.forEach((e) => {
+      e.connectedData.timeline = WILDCARD;
+    });
+    localState.views.plot1.sessionName = WILDCARD;
+    localState.pages.page1.sessionName = WILDCARD;
+    delete localState.hsc.sessionName;
+
+    const map = makeGetPerViewData()(localState, { viewId: 'plot1', timebarUuid: 'tb1', pageId: 'page1' });
+    expect(Object.keys(map.entryPoints).length).toEqual(3);
   });
 });

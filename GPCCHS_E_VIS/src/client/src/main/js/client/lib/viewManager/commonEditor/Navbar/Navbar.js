@@ -6,7 +6,8 @@
 // END-HISTORY
 // ====================================================================
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Nav, NavItem } from 'react-bootstrap';
 import styles from './style.css';
 
@@ -20,6 +21,10 @@ export default class Navbar extends React.Component {
 
   componentWillMount() {
     this.setState({ activeTab: this.props.currentDisplay });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ activeTab: nextProps.currentDisplay });
   }
 
   onNavItemClick = (tabIndex) => {

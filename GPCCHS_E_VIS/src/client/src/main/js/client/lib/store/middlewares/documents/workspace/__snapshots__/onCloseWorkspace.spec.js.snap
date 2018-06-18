@@ -114,15 +114,6 @@ Array [
   },
   Object {
     "payload": Object {
-      "pages": Array [
-        "p1",
-        "p2",
-      ],
-      "views": Array [
-        "v1",
-        "v2",
-        "v3",
-      ],
       "windowId": "w1",
     },
     "type": "WS_WINDOW_CLOSE",
@@ -293,7 +284,7 @@ Array [
             "value": "cancel",
           },
         ],
-        "message": "Are you sure you want to quit window",
+        "message": "Are you sure you want to quit?",
         "title": "Confirmation",
         "type": "dialog",
       },
@@ -598,7 +589,7 @@ Array [
             "value": "cancel",
           },
         ],
-        "message": "Are you sure you want to quit workspace",
+        "message": "Are you sure you want to quit?",
         "title": "Confirmation",
         "type": "dialog",
       },
@@ -636,7 +627,7 @@ Array [
             "value": "cancel",
           },
         ],
-        "message": "Are you sure you want to quit workspace",
+        "message": "Are you sure you want to quit?",
         "title": "Confirmation",
         "type": "dialog",
       },

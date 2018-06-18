@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Label, Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
@@ -106,37 +107,42 @@ Arrow.propTypes = {
 // Used because we need an additional column for expand/collapse
 const getColumns = cols => ['', ...cols];
 
+const computeRowClassnameForType = row => `row-typeof-${row.type}`;
+
 export const Table = ({
-  rows, position, nbDisplayedRows, rowHeight, search,
-  cols, subCols, getIsHovered, getIsSelected, getIsExpanded, getIsSelectable,
-  disableSelection, disableSelectionReason, sort, enableSearch,
-  onCollapse, onUncollapse, onClickRow, onClickSearchIcon,
-  onMouseEnter, onMouseLeave, toggleSort, onSearch,
-}) => (
-  <table className={classnames('TableView', styles.container)}>
-    <thead>
-      {enableSearch && <tr
-        style={{ height: `${rowHeight}px` }}
-      >
-        {
+                        rows, position, nbDisplayedRows, rowHeight, search,
+                        cols, subCols, getIsHovered, getIsSelected, getIsExpanded, getIsSelectable,
+                        disableSelection, disableSelectionReason, sort, enableSearch,
+                        onCollapse, onUncollapse, onClickRow, onClickSearchIcon,
+                        onMouseEnter, onMouseLeave, toggleSort, onSearch,
+                      }) => {
+  let previousRowType = 'row';
+  const shownRows = _.slice(position, nbDisplayedRows + position)(rows);
+  return (
+    <table className={classnames('TableView', styles.container)}>
+      <thead>
+        {enableSearch && <tr
+          style={{ height: `${rowHeight}px` }}
+        >
+          {
           getColumns(cols).map(col => (
             <th
               key={col}
-              className={col !== '' && styles.search}
+              className={col !== '' ? styles.search : undefined}
             >
               {
                 col !== ''
-                ? <SearchInput value={search[col]} onInput={value => onSearch(col, value)} />
-                : <SearchIcon enabled={enableSearch} onClick={onClickSearchIcon} />
+                  ? <SearchInput value={search[col]} onInput={value => onSearch(col, value)} />
+                  : <SearchIcon enabled={enableSearch} onClick={onClickSearchIcon} />
               }
             </th>
           ))
         }
-      </tr>}
-      <tr
-        style={{ height: `${rowHeight}px` }}
-      >
-        {
+        </tr>}
+        <tr
+          style={{ height: `${rowHeight}px` }}
+        >
+          {
           getColumns(cols).map(col => (
             <th
               onClick={() => (
@@ -153,106 +159,123 @@ export const Table = ({
             </th>
           ))
         }
-      </tr>
-    </thead>
-    <tbody>
-      {
-        _.slice(position, nbDisplayedRows + position)(rows).map((row, i) => {
+        </tr>
+      </thead>
+      <tbody>
+        {
+        shownRows.map((row, i) => {
           const data = row.data;
           const key = i; // TODO replace 'i' by a better key
           const columns = row.type === 'row' ? getColumns(cols) : getColumns(subCols);
           if (row.type === 'row' || row.type === 'subrow') {
-            return (
-              <tr
-                title={disableSelection ? disableSelectionReason : ''}
-                onMouseEnter={() => onMouseEnter(row)}
-                onMouseLeave={() => onMouseLeave(row)}
-                onClick={() => onClickRow(row)}
-                key={key}
-                className={classnames({
-                  [styles.notAllowed]: disableSelection,
-                  [styles.selectable]: getIsSelectable(row) && !disableSelection,
-                  [styles.hover]: getIsHovered(row),
-                  tableSubRow: row.type === 'subrow',
-                  tableRow: row.type === 'row',
-                  selected: getIsSelected(row),
-                })}
-                style={{ width: '100%', height: `${rowHeight}px` }}
-              >
-                {
-                  columns.map((col, index) => (
-                    <td
-                      className={classnames({
-                        [styles.collapseColumn]: index === 0,
-                      })}
-                      key={col}
-                    >
-                      {
-                        index === 0 && row.type === 'row'
-                        && (getIsExpanded(row) ? (
-                          <CollapseButton onClick={() => onCollapse(row)} />
-                        ) : (
-                          <CollapseButton collapsed onClick={() => onUncollapse(row)} />
-                        ))
-                      }
-                      {data[col]}
-                    </td>
-                  ))
-                }
-              </tr>
-            );
-          }
-          return (
-            <tr
+            const rowElement = (<tr
               title={disableSelection ? disableSelectionReason : ''}
               onMouseEnter={() => onMouseEnter(row)}
               onMouseLeave={() => onMouseLeave(row)}
               onClick={() => onClickRow(row)}
-              style={{ height: `${rowHeight}px` }}
+              key={key}
               className={classnames({
                 [styles.notAllowed]: disableSelection,
                 [styles.selectable]: getIsSelectable(row) && !disableSelection,
                 [styles.hover]: getIsHovered(row),
-                tableSubRow: true,
+                tableSubRow: row.type === 'subrow',
+                tableRow: row.type === 'row',
                 selected: getIsSelected(row),
-              })}
-              key={key}
+                lastSubrowFromRange: (
+                  row.type === 'subrow' &&
+                  shownRows[i + 1] && shownRows[i + 1].type === 'row'
+                ),
+              }, computeRowClassnameForType(row))}
+              style={{ width: '100%', height: `${rowHeight}px` }}
             >
               {
-                row.type === 'subrow_header' ? (
-                  getColumns(subCols).map((col, index) => (
-                    <th
-                      className={classnames({
-                        [styles.collapseColumn]: index === 0,
-                      })}
-                      key={col}
-                    >
-                      {col}
-                    </th>
-                  ))
-                ) : [
+                columns.map((col, index) => (
+                  <td
+                    className={classnames({
+                      [styles.collapseColumn]: index === 0,
+                    })}
+                    key={col}
+                  >
+                    {
+                      index === 0 && row.type === 'row'
+                      && (getIsExpanded(row) ? (
+                        <CollapseButton onClick={() => onCollapse(row)} />
+                      ) : (
+                        <CollapseButton collapsed onClick={() => onUncollapse(row)} />
+                      ))
+                    }
+                    {data[col]}
+                  </td>
+                ))
+              }
+            </tr>);
+
+            if (previousRowType === 'subrow' && row.type === 'row') {
+              previousRowType = row.type;
+              return [<tr key={`${key}-dummy-1`} className={'dummyRow'}>o</tr>, rowElement];
+            }
+
+            previousRowType = row.type;
+            return rowElement;
+          }
+
+          const rowElement = (<tr
+            title={disableSelection ? disableSelectionReason : ''}
+            onMouseEnter={() => onMouseEnter(row)}
+            onMouseLeave={() => onMouseLeave(row)}
+            onClick={() => onClickRow(row)}
+            style={{ height: `${rowHeight}px` }}
+            className={classnames({
+              [styles.notAllowed]: disableSelection,
+              [styles.selectable]: getIsSelectable(row) && !disableSelection,
+              [styles.hover]: getIsHovered(row),
+              tableSubRow: true,
+              selected: getIsSelected(row),
+            }, computeRowClassnameForType(row))}
+            key={key}
+          >
+            {
+              row.type === 'subrow_header' ? (
+                getColumns(subCols).map((col, index) => (
                   <th
                     className={classnames({
-                      [styles.collapseColumn]: true,
+                      [styles.collapseColumn]: index === 0,
                     })}
-                    key="1"
-                  />,
-                  <th
-                    style={{ fontStyle: 'italic' }}
-                    key="2"
-                    colSpan={getColumns(subCols).length - 1}
+                    key={col}
                   >
-                    { row.data }
-                  </th>,
-                ]
-              }
-            </tr>
-          );
+                    {col}
+                  </th>
+                ))
+              ) : [
+                <th
+                  className={classnames({
+                    [styles.collapseColumn]: true,
+                  })}
+                  key="1"
+                />,
+                <th
+                  style={{ fontStyle: 'italic' }}
+                  key="2"
+                  colSpan={getColumns(subCols).length - 1}
+                >
+                  { row.data }
+                </th>,
+              ]
+            }
+          </tr>);
+
+          if (row.type === 'subrow_header_title') {
+            previousRowType = row.type;
+            return [<tr key={`${key}-dummy-2`} className={'dummyRow'}>o</tr>, rowElement];
+          }
+
+          return rowElement;
         })
       }
-    </tbody>
-  </table>
-);
+      </tbody>
+    </table>
+  );
+};
 
 Table.propTypes = {
   onClickRow: PropTypes.func.isRequired,

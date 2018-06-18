@@ -15,6 +15,7 @@ import sinon from 'sinon';
 import { MIME_TYPES } from 'constants';
 
 import { getTmpPath } from 'common/jest';
+import { CSV_DATA as CSV_EXPORT_DATA } from './fixtures/exportData';
 import * as fmdApi from './fmd';
 import * as io from './io';
 
@@ -74,14 +75,15 @@ describe('documentManager/io', () => {
 
     describe('inside fmd folder', () => {
       test('works with oid', (done) => {
-        io.readDocument({ oId: 'oid:/small.workspace.json' }, (err, data, properties, resolvedPath) => {
-          expect(err).not.toBeInstanceOf(Error);
-          expect(data).toBeAnObject();
-          expect(properties).toEqual(42);
-          expect(resolvedPath).toBeAString();
-          expect(fileExist(resolvedPath)).toBe(true);
-          done();
-        });
+        io.readDocument({ oId: 'oid:/small.workspace.json' },
+          (err, data, properties, resolvedPath) => {
+            expect(err).not.toBeInstanceOf(Error);
+            expect(data).toBeAnObject();
+            expect(properties).toEqual(42);
+            expect(resolvedPath).toBeAString();
+            expect(fileExist(resolvedPath)).toBe(true);
+            done();
+          });
       });
       test('fails with unknow oid', (done) => {
         io.readDocument({ oId: 'unknownOid' }, (err) => {
@@ -242,11 +244,11 @@ describe('documentManager/io', () => {
     beforeEach(done => mkdir(getTmpPath(), done));
     afterEach(done => rimraf(getTmpPath(), done));
 
-    test('exists', () => {
+    test('writeDocument: written file exists', () => {
       expect(io.writeDocument).toBeAFunction();
     });
 
-    test('fails when writeFile give an error', (done) => {
+    test('writeDocument fails when writeFile give an error', (done) => {
       global.testConfig.ISIS_DOCUMENTS_ROOT = '/';
       const path = join(fmdApi.getRootDir(), 'document.json');
       io.writeDocument(path, objectToSave, (err) => {
@@ -257,7 +259,7 @@ describe('documentManager/io', () => {
       });
     });
 
-    test('fails when createDocument give an error', (done) => {
+    test('writeDocument fails when createDocument give an error', (done) => {
       const path = join(fmdApi.getRootDir(), 'document.json');
       io.writeDocument(path, failingObjectToSave, (err) => {
         expect(err).toBeInstanceOf(Error);
@@ -275,7 +277,8 @@ describe('documentManager/io', () => {
       });
 
       const getPath = () => join(fmdApi.getRootDir(), 'document.json');
-      test('works with an absolute path', (done) => {
+
+      test('writeDocument works with an absolute path', (done) => {
         const path = getPath();
         io.writeDocument(path, objectToSave, (err) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -283,7 +286,8 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      test('should give an oid', (done) => {
+
+      test('writeDocument should give an oid', (done) => {
         const path = getPath();
         io.writeDocument(path, objectToSave, (err, oid) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -291,7 +295,8 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      test('fails with a relative path', (done) => {
+
+      test('writeDocument fails with a relative path', (done) => {
         const path = './document.json';
         io.writeDocument(path, objectToSave, (err) => {
           expect(err).toBeInstanceOf(Error);
@@ -306,7 +311,7 @@ describe('documentManager/io', () => {
     describe('outside fmd folder', () => {
       const getPath = () => join(getTmpPath(), 'document.json');
 
-      test('works with an absolute path', (done) => {
+      test('writeDocument works with an absolute path', (done) => {
         const path = getPath();
         io.writeDocument(path, objectToSave, (err) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -314,7 +319,8 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      test('should give an oid', (done) => {
+
+      test('writeDocument should give an oid', (done) => {
         const path = getPath();
         io.writeDocument(path, objectToSave, (err, oid) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -322,11 +328,236 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      test('fails with a relative path', (done) => {
+      test('writeDocument fails with a relative path', (done) => {
         const path = './document.json';
         io.writeDocument(path, objectToSave, (err) => {
           expect(err).toBeInstanceOf(Error);
           access(path, (accessErr) => {
+            expect(accessErr).toBeAnObject();
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe('exportData --- csv', () => {
+    const failingObjectToSave = { type: 'Unknown document type', some: { properties: true } };
+
+    beforeEach(done => mkdir(getTmpPath(), done));
+    afterEach(done => rimraf(getTmpPath(), done));
+
+    test('written file exists', () => {
+      expect(io.exportData).toBeAFunction();
+    });
+
+    test('fails when writeFile gives an error', (done) => {
+      global.testConfig.ISIS_DOCUMENTS_ROOT = '/';
+      const path = join(fmdApi.getRootDir(), 'filename.csv');
+      io.exportData(CSV_EXPORT_DATA, MIME_TYPES.CommaSeparatedValues, path, (err) => {
+        expect(err).toBeAnObject();
+        expect(err).toHaveKeys(['errno', 'code', 'syscall']);
+        global.testConfig.ISIS_DOCUMENTS_ROOT = folder;
+        done();
+      });
+    });
+
+    test('fails when createDocument gives an error', (done) => {
+      const path = join(fmdApi.getRootDir(), 'filename.csv');
+      io.exportData(CSV_EXPORT_DATA, failingObjectToSave, path, (err) => {
+        expect(err).toBeInstanceOf(Error);
+        expect(err.message).toMatch(/Unknown documentType/);
+        done();
+      });
+    });
+
+    describe('inside fmd folder', () => {
+      beforeAll(() => {
+        global.testConfig.ISIS_DOCUMENTS_ROOT = getTmpPath();
+      });
+      afterAll(() => {
+        global.testConfig.ISIS_DOCUMENTS_ROOT = folder;
+      });
+
+      const getExportDataPath = () => join(fmdApi.getRootDir(), 'document.csv');
+
+      test('works with an absolute path', (done) => {
+        const exportDataPath = getExportDataPath();
+        io.exportData(CSV_EXPORT_DATA, MIME_TYPES.CommaSeparatedValues, exportDataPath, (err) => {
+          expect(err).not.toBeInstanceOf(Error);
+          fs.readFile(exportDataPath, 'utf8', (error, data) => {
+            if (error) throw error;
+            expect(data).toEqual(CSV_EXPORT_DATA);
+            done();
+          });
+          done();
+        });
+      });
+
+      test('should give an oid', (done) => {
+        const path = getExportDataPath();
+        io.exportData(CSV_EXPORT_DATA, MIME_TYPES.CommaSeparatedValues, path, (err, oid) => {
+          expect(err).not.toBeInstanceOf(Error);
+          expect(oid).toEqual('oid:/document.csv');
+          done();
+        });
+      });
+
+      test('fails with a relative path', (done) => {
+        const path = './document.csv';
+        io.exportData(CSV_EXPORT_DATA, MIME_TYPES.CommaSeparatedValues, path, (err) => {
+          expect(err).toBeInstanceOf(Error);
+          access(path, (accessErr) => {
+            expect(accessErr).toBeAnObject();
+            done();
+          });
+        });
+      });
+    });
+
+    describe('outside fmd folder', () => {
+      const getPath = () => join(getTmpPath(), 'document.json');
+      const getExportDataPath = () => join(getTmpPath(), 'document.csv');
+
+      test('exportData works with an absolute path', (done) => {
+        const exportDataPath = getExportDataPath();
+        io.exportData(CSV_EXPORT_DATA, MIME_TYPES.CommaSeparatedValues, exportDataPath, (err) => {
+          expect(err).not.toBeInstanceOf(Error);
+          fs.readFile(exportDataPath, 'utf8', (error, data) => {
+            if (error) throw error;
+            expect(data).toEqual(CSV_EXPORT_DATA);
+            done();
+          });
+          done();
+        });
+      });
+      test('should give an oid', (done) => {
+        const exportDataPath = getPath();
+        io.exportData(CSV_EXPORT_DATA, MIME_TYPES.CommaSeparatedValues, exportDataPath,
+          (err, oid) => {
+            expect(err).not.toBeInstanceOf(Error);
+            expect(oid).toBeUndefined();
+            done();
+          });
+      });
+      test('fails with a relative path', (done) => {
+        const exportDataPath = './document.csv';
+        io.exportData(CSV_EXPORT_DATA, MIME_TYPES.CommaSeparatedValues, exportDataPath, (err) => {
+          expect(err).toBeInstanceOf(Error);
+          access(exportDataPath, (accessErr) => {
+            expect(accessErr).toBeAnObject();
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe('exportData --- png', () => {
+    const failingObjectToSave = { type: 'Unknown document type', some: { properties: true } };
+    const pngDataUrlImportPath = `${__dirname}/fixtures/pngDataUrl`;
+    const pngDataUrl = String(fs.readFileSync(pngDataUrlImportPath));
+
+    beforeEach(done => mkdir(getTmpPath(), done));
+    afterEach(done => rimraf(getTmpPath(), done));
+
+    test('written file exists', () => {
+      expect(io.exportData).toBeAFunction();
+    });
+
+    test('fails when writeFile gives an error', (done) => {
+      global.testConfig.ISIS_DOCUMENTS_ROOT = '/';
+      const path = join(fmdApi.getRootDir(), 'filename.png');
+      io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, path, (err) => {
+        expect(err).toBeAnObject();
+        expect(err).toHaveKeys(['errno', 'code', 'syscall']);
+        global.testConfig.ISIS_DOCUMENTS_ROOT = folder;
+        done();
+      });
+    });
+
+    test('fails when createDocument gives an error', (done) => {
+      const path = join(fmdApi.getRootDir(), 'filename.png');
+      io.exportData(pngDataUrl, failingObjectToSave, path, (err) => {
+        expect(err).toBeInstanceOf(Error);
+        expect(err.message).toMatch(/Unknown documentType/);
+        done();
+      });
+    });
+
+    describe('inside fmd folder', () => {
+      beforeAll(() => {
+        global.testConfig.ISIS_DOCUMENTS_ROOT = getTmpPath();
+      });
+      afterAll(() => {
+        global.testConfig.ISIS_DOCUMENTS_ROOT = folder;
+      });
+
+      const getExportDataPath = () => join(fmdApi.getRootDir(), 'document.png');
+      test('works with an absolute path', (done) => {
+        const exportDataPath = getExportDataPath();
+        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath, (err) => {
+          expect(err).not.toBeInstanceOf(Error);
+          fs.readFile(exportDataPath, 'base64', (error, data) => {
+            if (error) throw error;
+            expect(data).toEqual(pngDataUrl);
+            done();
+          });
+          done();
+        });
+      });
+
+      test('should give an oid', (done) => {
+        const exportDataPath = getExportDataPath();
+        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath,
+          (err, oid) => {
+            expect(err).not.toBeInstanceOf(Error);
+            expect(oid).toEqual('oid:/document.png');
+            done();
+          });
+      });
+
+      test('fails with a relative path', (done) => {
+        const exportDataPath = './document.png';
+        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath,
+          (err) => {
+            expect(err).toBeInstanceOf(Error);
+            access(exportDataPath, (accessErr) => {
+              expect(accessErr).toBeAnObject();
+              done();
+            });
+          });
+      });
+    });
+
+    describe('outside fmd folder', () => {
+      const getExportDataPath = () => join(getTmpPath(), 'document.png');
+      test('exportData works with an absolute path', (done) => {
+        const exportDataPath = getExportDataPath();
+        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath, (err) => {
+          expect(err).not.toBeInstanceOf(Error);
+          fs.readFile(exportDataPath, 'base64', (error, data) => {
+            if (error) throw error;
+            expect(data).toEqual(pngDataUrl);
+            done();
+          });
+          done();
+        });
+      });
+      test('should give an oid', (done) => {
+        const exportDataPath = getExportDataPath();
+        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath,
+          (err, oid) => {
+            expect(err).not.toBeInstanceOf(Error);
+            expect(oid).toBeUndefined();
+            done();
+          });
+      });
+      test('fails with a relative path', (done) => {
+        const exportDataPath = './document.png';
+        io.exportData(pngDataUrl, MIME_TYPES.PortableNetworkGraphics, exportDataPath, (err) => {
+          expect(err).toBeInstanceOf(Error);
+          access(exportDataPath, (accessErr) => {
             expect(accessErr).toBeAnObject();
             done();
           });

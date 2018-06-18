@@ -223,7 +223,7 @@ export function onStart() {
           }
         });
       } else {
-        logger.error('No --CONFIGURATION parameters found');
+        logger.warn('No --CONFIGURATION parameters found');
         callback(null);
       }
     },

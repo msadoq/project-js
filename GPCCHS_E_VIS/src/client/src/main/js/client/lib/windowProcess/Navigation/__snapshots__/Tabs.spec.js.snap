@@ -1,99 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`windowProcess windowProcess :: Navigation windowProcess :: Navigation :: Tabs Tabs :: render 1`] = `
-ShallowWrapper {
-  "length": 1,
-  Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Provider
-    store={
-        Object {
-            "dispatch": [Function],
-            "getState": [Function],
-            "replaceReducer": [Function],
-            "subscribe": [Function],
-            Symbol(Symbol.observable): [Function],
-          }
-    }
->
-    <Tabs
-        askClosePage={[Function]}
-        attachWindow="5c467cc7-bfb4-4fae-85a8-b0fe7e87dfde"
-        detachWindow={true}
-        focusPage={[Function]}
-        focusedPageId="5c467cc7-cezl-5dcs-f54s-kjdshnlskjd45"
-        movePageToWindow={[Function]}
-        moveTabOrder={[Function]}
-        pageDragEvent={[Function]}
-        pages={
-            Array [
-                Object {},
-                Object {},
-              ]
-        }
-        windowId="5c467cc7-bfb4-4fae-85a8-b0fe7e87dfde"
-    />
-</Provider>,
-  Symbol(enzyme.__renderer__): Object {
-    "batchedUpdates": [Function],
-    "getNode": [Function],
-    "render": [Function],
-    "simulateEvent": [Function],
-    "unmount": [Function],
-  },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": undefined,
-    "nodeType": "class",
-    "props": Object {
-      "askClosePage": [Function],
-      "attachWindow": "5c467cc7-bfb4-4fae-85a8-b0fe7e87dfde",
-      "detachWindow": true,
-      "focusPage": [Function],
-      "focusedPageId": "5c467cc7-cezl-5dcs-f54s-kjdshnlskjd45",
-      "movePageToWindow": [Function],
-      "moveTabOrder": [Function],
-      "pageDragEvent": [Function],
-      "pages": Array [
-        Object {},
-        Object {},
-      ],
-      "windowId": "5c467cc7-bfb4-4fae-85a8-b0fe7e87dfde",
-    },
-    "ref": null,
-    "rendered": null,
-    "type": [Function],
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "class",
-      "props": Object {
-        "askClosePage": [Function],
-        "attachWindow": "5c467cc7-bfb4-4fae-85a8-b0fe7e87dfde",
-        "detachWindow": true,
-        "focusPage": [Function],
-        "focusedPageId": "5c467cc7-cezl-5dcs-f54s-kjdshnlskjd45",
-        "movePageToWindow": [Function],
-        "moveTabOrder": [Function],
-        "pageDragEvent": [Function],
-        "pages": Array [
-          Object {},
-          Object {},
-        ],
-        "windowId": "5c467cc7-bfb4-4fae-85a8-b0fe7e87dfde",
-      },
-      "ref": null,
-      "rendered": null,
-      "type": [Function],
-    },
-  ],
-  Symbol(enzyme.__options__): Object {
-    "adapter": ReactFifteenFourAdapter {
-      "options": Object {
-        "supportPrevContextArgumentOfComponentDidUpdate": true,
-      },
-    },
-  },
-}
+exports[`windowProcess windowProcess :: Navigation windowProcess :: Navigation :: Tabs snapshot 1`] = `
+<ReduxForm
+  askClosePage={[Function]}
+  attachWindow="5c467cc7-bfb4-4fae-85a8-b0fe7e87dfde"
+  detachWindow={true}
+  focusPage={[Function]}
+  focusedPageId="5c467cc7-cezl-5dcs-f54s-kjdshnlskjd45"
+  movePageToWindow={[Function]}
+  moveTabOrder={[Function]}
+  pageDragEvent={[Function]}
+  pages={
+    Array [
+      Object {},
+      Object {},
+    ]
+  }
+  windowId="5c467cc7-bfb4-4fae-85a8-b0fe7e87dfde"
+/>
 `;

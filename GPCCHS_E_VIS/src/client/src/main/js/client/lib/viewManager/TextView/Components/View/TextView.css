@@ -1,7 +1,6 @@
 .container {
   overflow: auto;
 }
-
 .errorContent {
   padding: 1em;
   height: 100%;
@@ -14,4 +13,7 @@
   color: #CCC;
   text-align: center;
   font-weight: 600;
+}
+.highlighted{
+  background-color: #FC0;
 }

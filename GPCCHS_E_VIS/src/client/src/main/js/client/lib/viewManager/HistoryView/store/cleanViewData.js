@@ -15,57 +15,6 @@ import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
 import _omit from 'lodash/omit';
 
-import { updateFilteredIndexes } from '../../commonData/reducer';
-
-/**
- * Keeps only indexes that correspond to actual data
- *
- * @param state
- * @param type
- * @returns {void|*}
- * @private
- */
-const _scopeIndexesByType = (state, type) => {
-  const updatedIndexes = _.get(['indexes', type], state);
-
-  const _shouldKeepIndex =
-    index => _.has(['data', ...index.split(' ')], state);
-
-  return _.set(
-    ['indexes', type],
-    _.filter(_shouldKeepIndex, updatedIndexes),
-    state
-  );
-};
-
-/**
- * Keeps only indexes that corresponds to data inside visualization window
- *
- * @param state
- * @param type
- * @param lower
- * @param upper
- * @returns {void|*}
- * @private
- */
-const _scopeIndexesByVisualizationWindow = (state, type, lower, upper) => {
-  const updatedIndexes = _.get(['indexes', type], state);
-
-  const _shouldKeepIndex =
-    (index) => {
-      const timestamp = index.split(' ')[1];
-      const time = Number(timestamp);
-
-      return (time >= lower) && (time <= upper);
-    };
-
-  return _.set(
-    ['indexes', type],
-    _.filter(_shouldKeepIndex, updatedIndexes),
-    state
-  );
-};
-
 /* ************************************************
  * Clean viewData for current viewData
  * @param currentState view data State
@@ -80,8 +29,7 @@ export default function cleanCurrentViewData(
   oldViewFromMap,
   newViewFromMap,
   oldIntervals,
-  newIntervals,
-  historyConfig
+  newIntervals
 ) {
   // Check if viewMap has changed
   if (_isEqual(newViewFromMap, oldViewFromMap) && _isEqual(oldIntervals, newIntervals)) {
@@ -95,11 +43,7 @@ export default function cleanCurrentViewData(
   // invisible view
   if (!newViewFromMap) {
     return {
-      cols: [],
-      data: {},
-      indexes: {
-        referenceTimestamp: [],
-      },
+      data: [],
     };
   }
   // entry point updates
@@ -145,33 +89,20 @@ export default function cleanCurrentViewData(
       (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
       const lower = newInterval[0] + newEp.offset;
       const upper = newInterval[1] + newEp.offset;
-      newState = removeViewDataByEp(newState, epName, lower, upper);
-
-// eslint-disable-next-line no-loop-func
-      Object.keys(newState.indexes).forEach((key) => {
-        // removes indexes outside current visualization window
-        if (key !== 'keep') {
-          newState = _scopeIndexesByVisualizationWindow(newState, key, lower, upper);
-        }
-      });
+      newState = removeViewDataOutsideRange(newState, lower, upper);
     }
   }
-
-  Object.keys(newState.indexes).forEach((key) => {
-    if (key !== 'keep') {
-      // keeps only indexes that correspond to actual ep data
-      newState = _scopeIndexesByType(newState, key);
-    }
-  });
-
-  newState = updateFilteredIndexes(newState, historyConfig.tables.history.filters);
 
   return newState;
 }
 
 function removeEpData(state, epName) {
   if (epName && epName.length > 0) {
-    return _.omit(['data', epName], state);
+    return _.set(
+      ['data'],
+      _.get(['data'], state).filter(el => el.epName !== epName),
+      state
+    );
   }
 
   return state;
@@ -188,37 +119,19 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
   if (!oldLabel || !newLabel || oldLabel === newLabel) {
     return viewData;
   }
-  // unknown label
-  if (!viewData.data || !viewData.data[oldLabel]) {
-    return viewData;
-  }
-  const newState = _omit(viewData, ['data', oldLabel]);
-  if (!newState.data) {
-    newState.data = {};
-  }
-  newState.data[newLabel] = viewData.data[oldLabel];
 
-  if (!newState.indexes) {
-    newState.indexes = {
-      referenceTimestamp: [],
-    };
-  }
-
-  return newState;
+  return _.set(
+    ['data'],
+    viewData.data.map(el => ({ ...el, epName: newLabel })),
+    viewData
+  );
 }
 
-export function removeViewDataByEp(viewData, epName, lower, upper) {
-  let epData = _.getOr({}, ['data', epName], viewData);
-  epData = Object.keys(epData).reduce((acc, timestamp) => {
-    const time = Number(timestamp);
-    if ((time >= lower) && (time <= upper)) {
-      return {
-        ...acc,
-        [time]: epData[time],
-      };
-    }
-    return acc;
-  }, {});
+export function removeViewDataOutsideRange(viewData, lower, upper) {
+  const updatedViewData = _.get(['data'], viewData).filter((el) => {
+    const time = Number(el.referenceTimestamp);
+    return ((time >= lower) && (time <= upper));
+  });
 
-  return _.set(['data', epName], epData, viewData);
+  return _.set(['data'], updatedViewData, viewData);
 }

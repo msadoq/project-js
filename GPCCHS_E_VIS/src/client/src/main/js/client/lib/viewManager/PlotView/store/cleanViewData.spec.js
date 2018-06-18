@@ -160,7 +160,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
       expect(scanForMinAndMax(freezeMe(plotViewData))).toMatchSnapshot();
     });
   });
-  describe('removeViewDataByEp', () => {
+  describe('removeViewDataOutsideRange', () => {
     test('should support empty state', () => {
       const frozen = freezeMe({});
       expect(removeViewDataByEp(frozen, 10, 20)).toBe(frozen);

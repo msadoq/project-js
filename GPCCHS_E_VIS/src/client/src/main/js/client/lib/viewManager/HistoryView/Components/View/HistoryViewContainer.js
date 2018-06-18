@@ -29,20 +29,17 @@ const mapStateToProps = (state, { viewId }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const historyConfig = config.tables.history;
 
-  const { data, indexes } = getData(state, { viewId });
+  const viewData = getData(state, { viewId });
 
-  const usedIndexName = _.getOr('referenceTimestamp', ['sorting', 'colName'], historyConfig);
+  const historyData = _.getOr([], 'history', viewData);
+  const data = _.getOr([], 'data', historyData);
+  const keep = _.getOr([], 'keep', historyData);
+
+
   const sortingDirection = _.getOr('DESC', ['sorting', 'direction'], historyConfig);
 
-  const usedIndex = _.getOr([], [usedIndexName], indexes);
-  const filterIndex = _.getOr(null, ['keep'], indexes);
-
-  const totalRowCount = usedIndex.length;
-  let rowCount = totalRowCount;
-
-  if (Array.isArray(filterIndex)) {
-    rowCount = filterIndex.length;
-  }
+  const totalRowCount = data.length;
+  const rowCount = keep.length;
 
   const rows = ({ rowIndex, columnIndex, cols }) => {
     const virtualRowIndex =
@@ -50,10 +47,8 @@ const mapStateToProps = (state, { viewId }) => {
         rowIndex :
         rowCount - rowIndex - 1;
 
-    const virtualFilteredIndex = (filterIndex && filterIndex[virtualRowIndex]) || rowIndex;
-
     const content =
-      _.get(usedIndex[virtualFilteredIndex] && usedIndex[virtualFilteredIndex].split(' '), data);
+      _.get(keep[virtualRowIndex], data);
 
     if (content) {
       const colKey = cols[columnIndex].title;

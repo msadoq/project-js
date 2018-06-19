@@ -41,21 +41,23 @@ const knownValidators = {
   timebars: ajv.compile(timebarsSchema),
 };
 
-function formatError(err) {
-  const keys = Object.keys(err.params);
+export function formatError(err) {
+  const keys = Object.keys(_get(err, 'params', []));
   const param = keys.length ? err.params[keys[0]] : '';
-  return err.dataName
+  return _get(err, 'dataName', '')
     .concat(' ')
-    .concat(err.message.concat(_isArray(param) ? ' : '.concat(_join(param, ', ')) : ''));
+    .concat(_get(err, 'message', '')
+    .concat(_isArray(param) ? ' : '.concat(_join(param, ', ')) : ''));
 }
 
-function verboseFormatError(err) {
+export function verboseFormatError(err) {
+  const keys = Object.keys(_get(err, 'params', []));
   return '\nValidation error: '
-    .concat(err.dataName)
+    .concat(_get(err, 'dataName', ''))
     .concat(' ')
-    .concat(err.message)
-    .concat(Object.keys(err.params) ? `\nparams: ${JSON.stringify(err.params)}` : '') // any param ?
-    .concat(`\ndata: ${JSON.stringify(err.data, null, 2)}`);
+    .concat(_get(err, 'message', ''))
+    .concat(keys.length ? `\nparams: ${JSON.stringify(err.params)}` : '') // any param ?
+    .concat(`\ndata: ${JSON.stringify(_get(err, 'data', undefined), null, 2)}`);
 }
 
 const VERBOSE = true;

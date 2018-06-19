@@ -278,6 +278,7 @@ module.exports = {
     OnboardAlarmView: 'OnBoardAlarmViewDoc',
     CommaSeparatedValues: 'CommaSeparatedValues',
     PortableNetworkGraphics: 'PortableNetworkGraphics',
+    PUS11View: 'PUS11ViewDoc',
   },
   EXTENSIONS: {
     WorkSpace: 'viws',

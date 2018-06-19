@@ -103,3 +103,8 @@ are valid VIMA view configuration files.
 ```
 ./scripts/validateViewConfigurationFiles.sh ./data
 ```
+
+### Generate a new schema based on the json file: 
+
+./node_modules/json-schema-generator/bin/cli.js ./PUS11View.schema.json --force --file=/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/views/pus11View.pus11
+

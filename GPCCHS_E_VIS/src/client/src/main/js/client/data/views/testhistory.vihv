@@ -6,122 +6,97 @@
     "length": 5,
     "width": 5
   },
+  "domainName": "*",
+  "sessionName": "*",
   "entryPoints": [
     {
       "connectedData": {
         "catalog": "Reporting",
         "catalogItem": "SAT_BC_NUMTC13",
         "comObject": "ReportingParameter",
-        "comObjectField": "onboardDate",
         "dataType": "time_based_data",
         "domain": "fr.cnes.isis",
-        "formula": "Reporting.SAT_BC_NUMTC13<ReportingParameter>.onboardDate",
+        "formula": "Reporting.SAT_BC_NUMTC13<ReportingParameter>",
         "refTimestamp": "onboardDate",
         "timeline": "Session 1"
       },
       "name": "ep1"
-    },
-    {
-      "connectedData": {
-        "catalog": "Reporting",
-        "catalogItem": "SAT_BC_NUMTC17",
-        "comObject": "ReportingParameter",
-        "comObjectField": "onboardDate",
-        "dataType": "time_based_data",
-        "domain": "fr.cnes.isis",
-        "formula": "Reporting.SAT_BC_NUMTC17<ReportingParameter>.onboardDate",
-        "refTimestamp": "onboardDate",
-        "timeline": "Session 1"
-      },
-      "name": "ep2"
-    },
-    {
-      "connectedData": {
-        "catalog": "Reporting",
-        "catalogItem": "SAT_BC_NUMTC15",
-        "comObject": "ReportingParameter",
-        "comObjectField": "onboardDate",
-        "dataType": "time_based_data",
-        "domain": "fr.cnes.isis",
-        "formula": "Reporting.SAT_BC_NUMTC15<ReportingParameter>.onboardDate",
-        "refTimestamp": "onboardDate",
-        "timeline": "Session 1"
-      },
-      "name": "ep3"
     }
   ],
-  "sorting": {
-    "colName": "referenceTimestamp",
-    "direction": "DESC"
-  },
-  "dataOffset": 0,
-  "maxDisplayedRows": 1000,
-  "columns": [
-    [
-      "default",
-      [
+  "tables": {
+    "history": {
+      "name": "Entry points history",
+      "sorting": {
+        "colName": "referenceTimestamp",
+        "direction": "DESC"
+      },
+      "cols": [
         {
-          "field": "epName",
-          "isDisplayed": true
+          "title": "referenceTimestamp",
+          "displayed": true,
+          "group": "default"
         },
         {
-          "field": "referenceTimestamp",
-          "isDisplayed": true
+          "title": "epName",
+          "displayed": true,
+          "group": "default"
+        },
+        {
+          "title": "onboardDate",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "groundDate",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "convertedValue",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "rawValue",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "extractedValue",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "monitoringState",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "triggerOnCounter",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "triggerOffCounter",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "validityState",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "isObsolete",
+          "displayed": true,
+          "group": "ReportingParameter"
+        },
+        {
+          "title": "isNominal",
+          "displayed": true,
+          "group": "ReportingParameter"
         }
       ]
-    ],
-    [
-      "ReportingParameter",
-      [
-        {
-          "field": "onboardDate",
-          "isDisplayed": true
-        },
-        {
-          "field": "groundDate",
-          "isDisplayed": true
-        },
-        {
-          "field": "convertedValue",
-          "isDisplayed": true
-        },
-        {
-          "field": "rawValue",
-          "isDisplayed": true
-        },
-        {
-          "field": "extractedValue",
-          "isDisplayed": true
-        },
-        {
-          "field": "monitoringState",
-          "isDisplayed": true
-        },
-        {
-          "field": "triggerOnCounter",
-          "isDisplayed": true
-        },
-        {
-          "field": "triggerOffCounter",
-          "isDisplayed": true
-        },
-        {
-          "field": "validityState",
-          "isDisplayed": true
-        },
-        {
-          "field": "isObsolete",
-          "isDisplayed": true
-        },
-        {
-          "field": "isNominal",
-          "isDisplayed": true
-        }
-      ]
-    ]
-  ],
-  "layoutHeight": 17,
-  "filters": {
-    "epName": ""
+    }
   }
 }

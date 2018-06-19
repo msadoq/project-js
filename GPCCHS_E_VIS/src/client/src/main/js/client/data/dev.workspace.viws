@@ -13,7 +13,7 @@
       },
       "pages": [
         {
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg",
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/a.vipg",
           "timebarId": "TB1"
         }
       ]
@@ -23,7 +23,7 @@
     {
       "id": "TB1",
       "type": "timeBarConfiguration",
-      "rulerResolution": 1708.836617927527,
+      "rulerResolution": 1416.9741697416973,
       "speed": 0.15,
       "masterId": "Session 1",
       "mode": "Normal",

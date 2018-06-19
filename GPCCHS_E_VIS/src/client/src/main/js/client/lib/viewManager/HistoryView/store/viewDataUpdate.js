@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
@@ -15,165 +16,24 @@
 // END-HISTORY
 // ====================================================================
 
-/* eslint-disable no-unused-vars,no-continue,no-restricted-syntax */
-
-import _ from 'lodash/fp';
-
 import _get from 'lodash/get';
 import { convertData } from 'viewManager/commonData/convertData';
 import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
-import { SORTING_DESC, SORTING_ASC } from 'constants';
-import { shouldKeepIndex } from './dataReducer';
+import { injectData } from '../../commonData/reducer';
 
 const logger = getLogger('data:rangeValues');
 
 /**
- * Returns an object mapping entry point data for the specified entry point `epKey`
- * to indexes in the form `epKey timestamp`
+ * Add an incoming range of data into the state
  *
- * The function takes as argument an object in the following format:
- *
- * {
- *   [epKey]: {
- *     [timestamp]: { ...epData }
- *   }
- * }
- *
- * and returns the indexed representation of it, using the couple (epKey, timestamp)
- * to index entry point data:
- *
- * {
- *   [`[epKey] [timestamp]`]: { ...epData }
- * }
- *
- * @param epKey string
- * @param epData object
- * @returns object
- * @private
+ * @param state
+ * @param viewId
+ * @param payloads
+ * @param viewConfig
+ * @returns {*}
  */
-const _indexEntryPointData =
-  (epKey, epData) =>
-    Object.keys(epData).reduce((acc, timestamp) => ({
-      ...acc,
-      [`${epKey} ${timestamp}`]: epData[timestamp],
-    }), {});
-
-/**
- *
- * Returns an indexed version of entry points data, in the form:
- *
- * {
- *   [`[epKey] [timestamp]`]: { ...epData }
- * }
- *
- * @param data
- * @returns {{}}
- * @private
- */
-const _indexData =
-  data =>
-    Object.keys(data).reduce((acc, epKey) => ({
-      ...acc,
-      ..._indexEntryPointData(epKey, data[epKey] || {}),
-    }), {});
-
-
-const _insertSortedBy = (by, el, dest, offset = 0) => {
-  const index = _.sortedIndexBy(by, el, dest.slice(offset)) + offset;
-
-  return [
-    index,
-    [...dest.slice(0, index), el, ...dest.slice(index)],
-  ];
-};
-
-/**
- *
- * Inserts the elements in source array into a sorted destination array
- *
- * @param by
- * @param source
- * @param dest
- * @private
- */
-const _mergeSortedArrayBy = (by, source, dest) => {
-  let i = 0;
-  let offset = 0;
-  let ret = dest;
-
-  while (i < source.length) {
-    const [updatedOffset, updatedDest] = _insertSortedBy(by, source[i], ret, offset);
-    i += 1;
-    offset = updatedOffset;
-    ret = updatedDest;
-  }
-
-  return ret;
-};
-
-
-const _syncIndexesByType = (state, indexedPayloads, sortingColKey) => {
-  const _sortFunc = payloadIndex => _.get([payloadIndex, sortingColKey], indexedPayloads);
-
-  // sort new payload indexes by sortingColKey
-  const payloadIndexes = Object.keys(indexedPayloads);
-
-  const sortedPayloadIndexes =
-    _.sortBy(
-      _sortFunc,
-      payloadIndexes
-    );
-
-  let updatedIndexes = _.getOr([], ['indexes', sortingColKey], state);
-
-  // merge payload indexes with current indexes
-  updatedIndexes = _mergeSortedArrayBy(
-    _sortFunc,
-    sortedPayloadIndexes,
-    updatedIndexes
-  );
-
-  updatedIndexes = _.set(['indexes', sortingColKey], updatedIndexes, state);
-
-  return updatedIndexes;
-};
-
-const _syncFilterIndexes = (state, indexedPayloads, filters) => {
-  const payloadIndexes = Object.keys(indexedPayloads);
-
-  const referenceIndex = _.get(['indexes', 'referenceTimestamp'], state);
-
-  const filteredPayloadIndexes =
-    payloadIndexes.filter(index => shouldKeepIndex(index, state, filters));
-
-  const previousFilterIndexes =
-    (_.get(['indexes', 'keep'], state) || []).map(index => referenceIndex[index]);
-
-  const newFilterIndexes =
-    _mergeSortedArrayBy(_.identity, filteredPayloadIndexes, previousFilterIndexes);
-
-  /**
-   * @const newFilterIndexesMap specifies the array indexes that should be kept
-   *
-   *     When using referenceTimestamp index, we get the i-th displayed value by:
-   *         referenceTimestampIndex[filterIndexesMap[i]]
-   */
-  const newFilterIndexesMap = newFilterIndexes.map((current, index) => index);
-
-  return _.set(['indexes', 'keep'], newFilterIndexesMap, state);
-};
-
-
-/* ************************************
- * Add payloads in history view data state
- * @param: data state of current view
- * @param: current view ID
- * @param: data to add in state per EP name
- * @param: current view configuration
- * @return: updated state
-/* *********************************** */
 export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
   const historyConfig = viewConfig.tables.history;
   const epKeys = Object.keys(payloads || {});
@@ -181,32 +41,18 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
     return state;
   }
 
-  const sorting = _.get(['tables', 'history', 'sorting'], viewConfig);
-  const sortingColKey = _.get(['colKey'], sorting);
-
   let updatedState = state;
 
-  // injects payloads "as is" in data
-  updatedState = _.set(
-    ['data'],
-    _.merge(_.get(['data'], updatedState), payloads),
-    state
+  const { sorting, filters } = historyConfig;
+
+  const sortingColKey = sorting.colKey;
+
+  Object.keys(payloads).forEach(
+    (ep) => {
+      const range = Object.keys(payloads[ep]).map(timestamp => payloads[ep][timestamp]);
+      updatedState = injectData(updatedState, range, 'history', sortingColKey, filters);
+    }
   );
-
-  // maintains indexed payloads
-  const indexedPayloads = _indexData(payloads);
-
-  updatedState = _syncIndexesByType(updatedState, indexedPayloads, 'referenceTimestamp');
-
-  if (
-    sortingColKey &&
-    sortingColKey !== 'referenceTimestamp'
-  ) { // take into account additional sortingKey
-    updatedState = _syncIndexesByType(updatedState, indexedPayloads, sortingColKey);
-  }
-
-  updatedState = _syncFilterIndexes(updatedState, indexedPayloads, historyConfig.filters);
-  updatedState = _.set(['indexes'], _.get(['indexes'], updatedState), updatedState);
 
   return updatedState;
 }

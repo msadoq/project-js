@@ -31,36 +31,29 @@ const lineStyleButtons = [
   { label: 'Dotted', icon: 'doted' },
 ];
 
-const { shape, string, number, bool } = PropTypes;
-
 class EntryPointParameters extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Support. by ReduxForm HOC"
-    initialValues: shape({
-      line: shape({
-        style: string,
-        size: number,
-      }).isRequired,
-      points: shape({
-        style: string,
-        size: number,
-      }).isRequired,
-      curveColor: string,
-    }).isRequired,
-    displayLine: bool,
-    displayPoints: bool,
+    entryPoint: PropTypes.objectOf(PropTypes.shape).isRequired,
   };
-  static defaultProps = {
-    displayLine: true,
-    displayPoints: true,
+  state = {
+    isLineHidden: this.props.entryPoint.objectStyle.displayLine,
+    isPointsHidden: this.props.entryPoint.objectStyle.displayPoints,
   };
+
+  hangleToggleLine = () => {
+    this.setState({ isLineHidden: !this.state.isLineHidden });
+  }
+
+  hangleTogglePoints = () => {
+    this.setState({ isPointsHidden: !this.state.isPointsHidden });
+  }
+
 
   render() {
     const {
-      displayLine,
-      displayPoints,
-    } = this.props;
-
+      isLineHidden,
+      isPointsHidden,
+    } = this.state;
     return (
       <React.Fragment>
         <div className="page-header">
@@ -77,7 +70,7 @@ class EntryPointParameters extends React.Component {
 
         <HorizontalFormGroup label="Color">
           <Field
-            name="curveColor"
+            name="objectStyle.curveColor"
             component={ColorPickerField}
           />
         </HorizontalFormGroup>
@@ -87,28 +80,29 @@ class EntryPointParameters extends React.Component {
         </div>
         <HorizontalFormGroup label="Visible">
           <Field
-            name="displayLine"
+            name="objectStyle.displayLine"
             component={ButtonToggleField}
             textOn="YES"
             textOff="NO"
             styleOff="warning"
+            onChange={this.hangleToggleLine}
           />
         </HorizontalFormGroup>
         {
-          displayLine &&
+          isLineHidden &&
           <HorizontalFormGroup label="Line style">
             <Field
               component={SelectButtonField}
-              name="line.style"
+              name="objectStyle.line.style"
               buttons={lineStyleButtons}
             />
           </HorizontalFormGroup>
         }
         {
-          displayLine &&
+          isLineHidden &&
           <HorizontalFormGroup label="Line size">
             <Field
-              name="line.size"
+              name="objectStyle.line.size"
               component={InputField}
               normalize={value => parseInt(value, 10)}
               className="form-control input-sm"
@@ -122,24 +116,25 @@ class EntryPointParameters extends React.Component {
         </div>
         <HorizontalFormGroup label="Visible">
           <Field
-            name="displayPoints"
+            name="objectStyle.displayPoints"
             component={ButtonToggleField}
             textOn="YES"
             textOff="NO"
             styleOff="warning"
+            onChange={this.hangleTogglePoints}
           />
         </HorizontalFormGroup>
         {
-          displayPoints &&
+          isPointsHidden &&
           <HorizontalFormGroup label="Points">
-            <FormSectionPointStyle name="points" />
+            <FormSectionPointStyle name="objectStyle.points" />
           </HorizontalFormGroup>
         }
         {
-          displayPoints &&
+          isPointsHidden &&
           <HorizontalFormGroup label="Points size">
             <Field
-              name="points.size"
+              name="objectStyle.points.size"
               component={InputField}
               normalize={value => parseInt(value, 10)}
               className="form-control input-sm"

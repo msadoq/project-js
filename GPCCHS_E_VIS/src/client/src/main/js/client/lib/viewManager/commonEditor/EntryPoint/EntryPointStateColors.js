@@ -15,7 +15,6 @@
 // ====================================================================
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   FieldArray,
 } from 'redux-form';
@@ -27,13 +26,5 @@ const EntryPointStateColors = () => (
     component={StateColorsFields}
   />
 );
-
-EntryPointStateColors.propTypes = {
-  pristine: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  reset: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  valid: PropTypes.bool.isRequired,
-};
 
 export default EntryPointStateColors;

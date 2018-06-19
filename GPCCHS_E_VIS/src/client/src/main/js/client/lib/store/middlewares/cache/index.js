@@ -12,9 +12,9 @@ import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
 import cacheClean from './cacheCleanUp';
 import saveCache from './saveCache';
 
-const createCacheMiddleware = lokiManager => pipeMiddlewares(
-  cacheClean(get('CACHE_INVALIDATION_FREQUENCY'), lokiManager),
-  saveCache(lokiManager)
+const createCacheMiddleware = lokiGenericManager => pipeMiddlewares(
+  cacheClean(get('CACHE_INVALIDATION_FREQUENCY')),
+  saveCache(lokiGenericManager)
 );
 
 export default createCacheMiddleware;

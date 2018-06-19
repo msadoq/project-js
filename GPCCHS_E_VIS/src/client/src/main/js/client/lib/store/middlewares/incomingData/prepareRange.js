@@ -11,7 +11,7 @@
 //  requiring an Ack
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // END-HISTORY
-// ====================================================================
+// ====================================================================prepareObsoleteEvent.spec
 
 import _isEmpty from 'lodash/isEmpty';
 import _isBuffer from 'lodash/isBuffer';
@@ -27,7 +27,7 @@ import { add as addMessage } from 'store/actions/messages';
 
 const logger = require('../../../common/logManager')('middleware:prepareRange');
 
-const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action) => {
+const prepareRange = lokiKnownRangesManager => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
   if (action.type !== types.INCOMING_RANGE_DATA) {
     return nextAction;
@@ -70,7 +70,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
         const payload = decode(payloadProtobufType, peers[index + 1]);
         execution.stop('decode payload');
         execution.start('addRecord');
-        lokiManager.addRecord(tbdId, { timestamp, payload });
+        lokiKnownRangesManager.addRecord(tbdId, { timestamp, payload });
         execution.stop('addRecord');
 
         execution.start('persist');
@@ -92,7 +92,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
 
   // If data needs to be send to reducers, dispatch action
   if (!_isEmpty(payloadsJson[tbdId])) {
-    dispatch(newData(payloadsJson));
+    dispatch(newData({ ranges: payloadsJson }));
   }
 
   execution.stop('global', `${peers.length / 2} payloads`);

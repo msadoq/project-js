@@ -22,7 +22,15 @@
 import { freezeMe } from 'common/jest';
 import dataMapGenerator from 'dataManager/map';
 import state from 'common/jest/stateTest';
-import { viewRangeAdd, getExtremValue, selectDataPerView, selectEpData } from './viewDataUpdate';
+import {
+  viewRangeAdd,
+  getExtremValue,
+  selectDataPerView,
+  selectEpData,
+  viewObsoleteEventAdd,
+  isRangeDataObsolete,
+  rangesNeedObsoleteDataUpdate,
+} from './viewDataUpdate';
 
 describe('viewManager/PlotView/store/viewDataUpdate', () => {
   const dataMap = dataMapGenerator(state);
@@ -31,45 +39,54 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
     test('should ignore empty payloads call', () => {
       const previousState = freezeMe(state);
       const newState = viewRangeAdd(previousState, {});
-      expect(newState).toBe(previousState);
+      expect(newState)
+        .toBe(previousState);
     });
     test('should support empty state', () => {
-      expect(viewRangeAdd(freezeMe({}), { ep1: {
-        10: { x: 1, value: 0.1 },
-        11: { x: 2, value: 0.1 } },
+      expect(viewRangeAdd(freezeMe({}), {
+        ep1: {
+          10: { x: 1, value: 0.1 },
+          11: { x: 2, value: 0.1 },
+        },
         min: { ep1: 0.1 },
         minTime: { ep1: 10 },
         max: { ep1: 0.1 },
         maxTime: { ep1: 11 },
-      })).toEqual({
-        indexes: { ep1: [10, 11] },
-        lines: {
-          ep1: {
-            10: { masterTime: 10, x: 1, value: 0.1 },
-            11: { masterTime: 11, x: 2, value: 0.1 },
-          } },
-        min: { ep1: 0.1 },
-        minTime: { ep1: 10 },
-        max: { ep1: 0.1 },
-        maxTime: { ep1: 11 },
-      });
+      }))
+        .toEqual({
+          indexes: { ep1: [10, 11] },
+          lines: {
+            ep1: {
+              10: { masterTime: 10, x: 1, value: 0.1, isDataObsolete: false },
+              11: { masterTime: 11, x: 2, value: 0.1, isDataObsolete: false },
+            },
+          },
+          min: { ep1: 0.1 },
+          minTime: { ep1: 10 },
+          max: { ep1: 0.1 },
+          maxTime: { ep1: 11 },
+          obsoleteEvents: {},
+        });
     });
     describe('should add points', () => {
       test('one point in middle', () => {
         const frozen = freezeMe(state.PlotViewData.plot1);
         expect(viewRangeAdd(frozen, {
-          TMMGT_BC_VIRTCHAN3: { 300100: {
-            color: 'green',
-            masterTime: 300120,
-            symbol: 150,
-            value: 150,
-            x: 300100,
-          } },
+          TMMGT_BC_VIRTCHAN3: {
+            300100: {
+              color: 'green',
+              masterTime: 300120,
+              symbol: 150,
+              value: 150,
+              x: 300100,
+            },
+          },
           max: { TMMGT_BC_VIRTCHAN3: 150 },
           maxTime: { TMMGT_BC_VIRTCHAN3: 300100 },
           min: { TMMGT_BC_VIRTCHAN3: 150 },
           minTime: { TMMGT_BC_VIRTCHAN3: 300100 },
-        })).toMatchSnapshot();
+        }))
+          .toMatchSnapshot();
       });
       test('points everywhere', () => {
         const frozen = freezeMe(state.PlotViewData.plot1);
@@ -122,145 +139,312 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
             TMMGT_BC_VIRTCHAN3: 90100,
             ATT_BC_REVTCOUNT1: 300010,
           },
-        })).toMatchSnapshot();
+        }))
+          .toMatchSnapshot();
       });
     });
-    describe('getExtremValue isMin', () => {
-      test('isMin and new values are inferior', () => {
-        const thisState = Object.freeze({
-          indexes: { ep1: [1, 10], ep2: [1] },
-          lines: {
-            ep1: [
-            { masterTime: 1, x: 1, value: 100.1 },
-            { masterTime: 10, x: 10, value: 100.10 },
-            ],
-            ep2: [
-              { masterTime: 1, x: 1, value: 200.1 },
-            ] },
-          min: { ep1: 100.1, ep2: 200.1 },
-          minTime: { ep1: 1, ep2: 1 },
-          max: { ep1: 104, ep2: 200.1 },
-          maxTime: { ep1: 4, ep2: 1 },
+  });
+  describe('viewObsoleteEventAdd', () => {
+    test('should ignore empty payloads call', () => {
+      const previousState = freezeMe(state);
+      const newState = viewObsoleteEventAdd(previousState, {}, []);
+      expect(newState)
+        .toBe(previousState);
+    });
+    test('should add obsolete events and support empty state', () => {
+      const payload1 = {
+        'ep1:2:4:::': {
+          10: {
+            eventDate: 10,
+          },
+          11: {
+            eventDate: 11,
+          },
+          12: {
+            eventDate: 12,
+          },
+        },
+      };
+      const entryPoints = {
+        ep1: {
+          dataId: {
+            parameterName: 'ep1',
+            domainId: 4,
+            sessionId: 2,
+          },
+        },
+      };
+      expect(viewObsoleteEventAdd(freezeMe({}), payload1, entryPoints))
+        .toEqual({
+          indexes: {},
+          lines: {},
+          min: {},
+          minTime: {},
+          max: {},
+          maxTime: {},
+          obsoleteEvents: {
+            ep1: {
+              10: {
+                eventDate: 10,
+              },
+              11: {
+                eventDate: 11,
+              },
+              12: {
+                eventDate: 12,
+              },
+            },
+          },
         });
-        expect(getExtremValue(thisState, 'ep1', { ep1: 90 }, { ep1: 0 }, true)).toEqual({
+    });
+    test('should add obsolete events and sort them by key', () => {
+      const payload1 = {
+        'ep1:2:4:::': {
+          10: {
+            eventDate: 10,
+          },
+          12: {
+            eventDate: 12,
+          },
+          14: {
+            eventDate: 14,
+          },
+          9: {
+            eventDate: 9,
+          },
+          13: {
+            eventDate: 13,
+          },
+          11: {
+            eventDate: 11,
+          },
+        },
+      };
+      const entryPoints = {
+        ep1: {
+          dataId: {
+            parameterName: 'ep1',
+            domainId: 4,
+            sessionId: 2,
+          },
+        },
+      };
+      expect(viewObsoleteEventAdd(freezeMe({}), payload1, entryPoints))
+        .toEqual({
+          indexes: {},
+          lines: {},
+          min: {},
+          minTime: {},
+          max: {},
+          maxTime: {},
+          obsoleteEvents: {
+            ep1: {
+              9: {
+                eventDate: 9,
+              },
+              10: {
+                eventDate: 10,
+              },
+              11: {
+                eventDate: 11,
+              },
+              12: {
+                eventDate: 12,
+              },
+              13: {
+                eventDate: 13,
+              },
+              14: {
+                eventDate: 14,
+              },
+            },
+          },
+        });
+    });
+    test('should not add obsolete events, they are not corresponding to the view\'s entrypoint', () => {
+      const payload1 = {
+        'ep2:2:4:::': {
+          10: {
+            eventDate: 10,
+          },
+          11: {
+            eventDate: 11,
+          },
+          12: {
+            eventDate: 12,
+          },
+        },
+      };
+      const entryPoints = {
+        ep1: {
+          dataId: {
+            parameterName: 'ep1',
+            domainId: 4,
+            sessionId: 2,
+          },
+        },
+      };
+      expect(viewObsoleteEventAdd(freezeMe({}), payload1, entryPoints))
+        .toEqual({
+          indexes: {},
+          lines: {},
+          min: {},
+          minTime: {},
+          max: {},
+          maxTime: {},
+          obsoleteEvents: {},
+        });
+    });
+  });
+  describe('getExtremValue isMin', () => {
+    test('isMin and new values are inferior', () => {
+      const thisState = Object.freeze({
+        indexes: { ep1: [1, 10], ep2: [1] },
+        lines: {
+          ep1: [
+            { masterTime: 1, x: 1, value: 100.1 },
+            { masterTime: 10, x: 10, value: 100.10 },
+          ],
+          ep2: [
+            { masterTime: 1, x: 1, value: 200.1 },
+          ],
+        },
+        min: { ep1: 100.1, ep2: 200.1 },
+        minTime: { ep1: 1, ep2: 1 },
+        max: { ep1: 104, ep2: 200.1 },
+        maxTime: { ep1: 4, ep2: 1 },
+      });
+      expect(getExtremValue(thisState, 'ep1', { ep1: 90 }, { ep1: 0 }, true))
+        .toEqual({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
             ep1: [
-            { masterTime: 1, x: 1, value: 100.1 },
-            { masterTime: 10, x: 10, value: 100.10 },
+              { masterTime: 1, x: 1, value: 100.1 },
+              { masterTime: 10, x: 10, value: 100.10 },
             ],
             ep2: [
               { masterTime: 1, x: 1, value: 200.1 },
-            ] },
+            ],
+          },
           min: { ep1: 90, ep2: 200.1 },
           minTime: { ep1: 0, ep2: 1 },
           max: { ep1: 104, ep2: 200.1 },
           maxTime: { ep1: 4, ep2: 1 },
         });
+    });
+    test('!isMin and new values are superior', () => {
+      const thisState = Object.freeze({
+        indexes: { ep1: [1, 10], ep2: [1] },
+        lines: {
+          ep1: [
+            { masterTime: 1, x: 1, value: 100.1 },
+            { masterTime: 10, x: 10, value: 100.10 },
+          ],
+          ep2: [
+            { masterTime: 1, x: 1, value: 200.1 },
+          ],
+        },
+        min: { ep1: 100.1, ep2: 200.1 },
+        minTime: { ep1: 1, ep2: 1 },
+        max: { ep1: 104, ep2: 200.1 },
+        maxTime: { ep1: 4, ep2: 1 },
       });
-      test('!isMin and new values are superior', () => {
-        const thisState = Object.freeze({
+      expect(getExtremValue(thisState, 'ep1', { ep1: 300 }, { ep1: 5 }, false))
+        .toEqual({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
             ep1: [
-            { masterTime: 1, x: 1, value: 100.1 },
-            { masterTime: 10, x: 10, value: 100.10 },
+              { masterTime: 1, x: 1, value: 100.1 },
+              { masterTime: 10, x: 10, value: 100.10 },
             ],
             ep2: [
               { masterTime: 1, x: 1, value: 200.1 },
-            ] },
-          min: { ep1: 100.1, ep2: 200.1 },
-          minTime: { ep1: 1, ep2: 1 },
-          max: { ep1: 104, ep2: 200.1 },
-          maxTime: { ep1: 4, ep2: 1 },
-        });
-        expect(getExtremValue(thisState, 'ep1', { ep1: 300 }, { ep1: 5 }, false)).toEqual({
-          indexes: { ep1: [1, 10], ep2: [1] },
-          lines: {
-            ep1: [
-            { masterTime: 1, x: 1, value: 100.1 },
-            { masterTime: 10, x: 10, value: 100.10 },
             ],
-            ep2: [
-              { masterTime: 1, x: 1, value: 200.1 },
-            ] },
+          },
           min: { ep1: 100.1, ep2: 200.1 },
           minTime: { ep1: 1, ep2: 1 },
           max: { ep1: 300, ep2: 200.1 },
           maxTime: { ep1: 5, ep2: 1 },
         });
+    });
+    test('no min in state', () => {
+      const thisState = Object.freeze({
+        indexes: { ep1: [1, 10], ep2: [1] },
+        lines: {
+          ep1: [
+            { masterTime: 1, x: 1, value: 100.1 },
+            { masterTime: 10, x: 10, value: 100.10 },
+          ],
+          ep2: [
+            { masterTime: 1, x: 1, value: 200.1 },
+          ],
+        },
+        min: { ep2: 200.1 },
+        minTime: { ep2: 1 },
+        max: { ep1: 104, ep2: 200.1 },
+        maxTime: { ep1: 4, ep2: 1 },
       });
-      test('no min in state', () => {
-        const thisState = Object.freeze({
+      expect(getExtremValue(thisState, 'ep1', { ep1: 102 }, { ep1: 0 }, true))
+        .toEqual({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
             ep1: [
-            { masterTime: 1, x: 1, value: 100.1 },
-            { masterTime: 10, x: 10, value: 100.10 },
+              { masterTime: 1, x: 1, value: 100.1 },
+              { masterTime: 10, x: 10, value: 100.10 },
             ],
             ep2: [
               { masterTime: 1, x: 1, value: 200.1 },
-            ] },
-          min: { ep2: 200.1 },
-          minTime: { ep2: 1 },
-          max: { ep1: 104, ep2: 200.1 },
-          maxTime: { ep1: 4, ep2: 1 },
-        });
-        expect(getExtremValue(thisState, 'ep1', { ep1: 102 }, { ep1: 0 }, true)).toEqual({
-          indexes: { ep1: [1, 10], ep2: [1] },
-          lines: {
-            ep1: [
-            { masterTime: 1, x: 1, value: 100.1 },
-            { masterTime: 10, x: 10, value: 100.10 },
             ],
-            ep2: [
-              { masterTime: 1, x: 1, value: 200.1 },
-            ] },
+          },
           min: { ep1: 100.1, ep2: 200.1 },
           minTime: { ep1: 1, ep2: 1 },
           max: { ep1: 104, ep2: 200.1 },
           maxTime: { ep1: 4, ep2: 1 },
         });
+    });
+    test('no max in state', () => {
+      const thisState = Object.freeze({
+        indexes: { ep1: [1, 10], ep2: [1] },
+        lines: {
+          ep1: [
+            { masterTime: 1, x: 1, value: 100.1 },
+            { masterTime: 10, x: 10, value: 100.10 },
+          ],
+          ep2: [
+            { masterTime: 1, x: 1, value: 200.1 },
+          ],
+        },
+        min: { ep1: 100.1, ep2: 200.1 },
+        minTime: { ep1: 1, ep2: 1 },
+        max: { ep2: 200.1 },
+        maxTime: { ep2: 1 },
       });
-      test('no max in state', () => {
-        const thisState = Object.freeze({
+      expect(getExtremValue(thisState, 'ep1', { ep1: 105 }, { ep1: 5 }, false))
+        .toEqual({
           indexes: { ep1: [1, 10], ep2: [1] },
           lines: {
             ep1: [
-            { masterTime: 1, x: 1, value: 100.1 },
-            { masterTime: 10, x: 10, value: 100.10 },
+              { masterTime: 1, x: 1, value: 100.1 },
+              { masterTime: 10, x: 10, value: 100.10 },
             ],
             ep2: [
               { masterTime: 1, x: 1, value: 200.1 },
-            ] },
-          min: { ep1: 100.1, ep2: 200.1 },
-          minTime: { ep1: 1, ep2: 1 },
-          max: { ep2: 200.1 },
-          maxTime: { ep2: 1 },
-        });
-        expect(getExtremValue(thisState, 'ep1', { ep1: 105 }, { ep1: 5 }, false)).toEqual({
-          indexes: { ep1: [1, 10], ep2: [1] },
-          lines: {
-            ep1: [
-            { masterTime: 1, x: 1, value: 100.1 },
-            { masterTime: 10, x: 10, value: 100.10 },
             ],
-            ep2: [
-              { masterTime: 1, x: 1, value: 200.1 },
-            ] },
+          },
           min: { ep1: 100.1, ep2: 200.1 },
           minTime: { ep1: 1, ep2: 1 },
           max: { ep1: 105, ep2: 200.1 },
           maxTime: { ep1: 5, ep2: 1 },
         });
-      });
     });
   });
+
   describe('data selection', () => {
     const payload = {
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100': {},
       'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1': {},
-      tbdId3: {} };
+      tbdId3: {},
+    };
     for (let j = 100120; j < 100920; j += 100) {
       payload['Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100'][j] = {
         extractedValue: { type: 'uinteger', value: (j / 10000) + 1 },
@@ -281,17 +465,20 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
       test('empty state', () => {
         const bag =
           selectDataPerView(dataMap.perView.plot1, dataMap.expectedRangeIntervals, payload);
-        expect(bag).toHaveKeys(['ATT_BC_REVTCOUNT1', 'TMMGT_BC_VIRTCHAN3', 'min', 'max', 'minTime', 'maxTime']);
+        expect(bag)
+          .toHaveKeys(['ATT_BC_REVTCOUNT1', 'TMMGT_BC_VIRTCHAN3', 'min', 'max', 'minTime', 'maxTime']);
       });
       test('viewMap undefined', () => {
         const newState =
           selectDataPerView(dataMap.perView.plot4, dataMap.expectedRangeIntervals, payload);
-        expect(Object.keys(newState).length).toEqual(0);
+        expect(Object.keys(newState).length)
+          .toEqual(0);
       });
       test('no payload', () => {
         const newState =
           selectDataPerView(dataMap.perView.plot1, dataMap.expectedRangeIntervals, {});
-        expect(Object.keys(newState).length).toEqual(0);
+        expect(Object.keys(newState).length)
+          .toEqual(0);
       });
     });
     describe('selectEpData', () => {
@@ -300,21 +487,24 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         const newState = selectEpData(payload[ep1],
           dataMap.perView.plot1.entryPoints.ATT_BC_REVTCOUNT1,
           'ATT_BC_REVTCOUNT1', undefined, dataMap.expectedRangeIntervals);
-        expect(newState).toMatchSnapshot();
+        expect(newState)
+          .toMatchSnapshot();
       });
       test('empty state', () => {
         const ep1 = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1';
         const newState = selectEpData(payload[ep1],
           dataMap.perView.plot1.entryPoints.ATT_BC_REVTCOUNT1,
           'ATT_BC_REVTCOUNT1', {}, dataMap.expectedRangeIntervals);
-        expect(newState).toMatchSnapshot();
+        expect(newState)
+          .toMatchSnapshot();
       });
       test('state not empty', () => {
         const ep1 = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1';
-        const oldState = { OldTbdId: {
-          10: { x: 11.5, col1: 101 },
-          12: { x: 12.5, value: 102 },
-        },
+        const oldState = {
+          OldTbdId: {
+            10: { x: 11.5, col1: 101 },
+            12: { x: 12.5, value: 102 },
+          },
           min: { OldTbdId: 101 },
           max: { OldTbdId: 102 },
           minTime: { OldTbdId: 10 },
@@ -323,12 +513,16 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         const newState = selectEpData(payload[ep1],
           dataMap.perView.plot1.entryPoints.ATT_BC_REVTCOUNT1,
           'ATT_BC_REVTCOUNT1', oldState, dataMap.expectedRangeIntervals);
-        expect(newState).toMatchSnapshot();
+        expect(newState)
+          .toMatchSnapshot();
       });
       test('no interval', () => {
         const ep1 = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1';
-        const oldState = { OldTbdId: { 10: { x: 1001.5, col1: 101 },
-          11: { x: 1002.5, value: 102 } },
+        const oldState = {
+          OldTbdId: {
+            10: { x: 1001.5, col1: 101 },
+            11: { x: 1002.5, value: 102 },
+          },
           min: { OldTbdId: 101 },
           max: { OldTbdId: 102 },
           minTime: { OldTbdId: 10 },
@@ -337,8 +531,160 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         const newState = selectEpData(payload[ep1],
           dataMap.perView.plot1.entryPoints.ATT_BC_REVTCOUNT1,
           'ATT_BC_REVTCOUNT1', oldState, undefined);
-        expect(newState).toEqual({});
+        expect(newState)
+          .toEqual({});
       });
+    });
+  });
+});
+
+describe('PlotView : viewDataUpdate : isRangeDataObsolete', () => {
+  it('given empty array of obsolete events, should return false', () => {
+    // given rangesTimes = [10,20,30,40,50];
+    const obsoleteEventsIndexes = [];
+    const timestamp = 10;
+    const nextTimestamp = 20;
+    const lastObsoleteEventIndex = 0;
+    expect(
+      isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes)
+    ).toEqual({
+      isDataObsolete: false,
+      lastComputedObsoleteEventIndex: 0,
+    });
+  });
+  it('given last range timestamp and no obsolete events after, should return false', () => {
+    // given rangesTimes = [10,20,30,40,50];
+    const obsoleteEventsIndexes = [11, 28];
+    const timestamp = 50;
+    const nextTimestamp = -1;
+    const lastObsoleteEventIndex = -1;
+    expect(
+      isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes)
+    ).toEqual({
+      isDataObsolete: false,
+      lastComputedObsoleteEventIndex: -1,
+    });
+  });
+  it('given last range timestamp and obsolete events after, should return true', () => {
+    // given rangesTimes = [10,20,30,40,50];
+    const obsoleteEventsIndexes = [11, 28, 57];
+    const timestamp = 50;
+    const nextTimestamp = -1;
+    const lastObsoleteEventIndex = 1;
+    expect(
+      isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes)
+    ).toEqual({
+      isDataObsolete: true,
+      lastComputedObsoleteEventIndex: 2,
+    });
+  });
+  it('given a range timestamp and one obsolete events after, should return true', () => {
+    // given rangesTimes = [10,20,30,40,50];
+    const obsoleteEventsIndexes = [11, 28];
+    const timestamp = 20;
+    const nextTimestamp = 30;
+    const lastObsoleteEventIndex = 0;
+    expect(
+      isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes)
+    ).toEqual({
+      isDataObsolete: true,
+      lastComputedObsoleteEventIndex: 1,
+    });
+  });
+  it('given a range timestamp and no obsolete events after, should return false', () => {
+    // given rangesTimes = [10,20,30,40,50];
+    const obsoleteEventsIndexes = [11, 28];
+    const timestamp = 30;
+    const nextTimestamp = 40;
+    const lastObsoleteEventIndex = 1;
+    expect(
+      isRangeDataObsolete(
+        timestamp,
+        nextTimestamp,
+        lastObsoleteEventIndex,
+        obsoleteEventsIndexes)
+    ).toEqual({
+      isDataObsolete: false,
+      lastComputedObsoleteEventIndex: -1,
+    });
+  });
+});
+
+describe('PlotView : viewDataUpdate : rangesNeedObsoleteDataUpdate', () => {
+  it('given an obsolete event timestamp and no range indexes, should return false', () => {
+    const rangesIndexes = [];
+    const timestamp = 30;
+    const lastRangeIndex = 0;
+    expect(
+      rangesNeedObsoleteDataUpdate(
+        rangesIndexes,
+        timestamp,
+        lastRangeIndex
+      )
+    ).toEqual({
+      newLastRangeIndex: -1,
+      isDataObsolete: false,
+    });
+  });
+  it('given an obsolete event timestamp (< first data) and range indexes, should return true', () => {
+    const rangesIndexes = [20, 30, 40];
+    const timestamp = 10;
+    const lastRangeIndex = 0;
+    expect(
+      rangesNeedObsoleteDataUpdate(
+        rangesIndexes,
+        timestamp,
+        lastRangeIndex
+      )
+    ).toEqual({
+      newLastRangeIndex: 0,
+      isDataObsolete: true,
+    });
+  });
+  it('given an obsolete event timestamp (22) and range indexes, should return true', () => {
+    const rangesIndexes = [20, 30, 40];
+    const timestamp = 22;
+    const lastRangeIndex = 0;
+    expect(
+      rangesNeedObsoleteDataUpdate(
+        rangesIndexes,
+        timestamp,
+        lastRangeIndex
+      )
+    ).toEqual({
+      newLastRangeIndex: 1,
+      isDataObsolete: true,
+    });
+  });
+  it('given an obsolete event timestamp (44) and range indexes, should return true', () => {
+    const rangesIndexes = [20, 30, 40, 50];
+    const timestamp = 44;
+    const lastRangeIndex = 1;
+    expect(
+      rangesNeedObsoleteDataUpdate(
+        rangesIndexes,
+        timestamp,
+        lastRangeIndex
+      )
+    ).toEqual({
+      newLastRangeIndex: 3,
+      isDataObsolete: true,
     });
   });
 });

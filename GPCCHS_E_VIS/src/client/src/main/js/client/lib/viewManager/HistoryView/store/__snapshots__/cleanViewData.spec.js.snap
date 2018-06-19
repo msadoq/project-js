@@ -48,20 +48,14 @@ Object {
     },
   },
   "indexes": Object {
-    "ATT_BC_REVTCOUNT10": Array [
-      "100020",
-      "200020",
-      "300020",
-      "400020",
-      "500020",
-    ],
+    "ATT_BC_REVTCOUNT1": Array [],
   },
   "lines": Array [
-    "ATT_BC_REVTCOUNT10 100020",
-    "ATT_BC_REVTCOUNT10 200020",
-    "ATT_BC_REVTCOUNT10 300020",
-    "ATT_BC_REVTCOUNT10 400020",
-    "ATT_BC_REVTCOUNT10 500020",
+    "ATT_BC_REVTCOUNT1 100020",
+    "ATT_BC_REVTCOUNT1 200020",
+    "ATT_BC_REVTCOUNT1 300020",
+    "ATT_BC_REVTCOUNT1 400020",
+    "ATT_BC_REVTCOUNT1 500020",
   ],
 }
 `;
@@ -114,13 +108,7 @@ Object {
     },
   },
   "indexes": Object {
-    "ATT_BC_REVTCOUNT1": Array [
-      "100020",
-      "200020",
-      "300020",
-      "400020",
-      "500020",
-    ],
+    "ATT_BC_REVTCOUNT1": Array [],
   },
   "lines": Array [
     "ATT_BC_REVTCOUNT1 100020",
@@ -206,9 +194,25 @@ Object {
     "rawValue",
     "monitoringState",
   ],
-  "data": Object {},
-  "indexes": Object {},
-  "lines": Array [],
+  "data": Object {
+    "ATT_BC_REVTCOUNT1": Object {},
+  },
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      "100020",
+      "200020",
+      "300020",
+      "400020",
+      "500020",
+    ],
+  },
+  "lines": Array [
+    "ATT_BC_REVTCOUNT1 100020",
+    "ATT_BC_REVTCOUNT1 200020",
+    "ATT_BC_REVTCOUNT1 300020",
+    "ATT_BC_REVTCOUNT1 400020",
+    "ATT_BC_REVTCOUNT1 500020",
+  ],
 }
 `;
 
@@ -242,11 +246,17 @@ Object {
     "ATT_BC_REVTCOUNT1": Array [
       "100020",
       "200020",
+      "300020",
+      "400020",
+      "500020",
     ],
   },
   "lines": Array [
     "ATT_BC_REVTCOUNT1 100020",
     "ATT_BC_REVTCOUNT1 200020",
+    "ATT_BC_REVTCOUNT1 300020",
+    "ATT_BC_REVTCOUNT1 400020",
+    "ATT_BC_REVTCOUNT1 500020",
   ],
 }
 `;
@@ -259,8 +269,24 @@ Object {
     "rawValue",
     "monitoringState",
   ],
-  "data": Object {},
-  "indexes": Object {},
-  "lines": Array [],
+  "data": Object {
+    "ATT_BC_REVTCOUNT1": Object {},
+  },
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      "100020",
+      "200020",
+      "300020",
+      "400020",
+      "500020",
+    ],
+  },
+  "lines": Array [
+    "ATT_BC_REVTCOUNT1 100020",
+    "ATT_BC_REVTCOUNT1 200020",
+    "ATT_BC_REVTCOUNT1 300020",
+    "ATT_BC_REVTCOUNT1 400020",
+    "ATT_BC_REVTCOUNT1 500020",
+  ],
 }
 `;

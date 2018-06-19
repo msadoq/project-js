@@ -20,11 +20,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 import _each from 'lodash/each';
+import _forEach from 'lodash/forEach';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import getLogger from 'common/logManager';
 import LinksContainer from 'windowProcess/View/LinksContainer';
-import styles from './MimicView.css';
 import MimicView from './MimicView';
+import styles from './MimicView.css';
 import { updateSearchCountArray } from '../../../../store/reducers/pages';
 
 const logger = getLogger('view:mimic');
@@ -71,12 +72,8 @@ export default class MimicViewWrapper extends PureComponent {
   state = { content: this.props.content };
 
   componentWillReceiveProps(nextProps) {
-    const { content, searching, searchForThisView } = nextProps;
-    if (searchForThisView) {
-      this.setState({ content: this.getContentWithSearchingHighlight(content, searching) });
-    } else {
-      this.setState({ content });
-    }
+    const { content, searching } = nextProps;
+    this.setState({ content: this.getContentWithOutline(content, searching) });
   }
 
   onContextMenu = (event) => {
@@ -116,16 +113,39 @@ export default class MimicViewWrapper extends PureComponent {
     handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
 
-  getContentWithSearchingHighlight = (content, searching) => {
-    const { updateSearchCount, viewId, searchCount } = this.props;
-    const regex = new RegExp(`(<g.*isis_ep="${searching}.*isis_search="on".*)(>)`, 'g');
-    let count = 0;
-    const newContent = content.replace(regex, (fullMatch, matchGroup1, matchGroup2) => {
-      count += 1;
-      return `${matchGroup1} style="outline: 5px #FC0 solid"${matchGroup2}`;
+  getContentWithOutline = (content, searching) => {
+    const {
+      updateSearchCount,
+      viewId,
+      searchCount,
+      searchForThisView,
+      entryPoints,
+      data,
+    } = this.props;
+
+    let newContent = content;
+    // outline for research
+    if (searchForThisView) {
+      const regex = new RegExp(`(<g.*isis_ep=".*${searching}.*isis_search="on".*)(>)`, 'g');
+      let count = 0;
+      newContent = content.replace(regex, (fullMatch, matchGroup1, matchGroup2) => {
+        count += 1;
+        return `${matchGroup1} style="outline: 2px #FC0 solid"${matchGroup2}`;
+      });
+      const searchCountArray = updateSearchCountArray(searchCount, viewId, count);
+      updateSearchCount(searchCountArray);
+    }
+
+    // outline for colorState
+    _forEach(Object.keys(entryPoints), (epName) => {
+      const color = data.values[epName] ? data.values[epName].color : null;
+      // no searching on this Ep
+      if (epName.indexOf(searching) === -1) {
+        const regexOutline2 = new RegExp(`(<g.*isis_ep="${epName}".*isis_outline="on".*)(>)`, 'g');
+        newContent = newContent.replace(regexOutline2, (fullMatch, matchGroup1, matchGroup2) =>
+          `${matchGroup1} style="outline: 2px ${color} solid"${matchGroup2}`);
+      }
     });
-    const searchCountArray = updateSearchCountArray(searchCount, viewId, count);
-    updateSearchCount(searchCountArray);
     return newContent;
   };
 
@@ -190,6 +210,11 @@ export default class MimicViewWrapper extends PureComponent {
               perfOutput={false}
               width={this.props.width}
               height={this.props.height}
+              searchForThisView={this.props.searchForThisView}
+              searching={this.props.searching}
+              updateSearchCount={this.props.updateSearchCount}
+              searchCount={this.props.searchCount}
+              viewId={this.props.viewId}
             />
           </Col>
         </Row>

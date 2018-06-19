@@ -20,6 +20,7 @@ import simple from '../helpers/simpleActionCreator';
 // Actions dispatched from archiveController to the prepareData middlewares
 export const incomingLast = simple(types.INCOMING_LAST_DATA, 'tbdId', 'peers', 'dataId');
 export const incomingRange = simple(types.INCOMING_RANGE_DATA, 'tbdId', 'peers', 'dataId');
+export const incomingObsoleteEvent = simple(types.INCOMING_OBSOLETE_EVENT, 'tbdId', 'peers', 'dataId');
 export const incomingPubSub = simple(types.INCOMING_PUBSUB_DATA, 'data');
 export const incomingPubSubAlarm = simple(types.INCOMING_PUBSUBALARM_DATA, 'data');
 
@@ -31,3 +32,4 @@ export const injectDataRange = simple(types.INJECT_DATA_RANGE, 'oldViewMap', 'ne
   'configurations', 'visuWindow'); // for historyView
 export const injectDataLast = simple(types.INJECT_DATA_LAST, 'oldViewMap', 'newViewMap',
   'oldExpectedLastIntervals', 'newExpectedLastIntervals', 'dataToInject');
+export const injectDataObsoleteEvent = simple(types.INJECT_DATA_OBSOLETE_EVENT, 'dataToInject', 'newViewMap', 'globalState');

@@ -106,7 +106,7 @@ module.exports = function sendArchiveData(
 
   if (isLast) {
     // compute number of steps from lower time to current
-    const n = Math.floor((to - from) / constants.DC_STUB_VALUE_TIMESTEP);
+    const n = Math.floor((to - from) / constants.DC_STUB_VALUE_TIMESTEP) / 2;
     let timestamp = from + (n * constants.DC_STUB_VALUE_TIMESTEP);
     if (timestamp > now) {
       // stub never send value in the future

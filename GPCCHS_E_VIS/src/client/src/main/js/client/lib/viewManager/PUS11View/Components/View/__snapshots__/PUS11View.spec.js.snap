@@ -9,18 +9,16 @@ exports[`PUS11View :: render snapshot 1`] = `
   >
     <Unknown>
       <div
-        className="info col-sm-3"
+        className="info col-sm-6"
       >
-        <span
-          className="spacing"
-        />
         <span>
-          Application Process
+          Application Process 
           <input
             disabled={true}
             type="text"
             value="string"
           />
+           
           <input
             className="mw50"
             disabled={true}
@@ -33,13 +31,10 @@ exports[`PUS11View :: render snapshot 1`] = `
         />
       </div>
       <div
-        className="info col-sm-3"
+        className="info col-sm-6"
       >
-        <span
-          className="spacing"
-        />
         <span>
-          Schedule Status 
+          Schedule Status 
           <input
             className="mw100"
             disabled={true}
@@ -52,20 +47,17 @@ exports[`PUS11View :: render snapshot 1`] = `
         />
       </div>
       <div
-        className="info col-sm-3"
+        className="info col-sm-6"
       >
-        <span
-          className="spacing"
-        />
         <span>
-          Application Space 
+          Application Space 
           <input
             className="mw100"
             disabled={true}
             type="text"
             value="string"
           />
-           
+           
           string
         </span>
         <span
@@ -73,20 +65,17 @@ exports[`PUS11View :: render snapshot 1`] = `
         />
       </div>
       <div
-        className="info col-sm-3"
+        className="info col-sm-6"
       >
-        <span
-          className="spacing"
-        />
         <span>
-          Last Uptate 
+          Last Uptate 
           <input
             className="mw100"
             disabled={true}
             type="text"
             value={1528359679639}
           />
-           
+           
           <input
             className="mw50"
             disabled={true}

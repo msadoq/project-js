@@ -22,7 +22,7 @@ exports[`viewManager :: commonEditor :: Fields :: ApplicationProcessField snapsh
     name="connectedData.apidRawValue"
     onChange={null}
     type="text"
-    value={null}
+    value=""
   />
 </div>
 `;
@@ -49,7 +49,7 @@ exports[`viewManager :: commonEditor :: Fields :: ApplicationProcessField snapsh
     name="connectedData.apidRawValue"
     onChange={null}
     type="text"
-    value={null}
+    value=""
   />
 </div>
 `;

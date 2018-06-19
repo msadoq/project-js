@@ -14,10 +14,11 @@ import dataMapGenerator from 'dataManager/map';
 import mergeIntervals from 'common/intervals/merge';
 import { resetKnownRange } from 'store/actions/knownRanges';
 import * as types from 'store/types';
+import { removeAllExceptIntervals } from 'serverProcess/models/lokiKnownRangesData';
 
 let lastCleanTimestamp = new Date();
 
-const cleanCache = (cleanTrigger, lokiManager) => ({ getState, dispatch }) => next => (action) => {
+const cleanCache = cleanTrigger => ({ getState, dispatch }) => next => (action) => {
   const now = new Date();
   if (now - lastCleanTimestamp >= cleanTrigger ||
       action.type === types.HSC_UPDATE_LAST_CACHE_INVALIDATION) {
@@ -37,7 +38,7 @@ const cleanCache = (cleanTrigger, lokiManager) => ({ getState, dispatch }) => ne
         interval: merged,
       };
     }
-    lokiManager.removeAllExceptIntervals(toKeep);
+    removeAllExceptIntervals(toKeep);
     lastCleanTimestamp = new Date();
     dispatch(resetKnownRange(toKeep));
   }

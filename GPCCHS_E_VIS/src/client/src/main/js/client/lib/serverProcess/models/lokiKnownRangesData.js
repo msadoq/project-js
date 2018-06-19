@@ -14,43 +14,72 @@
 // END-HISTORY
 // ====================================================================
 
-import _ from 'lodash/fp';
+import _noop from 'lodash/noop';
 import { get } from 'common/configurationManager';
+import {
+  getCollection as getCollectionGeneric,
+  displayCollection as displayCollectionGeneric,
+  removeCollection as removeCollectionGeneric,
+  removeAllCollections as removeAllCollectionsGeneric,
+  addRecord as addRecordGeneric,
+  addRecords as addRecordsGeneric,
+  getOrCreateCollection as getOrCreateCollectionGeneric,
+} from './lokiGeneric';
 
-const logger = require('../../common/logManager')('models:timebasedData');
 const database = require('./loki');
 
 const isCacheDisabled = String(get('DISABLE_LOKI_CACHE')) === 'true';
 
+const cacheId = 'knownRanges';
+
 // List of the tbdId indexing a lokiJs collection
 const tbdIds = [];
+
+/* ============================= Generic function overload ============================= */
 
 /**
  * Get a collection indexed by the given tbdId
  * @param string tbdId
  */
-const getCollection = tbdId => ({ collection: database.getCollection(tbdId) });
+const getCollection = tbdId => getCollectionGeneric(cacheId, tbdId);
 
+const displayCollection = tbdId => displayCollectionGeneric(cacheId, tbdId);
 
-const displayCollection = tbdId => database.getCollection(tbdId).find();
-/**
- * Get or create the collection indexed by the given tbdId
- * @param string tbdId
- */
-const getOrCreateCollection = (tbdId) => {
-  if (tbdIds.indexOf(tbdId) !== -1) {
-    return getCollection(tbdId);
+const removeCollection = (tbdId) => {
+  removeCollectionGeneric(cacheId, tbdId);
+  const index = tbdIds.indexOf(tbdId);
+  if (index > -1) {
+    tbdIds.splice(index, 1);
   }
-  // register tbdId
-  tbdIds.push(tbdId);
-  // create collection
-  const collection = database.addCollection(
-    tbdId,
-    { unique: ['timestamp'] }
-  );
-
-  return { collection, isNew: true };
 };
+
+const addRecord = (tbdId, value) => {
+  if (tbdIds.indexOf(tbdId) === -1) {
+    tbdIds.push(tbdId);
+  }
+  return addRecordGeneric(cacheId, tbdId, value);
+};
+
+const addRecords = (tbdId, records) => {
+  if (tbdIds.indexOf(tbdId) === -1) {
+    tbdIds.push(tbdId);
+  }
+  return addRecordsGeneric(cacheId, tbdId, records);
+};
+
+
+const getOrCreateCollection = (tbdId) => {
+  if (tbdIds.indexOf(tbdId) === -1) {
+    tbdIds.push(tbdId);
+  }
+  return getOrCreateCollectionGeneric(cacheId, tbdId);
+};
+
+const removeAllCollections = () => {
+  tbdIds.splice(0, tbdIds.length);
+  return removeAllCollectionsGeneric();
+};
+/* ============================= Generic function overload ============================= */
 
 /**
  * Create mongoDb-like query to find data between a lower and an upper value
@@ -161,7 +190,6 @@ const getRangesRecords = (tbdId, intervals) => {
   return rangesRecords;
 };
 
-
 /**
  * Remove all the data present in a collection for a given tbdId between a lower and an upper value
  * @param string tbdId
@@ -171,73 +199,6 @@ const getRangesRecords = (tbdId, intervals) => {
 const removeRecords = (tbdId, lower, upper) => {
   const { collection } = getCollection(tbdId);
   deleteInterval(collection, lower, upper);
-};
-
-/**
- * List all the tbdIds present in the store
- */
-const listCollections = () => tbdIds;
-
-/**
- * Remove a collection for a given tbdId
- * @param string tbdId
- */
-const removeCollection = (tbdId) => {
-  const { collection } = getCollection(tbdId);
-  collection.clear();
-  const index = tbdIds.indexOf(tbdId);
-  if (index > -1) {
-    tbdIds.splice(index, 1);
-  }
-};
-
-/**
- * Remove all collections present in the store
- */
-const removeAllCollections = () => {
-  for (let i = 0; i < tbdIds.length; i += 1) removeCollection(tbdIds[i]);
-};
-
-/**
- * Add a value (timestamp,payload) for a given collection
- * @param lokiJsCollection collection
- * @param Object value
- */
-const addRecord = (tbdId, value) => {
-  const timestamp = value.timestamp;
-  const payload = value.payload;
-  const { collection } = getOrCreateCollection(tbdId);
-  const record = collection.by('timestamp', timestamp);
-  if (typeof record === 'undefined') {
-    return collection.insert({
-      timestamp,
-      payload,
-    });
-  }
-  record.payload = payload;
-  return record;
-};
-
-/**
- * Add a set of values in a collection for a given tbdId
- * @param string tbdId
- * @param Array<Object> records
- */
-const addRecords = (tbdId, records) => {
-  logger.silly(`add ${records.length} records`);
-  // const { collection } = getCollection(tbdId);
-  for (let i = 0; i < records.length; i += 1) {
-    addRecord(tbdId, records[i]);
-  }
-};
-
-const getChargeLoki = () => {
-  let counter = 0;
-  for (let i = 0; i < tbdIds.length; i += 1) {
-    const { collection } = getCollection(tbdIds[i]);
-    if (collection) counter += collection.data.length;
-  }
-  return counter;
 };
 
 /**
@@ -258,6 +219,12 @@ const removeAllExceptIntervals = (toKeep) => {
   }
 };
 
+/**
+ * List all the ids present in the store
+ */
+const listCachedCollections = () => tbdIds;
+
+
 const getDb = () => database;
 
 export default {
@@ -265,14 +232,13 @@ export default {
   getLastRecords,
   getRangesRecords,
   removeRecords,
-  addRecord: isCacheDisabled ? _.noop : addRecord,
+  addRecord: isCacheDisabled ? _noop : addRecord,
   addRecords,
-  listCollections,
+  listCachedCollections,
   removeCollection,
   removeAllCollections,
   getOrCreateCollection,
   displayCollection,
   removeAllExceptIntervals,
-  getChargeLoki,
   getDb,
 };

@@ -90,6 +90,15 @@ export const getFilters = (tbdId) => {
   return arrayFilters;
 };
 
+export const getFlattenDataIdForObsoleteEvent = (dataId) => {
+  const {
+    parameterName,
+    sessionId,
+    domainId,
+  } = dataId;
+  return `${parameterName}:${sessionId}:${domainId}:::`;
+};
+
 /**
  * @param tbdId
  * @returns {*}

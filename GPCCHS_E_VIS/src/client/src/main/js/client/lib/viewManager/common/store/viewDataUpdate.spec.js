@@ -3,7 +3,7 @@
 // VERSION : 1.1.2 : DM : #3622 : 22/03/2017 : Update viewData organization for last structure +
 //  cleaning
 // VERSION : 1.1.2 : DM : #5828 : 24/03/2017 : converts long to string to ensure precision
-// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : Fix crash when a textView EP has an invalid field
+// VERSION : 1.1.2 : DM : #5828 : 05/04/2017 : Fix crash when a common EP has an invalid field
 // VERSION : 1.1.2 : FA : #6670 : 12/06/2017 : Apply jest-codemods for chai-should + repair lots of
 //  tests
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
@@ -14,12 +14,17 @@
 // END-HISTORY
 // ====================================================================
 
-import { viewDataUpdate, selectDataPerView } from './viewDataUpdate';
+import {
+  viewDataUpdate,
+  selectDataPerView,
+  viewObsoleteEventAdd,
+  isLastDataObsolete,
+} from './viewDataUpdate';
 
 describe('viewManager', () => {
-  describe('viewManager :: TextView', () => {
-    describe('viewManager :: TextView :: viewDataUpdate', () => {
-      describe('viewManager :: TextView :: viewDataUpdate :: Update', () => {
+  describe('viewManager :: common', () => {
+    describe('viewManager :: common :: viewDataUpdate', () => {
+      describe('viewManager :: common :: viewDataUpdate :: Update', () => {
         test('should ignore payloads', () => {
           const frozen = Object.freeze({ index: {}, values: {} });
           expect(viewDataUpdate(frozen, {})).toEqual(frozen);
@@ -31,34 +36,39 @@ describe('viewManager', () => {
           ).toEqual({
             index: { myEntryPoint: 15 },
             values: { myEntryPoint: 300 },
+            obsoleteEvents: {},
           });
         });
         test('should update', () => {
           const state = Object.freeze({
             index: { myEntryPoint: '10' },
             values: { myEntryPoint: 150 },
+            obsoleteEvents: {},
           });
           expect(
             viewDataUpdate(state, { index: { myEntryPoint: 20 }, values: { myEntryPoint: 300 } })
           ).toEqual({
             index: { myEntryPoint: 20 },
             values: { myEntryPoint: 300 },
+            obsoleteEvents: {},
           });
         });
         test('should preserve other values', () => {
           const state = Object.freeze({
             index: { myEntryPoint: 10, myOther: 20 },
             values: { myEntryPoint: 150, myOther: 200 },
+            obsoleteEvents: {},
           });
           expect(
             viewDataUpdate(state, { index: { myEntryPoint: 20 }, values: { myEntryPoint: 300 } })
           ).toEqual({
             index: { myEntryPoint: 20, myOther: 20 },
             values: { myEntryPoint: 300, myOther: 200 },
+            obsoleteEvents: {},
           });
         });
       });
-      describe('viewManager :: TextView :: viewDataUpdate :: selectDataPerView', () => {
+      describe('viewManager :: common :: viewDataUpdate :: selectDataPerView', () => {
         const payload = { rId1: {}, rId2: {} };
         for (let j = 10; j < 21; j += 1) {
           payload.rId1[j] = {
@@ -76,7 +86,7 @@ describe('viewManager', () => {
 
         const viewDataMap = {
           text1: {
-            type: 'TextView',
+            type: 'common',
             entryPoints: {
               ep4: {
                 tbdId: 'rId1',
@@ -103,7 +113,7 @@ describe('viewManager', () => {
             },
           },
           text2: {
-            type: 'TextView',
+            type: 'common',
             entryPoints: {
               ep5: {
                 tbdId: 'rId1',
@@ -198,7 +208,14 @@ describe('viewManager', () => {
           const oldState = { index: { ep4: 18 }, values: { ep4: { value: 201, color: '#0000FF' } } };
           const data = selectDataPerView(viewDataMap.text2, expectedIntervals, payload, oldState);
           expect(data.index).toEqual({ ep4: 20 });
-          expect(data.values).toEqual({ ep4: { value: 203, color: null } });
+          expect(data.values).toEqual({
+            ep4: {
+              value: 203,
+              color: null,
+              isDataObsolete: false,
+              validityState: undefined,
+            },
+          });
         });
         test('visuWindow duration too long', () => {
           const oldState = { index: { ep4: 18 }, values: { ep4: { value: 201, color: '#0000FF' } } };
@@ -215,6 +232,129 @@ describe('viewManager', () => {
           };
           const data = selectDataPerView(viewDataMap.text2, intervals, payload, oldState);
           expect(data).toEqual({ });
+        });
+      });
+      describe('viewObsoleteEventAdd', () => {
+        const state = Object.freeze({
+          index: {
+            ep1: '20',
+            ep2: '10',
+            ep3: '60',
+          },
+          values: {
+            ep1: {
+              color: '#aaa',
+              isDataObsolete: false,
+              validityState: {},
+              value: 150,
+            },
+            ep2: {
+              color: '#aaa',
+              isDataObsolete: false,
+              validityState: {},
+              value: 139,
+            },
+            ep3: {
+              color: '#aaa',
+              isDataObsolete: false,
+              validityState: {},
+              value: 120,
+            },
+          },
+          obsoleteEvents: {},
+        });
+        const entryPoints = {
+          ep1: {
+            dataId: {
+              parameterName: 'param1',
+              sessionId: 0,
+              domainId: 4,
+            },
+            stateColor: [],
+          },
+          ep2: {
+            dataId: {
+              parameterName: 'param2',
+              sessionId: 0,
+              domainId: 4,
+            },
+            stateColor: [],
+          },
+          ep3: {
+            dataId: {
+              parameterName: 'param3',
+              sessionId: 0,
+              domainId: 2,
+            },
+            stateColor: [],
+          },
+        };
+        const payload = {
+          'param2:0:4:::': {
+            11: { eventDate: 11 },
+            42: { eventDate: 42 },
+          },
+        };
+        const current = 20;
+        test('empty payload', () => {
+          expect(viewObsoleteEventAdd(
+            state,
+            {},
+            entryPoints,
+            current)
+          ).toEqual({ ...state });
+        });
+        test('should add an obsolete Event, tag ep2 last value obsolete and change color to #3498db', () => {
+          expect(viewObsoleteEventAdd(
+            state,
+            payload,
+            entryPoints,
+            current)
+          ).toEqual({
+            index: {
+              ep1: '20',
+              ep2: '10',
+              ep3: '60',
+            },
+            values: {
+              ep1: {
+                color: '#aaa',
+                isDataObsolete: false,
+                validityState: {},
+                value: 150,
+              },
+              ep2: {
+                color: '#3498db',
+                isDataObsolete: true,
+                validityState: {},
+                value: 139,
+              },
+              ep3: {
+                color: '#aaa',
+                isDataObsolete: false,
+                validityState: {},
+                value: 120,
+              },
+            },
+            obsoleteEvents: {
+              ep2: {
+                eventDate: '11',
+              },
+            },
+          });
+        });
+      });
+      describe('isLastDataObsolete', () => {
+        const obsoleteEvents = {
+          ep1: {
+            eventDate: 12,
+          },
+        };
+        test('should return false', () => {
+          expect(isLastDataObsolete(10, obsoleteEvents, 'ep1', 11)).toBeFalsy();
+        });
+        test('should return true', () => {
+          expect(isLastDataObsolete(10, obsoleteEvents, 'ep1', 14)).toBeTruthy();
         });
       });
     });

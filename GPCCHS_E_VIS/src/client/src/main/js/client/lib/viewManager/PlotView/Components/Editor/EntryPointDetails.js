@@ -40,7 +40,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { FieldArray } from 'redux-form';
 import Collapse from 'rc-collapse';
-import _get from 'lodash/get';
 import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
 import EntryPointParameters from './EntryPointParameters';
 import EntryPointConnectedData from './EntryPointConnectedData';
@@ -153,26 +152,6 @@ export default class EntryPointDetails extends PureComponent {
     } = this.props;
 
     // TODO Rerender (new ref)
-    const initialValuesParameters = {
-      ...entryPoint.objectStyle,
-      name: entryPoint.name,
-      displayLine: _get(
-        entryPoint, 'displayLine', _get(
-          entryPoint, ['objectStyle', 'line', 'size'], 0) > 0),
-      displayPoints: _get(
-        entryPoint, 'displayPoints', _get(
-          entryPoint, ['objectStyle', 'points', 'size'], 0) > 0),
-    };
-    // TODO Rerender (new ref)
-    const initialValuesConnectedData = {
-      connectedData: entryPoint.connectedData,
-      connectedDataParametric: entryPoint.connectedDataParametric,
-      parametric: entryPoint.parametric,
-      provider: entryPoint.connectedData.provider,
-    };
-    // TODO Rerender (new ref)
-    const initialValuesStateColors = { stateColors: entryPoint.stateColors || [] };
-
     return (
       <Collapse
         accordion={false}
@@ -185,7 +164,7 @@ export default class EntryPointDetails extends PureComponent {
         >
           {Array.isArray(panels) && panels.includes('parameters') && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
-            initialValues={initialValuesParameters}
+            entryPoint={entryPoint}
           />}
         </Panel>
 
@@ -200,7 +179,6 @@ export default class EntryPointDetails extends PureComponent {
             viewId={viewId}
             pageId={pageId}
             onSubmit={this.handleConnectedDataSubmit}
-            initialValues={initialValuesConnectedData}
             form={this.props.form}
             entryPoint={entryPoint}
             selectedDomainName={selectedDomainName}
@@ -229,7 +207,6 @@ export default class EntryPointDetails extends PureComponent {
           header="State colors"
         >
           {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
-            initialValues={initialValuesStateColors}
             onSubmit={this.handleSubmit}
           />}
         </Panel>

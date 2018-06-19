@@ -9,21 +9,24 @@
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
 import { /* getLastRecords , */ addRecords } from 'serverProcess/models/lokiKnownRangesData';
-import { GETLASTTYPE_GET_LAST } from 'constants';
 import retrieveLast from './retrieveLast';
 
 let mockResultIpc = {};
 let counter = 0;
-const mockIpc = { dc: { requestTimebasedQuery: (tbdId, dataId, intervals, args) => {
-  mockResultIpc = {
-    tbdId,
-    dataId,
-    intervals,
-    args,
-  };
-  counter += 1;
-  return counter;
-} } };
+const mockIpc = {
+  dc: {
+    requestTimebasedQuery: (tbdId, dataId, intervals, args) => {
+      mockResultIpc = {
+        tbdId,
+        dataId,
+        intervals,
+        args,
+      };
+      counter += 1;
+      return counter;
+    },
+  },
+};
 const mockStore = configureMockStore([retrieveLast(mockIpc)]);
 
 const store1 = {
@@ -104,24 +107,26 @@ describe('store:middlewares:retrieveLast', () => {
     store.dispatch(viewsNeedLastData(neededLastData1));
     const actions = store.getActions();
 
-    expect(actions.length).toEqual(1);
-    expect(mockResultIpc).toMatchObject({
-      tbdId: 'tbdId1',
-      dataId: {
-        catalog: 'Reporting',
-        parameterName: 'TMMGT_BC_VIRTCHAN3',
-        comObject: 'ReportingParameter',
-        domainId: 4,
-        domain: 'fr.cnes.isis.simupus',
-        sessionName: 'Master',
-        sessionId: 0,
-      },
-      intervals: [4, 6],
-      args: {
-        getLastType: GETLASTTYPE_GET_LAST,
-        filters: [],
-      },
-    });
+    expect(actions.length)
+      .toEqual(1);
+    expect(mockResultIpc)
+      .toMatchObject({
+        tbdId: 'tbdId1',
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'TMMGT_BC_VIRTCHAN3',
+          comObject: 'ReportingParameter',
+          domainId: 4,
+          domain: 'fr.cnes.isis.simupus',
+          sessionName: 'Master',
+          sessionId: 0,
+        },
+        intervals: [4, 6],
+        args: {
+          getLastNumber: 1,
+          filters: [],
+        },
+      });
   });
 
   test('Is in interval but no value attached', () => {
@@ -132,24 +137,26 @@ describe('store:middlewares:retrieveLast', () => {
     }]);
     store.dispatch(viewsNeedLastData(neededLastData2));
     const actions = store.getActions();
-    expect(actions.length).toEqual(1);
-    expect(mockResultIpc).toMatchObject({
-      tbdId: 'tbdId1',
-      dataId: {
-        catalog: 'Reporting',
-        parameterName: 'TMMGT_BC_VIRTCHAN3',
-        comObject: 'ReportingParameter',
-        domainId: 4,
-        domain: 'fr.cnes.isis.simupus',
-        sessionName: 'Master',
-        sessionId: 0,
-      },
-      intervals: [12, 18],
-      args: {
-        getLastType: GETLASTTYPE_GET_LAST,
-        filters: [],
-      },
-    });
+    expect(actions.length)
+      .toEqual(1);
+    expect(mockResultIpc)
+      .toMatchObject({
+        tbdId: 'tbdId1',
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'TMMGT_BC_VIRTCHAN3',
+          comObject: 'ReportingParameter',
+          domainId: 4,
+          domain: 'fr.cnes.isis.simupus',
+          sessionName: 'Master',
+          sessionId: 0,
+        },
+        intervals: [12, 18],
+        args: {
+          getLastNumber: 1,
+          filters: [],
+        },
+      });
   });
 
   test('Is in interval and value is present', () => {
@@ -168,10 +175,20 @@ describe('store:middlewares:retrieveLast', () => {
     }]);
     store.dispatch(viewsNeedLastData(neededLastData3));
     const actions = store.getActions();
-    expect(actions.length).toEqual(2);
-    expect(actions[1]).toMatchObject({
-      type: 'NEW_DATA',
-      payload: { data: { tbdId1: { 35: '35' } } },
-    });
+    expect(actions.length)
+      .toEqual(2);
+    expect(actions[1])
+      .toMatchObject({
+        type: 'NEW_DATA',
+        payload: {
+          data: {
+            lasts: {
+              tbdId1: {
+                35: '35',
+              },
+            },
+          },
+        },
+      });
   });
 });

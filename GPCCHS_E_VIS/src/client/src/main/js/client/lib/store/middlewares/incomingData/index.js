@@ -12,6 +12,7 @@ import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
 import { get as getConf } from 'common/configurationManager';
 import prepareRange from './prepareRange';
 import prepareRangeADE from './prepareRangeADE';
+import prepareObsoleteEventADE from './prepareObsoleteEventADE';
 import prepareLast from './prepareLast';
 import prepareLastADE from './prepareLastADE';
 import preparePubSub from './preparePubSub';
@@ -22,22 +23,24 @@ import constants from '../../../constants';
 
 const versionDCComProtocol = getConf('VERSION_DC_COM_PROTOCOL');
 
-const createIncomingDataMiddleware = (lokiManager,
+const createIncomingDataMiddleware = (lokiKnownRangesManager,
                                       timingInjectData,
                                       timingPubSubMonitor) => pipeMiddlewares(
-  preparePubSub(lokiManager),
-  prepareRange(lokiManager),
-  prepareLast(lokiManager),
+  preparePubSub(lokiKnownRangesManager),
+  prepareRange(lokiKnownRangesManager),
+  prepareLast(lokiKnownRangesManager),
   injectData(timingInjectData),
   pubSubMonitor(timingPubSubMonitor)
 );
 
-const createIncomingDataMiddlewareADE = (lokiManager,
+const createIncomingDataMiddlewareADE = (lokiKnownRangesManager,
+                                         lokiObsoleteEventManager,
                                          timingInjectData,
                                          timingPubSubMonitor) => pipeMiddlewares(
-  preparePubSubADE(lokiManager),
-  prepareRangeADE(lokiManager),
-  prepareLastADE(lokiManager),
+  preparePubSubADE(lokiKnownRangesManager, lokiObsoleteEventManager),
+  prepareRangeADE(lokiKnownRangesManager),
+  prepareLastADE(lokiKnownRangesManager),
+  prepareObsoleteEventADE(lokiObsoleteEventManager),
   injectData(timingInjectData),
   pubSubMonitor(timingPubSubMonitor)
 );

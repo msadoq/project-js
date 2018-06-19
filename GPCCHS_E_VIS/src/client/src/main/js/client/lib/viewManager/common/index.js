@@ -1,4 +1,6 @@
 import _unset from 'lodash/unset';
+import _memoize from 'lodash/memoize';
+import { SIGNIFICANT_VALIDITY_STATE_VALUE } from 'constants';
 import { SDB_VALUE_OPTION, TIME_BASED_DATA_OPTION } from '../commonEditor/Fields/DataTypeField';
 
 const constants = require('constants');
@@ -103,4 +105,13 @@ export const validateRequiredFields = (requiredFields, values) => (
   values
     ? innerValidateRequiredFields(requiredFields)(values) // executes the validation on values
     : innerValidateRequiredFields(requiredFields) // returns a validation function
+);
+
+/**
+ * given a validity state, returns true if value is "VALID(2)" or false otherwise
+ * @type {Function}
+ * @returns boolean
+ */
+export const memoizeIsSignificantValue = _memoize(
+  validityState => validityState === SIGNIFICANT_VALIDITY_STATE_VALUE
 );

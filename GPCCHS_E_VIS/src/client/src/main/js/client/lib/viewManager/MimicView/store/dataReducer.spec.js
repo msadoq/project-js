@@ -214,19 +214,42 @@ describe('viewManager/MimicView/store/dataReducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { color: '#2ecc71', value: moment(10).utc().toISOString().slice(0, -1) },
-            ep4: { color: '#2ecc71', value: 'val9' } },
+            ep1: {
+              color: '#2ecc71',
+              value: moment(10).utc().toISOString().slice(0, -1),
+              isDataObsolete: false,
+              validityState: undefined,
+            },
+            ep4: {
+              color: '#2ecc71',
+              value: 'val9',
+              isDataObsolete: false,
+              validityState: undefined,
+            },
+          },
+          obsoleteEvents: {},
         },
       });
     });
     test('valid viewData with state', () => {
       const state = freezeMe({
         text: {
-          index: { ep1: 9, ep4: 9 },
+          index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { color: '#2ecc71', value: moment(9).utc().toISOString().slice(0, -1) },
-            ep4: { color: '#2ecc71', value: 'val9', monit: undefined },
+            ep1: {
+              color: '#2ecc71',
+              value: moment(10).utc().toISOString().slice(0, -1),
+              isDataObsolete: false,
+              validityState: undefined,
+            },
+            ep4: {
+              color: '#2ecc71',
+              value: 'val9',
+              isDataObsolete: false,
+              validityState: undefined,
+            },
           },
+          obsoleteEvents: {},
         },
       });
       const action = {
@@ -243,9 +266,20 @@ describe('viewManager/MimicView/store/dataReducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { color: '#2ecc71', value: moment(10).utc().toISOString().slice(0, -1) },
-            ep4: { color: '#2ecc71', value: 'val9' },
+            ep1: {
+              color: '#2ecc71',
+              value: moment(10).utc().toISOString().slice(0, -1),
+              isDataObsolete: false,
+              validityState: undefined,
+            },
+            ep4: {
+              color: '#2ecc71',
+              value: 'val9',
+              isDataObsolete: false,
+              validityState: undefined,
+            },
           },
+          obsoleteEvents: {},
         },
       });
     });

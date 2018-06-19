@@ -66,6 +66,7 @@ const isParameterSupported = require('./utils/isParameterSupported');
 const sendDomainData = require('./utils/sendDomainData');
 const sendPubSubData = require('./utils/sendPubSubData');
 const sendArchiveData = require('./utils/sendArchiveData');
+const sendObsoleteEventData = require('./utils/sendObsoleteEventData');
 const sendAlarmAckData = require('./utils/sendAlarmAckData');
 const sendSessionData = require('./utils/sendSessionData');
 const sendFmdGet = require('./utils/sendFmdGet');
@@ -79,7 +80,8 @@ process.title = 'gpcchs_dc_stub';
 const versionDCComProtocol = parameters.get('VERSION_DC_COM_PROTOCOL');
 
 let subscriptions = {};
-let queries = [];
+let timeBasedQueries = [];
+let obsoleteEventQueries = [];
 let alarmAcks = [];
 
 // Push Helpers
@@ -177,7 +179,7 @@ const onHssMessage = (...args) => {
       );
       const isLast = (queryArguments.getLastType === constants.GETLASTTYPE_GET_LAST);
       const queryKey = JSON.stringify({ dataId, queryArguments });
-      queries.push({
+      timeBasedQueries.push({
         queryKey,
         queryId,
         dataId,
@@ -223,11 +225,12 @@ const onHssMessage = (...args) => {
     case constants.MESSAGETYPE_ALARM_ACK: {
       const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       const comObject = dataId.comObject;
-      const alarms = args.slice(3).map(rawAlarm => (
-        adapter.decode(
-          `dc.dataControllerUtils.${comObject}`, rawAlarm
-        )
-      ));
+      const alarms = args.slice(3)
+        .map(rawAlarm => (
+          adapter.decode(
+            `dc.dataControllerUtils.${comObject}`, rawAlarm
+          )
+        ));
 
       alarmAcks.push({ dataId, queryId, alarms });
       logger.silly('alarmAck registered', comObject, '(', alarms.length, ')');
@@ -318,7 +321,7 @@ const onHssMessageADE = (...args) => {
         providerFlow: provider,
       } = protobuf.decode('dc.dataControllerUtils.ADETimebasedQuery', args[1]);
 
-      logger.info('ADE_TIMEBASED_QUERY sessionId: ', sessionId);
+      logger.debug('ADE_TIMEBASED_QUERY sessionId: ', sessionId);
       const dataId = {
         sessionId,
         domainId,
@@ -327,24 +330,6 @@ const onHssMessageADE = (...args) => {
         parameterName: itemName,
         provider,
       };
-
-      // optional string sortFieldName = 1;
-      //   enum SORT_ORDER {
-      //       ASC = 0;
-      //       DESC = 1;
-      //   }
-      // optional SORT_ORDER sortOrder = 2;
-      // optional uint32 limitStart = 3;
-      // optional uint32 limitNumber = 4;
-      //   enum GET_LAST_TYPE {
-      //     GET_LAST = 0;
-      //     GET_N_LAST = 1;
-      //   }
-      // optional GET_LAST_TYPE getLastType = 5;
-      // optional Timestamp getLastFromTime = 6;
-      // optional uint32 getLastNumber = 7;
-      // repeated Filter filters = 8;
-      // optional AlarmMode alarmMode = 9;
 
       const queryArguments = {
         sortFieldName,
@@ -356,16 +341,29 @@ const onHssMessageADE = (...args) => {
       const isLast = (getLastNumber && getLastNumber === 1);
 
       const queryKey = JSON.stringify({ dataId, queryArguments });
-      queries.push({
-        queryKey,
-        queryId,
-        dataId,
-        timeInterval,
-        isLast,
-        versionDCCom: versionDCComProtocol,
-        rawBuffer: args[1],
-      });
-      logger.silly('query registered', dataId.parameterName, timeInterval);
+      if (itemName === 'OBSOLETE_PARAMETER') {
+        obsoleteEventQueries.push({
+          queryKey,
+          queryId,
+          dataId,
+          timeInterval,
+          isLast,
+          versionDCCom: versionDCComProtocol,
+          rawBuffer: args[1],
+        });
+        logger.silly('obsolete event query registered', dataId.parameterName, timeInterval);
+      } else {
+        timeBasedQueries.push({
+          queryKey,
+          queryId,
+          dataId,
+          timeInterval,
+          isLast,
+          versionDCCom: versionDCComProtocol,
+          rawBuffer: args[1],
+        });
+        logger.silly('time based query registered', dataId.parameterName, timeInterval);
+      }
       // return pushSuccessADE(queryId);
       return logger.debug(`Send dc : ${constants.MESSAGETYPE_TIMEBASED_QUERY}`);
     }
@@ -381,7 +379,7 @@ const onHssMessageADE = (...args) => {
         parameterName: decoded.itemName,
       };
 
-      let parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
+      let parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>:${dataId.sessionId}:${dataId.domainId}`;
       if (!isParameterSupported(dataId)) {
         if (!dataId.catalog && !dataId.parameterName && dataId.comObject) {
           // TODO To improve : Special case, subscription for a whole com object
@@ -398,7 +396,7 @@ const onHssMessageADE = (...args) => {
           rawBuffer: args[1],
           versionDCCom: versionDCComProtocol,
         };
-        logger.debug('subscription added', parameter);
+        logger.info('subscription added', parameter);
       }
       if (decoded.action === constants.SUBSCRIPTIONACTION_DELETE) {
         subscriptions = _omit(subscriptions, parameter);
@@ -439,7 +437,7 @@ const onHssMessageVersion = {
 };
 
 function dcCall() {
-  logger.silly('dcCall call', Object.keys(subscriptions).length, queries.length);
+  logger.silly('dcCall call', Object.keys(subscriptions).length, timeBasedQueries.length);
 
   // sendDcStatus(zmq); // TODO : replace with action to trigger from client GUI
 
@@ -454,8 +452,8 @@ function dcCall() {
     );
   });
 
-  // queries
-  _each(queries, (query) => {
+  // time based queries
+  _each(timeBasedQueries, (query) => {
     logger.debug(`push archive data for ${query.dataId.parameterName}`);
     sendArchiveData(
       query.queryKey,
@@ -468,7 +466,23 @@ function dcCall() {
       query.rawBuffer
     );
   });
-  queries = [];
+  timeBasedQueries = [];
+
+  // obsolete events queries
+  _each(obsoleteEventQueries, (query) => {
+    logger.debug(`push archive data for ${query.dataId.parameterName}`);
+    sendObsoleteEventData(
+      query.queryKey,
+      query.queryId,
+      query.dataId,
+      query.timeInterval,
+      query.isLast,
+      zmq,
+      query.versionDCCom,
+      query.rawBuffer
+    );
+  });
+  obsoleteEventQueries = [];
 
   // alarmAcks
   _each(alarmAcks, (alarmAck) => {

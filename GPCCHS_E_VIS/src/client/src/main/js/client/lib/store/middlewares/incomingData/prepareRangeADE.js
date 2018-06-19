@@ -12,7 +12,7 @@ import { add as addMessage } from 'store/actions/messages';
 
 const logger = require('../../../common/logManager')('middleware:prepareRangeADE');
 
-const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action) => {
+const prepareRange = lokiKnownRangesManager => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
   if (action.type !== types.INCOMING_RANGE_DATA) {
     return nextAction;
@@ -50,7 +50,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
         execution.stop('decode payload');
 
         execution.start('addRecord');
-        lokiManager.addRecord(tbdId, { timestamp, payload: decodedPayload });
+        lokiKnownRangesManager.addRecord(tbdId, { timestamp, payload: decodedPayload });
         execution.stop('addRecord');
 
         execution.start('persist');
@@ -70,9 +70,12 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
     index += 2;
   }
 
+  // dispatch data per tbdId
+  const tbdIds = Object.keys(payloadsJson);
+
   // If data needs to be send to reducers, dispatch action
-  if (!_isEmpty(payloadsJson[tbdId])) {
-    dispatch(newData(payloadsJson));
+  if (tbdIds.length) {
+    dispatch(newData({ ranges: payloadsJson }));
   }
 
   execution.stop('global', `${peers.length / 2} payloads`);

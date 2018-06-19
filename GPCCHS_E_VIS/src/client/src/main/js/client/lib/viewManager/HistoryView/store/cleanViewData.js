@@ -13,7 +13,8 @@ import _ from 'lodash/fp';
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
-import _omit from 'lodash/omit';
+
+const historyDataPath = ['history', 'data'];
 
 /* ************************************************
  * Clean viewData for current viewData
@@ -42,9 +43,7 @@ export default function cleanCurrentViewData(
   let newState = currentState;
   // invisible view
   if (!newViewFromMap) {
-    return {
-      data: [],
-    };
+    return {};
   }
   // entry point updates
   const oldEntryPoints = oldViewFromMap.entryPoints;
@@ -99,8 +98,8 @@ export default function cleanCurrentViewData(
 function removeEpData(state, epName) {
   if (epName && epName.length > 0) {
     return _.set(
-      ['data'],
-      _.get(['data'], state).filter(el => el.epName !== epName),
+      historyDataPath,
+      _.getOr([], historyDataPath, state).filter(el => el.epName !== epName),
       state
     );
   }
@@ -121,17 +120,17 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
   }
 
   return _.set(
-    ['data'],
-    viewData.data.map(el => ({ ...el, epName: newLabel })),
+    historyDataPath,
+    _.getOr([], historyDataPath, viewData).map(el => ({ ...el, epName: newLabel })),
     viewData
   );
 }
 
 export function removeViewDataOutsideRange(viewData, lower, upper) {
-  const updatedViewData = _.get(['data'], viewData).filter((el) => {
+  const updatedHistoryData = _.get(historyDataPath, viewData).filter((el) => {
     const time = Number(el.referenceTimestamp);
     return ((time >= lower) && (time <= upper));
   });
 
-  return _.set(['data'], updatedViewData, viewData);
+  return _.set(historyDataPath, updatedHistoryData, viewData);
 }

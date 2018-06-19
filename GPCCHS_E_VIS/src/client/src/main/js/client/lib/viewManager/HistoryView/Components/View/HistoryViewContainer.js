@@ -29,48 +29,8 @@ const mapStateToProps = (state, { viewId }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const historyConfig = config.tables.history;
 
-  const viewData = getData(state, { viewId });
-
-  const historyData = _.getOr([], 'history', viewData);
-  const data = _.getOr([], 'data', historyData);
-  const keep = _.getOr([], 'keep', historyData);
-
-
-  const sortingDirection = _.getOr('DESC', ['sorting', 'direction'], historyConfig);
-
-  const totalRowCount = data.length;
-  const rowCount = keep.length;
-
-  const rows = ({ rowIndex, columnIndex, cols }) => {
-    const virtualRowIndex =
-      sortingDirection === 'DESC' ?
-        rowIndex :
-        rowCount - rowIndex - 1;
-
-    const content =
-      _.get(keep[virtualRowIndex], data);
-
-    if (content) {
-      const colKey = cols[columnIndex].title;
-      const { color } = content;
-
-      return {
-        value: content[colKey],
-        color,
-      };
-    }
-
-    return { value: undefined };
-  };
-
-  const currentRowIndexes = [];
-
   return {
     config: historyConfig,
-    rows,
-    rowCount,
-    totalRowCount,
-    currentRowIndexes,
   };
 };
 

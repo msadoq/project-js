@@ -9,7 +9,6 @@
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
 import { /* getLastRecords , */ addRecords } from 'serverProcess/models/lokiKnownRangesData';
-import { GETLASTTYPE_GET_LAST } from 'constants';
 import retrieveLast from './retrieveLast';
 
 let mockResultIpc = {};
@@ -124,7 +123,7 @@ describe('store:middlewares:retrieveLast', () => {
         },
         intervals: [4, 6],
         args: {
-          getLastType: GETLASTTYPE_GET_LAST,
+          getLastNumber: 1,
           filters: [],
         },
       });
@@ -154,7 +153,7 @@ describe('store:middlewares:retrieveLast', () => {
         },
         intervals: [12, 18],
         args: {
-          getLastType: GETLASTTYPE_GET_LAST,
+          getLastNumber: 1,
           filters: [],
         },
       });

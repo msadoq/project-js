@@ -84,13 +84,11 @@ describe('models/timebasedDataFactory', () => {
       const oneRecord = { timestamp: 42, payload: 42 };
       const id = 'myId';
       addRecord(id, oneRecord);
-      const created = new Date().getTime();
       expect(displayCollection(id)).toMatchObject(
         [
           {
             $loki: 1,
             meta: {
-              created,
               revision: 0,
               version: 0,
             },
@@ -123,14 +121,12 @@ describe('models/timebasedDataFactory', () => {
     test('given populate database, call getRecordByTimestamp return an array with one object containing our records', () => {
       const id = 'myId';
       addRecords(id, myRecords);
-      const created = new Date().getTime();
       expect(listCachedCollections().length).toEqual(1);
       expect(getRecordByTimestamp(id, 6)).toMatchObject(
         [
           {
             $loki: 2,
             meta: {
-              created,
               revision: 0,
               version: 0,
             },

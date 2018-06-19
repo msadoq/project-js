@@ -13,6 +13,7 @@ import _ from 'lodash/fp';
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
+import { removeData } from '../../commonData/reducer';
 
 const historyDataPath = ['history', 'data'];
 
@@ -97,11 +98,7 @@ export default function cleanCurrentViewData(
 
 function removeEpData(state, epName) {
   if (epName && epName.length > 0) {
-    return _.set(
-      historyDataPath,
-      _.getOr([], historyDataPath, state).filter(el => el.epName !== epName),
-      state
-    );
+    return removeData(state, 'history', e => e.epName === epName);
   }
 
   return state;
@@ -127,10 +124,8 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
 }
 
 export function removeViewDataOutsideRange(viewData, lower, upper) {
-  const updatedHistoryData = _.get(historyDataPath, viewData).filter((el) => {
-    const time = Number(el.referenceTimestamp);
-    return ((time >= lower) && (time <= upper));
+  return removeData(viewData, 'history', (e) => {
+    const time = Number(e.referenceTimestamp);
+    return (time < lower) || (time > upper);
   });
-
-  return _.set(historyDataPath, updatedHistoryData, viewData);
 }

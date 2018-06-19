@@ -30,64 +30,6 @@ const _insertSortedBy = (by, el, destination, offset = 0) => {
 };
 
 /**
- * Injects a range of objects, `source` in data table
- * and updates the filter keep accordingly
- *
- * @param state
- * @param source {array}
- * @param tableId {string} id identifying the table to inject data in
- * @param colName
- * @param filters
- * @returns {object} the updated state
- * @private
- */
-export const injectData = (
-  state,
-  source,
-  tableId,
-  colName,
-  filters = {}
-) => {
-  let tableState = _.getOr({ data: [], keep: [] }, tableId, state);
-
-  let updatedData = _.get('data', tableState);
-  let updatedKeep = _.get('keep', tableState);
-  let insertIndex = 0;
-
-  source.forEach((el) => {
-    // eslint-disable-next-line prefer-const
-    [updatedData, insertIndex] =
-      _insertSortedBy((e => e[colName]), el, updatedData, insertIndex);
-
-    if (_shouldKeepElement(el, filters)) {
-      let insertKeepIndexAt =
-        updatedKeep.findIndex(keepIndex => keepIndex === insertIndex);
-
-      if (insertKeepIndexAt === -1) {
-        insertKeepIndexAt = 0;
-      }
-
-      updatedKeep = [
-        ...updatedKeep.slice(0, insertKeepIndexAt),
-        insertIndex,
-        ...updatedKeep.slice(insertKeepIndexAt).map(i => i + 1),
-      ];
-    }
-  });
-
-  tableState = {
-    data: updatedData,
-    keep: updatedKeep,
-  };
-
-  return _.set(
-    tableId,
-    tableState,
-    state
-  );
-};
-
-/**
  * Sorts data against the specified `colName`
  *
  * @param data
@@ -133,6 +75,96 @@ const _getKeptIndexes =
 
       return acc;
     }, []);
+
+const _getTableState = (state, tableId) => _.getOr({ data: [], keep: [] }, tableId, state);
+
+/**
+ * Injects a range of objects, `source` in data table
+ * and updates the filter keep accordingly
+ *
+ * @param state
+ * @param source {array}
+ * @param tableId {string} id identifying the table to inject data in
+ * @param colName
+ * @param filters
+ * @returns {object} the updated state
+ * @private
+ */
+export const injectData = (
+  state,
+  source,
+  tableId,
+  colName,
+  filters = {}
+) => {
+  let tableState = _getTableState(state, tableId);
+
+  let updatedData = _.get('data', tableState);
+  let updatedKeep = _.get('keep', tableState);
+  let insertIndex = 0;
+
+  source.forEach((el) => {
+    // eslint-disable-next-line prefer-const
+    [updatedData, insertIndex] =
+      _insertSortedBy((e => e[colName]), el, updatedData, insertIndex);
+
+    if (_shouldKeepElement(el, filters)) {
+      let insertKeepIndexAt =
+        updatedKeep.findIndex(keepIndex => keepIndex === insertIndex);
+
+      if (insertKeepIndexAt === -1) {
+        insertKeepIndexAt = 0;
+      }
+
+      updatedKeep = [
+        ...updatedKeep.slice(0, insertKeepIndexAt),
+        insertIndex,
+        ...updatedKeep.slice(insertKeepIndexAt).map(i => i + 1),
+      ];
+    }
+  });
+
+  tableState = {
+    data: updatedData,
+    keep: updatedKeep,
+  };
+
+  return _.set(
+    tableId,
+    tableState,
+    state
+  );
+};
+
+/**
+ * Removes all data that satisfies the specified condition `cond`
+ *
+ * @param {object} state
+ * @param {string} tableId
+ * @param cond {function}
+ * @return {object} the updated state
+ */
+export const removeData = (state, tableId, cond) => {
+  const tableState = _getTableState(state, tableId);
+  return _.set(
+    tableId,
+    _.set(
+      'data',
+      _.get('data', tableState).filter((e, i) => !cond(e, i)),
+      tableState
+    ),
+    state
+  );
+};
+
+/**
+ * Removes all data related to the table identified by the specified `tableId`
+ *
+ * @param state
+ * @param tableId
+ * @returns {Object}
+ */
+export const purgeData = (state, tableId) => removeData(state, tableId, () => true);
 
 /**
  * This is the common data reducer used to handle common data management,

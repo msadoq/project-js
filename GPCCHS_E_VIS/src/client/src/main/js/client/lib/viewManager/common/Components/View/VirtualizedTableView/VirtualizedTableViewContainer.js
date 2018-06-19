@@ -82,8 +82,8 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
   onFilter: (col, value, filters) => {
     dispatch(filterColumn(viewId, tableId, col, value, filters));
   },
-  onSort: (col, mode, filters) => {
-    dispatch(toggleColumnSort(viewId, tableId, col, mode, filters));
+  onSort: (col, mode) => {
+    dispatch(toggleColumnSort(viewId, tableId, col, mode));
   },
   onBodyCellAction: (name, data, rowIndex, columnIndex) => {
     const action = bodyCellActions.find(actionElem => actionElem.label === name);
@@ -111,9 +111,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       ...stateProps.filterState,
       [col]: value,
     });
-  },
-  onSort: (col, mode) => {
-    dispatchProps.onSort(col, mode, stateProps.filterState);
   },
 });
 

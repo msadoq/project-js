@@ -18,8 +18,7 @@ export const toggleColumnSort =
     'viewId',
     'tableId',
     'colName',
-    'direction',
-    'filters' // we need filter state to sort data and update filter indexes at the same time
+    'direction'
   );
 export const filterColumn =
   simple(

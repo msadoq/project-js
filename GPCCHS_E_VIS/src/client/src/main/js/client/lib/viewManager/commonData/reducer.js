@@ -5,6 +5,8 @@ import {
   WS_VIEW_CHANGE_COL_FILTERS,
 } from 'store/types';
 
+const DATA_STATE_KEY = 'state';
+
 /**
  * Insert source in the sorted array dest and return the indexes of the inserted elements
  *
@@ -76,7 +78,18 @@ const _getKeptIndexes =
       return acc;
     }, []);
 
-const _getTableState = (state, tableId) => _.getOr({ data: [], keep: [] }, tableId, state);
+const _updateKeptIndexes = (state, tableState) => {
+  const filters = _.get([DATA_STATE_KEY, 'filters'], state);
+  return _.set(
+    'keep',
+    _getKeptIndexes(_.get('data', tableState), filters),
+    tableState
+  );
+};
+
+const _getTableStateFromViewSubState =
+  (state, tableId) =>
+    _.getOr({ data: [], keep: [] }, tableId, state);
 
 /**
  * Injects a range of objects, `source` in data table
@@ -97,7 +110,7 @@ export const injectData = (
   colName,
   filters = {}
 ) => {
-  let tableState = _getTableState(state, tableId);
+  let tableState = _getTableStateFromViewSubState(state, tableId);
 
   let updatedData = _.get('data', tableState);
   let updatedKeep = _.get('keep', tableState);
@@ -145,14 +158,17 @@ export const injectData = (
  * @return {object} the updated state
  */
 export const removeData = (state, tableId, cond) => {
-  const tableState = _getTableState(state, tableId);
+  let tableState = _getTableStateFromViewSubState(state, tableId);
+  tableState = _.set(
+    'data',
+    _.get('data', tableState).filter((e, i) => !cond(e, i)),
+    tableState
+  );
+  tableState = _updateKeptIndexes(state, tableState);
+
   return _.set(
     tableId,
-    _.set(
-      'data',
-      _.get('data', tableState).filter((e, i) => !cond(e, i)),
-      tableState
-    ),
+    tableState,
     state
   );
 };
@@ -174,18 +190,22 @@ export const purgeData = (state, tableId) => removeData(state, tableId, () => tr
  * @param action
  */
 export default (state = {}, action) => {
-  const getTableState = (viewId, tableId) => _.get([viewId, tableId], state);
+  const _getTableState = (viewId, tableId) => _.get([viewId, tableId], state);
 
   switch (action.type) {
     case WS_VIEW_TABLE_UPDATE_SORT: {
-      const { viewId, tableId, colName, filters } = action.payload;
-      let tableState = getTableState(viewId, tableId);
+      const { viewId, tableId, colName } = action.payload;
+      let tableState = _getTableState(viewId, tableId);
 
       if (!tableState) {
         return state;
       }
 
+      const filters = _.getOr({}, [DATA_STATE_KEY, 'filters'], tableState);
+
       const tablePath = [viewId, tableId];
+
+      tableState = _.set([DATA_STATE_KEY, 'sort'], colName, tableState);
 
       tableState = _.set(
         'data',
@@ -204,7 +224,7 @@ export default (state = {}, action) => {
     case WS_VIEW_CHANGE_COL_FILTERS: {
       const { viewId, tableId, filters } = action.payload;
 
-      let tableState = getTableState(viewId, tableId);
+      let tableState = _getTableState(viewId, tableId);
 
       if (!tableState) {
         return state;
@@ -212,11 +232,9 @@ export default (state = {}, action) => {
 
       const tablePath = [viewId, tableId];
 
-      tableState = _.set(
-        'keep',
-        _getKeptIndexes(_.get('data', tableState), filters),
-        tableState
-      );
+      tableState = _.set([DATA_STATE_KEY, 'filters'], filters);
+
+      tableState = _updateKeptIndexes(state, tableState);
 
       return _.set(tablePath, tableState, state);
     }

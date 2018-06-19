@@ -7,13 +7,13 @@
       "geometry": {
         "w": 1596,
         "h": 820,
-        "x": 1602,
-        "y": 51,
+        "x": 99,
+        "y": 149,
         "kind": "Absolute"
       },
       "pages": [
         {
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg",
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/h.vipg",
           "timebarId": "TB1"
         }
       ]

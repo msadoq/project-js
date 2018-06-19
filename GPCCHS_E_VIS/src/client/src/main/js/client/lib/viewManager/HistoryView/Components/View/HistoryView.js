@@ -67,9 +67,6 @@ class HistoryView extends React.Component {
     config: PropTypes.shape().isRequired,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    rows: PropTypes.func.isRequired,
-    rowCount: PropTypes.number.isRequired,
-    totalRowCount: PropTypes.number.isRequired,
     currentRowIndexes: PropTypes.arrayOf(PropTypes.number),
   };
 
@@ -112,9 +109,6 @@ class HistoryView extends React.Component {
   render() {
     const {
       viewId,
-      rows,
-      rowCount,
-      totalRowCount,
     } = this.props;
 
     return (
@@ -125,9 +119,6 @@ class HistoryView extends React.Component {
         <VirtualizedTableViewContainer
           viewId={viewId}
           tableId={'history'}
-          rows={rows}
-          rowCount={rowCount}
-          totalRowCount={totalRowCount}
           overrideStyle={this._overrideStyle}
           withGroups
           pauseOnScroll

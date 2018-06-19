@@ -9,6 +9,16 @@ const getDefaultView = view => _.merge({
   defaultRatio: { length: 5, width: 5 },
   links: [],
   title: 'On-Board Scheduling Service Ground Model (PUS11)',
+  titleStyle: {
+    align: 'left',
+    bold: false,
+    color: '#000000',
+    font: 'Arial',
+    italic: false,
+    size: 12,
+    strikeOut: false,
+    underline: false,
+  },
   configuration: {
     entryPoint: {},
   },

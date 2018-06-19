@@ -6,8 +6,7 @@
 // ====================================================================
 
 import schema from 'common/viewConfigurationFiles/schemas/page.schema.json';
-import validate from './validation';
-
+import validate, { formatError, verboseFormatError } from './validation';
 
 const page = { type: 'Page', hideBorders: false, title: 'Page example', views: [] };
 const pageInvalid = { type: 'View', foo: 'bar' };
@@ -105,5 +104,51 @@ describe('documents/validation', () => {
       'Development workspace should have required property \'kind\'\n' +
       'Development workspace should have required property \'timebarId\'\n' +
       'Development workspace should match exactly one schema in oneOf');
+  });
+  describe('formatError', () => {
+// eslint-disable-next-line array-callback-return
+    [{}, undefined, '', null, { params: [] }].map((props) => {
+      it(`should not prompt an error with invalid prop (${JSON.stringify(props)}) in error`, () => {
+        expect(formatError(props)).toEqual(' ');
+      });
+    });
+    it(`should not prompt an error with invalid prop (${JSON.stringify({ dataName: 'dataName' })}) in error`, () => {
+      expect(formatError({ dataName: 'dataName' })).toEqual('dataName ');
+    });
+    it(`should not prompt an error with invalid prop (${JSON.stringify({ message: 'message' })}) in error`, () => {
+      expect(formatError({ dataName: 'message' })).toEqual('message ');
+    });
+    it('should work in nominal case', () => {
+      expect(formatError({ dataName: 'dataName', message: 'message' })).toEqual('dataName message');
+    });
+  });
+  describe.only('verboseFormatError', () => {
+// eslint-disable-next-line array-callback-return
+    [{}, undefined, '', null, { params: [] }].map((props) => {
+      it(`should not prompt an error with invalid prop (${JSON.stringify(props)}) in error`, () => {
+        expect(verboseFormatError(props)).toEqual('' +
+          '\nValidation error:  ' +
+          '\ndata: undefined'
+        );
+      });
+    });
+    it(`should not prompt an error with invalid prop (${JSON.stringify({ dataName: 'dataName' })}) in error`, () => {
+      expect(verboseFormatError({ dataName: 'dataName' })).toEqual(
+        '\nValidation error: dataName ' +
+        '\ndata: undefined'
+      );
+    });
+    it(`should not prompt an error with invalid prop (${JSON.stringify({ message: 'message' })}) in error`, () => {
+      expect(verboseFormatError({ dataName: 'message' })).toEqual(
+        '\nValidation error: message ' +
+        '\ndata: undefined'
+      );
+    });
+    it('should work in nominal case', () => {
+      expect(verboseFormatError({ dataName: 'dataName', message: 'message' })).toEqual(
+        '\nValidation error: dataName message' +
+        '\ndata: undefined'
+      );
+    });
   });
 });

@@ -88,6 +88,7 @@ export default class PUS11Editor extends Component {
     updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       ...values,
+      formula: 'PusGroundModelDefinition.Pus011Model<Pus011Model>', // fixed
     });
   };
 

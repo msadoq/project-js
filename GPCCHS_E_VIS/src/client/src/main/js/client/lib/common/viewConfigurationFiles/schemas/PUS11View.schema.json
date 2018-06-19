@@ -1,6 +1,268 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "definitions": {},
+  "$id": "PUS11View.schema.json",
+  "description": "",
   "type": "object",
-  "allOf": []
+  "properties": {
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "titleStyle": {
+      "type": "object",
+      "properties": {
+        "align": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bold": {
+          "type": "boolean"
+        },
+        "font": {
+          "type": "string",
+          "minLength": 1
+        },
+        "italic": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "number"
+        },
+        "strikeOut": {
+          "type": "boolean"
+        },
+        "underline": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "align",
+        "bold",
+        "font",
+        "italic",
+        "size",
+        "strikeOut",
+        "underline"
+      ]
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "properties": {}
+      }
+    },
+    "defaultRatio": {
+      "type": "object",
+      "properties": {
+        "length": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "length",
+        "width"
+      ]
+    },
+    "entryPoint": {
+      "type": "object",
+      "properties": {
+        "connectedData": {
+          "type": "object",
+          "properties": {
+            "formula": {
+              "type": "string",
+              "minLength": 1
+            },
+            "domain": {
+              "type": "string",
+              "minLength": 1
+            },
+            "session": {
+              "type": "string",
+              "minLength": 1
+            },
+            "apidRawValue": {
+              "type": "number",
+              "minLength": 1
+            },
+            "apidName": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "formula",
+            "domain",
+            "session",
+            "apidRawValue",
+            "apidName"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "connectedData",
+        "name"
+      ]
+    },
+    "tables": {
+      "type": "object",
+      "properties": {
+        "commands": {
+          "type": "object",
+          "properties": {
+            "cols": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "required": [
+                  "title",
+                  "value",
+                  "position",
+                  "displayed",
+                  "group"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "value": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "position": {
+                    "type": "number"
+                  },
+                  "displayed": {
+                    "type": "boolean"
+                  },
+                  "group": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "cols"
+          ]
+        },
+        "enabledApids": {
+          "type": "object",
+          "properties": {
+            "cols": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "required": [
+                  "title",
+                  "value",
+                  "position",
+                  "displayed",
+                  "group"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "value": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "position": {
+                    "type": "number"
+                  },
+                  "displayed": {
+                    "type": "boolean"
+                  },
+                  "group": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "cols"
+          ]
+        },
+        "subSchedules": {
+          "type": "object",
+          "properties": {
+            "cols": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "required": [
+                  "title",
+                  "value",
+                  "position",
+                  "displayed",
+                  "group"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "value": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "position": {
+                    "type": "number"
+                  },
+                  "displayed": {
+                    "type": "boolean"
+                  },
+                  "group": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "cols"
+          ]
+        }
+      },
+      "required": [
+        "commands",
+        "enabledApids",
+        "subSchedules"
+      ]
+    }
+  },
+  "required": [
+    "version",
+    "type",
+    "title",
+    "titleStyle",
+    "links",
+    "defaultRatio",
+    "domainName",
+    "sessionName",
+    "entryPoint",
+    "tables"
+  ]
 }

@@ -196,3 +196,22 @@ L'application se charge alors de mettre à jour la configuration du tableau réf
 `(viewId, tableId)`. Cette configuration impactera automatiquement le composant
 `VirtualizedTableViewContainer` qui se mettra à jour à chaque changement réalisé _via_ l'éditeur
 de colonnes.
+
+
+### Injection de données dans le state
+
+Les data reducers possèdent un reducer commun qui gère les actions liées aux données relatives aux
+tableaux.
+
+Pour simplifier l'écriture de ses reducers, on dispose des trois fonctions suivantes :
+
+- `ìnjectData(state, tableId, source)` : 
+permet d'injecter un tableau de données dans le tableau désigné par `tableId` dans le data state `state`;
+- `removeData(state, tableId, cond)`:
+permet d'enlever les objets `obj` qui satisfont la condition `cond(obj, index)`
+dans le tableau désigné par `tableId`.
+- `purgeData(state, tableId)`: permet de supprimer tout le contenu du tableau de données désigné par `tableId`.
+- `mapData(state, tableId, mapFunc)`: permet de mettre à jour chacun des éléments du tableau de données
+désigné par `tableId` à l'aide d'une fonction `mapFunc`, prenant en argument un objet et un index.
+
+Ces fonctions retournent le nouveau state.

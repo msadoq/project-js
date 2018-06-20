@@ -8,6 +8,8 @@ import TableViewColumns from 'viewManager/commonEditor/TableViewColumns';
 import WithForm from 'viewManager/common/Hoc/WithForm';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
 import { entryPointType, TableConfigurationColumnType } from '../../../common/Components/types';
+import TableColumnsEditorContainer
+  from '../../../common/Components/View/TableColumnsEditor/TableColumnsEditorContainer';
 
 const { string, shape, func, arrayOf } = PropTypes;
 
@@ -65,9 +67,11 @@ export default class PUS11Tab extends React.Component {
 
   render() {
     const { panels, viewId, configuration } = this.props;
-    const { PUS11SubScheduleTableViewColumnsForm,
+    const {
+      PUS11SubScheduleTableViewColumnsForm,
       PUS11EnabledApidsTableViewColumnsForm,
-      PUS11CommandsTableViewColumnsForm } = this.state;
+      PUS11CommandsTableViewColumnsForm,
+    } = this.state;
     const subSchedulesCols = { cols: _get(configuration, ['tables', 'subSchedules', 'cols']) };
     const enabledApidsCols = { cols: _get(configuration, ['tables', 'enabledApids', 'cols']) };
     const commandsCols = { cols: _get(configuration, ['tables', 'commands', 'cols']) };
@@ -89,13 +93,13 @@ export default class PUS11Tab extends React.Component {
             header="Sub-Schedule Columns"
             key="pus11-sub-schedules-panel"
           >
-            {panels['pus11-sub-schedules-panel'] && <PUS11SubScheduleTableViewColumnsForm
-              initialValues={subSchedulesCols}
-              viewId={viewId}
-              onSubmit={values => this.handleSubmit(values, 'subSchedules')}
-              onOrderChange={values => this.handleSubmit(values, 'subSchedules')}
-              form={`pus11-sub-schedules-tab-form-${viewId}`}
-            />}
+            {
+              panels['pus11-sub-schedules-panel'] &&
+              <TableColumnsEditorContainer
+                viewId={viewId}
+                tableId={'subSchedules'}
+              />
+            }
           </Panel>
           <Panel
             header="Commands Columns"

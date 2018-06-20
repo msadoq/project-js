@@ -1,8 +1,10 @@
 import _ from 'lodash/fp';
 
 import {
+  WS_VIEW_ADD_BLANK,
   WS_VIEW_TABLE_UPDATE_SORT,
   WS_VIEW_CHANGE_COL_FILTERS,
+  TEST_ASK_FAKE_DATA,
 } from 'store/types';
 
 const DATA_STATE_KEY = 'state';
@@ -103,16 +105,16 @@ const _getTableStateFromViewSubState =
  */
 export const injectData = (
   state,
-  source,
-  tableId
+  tableId,
+  source
 ) => {
   let tableState = _getTableStateFromViewSubState(state, tableId);
 
   const colName = _.get([DATA_STATE_KEY, 'sort']);
   const filters = _.getOr({}, [DATA_STATE_KEY, 'filters']);
 
-  let updatedData = _.get('data', tableState);
-  let updatedKeep = _.get('keep', tableState);
+  let updatedData = _.getOr([], 'data', tableState);
+  let updatedKeep = _.getOr([], 'keep', tableState);
   let insertIndex = 0;
 
   source.forEach((el) => {
@@ -174,6 +176,31 @@ export const removeData = (state, tableId, cond) => {
 };
 
 /**
+ * Map table state data
+ *
+ * @param state
+ * @param tableId
+ * @param mapFunc
+ * @returns {void|*|{}}
+ */
+export const mapData = (state, tableId, mapFunc) => {
+  let tableState = _getTableStateFromViewSubState(state, tableId);
+  tableState = _.set(
+    'data',
+    _.get('data', tableState).map((e, i) => mapFunc(e, i)),
+    tableState
+  );
+
+  tableState = _updateKeptIndexes(tableState);
+
+  return _.set(
+    tableId,
+    tableState,
+    state
+  );
+};
+
+/**
  * Removes all data related to the table identified by the specified `tableId`
  *
  * @param state
@@ -186,23 +213,25 @@ export const purgeData = (state, tableId) => removeData(state, tableId, () => tr
  * This is the common data reducer used to handle common data management,
  * such as index synchronization for table views
  *
- * @param state
+ * @param dataState
  * @param action
  */
-export default (state = {}, action) => {
+export default (dataState = {}, action) => {
   const tableInitialState = { state: {}, data: [], keep: [] };
 
   switch (action.type) {
+    case WS_VIEW_ADD_BLANK: {
+      const { viewId } = action.payload;
+      return _.omit([viewId], dataState);
+    }
     case WS_VIEW_TABLE_UPDATE_SORT: {
-      const { viewId, tableId, colName } = action.payload;
+      const { tableId, colName } = action.payload;
 
-      let viewState = _.getOr({}, viewId, state);
-
-      if (!viewState || Object.keys(viewState).indexOf('tables') === -1) {
-        return state;
-      }
-
-      let tableState = _.getOr(tableInitialState, ['tables', tableId], viewState);
+      let tableState = _.getOr(
+        tableInitialState,
+        ['tables', tableId],
+        dataState
+      );
 
       tableState = _.set(
         [DATA_STATE_KEY, 'sort'],
@@ -218,23 +247,17 @@ export default (state = {}, action) => {
 
       tableState = _updateKeptIndexes(tableState);
 
-      viewState = _.set(['tables', tableId], tableState, viewState);
-
-      return _.set(viewId, viewState, state);
+      return _.set(tableId, tableState, dataState);
     }
     case WS_VIEW_CHANGE_COL_FILTERS: {
-      const { viewId, tableId, filters } = action.payload;
+      const { tableId, filters } = action.payload;
 
-      let viewState = _.getOr({}, viewId, state);
-
-      if (!viewState) {
-        return state;
-      }
+      const tablePath = ['tables', tableId];
 
       let tableState = _.getOr(
         tableInitialState,
-        ['tables', tableId],
-        viewState
+        tablePath,
+        dataState
       );
 
       tableState = _.set(
@@ -245,18 +268,33 @@ export default (state = {}, action) => {
 
       tableState = _updateKeptIndexes(tableState);
 
-      viewState = _.set(
-        ['tables', tableId],
+      return _.set(
+        tablePath,
         tableState,
-        viewState
+        dataState
+      );
+    }
+    case TEST_ASK_FAKE_DATA: {
+      const { tableId, format, length } = action.payload;
+
+      if (!dataState) {
+        return {};
+      }
+
+      const fakeData = [...new Array(length)].map(
+        (e, index) => (
+          {
+            ...Object.keys(format).reduce(
+              (acc, cur, i) => ({ ...acc, [cur]: `${cur}-${i}-${format[cur]}` }), {}
+            ),
+            index,
+          }
+        )
       );
 
-      let updatedState = state;
-      updatedState = _.set(viewId, viewState, state);
-
-      return updatedState;
+      return injectData(dataState, tableId, fakeData);
     }
     default:
-      return state;
+      return dataState;
   }
 };

@@ -22,7 +22,9 @@ export default class PUS11View extends React.Component {
     lastUpdateType: string.isRequired,
     // from container's mapDispatchToProps
     // openModal: func.isRequired,
+    askFakeData: func.isRequired,
   };
+
   static defaultProps = {
     applicationProcessName: null,
     applicationProcessId: null,
@@ -110,29 +112,15 @@ export default class PUS11View extends React.Component {
             lastUpdateTime,
             lastUpdateType)}
         </div>
-        <div className="header">
-          <div className="col-sm-6">
-            <VirtualizedTableViewContainer
-              viewId={viewId}
-              tableId={'subSchedules'}
-            />
-          </div>
-          <div className="clearfix" />
-          <div className="col-sm-6">
-            <VirtualizedTableViewContainer
-              viewId={viewId}
-              tableId={'enabledApids'}
-            />
-          </div>
-          <div className="clearfix" />
-        </div>
-        <div className="header">
-          <div className="info col-sm-12">
-            <VirtualizedTableViewContainer
-              viewId={viewId}
-              tableId={'commands'}
-            />
-          </div>
+        <div
+          style={{
+            height: 400,
+          }}
+        >
+          <VirtualizedTableViewContainer
+            viewId={viewId}
+            tableId={'subSchedules'}
+          />
         </div>
       </div>
     );

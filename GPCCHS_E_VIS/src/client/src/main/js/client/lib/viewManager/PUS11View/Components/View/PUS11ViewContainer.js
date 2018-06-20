@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import _get from 'lodash/get';
 import { connect } from 'react-redux';
 import { open as openModal } from 'store/actions/modals';
+import { askFakeData } from 'store/actions/fake';
 import PUS11View from './PUS11View';
 import { getConfigurationByViewId } from '../../../selectors';
 

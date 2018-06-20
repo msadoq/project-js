@@ -1,4 +1,5 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, Col, Button } from 'react-bootstrap';
 // import Inspector from 'react-json-inspector';
 

@@ -20,7 +20,6 @@ import { arrayMove } from 'react-sortable-hoc';
 
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
 
-// TODO: replace nested spread operators by _.set use
 
 export default (stateConf, action) => {
   switch (action.type) {

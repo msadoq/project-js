@@ -15,84 +15,14 @@
 // END-HISTORY
 // ====================================================================
 
-import _ from 'lodash/fp';
 import _omit from 'lodash/omit';
 import * as types from 'store/types';
 import * as constants from 'viewManager/constants';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
 import cleanCurrentViewData from './cleanViewData';
 
+const initialState = {};
 
-export const shouldKeepIndex = (index, state, filters = {}) => {
-  const epData = _.get(['data', ...index.split(' ')], state);
-
-  let ret = true;
-  for (const filterKey of Object.keys(filters)) {
-    if (
-      !epData ||
-      epData[filterKey].indexOf(filters[filterKey]) === -1
-    ) {
-      ret = false;
-      break;
-    }
-  }
-
-  return ret;
-};
-
-/**
- * Maintain a list of array indexes of indexes to keep depending on user filters
- *
- * @param state
- * @param filters
- * @returns {void|*}
- * @private
- */
-export const updateFilteredIndexes = (state, filters) => {
-  let usedIndex = _.get(['indexes', 'referenceTimestamp'], state);
-
-  const availableIndexes = _.get(['indexes'], state);
-
-  const otherIndexes =
-    Object
-      .keys(availableIndexes)
-      .filter(indexKey => indexKey !== 'referenceTimestamp' && indexKey !== 'keep');
-
-  if (otherIndexes.length > 0) {
-    usedIndex = availableIndexes[otherIndexes[0]];
-  }
-
-  /**
-   * @const filterIndexesMap specifies the array indexes that should be kept
-   *
-   *     When using referenceTimestamp index, we get the i-th displayed value by:
-   *         referenceTimestampIndex[filterIndexesMap[i]]
-   */
-  const filterIndexesMap = usedIndex.reduce((acc, cur, index) => {
-    if (shouldKeepIndex(cur, state, filters)) {
-      return [...acc, index];
-    }
-
-    return acc;
-  }, []);
-
-  const updatedIndexes =
-    _.set(
-      ['keep'],
-      filterIndexesMap,
-      _.get(['indexes'], state)
-    );
-
-  return _.set(['indexes'], updatedIndexes, state);
-};
-
-
-const initialState = {
-  data: {},
-  indexes: {
-    referenceTimestamp: [],
-  },
-};
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function historyViewData(state = {}, action) {
   switch (action.type) {
@@ -141,7 +71,7 @@ export default function historyViewData(state = {}, action) {
       return newState;
     }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations, visuWindow }
+      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations }
         = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
@@ -161,7 +91,7 @@ export default function historyViewData(state = {}, action) {
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
           const viewState =
-            viewRangeAdd(newState[viewId], viewId, epSubState, configuration[viewId], visuWindow);
+            viewRangeAdd(newState[viewId], viewId, epSubState, configuration[viewId]);
           if (viewState !== newState[viewId]) {
             newState = { ...newState, [viewId]: viewState };
           }
@@ -191,47 +121,6 @@ export default function historyViewData(state = {}, action) {
         }
       }
       return newState;
-    }
-    case types.WS_VIEW_TABLE_UPDATE_SORT: {
-      const { viewId, colName, filters } = action.payload;
-
-      let newState = state;
-
-// eslint-disable-next-line no-loop-func
-      const _sortFunc = index => _.get([...index.split(' '), colName], newState[viewId].data);
-
-      const newIndex =
-        _.sortBy(
-          _sortFunc,
-          newState[viewId].indexes.referenceTimestamp
-        );
-
-      newState = {
-        ...newState,
-        [viewId]: {
-          ...newState[viewId],
-          indexes: {
-            referenceTimestamp: newState[viewId].indexes.referenceTimestamp,
-            [colName]: newIndex,
-          },
-        },
-      };
-
-      // re-index filters against updated sort index
-      newState = {
-        ...newState,
-        [viewId]: updateFilteredIndexes(newState[viewId], filters),
-      };
-
-      return newState;
-    }
-    case types.WS_VIEW_CHANGE_COL_FILTERS: {
-      const { viewId, filters } = action.payload;
-
-      return {
-        ...state,
-        [viewId]: updateFilteredIndexes(state[viewId], filters),
-      };
     }
     default:
       return state;

@@ -288,6 +288,7 @@ module.exports = {
     OnboardAlarmView: 'OnBoardAlarmViewDoc',
     CommaSeparatedValues: 'CommaSeparatedValues',
     PortableNetworkGraphics: 'PortableNetworkGraphics',
+    PUS11View: 'PUS11ViewDoc',
   },
   EXTENSIONS: {
     WorkSpace: 'viws',
@@ -356,6 +357,9 @@ module.exports = {
   // Input, output separators
   CSV_COLUMN_SEPARATOR: '; ',
   CSV_ROW_SEPARATOR: '\n',
+
+  // nominal value for significant data
+  SIGNIFICANT_VALIDITY_STATE_VALUE: 2,
 
   // list of view's type for search
   SEARCH_VIEWS_TYPE: ['TextView', 'PlotView', 'MimicView'],

@@ -36,6 +36,7 @@ export const VM_COMMON_PROPERTIES = [
   'procedures',
   'domainName',
   'sessionName',
+  'version',
 ];
 
 /**

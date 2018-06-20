@@ -3,7 +3,7 @@ import _omit from 'lodash/omit';
 import { freezeMe } from 'common/jest';
 import state from 'common/jest/stateTest';
 import dataMapGenerator from 'dataManager/map';
-import cleanCurrentViewData, { updateEpLabel, removeViewDataByEp } from './cleanViewData';
+import cleanCurrentViewData, { updateEpLabel, removeViewDataOutsideRange } from './cleanViewData';
 
 
 describe('viewManager/HistoryView/store/cleanViewData', () => {
@@ -94,27 +94,27 @@ describe('viewManager/HistoryView/store/cleanViewData', () => {
       expect(updateEpLabel(frozen, 'ATT_BC_REVTCOUNT10', 'ATT_BC_REVTCOUNT100')).toBe(frozen);
     });
   });
-  describe('removeViewDataByEp', () => {
+  describe('removeViewDataOutsideRange', () => {
     test('should support empty state', () => {
       const frozen = freezeMe({});
-      expect(removeViewDataByEp(frozen, 'TMMGT_BC_VIRTCHAN3', 10, 20)).toBe(frozen);
+      expect(removeViewDataOutsideRange(frozen, 'TMMGT_BC_VIRTCHAN3', 10, 20)).toBe(frozen);
       const otherFrozen = freezeMe({ cols: [], lines: [], data: {}, indexes: {} });
-      expect(removeViewDataByEp(otherFrozen, 'TMMGT_BC_VIRTCHAN3', 10, 20)).toBe(otherFrozen);
+      expect(removeViewDataOutsideRange(otherFrozen, 'TMMGT_BC_VIRTCHAN3', 10, 20)).toBe(otherFrozen);
     });
     test('should support nothing to keep', () => {
-      expect(removeViewDataByEp(freezeMe(state.HistoryViewData.hist1), 'ATT_BC_REVTCOUNT1', 0, 100))
+      expect(removeViewDataOutsideRange(freezeMe(state.HistoryViewData.hist1), 'ATT_BC_REVTCOUNT1', 0, 100))
       .toMatchSnapshot();
     });
     test('upper < lower: nothing to keep', () => {
-      expect(removeViewDataByEp(freezeMe(state.HistoryViewData.hist1), 'ATT_BC_REVTCOUNT1', 10000, 100))
+      expect(removeViewDataOutsideRange(freezeMe(state.HistoryViewData.hist1), 'ATT_BC_REVTCOUNT1', 10000, 100))
       .toMatchSnapshot();
     });
     test('should support partial keeping', () => {
-      expect(removeViewDataByEp(freezeMe(state.HistoryViewData.hist1), 'ATT_BC_REVTCOUNT1', 100000, 250000))
+      expect(removeViewDataOutsideRange(freezeMe(state.HistoryViewData.hist1), 'ATT_BC_REVTCOUNT1', 100000, 250000))
       .toMatchSnapshot();
     });
     test('should support keep everything', () => {
-      expect(removeViewDataByEp(freezeMe(state.HistoryViewData.hist1), 'ATT_BC_REVTCOUNT1', 100000, 600000))
+      expect(removeViewDataOutsideRange(freezeMe(state.HistoryViewData.hist1), 'ATT_BC_REVTCOUNT1', 100000, 600000))
       .toMatchSnapshot();
     });
   });

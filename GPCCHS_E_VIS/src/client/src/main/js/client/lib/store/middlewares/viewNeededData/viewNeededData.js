@@ -11,13 +11,14 @@
 // ====================================================================
 
 import _cloneDeep from 'lodash/cloneDeep';
+import _merge from 'lodash/merge';
 import dataMapGenerator from 'dataManager/map';
 import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
 import execution from 'common/logManager/execution';
 import computeMissingRangeIntervals from 'store/observers/computeMissingRangeIntervals';
 import computeMissingLastIntervals from 'store/observers/computeMissingLastIntervals';
 
-import { viewsNeedRange, viewsNeedLast } from 'store/actions/retrieveData';
+import { viewsNeedRange, viewsNeedLast, viewsNeedObsoleteEvent } from 'store/actions/retrieveData';
 import { cleanViewData } from 'store/actions/viewData';
 
 
@@ -76,6 +77,10 @@ const makeViewNeededData = () => {
     }
     if (Object.keys(neededLastData).length) {
       dispatch(viewsNeedLast(neededLastData));
+    }
+    const mergeNeededForEvent = _merge(neededRangeData, neededLastData);
+    if (Object.keys(mergeNeededForEvent).length) {
+      dispatch(viewsNeedObsoleteEvent(mergeNeededForEvent));
     }
 
     profile.print();

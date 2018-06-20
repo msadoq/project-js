@@ -50,7 +50,7 @@ function getFmdConfiguration(name) {
 }
 
 function setColorsConfiguration(config) {
-  fmdConfig = config;
+  colorsConfig = config;
 }
 
 function getColorsConfiguration(name) {

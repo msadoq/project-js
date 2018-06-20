@@ -98,6 +98,8 @@ export default class MimicView extends Component {
     links: [],
     showLinks: false,
     perfOutput: false,
+    searching: null,
+    searchCount: null,
   };
   componentWillMount() {
     this.svgEls = [];
@@ -114,7 +116,6 @@ export default class MimicView extends Component {
     ) {
       shouldRender = true;
       this.content = this.getContentComponent(nextProps);
-      // this.updateSvgsValues(nextProps.data);
     }
     if (!shouldRender) {
       this.updateSvgsValues(nextProps.data);

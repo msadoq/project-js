@@ -1,14 +1,15 @@
 // ====================================================================
 // HISTORY
-// VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : Fix parseEntryPoint to take into account
-//  provider field and update dc stubs
-// VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
+// VERSION : 1.1.2 : DM : #6700 : 28/07/2017 : Add archive controller and its test
+// VERSION : 1.1.2 : DM : #6700 : 01/08/2017 : Code robustness : ensure that there is a request for a given queryId in singleton
+// VERSION : 1.1.2 : DM : #6700 : 29/08/2017 : Add throttle mechanism in patch reducer
+// VERSION : 1.1.2 : FA : #7858 : 18/09/2017 : Add robustness on 'dataId undefined' crash
 // END-HISTORY
 // ====================================================================
 
 const executionMonitor = require('common/logManager/execution');
 const logger = require('common/logManager')('controllers:onTimebasedArchiveDataADE');
-const { incomingRange, incomingLast } = require('store/actions/incomingData');
+const { incomingRange, incomingLast, incomingObsoleteEvent } = require('store/actions/incomingData');
 const { add: addMessage } = require('store/actions/messages');
 
 
@@ -50,6 +51,9 @@ const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }
         break;
       case 'LAST' :
         store.dispatch(incomingLast(tbdId, payloadBuffer, dataId));
+        break;
+      case 'OBSOLETE_EVENT' :
+        store.dispatch(incomingObsoleteEvent(tbdId, payloadBuffer, dataId));
         break;
       default:
         logger.warn('Unkwnown type of request');

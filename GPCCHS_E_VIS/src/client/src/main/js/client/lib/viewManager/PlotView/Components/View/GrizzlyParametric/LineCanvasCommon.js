@@ -198,6 +198,8 @@ export const drawLine = (perfOutput,
   ctx.strokeStyle = lastColor;
 
   ctx.moveTo(currentX, currentY); // required as beginPath set to {0,0}
+  ctx.fillStyle = lastColor; // for dots
+  ctx.strokeStyle = lastColor; // for sub-lines
 
   let currentX;
   let currentY;
@@ -256,6 +258,8 @@ export const drawLine = (perfOutput,
     if (!stoppedCurrent && shouldDrawPoint) {
       drawPoint(ctx, currentX, currentY);
     }
+
+    stoppedCurrent = stoppedCurrent || packet.isDataObsolete;
 
     // should draw a subline between current data and next data
     if (shouldDrawSubLine(i, stoppedCurrent, stoppedPrevious)) {

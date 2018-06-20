@@ -1,57 +1,35 @@
 // ====================================================================
 // HISTORY
-// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge
-//  with dev
+// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge with dev
 // VERSION : 1.1.2 : FA : #6670 : 21/06/2017 : Add basic player middleware .
-// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Place thunk middleware before all middlewares in
-//  serverProcess/store
-// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Configure player middleware with correct environment
-//  variables
-// VERSION : 1.1.2 : DM : #6785 : 29/06/2017 : Fix opening view link in a new page and read only
-//  path for link definition
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Place thunk middleware before all middlewares in serverProcess/store
+// VERSION : 1.1.2 : DM : #6700 : 26/06/2017 : Configure player middleware with correct environment variables
+// VERSION : 1.1.2 : DM : #6785 : 29/06/2017 : Fix opening view link in a new page and read only path for link definition
 // VERSION : 1.1.2 : DM : #6785 : 03/07/2017 : Add unit tests on open link middleware
-// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add basic documents redux middleware, support page
-//  opening only
-// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing decorator on DEBUG only (for each
-//  process) - Move decorator on makeSlave/MasterDispatcher
-// VERSION : 1.1.2 : DM : #6700 : 12/07/2017 : Add incomingData middleware that throttle data
-//  sending to reducers
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Move openLink middleware in documents
-//  middleware
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add basic documents redux middleware, support page opening only
+// VERSION : 1.1.2 : DM : #6700 : 06/07/2017 : Add timing decorator on DEBUG only (for each process) - Move decorator on makeSlave/MasterDispatcher
+// VERSION : 1.1.2 : DM : #6700 : 12/07/2017 : Add incomingData middleware that throttle data sending to reducers
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 18/07/2017 : Move openLink middleware in documents middleware
 // VERSION : 1.1.2 : DM : #6700 : 19/07/2017 : Merge branch 'dev' into dbrugne-data
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Rename all create* middleware by make*
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Add inspector middleware in serverProcess
-//  store
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Add inspector middleware in serverProcess store
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 21/07/2017 : Move documentManager in serverProcess .
-// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Add skeleton for incomingData and retrieveData
-//  middleware + their test
-// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Use rtdManager as dependency injection in inspector
-//  middleware
+// VERSION : 1.1.2 : DM : #6700 : 24/07/2017 : Add skeleton for incomingData and retrieveData middleware + their test
+// VERSION : 1.1.2 : FA : #7145 : 24/07/2017 : Use rtdManager as dependency injection in inspector middleware
 // VERSION : 1.1.2 : DM : #6700 : 26/07/2017 : Add lokiMananger as parameter of middlewares
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
-// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add sendProductLog middleware in serverProcess +
-//  replace old IPC productLog
+// VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Add sendProductLog middleware in serverProcess + replace old IPC productLog
 // VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Update some tests . . .
 // VERSION : 1.1.2 : DM : #6700 : 17/08/2017 : Major changes : all data consumption is now plugged
 // VERSION : 1.1.2 : DM : #6700 : 18/08/2017 : Update multiple test and implementation
 // VERSION : 1.1.2 : DM : #6700 : 21/08/2017 : branch 'dev' into dbrugne-data
 // VERSION : 1.1.2 : FA : #7578 : 24/08/2017 : Add robustness code on dataId retrieval
 // VERSION : 1.1.2 : DM : #6700 : 24/08/2017 : Fix store compose middleware . .
-// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add redux and patch workflow improvment + remove
-//  store observer
+// VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add redux and patch workflow improvment + remove store observer
 // VERSION : 1.1.2 : DM : #6700 : 25/08/2017 : Add throttle timing in configuration .
 // VERSION : 1.1.2 : DM : #6700 : 29/08/2017 : Add throttle mechanism in patch reducer
 // VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : Add middleware to apply pause on master overload
 // VERSION : 1.1.2 : DM : #6700 : 30/08/2017 : move dumpBuffer use in a specific middleware
-// VERSION : 2.0.0 : FA : #8357 : 10/10/2017 : Add middleware to set PUB/SUB indicator in perf tool
-// VERSION : 2.0.0 : FA : ISIS-FT-2248 : 18/10/2017 : Fallback/Wildcard for sessions and domains is
-//  now functionnal. Plus fixed page and workspace modal editor for undefined values.
-// VERSION : 2.0.0 : DM : #6832 : 06/11/2017 : Improve ack middleware (display messages)
-// VERSION : 2.0.0 : DM : #6832 : 06/11/2017 : Implement acknowledge middleware (GMA), need to fix
-//  stub
-// VERSION : 2.0.0 : DM : #5806 : 27/11/2017 : Remove ackType (GMA/OBA) . .
-// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
-// VERSION : 2.0.0 : FA : ISIS-FT-2215 : 22/01/2018 : Add createTempStore utils . .
 // END-HISTORY
 // ====================================================================
 
@@ -66,7 +44,9 @@ import createCacheMiddleware from '../store/middlewares/cache';
 import reducer from '../store/reducers';
 import ipc from './ipc';
 import documentManager from './documentManager';
-import lokiManager from './models/lokiKnownRangesData';
+import lokiKnownRangesManager from './models/lokiKnownRangesData';
+import lokiObsoleteEventManager from './models/lokiObsoleteEventData';
+import lokiGenericManager from './models/lokiGeneric';
 import makeAckMiddleware from '../store/middlewares/ack';
 import { isDumpActivated } from '../serverProcess/utils/dumpBuffer';
 import createIncomingDataMiddleware from '../store/middlewares/incomingData';
@@ -99,9 +79,9 @@ const createMiddlewares = (identity, isDebugOn) => {
     catalogMiddleware,
     apidsMiddleware,
     createPusTestMiddleware(ipc),
-    createIncomingDataMiddleware(lokiManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
+    createIncomingDataMiddleware(lokiKnownRangesManager, lokiObsoleteEventManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),
-    createCacheMiddleware(lokiManager),
+    createCacheMiddleware(lokiGenericManager),
     makeAckMiddleware(ipc.dc.requestAck),
     makeMessagesMiddleware(),
     makeOnProcessOverload(),

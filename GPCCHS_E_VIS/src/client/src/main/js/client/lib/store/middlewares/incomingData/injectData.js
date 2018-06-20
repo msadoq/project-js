@@ -24,9 +24,9 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
-
+import _forEach from 'lodash/forEach';
 import * as types from 'store/types';
-import { injectDataRange, injectDataLast } from 'store/actions/incomingData';
+import { injectDataRange, injectDataLast, injectDataObsoleteEvent } from 'store/actions/incomingData';
 import dataMapGenerator from 'dataManager/map';
 import executionMonitor from 'common/logManager/execution';
 import { getCurrentVisuWindow } from 'store/selectors/timebars';
@@ -34,7 +34,11 @@ import { convertData, mapUnitConvertion } from '../../helpers/unitConverterHelpe
 
 let dataMap = {};
 let previousDataMap = {};
-let buffer = {};
+let buffer = {
+  ranges: {},
+  lasts: {},
+  obsoleteEvents: {},
+};
 const injectData = (timing) => {
   /**
    * A throttled function that pass action to reducer
@@ -62,27 +66,40 @@ const injectData = (timing) => {
         // eslint-disable-next-line no-console
         console.error(err);
       }
+
+      const ranges = convertedDataToInject.ranges || {};
+      const lasts = convertedDataToInject.lasts || {};
+      const obsoleteEvents = convertedDataToInject.obsoleteEvents || {};
+
+      const visuWindow = getCurrentVisuWindow(state);
+
       const updateRangeData = injectDataRange(
         oldViewMap,
         newViewMap,
         oldExpectedRangeIntervals,
         newExpectedRangeIntervals,
-        convertedDataToInject,
+        ranges,
         { HistoryViewConfiguration: state.HistoryViewConfiguration,
           GroundAlarmViewConfiguration: state.GroundAlarmViewConfiguration,
           OnboardAlarmViewConfiguration: state.OnboardAlarmViewConfiguration,
           PlotViewConfiguration: state.PlotViewConfiguration },
-        getCurrentVisuWindow(state)
+        visuWindow
       );
       const updateLastData = injectDataLast(
         oldViewMap,
         newViewMap,
         oldExpectedLastIntervals,
         newExpectedLastIntervals,
-        convertedDataToInject
+        lasts
+      );
+      const updateObsoleteEventData = injectDataObsoleteEvent(
+        obsoleteEvents,
+        newViewMap,
+        state
       );
       dispatch(updateRangeData);
       dispatch(updateLastData);
+      dispatch(updateObsoleteEventData);
 
       previousDataMap = dataMap;
     });
@@ -94,16 +111,19 @@ const injectData = (timing) => {
    * @param {Object} data { [tbdId]: { [timestamp]: payload } }
    */
   function addToBuffer(data) {
-    const tbdIds = Object.keys(data);
-    for (let i = 0; i < tbdIds.length; i += 1) {
-      if (typeof buffer[tbdIds[i]] === 'undefined') {
-        buffer[tbdIds[i]] = {};
-      }
-      buffer[tbdIds[i]] = {
-        ...buffer[tbdIds[i]],
-        ...data[tbdIds[i]],
-      };
-    }
+    const dataTypes = Object.keys(data);
+    _forEach(dataTypes, (dataType) => {
+      const tbdIds = Object.keys(data[dataType]);
+      _forEach(tbdIds, (tbdId) => {
+        if (typeof buffer[dataType][tbdId] === 'undefined') {
+          buffer[dataType][tbdId] = {};
+        }
+        buffer[dataType][tbdId] = {
+          ...buffer[dataType][tbdId],
+          ...data[dataType][tbdId],
+        };
+      });
+    });
   }
 
   /**
@@ -112,7 +132,11 @@ const injectData = (timing) => {
    */
   function cleanBuffer() {
     const data = buffer;
-    buffer = {};
+    buffer = {
+      ranges: {},
+      lasts: {},
+      obsoleteEvents: {},
+    };
     return data;
   }
 

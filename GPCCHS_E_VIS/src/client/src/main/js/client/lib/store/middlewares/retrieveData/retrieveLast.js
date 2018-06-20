@@ -17,14 +17,13 @@
 
 import * as types from 'store/types';
 import { getLastRecords } from 'serverProcess/models/lokiKnownRangesData';
-import { GETLASTTYPE_GET_LAST } from 'constants';
 import { getUpperIntervalIsInKnownRanges } from 'store/reducers/knownRanges';
 import { add } from 'serverProcess/models/registeredArchiveQueriesSingleton';
 import { newData } from 'store/actions/incomingData';
 import executionMonitor from 'common/logManager/execution';
 
 const type = 'LAST';
-const getLastArguments = { getLastType: GETLASTTYPE_GET_LAST };
+const getLastArguments = { getLastNumber: 1 };
 
 const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
   const execution = executionMonitor('middleware:retrieveLast');
@@ -53,7 +52,7 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
           const lastRecords = getLastRecords(tbdId, interval)[tbdId];
           execution.stop('get last records');
           if (Object.keys(lastRecords).length !== 0) {
-            dispatch(newData({ [tbdId]: lastRecords }));
+            dispatch(newData({ lasts: { [tbdId]: lastRecords } }));
           } else {
             const args = { ...getLastArguments, filters };
             const queryId = ipc.dc.requestTimebasedQuery(tbdId,

@@ -52,6 +52,7 @@ import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldC
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
 import ComObjectFieldContainer from 'viewManager/commonEditor/Fields/ComObjectFieldContainer';
+import DataTypeField from 'viewManager/commonEditor/Fields/DataTypeField';
 import styles from './EntryPointConnectedData.css';
 
 /*
@@ -65,7 +66,6 @@ class EntryPointConnectedData extends React.Component {
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
-    initialValues: PropTypes.shape().isRequired,
     axes: PropTypes.shape({}).isRequired,
     timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     axisId: PropTypes.string,
@@ -183,7 +183,6 @@ class EntryPointConnectedData extends React.Component {
       selectedItemName,
       selectedComObjectName,
     } = this.props;
-
     const { parametric } = this.state;
     const filteredAxes = this.getFilteredAxes();
 
@@ -473,6 +472,9 @@ class EntryPointConnectedData extends React.Component {
           }
         </HorizontalFormGroup>
 
+        <HorizontalFormGroup label="Data type">
+          <DataTypeField />
+        </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Catalog">
           <CatalogFieldContainer

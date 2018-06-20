@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "definitions.schema.json",
+  "definitions": {
+    "boundaries": {
+      "type": "object",
+      "properties": {
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "lower",
+        "upper"
+      ]
+    },
+    "timeBar": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "timeBarConfiguration"
+        },
+        "id": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string",
+          "default": "Normal",
+          "enum": [
+            "Normal",
+            "Extended",
+            "Sliding"
+          ]
+        },
+        "rulerResolution": {
+          "type": "number"
+        },
+        "speed": {
+          "type": "number",
+          "default": 1
+        },
+        "timeSpec": {
+          "type": "string",
+          "const": "LocalTime"
+        },
+        "offsetFromUTC": {
+          "type": "number",
+          "default": 0
+        },
+        "timelines": {
+          "type": "array"
+        },
+        "masterId": {
+          "type": ["string", "null"]
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "mode",
+        "rulerResolution",
+        "timelines"
+      ]
+    },
+    "condition": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "==",
+            "!=",
+            "<",
+            ">",
+            "<=",
+            ">=",
+            "CONTAINS",
+            "ICONTAINS"
+          ]
+        },
+        "operand": {
+          "type": "string"
+        }
+      }
+    },
+    "viewCommonAttributes": {
+      "type": "object",
+      "properties": {
+        "links": {
+          "type": "array",
+          "items": {
+            "name": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          }
+        },
+        "procedures": {
+          "type": "array",
+          "items": {
+            "name": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          }
+        },
+        "defaultRatio": {
+          "type": "object",
+          "properties": {
+            "length": {
+              "type": "number"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "length",
+            "width"
+          ]
+        }
+      }
+    }
+  }
+}

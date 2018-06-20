@@ -60,7 +60,7 @@ const prepareLast = () => ({ dispatch }) => next => (action) => {
   }
 
   if (!_isEmpty(payloadsJson[tbdId])) {
-    dispatch(newData(payloadsJson));
+    dispatch(newData({ lasts: payloadsJson }));
   }
 
   execution.stop('global');

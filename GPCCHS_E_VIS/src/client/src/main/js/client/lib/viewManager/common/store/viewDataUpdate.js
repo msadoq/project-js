@@ -33,6 +33,10 @@ import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { convertData } from 'viewManager/commonData/convertData';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
+import _cloneDeep from 'lodash/cloneDeep';
+import _isEmpty from 'lodash/isEmpty';
+import _forEach from 'lodash/forEach';
+import { getFlattenDataIdForObsoleteEvent } from '../../../common/flattenDataId';
 
 const logger = getLogger('data:lastValue');
 
@@ -96,8 +100,12 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
         continue;
       }
       const valueComputed = (ep.convertTo && p.gpinuc && p.gpinuc[ep.field]) ?
-                            convertData(p.gpinuc[ep.field][ep.convertTo]) :
-                            convertData(p[ep.field]);
+        convertData(p.gpinuc[ep.field][ep.convertTo]) :
+        convertData(p[ep.field]);
+
+      const isDataObsolete =
+        isLastDataObsolete(timestamp, viewSubState.obsoleteEvents, epName, current);
+
       if (timestamp >= previousTime) {
         // Long conversion
         newValue = {
@@ -109,6 +117,8 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
               ep.stateColors,
               _get(p, 'monitoringState.value')
             ),
+            isDataObsolete,
+            validityState: p.validityState,
           },
         };
         previousTime = timestamp;
@@ -118,10 +128,89 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, viewSubS
       epSubState = {
         index: { ...epSubState.index, [epName]: newValue.timestamp },
         values: { ...epSubState.values, [epName]: newValue.value },
+        obsoleteEvents: viewSubState.obsoleteEvents,
       };
     }
   }
   return epSubState;
+}
+
+export function viewObsoleteEventAdd(state = {}, payloads, entryPoints, current) {
+  const obsoleteEventsFlatIds = Object.keys(payloads || {});
+  const epNames = Object.keys(entryPoints || {});
+  if (!obsoleteEventsFlatIds.length || !epNames.length) {
+    // no data
+    return state;
+  }
+  let newState;
+  if (_isEmpty(state)) {
+    newState = {
+      indexes: {},
+      values: {},
+      obsoleteEvents: {},
+    };
+  } else {
+    newState = _cloneDeep(state);
+    newState.obsoleteEvents = newState.obsoleteEvents || {};
+  }
+
+  _forEach(epNames, (epName) => {
+    const { dataId } = entryPoints[epName];
+    if (dataId) {
+      const flattenDataId = getFlattenDataIdForObsoleteEvent(dataId);
+      const tbdIdPayload = payloads[flattenDataId];
+      if (tbdIdPayload) {
+        if (!newState.obsoleteEvents[epName]) {
+          newState.obsoleteEvents[epName] = { eventDate: 0 };
+        }
+        const lastDataTimestamp = newState.index[epName];
+        // ascending sort for master times
+        const masterTimes = Object.keys(tbdIdPayload)
+          .sort((a, b) => a - b);
+        // compute last obsolete event date to compare it with the last data timestamp
+        const newLastObsoleteEvent =
+          masterTimes.filter(
+            masterTime => masterTime >= lastDataTimestamp && masterTime <= current
+          )[0];
+        if (newLastObsoleteEvent) {
+          // persist the last obsolete event data fetch between last data timestamp and current timestamp
+          newState.obsoleteEvents[epName].eventDate = newLastObsoleteEvent;
+          // compute the new state color for the last data
+          newState.values[epName] = {
+            ...newState.values[epName],
+            isDataObsolete: true,
+            ...getStateColorObj( // will fetch default / fallback / custom color
+              {
+                isDataObsolete: true,
+                validityState: newState.values[epName].validityState,
+              },
+              entryPoints[epName].stateColors
+            ),
+          };
+        }
+      }
+    }
+  });
+  return newState;
+}
+
+/**
+ * @param timestamp, for last data
+ * @param obsoleteEvents
+ * @param epName, entry point name for last data
+ * @return {boolean}
+ */
+export function isLastDataObsolete(
+  timestamp,
+  obsoleteEvents,
+  epName,
+  current
+) {
+  if (obsoleteEvents && obsoleteEvents[epName]) {
+    return timestamp < obsoleteEvents[epName].eventDate &&
+      obsoleteEvents[epName].eventDate < current;
+  }
+  return false;
 }
 
 export function viewDataUpdate(viewDataState, payload) {
@@ -131,5 +220,6 @@ export function viewDataUpdate(viewDataState, payload) {
   return {
     index: { ...viewDataState.index, ...payload.index },
     values: { ...viewDataState.values, ...payload.values },
+    obsoleteEvents: { ...viewDataState.obsoleteEvents, ...payload.obsoleteEvents },
   };
 }

@@ -6,6 +6,7 @@ import _get from 'lodash/get';
 import _getOr from 'lodash/fp/getOr';
 import TableViewColumns from 'viewManager/commonEditor/TableViewColumns';
 import WithForm from 'viewManager/common/Hoc/WithForm';
+import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
 import { entryPointType, TableConfigurationColumnType } from '../../../common/Components/types';
 
 const { string, shape, func, arrayOf } = PropTypes;
@@ -78,6 +79,12 @@ export default class PUS11Tab extends React.Component {
           onChange={this.onChange}
           defaultActiveKey={Object.keys(panels)}
         >
+          <Panel
+            header="Parameters"
+            key="parameters"
+          >
+            {panels.parameters && <ViewParamsContainer viewId={viewId} />}
+          </Panel>
           <Panel
             header="Sub-Schedule Columns"
             key="pus11-sub-schedules-panel"

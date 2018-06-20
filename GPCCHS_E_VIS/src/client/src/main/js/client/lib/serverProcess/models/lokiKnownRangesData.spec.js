@@ -14,13 +14,14 @@ const {
   getRangesRecords,
   removeRecords,
   getLastRecords,
+  addRecord,
   addRecords,
-  listCollections,
-  // removeCollection,
+  listCachedCollections,
   removeAllCollections,
   getOrCreateCollection,
   displayCollection,
   removeAllExceptIntervals,
+  getDb,
 } = require('./lokiKnownRangesData');
 
 const myRecords = [
@@ -49,10 +50,72 @@ describe('models/timebasedDataFactory', () => {
     removeAllCollections();
   });
 
-  describe('addRecords', () => {
+  describe('lokiKnownRangesData: addRecord', () => {
+    test('given an empty database, call addRecord then with displayCollection return an array with one object containing our record', () => {
+      const oneRecord = { timestamp: 42, payload: 42 };
+      const id = 'myId';
+      addRecord(id, oneRecord);
+      expect(displayCollection(id)).toMatchObject(
+        [
+          {
+            timestamp: 42,
+            payload: 42,
+          },
+        ]
+      );
+    });
+    test('given an empty database, call addRecord twice with different values then with ' +
+      'displayCollection return an array with one object containing our record', () => {
+      const oneRecord = { timestamp: 42, payload: 42 };
+      const oneRecord2 = { timestamp: 45, payload: 45 };
+      const id = 'myId';
+      addRecord(id, oneRecord);
+      addRecord(id, oneRecord2);
+      expect(displayCollection(id)).toMatchObject(
+        [
+          {
+            timestamp: 42,
+            payload: 42,
+          },
+          {
+            timestamp: 45,
+            payload: 45,
+          },
+        ]
+      );
+    });
+    test('given an empty database, call addRecord twice with same value then with ' +
+      'displayCollection return an array with one object containing our record', () => {
+      const oneRecord = { timestamp: 42, payload: 42 };
+      const id = 'myId';
+      addRecord(id, oneRecord);
+      const created = new Date().getTime();
+      expect(displayCollection(id)).toMatchObject(
+        [
+          {
+            $loki: 1,
+            meta: {
+              created,
+              revision: 0,
+              version: 0,
+            },
+            payload: 42,
+            timestamp: 42,
+          },
+        ]
+      );
+    });
   });
 
-  describe('getRangeData', () => {
+  describe('lokiKnownRangesData: addRecords', () => {
+    test('given an empty database, call addRecords then with displayCollection return an array with one object containing our records', () => {
+      const id = 'myId';
+      addRecords(id, myRecords);
+      expect(displayCollection(id)).toMatchObject(myRecords);
+    });
+  });
+
+  describe('lokiKnownRangesData: getRangesRecords', () => {
     test('tbdId is not present', () => {
       const tbdId = 'myTbdId';
       const range = getRangesRecords(tbdId, [[6, 12]]);
@@ -122,7 +185,11 @@ describe('models/timebasedDataFactory', () => {
       getOrCreateCollection(tbdId);
       getOrCreateCollection(tbdId2);
       getOrCreateCollection(tbdId3);
-      expect(listCollections().length).toEqual(3);
+      const collections = getDb().listCollections();
+      expect(collections.map(e => e.name)).toEqual(expect.arrayContaining(
+        ['knownRanges.myTbdId', 'knownRanges.myTbdId2', 'knownRanges.myTbdId3']
+      ));
+      expect(listCachedCollections().length).toEqual(3);
       addRecords(tbdId, myRecords);
       removeAllExceptIntervals({
         [tbdId]: {
@@ -130,19 +197,21 @@ describe('models/timebasedDataFactory', () => {
         },
       });
       expect(displayCollection(tbdId)).toMatchObject(
-        [{
-          timestamp: 5,
-          payload: 5,
-        },
-        {
-          timestamp: 6,
-          payload: 6,
-        },
-        {
-          timestamp: 12,
-          payload: 12,
-        }]);
-      expect(listCollections().length).toEqual(1);
+        [
+          {
+            timestamp: 5,
+            payload: 5,
+          },
+          {
+            timestamp: 6,
+            payload: 6,
+          },
+          {
+            timestamp: 12,
+            payload: 12,
+          },
+        ]);
+      expect(listCachedCollections().length).toEqual(1);
     });
   });
 });

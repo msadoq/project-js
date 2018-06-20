@@ -43,7 +43,12 @@ const versionDCMap = {
 function getPayloads(dataId, versionDCCom) {
   const payloads = [];
   for (let i = 0; i < _random(1, constants.DC_STUB_MAX_SUBSCRIPTION_VALUES); i += 1) {
-    const payload = getPayload(Date.now(), dataId, versionDCCom, {
+    // for having obsolete event between current time and last data timestamp
+    let timestamp = Date.now();
+    if (dataId.comObject === 'ReportingParameter') {
+      timestamp -= 800;
+    }
+    const payload = getPayload(timestamp, dataId, versionDCCom, {
       epName: dataId.parameterName,
       alarmFrequency: (1 / constants.DC_STUB_VALUE_ALARMTIMESTEP),
     });

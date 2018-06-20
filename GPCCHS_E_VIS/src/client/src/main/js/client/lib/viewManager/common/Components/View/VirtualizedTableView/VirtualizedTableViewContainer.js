@@ -6,31 +6,64 @@ import { filterColumn, toggleColumnSort } from 'store/actions/tableColumns';
 import { pause } from 'store/actions/hsc';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
-import { filter, sort } from '../../../../common/data/table';
+import { getViewType } from '../../../../../store/reducers/views';
 
 
-const mapStateToProps = (state, { viewId, tableId, rows, rowCount, totalRowCount }) => {
+const mapStateToProps = (state, { viewId, tableId }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const tableConfig = config.tables[tableId];
 
-  const { cols, sorting, filters, name } = tableConfig;
+  const { cols: tableCols, sorting, filters, name } = tableConfig;
 
-  const _getRows = () => {
-    if (Array.isArray(rows)) {
-      const formattedRows = sort(filter(rows, tableConfig), tableConfig);
-      const colIndexesToRemove = cols.filter(col => !col.displayed);
+  const tableData =
+    _.getOr(
+      [],
+      [
+        `${getViewType(state, { viewId })}Data`,
+        viewId,
+        tableId,
+      ],
+      state
+    );
 
-      return formattedRows.map(row => _.omit(colIndexesToRemove, row));
+  const data = _.getOr([], 'data', tableData);
+  const keep = _.getOr([], 'keep', tableData);
+
+
+  const sortingDirection =
+    _.getOr('DESC', ['sorting', 'direction'], tableConfig);
+
+  const totalRowCount = data.length;
+  const rowCount = keep.length;
+
+  const rows = ({ rowIndex, columnIndex, cols }) => {
+    const virtualRowIndex =
+      sortingDirection === 'DESC' ?
+        rowIndex :
+        rowCount - rowIndex - 1;
+
+    const content =
+      _.get(keep[virtualRowIndex], data);
+
+    if (content) {
+      const colKey = cols[columnIndex].title;
+      const { color } = content;
+
+      return {
+        value: content[colKey],
+        color,
+      };
     }
 
-    return rows;
+    return { value: undefined };
   };
+  // end rows
 
-  const reducedColumns = cols.filter(col => col.displayed);
+  const reducedColumns = tableCols.filter(col => col.displayed);
 
   return {
     tableName: name,
-    rows: _getRows(),
+    rows,
     rowCount,
     totalRowCount,
     cols: reducedColumns,
@@ -49,8 +82,8 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
   onFilter: (col, value, filters) => {
     dispatch(filterColumn(viewId, tableId, col, value, filters));
   },
-  onSort: (col, mode, filters) => {
-    dispatch(toggleColumnSort(viewId, tableId, col, mode, filters));
+  onSort: (col, mode) => {
+    dispatch(toggleColumnSort(viewId, tableId, col, mode));
   },
   onBodyCellAction: (name, data, rowIndex, columnIndex) => {
     const action = bodyCellActions.find(actionElem => actionElem.label === name);
@@ -78,9 +111,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       ...stateProps.filterState,
       [col]: value,
     });
-  },
-  onSort: (col, mode) => {
-    dispatchProps.onSort(col, mode, stateProps.filterState);
   },
 });
 

@@ -29,53 +29,8 @@ const mapStateToProps = (state, { viewId }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const historyConfig = config.tables.history;
 
-  const { data, indexes } = getData(state, { viewId });
-
-  const usedIndexName = _.getOr('referenceTimestamp', ['sorting', 'colName'], historyConfig);
-  const sortingDirection = _.getOr('DESC', ['sorting', 'direction'], historyConfig);
-
-  const usedIndex = _.getOr([], [usedIndexName], indexes);
-  const filterIndex = _.getOr(null, ['keep'], indexes);
-
-  const totalRowCount = usedIndex.length;
-  let rowCount = totalRowCount;
-
-  if (Array.isArray(filterIndex)) {
-    rowCount = filterIndex.length;
-  }
-
-  const rows = ({ rowIndex, columnIndex, cols }) => {
-    const virtualRowIndex =
-      sortingDirection === 'DESC' ?
-        rowIndex :
-        rowCount - rowIndex - 1;
-
-    const virtualFilteredIndex = (filterIndex && filterIndex[virtualRowIndex]) || rowIndex;
-
-    const content =
-      _.get(usedIndex[virtualFilteredIndex] && usedIndex[virtualFilteredIndex].split(' '), data);
-
-    if (content) {
-      const colKey = cols[columnIndex].title;
-      const { color } = content;
-
-      return {
-        value: content[colKey],
-        color,
-      };
-    }
-
-    return { value: undefined };
-  };
-
-  const currentRowIndexes = [];
-
   return {
     config: historyConfig,
-    rows,
-    rowCount,
-    totalRowCount,
-    currentRowIndexes,
   };
 };
 

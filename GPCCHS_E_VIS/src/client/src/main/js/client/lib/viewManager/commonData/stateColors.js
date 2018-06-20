@@ -27,8 +27,8 @@ const getStateColorObj = (
   customColors = [], // operator's defined
   monitoringState = STATE_COLOR_NOMINAL
 ) => {
-  const obsolete = _get(payload, 'isObsolete.value', false);
-  const significant = _get(payload, 'isNominal.value', true);
+  const obsolete = _get(payload, 'isDataObsolete', false);
+  const significant = _get(payload, 'validityState.value', 2) === 2;
   const monitoringColor = getStateColor(obsolete, significant, monitoringState);
   // if no monitoring state has been found, there is a conf error to raise
   if (!monitoringColor) {
@@ -37,7 +37,7 @@ const getStateColorObj = (
   }
 
   // A monitoring color has been found for the tuple obsolete / significant (@see Mantis #8520)
-  // Check if that state is customizable
+  // Check if that state is customizable<<
   // if not, returns the default color defined
   if (_get(monitoringColor, 'customize', false) === false) {
     return {

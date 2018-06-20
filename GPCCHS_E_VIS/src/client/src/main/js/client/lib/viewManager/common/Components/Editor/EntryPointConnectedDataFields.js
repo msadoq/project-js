@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
 import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
@@ -21,8 +22,6 @@ import DisplayModeField from 'viewManager/commonEditor/Fields/DisplayModeField';
 import './EntryPointTree.css';
 import { reduxFormFieldsType } from '../types';
 
-const { string } = PropTypes;
-
 /*
   All the fields used in Connected data form
   It can be used with a prefix to map exactly form's initialValues'ss tructure
@@ -30,15 +29,15 @@ const { string } = PropTypes;
 export default class EntryPointConnectedDataFields extends PureComponent {
   static propTypes = {
     // own props
-    viewId: string.isRequired,
-    pageId: string.isRequired,
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     ...reduxFormFieldsType,
     // from container mapStateToProps
-    selectedDomainName: string,
-    selectedTimelineId: string,
-    selectedCatalogName: string,
-    selectedItemName: string,
-    selectedComObjectName: string,
+    selectedDomainName: PropTypes.string,
+    selectedTimelineId: PropTypes.string,
+    selectedCatalogName: PropTypes.string,
+    selectedItemName: PropTypes.string,
+    selectedComObjectName: PropTypes.string,
   };
 
   static defaultProps = {
@@ -74,88 +73,90 @@ export default class EntryPointConnectedDataFields extends PureComponent {
     const classForTimeBasedValues = classnames(dataType !== TIME_BASED_DATA_OPTION.value && 'hidden');
 
     return (
-      <React.Fragment>
-        <HorizontalFormGroup label="Domain">
-          <DomainFieldContainer
-            name="connectedData.domain"
-            domainName={selectedDomainName}
-          />
-        </HorizontalFormGroup>
+      <ErrorBoundary>
+        <React.Fragment>
+          <HorizontalFormGroup label="Domain">
+            <DomainFieldContainer
+              name="connectedData.domain"
+              domainName={selectedDomainName}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Timeline">
-          <TimelineFieldContainer
-            name="connectedData.timeline"
-            windowId={windowId}
-            timelineName={selectedTimelineId}
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Timeline">
+            <TimelineFieldContainer
+              name="connectedData.timeline"
+              windowId={windowId}
+              timelineName={selectedTimelineId}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Catalog">
-          <CatalogFieldContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Catalog">
+            <CatalogFieldContainer
+              domainName={selectedDomainName}
+              timelineId={selectedTimelineId}
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Data type">
-          <DataTypeField />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Data type">
+            <DataTypeField />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Path" className={classForSdbValues}>
-          <PathField />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Path" className={classForSdbValues}>
+            <PathField />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Display mode" className={classForSdbValues}>
-          <DisplayModeField />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Display mode" className={classForSdbValues}>
+            <DisplayModeField />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Catalog item" className={classForTimeBasedValues}>
-          <CatalogItemFieldContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
-            catalogName={selectedCatalogName}
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Catalog item" className={classForTimeBasedValues}>
+            <CatalogItemFieldContainer
+              domainName={selectedDomainName}
+              timelineId={selectedTimelineId}
+              catalogName={selectedCatalogName}
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Com object" className={classForTimeBasedValues}>
-          <ComObjectContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
-            catalogName={selectedCatalogName}
-            itemName={selectedItemName}
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Com object" className={classForTimeBasedValues}>
+            <ComObjectContainer
+              domainName={selectedDomainName}
+              timelineId={selectedTimelineId}
+              catalogName={selectedCatalogName}
+              itemName={selectedItemName}
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Ref. timestamp" className={classForTimeBasedValues}>
-          <RefTimestampFieldContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
-            catalogName={selectedCatalogName}
-            itemName={selectedItemName}
-            comObjectName={selectedComObjectName} // FIXME: are all those fields required ?
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Ref. timestamp" className={classForTimeBasedValues}>
+            <RefTimestampFieldContainer
+              domainName={selectedDomainName}
+              timelineId={selectedTimelineId}
+              catalogName={selectedCatalogName}
+              itemName={selectedItemName}
+              comObjectName={selectedComObjectName} // FIXME: are all those fields required ?
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Com object Field" className={classForTimeBasedValues}>
-          <ComObjectFieldContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
-            catalogName={selectedCatalogName}
-            itemName={selectedItemName}
-            comObjectName={selectedComObjectName}
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Com object Field" className={classForTimeBasedValues}>
+            <ComObjectFieldContainer
+              domainName={selectedDomainName}
+              timelineId={selectedTimelineId}
+              catalogName={selectedCatalogName}
+              itemName={selectedItemName}
+              comObjectName={selectedComObjectName}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Provider" className={classForTimeBasedValues}>
-          <ProviderFieldContainer />
-        </HorizontalFormGroup>
-      </React.Fragment>
+          <HorizontalFormGroup label="Provider" className={classForTimeBasedValues}>
+            <ProviderFieldContainer />
+          </HorizontalFormGroup>
+        </React.Fragment>
+      </ErrorBoundary>
     );
   }
 }

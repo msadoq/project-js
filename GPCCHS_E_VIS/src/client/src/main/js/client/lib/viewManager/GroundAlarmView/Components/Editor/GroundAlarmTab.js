@@ -7,27 +7,27 @@ import _getOr from 'lodash/fp/getOr';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
 import TableViewColumns from 'viewManager/commonEditor/TableViewColumns';
 import WithForm from 'viewManager/common/Hoc/WithForm';
-import { TableConfigurationColumnType } from '../../../common/Components/types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
-const { string, shape, func, arrayOf, array } = PropTypes;
+import { TableConfigurationColumnType } from '../../../common/Components/types';
 
 export default class GroundAlarmTab extends React.Component {
   static propTypes = {
     // own props
-    viewId: string.isRequired,
-    panels: shape({}).isRequired,
+    viewId: PropTypes.string.isRequired,
+    panels: PropTypes.shape({}).isRequired,
     // from GroundAlarmTabContainer mapStateToProps
-    configuration: shape({
-      entryPoints: array,
-      tables: shape({
-        main: shape({
-          cols: arrayOf(TableConfigurationColumnType).isRequired,
+    configuration: PropTypes.shape({
+      entryPoints: PropTypes.array,
+      tables: PropTypes.shape({
+        main: PropTypes.shape({
+          cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
       }).isRequired,
     }).isRequired,
     // from GroundAlarmTabContainer mapDispatchToProps
-    updateTableCols: func.isRequired,
-    updateViewPanels: func.isRequired,
+    updateTableCols: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
   };
   state = {
     isTitleOpen: false,
@@ -60,7 +60,7 @@ export default class GroundAlarmTab extends React.Component {
     const initialValues = { cols };
 
     return (
-      <div>
+      <ErrorBoundary>
         <Collapse
           accordion={false}
           onChange={this.onChange}
@@ -85,7 +85,7 @@ export default class GroundAlarmTab extends React.Component {
             />}
           </Panel>
         </Collapse>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

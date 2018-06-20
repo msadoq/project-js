@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving DynamicView PlotView and TextView in
@@ -58,6 +59,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import { html as beautifyHtml } from 'js-beautify';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import updateSpanValues from './TextViewFunctions';
 
 const isValueNode = /{{\s*([^}]+)\s*}}/g;
@@ -232,10 +235,11 @@ export default class TextView extends React.Component {
   processNodeDefinitions = new ProcessNodeDefinitions(React);
   render() {
     return (
-      // eslint-disable-next-line jsx-a11y/no-static-element-interactions, "DV6 TBC_CNES Links handler"
-      <div onClick={e => this.handleClicked(e)}>
-        <this.content />
-      </div>
+      <ErrorBoundary>
+        <div onClick={e => this.handleClicked(e)}>
+          <this.content />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

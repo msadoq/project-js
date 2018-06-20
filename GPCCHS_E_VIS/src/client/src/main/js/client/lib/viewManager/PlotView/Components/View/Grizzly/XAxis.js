@@ -24,6 +24,8 @@ import { scaleTime } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
 import { axisBottom, axisTop } from 'd3-axis';
 import { levelsRules, getZoomLevel } from 'windowProcess/common/timeFormats';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 
 export default class XAxis extends Component {
@@ -210,29 +212,31 @@ export default class XAxis extends Component {
     }
 
     return (
-      <div
-        className={styles.xAxis}
-        style={this.memoizeDivStyle(
-          `${s.width}-${s.height}-${s.top}-${s.right}-${s.left}-${xAxisAt}`,
-          s.width,
-          s.height,
-          s.top,
-          s.right,
-          s.left,
-          xAxisAt
-        )}
-      >
-        <svg
-          style={this.memoizeStyle(
-            `${s.width}-${s.height}-${s.top}-${xAxisAt}`,
+      <ErrorBoundary>
+        <div
+          className={styles.xAxis}
+          style={this.memoizeDivStyle(
+            `${s.width}-${s.height}-${s.top}-${s.right}-${s.left}-${xAxisAt}`,
             s.width,
             s.height,
             s.top,
+            s.right,
+            s.left,
             xAxisAt
           )}
-          ref={this.assignEl}
-        />
-      </div>
+        >
+          <svg
+            style={this.memoizeStyle(
+              `${s.width}-${s.height}-${s.top}-${xAxisAt}`,
+              s.width,
+              s.height,
+              s.top,
+              xAxisAt
+            )}
+            ref={this.assignEl}
+          />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

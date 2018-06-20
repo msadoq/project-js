@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import InputField from '../../../../windowProcess/commonReduxForm/InputField';
 import styles from './EntryPointUnit.css';
-
 
 export default class EntryPointUnit extends PureComponent {
   static propTypes = { // FIXME: is this really needed ?
@@ -48,7 +48,7 @@ export default class EntryPointUnit extends PureComponent {
 
   render() {
     return (
-      <div>
+      <ErrorBoundary>
         <HorizontalFormGroup label="Default unit">
           <div
             className={styles.plaintTextPadded}
@@ -77,7 +77,7 @@ export default class EntryPointUnit extends PureComponent {
             value={this.props.convertTo}
           />
         </HorizontalFormGroup>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

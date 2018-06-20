@@ -40,25 +40,24 @@ import styles from 'viewManager/commonEditor/Editor.css';
 import DynamicTab from 'viewManager/DynamicView/Components/Editor/DynamicTab';
 import { entryPointType } from 'viewManager/common/Components/types';
 import { TIME_BASED_DATA_OPTION } from 'viewManager/commonEditor/Fields/DataTypeField';
-
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
-const { string, number, func, shape, arrayOf } = PropTypes;
 
 export default class DynamicEditor extends Component {
   static propTypes = {
-    viewId: string.isRequired,
-    pageId: string.isRequired,
-    tab: number,
-    title: string,
-    configuration: shape({
-      entryPoints: arrayOf(entryPointType),
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    tab: PropTypes.number,
+    title: PropTypes.string,
+    configuration: PropTypes.shape({
+      entryPoints: PropTypes.arrayOf(entryPointType),
     }).isRequired,
-    updateEntryPoint: func.isRequired,
-    updateViewTab: func.isRequired,
-    updateViewPanels: func.isRequired,
-    openModal: func.isRequired,
-    panels: shape({}).isRequired,
+    updateEntryPoint: PropTypes.func.isRequired,
+    updateViewTab: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
+    panels: PropTypes.shape({}).isRequired,
   };
 
   static defaultProps = {
@@ -127,39 +126,41 @@ export default class DynamicEditor extends Component {
     const { DynamicViewEntryPointsWithForm } = this.state;
 
     return (
-      <div className={styles.contentWrapper}>
-        <h4
-          className="text-center mb10"
-        >
-          <span className="mr5 EditorVignette" />
-          <b>{title}</b>
-        </h4>
-        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
-        <Navbar
-          currentDisplay={tab === null ? 0 : tab}
-          changeCurrentDisplay={this.changeCurrentDisplay}
-          items={navItems}
-        />
-        <div className={styles.content}>
-          {(tab === 0 || tab === null) && <div className={styles.content}>
-            <DynamicViewEntryPointsWithForm
+      <ErrorBoundary>
+        <div className={styles.contentWrapper}>
+          <h4
+            className="text-center mb10"
+          >
+            <span className="mr5 EditorVignette" />
+            <b>{title}</b>
+          </h4>
+          <ReloadAndSaveViewButtonsContainer viewId={viewId} />
+          <Navbar
+            currentDisplay={tab === null ? 0 : tab}
+            changeCurrentDisplay={this.changeCurrentDisplay}
+            items={navItems}
+          />
+          <div className={styles.content}>
+            {(tab === 0 || tab === null) && <div className={styles.content}>
+              <DynamicViewEntryPointsWithForm
+                viewId={viewId}
+                pageId={pageId}
+                form={`entrypoint-connectedData-form-${viewId}`}
+                onSubmit={values => this.handleSubmit(values)}
+                initialValues={initialValues}
+              />
+            </div>}
+            {tab === 1 && <DynamicTab />}
+            {tab === 2 &&
+            <Misc
+              updateViewPanels={updateViewPanels}
               viewId={viewId}
-              pageId={pageId}
-              form={`entrypoint-connectedData-form-${viewId}`}
-              onSubmit={values => this.handleSubmit(values)}
-              initialValues={initialValues}
-            />
-          </div>}
-          {tab === 1 && <DynamicTab />}
-          {tab === 2 &&
-          <Misc
-            updateViewPanels={updateViewPanels}
-            viewId={viewId}
-            panels={panels}
-            openModal={openModal}
-          />}
+              panels={panels}
+              openModal={openModal}
+            />}
+          </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

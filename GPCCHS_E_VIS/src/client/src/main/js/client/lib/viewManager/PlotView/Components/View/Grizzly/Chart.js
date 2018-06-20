@@ -68,9 +68,10 @@ import classnames from 'classnames';
 import _throttle from 'lodash/throttle';
 import { scaleLinear, scaleLog } from 'd3-scale';
 import { Button } from 'react-bootstrap';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
-
 import LinesCanvas from './LinesCanvas';
 import Tooltip from './Tooltip';
 import YAxis from './YAxis';
@@ -753,184 +754,186 @@ export default class Chart extends Component {
     );
 
     return (
-      <div
-        className={styles.container}
-        onWheel={this.onWheel}
-        onMouseDown={this.onMouseDown}
-        style={{
-          ...additionalStyle,
-          height,
-          width,
-        }}
-        ref={this.assignEl}
-      >
+      <ErrorBoundary>
         <div
-          className={styles.zoomAndPanLabels}
+          className={styles.container}
+          onWheel={this.onWheel}
+          onMouseDown={this.onMouseDown}
           style={{
-            left: yAxesAt === 'left' ? marginSide + 5 : 5,
-            top: xAxisAt === 'top' ? this.xAxisHeight + 5 : 5,
+            ...additionalStyle,
+            height,
+            width,
           }}
+          ref={this.assignEl}
         >
-          {
-            Object.keys(yPans).map((key) => {
-              const axis = this.yAxes.find(a => a.id === key);
-              if (!axis) return null;
-              const axisLabel = axis.label;
-              return (yPans[key] !== 0 &&
+          <div
+            className={styles.zoomAndPanLabels}
+            style={{
+              left: yAxesAt === 'left' ? marginSide + 5 : 5,
+              top: xAxisAt === 'top' ? this.xAxisHeight + 5 : 5,
+            }}
+          >
+            {
+              Object.keys(yPans).map((key) => {
+                const axis = this.yAxes.find(a => a.id === key);
+                if (!axis) return null;
+                const axisLabel = axis.label;
+                return (yPans[key] !== 0 &&
+                <Button
+                  key={key}
+                  bsStyle="danger"
+                  bsSize="xs"
+                  onClick={this.memoizeResetYPan(key)}
+                >{`Y axis ${axisLabel} panned ${yPans[key].toFixed(2)}px`}</Button>);
+              })
+            }
+            {
+              Object.keys(yZoomLevels).map((key) => {
+                const axis = this.yAxes.find(a => a.id === key);
+                if (!axis) return null;
+                const axisLabel = axis.label;
+                return (yZoomLevels[key] !== 1 &&
+                <Button
+                  key={key}
+                  bsStyle="danger"
+                  bsSize="xs"
+                  onClick={this.memoizeResetYZoomLevel(key)}
+                >{`Y axis ${axisLabel} zoomed ${(yZoomLevels[key]).toFixed(2)}x`}</Button>);
+              })
+            }
+            {
+              zoomLevel !== 1 &&
               <Button
-                key={key}
                 bsStyle="danger"
                 bsSize="xs"
-                onClick={this.memoizeResetYPan(key)}
-              >{`Y axis ${axisLabel} panned ${yPans[key].toFixed(2)}px`}</Button>);
-            })
-          }
-          {
-            Object.keys(yZoomLevels).map((key) => {
-              const axis = this.yAxes.find(a => a.id === key);
-              if (!axis) return null;
-              const axisLabel = axis.label;
-              return (yZoomLevels[key] !== 1 &&
+                onClick={this.resetZoomLevel}
+              >Zoomed {zoomLevel}x</Button>
+            }
+            {
+              panMs !== 0 &&
               <Button
-                key={key}
                 bsStyle="danger"
                 bsSize="xs"
-                onClick={this.memoizeResetYZoomLevel(key)}
-              >{`Y axis ${axisLabel} zoomed ${(yZoomLevels[key]).toFixed(2)}x`}</Button>);
-            })
-          }
-          {
-            zoomLevel !== 1 &&
-            <Button
-              bsStyle="danger"
-              bsSize="xs"
-              onClick={this.resetZoomLevel}
-            >Zoomed {zoomLevel}x</Button>
-          }
-          {
-            panMs !== 0 &&
-            <Button
-              bsStyle="danger"
-              bsSize="xs"
-              onClick={this.resetPan}
-            >Panned {panMs}ms</Button>
-          }
-        </div>
-        { enableTooltip && <Tooltip
-          tooltipColor={tooltipColor}
-          yAxes={this.yAxes}
-          width={this.chartWidth}
-          height={this.chartHeight}
-          current={current}
-          xScale={xScale}
-          xFormat={format}
-          yAxesAt={yAxesAt}
-          xAxisAt={xAxisAt}
-          yAxisWidth={this.yAxisWidth}
-          divStyle={this.divStyle}
-        /> }
-        <div
-          className={classnames('Background', styles.Background)}
-          style={this.divStyle}
-        />
-        <CurrentCursorCanvas
-          width={this.chartWidth}
-          height={this.chartHeight}
-          divStyle={this.divStyle}
-          xAxisAt={xAxisAt}
-          current={current}
-          xScale={xScale}
-        />
-        {
-          ['left', 'right'].includes(yAxesAt) && this.yAxes.map((yAxis, index) =>
-            <YAxis
-              key={yAxis.id}
-              index={index}
-              margin={((this.yAxes.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
-              lines={yAxis.lines}
-              yAxisId={yAxis.id}
-              format={yAxis.format}
-              showLabels={yAxis.showLabels}
-              showTicks={yAxis.showTicks}
-              autoTick={yAxis.autoTick}
-              tickStep={yAxis.tickStep}
-              showGrid={yAxis.showGrid}
-              gridStyle={yAxis.gridStyle}
-              axisLabel={yAxis.axisLabel}
-              gridSize={yAxis.gridSize}
-              logarithmic={yAxis.logarithmic}
-              yAxisWidth={this.yAxisWidth}
-              chartWidth={this.chartWidth}
-              allowYPan={allowYPan}
-              height={this.chartHeight}
-              xAxisAt={xAxisAt}
-              top={marginTop}
-              yAxesAt={yAxesAt}
-              yScale={yAxis.yScale}
-              yExtents={yAxis.yExtents}
-              label={yAxis.label}
-              unit={yAxis.unit}
-              labelStyle={yAxis.labelStyle}
-              getLabelPosition={this.getLabelPosition}
-            />
-          )
-        }
-        {
-          <XAxis
-            showGrid={_get(this.yAxes, '0.showGrid')}
-            gridStyle={_get(this.yAxes, '0.gridStyle')}
-            gridSize={_get(this.yAxes, '0.gridSize')}
-            showTicks={showTicks}
-            autoTick={autoTick}
-            tickStep={tickStep}
-            margin={marginSide}
-            xAxisHeight={this.xAxisHeight}
-            height={this.chartHeight}
+                onClick={this.resetPan}
+              >Panned {panMs}ms</Button>
+            }
+          </div>
+          { enableTooltip && <Tooltip
+            tooltipColor={tooltipColor}
+            yAxes={this.yAxes}
             width={this.chartWidth}
-            xAxisAt={xAxisAt}
+            height={this.chartHeight}
+            current={current}
+            xScale={xScale}
+            xFormat={format}
             yAxesAt={yAxesAt}
-            xExtents={calculatedXExtents}
+            xAxisAt={xAxisAt}
+            yAxisWidth={this.yAxisWidth}
+            divStyle={this.divStyle}
+          /> }
+          <div
+            className={classnames('Background', styles.Background)}
+            style={this.divStyle}
           />
-        }
-        {
-          this.yAxes.map(yAxis =>
-            <LinesCanvas
-              key={yAxis.id}
-              width={this.chartWidth}
+          <CurrentCursorCanvas
+            width={this.chartWidth}
+            height={this.chartHeight}
+            divStyle={this.divStyle}
+            xAxisAt={xAxisAt}
+            current={current}
+            xScale={xScale}
+          />
+          {
+            ['left', 'right'].includes(yAxesAt) && this.yAxes.map((yAxis, index) =>
+              <YAxis
+                key={yAxis.id}
+                index={index}
+                margin={((this.yAxes.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
+                lines={yAxis.lines}
+                yAxisId={yAxis.id}
+                format={yAxis.format}
+                showLabels={yAxis.showLabels}
+                showTicks={yAxis.showTicks}
+                autoTick={yAxis.autoTick}
+                tickStep={yAxis.tickStep}
+                showGrid={yAxis.showGrid}
+                gridStyle={yAxis.gridStyle}
+                axisLabel={yAxis.axisLabel}
+                gridSize={yAxis.gridSize}
+                logarithmic={yAxis.logarithmic}
+                yAxisWidth={this.yAxisWidth}
+                chartWidth={this.chartWidth}
+                allowYPan={allowYPan}
+                height={this.chartHeight}
+                xAxisAt={xAxisAt}
+                top={marginTop}
+                yAxesAt={yAxesAt}
+                yScale={yAxis.yScale}
+                yExtents={yAxis.yExtents}
+                label={yAxis.label}
+                unit={yAxis.unit}
+                labelStyle={yAxis.labelStyle}
+                getLabelPosition={this.getLabelPosition}
+              />
+            )
+          }
+          {
+            <XAxis
+              showGrid={_get(this.yAxes, '0.showGrid')}
+              gridStyle={_get(this.yAxes, '0.gridStyle')}
+              gridSize={_get(this.yAxes, '0.gridSize')}
+              showTicks={showTicks}
+              autoTick={autoTick}
+              tickStep={tickStep}
+              margin={marginSide}
+              xAxisHeight={this.xAxisHeight}
               height={this.chartHeight}
-              xScale={xScale}
-              yScale={yAxis.yScale}
-              showLabels={yAxis.showLabels}
-              axisId={yAxis.id}
-              data={yAxis.data}
-              indexes={yAxis.indexes}
-              lines={yAxis.lines}
-              updateLabelPosition={this.updateLabelPosition}
-              perfOutput={perfOutput}
-              divStyle={this.divStyle}
+              width={this.chartWidth}
+              xAxisAt={xAxisAt}
+              yAxesAt={yAxesAt}
+              xExtents={calculatedXExtents}
             />
-          )
-        }
-        <Zones
-          xAxisAt={xAxisAt}
-          lassoX={lassoX}
-          lassoY={lassoY}
-          lassoOriginX={lassoOriginX}
-          lassoOriginY={lassoOriginY}
-          lassoing={lassoing}
-          shiftPressed={shiftPressed}
-          xAxisHeight={this.xAxisHeight}
-          ctrlPressed={ctrlPressed}
-          yAxes={this.yAxes}
-          yAxisWidth={this.yAxisWidth}
-          yAxesAt={yAxesAt}
-          yAxesInteractive={allowYZoom || allowYPan}
-          chartInteractive={allowZoom || allowPan}
-          height={this.chartHeight}
-          width={width}
-          divStyle={this.divStyle}
-        />
-      </div>
+          }
+          {
+            this.yAxes.map(yAxis =>
+              <LinesCanvas
+                key={yAxis.id}
+                width={this.chartWidth}
+                height={this.chartHeight}
+                xScale={xScale}
+                yScale={yAxis.yScale}
+                showLabels={yAxis.showLabels}
+                axisId={yAxis.id}
+                data={yAxis.data}
+                indexes={yAxis.indexes}
+                lines={yAxis.lines}
+                updateLabelPosition={this.updateLabelPosition}
+                perfOutput={perfOutput}
+                divStyle={this.divStyle}
+              />
+            )
+          }
+          <Zones
+            xAxisAt={xAxisAt}
+            lassoX={lassoX}
+            lassoY={lassoY}
+            lassoOriginX={lassoOriginX}
+            lassoOriginY={lassoOriginY}
+            lassoing={lassoing}
+            shiftPressed={shiftPressed}
+            xAxisHeight={this.xAxisHeight}
+            ctrlPressed={ctrlPressed}
+            yAxes={this.yAxes}
+            yAxisWidth={this.yAxisWidth}
+            yAxesAt={yAxesAt}
+            yAxesInteractive={allowYZoom || allowYPan}
+            chartInteractive={allowZoom || allowPan}
+            height={this.chartHeight}
+            width={width}
+            divStyle={this.divStyle}
+          />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

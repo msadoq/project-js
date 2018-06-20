@@ -1,43 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TextEditor :: render snapshot 1`] = `
-<div
-  className="contentWrapper"
->
-  <h4
-    className="text-center mb10"
-  >
-    <span
-      className="mr5 EditorVignette"
-    />
-    <b />
-  </h4>
-  <Connect(ViewParams)
-    viewId="view-id"
-  />
-  <Navbar
-    changeCurrentDisplay={[Function]}
-    currentDisplay={0}
-    items={
-      Array [
-        "Entry Points",
-        "Text",
-        "Misc",
-      ]
-    }
-  />
+<ErrorBoundary>
   <div
-    className="content"
+    className="contentWrapper"
   >
-    <div>
-      <Connect(DataViewEntryPoints)
-        entryPoints={undefined}
-        pageId="pageId"
-        search="search"
-        viewId="view-id"
-        viewType="TextView"
+    <h4
+      className="text-center mb10"
+    >
+      <span
+        className="mr5 EditorVignette"
       />
+      <b />
+    </h4>
+    <Connect(ViewParams)
+      viewId="view-id"
+    />
+    <Navbar
+      changeCurrentDisplay={[Function]}
+      currentDisplay={0}
+      items={
+        Array [
+          "Entry Points",
+          "Text",
+          "Misc",
+        ]
+      }
+    />
+    <div
+      className="content"
+    >
+      <div>
+        <Connect(DataViewEntryPoints)
+          entryPoints={undefined}
+          pageId="pageId"
+          search="search"
+          viewId="view-id"
+          viewType="TextView"
+        />
+      </div>
     </div>
   </div>
-</div>
+</ErrorBoundary>
 `;

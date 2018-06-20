@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListGroup, ListGroupItem, FormControl, Button } from 'react-bootstrap';
 import _ from 'lodash/fp';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 const TextArea = ({ onChange, maxLength, disabled }) => (
   <div>
@@ -96,34 +97,36 @@ class AckModal extends React.Component {
   render() {
     const { alarms } = this.props;
     return (
-      <div style={{ textAlign: 'center' }}>
-        <ListGroup>
-          {
-            alarms.map(alarm => (
-              <ListGroupItem
-                bsStyle={this.getStatusByOid(alarm.oid)}
-                key={alarm.oid}
-              >
-                {alarm.label}
-              </ListGroupItem>
-            ))
-          }
-        </ListGroup>
-        <FormControl
-          disabled={this.props.ackStatus.acknowledging}
-          onChange={this.onCommentChange}
-          componentClass={TextArea}
-        />
-        <hr />
-        <Button
-          disabled={this.props.ackStatus.acknowledging}
-          onClick={this.onAckClick}
-          bsStyle={this.hasAckError() ? 'danger' : 'primary'}
-          bsSize="small"
-        >
-          {this.getButtonTitle()}
-        </Button>
-      </div>
+      <ErrorBoundary>
+        <div style={{ textAlign: 'center' }}>
+          <ListGroup>
+            {
+              alarms.map(alarm => (
+                <ListGroupItem
+                  bsStyle={this.getStatusByOid(alarm.oid)}
+                  key={alarm.oid}
+                >
+                  {alarm.label}
+                </ListGroupItem>
+              ))
+            }
+          </ListGroup>
+          <FormControl
+            disabled={this.props.ackStatus.acknowledging}
+            onChange={this.onCommentChange}
+            componentClass={TextArea}
+          />
+          <hr />
+          <Button
+            disabled={this.props.ackStatus.acknowledging}
+            onClick={this.onAckClick}
+            bsStyle={this.hasAckError() ? 'danger' : 'primary'}
+            bsSize="small"
+          >
+            {this.getButtonTitle()}
+          </Button>
+        </div>
+      </ErrorBoundary>
     );
   }
 }

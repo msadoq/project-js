@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from '../../../commonEditor/Editor.css';
 import GroundAlarmTabContainer from './GroundAlarmTabContainer';
 import WithForm from '../../../common/Hoc/WithForm';
@@ -13,29 +15,27 @@ import { TableConfigurationColumnType } from '../../../common/Components/types';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
 
-const { string, number, shape, array, func, arrayOf } = PropTypes;
-
 export default class GroundAlarmEditor extends Component {
   static propTypes = {
     // own props
-    viewId: string.isRequired,
+    viewId: PropTypes.string.isRequired,
     // Container's mapStateToProps
-    title: string,
-    configuration: shape({
-      entryPoints: array,
-      tables: shape({
-        main: shape({
-          cols: arrayOf(TableConfigurationColumnType).isRequired,
+    title: PropTypes.string,
+    configuration: PropTypes.shape({
+      entryPoints: PropTypes.array,
+      tables: PropTypes.shape({
+        main: PropTypes.shape({
+          cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
       }).isRequired,
     }).isRequired,
-    tab: number,
-    panels: shape({}).isRequired,
+    tab: PropTypes.number,
+    panels: PropTypes.shape({}).isRequired,
     // Container's mapDispatchToProps
-    updateEntryPoint: func.isRequired,
-    updateViewTab: func.isRequired,
-    updateViewPanels: func.isRequired,
-    openModal: func.isRequired,
+    updateEntryPoint: PropTypes.func.isRequired,
+    updateViewTab: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -98,43 +98,45 @@ export default class GroundAlarmEditor extends Component {
     const { GroundAlarmEditorForm } = this.state;
 
     return (
-      <div className={styles.contentWrapper}>
-        <h4
-          className="text-center mb10"
-        >
-          <span className="mr5 EditorVignette" />
-          <b>{title}</b>
-        </h4>
-        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
-        <Navbar
-          currentDisplay={tab === null ? 0 : tab}
-          changeCurrentDisplay={this.changeCurrentDisplay}
-          items={navItems}
-        />
-        <div className={styles.content}>
-          {(tab === 0 || tab === null) && <div className={styles.content}>
-            <GroundAlarmEditorForm
-              form={`entrypoint-connectedData-form-${viewId}`}
-              onSubmit={values => this.handleSubmit({ connectedData: values })}
-              initialValues={initialValues}
-            />
-          </div>}
-          {
-            tab === 1 &&
-            <GroundAlarmTabContainer
+      <ErrorBoundary>
+        <div className={styles.contentWrapper}>
+          <h4
+            className="text-center mb10"
+          >
+            <span className="mr5 EditorVignette" />
+            <b>{title}</b>
+          </h4>
+          <ReloadAndSaveViewButtonsContainer viewId={viewId} />
+          <Navbar
+            currentDisplay={tab === null ? 0 : tab}
+            changeCurrentDisplay={this.changeCurrentDisplay}
+            items={navItems}
+          />
+          <div className={styles.content}>
+            {(tab === 0 || tab === null) && <div className={styles.content}>
+              <GroundAlarmEditorForm
+                form={`entrypoint-connectedData-form-${viewId}`}
+                onSubmit={values => this.handleSubmit({ connectedData: values })}
+                initialValues={initialValues}
+              />
+            </div>}
+            {
+              tab === 1 &&
+              <GroundAlarmTabContainer
+                viewId={viewId}
+                panels={panels}
+              />
+            }
+            {tab === 2 &&
+            <Misc
+              updateViewPanels={updateViewPanels}
               viewId={viewId}
               panels={panels}
-            />
-          }
-          {tab === 2 &&
-          <Misc
-            updateViewPanels={updateViewPanels}
-            viewId={viewId}
-            panels={panels}
-            openModal={openModal}
-          />}
+              openModal={openModal}
+            />}
+          </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

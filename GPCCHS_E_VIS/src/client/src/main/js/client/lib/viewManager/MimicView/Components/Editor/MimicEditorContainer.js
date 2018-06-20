@@ -41,11 +41,10 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 const MimicEditorContainer = connect(mapStateToProps, mapDispatchToProps)(MimicEditor);
-const { string } = PropTypes;
 
 MimicEditorContainer.propTypes = {
-  viewId: string.isRequired,
-  pageId: string.isRequired,
+  viewId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
 };
 
 export default MimicEditorContainer;

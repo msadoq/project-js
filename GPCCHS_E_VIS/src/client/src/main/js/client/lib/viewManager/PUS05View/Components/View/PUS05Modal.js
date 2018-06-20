@@ -2,9 +2,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
-import './PUS05Modal.scss';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
-const { func, arrayOf, shape } = PropTypes;
+import './PUS05Modal.scss';
 
 const renderParameters = parameters => (
   <div className="col-xs-4">
@@ -32,14 +32,14 @@ const renderParameters = parameters => (
 
 export default class PUS05Modal extends PureComponent {
   static propTypes = {
-    closeModal: func.isRequired,
-    parameters: arrayOf(shape()).isRequired,
+    closeModal: PropTypes.func.isRequired,
+    parameters: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   };
 
   render() {
     const { closeModal, parameters } = this.props;
     return (
-      <div>
+      <ErrorBoundary>
         <div className="row pus05Modal">
           {renderParameters(parameters)}
         </div>
@@ -51,7 +51,7 @@ export default class PUS05Modal extends PureComponent {
             Close
           </Button>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

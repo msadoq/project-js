@@ -3,8 +3,6 @@ import { FieldArray } from 'redux-form';
 import PropTypes from 'prop-types';
 import ColsFields from './Fields/ColsFields';
 
-const { func } = PropTypes;
-
 const TableViewColumns = props => (
   <FieldArray
     name={'cols'}
@@ -14,7 +12,7 @@ const TableViewColumns = props => (
 );
 
 TableViewColumns.propTypes = {
-  onOrderChange: func.isRequired,
+  onOrderChange: PropTypes.func.isRequired,
 };
 
 export default TableViewColumns;

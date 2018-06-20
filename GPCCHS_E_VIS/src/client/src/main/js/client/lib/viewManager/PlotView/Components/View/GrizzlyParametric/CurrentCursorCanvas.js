@@ -11,16 +11,16 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 import { divStyleType } from './types';
-
-const { func, number } = PropTypes;
 
 export default class CurrentCursorCanvas extends PureComponent {
   static propTypes = {
     divStyle: divStyleType.isRequired,
-    current: number.isRequired,
-    xScale: func.isRequired,
+    current: PropTypes.number.isRequired,
+    xScale: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -51,13 +51,15 @@ export default class CurrentCursorCanvas extends PureComponent {
     } = this.props;
 
     return (
-      <canvas
-        ref={this.assignEl}
-        height={divStyle.height}
-        width={divStyle.width}
-        className={styles.canvas}
-        style={divStyle}
-      />
+      <ErrorBoundary>
+        <canvas
+          ref={this.assignEl}
+          height={divStyle.height}
+          width={divStyle.width}
+          className={styles.canvas}
+          style={divStyle}
+        />
+      </ErrorBoundary>
     );
   }
 }

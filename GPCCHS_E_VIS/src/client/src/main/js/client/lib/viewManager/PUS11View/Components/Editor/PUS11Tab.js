@@ -7,33 +7,33 @@ import _getOr from 'lodash/fp/getOr';
 import TableViewColumns from 'viewManager/commonEditor/TableViewColumns';
 import WithForm from 'viewManager/common/Hoc/WithForm';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
-import { entryPointType, TableConfigurationColumnType } from '../../../common/Components/types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
-const { string, shape, func, arrayOf } = PropTypes;
+import { entryPointType, TableConfigurationColumnType } from '../../../common/Components/types';
 
 export default class PUS11Tab extends React.Component {
   static propTypes = {
     // own props
-    viewId: string.isRequired,
-    panels: shape({}).isRequired,
+    viewId: PropTypes.string.isRequired,
+    panels: PropTypes.shape({}).isRequired,
     // from PUS11TabContainer mapStateToProps
-    configuration: shape({
-      entryPoints: arrayOf(entryPointType),
-      tables: shape({
-        subSchedules: shape({
-          cols: arrayOf(TableConfigurationColumnType).isRequired,
+    configuration: PropTypes.shape({
+      entryPoints: PropTypes.arrayOf(entryPointType),
+      tables: PropTypes.shape({
+        subSchedules: PropTypes.shape({
+          cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
-        enabledApids: shape({
-          cols: arrayOf(TableConfigurationColumnType).isRequired,
+        enabledApids: PropTypes.shape({
+          cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
-        commands: shape({
-          cols: arrayOf(TableConfigurationColumnType).isRequired,
+        commands: PropTypes.shape({
+          cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
       }).isRequired,
     }).isRequired,
     // from PUS11TabContainer mapDispatchToProps
-    updateTableCols: func.isRequired,
-    updateViewPanels: func.isRequired,
+    updateTableCols: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
   };
   state = {
     isTitleOpen: false,
@@ -73,7 +73,7 @@ export default class PUS11Tab extends React.Component {
     const commandsCols = { cols: _get(configuration, ['tables', 'commands', 'cols']) };
 
     return (
-      <div>
+      <ErrorBoundary>
         <Collapse
           accordion={false}
           onChange={this.onChange}
@@ -122,7 +122,7 @@ export default class PUS11Tab extends React.Component {
             />}
           </Panel>
         </Collapse>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

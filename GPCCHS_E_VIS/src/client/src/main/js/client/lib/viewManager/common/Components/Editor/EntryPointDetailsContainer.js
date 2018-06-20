@@ -14,12 +14,10 @@ const EntryPointDetailsContainer = connect(mapStateToProps, {
   updateViewSubPanels,
 })(WithForm(EntryPointDetails));
 
-const { string, shape } = PropTypes;
-
 EntryPointDetailsContainer.propTypes = {
-  entryPoint: shape({}),
-  viewId: string.isRequired,
-  pageId: string.isRequired,
+  entryPoint: PropTypes.shape({}),
+  viewId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
 };
 
 export default EntryPointDetailsContainer;

@@ -98,32 +98,10 @@ exports[`PUS11View :: render snapshot 1`] = `
     <div
       className="col-sm-6"
     >
-      <table
-        className="table table-bordered"
-      >
-        <thead>
-          <tr>
-            <th>
-              SSID
-            </th>
-            <th>
-              APID
-            </th>
-            <th>
-              Name
-            </th>
-            <th>
-              Status
-            </th>
-            <th>
-              First TC Time
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-        </tbody>
-      </table>
+      <Connect(VirtualizedTableView)
+        tableId="subSchedules"
+        viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+      />
     </div>
     <div
       className="clearfix"
@@ -131,23 +109,10 @@ exports[`PUS11View :: render snapshot 1`] = `
     <div
       className="col-sm-6"
     >
-      <table
-        className="table table-bordered"
-      >
-        <thead>
-          <tr>
-            <th>
-              APID
-            </th>
-            <th>
-              Name
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-        </tbody>
-      </table>
+      <Connect(VirtualizedTableView)
+        tableId="enabledApids"
+        viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+      />
     </div>
     <div
       className="clearfix"
@@ -159,53 +124,10 @@ exports[`PUS11View :: render snapshot 1`] = `
     <div
       className="info col-sm-12"
     >
-      <table
-        className="table table-bordered"
-      >
-        <thead>
-          <tr>
-            <th>
-              Apid
-            </th>
-            <th>
-              Ssid
-            </th>
-            <th>
-              Cmd. Name
-            </th>
-            <th>
-              Cmd. Description
-            </th>
-            <th>
-              Cmd. AP. Name
-            </th>
-            <th>
-              Seq. Count
-            </th>
-            <th>
-              Source Id
-            </th>
-            <th>
-              Cmd. Status
-            </th>
-            <th>
-              Ground Status
-            </th>
-            <th>
-              Init. Exec. Time
-            </th>
-            <th>
-              Cur. Exec. Time
-            </th>
-            <th>
-              Tot. Shift Time
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-        </tbody>
-      </table>
+      <Connect(VirtualizedTableView)
+        tableId="commands"
+        viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+      />
     </div>
   </div>
 </div>

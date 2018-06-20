@@ -64,8 +64,6 @@ export default class ViewParams extends React.Component {
     backgroundColor: '#000000',
     domainName: '*',
     sessionName: '*',
-<<<<<<< HEAD
-=======
   };
 
   static getNewForm() {
@@ -88,7 +86,6 @@ export default class ViewParams extends React.Component {
     if (nextProps.viewId !== this.props.viewId) {
       this.setState({ FormForView: ViewParams.getNewForm() });
     }
->>>>>>> R12-dev
   }
 
   handleSubmit = (values) => {

@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import _get from 'lodash/get';
 import { connect } from 'react-redux';
 import { open as openModal } from 'store/actions/modals';
-import { getData } from 'viewManager/PUS11View/store/dataReducer';
 import PUS11View from './PUS11View';
 import { getConfigurationByViewId } from '../../../selectors';
 
 const mapStateToProps = (state, { viewId }) => {
   const config = getConfigurationByViewId(state, { viewId });
-  const data = getData(state, { viewId });
 
   return {
     applicationProcessName: _get(config, ['entryPoints', 0, 'connectedData', 'apidName'], null),
@@ -19,9 +17,6 @@ const mapStateToProps = (state, { viewId }) => {
     spaceType: 'Bytes',
     lastUpdateTime: 1527520025823,
     lastUpdateType: 'TM',
-    subSchedules: _get(data, 'subSchedules', []),
-    enabledApids: _get(data, 'enabledApids', []),
-    commands: _get(data, 'commands', []),
   };
 };
 

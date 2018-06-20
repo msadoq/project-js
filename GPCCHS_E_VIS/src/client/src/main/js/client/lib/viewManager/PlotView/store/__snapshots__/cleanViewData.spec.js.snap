@@ -391,6 +391,284 @@ Object {
 }
 `;
 
+exports[`viewManager/PlotView/store/cleanViewData removeViewDataOutsideRange should support keep everything 1`] = `
+Object {
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      100020,
+      200020,
+      300020,
+      400020,
+      500020,
+    ],
+    "TMMGT_BC_VIRTCHAN3": Array [
+      100020,
+      200020,
+      300020,
+      400020,
+      500020,
+    ],
+  },
+  "lines": Object {
+    "ATT_BC_REVTCOUNT1": Object {
+      "100020": Object {
+        "color": "darkred",
+        "masterTime": 100020,
+        "symbol": 149.30028143545633,
+        "value": 149.30028143545633,
+        "x": 100000,
+      },
+      "200020": Object {
+        "color": "blue",
+        "masterTime": 200020,
+        "symbol": 154.3002814355,
+        "value": 154.3002814355,
+        "x": 200000,
+      },
+      "300020": Object {
+        "color": "green",
+        "masterTime": 300020,
+        "symbol": 159.3002814355,
+        "value": 159.3002814355,
+        "x": 300000,
+      },
+      "400020": Object {
+        "color": "green",
+        "masterTime": 400020,
+        "symbol": 164.3002814355,
+        "value": 164.3002814355,
+        "x": 400000,
+      },
+      "500020": Object {
+        "color": "green",
+        "masterTime": 500020,
+        "symbol": 169.3002814355,
+        "value": 169.3002814355,
+        "x": 500000,
+      },
+    },
+    "TMMGT_BC_VIRTCHAN3": Object {
+      "100020": Object {
+        "color": "darkred",
+        "masterTime": 100020,
+        "symbol": 139.30028143545633,
+        "value": 139.30028143545633,
+        "x": 100000,
+      },
+      "200020": Object {
+        "color": "blue",
+        "masterTime": 200020,
+        "symbol": 144.3002814355,
+        "value": 144.3002814355,
+        "x": 200000,
+      },
+      "300020": Object {
+        "color": "green",
+        "masterTime": 300020,
+        "symbol": 149.3002814355,
+        "value": 149.3002814355,
+        "x": 300000,
+      },
+      "400020": Object {
+        "color": "green",
+        "masterTime": 400020,
+        "symbol": 154.3002814355,
+        "value": 154.3002814355,
+        "x": 400000,
+      },
+      "500020": Object {
+        "color": "green",
+        "masterTime": 500020,
+        "symbol": 159.3002814355,
+        "value": 159.3002814355,
+        "x": 500000,
+      },
+    },
+  },
+  "max": Object {
+    "ATT_BC_REVTCOUNT1": 169.3002814355,
+    "TMMGT_BC_VIRTCHAN3": 159.30028143545633,
+  },
+  "maxTime": Object {
+    "ATT_BC_REVTCOUNT1": 500020,
+    "TMMGT_BC_VIRTCHAN3": 500020,
+  },
+  "min": Object {
+    "ATT_BC_REVTCOUNT1": 149.30028143545633,
+    "TMMGT_BC_VIRTCHAN3": 139.30028143545633,
+  },
+  "minTime": Object {
+    "ATT_BC_REVTCOUNT1": 100020,
+    "TMMGT_BC_VIRTCHAN3": 100020,
+  },
+}
+`;
+
+exports[`viewManager/PlotView/store/cleanViewData removeViewDataOutsideRange should support nothing to keep 1`] = `
+Object {
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      100020,
+      200020,
+      300020,
+      400020,
+      500020,
+    ],
+  },
+  "lines": Object {
+    "ATT_BC_REVTCOUNT1": Object {
+      "100020": Object {
+        "color": "darkred",
+        "masterTime": 100020,
+        "symbol": 149.30028143545633,
+        "value": 149.30028143545633,
+        "x": 100000,
+      },
+      "200020": Object {
+        "color": "blue",
+        "masterTime": 200020,
+        "symbol": 154.3002814355,
+        "value": 154.3002814355,
+        "x": 200000,
+      },
+      "300020": Object {
+        "color": "green",
+        "masterTime": 300020,
+        "symbol": 159.3002814355,
+        "value": 159.3002814355,
+        "x": 300000,
+      },
+      "400020": Object {
+        "color": "green",
+        "masterTime": 400020,
+        "symbol": 164.3002814355,
+        "value": 164.3002814355,
+        "x": 400000,
+      },
+      "500020": Object {
+        "color": "green",
+        "masterTime": 500020,
+        "symbol": 169.3002814355,
+        "value": 169.3002814355,
+        "x": 500000,
+      },
+    },
+  },
+  "max": Object {
+    "ATT_BC_REVTCOUNT1": 169.3002814355,
+  },
+  "maxTime": Object {
+    "ATT_BC_REVTCOUNT1": 500020,
+  },
+  "min": Object {
+    "ATT_BC_REVTCOUNT1": 149.30028143545633,
+  },
+  "minTime": Object {
+    "ATT_BC_REVTCOUNT1": 100020,
+  },
+}
+`;
+
+exports[`viewManager/PlotView/store/cleanViewData removeViewDataOutsideRange should support partial keeping 1`] = `
+Object {
+  "indexes": Object {
+    "ATT_BC_REVTCOUNT1": Array [
+      100020,
+      200020,
+      300020,
+      400020,
+      500020,
+    ],
+    "TMMGT_BC_VIRTCHAN3": Array [
+      100020,
+      200020,
+    ],
+  },
+  "lines": Object {
+    "ATT_BC_REVTCOUNT1": Object {
+      "100020": Object {
+        "color": "darkred",
+        "masterTime": 100020,
+        "symbol": 149.30028143545633,
+        "value": 149.30028143545633,
+        "x": 100000,
+      },
+      "200020": Object {
+        "color": "blue",
+        "masterTime": 200020,
+        "symbol": 154.3002814355,
+        "value": 154.3002814355,
+        "x": 200000,
+      },
+      "300020": Object {
+        "color": "green",
+        "masterTime": 300020,
+        "symbol": 159.3002814355,
+        "value": 159.3002814355,
+        "x": 300000,
+      },
+      "400020": Object {
+        "color": "green",
+        "masterTime": 400020,
+        "symbol": 164.3002814355,
+        "value": 164.3002814355,
+        "x": 400000,
+      },
+      "500020": Object {
+        "color": "green",
+        "masterTime": 500020,
+        "symbol": 169.3002814355,
+        "value": 169.3002814355,
+        "x": 500000,
+      },
+    },
+    "TMMGT_BC_VIRTCHAN3": Object {
+      "100020": Object {
+        "color": "darkred",
+        "masterTime": 100020,
+        "symbol": 139.30028143545633,
+        "value": 139.30028143545633,
+        "x": 100000,
+      },
+      "200020": Object {
+        "color": "blue",
+        "masterTime": 200020,
+        "symbol": 144.3002814355,
+        "value": 144.3002814355,
+        "x": 200000,
+      },
+    },
+  },
+  "max": Object {
+    "ATT_BC_REVTCOUNT1": 169.3002814355,
+    "TMMGT_BC_VIRTCHAN3": 159.30028143545633,
+  },
+  "maxTime": Object {
+    "ATT_BC_REVTCOUNT1": 500020,
+    "TMMGT_BC_VIRTCHAN3": 500020,
+  },
+  "min": Object {
+    "ATT_BC_REVTCOUNT1": 149.30028143545633,
+    "TMMGT_BC_VIRTCHAN3": 139.30028143545633,
+  },
+  "minTime": Object {
+    "ATT_BC_REVTCOUNT1": 100020,
+    "TMMGT_BC_VIRTCHAN3": 100020,
+  },
+}
+`;
+
+exports[`viewManager/PlotView/store/cleanViewData removeViewDataOutsideRange upper < lower: nothing to keep 1`] = `
+Object {
+  "indexes": Object {},
+  "lines": Object {},
+  "max": Object {},
+  "maxTime": Object {},
+  "min": Object {},
+  "minTime": Object {},
+}
+`;
+
 exports[`viewManager/PlotView/store/cleanViewData scanForMinAndMax max to update 1`] = `
 Object {
   "indexes": Object {

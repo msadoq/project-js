@@ -76,18 +76,16 @@ const validOrigin = values =>
   ['center', 'right', 'left'].includes(values[0]) &&
   ['center', 'top', 'bottom'].includes(values[1]);
 
-const { shape, string, number, object, objectOf, bool } = PropTypes;
-
 export default class MimicView extends Component {
   static propTypes = {
-    content: string.isRequired,
-    entryPoints: objectOf(object).isRequired,
-    data: shape({
-      values: object,
+    content: PropTypes.string.isRequired,
+    entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
+    data: PropTypes.shape({
+      values: PropTypes.object,
     }).isRequired,
-    perfOutput: bool,
-    width: number.isRequired,
-    height: number.isRequired,
+    perfOutput: PropTypes.bool,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
   };
   static defaultProps = {
     data: {

@@ -20,8 +20,10 @@ import {
 import moment from 'moment';
 import classnames from 'classnames';
 import { DATETIME_TILL_MS_FORMAT } from 'constants';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import { operators } from 'common/operators';
+
 import ComObjectFilterFieldContainer from './ComObjectFilterFieldContainer';
 import styles from './fields.css';
 import { comObjectType } from '../../common/Components/types';
@@ -40,7 +42,7 @@ export default class FiltersFields extends React.Component {
     form: PropTypes.string.isRequired,
     // from container
     comObjectFields: PropTypes.arrayOf(comObjectType),
-  }
+  };
 
   static defaultProps = {
     comObjectFields: [],
@@ -50,7 +52,7 @@ export default class FiltersFields extends React.Component {
     errors: [],
     editingIndex: null,
     operandPlaceHolder: null,
-  }
+  };
 
   getFilteredOperators = (allOperators, field) => (
     this.isATimeType(field)
@@ -106,7 +108,7 @@ export default class FiltersFields extends React.Component {
       }
     );
     this.resetFields();
-  }
+  };
 
   /*
     Reset with default values if no argument is given
@@ -117,7 +119,7 @@ export default class FiltersFields extends React.Component {
     this.fieldField.value = field;
     this.operatorField.value = opt;
     this.operandField.value = opd;
-  }
+  };
 
   editFilter = (index) => {
     const { fields } = this.props;
@@ -133,7 +135,7 @@ export default class FiltersFields extends React.Component {
       filter.operand
     );
     return this.setState({ editingIndex: index });
-  }
+  };
 
   removeFilter = (index) => {
     const { fields } = this.props;
@@ -143,7 +145,7 @@ export default class FiltersFields extends React.Component {
       this.setState({ editingIndex: null });
       this.resetFields();
     }
-  }
+  };
 
   updateFilter = (e) => {
     e.preventDefault();
@@ -162,7 +164,7 @@ export default class FiltersFields extends React.Component {
       this.resetFields();
       this.setState({ editingIndex: null });
     }, 100);
-  }
+  };
 
   render() {
     const { fields, form } = this.props;
@@ -175,103 +177,108 @@ export default class FiltersFields extends React.Component {
     const glyphPencilStyle = { cursor: 'pointer', color: 'inherit' };
     const glyphPencilEditingStyle = { cursor: 'pointer', color: '#0275D8' };
     return (
-      <div
-        className={styles.filterFields}
-      >
-        <Table condensed striped style={tableStyle}>
-          <thead>
-            <tr>
-              <th colSpan={1}>Filters</th>
-              <th colSpan={2}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(filters && filters.length)
-              ? filters.map(
-                (filter, index) => (
-                  <tr
-                    key={`${filter.field}${filter.operator}${filter.operand}`}
-                    className={editingIndex === index ? styles.editingFilter : ''}
-                  >
-                    <td className="col-xs-10" style={{ verticalAlign: 'middle' }}>
-                      {filter.field}{' '}
-                      <b>{filter.operator}{' '}</b>
-                      {filter.operand}
-                    </td>
-                    <td className="col-xs-1">
-                      <Glyphicon
-                        glyph="trash"
-                        onClick={() => this.removeFilter(index)}
-                        title="remove filter"
-                        style={glyphTrashStyle}
-                      />
-                    </td>
-                    <td className="col-xs-1">
-                      <Glyphicon
-                        glyph="pencil"
-                        onClick={() => this.editFilter(index)}
-                        title="edit filter"
-                        style={editingIndex === index ? glyphPencilEditingStyle : glyphPencilStyle}
-                      />
-                    </td>
-                  </tr>
+      <ErrorBoundary>
+        <div
+          className={styles.filterFields}
+        >
+          <Table condensed striped style={tableStyle}>
+            <thead>
+              <tr>
+                <th colSpan={1}>Filters</th>
+                <th colSpan={2}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(filters && filters.length)
+                ? filters.map(
+                  (filter, index) => (
+                    <tr
+                      key={`${filter.field}${filter.operator}${filter.operand}`}
+                      className={editingIndex === index ? styles.editingFilter : ''}
+                    >
+                      <td className="col-xs-10" style={{ verticalAlign: 'middle' }}>
+                        {filter.field}{' '}
+                        <b>{filter.operator}{' '}</b>
+                        {filter.operand}
+                      </td>
+                      <td className="col-xs-1">
+                        <Glyphicon
+                          glyph="trash"
+                          onClick={() => this.removeFilter(index)}
+                          title="remove filter"
+                          style={glyphTrashStyle}
+                        />
+                      </td>
+                      <td className="col-xs-1">
+                        <Glyphicon
+                          glyph="pencil"
+                          onClick={() => this.editFilter(index)}
+                          title="edit filter"
+                          style={editingIndex === index
+                            ? glyphPencilEditingStyle
+                            : glyphPencilStyle
+                          }
+                        />
+                      </td>
+                    </tr>
+                  )
                 )
-              )
-              : (<tr><td colSpan={3}>no filter</td></tr>)
+                : (<tr><td colSpan={3}>no filter</td></tr>)
+              }
+            </tbody>
+          </Table>
+          {errors && errors.map(e => <Alert bsStyle="danger">{e}</Alert>)}
+          <HorizontalFormGroup label="field">
+            <ComObjectFilterFieldContainer
+              onChange={this.handleFieldInputChange}
+              value={this.fieldField ? this.fieldField.value : ''}
+              ref={(el) => { this.fieldField = el; }}
+              formName={form}
+            />
+          </HorizontalFormGroup>
+          <HorizontalFormGroup label="operator">
+            <select
+              className="form-control"
+              ref={(el) => {
+                this.operatorField = el;
+              }}
+            >
+              {this.getFilteredOperators(operators, this.fieldField)}
+            </select>
+          </HorizontalFormGroup>
+          <HorizontalFormGroup label="operand">
+            <input
+              className="form-control"
+              ref={(el) => {
+                this.operandField = el;
+              }}
+              onChange={this.handleOperandInputChange}
+              placeholder={operandPlaceHolder}
+            />
+          </HorizontalFormGroup>
+          <HorizontalFormGroup>
+            {canEdit ?
+              <input
+                className={classnames('btn', 'btn-success')}
+                style={{ width: '90px' }}
+                type="submit"
+                value="Edit filter"
+                onClick={this.updateFilter}
+                disabled={errors.length}
+              />
+              :
+              <input
+                className={classnames('btn', 'btn-success')}
+                style={{ width: '90px' }}
+                type="submit"
+                value="Add filter"
+                onClick={this.addFilter}
+                disabled={!canAdd || errors.length}
+              />
             }
-          </tbody>
-        </Table>
-        {errors && errors.map(e => <Alert bsStyle="danger">{e}</Alert>)}
-        <HorizontalFormGroup label="field">
-          <ComObjectFilterFieldContainer
-            onChange={this.handleFieldInputChange}
-            value={this.fieldField ? this.fieldField.value : ''}
-            ref={(el) => { this.fieldField = el; }}
-            formName={form}
-          />
-        </HorizontalFormGroup>
-        <HorizontalFormGroup label="operator">
-          <select
-            className="form-control"
-            ref={(el) => {
-              this.operatorField = el;
-            }}
-          >
-            {this.getFilteredOperators(operators, this.fieldField)}
-          </select>
-        </HorizontalFormGroup>
-        <HorizontalFormGroup label="operand">
-          <input
-            className="form-control"
-            ref={(el) => {
-              this.operandField = el;
-            }}
-            onChange={this.handleOperandInputChange}
-            placeholder={operandPlaceHolder}
-          />
-        </HorizontalFormGroup>
-        <HorizontalFormGroup>
-          {canEdit ?
-            <input
-              className={classnames('btn', 'btn-success')}
-              style={{ width: '90px' }}
-              type="submit"
-              value="Edit filter"
-              onClick={this.updateFilter}
-              disabled={errors.length}
-            />
-            :
-            <input
-              className={classnames('btn', 'btn-success')}
-              style={{ width: '90px' }}
-              type="submit"
-              value="Add filter"
-              onClick={this.addFilter}
-              disabled={!canAdd || errors.length}
-            />
-          }
-        </HorizontalFormGroup>
-      </div>
+          </HorizontalFormGroup>
+        </div>
+      </ErrorBoundary>
     );
   }
 }

@@ -1,33 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ProviderFieldContainer :: render should render correctly with valid data 1`] = `
-<div>
-  <Field
-    clearable={true}
-    component={[Function]}
-    format={null}
-    name="connectedData.provider"
-    onChange={null}
-    options={
-      Array [
-        Object {
-          "label": "HKTMR",
-          "value": "HKTMR",
-        },
-        Object {
-          "label": "HKTMP",
-          "value": "HKTMP",
-        },
-        Object {
-          "label": "RM",
-          "value": "RM",
-        },
-        Object {
-          "label": "*",
-          "value": "*",
-        },
-      ]
-    }
-  />
-</div>
+<Field
+  clearable={true}
+  component={[Function]}
+  format={null}
+  name="connectedData.provider"
+  onChange={null}
+  options={
+    Array [
+      Object {
+        "label": "HKTMR",
+        "value": "HKTMR",
+      },
+      Object {
+        "label": "HKTMP",
+        "value": "HKTMP",
+      },
+      Object {
+        "label": "RM",
+        "value": "RM",
+      },
+      Object {
+        "label": "*",
+        "value": "*",
+      },
+    ]
+  }
+/>
 `;

@@ -17,6 +17,8 @@ import {
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import { validateRequiredFields } from '../../../common';
 
 const { Addon } = InputGroup;
@@ -49,45 +51,47 @@ class DimensionsForm extends React.Component {
     } = this.props;
 
     return (
-      <Form
-        horizontal
-        onSubmit={handleSubmit}
-        className={classnames(
-          { 'redux-form-dirty': !pristine },
-          'redux-form-padded'
-        )}
-      >
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        /><br />
-        <HorizontalFormGroup label="Width">
-          <InputGroup>
-            <Field
-              name="width"
-              component={InputField}
-              normalize={value => parseInt(value, 10)}
-              className="form-control input-sm"
-              type="number"
-            />
-            <Addon>px</Addon>
-          </InputGroup>
-        </HorizontalFormGroup>
-        <HorizontalFormGroup label="Height">
-          <InputGroup>
-            <Field
-              name="height"
-              component={InputField}
-              normalize={value => parseInt(value, 10)}
-              className="form-control input-sm"
-              type="number"
-            />
-            <Addon>px</Addon>
-          </InputGroup>
-        </HorizontalFormGroup>
-      </Form>
+      <ErrorBoundary>
+        <Form
+          horizontal
+          onSubmit={handleSubmit}
+          className={classnames(
+            { 'redux-form-dirty': !pristine },
+            'redux-form-padded'
+          )}
+        >
+          <ClearSubmitButtons
+            pristine={pristine}
+            submitting={submitting}
+            reset={reset}
+            valid={valid}
+          /><br />
+          <HorizontalFormGroup label="Width">
+            <InputGroup>
+              <Field
+                name="width"
+                component={InputField}
+                normalize={value => parseInt(value, 10)}
+                className="form-control input-sm"
+                type="number"
+              />
+              <Addon>px</Addon>
+            </InputGroup>
+          </HorizontalFormGroup>
+          <HorizontalFormGroup label="Height">
+            <InputGroup>
+              <Field
+                name="height"
+                component={InputField}
+                normalize={value => parseInt(value, 10)}
+                className="form-control input-sm"
+                type="number"
+              />
+              <Addon>px</Addon>
+            </InputGroup>
+          </HorizontalFormGroup>
+        </Form>
+      </ErrorBoundary>
     );
   }
 }

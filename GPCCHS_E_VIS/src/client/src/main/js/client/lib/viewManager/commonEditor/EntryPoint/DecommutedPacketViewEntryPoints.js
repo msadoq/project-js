@@ -1,14 +1,11 @@
-/* eslint-disable no-unused-vars */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
-import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import { reduxFormFieldsType } from 'viewManager/common/Components/types';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
-
-const { string } = PropTypes;
 
 /**
  * Corresponding views:
@@ -16,11 +13,11 @@ const { string } = PropTypes;
  */
 export default class DecommutedPacketViewEntryPoints extends PureComponent {
   static propTypes = {
-    viewId: string.isRequired,
-    pageId: string.isRequired,
-    domainName: string,
-    selectedCatalogName: string,
-    sessionName: string,
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    domainName: PropTypes.string,
+    selectedCatalogName: PropTypes.string,
+    sessionName: PropTypes.string,
     ...reduxFormFieldsType,
   };
 
@@ -28,6 +25,7 @@ export default class DecommutedPacketViewEntryPoints extends PureComponent {
     domainName: null,
     selectedCatalogName: null,
     selectedItemName: null,
+    sessionName: null,
   };
 
   static contextTypes = {
@@ -44,32 +42,34 @@ export default class DecommutedPacketViewEntryPoints extends PureComponent {
     } = this.props;
 
     return (
-      <React.Fragment>
-        <HorizontalFormGroup label="Catalog">
-          <CatalogFieldContainer
-            domainName={domainName}
-            viewSessionName={sessionName}
-            timelineId="no timeline selector in the view"
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </HorizontalFormGroup>
+      <ErrorBoundary>
+        <React.Fragment>
+          <HorizontalFormGroup label="Catalog">
+            <CatalogFieldContainer
+              domainName={domainName}
+              viewSessionName={sessionName}
+              timelineId="no timeline selector in the view"
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Catalog item">
-          <CatalogItemFieldContainer
-            domainName={domainName}
-            viewSessionName={sessionName}
-            timelineId="no timeline selector in the view"
-            catalogName={selectedCatalogName}
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Catalog item">
+            <CatalogItemFieldContainer
+              domainName={domainName}
+              viewSessionName={sessionName}
+              timelineId="no timeline selector in the view"
+              catalogName={selectedCatalogName}
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Provider">
-          <ProviderFieldContainer />
-        </HorizontalFormGroup>
-      </React.Fragment>
+          <HorizontalFormGroup label="Provider">
+            <ProviderFieldContainer />
+          </HorizontalFormGroup>
+        </React.Fragment>
+      </ErrorBoundary>
     );
   }
 }

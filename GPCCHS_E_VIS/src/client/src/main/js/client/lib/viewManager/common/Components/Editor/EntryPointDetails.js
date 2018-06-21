@@ -9,6 +9,7 @@
 // ====================================================================
 
 import React, { PureComponent } from 'react';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import PropTypes from 'prop-types';
 import Collapse from 'rc-collapse';
 import { Field, FieldArray } from 'redux-form';
@@ -63,72 +64,74 @@ export default class EntryPointDetails extends PureComponent {
     const EntryPointConnectedDataFieldsContainer = entryPointConnectedDataForm;
 
     return (
-      <Collapse
-        accordion={false}
-        onChange={this.onChange}
-        defaultActiveKey={panels === true ? emptyArray : panels}
-      >
-        <Panel
-          key="name"
-          header="Name"
+      <ErrorBoundary>
+        <Collapse
+          accordion={false}
+          onChange={this.onChange}
+          defaultActiveKey={panels === true ? emptyArray : panels}
         >
-          {Array.isArray(panels) && panels.includes('name') &&
-          <HorizontalFormGroup label="Label">
-            <Field
-              name="name"
-              component={InputField}
-              className="form-control input-sm"
-              type="text"
+          <Panel
+            key="name"
+            header="Name"
+          >
+            {Array.isArray(panels) && panels.includes('name') &&
+            <HorizontalFormGroup label="Label">
+              <Field
+                name="name"
+                component={InputField}
+                className="form-control input-sm"
+                type="text"
+              />
+            </HorizontalFormGroup>
+            }
+          </Panel>
+          <Panel
+            key="ConnData"
+            header="Connected data"
+          >
+            {Array.isArray(panels) && panels.includes('ConnData') &&
+            <EntryPointConnectedDataFieldsContainer
+              {...this.props}
             />
-          </HorizontalFormGroup>
-          }
-        </Panel>
-        <Panel
-          key="ConnData"
-          header="Connected data"
-        >
-          {Array.isArray(panels) && panels.includes('ConnData') &&
-          <EntryPointConnectedDataFieldsContainer
-            {...this.props}
-          />
-          }
-        </Panel>
-        <Panel
-          key="Unit"
-          header="Unit"
-        >
-          {Array.isArray(panels) && panels.includes('Unit') &&
-          <EntryPointUnitContainer
-            {...this.props}
-            {...entryPoint}
-          />
-          }
-        </Panel>
-        <Panel
-          key="Filter"
-          header="Filter"
-        >
-          {Array.isArray(panels) && panels.includes('Filter') &&
-          <FieldArray
-            name={'connectedData.filter'}
-            component={FiltersFieldsContainer}
-            {...this.props}
-          />
-          }
-        </Panel>
-        <Panel
-          key="stateColors"
-          header="State colors"
-        >
-          {Array.isArray(panels) && panels.includes('stateColors') &&
-          <FieldArray
-            name={'stateColors'}
-            component={StateColorsFields}
-            {...this.props}
-          />
-          }
-        </Panel>
-      </Collapse>
+            }
+          </Panel>
+          <Panel
+            key="Unit"
+            header="Unit"
+          >
+            {Array.isArray(panels) && panels.includes('Unit') &&
+            <EntryPointUnitContainer
+              {...this.props}
+              {...entryPoint}
+            />
+            }
+          </Panel>
+          <Panel
+            key="Filter"
+            header="Filter"
+          >
+            {Array.isArray(panels) && panels.includes('Filter') &&
+            <FieldArray
+              name={'connectedData.filter'}
+              component={FiltersFieldsContainer}
+              {...this.props}
+            />
+            }
+          </Panel>
+          <Panel
+            key="stateColors"
+            header="State colors"
+          >
+            {Array.isArray(panels) && panels.includes('stateColors') &&
+            <FieldArray
+              name={'stateColors'}
+              component={StateColorsFields}
+              {...this.props}
+            />
+            }
+          </Panel>
+        </Collapse>
+      </ErrorBoundary>
     );
   }
 }

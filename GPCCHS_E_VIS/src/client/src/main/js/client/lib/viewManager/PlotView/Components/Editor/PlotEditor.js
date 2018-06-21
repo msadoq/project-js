@@ -43,6 +43,8 @@ import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import EntryPointActions from 'viewManager/commonEditor/EntryPoint/EntryPointActions';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import PlotTab from './PlotTab';
 import EntryPointTreeContainer from './EntryPointTreeContainer';
 import styles from '../../../commonEditor/Editor.css';
@@ -119,65 +121,67 @@ export default class PlotEditor extends Component {
     } = this.props;
 
     return (
-      <div className={styles.contentWrapper}>
-        <h4
-          className="text-center mb10"
-        >
-          <span className="mr5 EditorVignette" />
-          <b>{title}</b>
-        </h4>
-        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
-        <Navbar
-          currentDisplay={tab === null ? 0 : tab}
-          items={navbarItems}
-          changeCurrentDisplay={this.changeCurrentDisplay}
-        />
-        <div className={styles.content}>
-          {
-            (tab === 0 || tab === null) &&
-              [
-                <EntryPointActions
-                  key="EntryPointActions"
-                  viewId={viewId}
-                  viewType="PlotView"
-                  openModal={openModal}
-                  changeSearch={this.changeSearch}
-                  search={search || undefined} // will use EntryPointActions' default value if null
-                />,
-                <EntryPointTreeContainer
-                  key="EntryPointTree"
-                  entryPoints={entryPoints}
-                  entryPointsPanels={entryPointsPanels}
-                  updateViewPanels={updateViewPanels}
-                  search={search}
-                  remove={this.removeEntryPoint}
-                  viewId={viewId}
-                  pageId={pageId}
-                />,
-              ]
-          }
-          {
-            tab === 1 &&
-            <PlotTab
-              axes={axes}
-              markers={markers}
-              grids={grids}
-              titleStyle={titleStyle}
-              openModal={openModal}
+      <ErrorBoundary>
+        <div className={styles.contentWrapper}>
+          <h4
+            className="text-center mb10"
+          >
+            <span className="mr5 EditorVignette" />
+            <b>{title}</b>
+          </h4>
+          <ReloadAndSaveViewButtonsContainer viewId={viewId} />
+          <Navbar
+            currentDisplay={tab === null ? 0 : tab}
+            items={navbarItems}
+            changeCurrentDisplay={this.changeCurrentDisplay}
+          />
+          <div className={styles.content}>
+            {
+              (tab === 0 || tab === null) &&
+                [
+                  <EntryPointActions
+                    key="EntryPointActions"
+                    viewId={viewId}
+                    viewType="PlotView"
+                    openModal={openModal}
+                    changeSearch={this.changeSearch}
+                    search={search || undefined} // will use EntryPointActions' default value if null
+                  />,
+                  <EntryPointTreeContainer
+                    key="EntryPointTree"
+                    entryPoints={entryPoints}
+                    entryPointsPanels={entryPointsPanels}
+                    updateViewPanels={updateViewPanels}
+                    search={search}
+                    remove={this.removeEntryPoint}
+                    viewId={viewId}
+                    pageId={pageId}
+                  />,
+                ]
+            }
+            {
+              tab === 1 &&
+              <PlotTab
+                axes={axes}
+                markers={markers}
+                grids={grids}
+                titleStyle={titleStyle}
+                openModal={openModal}
+                updateViewPanels={updateViewPanels}
+                panels={panels}
+                viewId={viewId}
+              />
+            }
+            {tab === 2 &&
+            <Misc
               updateViewPanels={updateViewPanels}
-              panels={panels}
               viewId={viewId}
-            />
-          }
-          {tab === 2 &&
-          <Misc
-            updateViewPanels={updateViewPanels}
-            viewId={viewId}
-            panels={panels}
-            openModal={openModal}
-          />}
+              panels={panels}
+              openModal={openModal}
+            />}
+          </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

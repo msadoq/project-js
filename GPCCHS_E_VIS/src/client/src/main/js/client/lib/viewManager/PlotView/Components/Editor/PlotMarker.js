@@ -24,6 +24,8 @@ import InputField from 'windowProcess/commonReduxForm/InputField';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import FormSectionFontStyle from 'viewManager/commonEditor/FormSections/FormSectionFontStyle';
 import FormSectionLineStyle from 'viewManager/commonEditor/FormSections/FormSectionLineStyle';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import { validateRequiredFields } from '../../../common';
 
 const { Addon } = InputGroup;
@@ -97,61 +99,63 @@ class PlotMarker extends React.Component {
     } = this.props;
 
     return (
-      <Form horizontal onSubmit={handleSubmit}>
-        <HorizontalFormGroup label="Type">
-          <Field
-            name="kind"
-            className="form-control input-sm"
-            component="select"
-          >
-            <option value="Text">Text</option>
-            <option value="Horizontal">Horizontal</option>
-            <option value="Vertical">Vertical</option>
-            <option value="onePoint">One point - no implemented</option>
-            <option value="twoPoint">Two point - no implemented</option>
-          </Field>
-        </HorizontalFormGroup>
-
-
-        {isKindHorizontal && <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle name="line" />
-        </HorizontalFormGroup>}
-        {isKindVertical && <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle name="line" />
-        </HorizontalFormGroup>}
-
-        {isKindText && <FormSectionFontStyle name="style" />}
-        {isKindText && <HorizontalFormGroup label="rel. Pos X">
-          <InputGroup>
+      <ErrorBoundary>
+        <Form horizontal onSubmit={handleSubmit}>
+          <HorizontalFormGroup label="Type">
             <Field
-              name="relativePosX"
-              component={InputField}
-              normalize={value => parseInt(value, 10)}
+              name="kind"
               className="form-control input-sm"
-              type="number"
-            />
-            <Addon>%</Addon>
-          </InputGroup>
-        </HorizontalFormGroup>}
-        {isKindText && <HorizontalFormGroup label="rel. Pos Y">
-          <InputGroup>
-            <Field
-              name="relativePosY"
-              component={InputField}
-              normalize={value => parseInt(value, 10)}
-              className="form-control input-sm"
-              type="number"
-            />
-            <Addon>%</Addon>
-          </InputGroup>
-        </HorizontalFormGroup>}
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
-      </Form>
+              component="select"
+            >
+              <option value="Text">Text</option>
+              <option value="Horizontal">Horizontal</option>
+              <option value="Vertical">Vertical</option>
+              <option value="onePoint">One point - no implemented</option>
+              <option value="twoPoint">Two point - no implemented</option>
+            </Field>
+          </HorizontalFormGroup>
+
+
+          {isKindHorizontal && <HorizontalFormGroup label="Line">
+            <FormSectionLineStyle name="line" />
+          </HorizontalFormGroup>}
+          {isKindVertical && <HorizontalFormGroup label="Line">
+            <FormSectionLineStyle name="line" />
+          </HorizontalFormGroup>}
+
+          {isKindText && <FormSectionFontStyle name="style" />}
+          {isKindText && <HorizontalFormGroup label="rel. Pos X">
+            <InputGroup>
+              <Field
+                name="relativePosX"
+                component={InputField}
+                normalize={value => parseInt(value, 10)}
+                className="form-control input-sm"
+                type="number"
+              />
+              <Addon>%</Addon>
+            </InputGroup>
+          </HorizontalFormGroup>}
+          {isKindText && <HorizontalFormGroup label="rel. Pos Y">
+            <InputGroup>
+              <Field
+                name="relativePosY"
+                component={InputField}
+                normalize={value => parseInt(value, 10)}
+                className="form-control input-sm"
+                type="number"
+              />
+              <Addon>%</Addon>
+            </InputGroup>
+          </HorizontalFormGroup>}
+          <ClearSubmitButtons
+            pristine={pristine}
+            submitting={submitting}
+            reset={reset}
+            valid={valid}
+          />
+        </Form>
+      </ErrorBoundary>
     );
   }
 }

@@ -12,6 +12,7 @@ import {
   Panel,
 } from 'react-bootstrap';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class DynamicTab extends React.Component {
   static contextTypes = {
@@ -21,16 +22,15 @@ export default class DynamicTab extends React.Component {
     isTitleOpen: false,
   };
 
-  openTitle = () => this.setState({ isTitleOpen: true });
-  closeTitle = () => this.setState({ isTitleOpen: false });
-
   render() {
     const { viewId } = this.context;
 
     return (
-      <Panel>
-        <ViewParamsContainer viewId={viewId} />
-      </Panel>
+      <ErrorBoundary>
+        <Panel>
+          <ViewParamsContainer viewId={viewId} />
+        </Panel>
+      </ErrorBoundary>
     );
   }
 }

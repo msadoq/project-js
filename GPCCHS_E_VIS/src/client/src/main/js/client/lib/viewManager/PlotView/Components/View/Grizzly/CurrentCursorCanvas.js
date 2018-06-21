@@ -13,6 +13,8 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 
 export default class CurrentCursorCanvas extends PureComponent {
@@ -64,13 +66,15 @@ export default class CurrentCursorCanvas extends PureComponent {
     } = this.props;
 
     return (
-      <canvas
-        ref={this.assignEl}
-        height={height}
-        width={width}
-        className={styles.canvas}
-        style={divStyle}
-      />
+      <ErrorBoundary>
+        <canvas
+          ref={this.assignEl}
+          height={height}
+          width={width}
+          className={styles.canvas}
+          style={divStyle}
+        />
+      </ErrorBoundary>
     );
   }
 }

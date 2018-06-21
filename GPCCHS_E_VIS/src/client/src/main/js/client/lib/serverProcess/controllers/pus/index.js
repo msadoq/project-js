@@ -12,7 +12,9 @@ const onPubSubData = require('./onPubSubData');
 
 const controllers = {
   [constants.PUS_ON_COMPARE]: onCompare,
-  [constants.PUS_ON_INITIALIZE]: onInitialize,
+  [constants.PUS_ON_INITIALIZE]: (args) => {
+    onInitialize(args, getStore);
+  },
   [constants.PUS_ON_PUBSUB]: onPubSubData,
 };
 

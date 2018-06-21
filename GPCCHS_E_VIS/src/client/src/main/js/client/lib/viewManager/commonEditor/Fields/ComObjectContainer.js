@@ -70,14 +70,14 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 const ComObjectContainer = connect(mapStateToProps, mapDispatchToProps)(ComObject);
-const { string } = PropTypes;
+
 ComObjectContainer.propTypes = {
-  domainName: string,
-  timelineId: string,
-  viewId: string.isRequired,
-  pageId: string.isRequired,
-  catalogName: string,
-  itemName: string,
+  domainName: PropTypes.string,
+  timelineId: PropTypes.string,
+  viewId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
+  catalogName: PropTypes.string,
+  itemName: PropTypes.string,
 };
 
 export default ComObjectContainer;

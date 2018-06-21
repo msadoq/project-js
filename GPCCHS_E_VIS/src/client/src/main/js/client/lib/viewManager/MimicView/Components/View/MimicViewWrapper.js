@@ -24,6 +24,8 @@ import _forEach from 'lodash/forEach';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import getLogger from 'common/logManager';
 import LinksContainer from 'windowProcess/View/LinksContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import MimicView from './MimicView';
 import styles from './MimicView.css';
 import { updateSearchCountArray } from '../../../../store/reducers/pages';
@@ -181,12 +183,14 @@ export default class MimicViewWrapper extends PureComponent {
       const noRenderMsg = 'Visu Window is too long for this type of view';
       logger.debug('no render due to', noRenderMsg);
       return (
-        <div className={`flex ${styles.container}`}>
-          <div className={styles.renderErrorText}>
-            Unable to render view <br />
-            {noRenderMsg}
+        <ErrorBoundary>
+          <div className={`flex ${styles.container}`}>
+            <div className={styles.renderErrorText}>
+              Unable to render view <br />
+              {noRenderMsg}
+            </div>
           </div>
-        </div>
+        </ErrorBoundary>
       );
     }
     return (

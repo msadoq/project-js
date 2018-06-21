@@ -17,24 +17,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Glyphicon, FormGroup, InputGroup, FormControl, Button, Col } from 'react-bootstrap';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 const { Addon } = InputGroup;
-const { string, oneOf, func } = PropTypes;
 
 export default class EntryPointActions extends React.Component {
   static propTypes = {
-    viewId: string.isRequired,
-    search: string,
-    viewType: oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
+    viewId: PropTypes.string.isRequired,
+    search: PropTypes.string,
+    viewType: PropTypes.oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
     // from container
-    changeSearch: func.isRequired,
-    openModal: func.isRequired,
+    changeSearch: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
   };
   static defaultProps = {
     search: '',
   };
   static contextTypes = {
-    windowId: string,
+    windowId: PropTypes.string,
   };
   searchName = e => this.props.changeSearch(e.target.value);
   willAddEntryPoint = (e) => {
@@ -53,7 +53,7 @@ export default class EntryPointActions extends React.Component {
     const { search } = this.props;
 
     return (
-      <div>
+      <ErrorBoundary>
         <FormGroup
           bsSize="sm"
           className="row"
@@ -80,7 +80,7 @@ export default class EntryPointActions extends React.Component {
             </Button>
           </Col>
         </FormGroup>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import _map from 'lodash/map';
 import _find from 'lodash/find';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
@@ -9,17 +10,15 @@ import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 import { applicationProcessesType } from 'viewManager/common/Components/types';
 import './ApplicationProcessField.scss';
 
-const { func, number } = PropTypes;
-
 export default class ApplicationProcessField extends PureComponent {
   static propTypes = {
-    onChange: func,
+    onChange: PropTypes.func,
     // from container mapStateToProps
     applicationProcesses: applicationProcessesType,
-    domainId: number,
-    sessionId: number,
+    domainId: PropTypes.number,
+    sessionId: PropTypes.number,
     // from container mapDispatchToProps
-    askApids: func.isRequired,
+    askApids: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -63,28 +62,30 @@ export default class ApplicationProcessField extends PureComponent {
     }));
 
     return (
-      <div className="row mr0 applicationProcess">
-        <Field
-          format={null}
-          name="connectedData.apidName"
-          component={ReactSelectField}
-          options={computeOptions(applicationProcessOptions, false)}
-          className="col-xs-8"
-          onChange={this.handleChange}
-          disabled={disabled}
-        />
-        <Field
-          format={null}
-          name="connectedData.apidRawValue"
-          component={InputField}
-          clearable
-          type="text"
-          className="col-xs-4 inputField"
-          onChange={this.props.onChange}
-          disabled
-          value={this.state.apidRawValue}
-        />
-      </div>
+      <ErrorBoundary>
+        <div className="row mr0 applicationProcess">
+          <Field
+            format={null}
+            name="connectedData.apidName"
+            component={ReactSelectField}
+            options={computeOptions(applicationProcessOptions, false)}
+            className="col-xs-8"
+            onChange={this.handleChange}
+            disabled={disabled}
+          />
+          <Field
+            format={null}
+            name="connectedData.apidRawValue"
+            component={InputField}
+            clearable
+            type="text"
+            className="col-xs-4 inputField"
+            onChange={this.props.onChange}
+            disabled
+            value={this.state.apidRawValue}
+          />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

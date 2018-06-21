@@ -1,55 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager :: commonEditor :: Fields :: ApplicationProcessField snapshot 1`] = `
-<div
-  className="row mr0 applicationProcess"
->
-  <Field
-    className="col-xs-8"
-    component={[Function]}
-    disabled={true}
-    format={null}
-    name="connectedData.apidName"
-    onChange={[Function]}
-    options={Array []}
-  />
-  <Field
-    className="col-xs-4 inputField"
-    clearable={true}
-    component={[Function]}
-    disabled={true}
-    format={null}
-    name="connectedData.apidRawValue"
-    onChange={null}
-    type="text"
-    value=""
-  />
-</div>
+<ErrorBoundary>
+  <div
+    className="row mr0 applicationProcess"
+  >
+    <Field
+      className="col-xs-8"
+      component={[Function]}
+      disabled={true}
+      format={null}
+      name="connectedData.apidName"
+      onChange={[Function]}
+      options={Array []}
+    />
+    <Field
+      className="col-xs-4 inputField"
+      clearable={true}
+      component={[Function]}
+      disabled={true}
+      format={null}
+      name="connectedData.apidRawValue"
+      onChange={null}
+      type="text"
+      value=""
+    />
+  </div>
+</ErrorBoundary>
 `;
 
 exports[`viewManager :: commonEditor :: Fields :: ApplicationProcessField snapshot 2 1`] = `
-<div
-  className="row mr0 applicationProcess"
->
-  <Field
-    className="col-xs-8"
-    component={[Function]}
-    disabled={true}
-    format={null}
-    name="connectedData.apidName"
-    onChange={[Function]}
-    options={Array []}
-  />
-  <Field
-    className="col-xs-4 inputField"
-    clearable={true}
-    component={[Function]}
-    disabled={true}
-    format={null}
-    name="connectedData.apidRawValue"
-    onChange={null}
-    type="text"
-    value=""
-  />
-</div>
+<ErrorBoundary>
+  <div
+    className="row mr0 applicationProcess"
+  >
+    <Field
+      className="col-xs-8"
+      component={[Function]}
+      disabled={true}
+      format={null}
+      name="connectedData.apidName"
+      onChange={[Function]}
+      options={Array []}
+    />
+    <Field
+      className="col-xs-4 inputField"
+      clearable={true}
+      component={[Function]}
+      disabled={true}
+      format={null}
+      name="connectedData.apidRawValue"
+      onChange={null}
+      type="text"
+      value=""
+    />
+  </div>
+</ErrorBoundary>
 `;

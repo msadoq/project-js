@@ -68,6 +68,8 @@ import _map from 'lodash/map';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import LinksContainer from 'windowProcess/View/LinksContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './DynamicView.css';
 import { buildFormulaForAutocomplete } from '../../../common';
 import ModalComponent from '../../../../windowProcess/common/ModalComponent';
@@ -410,7 +412,7 @@ export default class DynamicView extends PureComponent {
     const { parameterName } = entryPoints.dynamicEP.dataId;
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
-      <div>
+      <ErrorBoundary>
         <DroppableContainer
           onDrop={this.onDrop}
           onContextMenu={this.onContextMenu}
@@ -446,7 +448,7 @@ export default class DynamicView extends PureComponent {
           </div>
         </DroppableContainer>
         {this.renderModal()}
-      </div>
+      </ErrorBoundary>
     );
   }
 }

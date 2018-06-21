@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: EntryPointActions snapshot 1`] = `
-<div>
+<ErrorBoundary>
   <FormGroup
     bsClass="form-group"
     bsSize="sm"
@@ -55,5 +55,5 @@ exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: 
       </Button>
     </Col>
   </FormGroup>
-</div>
+</ErrorBoundary>
 `;

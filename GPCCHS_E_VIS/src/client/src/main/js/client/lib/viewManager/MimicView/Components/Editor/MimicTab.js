@@ -18,6 +18,8 @@ import {
   Button,
 } from 'react-bootstrap';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import DimensionsContainer from './DimensionsContainer';
 
 const { Panel } = Collapse;
@@ -50,7 +52,7 @@ export default class MimicTab extends React.Component {
     const { panels, viewId } = this.props;
 
     return (
-      <div>
+      <ErrorBoundary>
         <Collapse
           accordion={false}
           onChange={this.onChange}
@@ -82,7 +84,7 @@ export default class MimicTab extends React.Component {
             <Button onClick={() => this.props.closeCodeEditor()} className="center-block mt20">Close HTML Editor</Button> :
             <Button onClick={() => this.props.openCodeEditor(viewId)} className="center-block mt20">Open HTML Editor</Button>
         }
-      </div>
+      </ErrorBoundary>
     );
   }
 }

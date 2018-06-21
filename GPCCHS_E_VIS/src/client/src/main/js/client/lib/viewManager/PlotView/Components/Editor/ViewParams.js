@@ -9,6 +9,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import ViewParamsForm from './ViewParamsForm';
 
 export default class ViewParams extends React.Component {
@@ -124,13 +126,15 @@ export default class ViewParams extends React.Component {
     };
 
     return (
-      <ViewParamsForm
-        initialValues={initVals}
-        onSubmit={this.handleSubmit}
-        form={`view-title-form-${viewId}`}
-        domains={domains}
-        sessions={sessions}
-      />
+      <ErrorBoundary>
+        <ViewParamsForm
+          initialValues={initVals}
+          onSubmit={this.handleSubmit}
+          form={`view-title-form-${viewId}`}
+          domains={domains}
+          sessions={sessions}
+        />
+      </ErrorBoundary>
     );
   }
 }

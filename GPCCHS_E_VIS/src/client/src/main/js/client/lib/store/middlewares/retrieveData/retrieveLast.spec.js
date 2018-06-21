@@ -8,7 +8,8 @@
 
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
-import { /* getLastRecords , */ addRecords } from 'serverProcess/models/lokiKnownRangesData';
+import { PREFIX_KNOWN_RANGES } from 'constants';
+import { /* getLastRecords , */ addRecords } from 'serverProcess/models/lokiGeneric';
 import retrieveLast from './retrieveLast';
 
 let mockResultIpc = {};
@@ -131,10 +132,12 @@ describe('store:middlewares:retrieveLast', () => {
 
   test('Is in interval but no value attached', () => {
     const store = mockStore(store1);
-    addRecords('tbdId1', [{
-      timestamp: 2,
-      payload: '2',
-    }]);
+    addRecords(
+      PREFIX_KNOWN_RANGES,
+      'tbdId1', [{
+        timestamp: 2,
+        payload: '2',
+      }]);
     store.dispatch(viewsNeedLastData(neededLastData2));
     const actions = store.getActions();
     expect(actions.length)
@@ -161,18 +164,22 @@ describe('store:middlewares:retrieveLast', () => {
 
   test('Is in interval and value is present', () => {
     const store = mockStore(store1);
-    addRecords('tbdId1', [{
-      timestamp: 33,
-      payload: '33',
-    },
-    {
-      timestamp: 35,
-      payload: '35',
-    },
-    {
-      timestamp: 38,
-      payload: '38',
-    }]);
+    addRecords(
+      PREFIX_KNOWN_RANGES,
+      'tbdId1', [
+        {
+          timestamp: 33,
+          payload: '33',
+        },
+        {
+          timestamp: 35,
+          payload: '35',
+        },
+        {
+          timestamp: 38,
+          payload: '38',
+        },
+      ]);
     store.dispatch(viewsNeedLastData(neededLastData3));
     const actions = store.getActions();
     expect(actions.length)

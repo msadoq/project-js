@@ -12,7 +12,8 @@
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
 import { getStubData } from 'utils/stubs';
-import lokiManager from 'serverProcess/models/lokiKnownRangesData';
+import lokiManager from 'serverProcess/models/lokiGeneric';
+import { PREFIX_KNOWN_RANGES } from 'constants';
 import prepareRange from './prepareRange';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
@@ -431,7 +432,7 @@ describe('store:middlewares:prepareRange', () => {
   test('tbdId is in dataMap.expectedRange', () => {
     const store = mockStore(store1);
     store.dispatch(incomingRangeData());
-    expect(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'))
+    expect(lokiManager.displayCollection(PREFIX_KNOWN_RANGES, 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'))
       .toMatchObject([
         {
           timestamp: 1420106790820,
@@ -444,12 +445,12 @@ describe('store:middlewares:prepareRange', () => {
       ]);
     const actions = store.getActions();
     const data = {
-      ranges: {
+      [PREFIX_KNOWN_RANGES]: {
         'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {},
       },
     };
-    data.ranges['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][t1] = deprotoRp1;
-    data.ranges['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][t2] = deprotoRp2;
+    data[PREFIX_KNOWN_RANGES]['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][t1] = deprotoRp1;
+    data[PREFIX_KNOWN_RANGES]['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][t2] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
@@ -477,11 +478,11 @@ describe('store:middlewares:prepareRange', () => {
     store.dispatch(incomingDataOneInLast());
     const actions = store.getActions();
     const data = {
-      ranges: {
+      [PREFIX_KNOWN_RANGES]: {
         'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {},
       },
     };
-    data.ranges['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast1] = deprotoRp2;
+    data[PREFIX_KNOWN_RANGES]['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast1] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {
@@ -498,12 +499,12 @@ describe('store:middlewares:prepareRange', () => {
 
     const actions = store.getActions();
     const data = {
-      ranges: {
+      [PREFIX_KNOWN_RANGES]: {
         'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::': {},
       },
     };
-    data.ranges['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast1] = deprotoRp1;
-    data.ranges['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast2] = deprotoRp2;
+    data[PREFIX_KNOWN_RANGES]['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast1] = deprotoRp1;
+    data[PREFIX_KNOWN_RANGES]['Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'][timestampInLast2] = deprotoRp2;
     const expectedPayload = {
       type: 'NEW_DATA',
       payload: {

@@ -10,8 +10,8 @@
 
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
-// import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
-import lokiManager from 'serverProcess/models/lokiKnownRangesData';
+import lokiManager from 'serverProcess/models/lokiGeneric';
+import { PREFIX_KNOWN_RANGES } from 'constants';
 import retrieveRange from './retrieveRange';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
@@ -88,12 +88,12 @@ describe('store:middlewares:retrieveRange', () => {
   });
 
   test('Need range data', () => {
-    lokiManager.addRecord('tbdId1', { timestamp: 3, payload: '3' });
-    lokiManager.addRecord('tbdId1', { timestamp: 4, payload: '4' });
-    lokiManager.addRecord('tbdId1', { timestamp: 5, payload: '5' });
-    lokiManager.addRecord('tbdId1', { timestamp: 6, payload: '6' });
-    lokiManager.addRecord('tbdId1', { timestamp: 7, payload: '7' });
-    lokiManager.addRecord('tbdId1', { timestamp: 8, payload: '8' });
+    lokiManager.addRecord(PREFIX_KNOWN_RANGES, 'tbdId1', { timestamp: 3, payload: '3' });
+    lokiManager.addRecord(PREFIX_KNOWN_RANGES, 'tbdId1', { timestamp: 4, payload: '4' });
+    lokiManager.addRecord(PREFIX_KNOWN_RANGES, 'tbdId1', { timestamp: 5, payload: '5' });
+    lokiManager.addRecord(PREFIX_KNOWN_RANGES, 'tbdId1', { timestamp: 6, payload: '6' });
+    lokiManager.addRecord(PREFIX_KNOWN_RANGES, 'tbdId1', { timestamp: 7, payload: '7' });
+    lokiManager.addRecord(PREFIX_KNOWN_RANGES, 'tbdId1', { timestamp: 8, payload: '8' });
 
     store.dispatch(viewsNeedRangeData());
     const actions = store.getActions();
@@ -102,7 +102,7 @@ describe('store:middlewares:retrieveRange', () => {
         type: 'NEW_DATA',
         payload: {
           data: {
-            ranges: {
+            [PREFIX_KNOWN_RANGES]: {
               tbdId1: {
                 4: '4',
                 5: '5',

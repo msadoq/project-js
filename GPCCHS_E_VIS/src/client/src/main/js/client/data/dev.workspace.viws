@@ -5,15 +5,15 @@
       "type": "documentWindow",
       "title": "Development workspace",
       "geometry": {
-        "w": 1596,
-        "h": 820,
-        "x": 99,
-        "y": 149,
+        "w": 1600,
+        "h": 874,
+        "x": 0,
+        "y": 26,
         "kind": "Absolute"
       },
       "pages": [
         {
-          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/h.vipg",
+          "path": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg",
           "timebarId": "TB1"
         }
       ]

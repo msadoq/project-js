@@ -6,11 +6,8 @@ import {
   getBackgroundColorByDomains,
   getBorderColorForNav,
   getBorderColorForTab,
-<<<<<<< HEAD
-=======
   getStateColorTypes,
   getColorWithDomainDetermination,
->>>>>>> R12-dev
   STATE_COLOR_NOMINAL,
   STATE_COLOR_WARNING,
   STATE_COLOR_ALARM,
@@ -563,8 +560,6 @@ describe('windowProcess', () => {
             .toEqual('#CCC');
         });
       });
-<<<<<<< HEAD
-=======
       describe('getStateColorTypes', () => {
         test('getStateColorTypes :: memoize', () => {
           const firstRun = getStateColorTypes();
@@ -613,7 +608,6 @@ describe('windowProcess', () => {
           )).toEqual('#CCCCCC');
         });
       });
->>>>>>> R12-dev
     });
   });
 });

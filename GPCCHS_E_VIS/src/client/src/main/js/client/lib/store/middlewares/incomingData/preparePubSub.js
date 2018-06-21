@@ -35,10 +35,11 @@ import executionMonitor from 'common/logManager/execution';
 import dataMapGenerator from 'dataManager/map';
 import { newData } from 'store/actions/incomingData';
 import * as types from 'store/types';
+import { PREFIX_KNOWN_RANGES } from 'constants';
 
 const logger = require('../../../common/logManager')('middleware:preparePubSub');
 
-const preparePubSub = lokiKnownRangesManager => ({ dispatch, getState }) => next => (action) => {
+const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
   if (action.type !== types.INCOMING_PUBSUB_DATA
     && action.type !== types.INCOMING_PUBSUBALARM_DATA
@@ -115,7 +116,8 @@ const preparePubSub = lokiKnownRangesManager => ({ dispatch, getState }) => next
               decodedPayload,
               isInIntervals: isTimestampInKnownRanges,
               filters,
-              addRecord: lokiKnownRangesManager.addRecord,
+              addRecord: lokiManager.addRecord,
+              type: PREFIX_KNOWN_RANGES,
             }, payloadsJson);
           }
           execution.stop('process for ranges');
@@ -170,7 +172,7 @@ const preparePubSub = lokiKnownRangesManager => ({ dispatch, getState }) => next
  */
 export const updateFinalPayload = (
   state,
-  { tbdId, timestamp, decodedPayload, isInIntervals, filters, addRecord },
+  { tbdId, timestamp, decodedPayload, isInIntervals, filters, addRecord, type },
   finalPayloads
 ) => {
   const updatedPayloads = finalPayloads;
@@ -180,7 +182,7 @@ export const updateFinalPayload = (
     if (applyFilters(decodedPayload, filters)) {
       // Store data in cache with the current tbdId
       if (addRecord) {
-        addRecord(tbdId, { timestamp, payload: decodedPayload });
+        addRecord(type, tbdId, { timestamp, payload: decodedPayload });
       }
       // Add data to final object with the current tbdId
       if (!updatedPayloads[tbdId]) {

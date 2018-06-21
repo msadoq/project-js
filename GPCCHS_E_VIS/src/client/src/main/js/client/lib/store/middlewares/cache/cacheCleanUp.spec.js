@@ -10,7 +10,8 @@
 // ====================================================================
 
 import configureMockStore from 'redux-mock-store';
-import lokiManager from 'serverProcess/models/lokiKnownRangesData';
+import lokiManager from 'serverProcess/models/lokiGeneric';
+import { PREFIX_KNOWN_RANGES } from 'constants';
 import cleanCache from './cacheCleanUp';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
@@ -257,9 +258,9 @@ describe('cacheCleanup', () => {
     payload: 'payload',
   }];
   test('cacheClean', () => {
-    lokiManager.addRecords('Reporting.STAT_SU_PID<ReportingParameter>:1:1:::', data);
+    lokiManager.addRecords(PREFIX_KNOWN_RANGES, 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::', data);
     store.dispatch(lambdaAction());
-    expect(lokiManager.displayCollection('Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'))
+    expect(lokiManager.displayCollection(PREFIX_KNOWN_RANGES, 'Reporting.STAT_SU_PID<ReportingParameter>:1:1:::'))
     .toMatchObject([
       {
         timestamp: 12,

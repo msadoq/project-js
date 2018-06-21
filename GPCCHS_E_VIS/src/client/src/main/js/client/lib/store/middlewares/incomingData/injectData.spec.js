@@ -9,6 +9,7 @@
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
 import dataMapGenerator from 'dataManager/map';
+import { PREFIX_KNOWN_RANGES } from 'constants';
 import injectData from './injectData';
 
 
@@ -252,7 +253,7 @@ const store1 = {
 describe('store:middlewares:injectData', () => {
   const timestamp = '1502433311413';
   const data = {
-    ranges: {
+    [PREFIX_KNOWN_RANGES]: {
       'Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4': {
         [timestamp]: {
           truc: 'truc',
@@ -278,7 +279,6 @@ describe('store:middlewares:injectData', () => {
     expect(actions[1].payload.oldExpectedRangeIntervals).toMatchObject({});
     expect(actions[1].payload.newExpectedRangeIntervals)
     .toMatchObject(dataMap.expectedRangeIntervals);
-    // expect(actions[0].payload.dataToInject).toMatchObject([data]);
 
     expect(actions[2]).toHaveProperty('type', 'INJECT_DATA_LAST');
     expect(actions[2].payload.oldViewMap).toMatchObject({});
@@ -286,6 +286,5 @@ describe('store:middlewares:injectData', () => {
     expect(actions[2].payload.oldExpectedLastIntervals).toMatchObject({});
     expect(actions[2].payload.newExpectedLastIntervals)
     .toMatchObject(dataMap.expectedLastIntervals);
-    // expect(actions[1].payload.dataToInject).toMatchObject([data]);
   });
 });

@@ -363,4 +363,11 @@ module.exports = {
 
   // list of view's type for search
   SEARCH_VIEWS_TYPE: ['TextView', 'PlotView', 'MimicView'],
+
+  // list of prefix cacheIds
+  PREFIX_KNOWN_RANGES: 'knownRanges',
+  PREFIX_OBSOLETE_EVENTS: 'ObsoleteEvents',
+  PREFIX_LASTS: 'lasts',
+  PREFIX_PUS_MODELS: 'pusModels',
+  PREFIX_PUS_DELTAS: 'pusDeltas',
 };

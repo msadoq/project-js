@@ -7,6 +7,8 @@ import {
   TEST_ASK_FAKE_DATA,
 } from 'store/types';
 
+import createScopedDataReducer from './createScopedDataReducer';
+
 const DATA_STATE_KEY = 'state';
 
 /**
@@ -54,7 +56,7 @@ export const _shouldKeepElement = (el, filters = {}) => {
   let ret = true;
 // eslint-disable-next-line no-restricted-syntax
   for (const filterKey of Object.keys(filters)) {
-    if (el[filterKey] && el[filterKey].indexOf(filters[filterKey]) === -1) {
+    if (el[filterKey] && `${el[filterKey]}`.indexOf(filters[filterKey]) === -1) {
       ret = false;
       break;
     }
@@ -89,7 +91,7 @@ const _updateKeptIndexes = (tableState) => {
   );
 };
 
-const _getTableStateFromViewSubState =
+const _getTableState =
   (state, tableId) =>
     _.getOr({ data: [], keep: [] }, tableId, state);
 
@@ -108,7 +110,7 @@ export const injectData = (
   tableId,
   source
 ) => {
-  let tableState = _getTableStateFromViewSubState(state, tableId);
+  let tableState = _getTableState(state, tableId);
 
   const colName = _.get([DATA_STATE_KEY, 'sort']);
   const filters = _.getOr({}, [DATA_STATE_KEY, 'filters']);
@@ -159,7 +161,7 @@ export const injectData = (
  * @return {object} the updated state
  */
 export const removeData = (state, tableId, cond) => {
-  let tableState = _getTableStateFromViewSubState(state, tableId);
+  let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
     _.get('data', tableState).filter((e, i) => !cond(e, i)),
@@ -184,7 +186,7 @@ export const removeData = (state, tableId, cond) => {
  * @returns {void|*|{}}
  */
 export const mapData = (state, tableId, mapFunc) => {
-  let tableState = _getTableStateFromViewSubState(state, tableId);
+  let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
     _.get('data', tableState).map((e, i) => mapFunc(e, i)),
@@ -216,7 +218,7 @@ export const purgeData = (state, tableId) => removeData(state, tableId, () => tr
  * @param dataState
  * @param action
  */
-export default (dataState = {}, action) => {
+const scopedCommonReducer = (dataState = {}, action) => {
   const tableInitialState = { state: {}, data: [], keep: [] };
 
   switch (action.type) {
@@ -227,9 +229,11 @@ export default (dataState = {}, action) => {
     case WS_VIEW_TABLE_UPDATE_SORT: {
       const { tableId, colName } = action.payload;
 
+      const tablePath = ['tables', tableId];
+
       let tableState = _.getOr(
         tableInitialState,
-        ['tables', tableId],
+        tablePath,
         dataState
       );
 
@@ -247,7 +251,11 @@ export default (dataState = {}, action) => {
 
       tableState = _updateKeptIndexes(tableState);
 
-      return _.set(tableId, tableState, dataState);
+      return _.set(
+        tablePath,
+        tableState,
+        dataState
+      );
     }
     case WS_VIEW_CHANGE_COL_FILTERS: {
       const { tableId, filters } = action.payload;
@@ -281,16 +289,27 @@ export default (dataState = {}, action) => {
         return {};
       }
 
-      const fakeData = [...new Array(length)].map(
-        (e, index) => (
-          {
-            ...Object.keys(format).reduce(
-              (acc, cur, i) => ({ ...acc, [cur]: `${cur}-${i}-${format[cur]}` }), {}
-            ),
-            index,
-          }
-        )
-      );
+      let fakeData = [];
+
+      if (Array.isArray(format)) {
+        fakeData = format;
+      } else if (typeof format === 'object') {
+        fakeData = [...new Array(length)].map(
+          (e, index) => (
+            {
+              ...Object.keys(format).reduce(
+                (acc, cur, i) =>
+                  ({
+                    ...acc,
+                    [cur]: `${cur}-${i}-${format[cur]}`,
+                  }),
+                {}
+              ),
+              index,
+            }
+          )
+        );
+      }
 
       return injectData(dataState, tableId, fakeData);
     }
@@ -298,3 +317,5 @@ export default (dataState = {}, action) => {
       return dataState;
   }
 };
+
+export default createScopedDataReducer(scopedCommonReducer);

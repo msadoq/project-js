@@ -19,10 +19,12 @@
 import * as types from 'store/types';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
 import cleanCurrentViewData from './cleanViewData';
+import createScopedDataReducer from '../../commonData/createScopedDataReducer';
+import { VM_VIEW_HISTORY } from '../../constants';
 
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default function historyViewData(state = {}, action) {
+const historyViewDataReducer = (state = {}, action) => {
   switch (action.type) {
     case types.INJECT_DATA_RANGE: {
       const { viewId, dataToInject, newViewMap, newExpectedRangeIntervals }
@@ -56,9 +58,8 @@ export default function historyViewData(state = {}, action) {
     default:
       return state;
   }
-}
-
-export const getHistoryViewData = state => state.HistoryViewData;
+};
 
 export const getData = (state, { viewId }) => state.HistoryViewData[viewId];
-export const getConfiguration = (state, { viewId }) => state.HistoryViewConfiguration[viewId];
+
+export default createScopedDataReducer(historyViewDataReducer, {}, VM_VIEW_HISTORY);

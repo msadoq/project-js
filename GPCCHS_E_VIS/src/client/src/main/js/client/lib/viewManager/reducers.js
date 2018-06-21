@@ -71,10 +71,7 @@ const createViewConfigurationReducer = ([type, reducer]) => ([
 
 const createViewDataReducer = ([type, reducer]) => ([
   type,
-  createReducerByViews(
-    composeReducers(reducer, commonDataReducer),
-    type
-  ),
+  composeReducers(reducer, commonDataReducer),
 ]);
 
 const createReducers = (createCommonReducer, suffix) => _.pipe(

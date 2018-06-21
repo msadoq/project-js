@@ -23,6 +23,7 @@ const mapStateToProps = (state, { viewId }) => {
 
 const mapDispatchToProps = {
   openModal,
+  askFakeData,
 };
 
 const PUS11ViewContainer = connect(mapStateToProps, mapDispatchToProps)(PUS11View);

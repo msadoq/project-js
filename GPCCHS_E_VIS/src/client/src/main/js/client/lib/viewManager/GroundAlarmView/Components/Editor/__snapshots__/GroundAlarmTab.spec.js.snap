@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`GroundAlarmTab :: render snapshot 1`] = `
-<div>
+<ErrorBoundary>
   <Collapse
     accordion={false}
     defaultActiveKey={Array []}
@@ -28,5 +28,5 @@ exports[`GroundAlarmTab :: render snapshot 1`] = `
       showArrow={true}
     />
   </Collapse>
-</div>
+</ErrorBoundary>
 `;

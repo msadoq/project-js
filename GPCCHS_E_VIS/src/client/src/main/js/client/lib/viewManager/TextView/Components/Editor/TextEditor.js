@@ -41,26 +41,26 @@ import { Misc } from 'viewManager/commonEditor/Misc';
 import styles from 'viewManager/commonEditor/Editor.css';
 import TextTabContainer from 'viewManager/TextView/Components/Editor/TextTabContainer';
 import DataViewEntryPointsContainer from 'viewManager/commonEditor/EntryPoint/DataViewEntryPointsContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 const navBarItems = ['Entry Points', 'Text', 'Misc'];
-const { string, number, func, shape, array } = PropTypes;
 
 export default class Editor extends Component {
   static propTypes = {
-    search: string,
-    viewId: string.isRequired,
-    pageId: string.isRequired,
+    search: PropTypes.string,
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     // from container mapStateToProps
-    title: string,
-    configuration: shape({
-      entryPoints: array,
+    title: PropTypes.string,
+    configuration: PropTypes.shape({
+      entryPoints: PropTypes.array,
     }).isRequired,
-    panels: shape({}).isRequired,
-    tab: number,
+    panels: PropTypes.shape({}).isRequired,
+    tab: PropTypes.number,
     // from container mapDispatchToProps
-    openModal: func.isRequired,
-    updateViewTab: func.isRequired,
-    updateViewPanels: func.isRequired,
+    openModal: PropTypes.func.isRequired,
+    updateViewTab: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
   };
   static defaultProps = {
     tab: null,
@@ -87,46 +87,48 @@ export default class Editor extends Component {
     } = this.props;
 
     return (
-      <div className={styles.contentWrapper}>
-        <h4
-          className="text-center mb10"
-        >
-          <span className="mr5 EditorVignette" />
-          <b>{title}</b>
-        </h4>
-        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
-        <Navbar
-          currentDisplay={tab === null ? 0 : tab}
-          items={navBarItems}
-          changeCurrentDisplay={this.changeCurrentDisplay}
-        />
-        <div className={styles.content}>
-          {(tab === 0 || tab === null) && <div>
-            <DataViewEntryPointsContainer
-              entryPoints={entryPoints}
-              viewId={viewId}
-              pageId={pageId}
-              search={search}
-              viewType={'TextView'}
-            />
-          </div>}
-          {
-            tab === 1 &&
-            <TextTabContainer
-              viewId={viewId}
-              updateViewPanels={updateViewPanels}
-              panels={panels}
-            />
-          }
-          {tab === 2 &&
-            <Misc
-              updateViewPanels={updateViewPanels}
-              viewId={viewId}
-              panels={panels}
-              openModal={openModal}
-            />}
+      <ErrorBoundary>
+        <div className={styles.contentWrapper}>
+          <h4
+            className="text-center mb10"
+          >
+            <span className="mr5 EditorVignette" />
+            <b>{title}</b>
+          </h4>
+          <ReloadAndSaveViewButtonsContainer viewId={viewId} />
+          <Navbar
+            currentDisplay={tab === null ? 0 : tab}
+            items={navBarItems}
+            changeCurrentDisplay={this.changeCurrentDisplay}
+          />
+          <div className={styles.content}>
+            {(tab === 0 || tab === null) && <div>
+              <DataViewEntryPointsContainer
+                entryPoints={entryPoints}
+                viewId={viewId}
+                pageId={pageId}
+                search={search}
+                viewType={'TextView'}
+              />
+            </div>}
+            {
+              tab === 1 &&
+              <TextTabContainer
+                viewId={viewId}
+                updateViewPanels={updateViewPanels}
+                panels={panels}
+              />
+            }
+            {tab === 2 &&
+              <Misc
+                updateViewPanels={updateViewPanels}
+                viewId={viewId}
+                panels={panels}
+                openModal={openModal}
+              />}
+          </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

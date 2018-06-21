@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PUS11Tab :: render snapshot 1`] = `
-<div>
+<ErrorBoundary>
   <Collapse
     accordion={false}
     defaultActiveKey={Array []}
@@ -9,6 +9,15 @@ exports[`PUS11Tab :: render snapshot 1`] = `
     onChange={[Function]}
     prefixCls="rc-collapse"
   >
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Parameters"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
     <CollapsePanel
       destroyInactivePanel={false}
       forceRender={false}
@@ -37,5 +46,5 @@ exports[`PUS11Tab :: render snapshot 1`] = `
       showArrow={true}
     />
   </Collapse>
-</div>
+</ErrorBoundary>
 `;

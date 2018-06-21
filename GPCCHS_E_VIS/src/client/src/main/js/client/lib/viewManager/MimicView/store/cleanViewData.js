@@ -40,7 +40,7 @@ export default function cleanCurrentViewData(
     return currentViewState;
   }
   // new visible view
-  if (!oldViewDef || !currentViewState || !Object.keys(currentViewState.index).length) {
+  if (!oldViewDef || !currentViewState || !Object.keys(currentViewState.index || {}).length) {
     return currentViewState;
   }
   // invisible view

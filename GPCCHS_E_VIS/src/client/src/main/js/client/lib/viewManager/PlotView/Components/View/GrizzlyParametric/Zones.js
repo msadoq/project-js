@@ -22,39 +22,39 @@ import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import _throttle from 'lodash/throttle';
 import _get from 'lodash/get';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 import { divStyleType } from './types';
 
-const { number, shape, bool, string, arrayOf, func } = PropTypes;
-
 export default class Zones extends Component {
   static propTypes = {
-    yAxes: arrayOf(
-      shape
+    yAxes: PropTypes.arrayOf(
+      PropTypes.shape
     ).isRequired,
-    xAxes: arrayOf(
-      shape
+    xAxes: PropTypes.arrayOf(
+      PropTypes.shape
     ).isRequired,
-    yAxisWidth: number.isRequired,
-    xAxisHeight: number.isRequired,
-    height: number.isRequired,
-    width: number.isRequired,
-    yAxesInteractive: bool.isRequired,
-    xAxesInteractive: bool.isRequired,
-    shiftPressed: bool.isRequired,
-    lassoing: bool.isRequired,
-    lassoX: number,
-    lassoY: number,
-    lassoOriginX: number,
-    lassoOriginY: number,
-    yAxesAt: string.isRequired,
-    xAxesAt: string.isRequired,
+    yAxisWidth: PropTypes.number.isRequired,
+    xAxisHeight: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    yAxesInteractive: PropTypes.bool.isRequired,
+    xAxesInteractive: PropTypes.bool.isRequired,
+    shiftPressed: PropTypes.bool.isRequired,
+    lassoing: PropTypes.bool.isRequired,
+    lassoX: PropTypes.number,
+    lassoY: PropTypes.number,
+    lassoOriginX: PropTypes.number,
+    lassoOriginY: PropTypes.number,
+    yAxesAt: PropTypes.string.isRequired,
+    xAxesAt: PropTypes.string.isRequired,
     divStyle: divStyleType.isRequired,
-    setPan: func.isRequired,
-    pans: shape().isRequired,
-    zoomLevels: shape().isRequired,
-    allowYPan: bool.isRequired,
-    allowXPan: bool.isRequired,
+    setPan: PropTypes.func.isRequired,
+    pans: PropTypes.shape().isRequired,
+    zoomLevels: PropTypes.shape().isRequired,
+    allowYPan: PropTypes.bool.isRequired,
+    allowXPan: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -246,92 +246,94 @@ export default class Zones extends Component {
     });
 
     return (
-      <div
-        className={styles.Zones}
-        style={{
-          width,
-          height,
-          top: xAxesAt === 'top' ? xAxisHeight : 0,
-        }}
-      >
-        { /*
-          Y Axes area
-        */ }
-        {yAxesInteractive && !shiftPressed && yAxesAt === 'left' && yAxes.map((axis, index) =>
-          <div
-            className={classnames(styles.ZonesYAxis, styles.ZonesAxis)}
-            ref={this.memoizedAxesRefs[axis.id]}
-            key={axis.id}
-            style={{
-              width: yAxisWidth,
-              height: height - (xAxes.length * xAxisHeight),
-              top: xAxesAt === 'top' ? (xAxes.length - 1) * xAxisHeight : 0,
-              left: ((yAxes.length - 1) * yAxisWidth) - (index * yAxisWidth),
-            }}
-          />
-        )}
-        {yAxesInteractive && !shiftPressed && yAxesAt === 'right' && yAxes.map((axis, index) =>
-          <div
-            className={classnames(styles.ZonesYAxis, styles.ZonesAxis)}
-            key={axis.id}
-            ref={this.memoizedAxesRefs[axis.id]}
-            style={{
-              width: yAxisWidth,
-              height: height - (xAxes.length * xAxisHeight),
-              top: xAxesAt === 'top' ? (xAxes.length - 1) * xAxisHeight : 0,
-              right: ((yAxes.length - 1) * yAxisWidth) - (index * yAxisWidth),
-            }}
-          />
-        )}
-        {xAxesInteractive && !shiftPressed && xAxesAt === 'top' && xAxes.map((axis, index) =>
-          <div
-            className={classnames(styles.ZonesXAxis, styles.ZonesAxis)}
-            key={axis.id}
-            ref={this.memoizedAxesRefs[axis.id]}
-            style={{
-              height: xAxisHeight,
-              width: width - ((xAxes.length - 1) * yAxisWidth),
-              left: yAxesAt === 'left' ? yAxes.length * yAxisWidth : 0,
-              top: (xAxes.length - index - 1) * xAxisHeight,
-            }}
-          />
-        )}
-        {xAxesInteractive && !shiftPressed && xAxesAt === 'bottom' && xAxes.map((axis, index) =>
-          <div
-            className={classnames(styles.ZonesXAxis, styles.ZonesAxis)}
-            key={axis.id}
-            ref={this.memoizedAxesRefs[axis.id]}
-            style={{
-              height: xAxisHeight,
-              width: width - ((xAxes.length - 1) * yAxisWidth),
-              left: yAxesAt === 'left' ? yAxes.length * yAxisWidth : 0,
-              bottom: (xAxes.length - index - 1) * xAxisHeight,
-            }}
-          />
-        )}
-        {
-          shiftPressed &&
-          <div
-            className={styles.ZonesChartLasso}
-            style={divStyle}
-          >
-            {
-              lassoing &&
-              <div className={styles.ZonesChartLassoRectangleDiv}>
-                <div
-                  className={styles.ZonesChartLassoRectangle}
-                  style={{
-                    width: Math.abs(lassoX),
-                    height: Math.abs(lassoY),
-                    top: lassoY < 0 ? lassoOriginY + lassoY : lassoOriginY,
-                    left: lassoX < 0 ? lassoOriginX + lassoX : lassoOriginX,
-                  }}
-                />
-              </div>
-            }
-          </div>
-        }
-      </div>
+      <ErrorBoundary>
+        <div
+          className={styles.Zones}
+          style={{
+            width,
+            height,
+            top: xAxesAt === 'top' ? xAxisHeight : 0,
+          }}
+        >
+          { /*
+            Y Axes area
+          */ }
+          {yAxesInteractive && !shiftPressed && yAxesAt === 'left' && yAxes.map((axis, index) =>
+            <div
+              className={classnames(styles.ZonesYAxis, styles.ZonesAxis)}
+              ref={this.memoizedAxesRefs[axis.id]}
+              key={axis.id}
+              style={{
+                width: yAxisWidth,
+                height: height - (xAxes.length * xAxisHeight),
+                top: xAxesAt === 'top' ? (xAxes.length - 1) * xAxisHeight : 0,
+                left: ((yAxes.length - 1) * yAxisWidth) - (index * yAxisWidth),
+              }}
+            />
+          )}
+          {yAxesInteractive && !shiftPressed && yAxesAt === 'right' && yAxes.map((axis, index) =>
+            <div
+              className={classnames(styles.ZonesYAxis, styles.ZonesAxis)}
+              key={axis.id}
+              ref={this.memoizedAxesRefs[axis.id]}
+              style={{
+                width: yAxisWidth,
+                height: height - (xAxes.length * xAxisHeight),
+                top: xAxesAt === 'top' ? (xAxes.length - 1) * xAxisHeight : 0,
+                right: ((yAxes.length - 1) * yAxisWidth) - (index * yAxisWidth),
+              }}
+            />
+          )}
+          {xAxesInteractive && !shiftPressed && xAxesAt === 'top' && xAxes.map((axis, index) =>
+            <div
+              className={classnames(styles.ZonesXAxis, styles.ZonesAxis)}
+              key={axis.id}
+              ref={this.memoizedAxesRefs[axis.id]}
+              style={{
+                height: xAxisHeight,
+                width: width - ((xAxes.length - 1) * yAxisWidth),
+                left: yAxesAt === 'left' ? yAxes.length * yAxisWidth : 0,
+                top: (xAxes.length - index - 1) * xAxisHeight,
+              }}
+            />
+          )}
+          {xAxesInteractive && !shiftPressed && xAxesAt === 'bottom' && xAxes.map((axis, index) =>
+            <div
+              className={classnames(styles.ZonesXAxis, styles.ZonesAxis)}
+              key={axis.id}
+              ref={this.memoizedAxesRefs[axis.id]}
+              style={{
+                height: xAxisHeight,
+                width: width - ((xAxes.length - 1) * yAxisWidth),
+                left: yAxesAt === 'left' ? yAxes.length * yAxisWidth : 0,
+                bottom: (xAxes.length - index - 1) * xAxisHeight,
+              }}
+            />
+          )}
+          {
+            shiftPressed &&
+            <div
+              className={styles.ZonesChartLasso}
+              style={divStyle}
+            >
+              {
+                lassoing &&
+                <div className={styles.ZonesChartLassoRectangleDiv}>
+                  <div
+                    className={styles.ZonesChartLassoRectangle}
+                    style={{
+                      width: Math.abs(lassoX),
+                      height: Math.abs(lassoY),
+                      top: lassoY < 0 ? lassoOriginY + lassoY : lassoOriginY,
+                      left: lassoX < 0 ? lassoOriginX + lassoX : lassoOriginX,
+                    }}
+                  />
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </ErrorBoundary>
     );
   }
 }

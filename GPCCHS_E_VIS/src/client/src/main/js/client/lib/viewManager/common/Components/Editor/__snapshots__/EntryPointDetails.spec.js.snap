@@ -1,57 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager viewManager/common viewManager/common/Components viewManager/common/Components/Editor viewManager/common/Components/Editor/EntryPointDetails EntryPointDetails :: snapshot 1`] = `
-<Collapse
-  accordion={false}
-  defaultActiveKey={Array []}
-  destroyInactivePanel={false}
-  onChange={[Function]}
-  prefixCls="rc-collapse"
->
-  <CollapsePanel
+<ErrorBoundary>
+  <Collapse
+    accordion={false}
+    defaultActiveKey={Array []}
     destroyInactivePanel={false}
-    forceRender={false}
-    header="Name"
-    headerClass=""
-    isActive={false}
-    onItemClick={[Function]}
-    showArrow={true}
-  />
-  <CollapsePanel
-    destroyInactivePanel={false}
-    forceRender={false}
-    header="Connected data"
-    headerClass=""
-    isActive={false}
-    onItemClick={[Function]}
-    showArrow={true}
-  />
-  <CollapsePanel
-    destroyInactivePanel={false}
-    forceRender={false}
-    header="Unit"
-    headerClass=""
-    isActive={false}
-    onItemClick={[Function]}
-    showArrow={true}
-  />
-  <CollapsePanel
-    destroyInactivePanel={false}
-    forceRender={false}
-    header="Filter"
-    headerClass=""
-    isActive={false}
-    onItemClick={[Function]}
-    showArrow={true}
-  />
-  <CollapsePanel
-    destroyInactivePanel={false}
-    forceRender={false}
-    header="State colors"
-    headerClass=""
-    isActive={false}
-    onItemClick={[Function]}
-    showArrow={true}
-  />
-</Collapse>
+    onChange={[Function]}
+    prefixCls="rc-collapse"
+  >
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Name"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Connected data"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Unit"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Filter"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="State colors"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+  </Collapse>
+</ErrorBoundary>
 `;

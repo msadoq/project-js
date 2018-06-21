@@ -7,48 +7,49 @@ import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAn
 import styles from 'viewManager/commonEditor/Editor.css';
 import WithForm from 'viewManager/common/Hoc/WithForm';
 import DefaultPusDataContainer from 'viewManager/commonEditor/DefaultPusDataContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import { entryPointType, TableConfigurationColumnType } from '../../../common/Components/types';
 import PUS05TabContainer from './PUS05TabContainer';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
-const { string, number, bool, shape, func, arrayOf } = PropTypes;
 
 export default class PUS05Editor extends Component {
   static propTypes = {
     // own props
-    viewId: string.isRequired,
-    pageId: string.isRequired,
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
     // Container's mapStateToProps
-    title: string,
-    titleStyle: shape({
-      align: string,
-      bgColor: string,
-      bold: bool,
-      color: string,
-      font: string,
-      italic: bool,
-      size: number,
-      strikeOut: bool,
-      underline: bool,
+    title: PropTypes.string,
+    titleStyle: PropTypes.shape({
+      align: PropTypes.string,
+      bgColor: PropTypes.string,
+      bold: PropTypes.bool,
+      color: PropTypes.string,
+      font: PropTypes.string,
+      italic: PropTypes.bool,
+      size: PropTypes.number,
+      strikeOut: PropTypes.bool,
+      underline: PropTypes.bool,
     }),
-    configuration: shape({
-      entryPoints: arrayOf(entryPointType),
-      tables: shape({
-        onBoardEvents: shape({
-          cols: arrayOf(TableConfigurationColumnType).isRequired,
+    configuration: PropTypes.shape({
+      entryPoints: PropTypes.arrayOf(entryPointType),
+      tables: PropTypes.shape({
+        onBoardEvents: PropTypes.shape({
+          cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
-        receivedOnBoardEvents: shape({
-          cols: arrayOf(TableConfigurationColumnType).isRequired,
+        receivedOnBoardEvents: PropTypes.shape({
+          cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
       }).isRequired,
     }).isRequired,
-    tab: number,
-    panels: shape({}).isRequired,
+    tab: PropTypes.number,
+    panels: PropTypes.shape({}).isRequired,
     // Container's mapDispatchToProps
-    updateEntryPoint: func.isRequired,
-    updateViewTab: func.isRequired,
-    updateViewPanels: func.isRequired,
-    openModal: func.isRequired,
+    updateEntryPoint: PropTypes.func.isRequired,
+    updateViewTab: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -103,45 +104,47 @@ export default class PUS05Editor extends Component {
 
     const { PUS05EditorForm } = this.state;
     return (
-      <div className={styles.contentWrapper}>
-        <h4
-          className="text-center mb10"
-        >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
-          <b>{title}</b>
-        </h4>
-        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
-        <Navbar
-          currentDisplay={tab === null ? 0 : tab}
-          changeCurrentDisplay={this.changeCurrentDisplay}
-          items={navItems}
-        />
-        <div className={styles.content}>
-          {(tab === 0 || tab === null) && <div className={styles.content}>
-            <PUS05EditorForm
-              viewId={viewId}
-              pageId={pageId}
-              form={`entrypoint-connectedData-form-${viewId}`}
-              onSubmit={this.handleSubmit}
-              initialValues={initialValues}
-            />
-          </div>}
-          {
-            tab === 1 &&
-            <PUS05TabContainer
-              viewId={viewId}
-              panels={panels}
-            />
-          }
-          {tab === 2 &&
-            <Misc
-              updateViewPanels={updateViewPanels}
-              viewId={viewId}
-              panels={panels}
-              openModal={openModal}
-            />}
+      <ErrorBoundary>
+        <div className={styles.contentWrapper}>
+          <h4
+            className="text-center mb10"
+          >
+            <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+            <b>{title}</b>
+          </h4>
+          <ReloadAndSaveViewButtonsContainer viewId={viewId} />
+          <Navbar
+            currentDisplay={tab === null ? 0 : tab}
+            changeCurrentDisplay={this.changeCurrentDisplay}
+            items={navItems}
+          />
+          <div className={styles.content}>
+            {(tab === 0 || tab === null) && <div className={styles.content}>
+              <PUS05EditorForm
+                viewId={viewId}
+                pageId={pageId}
+                form={`entrypoint-connectedData-form-${viewId}`}
+                onSubmit={this.handleSubmit}
+                initialValues={initialValues}
+              />
+            </div>}
+            {
+              tab === 1 &&
+              <PUS05TabContainer
+                viewId={viewId}
+                panels={panels}
+              />
+            }
+            {tab === 2 &&
+              <Misc
+                updateViewPanels={updateViewPanels}
+                viewId={viewId}
+                panels={panels}
+                openModal={openModal}
+              />}
+          </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

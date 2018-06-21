@@ -2,31 +2,31 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classnames from 'classnames';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 import { lineType, labelStyleType } from './types';
 
-const { shape, string, func, bool, arrayOf, oneOf, number } = PropTypes;
-
 export default class Axis extends Component {
   static propTypes = {
-    direction: oneOf(['horizontal', 'vertical']).isRequired,
-    lines: arrayOf(lineType.isRequired).isRequired,
+    direction: PropTypes.oneOf(['horizontal', 'vertical']).isRequired,
+    lines: PropTypes.arrayOf(lineType.isRequired).isRequired,
     // showLabels: bool,
-    label: string.isRequired,
-    height: number.isRequired,
-    xAxisHeight: number.isRequired,
-    index: number.isRequired,
-    showGrid: bool,
-    chartWidth: number.isRequired,
-    yAxisWidth: number.isRequired,
-    labelStyle: shape(labelStyleType.isRequired),
-    margin: number.isRequired,
-    yAxesAt: string,
-    xAxesAt: string,
-    assignLabelEl: func.isRequired,
-    assignEl: func.isRequired,
-    memoizeAssignRef: func.isRequired,
-    side: number.isRequired,
+    label: PropTypes.string.isRequired,
+    height: PropTypes.number.isRequired,
+    xAxisHeight: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
+    showGrid: PropTypes.bool,
+    chartWidth: PropTypes.number.isRequired,
+    yAxisWidth: PropTypes.number.isRequired,
+    labelStyle: PropTypes.shape(labelStyleType.isRequired),
+    margin: PropTypes.number.isRequired,
+    yAxesAt: PropTypes.string,
+    xAxesAt: PropTypes.string,
+    assignLabelEl: PropTypes.func.isRequired,
+    assignEl: PropTypes.func.isRequired,
+    memoizeAssignRef: PropTypes.func.isRequired,
+    side: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -126,46 +126,48 @@ export default class Axis extends Component {
       axisClassName = styles.xAxis;
     }
     return (
-      <div
-        style={divStyle}
-        className={divClassName}
-      >
-        <span
-          ref={assignLabelEl}
-          className={classnames(
-            'label',
-            axisLabel,
-            {
-              [styles.labelUnderline]: labelStyle.underline,
-              [styles.labelBold]: labelStyle.bold,
-              [styles.labelItalic]: labelStyle.italic,
-            }
-          )}
+      <ErrorBoundary>
+        <div
+          style={divStyle}
+          className={divClassName}
         >
-          { label }
-        </span>
-        {
-          lines.map(line =>
-            <span
-              key={line.id}
-              className={classnames(
-                'label',
-                line.highlighted ? styles.highlighted : '',
-                lineLabel,
-                { hidden: _.isEmpty(line.data) || !line.displayLine }
-              )}
-              ref={memoizeAssignRef(line.id)}
-            >
-              {line.id} ({line.unit})
-            </span>
-          )
-        }
-        <svg
-          style={style}
-          ref={assignEl}
-          className={axisClassName}
-        />
-      </div>
+          <span
+            ref={assignLabelEl}
+            className={classnames(
+              'label',
+              axisLabel,
+              {
+                [styles.labelUnderline]: labelStyle.underline,
+                [styles.labelBold]: labelStyle.bold,
+                [styles.labelItalic]: labelStyle.italic,
+              }
+            )}
+          >
+            { label }
+          </span>
+          {
+            lines.map(line =>
+              <span
+                key={line.id}
+                className={classnames(
+                  'label',
+                  line.highlighted ? styles.highlighted : '',
+                  lineLabel,
+                  { hidden: _.isEmpty(line.data) || !line.displayLine }
+                )}
+                ref={memoizeAssignRef(line.id)}
+              >
+                {line.id} ({line.unit})
+              </span>
+            )
+          }
+          <svg
+            style={style}
+            ref={assignEl}
+            className={axisClassName}
+          />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

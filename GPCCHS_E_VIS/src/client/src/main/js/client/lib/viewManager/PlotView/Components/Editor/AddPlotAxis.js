@@ -38,6 +38,8 @@ import InputField from 'windowProcess/commonReduxForm/InputField';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import FormSectionFontStyle from 'viewManager/commonEditor/FormSections/FormSectionFontStyle';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './Plot.css';
 import { validateRequiredFields } from '../../../common';
 
@@ -134,75 +136,77 @@ class AddPlotAxis extends PureComponent {
 
     if (axisId === 'time') {
       return (
-        <Form
-          horizontal
-          onSubmit={handleSubmit}
-          className={classnames(
-            { 'redux-form-dirty': !pristine },
-            'redux-form-padded'
-          )}
-        >
-          <ClearSubmitButtons
-            pristine={pristine}
-            submitting={submitting}
-            reset={reset}
-            valid={valid}
-          />
-          {
-            relatedEntryPoints.length ?
-              <div>
-                <div className="page-header">
-                  <h4>Linked entry points</h4>
-                </div>
-                {relatedEntryPoints}
-              </div>
-              : null
-          }
-          <div className="page-header">
-            <h4>Name and Unit</h4>
-          </div>
-          <HorizontalFormGroup label="Label">
-            <span>{initialValues.label}</span>
-          </HorizontalFormGroup>
-          <HorizontalFormGroup label="Unit">
-            <span>{initialValues.unit}</span>
-          </HorizontalFormGroup>
-          <div className="page-header">
-            <h4>Style</h4>
-          </div>
-          <FormSectionFontStyle name="style" />
-          <div className="page-header">
-            <h4>Parameters</h4>
-          </div>
-          <HorizontalFormGroup label="Show ticks">
-            <Field
-              name="showTicks"
-              component={ButtonToggleField}
-              styleOff="warning"
+        <ErrorBoundary>
+          <Form
+            horizontal
+            onSubmit={handleSubmit}
+            className={classnames(
+              { 'redux-form-dirty': !pristine },
+              'redux-form-padded'
+            )}
+          >
+            <ClearSubmitButtons
+              pristine={pristine}
+              submitting={submitting}
+              reset={reset}
+              valid={valid}
             />
-          </HorizontalFormGroup>
-          { showTicks &&
-            <HorizontalFormGroup label="Auto Tick">
+            {
+              relatedEntryPoints.length ?
+                <div>
+                  <div className="page-header">
+                    <h4>Linked entry points</h4>
+                  </div>
+                  {relatedEntryPoints}
+                </div>
+                : null
+            }
+            <div className="page-header">
+              <h4>Name and Unit</h4>
+            </div>
+            <HorizontalFormGroup label="Label">
+              <span>{initialValues.label}</span>
+            </HorizontalFormGroup>
+            <HorizontalFormGroup label="Unit">
+              <span>{initialValues.unit}</span>
+            </HorizontalFormGroup>
+            <div className="page-header">
+              <h4>Style</h4>
+            </div>
+            <FormSectionFontStyle name="style" />
+            <div className="page-header">
+              <h4>Parameters</h4>
+            </div>
+            <HorizontalFormGroup label="Show ticks">
               <Field
-                name="autoTick"
+                name="showTicks"
                 component={ButtonToggleField}
                 styleOff="warning"
               />
             </HorizontalFormGroup>
-          }
-          { showTicks && !autoTick &&
-            <HorizontalFormGroup label="Tick step (ms)">
-              <Field
-                name="tickStep"
-                component={InputField}
-                className="form-control input-sm"
-                normalize={val => parseInt(val, 10).toString()}
-                type="number"
-                step="any"
-              />
-            </HorizontalFormGroup>
-          }
-        </Form>
+            { showTicks &&
+              <HorizontalFormGroup label="Auto Tick">
+                <Field
+                  name="autoTick"
+                  component={ButtonToggleField}
+                  styleOff="warning"
+                />
+              </HorizontalFormGroup>
+            }
+            { showTicks && !autoTick &&
+              <HorizontalFormGroup label="Tick step (ms)">
+                <Field
+                  name="tickStep"
+                  component={InputField}
+                  className="form-control input-sm"
+                  normalize={val => parseInt(val, 10).toString()}
+                  type="number"
+                  step="any"
+                />
+              </HorizontalFormGroup>
+            }
+          </Form>
+        </ErrorBoundary>
       );
     }
 

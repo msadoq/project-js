@@ -1,6 +1,6 @@
 import { React, PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 class TableColumnsEditor extends PureComponent {
   static propTypes = {
@@ -18,9 +18,9 @@ class TableColumnsEditor extends PureComponent {
 
   render() {
     return (
-      <div>
+      <ErrorBoundary>
         TableColumnsEditor...
-      </div>
+      </ErrorBoundary>
     );
   }
 }

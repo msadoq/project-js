@@ -13,26 +13,13 @@
 // END-HISTORY
 // ====================================================================
 
-import _ from 'lodash/fp';
-
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import { getConfigurationByViewId } from 'viewManager';
-import { getData } from 'viewManager/HistoryView/store/dataReducer';
 import { addEntryPoint } from 'store/actions/views';
-import { toggleColumnSort, filterColumn, scrollRows } from 'store/actions/tableColumns';
+
 import HistoryView from './HistoryView';
 
-
-const mapStateToProps = (state, { viewId }) => {
-  const config = getConfigurationByViewId(state, { viewId });
-  const historyConfig = config.tables.history;
-
-  return {
-    config: historyConfig,
-  };
-};
+const mapStateToProps = (state, { viewId }) => {};
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
   addEntryPoint: (entryPoint) => {

@@ -1,28 +1,27 @@
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import './PUS11View.scss';
+
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-
-const { string, number, arrayOf, shape, func } = PropTypes;
 
 export default class PUS11View extends React.Component {
   static propTypes = {
     // own props
-    viewId: string.isRequired,
+    viewId: PropTypes.string.isRequired,
     // From PUS11ViewContainer mapStateToProps
-    applicationProcessName: string,
-    applicationProcessId: number,
-    scheduleStatus: string.isRequired,
-    availableSpace: string.isRequired,
-    spaceType: string.isRequired,
-    lastUpdateTime: number.isRequired,
-    lastUpdateType: string.isRequired,
+    applicationProcessName: PropTypes.string,
+    applicationProcessId: PropTypes.number,
+    scheduleStatus: PropTypes.string.isRequired,
+    availableSpace: PropTypes.string.isRequired,
+    spaceType: PropTypes.string.isRequired,
+    lastUpdateTime: PropTypes.number.isRequired,
+    lastUpdateType: PropTypes.string.isRequired,
     // from container's mapDispatchToProps
     // openModal: func.isRequired,
-    askFakeData: func.isRequired,
+    askFakeData: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -83,7 +82,6 @@ export default class PUS11View extends React.Component {
   //     </table>
   //   );
   // }
-
   componentDidMount() {
     const { viewId, askFakeData } = this.props;
 

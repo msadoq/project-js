@@ -30,11 +30,10 @@ import PropTypes from 'prop-types';
 
 import _ from 'lodash';
 import __ from 'lodash/fp';
-
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import styles from './HistoryView.css';
-
 import { buildFormulaForAutocomplete } from '../../../common';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
@@ -64,7 +63,6 @@ function parseDragData(data) {
 class HistoryView extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    config: PropTypes.shape().isRequired,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     currentRowIndexes: PropTypes.arrayOf(PropTypes.number),
@@ -112,19 +110,20 @@ class HistoryView extends React.Component {
     } = this.props;
 
     return (
-      <DroppableContainer
-        className={styles.HistoryView}
-        onDrop={this.onDrop}
-      >
-        <VirtualizedTableViewContainer
-          viewId={viewId}
-          tableId={'history'}
-          overrideStyle={this._overrideStyle}
-          withGroups
-          pauseOnScroll
-        />
-
-      </DroppableContainer>
+      <ErrorBoundary>
+        <DroppableContainer
+          className={styles.HistoryView}
+          onDrop={this.onDrop}
+        >
+          <VirtualizedTableViewContainer
+            viewId={viewId}
+            tableId={'history'}
+            overrideStyle={this._overrideStyle}
+            withGroups
+            pauseOnScroll
+          />
+        </DroppableContainer>
+      </ErrorBoundary>
     );
   }
 }

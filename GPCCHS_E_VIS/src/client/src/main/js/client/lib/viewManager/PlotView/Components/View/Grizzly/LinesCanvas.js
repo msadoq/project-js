@@ -48,6 +48,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 
 export default class LinesCanvas extends Component {
@@ -307,13 +309,15 @@ export default class LinesCanvas extends Component {
     } = this.props;
 
     return (
-      <canvas
-        ref={this.assignEl}
-        height={height}
-        width={width}
-        className={styles.canvas}
-        style={divStyle}
-      />
+      <ErrorBoundary>
+        <canvas
+          ref={this.assignEl}
+          height={height}
+          width={width}
+          className={styles.canvas}
+          style={divStyle}
+        />
+      </ErrorBoundary>
     );
   }
 }

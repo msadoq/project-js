@@ -113,7 +113,7 @@ Object {
 }
 `;
 
-exports[`viewManager/PlotView/store/cleanViewData removeViewDataByEp should support keep everything 1`] = `
+exports[`viewManager/PlotView/store/cleanViewData removeViewDataOutsideRange should support keep everything 1`] = `
 Object {
   "indexes": Object {
     "ATT_BC_REVTCOUNT1": Array [
@@ -226,7 +226,7 @@ Object {
 }
 `;
 
-exports[`viewManager/PlotView/store/cleanViewData removeViewDataByEp should support nothing to keep 1`] = `
+exports[`viewManager/PlotView/store/cleanViewData removeViewDataOutsideRange should support nothing to keep 1`] = `
 Object {
   "indexes": Object {
     "ATT_BC_REVTCOUNT1": Array [
@@ -291,7 +291,7 @@ Object {
 }
 `;
 
-exports[`viewManager/PlotView/store/cleanViewData removeViewDataByEp should support partial keeping 1`] = `
+exports[`viewManager/PlotView/store/cleanViewData removeViewDataOutsideRange should support partial keeping 1`] = `
 Object {
   "indexes": Object {
     "ATT_BC_REVTCOUNT1": Array [
@@ -380,7 +380,7 @@ Object {
 }
 `;
 
-exports[`viewManager/PlotView/store/cleanViewData removeViewDataByEp upper < lower: nothing to keep 1`] = `
+exports[`viewManager/PlotView/store/cleanViewData removeViewDataOutsideRange upper < lower: nothing to keep 1`] = `
 Object {
   "indexes": Object {},
   "lines": Object {},

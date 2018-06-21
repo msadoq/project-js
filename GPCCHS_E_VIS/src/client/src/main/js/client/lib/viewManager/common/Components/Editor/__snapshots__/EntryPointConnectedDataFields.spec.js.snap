@@ -1,111 +1,113 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager viewManager :: common viewManager :: common :: Components viewManager :: common :: Components :: Editor viewManager :: common :: Components :: Editor :: EntryPointConnectedDataFields snapshot 1`] = `
-<Unknown>
-  <HorizontalFormGroup
-    className=""
-    label="Domain"
-  >
-    <Connect(DomainField)
-      domainName={null}
-      name="connectedData.domain"
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className=""
-    label="Timeline"
-  >
-    <Connect(TimelineField)
-      name="connectedData.timeline"
-      timelineName={null}
-      windowId={undefined}
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className=""
-    label="Catalog"
-  >
-    <Connect(CatalogField)
-      domainName={null}
-      pageId="page1"
-      timelineId={null}
-      viewId="view1"
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className=""
-    label="Data type"
-  >
-    <DataTypeField
-      onChange={[Function]}
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className="hidden"
-    label="Path"
-  >
-    <Unknown />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className="hidden"
-    label="Display mode"
-  >
-    <Unknown />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className="hidden"
-    label="Catalog item"
-  >
-    <Connect(CatalogItemField)
-      catalogName={null}
-      domainName={null}
-      pageId="page1"
-      timelineId={null}
-      viewId="view1"
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className="hidden"
-    label="Com object"
-  >
-    <Connect(ComObject)
-      catalogName={null}
-      domainName={null}
-      itemName={null}
-      pageId="page1"
-      timelineId={null}
-      viewId="view1"
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className="hidden"
-    label="Ref. timestamp"
-  >
-    <Connect(ComObjectField)
-      catalogName={null}
-      comObjectName={null}
-      domainName={null}
-      itemName={null}
-      timelineId={null}
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className="hidden"
-    label="Com object Field"
-  >
-    <Connect(ComObjectField)
-      catalogName={null}
-      comObjectName={null}
-      domainName={null}
-      itemName={null}
-      timelineId={null}
-    />
-  </HorizontalFormGroup>
-  <HorizontalFormGroup
-    className="hidden"
-    label="Provider"
-  >
-    <Connect(ProviderField) />
-  </HorizontalFormGroup>
-</Unknown>
+<ErrorBoundary>
+  <Unknown>
+    <HorizontalFormGroup
+      className=""
+      label="Domain"
+    >
+      <Connect(DomainField)
+        domainName={null}
+        name="connectedData.domain"
+      />
+    </HorizontalFormGroup>
+    <HorizontalFormGroup
+      className=""
+      label="Timeline"
+    >
+      <Connect(TimelineField)
+        name="connectedData.timeline"
+        timelineName={null}
+        windowId={undefined}
+      />
+    </HorizontalFormGroup>
+    <HorizontalFormGroup
+      className=""
+      label="Catalog"
+    >
+      <Connect(CatalogField)
+        domainName={null}
+        pageId="page1"
+        timelineId={null}
+        viewId="view1"
+      />
+    </HorizontalFormGroup>
+    <HorizontalFormGroup
+      className=""
+      label="Data type"
+    >
+      <DataTypeField
+        onChange={[Function]}
+      />
+    </HorizontalFormGroup>
+    <HorizontalFormGroup
+      className="hidden"
+      label="Path"
+    >
+      <Unknown />
+    </HorizontalFormGroup>
+    <HorizontalFormGroup
+      className="hidden"
+      label="Display mode"
+    >
+      <Unknown />
+    </HorizontalFormGroup>
+    <HorizontalFormGroup
+      className="hidden"
+      label="Catalog item"
+    >
+      <Connect(CatalogItemField)
+        catalogName={null}
+        domainName={null}
+        pageId="page1"
+        timelineId={null}
+        viewId="view1"
+      />
+    </HorizontalFormGroup>
+    <HorizontalFormGroup
+      className="hidden"
+      label="Com object"
+    >
+      <Connect(ComObject)
+        catalogName={null}
+        domainName={null}
+        itemName={null}
+        pageId="page1"
+        timelineId={null}
+        viewId="view1"
+      />
+    </HorizontalFormGroup>
+    <HorizontalFormGroup
+      className="hidden"
+      label="Ref. timestamp"
+    >
+      <Connect(ComObjectField)
+        catalogName={null}
+        comObjectName={null}
+        domainName={null}
+        itemName={null}
+        timelineId={null}
+      />
+    </HorizontalFormGroup>
+    <HorizontalFormGroup
+      className="hidden"
+      label="Com object Field"
+    >
+      <Connect(ComObjectField)
+        catalogName={null}
+        comObjectName={null}
+        domainName={null}
+        itemName={null}
+        timelineId={null}
+      />
+    </HorizontalFormGroup>
+    <HorizontalFormGroup
+      className="hidden"
+      label="Provider"
+    >
+      <Connect(ProviderField) />
+    </HorizontalFormGroup>
+  </Unknown>
+</ErrorBoundary>
 `;

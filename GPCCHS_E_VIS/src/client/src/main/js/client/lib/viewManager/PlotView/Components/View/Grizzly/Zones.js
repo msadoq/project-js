@@ -14,6 +14,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 
 export default class Zones extends Component {
@@ -82,80 +84,82 @@ export default class Zones extends Component {
     } = this.props;
 
     return (
-      <div
-        className={classnames(
-          styles.Zones,
-          {
-            hidden: !ctrlPressed && !shiftPressed,
-          }
-        )}
-        style={{
-          width,
-          height,
-          top: xAxisAt === 'top' ? xAxisHeight : 0,
-        }}
-      >
-        { /*
-          Y Axes area
-        */ }
-        {yAxesInteractive && !shiftPressed && yAxesAt === 'left' && yAxes.map((axis, index) =>
-          <div
-            className={classnames({
-              [styles.ZonesAxisLog]: axis.logarithmic,
-              [styles.ZonesAxis]: !axis.logarithmic,
-            })}
-            key={axis.id}
-            style={{
-              width: yAxisWidth,
-              left: ((yAxes.length - 1) * yAxisWidth) - (index * yAxisWidth),
-            }}
-          />
-        )}
-        {yAxesInteractive && !shiftPressed && yAxesAt === 'right' && yAxes.map((axis, index) =>
-          <div
-            className={classnames({
-              [styles.ZonesAxisLog]: axis.logarithmic,
-              [styles.ZonesAxis]: !axis.logarithmic,
-            })}
-            key={axis.id}
-            style={{
-              width: yAxisWidth,
-              right: ((yAxes.length - 1) * yAxisWidth) - (index * yAxisWidth),
-            }}
-          />
-        )}
-        { /*
-          Chart area
-        */ }
-        {
-          chartInteractive && !shiftPressed &&
-          <div
-            className={styles.ZonesChart}
-            style={divStyle}
-          />
-        }
-        {
-          chartInteractive && shiftPressed &&
-          <div
-            className={styles.ZonesChartLasso}
-            style={divStyle}
-          />
-        }
-        {
-          chartInteractive && lassoing &&
-          <div className={styles.ZonesChartLassoRectangleDiv} style={divStyle}>
+      <ErrorBoundary>
+        <div
+          className={classnames(
+            styles.Zones,
+            {
+              hidden: !ctrlPressed && !shiftPressed,
+            }
+          )}
+          style={{
+            width,
+            height,
+            top: xAxisAt === 'top' ? xAxisHeight : 0,
+          }}
+        >
+          { /*
+            Y Axes area
+          */ }
+          {yAxesInteractive && !shiftPressed && yAxesAt === 'left' && yAxes.map((axis, index) =>
             <div
-              className={styles.ZonesChartLassoRectangle}
+              className={classnames({
+                [styles.ZonesAxisLog]: axis.logarithmic,
+                [styles.ZonesAxis]: !axis.logarithmic,
+              })}
+              key={axis.id}
               style={{
-                width: Math.abs(lassoX),
-                height: Math.abs(lassoY),
-                top: lassoY < 0 ? lassoOriginY + lassoY : lassoOriginY,
-                left: lassoX < 0 ? lassoOriginX + lassoX : lassoOriginX,
+                width: yAxisWidth,
+                left: ((yAxes.length - 1) * yAxisWidth) - (index * yAxisWidth),
               }}
             />
-          </div>
-        }
-      </div>
+          )}
+          {yAxesInteractive && !shiftPressed && yAxesAt === 'right' && yAxes.map((axis, index) =>
+            <div
+              className={classnames({
+                [styles.ZonesAxisLog]: axis.logarithmic,
+                [styles.ZonesAxis]: !axis.logarithmic,
+              })}
+              key={axis.id}
+              style={{
+                width: yAxisWidth,
+                right: ((yAxes.length - 1) * yAxisWidth) - (index * yAxisWidth),
+              }}
+            />
+          )}
+          { /*
+            Chart area
+          */ }
+          {
+            chartInteractive && !shiftPressed &&
+            <div
+              className={styles.ZonesChart}
+              style={divStyle}
+            />
+          }
+          {
+            chartInteractive && shiftPressed &&
+            <div
+              className={styles.ZonesChartLasso}
+              style={divStyle}
+            />
+          }
+          {
+            chartInteractive && lassoing &&
+            <div className={styles.ZonesChartLassoRectangleDiv} style={divStyle}>
+              <div
+                className={styles.ZonesChartLassoRectangle}
+                style={{
+                  width: Math.abs(lassoX),
+                  height: Math.abs(lassoY),
+                  top: lassoY < 0 ? lassoOriginY + lassoY : lassoOriginY,
+                  left: lassoX < 0 ? lassoOriginX + lassoX : lassoOriginX,
+                }}
+              />
+            </div>
+          }
+        </div>
+      </ErrorBoundary>
     );
   }
 }

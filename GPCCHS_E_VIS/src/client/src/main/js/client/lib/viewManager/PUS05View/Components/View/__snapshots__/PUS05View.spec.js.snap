@@ -1,133 +1,135 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PUS05View :: render snapshot 1`] = `
-<div
-  className="pus05"
->
+<ErrorBoundary>
   <div
-    className="header"
+    className="pus05"
   >
-    <Unknown>
+    <div
+      className="header"
+    >
+      <Unknown>
+        <div
+          className="info col-sm-12"
+        >
+          <span
+            className="spacing"
+          />
+          <span>
+            Application Process
+            <input
+              disabled={true}
+              type="text"
+              value="string"
+            />
+            <input
+              className="mw50"
+              disabled={true}
+              type="text"
+              value={11}
+            />
+          </span>
+          <span
+            className="spacing"
+          />
+        </div>
+        <div
+          className="clearfix"
+        />
+      </Unknown>
+    </div>
+    <div
+      className="header"
+    >
       <div
-        className="info col-sm-12"
+        className="col-sm-12"
       >
-        <span
-          className="spacing"
-        />
-        <span>
-          Application Process
-          <input
-            disabled={true}
-            type="text"
-            value="string"
-          />
-          <input
-            className="mw50"
-            disabled={true}
-            type="text"
-            value={11}
-          />
-        </span>
-        <span
-          className="spacing"
-        />
+        <table
+          className="table table-bordered"
+        >
+          <thead>
+            <tr>
+              <th>
+                rid
+              </th>
+              <th>
+                rid Label
+              </th>
+              <th>
+                name
+              </th>
+              <th>
+                status
+              </th>
+              <th>
+                event Short Description
+              </th>
+              <th>
+                event Default Status
+              </th>
+              <th>
+                alarm Level
+              </th>
+              <th>
+                action Name
+              </th>
+              <th>
+                event Long Description
+              </th>
+              <th>
+                update Type
+              </th>
+              <th>
+                update Time
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
       </div>
       <div
         className="clearfix"
       />
-    </Unknown>
-  </div>
-  <div
-    className="header"
-  >
-    <div
-      className="col-sm-12"
-    >
-      <table
-        className="table table-bordered"
-      >
-        <thead>
-          <tr>
-            <th>
-              rid
-            </th>
-            <th>
-              rid Label
-            </th>
-            <th>
-              name
-            </th>
-            <th>
-              status
-            </th>
-            <th>
-              event Short Description
-            </th>
-            <th>
-              event Default Status
-            </th>
-            <th>
-              alarm Level
-            </th>
-            <th>
-              action Name
-            </th>
-            <th>
-              event Long Description
-            </th>
-            <th>
-              update Type
-            </th>
-            <th>
-              update Time
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-        </tbody>
-      </table>
     </div>
     <div
-      className="clearfix"
-    />
-  </div>
-  <div
-    className="header"
-  >
-    <div
-      className="info col-sm-12"
+      className="header"
     >
-      <table
-        className="table table-bordered"
+      <div
+        className="info col-sm-12"
       >
-        <thead>
-          <tr>
-            <th>
-              onBoard Time
-            </th>
-            <th>
-              reception Time
-            </th>
-            <th>
-              rid
-            </th>
-            <th>
-              rid Label
-            </th>
-            <th>
-              name
-            </th>
-            <th>
-              report Type
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-        </tbody>
-      </table>
+        <table
+          className="table table-bordered"
+        >
+          <thead>
+            <tr>
+              <th>
+                onBoard Time
+              </th>
+              <th>
+                reception Time
+              </th>
+              <th>
+                rid
+              </th>
+              <th>
+                rid Label
+              </th>
+              <th>
+                name
+              </th>
+              <th>
+                report Type
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
+</ErrorBoundary>
 `;

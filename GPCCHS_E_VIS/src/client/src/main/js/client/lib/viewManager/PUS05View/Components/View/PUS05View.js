@@ -1,44 +1,44 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
-import './PUS05.scss';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
-const { string, number, arrayOf, shape, func } = PropTypes;
+import './PUS05.scss';
 
 export default class PUS05View extends React.Component {
   static propTypes = {
     // own props
-    viewId: string.isRequired,
+    viewId: PropTypes.string.isRequired,
     // From PUS05ViewContainer mapStateToProps
-    applicationProcessName: string.isRequired,
-    applicationProcessId: number.isRequired,
-    onBoardEvents: arrayOf(shape({
-      rid: number,
-      ridLabel: string,
-      name: string,
-      status: string,
-      eventShortDescription: string,
-      eventDefaultStatus: string,
-      alarmLevel: string,
-      actionName: string,
-      eventLongDescription: string,
-      updateType: string,
-      updateTime: number,
+    applicationProcessName: PropTypes.string.isRequired,
+    applicationProcessId: PropTypes.number.isRequired,
+    onBoardEvents: PropTypes.arrayOf(PropTypes.shape({
+      rid: PropTypes.number,
+      ridLabel: PropTypes.string,
+      name: PropTypes.string,
+      status: PropTypes.string,
+      eventShortDescription: PropTypes.string,
+      eventDefaultStatus: PropTypes.string,
+      alarmLevel: PropTypes.string,
+      actionName: PropTypes.string,
+      eventLongDescription: PropTypes.string,
+      updateType: PropTypes.string,
+      updateTime: PropTypes.number,
     })).isRequired,
-    receivedOnBoardEvents: arrayOf(shape({
-      onBoardTime: number,
-      receptionTime: number,
-      rid: number,
-      ridLabel: string,
-      name: string,
-      reportType: string,
+    receivedOnBoardEvents: PropTypes.arrayOf(PropTypes.shape({
+      onBoardTime: PropTypes.number,
+      receptionTime: PropTypes.number,
+      rid: PropTypes.number,
+      ridLabel: PropTypes.string,
+      name: PropTypes.string,
+      reportType: PropTypes.string,
     })).isRequired,
     // from container's mapDispatchToProps
-    openModal: func.isRequired,
+    openModal: PropTypes.func.isRequired,
   };
   static defaultProps = {};
   static contextTypes = {
-    windowId: PropTypes.string,
+    windowId: PropTypes.PropTypes.string,
   };
 
   /**
@@ -98,21 +98,23 @@ export default class PUS05View extends React.Component {
     } = this.props;
 
     return (
-      <div className="pus05">
-        <div className="header">
-          {renderHeaders(applicationProcessName, applicationProcessId)}</div>
-        <div className="header">
-          <div className="col-sm-12">
-            {renderOnboardEventsTable(onBoardEvents, viewId)}
+      <ErrorBoundary>
+        <div className="pus05">
+          <div className="header">
+            {renderHeaders(applicationProcessName, applicationProcessId)}</div>
+          <div className="header">
+            <div className="col-sm-12">
+              {renderOnboardEventsTable(onBoardEvents, viewId)}
+            </div>
+            <div className="clearfix" />
           </div>
-          <div className="clearfix" />
-        </div>
-        <div className="header">
-          <div className="info col-sm-12">
-            {this.renderReceivedOnboardEventsTable(receivedOnBoardEvents, viewId)}
+          <div className="header">
+            <div className="info col-sm-12">
+              {this.renderReceivedOnboardEventsTable(receivedOnBoardEvents, viewId)}
+            </div>
           </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

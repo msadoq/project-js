@@ -5,8 +5,8 @@ import {
 } from 'store/types';
 import apidsReducer, {
   getApidsByDomainIdAndSessionId,
-  getTupleId,
 } from '.';
+import { getTupleId } from '../catalogs';
 
 const reducer = freezeArgs(apidsReducer);
 const domainId = 'domain-id';

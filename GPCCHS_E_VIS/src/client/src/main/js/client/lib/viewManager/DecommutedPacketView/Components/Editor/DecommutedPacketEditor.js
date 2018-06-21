@@ -11,36 +11,37 @@ import { handleSubmit } from 'viewManager/common';
 import styles from 'viewManager/commonEditor/Editor.css';
 import DecommutedPacketTab from 'viewManager/DecommutedPacketView/Components/Editor/DecommutedPacketTab';
 import { entryPointType } from 'viewManager/common/Components/types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import { TIME_BASED_DATA_OPTION } from '../../../commonEditor/Fields/DataTypeField';
 
 const navItems = ['Connected Data', 'View', 'Misc'];
-const { string, number, bool, func, shape, arrayOf } = PropTypes;
 
 export default class DecommutedPacketEditor extends Component {
   static propTypes = {
-    viewId: string.isRequired,
-    pageId: string.isRequired,
-    tab: number,
-    titleStyle: shape({
-      align: string,
-      bgColor: string,
-      bold: bool,
-      color: string,
-      font: string,
-      italic: bool,
-      size: number,
-      strikeOut: bool,
-      underline: bool,
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    tab: PropTypes.number,
+    titleStyle: PropTypes.shape({
+      align: PropTypes.string,
+      bgColor: PropTypes.string,
+      bold: PropTypes.bool,
+      color: PropTypes.string,
+      font: PropTypes.string,
+      italic: PropTypes.bool,
+      size: PropTypes.number,
+      strikeOut: PropTypes.bool,
+      underline: PropTypes.bool,
     }),
-    title: string,
-    configuration: shape({
-      entryPoints: arrayOf(entryPointType),
+    title: PropTypes.string,
+    configuration: PropTypes.shape({
+      entryPoints: PropTypes.arrayOf(entryPointType),
     }).isRequired,
-    updateEntryPoint: func.isRequired,
-    updateViewTab: func.isRequired,
-    updateViewPanels: func.isRequired,
-    openModal: func.isRequired,
-    panels: shape({}).isRequired,
+    updateEntryPoint: PropTypes.func.isRequired,
+    updateViewTab: PropTypes.func.isRequired,
+    updateViewPanels: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
+    panels: PropTypes.shape({}).isRequired,
   };
 
   static defaultProps = {
@@ -112,39 +113,41 @@ export default class DecommutedPacketEditor extends Component {
     const { DecommutedPacketViewEntryPointsWithForm } = this.state;
 
     return (
-      <div className={styles.contentWrapper}>
-        <h4
-          className="text-center mb10"
-        >
-          <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
-          <b>{title}</b>
-        </h4>
-        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
-        <Navbar
-          currentDisplay={tab === null ? 0 : tab}
-          changeCurrentDisplay={this.changeCurrentDisplay}
-          items={navItems}
-        />
-        <div className={styles.content}>
-          {(tab === 0 || tab === null) && <div className={styles.content}>
-            <DecommutedPacketViewEntryPointsWithForm
+      <ErrorBoundary>
+        <div className={styles.contentWrapper}>
+          <h4
+            className="text-center mb10"
+          >
+            <span className="mr5 EditorVignette" style={{ background: titleStyle.bgColor }} />
+            <b>{title}</b>
+          </h4>
+          <ReloadAndSaveViewButtonsContainer viewId={viewId} />
+          <Navbar
+            currentDisplay={tab === null ? 0 : tab}
+            changeCurrentDisplay={this.changeCurrentDisplay}
+            items={navItems}
+          />
+          <div className={styles.content}>
+            {(tab === 0 || tab === null) && <div className={styles.content}>
+              <DecommutedPacketViewEntryPointsWithForm
+                viewId={viewId}
+                pageId={pageId}
+                form={`entrypoint-connectedData-form-${viewId}`}
+                onSubmit={values => this.handleSubmit(values)}
+                initialValues={initialValues}
+              />
+            </div>}
+            {tab === 1 && <DecommutedPacketTab />}
+            {tab === 2 &&
+            <Misc
+              updateViewPanels={updateViewPanels}
               viewId={viewId}
-              pageId={pageId}
-              form={`entrypoint-connectedData-form-${viewId}`}
-              onSubmit={values => this.handleSubmit(values)}
-              initialValues={initialValues}
-            />
-          </div>}
-          {tab === 1 && <DecommutedPacketTab />}
-          {tab === 2 &&
-          <Misc
-            updateViewPanels={updateViewPanels}
-            viewId={viewId}
-            panels={panels}
-            openModal={openModal}
-          />}
+              panels={panels}
+              openModal={openModal}
+            />}
+          </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

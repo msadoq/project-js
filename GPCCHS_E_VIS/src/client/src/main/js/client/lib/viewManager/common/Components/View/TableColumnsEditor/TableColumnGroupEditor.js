@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import TableColumnInput from './TableColumnInput';
 
 import styles from './TableColumnGroupEditor.css';
@@ -29,31 +30,33 @@ class TableColumnGroupEditor extends React.Component {
     const { groupKey, columns, toggle } = this.props;
 
     return (
-      <div className={styles.TableColumnGroupEditor}>
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <div>
-            <h4>{groupKey}</h4>
-            <Droppable droppableId="droppable">
-              {provided => (
-                <div
-                  ref={provided.innerRef}
-                >
-                  {
-                    columns.map(item => (
-                      <TableColumnInput
-                        key={`${groupKey}-${item.title}`}
-                        item={item}
-                        toggle={toggle}
-                      />
-                    ))
-                  }
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </div>
-        </DragDropContext>
-      </div>
+      <ErrorBoundary>
+        <div className={styles.TableColumnGroupEditor}>
+          <DragDropContext onDragEnd={this.onDragEnd}>
+            <div>
+              <h4>{groupKey}</h4>
+              <Droppable droppableId="droppable">
+                {provided => (
+                  <div
+                    ref={provided.innerRef}
+                  >
+                    {
+                      columns.map(item => (
+                        <TableColumnInput
+                          key={`${groupKey}-${item.title}`}
+                          item={item}
+                          toggle={toggle}
+                        />
+                      ))
+                    }
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
+          </DragDropContext>
+        </div>
+      </ErrorBoundary>
     );
   }
 }

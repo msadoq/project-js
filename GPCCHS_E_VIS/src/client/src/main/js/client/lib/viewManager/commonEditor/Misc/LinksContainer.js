@@ -10,12 +10,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { addLink, removeLink, updateLink } from 'store/actions/views';
+import { removeLink, updateLink } from 'store/actions/views';
 import { updateViewSubPanels } from 'store/actions/ui';
 import { getLinks } from 'store/reducers/views';
 import { getViewSubPanels } from 'store/reducers/ui/editor';
 import Links from './Links';
-
 
 const mapStateToProps = createStructuredSelector({
   links: getLinks,
@@ -26,7 +25,6 @@ const mapDispatchToProps = {
   updateViewSubPanels,
   removeLink,
   updateLink,
-  addLink,
 };
 
 const LinkContainer = connect(mapStateToProps, mapDispatchToProps)(Links);

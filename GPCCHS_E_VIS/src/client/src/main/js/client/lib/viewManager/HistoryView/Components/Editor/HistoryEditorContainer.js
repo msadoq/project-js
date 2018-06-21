@@ -36,11 +36,10 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 const HistoryEditorContainer = connect(mapStateToProps, mapDispatchToProps)(HistoryEditor);
-const { string } = PropTypes;
 
 HistoryEditorContainer.propTypes = {
-  viewId: string.isRequired,
-  pageId: string.isRequired,
+  viewId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
 };
 
 export default HistoryEditorContainer;

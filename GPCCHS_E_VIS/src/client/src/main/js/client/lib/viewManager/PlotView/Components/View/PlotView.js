@@ -8,7 +8,7 @@
 // VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Adapting PlotView and Grizzly for the new data structure.
 // VERSION : 1.1.2 : DM : #3622 : 14/03/2017 : Move general variables at top level of a view
 // VERSION : 1.1.2 : FA : #5512 : 15/03/2017 : PlotView legend height is smarter.
-// VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Grizzly : perfOutput as an option, log lines number, points number and axis.
+// VERSION : 1.1.2 : DM : #3622 : 15/03/2017 : Grizzly : perfOutput as an option, log lines number, points PropTypes.number and axis.
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Remove react-dimensions from project, use custom HOC
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Fix mount or unmount components for resizing plotview
 // VERSION : 1.1.2 : DM : #5828 : 20/03/2017 : Fix display legend in plotview
@@ -80,9 +80,10 @@ import withDimensions from 'windowProcess/common/hoc/withDimensions';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import dateFormat, { TAI } from 'viewManager/commonData/date';
-
 import getLogger from 'common/logManager';
 import { updateSearchCountArray } from 'store/reducers/pages';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import Legend from './Legend';
 import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
@@ -301,7 +302,7 @@ export const computeMinMaxForAxis = (entryPoints, axis, data, ordinal) => {
  * @param grid
  * @param min
  * @param max
- * @returns {{id, extents: *[], orient: string, format: string, showAxis: boolean, showLabels: boolean, showTicks: boolean, autoLimits: boolean, autoTick: boolean, tickStep, showGrid: *, gridStyle: *, gridSize: *, unit, label, labelStyle, logarithmic, logSettings: *|{base: number, max: number, min: number}|yAxis.logSettings|{base, max, min}|logSettings|{min, max, base}, formatAsDate: boolean}}
+ * @returns {{id, extents: *[], orient: string, format: string, showAxis: boolean, showLabels: boolean, showTicks: boolean, autoLimits: boolean, autoTick: boolean, tickStep, showGrid: *, gridStyle: *, gridSize: *, unit, label, labelStyle, logarithmic, logSettings: *|{base: PropTypes.number, max: PropTypes.number, min: PropTypes.number}|yAxis.logSettings|{base, max, min}|logSettings|{min, max, base}, formatAsDate: boolean}}
  * @pure
  */
 export const defaultAxisConfig = (axis, grid, min, max) => ({
@@ -418,61 +419,60 @@ export const parseDragData = (data, id, defaultTimelineId) => {
 const plotPadding = 15;
 const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
-const { shape, string, arrayOf, number, func, object, array, bool, objectOf } = PropTypes;
 
 export class GrizzlyPlotView extends React.Component {
   static propTypes = {
-    containerWidth: number.isRequired,
-    containerHeight: number.isRequired,
-    updateDimensions: func.isRequired, // eslint-disable-line react/no-unused-prop-types
-    saveLiveExtents: func.isRequired,
-    pause: func.isRequired,
-    data: shape({
-      lines: object, // eslint-disable-line react/no-unused-prop-types
+    containerWidth: PropTypes.number.isRequired,
+    containerHeight: PropTypes.number.isRequired,
+    updateDimensions: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
+    saveLiveExtents: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
+    data: PropTypes.shape({
+      lines: PropTypes.object, // eslint-disable-line react/no-unused-prop-types
     }),
-    visuWindow: shape({
-      lower: number, // eslint-disable-line react/no-unused-prop-types
-      current: number, // eslint-disable-line react/no-unused-prop-types
-      upper: number, // eslint-disable-line react/no-unused-prop-types
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
     }),
-    viewId: string.isRequired,
-    addEntryPoint: func.isRequired,
-    entryPoints: shape(),
-    configuration: shape({
-      procedures: array,
-      entryPoints: array,
-      axes: object,
-      showYAxes: string,
-      showLegend: bool.isRequired,
-      grids: array,
-      legend: object,
-      markers: array,
+    viewId: PropTypes.string.isRequired,
+    addEntryPoint: PropTypes.func.isRequired,
+    entryPoints: PropTypes.shape(),
+    configuration: PropTypes.shape({
+      procedures: PropTypes.array,
+      entryPoints: PropTypes.array,
+      axes: PropTypes.object,
+      showYAxes: PropTypes.string,
+      showLegend: PropTypes.bool.isRequired,
+      grids: PropTypes.array,
+      legend: PropTypes.object,
+      markers: PropTypes.array,
     }).isRequired,
-    toggleLegend: func.isRequired,
-    openInspector: func.isRequired,
-    isInspectorOpened: bool.isRequired,
-    inspectorEpId: string,
-    openEditor: func.isRequired,
-    closeEditor: func.isRequired,
-    askRemoveEntryPoint: func.isRequired,
-    isViewsEditorOpen: bool.isRequired,
-    mainMenu: arrayOf(object).isRequired,
-    defaultTimelineId: string.isRequired,
-    links: arrayOf(shape({
-      name: string.isRequired,
-      path: string.isRequired,
+    toggleLegend: PropTypes.func.isRequired,
+    openInspector: PropTypes.func.isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorEpId: PropTypes.string,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    askRemoveEntryPoint: PropTypes.func.isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    defaultTimelineId: PropTypes.string.isRequired,
+    links: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
     })),
-    removeLink: func.isRequired,
-    pageId: string.isRequired,
-    showLinks: bool,
-    updateShowLinks: func.isRequired,
-    askUnit: func.isRequired,
-    isMaxVisuDurationExceeded: bool.isRequired,
-    catalogs: object.isRequired, // eslint-disable-line react/forbid-prop-types
-    searchForThisView: bool.isRequired,
-    updateSearchCount: func.isRequired,
-    searching: string,
-    searchCount: objectOf(shape),
+    removeLink: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
+    showLinks: PropTypes.bool,
+    updateShowLinks: PropTypes.func.isRequired,
+    askUnit: PropTypes.func.isRequired,
+    isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
+    catalogs: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+    searchForThisView: PropTypes.bool.isRequired,
+    updateSearchCount: PropTypes.func.isRequired,
+    searching: PropTypes.string,
+    searchCount: PropTypes.objectOf(PropTypes.shape),
   };
 
   static defaultProps = {
@@ -874,19 +874,21 @@ export class GrizzlyPlotView extends React.Component {
       logger.debug('no render due to', noRender);
       // TODO : clean message component
       return (
-        <DroppableContainer
-          onContextMenu={this.onContextMenu}
-          onDrop={this.onDrop}
-          className={styles.errorContent}
-        >
-          {this.getEntryPointErrors()}
-          <div className="flex">
-            <div className={styles.renderErrorText}>
-              Unable to render view <br />
-              {noRender}
+        <ErrorBoundary>
+          <DroppableContainer
+            onContextMenu={this.onContextMenu}
+            onDrop={this.onDrop}
+            className={styles.errorContent}
+          >
+            {this.getEntryPointErrors()}
+            <div className="flex">
+              <div className={styles.renderErrorText}>
+                Unable to render view <br />
+                {noRender}
+              </div>
             </div>
-          </div>
-        </DroppableContainer>
+          </DroppableContainer>
+        </ErrorBoundary>
       );
     }
     const {
@@ -980,94 +982,98 @@ export class GrizzlyPlotView extends React.Component {
       />);
 
     return (
-      <DroppableContainer
-        onContextMenu={this.onContextMenu}
-        onDrop={this.onDrop}
-        text="add entry point"
-        className="h100 posRelative PlotView"
-        style={mainStyle}
-      >
-        { (legend.location === 'top' || legend.location === 'left') &&
-        legendComponent
-        }
-        <GrizzlyChart
-          height={plotHeight}
-          width={width}
-          tooltipColor="white"
-          enableTooltip
-          allowYZoom
-          allowYPan
-          allowZoom
-          allowPan
-          showEpNonNominal={showEpNonNominal}
-          perfOutput={false}
-          linesListener={memoizeLiveExtents(saveLiveExtents, viewId)}
-          zoomPanListener={memoizeZoomOrPan(pause, viewId)}
-          current={visuWindow.current}
-          yAxesAt={showYAxes}
-          xAxesAt="bottom"
-          parametric={false}
-          additionalStyle={memoizeMainStyle(legend.location)}
-          yAxes={this.yAxes}
-          xAxes={this.xAxes}
-          updateAxis={this.state.updateUnit}
-          lines={
-            entryPointsConfiguration.map((ep) => {
-              const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
-              const stringParameter = !ep.parametric && _get(ep, ['connectedData', 'stringParameter']);
-              let unit;
-              if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
-                const { domainId, sessionId, catalog, parameterName } = entryPoints[ep.name].dataId;
-                const tupleId = getTupleId(domainId, sessionId);
-                unit = _get(catalogs, ['units', tupleId, catalog, parameterName], 'Unknown');
-              } else {
-                unit = ep.unit;
-              }
-              return {
-                data: lines[ep.name],
-                indexes: indexes[ep.name],
-                id: ep.name,
-                xAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'xAxisId']) : 'time',
-                yAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'yAxisId']) : _get(ep, ['connectedData', 'axisId']),
-                fill: _get(ep, ['objectStyle', 'curveColor']),
-                displayLine: _get(ep, ['objectStyle', 'displayLine'], true),
-                lineSize: _get(ep, ['objectStyle', 'displayLine'], true) === true
-                  ? _get(ep, ['objectStyle', 'line', 'size'])
-                  : 0,
-                lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
-                displayPoints: _get(ep, ['objectStyle', 'displayPoints'], true),
-                pointStyle: _get(ep, ['objectStyle', 'displayPoints'], true) === true
-                  ? _get(ep, ['objectStyle', 'points', 'style'])
-                  : 'None',
-                pointSize: _get(ep, ['objectStyle', 'points', 'size']),
-                dataAccessor: ep.name,
-                stopInstruction: packet => stopInstruction(packet, ep, this.state.showEpNonNominal),
-                xAccessor: null, // default packet => packet.x
-                yAccessor: stringParameter ? () => defaultY : null, // default packet => packet.value
-                xTooltipAccessor: null, // default packet => packet.x
-                yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
-                colorAccessor: 'color',
-                tooltipFormatter,
-                highlighted: this.state.epNamesMatchWithSearching.indexOf(ep.name) !== -1,
-                unit: ep.connectedData.convertTo ?
-                  ep.connectedData.convertTo : unit,
-              };
-            })
+      <ErrorBoundary>
+        <DroppableContainer
+          onContextMenu={this.onContextMenu}
+          onDrop={this.onDrop}
+          text="add entry point"
+          className="h100 posRelative PlotView"
+          style={mainStyle}
+        >
+          { (legend.location === 'top' || legend.location === 'left') &&
+          legendComponent
           }
-        />
-        { (legend.location === 'bottom' || legend.location === 'right') &&
-        legendComponent
-        }
-        <LinksContainer
-          show={showLinks}
-          toggleShowLinks={this.toggleShowLinks}
-          links={links}
-          removeLink={this.removeLink}
-          viewId={viewId}
-          pageId={pageId}
-        />
-
-      </DroppableContainer>
+          <GrizzlyChart
+            height={plotHeight}
+            width={width}
+            tooltipColor="white"
+            enableTooltip
+            allowYZoom
+            allowYPan
+            allowZoom
+            allowPan
+            showEpNonNominal={showEpNonNominal}
+            perfOutput={false}
+            linesListener={memoizeLiveExtents(saveLiveExtents, viewId)}
+            zoomPanListener={memoizeZoomOrPan(pause, viewId)}
+            current={visuWindow.current}
+            yAxesAt={showYAxes}
+            xAxesAt="bottom"
+            parametric={false}
+            additionalStyle={memoizeMainStyle(legend.location)}
+            yAxes={this.yAxes}
+            xAxes={this.xAxes}
+            updateAxis={this.state.updateUnit}
+            lines={
+              entryPointsConfiguration.map((ep) => {
+                const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
+                const stringParameter = !ep.parametric &&
+                  _get(ep, ['connectedData', 'stringParameter']);
+                let unit;
+                if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
+                  const { domainId, sessionId, catalog, parameterName } =
+                    entryPoints[ep.name].dataId;
+                  const tupleId = getTupleId(domainId, sessionId);
+                  unit = _get(catalogs, ['units', tupleId, catalog, parameterName], 'Unknown');
+                } else {
+                  unit = ep.unit;
+                }
+                return {
+                  data: lines[ep.name],
+                  indexes: indexes[ep.name],
+                  id: ep.name,
+                  xAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'xAxisId']) : 'time',
+                  yAxisId: ep.parametric ? _get(ep, ['connectedDataParametric', 'yAxisId']) : _get(ep, ['connectedData', 'axisId']),
+                  fill: _get(ep, ['objectStyle', 'curveColor']),
+                  displayLine: _get(ep, ['objectStyle', 'displayLine'], true),
+                  lineSize: _get(ep, ['objectStyle', 'displayLine'], true) === true
+                    ? _get(ep, ['objectStyle', 'line', 'size'])
+                    : 0,
+                  lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
+                  displayPoints: _get(ep, ['objectStyle', 'displayPoints'], true),
+                  pointStyle: _get(ep, ['objectStyle', 'displayPoints'], true) === true
+                    ? _get(ep, ['objectStyle', 'points', 'style'])
+                    : 'None',
+                  pointSize: _get(ep, ['objectStyle', 'points', 'size']),
+                  dataAccessor: ep.name,
+                  stopInstruction: packet =>
+                    stopInstruction(packet, ep, this.state.showEpNonNominal),
+                  xAccessor: null, // default packet => packet.x
+                  yAccessor: stringParameter ? () => defaultY : null, // default packet => packet.value
+                  xTooltipAccessor: null, // default packet => packet.x
+                  yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
+                  colorAccessor: 'color',
+                  tooltipFormatter,
+                  highlighted: this.state.epNamesMatchWithSearching.indexOf(ep.name) !== -1,
+                  unit: ep.connectedData.convertTo ?
+                    ep.connectedData.convertTo : unit,
+                };
+              })
+            }
+          />
+          { (legend.location === 'bottom' || legend.location === 'right') &&
+          legendComponent
+          }
+          <LinksContainer
+            show={showLinks}
+            toggleShowLinks={this.toggleShowLinks}
+            links={links}
+            removeLink={this.removeLink}
+            viewId={viewId}
+            pageId={pageId}
+          />
+        </DroppableContainer>
+      </ErrorBoundary>
     );
   }
 }

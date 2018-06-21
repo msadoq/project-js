@@ -27,6 +27,8 @@ import getLogger from 'common/logManager';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import { updateSearchCountArray } from '../../../../store/reducers/pages';
 import TextView from './TextView';
 import styles from './TextView.css';
@@ -267,35 +269,37 @@ export default class TextViewWrapper extends PureComponent {
     }
 
     return (
-      <DroppableContainer
-        onDrop={this.onDrop}
-        onContextMenu={this.onContextMenu}
-        className={classnames('h100', 'posRelative', styles.container)}
-      >
-        <Row>
-          <Col xs={12}>
-            <TextView
-              viewId={viewId}
-              content={this.state.content}
-              data={data}
-              entryPoints={entryPoints}
-              openLink={this.props.openLink}
-              copySpanValues={this.setSpanValues}
-              className={styles.textView}
-            />
-          </Col>
-          <Col xs={12} style={style}>
-            <LinksContainer
-              show={showLinks}
-              toggleShowLinks={this.toggleShowLinks}
-              links={links}
-              removeLink={this.removeLink}
-              viewId={viewId}
-              pageId={pageId}
-            />
-          </Col>
-        </Row>
-      </DroppableContainer>
+      <ErrorBoundary>
+        <DroppableContainer
+          onDrop={this.onDrop}
+          onContextMenu={this.onContextMenu}
+          className={classnames('h100', 'posRelative', styles.container)}
+        >
+          <Row>
+            <Col xs={12}>
+              <TextView
+                viewId={viewId}
+                content={this.state.content}
+                data={data}
+                entryPoints={entryPoints}
+                openLink={this.props.openLink}
+                copySpanValues={this.setSpanValues}
+                className={styles.textView}
+              />
+            </Col>
+            <Col xs={12} style={style}>
+              <LinksContainer
+                show={showLinks}
+                toggleShowLinks={this.toggleShowLinks}
+                links={links}
+                removeLink={this.removeLink}
+                viewId={viewId}
+                pageId={pageId}
+              />
+            </Col>
+          </Row>
+        </DroppableContainer>
+      </ErrorBoundary>
     );
   }
 }

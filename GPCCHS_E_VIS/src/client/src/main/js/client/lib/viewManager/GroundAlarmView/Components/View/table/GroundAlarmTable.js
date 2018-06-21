@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import { ALARM_ACKSTATE_REQUIREACK as REQUIRE_ACK } from 'constants';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import TableView from 'windowProcess/common/TableView';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import styles from './GroundAlarmTable.css';
 
@@ -148,38 +149,40 @@ class GroundAlarmTable extends React.Component {
       width: this.props.containerWidth,
     };
     return (
-      <div
-        className={classnames(styles.container)}
-        onContextMenu={this.onAlarmContextMenu}
-        style={style}
-      >
-        <TableView
-          search={this.props.search}
-          onSearch={this.props.inputSearch}
-          enableSearch={this.props.enableSearch}
-          onClickSearchIcon={this.props.inputToggle}
-          cols={COLS}
-          subCols={TRANSITION_COLS}
-          sort={this.props.sort}
-          toggleSort={this.props.toggleSort}
-          disableSelection={this.props.isPlayingTimebar}
-          onMouseEnter={this.hoverAlarm}
-          onMouseLeave={this.unhoverAlarm}
-          onCollapse={row => this.props.collapse(row.mainRow.data.oid)}
-          onUncollapse={row => this.props.uncollapse(row.mainRow.data.oid)}
-          onClickRow={this.toggleAlarmSelection}
-          getIsSelectable={row => row.mainRow.data.ackState === REQUIRE_ACK}
-          getIsSelected={row => Boolean(selectedAlarms[row.mainRow.data.oid])}
-          getIsHovered={row => row.mainRow.data.oid === this.state.hoveredAlarm}
-          getIsExpanded={row => Boolean(expandedAlarms[row.mainRow.data.oid])}
-          rowHeight={this.props.rowHeight}
-          onScrollUp={() => this.unhoverAlarm()}
-          onScrollDown={() => this.unhoverAlarm()}
-          containerHeight={this.props.containerHeight}
-          nbDisplayedRows={this.getNbDisplayedElems()}
-          rows={this.props.rows}
-        />
-      </div>
+      <ErrorBoundary>
+        <div
+          className={classnames(styles.container)}
+          onContextMenu={this.onAlarmContextMenu}
+          style={style}
+        >
+          <TableView
+            search={this.props.search}
+            onSearch={this.props.inputSearch}
+            enableSearch={this.props.enableSearch}
+            onClickSearchIcon={this.props.inputToggle}
+            cols={COLS}
+            subCols={TRANSITION_COLS}
+            sort={this.props.sort}
+            toggleSort={this.props.toggleSort}
+            disableSelection={this.props.isPlayingTimebar}
+            onMouseEnter={this.hoverAlarm}
+            onMouseLeave={this.unhoverAlarm}
+            onCollapse={row => this.props.collapse(row.mainRow.data.oid)}
+            onUncollapse={row => this.props.uncollapse(row.mainRow.data.oid)}
+            onClickRow={this.toggleAlarmSelection}
+            getIsSelectable={row => row.mainRow.data.ackState === REQUIRE_ACK}
+            getIsSelected={row => Boolean(selectedAlarms[row.mainRow.data.oid])}
+            getIsHovered={row => row.mainRow.data.oid === this.state.hoveredAlarm}
+            getIsExpanded={row => Boolean(expandedAlarms[row.mainRow.data.oid])}
+            rowHeight={this.props.rowHeight}
+            onScrollUp={() => this.unhoverAlarm()}
+            onScrollDown={() => this.unhoverAlarm()}
+            containerHeight={this.props.containerHeight}
+            nbDisplayedRows={this.getNbDisplayedElems()}
+            rows={this.props.rows}
+          />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

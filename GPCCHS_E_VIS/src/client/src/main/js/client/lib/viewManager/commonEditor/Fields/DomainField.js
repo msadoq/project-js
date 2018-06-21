@@ -4,13 +4,12 @@ import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 import { domainsType } from 'viewManager/common/Components/types';
-
-const { func, string } = PropTypes;
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class DomainField extends PureComponent {
   static propTypes = {
-    onChange: func,
-    name: string,
+    onChange: PropTypes.func,
+    name: PropTypes.string,
     // from container mapStateToProps
     domains: domainsType.isRequired,
   };
@@ -22,14 +21,16 @@ export default class DomainField extends PureComponent {
 
   render() {
     return (
-      <Field
-        format={null}
-        name={this.props.name}
-        component={ReactSelectField}
-        clearable
-        options={computeOptions(this.props.domains, true)}
-        onChange={this.props.onChange}
-      />
+      <ErrorBoundary>
+        <Field
+          format={null}
+          name={this.props.name}
+          component={ReactSelectField}
+          clearable
+          options={computeOptions(this.props.domains, true)}
+          onChange={this.props.onChange}
+        />
+      </ErrorBoundary>
     );
   }
 }

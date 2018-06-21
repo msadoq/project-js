@@ -9,16 +9,16 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import AddEntryPoint from './AddEntryPoint';
 
 const initialValues = { name: '' };
-const { string, func } = PropTypes;
 
 export default class AddEntryPointWrapper extends Component {
   static propTypes = {
-    viewId: string.isRequired,
-    closeModal: func.isRequired,
-    addEntryPoint: func.isRequired,
+    viewId: PropTypes.string.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    addEntryPoint: PropTypes.func.isRequired,
   };
 
   willAddEntryPoint = (values) => {
@@ -33,11 +33,13 @@ export default class AddEntryPointWrapper extends Component {
 
   render() {
     return (
-      <AddEntryPoint
-        onSubmit={this.willAddEntryPoint}
-        form="new-entrypoint-parameters-form"
-        initialValues={initialValues}
-      />
+      <ErrorBoundary>
+        <AddEntryPoint
+          onSubmit={this.willAddEntryPoint}
+          form="new-entrypoint-parameters-form"
+          initialValues={initialValues}
+        />
+      </ErrorBoundary>
     );
   }
 }

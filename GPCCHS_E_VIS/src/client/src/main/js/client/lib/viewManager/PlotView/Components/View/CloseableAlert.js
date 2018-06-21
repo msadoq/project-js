@@ -11,6 +11,7 @@ import {
   Alert as BSAlert,
   Button,
 } from 'react-bootstrap';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 const dangerBtnStyle = { float: 'right' };
 
@@ -52,27 +53,29 @@ export default class CloseableAlert extends Component {
     } = this.state;
 
     return (
-      <div
-        style={{
-          ...style,
-          overflow: 'auto',
-        }}
-        className={className}
-      >
-        {visible ? <BSAlert
-          bsStyle={bsStyle}
-          onDismiss={this.onClick(changeVisibility(false))}
+      <ErrorBoundary>
+        <div
+          style={{
+            ...style,
+            overflow: 'auto',
+          }}
+          className={className}
         >
-          {children}
-        </BSAlert> :
-        <Button
-          bsStyle="danger"
-          onClick={this.onClick(changeVisibility(true))}
-          style={dangerBtnStyle}
-        >
-          errors
-        </Button>}
-      </div>
+          {visible ? <BSAlert
+            bsStyle={bsStyle}
+            onDismiss={this.onClick(changeVisibility(false))}
+          >
+            {children}
+          </BSAlert> :
+          <Button
+            bsStyle="danger"
+            onClick={this.onClick(changeVisibility(true))}
+            style={dangerBtnStyle}
+          >
+            errors
+          </Button>}
+        </div>
+      </ErrorBoundary>
     );
   }
 }

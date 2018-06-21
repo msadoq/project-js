@@ -19,13 +19,11 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 const EntryPointTreeContainer = connect(mapStateToProps, mapDispatchToProps)(EntryPointTree);
 
-const { string, arrayOf, shape } = PropTypes;
-
 EntryPointTreeContainer.PropTypes = {
-  viewId: string.isRequired,
-  pageId: string.isRequired,
-  entryPoints: arrayOf(shape({})),
-  search: string,
+  viewId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
+  entryPoints: PropTypes.arrayOf(PropTypes.shape({})),
+  search: PropTypes.string,
 };
 
 export default EntryPointTreeContainer;

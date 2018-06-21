@@ -4,22 +4,21 @@ import { Field } from 'redux-form';
 import { catalogItemType } from 'viewManager/common/Components/types';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 import VirtualizedSelectField from 'windowProcess/commonReduxForm/VirtualizedSelectField';
-
-const { bool, string, arrayOf, oneOfType, func, number } = PropTypes;
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class CatalogItemField extends PureComponent {
   static propTypes = {
-    catalogItems: oneOfType([
-      string,
-      arrayOf(catalogItemType),
+    catalogItems: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(catalogItemType),
     ]),
-    askCatalogItems: func.isRequired,
-    sessionId: number,
-    domainId: number,
-    timelineId: string,
-    catalogName: string,
-    catalogsLoaded: bool,
-    askUnit: func.isRequired,
+    askCatalogItems: PropTypes.func.isRequired,
+    sessionId: PropTypes.number,
+    domainId: PropTypes.number,
+    timelineId: PropTypes.string,
+    catalogName: PropTypes.string,
+    catalogsLoaded: PropTypes.bool,
+    askUnit: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -34,7 +33,6 @@ export default class CatalogItemField extends PureComponent {
   componentWillMount() {
     this.tryToLoadCatalogItems(this.props);
   }
-
 
   componentWillReceiveProps(nextProps) {
     this.tryToLoadCatalogItems(nextProps);
@@ -54,23 +52,25 @@ export default class CatalogItemField extends PureComponent {
     if (!!(domainId && timelineId && catalogName) && catalogItems === null && catalogsLoaded) {
       askCatalogItems(domainId, sessionId, catalogName);
     }
-  }
+  };
 
   render() {
     const { catalogItems, domainId, timelineId, catalogName, askUnit, sessionId } = this.props;
     const disabled = (!domainId || !timelineId || !catalogName || catalogItems === null);
     return (
-      <Field
-        format={null}
-        name="connectedData.catalogItem"
-        component={VirtualizedSelectField}
-        clearable
-        disabled={disabled}
-        options={computeOptions(catalogItems)}
-        onChange={(o, value) => {
-          askUnit(domainId, sessionId, catalogName, value);
-        }}
-      />
+      <ErrorBoundary>
+        <Field
+          format={null}
+          name="connectedData.catalogItem"
+          component={VirtualizedSelectField}
+          clearable
+          disabled={disabled}
+          options={computeOptions(catalogItems)}
+          onChange={(o, value) => {
+            askUnit(domainId, sessionId, catalogName, value);
+          }}
+        />
+      </ErrorBoundary>
     );
   }
 }

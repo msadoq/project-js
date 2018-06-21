@@ -13,6 +13,8 @@ import {
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
 import { formValueSelector } from 'redux-form';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import PlotMarker from './PlotMarker';
 
 export default class PlotMarkers extends React.Component {
@@ -36,9 +38,6 @@ export default class PlotMarkers extends React.Component {
 
   openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
   closePanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: false }));
-
-  openMarkers = () => this.setState({ isMarkersOpen: true });
-  closeMarkers = () => this.setState({ isMarkersOpen: false });
 
   handleSubmit(key, values) {
     const { updateMarker, viewId } = this.props;
@@ -72,40 +71,42 @@ export default class PlotMarkers extends React.Component {
     // const { isMarkersOpen } = this.state;
 
     return (
-      <Panel
-        header="Markers"
-        onSelect={this.openParentAccordion}
-        onExited={close}
-        collapsible={collapsible}
-        expanded={expanded}
-        eventKey={eventKey}
-        headerRole={headerRole}
-        panelRole={panelRole}
-      >
-        <Accordion>
-          {markers.map((marker, key) =>
-            <Panel
-              key={marker.label}
-              header={marker.label}
-              eventKey={key}
-              expanded={this.state[`isPanel${key}Open`]}
-              onSelect={this.openPanel(key)}
-              onExited={this.closePanel(key)}
-            >
-              {this.state[`isPanel${key}Open`] &&
-                <PlotMarker
-                  key={`${marker.label}#panel`}
-                  index={key}
-                  axes={axes}
-                  initialValues={marker}
-                  formName={`axis-form-${key}-${viewId}`}
-                  selector={formValueSelector(`axis-form-${key}-${viewId}`)}
-                  onSubmit={this.handleSubmitFactory(key)}
-                  form={`axis-form-${key}-${viewId}`}
-                />}
-            </Panel>)}
-        </Accordion>
-      </Panel>
+      <ErrorBoundary>
+        <Panel
+          header="Markers"
+          onSelect={this.openParentAccordion}
+          onExited={close}
+          collapsible={collapsible}
+          expanded={expanded}
+          eventKey={eventKey}
+          headerRole={headerRole}
+          panelRole={panelRole}
+        >
+          <Accordion>
+            {markers.map((marker, key) =>
+              <Panel
+                key={marker.label}
+                header={marker.label}
+                eventKey={key}
+                expanded={this.state[`isPanel${key}Open`]}
+                onSelect={this.openPanel(key)}
+                onExited={this.closePanel(key)}
+              >
+                {this.state[`isPanel${key}Open`] &&
+                  <PlotMarker
+                    key={`${marker.label}#panel`}
+                    index={key}
+                    axes={axes}
+                    initialValues={marker}
+                    formName={`axis-form-${key}-${viewId}`}
+                    selector={formValueSelector(`axis-form-${key}-${viewId}`)}
+                    onSubmit={this.handleSubmitFactory(key)}
+                    form={`axis-form-${key}-${viewId}`}
+                  />}
+              </Panel>)}
+          </Accordion>
+        </Panel>
+      </ErrorBoundary>
     );
   }
 }

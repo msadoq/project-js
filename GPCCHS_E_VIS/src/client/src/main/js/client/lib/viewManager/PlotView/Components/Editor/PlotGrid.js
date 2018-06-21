@@ -29,6 +29,8 @@ import InputField from 'windowProcess/commonReduxForm/InputField';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import { validateRequiredFields } from '../../../common';
 
 const lineStyleButtons = [
@@ -37,26 +39,24 @@ const lineStyleButtons = [
   { label: 'Dotted', icon: 'doted' },
 ];
 
-const { shape, string, bool, func, number } = PropTypes;
-
 class PlotGrid extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Support. by ReduxForm HOC"
-    initialValues: shape({
-      xAxisId: string,
-      yAxisId: string,
-      showGrid: bool,
-      line: shape({
-        style: string,
-        size: number,
+    initialValues: PropTypes.shape({
+      xAxisId: PropTypes.string,
+      yAxisId: PropTypes.string,
+      showGrid: PropTypes.bool,
+      line: PropTypes.shape({
+        style: PropTypes.string,
+        size: PropTypes.number,
       }),
     }).isRequired,
-    axes: shape({}).isRequired,
-    handleSubmit: func.isRequired,
-    pristine: bool.isRequired,
-    reset: func.isRequired,
-    submitting: bool.isRequired,
-    valid: bool.isRequired,
+    axes: PropTypes.shape({}).isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    reset: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    valid: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -83,65 +83,67 @@ class PlotGrid extends React.Component {
     } = this.props;
 
     return (
-      <Form
-        horizontal
-        onSubmit={handleSubmit}
-        className={classnames(
-          { 'redux-form-dirty': !pristine },
-          'redux-form-padded'
-        )}
-      >
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
-        <HorizontalFormGroup label="Show">
-          <Field
-            name="showGrid"
-            component={ButtonToggleField}
+      <ErrorBoundary>
+        <Form
+          horizontal
+          onSubmit={handleSubmit}
+          className={classnames(
+            { 'redux-form-dirty': !pristine },
+            'redux-form-padded'
+          )}
+        >
+          <ClearSubmitButtons
+            pristine={pristine}
+            submitting={submitting}
+            reset={reset}
+            valid={valid}
           />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Show">
+            <Field
+              name="showGrid"
+              component={ButtonToggleField}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Line style">
-          <Field
-            component={SelectButtonField}
-            name="line.style"
-            buttons={lineStyleButtons}
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Line style">
+            <Field
+              component={SelectButtonField}
+              name="line.style"
+              buttons={lineStyleButtons}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Width">
-          <Field
-            name="line.size"
-            component={InputField}
-            normalize={value => parseFloat(value)}
-            className="form-control input-sm"
-            type="number"
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Width">
+            <Field
+              name="line.size"
+              component={InputField}
+              normalize={value => parseFloat(value)}
+              className="form-control input-sm"
+              type="number"
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="X Axis">
-          <span>Time</span>
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="X Axis">
+            <span>Time</span>
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Y Axis">
-          <Field
-            name="yAxisId"
-            className="form-control input-sm"
-            component="select"
-          >
-            {
-              Object.keys(axes)
-              .filter(key => key !== 'time')
-              .map(axisId =>
-                <option key={axisId} value={axisId}>{axes[axisId].label}</option>
-              )
-            }
-          </Field>
-        </HorizontalFormGroup>
-      </Form>
+          <HorizontalFormGroup label="Y Axis">
+            <Field
+              name="yAxisId"
+              className="form-control input-sm"
+              component="select"
+            >
+              {
+                Object.keys(axes)
+                .filter(key => key !== 'time')
+                .map(axisId =>
+                  <option key={axisId} value={axisId}>{axes[axisId].label}</option>
+                )
+              }
+            </Field>
+          </HorizontalFormGroup>
+        </Form>
+      </ErrorBoundary>
     );
   }
 }

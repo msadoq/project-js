@@ -50,12 +50,12 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch);
 
 const CatalogItemFieldContainer = connect(mapStateToProps, mapDispatchToProps)(CatalogItemField);
-const { string } = PropTypes;
+
 CatalogItemFieldContainer.propTypes = {
-  domainName: string,
-  timelineId: string,
-  viewId: string.isRequired,
-  pageId: string.isRequired,
+  domainName: PropTypes.string,
+  timelineId: PropTypes.string,
+  viewId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
 };
 
 CatalogItemFieldContainer.defaultProps = {

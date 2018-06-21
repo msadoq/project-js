@@ -42,6 +42,8 @@ import Collapse from 'rc-collapse';
 import _memoize from 'lodash/memoize';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import SelectButton from 'windowProcess/commonReduxForm/SelectButton';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import AddPlotAxis from './AddPlotAxis';
 import styles from './EntryPointTree.css';
 
@@ -131,7 +133,7 @@ export default class PlotAxes extends Component {
     } = this.props;
 
     return (
-      <div>
+      <ErrorBoundary>
         {Object.keys(axes).length && <Form horizontal>
           <HorizontalFormGroup label="Align">
             <SelectButton
@@ -197,7 +199,7 @@ export default class PlotAxes extends Component {
             );
           })}
         </Collapse>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

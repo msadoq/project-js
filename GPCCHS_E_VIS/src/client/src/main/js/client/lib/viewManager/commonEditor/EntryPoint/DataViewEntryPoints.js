@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import EntryPointActionsContainer from 'viewManager/commonEditor/EntryPoint/EntryPointActionsContainer';
 import EntryPointTreeContainer from 'viewManager/common/Components/Editor/EntryPointTreeContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import EntryPointConnectedDataFieldsContainer
   from 'viewManager/common/Components/Editor/EntryPointConnectedDataFieldsContainer';
 
@@ -38,20 +39,22 @@ export default class DataViewEntryPoints extends PureComponent {
       entryPointConnectedDataForm,
     } = this.props;
     return (
-      <React.Fragment>
-        <EntryPointActionsContainer
-          viewId={viewId}
-          search={search || undefined} // will use EntryPointActions' default value if null
-          viewType={viewType}
-        />
-        <EntryPointTreeContainer
-          viewId={viewId}
-          pageId={pageId}
-          entryPoints={entryPoints}
-          search={search}
-          entryPointConnectedDataForm={entryPointConnectedDataForm}
-        />
-      </React.Fragment>
+      <ErrorBoundary>
+        <React.Fragment>
+          <EntryPointActionsContainer
+            viewId={viewId}
+            search={search || undefined} // will use EntryPointActions' default value if null
+            viewType={viewType}
+          />
+          <EntryPointTreeContainer
+            viewId={viewId}
+            pageId={pageId}
+            entryPoints={entryPoints}
+            search={search}
+            entryPointConnectedDataForm={entryPointConnectedDataForm}
+          />
+        </React.Fragment>
+      </ErrorBoundary>
     );
   }
 }

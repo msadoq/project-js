@@ -2,9 +2,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
-import './PUS11Modal.scss';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
-const { func, arrayOf, shape, number } = PropTypes;
+import './PUS11Modal.scss';
 
 const renderBinaryProfile = binaryProfile => (
   <div className="col-xs-4">
@@ -93,16 +93,16 @@ const renderCommandParameters = commandsParameters => (
 
 export default class PUS11Modal extends PureComponent {
   static propTypes = {
-    closeModal: func.isRequired,
-    commandsParameters: arrayOf(shape()).isRequired,
-    timeShifts: arrayOf(shape()).isRequired,
-    binaryProfile: arrayOf(arrayOf(number)).isRequired,
+    closeModal: PropTypes.func.isRequired,
+    commandsParameters: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    timeShifts: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    binaryProfile: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
   };
 
   render() {
     const { closeModal, commandsParameters, timeShifts, binaryProfile } = this.props;
     return (
-      <div>
+      <ErrorBoundary>
         <div className="row pus11Modal">
           {renderCommandParameters(commandsParameters)}
           {renderTimeShifts(timeShifts)}
@@ -116,7 +116,7 @@ export default class PUS11Modal extends PureComponent {
             Close
           </Button>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

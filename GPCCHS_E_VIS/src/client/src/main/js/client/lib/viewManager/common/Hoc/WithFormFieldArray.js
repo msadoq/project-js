@@ -5,8 +5,6 @@ import classnames from 'classnames';
 import { Form } from 'react-bootstrap';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 
-const { bool, func } = PropTypes;
-
 export default function WithForm(WrappedComponent, fieldArrayName) {
   const WithFormFieldArray = (props) => {
     const {
@@ -43,11 +41,11 @@ export default function WithForm(WrappedComponent, fieldArrayName) {
   };
 
   WithFormFieldArray.propTypes = {
-    pristine: bool.isRequired,
-    handleSubmit: func.isRequired,
-    reset: func.isRequired,
-    submitting: bool.isRequired,
-    valid: bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    valid: PropTypes.bool.isRequired,
   };
 
   return reduxForm({

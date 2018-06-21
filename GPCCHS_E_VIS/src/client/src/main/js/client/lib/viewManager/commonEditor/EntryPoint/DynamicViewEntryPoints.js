@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import CatalogFieldContainer from 'viewManager/commonEditor/Fields/CatalogFieldContainer';
 import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogItemFieldContainer';
@@ -7,21 +8,18 @@ import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContain
 import { reduxFormFieldsType } from 'viewManager/common/Components/types';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
 
-
-const { string } = PropTypes;
-
 /**
  * Corresponding views:
  *  - DynamicView
  */
 export default class DynamicViewEntryPoints extends PureComponent {
   static propTypes = {
-    viewId: string.isRequired,
-    pageId: string.isRequired,
-    selectedDomainName: string,
-    selectedTimelineId: string,
-    selectedCatalogName: string,
-    selectedItemName: string,
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    selectedDomainName: PropTypes.string,
+    selectedTimelineId: PropTypes.string,
+    selectedCatalogName: PropTypes.string,
+    selectedItemName: PropTypes.string,
     ...reduxFormFieldsType,
   };
 
@@ -47,41 +45,43 @@ export default class DynamicViewEntryPoints extends PureComponent {
     } = this.props;
 
     return (
-      <React.Fragment>
-        <HorizontalFormGroup label="Catalog">
-          <CatalogFieldContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </HorizontalFormGroup>
+      <ErrorBoundary>
+        <React.Fragment>
+          <HorizontalFormGroup label="Catalog">
+            <CatalogFieldContainer
+              domainName={selectedDomainName}
+              timelineId={selectedTimelineId}
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Catalog item">
-          <CatalogItemFieldContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
-            catalogName={selectedCatalogName}
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Catalog item">
+            <CatalogItemFieldContainer
+              domainName={selectedDomainName}
+              timelineId={selectedTimelineId}
+              catalogName={selectedCatalogName}
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Com object">
-          <ComObjectContainer
-            domainName={selectedDomainName}
-            timelineId={selectedTimelineId}
-            catalogName={selectedCatalogName}
-            itemName={selectedItemName}
-            viewId={viewId}
-            pageId={pageId}
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Com object">
+            <ComObjectContainer
+              domainName={selectedDomainName}
+              timelineId={selectedTimelineId}
+              catalogName={selectedCatalogName}
+              itemName={selectedItemName}
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Provider">
-          <ProviderFieldContainer />
-        </HorizontalFormGroup>
-      </React.Fragment>
+          <HorizontalFormGroup label="Provider">
+            <ProviderFieldContainer />
+          </HorizontalFormGroup>
+        </React.Fragment>
+      </ErrorBoundary>
     );
   }
 }

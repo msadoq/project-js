@@ -10,11 +10,12 @@
 import React from 'react';
 import { Field, FormSection } from 'redux-form';
 import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class FormSectionLineStyle extends FormSection {
   static defaultProps = {
     lineStyle: 'Continuous',
-  }
+  };
 
   render() {
     const lineStyleButtons = [
@@ -23,11 +24,13 @@ export default class FormSectionLineStyle extends FormSection {
       { label: 'Dotted', icon: 'doted' },
     ];
     return (
-      <Field
-        component={SelectButtonField}
-        name="style"
-        buttons={lineStyleButtons}
-      />
+      <ErrorBoundary>
+        <Field
+          component={SelectButtonField}
+          name="style"
+          buttons={lineStyleButtons}
+        />
+      </ErrorBoundary>
     );
   }
 }

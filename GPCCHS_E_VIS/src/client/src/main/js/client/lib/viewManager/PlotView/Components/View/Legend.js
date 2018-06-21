@@ -29,6 +29,8 @@ import PropTypes from 'prop-types';
 import _get from 'lodash/get';
 import { Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './Legend.css';
 
 export default class Legend extends Component {
@@ -97,122 +99,124 @@ export default class Legend extends Component {
       .filter(axis => axis.lines.length > 0 && axis.showAxis);
 
     return (
-      <div
-        className={
-          legendLocation === 'top' || legendLocation === 'bottom' ?
-          styles.plotLegendHorizontal : styles.plotLegendVertical
-        }
-        style={{
-          maxHeight: (legendLocation === 'right' || legendLocation === 'left') ? `${plotHeight}px` : 'auto',
-        }}
-      >
-        <button
-          onClick={this.props.toggleShowLegend}
-          className="btn-primary"
+      <ErrorBoundary>
+        <div
+          className={
+            legendLocation === 'top' || legendLocation === 'bottom' ?
+            styles.plotLegendHorizontal : styles.plotLegendVertical
+          }
+          style={{
+            maxHeight: (legendLocation === 'right' || legendLocation === 'left') ? `${plotHeight}px` : 'auto',
+          }}
         >
-          {show ? 'Hide legend' : 'Show legend'}
-        </button>
-        {
-          show && sortedAndValidAxes.map(axis =>
-            <div
-              key={axis.id}
-            >
-              <h4 className={classnames('LegendAxisName', styles.plotLegendAxisName)}>{axis.label}</h4>
+          <button
+            onClick={this.props.toggleShowLegend}
+            className="btn-primary"
+          >
+            {show ? 'Hide legend' : 'Show legend'}
+          </button>
+          {
+            show && sortedAndValidAxes.map(axis =>
               <div
-                className={
-                  classnames({
-                    [styles.plotLegendLegendsHorizontal]: legendLocation === 'top' || legendLocation === 'bottom',
-                    [styles.plotLegendLegendsVertical]: legendLocation === 'right' || legendLocation === 'left',
-                  })
-                }
+                key={axis.id}
               >
-                {
-                  axis.lines.map(line =>
-                    <div
-                      className={classnames('LegendItem', styles.legend)}
-                      style={{
-                        borderColor: _get(line, ['objectStyle', 'curveColor']) || '#222',
-                      }}
-                      key={line.name}
-                      onContextMenu={event => onContextMenu(event, line.name)}
-                    >
-                      <span
-                        className={styles.plotLegendColor}
+                <h4 className={classnames('LegendAxisName', styles.plotLegendAxisName)}>{axis.label}</h4>
+                <div
+                  className={
+                    classnames({
+                      [styles.plotLegendLegendsHorizontal]: legendLocation === 'top' || legendLocation === 'bottom',
+                      [styles.plotLegendLegendsVertical]: legendLocation === 'right' || legendLocation === 'left',
+                    })
+                  }
+                >
+                  {
+                    axis.lines.map(line =>
+                      <div
+                        className={classnames('LegendItem', styles.legend)}
                         style={{
-                          background: _get(line, ['objectStyle', 'curveColor']) || '#222',
+                          borderColor: _get(line, ['objectStyle', 'curveColor']) || '#222',
                         }}
-                      />
-                      {
-                        (legendLocation === 'top' || legendLocation === 'bottom') &&
+                        key={line.name}
+                        onContextMenu={event => onContextMenu(event, line.name)}
+                      >
                         <span
-                          className={styles.plotLegendName}
-                        >
-                          {line.name}
-                        </span>
-                      }
-                      <Glyphicon
-                        glyph="eye-open"
-                        onClick={e => showEp(e, line.id)}
-                        className={
-                          classnames(
-                            {
-                              [styles.showEyeSelected]: showEpNames.includes(line.id),
-                            },
-                            styles.eyeButton
-                          )
+                          className={styles.plotLegendColor}
+                          style={{
+                            background: _get(line, ['objectStyle', 'curveColor']) || '#222',
+                          }}
+                        />
+                        {
+                          (legendLocation === 'top' || legendLocation === 'bottom') &&
+                          <span
+                            className={styles.plotLegendName}
+                          >
+                            {line.name}
+                          </span>
                         }
-                      />
+                        <Glyphicon
+                          glyph="eye-open"
+                          onClick={e => showEp(e, line.id)}
+                          className={
+                            classnames(
+                              {
+                                [styles.showEyeSelected]: showEpNames.includes(line.id),
+                              },
+                              styles.eyeButton
+                            )
+                          }
+                        />
 
-                      <Glyphicon
-                        glyph="eye-close"
-                        onClick={e => hideEp(e, line.id)}
-                        className={
-                          classnames(
-                            {
-                              [styles.hideEyeSelected]: hideEpNames.includes(line.id),
-                            },
-                            styles.eyeButton
-                          )
-                        }
-                      />
+                        <Glyphicon
+                          glyph="eye-close"
+                          onClick={e => hideEp(e, line.id)}
+                          className={
+                            classnames(
+                              {
+                                [styles.hideEyeSelected]: hideEpNames.includes(line.id),
+                              },
+                              styles.eyeButton
+                            )
+                          }
+                        />
 
-                      <Glyphicon
-                        glyph="remove"
-                        onClick={e => removeEntryPoint(e, line.id)}
-                        className={
-                          classnames(
-                            styles.removeButton,
-                            'text-danger'
-                          )
-                        }
-                      />
+                        <Glyphicon
+                          glyph="remove"
+                          onClick={e => removeEntryPoint(e, line.id)}
+                          className={
+                            classnames(
+                              styles.removeButton,
+                              'text-danger'
+                            )
+                          }
+                        />
 
-                      <Glyphicon
-                        glyph="plus-sign"
-                        onClick={e => showNonNominal(e, line.id)}
-                        className={
-                          classnames(
-                            {
-                              [styles.showEyeSelected]: showEpNonNominal.includes(line.id),
-                            },
-                            styles.eyeButton
-                          )
+                        <Glyphicon
+                          glyph="plus-sign"
+                          onClick={e => showNonNominal(e, line.id)}
+                          className={
+                            classnames(
+                              {
+                                [styles.showEyeSelected]: showEpNonNominal.includes(line.id),
+                              },
+                              styles.eyeButton
+                            )
+                          }
+                        />
+                        {
+                          (legendLocation === 'left' || legendLocation === 'right') &&
+                          <span
+                            className={styles.plotLegendName}
+                          >{line.name}</span>
                         }
-                      />
-                      {
-                        (legendLocation === 'left' || legendLocation === 'right') &&
-                        <span
-                          className={styles.plotLegendName}
-                        >{line.name}</span>
-                      }
-                    </div>
-                  )
-                }
+                      </div>
+                    )
+                  }
+                </div>
               </div>
-            </div>
-          )
-        }
-      </div>
+            )
+          }
+        </div>
+      </ErrorBoundary>
     );
   }
 }

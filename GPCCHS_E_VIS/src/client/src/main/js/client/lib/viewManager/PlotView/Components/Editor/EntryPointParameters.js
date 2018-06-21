@@ -23,6 +23,8 @@ import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
 import FormSectionPointStyle from 'viewManager/commonEditor/FormSections/FormSectionPointStyle';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import ButtonToggleField from '../../../../windowProcess/commonReduxForm/ButtonToggleField';
 
 const lineStyleButtons = [
@@ -48,101 +50,102 @@ class EntryPointParameters extends React.Component {
     this.setState({ isPointsHidden: !this.state.isPointsHidden });
   }
 
-
   render() {
     const {
       isLineHidden,
       isPointsHidden,
     } = this.state;
     return (
-      <React.Fragment>
-        <div className="page-header">
-          <h4>Name</h4>
-        </div>
-        <HorizontalFormGroup label="Label">
-          <Field
-            name="name"
-            component={InputField}
-            className="form-control input-sm"
-            type="text"
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Color">
-          <Field
-            name="objectStyle.curveColor"
-            component={ColorPickerField}
-          />
-        </HorizontalFormGroup>
-
-        <div className="page-header">
-          <h4>Line Style</h4>
-        </div>
-        <HorizontalFormGroup label="Visible">
-          <Field
-            name="objectStyle.displayLine"
-            component={ButtonToggleField}
-            textOn="YES"
-            textOff="NO"
-            styleOff="warning"
-            onChange={this.hangleToggleLine}
-          />
-        </HorizontalFormGroup>
-        {
-          isLineHidden &&
-          <HorizontalFormGroup label="Line style">
+      <ErrorBoundary>
+        <React.Fragment>
+          <div className="page-header">
+            <h4>Name</h4>
+          </div>
+          <HorizontalFormGroup label="Label">
             <Field
-              component={SelectButtonField}
-              name="objectStyle.line.style"
-              buttons={lineStyleButtons}
-            />
-          </HorizontalFormGroup>
-        }
-        {
-          isLineHidden &&
-          <HorizontalFormGroup label="Line size">
-            <Field
-              name="objectStyle.line.size"
+              name="name"
               component={InputField}
-              normalize={value => parseInt(value, 10)}
               className="form-control input-sm"
-              type="number"
+              type="text"
             />
           </HorizontalFormGroup>
-        }
 
-        <div className="page-header">
-          <h4>Points Style</h4>
-        </div>
-        <HorizontalFormGroup label="Visible">
-          <Field
-            name="objectStyle.displayPoints"
-            component={ButtonToggleField}
-            textOn="YES"
-            textOff="NO"
-            styleOff="warning"
-            onChange={this.hangleTogglePoints}
-          />
-        </HorizontalFormGroup>
-        {
-          isPointsHidden &&
-          <HorizontalFormGroup label="Points">
-            <FormSectionPointStyle name="objectStyle.points" />
-          </HorizontalFormGroup>
-        }
-        {
-          isPointsHidden &&
-          <HorizontalFormGroup label="Points size">
+          <HorizontalFormGroup label="Color">
             <Field
-              name="objectStyle.points.size"
-              component={InputField}
-              normalize={value => parseInt(value, 10)}
-              className="form-control input-sm"
-              type="number"
+              name="objectStyle.curveColor"
+              component={ColorPickerField}
             />
           </HorizontalFormGroup>
-        }
-      </React.Fragment>
+
+          <div className="page-header">
+            <h4>Line Style</h4>
+          </div>
+          <HorizontalFormGroup label="Visible">
+            <Field
+              name="objectStyle.displayLine"
+              component={ButtonToggleField}
+              textOn="YES"
+              textOff="NO"
+              styleOff="warning"
+              onChange={this.hangleToggleLine}
+            />
+          </HorizontalFormGroup>
+          {
+            isLineHidden &&
+            <HorizontalFormGroup label="Line style">
+              <Field
+                component={SelectButtonField}
+                name="objectStyle.line.style"
+                buttons={lineStyleButtons}
+              />
+            </HorizontalFormGroup>
+          }
+          {
+            isLineHidden &&
+            <HorizontalFormGroup label="Line size">
+              <Field
+                name="objectStyle.line.size"
+                component={InputField}
+                normalize={value => parseInt(value, 10)}
+                className="form-control input-sm"
+                type="number"
+              />
+            </HorizontalFormGroup>
+          }
+
+          <div className="page-header">
+            <h4>Points Style</h4>
+          </div>
+          <HorizontalFormGroup label="Visible">
+            <Field
+              name="objectStyle.displayPoints"
+              component={ButtonToggleField}
+              textOn="YES"
+              textOff="NO"
+              styleOff="warning"
+              onChange={this.hangleTogglePoints}
+            />
+          </HorizontalFormGroup>
+          {
+            isPointsHidden &&
+            <HorizontalFormGroup label="Points">
+              <FormSectionPointStyle name="objectStyle.points" />
+            </HorizontalFormGroup>
+          }
+          {
+            isPointsHidden &&
+            <HorizontalFormGroup label="Points size">
+              <Field
+                name="objectStyle.points.size"
+                component={InputField}
+                normalize={value => parseInt(value, 10)}
+                className="form-control input-sm"
+                type="number"
+              />
+            </HorizontalFormGroup>
+          }
+        </React.Fragment>
+      </ErrorBoundary>
     );
   }
 }

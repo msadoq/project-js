@@ -13,12 +13,10 @@ const mapDispatchToProps = (dispatch, { viewId }) => bindActionCreators({
 
 const EntryPointActionsContainer = connect(mapStateToProps, mapDispatchToProps)(EntryPointActions);
 
-const { string, oneOf } = PropTypes;
-
 EntryPointActionsContainer.PropTypes = {
-  viewId: string.isRequired,
-  search: string,
-  viewType: oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
+  viewId: PropTypes.string.isRequired,
+  search: PropTypes.string,
+  viewType: PropTypes.oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
 };
 
 export default EntryPointActionsContainer;

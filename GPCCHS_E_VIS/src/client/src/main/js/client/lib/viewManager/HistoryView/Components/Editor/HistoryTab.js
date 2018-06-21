@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Collapse, { Panel } from 'rc-collapse';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import TableColumnsEditorContainer
   from '../../../common/Components/View/TableColumnsEditor/TableColumnsEditorContainer';
-
 
 export default class HistoryTab extends React.Component {
   static propTypes = {
@@ -27,7 +27,7 @@ export default class HistoryTab extends React.Component {
     const { viewId, panels } = this.props;
 
     return (
-      <div>
+      <ErrorBoundary>
         <Collapse
           accordion={false}
           onChange={this.onChange}
@@ -51,7 +51,7 @@ export default class HistoryTab extends React.Component {
             }
           </Panel>
         </Collapse>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

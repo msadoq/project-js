@@ -1,44 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HistoryEditor :: render snapshot 1`] = `
-<div
-  className="contentWrapper"
->
-  <h4
-    className="text-center mb10"
-  >
-    <span
-      className="mr5 EditorVignette"
-    />
-    <b />
-  </h4>
-  <Connect(ViewParams)
-    viewId="view-id"
-  />
-  <Navbar
-    changeCurrentDisplay={[Function]}
-    currentDisplay={0}
-    items={
-      Array [
-        "Entry Points",
-        "History",
-        "Misc",
-      ]
-    }
-  />
+<ErrorBoundary>
   <div
-    className="content"
+    className="contentWrapper"
   >
-    <div>
-      <Connect(DataViewEntryPoints)
-        entryPointConnectedDataForm={[Function]}
-        entryPoints={undefined}
-        pageId="pageId"
-        search="search"
-        viewId="view-id"
-        viewType="HistoryView"
+    <h4
+      className="text-center mb10"
+    >
+      <span
+        className="mr5 EditorVignette"
       />
+      <b />
+    </h4>
+    <Connect(ViewParams)
+      viewId="view-id"
+    />
+    <Navbar
+      changeCurrentDisplay={[Function]}
+      currentDisplay={0}
+      items={
+        Array [
+          "Entry Points",
+          "History",
+          "Misc",
+        ]
+      }
+    />
+    <div
+      className="content"
+    >
+      <div>
+        <Connect(DataViewEntryPoints)
+          entryPointConnectedDataForm={[Function]}
+          entryPoints={undefined}
+          pageId="pageId"
+          search="search"
+          viewId="view-id"
+          viewType="HistoryView"
+        />
+      </div>
     </div>
   </div>
-</div>
+</ErrorBoundary>
 `;

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from '../../../commonEditor/Editor.css';
 import OnboardAlarmTab from './OnboardAlarmTab';
 import WithForm from '../../../common/Hoc/WithForm';
@@ -87,37 +89,39 @@ export default class OnboardAlarmEditor extends Component {
     const { OnBoardAlarmEditorForm } = this.state;
 
     return (
-      <div className={styles.contentWrapper}>
-        <h4
-          className="text-center mb10"
-        >
-          <span className="mr5 EditorVignette" />
-          <b>{title}</b>
-        </h4>
-        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
-        <Navbar
-          currentDisplay={tab === null ? 0 : tab}
-          changeCurrentDisplay={this.changeCurrentDisplay}
-          items={navItems}
-        />
-        <div className={styles.content}>
-          {(tab === 0 || tab === null) && <div className={styles.content}>
-            <OnBoardAlarmEditorForm
-              form={`entrypoint-connectedData-form-${viewId}`}
-              onSubmit={values => this.handleSubmit({ connectedData: values })}
-              initialValues={initialValues}
-            />
-          </div>}
-          {tab === 1 && <OnboardAlarmTab />}
-          {tab === 2 &&
-          <Misc
-            updateViewPanels={updateViewPanels}
-            viewId={viewId}
-            panels={panels}
-            openModal={openModal}
-          />}
+      <ErrorBoundary>
+        <div className={styles.contentWrapper}>
+          <h4
+            className="text-center mb10"
+          >
+            <span className="mr5 EditorVignette" />
+            <b>{title}</b>
+          </h4>
+          <ReloadAndSaveViewButtonsContainer viewId={viewId} />
+          <Navbar
+            currentDisplay={tab === null ? 0 : tab}
+            changeCurrentDisplay={this.changeCurrentDisplay}
+            items={navItems}
+          />
+          <div className={styles.content}>
+            {(tab === 0 || tab === null) && <div className={styles.content}>
+              <OnBoardAlarmEditorForm
+                form={`entrypoint-connectedData-form-${viewId}`}
+                onSubmit={values => this.handleSubmit({ connectedData: values })}
+                initialValues={initialValues}
+              />
+            </div>}
+            {tab === 1 && <OnboardAlarmTab />}
+            {tab === 2 &&
+            <Misc
+              updateViewPanels={updateViewPanels}
+              viewId={viewId}
+              panels={panels}
+              openModal={openModal}
+            />}
+          </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

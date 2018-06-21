@@ -62,6 +62,8 @@ import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import Tree from 'windowProcess/Explorer/widgets/Tree';
 import ModalComponent from 'windowProcess/common/ModalComponent';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './DecommutedPacketView.css';
 import { buildFormulaForAutocomplete } from '../../../common';
 import { get } from '../../../../common/configurationManager';
@@ -140,15 +142,15 @@ export default class DecommutedPacketView extends PureComponent {
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
-    links: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
-    })),
+    // links: PropTypes.arrayOf(PropTypes.shape({
+    //   name: PropTypes.string.isRequired,
+    //   path: PropTypes.string.isRequired,
+    // })),
     removeLink: PropTypes.func.isRequired,
-    pageId: PropTypes.string.isRequired,
+    // pageId: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
-    showLinks: PropTypes.bool,
-    updateShowLinks: PropTypes.func.isRequired,
+    // showLinks: PropTypes.bool,
+    // updateShowLinks: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
     askItemStructure: PropTypes.func.isRequired,
   };
@@ -158,7 +160,7 @@ export default class DecommutedPacketView extends PureComponent {
     entryPoints: {},
     inspectorEpId: null,
     links: [],
-    showLinks: false,
+    // showLinks: false,
     data: [],
     structure: {},
   };
@@ -178,7 +180,6 @@ export default class DecommutedPacketView extends PureComponent {
   componentWillMount() {
     this.props.askItemStructure();
   }
-
 
   componentWillReceiveProps(nextProps) {
     if (this.props.structure !== nextProps.structure
@@ -392,7 +393,7 @@ export default class DecommutedPacketView extends PureComponent {
 
     const { parameterName } = entryPoints.decommutedPacketEP.dataId;
     return (
-      <div>
+      <ErrorBoundary>
         <DroppableContainer
           onDrop={this.onDrop}
           onContextMenu={this.onContextMenu}
@@ -418,7 +419,7 @@ export default class DecommutedPacketView extends PureComponent {
           }
         </DroppableContainer>
         {this.renderModal()}
-      </div>
+      </ErrorBoundary>
     );
   }
 }

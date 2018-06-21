@@ -1,25 +1,24 @@
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import './PUS11View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 
-const { string, number, arrayOf, shape, func } = PropTypes;
-
 export default class PUS11View extends React.Component {
   static propTypes = {
     // own props
-    viewId: string.isRequired,
+    viewId: PropTypes.string.isRequired,
     // From PUS11ViewContainer mapStateToProps
-    applicationProcessName: string,
-    applicationProcessId: number,
-    scheduleStatus: string.isRequired,
-    availableSpace: string.isRequired,
-    spaceType: string.isRequired,
-    lastUpdateTime: number.isRequired,
-    lastUpdateType: string.isRequired,
+    applicationProcessName: PropTypes.string,
+    applicationProcessId: PropTypes.number,
+    scheduleStatus: PropTypes.string.isRequired,
+    availableSpace: PropTypes.string.isRequired,
+    spaceType: PropTypes.string.isRequired,
+    lastUpdateTime: PropTypes.number.isRequired,
+    lastUpdateType: PropTypes.string.isRequired,
     // from container's mapDispatchToProps
     // openModal: func.isRequired,
   };
@@ -99,42 +98,44 @@ export default class PUS11View extends React.Component {
     }
 
     return (
-      <div className="pus11">
-        <div className="header">
-          {renderHeaders(
-            applicationProcessName,
-            applicationProcessId,
-            scheduleStatus,
-            availableSpace,
-            spaceType,
-            lastUpdateTime,
-            lastUpdateType)}
-        </div>
-        <div className="header">
-          <div className="col-sm-6">
-            <VirtualizedTableViewContainer
-              viewId={viewId}
-              tableId={'subSchedules'}
-            />
+      <ErrorBoundary>
+        <div className="pus11">
+          <div className="header">
+            {renderHeaders(
+              applicationProcessName,
+              applicationProcessId,
+              scheduleStatus,
+              availableSpace,
+              spaceType,
+              lastUpdateTime,
+              lastUpdateType)}
           </div>
-          <div className="clearfix" />
-          <div className="col-sm-6">
-            <VirtualizedTableViewContainer
-              viewId={viewId}
-              tableId={'enabledApids'}
-            />
+          <div className="header">
+            <div className="col-sm-6">
+              <VirtualizedTableViewContainer
+                viewId={viewId}
+                tableId={'subSchedules'}
+              />
+            </div>
+            <div className="clearfix" />
+            <div className="col-sm-6">
+              <VirtualizedTableViewContainer
+                viewId={viewId}
+                tableId={'enabledApids'}
+              />
+            </div>
+            <div className="clearfix" />
           </div>
-          <div className="clearfix" />
-        </div>
-        <div className="header">
-          <div className="info col-sm-12">
-            <VirtualizedTableViewContainer
-              viewId={viewId}
-              tableId={'commands'}
-            />
+          <div className="header">
+            <div className="info col-sm-12">
+              <VirtualizedTableViewContainer
+                viewId={viewId}
+                tableId={'commands'}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

@@ -50,6 +50,8 @@ import _memoize from 'lodash/memoize';
 import _sortedIndexBy from 'lodash/sortedIndexBy';
 import { timeFormat } from 'd3-time-format';
 import { format as d3Format } from 'd3-format';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 
 export default class Tooltip extends React.Component {
@@ -253,150 +255,152 @@ export default class Tooltip extends React.Component {
     }
 
     return (
-      <div
-        onMouseMove={this.mouseMove}
-        onMouseLeave={this.mouseLeave}
-        ref={this.assignEl}
-        className={styles.tooltipDiv}
-        style={divStyle}
-      >
-        {
-          tooltiLinesToDisplay &&
-          <span
-            className={styles.tooltipVerticalCursor}
-            style={{
-              opacity: showTooltip ? 1 : 0,
-              left: xInRange,
-              height,
-            }}
-          />
-        }
-        {
-          ['left', 'right'].includes(yAxesAt) && yAxes.map((axis, index) => {
-            const yLabelStyle = {};
-            if (yAxesAt === 'left') {
-              yLabelStyle.left = ((index * yAxisWidth) * -1) - 8;
-              yLabelStyle.transform = 'translate(-100%, -50%)';
-            } else {
-              yLabelStyle.right = ((index * yAxisWidth) * -1) - 8;
-              yLabelStyle.transform = 'translate(100%, -50%)';
-            }
-            return (
-              <span
-                key={axis.id}
-                className={classnames('label', styles.tooltipYLabel)}
-                style={{
-                  opacity: showTooltip ? 1 : 0,
-                  ...yLabelStyle,
-                  top: yInRange,
-                }}
-              >
-                {this.memoizeFormatter(axis.format || '.2f')(
-                  axis.yScale.invert(yInRange)
-                )}
-              </span>
-            );
-          })
-        }
-        {
-          tooltiLinesToDisplay &&
-          <span
-            className={styles.tooltipHorizontalCursor}
-            style={{
-              opacity: showTooltip ? 1 : 0,
-              width,
-              top: yInRange,
-            }}
-          />
-        }
-        {
-          <span
-            className={classnames('label', styles.tooltipXLabel)}
-            style={{
-              opacity: showTooltip ? 1 : 0,
-              ...xLabelStyle,
-            }}
-          >
-            {
-              this.timeFormat(new Date(xInDomain))
-            }
-          </span>
-        }
-        {
-          tooltiLinesToDisplay &&
-          <div
-            className={classnames(
-              styles.tooltip,
-              {
-                [styles.tooltipBlack]: tooltipColor === 'black',
-                [styles.tooltipBlue]: tooltipColor === 'blue',
+      <ErrorBoundary>
+        <div
+          onMouseMove={this.mouseMove}
+          onMouseLeave={this.mouseLeave}
+          ref={this.assignEl}
+          className={styles.tooltipDiv}
+          style={divStyle}
+        >
+          {
+            tooltiLinesToDisplay &&
+            <span
+              className={styles.tooltipVerticalCursor}
+              style={{
+                opacity: showTooltip ? 1 : 0,
+                left: xInRange,
+                height,
+              }}
+            />
+          }
+          {
+            ['left', 'right'].includes(yAxesAt) && yAxes.map((axis, index) => {
+              const yLabelStyle = {};
+              if (yAxesAt === 'left') {
+                yLabelStyle.left = ((index * yAxisWidth) * -1) - 8;
+                yLabelStyle.transform = 'translate(-100%, -50%)';
+              } else {
+                yLabelStyle.right = ((index * yAxisWidth) * -1) - 8;
+                yLabelStyle.transform = 'translate(100%, -50%)';
               }
-            )}
-            style={tooltipStyle}
-          >
-            {
-              xInDomain &&
-              <h5>Visualization time: {this.timeFormat(new Date(xInDomain))}</h5>
-            }
-            {
-              Object.keys(linesList).map(axisId =>
-                <div key={axisId} >
-                  <h5 className={styles.tooltipAxisLabel} >
-                    Axis {axisId}
-                  </h5>
-                  {
-                    linesList[axisId].length === 0 &&
-                    <p className={styles.tooltipNoData}>No data</p>
-                  }
-                  {
-                    linesList[axisId].map((line) => {
-                      const propsAxis = yAxes.find(a => a.id === axisId);
-                      const propsLine = propsAxis.lines.find(l => l.id === line.id);
-                      return (propsLine && propsLine.tooltipFormatter ?
-                        propsLine.tooltipFormatter(
-                          line.id,
-                          line.foundColor,
-                          line.lineColor,
-                          line.value,
-                          line.x,
-                          line.formattedValue,
-                          line.formatter,
-                          line.packet
-                        )
-                        :
-                        (<div
-                          key={line.id}
-                          className={styles.tooltipLine}
-                        >
-                          <span
-                            className={styles.tooltipLineSquare}
-                            style={{ background: line.foundColor }}
-                          />
-                          <p>
+              return (
+                <span
+                  key={axis.id}
+                  className={classnames('label', styles.tooltipYLabel)}
+                  style={{
+                    opacity: showTooltip ? 1 : 0,
+                    ...yLabelStyle,
+                    top: yInRange,
+                  }}
+                >
+                  {this.memoizeFormatter(axis.format || '.2f')(
+                    axis.yScale.invert(yInRange)
+                  )}
+                </span>
+              );
+            })
+          }
+          {
+            tooltiLinesToDisplay &&
+            <span
+              className={styles.tooltipHorizontalCursor}
+              style={{
+                opacity: showTooltip ? 1 : 0,
+                width,
+                top: yInRange,
+              }}
+            />
+          }
+          {
+            <span
+              className={classnames('label', styles.tooltipXLabel)}
+              style={{
+                opacity: showTooltip ? 1 : 0,
+                ...xLabelStyle,
+              }}
+            >
+              {
+                this.timeFormat(new Date(xInDomain))
+              }
+            </span>
+          }
+          {
+            tooltiLinesToDisplay &&
+            <div
+              className={classnames(
+                styles.tooltip,
+                {
+                  [styles.tooltipBlack]: tooltipColor === 'black',
+                  [styles.tooltipBlue]: tooltipColor === 'blue',
+                }
+              )}
+              style={tooltipStyle}
+            >
+              {
+                xInDomain &&
+                <h5>Visualization time: {this.timeFormat(new Date(xInDomain))}</h5>
+              }
+              {
+                Object.keys(linesList).map(axisId =>
+                  <div key={axisId} >
+                    <h5 className={styles.tooltipAxisLabel} >
+                      Axis {axisId}
+                    </h5>
+                    {
+                      linesList[axisId].length === 0 &&
+                      <p className={styles.tooltipNoData}>No data</p>
+                    }
+                    {
+                      linesList[axisId].map((line) => {
+                        const propsAxis = yAxes.find(a => a.id === axisId);
+                        const propsLine = propsAxis.lines.find(l => l.id === line.id);
+                        return (propsLine && propsLine.tooltipFormatter ?
+                          propsLine.tooltipFormatter(
+                            line.id,
+                            line.foundColor,
+                            line.lineColor,
+                            line.value,
+                            line.x,
+                            line.formattedValue,
+                            line.formatter,
+                            line.packet
+                          )
+                          :
+                          (<div
+                            key={line.id}
+                            className={styles.tooltipLine}
+                          >
                             <span
-                              className={styles.tooltipLineName}
-                              style={{
-                                color: line.lineColor,
-                              }}
-                            >
-                              { line.id } :
-                            </span>
-                            <span
-                              className={styles.tooltipLineValue}
-                            >
-                              { line.formattedValue }
-                            </span>
-                          </p>
-                        </div>)
-                      );
-                    })
-                  }
-                </div>
-              )
-            }
-          </div>
-        }
-      </div>
+                              className={styles.tooltipLineSquare}
+                              style={{ background: line.foundColor }}
+                            />
+                            <p>
+                              <span
+                                className={styles.tooltipLineName}
+                                style={{
+                                  color: line.lineColor,
+                                }}
+                              >
+                                { line.id } :
+                              </span>
+                              <span
+                                className={styles.tooltipLineValue}
+                              >
+                                { line.formattedValue }
+                              </span>
+                            </p>
+                          </div>)
+                        );
+                      })
+                    }
+                  </div>
+                )
+              }
+            </div>
+          }
+        </div>
+      </ErrorBoundary>
     );
   }
 }

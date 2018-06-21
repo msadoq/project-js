@@ -21,7 +21,9 @@ import * as constants from 'viewManager/constants';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
 import cleanCurrentViewData from './cleanViewData';
 
-const initialState = {};
+const initialState = {
+  tables: {},
+};
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default function historyViewData(state = {}, action) {
@@ -71,7 +73,7 @@ export default function historyViewData(state = {}, action) {
       return newState;
     }
     case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations }
+      const { dataToInject, newViewMap, newExpectedRangeIntervals }
         = action.payload;
       const dataKeys = Object.keys(dataToInject);
       // If nothing changed and no data to import, return state
@@ -79,7 +81,6 @@ export default function historyViewData(state = {}, action) {
         return state;
       }
       // Gets configuration for history views
-      const configuration = configurations.HistoryViewConfiguration;
       // since now, state will change
       let newState = state;
       const viewIds = Object.keys(state);
@@ -91,7 +92,7 @@ export default function historyViewData(state = {}, action) {
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
           const viewState =
-            viewRangeAdd(newState[viewId], viewId, epSubState, configuration[viewId]);
+            viewRangeAdd(newState[viewId], viewId, epSubState);
           if (viewState !== newState[viewId]) {
             newState = { ...newState, [viewId]: viewState };
           }

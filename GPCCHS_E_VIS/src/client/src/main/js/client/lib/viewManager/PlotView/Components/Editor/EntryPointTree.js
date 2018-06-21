@@ -33,8 +33,11 @@ import classnames from 'classnames';
 import Collapse from 'rc-collapse';
 import { entryPointType } from 'viewManager/common/Components/types';
 import { handleSubmit } from 'viewManager/common';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './EntryPointTree.css';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
+
 /*
   EntryPointTree liste les EntryPoints à afficher.
   Permet également d'appliquer un filtre sur le nom
@@ -101,59 +104,64 @@ export default class EntryPointTree extends PureComponent {
     }
 
     return (
-      <Collapse
-        accordion={false}
-        onChange={this.onChange}
-        defaultActiveKey={entryPointsPanels === true ? emptyArray : Object.keys(entryPointsPanels)}
-      >
-        {list.map((entryPoint) => {
-          const isOpen = entryPointsPanels[entryPoint.id];
-          return (
-            <Panel
-              key={entryPoint.id}
-              header={
-                <div className="rc-collapse-header-inner">
-                  {entryPoint.objectStyle && entryPoint.objectStyle.curveColor &&
-                    <div style={{ width: '30px' }}>
-                      <div
-                        className={styles.colorSquare}
-                        style={{
-                          backgroundColor: entryPoint.objectStyle.curveColor,
-                        }}
-                      />
+      <ErrorBoundary>
+        <Collapse
+          accordion={false}
+          onChange={this.onChange}
+          defaultActiveKey={entryPointsPanels === true
+            ? emptyArray
+            : Object.keys(entryPointsPanels)
+          }
+        >
+          {list.map((entryPoint) => {
+            const isOpen = entryPointsPanels[entryPoint.id];
+            return (
+              <Panel
+                key={entryPoint.id}
+                header={
+                  <div className="rc-collapse-header-inner">
+                    {entryPoint.objectStyle && entryPoint.objectStyle.curveColor &&
+                      <div style={{ width: '30px' }}>
+                        <div
+                          className={styles.colorSquare}
+                          style={{
+                            backgroundColor: entryPoint.objectStyle.curveColor,
+                          }}
+                        />
+                      </div>
+                    }
+                    <span className="flex">{entryPoint.name}</span>
+                    <div>
+                      <Button
+                        bsSize="xsmall"
+                        className={classnames('btn-link', styles.removeButton)}
+                        onClick={e => this.handleRemove(e, entryPoint.id)}
+                      >
+                        <Glyphicon
+                          className="text-danger"
+                          glyph="remove"
+                          title="Remove"
+                        />
+                      </Button>
                     </div>
-                  }
-                  <span className="flex">{entryPoint.name}</span>
-                  <div>
-                    <Button
-                      bsSize="xsmall"
-                      className={classnames('btn-link', styles.removeButton)}
-                      onClick={e => this.handleRemove(e, entryPoint.id)}
-                    >
-                      <Glyphicon
-                        className="text-danger"
-                        glyph="remove"
-                        title="Remove"
-                      />
-                    </Button>
                   </div>
-                </div>
-              }
-            >
-              {isOpen && <EntryPointDetailsContainer
-                key={`${entryPoint.id}#detailsContainer`}
-                windowId={windowId}
-                viewId={viewId}
-                pageId={pageId}
-                entryPoint={entryPoint}
-                onSubmit={this.handleSubmit}
-                initialValues={entryPoint}
-                form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
-              />}
-            </Panel>
-          );
-        })}
-      </Collapse>
+                }
+              >
+                {isOpen && <EntryPointDetailsContainer
+                  key={`${entryPoint.id}#detailsContainer`}
+                  windowId={windowId}
+                  viewId={viewId}
+                  pageId={pageId}
+                  entryPoint={entryPoint}
+                  onSubmit={this.handleSubmit}
+                  initialValues={entryPoint}
+                  form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
+                />}
+              </Panel>
+            );
+          })}
+        </Collapse>
+      </ErrorBoundary>
     );
   }
 }

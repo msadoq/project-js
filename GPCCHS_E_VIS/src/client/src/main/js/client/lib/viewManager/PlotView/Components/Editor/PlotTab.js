@@ -21,6 +21,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Collapse from 'rc-collapse';
 import { Button, Glyphicon } from 'react-bootstrap';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import PlotGridsContainer from './PlotGridsContainer';
 import PlotAxesContainer from './PlotAxesContainer';
 import ViewParamsContainer from './ViewParamsContainer';
@@ -63,68 +65,70 @@ export default class PlotTab extends Component {
     const { viewId, panels } = this.props;
 
     return (
-      <Collapse
-        accordion={false}
-        onChange={this.onChange}
-        defaultActiveKey={Object.keys(panels)}
-      >
-        <Panel
-          header="Parameters"
-          key="parameters"
+      <ErrorBoundary>
+        <Collapse
+          accordion={false}
+          onChange={this.onChange}
+          defaultActiveKey={Object.keys(panels)}
         >
-          {
-            panels.parameters &&
-            <ViewParamsContainer viewId={viewId} />
-          }
-        </Panel>
-        <Panel
-          header="Grid"
-          key="grid"
-        >
-          {
-            panels.grid &&
-            <PlotGridsContainer viewId={viewId} />
-          }
-        </Panel>
+          <Panel
+            header="Parameters"
+            key="parameters"
+          >
+            {
+              panels.parameters &&
+              <ViewParamsContainer viewId={viewId} />
+            }
+          </Panel>
+          <Panel
+            header="Grid"
+            key="grid"
+          >
+            {
+              panels.grid &&
+              <PlotGridsContainer viewId={viewId} />
+            }
+          </Panel>
 
-        <Panel
-          key="axes"
-          header={
-            <div className="rc-collapse-header-inner">
-              <span className="flex" style={{ paddingLeft: '13px' }}>Axes</span>
-              <Button
-                bsSize="xsmall"
-                className="pull-right btn-link"
-                onClick={this.handleAddPlotAxis}
-              >
-                <Glyphicon
-                  className="text-success"
-                  glyph="plus"
-                  title="Add"
-                />
-              </Button>
-            </div>
-          }
-        >
-          {
-            panels.axes &&
-            <PlotAxesContainer
-              viewId={viewId}
-              panel="axes"
-            />
-          }
-        </Panel>
-        { /* @TODO v2, to be uncommented soon.
-          to add a marker you need to use the plot menu
-          to be uncommented too!
-        <PlotMarkersContainer
-          viewId={viewId}
-          eventKey="4"
-          expanded={isMarkersOpen}
-          open={this.openMarkers}
-          close={this.closeMarkers}
-        /> */}
-      </Collapse>
+          <Panel
+            key="axes"
+            header={
+              <div className="rc-collapse-header-inner">
+                <span className="flex" style={{ paddingLeft: '13px' }}>Axes</span>
+                <Button
+                  bsSize="xsmall"
+                  className="pull-right btn-link"
+                  onClick={this.handleAddPlotAxis}
+                >
+                  <Glyphicon
+                    className="text-success"
+                    glyph="plus"
+                    title="Add"
+                  />
+                </Button>
+              </div>
+            }
+          >
+            {
+              panels.axes &&
+              <PlotAxesContainer
+                viewId={viewId}
+                panel="axes"
+              />
+            }
+          </Panel>
+          { /* @TODO v2, to be uncommented soon.
+            to add a marker you need to use the plot menu
+            to be uncommented too!
+          <PlotMarkersContainer
+            viewId={viewId}
+            eventKey="4"
+            expanded={isMarkersOpen}
+            open={this.openMarkers}
+            close={this.closeMarkers}
+          /> */}
+        </Collapse>
+      </ErrorBoundary>
     );
   }
 }

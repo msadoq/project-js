@@ -4,21 +4,20 @@ import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { catalogType } from 'viewManager/common/Components/types';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
-
-const { string, arrayOf, oneOfType, func, number } = PropTypes;
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class CatalogField extends Component {
   static propTypes = {
-    timelineId: string,
+    timelineId: PropTypes.string,
     // from container mapStateToProps
-    catalogs: oneOfType([
-      string, // when requesting
-      arrayOf(catalogType),
+    catalogs: PropTypes.oneOfType([
+      PropTypes.string, // when requesting
+      PropTypes.arrayOf(catalogType),
     ]),
-    sessionId: number,
-    domainId: number,
+    sessionId: PropTypes.number,
+    domainId: PropTypes.number,
     // from container mapDispatchToProps
-    askCatalogs: func.isRequired,
+    askCatalogs: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -47,14 +46,16 @@ export default class CatalogField extends Component {
     const { catalogs, domainId, timelineId } = this.props;
     const disabled = (!domainId || !timelineId || catalogs === null);
     return (
-      <Field
-        format={null}
-        name="connectedData.catalog"
-        component={ReactSelectField}
-        clearable
-        disabled={disabled}
-        options={computeOptions(catalogs)}
-      />
+      <ErrorBoundary>
+        <Field
+          format={null}
+          name="connectedData.catalog"
+          component={ReactSelectField}
+          clearable
+          disabled={disabled}
+          options={computeOptions(catalogs)}
+        />
+      </ErrorBoundary>
     );
   }
 }

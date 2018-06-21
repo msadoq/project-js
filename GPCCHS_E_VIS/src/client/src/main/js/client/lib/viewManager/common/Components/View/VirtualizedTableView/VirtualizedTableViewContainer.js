@@ -21,6 +21,7 @@ const mapStateToProps = (state, { viewId, tableId }) => {
       [
         `${getViewType(state, { viewId })}Data`,
         viewId,
+        'tables',
         tableId,
       ],
       state

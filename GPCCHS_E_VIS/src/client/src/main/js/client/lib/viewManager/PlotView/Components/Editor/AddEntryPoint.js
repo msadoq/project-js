@@ -24,6 +24,7 @@ import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGro
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 class AddEntryPoint extends Component {
 
@@ -56,39 +57,41 @@ class AddEntryPoint extends Component {
     }
 
     return (
-      <Form horizontal onSubmit={handleSubmit}>
-        <HorizontalFormGroup label="Label">
-          <Field
-            name="name"
-            component={InputField}
-            className="form-control input-sm"
-            type="text"
-          />
-        </HorizontalFormGroup>
+      <ErrorBoundary>
+        <Form horizontal onSubmit={handleSubmit}>
+          <HorizontalFormGroup label="Label">
+            <Field
+              name="name"
+              component={InputField}
+              className="form-control input-sm"
+              type="text"
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Axis">
-          <Field
-            name="connectedData.axisId"
-            clearable={false}
-            component={ReactSelectField}
-            options={
-              filteredAxes.map(axis => ({
-                label: axis.label,
-                value: axis.axisId,
-              })).concat({
-                label: '-',
-                value: '',
-              })
-            }
-          />
-        </HorizontalFormGroup>
+          <HorizontalFormGroup label="Axis">
+            <Field
+              name="connectedData.axisId"
+              clearable={false}
+              component={ReactSelectField}
+              options={
+                filteredAxes.map(axis => ({
+                  label: axis.label,
+                  value: axis.axisId,
+                })).concat({
+                  label: '-',
+                  value: '',
+                })
+              }
+            />
+          </HorizontalFormGroup>
 
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          valid={valid}
-        />
-      </Form>
+          <ClearSubmitButtons
+            pristine={pristine}
+            submitting={submitting}
+            valid={valid}
+          />
+        </Form>
+      </ErrorBoundary>
     );
   }
 }

@@ -14,6 +14,7 @@ import {
   Button,
 } from 'react-bootstrap';
 import Collapse, { Panel } from 'rc-collapse';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import classnames from 'classnames';
 import { handleSubmit } from 'viewManager/common';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
@@ -93,69 +94,74 @@ export default class EntryPointTree extends Component {
     }
 
     return (
-      <Collapse
-        accordion={false}
-        onChange={this.onChange}
-        defaultActiveKey={entryPointsPanels === true ? emptyArray : Object.keys(entryPointsPanels)}
-      >
-        {list.map((entryPoint) => {
-          const isOpen = entryPointsPanels[entryPoint.id];
-
-          let updatedEntryPoint = entryPoint;
-
-          if (entryPointConnectedDataForm === HistoryEntryPointConnectedDataFieldsContainer) {
-            updatedEntryPoint =
-              _.set(
-                'connectedData.dataType',
-                TIME_BASED_DATA_OPTION.value,
-                updatedEntryPoint
-              );
+      <ErrorBoundary>
+        <Collapse
+          accordion={false}
+          onChange={this.onChange}
+          defaultActiveKey={entryPointsPanels === true
+            ? emptyArray
+            : Object.keys(entryPointsPanels)
           }
+        >
+          {list.map((entryPoint) => {
+            const isOpen = entryPointsPanels[entryPoint.id];
 
-          return (
-            <Panel
-              key={entryPoint.id}
-              header={
-                <div className={classnames('rc-collapse-header-inner', styles.collapseHeader)}>
-                  {entryPoint.objectStyle && entryPoint.objectStyle.curveColor &&
-                  <div
-                    className={styles.colorSquare}
-                    style={{
-                      backgroundColor: entryPoint.objectStyle.curveColor,
-                    }}
-                  />
-                  }
-                  <span className="flex">&nbsp;&nbsp;&nbsp;{entryPoint.name}</span>
-                  <div>
-                    <Button
-                      bsSize="xsmall"
-                      className={classnames('btn-link', styles.removeButton)}
-                      onClick={e => this.handleRemove(e, entryPoint.id)}
-                    >
-                      <Glyphicon
-                        className="text-danger"
-                        glyph="remove"
-                        title="Remove"
-                      />
-                    </Button>
+            let updatedEntryPoint = entryPoint;
+
+            if (entryPointConnectedDataForm === HistoryEntryPointConnectedDataFieldsContainer) {
+              updatedEntryPoint =
+                _.set(
+                  'connectedData.dataType',
+                  TIME_BASED_DATA_OPTION.value,
+                  updatedEntryPoint
+                );
+            }
+
+            return (
+              <Panel
+                key={entryPoint.id}
+                header={
+                  <div className={classnames('rc-collapse-header-inner', styles.collapseHeader)}>
+                    {entryPoint.objectStyle && entryPoint.objectStyle.curveColor &&
+                    <div
+                      className={styles.colorSquare}
+                      style={{
+                        backgroundColor: entryPoint.objectStyle.curveColor,
+                      }}
+                    />
+                    }
+                    <span className="flex">&nbsp;&nbsp;&nbsp;{entryPoint.name}</span>
+                    <div>
+                      <Button
+                        bsSize="xsmall"
+                        className={classnames('btn-link', styles.removeButton)}
+                        onClick={e => this.handleRemove(e, entryPoint.id)}
+                      >
+                        <Glyphicon
+                          className="text-danger"
+                          glyph="remove"
+                          title="Remove"
+                        />
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              }
-            >
-              {isOpen && <EntryPointDetailsContainer
-                key={`${updatedEntryPoint.id}#detailsContainer`}
-                viewId={viewId}
-                pageId={pageId}
-                entryPoint={updatedEntryPoint}
-                onSubmit={this.handleSubmit}
-                initialValues={updatedEntryPoint}
-                form={`entrypoint-title-form-${updatedEntryPoint.id}-${viewId}`}
-                entryPointConnectedDataForm={entryPointConnectedDataForm}
-              />}
-            </Panel>
-          );
-        })}
-      </Collapse>
+                }
+              >
+                {isOpen && <EntryPointDetailsContainer
+                  key={`${updatedEntryPoint.id}#detailsContainer`}
+                  viewId={viewId}
+                  pageId={pageId}
+                  entryPoint={updatedEntryPoint}
+                  onSubmit={this.handleSubmit}
+                  initialValues={updatedEntryPoint}
+                  form={`entrypoint-title-form-${updatedEntryPoint.id}-${viewId}`}
+                  entryPointConnectedDataForm={entryPointConnectedDataForm}
+                />}
+              </Panel>
+            );
+          })}
+        </Collapse>
+      </ErrorBoundary>
     );
   }
 }

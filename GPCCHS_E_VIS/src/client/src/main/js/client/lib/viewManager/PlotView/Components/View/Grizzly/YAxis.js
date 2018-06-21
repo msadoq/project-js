@@ -25,6 +25,8 @@ import { select } from 'd3-selection';
 import { range } from 'd3-array';
 import { format as d3Format } from 'd3-format';
 import { axisLeft, axisRight } from 'd3-axis';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 
 export default class YAxis extends Component {
@@ -354,45 +356,47 @@ export default class YAxis extends Component {
     style.height = height;
 
     return (
-      <div
-        style={divStyle}
-        className={styles.yAxisDiv}
-      >
-        <span
-          ref={this.assignLabelEl}
-          className={classnames(
-            'label',
-            styles.yAxisLabel,
-            {
-              [styles.labelUnderline]: labelStyle.underline,
-              [styles.labelBold]: labelStyle.bold,
-              [styles.labelItalic]: labelStyle.italic,
-            }
-          )}
+      <ErrorBoundary>
+        <div
+          style={divStyle}
+          className={styles.yAxisDiv}
         >
-          { label }{ unit.length ? ` (${unit})` : '' }
-        </span>
-        {
-          lines.map(line =>
-            <span
-              key={line.id}
-              className={classnames(
-                'label',
-                styles.yAxisLineLabel,
-                { hidden: !showLabels }
-              )}
-              ref={this.memoizeAssignRef(line.id)}
-            >
-              {line.id}
-            </span>
-          )
-        }
-        <svg
-          style={style}
-          ref={this.assignEl}
-          className={styles.yAxis}
-        />
-      </div>
+          <span
+            ref={this.assignLabelEl}
+            className={classnames(
+              'label',
+              styles.yAxisLabel,
+              {
+                [styles.labelUnderline]: labelStyle.underline,
+                [styles.labelBold]: labelStyle.bold,
+                [styles.labelItalic]: labelStyle.italic,
+              }
+            )}
+          >
+            { label }{ unit.length ? ` (${unit})` : '' }
+          </span>
+          {
+            lines.map(line =>
+              <span
+                key={line.id}
+                className={classnames(
+                  'label',
+                  styles.yAxisLineLabel,
+                  { hidden: !showLabels }
+                )}
+                ref={this.memoizeAssignRef(line.id)}
+              >
+                {line.id}
+              </span>
+            )
+          }
+          <svg
+            style={style}
+            ref={this.assignEl}
+            className={styles.yAxis}
+          />
+        </div>
+      </ErrorBoundary>
     );
   }
 }

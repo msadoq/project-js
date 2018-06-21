@@ -1,30 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: AlarmViewEntryPoints snapshot 1`] = `
-<HorizontalFormGroup
-  className=""
-  label="Mode"
->
-  <Field
-    clearable={false}
-    component={[Function]}
-    name="mode"
-    options={
-      Array [
-        Object {
-          "label": "All",
-          "value": 0,
-        },
-        Object {
-          "label": "Non nominal",
-          "value": 1,
-        },
-        Object {
-          "label": "To Acknowledge",
-          "value": 2,
-        },
-      ]
-    }
-  />
-</HorizontalFormGroup>
+<ErrorBoundary>
+  <HorizontalFormGroup
+    className=""
+    label="Mode"
+  >
+    <Field
+      clearable={false}
+      component={[Function]}
+      name="mode"
+      options={
+        Array [
+          Object {
+            "label": "All",
+            "value": 0,
+          },
+          Object {
+            "label": "Non nominal",
+            "value": 1,
+          },
+          Object {
+            "label": "To Acknowledge",
+            "value": 2,
+          },
+        ]
+      }
+    />
+  </HorizontalFormGroup>
+</ErrorBoundary>
 `;

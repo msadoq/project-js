@@ -11,8 +11,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Collapse from 'rc-collapse';
 import { Button, Glyphicon } from 'react-bootstrap';
-import LinksContainer from './LinksContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
+import LinksContainer from './LinksContainer';
 
 const { Panel } = Collapse;
 
@@ -25,7 +26,7 @@ export default class Misc extends React.Component {
   };
   static defaultProps = {
     links: [],
-  }
+  };
   static contextTypes = {
     windowId: PropTypes.string,
   };
@@ -33,7 +34,7 @@ export default class Misc extends React.Component {
   onChange = (openPanels) => {
     const { updateViewPanels, viewId } = this.props;
     updateViewPanels(viewId, 'panels', openPanels);
-  }
+  };
 
   handleAddLink = (e) => {
     e.preventDefault();
@@ -41,46 +42,48 @@ export default class Misc extends React.Component {
     const { openModal, viewId } = this.props;
     const { windowId } = this.context;
     openModal(windowId, { type: 'addLink', viewId, myFormKey: 'addLink', id: 'addLink' });
-  }
+  };
 
   render() {
     const { viewId, panels } = this.props;
     const keys = ['Links'];
 
     return (
-      <Collapse
-        accordion={false}
-        onChange={this.onChange}
-        defaultActiveKey={keys}
-      >
-        <Panel
-          key="links"
-          header={
-            <div className="rc-collapse-header-inner">
-              <span className="flex" style={{ paddingLeft: '13px' }}>Links</span>
-              <Button
-                bsSize="xsmall"
-                className="pull-right btn-link"
-                onClick={this.handleAddLink}
-              >
-                <Glyphicon
-                  className="text-success"
-                  glyph="plus"
-                  title="Add"
-                />
-              </Button>
-            </div>
-          }
+      <ErrorBoundary>
+        <Collapse
+          accordion={false}
+          onChange={this.onChange}
+          defaultActiveKey={keys}
         >
-          {
-            panels.links &&
-            <LinksContainer
-              viewId={viewId}
-              panel="links"
-            />
-          }
-        </Panel>
-      </Collapse>
+          <Panel
+            key="links"
+            header={
+              <div className="rc-collapse-header-inner">
+                <span className="flex" style={{ paddingLeft: '13px' }}>Links</span>
+                <Button
+                  bsSize="xsmall"
+                  className="pull-right btn-link"
+                  onClick={this.handleAddLink}
+                >
+                  <Glyphicon
+                    className="text-success"
+                    glyph="plus"
+                    title="Add"
+                  />
+                </Button>
+              </div>
+            }
+          >
+            {
+              panels.links &&
+              <LinksContainer
+                viewId={viewId}
+                panel="links"
+              />
+            }
+          </Panel>
+        </Collapse>
+      </ErrorBoundary>
     );
   }
 }

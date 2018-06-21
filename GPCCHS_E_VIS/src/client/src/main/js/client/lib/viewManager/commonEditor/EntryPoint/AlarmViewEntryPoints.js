@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import * as constants from '../../../constants';
 
 const MODES = [
@@ -11,8 +12,6 @@ const MODES = [
   { value: constants.ALARM_MODE_TOACKNOWLEDGE, label: 'To Acknowledge' },
 ];
 
-const { string } = PropTypes;
-
 /**
  * Corresponding views:
  *  - OnBoardAlarmView
@@ -20,8 +19,8 @@ const { string } = PropTypes;
  */
 export default class AlarmViewEntryPoints extends PureComponent {
   static propTypes = {
-    timeline: string,
-    domain: string,
+    timeline: PropTypes.string,
+    domain: PropTypes.string,
   };
 
   static defaultProps = {
@@ -35,15 +34,16 @@ export default class AlarmViewEntryPoints extends PureComponent {
 
   render() {
     return (
-      <HorizontalFormGroup label="Mode">
-        <Field
-          name="mode"
-          clearable={false}
-          component={ReactSelectField}
-          options={MODES}
-        />
-      </HorizontalFormGroup>
-
+      <ErrorBoundary>
+        <HorizontalFormGroup label="Mode">
+          <Field
+            name="mode"
+            clearable={false}
+            component={ReactSelectField}
+            options={MODES}
+          />
+        </HorizontalFormGroup>
+      </ErrorBoundary>
     );
   }
 }

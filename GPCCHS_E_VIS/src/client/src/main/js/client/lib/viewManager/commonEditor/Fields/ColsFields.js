@@ -6,15 +6,14 @@ import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-ho
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { fieldArrayPropsType } from 'viewManager/common/Components/types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import styles from './ColsFields.css';
-
-const { func } = PropTypes;
 
 export default class ColsFields extends Component {
   static propTypes = {
     // Own props
     fields: fieldArrayPropsType.isRequired,
-    onOrderChange: func.isRequired,
+    onOrderChange: PropTypes.func.isRequired,
   };
 
   render() {
@@ -23,11 +22,13 @@ export default class ColsFields extends Component {
 
     return (
       cols && cols.length ?
-        <SortableList
-          items={cols}
-          onSortEnd={({ oldIndex, newIndex }) =>
-            onSortEnd(oldIndex, newIndex, fields, onOrderChange)}
-        />
+        <ErrorBoundary>
+          <SortableList
+            items={cols}
+            onSortEnd={({ oldIndex, newIndex }) =>
+              onSortEnd(oldIndex, newIndex, fields, onOrderChange)}
+          />
+        </ErrorBoundary>
       :
         null
     );

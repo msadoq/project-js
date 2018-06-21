@@ -20,8 +20,9 @@ import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGro
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import FileInputField from 'windowProcess/commonReduxForm/FileInputField';
-import { validateRequiredFields } from '../../common';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
+import { validateRequiredFields } from '../../common';
 
 class AddLink extends Component {
   static propTypes = {
@@ -46,7 +47,7 @@ class AddLink extends Component {
 
   changePath = (val) => {
     this.props.change('path', val);
-  }
+  };
 
   render() {
     const {
@@ -59,41 +60,43 @@ class AddLink extends Component {
     } = this.props;
 
     return (
-      <Form
-        key={myFormKey}
-        horizontal
-        onSubmit={handleSubmit}
-        className={classnames(
-          { 'redux-form-dirty': !pristine },
-          'redux-form-padded'
-        )}
-      >
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          valid={valid}
-          reset={reset}
-        />
-        <br />
-        <HorizontalFormGroup label="Label">
-          <Field
-            name="name"
-            component={InputField}
-            className="form-control input-sm"
-            type="text"
+      <ErrorBoundary>
+        <Form
+          key={myFormKey}
+          horizontal
+          onSubmit={handleSubmit}
+          className={classnames(
+            { 'redux-form-dirty': !pristine },
+            'redux-form-padded'
+          )}
+        >
+          <ClearSubmitButtons
+            pristine={pristine}
+            submitting={submitting}
+            valid={valid}
+            reset={reset}
           />
-        </HorizontalFormGroup>
+          <br />
+          <HorizontalFormGroup label="Label">
+            <Field
+              name="name"
+              component={InputField}
+              className="form-control input-sm"
+              type="text"
+            />
+          </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Path">
-          <Field
-            name="path"
-            changePath={this.changePath}
-            component={FileInputField}
-            onHandleSubmit={handleSubmit}
-            myFormKey={myFormKey}
-          />
-        </HorizontalFormGroup>
-      </Form>
+          <HorizontalFormGroup label="Path">
+            <Field
+              name="path"
+              changePath={this.changePath}
+              component={FileInputField}
+              onHandleSubmit={handleSubmit}
+              myFormKey={myFormKey}
+            />
+          </HorizontalFormGroup>
+        </Form>
+      </ErrorBoundary>
     );
   }
 }

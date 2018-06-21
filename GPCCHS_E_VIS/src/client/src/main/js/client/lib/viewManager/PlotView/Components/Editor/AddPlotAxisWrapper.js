@@ -16,6 +16,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import AddPlotAxis from './AddPlotAxis';
 
 const initialValues = {
@@ -81,12 +83,14 @@ export default class AddEntryPointWrapper extends Component {
 
   render() {
     return (
-      <AddPlotAxis
-        onSubmit={this.willAddAxis}
-        axes={this.props.axes}
-        form={`add-plot-axis-${this.props.viewId}`}
-        initialValues={initialValues}
-      />
+      <ErrorBoundary>
+        <AddPlotAxis
+          onSubmit={this.willAddAxis}
+          axes={this.props.axes}
+          form={`add-plot-axis-${this.props.viewId}`}
+          initialValues={initialValues}
+        />
+      </ErrorBoundary>
     );
   }
 }

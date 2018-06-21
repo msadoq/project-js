@@ -8,13 +8,11 @@ const DataViewEntryPointsContainer = connect(
   mapStateToProps, {}
 )(DataViewEntryPoints);
 
-const { string, oneOf } = PropTypes;
-
 DataViewEntryPointsContainer.PropTypes = {
-  viewId: string.isRequired,
-  pageId: string.isRequired,
-  search: string,
-  viewType: oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
+  viewId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
+  search: PropTypes.string,
+  viewType: PropTypes.oneOf(['TextView', 'MimicView', 'HistoryView', 'PlotView']).isRequired,
 };
 
 

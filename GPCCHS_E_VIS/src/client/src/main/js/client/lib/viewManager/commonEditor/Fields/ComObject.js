@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
-
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class ComObject extends PureComponent {
   static propTypes = {
@@ -75,14 +75,16 @@ export default class ComObject extends PureComponent {
 
     const disabled = (!domainId || !timelineId || !catalogName || !itemName || comObjects === null);
     return (
-      <Field
-        format={null}
-        name="connectedData.comObject"
-        component={ReactSelectField}
-        clearable
-        disabled={disabled}
-        options={computeOptions(allowedComObjects)}
-      />
+      <ErrorBoundary>
+        <Field
+          format={null}
+          name="connectedData.comObject"
+          component={ReactSelectField}
+          clearable
+          disabled={disabled}
+          options={computeOptions(allowedComObjects)}
+        />
+      </ErrorBoundary>
     );
   }
 }

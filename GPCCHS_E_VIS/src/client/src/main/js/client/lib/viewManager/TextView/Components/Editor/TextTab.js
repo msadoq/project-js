@@ -19,6 +19,7 @@ import {
   Button,
 } from 'react-bootstrap';
 import ViewParamsContainer from 'viewManager/commonEditor/ViewParamsContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class TextTab extends React.Component {
   static propTypes = {
@@ -49,7 +50,7 @@ export default class TextTab extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <ErrorBoundary>
         <Collapse
           accordion={false}
           onChange={this.onChange}
@@ -67,7 +68,7 @@ export default class TextTab extends React.Component {
             <Button onClick={() => closeCodeEditor()} className="center-block mt20">Close HTML Editor</Button> :
             <Button onClick={() => openCodeEditor(viewId)} className="center-block mt20">Open HTML Editor</Button>
         }
-      </div>
+      </ErrorBoundary>
     );
   }
 }

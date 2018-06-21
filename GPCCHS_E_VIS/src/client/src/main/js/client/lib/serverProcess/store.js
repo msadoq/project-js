@@ -63,7 +63,7 @@ import windowSessionOrDomainUpdated
 import getLogger from '../common/logManager';
 import makePlayerMiddleware from '../store/middlewares/player';
 import catalogMiddleware from '../store/middlewares/catalogs';
-import createPusTestMiddleware from '../store/middlewares/pus';
+import createPusTestMiddleware, { createPusDataMiddleware } from '../store/middlewares/pus';
 import apidsMiddleware from '../store/middlewares/apids';
 import makeOnUserAction from '../store/middlewares/user/makeOnUserAction';
 import onEntryPointData from '../store/middlewares/smartViews/onEntryPointData';
@@ -78,6 +78,7 @@ const createMiddlewares = (identity, isDebugOn) => {
     thunk,
     catalogMiddleware,
     apidsMiddleware,
+    createPusDataMiddleware(),
     createPusTestMiddleware(ipc),
     createIncomingDataMiddleware(lokiKnownRangesManager, lokiObsoleteEventManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),

@@ -1,4 +1,7 @@
 import * as types from 'store/types';
+import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
+import injectPusData from './injectPusData';
+import preparePusRange from './preparePusRange';
 
 const makeCallback = () => () => {};
 
@@ -32,5 +35,9 @@ const pusTestMiddleware = ipc => (/* { dispatch, getState } */) => next => (acti
   return nextAction;
 };
 
+export const createPusDataMiddleware = () => pipeMiddlewares(
+  injectPusData(),
+  preparePusRange()
+);
 export default pusTestMiddleware;
 

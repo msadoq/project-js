@@ -14,7 +14,8 @@ import dataMapGenerator from 'dataManager/map';
 import mergeIntervals from 'common/intervals/merge';
 import { resetKnownRange } from 'store/actions/knownRanges';
 import * as types from 'store/types';
-import { removeAllExceptIntervals } from 'serverProcess/models/lokiKnownRangesData';
+import { PREFIX_KNOWN_RANGES } from 'constants';
+import { removeAllExceptIntervals } from 'serverProcess/models/lokiGeneric';
 
 let lastCleanTimestamp = new Date();
 
@@ -38,7 +39,7 @@ const cleanCache = cleanTrigger => ({ getState, dispatch }) => next => (action) 
         interval: merged,
       };
     }
-    removeAllExceptIntervals(toKeep);
+    removeAllExceptIntervals(PREFIX_KNOWN_RANGES, toKeep);
     lastCleanTimestamp = new Date();
     dispatch(resetKnownRange(toKeep));
   }

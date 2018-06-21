@@ -22,13 +22,14 @@
 // ====================================================================
 
 import * as types from 'store/types';
-import { getRangesRecords } from 'serverProcess/models/lokiKnownRangesData';
+import { getRecordsByInterval } from 'serverProcess/models/lokiGeneric';
 import { newData } from 'store/actions/incomingData';
 import { getMissingIntervals } from 'store/reducers/knownRanges';
 import { add } from 'serverProcess/models/registeredArchiveQueriesSingleton';
 import { sendArchiveQuery } from 'store/actions/knownRanges';
 import mergeIntervals from 'common/intervals/merge';
 import executionMonitor from 'common/logManager/execution';
+import { PREFIX_KNOWN_RANGES } from 'constants';
 
 const type = 'RANGE';
 
@@ -44,9 +45,9 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
     for (let i = 0; i < tbdIds.length; i += 1) {
       const tbdId = tbdIds[i];
       const { dataId, filters, intervals, mode } = neededRange[tbdIds[i]];
-      const rangesRecords = getRangesRecords(tbdId, intervals);
+      const rangesRecords = getRecordsByInterval(PREFIX_KNOWN_RANGES, tbdId, intervals);
       if (Object.keys(rangesRecords[tbdId]).length !== 0) {
-        dispatch(newData({ ranges: rangesRecords }));
+        dispatch(newData({ [PREFIX_KNOWN_RANGES]: rangesRecords }));
       }
 
       let mergedInterval = [];

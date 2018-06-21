@@ -20,13 +20,13 @@ import dataMapGenerator from 'dataManager/map';
 import { newData } from 'store/actions/incomingData';
 import * as types from 'store/types';
 import { getFlattenDataIdForObsoleteEvent } from 'common/flattenDataId';
+import { PREFIX_KNOWN_RANGES, PREFIX_OBSOLETE_EVENTS, PREFIX_LASTS } from 'constants';
 
 const logger = require('../../../common/logManager')('middleware:preparePubSubADE');
 
 const ObsoleteEventHeaderType = 'isis.logbookEvent.LogbookEvent';
 
-const preparePubSub =
-  (lokiKnownRangesManager, lokiObsoleteEventManager) =>
+const preparePubSub = lokiManager =>
     ({ dispatch, getState }) => next => (action) => {
       const nextAction = next(action);
       if (action.type !== types.INCOMING_PUBSUB_DATA
@@ -48,9 +48,9 @@ const preparePubSub =
       execution.stop('dataMap');
 
       let payloadsJson = {
-        ranges: {},
-        lasts: {},
-        obsoleteEvents: {},
+        [PREFIX_KNOWN_RANGES]: {},
+        [PREFIX_LASTS]: {},
+        [PREFIX_OBSOLETE_EVENTS]: {},
       };
 
       for (let i = 0; i < payloadBuffersArray.length; i += 1) {
@@ -109,8 +109,8 @@ const preparePubSub =
                   decodedPayload,
                   isInIntervals: isTimestampInKnownRanges,
                   filters,
-                  addRecord: lokiKnownRangesManager.addRecord,
-                  dataType: 'ranges',
+                  addRecord: lokiManager.addRecord,
+                  type: PREFIX_KNOWN_RANGES,
                 }, payloadsJson);
               }
               execution.stop('process for ranges');
@@ -128,7 +128,7 @@ const preparePubSub =
                     decodedPayload,
                     isInIntervals: isTimestampInLastDatamapInterval,
                     filters,
-                    dataType: 'lasts',
+                    type: PREFIX_LASTS,
                   }, payloadsJson);
                 }
               }
@@ -160,8 +160,8 @@ const preparePubSub =
                     decodedPayload: obsoleteEventDecodedPayload,
                     isInIntervals: isTimestampInObsoleteEvents,
                     filters: [],
-                    addRecord: lokiObsoleteEventManager.addRecord,
-                    dataType: 'obsoleteEvents',
+                    addRecord: lokiManager.addRecord,
+                    type: PREFIX_OBSOLETE_EVENTS,
                   },
                   payloadsJson);
               }
@@ -208,7 +208,7 @@ export const updateFinalPayload =
      isInIntervals,
      filters,
      addRecord,
-     dataType,
+     type,
    },
    finalPayloads) => {
     const updatedPayloads = finalPayloads;
@@ -218,13 +218,13 @@ export const updateFinalPayload =
       if (applyFilters(decodedPayload, filters)) {
         // Store data in cache with the current tbdId
         if (addRecord) {
-          addRecord(tbdId, { timestamp, payload: decodedPayload });
+          addRecord(type, tbdId, { timestamp, payload: decodedPayload });
         }
         // Add data to final object with the current tbdId
-        if (!updatedPayloads[dataType][tbdId]) {
-          updatedPayloads[dataType][tbdId] = {};
+        if (!updatedPayloads[type][tbdId]) {
+          updatedPayloads[type][tbdId] = {};
         }
-        updatedPayloads[dataType][tbdId][timestamp] = decodedPayload;
+        updatedPayloads[type][tbdId][timestamp] = decodedPayload;
       }
     }
     return updatedPayloads;

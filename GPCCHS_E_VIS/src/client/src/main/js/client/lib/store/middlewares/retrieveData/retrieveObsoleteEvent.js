@@ -12,8 +12,9 @@
 // END-HISTORY
 // ====================================================================
 import executionMonitor from 'common/logManager/execution';
-import { getObsoleteEventRecordsByInterval } from 'serverProcess/models/lokiObsoleteEventData';
+import { getRecordsByInterval } from 'serverProcess/models/lokiGeneric';
 import flattenDataId, { getFlattenDataIdForObsoleteEvent } from 'common/flattenDataId';
+import { PREFIX_OBSOLETE_EVENTS } from 'constants';
 import * as types from '../../types';
 import { add } from '../../../serverProcess/models/registeredArchiveQueriesSingleton';
 import { newData } from '../../actions/incomingData';
@@ -37,9 +38,9 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
       const flatObsoleteEventId = getFlattenDataIdForObsoleteEvent(dataId);
       // getObsoleteEventData
       const obsoleteEventsRecords =
-        getObsoleteEventRecordsByInterval(flatObsoleteEventId, intervals);
+        getRecordsByInterval(PREFIX_OBSOLETE_EVENTS, flatObsoleteEventId, intervals);
       if (Object.keys(obsoleteEventsRecords[flatObsoleteEventId]).length !== 0) {
-        dispatch(newData({ obsoleteEvents: obsoleteEventsRecords }));
+        dispatch(newData({ [PREFIX_OBSOLETE_EVENTS]: obsoleteEventsRecords }));
       }
 
       let mergedInterval = [];

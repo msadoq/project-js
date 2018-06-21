@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
 import { getStubData } from 'utils/stubs';
-import lokiManager from 'serverProcess/models/lokiObsoleteEventData';
+import lokiManager from 'serverProcess/models/lokiGeneric';
 import prepareObsoleteEvent from './prepareObsoleteEventADE';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');

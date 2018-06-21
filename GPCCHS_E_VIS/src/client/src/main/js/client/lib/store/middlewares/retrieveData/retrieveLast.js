@@ -16,7 +16,8 @@
 // ====================================================================
 
 import * as types from 'store/types';
-import { getLastRecords } from 'serverProcess/models/lokiKnownRangesData';
+import { getLastRecords } from 'serverProcess/models/lokiGeneric';
+import { PREFIX_KNOWN_RANGES, PREFIX_LASTS } from 'constants';
 import { getUpperIntervalIsInKnownRanges } from 'store/reducers/knownRanges';
 import { add } from 'serverProcess/models/registeredArchiveQueriesSingleton';
 import { newData } from 'store/actions/incomingData';
@@ -49,10 +50,10 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
           add(queryId, tbdId, type, dataId);
         } else {
           execution.start('get last records');
-          const lastRecords = getLastRecords(tbdId, interval)[tbdId];
+          const lastRecords = getLastRecords(PREFIX_KNOWN_RANGES, tbdId, interval)[tbdId];
           execution.stop('get last records');
           if (Object.keys(lastRecords).length !== 0) {
-            dispatch(newData({ lasts: { [tbdId]: lastRecords } }));
+            dispatch(newData({ [PREFIX_LASTS]: { [tbdId]: lastRecords } }));
           } else {
             const args = { ...getLastArguments, filters };
             const queryId = ipc.dc.requestTimebasedQuery(tbdId,

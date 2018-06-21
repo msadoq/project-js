@@ -39,4 +39,23 @@
     <p>Click <i>Run</i> to generate proto/adapters </p>
     <p>The outputs files are located in the path provided by <i>Target</i> in the configuration above</p>
     <p>Once generated, ths output folder goes to the adapters files a the root of client's GPCCHS repo</p>
+
+    <h2>Troubleshoot</h2>
+    <h3>Error ISIS_DESIGN</h3>
+    <p>Sometimes the generator is just full of crap. Check if the registerPackages in Main.java is the following.</p>
+    <div>
+        <i>public void registerPackages(ResourceSet resourceSet) { <br>
+            &nbsp;&nbsp;super.registerPackages(resourceSet); <br>
+            &nbsp;&nbsp;if (!isInWorkspace(org.eclipse.uml2.uml.UMLPackage.class)) { <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;resourceSet.getPackageRegistry().put(org.eclipse.uml2.uml.UMLPackage.eINSTANCE.getNsURI(), org.eclipse.uml2.uml.UMLPackage.eINSTANCE); <br>
+                &nbsp;&nbsp;} <br>
+            <br>
+            &nbsp;&nbsp;new GetProfilesConfig(resourceSet); <br>
+        }<br></i>
+    </div>
+    <h3>Error configuration</h3>
+    <p>In config.properties add the following</p>
+    <div >
+        <i>RSA_INSTALL_FOLDER=/data/work/gitRepositories/LPISIS/GPCCHS/ECLIPSE_ACCELEO</i>
+    </div>
 </html>

@@ -21,7 +21,9 @@ export default class PUS11View extends React.Component {
     lastUpdateType: PropTypes.string.isRequired,
     // from container's mapDispatchToProps
     // openModal: func.isRequired,
+    askFakeData: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     applicationProcessName: null,
     applicationProcessId: null,
@@ -80,6 +82,57 @@ export default class PUS11View extends React.Component {
   //     </table>
   //   );
   // }
+  componentDidMount() {
+    const { viewId, askFakeData } = this.props;
+
+    askFakeData(
+      viewId,
+      'subSchedules',
+      [
+        {
+          ssid: 87,
+          ssidLabel: 'xxx',
+          name: 'xxx',
+          status: 'disabled',
+          firstTCTime: 1527520025823,
+          updateType: 'TM',
+          updateTime: 1527520025823,
+          nbTc: 1,
+        },
+        {
+          ssid: 90,
+          ssidLabel: 'xxx',
+          name: 'xxx',
+          status: 'disabled',
+          firstTCTime: 1527520025823,
+          updateType: 'TM',
+          updateTime: 1527520025823,
+          nbTc: 1,
+        },
+        {
+          ssid: 247,
+          ssidLabel: 'xxx',
+          name: 'xxx',
+          status: 'disabled',
+          firstTCTime: 1527520025823,
+          updateType: 'TM',
+          updateTime: 1527520025823,
+          nbTc: 1,
+        },
+        {
+          ssid: 642,
+          ssidLabel: 'xxx',
+          name: 'xxx',
+          status: 'disabled',
+          firstTCTime: 1527520025823,
+          updateType: 'TM',
+          updateTime: 1527520025823,
+          nbTc: 1,
+        },
+      ],
+      20
+    );
+  }
 
   render() {
     const {

@@ -135,6 +135,7 @@ const comObjects = {
     { catalog: 'Pus005', parameterName: 'parameter', comObject: 'Pus005Model', shouldBe: true },
     { catalog: 'PusGroundModelDefinition', parameterName: '', comObject: 'Pus005Model', shouldBe: true },
     { catalog: 'PusGroundModelDefinition', parameterName: 'undefined', comObject: 'Pus005Model', shouldBe: true },
+    { catalog: 'PusGroundModelDefinition', parameterName: 'Pus005Model', comObject: 'Pus005Model', shouldBe: true },
   ],
   Pus012Model: [
     { catalog: '', parameterName: '', comObject: 'Pus012Model', shouldBe: false },
@@ -160,6 +161,7 @@ const comObjects = {
     { catalog: 'undefined', parameterName: 'undefined', comObject: 'Pus011Model', shouldBe: false },
     { catalog: 'PusGroundModelDefinition', parameterName: '', comObject: 'Pus011Model', shouldBe: true },
     { catalog: 'PusGroundModelDefinition', parameterName: 'undefined', comObject: 'Pus011Model', shouldBe: true },
+    { catalog: 'PusGroundModelDefinition', parameterName: 'Pus011Model', comObject: 'Pus011Model', shouldBe: true },
   ],
   Pus011SubSchedule: [
     { catalog: '', parameterName: '', comObject: 'Pus011SubSchedule', shouldBe: false },

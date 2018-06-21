@@ -44,7 +44,7 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
   Object.keys(payloads).forEach(
     (ep) => {
       const range = Object.keys(payloads[ep]).map(timestamp => payloads[ep][timestamp]);
-      updatedState = injectData(updatedState, range, 'history');
+      updatedState = injectData(updatedState, 'history', range);
     }
   );
 

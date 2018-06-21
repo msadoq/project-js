@@ -6,6 +6,11 @@ import _set from 'lodash/fp/set';
 const initialConfiguration = {
   tables: {
     enabledApids: {
+      name: 'Enabled Apids',
+      sorting: {
+        colName: 'apid',
+        direction: 'DESC',
+      },
       cols: [
         {
           title: 'apid',
@@ -38,6 +43,11 @@ const initialConfiguration = {
       ],
     },
     subSchedules: {
+      name: 'Sub Schedules',
+      sorting: {
+        colName: 'apid',
+        direction: 'DESC',
+      },
       cols: [
         {
           title: 'ssid',
@@ -98,6 +108,11 @@ const initialConfiguration = {
       ],
     },
     commands: {
+      name: 'Commands',
+      sorting: {
+        colName: 'apid',
+        direction: 'DESC',
+      },
       cols: [
         {
           title: 'apid',

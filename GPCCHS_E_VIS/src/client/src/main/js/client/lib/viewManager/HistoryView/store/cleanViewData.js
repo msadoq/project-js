@@ -13,9 +13,8 @@ import _ from 'lodash/fp';
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
-import { removeData } from '../../commonData/reducer';
+import { mapData, removeData } from '../../commonData/reducer';
 
-const historyDataPath = ['history', 'data'];
 
 /* ************************************************
  * Clean viewData for current viewData
@@ -41,7 +40,7 @@ export default function cleanCurrentViewData(
   if (!oldViewFromMap || !currentState) {
     return currentState;
   }
-  let newState = currentState;
+  let updatedState = currentState;
   // invisible view
   if (!newViewFromMap) {
     return {};
@@ -64,14 +63,14 @@ export default function cleanCurrentViewData(
         }
       });
       if (newLabel) {
-        newState = updateEpLabel(newState, epName, newLabel);
+        updatedState = updateEpLabel(updatedState, epName, newLabel);
         continue;
       }
     }
     // removed entry point if invalid
     // EP definition modified: remove entry point from viewData
     if (isInvalidEntryPoint(oldEp, newEp)) {
-      newState = removeEpData(newState, epName);
+      updatedState = removeEpData(updatedState, epName);
       continue;
     }
     // Case of point already in error
@@ -84,16 +83,16 @@ export default function cleanCurrentViewData(
     const oldInterval = _get(oldIntervals, [oldEp.tbdId, oldEp.localId, 'expectedInterval']);
     const newInterval = _get(newIntervals, [oldEp.tbdId, newEp.localId, 'expectedInterval']);
     if (!newInterval || oldEp.localId !== newEp.localId) {
-      newState = removeEpData(newState, epName);
+      updatedState = removeEpData(updatedState, epName);
     } else if (oldInterval &&
       (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
       const lower = newInterval[0] + newEp.offset;
       const upper = newInterval[1] + newEp.offset;
-      newState = removeViewDataOutsideRange(newState, lower, upper);
+      updatedState = removeViewDataOutsideRange(updatedState, lower, upper);
     }
   }
 
-  return newState;
+  return updatedState;
 }
 
 function removeEpData(state, epName) {
@@ -116,11 +115,16 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
     return viewData;
   }
 
-  return _.set(
-    historyDataPath,
-    _.getOr([], historyDataPath, viewData).map(el => ({ ...el, epName: newLabel })),
-    viewData
-  );
+  return mapData(viewData, 'history', (el) => {
+    if (el.name === el.oldLabel) { // check field
+      return {
+        ...el,
+        name: newLabel,
+      };
+    }
+
+    return el;
+  });
 }
 
 export function removeViewDataOutsideRange(viewData, lower, upper) {

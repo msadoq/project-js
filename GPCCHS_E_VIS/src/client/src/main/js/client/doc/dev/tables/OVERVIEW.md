@@ -1,5 +1,5 @@
 
-# VirtualizedTableViewContainer
+# Virtualized table view and data management
 
 Le composant `VirtualizedTableViewContainer` permet d'afficher un tableau de données configuré 
 et personnalisable. Il permet également de gérer les différentes actions permettant de mettre à jour
@@ -57,7 +57,7 @@ La configuration des colonnes correspond à un tableau de tableaux de colonnes o
 
 ```
 [
-  [{ name: 'c11', isDisplayed: true, group: 'g1' }, { name: 'c12', isDisplayed: true, group: 'g1' }],
+  [{ title: 'c11', isDisplayed: true, group: 'g1' }, { title: 'c12', isDisplayed: true, group: 'g1' }],
 ]
 ```
 
@@ -80,28 +80,12 @@ Le composant `VirtualizedTableView` prend en paramètres les propriétés suivan
   - `tableName` (par défaut 'Data table'): le nom du tableau qui sera affiché en en-tête du tableau à côté des
   informations relatives aux compteurs de données affichées 
   (nombre de lignes ou nombre de filtrées / nombre de lignes total)
-  - `rows` (required): les données à afficher sous la forme de tableau de tableaux.
-  Exemple pour un tableau 3x3:
-  ```
-  [
-  	[{value: 1}, {value: false}, {value: 'warning'}],
-  	[{value: 2}, {value: true}, {value: 'critical'}],
-  	[{value: 3}, {value: true}, {value: 'critical'}],
-  ]
-  ```
-  _Attention: le tableau passé en paramètre au composant `VirtualizedTableViewContainer` doit avoir 
-  des dimensions conformes à ce qui est précisé dans la configuration_.
-  - `withGroups`: boolean permettant d'afficher ou non les colonnes par groupes. Dans le cas où cet
-  attribut est spécifié, il faut également penser à ajouter la clef 'group' dans l'objet relatif
-  à la colonne dans le fichier de configuration `prepareViewForStore.js`.
-  - `columnWidth` (default 220): définit la largeur fixe d'une colonne du tableau
-  - `rowHeight` (default 22): définit la hauteur d'une cellule
   - `pauseOnScroll`: définit s'il faut ou non dispatcher une action de pause lorsqu'on réalise
   un scroll vertical.
   
 _Remarques_
-- _Chaque cellule du tableau correspond à un objet ayant au moins la propriété 'value' qui correspond
-à ce qui sera effectivement affiché au niveau de la cellule._
+- Les données du tableau sont récupérées automatiquement à partir du state. Il faut utiliser
+la fonction `injectData` pour ajouter des données à un tableau (voir ci-dessous).
 - _Le tableau s'adapte automatiquement à son conteneur parent, si les données du tableau dépassent
 de ce conteneur, une scrollbar horizontale et/ou verticale s'affiche._
 
@@ -215,3 +199,18 @@ dans le tableau désigné par `tableId`.
 désigné par `tableId` à l'aide d'une fonction `mapFunc`, prenant en argument un objet et un index.
 
 Ces fonctions retournent le nouveau state.
+
+### Scoped data reducer
+
+La fonction `createScopedDataReducer` permet de créer un reducer à partir d'un sous reducer 
+ne travaillant que sur le sous state correspondant à une seule vue, i.e `state[viewId]`.
+
+Elle prend en argument :
+
+- `scopedDataReducer` : reducer dont le state passé en paramètre (et donc celui qui est retourné)
+est le sous state correspondant à la `viewId` associé à l'action.
+- `ìnitialState` : état initial de la vue
+- `viewType` : type de la vue
+
+et retourne le sous state relatif à la vue désignée par l'identifiant `viewId` qui est passé
+dans le payload de l'action.

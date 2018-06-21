@@ -21,6 +21,22 @@ const getDefaultView = view => _.merge({
   },
   configuration: {
     entryPoint: {},
+    tables: {
+      subSchedules: {
+        name: 'Sub schedules',
+        sorting: {
+          colName: 'referenceTimestamp',
+          direction: 'DESC',
+        },
+        cols: [
+          { title: 'ssid', displayed: true },
+          { title: 'apid', displayed: true },
+          { title: 'name', displayed: true },
+          { title: 'status', displayed: true },
+          { title: 'firstTCTime', displayed: true },
+        ],
+      },
+    },
   },
 }, view);
 

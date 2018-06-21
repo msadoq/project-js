@@ -58,7 +58,7 @@ export default function cleanCurrentViewData(
     return currentState;
   }
   // new visible view
-  if (!oldViewFromMap || !currentState || !Object.keys(currentState.indexes).length) {
+  if (!oldViewFromMap || !currentState || !Object.keys(currentState.indexes || {}).length) {
     return currentState;
   }
   let newState = currentState;
@@ -83,7 +83,8 @@ export default function cleanCurrentViewData(
   for (let j = 0; j < configuration.entryPoints.length; j += 1) {
     if (configuration.entryPoints[j].parametric) {
       const name = configuration.entryPoints[j].name;
-      newState = { ...newState,
+      newState = {
+        ...newState,
         indexes: _omit(newState.indexes, name),
         lines: _omit(newState.lines, name),
         min: _omit(newState.min, name),
@@ -121,7 +122,8 @@ export default function cleanCurrentViewData(
     // removed entry point if invalid
     // EP definition modified: remove entry point from viewData
     if (isInvalidEntryPoint(oldEp, newEp)) {
-      newState = { ...newState,
+      newState = {
+        ...newState,
         indexes: _omit(newState.indexes, epName),
         lines: _omit(newState.lines, epName),
         min: _omit(newState.min, epName),
@@ -141,7 +143,8 @@ export default function cleanCurrentViewData(
     const oldInterval = _get(oldIntervals, [oldEp.tbdId, oldEp.localId, 'expectedInterval']);
     const newInterval = _get(newIntervals, [oldEp.tbdId, newEp.localId, 'expectedInterval']);
     if (!newInterval || oldEp.localId !== newEp.localId) {
-      newState = { ...newState,
+      newState = {
+        ...newState,
         indexes: _omit(newState.indexes, epName),
         lines: _omit(newState.lines, epName),
         min: _omit(newState.min, epName),
@@ -160,6 +163,7 @@ export default function cleanCurrentViewData(
   }
   return newState;
 }
+
 function isInvalidEntryPoint(oldEp, newEp) {
   if (!newEp || (newEp.error && newEp.error !== oldEp.error)
     || oldEp.fieldX !== newEp.fieldX || oldEp.fieldY !== newEp.fieldY
@@ -179,7 +183,8 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
     return viewData;
   }
 
-  const newState = { ...viewData,
+  const newState = {
+    ...viewData,
     lines: _omit(viewData.lines, oldLabel),
     indexes: _omit(viewData.indexes, oldLabel),
     min: _omit(viewData.min, oldLabel),
@@ -188,7 +193,8 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
     maxTime: _omit(viewData.maxTime, oldLabel),
   };
 
-  return { ...newState,
+  return {
+    ...newState,
     lines: { ...newState.lines, [newLabel]: viewData.lines[oldLabel] },
     indexes: { ...newState.indexes, [newLabel]: viewData.indexes[oldLabel] },
     min: { ...newState.min, [newLabel]: viewData.min[oldLabel] },
@@ -200,7 +206,11 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
 
 // function used to update min and max when no data is added to state
 export function scanForMinAndMax(viewDataState) {
-  if (!viewDataState || !viewDataState.indexes || !Object.keys(viewDataState.indexes).length) {
+  if (
+    !viewDataState ||
+    !viewDataState.indexes ||
+    !Object.keys(viewDataState.indexes || {}).length
+  ) {
     return viewDataState;
   }
   const minVal = {};
@@ -208,7 +218,7 @@ export function scanForMinAndMax(viewDataState) {
   const minTimeVal = {};
   const maxTimeVal = {};
   // loop on EP names
-  const epNames = Object.keys(viewDataState.indexes);
+  const epNames = Object.keys(viewDataState.indexes || {});
   epNames.forEach((epName) => {
     // get interval to evaluate the min and max validity
     const lower = _head(viewDataState.indexes[epName]);
@@ -241,7 +251,8 @@ export function scanForMinAndMax(viewDataState) {
   if (!Object.keys(minVal).length && !Object.keys(maxVal).length) {
     return viewDataState;
   }
-  return { ...viewDataState,
+  return {
+    ...viewDataState,
     min: { ...viewDataState.min, ...minVal },
     max: { ...viewDataState.max, ...maxVal },
     minTime: { ...viewDataState.minTime, ...minTimeVal },
@@ -265,7 +276,8 @@ export function removeViewDataByEp(viewData, epName, lower, upper) {
   }
   // drop everything
   if (viewData.indexes[epName][0] > upper || _last(viewData.indexes[epName]) < lower) {
-    return { ...viewData,
+    return {
+      ...viewData,
       indexes: _omit(viewData.indexes, epName),
       lines: _omit(viewData.lines, epName),
       min: _omit(viewData.min, epName),
@@ -280,7 +292,8 @@ export function removeViewDataByEp(viewData, epName, lower, upper) {
   iUpper = (iUpper === -1) ? viewData.indexes[epName].length - 1 : iUpper;
   const newIndexes = viewData.indexes[epName].slice(iLower, iUpper + 1);
 
-  return { ...viewData,
+  return {
+    ...viewData,
     indexes: {
       ...viewData.indexes,
       [epName]: newIndexes,

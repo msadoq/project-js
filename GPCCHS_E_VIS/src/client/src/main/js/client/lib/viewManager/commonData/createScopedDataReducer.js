@@ -68,7 +68,7 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
       default: {
         const viewId = _.get(['payload', 'viewId'], action);
 
-        if (viewId) {
+        if (state[viewId]) {
           return _.set(
             viewId,
             scopedDataReducer(state[viewId], action),

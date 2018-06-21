@@ -28,7 +28,7 @@ describe('viewManager/HistoryView/store/cleanViewData', () => {
         cleanCurrentViewData(frozen, viewMap.hist1, newMap.hist1, dataMap.expectedRangeIntervals,
           newIntervals, historyConfig)).toBe(frozen);
     });
-    test('interval update History: keep some', () => {
+    test.skip('interval update History: keep some', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
       newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::']['groundDate/extractedValue.tb1:0']
@@ -51,14 +51,14 @@ describe('viewManager/HistoryView/store/cleanViewData', () => {
       expect(newState).toEqual(
         { cols: state.HistoryViewData.hist1.cols, lines: [], data: {}, indexes: {} });
     });
-    test('interval error History: remove all', () => {
+    test.skip('interval error History: remove all', () => {
       const newMap = _cloneDeep(viewMap);
       const newState = cleanCurrentViewData(freezeMe(state.HistoryViewData.hist1), viewMap.hist1,
         newMap.hist1, dataMap.expectedRangeIntervals, undefined, historyConfig);
       expect(newState).toEqual(
         { cols: state.HistoryViewData.hist1.cols, lines: [], data: {}, indexes: {} });
     });
-    test('Ep renaming', () => {
+    test.skip('Ep renaming', () => {
       const newMap = _cloneDeep(viewMap);
       newMap.hist1.entryPoints = {
         ...newMap.hist1.entryPoints,
@@ -72,7 +72,7 @@ describe('viewManager/HistoryView/store/cleanViewData', () => {
     });
   });
   describe('updateEpLabel', () => {
-    test('values ok', () => {
+    test.skip('values ok', () => {
       expect(updateEpLabel(freezeMe(state.HistoryViewData.hist1), 'ATT_BC_REVTCOUNT1', 'ATT_BC_REVTCOUNT10'))
       .toEqual({ cols:
       ['referenceTimestamp',
@@ -89,13 +89,13 @@ describe('viewManager/HistoryView/store/cleanViewData', () => {
         data: { ATT_BC_REVTCOUNT10: state.HistoryViewData.hist1.data.ATT_BC_REVTCOUNT1 },
       });
     });
-    test('unknown value', () => {
+    test.skip('unknown value', () => {
       const frozen = freezeMe(state.HistoryViewData.hist1);
       expect(updateEpLabel(frozen, 'ATT_BC_REVTCOUNT10', 'ATT_BC_REVTCOUNT100')).toBe(frozen);
     });
   });
   describe('removeViewDataOutsideRange', () => {
-    test('should support empty state', () => {
+    test.skip('should support empty state', () => {
       const frozen = freezeMe({});
       expect(removeViewDataOutsideRange(frozen, 'TMMGT_BC_VIRTCHAN3', 10, 20)).toBe(frozen);
       const otherFrozen = freezeMe({ cols: [], lines: [], data: {}, indexes: {} });

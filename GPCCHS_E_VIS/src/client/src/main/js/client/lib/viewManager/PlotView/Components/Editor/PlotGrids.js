@@ -11,6 +11,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import PlotGrid from './PlotGrid';
 
 export default class PlotGrids extends Component {
@@ -36,12 +38,14 @@ export default class PlotGrids extends Component {
     } = this.props;
 
     return (
-      <PlotGrid
-        axes={axes}
-        initialValues={grids[0]}
-        onSubmit={this.handleSubmitFilled}
-        form={`grid-form-${0}-${viewId}`}
-      />
+      <ErrorBoundary>
+        <PlotGrid
+          axes={axes}
+          initialValues={grids[0]}
+          onSubmit={this.handleSubmitFilled}
+          form={`grid-form-${0}-${viewId}`}
+        />
+      </ErrorBoundary>
     );
   }
 }

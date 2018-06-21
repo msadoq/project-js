@@ -12,6 +12,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import AddEntryPoint from './AddEntryPoint';
 
 const initialValues = { name: '', unit: '', axisId: '' };
@@ -37,12 +39,14 @@ export default class AddEntryPointWrapper extends Component {
 
   render() {
     return (
-      <AddEntryPoint
-        onSubmit={this.willAddEntryPoint}
-        axes={this.props.axes}
-        form="new-entrypoint-parameters-form"
-        initialValues={initialValues}
-      />
+      <ErrorBoundary>
+        <AddEntryPoint
+          onSubmit={this.willAddEntryPoint}
+          axes={this.props.axes}
+          form="new-entrypoint-parameters-form"
+          initialValues={initialValues}
+        />
+      </ErrorBoundary>
     );
   }
 }

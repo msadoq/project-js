@@ -7,6 +7,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import DimensionsForm from './DimensionsForm';
 
 export default class Dimensions extends React.Component {
@@ -39,13 +41,15 @@ export default class Dimensions extends React.Component {
     };
 
     return (
-      <DimensionsForm
-        initialValues={initVals}
-        onSubmit={this.handleSubmit}
-        form={`view-dimensions-form-${viewId}`}
-        height={height}
-        width={width}
-      />
+      <ErrorBoundary>
+        <DimensionsForm
+          initialValues={initVals}
+          onSubmit={this.handleSubmit}
+          form={`view-dimensions-form-${viewId}`}
+          height={height}
+          width={width}
+        />
+      </ErrorBoundary>
     );
   }
 }

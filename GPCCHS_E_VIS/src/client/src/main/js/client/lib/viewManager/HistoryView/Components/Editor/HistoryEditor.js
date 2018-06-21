@@ -15,6 +15,7 @@ import { Misc } from 'viewManager/commonEditor/Misc';
 import styles from 'viewManager/commonEditor/Editor.css';
 import HistoryTabContainer from 'viewManager/HistoryView/Components/Editor/HistoryTabContainer';
 import DataViewEntryPointsContainer from 'viewManager/commonEditor/EntryPoint/DataViewEntryPointsContainer';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import HistoryEntryPointConnectedDataFieldsContainer from './HistoryEntryPointConnectedDataFieldsContainer';
 
@@ -63,51 +64,53 @@ export default class Editor extends Component {
     } = this.props;
 
     return (
-      <div className={styles.contentWrapper}>
-        <h4
-          className="text-center mb10"
-        >
-          <span className="mr5 EditorVignette" />
-          <b>{title}</b>
-        </h4>
-        <ReloadAndSaveViewButtonsContainer viewId={viewId} />
-        <Navbar
-          currentDisplay={tab === null ? 0 : tab}
-          items={navBarItems}
-          changeCurrentDisplay={this.changeCurrentDisplay}
-        />
-        <div className={styles.content}>
-          {
-            (tab === 0 || tab === null) &&
-            <div>
-              <DataViewEntryPointsContainer
-                entryPoints={entryPoints}
+      <ErrorBoundary>
+        <div className={styles.contentWrapper}>
+          <h4
+            className="text-center mb10"
+          >
+            <span className="mr5 EditorVignette" />
+            <b>{title}</b>
+          </h4>
+          <ReloadAndSaveViewButtonsContainer viewId={viewId} />
+          <Navbar
+            currentDisplay={tab === null ? 0 : tab}
+            items={navBarItems}
+            changeCurrentDisplay={this.changeCurrentDisplay}
+          />
+          <div className={styles.content}>
+            {
+              (tab === 0 || tab === null) &&
+              <div>
+                <DataViewEntryPointsContainer
+                  entryPoints={entryPoints}
+                  viewId={viewId}
+                  pageId={pageId}
+                  search={search}
+                  viewType={'HistoryView'}
+                  entryPointConnectedDataForm={HistoryEntryPointConnectedDataFieldsContainer}
+                />
+              </div>
+            }
+            {
+              tab === 1 &&
+              <HistoryTabContainer
+                updateViewPanels={updateViewPanels}
                 viewId={viewId}
-                pageId={pageId}
-                search={search}
-                viewType={'HistoryView'}
-                entryPointConnectedDataForm={HistoryEntryPointConnectedDataFieldsContainer}
+                panels={panels}
               />
-            </div>
-          }
-          {
-            tab === 1 &&
-            <HistoryTabContainer
-              updateViewPanels={updateViewPanels}
-              viewId={viewId}
-              panels={panels}
-            />
-          }
-          {
-            tab === 2 &&
-            <Misc
-              updateViewPanels={updateViewPanels}
-              viewId={viewId}
-              panels={panels}
-              openModal={openModal}
-            />}
+            }
+            {
+              tab === 2 &&
+              <Misc
+                updateViewPanels={updateViewPanels}
+                viewId={viewId}
+                panels={panels}
+                openModal={openModal}
+              />}
+          </div>
         </div>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

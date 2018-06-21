@@ -31,27 +31,26 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import styles from './GrizzlyChart.css';
 import { drawLinesCanvas, shouldRenderComponent } from './LineCanvasCommon';
 import { lineType, divStyleType } from './types';
 
-const { shape, func, bool, arrayOf, objectOf, number } = PropTypes;
-
 export default class LinesCanvas extends Component {
 
   static propTypes = {
-    updateLabelPosition: func.isRequired,
-    xScale: func.isRequired,
-    yScale: func.isRequired,
-    showLabelsX: bool,
-    showLabelsY: bool,
-    perfOutput: bool,
-    indexes: objectOf(shape).isRequired,
-    current: number.isRequired,
-    lines: arrayOf(lineType.isRequired).isRequired,
+    updateLabelPosition: PropTypes.func.isRequired,
+    xScale: PropTypes.func.isRequired,
+    yScale: PropTypes.func.isRequired,
+    showLabelsX: PropTypes.bool,
+    showLabelsY: PropTypes.bool,
+    perfOutput: PropTypes.bool,
+    indexes: PropTypes.objectOf(PropTypes.shape).isRequired,
+    current: PropTypes.number.isRequired,
+    lines: PropTypes.arrayOf(lineType.isRequired).isRequired,
     divStyle: divStyleType.isRequired,
-    parametric: bool.isRequired,
+    parametric: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -123,13 +122,15 @@ export default class LinesCanvas extends Component {
     } = this.props;
 
     return (
-      <canvas
-        ref={this.assignEl}
-        height={divStyle.height}
-        width={divStyle.width}
-        className={styles.canvas}
-        style={divStyle}
-      />
+      <ErrorBoundary>
+        <canvas
+          ref={this.assignEl}
+          height={divStyle.height}
+          width={divStyle.width}
+          className={styles.canvas}
+          style={divStyle}
+        />
+      </ErrorBoundary>
     );
   }
 }

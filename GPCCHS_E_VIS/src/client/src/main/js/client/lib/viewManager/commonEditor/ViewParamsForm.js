@@ -31,6 +31,7 @@ import classnames from 'classnames';
 import {
   Form,
 } from 'react-bootstrap';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import ClearSubmitButtons from 'windowProcess/commonReduxForm/ClearSubmitButtons';
 import InputField from 'windowProcess/commonReduxForm/InputField';
@@ -106,62 +107,64 @@ class ViewParamsForm extends React.Component {
     } = this.state;
 
     return (
-      <Form
-        horizontal
-        onSubmit={handleSubmit}
-        className={classnames(
-          { 'redux-form-dirty': !pristine },
-          'redux-form-padded'
-        )}
-      >
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
-        <div className="page-header">
-          <h4>Title</h4>
-        </div>
-        <HorizontalFormGroup label="Title">
-          <Field
-            name="title"
-            component={InputField}
-            className="form-control input-sm"
-            type="text"
+      <ErrorBoundary>
+        <Form
+          horizontal
+          onSubmit={handleSubmit}
+          className={classnames(
+            { 'redux-form-dirty': !pristine },
+            'redux-form-padded'
+          )}
+        >
+          <ClearSubmitButtons
+            pristine={pristine}
+            submitting={submitting}
+            reset={reset}
+            valid={valid}
           />
-        </HorizontalFormGroup>
+          <div className="page-header">
+            <h4>Title</h4>
+          </div>
+          <HorizontalFormGroup label="Title">
+            <Field
+              name="title"
+              component={InputField}
+              className="form-control input-sm"
+              type="text"
+            />
+          </HorizontalFormGroup>
 
-        <FormSectionFontStyle name="titleStyle" />
+          <FormSectionFontStyle name="titleStyle" />
 
-        <div className="page-header">
-          <h4>Content</h4>
-        </div>
+          <div className="page-header">
+            <h4>Content</h4>
+          </div>
 
-        <div className="page-header">
-          <h4>Configuration</h4>
-        </div>
-        <HorizontalFormGroup label="Domain Name">
-          <Field
-            name="domainName"
-            component={ReactSelectField}
-            onInputChange={this.newDomain}
-            clearable
-            options={computeOptions(domains, true)}
-            value={domainName || domain}
-          />
-        </HorizontalFormGroup>
-        <HorizontalFormGroup label="Session Name">
-          <Field
-            name="sessionName"
-            component={ReactSelectField}
-            onInputChange={this.newSession}
-            clearable
-            options={computeOptions(sessions, true)}
-            value={sessionName || session}
-          />
-        </HorizontalFormGroup>
-      </Form>
+          <div className="page-header">
+            <h4>Configuration</h4>
+          </div>
+          <HorizontalFormGroup label="Domain Name">
+            <Field
+              name="domainName"
+              component={ReactSelectField}
+              onInputChange={this.newDomain}
+              clearable
+              options={computeOptions(domains, true)}
+              value={domainName || domain}
+            />
+          </HorizontalFormGroup>
+          <HorizontalFormGroup label="Session Name">
+            <Field
+              name="sessionName"
+              component={ReactSelectField}
+              onInputChange={this.newSession}
+              clearable
+              options={computeOptions(sessions, true)}
+              value={sessionName || session}
+            />
+          </HorizontalFormGroup>
+        </Form>
+      </ErrorBoundary>
     );
   }
 }

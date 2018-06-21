@@ -32,8 +32,9 @@ import _debounce from 'lodash/debounce';
 import _each from 'lodash/fp/each';
 import { scaleLinear, scaleLog } from 'd3-scale';
 import keyCodes from 'common/utils/keymap';
-import CurrentCursorCanvas from './CurrentCursorCanvas';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
+import CurrentCursorCanvas from './CurrentCursorCanvas';
 import LinesCanvas from './LinesCanvas';
 import Tooltip from './Tooltip';
 import YAxis from './YAxis';
@@ -43,32 +44,30 @@ import styles from './GrizzlyChart.css';
 import Reset from './Reset';
 import { axisType, lineType } from './types';
 
-const { shape, string, func, bool, arrayOf, number } = PropTypes;
-
 export default class Chart extends React.Component {
   static propTypes = {
-    yAxesAt: string,
-    xAxisAt: string,
-    height: number.isRequired,
-    width: number.isRequired,
-    current: number.isRequired,
-    enableTooltip: bool,
-    tooltipColor: string,
-    allowXZoom: bool,
-    allowYZoom: bool,
-    allowYPan: bool,
-    allowXPan: bool,
-    allowLasso: bool,
-    perfOutput: bool,
-    parametric: bool,
-    additionalStyle: shape({}).isRequired,
-    xAxes: arrayOf(axisType.isRequired).isRequired,
-    yAxes: arrayOf(axisType.isRequired).isRequired,
-    lines: arrayOf(lineType.isRequired).isRequired,
-    linesListener: func.isRequired,
-    zoomPanListener: func.isRequired,
-    updateAxis: bool.isRequired,
-    showEpNonNominal: arrayOf(shape).isRequired,
+    yAxesAt: PropTypes.string,
+    xAxisAt: PropTypes.string,
+    height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    current: PropTypes.number.isRequired,
+    enableTooltip: PropTypes.bool,
+    tooltipColor: PropTypes.string,
+    allowXZoom: PropTypes.bool,
+    allowYZoom: PropTypes.bool,
+    allowYPan: PropTypes.bool,
+    allowXPan: PropTypes.bool,
+    allowLasso: PropTypes.bool,
+    perfOutput: PropTypes.bool,
+    parametric: PropTypes.bool,
+    additionalStyle: PropTypes.shape({}).isRequired,
+    xAxes: PropTypes.arrayOf(axisType.isRequired).isRequired,
+    yAxes: PropTypes.arrayOf(axisType.isRequired).isRequired,
+    lines: PropTypes.arrayOf(lineType.isRequired).isRequired,
+    linesListener: PropTypes.func.isRequired,
+    zoomPanListener: PropTypes.func.isRequired,
+    updateAxis: PropTypes.bool.isRequired,
+    showEpNonNominal: PropTypes.arrayOf(PropTypes.shape).isRequired,
   };
   static defaultProps = {
     yAxesAt: 'left',
@@ -679,184 +678,186 @@ export default class Chart extends React.Component {
       this.chartHeight
     );
     return (
-      <div
-        className={styles.container}
-        onWheel={this.onWheel}
-        onMouseDown={this.onMouseDown}
-        style={{
-          ...additionalStyle,
-          height,
-          width,
-        }}
-        ref={this.assignEl}
-      >
-        <Reset
-          yAxesAt={yAxesAt}
-          xAxisAt={xAxisAt}
-          yAxesUniq={this.yAxesUniq}
-          xAxesUniq={this.xAxesUniq}
-          resetPan={this.resetPan}
-          resetZoomLevel={this.resetZoomLevel}
-          resetPanAndZoom={this.resetPanAndZoom}
-          zoomLevels={this.state.zoomLevels}
-          pans={this.state.pans}
-          divStyle={this.divStyle}
-        />
+      <ErrorBoundary>
         <div
-          className={classnames('Background', styles.Background)}
-          style={this.divStyle}
-        />
-        {
-          ['left', 'right'].includes(yAxesAt) && this.yAxesUniq.map((yAxis, index) =>
-            <YAxis
-              key={yAxis.id}
-              index={index}
-              margin={((this.yAxesUniq.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
-              lines={this.linesUniq.filter(l => l.yAxisId === yAxis.id)}
-              axisId={yAxis.id}
-              updateAxis={updateAxis}
-              format={yAxis.format}
-              showLabels={yAxis.showLabels}
-              showTicks={yAxis.showTicks}
-              autoTick={yAxis.autoTick}
-              tickStep={yAxis.tickStep}
-              showGrid={yAxis.showGrid}
-              gridStyle={yAxis.gridStyle}
-              axisLabel={yAxis.axisLabel}
-              gridSize={yAxis.gridSize}
-              logarithmic={yAxis.logarithmic}
-              yAxisWidth={this.yAxisWidth}
-              xAxisHeight={this.xAxisHeight}
-              chartWidth={this.chartWidth}
-              height={this.chartHeight}
-              allowYPan={allowYPan}
-              xAxesAt={xAxisAt}
-              top={marginTop}
-              yAxesAt={yAxesAt}
-              scale={yAxis.scale}
-              extents={yAxis.extents}
-              label={yAxis.label}
-              labelStyle={yAxis.labelStyle}
-              formatAsDate={yAxis.formatAsDate}
-              getLabelPosition={this.getLabelPosition}
-              side={this.yAxesUniq.length * this.yAxisWidth}
-            />
-          )
-        }
-        {
-          ['top', 'bottom'].includes(xAxisAt) && this.xAxesUniq.map((xAxis, index) =>
-            <XAxis
-              key={xAxis.id}
-              index={index}
-              margin={xAxisAt === 'top' ? (this.xAxesUniq.length - index - 1) * this.xAxisHeight : index * this.xAxisHeight}
-              lines={this.linesUniq.filter(l => l.xAxisId === xAxis.id)}
-              top={marginTop}
-              side={this.yAxesUniq.length * this.yAxisWidth}
-              axisId={xAxis.id}
-              updateAxis={updateAxis}
-              format={xAxis.format}
-              showLabels={xAxis.showLabels}
-              showTicks={xAxis.showTicks}
-              autoTick={xAxis.autoTick}
-              tickStep={xAxis.tickStep}
-              showGrid={xAxis.showGrid}
-              gridStyle={xAxis.gridStyle}
-              axisLabel={xAxis.axisLabel}
-              gridSize={xAxis.gridSize}
-              logarithmic={xAxis.logarithmic}
-              xAxisHeight={this.xAxisHeight}
-              chartWidth={this.chartWidth}
-              height={this.chartHeight}
-              allowYPan={allowYPan}
-              xAxesAt={xAxisAt}
-              yAxesAt={yAxesAt}
-              scale={xAxis.scale}
-              extents={xAxis.extents}
-              label={xAxis.label}
-              labelStyle={xAxis.labelStyle}
-              formatAsDate={xAxis.formatAsDate}
-              getLabelPosition={this.getLabelPosition}
-              yAxisWidth={this.yAxisWidth}
-            />
-          )
-        }
-        {
-          Object.keys(this.pairs).map((key) => {
-            const pair = this.pairs[key];
-            return (
-              <LinesCanvas
-                key={key}
-                width={this.chartWidth}
-                height={this.chartHeight}
-                xAxesAt={xAxisAt}
-                xScale={pair.xAxis.scale}
-                yScale={pair.yAxis.scale}
-                showLabelsX={pair.xAxis.showLabels}
-                showLabelsY={pair.yAxis.showLabels}
-                lines={pair.lines}
-                indexes={pair.indexes}
-                updateLabelPosition={this.updateLabelPosition}
-                perfOutput={perfOutput}
-                divStyle={this.divStyle}
-                current={current}
-                parametric={parametric}
-              />
-            );
-          })
-        }
-        {
-          !parametric && this.xAxesUniq[0] &&
-          <CurrentCursorCanvas
-            current={current}
-            width={this.chartWidth}
-            height={this.chartHeight}
-            divStyle={this.divStyle}
-            xScale={this.xAxesUniq[0].scale}
-          />
-        }
-        {
-          enableTooltip &&
-          <Tooltip
-            tooltipColor={tooltipColor}
+          className={styles.container}
+          onWheel={this.onWheel}
+          onMouseDown={this.onMouseDown}
+          style={{
+            ...additionalStyle,
+            height,
+            width,
+          }}
+          ref={this.assignEl}
+        >
+          <Reset
+            yAxesAt={yAxesAt}
+            xAxisAt={xAxisAt}
             yAxesUniq={this.yAxesUniq}
             xAxesUniq={this.xAxesUniq}
-            pairs={this.pairs}
-            width={this.chartWidth}
-            height={this.chartHeight}
-            yAxesAt={yAxesAt}
-            xAxesAt={xAxisAt}
-            yAxisWidth={this.yAxisWidth}
-            xAxisHeight={this.xAxisHeight}
-            divStyle={this.divStyle}
-          />
-        }
-        {
-          <Zones
-            allowXPan={allowXPan}
-            allowYPan={allowYPan}
-            shiftPressed={shiftPressed}
-            lassoX={lassoX}
-            lassoY={lassoY}
-            lassoOriginX={lassoOriginX}
-            lassoOriginY={lassoOriginY}
-            lassoing={lassoing}
-            yAxes={this.yAxesUniq}
-            xAxes={this.xAxesUniq}
-            xAxisHeight={this.xAxisHeight}
-            yAxisWidth={this.yAxisWidth}
-            yAxesAt={yAxesAt}
-            xAxesAt={xAxisAt}
-            yAxesInteractive={allowYZoom || allowYPan}
-            xAxesInteractive={allowXZoom || allowXPan}
-            height={height}
-            width={width}
-            divStyle={this.divStyle}
-            setPan={this.setPan}
-            pans={this.state.pans}
+            resetPan={this.resetPan}
+            resetZoomLevel={this.resetZoomLevel}
+            resetPanAndZoom={this.resetPanAndZoom}
             zoomLevels={this.state.zoomLevels}
+            pans={this.state.pans}
+            divStyle={this.divStyle}
           />
-        }
-      </div>
+          <div
+            className={classnames('Background', styles.Background)}
+            style={this.divStyle}
+          />
+          {
+            ['left', 'right'].includes(yAxesAt) && this.yAxesUniq.map((yAxis, index) =>
+              <YAxis
+                key={yAxis.id}
+                index={index}
+                margin={((this.yAxesUniq.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
+                lines={this.linesUniq.filter(l => l.yAxisId === yAxis.id)}
+                axisId={yAxis.id}
+                updateAxis={updateAxis}
+                format={yAxis.format}
+                showLabels={yAxis.showLabels}
+                showTicks={yAxis.showTicks}
+                autoTick={yAxis.autoTick}
+                tickStep={yAxis.tickStep}
+                showGrid={yAxis.showGrid}
+                gridStyle={yAxis.gridStyle}
+                axisLabel={yAxis.axisLabel}
+                gridSize={yAxis.gridSize}
+                logarithmic={yAxis.logarithmic}
+                yAxisWidth={this.yAxisWidth}
+                xAxisHeight={this.xAxisHeight}
+                chartWidth={this.chartWidth}
+                height={this.chartHeight}
+                allowYPan={allowYPan}
+                xAxesAt={xAxisAt}
+                top={marginTop}
+                yAxesAt={yAxesAt}
+                scale={yAxis.scale}
+                extents={yAxis.extents}
+                label={yAxis.label}
+                labelStyle={yAxis.labelStyle}
+                formatAsDate={yAxis.formatAsDate}
+                getLabelPosition={this.getLabelPosition}
+                side={this.yAxesUniq.length * this.yAxisWidth}
+              />
+            )
+          }
+          {
+            ['top', 'bottom'].includes(xAxisAt) && this.xAxesUniq.map((xAxis, index) =>
+              <XAxis
+                key={xAxis.id}
+                index={index}
+                margin={xAxisAt === 'top' ? (this.xAxesUniq.length - index - 1) * this.xAxisHeight : index * this.xAxisHeight}
+                lines={this.linesUniq.filter(l => l.xAxisId === xAxis.id)}
+                top={marginTop}
+                side={this.yAxesUniq.length * this.yAxisWidth}
+                axisId={xAxis.id}
+                updateAxis={updateAxis}
+                format={xAxis.format}
+                showLabels={xAxis.showLabels}
+                showTicks={xAxis.showTicks}
+                autoTick={xAxis.autoTick}
+                tickStep={xAxis.tickStep}
+                showGrid={xAxis.showGrid}
+                gridStyle={xAxis.gridStyle}
+                axisLabel={xAxis.axisLabel}
+                gridSize={xAxis.gridSize}
+                logarithmic={xAxis.logarithmic}
+                xAxisHeight={this.xAxisHeight}
+                chartWidth={this.chartWidth}
+                height={this.chartHeight}
+                allowYPan={allowYPan}
+                xAxesAt={xAxisAt}
+                yAxesAt={yAxesAt}
+                scale={xAxis.scale}
+                extents={xAxis.extents}
+                label={xAxis.label}
+                labelStyle={xAxis.labelStyle}
+                formatAsDate={xAxis.formatAsDate}
+                getLabelPosition={this.getLabelPosition}
+                yAxisWidth={this.yAxisWidth}
+              />
+            )
+          }
+          {
+            Object.keys(this.pairs).map((key) => {
+              const pair = this.pairs[key];
+              return (
+                <LinesCanvas
+                  key={key}
+                  width={this.chartWidth}
+                  height={this.chartHeight}
+                  xAxesAt={xAxisAt}
+                  xScale={pair.xAxis.scale}
+                  yScale={pair.yAxis.scale}
+                  showLabelsX={pair.xAxis.showLabels}
+                  showLabelsY={pair.yAxis.showLabels}
+                  lines={pair.lines}
+                  indexes={pair.indexes}
+                  updateLabelPosition={this.updateLabelPosition}
+                  perfOutput={perfOutput}
+                  divStyle={this.divStyle}
+                  current={current}
+                  parametric={parametric}
+                />
+              );
+            })
+          }
+          {
+            !parametric && this.xAxesUniq[0] &&
+            <CurrentCursorCanvas
+              current={current}
+              width={this.chartWidth}
+              height={this.chartHeight}
+              divStyle={this.divStyle}
+              xScale={this.xAxesUniq[0].scale}
+            />
+          }
+          {
+            enableTooltip &&
+            <Tooltip
+              tooltipColor={tooltipColor}
+              yAxesUniq={this.yAxesUniq}
+              xAxesUniq={this.xAxesUniq}
+              pairs={this.pairs}
+              width={this.chartWidth}
+              height={this.chartHeight}
+              yAxesAt={yAxesAt}
+              xAxesAt={xAxisAt}
+              yAxisWidth={this.yAxisWidth}
+              xAxisHeight={this.xAxisHeight}
+              divStyle={this.divStyle}
+            />
+          }
+          {
+            <Zones
+              allowXPan={allowXPan}
+              allowYPan={allowYPan}
+              shiftPressed={shiftPressed}
+              lassoX={lassoX}
+              lassoY={lassoY}
+              lassoOriginX={lassoOriginX}
+              lassoOriginY={lassoOriginY}
+              lassoing={lassoing}
+              yAxes={this.yAxesUniq}
+              xAxes={this.xAxesUniq}
+              xAxisHeight={this.xAxisHeight}
+              yAxisWidth={this.yAxisWidth}
+              yAxesAt={yAxesAt}
+              xAxesAt={xAxisAt}
+              yAxesInteractive={allowYZoom || allowYPan}
+              xAxesInteractive={allowXZoom || allowXPan}
+              height={height}
+              width={width}
+              divStyle={this.divStyle}
+              setPan={this.setPan}
+              pans={this.state.pans}
+              zoomLevels={this.state.zoomLevels}
+            />
+          }
+        </div>
+      </ErrorBoundary>
     );
   }
 }

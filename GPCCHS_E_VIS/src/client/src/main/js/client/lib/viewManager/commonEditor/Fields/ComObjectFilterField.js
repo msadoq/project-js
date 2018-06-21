@@ -1,23 +1,22 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import { computeOptions } from './common';
-
-const { string, arrayOf, oneOfType, shape, func } = PropTypes;
 
 export default class ComObjectFilterField extends PureComponent {
   static propTypes = {
-    onChange: func.isRequired,
+    onChange: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
     // from container
-    domainName: string,
-    timelineId: string,
-    catalogName: string,
-    itemName: string,
-    comObjectName: string,
-    comObjectFields: oneOfType([
-      string,
-      arrayOf(shape),
+    domainName: PropTypes.string,
+    timelineId: PropTypes.string,
+    catalogName: PropTypes.string,
+    itemName: PropTypes.string,
+    comObjectName: PropTypes.string,
+    comObjectFields: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.shape),
     ]),
   };
 
@@ -47,21 +46,17 @@ export default class ComObjectFilterField extends PureComponent {
     const disabled = !domainName || !timelineId || !catalogName || !itemName ||
       !comObjectName || comObjectFields === null;
     return (
-      <Select
-        onBlur={this.onBlur}
-        onChange={this.handleChange}
-        options={computeOptions(comObjectFields)}
-        clearable
-        autoFocus
-        disabled={disabled}
-        value={value}
-      />
-      // <ReactSelectField
-      //   format={null}
-      //   component={ReactSelectField}
-      //   clearable
-      //   disabled={disabled}
-      //   options={computeOptions(comObjectFields)}
+      <ErrorBoundary>
+        <Select
+          onBlur={this.onBlur}
+          onChange={this.handleChange}
+          options={computeOptions(comObjectFields)}
+          clearable
+          autoFocus
+          disabled={disabled}
+          value={value}
+        />
+      </ErrorBoundary>
     );
   }
 }

@@ -31,11 +31,9 @@ const logger = getLogger('data:rangeValues');
  * @param state
  * @param viewId
  * @param payloads
- * @param viewConfig
  * @returns {*}
  */
-export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
-  const historyConfig = viewConfig.tables.history;
+export function viewRangeAdd(state = {}, viewId, payloads) {
   const epKeys = Object.keys(payloads || {});
   if (!epKeys.length) {
     return state;
@@ -43,14 +41,10 @@ export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
 
   let updatedState = state;
 
-  const { sorting, filters } = historyConfig;
-
-  const sortingColKey = sorting.colKey;
-
   Object.keys(payloads).forEach(
     (ep) => {
       const range = Object.keys(payloads[ep]).map(timestamp => payloads[ep][timestamp]);
-      updatedState = injectData(updatedState, range, 'history', sortingColKey, filters);
+      updatedState = injectData(updatedState, range, 'history');
     }
   );
 

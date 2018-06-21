@@ -41,16 +41,15 @@ import PropTypes from 'prop-types';
 import { FieldArray } from 'redux-form';
 import Collapse from 'rc-collapse';
 import EntryPointStateColors from 'viewManager/commonEditor/EntryPoint/EntryPointStateColors';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import EntryPointParameters from './EntryPointParameters';
 import EntryPointConnectedData from './EntryPointConnectedData';
-
 import { entryPointType } from '../../../common/Components/types';
 import FiltersFieldsContainer from '../../../commonEditor/Fields/FiltersFieldsContainer';
 
 const { Panel } = Collapse;
 const emptyArray = [];
-
-const { string, shape, arrayOf, bool, func, oneOfType } = PropTypes;
 
 /*
   EntryPointDetails représente un Point d'entrée,
@@ -58,24 +57,24 @@ const { string, shape, arrayOf, bool, func, oneOfType } = PropTypes;
 */
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
-    viewId: string.isRequired,
-    pageId: string.isRequired,
-    timelines: arrayOf(shape({})).isRequired,
-    axes: shape({}).isRequired,
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    axes: PropTypes.shape({}).isRequired,
     entryPoint: entryPointType.isRequired,
-    updateEntryPoint: func.isRequired,
-    panels: oneOfType([
-      arrayOf(string),
-      bool,
+    updateEntryPoint: PropTypes.func.isRequired,
+    panels: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.bool,
     ]).isRequired,
-    updateViewSubPanels: func.isRequired,
-    domains: arrayOf(shape({})).isRequired,
-    form: string.isRequired,
-    selectedDomainName: string,
-    selectedTimelineId: string,
-    selectedCatalogName: string,
-    selectedItemName: string,
-    selectedComObjectName: string,
+    updateViewSubPanels: PropTypes.func.isRequired,
+    domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    form: PropTypes.string.isRequired,
+    selectedDomainName: PropTypes.string,
+    selectedTimelineId: PropTypes.string,
+    selectedCatalogName: PropTypes.string,
+    selectedItemName: PropTypes.string,
+    selectedComObjectName: PropTypes.string,
 
   };
 
@@ -153,64 +152,66 @@ export default class EntryPointDetails extends PureComponent {
 
     // TODO Rerender (new ref)
     return (
-      <Collapse
-        accordion={false}
-        onChange={this.onChange}
-        defaultActiveKey={panels === true ? emptyArray : panels}
-      >
-        <Panel
-          key="parameters"
-          header="Parameters"
+      <ErrorBoundary>
+        <Collapse
+          accordion={false}
+          onChange={this.onChange}
+          defaultActiveKey={panels === true ? emptyArray : panels}
         >
-          {Array.isArray(panels) && panels.includes('parameters') && <EntryPointParameters
-            onSubmit={this.handleObjectParametersSubmit}
-            entryPoint={entryPoint}
-          />}
-        </Panel>
+          <Panel
+            key="parameters"
+            header="Parameters"
+          >
+            {Array.isArray(panels) && panels.includes('parameters') && <EntryPointParameters
+              onSubmit={this.handleObjectParametersSubmit}
+              entryPoint={entryPoint}
+            />}
+          </Panel>
 
-        <Panel
-          key="coordinates"
-          header="Coordinates"
-        >
-          {Array.isArray(panels) && panels.includes('coordinates') && <EntryPointConnectedData
-            axes={axes}
-            timelines={timelines}
-            domains={domains}
-            viewId={viewId}
-            pageId={pageId}
-            onSubmit={this.handleConnectedDataSubmit}
-            form={this.props.form}
-            entryPoint={entryPoint}
-            selectedDomainName={selectedDomainName}
-            selectedTimelineId={selectedTimelineId}
-            selectedCatalogName={selectedCatalogName}
-            selectedItemName={selectedItemName}
-            selectedComObjectName={selectedComObjectName}
-          />}
-        </Panel>
+          <Panel
+            key="coordinates"
+            header="Coordinates"
+          >
+            {Array.isArray(panels) && panels.includes('coordinates') && <EntryPointConnectedData
+              axes={axes}
+              timelines={timelines}
+              domains={domains}
+              viewId={viewId}
+              pageId={pageId}
+              onSubmit={this.handleConnectedDataSubmit}
+              form={this.props.form}
+              entryPoint={entryPoint}
+              selectedDomainName={selectedDomainName}
+              selectedTimelineId={selectedTimelineId}
+              selectedCatalogName={selectedCatalogName}
+              selectedItemName={selectedItemName}
+              selectedComObjectName={selectedComObjectName}
+            />}
+          </Panel>
 
-        <Panel
-          key="Filter"
-          header="Filter"
-        >
-          {Array.isArray(panels) && panels.includes('Filter') &&
-          <FieldArray
-            name={'connectedData.filter'}
-            component={FiltersFieldsContainer}
-            {...this.props}
-          />
-          }
-        </Panel>
+          <Panel
+            key="Filter"
+            header="Filter"
+          >
+            {Array.isArray(panels) && panels.includes('Filter') &&
+            <FieldArray
+              name={'connectedData.filter'}
+              component={FiltersFieldsContainer}
+              {...this.props}
+            />
+            }
+          </Panel>
 
-        <Panel
-          key="stateColors"
-          header="State colors"
-        >
-          {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
-            onSubmit={this.handleSubmit}
-          />}
-        </Panel>
-      </Collapse>
+          <Panel
+            key="stateColors"
+            header="State colors"
+          >
+            {Array.isArray(panels) && panels.includes('stateColors') && <EntryPointStateColors
+              onSubmit={this.handleSubmit}
+            />}
+          </Panel>
+        </Collapse>
+      </ErrorBoundary>
     );
   }
 }

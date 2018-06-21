@@ -18,6 +18,8 @@ import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import SelectFontField from '../Fields/SelectFontField';
 
 const { Addon } = InputGroup;
@@ -33,7 +35,7 @@ export default class FormSectionFontStyle extends FormSection {
     align: 'left',
     color: '#000000',
     bgColor: '#dfdfdf',
-  }
+  };
 
   render() {
     const alignButtons = [
@@ -42,7 +44,7 @@ export default class FormSectionFontStyle extends FormSection {
       { label: 'right', icon: 'alignRight' },
     ];
     return (
-      <div>
+      <ErrorBoundary>
         <HorizontalFormGroup label="Font">
           <div className="row">
             <Col xs={6}>
@@ -109,7 +111,7 @@ export default class FormSectionFontStyle extends FormSection {
             component={ColorPickerField}
           />
         </HorizontalFormGroup>
-      </div>
+      </ErrorBoundary>
     );
   }
 }

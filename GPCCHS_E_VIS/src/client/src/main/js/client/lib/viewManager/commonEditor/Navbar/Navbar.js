@@ -9,6 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Nav, NavItem } from 'react-bootstrap';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './style.css';
 
 export default class Navbar extends React.Component {
@@ -17,7 +19,7 @@ export default class Navbar extends React.Component {
     currentDisplay: PropTypes.number.isRequired,
     changeCurrentDisplay: PropTypes.func.isRequired,
     items: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }
+  };
 
   componentWillMount() {
     this.setState({ activeTab: this.props.currentDisplay });
@@ -30,27 +32,29 @@ export default class Navbar extends React.Component {
   onNavItemClick = (tabIndex) => {
     this.setState({ activeTab: tabIndex });
     this.props.changeCurrentDisplay(tabIndex);
-  }
+  };
 
   render() {
     const { items } = this.props;
     const { activeTab } = this.state;
     return (
-      <Nav
-        className={styles.root}
-        bsStyle="tabs"
-        activeKey={activeTab}
-        onSelect={this.onNavItemClick}
-      >
-        {items.map((item, index) => (
-          <NavItem
-            key={item}
-            eventKey={index}
-          >
-            {item}
-          </NavItem>
-        ))}
-      </Nav>
+      <ErrorBoundary>
+        <Nav
+          className={styles.root}
+          bsStyle="tabs"
+          activeKey={activeTab}
+          onSelect={this.onNavItemClick}
+        >
+          {items.map((item, index) => (
+            <NavItem
+              key={item}
+              eventKey={index}
+            >
+              {item}
+            </NavItem>
+          ))}
+        </Nav>
+      </ErrorBoundary>
     );
   }
 }

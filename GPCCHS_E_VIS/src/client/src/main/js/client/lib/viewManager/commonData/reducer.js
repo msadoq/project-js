@@ -78,8 +78,8 @@ const _getKeptIndexes =
       return acc;
     }, []);
 
-const _updateKeptIndexes = (state, tableState) => {
-  const filters = _.get([DATA_STATE_KEY, 'filters'], state);
+const _updateKeptIndexes = (tableState) => {
+  const filters = _.get([DATA_STATE_KEY, 'filters'], tableState);
   return _.set(
     'keep',
     _getKeptIndexes(_.get('data', tableState), filters),
@@ -98,19 +98,18 @@ const _getTableStateFromViewSubState =
  * @param state
  * @param source {array}
  * @param tableId {string} id identifying the table to inject data in
- * @param colName
- * @param filters
  * @returns {object} the updated state
  * @private
  */
 export const injectData = (
   state,
   source,
-  tableId,
-  colName,
-  filters = {}
+  tableId
 ) => {
   let tableState = _getTableStateFromViewSubState(state, tableId);
+
+  const colName = _.get([DATA_STATE_KEY, 'sort']);
+  const filters = _.getOr({}, [DATA_STATE_KEY, 'filters']);
 
   let updatedData = _.get('data', tableState);
   let updatedKeep = _.get('keep', tableState);
@@ -143,7 +142,7 @@ export const injectData = (
   };
 
   return _.set(
-    tableId,
+    ['tables', tableId],
     tableState,
     state
   );
@@ -164,7 +163,8 @@ export const removeData = (state, tableId, cond) => {
     _.get('data', tableState).filter((e, i) => !cond(e, i)),
     tableState
   );
-  tableState = _updateKeptIndexes(state, tableState);
+
+  tableState = _updateKeptIndexes(tableState);
 
   return _.set(
     tableId,
@@ -190,22 +190,25 @@ export const purgeData = (state, tableId) => removeData(state, tableId, () => tr
  * @param action
  */
 export default (state = {}, action) => {
-  const _getTableState = (viewId, tableId) => _.get([viewId, tableId], state);
+  const tableInitialState = { state: {}, data: [], keep: [] };
 
   switch (action.type) {
     case WS_VIEW_TABLE_UPDATE_SORT: {
       const { viewId, tableId, colName } = action.payload;
-      let tableState = _getTableState(viewId, tableId);
 
-      if (!tableState) {
+      let viewState = _.getOr({}, viewId, state);
+
+      if (!viewState || Object.keys(viewState).indexOf('tables') === -1) {
         return state;
       }
 
-      const filters = _.getOr({}, [DATA_STATE_KEY, 'filters'], tableState);
+      let tableState = _.getOr(tableInitialState, ['tables', tableId], viewState);
 
-      const tablePath = [viewId, tableId];
-
-      tableState = _.set([DATA_STATE_KEY, 'sort'], colName, tableState);
+      tableState = _.set(
+        [DATA_STATE_KEY, 'sort'],
+        colName,
+        tableState
+      );
 
       tableState = _.set(
         'data',
@@ -213,30 +216,45 @@ export default (state = {}, action) => {
         tableState
       );
 
-      tableState = _.set(
-        'keep',
-        _getKeptIndexes(_.get('data', tableState), filters),
-        tableState
-      );
+      tableState = _updateKeptIndexes(tableState);
 
-      return _.set(tablePath, tableState, state);
+      viewState = _.set(['tables', tableId], tableState, viewState);
+
+      return _.set(viewId, viewState, state);
     }
     case WS_VIEW_CHANGE_COL_FILTERS: {
       const { viewId, tableId, filters } = action.payload;
 
-      let tableState = _getTableState(viewId, tableId);
+      let viewState = _.getOr({}, viewId, state);
 
-      if (!tableState) {
+      if (!viewState) {
         return state;
       }
 
-      const tablePath = [viewId, tableId];
+      let tableState = _.getOr(
+        tableInitialState,
+        ['tables', tableId],
+        viewState
+      );
 
-      tableState = _.set([DATA_STATE_KEY, 'filters'], filters);
+      tableState = _.set(
+        [DATA_STATE_KEY, 'filters'],
+        filters,
+        tableState
+      );
 
-      tableState = _updateKeptIndexes(state, tableState);
+      tableState = _updateKeptIndexes(tableState);
 
-      return _.set(tablePath, tableState, state);
+      viewState = _.set(
+        ['tables', tableId],
+        tableState,
+        viewState
+      );
+
+      let updatedState = state;
+      updatedState = _.set(viewId, viewState, state);
+
+      return updatedState;
     }
     default:
       return state;

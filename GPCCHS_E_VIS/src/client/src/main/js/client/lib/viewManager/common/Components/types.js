@@ -1,123 +1,121 @@
 import PropTypes from 'prop-types';
 
-const { func, shape, number, string, bool, arrayOf, oneOfType } = PropTypes;
-
-export const connectedDataType = shape({
-  axisId: string,
-  digit: number,
-  domain: string,
-  filter: arrayOf(shape({
-    field: string,
-    operand: string,
-    operator: string,
+export const connectedDataType = PropTypes.shape({
+  axisId: PropTypes.string,
+  digit: PropTypes.number,
+  domain: PropTypes.string,
+  filter: PropTypes.arrayOf(PropTypes.shape({
+    field: PropTypes.string,
+    operand: PropTypes.string,
+    operator: PropTypes.string,
   })),
-  format: string,
-  formula: string,
-  fieldX: string,
-  timeline: string,
-  unit: string,
+  format: PropTypes.string,
+  formula: PropTypes.string,
+  fieldX: PropTypes.string,
+  timeline: PropTypes.string,
+  unit: PropTypes.string,
 });
 
-export const stateColorType = shape({
-  color: oneOfType([string, number]).isRequired,
-  condition: shape({
-    field: string.isRequired,
-    operand: string.isRequired,
-    operator: string.isRequired,
+export const stateColorType = PropTypes.shape({
+  color: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  condition: PropTypes.shape({
+    field: PropTypes.string.isRequired,
+    operand: PropTypes.string.isRequired,
+    operator: PropTypes.string.isRequired,
   }),
 });
 
-export const entryPointType = shape({
-  id: string,
-  name: string,
-  parametric: bool,
+export const entryPointType = PropTypes.shape({
+  id: PropTypes.string,
+  name: PropTypes.string,
+  parametric: PropTypes.bool,
   connectedData: connectedDataType.isRequired,
-  connectedDataParametric: shape({
-    xAxisId: string,
-    YAxisId: string,
+  connectedDataParametric: PropTypes.shape({
+    xAxisId: PropTypes.string,
+    YAxisId: PropTypes.string,
   }),
-  objectStyle: shape(),
-  stateColors: arrayOf(stateColorType),
-  obsolete: bool,
-  nonsignificant: bool,
+  objectStyle: PropTypes.shape(),
+  stateColors: PropTypes.arrayOf(stateColorType),
+  obsolete: PropTypes.bool,
+  nonsignificant: PropTypes.bool,
 });
 
-export const domainType = shape({
-  domainId: number.isRequired,
-  name: string.isRequired,
-  itemNamespace: string,
-  oid: string,
-  parentDomainId: number,
+export const domainType = PropTypes.shape({
+  domainId: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  itemNamespace: PropTypes.string,
+  oid: PropTypes.string,
+  parentDomainId: PropTypes.number,
 });
 
-export const domainsType = arrayOf(domainType.isRequired);
+export const domainsType = PropTypes.arrayOf(domainType.isRequired);
 
-export const timelineType = shape({
-  color: string,
-  id: string.isRequired,
-  kind: string,
-  offset: number,
-  sessionName: string.isRequired,
-  uuid: string.isRequired,
+export const timelineType = PropTypes.shape({
+  color: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  kind: PropTypes.string,
+  offset: PropTypes.number,
+  sessionName: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
 });
 
-export const timelinesType = shape(timelineType.isRequired);
+export const timelinesType = PropTypes.shape(timelineType.isRequired);
 
-export const sessionType = shape({
-  id: number.isRequired,
-  name: string.isRequired,
-  delta: PropTypes.number,
-  missionEpoch: PropTypes.number,
-  timestamp: PropTypes.shape({
-    ms: PropTypes.number,
-    ps: PropTypes.number,
+export const sessionType = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  delta: PropTypes.PropTypes.number,
+  missionEpoch: PropTypes.PropTypes.number,
+  timestamp: PropTypes.PropTypes.shape({
+    ms: PropTypes.PropTypes.number,
+    ps: PropTypes.PropTypes.number,
   }),
 });
 
-export const sessionsType = arrayOf(sessionType.isRequired);
+export const sessionsType = PropTypes.arrayOf(sessionType.isRequired);
 
-export const catalogItemType = shape({
-  name: string.isRequired,
+export const catalogItemType = PropTypes.shape({
+  name: PropTypes.string.isRequired,
 });
 
-export const catalogType = shape({
-  name: string.isRequired,
-  items: oneOfType([
-    string, // when requesting
-    arrayOf(catalogItemType),
+export const catalogType = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  items: PropTypes.oneOfType([
+    PropTypes.string, // when requesting
+    PropTypes.arrayOf(catalogItemType),
   ]),
 });
 
 export const reduxFormFieldsType = {
-  form: string.isRequired,
+  form: PropTypes.string.isRequired,
 };
 
-export const comObjectType = shape({
-  name: string.isRequired,
-  type: string.isRequired,
+export const comObjectType = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 });
 
-export const TableConfigurationColumnType = shape({
-  title: string.isRequired,
-  value: string.isRequired,
-  position: number.isRequired,
-  displayed: bool.isRequired,
-  group: number,
+export const TableConfigurationColumnType = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  position: PropTypes.number.isRequired,
+  displayed: PropTypes.bool.isRequired,
+  group: PropTypes.number,
 });
 
-export const fieldArrayPropsType = shape({
-  push: func,
-  remove: func,
-  insert: func,
-  getAll: func,
+export const fieldArrayPropsType = PropTypes.shape({
+  push: PropTypes.func,
+  remove: PropTypes.func,
+  insert: PropTypes.func,
+  getAll: PropTypes.func,
 });
 
-export const applicationProcessType = shape({
-  apidRawValue: string,
-  apidName: string,
+export const applicationProcessType = PropTypes.shape({
+  apidRawValue: PropTypes.string,
+  apidName: PropTypes.string,
 });
 
-export const applicationProcessesType = oneOfType([
-  string, // when requesting
-  arrayOf(applicationProcessType),
+export const applicationProcessesType = PropTypes.oneOfType([
+  PropTypes.string, // when requesting
+  PropTypes.arrayOf(applicationProcessType),
 ]);

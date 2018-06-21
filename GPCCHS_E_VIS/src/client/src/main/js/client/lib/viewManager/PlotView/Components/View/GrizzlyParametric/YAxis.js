@@ -26,40 +26,40 @@ import { select } from 'd3-selection';
 import { range } from 'd3-array';
 import { format as d3Format } from 'd3-format';
 import { axisLeft, axisRight } from 'd3-axis';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+
 import styles from './GrizzlyChart.css';
 import Axis from './Axis';
 import { lineType, labelStyleType } from './types';
 
-const { string, func, bool, arrayOf, number } = PropTypes;
-
 export default class YAxis extends Component {
   static propTypes = {
-    getLabelPosition: func.isRequired,
-    axisId: string.isRequired,
-    xAxesAt: string,
-    yAxesAt: string,
-    logarithmic: bool,
-    index: number.isRequired,
-    scale: func.isRequired,
-    extents: arrayOf(number).isRequired,
-    height: number.isRequired,
-    yAxisWidth: number.isRequired,
-    margin: number.isRequired,
-    chartWidth: number.isRequired,
-    lines: arrayOf(lineType.isRequired).isRequired,
-    showLabels: bool,
-    showTicks: bool,
-    autoTick: bool,
-    tickStep: number,
-    showGrid: bool,
-    gridStyle: string,
-    gridSize: number,
-    label: string.isRequired,
-    format: string,
-    formatAsDate: bool,
+    getLabelPosition: PropTypes.func.isRequired,
+    axisId: PropTypes.string.isRequired,
+    xAxesAt: PropTypes.string,
+    yAxesAt: PropTypes.string,
+    logarithmic: PropTypes.bool,
+    index: PropTypes.number.isRequired,
+    scale: PropTypes.func.isRequired,
+    extents: PropTypes.arrayOf(PropTypes.number).isRequired,
+    height: PropTypes.number.isRequired,
+    yAxisWidth: PropTypes.number.isRequired,
+    margin: PropTypes.number.isRequired,
+    chartWidth: PropTypes.number.isRequired,
+    lines: PropTypes.arrayOf(lineType.isRequired).isRequired,
+    showLabels: PropTypes.bool,
+    showTicks: PropTypes.bool,
+    autoTick: PropTypes.bool,
+    tickStep: PropTypes.number,
+    showGrid: PropTypes.bool,
+    gridStyle: PropTypes.string,
+    gridSize: PropTypes.number,
+    label: PropTypes.string.isRequired,
+    format: PropTypes.string,
+    formatAsDate: PropTypes.bool,
     labelStyle: labelStyleType.isRequired,
-    xAxisHeight: number.isRequired,
-    side: number.isRequired,
+    xAxisHeight: PropTypes.number.isRequired,
+    side: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -346,26 +346,28 @@ export default class YAxis extends Component {
     } = this.props;
 
     return (
-      <Axis
-        direction="vertical"
-        lines={lines}
-        showLabels={showLabels}
-        label={label}
-        height={height}
-        xAxisHeight={xAxisHeight}
-        index={index}
-        showGrid={showGrid}
-        chartWidth={chartWidth}
-        yAxisWidth={yAxisWidth}
-        labelStyle={labelStyle}
-        margin={margin}
-        yAxesAt={yAxesAt}
-        xAxesAt={xAxesAt}
-        side={side}
-        assignLabelEl={this.assignLabelEl}
-        assignEl={this.assignEl}
-        memoizeAssignRef={this.memoizeAssignRef}
-      />
+      <ErrorBoundary>
+        <Axis
+          direction="vertical"
+          lines={lines}
+          showLabels={showLabels}
+          label={label}
+          height={height}
+          xAxisHeight={xAxisHeight}
+          index={index}
+          showGrid={showGrid}
+          chartWidth={chartWidth}
+          yAxisWidth={yAxisWidth}
+          labelStyle={labelStyle}
+          margin={margin}
+          yAxesAt={yAxesAt}
+          xAxesAt={xAxesAt}
+          side={side}
+          assignLabelEl={this.assignLabelEl}
+          assignEl={this.assignEl}
+          memoizeAssignRef={this.memoizeAssignRef}
+        />
+      </ErrorBoundary>
     );
   }
 }

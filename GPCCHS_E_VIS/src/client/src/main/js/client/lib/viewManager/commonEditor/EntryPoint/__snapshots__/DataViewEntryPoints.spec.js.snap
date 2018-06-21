@@ -1,18 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: EntryPoint viewManager :: commonEditor :: EntryPoint :: DataViewEntryPoints snapshot 1`] = `
-<Unknown>
-  <Connect(EntryPointActions)
-    search={undefined}
-    viewId="viewId"
-    viewType="TextView"
-  />
-  <Connect(EntryPointTree)
-    entryPointConnectedDataForm={[Function]}
-    entryPoints={Array []}
-    pageId="pageId"
-    search={null}
-    viewId="viewId"
-  />
-</Unknown>
+<ErrorBoundary>
+  <Unknown>
+    <Connect(EntryPointActions)
+      search={undefined}
+      viewId="viewId"
+      viewType="TextView"
+    />
+    <Connect(EntryPointTree)
+      entryPointConnectedDataForm={[Function]}
+      entryPoints={Array []}
+      pageId="pageId"
+      search={null}
+      viewId="viewId"
+    />
+  </Unknown>
+</ErrorBoundary>
 `;

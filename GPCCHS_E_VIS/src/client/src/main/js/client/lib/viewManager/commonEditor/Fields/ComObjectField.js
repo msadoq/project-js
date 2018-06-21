@@ -3,22 +3,21 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
-
-const { string, arrayOf, oneOfType, shape } = PropTypes;
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class ComObjectField extends PureComponent {
   static propTypes = {
-    domainName: string,
-    timelineId: string,
-    catalogName: string,
-    itemName: string,
-    comObjectName: string,
+    domainName: PropTypes.string,
+    timelineId: PropTypes.string,
+    catalogName: PropTypes.string,
+    itemName: PropTypes.string,
+    comObjectName: PropTypes.string,
     // from container
-    comObjectFields: oneOfType([
-      string,
-      arrayOf(shape),
+    comObjectFields: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.shape),
     ]),
-    formFieldName: string.isRequired,
+    formFieldName: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -43,14 +42,16 @@ export default class ComObjectField extends PureComponent {
     const disabled = (!domainName || !timelineId || !catalogName || !itemName ||
       !comObjectName || comObjectFields === null);
     return (
-      <Field
-        format={null}
-        name={formFieldName}
-        component={ReactSelectField}
-        clearable
-        disabled={disabled}
-        options={computeOptions(comObjectFields)}
-      />
+      <ErrorBoundary>
+        <Field
+          format={null}
+          name={formFieldName}
+          component={ReactSelectField}
+          clearable
+          disabled={disabled}
+          options={computeOptions(comObjectFields)}
+        />
+      </ErrorBoundary>
     );
   }
 }

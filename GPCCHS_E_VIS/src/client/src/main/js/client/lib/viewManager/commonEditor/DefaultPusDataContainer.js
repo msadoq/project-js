@@ -15,11 +15,9 @@ const DefaultPusDataContainer = connect(
   mapStateToProps, {}
 )(DefaultPusData);
 
-const { string } = PropTypes;
-
 DefaultPusDataContainer.propTypes = {
-  viewId: string.isRequired,
-  pageId: string.isRequired,
+  viewId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
 };
 
 export default DefaultPusDataContainer;

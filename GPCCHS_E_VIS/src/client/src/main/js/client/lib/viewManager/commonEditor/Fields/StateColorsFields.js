@@ -32,9 +32,9 @@ import {
   getStateColorTypes,
   STATE_COLOR_NOMINAL,
 } from 'windowProcess/common/colors';
-import styles from './fields.css';
+import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
-const { shape, func } = PropTypes;
+import styles from './fields.css';
 
 const monitoringStateColors = {
   'true-false': getStateColorFilters(true, false),
@@ -45,11 +45,11 @@ const monitoringStateColors = {
 
 export default class StateColorsFields extends React.Component {
   static propTypes = {
-    fields: shape({
-      push: func,
-      remove: func,
-      insert: func,
-      getAll: func,
+    fields: PropTypes.shape({
+      push: PropTypes.func,
+      remove: PropTypes.func,
+      insert: PropTypes.func,
+      getAll: PropTypes.func,
     }).isRequired,
   };
   state = {
@@ -358,13 +358,13 @@ export default class StateColorsFields extends React.Component {
   };
   render() {
     return (
-      <div>
+      <ErrorBoundary>
         <br />
         {this.renderMonitoringColors()}
         {this.renderTableList()}
         {this.renderErrors(this.state.error)}
         {this.renderForm()}
-      </div>
+      </ErrorBoundary>
     );
   }
 }

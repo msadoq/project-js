@@ -70,22 +70,21 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
         if (viewId && state[viewId]) {
           return _.set(
             viewId,
-            scopedDataReducer(state[viewId], action),
+            scopedDataReducer(state[viewId], action, viewId),
             state
           );
         }
 
         let updatedState = state;
 
-        if (!viewId) { // multicast action
-          Object.keys(updatedState).forEach((viewKey) => {
-            updatedState = _.set(
-              viewId,
-              scopedDataReducer(state[viewKey], action),
-              state
-            );
-          });
-        }
+        // multicast
+        Object.keys(updatedState).forEach((viewKey) => {
+          updatedState = _.set(
+            viewKey,
+            scopedDataReducer(state[viewKey], action, viewKey),
+            state
+          );
+        });
 
         return updatedState;
       }

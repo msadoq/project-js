@@ -24,11 +24,12 @@ import { VM_VIEW_HISTORY } from '../../constants';
 
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-const historyViewDataReducer = (state = {}, action) => {
+const scopedHistoryDataReducer = (state = {}, action, viewId) => {
   switch (action.type) {
     case types.INJECT_DATA_RANGE: {
-      const { viewId, dataToInject, newViewMap, newExpectedRangeIntervals }
+      const { dataToInject, newViewMap, newExpectedRangeIntervals }
         = action.payload;
+
       const dataKeys = Object.keys(dataToInject);
       if (!dataKeys.length) {
         return state;
@@ -43,7 +44,7 @@ const historyViewDataReducer = (state = {}, action) => {
       return updatedState;
     }
     case types.WS_VIEWDATA_CLEAN: {
-      const { viewId, previousDataMap, dataMap, configuration } = action.payload;
+      const { previousDataMap, dataMap, configuration } = action.payload;
       let updatedState = state;
       updatedState = cleanCurrentViewData(
         updatedState,
@@ -62,4 +63,4 @@ const historyViewDataReducer = (state = {}, action) => {
 
 export const getData = (state, { viewId }) => state.HistoryViewData[viewId];
 
-export default createScopedDataReducer(historyViewDataReducer, {}, VM_VIEW_HISTORY);
+export default createScopedDataReducer(scopedHistoryDataReducer, {}, VM_VIEW_HISTORY);

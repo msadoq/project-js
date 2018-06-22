@@ -12,7 +12,8 @@
 import { VM_VIEW_PUS11 } from '../../constants';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
 
-function pus11DataReducer(state = {}, action) {
+// eslint-disable-next-line no-unused-vars
+function pus11DataReducer(state = {}, action, viewId) {
   switch (action.type) {
     // TODO: add specialized action handlers
     default:

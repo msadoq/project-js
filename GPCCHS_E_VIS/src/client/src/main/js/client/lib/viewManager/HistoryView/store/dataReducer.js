@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .

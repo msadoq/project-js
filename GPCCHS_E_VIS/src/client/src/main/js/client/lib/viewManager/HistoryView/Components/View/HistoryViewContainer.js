@@ -19,15 +19,13 @@ import { addEntryPoint } from 'store/actions/views';
 
 import HistoryView from './HistoryView';
 
-const mapStateToProps = (state, { viewId }) => {};
-
 const mapDispatchToProps = (dispatch, { viewId }) => ({
   addEntryPoint: (entryPoint) => {
     dispatch(addEntryPoint(viewId, entryPoint));
   },
 });
 
-const HistoryViewContainer = connect(mapStateToProps, mapDispatchToProps)(HistoryView);
+const HistoryViewContainer = connect(null, mapDispatchToProps)(HistoryView);
 
 HistoryViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

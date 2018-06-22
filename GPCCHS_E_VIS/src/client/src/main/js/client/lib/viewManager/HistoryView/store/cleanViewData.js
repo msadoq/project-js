@@ -110,16 +110,16 @@ function isInvalidEntryPoint(oldEp, newEp) {
 }
 
 
-export function updateEpLabel(viewData, oldLabel, newLabel) {
+export function updateEpLabel(viewData, oldLabel, newLabel) { // TODO: update this in middleware
   if (!oldLabel || !newLabel || oldLabel === newLabel) {
     return viewData;
   }
 
   return mapData(viewData, 'history', (el) => {
-    if (el.name === el.oldLabel) { // check field
+    if (el.epName === oldLabel) { // check field
       return {
         ...el,
-        name: newLabel,
+        epName: newLabel,
       };
     }
 
@@ -129,7 +129,7 @@ export function updateEpLabel(viewData, oldLabel, newLabel) {
 
 export function removeViewDataOutsideRange(viewData, lower, upper) {
   return removeData(viewData, 'history', (e) => {
-    const time = Number(e.referenceTimestamp);
+    const time = (new Date(e.referenceTimestamp)).getTime();
     return (time < lower) || (time > upper);
   });
 }

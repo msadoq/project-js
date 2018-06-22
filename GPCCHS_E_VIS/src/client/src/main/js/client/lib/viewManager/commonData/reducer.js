@@ -93,7 +93,11 @@ const _updateKeptIndexes = (tableState) => {
 
 const _getTableState =
   (state, tableId) =>
-    _.getOr({ data: [], keep: [] }, tableId, state);
+    _.getOr(
+      { data: [], keep: [] },
+      ['tables', tableId],
+      state
+    );
 
 /**
  * Injects a range of objects, `source` in data table
@@ -112,11 +116,12 @@ export const injectData = (
 ) => {
   let tableState = _getTableState(state, tableId);
 
-  const colName = _.get([DATA_STATE_KEY, 'sort']);
-  const filters = _.getOr({}, [DATA_STATE_KEY, 'filters']);
+  const colName = _.get([DATA_STATE_KEY, 'sort'], tableState);
+  const filters = _.getOr({}, [DATA_STATE_KEY, 'filters'], tableState);
 
   let updatedData = _.getOr([], 'data', tableState);
   let updatedKeep = _.getOr([], 'keep', tableState);
+
   let insertIndex = 0;
 
   source.forEach((el) => {
@@ -140,7 +145,10 @@ export const injectData = (
     }
   });
 
+  updatedKeep = _getKeptIndexes(updatedData, filters);
+
   tableState = {
+    ...tableState,
     data: updatedData,
     keep: updatedKeep,
   };
@@ -171,7 +179,7 @@ export const removeData = (state, tableId, cond) => {
   tableState = _updateKeptIndexes(tableState);
 
   return _.set(
-    tableId,
+    ['tables', tableId],
     tableState,
     state
   );
@@ -196,7 +204,7 @@ export const mapData = (state, tableId, mapFunc) => {
   tableState = _updateKeptIndexes(tableState);
 
   return _.set(
-    tableId,
+    ['tables', tableId],
     tableState,
     state
   );

@@ -70,7 +70,7 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
         if (viewId && state[viewId]) { // scoped action
           return _.set(
             viewId,
-            scopedDataReducer(state[viewId], action),
+            scopedDataReducer(state[viewId], action, viewId),
             state
           );
         }
@@ -80,8 +80,8 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
         // multicast
         Object.keys(updatedState).forEach((viewKey) => {
           updatedState = _.set(
-            viewId,
-            scopedDataReducer(state[viewKey], action),
+            viewKey,
+            scopedDataReducer(state[viewKey], action, viewKey),
             state
           );
         });

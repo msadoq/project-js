@@ -209,6 +209,7 @@ Elle prend en argument :
 
 - `scopedDataReducer` : reducer dont le state passé en paramètre (et donc celui qui est retourné)
 est le sous state correspondant à la `viewId` associé à l'action.
+Ce reducer prend en paramètres, en plus de `state` et `action`, la `viewId` à laquelle il s'applique.
 - `ìnitialState` : état initial de la vue
 - `viewType` : type de la vue
 

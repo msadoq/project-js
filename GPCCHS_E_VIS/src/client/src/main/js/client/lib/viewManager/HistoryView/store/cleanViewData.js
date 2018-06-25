@@ -13,7 +13,7 @@ import _ from 'lodash/fp';
 import _difference from 'lodash/difference';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
-import { mapData, removeData } from '../../commonData/reducer';
+import { mapTabularData, removeTabularData } from '../../commonData/reducer';
 
 
 /* ************************************************
@@ -97,7 +97,7 @@ export default function cleanCurrentViewData(
 
 function removeEpData(state, epName) {
   if (epName && epName.length > 0) {
-    return removeData(state, 'history', e => e.epName === epName);
+    return removeTabularData(state, 'history', e => e.epName === epName);
   }
 
   return state;
@@ -115,7 +115,7 @@ export function updateEpLabel(viewData, oldLabel, newLabel) { // TODO: update th
     return viewData;
   }
 
-  return mapData(viewData, 'history', (el) => {
+  return mapTabularData(viewData, 'history', (el) => {
     if (el.epName === oldLabel) { // check field
       return {
         ...el,
@@ -128,7 +128,7 @@ export function updateEpLabel(viewData, oldLabel, newLabel) { // TODO: update th
 }
 
 export function removeViewDataOutsideRange(viewData, lower, upper) {
-  return removeData(viewData, 'history', (e) => {
+  return removeTabularData(viewData, 'history', (e) => {
     const time = (new Date(e.referenceTimestamp)).getTime();
     return (time < lower) || (time > upper);
   });

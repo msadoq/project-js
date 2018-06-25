@@ -1,4 +1,4 @@
-import { injectData, mapData, purgeData, removeData } from './reducer';
+import { injectTabularData, mapTabularData, purgeTabularData, removeTabularData } from './reducer';
 
 const createObj =
   index =>
@@ -18,12 +18,12 @@ describe('viewManager/commonData/reducer', () => {
     tableId = 'tableId';
   });
 
-  describe('injectData', () => {
+  describe('injectTabularData', () => {
     test('should inject properly 10 elements in an empty state', () => {
       const state = {};
 
       const updatedState =
-        injectData(
+        injectTabularData(
           state,
           tableId,
           createPayload(10)
@@ -42,7 +42,7 @@ describe('viewManager/commonData/reducer', () => {
       };
 
       const updatedState =
-        injectData(
+        injectTabularData(
           state,
           tableId,
           createPayload(10)
@@ -52,7 +52,7 @@ describe('viewManager/commonData/reducer', () => {
         .toEqual(20);
     });
   });
-  describe('removeData', () => {
+  describe('removeTabularData', () => {
     test('should noop if data table is empty', () => {
       const state = {
         tables: {
@@ -62,7 +62,7 @@ describe('viewManager/commonData/reducer', () => {
         },
       };
 
-      const updatedState = removeData(state, tableId, () => true);
+      const updatedState = removeTabularData(state, tableId, () => true);
 
       expect(updatedState.tables[tableId].data.length)
         .toEqual(0);
@@ -77,7 +77,7 @@ describe('viewManager/commonData/reducer', () => {
       };
 
       const updatedState =
-        removeData(state, tableId, el => [0, 1].includes(el.keyA));
+        removeTabularData(state, tableId, el => [0, 1].includes(el.keyA));
 
       expect(updatedState.tables[tableId].data.length)
         .toEqual(18);
@@ -85,7 +85,7 @@ describe('viewManager/commonData/reducer', () => {
         .toEqual(createPayload(20).slice(2));
     });
   });
-  describe('purgeData', () => {
+  describe('purgeTabularData', () => {
     test('should remove all data', () => {
       const state = {
         tables: {
@@ -95,13 +95,13 @@ describe('viewManager/commonData/reducer', () => {
         },
       };
 
-      const updatedState = purgeData(state, tableId);
+      const updatedState = purgeTabularData(state, tableId);
 
       expect(updatedState.tables[tableId].data.length)
         .toEqual(0);
     });
   });
-  describe('mapData', () => {
+  describe('mapTabularData', () => {
     test('should update all object with map function', () => {
       const state = {
         tables: {
@@ -112,7 +112,7 @@ describe('viewManager/commonData/reducer', () => {
       };
 
       const updatedState =
-        mapData(
+        mapTabularData(
           state,
           tableId,
           el => ({ keyA: el.keyA + 1, keyB: el.keyB + 1, keyC: el.keyC + 1 }));

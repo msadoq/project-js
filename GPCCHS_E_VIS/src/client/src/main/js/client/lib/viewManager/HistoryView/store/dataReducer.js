@@ -25,7 +25,7 @@ import {
   WS_VIEW_UPDATE_ENTRYPOINT_NAME,
   WS_VIEWDATA_CLEAN,
 } from '../../../store/types';
-import { mapData } from '../../commonData/reducer';
+import { mapTabularData } from '../../commonData/reducer';
 
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
@@ -66,7 +66,7 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
     case WS_VIEW_UPDATE_ENTRYPOINT_NAME: {
       const { epId, epName } = action.payload;
 
-      return mapData(state, 'history', (el) => {
+      return mapTabularData(state, 'history', (el) => {
         if (el.id === epId) {
           return {
             ...el,

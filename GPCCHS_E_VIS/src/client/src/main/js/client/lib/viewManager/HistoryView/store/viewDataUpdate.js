@@ -21,7 +21,7 @@ import { convertData } from 'viewManager/commonData/convertData';
 import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
-import { injectData } from '../../commonData/reducer';
+import { injectTabularData } from '../../commonData/reducer';
 
 const logger = getLogger('data:rangeValues');
 
@@ -54,7 +54,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
 
         return payloads[ep][timestamp];
       });
-      updatedState = injectData(updatedState, 'history', range);
+      updatedState = injectTabularData(updatedState, 'history', range);
     }
   );
 

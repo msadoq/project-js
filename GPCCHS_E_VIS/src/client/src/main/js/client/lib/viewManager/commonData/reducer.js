@@ -109,7 +109,7 @@ const _getTableState =
  * @returns {object} the updated state
  * @private
  */
-export const injectData = (
+export const injectTabularData = (
   state,
   tableId,
   source
@@ -168,7 +168,7 @@ export const injectData = (
  * @param cond {function}
  * @return {object} the updated state
  */
-export const removeData = (state, tableId, cond) => {
+export const removeTabularData = (state, tableId, cond) => {
   let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
@@ -193,7 +193,7 @@ export const removeData = (state, tableId, cond) => {
  * @param mapFunc
  * @returns {void|*|{}}
  */
-export const mapData = (state, tableId, mapFunc) => {
+export const mapTabularData = (state, tableId, mapFunc) => {
   let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
@@ -217,7 +217,7 @@ export const mapData = (state, tableId, mapFunc) => {
  * @param tableId
  * @returns {Object}
  */
-export const purgeData = (state, tableId) => removeData(state, tableId, () => true);
+export const purgeTabularData = (state, tableId) => removeTabularData(state, tableId, () => true);
 
 /**
  * This is the common data reducer used to handle common data management,
@@ -319,7 +319,7 @@ const scopedCommonReducer = (dataState = {}, action) => {
         );
       }
 
-      return injectData(dataState, tableId, fakeData);
+      return injectTabularData(dataState, tableId, fakeData);
     }
     default:
       return dataState;

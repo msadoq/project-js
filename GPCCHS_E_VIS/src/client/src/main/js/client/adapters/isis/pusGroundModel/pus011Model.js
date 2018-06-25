@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -13,6 +7,7 @@ const pus011Apid = require('./pus011Apid');
 const pusElement = require('./pusElement');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
+const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -20,7 +15,7 @@ module.exports = {
       ? uINTEGER.encode(data.maxNoTc)
       : null,
     scheduleStatus: (data.scheduleStatus !== null && typeof data.scheduleStatus !== 'undefined')
-      ? uINTEGER.encode(data.scheduleStatus)
+      ? uOCTET.encode(data.scheduleStatus)
       : null,
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? uINTEGER.encode(data.apid)
@@ -50,11 +45,23 @@ module.exports = {
       ? tIME.encode(data.groundDate)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uINTEGER.encode(data.status)
+      ? uOCTET.encode(data.status)
       : null,
     pus011Apid: _map(data.pus011Apid, d => (pus011Apid.encode(d))),
     useTimeShifts: (data.useTimeShifts !== null && typeof data.useTimeShifts !== 'undefined')
       ? bOOLEAN.encode(data.useTimeShifts)
+      : null,
+    lastUpdateModeFreeSpace: (data.lastUpdateModeFreeSpace !== null && typeof data.lastUpdateModeFreeSpace !== 'undefined')
+      ? uOCTET.encode(data.lastUpdateModeFreeSpace)
+      : null,
+    lastUpdateModeNoFreeCommands: (data.lastUpdateModeNoFreeCommands !== null && typeof data.lastUpdateModeNoFreeCommands !== 'undefined')
+      ? uOCTET.encode(data.lastUpdateModeNoFreeCommands)
+      : null,
+    lastUpdateModeScheduleStatus: (data.lastUpdateModeScheduleStatus !== null && typeof data.lastUpdateModeScheduleStatus !== 'undefined')
+      ? uOCTET.encode(data.lastUpdateModeScheduleStatus)
+      : null,
+    lastUpdateTimeScheduleStatus: (data.lastUpdateTimeScheduleStatus !== null && typeof data.lastUpdateTimeScheduleStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeScheduleStatus)
       : null,
   }),
   decode: data => ({
@@ -62,7 +69,7 @@ module.exports = {
       ? uINTEGER.decode(data.maxNoTc)
       : undefined,
     scheduleStatus: (data.scheduleStatus !== null && typeof data.scheduleStatus !== 'undefined')
-      ? uINTEGER.decode(data.scheduleStatus)
+      ? uOCTET.decode(data.scheduleStatus)
       : undefined,
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? uINTEGER.decode(data.apid)
@@ -92,11 +99,23 @@ module.exports = {
       ? tIME.decode(data.groundDate)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uINTEGER.decode(data.status)
+      ? uOCTET.decode(data.status)
       : undefined,
     pus011Apid: _map(data.pus011Apid, d => (pus011Apid.decode(d))),
     useTimeShifts: (data.useTimeShifts !== null && typeof data.useTimeShifts !== 'undefined')
       ? bOOLEAN.decode(data.useTimeShifts)
+      : undefined,
+    lastUpdateModeFreeSpace: (data.lastUpdateModeFreeSpace !== null && typeof data.lastUpdateModeFreeSpace !== 'undefined')
+      ? uOCTET.decode(data.lastUpdateModeFreeSpace)
+      : undefined,
+    lastUpdateModeNoFreeCommands: (data.lastUpdateModeNoFreeCommands !== null && typeof data.lastUpdateModeNoFreeCommands !== 'undefined')
+      ? uOCTET.decode(data.lastUpdateModeNoFreeCommands)
+      : undefined,
+    lastUpdateModeScheduleStatus: (data.lastUpdateModeScheduleStatus !== null && typeof data.lastUpdateModeScheduleStatus !== 'undefined')
+      ? uOCTET.decode(data.lastUpdateModeScheduleStatus)
+      : undefined,
+    lastUpdateTimeScheduleStatus: (data.lastUpdateTimeScheduleStatus !== null && typeof data.lastUpdateTimeScheduleStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeScheduleStatus)
       : undefined,
     referenceTimestamp: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
         ? { type: 'time', value: data.groundDate.value.toNumber() }

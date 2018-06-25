@@ -1,16 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus140Parameter');
-const { getPus140Parameter } = require('../stubs');
+const stub = require('./pus140Parameter.stub')();
 
 
 
@@ -18,24 +11,26 @@ describe('protobuf/isis/pusGroundModel/Pus140Parameter', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus140Parameter.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus140Parameter');
-  const fixture = getPus140Parameter();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      parameterId: { type: 'uinteger', value: fixture.parameterId },
-      apid: { type: 'uinteger', value: fixture.apid },
-      currentValue: { type: 'double', symbol: fixture.currentValue.toString() },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      parameterId: { type: 'uinteger', value: stub.parameterId },
+      apid: { type: 'uinteger', value: stub.apid },
+      currentValue: { type: 'double', symbol: stub.currentValue.toString() },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
+      lastUpdateModeCurrentValue: { type: 'uoctet', value: stub.lastUpdateModeCurrentValue },
+      lastUpdateTimeCurrentValue: { type: 'time', value: stub.lastUpdateTimeCurrentValue },
+      lastUpdateModeParamId: { type: 'uoctet', value: stub.lastUpdateModeParamId },
+      lastUpdateTimeParamId: { type: 'time', value: stub.lastUpdateTimeParamId },
     });
-    
     
   });
 });

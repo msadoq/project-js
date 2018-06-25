@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -16,7 +10,7 @@ const now = _now();
 
 const pus011Model = {
   maxNoTc: 100,
-  scheduleStatus: 100,
+  scheduleStatus: 1,
   apid: 100,
   noFreeCommands: 100,
   lastUpdateTimeNoFreeCommands: now,
@@ -26,9 +20,13 @@ const pus011Model = {
   noSubSchedule: 100,
   pusElement: getPusElement(),
   groundDate: now,
-  status: 100,
+  status: 1,
   pus011Apid: [getPus011Apid(), getPus011Apid()],
   useTimeShifts: true,
+  lastUpdateModeFreeSpace: 1,
+  lastUpdateModeNoFreeCommands: 1,
+  lastUpdateModeScheduleStatus: 1,
+  lastUpdateTimeScheduleStatus: now,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus011Model) : pus011Model);

@@ -1,38 +1,32 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const TimeTaggedTC = require('./timeTaggedTC');
-const GenericTC = require('./genericTC');
-const SuccessiveAck = require('./successiveAck');
-const TCHistory = require('./tCHistory');
 const ExpectedAck = require('./expectedAck');
 const TCDetails = require('./tCDetails');
-const PusHeader = require('./pusHeader');
 const TCImmediate = require('./tCImmediate');
+const SuccessiveAck = require('./successiveAck');
 const TCLong = require('./tCLong');
-const TC11 = require('./tC11');
-const TC13 = require('./tC13');
-const TCFile = require('./tCFile');
 const TCPhysicalParameter = require('./tCPhysicalParameter');
+const TimeTaggedTC = require('./timeTaggedTC');
+const GenericTC = require('./genericTC');
+const TCFile = require('./tCFile');
+const TC11 = require('./tC11');
+const TCHistory = require('./tCHistory');
+const TC13 = require('./tC13');
+const PusHeader = require('./pusHeader');
 
 module.exports = {
-  TimeTaggedTC: { type: 'protobuf', adapter: TimeTaggedTC },
-  GenericTC: { type: 'protobuf', adapter: GenericTC },
-  SuccessiveAck: { type: 'protobuf', adapter: SuccessiveAck },
-  TCHistory: { type: 'protobuf', adapter: TCHistory },
   ExpectedAck: { type: 'protobuf', adapter: ExpectedAck },
   TCDetails: { type: 'protobuf', adapter: TCDetails },
-  PusHeader: { type: 'protobuf', adapter: PusHeader },
   TCImmediate: { type: 'protobuf', adapter: TCImmediate },
+  SuccessiveAck: { type: 'protobuf', adapter: SuccessiveAck },
   TCLong: { type: 'protobuf', adapter: TCLong },
-  TC11: { type: 'protobuf', adapter: TC11 },
-  TC13: { type: 'protobuf', adapter: TC13 },
-  TCFile: { type: 'protobuf', adapter: TCFile },
   TCPhysicalParameter: { type: 'protobuf', adapter: TCPhysicalParameter },
+  TimeTaggedTC: { type: 'protobuf', adapter: TimeTaggedTC },
+  GenericTC: { type: 'protobuf', adapter: GenericTC },
+  TCFile: { type: 'protobuf', adapter: TCFile },
+  TC11: { type: 'protobuf', adapter: TC11 },
+  TCHistory: { type: 'protobuf', adapter: TCHistory },
+  TC13: { type: 'protobuf', adapter: TC13 },
+  PusHeader: { type: 'protobuf', adapter: PusHeader },
 };

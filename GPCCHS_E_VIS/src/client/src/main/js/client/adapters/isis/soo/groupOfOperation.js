@@ -1,8 +1,3 @@
-// ====================================================================
-// HISTORY
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -10,6 +5,7 @@ const _map = require('lodash/map');
 const activityRequest = require('./activityRequest');
 const bLOB = require('../ccsds_mal/bLOB');
 const dURATION = require('../ccsds_mal/dURATION');
+const functionalChain = require('./functionalChain');
 const lONG = require('../ccsds_mal/lONG');
 const namedValue = require('../ccsds_mal/namedValue');
 const operationCriticality = require('./operationCriticality');
@@ -24,18 +20,18 @@ module.exports = {
     operationId: (data.operationId !== null && typeof data.operationId !== 'undefined')
       ? lONG.encode(data.operationId)
       : null,
-    earliest_start_date: (data.earliest_start_date !== null && typeof data.earliest_start_date !== 'undefined')
-      ? tIME.encode(data.earliest_start_date)
+    earliestStartDate: (data.earliestStartDate !== null && typeof data.earliestStartDate !== 'undefined')
+      ? tIME.encode(data.earliestStartDate)
       : null,
     operation: _map(data.operation, d => (bLOB.encode(d))),
-    latest_start_date: (data.latest_start_date !== null && typeof data.latest_start_date !== 'undefined')
-      ? tIME.encode(data.latest_start_date)
-      : null,
-    layer: (data.layer !== null && typeof data.layer !== 'undefined')
-      ? sTRING.encode(data.layer)
+    latestStartDate: (data.latestStartDate !== null && typeof data.latestStartDate !== 'undefined')
+      ? tIME.encode(data.latestStartDate)
       : null,
     expected_duration: (data.expected_duration !== null && typeof data.expected_duration !== 'undefined')
       ? dURATION.encode(data.expected_duration)
+      : null,
+    layer: (data.layer !== null && typeof data.layer !== 'undefined')
+      ? sTRING.encode(data.layer)
       : null,
     foreseenDate: (data.foreseenDate !== null && typeof data.foreseenDate !== 'undefined')
       ? tIME.encode(data.foreseenDate)
@@ -64,15 +60,15 @@ module.exports = {
     arguments: _map(data.arguments, d => (sTRING.encode(d))),
     options: _map(data.options, d => (namedValue.encode(d))),
     result: (data.result !== null && typeof data.result !== 'undefined')
-      ? result.encode(data.result)
+      ? bLOB.encode(result.encodeRaw(data.result))
       : null,
     hostname: (data.hostname !== null && typeof data.hostname !== 'undefined')
       ? sTRING.encode(data.hostname)
       : null,
     functionalChain: (data.functionalChain !== null && typeof data.functionalChain !== 'undefined')
-      ? bLOB.encode(data.functionalChain)
+      ? bLOB.encode(functionalChain.encodeRaw(data.functionalChain))
       : null,
-    statuses: _map(data.statuses, d => (status.encode(d))),
+    statuses: _map(data.statuses, d => (bLOB.encode(status.encodeRaw(d)))),
     activity: (data.activity !== null && typeof data.activity !== 'undefined')
       ? data.activity
       : null,
@@ -81,18 +77,18 @@ module.exports = {
     operationId: (data.operationId !== null && typeof data.operationId !== 'undefined')
       ? lONG.decode(data.operationId)
       : undefined,
-    earliest_start_date: (data.earliest_start_date !== null && typeof data.earliest_start_date !== 'undefined')
-      ? tIME.decode(data.earliest_start_date)
+    earliestStartDate: (data.earliestStartDate !== null && typeof data.earliestStartDate !== 'undefined')
+      ? tIME.decode(data.earliestStartDate)
       : undefined,
     operation: _map(data.operation, d => (bLOB.decode(d))),
-    latest_start_date: (data.latest_start_date !== null && typeof data.latest_start_date !== 'undefined')
-      ? tIME.decode(data.latest_start_date)
-      : undefined,
-    layer: (data.layer !== null && typeof data.layer !== 'undefined')
-      ? sTRING.decode(data.layer)
+    latestStartDate: (data.latestStartDate !== null && typeof data.latestStartDate !== 'undefined')
+      ? tIME.decode(data.latestStartDate)
       : undefined,
     expected_duration: (data.expected_duration !== null && typeof data.expected_duration !== 'undefined')
       ? dURATION.decode(data.expected_duration)
+      : undefined,
+    layer: (data.layer !== null && typeof data.layer !== 'undefined')
+      ? sTRING.decode(data.layer)
       : undefined,
     foreseenDate: (data.foreseenDate !== null && typeof data.foreseenDate !== 'undefined')
       ? tIME.decode(data.foreseenDate)
@@ -121,15 +117,15 @@ module.exports = {
     arguments: _map(data.arguments, d => (sTRING.decode(d))),
     options: _map(data.options, d => (namedValue.decode(d))),
     result: (data.result !== null && typeof data.result !== 'undefined')
-      ? result.decode(data.result)
+      ? result.decodeRaw(bLOB.decode(data.result).value)
       : undefined,
     hostname: (data.hostname !== null && typeof data.hostname !== 'undefined')
       ? sTRING.decode(data.hostname)
       : undefined,
     functionalChain: (data.functionalChain !== null && typeof data.functionalChain !== 'undefined')
-      ? bLOB.decode(data.functionalChain)
+      ? functionalChain.decodeRaw(bLOB.decode(data.functionalChain).value)
       : undefined,
-    statuses: _map(data.statuses, d => (status.decode(d))),
+    statuses: _map(data.statuses, d => (status.decodeRaw(bLOB.decode(d).value))),
     activity: (data.activity !== null && typeof data.activity !== 'undefined')
       ? { type: 'enum', value: data.activity, symbol: activityRequest[data.activity] }
       : undefined,

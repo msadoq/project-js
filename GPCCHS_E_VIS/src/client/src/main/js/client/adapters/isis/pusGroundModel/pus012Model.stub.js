@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -18,11 +12,12 @@ const pus012Model = {
   apid: 100,
   pus012ParameterMonitoringDefinition: [getPus012ParameterMonitoringDefinition(), getPus012ParameterMonitoringDefinition()],
   noOfParameterMonitoringDefinition: 100,
-  serviceStatus: 100,
-  lastUpdateTimeServiceStatus: now,
+  serviceStatus: 1,
   groundDate: now,
   pusElement: getPusElement(),
   status: 100,
+  lastUpdateModeServiceStatus: 1,
+  lastUpdateTimeServiceStatus: now,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus012Model) : pus012Model);

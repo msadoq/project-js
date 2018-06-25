@@ -1,12 +1,7 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/UOCTET.proto";
 import "./Pus140Parameter.proto";
 import "./PusElement.proto";
 
@@ -21,5 +16,5 @@ extensions 7 to 107;
   optional ccsds_mal.protobuf.UINTEGER apid = 3;
   optional ccsds_mal.protobuf.UINTEGER noOfParameters = 4;
   optional pusGroundModel.protobuf.PusElement pusElement = 5;
-  optional ccsds_mal.protobuf.UINTEGER status = 6;
+  optional ccsds_mal.protobuf.UOCTET status = 6;
 }

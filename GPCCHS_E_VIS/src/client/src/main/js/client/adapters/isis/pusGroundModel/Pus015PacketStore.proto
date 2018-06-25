@@ -1,13 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/BOOLEAN.proto";
 import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/UOCTET.proto";
 import "./Pus015Packet.proto";
 import "./PusElement.proto";
 
@@ -15,14 +11,20 @@ import "./PusElement.proto";
 package pusGroundModel.protobuf;
 
 message Pus015PacketStore {
-extensions 9 to 109;
+extensions 15 to 115;
 
   optional ccsds_mal.protobuf.STRING name = 1;
   optional ccsds_mal.protobuf.UINTEGER id = 2;
-  optional ccsds_mal.protobuf.UINTEGER status = 3;
+  optional ccsds_mal.protobuf.UOCTET status = 3;
   optional ccsds_mal.protobuf.STRING storageType = 4;
   optional ccsds_mal.protobuf.BOOLEAN dumpEnabled = 5;
   repeated pusGroundModel.protobuf.Pus015Packet pus015Packet = 6;
   optional pusGroundModel.protobuf.PusElement pusElement = 7;
   optional ccsds_mal.protobuf.STRING hkStatusParameterName = 8;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeStoreId = 9;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStoreId = 10;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeStoreType = 11;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStoreType = 12;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeStoreStatus = 13;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStoreStatus = 14;
 }

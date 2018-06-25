@@ -1,12 +1,8 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/UOCTET.proto";
 import "./Pus142ParameterMonitoringDefinition.proto";
 import "./PusElement.proto";
 
@@ -14,11 +10,11 @@ import "./PusElement.proto";
 package pusGroundModel.protobuf;
 
 message Pus142FunctionalMonitoring {
-extensions 13 to 113;
+extensions 29 to 129;
 
   optional ccsds_mal.protobuf.UINTEGER fmonId = 1;
   optional ccsds_mal.protobuf.STRING protectionStatus = 2;
-  optional ccsds_mal.protobuf.UINTEGER status = 3;
+  optional ccsds_mal.protobuf.UOCTET status = 3;
   optional ccsds_mal.protobuf.STRING checkingStatus = 4;
   optional ccsds_mal.protobuf.UINTEGER rid = 5;
   repeated pusGroundModel.protobuf.Pus142ParameterMonitoringDefinition pus142ParameterMonitoringDefinition = 6;
@@ -28,4 +24,20 @@ extensions 13 to 113;
   optional pusGroundModel.protobuf.PusElement pusElement = 10;
   optional ccsds_mal.protobuf.STRING ridLabel = 11;
   optional ccsds_mal.protobuf.STRING fmonIdLabel = 12;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeFMonId = 13;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeFMonId = 14;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeProtectionStatus = 15;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeProtectionStatus = 16;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeCheckingStatus = 17;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeCheckingStatus = 18;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeStatus = 19;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStatus = 20;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeRid = 21;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeRid = 22;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeValidParamId = 23;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamId = 24;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeValidParamMask = 25;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamMask = 26;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeValidParamExpectedValue = 27;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamExpectedValue = 28;
 }

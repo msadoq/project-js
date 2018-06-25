@@ -1,16 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./folder');
-const { getFolder } = require('../stubs');
+const stub = require('./folder.stub')();
 
 
 
@@ -18,40 +11,38 @@ describe('protobuf/isis/file/Folder', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Folder.proto`, { keepCase: true })
     .lookup('file.protobuf.Folder');
-  const fixture = getFolder();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      usersAccess: (typeof fixture.usersAccess === 'undefined')
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      usersAccess: (typeof stub.usersAccess === 'undefined')
         ? null
         : {
-          read: { type: 'boolean', value: fixture.usersAccess.read },
-          changeAccessRight: { type: 'boolean', value: fixture.usersAccess.changeAccessRight },
-          write: { type: 'boolean', value: fixture.usersAccess.write },
-          execute: { type: 'boolean', value: fixture.usersAccess.execute },
+          read: { type: 'boolean', value: stub.usersAccess.read },
+          changeAccessRight: { type: 'boolean', value: stub.usersAccess.changeAccessRight },
+          write: { type: 'boolean', value: stub.usersAccess.write },
+          execute: { type: 'boolean', value: stub.usersAccess.execute },
         },
-      path: { type: 'uri', value: fixture.path },
-      creatorUser: (typeof fixture.creatorUser === 'undefined')
+      path: { type: 'uri', value: stub.path },
+      creatorUser: (typeof stub.creatorUser === 'undefined')
         ? null
-        : { type: 'string', value: fixture.creatorUser },
-      documentCount: (typeof fixture.documentCount === 'undefined')
+        : { type: 'string', value: stub.creatorUser },
+      documentCount: (typeof stub.documentCount === 'undefined')
         ? null
-        : { type: 'long', symbol: `${fixture.documentCount}` },
-      accessRightsPropagation: (typeof fixture.accessRightsPropagation === 'undefined')
+        : { type: 'long', symbol: `${stub.documentCount}` },
+      accessRightsPropagation: (typeof stub.accessRightsPropagation === 'undefined')
         ? null
-        : { type: 'boolean', value: fixture.accessRightsPropagation },
+        : { type: 'boolean', value: stub.accessRightsPropagation },
     });
-    
-    json.properties.should.be.an('array').that.have.lengthOf(fixture.properties.length);
-    for (let i = 0; i < fixture.properties.length; i += 1) {
-      json.properties[i].should.be.an('object').that.have.properties({
-        name: { type: 'identifier', value: fixture.properties[i].name },
-        value: { type: 'double', symbol: fixture.properties[i].value.toString() },
+    expect(decoded.properties).toHaveLength(stub.properties.length);
+    for (let i = 0; i < stub.properties.length; i += 1) {
+      expect(decoded.properties[i]).toMatchObject({
+        name: { type: 'identifier', value: stub.properties[i].name },
+        value: { type: 'double', symbol: stub.properties[i].value.toString() },
       });
       
     }

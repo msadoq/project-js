@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -19,11 +13,11 @@ const pus013Ldt = {
   endTime: now,
   transferType: 100,
   lduId: 100,
-  status: 100,
+  status: 1,
   size: 100,
   remainingSize: -100,
   percent: 100,
-  failureCode: 100,
+  failureCode: 'mySTRING',
   fileId: 100,
   partitionId: 100,
   fileChecksum: 'mySTRING',
@@ -31,6 +25,24 @@ const pus013Ldt = {
   pUS013LdtPart: [getPus013LdtPart(), getPus013LdtPart()],
   noLDTParts: 100,
   pusElement: getPusElement(),
+  lastUpdateModeLduId: 1,
+  lastUpdateTimeLduId: now,
+  lastUpdateModeSize: 1,
+  lastUpdateTimeSize: now,
+  lastUpdateModeStartTime: 1,
+  lastUpdateTimeStartTime: now,
+  lastUpdateModeEndTime: 1,
+  lastUpdateTimeEndTime: now,
+  lastUpdateModeStatus: 1,
+  lastUpdateTimeStatus: now,
+  lastUpdateModeRemainSize: 1,
+  lastUpdateTimeRemainSize: now,
+  lastUpdateModePercent: 1,
+  lastUpdateTimePercent: now,
+  lastUpdateModeFailureCode: 1,
+  lastUpdateTimeFailureCode: now,
+  lastUpdateModeFileChecksum: 1,
+  lastUpdateTimeFileChecksum: now,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus013Ldt) : pus013Ldt);

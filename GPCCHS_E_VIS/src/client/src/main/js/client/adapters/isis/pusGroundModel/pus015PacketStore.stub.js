@@ -1,25 +1,28 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
+const _now = require('lodash/now');
 const _defaultsDeep = require('lodash/defaultsDeep');
 const getPus015Packet = require('./pus015Packet.stub');
 const getPusElement = require('./pusElement.stub');
 
+const now = _now();
+
 const pus015PacketStore = {
   name: 'mySTRING',
   id: 100,
-  status: 100,
+  status: 1,
   storageType: 'mySTRING',
   dumpEnabled: true,
   pus015Packet: [getPus015Packet(), getPus015Packet()],
   pusElement: getPusElement(),
   hkStatusParameterName: 'mySTRING',
+  lastUpdateModeStoreId: 1,
+  lastUpdateTimeStoreId: now,
+  lastUpdateModeStoreType: 1,
+  lastUpdateTimeStoreType: now,
+  lastUpdateModeStoreStatus: 1,
+  lastUpdateTimeStoreStatus: now,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus015PacketStore) : pus015PacketStore);

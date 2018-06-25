@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -19,13 +13,13 @@ const now = _now();
 const pus011Command = {
   commandApid: 100,
   commandBinaryProfile: Buffer.alloc(4, 1),
-  commandGroundStatus: 100,
+  commandGroundStatus: 1,
   commandName: 'mySTRING',
   commandSequenceCount: 100,
   commandStatus: 100,
   currentExecutionTime: now,
   initialExecutionTime: now,
-  commandSourceId: 100,
+  commandSourceId: 10,
   ssId: 100,
   totalTimeShiftOffset: -100,
   pus011EncapsulatingTc: getPus011EncapsulatingTc(),
@@ -35,6 +29,20 @@ const pus011Command = {
   apid: 100,
   pusElement: getPusElement(),
   groundDate: now,
+  lastUpdateModeBinProfile: 1,
+  lastUpdateTimeBinProfile: now,
+  lastUpdateModeGroundStatus: 1,
+  lastUpdateTimeGroundStatus: now,
+  lastUpdateModeStatus: 1,
+  lastUpdateTimeStatus: now,
+  lastUpdateModeInitExecTime: 1,
+  lastUpdateTimeInitExecTime: now,
+  lastUpdateModeTotalShiftOffset: 1,
+  lastUpdateTimeCurrExecTime: now,
+  lastUpdateModeCurrExecTime: 1,
+  lastUpdateTimeTotalShiftOffset: now,
+  lastUpdateModeCommandId: 1,
+  lastUpdateTimeCommandId: now,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus011Command) : pus011Command);

@@ -1,8 +1,3 @@
-// ====================================================================
-// HISTORY
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/TIME.proto";
 import "./StatValue.proto";
@@ -14,5 +9,5 @@ message StatAggregation {
 extensions 3 to 103;
 
   optional ccsds_mal.protobuf.TIME statDate = 1;
-  optional statAggregation.protobuf.StatValue statValue = 2;
+  repeated statAggregation.protobuf.StatValue statValue = 2;
 }

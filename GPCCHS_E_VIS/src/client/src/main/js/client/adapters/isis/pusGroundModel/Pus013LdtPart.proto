@@ -1,24 +1,21 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/BLOB.proto";
 import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/UOCTET.proto";
+import "./PusElement.proto";
 
 
 package pusGroundModel.protobuf;
 
 message Pus013LdtPart {
-extensions 8 to 108;
+extensions 9 to 109;
 
-  optional ccsds_mal.protobuf.UINTEGER status = 1;
+  optional ccsds_mal.protobuf.UOCTET status = 1;
   optional ccsds_mal.protobuf.UINTEGER partSize = 2;
   optional ccsds_mal.protobuf.UINTEGER partId = 3;
   optional ccsds_mal.protobuf.UINTEGER sourceId = 4;
   optional ccsds_mal.protobuf.UINTEGER commandApid = 5;
   optional ccsds_mal.protobuf.UINTEGER sequenceCount = 6;
   optional ccsds_mal.protobuf.BLOB serviceDataUnit = 7;
+  optional pusGroundModel.protobuf.PusElement pusElement = 8;
 }

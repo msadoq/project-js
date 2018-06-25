@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -12,7 +6,9 @@ const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const pus015Packet = require('./pus015Packet');
 const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
+const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
+const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -23,7 +19,7 @@ module.exports = {
       ? uINTEGER.encode(data.id)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uINTEGER.encode(data.status)
+      ? uOCTET.encode(data.status)
       : null,
     storageType: (data.storageType !== null && typeof data.storageType !== 'undefined')
       ? sTRING.encode(data.storageType)
@@ -38,6 +34,24 @@ module.exports = {
     hkStatusParameterName: (data.hkStatusParameterName !== null && typeof data.hkStatusParameterName !== 'undefined')
       ? sTRING.encode(data.hkStatusParameterName)
       : null,
+    lastUpdateModeStoreId: (data.lastUpdateModeStoreId !== null && typeof data.lastUpdateModeStoreId !== 'undefined')
+      ? uOCTET.encode(data.lastUpdateModeStoreId)
+      : null,
+    lastUpdateTimeStoreId: (data.lastUpdateTimeStoreId !== null && typeof data.lastUpdateTimeStoreId !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeStoreId)
+      : null,
+    lastUpdateModeStoreType: (data.lastUpdateModeStoreType !== null && typeof data.lastUpdateModeStoreType !== 'undefined')
+      ? uOCTET.encode(data.lastUpdateModeStoreType)
+      : null,
+    lastUpdateTimeStoreType: (data.lastUpdateTimeStoreType !== null && typeof data.lastUpdateTimeStoreType !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeStoreType)
+      : null,
+    lastUpdateModeStoreStatus: (data.lastUpdateModeStoreStatus !== null && typeof data.lastUpdateModeStoreStatus !== 'undefined')
+      ? uOCTET.encode(data.lastUpdateModeStoreStatus)
+      : null,
+    lastUpdateTimeStoreStatus: (data.lastUpdateTimeStoreStatus !== null && typeof data.lastUpdateTimeStoreStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeStoreStatus)
+      : null,
   }),
   decode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
@@ -47,7 +61,7 @@ module.exports = {
       ? uINTEGER.decode(data.id)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uINTEGER.decode(data.status)
+      ? uOCTET.decode(data.status)
       : undefined,
     storageType: (data.storageType !== null && typeof data.storageType !== 'undefined')
       ? sTRING.decode(data.storageType)
@@ -61,6 +75,24 @@ module.exports = {
       : undefined,
     hkStatusParameterName: (data.hkStatusParameterName !== null && typeof data.hkStatusParameterName !== 'undefined')
       ? sTRING.decode(data.hkStatusParameterName)
+      : undefined,
+    lastUpdateModeStoreId: (data.lastUpdateModeStoreId !== null && typeof data.lastUpdateModeStoreId !== 'undefined')
+      ? uOCTET.decode(data.lastUpdateModeStoreId)
+      : undefined,
+    lastUpdateTimeStoreId: (data.lastUpdateTimeStoreId !== null && typeof data.lastUpdateTimeStoreId !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeStoreId)
+      : undefined,
+    lastUpdateModeStoreType: (data.lastUpdateModeStoreType !== null && typeof data.lastUpdateModeStoreType !== 'undefined')
+      ? uOCTET.decode(data.lastUpdateModeStoreType)
+      : undefined,
+    lastUpdateTimeStoreType: (data.lastUpdateTimeStoreType !== null && typeof data.lastUpdateTimeStoreType !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeStoreType)
+      : undefined,
+    lastUpdateModeStoreStatus: (data.lastUpdateModeStoreStatus !== null && typeof data.lastUpdateModeStoreStatus !== 'undefined')
+      ? uOCTET.decode(data.lastUpdateModeStoreStatus)
+      : undefined,
+    lastUpdateTimeStoreStatus: (data.lastUpdateTimeStoreStatus !== null && typeof data.lastUpdateTimeStoreStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeStoreStatus)
       : undefined,
   }),
 };

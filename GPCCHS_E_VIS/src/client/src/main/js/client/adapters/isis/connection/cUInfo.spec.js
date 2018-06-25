@@ -1,16 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./cUInfo');
-const { getCUInfo } = require('../stubs');
+const stub = require('./cUInfo.stub')();
 
 
 
@@ -18,28 +11,26 @@ describe('protobuf/isis/connection/CUInfo', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/CUInfo.proto`, { keepCase: true })
     .lookup('connection.protobuf.CUInfo');
-  const fixture = getCUInfo();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      isSLE: { type: 'boolean', value: fixture.isSLE },
-      reconnectionNumber: (typeof fixture.reconnectionNumber === 'undefined')
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      isSLE: { type: 'boolean', value: stub.isSLE },
+      reconnectionNumber: (typeof stub.reconnectionNumber === 'undefined')
         ? null
-        : { type: 'integer', value: fixture.reconnectionNumber },
-      reconnectionDelay: (typeof fixture.reconnectionDelay === 'undefined')
+        : { type: 'integer', value: stub.reconnectionNumber },
+      reconnectionDelay: (typeof stub.reconnectionDelay === 'undefined')
         ? null
-        : { type: 'integer', value: fixture.reconnectionDelay },
-      name: { type: 'string', value: fixture.name },
-      sicFile: (typeof fixture.sicFile === 'undefined')
+        : { type: 'integer', value: stub.reconnectionDelay },
+      name: { type: 'string', value: stub.name },
+      sicFile: (typeof stub.sicFile === 'undefined')
         ? null
-        : { type: 'string', value: fixture.sicFile },
+        : { type: 'string', value: stub.sicFile },
     });
-    
     
   });
 });

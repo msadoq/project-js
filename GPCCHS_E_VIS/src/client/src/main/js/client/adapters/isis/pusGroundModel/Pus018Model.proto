@@ -1,12 +1,7 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/UOCTET.proto";
 import "./Pus018ConfiguredObcp.proto";
 import "./Pus018Obcp.proto";
 import "./PusElement.proto";
@@ -15,7 +10,7 @@ import "./PusElement.proto";
 package pusGroundModel.protobuf;
 
 message Pus018Model {
-extensions 9 to 109;
+extensions 11 to 111;
 
   optional ccsds_mal.protobuf.UINTEGER engineStatus = 1;
   repeated pusGroundModel.protobuf.Pus018Obcp pus018Obcp = 2;
@@ -24,5 +19,7 @@ extensions 9 to 109;
   optional ccsds_mal.protobuf.UINTEGER noOBCPs = 5;
   optional pusGroundModel.protobuf.PusElement pusElement = 6;
   repeated pusGroundModel.protobuf.Pus018ConfiguredObcp pus018ConfiguredObcp = 7;
-  optional ccsds_mal.protobuf.UINTEGER status = 8;
+  optional ccsds_mal.protobuf.UOCTET status = 8;
+  optional ccsds_mal.protobuf.UOCTET lastUpdateModeEngineStatus = 9;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeEngineStatus = 10;
 }

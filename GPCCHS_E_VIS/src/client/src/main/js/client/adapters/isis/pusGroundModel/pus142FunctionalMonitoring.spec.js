@@ -1,16 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus142FunctionalMonitoring');
-const { getPus142FunctionalMonitoring } = require('../stubs');
+const stub = require('./pus142FunctionalMonitoring.stub')();
 
 
 
@@ -18,35 +11,49 @@ describe('protobuf/isis/pusGroundModel/Pus142FunctionalMonitoring', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus142FunctionalMonitoring.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus142FunctionalMonitoring');
-  const fixture = getPus142FunctionalMonitoring();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      fmonId: { type: 'uinteger', value: fixture.fmonId },
-      protectionStatus: { type: 'string', value: fixture.protectionStatus },
-      status: { type: 'uinteger', value: fixture.status },
-      checkingStatus: { type: 'string', value: fixture.checkingStatus },
-      rid: { type: 'uinteger', value: fixture.rid },
-      validityParameterId: { type: 'uinteger', value: fixture.validityParameterId },
-      validityParameterMask: { type: 'string', value: fixture.validityParameterMask },
-      validityParameterExpectedValue: { type: 'string', value: fixture.validityParameterExpectedValue },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      fmonId: { type: 'uinteger', value: stub.fmonId },
+      protectionStatus: { type: 'string', value: stub.protectionStatus },
+      status: { type: 'uoctet', value: stub.status },
+      checkingStatus: { type: 'string', value: stub.checkingStatus },
+      rid: { type: 'uinteger', value: stub.rid },
+      validityParameterId: { type: 'uinteger', value: stub.validityParameterId },
+      validityParameterMask: { type: 'string', value: stub.validityParameterMask },
+      validityParameterExpectedValue: { type: 'string', value: stub.validityParameterExpectedValue },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      ridLabel: { type: 'string', value: fixture.ridLabel },
-      fmonIdLabel: { type: 'string', value: fixture.fmonIdLabel },
+      ridLabel: { type: 'string', value: stub.ridLabel },
+      fmonIdLabel: { type: 'string', value: stub.fmonIdLabel },
+      lastUpdateModeFMonId: { type: 'uoctet', value: stub.lastUpdateModeFMonId },
+      lastUpdateTimeFMonId: { type: 'time', value: stub.lastUpdateTimeFMonId },
+      lastUpdateModeProtectionStatus: { type: 'uoctet', value: stub.lastUpdateModeProtectionStatus },
+      lastUpdateTimeProtectionStatus: { type: 'time', value: stub.lastUpdateTimeProtectionStatus },
+      lastUpdateModeCheckingStatus: { type: 'uoctet', value: stub.lastUpdateModeCheckingStatus },
+      lastUpdateTimeCheckingStatus: { type: 'time', value: stub.lastUpdateTimeCheckingStatus },
+      lastUpdateModeStatus: { type: 'uoctet', value: stub.lastUpdateModeStatus },
+      lastUpdateTimeStatus: { type: 'time', value: stub.lastUpdateTimeStatus },
+      lastUpdateModeRid: { type: 'uoctet', value: stub.lastUpdateModeRid },
+      lastUpdateTimeRid: { type: 'time', value: stub.lastUpdateTimeRid },
+      lastUpdateModeValidParamId: { type: 'uoctet', value: stub.lastUpdateModeValidParamId },
+      lastUpdateTimeValidParamId: { type: 'time', value: stub.lastUpdateTimeValidParamId },
+      lastUpdateModeValidParamMask: { type: 'uoctet', value: stub.lastUpdateModeValidParamMask },
+      lastUpdateTimeValidParamMask: { type: 'time', value: stub.lastUpdateTimeValidParamMask },
+      lastUpdateModeValidParamExpectedValue: { type: 'uoctet', value: stub.lastUpdateModeValidParamExpectedValue },
+      lastUpdateTimeValidParamExpectedValue: { type: 'time', value: stub.lastUpdateTimeValidParamExpectedValue },
     });
-    
-    json.pus142ParameterMonitoringDefinition.should.be.an('array').that.have.lengthOf(fixture.pus142ParameterMonitoringDefinition.length);
-    for (let i = 0; i < fixture.pus142ParameterMonitoringDefinition.length; i += 1) {
-      json.pus142ParameterMonitoringDefinition[i].should.be.an('object').that.have.properties({
-        paramMonId: { type: 'uinteger', value: fixture.pus142ParameterMonitoringDefinition[i].paramMonId },
+    expect(decoded.pus142ParameterMonitoringDefinition).toHaveLength(stub.pus142ParameterMonitoringDefinition.length);
+    for (let i = 0; i < stub.pus142ParameterMonitoringDefinition.length; i += 1) {
+      expect(decoded.pus142ParameterMonitoringDefinition[i]).toMatchObject({
+        paramMonId: { type: 'uinteger', value: stub.pus142ParameterMonitoringDefinition[i].paramMonId },
       });
       
     }

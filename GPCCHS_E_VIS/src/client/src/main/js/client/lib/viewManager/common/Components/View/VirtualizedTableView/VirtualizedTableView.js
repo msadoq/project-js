@@ -307,7 +307,7 @@ class VirtualizedTableView extends React.Component {
           key={key}
           style={{
             ...updatedStyle,
-            ...overrideStyle({ columnIndex, key, rowIndex, style }),
+            ...overrideStyle({ columnIndex, key, rowIndex, style, content }),
           }}
           onClick={_onClick}
           onDoubleClick={_onDoubleClick}

@@ -9,7 +9,7 @@ import { getConfigurationByViewId } from '../../../../selectors';
 import { getViewType } from '../../../../../store/reducers/views';
 
 
-const mapStateToProps = (state, { viewId, tableId }) => {
+const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const tableConfig = config.tables[tableId];
 
@@ -46,14 +46,16 @@ const mapStateToProps = (state, { viewId, tableId }) => {
     const content =
       _.get(keep[virtualRowIndex], data);
 
+    const _contentModifier = contentModifier || _.identity;
+
     if (content) {
       const colKey = cols[columnIndex].title;
       const { color } = content;
 
-      return {
+      return _contentModifier(content, {
         value: content[colKey],
         color,
-      };
+      });
     }
 
     return { value: undefined };

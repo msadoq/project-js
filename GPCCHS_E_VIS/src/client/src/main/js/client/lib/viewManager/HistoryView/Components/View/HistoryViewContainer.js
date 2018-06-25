@@ -13,11 +13,23 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEntryPoint } from 'store/actions/views';
 
 import HistoryView from './HistoryView';
+import { getData } from '../../store/dataReducer';
+
+
+const mapStateToProps = (state, { viewId }) => {
+  const data = getData(state, { viewId });
+  const last = _.getOr({}, 'last', data);
+
+  return {
+    last,
+  };
+};
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
   addEntryPoint: (entryPoint) => {

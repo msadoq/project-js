@@ -1,0 +1,14 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "./CompareDiffParameter.proto";
+
+
+package file.protobuf;
+
+message CompareDiff {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.BOOLEAN fileDifference = 1;
+  repeated file.protobuf.CompareDiffParameter documentProperties = 2;
+  repeated file.protobuf.CompareDiffParameter versionProperties = 3;
+}

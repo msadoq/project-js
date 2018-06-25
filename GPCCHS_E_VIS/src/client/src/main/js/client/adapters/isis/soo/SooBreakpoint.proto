@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/STRING.proto";
+
+
+package soo.protobuf;
+
+message SooBreakpoint {
+extensions 5 to 105;
+
+  optional ccsds_mal.protobuf.STRING data = 1;
+  optional ccsds_mal.protobuf.BLOB sooState = 2;
+  optional ccsds_mal.protobuf.BLOB sooOperation = 3;
+  optional ccsds_mal.protobuf.BLOB sooFunctionalChain = 4;
+}

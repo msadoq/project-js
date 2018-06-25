@@ -56,7 +56,11 @@ export const _shouldKeepElement = (el, filters = {}) => {
   let ret = true;
 // eslint-disable-next-line no-restricted-syntax
   for (const filterKey of Object.keys(filters)) {
-    if (el[filterKey] && `${el[filterKey]}`.indexOf(filters[filterKey]) === -1) {
+    if (
+      el[filterKey] &&
+      el[filterKey].length > 0 &&
+      `${el[filterKey]}`.indexOf(filters[filterKey]) === -1
+    ) {
       ret = false;
       break;
     }
@@ -102,17 +106,23 @@ const _getTableState =
 /**
  * Injects a range of objects, `source` in data table
  * and updates the filter keep accordingly
+ * and calls the specified callback function `cb` for each element
+ *
+ * The provided callback function `cb` takes an element
+ * and an insert index as parameters
  *
  * @param state
  * @param source {array}
  * @param tableId {string} id identifying the table to inject data in
+ * @param afterEach {function} callback function to be called on each inserted element
  * @returns {object} the updated state
  * @private
  */
 export const injectTabularData = (
   state,
   tableId,
-  source
+  source,
+  afterEach = null
 ) => {
   let tableState = _getTableState(state, tableId);
 
@@ -128,6 +138,10 @@ export const injectTabularData = (
     // eslint-disable-next-line prefer-const
     [updatedData, insertIndex] =
       _insertSortedBy((e => e[colName]), el, updatedData, insertIndex);
+
+    if (afterEach !== null) {
+      afterEach(el, insertIndex);
+    }
 
     if (_shouldKeepElement(el, filters)) {
       let insertKeepIndexAt =

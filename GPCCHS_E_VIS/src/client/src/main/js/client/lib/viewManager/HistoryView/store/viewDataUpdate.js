@@ -16,6 +16,7 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import { convertData } from 'viewManager/commonData/convertData';
 import getLogger from 'common/logManager';
@@ -54,7 +55,36 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
 
         return payloads[ep][timestamp];
       });
-      updatedState = injectTabularData(updatedState, 'history', range);
+
+      let _last = _.getOr({}, 'last', state);
+
+      const _updateCurrent = (el, insertIndex) => {
+        const { epName, referenceTimestamp } = el;
+
+        const last = _.get(['last', epName], updatedState);
+
+        if (
+          !last ||
+          (referenceTimestamp && (last < referenceTimestamp))
+        ) {
+          _last = _.set(
+            epName,
+            referenceTimestamp,
+            _last
+          );
+        }
+      };
+
+      updatedState =
+        injectTabularData(
+          updatedState,
+          'history',
+          range,
+          _updateCurrent
+        );
+
+      updatedState =
+        _.set('last', _last, updatedState);
     }
   );
 

@@ -23,29 +23,29 @@ describe('protobuf/isis/pusGroundModel/Pus015Model', () => {
       apid: { type: 'uinteger', value: stub.apid },
       noPacketStores: { type: 'uinteger', value: stub.noPacketStores },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      status: { type: 'uoctet', value: stub.status },
+      status: { type: 'uinteger', value: stub.status },
     });
     expect(decoded.pus015PacketStore).toHaveLength(stub.pus015PacketStore.length);
     for (let i = 0; i < stub.pus015PacketStore.length; i += 1) {
       expect(decoded.pus015PacketStore[i]).toMatchObject({
         name: { type: 'string', value: stub.pus015PacketStore[i].name },
         id: { type: 'uinteger', value: stub.pus015PacketStore[i].id },
-        status: { type: 'uoctet', value: stub.pus015PacketStore[i].status },
+        status: { type: 'uinteger', value: stub.pus015PacketStore[i].status },
         storageType: { type: 'string', value: stub.pus015PacketStore[i].storageType },
         dumpEnabled: { type: 'boolean', value: stub.pus015PacketStore[i].dumpEnabled },
         pusElement: {
-          lastUpdateMode: { type: 'uoctet', value: stub.pus015PacketStore[i].pusElement.lastUpdateMode },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus015PacketStore[i].pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: stub.pus015PacketStore[i].pusElement.lastUpdateTime },
         },
         hkStatusParameterName: { type: 'string', value: stub.pus015PacketStore[i].hkStatusParameterName },
-        lastUpdateModeStoreId: { type: 'uoctet', value: stub.pus015PacketStore[i].lastUpdateModeStoreId },
+        lastUpdateModeStoreId: { type: 'uinteger', value: stub.pus015PacketStore[i].lastUpdateModeStoreId },
         lastUpdateTimeStoreId: { type: 'time', value: stub.pus015PacketStore[i].lastUpdateTimeStoreId },
-        lastUpdateModeStoreType: { type: 'uoctet', value: stub.pus015PacketStore[i].lastUpdateModeStoreType },
+        lastUpdateModeStoreType: { type: 'uinteger', value: stub.pus015PacketStore[i].lastUpdateModeStoreType },
         lastUpdateTimeStoreType: { type: 'time', value: stub.pus015PacketStore[i].lastUpdateTimeStoreType },
-        lastUpdateModeStoreStatus: { type: 'uoctet', value: stub.pus015PacketStore[i].lastUpdateModeStoreStatus },
+        lastUpdateModeStoreStatus: { type: 'uinteger', value: stub.pus015PacketStore[i].lastUpdateModeStoreStatus },
         lastUpdateTimeStoreStatus: { type: 'time', value: stub.pus015PacketStore[i].lastUpdateTimeStoreStatus },
       });
       expect(decoded.pus015PacketStore[i].pus015Packet).toHaveLength(stub.pus015PacketStore[i].pus015Packet.length);
@@ -57,15 +57,15 @@ describe('protobuf/isis/pusGroundModel/Pus015Model', () => {
           sid: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].sid },
           subsamplingRatio: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].subsamplingRatio },
           pusElement: {
-            lastUpdateMode: { type: 'uoctet', value: stub.pus015PacketStore[i].pus015Packet[ii].pusElement.lastUpdateMode },
+            lastUpdateMode: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].pusElement.lastUpdateMode },
             lastUpdateTime: { type: 'time', value: stub.pus015PacketStore[i].pus015Packet[ii].pusElement.lastUpdateTime },
           },
           packetType: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].packetType },
           sidLabel: { type: 'string', value: stub.pus015PacketStore[i].pus015Packet[ii].sidLabel },
           isSubsamplingRatioSet: { type: 'boolean', value: stub.pus015PacketStore[i].pus015Packet[ii].isSubsamplingRatioSet },
-          lastUpdateModePacketId: { type: 'uoctet', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateModePacketId },
+          lastUpdateModePacketId: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateModePacketId },
           lastUpdateTimePacketId: { type: 'time', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateTimePacketId },
-          lastUpdateModeSubSamplingRatio: { type: 'uoctet', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateModeSubSamplingRatio },
+          lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateModeSubSamplingRatio },
           lastUpdateTimeSubSamplingRatio: { type: 'time', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateTimeSubSamplingRatio },
         });
         

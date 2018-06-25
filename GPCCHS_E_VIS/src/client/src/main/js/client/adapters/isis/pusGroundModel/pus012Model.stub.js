@@ -12,11 +12,11 @@ const pus012Model = {
   apid: 100,
   pus012ParameterMonitoringDefinition: [getPus012ParameterMonitoringDefinition(), getPus012ParameterMonitoringDefinition()],
   noOfParameterMonitoringDefinition: 100,
-  serviceStatus: 1,
+  serviceStatus: 100,
   groundDate: now,
   pusElement: getPusElement(),
   status: 100,
-  lastUpdateModeServiceStatus: 1,
+  lastUpdateModeServiceStatus: 100,
   lastUpdateTimeServiceStatus: now,
 };
 

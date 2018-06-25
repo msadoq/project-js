@@ -10,15 +10,15 @@ const now = _now();
 const pus019EventAction = {
   apid: 100,
   rid: 100,
-  actionStatus: 1,
+  actionStatus: 100,
   actionTcPacketHeader: Buffer.alloc(4, 1),
   pusElement: getPusElement(),
   ridLabel: 'mySTRING',
-  lastUpdateModeActionStatus: 1,
+  lastUpdateModeActionStatus: 100,
   lastUpdateTimeActionStatus: now,
-  lastUpdateModeEventActionRid: 1,
+  lastUpdateModeEventActionRid: 100,
   lastUpdateTimeEventActionRid: now,
-  lastUpdateModeActionTc: 1,
+  lastUpdateModeActionTc: 100,
   lastUpdateTimeActionTc: now,
 };
 

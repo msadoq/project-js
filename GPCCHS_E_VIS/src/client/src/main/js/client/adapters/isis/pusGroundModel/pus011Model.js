@@ -7,7 +7,6 @@ const pus011Apid = require('./pus011Apid');
 const pusElement = require('./pusElement');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -15,7 +14,7 @@ module.exports = {
       ? uINTEGER.encode(data.maxNoTc)
       : null,
     scheduleStatus: (data.scheduleStatus !== null && typeof data.scheduleStatus !== 'undefined')
-      ? uOCTET.encode(data.scheduleStatus)
+      ? uINTEGER.encode(data.scheduleStatus)
       : null,
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? uINTEGER.encode(data.apid)
@@ -45,20 +44,20 @@ module.exports = {
       ? tIME.encode(data.groundDate)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
     pus011Apid: _map(data.pus011Apid, d => (pus011Apid.encode(d))),
     useTimeShifts: (data.useTimeShifts !== null && typeof data.useTimeShifts !== 'undefined')
       ? bOOLEAN.encode(data.useTimeShifts)
       : null,
     lastUpdateModeFreeSpace: (data.lastUpdateModeFreeSpace !== null && typeof data.lastUpdateModeFreeSpace !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeFreeSpace)
+      ? uINTEGER.encode(data.lastUpdateModeFreeSpace)
       : null,
     lastUpdateModeNoFreeCommands: (data.lastUpdateModeNoFreeCommands !== null && typeof data.lastUpdateModeNoFreeCommands !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeNoFreeCommands)
+      ? uINTEGER.encode(data.lastUpdateModeNoFreeCommands)
       : null,
     lastUpdateModeScheduleStatus: (data.lastUpdateModeScheduleStatus !== null && typeof data.lastUpdateModeScheduleStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeScheduleStatus)
+      ? uINTEGER.encode(data.lastUpdateModeScheduleStatus)
       : null,
     lastUpdateTimeScheduleStatus: (data.lastUpdateTimeScheduleStatus !== null && typeof data.lastUpdateTimeScheduleStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeScheduleStatus)
@@ -69,7 +68,7 @@ module.exports = {
       ? uINTEGER.decode(data.maxNoTc)
       : undefined,
     scheduleStatus: (data.scheduleStatus !== null && typeof data.scheduleStatus !== 'undefined')
-      ? uOCTET.decode(data.scheduleStatus)
+      ? uINTEGER.decode(data.scheduleStatus)
       : undefined,
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
       ? uINTEGER.decode(data.apid)
@@ -99,20 +98,20 @@ module.exports = {
       ? tIME.decode(data.groundDate)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     pus011Apid: _map(data.pus011Apid, d => (pus011Apid.decode(d))),
     useTimeShifts: (data.useTimeShifts !== null && typeof data.useTimeShifts !== 'undefined')
       ? bOOLEAN.decode(data.useTimeShifts)
       : undefined,
     lastUpdateModeFreeSpace: (data.lastUpdateModeFreeSpace !== null && typeof data.lastUpdateModeFreeSpace !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeFreeSpace)
+      ? uINTEGER.decode(data.lastUpdateModeFreeSpace)
       : undefined,
     lastUpdateModeNoFreeCommands: (data.lastUpdateModeNoFreeCommands !== null && typeof data.lastUpdateModeNoFreeCommands !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeNoFreeCommands)
+      ? uINTEGER.decode(data.lastUpdateModeNoFreeCommands)
       : undefined,
     lastUpdateModeScheduleStatus: (data.lastUpdateModeScheduleStatus !== null && typeof data.lastUpdateModeScheduleStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeScheduleStatus)
+      ? uINTEGER.decode(data.lastUpdateModeScheduleStatus)
       : undefined,
     lastUpdateTimeScheduleStatus: (data.lastUpdateTimeScheduleStatus !== null && typeof data.lastUpdateTimeScheduleStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeScheduleStatus)

@@ -13,9 +13,9 @@ const pus140Parameter = {
   apid: 100,
   currentValue: _random(1, 100, true),
   pusElement: getPusElement(),
-  lastUpdateModeCurrentValue: 1,
+  lastUpdateModeCurrentValue: 100,
   lastUpdateTimeCurrentValue: now,
-  lastUpdateModeParamId: 1,
+  lastUpdateModeParamId: 100,
   lastUpdateTimeParamId: now,
 };
 

@@ -25,15 +25,15 @@ describe('protobuf/isis/pusGroundModel/Pus015Packet', () => {
       sid: { type: 'uinteger', value: stub.sid },
       subsamplingRatio: { type: 'uinteger', value: stub.subsamplingRatio },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
       packetType: { type: 'uinteger', value: stub.packetType },
       sidLabel: { type: 'string', value: stub.sidLabel },
       isSubsamplingRatioSet: { type: 'boolean', value: stub.isSubsamplingRatioSet },
-      lastUpdateModePacketId: { type: 'uoctet', value: stub.lastUpdateModePacketId },
+      lastUpdateModePacketId: { type: 'uinteger', value: stub.lastUpdateModePacketId },
       lastUpdateTimePacketId: { type: 'time', value: stub.lastUpdateTimePacketId },
-      lastUpdateModeSubSamplingRatio: { type: 'uoctet', value: stub.lastUpdateModeSubSamplingRatio },
+      lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.lastUpdateModeSubSamplingRatio },
       lastUpdateTimeSubSamplingRatio: { type: 'time', value: stub.lastUpdateTimeSubSamplingRatio },
     });
     

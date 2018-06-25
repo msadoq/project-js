@@ -15,7 +15,7 @@ const pus003Model = {
   numberDiagPackets: 100,
   apid: 100,
   pus003HkPacket: [getPus003HkPacket(), getPus003HkPacket()],
-  status: 1,
+  status: 100,
   groundDate: now,
   pusElement: getPusElement(),
 };

@@ -9,14 +9,14 @@ const getPusElement = require('./pusElement.stub');
 const now = _now();
 
 const pus142Model = {
-  serviceStatus: 1,
+  serviceStatus: 100,
   noOfFunctionalMonitoring: 100,
   pus142FunctionalMonitoring: [getPus142FunctionalMonitoring(), getPus142FunctionalMonitoring()],
   groundDate: now,
   apid: 100,
   pusElement: getPusElement(),
-  status: 1,
-  lastUpdateModeServiceStatus: 1,
+  status: 100,
+  lastUpdateModeServiceStatus: 100,
   lastUpdateTimeServiceStatus: now,
 };
 

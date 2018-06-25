@@ -6,7 +6,6 @@ const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -26,7 +25,7 @@ module.exports = {
       ? uINTEGER.encode(data.collectionInterval)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')
       ? pusElement.encode(data.pusElement)
@@ -38,37 +37,37 @@ module.exports = {
       ? bOOLEAN.encode(data.isCollectionIntervalSet)
       : null,
     lastUpdateModeSid: (data.lastUpdateModeSid !== null && typeof data.lastUpdateModeSid !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeSid)
+      ? uINTEGER.encode(data.lastUpdateModeSid)
       : null,
     lastUpdateTimeSid: (data.lastUpdateTimeSid !== null && typeof data.lastUpdateTimeSid !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeSid)
       : null,
     lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeStatus)
+      ? uINTEGER.encode(data.lastUpdateModeStatus)
       : null,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeStatus)
       : null,
     lastUpdateModeValidParamId: (data.lastUpdateModeValidParamId !== null && typeof data.lastUpdateModeValidParamId !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeValidParamId)
+      ? uINTEGER.encode(data.lastUpdateModeValidParamId)
       : null,
     lastUpdateTimeValidParamId: (data.lastUpdateTimeValidParamId !== null && typeof data.lastUpdateTimeValidParamId !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeValidParamId)
       : null,
     lastUpdateModeValidParamMask: (data.lastUpdateModeValidParamMask !== null && typeof data.lastUpdateModeValidParamMask !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeValidParamMask)
+      ? uINTEGER.encode(data.lastUpdateModeValidParamMask)
       : null,
     lastUpdateTimeValidParamMask: (data.lastUpdateTimeValidParamMask !== null && typeof data.lastUpdateTimeValidParamMask !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeValidParamMask)
       : null,
     lastUpdateModeValidParamExpValue: (data.lastUpdateModeValidParamExpValue !== null && typeof data.lastUpdateModeValidParamExpValue !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeValidParamExpValue)
+      ? uINTEGER.encode(data.lastUpdateModeValidParamExpValue)
       : null,
     lastUpdateTimeValidParamExpValue: (data.lastUpdateTimeValidParamExpValue !== null && typeof data.lastUpdateTimeValidParamExpValue !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeValidParamExpValue)
       : null,
     lastUpdateModeCollectInterval: (data.lastUpdateModeCollectInterval !== null && typeof data.lastUpdateModeCollectInterval !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeCollectInterval)
+      ? uINTEGER.encode(data.lastUpdateModeCollectInterval)
       : null,
     lastUpdateTimeCollectInterval: (data.lastUpdateTimeCollectInterval !== null && typeof data.lastUpdateTimeCollectInterval !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeCollectInterval)
@@ -91,7 +90,7 @@ module.exports = {
       ? uINTEGER.decode(data.collectionInterval)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')
       ? pusElement.decode(data.pusElement)
@@ -103,37 +102,37 @@ module.exports = {
       ? bOOLEAN.decode(data.isCollectionIntervalSet)
       : undefined,
     lastUpdateModeSid: (data.lastUpdateModeSid !== null && typeof data.lastUpdateModeSid !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeSid)
+      ? uINTEGER.decode(data.lastUpdateModeSid)
       : undefined,
     lastUpdateTimeSid: (data.lastUpdateTimeSid !== null && typeof data.lastUpdateTimeSid !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeSid)
       : undefined,
     lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeStatus)
+      ? uINTEGER.decode(data.lastUpdateModeStatus)
       : undefined,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeStatus)
       : undefined,
     lastUpdateModeValidParamId: (data.lastUpdateModeValidParamId !== null && typeof data.lastUpdateModeValidParamId !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeValidParamId)
+      ? uINTEGER.decode(data.lastUpdateModeValidParamId)
       : undefined,
     lastUpdateTimeValidParamId: (data.lastUpdateTimeValidParamId !== null && typeof data.lastUpdateTimeValidParamId !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeValidParamId)
       : undefined,
     lastUpdateModeValidParamMask: (data.lastUpdateModeValidParamMask !== null && typeof data.lastUpdateModeValidParamMask !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeValidParamMask)
+      ? uINTEGER.decode(data.lastUpdateModeValidParamMask)
       : undefined,
     lastUpdateTimeValidParamMask: (data.lastUpdateTimeValidParamMask !== null && typeof data.lastUpdateTimeValidParamMask !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeValidParamMask)
       : undefined,
     lastUpdateModeValidParamExpValue: (data.lastUpdateModeValidParamExpValue !== null && typeof data.lastUpdateModeValidParamExpValue !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeValidParamExpValue)
+      ? uINTEGER.decode(data.lastUpdateModeValidParamExpValue)
       : undefined,
     lastUpdateTimeValidParamExpValue: (data.lastUpdateTimeValidParamExpValue !== null && typeof data.lastUpdateTimeValidParamExpValue !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeValidParamExpValue)
       : undefined,
     lastUpdateModeCollectInterval: (data.lastUpdateModeCollectInterval !== null && typeof data.lastUpdateModeCollectInterval !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeCollectInterval)
+      ? uINTEGER.decode(data.lastUpdateModeCollectInterval)
       : undefined,
     lastUpdateTimeCollectInterval: (data.lastUpdateTimeCollectInterval !== null && typeof data.lastUpdateTimeCollectInterval !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeCollectInterval)

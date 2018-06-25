@@ -16,8 +16,8 @@ describe('protobuf/isis/pusGroundModel/GroundModel', () => {
   test('decode', () => {
     const json = decodeRaw(buffer);
     expect(json).toMatchObject({
-      apid: { type: 'ushort', value: fixture.apid },
-      pusServiceType: { type: 'ushort', value: fixture.pusServiceType },
+      apid: { type: 'uinteger', value: fixture.apid },
+      pusServiceType: { type: 'uinteger', value: fixture.pusServiceType },
     });
   });
 });

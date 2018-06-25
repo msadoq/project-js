@@ -9,17 +9,17 @@ const now = _now();
 
 const pus011SubSchedule = {
   ssId: 100,
-  status: 1,
+  status: 100,
   executionTimeFirstTc: now,
   apid: 100,
   pusElement: getPusElement(),
   groundDate: now,
   ssIdLabel: 'mySTRING',
-  lastUpdateModeStatus: 1,
+  lastUpdateModeStatus: 100,
   lastUpdateTimeStatus: now,
-  lastUpdateModeExecTimeFirstTc: 1,
+  lastUpdateModeExecTimeFirstTc: 100,
   lastUpdateTimeExecTimeFirstTc: now,
-  lastUpdateModeSsId: 1,
+  lastUpdateModeSsId: 100,
   lastUpdateTimeSsId: now,
 };
 

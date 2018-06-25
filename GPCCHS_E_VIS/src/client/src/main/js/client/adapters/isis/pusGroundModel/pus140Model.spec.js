@@ -23,10 +23,10 @@ describe('protobuf/isis/pusGroundModel/Pus140Model', () => {
       apid: { type: 'uinteger', value: stub.apid },
       noOfParameters: { type: 'uinteger', value: stub.noOfParameters },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      status: { type: 'uoctet', value: stub.status },
+      status: { type: 'uinteger', value: stub.status },
     });
     expect(decoded.pus140Parameter).toHaveLength(stub.pus140Parameter.length);
     for (let i = 0; i < stub.pus140Parameter.length; i += 1) {
@@ -35,12 +35,12 @@ describe('protobuf/isis/pusGroundModel/Pus140Model', () => {
         apid: { type: 'uinteger', value: stub.pus140Parameter[i].apid },
         currentValue: { type: 'double', symbol: stub.pus140Parameter[i].currentValue.toString() },
         pusElement: {
-          lastUpdateMode: { type: 'uoctet', value: stub.pus140Parameter[i].pusElement.lastUpdateMode },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus140Parameter[i].pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: stub.pus140Parameter[i].pusElement.lastUpdateTime },
         },
-        lastUpdateModeCurrentValue: { type: 'uoctet', value: stub.pus140Parameter[i].lastUpdateModeCurrentValue },
+        lastUpdateModeCurrentValue: { type: 'uinteger', value: stub.pus140Parameter[i].lastUpdateModeCurrentValue },
         lastUpdateTimeCurrentValue: { type: 'time', value: stub.pus140Parameter[i].lastUpdateTimeCurrentValue },
-        lastUpdateModeParamId: { type: 'uoctet', value: stub.pus140Parameter[i].lastUpdateModeParamId },
+        lastUpdateModeParamId: { type: 'uinteger', value: stub.pus140Parameter[i].lastUpdateModeParamId },
         lastUpdateTimeParamId: { type: 'time', value: stub.pus140Parameter[i].lastUpdateTimeParamId },
       });
       

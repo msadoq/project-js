@@ -14,7 +14,7 @@ const pus144Model = {
   apid: 100,
   noOfOnBoardFiles: 100,
   pusElement: getPusElement(),
-  status: 1,
+  status: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus144Model) : pus144Model);

@@ -19,7 +19,7 @@ const pus013Model = {
   noOnGoingDownlinkLDTFile: 100,
   currentUplinkLduIdPosition: 100,
   pusElement: getPusElement(),
-  status: 1,
+  status: 100,
   noOnGoingUplinkLDTPacket: 100,
 };
 

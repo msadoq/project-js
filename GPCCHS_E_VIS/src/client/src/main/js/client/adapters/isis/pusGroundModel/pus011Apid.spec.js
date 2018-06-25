@@ -19,9 +19,9 @@ describe('protobuf/isis/pusGroundModel/Pus011Apid', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      status: { type: 'uoctet', value: stub.status },
+      status: { type: 'uinteger', value: stub.status },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
       apid: { type: 'uinteger', value: stub.apid },

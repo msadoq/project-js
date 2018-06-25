@@ -19,16 +19,16 @@ describe('protobuf/isis/pusGroundModel/Pus019Model', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      serviceStatus: { type: 'uoctet', value: stub.serviceStatus },
+      serviceStatus: { type: 'uinteger', value: stub.serviceStatus },
       noOfEventActions: { type: 'uinteger', value: stub.noOfEventActions },
       groundDate: { type: 'time', value: stub.groundDate },
       apid: { type: 'uinteger', value: stub.apid },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      status: { type: 'uoctet', value: stub.status },
-      lastUpdateModeServiceStatus: { type: 'uoctet', value: stub.lastUpdateModeServiceStatus },
+      status: { type: 'uinteger', value: stub.status },
+      lastUpdateModeServiceStatus: { type: 'uinteger', value: stub.lastUpdateModeServiceStatus },
       lastUpdateTimeServiceStatus: { type: 'time', value: stub.lastUpdateTimeServiceStatus },
     });
     expect(decoded.pus19EventAction).toHaveLength(stub.pus19EventAction.length);
@@ -36,18 +36,18 @@ describe('protobuf/isis/pusGroundModel/Pus019Model', () => {
       expect(decoded.pus19EventAction[i]).toMatchObject({
         apid: { type: 'uinteger', value: stub.pus19EventAction[i].apid },
         rid: { type: 'uinteger', value: stub.pus19EventAction[i].rid },
-        actionStatus: { type: 'uoctet', value: stub.pus19EventAction[i].actionStatus },
+        actionStatus: { type: 'uinteger', value: stub.pus19EventAction[i].actionStatus },
         actionTcPacketHeader: { type: 'blob', value: stub.pus19EventAction[i].actionTcPacketHeader },
         pusElement: {
-          lastUpdateMode: { type: 'uoctet', value: stub.pus19EventAction[i].pusElement.lastUpdateMode },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus19EventAction[i].pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: stub.pus19EventAction[i].pusElement.lastUpdateTime },
         },
         ridLabel: { type: 'string', value: stub.pus19EventAction[i].ridLabel },
-        lastUpdateModeActionStatus: { type: 'uoctet', value: stub.pus19EventAction[i].lastUpdateModeActionStatus },
+        lastUpdateModeActionStatus: { type: 'uinteger', value: stub.pus19EventAction[i].lastUpdateModeActionStatus },
         lastUpdateTimeActionStatus: { type: 'time', value: stub.pus19EventAction[i].lastUpdateTimeActionStatus },
-        lastUpdateModeEventActionRid: { type: 'uoctet', value: stub.pus19EventAction[i].lastUpdateModeEventActionRid },
+        lastUpdateModeEventActionRid: { type: 'uinteger', value: stub.pus19EventAction[i].lastUpdateModeEventActionRid },
         lastUpdateTimeEventActionRid: { type: 'time', value: stub.pus19EventAction[i].lastUpdateTimeEventActionRid },
-        lastUpdateModeActionTc: { type: 'uoctet', value: stub.pus19EventAction[i].lastUpdateModeActionTc },
+        lastUpdateModeActionTc: { type: 'uinteger', value: stub.pus19EventAction[i].lastUpdateModeActionTc },
         lastUpdateTimeActionTc: { type: 'time', value: stub.pus19EventAction[i].lastUpdateTimeActionTc },
       });
       

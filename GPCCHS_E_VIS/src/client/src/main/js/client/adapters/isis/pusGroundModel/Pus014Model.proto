@@ -1,7 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
-import "../ccsds_mal/UOCTET.proto";
 import "./Pus014EventReportPacket.proto";
 import "./Pus014HkOrDiagPacket.proto";
 import "./Pus014TmPacket.proto";
@@ -24,5 +23,5 @@ extensions 13 to 113;
   optional ccsds_mal.protobuf.UINTEGER noHKPackets = 9;
   optional ccsds_mal.protobuf.UINTEGER noTMPackets = 10;
   optional pusGroundModel.protobuf.PusElement pusElement = 11;
-  optional ccsds_mal.protobuf.UOCTET status = 12;
+  optional ccsds_mal.protobuf.UINTEGER status = 12;
 }

@@ -25,16 +25,16 @@ describe('protobuf/isis/pusGroundModel/Pus014HkOrDiagPacket', () => {
         apid: { type: 'uinteger', value: stub.pus014ForwardedPacket.apid },
         forwardingStatus: { type: 'boolean', value: stub.pus014ForwardedPacket.forwardingStatus },
         pusElement: {
-          lastUpdateMode: { type: 'uoctet', value: stub.pus014ForwardedPacket.pusElement.lastUpdateMode },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus014ForwardedPacket.pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: stub.pus014ForwardedPacket.pusElement.lastUpdateTime },
         },
-        lastUpdateModeFwdStatus: { type: 'uoctet', value: stub.pus014ForwardedPacket.lastUpdateModeFwdStatus },
+        lastUpdateModeFwdStatus: { type: 'uinteger', value: stub.pus014ForwardedPacket.lastUpdateModeFwdStatus },
         lastUpdateTimeFwdStatus: { type: 'time', value: stub.pus014ForwardedPacket.lastUpdateTimeFwdStatus },
       },
       sidLabel: { type: 'string', value: stub.sidLabel },
-      lastUpdateModeSid: { type: 'uoctet', value: stub.lastUpdateModeSid },
+      lastUpdateModeSid: { type: 'uinteger', value: stub.lastUpdateModeSid },
       lastUpdateTimeSid: { type: 'time', value: stub.lastUpdateTimeSid },
-      lastUpdateModeSubSamplingRatio: { type: 'uoctet', value: stub.lastUpdateModeSubSamplingRatio },
+      lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.lastUpdateModeSubSamplingRatio },
       lastUpdateTimeSubSamplingRatio: { type: 'time', value: stub.lastUpdateTimeSubSamplingRatio },
     });
     

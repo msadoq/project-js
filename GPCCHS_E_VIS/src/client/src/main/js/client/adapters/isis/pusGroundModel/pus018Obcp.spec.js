@@ -26,20 +26,20 @@ describe('protobuf/isis/pusGroundModel/Pus018Obcp', () => {
       observabilityLevel: { type: 'string', value: stub.observabilityLevel },
       priority: { type: 'string', value: stub.priority },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      lastUpdateModeStatus: { type: 'uoctet', value: stub.lastUpdateModeStatus },
+      lastUpdateModeStatus: { type: 'uinteger', value: stub.lastUpdateModeStatus },
       lastUpdateTimeStatus: { type: 'time', value: stub.lastUpdateTimeStatus },
-      lastUpdateModeStepId: { type: 'uoctet', value: stub.lastUpdateModeStepId },
+      lastUpdateModeStepId: { type: 'uinteger', value: stub.lastUpdateModeStepId },
       lastUpdateTimeStepId: { type: 'time', value: stub.lastUpdateTimeStepId },
-      lastUpdateModePartitionId: { type: 'uoctet', value: stub.lastUpdateModePartitionId },
+      lastUpdateModePartitionId: { type: 'uinteger', value: stub.lastUpdateModePartitionId },
       lastUpdateTimePartitionId: { type: 'time', value: stub.lastUpdateTimePartitionId },
-      lastUpdateModePriority: { type: 'uoctet', value: stub.lastUpdateModePriority },
+      lastUpdateModePriority: { type: 'uinteger', value: stub.lastUpdateModePriority },
       lastUpdateTimePriority: { type: 'time', value: stub.lastUpdateTimePriority },
-      lastUpdateModeObsLevel: { type: 'uoctet', value: stub.lastUpdateModeObsLevel },
+      lastUpdateModeObsLevel: { type: 'uinteger', value: stub.lastUpdateModeObsLevel },
       lastUpdateTimeObsLevel: { type: 'time', value: stub.lastUpdateTimeObsLevel },
-      lastUpdateModeObcpId: { type: 'uoctet', value: stub.lastUpdateModeObcpId },
+      lastUpdateModeObcpId: { type: 'uinteger', value: stub.lastUpdateModeObcpId },
       lastUpdateTimeObcpId: { type: 'time', value: stub.lastUpdateTimeObcpId },
     });
     expect(decoded.pus18Parameter).toHaveLength(stub.pus18Parameter.length);
@@ -49,7 +49,7 @@ describe('protobuf/isis/pusGroundModel/Pus018Obcp', () => {
         parameterName: { type: 'string', value: stub.pus18Parameter[i].parameterName },
         value: { type: 'double', symbol: stub.pus18Parameter[i].value.toString() },
         pusElement: {
-          lastUpdateMode: { type: 'uoctet', value: stub.pus18Parameter[i].pusElement.lastUpdateMode },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus18Parameter[i].pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: stub.pus18Parameter[i].pusElement.lastUpdateTime },
         },
       });

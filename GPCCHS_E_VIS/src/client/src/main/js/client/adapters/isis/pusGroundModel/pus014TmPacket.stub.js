@@ -11,7 +11,7 @@ const pus014TmPacket = {
   serviceTpe: 100,
   serviceSubType: 100,
   pus014ForwardedPacket: getPus014ForwardedPacket(),
-  lastUpdateModeTypeSubType: 1,
+  lastUpdateModeTypeSubType: 100,
   lastUpdateTimeTypeSubType: now,
 };
 

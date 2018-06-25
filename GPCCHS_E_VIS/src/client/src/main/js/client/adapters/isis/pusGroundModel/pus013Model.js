@@ -7,7 +7,6 @@ const pus013UplinkLdt = require('./pus013UplinkLdt');
 const pusElement = require('./pusElement');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -35,7 +34,7 @@ module.exports = {
       ? pusElement.encode(data.pusElement)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
     noOnGoingUplinkLDTPacket: (data.noOnGoingUplinkLDTPacket !== null && typeof data.noOnGoingUplinkLDTPacket !== 'undefined')
       ? uINTEGER.encode(data.noOnGoingUplinkLDTPacket)
@@ -66,7 +65,7 @@ module.exports = {
       ? pusElement.decode(data.pusElement)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     noOnGoingUplinkLDTPacket: (data.noOnGoingUplinkLDTPacket !== null && typeof data.noOnGoingUplinkLDTPacket !== 'undefined')
       ? uINTEGER.decode(data.noOnGoingUplinkLDTPacket)

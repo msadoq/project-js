@@ -3,7 +3,6 @@ import "../ccsds_mal/BLOB.proto";
 import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
-import "../ccsds_mal/UOCTET.proto";
 import "./PusElement.proto";
 
 
@@ -14,14 +13,14 @@ extensions 13 to 113;
 
   optional ccsds_mal.protobuf.UINTEGER apid = 1;
   optional ccsds_mal.protobuf.UINTEGER rid = 2;
-  optional ccsds_mal.protobuf.UOCTET actionStatus = 3;
+  optional ccsds_mal.protobuf.UINTEGER actionStatus = 3;
   optional ccsds_mal.protobuf.BLOB actionTcPacketHeader = 4;
   optional pusGroundModel.protobuf.PusElement pusElement = 5;
   optional ccsds_mal.protobuf.STRING ridLabel = 6;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeActionStatus = 7;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeActionStatus = 7;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeActionStatus = 8;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeEventActionRid = 9;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeEventActionRid = 9;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeEventActionRid = 10;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeActionTc = 11;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeActionTc = 11;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeActionTc = 12;
 }

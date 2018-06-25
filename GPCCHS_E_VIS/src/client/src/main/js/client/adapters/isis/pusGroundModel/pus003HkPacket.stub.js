@@ -8,10 +8,10 @@ const getPus003Packet = require('./pus003Packet.stub');
 const now = _now();
 
 const pus003HkPacket = {
-  generationMode: 1,
+  generationMode: 100,
   pus003Packet: getPus003Packet(),
   lastUpdateTimeGenMode: now,
-  lastUpdateModeGenMode: 1,
+  lastUpdateModeGenMode: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus003HkPacket) : pus003HkPacket);

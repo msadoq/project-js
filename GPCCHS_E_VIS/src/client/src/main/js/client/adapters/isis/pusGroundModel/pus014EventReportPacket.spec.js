@@ -24,14 +24,14 @@ describe('protobuf/isis/pusGroundModel/Pus014EventReportPacket', () => {
         apid: { type: 'uinteger', value: stub.pus014ForwardedPacket.apid },
         forwardingStatus: { type: 'boolean', value: stub.pus014ForwardedPacket.forwardingStatus },
         pusElement: {
-          lastUpdateMode: { type: 'uoctet', value: stub.pus014ForwardedPacket.pusElement.lastUpdateMode },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus014ForwardedPacket.pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: stub.pus014ForwardedPacket.pusElement.lastUpdateTime },
         },
-        lastUpdateModeFwdStatus: { type: 'uoctet', value: stub.pus014ForwardedPacket.lastUpdateModeFwdStatus },
+        lastUpdateModeFwdStatus: { type: 'uinteger', value: stub.pus014ForwardedPacket.lastUpdateModeFwdStatus },
         lastUpdateTimeFwdStatus: { type: 'time', value: stub.pus014ForwardedPacket.lastUpdateTimeFwdStatus },
       },
       ridLabel: { type: 'string', value: stub.ridLabel },
-      lastUpdateModeRid: { type: 'uoctet', value: stub.lastUpdateModeRid },
+      lastUpdateModeRid: { type: 'uinteger', value: stub.lastUpdateModeRid },
       lastUpdateTimeRid: { type: 'time', value: stub.lastUpdateTimeRid },
     });
     

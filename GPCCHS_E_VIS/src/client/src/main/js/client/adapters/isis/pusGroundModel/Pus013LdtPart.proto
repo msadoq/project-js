@@ -1,7 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/BLOB.proto";
 import "../ccsds_mal/UINTEGER.proto";
-import "../ccsds_mal/UOCTET.proto";
 import "./PusElement.proto";
 
 
@@ -10,7 +9,7 @@ package pusGroundModel.protobuf;
 message Pus013LdtPart {
 extensions 9 to 109;
 
-  optional ccsds_mal.protobuf.UOCTET status = 1;
+  optional ccsds_mal.protobuf.UINTEGER status = 1;
   optional ccsds_mal.protobuf.UINTEGER partSize = 2;
   optional ccsds_mal.protobuf.UINTEGER partId = 3;
   optional ccsds_mal.protobuf.UINTEGER sourceId = 4;

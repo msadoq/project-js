@@ -12,9 +12,9 @@ const pus014HkOrDiagPacket = {
   sid: 100,
   pus014ForwardedPacket: getPus014ForwardedPacket(),
   sidLabel: 'mySTRING',
-  lastUpdateModeSid: 1,
+  lastUpdateModeSid: 100,
   lastUpdateTimeSid: now,
-  lastUpdateModeSubSamplingRatio: 1,
+  lastUpdateModeSubSamplingRatio: 100,
   lastUpdateTimeSubSamplingRatio: now,
 };
 

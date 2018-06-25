@@ -8,7 +8,7 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 const now = _now();
 
 const pusElement = {
-  lastUpdateMode: 1,
+  lastUpdateMode: 100,
   lastUpdateTime: now,
 };
 

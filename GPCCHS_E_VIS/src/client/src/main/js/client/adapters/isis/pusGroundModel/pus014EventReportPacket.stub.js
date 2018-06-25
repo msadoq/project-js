@@ -11,7 +11,7 @@ const pus014EventReportPacket = {
   rid: 100,
   pus014ForwardedPacket: getPus014ForwardedPacket(),
   ridLabel: 'mySTRING',
-  lastUpdateModeRid: 1,
+  lastUpdateModeRid: 100,
   lastUpdateTimeRid: now,
 };
 

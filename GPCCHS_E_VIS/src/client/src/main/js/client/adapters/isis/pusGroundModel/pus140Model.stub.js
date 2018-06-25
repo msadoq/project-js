@@ -14,7 +14,7 @@ const pus140Model = {
   apid: 100,
   noOfParameters: 100,
   pusElement: getPusElement(),
-  status: 1,
+  status: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus140Model) : pus140Model);

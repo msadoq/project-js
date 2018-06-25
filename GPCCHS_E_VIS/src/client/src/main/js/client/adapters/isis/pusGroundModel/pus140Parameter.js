@@ -5,7 +5,6 @@ const aTTRIBUTE = require('../ccsds_mal/aTTRIBUTE');
 const pusElement = require('./pusElement');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -22,13 +21,13 @@ module.exports = {
       ? pusElement.encode(data.pusElement)
       : null,
     lastUpdateModeCurrentValue: (data.lastUpdateModeCurrentValue !== null && typeof data.lastUpdateModeCurrentValue !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeCurrentValue)
+      ? uINTEGER.encode(data.lastUpdateModeCurrentValue)
       : null,
     lastUpdateTimeCurrentValue: (data.lastUpdateTimeCurrentValue !== null && typeof data.lastUpdateTimeCurrentValue !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeCurrentValue)
       : null,
     lastUpdateModeParamId: (data.lastUpdateModeParamId !== null && typeof data.lastUpdateModeParamId !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeParamId)
+      ? uINTEGER.encode(data.lastUpdateModeParamId)
       : null,
     lastUpdateTimeParamId: (data.lastUpdateTimeParamId !== null && typeof data.lastUpdateTimeParamId !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeParamId)
@@ -48,13 +47,13 @@ module.exports = {
       ? pusElement.decode(data.pusElement)
       : undefined,
     lastUpdateModeCurrentValue: (data.lastUpdateModeCurrentValue !== null && typeof data.lastUpdateModeCurrentValue !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeCurrentValue)
+      ? uINTEGER.decode(data.lastUpdateModeCurrentValue)
       : undefined,
     lastUpdateTimeCurrentValue: (data.lastUpdateTimeCurrentValue !== null && typeof data.lastUpdateTimeCurrentValue !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeCurrentValue)
       : undefined,
     lastUpdateModeParamId: (data.lastUpdateModeParamId !== null && typeof data.lastUpdateModeParamId !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeParamId)
+      ? uINTEGER.decode(data.lastUpdateModeParamId)
       : undefined,
     lastUpdateTimeParamId: (data.lastUpdateTimeParamId !== null && typeof data.lastUpdateTimeParamId !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeParamId)

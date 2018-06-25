@@ -1,7 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
-import "../ccsds_mal/UOCTET.proto";
 import "./Pus015PacketStore.proto";
 import "./PusElement.proto";
 
@@ -16,5 +15,5 @@ extensions 7 to 107;
   optional ccsds_mal.protobuf.UINTEGER apid = 3;
   optional ccsds_mal.protobuf.UINTEGER noPacketStores = 4;
   optional pusGroundModel.protobuf.PusElement pusElement = 5;
-  optional ccsds_mal.protobuf.UOCTET status = 6;
+  optional ccsds_mal.protobuf.UINTEGER status = 6;
 }

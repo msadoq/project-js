@@ -1,7 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
-import "../ccsds_mal/UOCTET.proto";
 import "./Pus013DownlinkLdt.proto";
 import "./Pus013UplinkLdt.proto";
 import "./PusElement.proto";
@@ -21,6 +20,6 @@ extensions 12 to 112;
   optional ccsds_mal.protobuf.UINTEGER noOnGoingDownlinkLDTFile = 7;
   optional ccsds_mal.protobuf.UINTEGER currentUplinkLduIdPosition = 8;
   optional pusGroundModel.protobuf.PusElement pusElement = 9;
-  optional ccsds_mal.protobuf.UOCTET status = 10;
+  optional ccsds_mal.protobuf.UINTEGER status = 10;
   optional ccsds_mal.protobuf.UINTEGER noOnGoingUplinkLDTPacket = 11;
 }

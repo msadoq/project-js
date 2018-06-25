@@ -17,8 +17,8 @@ const pus018Model = {
   noOBCPs: 100,
   pusElement: getPusElement(),
   pus018ConfiguredObcp: [getPus018ConfiguredObcp(), getPus018ConfiguredObcp()],
-  status: 1,
-  lastUpdateModeEngineStatus: 1,
+  status: 100,
+  lastUpdateModeEngineStatus: 100,
   lastUpdateTimeEngineStatus: now,
 };
 

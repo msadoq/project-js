@@ -4,12 +4,11 @@
 const bLOB = require('../ccsds_mal/bLOB');
 const pusElement = require('./pusElement');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
     partSize: (data.partSize !== null && typeof data.partSize !== 'undefined')
       ? uINTEGER.encode(data.partSize)
@@ -35,7 +34,7 @@ module.exports = {
   }),
   decode: data => ({
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     partSize: (data.partSize !== null && typeof data.partSize !== 'undefined')
       ? uINTEGER.decode(data.partSize)

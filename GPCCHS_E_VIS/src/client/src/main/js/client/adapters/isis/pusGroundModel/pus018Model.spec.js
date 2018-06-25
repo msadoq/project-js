@@ -24,11 +24,11 @@ describe('protobuf/isis/pusGroundModel/Pus018Model', () => {
       apid: { type: 'uinteger', value: stub.apid },
       noOBCPs: { type: 'uinteger', value: stub.noOBCPs },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      status: { type: 'uoctet', value: stub.status },
-      lastUpdateModeEngineStatus: { type: 'uoctet', value: stub.lastUpdateModeEngineStatus },
+      status: { type: 'uinteger', value: stub.status },
+      lastUpdateModeEngineStatus: { type: 'uinteger', value: stub.lastUpdateModeEngineStatus },
       lastUpdateTimeEngineStatus: { type: 'time', value: stub.lastUpdateTimeEngineStatus },
     });
     expect(decoded.pus018Obcp).toHaveLength(stub.pus018Obcp.length);
@@ -41,20 +41,20 @@ describe('protobuf/isis/pusGroundModel/Pus018Model', () => {
         observabilityLevel: { type: 'string', value: stub.pus018Obcp[i].observabilityLevel },
         priority: { type: 'string', value: stub.pus018Obcp[i].priority },
         pusElement: {
-          lastUpdateMode: { type: 'uoctet', value: stub.pus018Obcp[i].pusElement.lastUpdateMode },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus018Obcp[i].pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: stub.pus018Obcp[i].pusElement.lastUpdateTime },
         },
-        lastUpdateModeStatus: { type: 'uoctet', value: stub.pus018Obcp[i].lastUpdateModeStatus },
+        lastUpdateModeStatus: { type: 'uinteger', value: stub.pus018Obcp[i].lastUpdateModeStatus },
         lastUpdateTimeStatus: { type: 'time', value: stub.pus018Obcp[i].lastUpdateTimeStatus },
-        lastUpdateModeStepId: { type: 'uoctet', value: stub.pus018Obcp[i].lastUpdateModeStepId },
+        lastUpdateModeStepId: { type: 'uinteger', value: stub.pus018Obcp[i].lastUpdateModeStepId },
         lastUpdateTimeStepId: { type: 'time', value: stub.pus018Obcp[i].lastUpdateTimeStepId },
-        lastUpdateModePartitionId: { type: 'uoctet', value: stub.pus018Obcp[i].lastUpdateModePartitionId },
+        lastUpdateModePartitionId: { type: 'uinteger', value: stub.pus018Obcp[i].lastUpdateModePartitionId },
         lastUpdateTimePartitionId: { type: 'time', value: stub.pus018Obcp[i].lastUpdateTimePartitionId },
-        lastUpdateModePriority: { type: 'uoctet', value: stub.pus018Obcp[i].lastUpdateModePriority },
+        lastUpdateModePriority: { type: 'uinteger', value: stub.pus018Obcp[i].lastUpdateModePriority },
         lastUpdateTimePriority: { type: 'time', value: stub.pus018Obcp[i].lastUpdateTimePriority },
-        lastUpdateModeObsLevel: { type: 'uoctet', value: stub.pus018Obcp[i].lastUpdateModeObsLevel },
+        lastUpdateModeObsLevel: { type: 'uinteger', value: stub.pus018Obcp[i].lastUpdateModeObsLevel },
         lastUpdateTimeObsLevel: { type: 'time', value: stub.pus018Obcp[i].lastUpdateTimeObsLevel },
-        lastUpdateModeObcpId: { type: 'uoctet', value: stub.pus018Obcp[i].lastUpdateModeObcpId },
+        lastUpdateModeObcpId: { type: 'uinteger', value: stub.pus018Obcp[i].lastUpdateModeObcpId },
         lastUpdateTimeObcpId: { type: 'time', value: stub.pus018Obcp[i].lastUpdateTimeObcpId },
       });
       expect(decoded.pus018Obcp[i].pus18Parameter).toHaveLength(stub.pus018Obcp[i].pus18Parameter.length);
@@ -64,7 +64,7 @@ describe('protobuf/isis/pusGroundModel/Pus018Model', () => {
           parameterName: { type: 'string', value: stub.pus018Obcp[i].pus18Parameter[ii].parameterName },
           value: { type: 'double', symbol: stub.pus018Obcp[i].pus18Parameter[ii].value.toString() },
           pusElement: {
-            lastUpdateMode: { type: 'uoctet', value: stub.pus018Obcp[i].pus18Parameter[ii].pusElement.lastUpdateMode },
+            lastUpdateMode: { type: 'uinteger', value: stub.pus018Obcp[i].pus18Parameter[ii].pusElement.lastUpdateMode },
             lastUpdateTime: { type: 'time', value: stub.pus018Obcp[i].pus18Parameter[ii].pusElement.lastUpdateTime },
           },
         });
@@ -84,7 +84,7 @@ describe('protobuf/isis/pusGroundModel/Pus018Model', () => {
         stepId: { type: 'string', value: stub.pus018ConfiguredObcp[i].stepId },
         priority: { type: 'string', value: stub.pus018ConfiguredObcp[i].priority },
         pusElement: {
-          lastUpdateMode: { type: 'uoctet', value: stub.pus018ConfiguredObcp[i].pusElement.lastUpdateMode },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus018ConfiguredObcp[i].pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: stub.pus018ConfiguredObcp[i].pusElement.lastUpdateTime },
         },
       });

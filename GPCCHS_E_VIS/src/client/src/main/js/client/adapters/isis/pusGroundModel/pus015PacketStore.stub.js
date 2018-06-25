@@ -11,17 +11,17 @@ const now = _now();
 const pus015PacketStore = {
   name: 'mySTRING',
   id: 100,
-  status: 1,
+  status: 100,
   storageType: 'mySTRING',
   dumpEnabled: true,
   pus015Packet: [getPus015Packet(), getPus015Packet()],
   pusElement: getPusElement(),
   hkStatusParameterName: 'mySTRING',
-  lastUpdateModeStoreId: 1,
+  lastUpdateModeStoreId: 100,
   lastUpdateTimeStoreId: now,
-  lastUpdateModeStoreType: 1,
+  lastUpdateModeStoreType: 100,
   lastUpdateTimeStoreType: now,
-  lastUpdateModeStoreStatus: 1,
+  lastUpdateModeStoreStatus: 100,
   lastUpdateTimeStoreStatus: now,
 };
 

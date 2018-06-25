@@ -11,7 +11,7 @@ const pus014ForwardedPacket = {
   apid: 100,
   forwardingStatus: true,
   pusElement: getPusElement(),
-  lastUpdateModeFwdStatus: 1,
+  lastUpdateModeFwdStatus: 100,
   lastUpdateTimeFwdStatus: now,
 };
 

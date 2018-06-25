@@ -5,8 +5,8 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 
 
 const groundModel = {
-  apid: 10,
-  pusServiceType: 10,
+  apid: 100,
+  pusServiceType: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, groundModel) : groundModel);

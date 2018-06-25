@@ -7,7 +7,6 @@ const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -18,7 +17,7 @@ module.exports = {
       ? sTRING.encode(data.protectionStatus)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
     checkingStatus: (data.checkingStatus !== null && typeof data.checkingStatus !== 'undefined')
       ? sTRING.encode(data.checkingStatus)
@@ -46,49 +45,49 @@ module.exports = {
       ? sTRING.encode(data.fmonIdLabel)
       : null,
     lastUpdateModeFMonId: (data.lastUpdateModeFMonId !== null && typeof data.lastUpdateModeFMonId !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeFMonId)
+      ? uINTEGER.encode(data.lastUpdateModeFMonId)
       : null,
     lastUpdateTimeFMonId: (data.lastUpdateTimeFMonId !== null && typeof data.lastUpdateTimeFMonId !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeFMonId)
       : null,
     lastUpdateModeProtectionStatus: (data.lastUpdateModeProtectionStatus !== null && typeof data.lastUpdateModeProtectionStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeProtectionStatus)
+      ? uINTEGER.encode(data.lastUpdateModeProtectionStatus)
       : null,
     lastUpdateTimeProtectionStatus: (data.lastUpdateTimeProtectionStatus !== null && typeof data.lastUpdateTimeProtectionStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeProtectionStatus)
       : null,
     lastUpdateModeCheckingStatus: (data.lastUpdateModeCheckingStatus !== null && typeof data.lastUpdateModeCheckingStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeCheckingStatus)
+      ? uINTEGER.encode(data.lastUpdateModeCheckingStatus)
       : null,
     lastUpdateTimeCheckingStatus: (data.lastUpdateTimeCheckingStatus !== null && typeof data.lastUpdateTimeCheckingStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeCheckingStatus)
       : null,
     lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeStatus)
+      ? uINTEGER.encode(data.lastUpdateModeStatus)
       : null,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeStatus)
       : null,
     lastUpdateModeRid: (data.lastUpdateModeRid !== null && typeof data.lastUpdateModeRid !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeRid)
+      ? uINTEGER.encode(data.lastUpdateModeRid)
       : null,
     lastUpdateTimeRid: (data.lastUpdateTimeRid !== null && typeof data.lastUpdateTimeRid !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeRid)
       : null,
     lastUpdateModeValidParamId: (data.lastUpdateModeValidParamId !== null && typeof data.lastUpdateModeValidParamId !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeValidParamId)
+      ? uINTEGER.encode(data.lastUpdateModeValidParamId)
       : null,
     lastUpdateTimeValidParamId: (data.lastUpdateTimeValidParamId !== null && typeof data.lastUpdateTimeValidParamId !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeValidParamId)
       : null,
     lastUpdateModeValidParamMask: (data.lastUpdateModeValidParamMask !== null && typeof data.lastUpdateModeValidParamMask !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeValidParamMask)
+      ? uINTEGER.encode(data.lastUpdateModeValidParamMask)
       : null,
     lastUpdateTimeValidParamMask: (data.lastUpdateTimeValidParamMask !== null && typeof data.lastUpdateTimeValidParamMask !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeValidParamMask)
       : null,
     lastUpdateModeValidParamExpectedValue: (data.lastUpdateModeValidParamExpectedValue !== null && typeof data.lastUpdateModeValidParamExpectedValue !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeValidParamExpectedValue)
+      ? uINTEGER.encode(data.lastUpdateModeValidParamExpectedValue)
       : null,
     lastUpdateTimeValidParamExpectedValue: (data.lastUpdateTimeValidParamExpectedValue !== null && typeof data.lastUpdateTimeValidParamExpectedValue !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeValidParamExpectedValue)
@@ -102,7 +101,7 @@ module.exports = {
       ? sTRING.decode(data.protectionStatus)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     checkingStatus: (data.checkingStatus !== null && typeof data.checkingStatus !== 'undefined')
       ? sTRING.decode(data.checkingStatus)
@@ -130,49 +129,49 @@ module.exports = {
       ? sTRING.decode(data.fmonIdLabel)
       : undefined,
     lastUpdateModeFMonId: (data.lastUpdateModeFMonId !== null && typeof data.lastUpdateModeFMonId !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeFMonId)
+      ? uINTEGER.decode(data.lastUpdateModeFMonId)
       : undefined,
     lastUpdateTimeFMonId: (data.lastUpdateTimeFMonId !== null && typeof data.lastUpdateTimeFMonId !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeFMonId)
       : undefined,
     lastUpdateModeProtectionStatus: (data.lastUpdateModeProtectionStatus !== null && typeof data.lastUpdateModeProtectionStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeProtectionStatus)
+      ? uINTEGER.decode(data.lastUpdateModeProtectionStatus)
       : undefined,
     lastUpdateTimeProtectionStatus: (data.lastUpdateTimeProtectionStatus !== null && typeof data.lastUpdateTimeProtectionStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeProtectionStatus)
       : undefined,
     lastUpdateModeCheckingStatus: (data.lastUpdateModeCheckingStatus !== null && typeof data.lastUpdateModeCheckingStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeCheckingStatus)
+      ? uINTEGER.decode(data.lastUpdateModeCheckingStatus)
       : undefined,
     lastUpdateTimeCheckingStatus: (data.lastUpdateTimeCheckingStatus !== null && typeof data.lastUpdateTimeCheckingStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeCheckingStatus)
       : undefined,
     lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeStatus)
+      ? uINTEGER.decode(data.lastUpdateModeStatus)
       : undefined,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeStatus)
       : undefined,
     lastUpdateModeRid: (data.lastUpdateModeRid !== null && typeof data.lastUpdateModeRid !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeRid)
+      ? uINTEGER.decode(data.lastUpdateModeRid)
       : undefined,
     lastUpdateTimeRid: (data.lastUpdateTimeRid !== null && typeof data.lastUpdateTimeRid !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeRid)
       : undefined,
     lastUpdateModeValidParamId: (data.lastUpdateModeValidParamId !== null && typeof data.lastUpdateModeValidParamId !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeValidParamId)
+      ? uINTEGER.decode(data.lastUpdateModeValidParamId)
       : undefined,
     lastUpdateTimeValidParamId: (data.lastUpdateTimeValidParamId !== null && typeof data.lastUpdateTimeValidParamId !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeValidParamId)
       : undefined,
     lastUpdateModeValidParamMask: (data.lastUpdateModeValidParamMask !== null && typeof data.lastUpdateModeValidParamMask !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeValidParamMask)
+      ? uINTEGER.decode(data.lastUpdateModeValidParamMask)
       : undefined,
     lastUpdateTimeValidParamMask: (data.lastUpdateTimeValidParamMask !== null && typeof data.lastUpdateTimeValidParamMask !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeValidParamMask)
       : undefined,
     lastUpdateModeValidParamExpectedValue: (data.lastUpdateModeValidParamExpectedValue !== null && typeof data.lastUpdateModeValidParamExpectedValue !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeValidParamExpectedValue)
+      ? uINTEGER.decode(data.lastUpdateModeValidParamExpectedValue)
       : undefined,
     lastUpdateTimeValidParamExpectedValue: (data.lastUpdateTimeValidParamExpectedValue !== null && typeof data.lastUpdateTimeValidParamExpectedValue !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeValidParamExpectedValue)

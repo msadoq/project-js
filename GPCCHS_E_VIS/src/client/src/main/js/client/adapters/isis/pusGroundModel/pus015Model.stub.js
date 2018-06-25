@@ -14,7 +14,7 @@ const pus015Model = {
   apid: 100,
   noPacketStores: 100,
   pusElement: getPusElement(),
-  status: 1,
+  status: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus015Model) : pus015Model);

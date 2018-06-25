@@ -2,7 +2,6 @@
 import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
-import "../ccsds_mal/UOCTET.proto";
 import "./PusElement.proto";
 
 
@@ -12,14 +11,14 @@ message Pus005OnBoardEvent {
 extensions 12 to 112;
 
   optional ccsds_mal.protobuf.UINTEGER reportId = 1;
-  optional ccsds_mal.protobuf.UOCTET onBoardStatus = 2;
+  optional ccsds_mal.protobuf.UINTEGER onBoardStatus = 2;
   optional ccsds_mal.protobuf.STRING alarmLevel = 3;
   optional pusGroundModel.protobuf.PusElement pusElement = 4;
   optional ccsds_mal.protobuf.STRING reportIdLabel = 5;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeReportId = 6;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeReportId = 6;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeReportId = 7;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeOnBoardStatus = 8;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeOnBoardStatus = 8;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeOnBoardStatus = 9;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeAlarmLevel = 10;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeAlarmLevel = 10;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeAlarmLevel = 11;
 }

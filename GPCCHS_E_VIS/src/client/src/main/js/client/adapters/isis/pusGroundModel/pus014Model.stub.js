@@ -22,7 +22,7 @@ const pus014Model = {
   noHKPackets: 100,
   noTMPackets: 100,
   pusElement: getPusElement(),
-  status: 1,
+  status: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus014Model) : pus014Model);

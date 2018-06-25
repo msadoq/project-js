@@ -20,20 +20,20 @@ describe('protobuf/isis/pusGroundModel/Pus011SubSchedule', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
       ssId: { type: 'uinteger', value: stub.ssId },
-      status: { type: 'uoctet', value: stub.status },
+      status: { type: 'uinteger', value: stub.status },
       executionTimeFirstTc: { type: 'time', value: stub.executionTimeFirstTc },
       apid: { type: 'uinteger', value: stub.apid },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
       groundDate: { type: 'time', value: stub.groundDate },
       ssIdLabel: { type: 'string', value: stub.ssIdLabel },
-      lastUpdateModeStatus: { type: 'uoctet', value: stub.lastUpdateModeStatus },
+      lastUpdateModeStatus: { type: 'uinteger', value: stub.lastUpdateModeStatus },
       lastUpdateTimeStatus: { type: 'time', value: stub.lastUpdateTimeStatus },
-      lastUpdateModeExecTimeFirstTc: { type: 'uoctet', value: stub.lastUpdateModeExecTimeFirstTc },
+      lastUpdateModeExecTimeFirstTc: { type: 'uinteger', value: stub.lastUpdateModeExecTimeFirstTc },
       lastUpdateTimeExecTimeFirstTc: { type: 'time', value: stub.lastUpdateTimeExecTimeFirstTc },
-      lastUpdateModeSsId: { type: 'uoctet', value: stub.lastUpdateModeSsId },
+      lastUpdateModeSsId: { type: 'uinteger', value: stub.lastUpdateModeSsId },
       lastUpdateTimeSsId: { type: 'time', value: stub.lastUpdateTimeSsId },
     });
     

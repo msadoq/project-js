@@ -6,7 +6,6 @@ const pus140Parameter = require('./pus140Parameter');
 const pusElement = require('./pusElement');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -24,7 +23,7 @@ module.exports = {
       ? pusElement.encode(data.pusElement)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
   }),
   decode: data => ({
@@ -42,7 +41,7 @@ module.exports = {
       ? pusElement.decode(data.pusElement)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     referenceTimestamp: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
         ? { type: 'time', value: data.groundDate.value.toNumber() }

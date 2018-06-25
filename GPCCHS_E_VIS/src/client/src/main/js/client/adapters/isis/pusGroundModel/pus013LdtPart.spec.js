@@ -19,7 +19,7 @@ describe('protobuf/isis/pusGroundModel/Pus013LdtPart', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      status: { type: 'uoctet', value: stub.status },
+      status: { type: 'uinteger', value: stub.status },
       partSize: { type: 'uinteger', value: stub.partSize },
       partId: { type: 'uinteger', value: stub.partId },
       sourceId: { type: 'uinteger', value: stub.sourceId },
@@ -27,7 +27,7 @@ describe('protobuf/isis/pusGroundModel/Pus013LdtPart', () => {
       sequenceCount: { type: 'uinteger', value: stub.sequenceCount },
       serviceDataUnit: { type: 'blob', value: stub.serviceDataUnit },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
     });

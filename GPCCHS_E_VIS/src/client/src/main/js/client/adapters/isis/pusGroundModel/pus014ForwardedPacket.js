@@ -5,7 +5,6 @@ const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const pusElement = require('./pusElement');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -19,7 +18,7 @@ module.exports = {
       ? pusElement.encode(data.pusElement)
       : null,
     lastUpdateModeFwdStatus: (data.lastUpdateModeFwdStatus !== null && typeof data.lastUpdateModeFwdStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeFwdStatus)
+      ? uINTEGER.encode(data.lastUpdateModeFwdStatus)
       : null,
     lastUpdateTimeFwdStatus: (data.lastUpdateTimeFwdStatus !== null && typeof data.lastUpdateTimeFwdStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeFwdStatus)
@@ -36,7 +35,7 @@ module.exports = {
       ? pusElement.decode(data.pusElement)
       : undefined,
     lastUpdateModeFwdStatus: (data.lastUpdateModeFwdStatus !== null && typeof data.lastUpdateModeFwdStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeFwdStatus)
+      ? uINTEGER.decode(data.lastUpdateModeFwdStatus)
       : undefined,
     lastUpdateTimeFwdStatus: (data.lastUpdateTimeFwdStatus !== null && typeof data.lastUpdateTimeFwdStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeFwdStatus)

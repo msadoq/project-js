@@ -5,7 +5,7 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 const getPusElement = require('./pusElement.stub');
 
 const pus013LdtPart = {
-  status: 1,
+  status: 100,
   partSize: 100,
   partId: 100,
   sourceId: 100,

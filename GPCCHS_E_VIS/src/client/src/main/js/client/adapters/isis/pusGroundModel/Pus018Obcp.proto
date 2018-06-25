@@ -2,7 +2,6 @@
 import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
-import "../ccsds_mal/UOCTET.proto";
 import "./PusElement.proto";
 import "./PusParameter.proto";
 
@@ -20,16 +19,16 @@ extensions 21 to 121;
   optional ccsds_mal.protobuf.STRING priority = 6;
   repeated pusGroundModel.protobuf.PusParameter pus18Parameter = 7;
   optional pusGroundModel.protobuf.PusElement pusElement = 8;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeStatus = 9;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 9;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeStatus = 10;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeStepId = 11;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStepId = 11;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeStepId = 12;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModePartitionId = 13;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModePartitionId = 13;
   optional ccsds_mal.protobuf.TIME lastUpdateTimePartitionId = 14;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModePriority = 15;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModePriority = 15;
   optional ccsds_mal.protobuf.TIME lastUpdateTimePriority = 16;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeObsLevel = 17;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeObsLevel = 17;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeObsLevel = 18;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeObcpId = 19;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeObcpId = 19;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeObcpId = 20;
 }

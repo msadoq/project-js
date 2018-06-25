@@ -4,7 +4,6 @@
 const pus014ForwardedPacket = require('./pus014ForwardedPacket');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -18,7 +17,7 @@ module.exports = {
       ? pus014ForwardedPacket.encode(data.pus014ForwardedPacket)
       : null,
     lastUpdateModeTypeSubType: (data.lastUpdateModeTypeSubType !== null && typeof data.lastUpdateModeTypeSubType !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeTypeSubType)
+      ? uINTEGER.encode(data.lastUpdateModeTypeSubType)
       : null,
     lastUpdateTimeTypeSubType: (data.lastUpdateTimeTypeSubType !== null && typeof data.lastUpdateTimeTypeSubType !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeTypeSubType)
@@ -35,7 +34,7 @@ module.exports = {
       ? pus014ForwardedPacket.decode(data.pus014ForwardedPacket)
       : undefined,
     lastUpdateModeTypeSubType: (data.lastUpdateModeTypeSubType !== null && typeof data.lastUpdateModeTypeSubType !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeTypeSubType)
+      ? uINTEGER.decode(data.lastUpdateModeTypeSubType)
       : undefined,
     lastUpdateTimeTypeSubType: (data.lastUpdateTimeTypeSubType !== null && typeof data.lastUpdateTimeTypeSubType !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeTypeSubType)

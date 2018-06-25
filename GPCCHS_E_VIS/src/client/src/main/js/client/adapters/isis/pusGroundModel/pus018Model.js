@@ -7,7 +7,6 @@ const pus018Obcp = require('./pus018Obcp');
 const pusElement = require('./pusElement');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -29,10 +28,10 @@ module.exports = {
       : null,
     pus018ConfiguredObcp: _map(data.pus018ConfiguredObcp, d => (pus018ConfiguredObcp.encode(d))),
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
     lastUpdateModeEngineStatus: (data.lastUpdateModeEngineStatus !== null && typeof data.lastUpdateModeEngineStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeEngineStatus)
+      ? uINTEGER.encode(data.lastUpdateModeEngineStatus)
       : null,
     lastUpdateTimeEngineStatus: (data.lastUpdateTimeEngineStatus !== null && typeof data.lastUpdateTimeEngineStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeEngineStatus)
@@ -57,10 +56,10 @@ module.exports = {
       : undefined,
     pus018ConfiguredObcp: _map(data.pus018ConfiguredObcp, d => (pus018ConfiguredObcp.decode(d))),
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     lastUpdateModeEngineStatus: (data.lastUpdateModeEngineStatus !== null && typeof data.lastUpdateModeEngineStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeEngineStatus)
+      ? uINTEGER.decode(data.lastUpdateModeEngineStatus)
       : undefined,
     lastUpdateTimeEngineStatus: (data.lastUpdateTimeEngineStatus !== null && typeof data.lastUpdateTimeEngineStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeEngineStatus)

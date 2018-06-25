@@ -23,7 +23,7 @@ describe('protobuf/isis/pusGroundModel/PusParameter', () => {
       parameterName: { type: 'string', value: stub.parameterName },
       value: { type: 'double', symbol: stub.value.toString() },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
     });

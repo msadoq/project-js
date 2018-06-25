@@ -5,7 +5,6 @@ const pus014ForwardedPacket = require('./pus014ForwardedPacket');
 const sTRING = require('../ccsds_mal/sTRING');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -19,7 +18,7 @@ module.exports = {
       ? sTRING.encode(data.ridLabel)
       : null,
     lastUpdateModeRid: (data.lastUpdateModeRid !== null && typeof data.lastUpdateModeRid !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeRid)
+      ? uINTEGER.encode(data.lastUpdateModeRid)
       : null,
     lastUpdateTimeRid: (data.lastUpdateTimeRid !== null && typeof data.lastUpdateTimeRid !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeRid)
@@ -36,7 +35,7 @@ module.exports = {
       ? sTRING.decode(data.ridLabel)
       : undefined,
     lastUpdateModeRid: (data.lastUpdateModeRid !== null && typeof data.lastUpdateModeRid !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeRid)
+      ? uINTEGER.decode(data.lastUpdateModeRid)
       : undefined,
     lastUpdateTimeRid: (data.lastUpdateTimeRid !== null && typeof data.lastUpdateTimeRid !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeRid)

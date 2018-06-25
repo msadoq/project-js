@@ -29,7 +29,7 @@ describe('protobuf/isis/pusGroundModel/Pus018ConfiguredObcp', () => {
       stepId: { type: 'string', value: stub.stepId },
       priority: { type: 'string', value: stub.priority },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
     });

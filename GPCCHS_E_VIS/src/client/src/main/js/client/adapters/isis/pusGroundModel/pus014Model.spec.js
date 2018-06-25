@@ -26,10 +26,10 @@ describe('protobuf/isis/pusGroundModel/Pus014Model', () => {
       noHKPackets: { type: 'uinteger', value: stub.noHKPackets },
       noTMPackets: { type: 'uinteger', value: stub.noTMPackets },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      status: { type: 'uoctet', value: stub.status },
+      status: { type: 'uinteger', value: stub.status },
     });
     expect(decoded.pus014EventReportPacket).toHaveLength(stub.pus014EventReportPacket.length);
     for (let i = 0; i < stub.pus014EventReportPacket.length; i += 1) {
@@ -39,14 +39,14 @@ describe('protobuf/isis/pusGroundModel/Pus014Model', () => {
           apid: { type: 'uinteger', value: stub.pus014EventReportPacket[i].pus014ForwardedPacket.apid },
           forwardingStatus: { type: 'boolean', value: stub.pus014EventReportPacket[i].pus014ForwardedPacket.forwardingStatus },
           pusElement: {
-            lastUpdateMode: { type: 'uoctet', value: stub.pus014EventReportPacket[i].pus014ForwardedPacket.pusElement.lastUpdateMode },
+            lastUpdateMode: { type: 'uinteger', value: stub.pus014EventReportPacket[i].pus014ForwardedPacket.pusElement.lastUpdateMode },
             lastUpdateTime: { type: 'time', value: stub.pus014EventReportPacket[i].pus014ForwardedPacket.pusElement.lastUpdateTime },
           },
-          lastUpdateModeFwdStatus: { type: 'uoctet', value: stub.pus014EventReportPacket[i].pus014ForwardedPacket.lastUpdateModeFwdStatus },
+          lastUpdateModeFwdStatus: { type: 'uinteger', value: stub.pus014EventReportPacket[i].pus014ForwardedPacket.lastUpdateModeFwdStatus },
           lastUpdateTimeFwdStatus: { type: 'time', value: stub.pus014EventReportPacket[i].pus014ForwardedPacket.lastUpdateTimeFwdStatus },
         },
         ridLabel: { type: 'string', value: stub.pus014EventReportPacket[i].ridLabel },
-        lastUpdateModeRid: { type: 'uoctet', value: stub.pus014EventReportPacket[i].lastUpdateModeRid },
+        lastUpdateModeRid: { type: 'uinteger', value: stub.pus014EventReportPacket[i].lastUpdateModeRid },
         lastUpdateTimeRid: { type: 'time', value: stub.pus014EventReportPacket[i].lastUpdateTimeRid },
       });
       
@@ -60,16 +60,16 @@ describe('protobuf/isis/pusGroundModel/Pus014Model', () => {
           apid: { type: 'uinteger', value: stub.pus014HkPacket[i].pus014ForwardedPacket.apid },
           forwardingStatus: { type: 'boolean', value: stub.pus014HkPacket[i].pus014ForwardedPacket.forwardingStatus },
           pusElement: {
-            lastUpdateMode: { type: 'uoctet', value: stub.pus014HkPacket[i].pus014ForwardedPacket.pusElement.lastUpdateMode },
+            lastUpdateMode: { type: 'uinteger', value: stub.pus014HkPacket[i].pus014ForwardedPacket.pusElement.lastUpdateMode },
             lastUpdateTime: { type: 'time', value: stub.pus014HkPacket[i].pus014ForwardedPacket.pusElement.lastUpdateTime },
           },
-          lastUpdateModeFwdStatus: { type: 'uoctet', value: stub.pus014HkPacket[i].pus014ForwardedPacket.lastUpdateModeFwdStatus },
+          lastUpdateModeFwdStatus: { type: 'uinteger', value: stub.pus014HkPacket[i].pus014ForwardedPacket.lastUpdateModeFwdStatus },
           lastUpdateTimeFwdStatus: { type: 'time', value: stub.pus014HkPacket[i].pus014ForwardedPacket.lastUpdateTimeFwdStatus },
         },
         sidLabel: { type: 'string', value: stub.pus014HkPacket[i].sidLabel },
-        lastUpdateModeSid: { type: 'uoctet', value: stub.pus014HkPacket[i].lastUpdateModeSid },
+        lastUpdateModeSid: { type: 'uinteger', value: stub.pus014HkPacket[i].lastUpdateModeSid },
         lastUpdateTimeSid: { type: 'time', value: stub.pus014HkPacket[i].lastUpdateTimeSid },
-        lastUpdateModeSubSamplingRatio: { type: 'uoctet', value: stub.pus014HkPacket[i].lastUpdateModeSubSamplingRatio },
+        lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.pus014HkPacket[i].lastUpdateModeSubSamplingRatio },
         lastUpdateTimeSubSamplingRatio: { type: 'time', value: stub.pus014HkPacket[i].lastUpdateTimeSubSamplingRatio },
       });
       
@@ -83,13 +83,13 @@ describe('protobuf/isis/pusGroundModel/Pus014Model', () => {
           apid: { type: 'uinteger', value: stub.pus014TmPacket[i].pus014ForwardedPacket.apid },
           forwardingStatus: { type: 'boolean', value: stub.pus014TmPacket[i].pus014ForwardedPacket.forwardingStatus },
           pusElement: {
-            lastUpdateMode: { type: 'uoctet', value: stub.pus014TmPacket[i].pus014ForwardedPacket.pusElement.lastUpdateMode },
+            lastUpdateMode: { type: 'uinteger', value: stub.pus014TmPacket[i].pus014ForwardedPacket.pusElement.lastUpdateMode },
             lastUpdateTime: { type: 'time', value: stub.pus014TmPacket[i].pus014ForwardedPacket.pusElement.lastUpdateTime },
           },
-          lastUpdateModeFwdStatus: { type: 'uoctet', value: stub.pus014TmPacket[i].pus014ForwardedPacket.lastUpdateModeFwdStatus },
+          lastUpdateModeFwdStatus: { type: 'uinteger', value: stub.pus014TmPacket[i].pus014ForwardedPacket.lastUpdateModeFwdStatus },
           lastUpdateTimeFwdStatus: { type: 'time', value: stub.pus014TmPacket[i].pus014ForwardedPacket.lastUpdateTimeFwdStatus },
         },
-        lastUpdateModeTypeSubType: { type: 'uoctet', value: stub.pus014TmPacket[i].lastUpdateModeTypeSubType },
+        lastUpdateModeTypeSubType: { type: 'uinteger', value: stub.pus014TmPacket[i].lastUpdateModeTypeSubType },
         lastUpdateTimeTypeSubType: { type: 'time', value: stub.pus014TmPacket[i].lastUpdateTimeTypeSubType },
       });
       
@@ -103,16 +103,16 @@ describe('protobuf/isis/pusGroundModel/Pus014Model', () => {
           apid: { type: 'uinteger', value: stub.pus014DiagPacket[i].pus014ForwardedPacket.apid },
           forwardingStatus: { type: 'boolean', value: stub.pus014DiagPacket[i].pus014ForwardedPacket.forwardingStatus },
           pusElement: {
-            lastUpdateMode: { type: 'uoctet', value: stub.pus014DiagPacket[i].pus014ForwardedPacket.pusElement.lastUpdateMode },
+            lastUpdateMode: { type: 'uinteger', value: stub.pus014DiagPacket[i].pus014ForwardedPacket.pusElement.lastUpdateMode },
             lastUpdateTime: { type: 'time', value: stub.pus014DiagPacket[i].pus014ForwardedPacket.pusElement.lastUpdateTime },
           },
-          lastUpdateModeFwdStatus: { type: 'uoctet', value: stub.pus014DiagPacket[i].pus014ForwardedPacket.lastUpdateModeFwdStatus },
+          lastUpdateModeFwdStatus: { type: 'uinteger', value: stub.pus014DiagPacket[i].pus014ForwardedPacket.lastUpdateModeFwdStatus },
           lastUpdateTimeFwdStatus: { type: 'time', value: stub.pus014DiagPacket[i].pus014ForwardedPacket.lastUpdateTimeFwdStatus },
         },
         sidLabel: { type: 'string', value: stub.pus014DiagPacket[i].sidLabel },
-        lastUpdateModeSid: { type: 'uoctet', value: stub.pus014DiagPacket[i].lastUpdateModeSid },
+        lastUpdateModeSid: { type: 'uinteger', value: stub.pus014DiagPacket[i].lastUpdateModeSid },
         lastUpdateTimeSid: { type: 'time', value: stub.pus014DiagPacket[i].lastUpdateTimeSid },
-        lastUpdateModeSubSamplingRatio: { type: 'uoctet', value: stub.pus014DiagPacket[i].lastUpdateModeSubSamplingRatio },
+        lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.pus014DiagPacket[i].lastUpdateModeSubSamplingRatio },
         lastUpdateTimeSubSamplingRatio: { type: 'time', value: stub.pus014DiagPacket[i].lastUpdateTimeSubSamplingRatio },
       });
       

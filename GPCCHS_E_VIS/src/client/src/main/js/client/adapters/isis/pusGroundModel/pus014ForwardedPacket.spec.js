@@ -22,10 +22,10 @@ describe('protobuf/isis/pusGroundModel/Pus014ForwardedPacket', () => {
       apid: { type: 'uinteger', value: stub.apid },
       forwardingStatus: { type: 'boolean', value: stub.forwardingStatus },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      lastUpdateModeFwdStatus: { type: 'uoctet', value: stub.lastUpdateModeFwdStatus },
+      lastUpdateModeFwdStatus: { type: 'uinteger', value: stub.lastUpdateModeFwdStatus },
       lastUpdateTimeFwdStatus: { type: 'time', value: stub.lastUpdateTimeFwdStatus },
     });
     

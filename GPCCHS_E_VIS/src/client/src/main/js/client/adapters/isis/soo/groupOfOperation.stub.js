@@ -13,8 +13,8 @@ const now = _now();
 const groupOfOperation = {
   operationId: -1000,
   earliestStartDate: now,
-  operation: [Buffer.alloc(4, 1), Buffer.alloc(4, 1)],
   latestStartDate: now,
+  operation: [Buffer.alloc(4, 1), Buffer.alloc(4, 1)],
   expected_duration: 42.5,
   layer: 'mySTRING',
   foreseenDate: now,

@@ -24,27 +24,27 @@ describe('protobuf/isis/pusGroundModel/Pus005Model', () => {
       noMonitoringEvents: { type: 'uinteger', value: stub.noMonitoringEvents },
       noEventReports: { type: 'uinteger', value: stub.noEventReports },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      status: { type: 'uoctet', value: stub.status },
+      status: { type: 'uinteger', value: stub.status },
     });
     expect(decoded.pus005OnBoardEvent).toHaveLength(stub.pus005OnBoardEvent.length);
     for (let i = 0; i < stub.pus005OnBoardEvent.length; i += 1) {
       expect(decoded.pus005OnBoardEvent[i]).toMatchObject({
         reportId: { type: 'uinteger', value: stub.pus005OnBoardEvent[i].reportId },
-        onBoardStatus: { type: 'uoctet', value: stub.pus005OnBoardEvent[i].onBoardStatus },
+        onBoardStatus: { type: 'uinteger', value: stub.pus005OnBoardEvent[i].onBoardStatus },
         alarmLevel: { type: 'string', value: stub.pus005OnBoardEvent[i].alarmLevel },
         pusElement: {
-          lastUpdateMode: { type: 'uoctet', value: stub.pus005OnBoardEvent[i].pusElement.lastUpdateMode },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus005OnBoardEvent[i].pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: stub.pus005OnBoardEvent[i].pusElement.lastUpdateTime },
         },
         reportIdLabel: { type: 'string', value: stub.pus005OnBoardEvent[i].reportIdLabel },
-        lastUpdateModeReportId: { type: 'uoctet', value: stub.pus005OnBoardEvent[i].lastUpdateModeReportId },
+        lastUpdateModeReportId: { type: 'uinteger', value: stub.pus005OnBoardEvent[i].lastUpdateModeReportId },
         lastUpdateTimeReportId: { type: 'time', value: stub.pus005OnBoardEvent[i].lastUpdateTimeReportId },
-        lastUpdateModeOnBoardStatus: { type: 'uoctet', value: stub.pus005OnBoardEvent[i].lastUpdateModeOnBoardStatus },
+        lastUpdateModeOnBoardStatus: { type: 'uinteger', value: stub.pus005OnBoardEvent[i].lastUpdateModeOnBoardStatus },
         lastUpdateTimeOnBoardStatus: { type: 'time', value: stub.pus005OnBoardEvent[i].lastUpdateTimeOnBoardStatus },
-        lastUpdateModeAlarmLevel: { type: 'uoctet', value: stub.pus005OnBoardEvent[i].lastUpdateModeAlarmLevel },
+        lastUpdateModeAlarmLevel: { type: 'uinteger', value: stub.pus005OnBoardEvent[i].lastUpdateModeAlarmLevel },
         lastUpdateTimeAlarmLevel: { type: 'time', value: stub.pus005OnBoardEvent[i].lastUpdateTimeAlarmLevel },
       });
       

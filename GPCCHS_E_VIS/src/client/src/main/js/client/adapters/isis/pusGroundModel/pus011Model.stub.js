@@ -10,7 +10,7 @@ const now = _now();
 
 const pus011Model = {
   maxNoTc: 100,
-  scheduleStatus: 1,
+  scheduleStatus: 100,
   apid: 100,
   noFreeCommands: 100,
   lastUpdateTimeNoFreeCommands: now,
@@ -20,12 +20,12 @@ const pus011Model = {
   noSubSchedule: 100,
   pusElement: getPusElement(),
   groundDate: now,
-  status: 1,
+  status: 100,
   pus011Apid: [getPus011Apid(), getPus011Apid()],
   useTimeShifts: true,
-  lastUpdateModeFreeSpace: 1,
-  lastUpdateModeNoFreeCommands: 1,
-  lastUpdateModeScheduleStatus: 1,
+  lastUpdateModeFreeSpace: 100,
+  lastUpdateModeNoFreeCommands: 100,
+  lastUpdateModeScheduleStatus: 100,
   lastUpdateTimeScheduleStatus: now,
 };
 

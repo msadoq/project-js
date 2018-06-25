@@ -21,18 +21,18 @@ describe('protobuf/isis/pusGroundModel/Pus019EventAction', () => {
     expect(decoded).toMatchObject({
       apid: { type: 'uinteger', value: stub.apid },
       rid: { type: 'uinteger', value: stub.rid },
-      actionStatus: { type: 'uoctet', value: stub.actionStatus },
+      actionStatus: { type: 'uinteger', value: stub.actionStatus },
       actionTcPacketHeader: { type: 'blob', value: stub.actionTcPacketHeader },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
       ridLabel: { type: 'string', value: stub.ridLabel },
-      lastUpdateModeActionStatus: { type: 'uoctet', value: stub.lastUpdateModeActionStatus },
+      lastUpdateModeActionStatus: { type: 'uinteger', value: stub.lastUpdateModeActionStatus },
       lastUpdateTimeActionStatus: { type: 'time', value: stub.lastUpdateTimeActionStatus },
-      lastUpdateModeEventActionRid: { type: 'uoctet', value: stub.lastUpdateModeEventActionRid },
+      lastUpdateModeEventActionRid: { type: 'uinteger', value: stub.lastUpdateModeEventActionRid },
       lastUpdateTimeEventActionRid: { type: 'time', value: stub.lastUpdateTimeEventActionRid },
-      lastUpdateModeActionTc: { type: 'uoctet', value: stub.lastUpdateModeActionTc },
+      lastUpdateModeActionTc: { type: 'uinteger', value: stub.lastUpdateModeActionTc },
       lastUpdateTimeActionTc: { type: 'time', value: stub.lastUpdateTimeActionTc },
     });
     

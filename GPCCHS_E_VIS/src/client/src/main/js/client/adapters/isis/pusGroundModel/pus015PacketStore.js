@@ -8,7 +8,6 @@ const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -19,7 +18,7 @@ module.exports = {
       ? uINTEGER.encode(data.id)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
     storageType: (data.storageType !== null && typeof data.storageType !== 'undefined')
       ? sTRING.encode(data.storageType)
@@ -35,19 +34,19 @@ module.exports = {
       ? sTRING.encode(data.hkStatusParameterName)
       : null,
     lastUpdateModeStoreId: (data.lastUpdateModeStoreId !== null && typeof data.lastUpdateModeStoreId !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeStoreId)
+      ? uINTEGER.encode(data.lastUpdateModeStoreId)
       : null,
     lastUpdateTimeStoreId: (data.lastUpdateTimeStoreId !== null && typeof data.lastUpdateTimeStoreId !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeStoreId)
       : null,
     lastUpdateModeStoreType: (data.lastUpdateModeStoreType !== null && typeof data.lastUpdateModeStoreType !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeStoreType)
+      ? uINTEGER.encode(data.lastUpdateModeStoreType)
       : null,
     lastUpdateTimeStoreType: (data.lastUpdateTimeStoreType !== null && typeof data.lastUpdateTimeStoreType !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeStoreType)
       : null,
     lastUpdateModeStoreStatus: (data.lastUpdateModeStoreStatus !== null && typeof data.lastUpdateModeStoreStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeStoreStatus)
+      ? uINTEGER.encode(data.lastUpdateModeStoreStatus)
       : null,
     lastUpdateTimeStoreStatus: (data.lastUpdateTimeStoreStatus !== null && typeof data.lastUpdateTimeStoreStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeStoreStatus)
@@ -61,7 +60,7 @@ module.exports = {
       ? uINTEGER.decode(data.id)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     storageType: (data.storageType !== null && typeof data.storageType !== 'undefined')
       ? sTRING.decode(data.storageType)
@@ -77,19 +76,19 @@ module.exports = {
       ? sTRING.decode(data.hkStatusParameterName)
       : undefined,
     lastUpdateModeStoreId: (data.lastUpdateModeStoreId !== null && typeof data.lastUpdateModeStoreId !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeStoreId)
+      ? uINTEGER.decode(data.lastUpdateModeStoreId)
       : undefined,
     lastUpdateTimeStoreId: (data.lastUpdateTimeStoreId !== null && typeof data.lastUpdateTimeStoreId !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeStoreId)
       : undefined,
     lastUpdateModeStoreType: (data.lastUpdateModeStoreType !== null && typeof data.lastUpdateModeStoreType !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeStoreType)
+      ? uINTEGER.decode(data.lastUpdateModeStoreType)
       : undefined,
     lastUpdateTimeStoreType: (data.lastUpdateTimeStoreType !== null && typeof data.lastUpdateTimeStoreType !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeStoreType)
       : undefined,
     lastUpdateModeStoreStatus: (data.lastUpdateModeStoreStatus !== null && typeof data.lastUpdateModeStoreStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeStoreStatus)
+      ? uINTEGER.decode(data.lastUpdateModeStoreStatus)
       : undefined,
     lastUpdateTimeStoreStatus: (data.lastUpdateTimeStoreStatus !== null && typeof data.lastUpdateTimeStoreStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeStoreStatus)

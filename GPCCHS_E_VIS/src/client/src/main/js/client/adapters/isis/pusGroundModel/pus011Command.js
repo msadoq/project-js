@@ -12,8 +12,6 @@ const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
-const uSHORT = require('../ccsds_mal/uSHORT');
 
 module.exports = {
   encode: data => ({
@@ -24,7 +22,7 @@ module.exports = {
       ? bLOB.encode(data.commandBinaryProfile)
       : null,
     commandGroundStatus: (data.commandGroundStatus !== null && typeof data.commandGroundStatus !== 'undefined')
-      ? uOCTET.encode(data.commandGroundStatus)
+      ? uINTEGER.encode(data.commandGroundStatus)
       : null,
     commandName: (data.commandName !== null && typeof data.commandName !== 'undefined')
       ? sTRING.encode(data.commandName)
@@ -42,7 +40,7 @@ module.exports = {
       ? tIME.encode(data.initialExecutionTime)
       : null,
     commandSourceId: (data.commandSourceId !== null && typeof data.commandSourceId !== 'undefined')
-      ? uSHORT.encode(data.commandSourceId)
+      ? uINTEGER.encode(data.commandSourceId)
       : null,
     ssId: (data.ssId !== null && typeof data.ssId !== 'undefined')
       ? uINTEGER.encode(data.ssId)
@@ -68,43 +66,43 @@ module.exports = {
       ? tIME.encode(data.groundDate)
       : null,
     lastUpdateModeBinProfile: (data.lastUpdateModeBinProfile !== null && typeof data.lastUpdateModeBinProfile !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeBinProfile)
+      ? uINTEGER.encode(data.lastUpdateModeBinProfile)
       : null,
     lastUpdateTimeBinProfile: (data.lastUpdateTimeBinProfile !== null && typeof data.lastUpdateTimeBinProfile !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeBinProfile)
       : null,
     lastUpdateModeGroundStatus: (data.lastUpdateModeGroundStatus !== null && typeof data.lastUpdateModeGroundStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeGroundStatus)
+      ? uINTEGER.encode(data.lastUpdateModeGroundStatus)
       : null,
     lastUpdateTimeGroundStatus: (data.lastUpdateTimeGroundStatus !== null && typeof data.lastUpdateTimeGroundStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeGroundStatus)
       : null,
     lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeStatus)
+      ? uINTEGER.encode(data.lastUpdateModeStatus)
       : null,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeStatus)
       : null,
     lastUpdateModeInitExecTime: (data.lastUpdateModeInitExecTime !== null && typeof data.lastUpdateModeInitExecTime !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeInitExecTime)
+      ? uINTEGER.encode(data.lastUpdateModeInitExecTime)
       : null,
     lastUpdateTimeInitExecTime: (data.lastUpdateTimeInitExecTime !== null && typeof data.lastUpdateTimeInitExecTime !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeInitExecTime)
       : null,
     lastUpdateModeTotalShiftOffset: (data.lastUpdateModeTotalShiftOffset !== null && typeof data.lastUpdateModeTotalShiftOffset !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeTotalShiftOffset)
+      ? uINTEGER.encode(data.lastUpdateModeTotalShiftOffset)
       : null,
     lastUpdateTimeCurrExecTime: (data.lastUpdateTimeCurrExecTime !== null && typeof data.lastUpdateTimeCurrExecTime !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeCurrExecTime)
       : null,
     lastUpdateModeCurrExecTime: (data.lastUpdateModeCurrExecTime !== null && typeof data.lastUpdateModeCurrExecTime !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeCurrExecTime)
+      ? uINTEGER.encode(data.lastUpdateModeCurrExecTime)
       : null,
     lastUpdateTimeTotalShiftOffset: (data.lastUpdateTimeTotalShiftOffset !== null && typeof data.lastUpdateTimeTotalShiftOffset !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeTotalShiftOffset)
       : null,
     lastUpdateModeCommandId: (data.lastUpdateModeCommandId !== null && typeof data.lastUpdateModeCommandId !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeCommandId)
+      ? uINTEGER.encode(data.lastUpdateModeCommandId)
       : null,
     lastUpdateTimeCommandId: (data.lastUpdateTimeCommandId !== null && typeof data.lastUpdateTimeCommandId !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeCommandId)
@@ -118,7 +116,7 @@ module.exports = {
       ? bLOB.decode(data.commandBinaryProfile)
       : undefined,
     commandGroundStatus: (data.commandGroundStatus !== null && typeof data.commandGroundStatus !== 'undefined')
-      ? uOCTET.decode(data.commandGroundStatus)
+      ? uINTEGER.decode(data.commandGroundStatus)
       : undefined,
     commandName: (data.commandName !== null && typeof data.commandName !== 'undefined')
       ? sTRING.decode(data.commandName)
@@ -136,7 +134,7 @@ module.exports = {
       ? tIME.decode(data.initialExecutionTime)
       : undefined,
     commandSourceId: (data.commandSourceId !== null && typeof data.commandSourceId !== 'undefined')
-      ? uSHORT.decode(data.commandSourceId)
+      ? uINTEGER.decode(data.commandSourceId)
       : undefined,
     ssId: (data.ssId !== null && typeof data.ssId !== 'undefined')
       ? uINTEGER.decode(data.ssId)
@@ -162,43 +160,43 @@ module.exports = {
       ? tIME.decode(data.groundDate)
       : undefined,
     lastUpdateModeBinProfile: (data.lastUpdateModeBinProfile !== null && typeof data.lastUpdateModeBinProfile !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeBinProfile)
+      ? uINTEGER.decode(data.lastUpdateModeBinProfile)
       : undefined,
     lastUpdateTimeBinProfile: (data.lastUpdateTimeBinProfile !== null && typeof data.lastUpdateTimeBinProfile !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeBinProfile)
       : undefined,
     lastUpdateModeGroundStatus: (data.lastUpdateModeGroundStatus !== null && typeof data.lastUpdateModeGroundStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeGroundStatus)
+      ? uINTEGER.decode(data.lastUpdateModeGroundStatus)
       : undefined,
     lastUpdateTimeGroundStatus: (data.lastUpdateTimeGroundStatus !== null && typeof data.lastUpdateTimeGroundStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeGroundStatus)
       : undefined,
     lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeStatus)
+      ? uINTEGER.decode(data.lastUpdateModeStatus)
       : undefined,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeStatus)
       : undefined,
     lastUpdateModeInitExecTime: (data.lastUpdateModeInitExecTime !== null && typeof data.lastUpdateModeInitExecTime !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeInitExecTime)
+      ? uINTEGER.decode(data.lastUpdateModeInitExecTime)
       : undefined,
     lastUpdateTimeInitExecTime: (data.lastUpdateTimeInitExecTime !== null && typeof data.lastUpdateTimeInitExecTime !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeInitExecTime)
       : undefined,
     lastUpdateModeTotalShiftOffset: (data.lastUpdateModeTotalShiftOffset !== null && typeof data.lastUpdateModeTotalShiftOffset !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeTotalShiftOffset)
+      ? uINTEGER.decode(data.lastUpdateModeTotalShiftOffset)
       : undefined,
     lastUpdateTimeCurrExecTime: (data.lastUpdateTimeCurrExecTime !== null && typeof data.lastUpdateTimeCurrExecTime !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeCurrExecTime)
       : undefined,
     lastUpdateModeCurrExecTime: (data.lastUpdateModeCurrExecTime !== null && typeof data.lastUpdateModeCurrExecTime !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeCurrExecTime)
+      ? uINTEGER.decode(data.lastUpdateModeCurrExecTime)
       : undefined,
     lastUpdateTimeTotalShiftOffset: (data.lastUpdateTimeTotalShiftOffset !== null && typeof data.lastUpdateTimeTotalShiftOffset !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeTotalShiftOffset)
       : undefined,
     lastUpdateModeCommandId: (data.lastUpdateModeCommandId !== null && typeof data.lastUpdateModeCommandId !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeCommandId)
+      ? uINTEGER.decode(data.lastUpdateModeCommandId)
       : undefined,
     lastUpdateTimeCommandId: (data.lastUpdateTimeCommandId !== null && typeof data.lastUpdateTimeCommandId !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeCommandId)

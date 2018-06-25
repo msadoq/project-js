@@ -23,12 +23,12 @@ describe('protobuf/isis/pusGroundModel/Pus140Parameter', () => {
       apid: { type: 'uinteger', value: stub.apid },
       currentValue: { type: 'double', symbol: stub.currentValue.toString() },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      lastUpdateModeCurrentValue: { type: 'uoctet', value: stub.lastUpdateModeCurrentValue },
+      lastUpdateModeCurrentValue: { type: 'uinteger', value: stub.lastUpdateModeCurrentValue },
       lastUpdateTimeCurrentValue: { type: 'time', value: stub.lastUpdateTimeCurrentValue },
-      lastUpdateModeParamId: { type: 'uoctet', value: stub.lastUpdateModeParamId },
+      lastUpdateModeParamId: { type: 'uinteger', value: stub.lastUpdateModeParamId },
       lastUpdateTimeParamId: { type: 'time', value: stub.lastUpdateTimeParamId },
     });
     

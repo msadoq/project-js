@@ -6,12 +6,11 @@ const pus142FunctionalMonitoring = require('./pus142FunctionalMonitoring');
 const pusElement = require('./pusElement');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
     serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
-      ? uOCTET.encode(data.serviceStatus)
+      ? uINTEGER.encode(data.serviceStatus)
       : null,
     noOfFunctionalMonitoring: (data.noOfFunctionalMonitoring !== null && typeof data.noOfFunctionalMonitoring !== 'undefined')
       ? uINTEGER.encode(data.noOfFunctionalMonitoring)
@@ -27,10 +26,10 @@ module.exports = {
       ? pusElement.encode(data.pusElement)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
     lastUpdateModeServiceStatus: (data.lastUpdateModeServiceStatus !== null && typeof data.lastUpdateModeServiceStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeServiceStatus)
+      ? uINTEGER.encode(data.lastUpdateModeServiceStatus)
       : null,
     lastUpdateTimeServiceStatus: (data.lastUpdateTimeServiceStatus !== null && typeof data.lastUpdateTimeServiceStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeServiceStatus)
@@ -38,7 +37,7 @@ module.exports = {
   }),
   decode: data => ({
     serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
-      ? uOCTET.decode(data.serviceStatus)
+      ? uINTEGER.decode(data.serviceStatus)
       : undefined,
     noOfFunctionalMonitoring: (data.noOfFunctionalMonitoring !== null && typeof data.noOfFunctionalMonitoring !== 'undefined')
       ? uINTEGER.decode(data.noOfFunctionalMonitoring)
@@ -54,10 +53,10 @@ module.exports = {
       ? pusElement.decode(data.pusElement)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     lastUpdateModeServiceStatus: (data.lastUpdateModeServiceStatus !== null && typeof data.lastUpdateModeServiceStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeServiceStatus)
+      ? uINTEGER.decode(data.lastUpdateModeServiceStatus)
       : undefined,
     lastUpdateTimeServiceStatus: (data.lastUpdateTimeServiceStatus !== null && typeof data.lastUpdateTimeServiceStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeServiceStatus)

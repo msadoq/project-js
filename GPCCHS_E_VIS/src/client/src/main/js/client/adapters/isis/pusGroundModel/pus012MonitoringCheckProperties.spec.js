@@ -19,22 +19,22 @@ describe('protobuf/isis/pusGroundModel/Pus012MonitoringCheckProperties', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      ridStatus: { type: 'uoctet', value: stub.ridStatus },
-      actionStatus: { type: 'uoctet', value: stub.actionStatus },
+      ridStatus: { type: 'uinteger', value: stub.ridStatus },
+      actionStatus: { type: 'uinteger', value: stub.actionStatus },
       value: { type: 'string', value: stub.value },
       rid: { type: 'uinteger', value: stub.rid },
       mask: { type: 'string', value: stub.mask },
       actionName: { type: 'string', value: stub.actionName },
       ridLabel: { type: 'string', value: stub.ridLabel },
-      lastUpdateModeRid: { type: 'uoctet', value: stub.lastUpdateModeRid },
+      lastUpdateModeRid: { type: 'uinteger', value: stub.lastUpdateModeRid },
       lastUpdateTimeRid: { type: 'time', value: stub.lastUpdateTimeRid },
-      lastUpdateModeActionStatus: { type: 'uoctet', value: stub.lastUpdateModeActionStatus },
+      lastUpdateModeActionStatus: { type: 'uinteger', value: stub.lastUpdateModeActionStatus },
       lastUpdateTimeActionStatus: { type: 'time', value: stub.lastUpdateTimeActionStatus },
-      lastUpdateModeRidStatus: { type: 'uoctet', value: stub.lastUpdateModeRidStatus },
+      lastUpdateModeRidStatus: { type: 'uinteger', value: stub.lastUpdateModeRidStatus },
       lastUpdateTimeRidStatus: { type: 'time', value: stub.lastUpdateTimeRidStatus },
-      lastUpdateModeMask: { type: 'uoctet', value: stub.lastUpdateModeMask },
+      lastUpdateModeMask: { type: 'uinteger', value: stub.lastUpdateModeMask },
       lastUpdateTimeMask: { type: 'time', value: stub.lastUpdateTimeMask },
-      lastUpdateModeValue: { type: 'uoctet', value: stub.lastUpdateModeValue },
+      lastUpdateModeValue: { type: 'uinteger', value: stub.lastUpdateModeValue },
       lastUpdateTimeValue: { type: 'time', value: stub.lastUpdateTimeValue },
     });
     

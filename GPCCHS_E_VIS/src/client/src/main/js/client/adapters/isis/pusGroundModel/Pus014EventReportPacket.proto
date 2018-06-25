@@ -2,7 +2,6 @@
 import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
-import "../ccsds_mal/UOCTET.proto";
 import "./Pus014ForwardedPacket.proto";
 
 
@@ -14,6 +13,6 @@ extensions 6 to 106;
   optional ccsds_mal.protobuf.UINTEGER rid = 1;
   optional pusGroundModel.protobuf.Pus014ForwardedPacket pus014ForwardedPacket = 2;
   optional ccsds_mal.protobuf.STRING ridLabel = 3;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeRid = 4;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeRid = 4;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeRid = 5;
 }

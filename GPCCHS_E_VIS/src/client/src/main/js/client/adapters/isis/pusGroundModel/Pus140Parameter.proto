@@ -2,7 +2,6 @@
 import "../ccsds_mal/ATTRIBUTE.proto";
 import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
-import "../ccsds_mal/UOCTET.proto";
 import "./PusElement.proto";
 
 
@@ -15,8 +14,8 @@ extensions 9 to 109;
   optional ccsds_mal.protobuf.UINTEGER apid = 2;
   optional ccsds_mal.protobuf.ATTRIBUTE currentValue = 3;
   optional pusGroundModel.protobuf.PusElement pusElement = 4;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeCurrentValue = 5;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCurrentValue = 5;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeCurrentValue = 6;
-  optional ccsds_mal.protobuf.UOCTET lastUpdateModeParamId = 7;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeParamId = 7;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeParamId = 8;
 }

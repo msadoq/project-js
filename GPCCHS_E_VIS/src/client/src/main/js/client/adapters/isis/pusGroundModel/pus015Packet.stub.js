@@ -17,9 +17,9 @@ const pus015Packet = {
   packetType: 100,
   sidLabel: 'mySTRING',
   isSubsamplingRatioSet: true,
-  lastUpdateModePacketId: 1,
+  lastUpdateModePacketId: 100,
   lastUpdateTimePacketId: now,
-  lastUpdateModeSubSamplingRatio: 1,
+  lastUpdateModeSubSamplingRatio: 100,
   lastUpdateTimeSubSamplingRatio: now,
 };
 

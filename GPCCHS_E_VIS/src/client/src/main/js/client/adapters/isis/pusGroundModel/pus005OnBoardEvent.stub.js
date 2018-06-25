@@ -9,15 +9,15 @@ const now = _now();
 
 const pus005OnBoardEvent = {
   reportId: 100,
-  onBoardStatus: 1,
+  onBoardStatus: 100,
   alarmLevel: 'mySTRING',
   pusElement: getPusElement(),
   reportIdLabel: 'mySTRING',
-  lastUpdateModeReportId: 1,
+  lastUpdateModeReportId: 100,
   lastUpdateTimeReportId: now,
-  lastUpdateModeOnBoardStatus: 1,
+  lastUpdateModeOnBoardStatus: 100,
   lastUpdateTimeOnBoardStatus: now,
-  lastUpdateModeAlarmLevel: 1,
+  lastUpdateModeAlarmLevel: 100,
   lastUpdateTimeAlarmLevel: now,
 };
 

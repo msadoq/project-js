@@ -15,7 +15,7 @@ const pus005Model = {
   noMonitoringEvents: 100,
   noEventReports: 100,
   pusElement: getPusElement(),
-  status: 1,
+  status: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus005Model) : pus005Model);

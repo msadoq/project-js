@@ -25,13 +25,13 @@ describe('protobuf/isis/pusGroundModel/Pus014TmPacket', () => {
         apid: { type: 'uinteger', value: stub.pus014ForwardedPacket.apid },
         forwardingStatus: { type: 'boolean', value: stub.pus014ForwardedPacket.forwardingStatus },
         pusElement: {
-          lastUpdateMode: { type: 'uoctet', value: stub.pus014ForwardedPacket.pusElement.lastUpdateMode },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus014ForwardedPacket.pusElement.lastUpdateMode },
           lastUpdateTime: { type: 'time', value: stub.pus014ForwardedPacket.pusElement.lastUpdateTime },
         },
-        lastUpdateModeFwdStatus: { type: 'uoctet', value: stub.pus014ForwardedPacket.lastUpdateModeFwdStatus },
+        lastUpdateModeFwdStatus: { type: 'uinteger', value: stub.pus014ForwardedPacket.lastUpdateModeFwdStatus },
         lastUpdateTimeFwdStatus: { type: 'time', value: stub.pus014ForwardedPacket.lastUpdateTimeFwdStatus },
       },
-      lastUpdateModeTypeSubType: { type: 'uoctet', value: stub.lastUpdateModeTypeSubType },
+      lastUpdateModeTypeSubType: { type: 'uinteger', value: stub.lastUpdateModeTypeSubType },
       lastUpdateTimeTypeSubType: { type: 'time', value: stub.lastUpdateTimeTypeSubType },
     });
     

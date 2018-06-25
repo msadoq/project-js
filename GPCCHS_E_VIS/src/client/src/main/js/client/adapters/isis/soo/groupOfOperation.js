@@ -23,10 +23,10 @@ module.exports = {
     earliestStartDate: (data.earliestStartDate !== null && typeof data.earliestStartDate !== 'undefined')
       ? tIME.encode(data.earliestStartDate)
       : null,
-    operation: _map(data.operation, d => (bLOB.encode(d))),
     latestStartDate: (data.latestStartDate !== null && typeof data.latestStartDate !== 'undefined')
       ? tIME.encode(data.latestStartDate)
       : null,
+    operation: _map(data.operation, d => (bLOB.encode(d))),
     expected_duration: (data.expected_duration !== null && typeof data.expected_duration !== 'undefined')
       ? dURATION.encode(data.expected_duration)
       : null,
@@ -80,10 +80,10 @@ module.exports = {
     earliestStartDate: (data.earliestStartDate !== null && typeof data.earliestStartDate !== 'undefined')
       ? tIME.decode(data.earliestStartDate)
       : undefined,
-    operation: _map(data.operation, d => (bLOB.decode(d))),
     latestStartDate: (data.latestStartDate !== null && typeof data.latestStartDate !== 'undefined')
       ? tIME.decode(data.latestStartDate)
       : undefined,
+    operation: _map(data.operation, d => (bLOB.decode(d))),
     expected_duration: (data.expected_duration !== null && typeof data.expected_duration !== 'undefined')
       ? dURATION.decode(data.expected_duration)
       : undefined,

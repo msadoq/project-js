@@ -6,7 +6,6 @@ const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -38,13 +37,13 @@ module.exports = {
       ? bOOLEAN.encode(data.isSubsamplingRatioSet)
       : null,
     lastUpdateModePacketId: (data.lastUpdateModePacketId !== null && typeof data.lastUpdateModePacketId !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModePacketId)
+      ? uINTEGER.encode(data.lastUpdateModePacketId)
       : null,
     lastUpdateTimePacketId: (data.lastUpdateTimePacketId !== null && typeof data.lastUpdateTimePacketId !== 'undefined')
       ? tIME.encode(data.lastUpdateTimePacketId)
       : null,
     lastUpdateModeSubSamplingRatio: (data.lastUpdateModeSubSamplingRatio !== null && typeof data.lastUpdateModeSubSamplingRatio !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeSubSamplingRatio)
+      ? uINTEGER.encode(data.lastUpdateModeSubSamplingRatio)
       : null,
     lastUpdateTimeSubSamplingRatio: (data.lastUpdateTimeSubSamplingRatio !== null && typeof data.lastUpdateTimeSubSamplingRatio !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeSubSamplingRatio)
@@ -79,13 +78,13 @@ module.exports = {
       ? bOOLEAN.decode(data.isSubsamplingRatioSet)
       : undefined,
     lastUpdateModePacketId: (data.lastUpdateModePacketId !== null && typeof data.lastUpdateModePacketId !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModePacketId)
+      ? uINTEGER.decode(data.lastUpdateModePacketId)
       : undefined,
     lastUpdateTimePacketId: (data.lastUpdateTimePacketId !== null && typeof data.lastUpdateTimePacketId !== 'undefined')
       ? tIME.decode(data.lastUpdateTimePacketId)
       : undefined,
     lastUpdateModeSubSamplingRatio: (data.lastUpdateModeSubSamplingRatio !== null && typeof data.lastUpdateModeSubSamplingRatio !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeSubSamplingRatio)
+      ? uINTEGER.decode(data.lastUpdateModeSubSamplingRatio)
       : undefined,
     lastUpdateTimeSubSamplingRatio: (data.lastUpdateTimeSubSamplingRatio !== null && typeof data.lastUpdateTimeSubSamplingRatio !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeSubSamplingRatio)

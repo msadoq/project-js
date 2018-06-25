@@ -8,22 +8,22 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 const now = _now();
 
 const pus012MonitoringCheckProperties = {
-  ridStatus: 1,
-  actionStatus: 1,
+  ridStatus: 100,
+  actionStatus: 100,
   value: 'mySTRING',
   rid: 100,
   mask: 'mySTRING',
   actionName: 'mySTRING',
   ridLabel: 'mySTRING',
-  lastUpdateModeRid: 1,
+  lastUpdateModeRid: 100,
   lastUpdateTimeRid: now,
-  lastUpdateModeActionStatus: 1,
+  lastUpdateModeActionStatus: 100,
   lastUpdateTimeActionStatus: now,
-  lastUpdateModeRidStatus: 1,
+  lastUpdateModeRidStatus: 100,
   lastUpdateTimeRidStatus: now,
-  lastUpdateModeMask: 1,
+  lastUpdateModeMask: 100,
   lastUpdateTimeMask: now,
-  lastUpdateModeValue: 1,
+  lastUpdateModeValue: 100,
   lastUpdateTimeValue: now,
 };
 

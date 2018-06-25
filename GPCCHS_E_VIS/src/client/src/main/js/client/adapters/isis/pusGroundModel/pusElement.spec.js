@@ -19,7 +19,7 @@ describe('protobuf/isis/pusGroundModel/PusElement', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      lastUpdateMode: { type: 'uoctet', value: stub.lastUpdateMode },
+      lastUpdateMode: { type: 'uinteger', value: stub.lastUpdateMode },
       lastUpdateTime: { type: 'time', value: stub.lastUpdateTime },
     });
     

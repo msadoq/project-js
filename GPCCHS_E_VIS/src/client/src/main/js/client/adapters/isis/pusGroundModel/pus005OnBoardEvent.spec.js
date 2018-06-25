@@ -20,18 +20,18 @@ describe('protobuf/isis/pusGroundModel/Pus005OnBoardEvent', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
       reportId: { type: 'uinteger', value: stub.reportId },
-      onBoardStatus: { type: 'uoctet', value: stub.onBoardStatus },
+      onBoardStatus: { type: 'uinteger', value: stub.onBoardStatus },
       alarmLevel: { type: 'string', value: stub.alarmLevel },
       pusElement: {
-        lastUpdateMode: { type: 'uoctet', value: stub.pusElement.lastUpdateMode },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
         lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
       reportIdLabel: { type: 'string', value: stub.reportIdLabel },
-      lastUpdateModeReportId: { type: 'uoctet', value: stub.lastUpdateModeReportId },
+      lastUpdateModeReportId: { type: 'uinteger', value: stub.lastUpdateModeReportId },
       lastUpdateTimeReportId: { type: 'time', value: stub.lastUpdateTimeReportId },
-      lastUpdateModeOnBoardStatus: { type: 'uoctet', value: stub.lastUpdateModeOnBoardStatus },
+      lastUpdateModeOnBoardStatus: { type: 'uinteger', value: stub.lastUpdateModeOnBoardStatus },
       lastUpdateTimeOnBoardStatus: { type: 'time', value: stub.lastUpdateTimeOnBoardStatus },
-      lastUpdateModeAlarmLevel: { type: 'uoctet', value: stub.lastUpdateModeAlarmLevel },
+      lastUpdateModeAlarmLevel: { type: 'uinteger', value: stub.lastUpdateModeAlarmLevel },
       lastUpdateTimeAlarmLevel: { type: 'time', value: stub.lastUpdateTimeAlarmLevel },
     });
     

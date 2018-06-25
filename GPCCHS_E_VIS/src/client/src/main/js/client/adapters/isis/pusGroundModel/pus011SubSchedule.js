@@ -5,7 +5,6 @@ const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
 const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
@@ -13,7 +12,7 @@ module.exports = {
       ? uINTEGER.encode(data.ssId)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
     executionTimeFirstTc: (data.executionTimeFirstTc !== null && typeof data.executionTimeFirstTc !== 'undefined')
       ? tIME.encode(data.executionTimeFirstTc)
@@ -31,19 +30,19 @@ module.exports = {
       ? sTRING.encode(data.ssIdLabel)
       : null,
     lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeStatus)
+      ? uINTEGER.encode(data.lastUpdateModeStatus)
       : null,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeStatus)
       : null,
     lastUpdateModeExecTimeFirstTc: (data.lastUpdateModeExecTimeFirstTc !== null && typeof data.lastUpdateModeExecTimeFirstTc !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeExecTimeFirstTc)
+      ? uINTEGER.encode(data.lastUpdateModeExecTimeFirstTc)
       : null,
     lastUpdateTimeExecTimeFirstTc: (data.lastUpdateTimeExecTimeFirstTc !== null && typeof data.lastUpdateTimeExecTimeFirstTc !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeExecTimeFirstTc)
       : null,
     lastUpdateModeSsId: (data.lastUpdateModeSsId !== null && typeof data.lastUpdateModeSsId !== 'undefined')
-      ? uOCTET.encode(data.lastUpdateModeSsId)
+      ? uINTEGER.encode(data.lastUpdateModeSsId)
       : null,
     lastUpdateTimeSsId: (data.lastUpdateTimeSsId !== null && typeof data.lastUpdateTimeSsId !== 'undefined')
       ? tIME.encode(data.lastUpdateTimeSsId)
@@ -54,7 +53,7 @@ module.exports = {
       ? uINTEGER.decode(data.ssId)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     executionTimeFirstTc: (data.executionTimeFirstTc !== null && typeof data.executionTimeFirstTc !== 'undefined')
       ? tIME.decode(data.executionTimeFirstTc)
@@ -72,19 +71,19 @@ module.exports = {
       ? sTRING.decode(data.ssIdLabel)
       : undefined,
     lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeStatus)
+      ? uINTEGER.decode(data.lastUpdateModeStatus)
       : undefined,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeStatus)
       : undefined,
     lastUpdateModeExecTimeFirstTc: (data.lastUpdateModeExecTimeFirstTc !== null && typeof data.lastUpdateModeExecTimeFirstTc !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeExecTimeFirstTc)
+      ? uINTEGER.decode(data.lastUpdateModeExecTimeFirstTc)
       : undefined,
     lastUpdateTimeExecTimeFirstTc: (data.lastUpdateTimeExecTimeFirstTc !== null && typeof data.lastUpdateTimeExecTimeFirstTc !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeExecTimeFirstTc)
       : undefined,
     lastUpdateModeSsId: (data.lastUpdateModeSsId !== null && typeof data.lastUpdateModeSsId !== 'undefined')
-      ? uOCTET.decode(data.lastUpdateModeSsId)
+      ? uINTEGER.decode(data.lastUpdateModeSsId)
       : undefined,
     lastUpdateTimeSsId: (data.lastUpdateTimeSsId !== null && typeof data.lastUpdateTimeSsId !== 'undefined')
       ? tIME.decode(data.lastUpdateTimeSsId)

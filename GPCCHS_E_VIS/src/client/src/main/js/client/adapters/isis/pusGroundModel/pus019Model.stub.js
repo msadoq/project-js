@@ -9,14 +9,14 @@ const getPusElement = require('./pusElement.stub');
 const now = _now();
 
 const pus019Model = {
-  serviceStatus: 1,
+  serviceStatus: 100,
   noOfEventActions: 100,
   pus19EventAction: [getPus019EventAction(), getPus019EventAction()],
   groundDate: now,
   apid: 100,
   pusElement: getPusElement(),
-  status: 1,
-  lastUpdateModeServiceStatus: 1,
+  status: 100,
+  lastUpdateModeServiceStatus: 100,
   lastUpdateTimeServiceStatus: now,
 };
 

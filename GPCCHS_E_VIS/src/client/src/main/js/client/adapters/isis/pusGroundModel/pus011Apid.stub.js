@@ -5,7 +5,7 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 const getPusElement = require('./pusElement.stub');
 
 const pus011Apid = {
-  status: 1,
+  status: 100,
   pusElement: getPusElement(),
   apid: 100,
 };

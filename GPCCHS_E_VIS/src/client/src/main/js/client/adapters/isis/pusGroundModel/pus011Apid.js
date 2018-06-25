@@ -3,12 +3,11 @@
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const pusElement = require('./pusElement');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
-const uOCTET = require('../ccsds_mal/uOCTET');
 
 module.exports = {
   encode: data => ({
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.encode(data.status)
+      ? uINTEGER.encode(data.status)
       : null,
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')
       ? pusElement.encode(data.pusElement)
@@ -19,7 +18,7 @@ module.exports = {
   }),
   decode: data => ({
     status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uOCTET.decode(data.status)
+      ? uINTEGER.decode(data.status)
       : undefined,
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')
       ? pusElement.decode(data.pusElement)

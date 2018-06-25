@@ -19,7 +19,7 @@ describe('protobuf/isis/pusGroundModel/Pus011EncapsulatingTc', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      sourceId: { type: 'ushort', value: stub.sourceId },
+      sourceId: { type: 'uinteger', value: stub.sourceId },
       commandApid: { type: 'uinteger', value: stub.commandApid },
       sequenceCount: { type: 'uinteger', value: stub.sequenceCount },
     });

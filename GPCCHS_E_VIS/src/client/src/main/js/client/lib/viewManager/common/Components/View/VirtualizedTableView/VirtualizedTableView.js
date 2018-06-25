@@ -224,6 +224,7 @@ class VirtualizedTableView extends React.Component {
           style={style}
         >
           <input
+            key={colKey}
             ref={this.inputRefs[colKey]}
             defaultValue={filterState[colKey]}
             type={'text'}

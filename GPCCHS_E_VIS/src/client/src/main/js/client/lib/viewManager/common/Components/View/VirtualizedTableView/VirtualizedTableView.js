@@ -57,10 +57,31 @@ class VirtualizedTableView extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    const { cols } = props;
+
     this.state = {
       selectedCell: null,
     };
+
+    this.inputRefs = {};
+    cols.forEach((colKey) => {
+      this.inputRefs[colKey] = React.createRef();
+    });
   }
+
+  _onUpdateFilter = (colKey, newFilterValue) => {
+    const { onFilter } = this.props;
+
+    const _deferredOnFilter = () => {
+      this.setState({
+        selectedCell: null,
+      });
+
+      onFilter(colKey, newFilterValue);
+    };
+
+    return _.debounce(_deferredOnFilter, 500);
+  };
 
   _onSelectCell(ev, rowIndex, columnIndex, content) {
     const isAlreadySelected =
@@ -100,7 +121,6 @@ class VirtualizedTableView extends React.Component {
                   // WARNING: cols still should be in the right order (by group)
                   // as this component does not reorder them to match groups
       onSort,
-      onFilter,
       bodyCellActions, // the user defined actions
       onBodyCellAction, // VirtualizedTableViewContainer way to dispacth user defined action
       onCellDoubleClick,
@@ -204,13 +224,11 @@ class VirtualizedTableView extends React.Component {
           style={style}
         >
           <input
+            ref={this.inputRefs[colKey]}
+            defaultValue={filterState[colKey]}
             type={'text'}
-            value={filterState[colKey]}
             onChange={(ev) => {
-              this.setState({
-                selectedCell: null,
-              });
-              onFilter(colKey, ev.target.value);
+              this._onUpdateFilter(colKey, ev.target.value)();
             }}
             className={styles.SearchInput}
           />

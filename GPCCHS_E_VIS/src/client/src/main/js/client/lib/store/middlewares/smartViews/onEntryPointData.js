@@ -4,9 +4,16 @@ import {
   WS_VIEW_UPDATE_ENTRYPOINT,
 } from '../../types';
 import { updateDisplayedColumns } from '../../actions/tableColumns';
+import { updateEntryPointName } from '../../actions/editEntryPoints';
+
 
 const onEntryPointData = ({ dispatch, getState }) => next => (action) => {
   const state = getState();
+
+  if (action.type === WS_VIEW_UPDATE_ENTRYPOINT) {
+    const { viewId, entryPoint } = action.payload;
+    dispatch(updateEntryPointName(viewId, entryPoint.id, entryPoint.name));
+  }
 
   if (
     action.type === WS_VIEW_ADD_ENTRYPOINT ||

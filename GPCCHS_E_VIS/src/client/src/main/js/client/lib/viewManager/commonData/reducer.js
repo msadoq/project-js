@@ -93,7 +93,11 @@ const _updateKeptIndexes = (tableState) => {
 
 const _getTableState =
   (state, tableId) =>
-    _.getOr({ data: [], keep: [] }, tableId, state);
+    _.getOr(
+      { data: [], keep: [] },
+      ['tables', tableId],
+      state
+    );
 
 /**
  * Injects a range of objects, `source` in data table
@@ -105,18 +109,19 @@ const _getTableState =
  * @returns {object} the updated state
  * @private
  */
-export const injectData = (
+export const injectTabularData = (
   state,
   tableId,
   source
 ) => {
   let tableState = _getTableState(state, tableId);
 
-  const colName = _.get([DATA_STATE_KEY, 'sort']);
-  const filters = _.getOr({}, [DATA_STATE_KEY, 'filters']);
+  const colName = _.get([DATA_STATE_KEY, 'sort'], tableState);
+  const filters = _.getOr({}, [DATA_STATE_KEY, 'filters'], tableState);
 
   let updatedData = _.getOr([], 'data', tableState);
   let updatedKeep = _.getOr([], 'keep', tableState);
+
   let insertIndex = 0;
 
   source.forEach((el) => {
@@ -140,7 +145,10 @@ export const injectData = (
     }
   });
 
+  updatedKeep = _getKeptIndexes(updatedData, filters);
+
   tableState = {
+    ...tableState,
     data: updatedData,
     keep: updatedKeep,
   };
@@ -160,7 +168,7 @@ export const injectData = (
  * @param cond {function}
  * @return {object} the updated state
  */
-export const removeData = (state, tableId, cond) => {
+export const removeTabularData = (state, tableId, cond) => {
   let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
@@ -171,7 +179,7 @@ export const removeData = (state, tableId, cond) => {
   tableState = _updateKeptIndexes(tableState);
 
   return _.set(
-    tableId,
+    ['tables', tableId],
     tableState,
     state
   );
@@ -185,7 +193,7 @@ export const removeData = (state, tableId, cond) => {
  * @param mapFunc
  * @returns {void|*|{}}
  */
-export const mapData = (state, tableId, mapFunc) => {
+export const mapTabularData = (state, tableId, mapFunc) => {
   let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
@@ -196,7 +204,7 @@ export const mapData = (state, tableId, mapFunc) => {
   tableState = _updateKeptIndexes(tableState);
 
   return _.set(
-    tableId,
+    ['tables', tableId],
     tableState,
     state
   );
@@ -209,7 +217,7 @@ export const mapData = (state, tableId, mapFunc) => {
  * @param tableId
  * @returns {Object}
  */
-export const purgeData = (state, tableId) => removeData(state, tableId, () => true);
+export const purgeTabularData = (state, tableId) => removeTabularData(state, tableId, () => true);
 
 /**
  * This is the common data reducer used to handle common data management,
@@ -311,7 +319,7 @@ const scopedCommonReducer = (dataState = {}, action) => {
         );
       }
 
-      return injectData(dataState, tableId, fakeData);
+      return injectTabularData(dataState, tableId, fakeData);
     }
     default:
       return dataState;

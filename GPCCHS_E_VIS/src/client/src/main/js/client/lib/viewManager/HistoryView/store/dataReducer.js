@@ -15,19 +15,26 @@
 // ====================================================================
 
 
-import * as types from 'store/types';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
 import cleanCurrentViewData from './cleanViewData';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
 import { VM_VIEW_HISTORY } from '../../constants';
+import {
+  INJECT_DATA_RANGE,
+  WS_VIEW_UPDATE_ENTRYPOINT_NAME,
+  WS_VIEWDATA_CLEAN,
+} from '../../../store/types';
+import { mapTabularData } from '../../commonData/reducer';
 
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 const scopedHistoryDataReducer = (state = {}, action, viewId) => {
   switch (action.type) {
-    case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals }
+    case INJECT_DATA_RANGE: {
+      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations }
         = action.payload;
+
+      const historyConfig = configurations.HistoryViewConfiguration[viewId];
 
       const dataKeys = Object.keys(dataToInject);
       if (!dataKeys.length) {
@@ -38,11 +45,11 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
         selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
       if (Object.keys(epSubState).length !== 0) {
         updatedState =
-          viewRangeAdd(updatedState, viewId, epSubState);
+          viewRangeAdd(updatedState, viewId, epSubState, historyConfig);
       }
       return updatedState;
     }
-    case types.WS_VIEWDATA_CLEAN: {
+    case WS_VIEWDATA_CLEAN: {
       const { previousDataMap, dataMap, configuration } = action.payload;
       let updatedState = state;
       updatedState = cleanCurrentViewData(
@@ -54,6 +61,20 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
         configuration.HistoryViewConfiguration[viewId]
       );
       return updatedState;
+    }
+    case WS_VIEW_UPDATE_ENTRYPOINT_NAME: {
+      const { epId, epName } = action.payload;
+
+      return mapTabularData(state, 'history', (el) => {
+        if (el.id === epId) {
+          return {
+            ...el,
+            epName,
+          };
+        }
+
+        return el;
+      });
     }
     default:
       return state;

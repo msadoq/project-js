@@ -5,8 +5,6 @@ import cn from 'classnames';
 import { ArrowKeyStepper, Grid, ScrollSync } from 'react-virtualized';
 import ContainerDimensions from 'react-container-dimensions';
 import scrollbarSize from 'dom-helpers/util/scrollbarSize';
-import Color from 'color';
-import generateColor from 'string-to-color';
 import shortid from 'shortid';
 import { Overlay, Popover } from 'react-bootstrap';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
@@ -59,10 +57,31 @@ class VirtualizedTableView extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    const { cols } = props;
+
     this.state = {
       selectedCell: null,
     };
+
+    this.inputRefs = {};
+    cols.forEach((colKey) => {
+      this.inputRefs[colKey] = React.createRef();
+    });
   }
+
+  _onUpdateFilter = (colKey, newFilterValue) => {
+    const { onFilter } = this.props;
+
+    const _deferredOnFilter = () => {
+      this.setState({
+        selectedCell: null,
+      });
+
+      onFilter(colKey, newFilterValue);
+    };
+
+    return _.debounce(_deferredOnFilter, 500);
+  };
 
   _onSelectCell(ev, rowIndex, columnIndex, content) {
     const isAlreadySelected =
@@ -102,7 +121,6 @@ class VirtualizedTableView extends React.Component {
                   // WARNING: cols still should be in the right order (by group)
                   // as this component does not reorder them to match groups
       onSort,
-      onFilter,
       bodyCellActions, // the user defined actions
       onBodyCellAction, // VirtualizedTableViewContainer way to dispacth user defined action
       onCellDoubleClick,
@@ -113,58 +131,21 @@ class VirtualizedTableView extends React.Component {
       columnCount,
     } = this.props;
 
-    let formattedRows = rows;
-
-    if (formattedRows.length === 0) { // add dummy row to avoid scroll issues
-      formattedRows =
-        [[...Array(cols.length)].reduce(acc => [...acc, { value: undefined }], [])];
-    }
+    const formattedRows = rows;
 
     const overscanColumnCount = 0;
     const overscanRowCount = 0;
 
     const _getColumnName = col => col.title;
 
-    const _groups = cols.reduce((acc, column) => {
-      if (column.group) {
-        return [...acc, column.group];
-      }
-
-      return acc;
-    }, []);
-
-    const _getPastelColor = color =>
-      Color.rgb(
-        (color.red() + 255) / 2,
-        (color.blue() + 255) / 2,
-        (color.green() + 255) / 2
-      );
-
-    const _groupColors = _groups.reduce((acc, groupName) => {
-      const color = _getPastelColor(new Color(generateColor(groupName)));
-
-      return {
-        ...acc,
-        [groupName]: {
-          color: color.hsl().string(),
-          darkenedColor: color.darken(0.5).hsl().string(),
-          fadedColor: color.fade(0.7).hsl().string(),
-          isDark: color.isDark(),
-        },
-      };
-    }, {});
-
 // eslint-disable-next-line react/prop-types
     const _groupHeaderCellRenderer = ({ columnIndex, key, style }) => {
       const groupName = cols[columnIndex].group;
 
-      const groupColorInfo = _groupColors[groupName];
-
       const groupHeaderStyle = {
         ...style,
-        backgroundColor: groupColorInfo.color,
-        color: groupColorInfo.isDark ? 'white' : 'black',
-        border: `1px solid ${groupColorInfo.darkenedColor}`,
+        backgroundColor: '#d8d8d8',
+        border: '1px solid darkgrey',
       };
 
       return (
@@ -185,14 +166,10 @@ class VirtualizedTableView extends React.Component {
       let headerStyle = _.cloneDeep(style);
 
       if (withGroups) {
-        const groupName = cols[columnIndex].group;
-        const groupColorInfo = _groupColors[groupName];
-
         headerStyle = {
           ...headerStyle,
-          backgroundColor: groupColorInfo.color,
-          color: groupColorInfo.isDark ? 'white' : 'black',
-          border: `1px solid ${groupColorInfo.darkenedColor}`,
+          backgroundColor: '#d8d8d8',
+          border: '1px solid darkgrey',
         };
       }
 
@@ -247,13 +224,12 @@ class VirtualizedTableView extends React.Component {
           style={style}
         >
           <input
+            key={colKey}
+            ref={this.inputRefs[colKey]}
+            defaultValue={filterState[colKey]}
             type={'text'}
-            value={filterState[colKey]}
             onChange={(ev) => {
-              this.setState({
-                selectedCell: null,
-              });
-              onFilter(colKey, ev.target.value);
+              this._onUpdateFilter(colKey, ev.target.value)();
             }}
             className={styles.SearchInput}
           />
@@ -278,13 +254,16 @@ class VirtualizedTableView extends React.Component {
       };
 
       if (withGroups) {
-        const groupName = cols[columnIndex].group;
-        const groupColorInfo = _groupColors[groupName];
-
         updatedStyle = {
-          ...style,
-          backgroundColor: style.backgroundColor || groupColorInfo.fadedColor,
-          boxShadow: `-.5px -.5px 0 ${groupColorInfo.darkenedColor}`,
+          ...updatedStyle,
+          borderBottom: '1px solid darkgrey',
+        };
+      }
+
+      if (rowIndex % 2) {
+        updatedStyle = {
+          ...updatedStyle,
+          backgroundColor: '#e6e6e6',
         };
       }
 

@@ -1,4 +1,4 @@
-/* eslint-disable no-continue */
+/* eslint-disable no-continue,no-unused-vars,arrow-body-style */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
@@ -21,19 +21,19 @@ import { convertData } from 'viewManager/commonData/convertData';
 import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
-import { injectData } from '../../commonData/reducer';
+import { injectTabularData } from '../../commonData/reducer';
 
 const logger = getLogger('data:rangeValues');
 
 /**
- * Add an incoming range of data into the state
+ * Adds incoming range of data into the state
  *
  * @param state
  * @param viewId
  * @param payloads
- * @returns {*}
+ * @param historyConfig
  */
-export function viewRangeAdd(state = {}, viewId, payloads) {
+export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
   const epKeys = Object.keys(payloads || {});
   if (!epKeys.length) {
     return state;
@@ -43,8 +43,18 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
 
   Object.keys(payloads).forEach(
     (ep) => {
-      const range = Object.keys(payloads[ep]).map(timestamp => payloads[ep][timestamp]);
-      updatedState = injectData(updatedState, 'history', range);
+      const range = Object.keys(payloads[ep]).map((timestamp) => {
+        const epConfig = historyConfig.entryPoints.find(epc => epc.name === ep);
+        if (epConfig) {
+          return {
+            ...payloads[ep][timestamp],
+            id: epConfig.id,
+          };
+        }
+
+        return payloads[ep][timestamp];
+      });
+      updatedState = injectTabularData(updatedState, 'history', range);
     }
   );
 

@@ -4,6 +4,7 @@ import {
   WS_VIEW_ADD_BLANK,
   WS_VIEW_TABLE_UPDATE_SORT,
   WS_VIEW_CHANGE_COL_FILTERS,
+  WS_VIEW_TABLE_SAVE_SCROLL_TOP,
   TEST_ASK_FAKE_DATA,
 } from 'store/types';
 
@@ -94,6 +95,12 @@ const _updateKeptIndexes = (tableState) => {
     tableState
   );
 };
+
+const _resetScrollTop = tableState => _.set(
+    [DATA_STATE_KEY, 'scrollTop'],
+    0,
+    tableState
+  );
 
 const _getTableState =
   (state, tableId) =>
@@ -273,6 +280,8 @@ const scopedCommonReducer = (dataState = {}, action) => {
 
       tableState = _updateKeptIndexes(tableState);
 
+      tableState = _resetScrollTop(tableState);
+
       return _.set(
         tablePath,
         tableState,
@@ -298,9 +307,20 @@ const scopedCommonReducer = (dataState = {}, action) => {
 
       tableState = _updateKeptIndexes(tableState);
 
+      tableState = _resetScrollTop(tableState);
+
       return _.set(
         tablePath,
         tableState,
+        dataState
+      );
+    }
+    case WS_VIEW_TABLE_SAVE_SCROLL_TOP: {
+      const { tableId, scrollTop } = action.payload;
+
+      return _.set(
+        ['tables', tableId, DATA_STATE_KEY, 'scrollTop'],
+        scrollTop,
         dataState
       );
     }

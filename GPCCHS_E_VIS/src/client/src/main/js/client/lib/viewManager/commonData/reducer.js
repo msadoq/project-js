@@ -174,7 +174,7 @@ export const injectTabularData = (
     data: updatedData,
     keep: updatedKeep,
   };
-  
+
   return _.set(
     ['tables', tableId],
     tableState,

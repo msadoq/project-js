@@ -35,7 +35,6 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
   const keep = _.getOr([], 'keep', tableData);
   const scrollTopOffset = _.getOr(0, ['state', 'scrollTop'], tableData);
 
-
   const sortingDirection =
     _.getOr('DESC', ['sorting', 'direction'], tableConfig);
 

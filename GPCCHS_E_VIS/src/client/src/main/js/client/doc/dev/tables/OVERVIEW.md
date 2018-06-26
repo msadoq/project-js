@@ -189,13 +189,13 @@ tableaux.
 
 Pour simplifier l'écriture de ses reducers, on dispose des trois fonctions suivantes :
 
-- `ìnjectData(state, tableId, source)` : 
+- `ìnjectTabularData(state, tableId, source, afterEach)` : 
 permet d'injecter un tableau de données dans le tableau désigné par `tableId` dans le data state `state`;
-- `removeData(state, tableId, cond)`:
+- `removeTabularData(state, tableId, cond)`:
 permet d'enlever les objets `obj` qui satisfont la condition `cond(obj, index)`
 dans le tableau désigné par `tableId`.
-- `purgeData(state, tableId)`: permet de supprimer tout le contenu du tableau de données désigné par `tableId`.
-- `mapData(state, tableId, mapFunc)`: permet de mettre à jour chacun des éléments du tableau de données
+- `purgeTabularData(state, tableId)`: permet de supprimer tout le contenu du tableau de données désigné par `tableId`.
+- `mapTabularData(state, tableId, mapFunc)`: permet de mettre à jour chacun des éléments du tableau de données
 désigné par `tableId` à l'aide d'une fonction `mapFunc`, prenant en argument un objet et un index.
 
 Ces fonctions retournent le nouveau state.

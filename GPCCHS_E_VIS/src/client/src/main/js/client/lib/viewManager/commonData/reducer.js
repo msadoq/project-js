@@ -1,16 +1,16 @@
 import _ from 'lodash/fp';
 
 import {
+  TEST_ASK_FAKE_DATA,
   WS_VIEW_ADD_BLANK,
-  WS_VIEW_TABLE_UPDATE_SORT,
   WS_VIEW_CHANGE_COL_FILTERS,
   WS_VIEW_TABLE_SAVE_SCROLL_TOP,
-  TEST_ASK_FAKE_DATA,
+  WS_VIEW_TABLE_UPDATE_SORT,
 } from 'store/types';
 
 import createScopedDataReducer from './createScopedDataReducer';
 
-const DATA_STATE_KEY = 'state';
+export const DATA_STATE_KEY = 'state';
 
 /**
  * Insert source in the sorted array dest and return the indexes of the inserted elements
@@ -91,16 +91,16 @@ const _updateKeptIndexes = (tableState) => {
   const filters = _.get([DATA_STATE_KEY, 'filters'], tableState);
   return _.set(
     'keep',
-    _getKeptIndexes(_.get('data', tableState), filters),
+    _getKeptIndexes(_.getOr([], 'data', tableState), filters),
     tableState
   );
 };
 
 const _resetScrollTop = tableState => _.set(
-    [DATA_STATE_KEY, 'scrollTop'],
-    0,
-    tableState
-  );
+  [DATA_STATE_KEY, 'scrollTop'],
+  0,
+  tableState
+);
 
 const _getTableState =
   (state, tableId) =>
@@ -139,9 +139,10 @@ export const injectTabularData = (
   let updatedData = _.getOr([], 'data', tableState);
   let updatedKeep = _.getOr([], 'keep', tableState);
 
+  const sortedSource = _sortData(source, colName);
   let insertIndex = 0;
 
-  source.forEach((el) => {
+  sortedSource.forEach((el) => {
     // eslint-disable-next-line prefer-const
     [updatedData, insertIndex] =
       _insertSortedBy((e => e[colName]), el, updatedData, insertIndex);
@@ -173,7 +174,7 @@ export const injectTabularData = (
     data: updatedData,
     keep: updatedKeep,
   };
-
+  
   return _.set(
     ['tables', tableId],
     tableState,
@@ -193,7 +194,7 @@ export const removeTabularData = (state, tableId, cond) => {
   let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
-    _.get('data', tableState).filter((e, i) => !cond(e, i)),
+    _.getOr([], 'data', tableState).filter((e, i) => !cond(e, i)),
     tableState
   );
 
@@ -218,7 +219,7 @@ export const mapTabularData = (state, tableId, mapFunc) => {
   let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
-    _.get('data', tableState).map((e, i) => mapFunc(e, i)),
+    _.getOr([], 'data', tableState).map((e, i) => mapFunc(e, i)),
     tableState
   );
 

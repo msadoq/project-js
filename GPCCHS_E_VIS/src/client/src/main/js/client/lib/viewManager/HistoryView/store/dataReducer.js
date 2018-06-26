@@ -15,22 +15,33 @@
 // END-HISTORY
 // ====================================================================
 
-
+import _ from 'lodash/fp';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
 import cleanCurrentViewData from './cleanViewData';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
 import { VM_VIEW_HISTORY } from '../../constants';
 import {
+  WS_VIEW_ADD_BLANK,
   INJECT_DATA_RANGE,
   WS_VIEW_UPDATE_ENTRYPOINT_NAME,
   WS_VIEWDATA_CLEAN,
 } from '../../../store/types';
-import { mapTabularData } from '../../commonData/reducer';
+import {
+  mapTabularData,
+  DATA_STATE_KEY,
+} from '../../commonData/reducer';
 
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 const scopedHistoryDataReducer = (state = {}, action, viewId) => {
   switch (action.type) {
+    case WS_VIEW_ADD_BLANK: {
+      return _.set(
+        ['tables', 'history', DATA_STATE_KEY, 'sort'],
+        'referenceTimestamp',
+        state
+      );
+    }
     case INJECT_DATA_RANGE: {
       const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations }
         = action.payload;

@@ -278,6 +278,7 @@ module.exports = {
     OnboardAlarmView: 'OnBoardAlarmViewDoc',
     CommaSeparatedValues: 'CommaSeparatedValues',
     PortableNetworkGraphics: 'PortableNetworkGraphics',
+    ScalableVectorGraphics: 'ScalableVectorGraphics',
     PUS11View: 'PUS11ViewDoc',
   },
   EXTENSIONS: {
@@ -294,6 +295,7 @@ module.exports = {
     OnboardAlarmView: 'viba',
     CommaSeparatedValues: 'csv',
     PortableNetworkGraphics: 'png',
+    ScalableVectorGraphics: 'svg',
     PUS05View: 'pus05',
     PUS11View: 'pus11',
   },

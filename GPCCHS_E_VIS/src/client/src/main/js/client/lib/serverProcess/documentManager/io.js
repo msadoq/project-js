@@ -84,6 +84,9 @@ export const exportData = (content, contentType, path, callback) => {
       case MIME_TYPES.PortableNetworkGraphics: {
         return 'base64';
       }
+      case MIME_TYPES.ScalableVectorGraphics: {
+        return 'utf8';
+      }
       case MIME_TYPES.CommaSeparatedValues: {
         return 'utf8';
       }

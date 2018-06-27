@@ -382,6 +382,12 @@ class VirtualizedTableView extends React.Component {
       return 'NO DATA';
     };
 
+    let updatedRowCount = rowCount;
+
+    if (rowCount === 0) {
+      updatedRowCount = 1;
+    }
+
     const columnsWidth = columnWidth * columnCount;
     const headerHeight = 42;
 
@@ -421,7 +427,7 @@ class VirtualizedTableView extends React.Component {
                             <div className={styles.GridColumn}>
                               <ArrowKeyStepper
                                 columnCount={columnCount}
-                                rowCount={rowCount}
+                                rowCount={updatedRowCount}
                               >
                                 {
                                   ({ onSectionRendered, scrollToColumn, scrollToRow }) => (
@@ -485,7 +491,7 @@ class VirtualizedTableView extends React.Component {
                                         columnWidth={columnWidth}
                                         rowHeight={rowHeight}
                                         columnCount={columnCount}
-                                        rowCount={rowCount}
+                                        rowCount={updatedRowCount}
                                         scrollLeft={scrollLeft}
                                         scrollTop={updatedScrollTop}
                                         onScroll={(...args) => {

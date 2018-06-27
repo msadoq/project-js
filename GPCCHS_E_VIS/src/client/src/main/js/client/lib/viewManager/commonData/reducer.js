@@ -55,12 +55,19 @@ const _sortData = (data, colName) => _.sortBy((el => el[colName]), data);
  */
 export const _shouldKeepElement = (el, filters = {}) => {
   let ret = true;
-// eslint-disable-next-line no-restricted-syntax
+
+  // eslint-disable-next-line no-restricted-syntax
   for (const filterKey of Object.keys(filters)) {
+    const valueToMatch =
+      el && el[filterKey] && `${el[filterKey]}`;
+
+    const filterValue =
+      filters[filterKey] && `${filters[filterKey]}`;
+
     if (
-      el[filterKey] &&
-      el[filterKey].length > 0 &&
-      `${el[filterKey]}`.indexOf(filters[filterKey]) === -1
+      filterValue &&
+      filterValue.length > 0 &&
+      valueToMatch.indexOf(filterValue) === -1
     ) {
       ret = false;
       break;

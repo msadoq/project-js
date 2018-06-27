@@ -370,4 +370,21 @@ module.exports = {
   PREFIX_LASTS: 'lasts',
   PREFIX_PUS_MODELS: 'pusModels',
   PREFIX_PUS_DELTAS: 'pusDeltas',
+
+  // PUS Constants
+  PUS_CONSTANTS: {
+    UPDATE_TYPE: {
+      1: 'TC',
+      2: 'TM',
+      3: 'DEFAULT',
+      4: 'TIMER',
+    },
+    STATUS: {
+      0: 'DISABLED',
+      1: 'ENABLED',
+      2: 'DELETED',
+      200: 'UNKNOWNED',
+      '': 'EMPTY',
+    },
+  },
 };

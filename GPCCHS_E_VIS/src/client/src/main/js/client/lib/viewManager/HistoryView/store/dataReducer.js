@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
@@ -15,20 +14,39 @@
 // END-HISTORY
 // ====================================================================
 
-
-import * as types from 'store/types';
+import _ from 'lodash/fp';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
 import cleanCurrentViewData from './cleanViewData';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
 import { VM_VIEW_HISTORY } from '../../constants';
+import {
+  WS_VIEW_ADD_BLANK,
+  INJECT_DATA_RANGE,
+  WS_VIEW_UPDATE_ENTRYPOINT_NAME,
+  WS_VIEWDATA_CLEAN,
+} from '../../../store/types';
+import {
+  mapTabularData,
+  DATA_STATE_KEY,
+} from '../../commonData/reducer';
 
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-const historyViewDataReducer = (state = {}, action) => {
+const scopedHistoryDataReducer = (state = {}, action, viewId) => {
   switch (action.type) {
-    case types.INJECT_DATA_RANGE: {
-      const { viewId, dataToInject, newViewMap, newExpectedRangeIntervals }
+    case WS_VIEW_ADD_BLANK: {
+      return _.set(
+        ['tables', 'history', DATA_STATE_KEY, 'sort'],
+        'referenceTimestamp',
+        state
+      );
+    }
+    case INJECT_DATA_RANGE: {
+      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations }
         = action.payload;
+
+      const historyConfig = configurations.HistoryViewConfiguration[viewId];
+
       const dataKeys = Object.keys(dataToInject);
       if (!dataKeys.length) {
         return state;
@@ -38,12 +56,12 @@ const historyViewDataReducer = (state = {}, action) => {
         selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
       if (Object.keys(epSubState).length !== 0) {
         updatedState =
-          viewRangeAdd(updatedState, viewId, epSubState);
+          viewRangeAdd(updatedState, viewId, epSubState, historyConfig);
       }
       return updatedState;
     }
-    case types.WS_VIEWDATA_CLEAN: {
-      const { viewId, previousDataMap, dataMap, configuration } = action.payload;
+    case WS_VIEWDATA_CLEAN: {
+      const { previousDataMap, dataMap, configuration } = action.payload;
       let updatedState = state;
       updatedState = cleanCurrentViewData(
         updatedState,
@@ -55,6 +73,20 @@ const historyViewDataReducer = (state = {}, action) => {
       );
       return updatedState;
     }
+    case WS_VIEW_UPDATE_ENTRYPOINT_NAME: {
+      const { epId, epName } = action.payload;
+
+      return mapTabularData(state, 'history', (el) => {
+        if (el.id === epId) {
+          return {
+            ...el,
+            epName,
+          };
+        }
+
+        return el;
+      });
+    }
     default:
       return state;
   }
@@ -62,4 +94,4 @@ const historyViewDataReducer = (state = {}, action) => {
 
 export const getData = (state, { viewId }) => state.HistoryViewData[viewId];
 
-export default createScopedDataReducer(historyViewDataReducer, {}, VM_VIEW_HISTORY);
+export default createScopedDataReducer(scopedHistoryDataReducer, {}, VM_VIEW_HISTORY);

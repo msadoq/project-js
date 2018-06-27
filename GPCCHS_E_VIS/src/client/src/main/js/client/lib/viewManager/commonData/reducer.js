@@ -1,15 +1,16 @@
 import _ from 'lodash/fp';
 
 import {
-  WS_VIEW_ADD_BLANK,
-  WS_VIEW_TABLE_UPDATE_SORT,
-  WS_VIEW_CHANGE_COL_FILTERS,
   TEST_ASK_FAKE_DATA,
+  WS_VIEW_ADD_BLANK,
+  WS_VIEW_CHANGE_COL_FILTERS,
+  WS_VIEW_TABLE_SAVE_SCROLL_TOP,
+  WS_VIEW_TABLE_UPDATE_SORT,
 } from 'store/types';
 
 import createScopedDataReducer from './createScopedDataReducer';
 
-const DATA_STATE_KEY = 'state';
+export const DATA_STATE_KEY = 'state';
 
 /**
  * Insert source in the sorted array dest and return the indexes of the inserted elements
@@ -56,7 +57,11 @@ export const _shouldKeepElement = (el, filters = {}) => {
   let ret = true;
 // eslint-disable-next-line no-restricted-syntax
   for (const filterKey of Object.keys(filters)) {
-    if (el[filterKey] && `${el[filterKey]}`.indexOf(filters[filterKey]) === -1) {
+    if (
+      el[filterKey] &&
+      el[filterKey].length > 0 &&
+      `${el[filterKey]}`.indexOf(filters[filterKey]) === -1
+    ) {
       ret = false;
       break;
     }
@@ -86,43 +91,65 @@ const _updateKeptIndexes = (tableState) => {
   const filters = _.get([DATA_STATE_KEY, 'filters'], tableState);
   return _.set(
     'keep',
-    _getKeptIndexes(_.get('data', tableState), filters),
+    _getKeptIndexes(_.getOr([], 'data', tableState), filters),
     tableState
   );
 };
 
+const _resetScrollTop = tableState => _.set(
+  [DATA_STATE_KEY, 'scrollTop'],
+  0,
+  tableState
+);
+
 const _getTableState =
   (state, tableId) =>
-    _.getOr({ data: [], keep: [] }, tableId, state);
+    _.getOr(
+      { data: [], keep: [] },
+      ['tables', tableId],
+      state
+    );
 
 /**
  * Injects a range of objects, `source` in data table
  * and updates the filter keep accordingly
+ * and calls the specified callback function `cb` for each element
+ *
+ * The provided callback function `cb` takes an element
+ * and an insert index as parameters
  *
  * @param state
  * @param source {array}
  * @param tableId {string} id identifying the table to inject data in
+ * @param afterEach {function} callback function to be called on each inserted element
  * @returns {object} the updated state
  * @private
  */
-export const injectData = (
+export const injectTabularData = (
   state,
   tableId,
-  source
+  source,
+  afterEach = null
 ) => {
   let tableState = _getTableState(state, tableId);
 
-  const colName = _.get([DATA_STATE_KEY, 'sort']);
-  const filters = _.getOr({}, [DATA_STATE_KEY, 'filters']);
+  const colName = _.get([DATA_STATE_KEY, 'sort'], tableState);
+  const filters = _.getOr({}, [DATA_STATE_KEY, 'filters'], tableState);
 
   let updatedData = _.getOr([], 'data', tableState);
   let updatedKeep = _.getOr([], 'keep', tableState);
+
+  const sortedSource = _sortData(source, colName);
   let insertIndex = 0;
 
-  source.forEach((el) => {
+  sortedSource.forEach((el) => {
     // eslint-disable-next-line prefer-const
     [updatedData, insertIndex] =
       _insertSortedBy((e => e[colName]), el, updatedData, insertIndex);
+
+    if (afterEach !== null) {
+      afterEach(el, insertIndex);
+    }
 
     if (_shouldKeepElement(el, filters)) {
       let insertKeepIndexAt =
@@ -140,7 +167,10 @@ export const injectData = (
     }
   });
 
+  updatedKeep = _getKeptIndexes(updatedData, filters);
+
   tableState = {
+    ...tableState,
     data: updatedData,
     keep: updatedKeep,
   };
@@ -160,18 +190,18 @@ export const injectData = (
  * @param cond {function}
  * @return {object} the updated state
  */
-export const removeData = (state, tableId, cond) => {
+export const removeTabularData = (state, tableId, cond) => {
   let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
-    _.get('data', tableState).filter((e, i) => !cond(e, i)),
+    _.getOr([], 'data', tableState).filter((e, i) => !cond(e, i)),
     tableState
   );
 
   tableState = _updateKeptIndexes(tableState);
 
   return _.set(
-    tableId,
+    ['tables', tableId],
     tableState,
     state
   );
@@ -185,18 +215,18 @@ export const removeData = (state, tableId, cond) => {
  * @param mapFunc
  * @returns {void|*|{}}
  */
-export const mapData = (state, tableId, mapFunc) => {
+export const mapTabularData = (state, tableId, mapFunc) => {
   let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
-    _.get('data', tableState).map((e, i) => mapFunc(e, i)),
+    _.getOr([], 'data', tableState).map((e, i) => mapFunc(e, i)),
     tableState
   );
 
   tableState = _updateKeptIndexes(tableState);
 
   return _.set(
-    tableId,
+    ['tables', tableId],
     tableState,
     state
   );
@@ -209,7 +239,7 @@ export const mapData = (state, tableId, mapFunc) => {
  * @param tableId
  * @returns {Object}
  */
-export const purgeData = (state, tableId) => removeData(state, tableId, () => true);
+export const purgeTabularData = (state, tableId) => removeTabularData(state, tableId, () => true);
 
 /**
  * This is the common data reducer used to handle common data management,
@@ -251,6 +281,8 @@ const scopedCommonReducer = (dataState = {}, action) => {
 
       tableState = _updateKeptIndexes(tableState);
 
+      tableState = _resetScrollTop(tableState);
+
       return _.set(
         tablePath,
         tableState,
@@ -276,9 +308,20 @@ const scopedCommonReducer = (dataState = {}, action) => {
 
       tableState = _updateKeptIndexes(tableState);
 
+      tableState = _resetScrollTop(tableState);
+
       return _.set(
         tablePath,
         tableState,
+        dataState
+      );
+    }
+    case WS_VIEW_TABLE_SAVE_SCROLL_TOP: {
+      const { tableId, scrollTop } = action.payload;
+
+      return _.set(
+        ['tables', tableId, DATA_STATE_KEY, 'scrollTop'],
+        scrollTop,
         dataState
       );
     }
@@ -311,7 +354,7 @@ const scopedCommonReducer = (dataState = {}, action) => {
         );
       }
 
-      return injectData(dataState, tableId, fakeData);
+      return injectTabularData(dataState, tableId, fakeData);
     }
     default:
       return dataState;

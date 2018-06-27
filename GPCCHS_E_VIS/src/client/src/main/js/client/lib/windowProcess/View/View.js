@@ -140,7 +140,7 @@ export default class View extends PureComponent {
     const {
       collapsed, maximized, absolutePath, isViewsEditorOpen, isViewsSearchOpen,
       closeEditor, openEditor, openSearch, closeSearch, openModal,
-      collapseView, maximizeView, closeView, reloadView, type,
+      collapseView, maximizeView, closeView, reloadView, type, viewId,
     } = this.props;
     const editorMenu = (isViewsEditorOpen) ?
     {
@@ -160,10 +160,15 @@ export default class View extends PureComponent {
     };
     const pusViewMenu = isPusView(type) ?
     [
-      { type: 'separator' },
+        { type: 'separator' },
       {
         label: 'Compare (Alt+c)',
-        click: () => openModal({ type: 'pusCompareModal', title: 'PUS Compare...' }),
+        click: () =>
+            openModal({
+              viewId,
+              type: 'pusCompareModal',
+              title: 'PUS Compare...',
+            }),
       },
       {
         label: 'Reset (Alt+r)',
@@ -178,7 +183,7 @@ export default class View extends PureComponent {
         click: () => openModal({ type: 'pusSynchronizeModal', title: 'PUS Synchronize...' }),
       },
     ] :
-    []
+      []
     ;
     const isPathDefined = !!absolutePath;
 
@@ -221,11 +226,11 @@ export default class View extends PureComponent {
         label: 'Export as image...',
         click: () => {
           domtoimage.toPng(this.domref)
-          .then(
-            (dataUrl) => {
-              this.props.exportAsImage(dataUrl);
-            }
-          ).catch(
+            .then(
+              (dataUrl) => {
+                this.props.exportAsImage(dataUrl);
+              }
+            ).catch(
             (error) => {
               this.props.exportAsImageHasFailed('error in processing dom into png data --- ', error.message);
             }
@@ -270,7 +275,9 @@ export default class View extends PureComponent {
     // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (
       <div
-        ref={(div) => { this.domref = div; }}
+        ref={(div) => {
+          this.domref = div;
+        }}
         className={classnames('subdiv', styles.container, 'w100', !maximized && 'h100')}
         style={this.borderColorStyle(borderColor)}
         onContextMenu={() => handleContextMenu(mainMenu)}
@@ -283,21 +290,21 @@ export default class View extends PureComponent {
           onContextMenu={() => handleContextMenu(mainMenu)}
         />
         {!collapsed &&
-          <div
-            className={styles.content}
-            style={this.backgroundColorStyle(backgroundColor)}
-          >
-            <MessagesContainer containerId={viewId} />
-            <ContentComponent
-              viewId={viewId}
-              pageId={pageId}
-              openInspector={args => askOpenInspector(pageId, viewId, type, args)}
-              isViewsEditorOpen={isViewsEditorOpen}
-              openEditor={openEditor}
-              closeEditor={closeEditor}
-              mainMenu={mainMenu}
-            />
-          </div>
+        <div
+          className={styles.content}
+          style={this.backgroundColorStyle(backgroundColor)}
+        >
+          <MessagesContainer containerId={viewId} />
+          <ContentComponent
+            viewId={viewId}
+            pageId={pageId}
+            openInspector={args => askOpenInspector(pageId, viewId, type, args)}
+            isViewsEditorOpen={isViewsEditorOpen}
+            openEditor={openEditor}
+            closeEditor={closeEditor}
+            mainMenu={mainMenu}
+          />
+        </div>
         }
       </div>
     );

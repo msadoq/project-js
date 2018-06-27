@@ -7,7 +7,15 @@ import * as types from '../types';
 export const initialize = simple(types.PUS_TEMP_INITIALIZE, 'pusId', 'apId');
 export const subscribe = simple(types.PUS_TEMP_SUBSCRIBE, 'pusId', 'apId');
 export const unsubscribe = simple(types.PUS_TEMP_UNSUBSCRIBE, 'pusId', 'apId');
-export const compare = simple(types.PUS_TEMP_COMPARE, 'pusId', 'apId', 'date');
+export const compare =
+  simple(
+    types.PUS_TEMP_COMPARE,
+    'domainId',
+    'sessionId',
+    'apId',
+    'date',
+    'shouldStartComparisonTool'
+  );
 export const reset = simple(types.PUS_TEMP_RESET, 'pusId', 'apId', 'date');
 
 export const incomingPusRange = simple(types.INCOMING_PUS_RANGE_DATA, 'data');

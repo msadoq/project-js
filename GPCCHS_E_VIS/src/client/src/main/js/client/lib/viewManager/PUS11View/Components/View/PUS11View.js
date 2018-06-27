@@ -165,10 +165,12 @@ export default class PUS11View extends React.Component {
           </div>
           <div className="header">
             <div className="col-sm-6">
-              <VirtualizedTableViewContainer
-                viewId={viewId}
-                tableId={'subSchedules'}
-              />
+              <div style={{ height: 400 }}>
+                <VirtualizedTableViewContainer
+                  viewId={viewId}
+                  tableId={'subSchedules'}
+                />
+              </div>
             </div>
             <div className="clearfix" />
             <div className="col-sm-6">

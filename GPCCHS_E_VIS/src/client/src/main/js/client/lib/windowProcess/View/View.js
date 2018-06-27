@@ -163,11 +163,11 @@ export default class View extends PureComponent {
       { type: 'separator' },
       {
         label: 'Compare (Alt+c)',
-        click: () => console.log('Compare requested'),
+        click: () => openModal({ type: 'pusCompareModal', title: 'PUS Compare...' }),
       },
       {
         label: 'Reset (Alt+r)',
-        click: () => console.log('Reset requested'),
+        click: () => openModal({ type: 'pusResetModal', title: 'PUS Reset...' }),
       },
       {
         label: 'Save in file (Alt+s)',
@@ -175,7 +175,7 @@ export default class View extends PureComponent {
       },
       {
         label: 'Synchronize',
-        click: () => console.log('Synchronize requested'),
+        click: () => openModal({ type: 'pusSynchronizeModal', title: 'PUS Synchronize...' }),
       },
     ] :
     []

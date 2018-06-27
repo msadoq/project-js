@@ -1,16 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus015Model');
-const { getPus015Model } = require('../stubs');
+const stub = require('./pus015Model.stub')();
 
 
 
@@ -18,54 +11,62 @@ describe('protobuf/isis/pusGroundModel/Pus015Model', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus015Model.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus015Model');
-  const fixture = getPus015Model();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      groundDate: { type: 'time', value: fixture.groundDate },
-      apid: { type: 'uinteger', value: fixture.apid },
-      noPacketStores: { type: 'uinteger', value: fixture.noPacketStores },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      groundDate: { type: 'time', value: stub.groundDate },
+      apid: { type: 'uinteger', value: stub.apid },
+      noPacketStores: { type: 'uinteger', value: stub.noPacketStores },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      status: { type: 'uinteger', value: fixture.status },
+      status: { type: 'uinteger', value: stub.status },
     });
-    
-    json.pus015PacketStore.should.be.an('array').that.have.lengthOf(fixture.pus015PacketStore.length);
-    for (let i = 0; i < fixture.pus015PacketStore.length; i += 1) {
-      json.pus015PacketStore[i].should.be.an('object').that.have.properties({
-        name: { type: 'string', value: fixture.pus015PacketStore[i].name },
-        id: { type: 'uinteger', value: fixture.pus015PacketStore[i].id },
-        status: { type: 'uinteger', value: fixture.pus015PacketStore[i].status },
-        storageType: { type: 'string', value: fixture.pus015PacketStore[i].storageType },
-        dumpEnabled: { type: 'boolean', value: fixture.pus015PacketStore[i].dumpEnabled },
+    expect(decoded.pus015PacketStore).toHaveLength(stub.pus015PacketStore.length);
+    for (let i = 0; i < stub.pus015PacketStore.length; i += 1) {
+      expect(decoded.pus015PacketStore[i]).toMatchObject({
+        name: { type: 'string', value: stub.pus015PacketStore[i].name },
+        id: { type: 'uinteger', value: stub.pus015PacketStore[i].id },
+        status: { type: 'uinteger', value: stub.pus015PacketStore[i].status },
+        storageType: { type: 'string', value: stub.pus015PacketStore[i].storageType },
+        dumpEnabled: { type: 'boolean', value: stub.pus015PacketStore[i].dumpEnabled },
         pusElement: {
-          lastUpdateMode: { type: 'uinteger', value: fixture.pus015PacketStore[i].pusElement.lastUpdateMode },
-          lastUpdateTime: { type: 'time', value: fixture.pus015PacketStore[i].pusElement.lastUpdateTime },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus015PacketStore[i].pusElement.lastUpdateMode },
+          lastUpdateTime: { type: 'time', value: stub.pus015PacketStore[i].pusElement.lastUpdateTime },
         },
-        hkStatusParameterName: { type: 'string', value: fixture.pus015PacketStore[i].hkStatusParameterName },
+        hkStatusParameterName: { type: 'string', value: stub.pus015PacketStore[i].hkStatusParameterName },
+        lastUpdateModeStoreId: { type: 'uinteger', value: stub.pus015PacketStore[i].lastUpdateModeStoreId },
+        lastUpdateTimeStoreId: { type: 'time', value: stub.pus015PacketStore[i].lastUpdateTimeStoreId },
+        lastUpdateModeStoreType: { type: 'uinteger', value: stub.pus015PacketStore[i].lastUpdateModeStoreType },
+        lastUpdateTimeStoreType: { type: 'time', value: stub.pus015PacketStore[i].lastUpdateTimeStoreType },
+        lastUpdateModeStoreStatus: { type: 'uinteger', value: stub.pus015PacketStore[i].lastUpdateModeStoreStatus },
+        lastUpdateTimeStoreStatus: { type: 'time', value: stub.pus015PacketStore[i].lastUpdateTimeStoreStatus },
       });
-      json.pus015PacketStore[i].pus015Packet.should.be.an('array').that.have.lengthOf(fixture.pus015PacketStore[i].pus015Packet.length);
-      for (let ii = 0; ii < fixture.pus015PacketStore[i].pus015Packet.length; ii += 1) {
-        json.pus015PacketStore[i].pus015Packet[ii].should.be.an('object').that.have.properties({
-          apid: { type: 'uinteger', value: fixture.pus015PacketStore[i].pus015Packet[ii].apid },
-          serviceType: { type: 'uinteger', value: fixture.pus015PacketStore[i].pus015Packet[ii].serviceType },
-          serviceSubType: { type: 'uinteger', value: fixture.pus015PacketStore[i].pus015Packet[ii].serviceSubType },
-          sid: { type: 'uinteger', value: fixture.pus015PacketStore[i].pus015Packet[ii].sid },
-          subsamplingRatio: { type: 'uinteger', value: fixture.pus015PacketStore[i].pus015Packet[ii].subsamplingRatio },
+      expect(decoded.pus015PacketStore[i].pus015Packet).toHaveLength(stub.pus015PacketStore[i].pus015Packet.length);
+      for (let ii = 0; ii < stub.pus015PacketStore[i].pus015Packet.length; ii += 1) {
+        expect(decoded.pus015PacketStore[i].pus015Packet[ii]).toMatchObject({
+          apid: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].apid },
+          serviceType: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].serviceType },
+          serviceSubType: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].serviceSubType },
+          sid: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].sid },
+          subsamplingRatio: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].subsamplingRatio },
           pusElement: {
-            lastUpdateMode: { type: 'uinteger', value: fixture.pus015PacketStore[i].pus015Packet[ii].pusElement.lastUpdateMode },
-            lastUpdateTime: { type: 'time', value: fixture.pus015PacketStore[i].pus015Packet[ii].pusElement.lastUpdateTime },
+            lastUpdateMode: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].pusElement.lastUpdateMode },
+            lastUpdateTime: { type: 'time', value: stub.pus015PacketStore[i].pus015Packet[ii].pusElement.lastUpdateTime },
           },
-          packetType: { type: 'uinteger', value: fixture.pus015PacketStore[i].pus015Packet[ii].packetType },
-          sidLabel: { type: 'string', value: fixture.pus015PacketStore[i].pus015Packet[ii].sidLabel },
-          isSubsamplingRatioSet: { type: 'boolean', value: fixture.pus015PacketStore[i].pus015Packet[ii].isSubsamplingRatioSet },
+          packetType: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].packetType },
+          sidLabel: { type: 'string', value: stub.pus015PacketStore[i].pus015Packet[ii].sidLabel },
+          isSubsamplingRatioSet: { type: 'boolean', value: stub.pus015PacketStore[i].pus015Packet[ii].isSubsamplingRatioSet },
+          lastUpdateModePacketId: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateModePacketId },
+          lastUpdateTimePacketId: { type: 'time', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateTimePacketId },
+          lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateModeSubSamplingRatio },
+          lastUpdateTimeSubSamplingRatio: { type: 'time', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateTimeSubSamplingRatio },
         });
         
       }

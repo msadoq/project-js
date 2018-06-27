@@ -1,21 +1,17 @@
-// ====================================================================
-// HISTORY
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _map = require('lodash/map');
 const activityRequest = require('./activityRequest');
 const bLOB = require('../ccsds_mal/bLOB');
+const functionalChain = require('./functionalChain');
 const modeType = require('./modeType');
 const sTRING = require('../ccsds_mal/sTRING');
 const tIME = require('../ccsds_mal/tIME');
 
 module.exports = {
   encode: data => ({
-    functionalChains: _map(data.functionalChains, d => (bLOB.encode(d))),
+    functionalChains: _map(data.functionalChains, d => (bLOB.encode(functionalChain.encodeRaw(d)))),
     mode: (data.mode !== null && typeof data.mode !== 'undefined')
       ? data.mode
       : null,
@@ -30,7 +26,7 @@ module.exports = {
       : null,
   }),
   decode: data => ({
-    functionalChains: _map(data.functionalChains, d => (bLOB.decode(d))),
+    functionalChains: _map(data.functionalChains, d => (functionalChain.decodeRaw(bLOB.decode(d).value))),
     mode: (data.mode !== null && typeof data.mode !== 'undefined')
       ? { type: 'enum', value: data.mode, symbol: modeType[data.mode] }
       : undefined,

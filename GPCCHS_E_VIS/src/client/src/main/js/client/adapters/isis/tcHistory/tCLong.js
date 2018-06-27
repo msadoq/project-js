@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -25,11 +19,11 @@ module.exports = {
       ? pusHeader.encode(data.pusHeader)
       : null,
     tc13: _map(data.tc13, d => (bLOB.encode(d))),
-    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? bLOB.encode(data.rawPacket)
-      : null,
     generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
       ? sTRING.encode(data.generatedProcedure)
+      : null,
+    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
+      ? bLOB.encode(data.rawPacket)
       : null,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.encode(data.tcId)
@@ -50,11 +44,11 @@ module.exports = {
       ? pusHeader.decode(data.pusHeader)
       : undefined,
     tc13: _map(data.tc13, d => (bLOB.decode(d))),
-    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
-      ? bLOB.decode(data.rawPacket)
-      : undefined,
     generatedProcedure: (data.generatedProcedure !== null && typeof data.generatedProcedure !== 'undefined')
       ? sTRING.decode(data.generatedProcedure)
+      : undefined,
+    rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
+      ? bLOB.decode(data.rawPacket)
       : undefined,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.decode(data.tcId)

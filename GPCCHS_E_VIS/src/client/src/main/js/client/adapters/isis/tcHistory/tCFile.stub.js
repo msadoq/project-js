@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -15,18 +9,18 @@ const now = _now();
 
 const tCFile = {
   encodingDate: now,
-  fileReference: 'mySTRING',
   pusHeader: getPusHeader(),
-  partition: 'mySTRING',
+  fileReference: 'mySTRING',
   rawPacket: Buffer.alloc(4, 1),
+  partition: 'mySTRING',
   tcId: -100,
   tc13: [Buffer.alloc(4, 1), Buffer.alloc(4, 1)],
-  tcSourceId: 100,
   generatedProcedure: 'mySTRING',
-  fileUri: 'mySTRING',
+  tcSourceId: 100,
   sequenceCount: 1000,
-  fileType: 'mySTRING',
+  fileUri: 'mySTRING',
   parameterPhysicalValue: ['mySTRING', 'mySTRING'],
+  fileType: 'mySTRING',
   fileChecksum: 1000,
 };
 

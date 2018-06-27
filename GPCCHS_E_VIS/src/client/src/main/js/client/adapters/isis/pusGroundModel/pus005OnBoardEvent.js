@@ -1,14 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
+const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 
 module.exports = {
@@ -28,6 +23,24 @@ module.exports = {
     reportIdLabel: (data.reportIdLabel !== null && typeof data.reportIdLabel !== 'undefined')
       ? sTRING.encode(data.reportIdLabel)
       : null,
+    lastUpdateModeReportId: (data.lastUpdateModeReportId !== null && typeof data.lastUpdateModeReportId !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeReportId)
+      : null,
+    lastUpdateTimeReportId: (data.lastUpdateTimeReportId !== null && typeof data.lastUpdateTimeReportId !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeReportId)
+      : null,
+    lastUpdateModeOnBoardStatus: (data.lastUpdateModeOnBoardStatus !== null && typeof data.lastUpdateModeOnBoardStatus !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeOnBoardStatus)
+      : null,
+    lastUpdateTimeOnBoardStatus: (data.lastUpdateTimeOnBoardStatus !== null && typeof data.lastUpdateTimeOnBoardStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeOnBoardStatus)
+      : null,
+    lastUpdateModeAlarmLevel: (data.lastUpdateModeAlarmLevel !== null && typeof data.lastUpdateModeAlarmLevel !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeAlarmLevel)
+      : null,
+    lastUpdateTimeAlarmLevel: (data.lastUpdateTimeAlarmLevel !== null && typeof data.lastUpdateTimeAlarmLevel !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeAlarmLevel)
+      : null,
   }),
   decode: data => ({
     reportId: (data.reportId !== null && typeof data.reportId !== 'undefined')
@@ -44,6 +57,24 @@ module.exports = {
       : undefined,
     reportIdLabel: (data.reportIdLabel !== null && typeof data.reportIdLabel !== 'undefined')
       ? sTRING.decode(data.reportIdLabel)
+      : undefined,
+    lastUpdateModeReportId: (data.lastUpdateModeReportId !== null && typeof data.lastUpdateModeReportId !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeReportId)
+      : undefined,
+    lastUpdateTimeReportId: (data.lastUpdateTimeReportId !== null && typeof data.lastUpdateTimeReportId !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeReportId)
+      : undefined,
+    lastUpdateModeOnBoardStatus: (data.lastUpdateModeOnBoardStatus !== null && typeof data.lastUpdateModeOnBoardStatus !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeOnBoardStatus)
+      : undefined,
+    lastUpdateTimeOnBoardStatus: (data.lastUpdateTimeOnBoardStatus !== null && typeof data.lastUpdateTimeOnBoardStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeOnBoardStatus)
+      : undefined,
+    lastUpdateModeAlarmLevel: (data.lastUpdateModeAlarmLevel !== null && typeof data.lastUpdateModeAlarmLevel !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeAlarmLevel)
+      : undefined,
+    lastUpdateTimeAlarmLevel: (data.lastUpdateTimeAlarmLevel !== null && typeof data.lastUpdateTimeAlarmLevel !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeAlarmLevel)
       : undefined,
   }),
 };

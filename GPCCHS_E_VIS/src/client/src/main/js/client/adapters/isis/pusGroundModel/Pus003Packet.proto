@@ -1,12 +1,7 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/BOOLEAN.proto";
 import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
 import "./PusElement.proto";
 
@@ -14,7 +9,7 @@ import "./PusElement.proto";
 package pusGroundModel.protobuf;
 
 message Pus003Packet {
-extensions 10 to 110;
+extensions 22 to 122;
 
   optional ccsds_mal.protobuf.UINTEGER sid = 1;
   optional ccsds_mal.protobuf.UINTEGER validityParameterId = 2;
@@ -25,4 +20,16 @@ extensions 10 to 110;
   optional pusGroundModel.protobuf.PusElement pusElement = 7;
   optional ccsds_mal.protobuf.STRING sidLabel = 8;
   optional ccsds_mal.protobuf.BOOLEAN isCollectionIntervalSet = 9;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSid = 10;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeSid = 11;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 12;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStatus = 13;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamId = 14;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamId = 15;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamMask = 16;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamMask = 17;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamExpValue = 18;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamExpValue = 19;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCollectInterval = 20;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeCollectInterval = 21;
 }

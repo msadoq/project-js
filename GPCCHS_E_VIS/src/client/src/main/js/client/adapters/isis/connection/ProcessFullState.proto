@@ -1,20 +1,16 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/LONG.proto";
 import "../ccsds_mal/STRING.proto";
+import "./ProcessInfo.proto";
 import "./ProcessState.proto";
 
 package connection.protobuf;
 
 message ProcessFullState {
-extensions 4 to 104;
+extensions 5 to 105;
 
   optional connection.protobuf.ProcessState processState = 1;
   optional ccsds_mal.protobuf.LONG processId = 2;
   optional ccsds_mal.protobuf.STRING functionOId = 3;
+  optional connection.protobuf.ProcessInfo processInfo = 4;
 }

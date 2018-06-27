@@ -1,14 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const pus014ForwardedPacket = require('./pus014ForwardedPacket');
 const sTRING = require('../ccsds_mal/sTRING');
+const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 
 module.exports = {
@@ -22,6 +17,12 @@ module.exports = {
     ridLabel: (data.ridLabel !== null && typeof data.ridLabel !== 'undefined')
       ? sTRING.encode(data.ridLabel)
       : null,
+    lastUpdateModeRid: (data.lastUpdateModeRid !== null && typeof data.lastUpdateModeRid !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeRid)
+      : null,
+    lastUpdateTimeRid: (data.lastUpdateTimeRid !== null && typeof data.lastUpdateTimeRid !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeRid)
+      : null,
   }),
   decode: data => ({
     rid: (data.rid !== null && typeof data.rid !== 'undefined')
@@ -32,6 +33,12 @@ module.exports = {
       : undefined,
     ridLabel: (data.ridLabel !== null && typeof data.ridLabel !== 'undefined')
       ? sTRING.decode(data.ridLabel)
+      : undefined,
+    lastUpdateModeRid: (data.lastUpdateModeRid !== null && typeof data.lastUpdateModeRid !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeRid)
+      : undefined,
+    lastUpdateTimeRid: (data.lastUpdateTimeRid !== null && typeof data.lastUpdateTimeRid !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeRid)
       : undefined,
   }),
 };

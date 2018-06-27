@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -56,6 +50,18 @@ module.exports = {
     useTimeShifts: (data.useTimeShifts !== null && typeof data.useTimeShifts !== 'undefined')
       ? bOOLEAN.encode(data.useTimeShifts)
       : null,
+    lastUpdateModeFreeSpace: (data.lastUpdateModeFreeSpace !== null && typeof data.lastUpdateModeFreeSpace !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeFreeSpace)
+      : null,
+    lastUpdateModeNoFreeCommands: (data.lastUpdateModeNoFreeCommands !== null && typeof data.lastUpdateModeNoFreeCommands !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeNoFreeCommands)
+      : null,
+    lastUpdateModeScheduleStatus: (data.lastUpdateModeScheduleStatus !== null && typeof data.lastUpdateModeScheduleStatus !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeScheduleStatus)
+      : null,
+    lastUpdateTimeScheduleStatus: (data.lastUpdateTimeScheduleStatus !== null && typeof data.lastUpdateTimeScheduleStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeScheduleStatus)
+      : null,
   }),
   decode: data => ({
     maxNoTc: (data.maxNoTc !== null && typeof data.maxNoTc !== 'undefined')
@@ -97,6 +103,18 @@ module.exports = {
     pus011Apid: _map(data.pus011Apid, d => (pus011Apid.decode(d))),
     useTimeShifts: (data.useTimeShifts !== null && typeof data.useTimeShifts !== 'undefined')
       ? bOOLEAN.decode(data.useTimeShifts)
+      : undefined,
+    lastUpdateModeFreeSpace: (data.lastUpdateModeFreeSpace !== null && typeof data.lastUpdateModeFreeSpace !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeFreeSpace)
+      : undefined,
+    lastUpdateModeNoFreeCommands: (data.lastUpdateModeNoFreeCommands !== null && typeof data.lastUpdateModeNoFreeCommands !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeNoFreeCommands)
+      : undefined,
+    lastUpdateModeScheduleStatus: (data.lastUpdateModeScheduleStatus !== null && typeof data.lastUpdateModeScheduleStatus !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeScheduleStatus)
+      : undefined,
+    lastUpdateTimeScheduleStatus: (data.lastUpdateTimeScheduleStatus !== null && typeof data.lastUpdateTimeScheduleStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeScheduleStatus)
       : undefined,
     referenceTimestamp: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
         ? { type: 'time', value: data.groundDate.value.toNumber() }

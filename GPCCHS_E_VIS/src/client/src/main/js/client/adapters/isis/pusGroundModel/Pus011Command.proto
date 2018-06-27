@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/BLOB.proto";
 import "../ccsds_mal/BOOLEAN.proto";
@@ -20,7 +14,7 @@ import "./PusElement.proto";
 package pusGroundModel.protobuf;
 
 message Pus011Command {
-extensions 19 to 119;
+extensions 33 to 133;
 
   optional ccsds_mal.protobuf.UINTEGER commandApid = 1;
   optional ccsds_mal.protobuf.BLOB commandBinaryProfile = 2;
@@ -40,4 +34,18 @@ extensions 19 to 119;
   optional ccsds_mal.protobuf.UINTEGER apid = 16;
   optional pusGroundModel.protobuf.PusElement pusElement = 17;
   optional ccsds_mal.protobuf.TIME groundDate = 18;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeBinProfile = 19;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeBinProfile = 20;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeGroundStatus = 21;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeGroundStatus = 22;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 23;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStatus = 24;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeInitExecTime = 25;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeInitExecTime = 26;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeTotalShiftOffset = 27;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeCurrExecTime = 28;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCurrExecTime = 29;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeTotalShiftOffset = 30;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCommandId = 31;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeCommandId = 32;
 }

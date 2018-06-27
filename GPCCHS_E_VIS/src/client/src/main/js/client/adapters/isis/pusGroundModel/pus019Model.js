@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -34,6 +28,12 @@ module.exports = {
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.encode(data.status)
       : null,
+    lastUpdateModeServiceStatus: (data.lastUpdateModeServiceStatus !== null && typeof data.lastUpdateModeServiceStatus !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeServiceStatus)
+      : null,
+    lastUpdateTimeServiceStatus: (data.lastUpdateTimeServiceStatus !== null && typeof data.lastUpdateTimeServiceStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeServiceStatus)
+      : null,
   }),
   decode: data => ({
     serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
@@ -54,6 +54,12 @@ module.exports = {
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.decode(data.status)
+      : undefined,
+    lastUpdateModeServiceStatus: (data.lastUpdateModeServiceStatus !== null && typeof data.lastUpdateModeServiceStatus !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeServiceStatus)
+      : undefined,
+    lastUpdateTimeServiceStatus: (data.lastUpdateTimeServiceStatus !== null && typeof data.lastUpdateTimeServiceStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeServiceStatus)
       : undefined,
     referenceTimestamp: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
         ? { type: 'time', value: data.groundDate.value.toNumber() }

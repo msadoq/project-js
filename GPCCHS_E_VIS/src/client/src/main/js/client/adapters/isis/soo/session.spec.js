@@ -1,15 +1,9 @@
-// ====================================================================
-// HISTORY
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./session');
-const { getSession } = require('../stubs');
+const stub = require('./session.stub')();
 
 const activityRequest = require('./activityRequest');
 const modeType = require('./modeType');
@@ -18,27 +12,27 @@ describe('protobuf/isis/soo/Session', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Session.proto`, { keepCase: true })
     .lookup('soo.protobuf.Session');
-  const fixture = getSession();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      mode: { type: 'enum', value: fixture.mode, symbol: modeType[fixture.mode] },
-      name: { type: 'string', value: fixture.name },
-      activity: { type: 'enum', value: fixture.activity, symbol: activityRequest[fixture.activity] },
-      creationDate: { type: 'time', value: fixture.creationDate },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      mode: { type: 'enum', value: stub.mode, symbol: modeType[stub.mode] },
+      name: { type: 'string', value: stub.name },
+      activity: { type: 'enum', value: stub.activity, symbol: activityRequest[stub.activity] },
+      creationDate: { type: 'time', value: stub.creationDate },
     });
-    
-    json.functionalChains.should.be.an('array').that.have.lengthOf(fixture.functionalChains.length);
-    for (let i = 0; i < fixture.functionalChains.length; i += 1) {
-      json.functionalChains[i].should.have.properties({
-        type: 'blob',
-        value: fixture.functionalChains[i],
+    expect(decoded.functionalChains).toHaveLength(stub.functionalChains.length);
+    for (let i = 0; i < stub.functionalChains.length; i += 1) {
+      expect(decoded.functionalChains[i]).toMatchObject({
+        name: { type: 'string', value: stub.functionalChains[i].name },
+        activity: { type: 'enum', value: stub.functionalChains[i].activity, symbol: activityRequest[stub.functionalChains[i].activity] },
+        creationDate: { type: 'time', value: stub.functionalChains[i].creationDate },
       });
+      
     }
   });
 });

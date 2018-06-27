@@ -1,15 +1,10 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
+const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 
 module.exports = {
@@ -41,6 +36,18 @@ module.exports = {
     isSubsamplingRatioSet: (data.isSubsamplingRatioSet !== null && typeof data.isSubsamplingRatioSet !== 'undefined')
       ? bOOLEAN.encode(data.isSubsamplingRatioSet)
       : null,
+    lastUpdateModePacketId: (data.lastUpdateModePacketId !== null && typeof data.lastUpdateModePacketId !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModePacketId)
+      : null,
+    lastUpdateTimePacketId: (data.lastUpdateTimePacketId !== null && typeof data.lastUpdateTimePacketId !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimePacketId)
+      : null,
+    lastUpdateModeSubSamplingRatio: (data.lastUpdateModeSubSamplingRatio !== null && typeof data.lastUpdateModeSubSamplingRatio !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeSubSamplingRatio)
+      : null,
+    lastUpdateTimeSubSamplingRatio: (data.lastUpdateTimeSubSamplingRatio !== null && typeof data.lastUpdateTimeSubSamplingRatio !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeSubSamplingRatio)
+      : null,
   }),
   decode: data => ({
     apid: (data.apid !== null && typeof data.apid !== 'undefined')
@@ -69,6 +76,18 @@ module.exports = {
       : undefined,
     isSubsamplingRatioSet: (data.isSubsamplingRatioSet !== null && typeof data.isSubsamplingRatioSet !== 'undefined')
       ? bOOLEAN.decode(data.isSubsamplingRatioSet)
+      : undefined,
+    lastUpdateModePacketId: (data.lastUpdateModePacketId !== null && typeof data.lastUpdateModePacketId !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModePacketId)
+      : undefined,
+    lastUpdateTimePacketId: (data.lastUpdateTimePacketId !== null && typeof data.lastUpdateTimePacketId !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimePacketId)
+      : undefined,
+    lastUpdateModeSubSamplingRatio: (data.lastUpdateModeSubSamplingRatio !== null && typeof data.lastUpdateModeSubSamplingRatio !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeSubSamplingRatio)
+      : undefined,
+    lastUpdateTimeSubSamplingRatio: (data.lastUpdateTimeSubSamplingRatio !== null && typeof data.lastUpdateTimeSubSamplingRatio !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeSubSamplingRatio)
       : undefined,
   }),
 };

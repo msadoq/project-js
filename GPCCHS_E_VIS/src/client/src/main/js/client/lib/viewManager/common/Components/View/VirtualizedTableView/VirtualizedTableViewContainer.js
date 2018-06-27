@@ -2,7 +2,11 @@ import _ from 'lodash/fp';
 
 import { connect } from 'react-redux';
 
-import { filterColumn, toggleColumnSort } from 'store/actions/tableColumns';
+import {
+  filterColumn,
+  toggleColumnSort,
+  saveScrollTop,
+} from 'store/actions/tableColumns';
 import { pause } from 'store/actions/hsc';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
@@ -29,7 +33,7 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
 
   const data = _.getOr([], 'data', tableData);
   const keep = _.getOr([], 'keep', tableData);
-
+  const scrollTopOffset = _.getOr(0, ['state', 'scrollTop'], tableData);
 
   const sortingDirection =
     _.getOr('DESC', ['sorting', 'direction'], tableConfig);
@@ -60,7 +64,6 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
 
     return { value: undefined };
   };
-  // end rows
 
   const reducedColumns = tableCols.filter(col => col.displayed);
 
@@ -73,14 +76,17 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
     columnCount: reducedColumns.length,
     sortState: sorting,
     filterState: filters,
+    scrollTopOffset,
   };
 };
 
 const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseOnScroll }) => ({
-  onScrollTop: () => {
+  onScrollTop: (scrollTop) => {
     if (pauseOnScroll) {
       dispatch(pause());
     }
+
+    dispatch(saveScrollTop(viewId, tableId, scrollTop));
   },
   onFilter: (col, value, filters) => {
     dispatch(filterColumn(viewId, tableId, col, value, filters));

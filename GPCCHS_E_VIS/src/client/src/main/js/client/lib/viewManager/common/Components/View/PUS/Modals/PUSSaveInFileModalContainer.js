@@ -2,10 +2,9 @@
 
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
-import moment from 'moment/moment';
-import { compare } from '../../../../../../store/actions/pus';
+import { saveInFile } from '../../../../../../store/actions/pus';
 
-import PUSCompareModal from './PUSCompareModal';
+import PUSSaveInFileModal from './PUSSaveInFileModal';
 import { getConfigurationByViewId } from '../../../../../selectors';
 import { getApidsByDomainIdAndSessionId } from '../../../../../../store/reducers/apids';
 import { getDomainId } from '../../../../../../store/reducers/domains';
@@ -30,10 +29,9 @@ const mapStateToProps = (state, { viewId }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId }) => ({
-  sendPUSCompareRequest: (domainId, sessionId, apId, date, shouldStartComparisonTool) => {
-    const formattedDate = moment(date).format('YYYY-MM-DD');
-    dispatch(compare(domainId, sessionId, apId, formattedDate, shouldStartComparisonTool));
+const mapDispatchToProps = dispatch => ({
+  sendPUSSaveInFileRequest: (domainId, sessionId, apId) => {
+    dispatch(saveInFile(apId));
   },
 });
 
@@ -41,11 +39,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,
   ...dispatchProps,
-  sendPUSCompareRequest: (...args) => {
+  sendPUSSaveInFileRequest: (...args) => {
     const { domainId, sessionId } = stateProps;
-    console.log(`sendPUSCompareRequest(${domainId}, ${sessionId}, ${args.join(', ')})`);
-    dispatchProps.sendPUSCompareRequest(domainId, sessionId, ...args);
+    console.log(`sendPUSSaveInFileRequest(${domainId}, ${sessionId}, ${args.join(', ')})`);
+    dispatchProps.sendPUSSaveInFileRequest(domainId, sessionId, ...args);
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(PUSCompareModal);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(PUSSaveInFileModal);

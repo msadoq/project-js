@@ -176,7 +176,12 @@ export default class View extends PureComponent {
       },
       {
         label: 'Save in file (Alt+s)',
-        click: () => console.log('Save in file requested'),
+        click: () =>
+            openModal({
+              viewId,
+              type: 'pusSaveInFileModal',
+              title: 'PUS Save in file...',
+            }),
       },
       {
         label: 'Synchronize',

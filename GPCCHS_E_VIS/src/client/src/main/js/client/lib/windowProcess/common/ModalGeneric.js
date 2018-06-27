@@ -80,6 +80,8 @@ import PUSCompareModalContainer from '../../viewManager/common/Components/View/P
 import PUSSynchronizeModalContainer
   from '../../viewManager/common/Components/View/PUS/Modals/PUSSynchronizeModalContainer';
 import PUSResetModalContainer from '../../viewManager/common/Components/View/PUS/Modals/PUSResetModalContainer';
+import PUSSaveInFileModalContainer
+  from '../../viewManager/common/Components/View/PUS/Modals/PUSSaveInFileModalContainer';
 
 /* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
 
@@ -105,19 +107,28 @@ const ModalGeneric = (props) => {
         />
       );
       break;
-    case 'pusSynchronizeModal':
+    case 'pusResetModal':
       title = props.props.title;
       child = (
-        <PUSSynchronizeModalContainer
+        <PUSResetModalContainer
           {...props.props}
           closeModal={props.onClose}
         />
       );
       break;
-    case 'pusResetModal':
+    case 'pusSaveInFileModal':
       title = props.props.title;
       child = (
-        <PUSResetModalContainer
+        <PUSSaveInFileModalContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'pusSynchronizeModal':
+      title = props.props.title;
+      child = (
+        <PUSSynchronizeModalContainer
           {...props.props}
           closeModal={props.onClose}
         />

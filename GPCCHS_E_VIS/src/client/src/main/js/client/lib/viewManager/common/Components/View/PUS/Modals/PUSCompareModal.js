@@ -24,8 +24,6 @@ class PUSCompareModal extends React.Component {
       apid: null,
       shouldStartComparisonTool: false,
     };
-
-    this.selectAPID = React.createRef();
   }
 
   _updateComparisonDate = (arr, date) => {
@@ -115,7 +113,10 @@ class PUSCompareModal extends React.Component {
               <option value={null}>-</option>
 
               {
-                apids.map(apid => <option value={apid.apidRawValue}>{apid.apidName}</option>)
+                (apids || []).map(
+                  apid =>
+                    <option value={apid.apidRawValue}>{apid.apidName}</option>
+                )
               }
             </select>
           </div>

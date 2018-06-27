@@ -110,7 +110,7 @@ class HistoryView extends React.Component {
       last,
     } = this.props;
 
-    const _setCurrent = (content = {}, cellContent = {}) => {
+    const _setCurrent = (cellContent = {}, content = {}) => {
       const { epName, referenceTimestamp } = content;
       const lastForEp = _.get(epName, last);
 

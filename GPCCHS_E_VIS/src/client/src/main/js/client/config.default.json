@@ -1,4 +1,5 @@
 {
+  "STUB_PUS_ON": "on",
   "PROFILING": "off",
   "PYTHON_EXEC_PATH": "/usr/share/isis/bin/python3",
   "SERVER_HEALTH_CRITICAL_DELAY": 500,

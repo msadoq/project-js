@@ -36,8 +36,9 @@ import { createSelector } from 'reselect';
 // import getLogger from 'common/log';
 
 import { get } from 'common/configurationManager';
+import { DATASTRUCTURETYPE_PUS } from 'constants';
 import { getDomains } from '../store/reducers/domains';
-import { getStructureModule, getDataSelectors } from '../viewManager';
+import { getStructureModule, getDataSelectors, getStructureType } from '../viewManager';
 import { getTimebarTimelinesSelector } from '../store/selectors/timebars';
 import { getView, getViewType } from '../store/reducers/views';
 import { getPageDomainName, getPageSessionName, getPageLayout } from '../store/reducers/pages';
@@ -120,16 +121,21 @@ export default function makeGetPerViewData() {
         return {};
       }
 
+      let entryPointsFilteredBySession;
       const masterTimeBarSession = viewTimelines.find(s => s.id === masterTimeBarID);
-      const entryPointsFilteredBySession = masterTimeBarSession ? filterBySession(
-        masterTimeBarSession.sessionName,
-        viewTimelines,
-        view.sessionName,
-        pageSessionName,
-        workspaceSessionName,
-        entryPoints
-      )
-      : [];
+      if (getStructureType(type) === DATASTRUCTURETYPE_PUS) {
+        entryPointsFilteredBySession = entryPoints;
+      } else {
+        entryPointsFilteredBySession = masterTimeBarSession ? filterBySession(
+          masterTimeBarSession.sessionName,
+          viewTimelines,
+          view.sessionName,
+          pageSessionName,
+          workspaceSessionName,
+          entryPoints
+          )
+          : [];
+      }
 
       return {
         type,

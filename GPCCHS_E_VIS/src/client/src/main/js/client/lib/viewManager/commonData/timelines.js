@@ -26,6 +26,10 @@ import { get } from 'common/configurationManager';
  * @returns {*}
  */
 export default function findTimelines(timelines, search) {
+  // TODO @jmira remove this condition after adding timelines in pus views
+  if (search === undefined) {
+    return { sessionName: get('WILDCARD_CHARACTER'), offset: 0 };
+  }
   if (search === get('WILDCARD_CHARACTER')) {
     return { sessionName: get('WILDCARD_CHARACTER'), offset: 0 };
   }

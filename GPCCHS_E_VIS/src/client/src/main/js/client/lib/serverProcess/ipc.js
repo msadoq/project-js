@@ -358,7 +358,7 @@ const dcVersionMap = {
 
 const pusCommands = {
   rpc: (method, trames, callback) => {
-    logger.info(`sending rpc call ${method} to dc`);
+    logger.info(`sending rpc call ${method} to pus`);
     const queryId = v4();
     setCallback(queryId, callback);
     zmq.push('pusPush', [

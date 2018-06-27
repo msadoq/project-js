@@ -22,7 +22,7 @@ import { sendArchiveQuery } from '../../actions/ObsoleteEvents';
 import { getMissingIntervals } from '../../reducers/ObsoleteEvents';
 import mergeIntervals from '../../../common/intervals/merge';
 
-const type = 'OBSOLETE_EVENT';
+// const type = 'OBSOLETE_EVENT';
 
 const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action) => {
   const execution = executionMonitor('middleware:retrieveLast');
@@ -70,7 +70,7 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
             intervals[k],
             {});
 
-          add(queryId, flatIdLogBookEvent, type, dataId);
+          add(queryId, flatIdLogBookEvent, PREFIX_OBSOLETE_EVENTS, dataId);
         }
 
         execution.start('merge interval');

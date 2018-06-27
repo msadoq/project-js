@@ -2,9 +2,9 @@ import * as types from 'store/types';
 import { newPusData } from 'store/actions/pus';
 
 
-const preparePusRange = () => ({ dispatch }) => next => (action) => {
+const preparePus = () => ({ dispatch }) => next => (action) => {
   const nextAction = next(action);
-  if (action.type !== types.INCOMING_PUS_RANGE_DATA) {
+  if (action.type !== types.INCOMING_PUS_DATA) {
     return nextAction;
   }
   const data = action.payload.data;
@@ -13,4 +13,4 @@ const preparePusRange = () => ({ dispatch }) => next => (action) => {
   return nextAction;
 };
 
-export default preparePusRange;
+export default preparePus;

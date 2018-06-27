@@ -47,9 +47,9 @@ export default function parseEntryPoint(
 
   // field = undefined
   const { dataId, field, offset } = cd;
+
   // compute tbdId = flat DataId + filters
   const tbdId = flattenDataId(dataId, cd.filters, cd.mode);
-
   const ep = {
     [name]: {
       id,
@@ -61,6 +61,8 @@ export default function parseEntryPoint(
       filters: cd.filters,
       mode: cd.mode,
       type: viewType,
+      apidName: connectedData.apidName || null,
+      apidRawValue: connectedData.apidRawValue || null,
     },
   };
   if (stateColors) {

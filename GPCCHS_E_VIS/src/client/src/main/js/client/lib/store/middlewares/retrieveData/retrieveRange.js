@@ -31,7 +31,7 @@ import mergeIntervals from 'common/intervals/merge';
 import executionMonitor from 'common/logManager/execution';
 import { PREFIX_KNOWN_RANGES } from 'constants';
 
-const type = 'RANGE';
+// const type = 'RANGE';
 
 const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
   const execution = executionMonitor('middleware:retrieveRange');
@@ -67,7 +67,7 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
             { filters, alarmMode: { mode } }
           );
 
-          add(queryId, tbdId, type, dataId);
+          add(queryId, tbdId, PREFIX_KNOWN_RANGES, dataId);
         }
 
         execution.start('merge interval');

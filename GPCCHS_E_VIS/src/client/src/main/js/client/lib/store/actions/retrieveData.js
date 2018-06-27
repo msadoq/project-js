@@ -13,4 +13,5 @@ import * as types from '../types';
  */
 export const viewsNeedRange = simple(types.VIEWS_NEED_RANGE, 'neededRangeData');
 export const viewsNeedLast = simple(types.VIEWS_NEED_LAST, 'neededLastData');
+export const viewsNeedPus = simple(types.VIEWS_NEED_PUS, 'neededPusData');
 export const viewsNeedObsoleteEvent = simple(types.VIEWS_NEED_OBSOLETE_EVENT, 'neededObsoleteEventData');

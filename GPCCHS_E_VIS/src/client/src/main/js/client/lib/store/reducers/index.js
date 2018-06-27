@@ -57,6 +57,7 @@ import health from './health';
 import codeEditor from './codeEditor';
 import inspector from './inspector';
 import knownRanges from './knownRanges';
+import knownPus from './pus';
 import ObsoleteEvents from './ObsoleteEvents';
 import ui from './ui';
 import catalogs from './catalogs';
@@ -91,6 +92,7 @@ const rootReducer = combineReducers({
   rte,
   knownRanges,
   ObsoleteEvents,
+  knownPus,
   comObjectMap,
   ...getConfigurationReducers(),
   ...getDataReducers(),

@@ -125,16 +125,6 @@ export default class HistoryEntryPointConnectedDataFields extends PureComponent 
             />
           </HorizontalFormGroup>
 
-          <HorizontalFormGroup label="Ref. timestamp" className={classForTimeBasedValues}>
-            <RefTimestampFieldContainer
-              domainName={selectedDomainName}
-              timelineId={selectedTimelineId}
-              catalogName={selectedCatalogName}
-              itemName={selectedItemName}
-              comObjectName={selectedComObjectName} // FIXME: are all those fields required ?
-            />
-          </HorizontalFormGroup>
-
           <HorizontalFormGroup label="Provider" className={classForTimeBasedValues}>
             <ProviderFieldContainer />
           </HorizontalFormGroup>

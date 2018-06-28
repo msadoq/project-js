@@ -4,7 +4,6 @@ import {
   TEST_ASK_FAKE_DATA,
   WS_VIEW_ADD_BLANK,
   WS_VIEW_CHANGE_COL_FILTERS,
-  WS_VIEW_TABLE_SAVE_SCROLL_TOP,
   WS_VIEW_TABLE_UPDATE_SORT,
 } from 'store/types';
 
@@ -320,15 +319,6 @@ const scopedCommonReducer = (dataState = {}, action) => {
       return _.set(
         tablePath,
         tableState,
-        dataState
-      );
-    }
-    case WS_VIEW_TABLE_SAVE_SCROLL_TOP: {
-      const { tableId, scrollTop } = action.payload;
-
-      return _.set(
-        ['tables', tableId, DATA_STATE_KEY, 'scrollTop'],
-        scrollTop,
         dataState
       );
     }

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import {
   filterColumn,
   toggleColumnSort,
-  saveScrollTop,
 } from 'store/actions/tableColumns';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';

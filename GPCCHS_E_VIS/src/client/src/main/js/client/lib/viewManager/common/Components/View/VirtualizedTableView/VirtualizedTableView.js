@@ -415,16 +415,15 @@ class VirtualizedTableView extends React.Component {
                           scrollLeft,
                           scrollTop,
                         }
-                      ) => {
-                        return (
-                          <div className={styles.GridRow}>
-                            {bodyCellOverlay}
-                            <div className={styles.GridColumn}>
-                              <ArrowKeyStepper
-                                columnCount={columnCount}
-                                rowCount={updatedRowCount}
-                              >
-                                {
+                      ) => (
+                        <div className={styles.GridRow}>
+                          {bodyCellOverlay}
+                          <div className={styles.GridColumn}>
+                            <ArrowKeyStepper
+                              columnCount={columnCount}
+                              rowCount={updatedRowCount}
+                            >
+                              {
                                   ({ onSectionRendered, scrollToColumn, scrollToRow }) => (
                                     <div>
                                       {
@@ -499,11 +498,10 @@ class VirtualizedTableView extends React.Component {
                                     </div>
                                   )
                                 }
-                              </ArrowKeyStepper>
-                            </div>
+                            </ArrowKeyStepper>
                           </div>
-                        );
-                      }
+                        </div>
+                        )
                     }
                   </ScrollSync>
                 </div>

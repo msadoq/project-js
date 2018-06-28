@@ -136,7 +136,6 @@ class HistoryView extends React.Component {
             contentModifier={_setCurrent}
             overrideStyle={this._overrideStyle}
             withGroups
-            pauseOnScroll
           />
         </DroppableContainer>
       </ErrorBoundary>

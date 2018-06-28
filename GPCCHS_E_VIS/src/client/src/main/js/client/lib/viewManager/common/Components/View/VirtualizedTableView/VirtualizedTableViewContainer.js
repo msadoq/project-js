@@ -80,9 +80,6 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
 };
 
 const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => ({
-  onScrollTop: (scrollTop) => {
-    dispatch(saveScrollTop(viewId, tableId, scrollTop));
-  },
   onFilter: (col, value, filters) => {
     dispatch(filterColumn(viewId, tableId, col, value, filters));
   },

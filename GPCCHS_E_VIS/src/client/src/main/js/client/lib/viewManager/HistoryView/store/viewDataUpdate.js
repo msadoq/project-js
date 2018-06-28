@@ -33,14 +33,16 @@ const logger = getLogger('data:rangeValues');
  * @param viewId
  * @param payloads
  * @param historyConfig
+ * @param visuWindow
  */
-export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
+export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWindow = {}) {
   const epKeys = Object.keys(payloads || {});
   if (!epKeys.length) {
     return state;
   }
 
   let updatedState = state;
+  const { current } = visuWindow;
 
   Object.keys(payloads).forEach(
     (ep) => {
@@ -65,11 +67,20 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
 
         if (
           !last ||
-          (referenceTimestamp && (last < referenceTimestamp))
+          (
+            referenceTimestamp &&
+            (last < referenceTimestamp) &&
+            (referenceTimestamp < current)
+          )
         ) {
           _last = _.set(
-            epName,
+            [epName, 'referenceTimestamp'],
             referenceTimestamp,
+            _last
+          );
+          _last = _.set(
+            [epName, 'index'],
+            insertIndex,
             _last
           );
         }

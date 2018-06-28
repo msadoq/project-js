@@ -43,7 +43,13 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
       );
     }
     case INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations }
+      const {
+        dataToInject,
+        newViewMap,
+        newExpectedRangeIntervals,
+        configurations,
+        visuWindow,
+      }
         = action.payload;
 
       const historyConfig = configurations.HistoryViewConfiguration[viewId];
@@ -57,7 +63,7 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
         selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
       if (Object.keys(epSubState).length !== 0) {
         updatedState =
-          viewRangeAdd(updatedState, viewId, epSubState, historyConfig);
+          viewRangeAdd(updatedState, viewId, epSubState, historyConfig, visuWindow);
       }
       return updatedState;
     }

@@ -172,7 +172,12 @@ export default class View extends PureComponent {
       },
       {
         label: 'Reset (Alt+r)',
-        click: () => openModal({ type: 'pusResetModal', title: 'PUS Reset...' }),
+        click: () =>
+          openModal({
+            viewId,
+            type: 'pusResetModal',
+            title: 'PUS Reset...',
+          }),
       },
       {
         label: 'Save in file (Alt+s)',

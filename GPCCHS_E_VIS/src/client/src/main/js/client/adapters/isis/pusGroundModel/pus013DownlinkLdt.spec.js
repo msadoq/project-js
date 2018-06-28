@@ -1,16 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus013DownlinkLdt');
-const { getPus013DownlinkLdt } = require('../stubs');
+const stub = require('./pus013DownlinkLdt.stub')();
 
 
 
@@ -18,40 +11,56 @@ describe('protobuf/isis/pusGroundModel/Pus013DownlinkLdt', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus013DownlinkLdt.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus013DownlinkLdt');
-  const fixture = getPus013DownlinkLdt();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      receptionTimerArmed: { type: 'boolean', value: fixture.receptionTimerArmed },
-      receptionTimerDeadline: { type: 'time', value: fixture.receptionTimerDeadline },
-      groundDate: { type: 'long', symbol: `${fixture.groundDate}` },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      receptionTimerArmed: { type: 'boolean', value: stub.receptionTimerArmed },
+      receptionTimerDeadline: { type: 'time', value: stub.receptionTimerDeadline },
+      groundDate: { type: 'long', symbol: `${stub.groundDate}` },
       pus013Ldt: {
-        startTime: { type: 'time', value: fixture.pus013Ldt.startTime },
-        endTime: { type: 'time', value: fixture.pus013Ldt.endTime },
-        transferType: { type: 'uinteger', value: fixture.pus013Ldt.transferType },
-        lduId: { type: 'uinteger', value: fixture.pus013Ldt.lduId },
-        status: { type: 'uinteger', value: fixture.pus013Ldt.status },
-        size: { type: 'uinteger', value: fixture.pus013Ldt.size },
-        remainingSize: { type: 'integer', value: fixture.pus013Ldt.remainingSize },
-        percent: { type: 'uinteger', value: fixture.pus013Ldt.percent },
-        failureCode: { type: 'uinteger', value: fixture.pus013Ldt.failureCode },
-        fileId: { type: 'uinteger', value: fixture.pus013Ldt.fileId },
-        partitionId: { type: 'uinteger', value: fixture.pus013Ldt.partitionId },
-        fileChecksum: { type: 'string', value: fixture.pus013Ldt.fileChecksum },
-        fileTypeCode: { type: 'uinteger', value: fixture.pus013Ldt.fileTypeCode },
-        noLDTParts: { type: 'uinteger', value: fixture.pus013Ldt.noLDTParts },
+        startTime: { type: 'time', value: stub.pus013Ldt.startTime },
+        endTime: { type: 'time', value: stub.pus013Ldt.endTime },
+        transferType: { type: 'uinteger', value: stub.pus013Ldt.transferType },
+        lduId: { type: 'uinteger', value: stub.pus013Ldt.lduId },
+        status: { type: 'uinteger', value: stub.pus013Ldt.status },
+        size: { type: 'uinteger', value: stub.pus013Ldt.size },
+        remainingSize: { type: 'integer', value: stub.pus013Ldt.remainingSize },
+        percent: { type: 'uinteger', value: stub.pus013Ldt.percent },
+        failureCode: { type: 'string', value: stub.pus013Ldt.failureCode },
+        fileId: { type: 'uinteger', value: stub.pus013Ldt.fileId },
+        partitionId: { type: 'uinteger', value: stub.pus013Ldt.partitionId },
+        fileChecksum: { type: 'string', value: stub.pus013Ldt.fileChecksum },
+        fileTypeCode: { type: 'uinteger', value: stub.pus013Ldt.fileTypeCode },
+        noLDTParts: { type: 'uinteger', value: stub.pus013Ldt.noLDTParts },
         pusElement: {
-          lastUpdateMode: { type: 'uinteger', value: fixture.pus013Ldt.pusElement.lastUpdateMode },
-          lastUpdateTime: { type: 'time', value: fixture.pus013Ldt.pusElement.lastUpdateTime },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus013Ldt.pusElement.lastUpdateMode },
+          lastUpdateTime: { type: 'time', value: stub.pus013Ldt.pusElement.lastUpdateTime },
         },
+        lastUpdateModeLduId: { type: 'uinteger', value: stub.pus013Ldt.lastUpdateModeLduId },
+        lastUpdateTimeLduId: { type: 'time', value: stub.pus013Ldt.lastUpdateTimeLduId },
+        lastUpdateModeSize: { type: 'uinteger', value: stub.pus013Ldt.lastUpdateModeSize },
+        lastUpdateTimeSize: { type: 'time', value: stub.pus013Ldt.lastUpdateTimeSize },
+        lastUpdateModeStartTime: { type: 'uinteger', value: stub.pus013Ldt.lastUpdateModeStartTime },
+        lastUpdateTimeStartTime: { type: 'time', value: stub.pus013Ldt.lastUpdateTimeStartTime },
+        lastUpdateModeEndTime: { type: 'uinteger', value: stub.pus013Ldt.lastUpdateModeEndTime },
+        lastUpdateTimeEndTime: { type: 'time', value: stub.pus013Ldt.lastUpdateTimeEndTime },
+        lastUpdateModeStatus: { type: 'uinteger', value: stub.pus013Ldt.lastUpdateModeStatus },
+        lastUpdateTimeStatus: { type: 'time', value: stub.pus013Ldt.lastUpdateTimeStatus },
+        lastUpdateModeRemainSize: { type: 'uinteger', value: stub.pus013Ldt.lastUpdateModeRemainSize },
+        lastUpdateTimeRemainSize: { type: 'time', value: stub.pus013Ldt.lastUpdateTimeRemainSize },
+        lastUpdateModePercent: { type: 'uinteger', value: stub.pus013Ldt.lastUpdateModePercent },
+        lastUpdateTimePercent: { type: 'time', value: stub.pus013Ldt.lastUpdateTimePercent },
+        lastUpdateModeFailureCode: { type: 'uinteger', value: stub.pus013Ldt.lastUpdateModeFailureCode },
+        lastUpdateTimeFailureCode: { type: 'time', value: stub.pus013Ldt.lastUpdateTimeFailureCode },
+        lastUpdateModeFileChecksum: { type: 'uinteger', value: stub.pus013Ldt.lastUpdateModeFileChecksum },
+        lastUpdateTimeFileChecksum: { type: 'time', value: stub.pus013Ldt.lastUpdateTimeFileChecksum },
       },
     });
-    
     
   });
 });

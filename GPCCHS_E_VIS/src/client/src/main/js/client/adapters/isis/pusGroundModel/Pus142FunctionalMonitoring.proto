@@ -1,11 +1,6 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
 import "./Pus142ParameterMonitoringDefinition.proto";
 import "./PusElement.proto";
@@ -14,7 +9,7 @@ import "./PusElement.proto";
 package pusGroundModel.protobuf;
 
 message Pus142FunctionalMonitoring {
-extensions 13 to 113;
+extensions 29 to 129;
 
   optional ccsds_mal.protobuf.UINTEGER fmonId = 1;
   optional ccsds_mal.protobuf.STRING protectionStatus = 2;
@@ -28,4 +23,20 @@ extensions 13 to 113;
   optional pusGroundModel.protobuf.PusElement pusElement = 10;
   optional ccsds_mal.protobuf.STRING ridLabel = 11;
   optional ccsds_mal.protobuf.STRING fmonIdLabel = 12;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeFMonId = 13;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeFMonId = 14;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeProtectionStatus = 15;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeProtectionStatus = 16;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCheckingStatus = 17;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeCheckingStatus = 18;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 19;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStatus = 20;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeRid = 21;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeRid = 22;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamId = 23;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamId = 24;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamMask = 25;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamMask = 26;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamExpectedValue = 27;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamExpectedValue = 28;
 }

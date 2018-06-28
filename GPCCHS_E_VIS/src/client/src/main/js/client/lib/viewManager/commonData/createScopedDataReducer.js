@@ -19,16 +19,23 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
       case HSC_CLOSE_WORKSPACE:
         return {};
       case WS_VIEW_OPENED:
-      case WS_VIEW_ADD_BLANK:
+      case WS_VIEW_ADD_BLANK: {
         if (action.payload.view.type !== viewType) {
           return state;
         }
 
-        return _.set(
-          [action.payload.view.uuid],
+        const viewId = action.payload.view.uuid;
+
+        const updatedState = _.set(
+          viewId,
           initialState,
           state
         );
+        return {
+          ...updatedState,
+          [viewId]: scopedDataReducer(updatedState[viewId], action, viewId),
+        };
+      }
       case WS_PAGE_OPENED:
       case WS_WORKSPACE_OPENED: {
         const { views } = action.payload;
@@ -67,25 +74,24 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
       default: {
         const viewId = _.get(['payload', 'viewId'], action);
 
-        if (viewId && state[viewId]) {
+        if (viewId && state[viewId]) { // scoped action
           return _.set(
             viewId,
-            scopedDataReducer(state[viewId], action),
+            scopedDataReducer(state[viewId], action, viewId),
             state
           );
         }
 
         let updatedState = state;
 
-        if (!viewId) { // multicast action
-          Object.keys(updatedState).forEach((viewKey) => {
-            updatedState = _.set(
-              viewId,
-              scopedDataReducer(state[viewKey], action),
-              state
-            );
-          });
-        }
+        // multicast
+        Object.keys(updatedState).forEach((viewKey) => {
+          updatedState = _.set(
+            viewKey,
+            scopedDataReducer(state[viewKey], action, viewKey),
+            state
+          );
+        });
 
         return updatedState;
       }

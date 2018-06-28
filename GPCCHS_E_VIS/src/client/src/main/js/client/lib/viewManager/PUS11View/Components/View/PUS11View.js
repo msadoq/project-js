@@ -21,7 +21,7 @@ export default class PUS11View extends React.Component {
     lastUpdateType: PropTypes.string.isRequired,
     // from container's mapDispatchToProps
     // openModal: func.isRequired,
-    askFakeData: PropTypes.func.isRequired,
+    // askFakeData: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -82,57 +82,57 @@ export default class PUS11View extends React.Component {
   //     </table>
   //   );
   // }
-  componentDidMount() {
-    const { viewId, askFakeData } = this.props;
-
-    askFakeData(
-      viewId,
-      'subSchedules',
-      [
-        {
-          ssid: 87,
-          ssidLabel: 'xxx',
-          name: 'xxx',
-          status: 'disabled',
-          firstTCTime: 1527520025823,
-          updateType: 'TM',
-          updateTime: 1527520025823,
-          nbTc: 1,
-        },
-        {
-          ssid: 90,
-          ssidLabel: 'xxx',
-          name: 'xxx',
-          status: 'disabled',
-          firstTCTime: 1527520025823,
-          updateType: 'TM',
-          updateTime: 1527520025823,
-          nbTc: 1,
-        },
-        {
-          ssid: 247,
-          ssidLabel: 'xxx',
-          name: 'xxx',
-          status: 'disabled',
-          firstTCTime: 1527520025823,
-          updateType: 'TM',
-          updateTime: 1527520025823,
-          nbTc: 1,
-        },
-        {
-          ssid: 642,
-          ssidLabel: 'xxx',
-          name: 'xxx',
-          status: 'disabled',
-          firstTCTime: 1527520025823,
-          updateType: 'TM',
-          updateTime: 1527520025823,
-          nbTc: 1,
-        },
-      ],
-      20
-    );
-  }
+  // componentDidMount() {
+  //   const { viewId, askFakeData } = this.props;
+  //
+  //   askFakeData(
+  //     viewId,
+  //     'subSchedules',
+  //     [
+  //       {
+  //         ssid: 87,
+  //         ssidLabel: 'xxx',
+  //         name: 'xxx',
+  //         status: 'disabled',
+  //         firstTCTime: 1527520025823,
+  //         updateType: 'TM',
+  //         updateTime: 1527520025823,
+  //         nbTc: 1,
+  //       },
+  //       {
+  //         ssid: 90,
+  //         ssidLabel: 'xxx',
+  //         name: 'xxx',
+  //         status: 'disabled',
+  //         firstTCTime: 1527520025823,
+  //         updateType: 'TM',
+  //         updateTime: 1527520025823,
+  //         nbTc: 1,
+  //       },
+  //       {
+  //         ssid: 247,
+  //         ssidLabel: 'xxx',
+  //         name: 'xxx',
+  //         status: 'disabled',
+  //         firstTCTime: 1527520025823,
+  //         updateType: 'TM',
+  //         updateTime: 1527520025823,
+  //         nbTc: 1,
+  //       },
+  //       {
+  //         ssid: 642,
+  //         ssidLabel: 'xxx',
+  //         name: 'xxx',
+  //         status: 'disabled',
+  //         firstTCTime: 1527520025823,
+  //         updateType: 'TM',
+  //         updateTime: 1527520025823,
+  //         nbTc: 1,
+  //       },
+  //     ],
+  //     20
+  //   );
+  // }
 
   render() {
     const {
@@ -165,10 +165,12 @@ export default class PUS11View extends React.Component {
           </div>
           <div className="header">
             <div className="col-sm-6">
-              <VirtualizedTableViewContainer
-                viewId={viewId}
-                tableId={'subSchedules'}
-              />
+              <div style={{ height: 400 }}>
+                <VirtualizedTableViewContainer
+                  viewId={viewId}
+                  tableId={'subSchedules'}
+                />
+              </div>
             </div>
             <div className="clearfix" />
             <div className="col-sm-6">

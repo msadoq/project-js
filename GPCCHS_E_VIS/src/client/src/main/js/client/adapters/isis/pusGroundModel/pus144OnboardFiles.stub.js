@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -26,6 +20,24 @@ const pus144OnboardFiles = {
   computedFileChecksum: 'mySTRING',
   pusElement: getPusElement(),
   isFileSizeSet: true,
+  lastUpdateModeOnBoardFileId: 100,
+  lastUpdateTimeOnBoardFileId: now,
+  lastUpdateModeFileProtectionStatus: 100,
+  lastUpdateTimeFileProtectionStatus: now,
+  lastUpdateModeFileAddress: 100,
+  lastUpdateTimeFileAddress: now,
+  lastUpdateModeFileMode: 100,
+  lastUpdateTimeFileMode: now,
+  lastUpdateModeFileType: 100,
+  lastUpdateTimeFileType: now,
+  lastUpdateModeFileSize: 100,
+  lastUpdateTimeFileSize: now,
+  lastUpdateModeUploadedChecksum: 100,
+  lastUpdateTimeUploadedChecksum: now,
+  lastUpdateModeFileCreationTime: 100,
+  lastUpdateTimeFileCreationTime: now,
+  lastUpdateModeComputedChecksum: 100,
+  lastUpdateTimeComputedChecksum: now,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus144OnboardFiles) : pus144OnboardFiles);

@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -25,11 +19,11 @@ module.exports = {
       ? pusHeader.encode(data.pusHeader)
       : null,
     timeTaggedTC: _map(data.timeTaggedTC, d => (bLOB.encode(d))),
-    subscheduleId: (data.subscheduleId !== null && typeof data.subscheduleId !== 'undefined')
-      ? uINTEGER.encode(data.subscheduleId)
-      : null,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? bLOB.encode(data.rawPacket)
+      : null,
+    subscheduleId: (data.subscheduleId !== null && typeof data.subscheduleId !== 'undefined')
+      ? uINTEGER.encode(data.subscheduleId)
       : null,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.encode(data.tcId)
@@ -50,11 +44,11 @@ module.exports = {
       ? pusHeader.decode(data.pusHeader)
       : undefined,
     timeTaggedTC: _map(data.timeTaggedTC, d => (bLOB.decode(d))),
-    subscheduleId: (data.subscheduleId !== null && typeof data.subscheduleId !== 'undefined')
-      ? uINTEGER.decode(data.subscheduleId)
-      : undefined,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? bLOB.decode(data.rawPacket)
+      : undefined,
+    subscheduleId: (data.subscheduleId !== null && typeof data.subscheduleId !== 'undefined')
+      ? uINTEGER.decode(data.subscheduleId)
       : undefined,
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? iNTEGER.decode(data.tcId)

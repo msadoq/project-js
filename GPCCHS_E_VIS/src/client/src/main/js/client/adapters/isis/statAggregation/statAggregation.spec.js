@@ -1,15 +1,9 @@
-// ====================================================================
-// HISTORY
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./statAggregation');
-const { getStatAggregation } = require('../stubs');
+const stub = require('./statAggregation.stub')();
 
 
 
@@ -17,22 +11,23 @@ describe('protobuf/isis/statAggregation/StatAggregation', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/StatAggregation.proto`, { keepCase: true })
     .lookup('statAggregation.protobuf.StatAggregation');
-  const fixture = getStatAggregation();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      statDate: { type: 'time', value: fixture.statDate },
-      statValue: {
-        related: { type: 'long', symbol: `${fixture.statValue.related}` },
-        attrValue: { type: 'double', symbol: fixture.statValue.attrValue.toString() },
-      },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      statDate: { type: 'time', value: stub.statDate },
     });
-    
-    
+    expect(decoded.statValue).toHaveLength(stub.statValue.length);
+    for (let i = 0; i < stub.statValue.length; i += 1) {
+      expect(decoded.statValue[i]).toMatchObject({
+        related: { type: 'long', symbol: `${stub.statValue[i].related}` },
+        attrValue: { type: 'double', symbol: stub.statValue[i].attrValue.toString() },
+      });
+      
+    }
   });
 });

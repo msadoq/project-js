@@ -1,15 +1,10 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const pusElement = require('./pusElement');
 const sTRING = require('../ccsds_mal/sTRING');
+const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 
 module.exports = {
@@ -41,6 +36,42 @@ module.exports = {
     isCollectionIntervalSet: (data.isCollectionIntervalSet !== null && typeof data.isCollectionIntervalSet !== 'undefined')
       ? bOOLEAN.encode(data.isCollectionIntervalSet)
       : null,
+    lastUpdateModeSid: (data.lastUpdateModeSid !== null && typeof data.lastUpdateModeSid !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeSid)
+      : null,
+    lastUpdateTimeSid: (data.lastUpdateTimeSid !== null && typeof data.lastUpdateTimeSid !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeSid)
+      : null,
+    lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeStatus)
+      : null,
+    lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeStatus)
+      : null,
+    lastUpdateModeValidParamId: (data.lastUpdateModeValidParamId !== null && typeof data.lastUpdateModeValidParamId !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeValidParamId)
+      : null,
+    lastUpdateTimeValidParamId: (data.lastUpdateTimeValidParamId !== null && typeof data.lastUpdateTimeValidParamId !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeValidParamId)
+      : null,
+    lastUpdateModeValidParamMask: (data.lastUpdateModeValidParamMask !== null && typeof data.lastUpdateModeValidParamMask !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeValidParamMask)
+      : null,
+    lastUpdateTimeValidParamMask: (data.lastUpdateTimeValidParamMask !== null && typeof data.lastUpdateTimeValidParamMask !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeValidParamMask)
+      : null,
+    lastUpdateModeValidParamExpValue: (data.lastUpdateModeValidParamExpValue !== null && typeof data.lastUpdateModeValidParamExpValue !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeValidParamExpValue)
+      : null,
+    lastUpdateTimeValidParamExpValue: (data.lastUpdateTimeValidParamExpValue !== null && typeof data.lastUpdateTimeValidParamExpValue !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeValidParamExpValue)
+      : null,
+    lastUpdateModeCollectInterval: (data.lastUpdateModeCollectInterval !== null && typeof data.lastUpdateModeCollectInterval !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeCollectInterval)
+      : null,
+    lastUpdateTimeCollectInterval: (data.lastUpdateTimeCollectInterval !== null && typeof data.lastUpdateTimeCollectInterval !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeCollectInterval)
+      : null,
   }),
   decode: data => ({
     sid: (data.sid !== null && typeof data.sid !== 'undefined')
@@ -69,6 +100,42 @@ module.exports = {
       : undefined,
     isCollectionIntervalSet: (data.isCollectionIntervalSet !== null && typeof data.isCollectionIntervalSet !== 'undefined')
       ? bOOLEAN.decode(data.isCollectionIntervalSet)
+      : undefined,
+    lastUpdateModeSid: (data.lastUpdateModeSid !== null && typeof data.lastUpdateModeSid !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeSid)
+      : undefined,
+    lastUpdateTimeSid: (data.lastUpdateTimeSid !== null && typeof data.lastUpdateTimeSid !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeSid)
+      : undefined,
+    lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeStatus)
+      : undefined,
+    lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeStatus)
+      : undefined,
+    lastUpdateModeValidParamId: (data.lastUpdateModeValidParamId !== null && typeof data.lastUpdateModeValidParamId !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeValidParamId)
+      : undefined,
+    lastUpdateTimeValidParamId: (data.lastUpdateTimeValidParamId !== null && typeof data.lastUpdateTimeValidParamId !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeValidParamId)
+      : undefined,
+    lastUpdateModeValidParamMask: (data.lastUpdateModeValidParamMask !== null && typeof data.lastUpdateModeValidParamMask !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeValidParamMask)
+      : undefined,
+    lastUpdateTimeValidParamMask: (data.lastUpdateTimeValidParamMask !== null && typeof data.lastUpdateTimeValidParamMask !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeValidParamMask)
+      : undefined,
+    lastUpdateModeValidParamExpValue: (data.lastUpdateModeValidParamExpValue !== null && typeof data.lastUpdateModeValidParamExpValue !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeValidParamExpValue)
+      : undefined,
+    lastUpdateTimeValidParamExpValue: (data.lastUpdateTimeValidParamExpValue !== null && typeof data.lastUpdateTimeValidParamExpValue !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeValidParamExpValue)
+      : undefined,
+    lastUpdateModeCollectInterval: (data.lastUpdateModeCollectInterval !== null && typeof data.lastUpdateModeCollectInterval !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeCollectInterval)
+      : undefined,
+    lastUpdateTimeCollectInterval: (data.lastUpdateTimeCollectInterval !== null && typeof data.lastUpdateTimeCollectInterval !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeCollectInterval)
       : undefined,
   }),
 };

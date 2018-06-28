@@ -1,13 +1,8 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const lONG = require('../ccsds_mal/lONG');
+const processInfo = require('./processInfo');
 const processState = require('./processState');
 const sTRING = require('../ccsds_mal/sTRING');
 
@@ -22,6 +17,9 @@ module.exports = {
     functionOId: (data.functionOId !== null && typeof data.functionOId !== 'undefined')
       ? sTRING.encode(data.functionOId)
       : null,
+    processInfo: (data.processInfo !== null && typeof data.processInfo !== 'undefined')
+      ? processInfo.encode(data.processInfo)
+      : null,
   }),
   decode: data => ({
     processState: (data.processState !== null && typeof data.processState !== 'undefined')
@@ -32,6 +30,9 @@ module.exports = {
       : undefined,
     functionOId: (data.functionOId !== null && typeof data.functionOId !== 'undefined')
       ? sTRING.decode(data.functionOId)
+      : undefined,
+    processInfo: (data.processInfo !== null && typeof data.processInfo !== 'undefined')
+      ? processInfo.decode(data.processInfo)
       : undefined,
   }),
 };

@@ -1,16 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus012MonitoringCheckProperties');
-const { getPus012MonitoringCheckProperties } = require('../stubs');
+const stub = require('./pus012MonitoringCheckProperties.stub')();
 
 
 
@@ -18,24 +11,32 @@ describe('protobuf/isis/pusGroundModel/Pus012MonitoringCheckProperties', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus012MonitoringCheckProperties.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus012MonitoringCheckProperties');
-  const fixture = getPus012MonitoringCheckProperties();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      ridStatus: { type: 'uinteger', value: fixture.ridStatus },
-      actionStatus: { type: 'uinteger', value: fixture.actionStatus },
-      value: { type: 'string', value: fixture.value },
-      rid: { type: 'uinteger', value: fixture.rid },
-      mask: { type: 'string', value: fixture.mask },
-      actionName: { type: 'string', value: fixture.actionName },
-      ridLabel: { type: 'string', value: fixture.ridLabel },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      ridStatus: { type: 'uinteger', value: stub.ridStatus },
+      actionStatus: { type: 'uinteger', value: stub.actionStatus },
+      value: { type: 'string', value: stub.value },
+      rid: { type: 'uinteger', value: stub.rid },
+      mask: { type: 'string', value: stub.mask },
+      actionName: { type: 'string', value: stub.actionName },
+      ridLabel: { type: 'string', value: stub.ridLabel },
+      lastUpdateModeRid: { type: 'uinteger', value: stub.lastUpdateModeRid },
+      lastUpdateTimeRid: { type: 'time', value: stub.lastUpdateTimeRid },
+      lastUpdateModeActionStatus: { type: 'uinteger', value: stub.lastUpdateModeActionStatus },
+      lastUpdateTimeActionStatus: { type: 'time', value: stub.lastUpdateTimeActionStatus },
+      lastUpdateModeRidStatus: { type: 'uinteger', value: stub.lastUpdateModeRidStatus },
+      lastUpdateTimeRidStatus: { type: 'time', value: stub.lastUpdateTimeRidStatus },
+      lastUpdateModeMask: { type: 'uinteger', value: stub.lastUpdateModeMask },
+      lastUpdateTimeMask: { type: 'time', value: stub.lastUpdateTimeMask },
+      lastUpdateModeValue: { type: 'uinteger', value: stub.lastUpdateModeValue },
+      lastUpdateTimeValue: { type: 'time', value: stub.lastUpdateTimeValue },
     });
-    
     
   });
 });

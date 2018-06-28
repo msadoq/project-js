@@ -1,16 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus015Packet');
-const { getPus015Packet } = require('../stubs');
+const stub = require('./pus015Packet.stub')();
 
 
 
@@ -18,29 +11,31 @@ describe('protobuf/isis/pusGroundModel/Pus015Packet', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus015Packet.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus015Packet');
-  const fixture = getPus015Packet();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      apid: { type: 'uinteger', value: fixture.apid },
-      serviceType: { type: 'uinteger', value: fixture.serviceType },
-      serviceSubType: { type: 'uinteger', value: fixture.serviceSubType },
-      sid: { type: 'uinteger', value: fixture.sid },
-      subsamplingRatio: { type: 'uinteger', value: fixture.subsamplingRatio },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      apid: { type: 'uinteger', value: stub.apid },
+      serviceType: { type: 'uinteger', value: stub.serviceType },
+      serviceSubType: { type: 'uinteger', value: stub.serviceSubType },
+      sid: { type: 'uinteger', value: stub.sid },
+      subsamplingRatio: { type: 'uinteger', value: stub.subsamplingRatio },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      packetType: { type: 'uinteger', value: fixture.packetType },
-      sidLabel: { type: 'string', value: fixture.sidLabel },
-      isSubsamplingRatioSet: { type: 'boolean', value: fixture.isSubsamplingRatioSet },
+      packetType: { type: 'uinteger', value: stub.packetType },
+      sidLabel: { type: 'string', value: stub.sidLabel },
+      isSubsamplingRatioSet: { type: 'boolean', value: stub.isSubsamplingRatioSet },
+      lastUpdateModePacketId: { type: 'uinteger', value: stub.lastUpdateModePacketId },
+      lastUpdateTimePacketId: { type: 'time', value: stub.lastUpdateTimePacketId },
+      lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.lastUpdateModeSubSamplingRatio },
+      lastUpdateTimeSubSamplingRatio: { type: 'time', value: stub.lastUpdateTimeSubSamplingRatio },
     });
-    
     
   });
 });

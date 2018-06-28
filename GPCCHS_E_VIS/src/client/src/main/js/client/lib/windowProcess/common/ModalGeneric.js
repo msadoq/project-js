@@ -76,6 +76,12 @@ import SaveWizardModalContainer from './SaveWizardModal/SaveWizardModalContainer
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
 import PUS05ModalContainer from '../../viewManager/PUS05View/Components/View/PUS05ModalContainer';
 import PUS11ModalContainer from '../../viewManager/PUS11View/Components/View/PUS11ModalContainer';
+import PUSCompareModalContainer from '../../viewManager/common/Components/View/PUS/Modals/PUSCompareModalContainer';
+import PUSSynchronizeModalContainer
+  from '../../viewManager/common/Components/View/PUS/Modals/PUSSynchronizeModalContainer';
+import PUSResetModalContainer from '../../viewManager/common/Components/View/PUS/Modals/PUSResetModalContainer';
+import PUSSaveInFileModalContainer
+  from '../../viewManager/common/Components/View/PUS/Modals/PUSSaveInFileModalContainer';
 
 /* eslint-disable complexity, "DV6 TBC_CNES Generic elements must have an action for each cases using this element" */
 
@@ -87,6 +93,42 @@ const ModalGeneric = (props) => {
       title = props.props.title;
       child = (
         <DialogModal
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'pusCompareModal':
+      title = props.props.title;
+      child = (
+        <PUSCompareModalContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'pusResetModal':
+      title = props.props.title;
+      child = (
+        <PUSResetModalContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'pusSaveInFileModal':
+      title = props.props.title;
+      child = (
+        <PUSSaveInFileModalContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'pusSynchronizeModal':
+      title = props.props.title;
+      child = (
+        <PUSSynchronizeModalContainer
           {...props.props}
           closeModal={props.onClose}
         />

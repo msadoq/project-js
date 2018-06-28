@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -21,16 +15,16 @@ module.exports = {
     eventDate: (data.eventDate !== null && typeof data.eventDate !== 'undefined')
       ? tIME.encode(data.eventDate)
       : null,
-    systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
-      ? tIME.encode(data.systemDate)
-      : null,
     user: (data.user !== null && typeof data.user !== 'undefined')
       ? bLOB.encode(user.encodeRaw(data.user))
       : null,
+    systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
+      ? tIME.encode(data.systemDate)
+      : null,
+    specificAttributes: _map(data.specificAttributes, d => (namedValue.encode(d))),
     mission: (data.mission !== null && typeof data.mission !== 'undefined')
       ? sTRING.encode(data.mission)
       : null,
-    specificAttributes: _map(data.specificAttributes, d => (namedValue.encode(d))),
     satellite: (data.satellite !== null && typeof data.satellite !== 'undefined')
       ? uLONG.encode(data.satellite)
       : null,
@@ -42,16 +36,16 @@ module.exports = {
     eventDate: (data.eventDate !== null && typeof data.eventDate !== 'undefined')
       ? tIME.decode(data.eventDate)
       : undefined,
-    systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
-      ? tIME.decode(data.systemDate)
-      : undefined,
     user: (data.user !== null && typeof data.user !== 'undefined')
       ? user.decodeRaw(bLOB.decode(data.user).value)
       : undefined,
+    systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
+      ? tIME.decode(data.systemDate)
+      : undefined,
+    specificAttributes: _map(data.specificAttributes, d => (namedValue.decode(d))),
     mission: (data.mission !== null && typeof data.mission !== 'undefined')
       ? sTRING.decode(data.mission)
       : undefined,
-    specificAttributes: _map(data.specificAttributes, d => (namedValue.decode(d))),
     satellite: (data.satellite !== null && typeof data.satellite !== 'undefined')
       ? uLONG.decode(data.satellite)
       : undefined,

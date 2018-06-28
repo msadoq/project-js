@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -71,6 +65,48 @@ module.exports = {
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
       ? tIME.encode(data.groundDate)
       : null,
+    lastUpdateModeBinProfile: (data.lastUpdateModeBinProfile !== null && typeof data.lastUpdateModeBinProfile !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeBinProfile)
+      : null,
+    lastUpdateTimeBinProfile: (data.lastUpdateTimeBinProfile !== null && typeof data.lastUpdateTimeBinProfile !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeBinProfile)
+      : null,
+    lastUpdateModeGroundStatus: (data.lastUpdateModeGroundStatus !== null && typeof data.lastUpdateModeGroundStatus !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeGroundStatus)
+      : null,
+    lastUpdateTimeGroundStatus: (data.lastUpdateTimeGroundStatus !== null && typeof data.lastUpdateTimeGroundStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeGroundStatus)
+      : null,
+    lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeStatus)
+      : null,
+    lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeStatus)
+      : null,
+    lastUpdateModeInitExecTime: (data.lastUpdateModeInitExecTime !== null && typeof data.lastUpdateModeInitExecTime !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeInitExecTime)
+      : null,
+    lastUpdateTimeInitExecTime: (data.lastUpdateTimeInitExecTime !== null && typeof data.lastUpdateTimeInitExecTime !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeInitExecTime)
+      : null,
+    lastUpdateModeTotalShiftOffset: (data.lastUpdateModeTotalShiftOffset !== null && typeof data.lastUpdateModeTotalShiftOffset !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeTotalShiftOffset)
+      : null,
+    lastUpdateTimeCurrExecTime: (data.lastUpdateTimeCurrExecTime !== null && typeof data.lastUpdateTimeCurrExecTime !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeCurrExecTime)
+      : null,
+    lastUpdateModeCurrExecTime: (data.lastUpdateModeCurrExecTime !== null && typeof data.lastUpdateModeCurrExecTime !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeCurrExecTime)
+      : null,
+    lastUpdateTimeTotalShiftOffset: (data.lastUpdateTimeTotalShiftOffset !== null && typeof data.lastUpdateTimeTotalShiftOffset !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeTotalShiftOffset)
+      : null,
+    lastUpdateModeCommandId: (data.lastUpdateModeCommandId !== null && typeof data.lastUpdateModeCommandId !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeCommandId)
+      : null,
+    lastUpdateTimeCommandId: (data.lastUpdateTimeCommandId !== null && typeof data.lastUpdateTimeCommandId !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeCommandId)
+      : null,
   }),
   decode: data => ({
     commandApid: (data.commandApid !== null && typeof data.commandApid !== 'undefined')
@@ -122,6 +158,48 @@ module.exports = {
       : undefined,
     groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
       ? tIME.decode(data.groundDate)
+      : undefined,
+    lastUpdateModeBinProfile: (data.lastUpdateModeBinProfile !== null && typeof data.lastUpdateModeBinProfile !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeBinProfile)
+      : undefined,
+    lastUpdateTimeBinProfile: (data.lastUpdateTimeBinProfile !== null && typeof data.lastUpdateTimeBinProfile !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeBinProfile)
+      : undefined,
+    lastUpdateModeGroundStatus: (data.lastUpdateModeGroundStatus !== null && typeof data.lastUpdateModeGroundStatus !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeGroundStatus)
+      : undefined,
+    lastUpdateTimeGroundStatus: (data.lastUpdateTimeGroundStatus !== null && typeof data.lastUpdateTimeGroundStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeGroundStatus)
+      : undefined,
+    lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeStatus)
+      : undefined,
+    lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeStatus)
+      : undefined,
+    lastUpdateModeInitExecTime: (data.lastUpdateModeInitExecTime !== null && typeof data.lastUpdateModeInitExecTime !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeInitExecTime)
+      : undefined,
+    lastUpdateTimeInitExecTime: (data.lastUpdateTimeInitExecTime !== null && typeof data.lastUpdateTimeInitExecTime !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeInitExecTime)
+      : undefined,
+    lastUpdateModeTotalShiftOffset: (data.lastUpdateModeTotalShiftOffset !== null && typeof data.lastUpdateModeTotalShiftOffset !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeTotalShiftOffset)
+      : undefined,
+    lastUpdateTimeCurrExecTime: (data.lastUpdateTimeCurrExecTime !== null && typeof data.lastUpdateTimeCurrExecTime !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeCurrExecTime)
+      : undefined,
+    lastUpdateModeCurrExecTime: (data.lastUpdateModeCurrExecTime !== null && typeof data.lastUpdateModeCurrExecTime !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeCurrExecTime)
+      : undefined,
+    lastUpdateTimeTotalShiftOffset: (data.lastUpdateTimeTotalShiftOffset !== null && typeof data.lastUpdateTimeTotalShiftOffset !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeTotalShiftOffset)
+      : undefined,
+    lastUpdateModeCommandId: (data.lastUpdateModeCommandId !== null && typeof data.lastUpdateModeCommandId !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeCommandId)
+      : undefined,
+    lastUpdateTimeCommandId: (data.lastUpdateTimeCommandId !== null && typeof data.lastUpdateTimeCommandId !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeCommandId)
       : undefined,
     referenceTimestamp: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
         ? { type: 'time', value: data.groundDate.value.toNumber() }

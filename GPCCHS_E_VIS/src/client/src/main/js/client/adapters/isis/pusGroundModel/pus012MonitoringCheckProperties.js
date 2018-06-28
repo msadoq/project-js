@@ -1,13 +1,8 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const sTRING = require('../ccsds_mal/sTRING');
+const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 
 module.exports = {
@@ -33,6 +28,36 @@ module.exports = {
     ridLabel: (data.ridLabel !== null && typeof data.ridLabel !== 'undefined')
       ? sTRING.encode(data.ridLabel)
       : null,
+    lastUpdateModeRid: (data.lastUpdateModeRid !== null && typeof data.lastUpdateModeRid !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeRid)
+      : null,
+    lastUpdateTimeRid: (data.lastUpdateTimeRid !== null && typeof data.lastUpdateTimeRid !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeRid)
+      : null,
+    lastUpdateModeActionStatus: (data.lastUpdateModeActionStatus !== null && typeof data.lastUpdateModeActionStatus !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeActionStatus)
+      : null,
+    lastUpdateTimeActionStatus: (data.lastUpdateTimeActionStatus !== null && typeof data.lastUpdateTimeActionStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeActionStatus)
+      : null,
+    lastUpdateModeRidStatus: (data.lastUpdateModeRidStatus !== null && typeof data.lastUpdateModeRidStatus !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeRidStatus)
+      : null,
+    lastUpdateTimeRidStatus: (data.lastUpdateTimeRidStatus !== null && typeof data.lastUpdateTimeRidStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeRidStatus)
+      : null,
+    lastUpdateModeMask: (data.lastUpdateModeMask !== null && typeof data.lastUpdateModeMask !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeMask)
+      : null,
+    lastUpdateTimeMask: (data.lastUpdateTimeMask !== null && typeof data.lastUpdateTimeMask !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeMask)
+      : null,
+    lastUpdateModeValue: (data.lastUpdateModeValue !== null && typeof data.lastUpdateModeValue !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeValue)
+      : null,
+    lastUpdateTimeValue: (data.lastUpdateTimeValue !== null && typeof data.lastUpdateTimeValue !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeValue)
+      : null,
   }),
   decode: data => ({
     ridStatus: (data.ridStatus !== null && typeof data.ridStatus !== 'undefined')
@@ -55,6 +80,36 @@ module.exports = {
       : undefined,
     ridLabel: (data.ridLabel !== null && typeof data.ridLabel !== 'undefined')
       ? sTRING.decode(data.ridLabel)
+      : undefined,
+    lastUpdateModeRid: (data.lastUpdateModeRid !== null && typeof data.lastUpdateModeRid !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeRid)
+      : undefined,
+    lastUpdateTimeRid: (data.lastUpdateTimeRid !== null && typeof data.lastUpdateTimeRid !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeRid)
+      : undefined,
+    lastUpdateModeActionStatus: (data.lastUpdateModeActionStatus !== null && typeof data.lastUpdateModeActionStatus !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeActionStatus)
+      : undefined,
+    lastUpdateTimeActionStatus: (data.lastUpdateTimeActionStatus !== null && typeof data.lastUpdateTimeActionStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeActionStatus)
+      : undefined,
+    lastUpdateModeRidStatus: (data.lastUpdateModeRidStatus !== null && typeof data.lastUpdateModeRidStatus !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeRidStatus)
+      : undefined,
+    lastUpdateTimeRidStatus: (data.lastUpdateTimeRidStatus !== null && typeof data.lastUpdateTimeRidStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeRidStatus)
+      : undefined,
+    lastUpdateModeMask: (data.lastUpdateModeMask !== null && typeof data.lastUpdateModeMask !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeMask)
+      : undefined,
+    lastUpdateTimeMask: (data.lastUpdateTimeMask !== null && typeof data.lastUpdateTimeMask !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeMask)
+      : undefined,
+    lastUpdateModeValue: (data.lastUpdateModeValue !== null && typeof data.lastUpdateModeValue !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeValue)
+      : undefined,
+    lastUpdateTimeValue: (data.lastUpdateTimeValue !== null && typeof data.lastUpdateTimeValue !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeValue)
       : undefined,
   }),
 };

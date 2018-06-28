@@ -1,16 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus011SubSchedule');
-const { getPus011SubSchedule } = require('../stubs');
+const stub = require('./pus011SubSchedule.stub')();
 
 
 
@@ -18,27 +11,31 @@ describe('protobuf/isis/pusGroundModel/Pus011SubSchedule', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus011SubSchedule.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus011SubSchedule');
-  const fixture = getPus011SubSchedule();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      ssId: { type: 'uinteger', value: fixture.ssId },
-      status: { type: 'uinteger', value: fixture.status },
-      executionTimeFirstTc: { type: 'ulong', symbol: `${fixture.executionTimeFirstTc}` },
-      apid: { type: 'uinteger', value: fixture.apid },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      ssId: { type: 'uinteger', value: stub.ssId },
+      status: { type: 'uinteger', value: stub.status },
+      executionTimeFirstTc: { type: 'time', value: stub.executionTimeFirstTc },
+      apid: { type: 'uinteger', value: stub.apid },
       pusElement: {
-        lastUpdateMode: { type: 'uinteger', value: fixture.pusElement.lastUpdateMode },
-        lastUpdateTime: { type: 'time', value: fixture.pusElement.lastUpdateTime },
+        lastUpdateMode: { type: 'uinteger', value: stub.pusElement.lastUpdateMode },
+        lastUpdateTime: { type: 'time', value: stub.pusElement.lastUpdateTime },
       },
-      groundDate: { type: 'time', value: fixture.groundDate },
-      ssIdLabel: { type: 'string', value: fixture.ssIdLabel },
+      groundDate: { type: 'time', value: stub.groundDate },
+      ssIdLabel: { type: 'string', value: stub.ssIdLabel },
+      lastUpdateModeStatus: { type: 'uinteger', value: stub.lastUpdateModeStatus },
+      lastUpdateTimeStatus: { type: 'time', value: stub.lastUpdateTimeStatus },
+      lastUpdateModeExecTimeFirstTc: { type: 'uinteger', value: stub.lastUpdateModeExecTimeFirstTc },
+      lastUpdateTimeExecTimeFirstTc: { type: 'time', value: stub.lastUpdateTimeExecTimeFirstTc },
+      lastUpdateModeSsId: { type: 'uinteger', value: stub.lastUpdateModeSsId },
+      lastUpdateTimeSsId: { type: 'time', value: stub.lastUpdateTimeSsId },
     });
-    
     
   });
 });

@@ -1,0 +1,13 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/STRING.proto";
+
+
+package file.protobuf;
+
+message CompareDiffParameter {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.STRING propertyName = 1;
+  optional ccsds_mal.protobuf.STRING leftPropertyValue = 2;
+  optional ccsds_mal.protobuf.STRING rigthPropertyValue = 3;
+}

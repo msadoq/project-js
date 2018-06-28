@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -42,7 +36,7 @@ module.exports = {
       ? uINTEGER.encode(data.percent)
       : null,
     failureCode: (data.failureCode !== null && typeof data.failureCode !== 'undefined')
-      ? uINTEGER.encode(data.failureCode)
+      ? sTRING.encode(data.failureCode)
       : null,
     fileId: (data.fileId !== null && typeof data.fileId !== 'undefined')
       ? uINTEGER.encode(data.fileId)
@@ -62,6 +56,60 @@ module.exports = {
       : null,
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')
       ? pusElement.encode(data.pusElement)
+      : null,
+    lastUpdateModeLduId: (data.lastUpdateModeLduId !== null && typeof data.lastUpdateModeLduId !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeLduId)
+      : null,
+    lastUpdateTimeLduId: (data.lastUpdateTimeLduId !== null && typeof data.lastUpdateTimeLduId !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeLduId)
+      : null,
+    lastUpdateModeSize: (data.lastUpdateModeSize !== null && typeof data.lastUpdateModeSize !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeSize)
+      : null,
+    lastUpdateTimeSize: (data.lastUpdateTimeSize !== null && typeof data.lastUpdateTimeSize !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeSize)
+      : null,
+    lastUpdateModeStartTime: (data.lastUpdateModeStartTime !== null && typeof data.lastUpdateModeStartTime !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeStartTime)
+      : null,
+    lastUpdateTimeStartTime: (data.lastUpdateTimeStartTime !== null && typeof data.lastUpdateTimeStartTime !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeStartTime)
+      : null,
+    lastUpdateModeEndTime: (data.lastUpdateModeEndTime !== null && typeof data.lastUpdateModeEndTime !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeEndTime)
+      : null,
+    lastUpdateTimeEndTime: (data.lastUpdateTimeEndTime !== null && typeof data.lastUpdateTimeEndTime !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeEndTime)
+      : null,
+    lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeStatus)
+      : null,
+    lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeStatus)
+      : null,
+    lastUpdateModeRemainSize: (data.lastUpdateModeRemainSize !== null && typeof data.lastUpdateModeRemainSize !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeRemainSize)
+      : null,
+    lastUpdateTimeRemainSize: (data.lastUpdateTimeRemainSize !== null && typeof data.lastUpdateTimeRemainSize !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeRemainSize)
+      : null,
+    lastUpdateModePercent: (data.lastUpdateModePercent !== null && typeof data.lastUpdateModePercent !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModePercent)
+      : null,
+    lastUpdateTimePercent: (data.lastUpdateTimePercent !== null && typeof data.lastUpdateTimePercent !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimePercent)
+      : null,
+    lastUpdateModeFailureCode: (data.lastUpdateModeFailureCode !== null && typeof data.lastUpdateModeFailureCode !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeFailureCode)
+      : null,
+    lastUpdateTimeFailureCode: (data.lastUpdateTimeFailureCode !== null && typeof data.lastUpdateTimeFailureCode !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeFailureCode)
+      : null,
+    lastUpdateModeFileChecksum: (data.lastUpdateModeFileChecksum !== null && typeof data.lastUpdateModeFileChecksum !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeFileChecksum)
+      : null,
+    lastUpdateTimeFileChecksum: (data.lastUpdateTimeFileChecksum !== null && typeof data.lastUpdateTimeFileChecksum !== 'undefined')
+      ? tIME.encode(data.lastUpdateTimeFileChecksum)
       : null,
   }),
   decode: data => ({
@@ -90,7 +138,7 @@ module.exports = {
       ? uINTEGER.decode(data.percent)
       : undefined,
     failureCode: (data.failureCode !== null && typeof data.failureCode !== 'undefined')
-      ? uINTEGER.decode(data.failureCode)
+      ? sTRING.decode(data.failureCode)
       : undefined,
     fileId: (data.fileId !== null && typeof data.fileId !== 'undefined')
       ? uINTEGER.decode(data.fileId)
@@ -110,6 +158,60 @@ module.exports = {
       : undefined,
     pusElement: (data.pusElement !== null && typeof data.pusElement !== 'undefined')
       ? pusElement.decode(data.pusElement)
+      : undefined,
+    lastUpdateModeLduId: (data.lastUpdateModeLduId !== null && typeof data.lastUpdateModeLduId !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeLduId)
+      : undefined,
+    lastUpdateTimeLduId: (data.lastUpdateTimeLduId !== null && typeof data.lastUpdateTimeLduId !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeLduId)
+      : undefined,
+    lastUpdateModeSize: (data.lastUpdateModeSize !== null && typeof data.lastUpdateModeSize !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeSize)
+      : undefined,
+    lastUpdateTimeSize: (data.lastUpdateTimeSize !== null && typeof data.lastUpdateTimeSize !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeSize)
+      : undefined,
+    lastUpdateModeStartTime: (data.lastUpdateModeStartTime !== null && typeof data.lastUpdateModeStartTime !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeStartTime)
+      : undefined,
+    lastUpdateTimeStartTime: (data.lastUpdateTimeStartTime !== null && typeof data.lastUpdateTimeStartTime !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeStartTime)
+      : undefined,
+    lastUpdateModeEndTime: (data.lastUpdateModeEndTime !== null && typeof data.lastUpdateModeEndTime !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeEndTime)
+      : undefined,
+    lastUpdateTimeEndTime: (data.lastUpdateTimeEndTime !== null && typeof data.lastUpdateTimeEndTime !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeEndTime)
+      : undefined,
+    lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeStatus)
+      : undefined,
+    lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeStatus)
+      : undefined,
+    lastUpdateModeRemainSize: (data.lastUpdateModeRemainSize !== null && typeof data.lastUpdateModeRemainSize !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeRemainSize)
+      : undefined,
+    lastUpdateTimeRemainSize: (data.lastUpdateTimeRemainSize !== null && typeof data.lastUpdateTimeRemainSize !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeRemainSize)
+      : undefined,
+    lastUpdateModePercent: (data.lastUpdateModePercent !== null && typeof data.lastUpdateModePercent !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModePercent)
+      : undefined,
+    lastUpdateTimePercent: (data.lastUpdateTimePercent !== null && typeof data.lastUpdateTimePercent !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimePercent)
+      : undefined,
+    lastUpdateModeFailureCode: (data.lastUpdateModeFailureCode !== null && typeof data.lastUpdateModeFailureCode !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeFailureCode)
+      : undefined,
+    lastUpdateTimeFailureCode: (data.lastUpdateTimeFailureCode !== null && typeof data.lastUpdateTimeFailureCode !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeFailureCode)
+      : undefined,
+    lastUpdateModeFileChecksum: (data.lastUpdateModeFileChecksum !== null && typeof data.lastUpdateModeFileChecksum !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeFileChecksum)
+      : undefined,
+    lastUpdateTimeFileChecksum: (data.lastUpdateTimeFileChecksum !== null && typeof data.lastUpdateTimeFileChecksum !== 'undefined')
+      ? tIME.decode(data.lastUpdateTimeFileChecksum)
       : undefined,
   }),
 };

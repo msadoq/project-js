@@ -1,31 +1,21 @@
-// ====================================================================
-// HISTORY
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
-const adapter = require('./result');
+const { encodeRaw, decodeRaw } = require('./result');
 const { getResult } = require('../stubs');
 
 
 
 describe('protobuf/isis/soo/Result', () => {
-  const builder = new ProtoBuf.Root()
-    .loadSync(`${__dirname}/Result.proto`, { keepCase: true })
-    .lookup('soo.protobuf.Result');
   const fixture = getResult();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = encodeRaw(fixture);
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
+  test('decode', () => {
+    const json = decodeRaw(buffer);
+    expect(json).toMatchObject({
       confirmationStatus: { type: 'string', value: fixture.confirmationStatus },
       duration: { type: 'duration', value: fixture.duration },
       executionStatus: { type: 'string', value: fixture.executionStatus },
@@ -34,7 +24,5 @@ describe('protobuf/isis/soo/Result', () => {
       startDatetime: { type: 'time', value: fixture.startDatetime },
       endDatetime: { type: 'time', value: fixture.endDatetime },
     });
-    
-    
   });
 });

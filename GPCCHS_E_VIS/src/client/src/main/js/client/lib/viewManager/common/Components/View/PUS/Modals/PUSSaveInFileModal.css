@@ -1,0 +1,44 @@
+
+.modalContainer {
+}
+
+.comparisonDateContainer {
+  height: 20px;
+}
+
+.divider {
+  height: 20px;
+}
+
+.inputContainer {
+  position: relative;
+  top: 20px;
+  width: 90%;
+  height: 50px;
+  margin: 10px;
+}
+
+.selectInput {
+  display: inline-block;
+  margin: 5px;
+}
+
+.selectInput > * {
+  display: block;
+}
+
+.actionsContainer {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  margin-top: 20px;
+}
+
+.actionsButtons {
+  position: absolute;
+  right: 0;
+}
+
+.actionsButtons > button {
+  margin: 5px;
+}

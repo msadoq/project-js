@@ -6,15 +6,64 @@
 // END-HISTORY
 // ====================================================================
 
-// @todo remove stub data
-
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
+import _ from 'lodash/fp';
+
 import { VM_VIEW_PUS11 } from '../../constants';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
+import { INJECT_PUS_RANGE_DATA } from '../../../store/types';
+import { viewRangeAdd } from '../../HistoryView/store/viewDataUpdate';
 
-function pus11DataReducer(state = {}, action) {
+// eslint-disable-next-line no-unused-vars
+function pus11DataReducer(state = {}, action, viewId) {
   switch (action.type) {
-    // TODO: add specialized action handlers
+    case INJECT_PUS_RANGE_DATA: {
+      // const { viewId } = action.payload;
+      console.log('INJECT_PUS_RANGE_DATA');
+      /**
+       * action.payload: {
+       *  data: {
+       *    dataToInject: {
+       *      <timestamp>: {
+       *        PUS011PModel: {...},
+       *        Pus011SubSchedule: {},
+       *        Pus011Apid: {},
+       *        Pus011Command: {},
+       *      },
+       *    },
+       *  },
+       * },
+       */
+      const dataToInject = _.getOr([], ['payload', 'data', 'dataToInject'], action);
+      const pus11Configuration = {
+        entryPoints: [
+          {
+            connectedData: {},
+            id: [viewId],
+            name: 'PUS11EP',
+          },
+        ],
+        tables: [
+
+        ],
+      }; // @todo fetch that configuration ??
+
+      const dataKeys = Object.keys(dataToInject);
+      if (!dataKeys.length) {
+        console.log('!dataKeys.length');
+        return state;
+      }
+
+      console.log('state', state);
+      const updatedState = viewRangeAdd(state, viewId, dataToInject, pus11Configuration);
+      console.log('updatedState', updatedState);
+
+      // const updatedState = viewRangeAdd(state, viewId, dataToInject, {});
+
+      // console.log('updatedState', updatedState);
+
+      return state;
+    }
     default:
       return state;
   }

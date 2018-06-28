@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
@@ -35,6 +29,20 @@ const pus011Command = {
   apid: 100,
   pusElement: getPusElement(),
   groundDate: now,
+  lastUpdateModeBinProfile: 100,
+  lastUpdateTimeBinProfile: now,
+  lastUpdateModeGroundStatus: 100,
+  lastUpdateTimeGroundStatus: now,
+  lastUpdateModeStatus: 100,
+  lastUpdateTimeStatus: now,
+  lastUpdateModeInitExecTime: 100,
+  lastUpdateTimeInitExecTime: now,
+  lastUpdateModeTotalShiftOffset: 100,
+  lastUpdateTimeCurrExecTime: now,
+  lastUpdateModeCurrExecTime: 100,
+  lastUpdateTimeTotalShiftOffset: now,
+  lastUpdateModeCommandId: 100,
+  lastUpdateTimeCommandId: now,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus011Command) : pus011Command);

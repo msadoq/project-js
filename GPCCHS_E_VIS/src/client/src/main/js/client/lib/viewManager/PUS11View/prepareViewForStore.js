@@ -36,6 +36,30 @@ const getDefaultView = view => _.merge({
           { title: 'firstTCTime', displayed: true },
         ],
       },
+      enabledApids: {
+        name: 'Enabled APIDs',
+        cols: [
+          { title: 'apid', displayed: true },
+          { title: 'name', displayed: true },
+        ],
+      },
+      commands: {
+        name: 'Commands',
+        cols: [
+          { title: 'apid', displayed: true },
+          { title: 'ssid', displayed: true },
+          { title: 'cmdName', displayed: true },
+          { title: 'cmdDescription', displayed: true },
+          { title: 'cmdApName', displayed: true },
+          { title: 'seqCount', displayed: true },
+          { title: 'sourceId', displayed: true },
+          { title: 'cmdStatus', displayed: true },
+          { title: 'groundStatus', displayed: true },
+          { title: 'initExecTime', displayed: true },
+          { title: 'curExecTime', displayed: true },
+          { title: 'toShiftTime', displayed: true },
+        ],
+      },
     },
   },
 }, view);

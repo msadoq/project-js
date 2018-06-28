@@ -1,16 +1,9 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./pus014HkOrDiagPacket');
-const { getPus014HkOrDiagPacket } = require('../stubs');
+const stub = require('./pus014HkOrDiagPacket.stub')();
 
 
 
@@ -18,28 +11,32 @@ describe('protobuf/isis/pusGroundModel/Pus014HkOrDiagPacket', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus014HkOrDiagPacket.proto`, { keepCase: true })
     .lookup('pusGroundModel.protobuf.Pus014HkOrDiagPacket');
-  const fixture = getPus014HkOrDiagPacket();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      subsamplingRatio: { type: 'uinteger', value: fixture.subsamplingRatio },
-      sid: { type: 'uinteger', value: fixture.sid },
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      subsamplingRatio: { type: 'uinteger', value: stub.subsamplingRatio },
+      sid: { type: 'uinteger', value: stub.sid },
       pus014ForwardedPacket: {
-        apid: { type: 'uinteger', value: fixture.pus014ForwardedPacket.apid },
-        forwardingStatus: { type: 'boolean', value: fixture.pus014ForwardedPacket.forwardingStatus },
+        apid: { type: 'uinteger', value: stub.pus014ForwardedPacket.apid },
+        forwardingStatus: { type: 'boolean', value: stub.pus014ForwardedPacket.forwardingStatus },
         pusElement: {
-          lastUpdateMode: { type: 'uinteger', value: fixture.pus014ForwardedPacket.pusElement.lastUpdateMode },
-          lastUpdateTime: { type: 'time', value: fixture.pus014ForwardedPacket.pusElement.lastUpdateTime },
+          lastUpdateMode: { type: 'uinteger', value: stub.pus014ForwardedPacket.pusElement.lastUpdateMode },
+          lastUpdateTime: { type: 'time', value: stub.pus014ForwardedPacket.pusElement.lastUpdateTime },
         },
+        lastUpdateModeFwdStatus: { type: 'uinteger', value: stub.pus014ForwardedPacket.lastUpdateModeFwdStatus },
+        lastUpdateTimeFwdStatus: { type: 'time', value: stub.pus014ForwardedPacket.lastUpdateTimeFwdStatus },
       },
-      sidLabel: { type: 'string', value: fixture.sidLabel },
+      sidLabel: { type: 'string', value: stub.sidLabel },
+      lastUpdateModeSid: { type: 'uinteger', value: stub.lastUpdateModeSid },
+      lastUpdateTimeSid: { type: 'time', value: stub.lastUpdateTimeSid },
+      lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.lastUpdateModeSubSamplingRatio },
+      lastUpdateTimeSubSamplingRatio: { type: 'time', value: stub.lastUpdateTimeSubSamplingRatio },
     });
-    
     
   });
 });

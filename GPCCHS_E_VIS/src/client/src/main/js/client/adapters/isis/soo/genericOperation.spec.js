@@ -1,15 +1,9 @@
-// ====================================================================
-// HISTORY
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const ProtoBuf = require('protobufjs');
-require('../../../utils/test');
 const adapter = require('./genericOperation');
-const { getGenericOperation } = require('../stubs');
+const stub = require('./genericOperation.stub')();
 
 const activityRequest = require('./activityRequest');
 const operationCriticality = require('./operationCriticality');
@@ -19,69 +13,71 @@ describe('protobuf/isis/soo/GenericOperation', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/GenericOperation.proto`, { keepCase: true })
     .lookup('soo.protobuf.GenericOperation');
-  const fixture = getGenericOperation();
   let buffer;
-  it('encode', () => {
-    buffer = builder.encode(adapter.encode(fixture)).finish();
-    buffer.constructor.should.equal(Buffer);
+  test('encode', () => {
+    buffer = builder.encode(adapter.encode(stub)).finish();
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
-    const json = adapter.decode(builder.decode(buffer));
-    json.should.be.an('object').that.have.properties({
-      operationId: { type: 'long', symbol: `${fixture.operationId}` },
-      earliest_start_date: (typeof fixture.earliest_start_date === 'undefined')
+  test('decode', () => {
+    const decoded = adapter.decode(builder.decode(buffer));
+    expect(decoded).toMatchObject({
+      operationId: { type: 'long', symbol: `${stub.operationId}` },
+      earliestStartDate: (typeof stub.earliestStartDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.earliest_start_date },
-      latest_start_date: (typeof fixture.latest_start_date === 'undefined')
+        : { type: 'time', value: stub.earliestStartDate },
+      latestStartDate: (typeof stub.latestStartDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.latest_start_date },
-      expected_duration: { type: 'duration', value: fixture.expected_duration },
-      foreseenDate: (typeof fixture.foreseenDate === 'undefined')
+        : { type: 'time', value: stub.latestStartDate },
+      expected_duration: { type: 'duration', value: stub.expected_duration },
+      foreseenDate: (typeof stub.foreseenDate === 'undefined')
         ? null
-        : { type: 'time', value: fixture.foreseenDate },
-      label: { type: 'string', value: fixture.label },
-      description: { type: 'string', value: fixture.description },
-      target: { type: 'string', value: fixture.target },
-      domain: { type: 'string', value: fixture.domain },
-      executor: { type: 'string', value: fixture.executor },
-      criticality: { type: 'enum', value: fixture.criticality, symbol: operationCriticality[fixture.criticality] },
-      operationStatus: { type: 'enum', value: fixture.operationStatus, symbol: operationStatus[fixture.operationStatus] },
-      result: (typeof fixture.result === 'undefined')
+        : { type: 'time', value: stub.foreseenDate },
+      label: { type: 'string', value: stub.label },
+      description: { type: 'string', value: stub.description },
+      target: { type: 'string', value: stub.target },
+      domain: { type: 'string', value: stub.domain },
+      executor: { type: 'string', value: stub.executor },
+      criticality: { type: 'enum', value: stub.criticality, symbol: operationCriticality[stub.criticality] },
+      operationStatus: { type: 'enum', value: stub.operationStatus, symbol: operationStatus[stub.operationStatus] },
+      result: (typeof stub.result === 'undefined')
         ? null
         : {
-          confirmationStatus: { type: 'string', value: fixture.result.confirmationStatus },
-          duration: { type: 'duration', value: fixture.result.duration },
-          executionStatus: { type: 'string', value: fixture.result.executionStatus },
-          detailedStatus: { type: 'string', value: fixture.result.detailedStatus },
-          exceptionDetails: { type: 'string', value: fixture.result.exceptionDetails },
-          startDatetime: { type: 'time', value: fixture.result.startDatetime },
-          endDatetime: { type: 'time', value: fixture.result.endDatetime },
+          confirmationStatus: { type: 'string', value: stub.result.confirmationStatus },
+          duration: { type: 'duration', value: stub.result.duration },
+          executionStatus: { type: 'string', value: stub.result.executionStatus },
+          detailedStatus: { type: 'string', value: stub.result.detailedStatus },
+          exceptionDetails: { type: 'string', value: stub.result.exceptionDetails },
+          startDatetime: { type: 'time', value: stub.result.startDatetime },
+          endDatetime: { type: 'time', value: stub.result.endDatetime },
         },
-      hostname: { type: 'string', value: fixture.hostname },
-      functionalChain: { type: 'blob', value: fixture.functionalChain },
-      activity: { type: 'enum', value: fixture.activity, symbol: activityRequest[fixture.activity] },
+      hostname: { type: 'string', value: stub.hostname },
+      functionalChain: {
+        name: { type: 'string', value: stub.functionalChain.name },
+        activity: { type: 'enum', value: stub.functionalChain.activity, symbol: activityRequest[stub.functionalChain.activity] },
+        creationDate: { type: 'time', value: stub.functionalChain.creationDate },
+      },
+      activity: { type: 'enum', value: stub.activity, symbol: activityRequest[stub.activity] },
     });
-    
-    json.arguments.should.be.an('array').that.have.lengthOf(fixture.arguments.length);
-    for (let i = 0; i < fixture.arguments.length; i += 1) {
-      json.arguments[i].should.have.properties({
+    expect(decoded.arguments).toHaveLength(stub.arguments.length);
+    for (let i = 0; i < stub.arguments.length; i += 1) {
+      expect(decoded.arguments[i]).toMatchObject({
         type: 'string',
-        value: fixture.arguments[i],
+        value: stub.arguments[i],
       });
     }
-    json.options.should.be.an('array').that.have.lengthOf(fixture.options.length);
-    for (let i = 0; i < fixture.options.length; i += 1) {
-      json.options[i].should.be.an('object').that.have.properties({
-        name: { type: 'identifier', value: fixture.options[i].name },
-        value: { type: 'double', symbol: fixture.options[i].value.toString() },
+    expect(decoded.options).toHaveLength(stub.options.length);
+    for (let i = 0; i < stub.options.length; i += 1) {
+      expect(decoded.options[i]).toMatchObject({
+        name: { type: 'identifier', value: stub.options[i].name },
+        value: { type: 'double', symbol: stub.options[i].value.toString() },
       });
       
     }
-    json.statuses.should.be.an('array').that.have.lengthOf(fixture.statuses.length);
-    for (let i = 0; i < fixture.statuses.length; i += 1) {
-      json.statuses[i].should.be.an('object').that.have.properties({
-        operationStatus: { type: 'enum', value: fixture.statuses[i].operationStatus, symbol: operationStatus[fixture.statuses[i].operationStatus] },
-        occurenceDate: { type: 'time', value: fixture.statuses[i].occurenceDate },
+    expect(decoded.statuses).toHaveLength(stub.statuses.length);
+    for (let i = 0; i < stub.statuses.length; i += 1) {
+      expect(decoded.statuses[i]).toMatchObject({
+        operationStatus: { type: 'enum', value: stub.statuses[i].operationStatus, symbol: operationStatus[stub.statuses[i].operationStatus] },
+        occurenceDate: { type: 'time', value: stub.statuses[i].occurenceDate },
       });
       
     }

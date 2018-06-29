@@ -36,6 +36,10 @@ const ADEPayloadHeader = require('./dataControllerUtils/ADEPayloadHeader.stub');
 const ADETimebasedSubscription = require('./dataControllerUtils/ADETimebasedSubscription.stub');
 const ADEStringList = require('./dataControllerUtils/ADEStringList.stub');
 const ADEItemStructure = require('./dataControllerUtils/ADEItemStructure.stub');
+const ADEItemMetadata = require('./dataControllerUtils/ADEItemMetadata.stub');
+const ADEItemAlgorithm = require('./dataControllerUtils/ADEItemAlgorithm.stub');
+const ADEAlgorithmLanguage = require('./dataControllerUtils/ADEAlgorithmLanguage.stub');
+const ADEItemReference = require('./dataControllerUtils/ADEItemReference.stub');
 module.exports = Object.assign(
   {},
   actionStub,
@@ -68,5 +72,9 @@ module.exports = Object.assign(
   ADEPayloadHeader,
   ADETimebasedSubscription,
   ADEStringList,
-  ADEItemStructure
+  ADEItemStructure,
+  ADEItemMetadata,
+  ADEItemAlgorithm,
+  ADEAlgorithmLanguage,
+  ADEItemReference
 );

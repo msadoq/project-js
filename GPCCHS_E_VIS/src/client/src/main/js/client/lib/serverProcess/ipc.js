@@ -357,6 +357,10 @@ const dcVersionMap = {
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE,
       args,
       callback),
+    retrieveCatalogItemMetadata: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_METADATA,
+      args,
+      callback),
     retrieveApids: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_APIDS,
       args,

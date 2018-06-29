@@ -6,6 +6,7 @@ import {
   WS_COM_OBJECTS_ASK,
   WS_UNIT_ASK,
   WS_ITEM_STRUCTURE_ASK,
+  WS_ITEM_METADATA_ASK,
 } from 'store/types';
 import {
   addCatalogItems,
@@ -36,6 +37,9 @@ const asyncCatalogItemFetcher = (sessionId, domainId, catalogName, cb) => {
 
 const asyncComObjectsFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
   dc.retrieveSDBCatalogsItemComObject({ sessionId, domainId, catalogName, catalogItemName }, cb);
+
+const asyncItemMetadataFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
+  dc.retrieveCatalogItemMetadata({ sessionId, domainId, catalogName, catalogItemName }, cb);
 
 const asyncUnitFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
   dc.retrieveSDBCatalogItemFieldUnit(
@@ -103,158 +107,174 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
 
   const state = getState();
+  switch (action.type) {
+    case WS_CATALOGS_ASK: {
+      const { sessionId, domainId } = action.payload;
 
-  if (action.type === WS_CATALOGS_ASK) {
-    const { sessionId, domainId } = action.payload;
-
-    if (isCatalogLoaded(state, { sessionId, domainId })) {
-      return nextAction;
-    }
-
-    asyncCatalogFetcher(
-      sessionId,
-      domainId,
-      (catalogs) => {
-        dispatch(
-          addCatalogs(
-            getTupleId(domainId, sessionId),
-            catalogs
-          )
-        );
+      if (isCatalogLoaded(state, { sessionId, domainId })) {
+        return nextAction;
       }
-    );
-  }
-  if (action.type === WS_CATALOG_ITEMS_ASK) {
-    const { sessionId, domainId, name } = action.payload;
 
-    if (areCatalogItemsLoaded(state, { sessionId, domainId, name })) {
-      return nextAction;
+      asyncCatalogFetcher(
+        sessionId,
+        domainId,
+        (catalogs) => {
+          dispatch(
+            addCatalogs(
+              getTupleId(domainId, sessionId),
+              catalogs
+            )
+          );
+        }
+      );
+      break;
     }
+    case WS_CATALOG_ITEMS_ASK: {
+      const { sessionId, domainId, name } = action.payload;
 
-    asyncCatalogItemFetcher(
-      sessionId,
-      domainId,
-      name,
-      items => dispatch(
-        addCatalogItems(
-          getTupleId(domainId, sessionId),
-          name,
-          items
+      if (areCatalogItemsLoaded(state, { sessionId, domainId, name })) {
+        return nextAction;
+      }
+
+      asyncCatalogItemFetcher(
+        sessionId,
+        domainId,
+        name,
+        items => dispatch(
+          addCatalogItems(
+            getTupleId(domainId, sessionId),
+            name,
+            items
+          )
         )
-      )
-    );
-  }
-  if (action.type === WS_COM_OBJECTS_ASK) {
-    const { sessionId, domainId, name, itemName } = action.payload;
+      );
+      break;
+    }
+    case WS_COM_OBJECTS_ASK: {
+      const { sessionId, domainId, name, itemName } = action.payload;
 
-    asyncComObjectsFetcher(
-      sessionId,
-      domainId,
-      name,
-      itemName,
-      comObjects => dispatch(
-        addComObjects(
-          getTupleId(domainId, sessionId),
-          name,
-          itemName,
-          comObjects
-        )
-      )
-    );
-  }
-
-  if (action.type === WS_UNIT_ASK) {
-    const { sessionId, domainId, name, itemName } = action.payload;
-
-    const tupleId = getTupleId(domainId, sessionId);
-
-    const existingUnit = getUnitByItemName(
-      state,
-      {
-        tupleId,
+      asyncComObjectsFetcher(
+        sessionId,
+        domainId,
         name,
         itemName,
-      }
-    );
-
-    if (existingUnit !== undefined) { // /!\ existingUnit could be an empty string
-      return nextAction;
+        comObjects => dispatch(
+          addComObjects(
+            getTupleId(domainId, sessionId),
+            name,
+            itemName,
+            comObjects
+          )
+        )
+      );
+      break;
     }
+    case WS_UNIT_ASK: {
+      const { sessionId, domainId, name, itemName } = action.payload;
 
-    asyncUnitFetcher(
-      sessionId,
-      domainId,
-      name,
-      itemName,
-      (unit) => {
-        dispatch(
-          addUnit(
-            tupleId,
-            name,
-            itemName,
-            unit
-          )
-        );
-        dispatch(
-          addUnitSimple(
-            tupleId,
-            name,
-            itemName,
-            unit
-          )
-        );
+      const tupleId = getTupleId(domainId, sessionId);
+
+      const existingUnit = getUnitByItemName(
+        state,
+        {
+          tupleId,
+          name,
+          itemName,
+        }
+      );
+
+      if (existingUnit !== undefined) { // /!\ existingUnit could be an empty string
+        return nextAction;
       }
-    );
-  }
 
-  if (action.type === WS_ITEM_STRUCTURE_ASK) {
-    const { viewId } = action.payload;
+      asyncUnitFetcher(
+        sessionId,
+        domainId,
+        name,
+        itemName,
+        (unit) => {
+          dispatch(
+            addUnit(
+              tupleId,
+              name,
+              itemName,
+              unit
+            )
+          );
+          dispatch(
+            addUnitSimple(
+              tupleId,
+              name,
+              itemName,
+              unit
+            )
+          );
+        }
+      );
+      break;
+    }
+    case WS_ITEM_STRUCTURE_ASK: {
+      const { viewId } = action.payload;
 
-    const pageId = getPageIdByViewId(state, { viewId });
-    const domainId = getDomainId(state, { domainName: wildcard, viewId, pageId });
-    const sessionId = getSessionIdWithFallback(state, { sessionName: wildcard, viewId, pageId });
-    const tupleId = getTupleId(domainId, sessionId);
-    const {
-      catalogItem: itemName,
-      catalog: name,
-    } = getSingleEntryPoint(state, { viewId }).connectedData;
+      const pageId = getPageIdByViewId(state, { viewId });
+      const domainId = getDomainId(state, { domainName: wildcard, viewId, pageId });
+      const sessionId = getSessionIdWithFallback(state, { sessionName: wildcard, viewId, pageId });
+      const tupleId = getTupleId(domainId, sessionId);
+      const {
+        catalogItem: itemName,
+        catalog: name,
+      } = getSingleEntryPoint(state, { viewId }).connectedData;
 
-    if (!itemName || !name) return nextAction;
+      if (!itemName || !name) return nextAction;
 
-    const fetchItemStructure = () => asyncItemStructureFetcher(sessionId, domainId, name, itemName,
-      structure => dispatch(addItemStructure(tupleId, name, itemName, structure))
-    );
+      const fetchItemStructure = () => asyncItemStructureFetcher(sessionId, domainId, name, itemName,
+        structure => dispatch(addItemStructure(tupleId, name, itemName, structure))
+      );
 
-    const fetchCatalogItemAndStructure = () => asyncCatalogItemFetcher(sessionId, domainId, name,
-      (items) => {
-        logger.debug('catalog items fetched');
-        dispatch(addCatalogItems(getTupleId(domainId, sessionId), name, items));
-        fetchItemStructure();
-      }
-    );
+      const fetchCatalogItemAndStructure = () => asyncCatalogItemFetcher(sessionId, domainId, name,
+        (items) => {
+          logger.debug('catalog items fetched');
+          dispatch(addCatalogItems(getTupleId(domainId, sessionId), name, items));
+          fetchItemStructure();
+        }
+      );
 
-    const fetchCatalogAndCatalogItemAndStructure = () => asyncCatalogFetcher(
-      sessionId,
-      domainId,
-      (catalogs) => {
-        logger.debug('catalogs fetched');
-        dispatch(addCatalogs(getTupleId(domainId, sessionId), catalogs));
-        fetchCatalogItemAndStructure();
-      }
-    );
+      const fetchCatalogAndCatalogItemAndStructure = () => asyncCatalogFetcher(
+        sessionId,
+        domainId,
+        (catalogs) => {
+          logger.debug('catalogs fetched');
+          dispatch(addCatalogs(getTupleId(domainId, sessionId), catalogs));
+          fetchCatalogItemAndStructure();
+        }
+      );
 
 
-    if (isCatalogLoaded(state, { sessionId, domainId })) {
-      if (areCatalogItemsLoaded(state, { sessionId, domainId, name })) {
-        logger.debug('going to fetch structure');
-        fetchItemStructure();
+      if (isCatalogLoaded(state, { sessionId, domainId })) {
+        if (areCatalogItemsLoaded(state, { sessionId, domainId, name })) {
+          logger.debug('going to fetch structure');
+          fetchItemStructure();
+        } else {
+          logger.debug('going to fetch catalog item');
+          fetchCatalogItemAndStructure();
+        }
       } else {
-        logger.debug('going to fetch catalog item');
-        fetchCatalogItemAndStructure();
+        fetchCatalogAndCatalogItemAndStructure();
       }
-    } else {
-      fetchCatalogAndCatalogItemAndStructure();
+      break;
     }
+    case WS_ITEM_METADATA_ASK: {
+      const { sessionId, domainId, name, itemName } = action.payload;
+      asyncItemMetadataFetcher(
+        sessionId,
+        domainId,
+        name,
+        itemName,
+        metadata => console.log(metadata)
+      );
+      break;
+    }
+    default: break;
   }
 
   return nextAction;

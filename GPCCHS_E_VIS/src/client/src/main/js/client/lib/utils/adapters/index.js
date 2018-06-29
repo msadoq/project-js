@@ -102,7 +102,7 @@ const register = (namespaceArray) => {
         });
       });
     } catch (e) {
-      logger.error(`An error occured during the loading of adapters '${currentNamespace}'`);
+      logger.error(`An error occured during the loading of adapters '${currentNamespace}'`, e);
     }
   });
 };
@@ -142,7 +142,7 @@ const decodePayload = (buffer) => {
     return genericPayload[0].payload;
   }
   // Because the use of the comma operator is magnificient
-  // eslint-disable-next-line 
+  // eslint-disable-next-line
   return genericPayload.reduce((acc, { header, payload }) => (acc[header.comObjectType] = protobuf.decode(getMapper(getType(header.comObjectType)), payload), acc), {});
 };
 

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -9,15 +7,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="mimic_after regex and add svg tag and transistor- Copie.svg"
+   width="1000px"
+   height="900px"
+   style="padding-top: 10px"
+   id="svg2"
    version="1.1"
-   id="svg450">
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="inkscape.svg">
   <metadata
-     id="metadata456">
+     id="metadata241">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -29,7 +27,7 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs454" />
+     id="defs239" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -39,64 +37,47 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1019"
-     id="namedview452"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview237"
      showgrid="false"
-     inkscape:zoom="0.2102413"
-     inkscape:cx="320.74736"
-     inkscape:cy="-1721.831"
-     inkscape:window-x="1591"
-     inkscape:window-y="-9"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg450" />
+     inkscape:zoom="0.26222222"
+     inkscape:cx="500"
+     inkscape:cy="450"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
   <!-- MULTISTATE SWITCH 6 STATES - |AGA_AM_PRIORITY| -->
   <g
      transform="translate(40,0)"
      isis_ep="AGA_AM_PRIORITY"
      isis_search="on"
-     id="g46">
+     id="g4">
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g4">
+       isis_color_operators="&lt;|117.5|#F8F8F8;;&gt;=|117.5|#ffe8d3;;&gt;|117.8|#F8F8F8"
+       id="g6">
       <rect
          width="200"
          height="200"
          style="fill:#F8F8F8;stroke:#CCC"
-         id="rect2" />
+         id="rect8" />
     </g>
     <text
        x="50"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text6">AGA_AM_PRIORITY</text>
+       id="text10">AGA_AM_PRIORITY</text>
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g10">
+       isis_color_operators="&lt;|119.1|#FFF;;&gt;=|119.1|#96ceaa"
+       id="g12">
       <circle
          cx="40"
-         cy="60"
-         r="8"
-         stroke="#444"
-         stroke-width="2"
-         fill="#FFF"
-         id="circle8" />
-    </g>
-    <text
-       x="32"
-       y="86"
-       fill="#666"
-       style="font-size:11px"
-       id="text12">St 1</text>
-    <g
-       isis_animation="colour"
-       isis_ep="AGA_AM_PRIORITY"
-       id="g16">
-      <circle
-         cx="100"
          cy="60"
          r="8"
          stroke="#444"
@@ -105,17 +86,18 @@
          id="circle14" />
     </g>
     <text
-       x="92"
+       x="32"
        y="86"
        fill="#666"
        style="font-size:11px"
-       id="text18">St 2</text>
+       id="text16">St 1</text>
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g22">
+       isis_color_operators="&lt;|117.5|#FFF;;&gt;=|117.5|#96ceaa;;&gt;|117.8|#FFF"
+       id="g18">
       <circle
-         cx="162"
+         cx="100"
          cy="60"
          r="8"
          stroke="#444"
@@ -124,18 +106,19 @@
          id="circle20" />
     </g>
     <text
-       x="154"
+       x="92"
        y="86"
        fill="#666"
        style="font-size:11px"
-       id="text24">St 3</text>
+       id="text22">St 2</text>
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g28">
+       isis_color_operators="&lt;|117.8|#FFF;;&gt;=|117.8|#96ceaa;;&gt;|118.1|#FFF"
+       id="g24">
       <circle
-         cx="40"
-         cy="120"
+         cx="162"
+         cy="60"
          r="8"
          stroke="#444"
          stroke-width="2"
@@ -143,17 +126,18 @@
          id="circle26" />
     </g>
     <text
-       x="32"
-       y="146"
+       x="154"
+       y="86"
        fill="#666"
        style="font-size:11px"
-       id="text30">St 4</text>
+       id="text28">St 3</text>
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g34">
+       isis_color_operators="&lt;|118.1|#FFF;;&gt;=|118.1|#96ceaa;;&gt;|118.4|#FFF"
+       id="g30">
       <circle
-         cx="100"
+         cx="40"
          cy="120"
          r="8"
          stroke="#444"
@@ -162,17 +146,18 @@
          id="circle32" />
     </g>
     <text
-       x="92"
+       x="32"
        y="146"
        fill="#666"
        style="font-size:11px"
-       id="text36">St 5</text>
+       id="text34">St 4</text>
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g40">
+       isis_color_operators="&lt;|118.4|#FFF;;&gt;=|118.4|#96ceaa;;&gt;|118.8|#FFF"
+       id="g36">
       <circle
-         cx="162"
+         cx="100"
          cy="120"
          r="8"
          stroke="#444"
@@ -181,39 +166,59 @@
          id="circle38" />
     </g>
     <text
+       x="92"
+       y="146"
+       fill="#666"
+       style="font-size:11px"
+       id="text40">St 5</text>
+    <g
+       isis_animation="colour"
+       isis_ep="AGA_AM_PRIORITY"
+       isis_color_operators="&lt;|118.8|#FFF;;&gt;=|118.8|#96ceaa;;&gt;|119.1|#FFF"
+       id="g42">
+      <circle
+         cx="162"
+         cy="120"
+         r="8"
+         stroke="#444"
+         stroke-width="2"
+         fill="#FFF"
+         id="circle44" />
+    </g>
+    <text
        x="154"
        y="146"
        fill="#666"
        style="font-size:11px"
-       id="text42">St 6</text>
+       id="text46">St 6</text>
     <text
        x="70"
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text44">Open in plot</text>
+       id="text48">Open in plot</text>
   </g>
   <!-- 3 VERTICAL GAUGES - |AGA_AM_QP2| -->
   <g
      transform="translate(260,0)"
      isis_ep="AGA_AM_QP2"
      isis_search="on"
-     id="g90">
+     id="g50">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect48" />
+       id="rect52" />
     <text
        x="60"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text50">AGA_AM_QP2</text>
+       id="text54">AGA_AM_QP2</text>
     <path
        d="M30,46 l22,0 l0,110 l-22,0 z"
        style=" fill:#DDD"
-       id="path52" />
+       id="path56" />
     <g
        isis_animation="scaleY"
        isis_ep="AGA_AM_QP2"
@@ -224,11 +229,12 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_QP2"
-         id="g56">
+         isis_operators=""
+         id="g60">
         <path
            d="M30,46 l22,0 l0,110 l-22,0 z"
            style=" fill:#96ceaa"
-           id="path54" />
+           id="path62" />
       </g>
     </g>
     <g
@@ -237,16 +243,16 @@
        isis_domain="74,78"
        isis_distance="110"
        isis_direction="top"
-       id="g62">
+       id="g64">
       <path
          d="M27,156 l0,2 l28,0 l0,-2 z"
          style=" fill: #666"
-         id="path60" />
+         id="path66" />
     </g>
     <path
        d="M88,46 l22,0 l0,110 l-22,0 z"
        style=" fill:#DDD"
-       id="path64" />
+       id="path68" />
     <g
        isis_animation="scaleY"
        isis_ep="AGA_AM_QP2"
@@ -257,11 +263,12 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_QP2"
-         id="g68">
+         isis_color_operators="&lt;=|76.1|#96ceaa;;&gt;|76.1|#FDE47F;;&gt;=|76.3|#c34c23"
+         id="g72">
         <path
            d="M88,46 l22,0 l0,110 l-22,0 z"
            style=" fill:#96ceaa"
-           id="path66" />
+           id="path74" />
       </g>
     </g>
     <g
@@ -270,16 +277,16 @@
        isis_domain="74.4,76.4"
        isis_distance="110"
        isis_direction="top"
-       id="g74">
+       id="g76">
       <path
          d="M85,156 l0,2 l28,0 l0,-2 z"
          style=" fill: #666"
-         id="path72" />
+         id="path78" />
     </g>
     <path
        d="M146,46 l22,0 l0,110 l-22,0 z"
        style=" fill:#DDD"
-       id="path76" />
+       id="path80" />
     <g
        isis_animation="scaleY"
        isis_ep="AGA_AM_QP2"
@@ -290,11 +297,12 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_QP2"
-         id="g80">
+         isis_operators="&lt;=$118$#96ceaa*&gt;$118$#78a388"
+         id="g84">
         <path
            d="M146,46 l22,0 l0,110 l-22,0 z"
            style=" fill:#96ceaa"
-           id="path78" />
+           id="path86" />
       </g>
     </g>
     <g
@@ -303,40 +311,40 @@
        isis_domain="74,77"
        isis_distance="110"
        isis_direction="top"
-       id="g86">
+       id="g88">
       <path
          d="M143,156 l0,2 l28,0 l0,-2 z"
          style=" fill: #666"
-         id="path84" />
+         id="path90" />
     </g>
     <text
        x="70"
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text88">Open in plot</text>
+       id="text92">Open in plot</text>
   </g>
   <!-- 3 HORIZONTAL SLIDERS - |AGA_AM_VALMASK| -->
   <g
      transform="translate(480,0)"
      isis_ep="AGA_AM_VALMASK"
      isis_search="on"
-     id="g122">
+     id="g94">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect92" />
+       id="rect96" />
     <text
        x="44"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text94">AGA_AM_VALMASK</text>
+       id="text98">AGA_AM_VALMASK</text>
     <path
        d="M30,56 l140,0 l0,6 l-140,0 z"
        style=" fill: #DDD; stroke: #BBB;"
-       id="path96" />
+       id="path100" />
     <g
        isis_animation="translateX"
        isis_ep="AGA_AM_VALMASK"
@@ -346,20 +354,21 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_VALMASK"
-         id="g100">
+         isis_color_thresholds="&lt;=|118|#EEE;;&gt;|118|#F70;;&gt;|119|#F11"
+         id="g104">
         <ellipse
            cx="30"
            cy="59"
            rx="8"
            ry="8"
            style="fill: #F8F8F8; stroke: #BBB;"
-           id="ellipse98" />
+           id="ellipse106" />
       </g>
     </g>
     <path
        d="M30,96 l140,0 l0,6 l-140,0 z"
        style=" fill: #DDD; stroke: #BBB;"
-       id="path104" />
+       id="path108" />
     <g
        isis_animation="translateX"
        isis_ep="AGA_AM_VALMASK"
@@ -369,20 +378,21 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_VALMASK"
-         id="g108">
+         isis_color_thresholds="&lt;=|118|#EEE;;&gt;|118|#F70;;&gt;|119|#F11"
+         id="g112">
         <ellipse
            cx="30"
            cy="99"
            rx="8"
            ry="8"
            style="fill: #F8F8F8; stroke: #BBB;"
-           id="ellipse106" />
+           id="ellipse114" />
       </g>
     </g>
     <path
        d="M30,136 l140,0 l0,6 l-140,0 z"
        style=" fill: #DDD; stroke: #BBB;"
-       id="path112" />
+       id="path116" />
     <g
        isis_animation="translateX"
        isis_ep="AGA_AM_VALMASK"
@@ -392,14 +402,15 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_VALMASK"
-         id="g116">
+         isis_color_thresholds="&lt;=|118|#EEE;;&gt;|118|#F70;;&gt;|119|#F11"
+         id="g120">
         <ellipse
            cx="30"
            cy="139"
            rx="8"
            ry="8"
            style="fill: #F8F8F8; stroke: #BBB;"
-           id="ellipse114" />
+           id="ellipse122" />
       </g>
     </g>
     <text
@@ -407,29 +418,29 @@
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text120">Open in plot</text>
+       id="text124">Open in plot</text>
   </g>
   <!-- 1 HORIZONTAL GAUGE + MULTISTATE SWITCH 3 STATES - |ATT_BC_QUATSATREF| -->
   <g
      transform="translate(700,0)"
      isis_ep="ATT_BC_QUATSATREF"
      isis_search="on"
-     id="g166">
+     id="g126">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect124" />
+       id="rect128" />
     <text
        x="44"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text126">ATT_BC_QUATSATREF</text>
+       id="text130">ATT_BC_QUATSATREF</text>
     <path
        d="M20,66 l160,0 l0,22 l-160,0 z"
        style=" fill:#DDD"
-       id="path128" />
+       id="path132" />
     <g
        isis_animation="scaleX"
        isis_ep="ATT_BC_QUATSATREF"
@@ -439,11 +450,12 @@
       <g
          isis_animation="colour"
          isis_ep="ATT_BC_QUATSATREF"
-         id="g132">
+         isis_color_operators="&lt;=|133|#9eafd4;;&gt;|133|#8b9dc3;;&gt;|133.8|#637db2"
+         id="g136">
         <path
            d="M20,66 l160,0 l0,22 l-160,0 z"
            style=" fill:#dfe3ee"
-           id="path130" />
+           id="path138" />
       </g>
     </g>
     <g
@@ -452,55 +464,38 @@
        isis_domain="132.4,134.4"
        isis_distance="160"
        isis_direction="right"
-       id="g138">
+       id="g140">
       <path
          d="M19,62 l2,0 l0,30 l-2,0 z"
          style=" fill: #666"
-         id="path136" />
+         id="path142" />
     </g>
     <text
        x="20"
        y="56"
        fill="#666"
        style="font-size:10px"
-       id="text140">132.4</text>
+       id="text144">132.4</text>
     <text
        x="152"
        y="56"
        fill="#666"
        style="font-size:10px"
-       id="text142">134.4</text>
+       id="text146">134.4</text>
     <g
        isis_x="80"
        isis_y="81"
        isis_animation="textBox"
        isis_ep="ATT_BC_QUATSATREF"
-       id="g144">-</g>
+       isis_textcolor_operators="&lt;|133.8|#000;;&gt;=|133.8|#FFF"
+       id="g148">-</g>
     <g
        isis_animation="colour"
        isis_ep="ATT_BC_QUATSATREF"
-       id="g148">
+       isis_color_operators="&lt;=|133|#637db2;;&gt;|133|#FFF"
+       id="g150">
       <circle
          cx="40"
-         cy="120"
-         r="8"
-         stroke="#444"
-         stroke-width="2"
-         fill="#FFF"
-         id="circle146" />
-    </g>
-    <text
-       x="32"
-       y="146"
-       fill="#666"
-       style="font-size:11px"
-       id="text150">St 1</text>
-    <g
-       isis_animation="colour"
-       isis_ep="ATT_BC_QUATSATREF"
-       id="g154">
-      <circle
-         cx="100"
          cy="120"
          r="8"
          stroke="#444"
@@ -509,17 +504,18 @@
          id="circle152" />
     </g>
     <text
-       x="92"
+       x="32"
        y="146"
        fill="#666"
        style="font-size:11px"
-       id="text156">St 2</text>
+       id="text154">St 1</text>
     <g
        isis_animation="colour"
        isis_ep="ATT_BC_QUATSATREF"
-       id="g160">
+       isis_color_operators="&lt;=|133|#FFF;;&gt;|133|#637db2;;&gt;|133.8|#FFF"
+       id="g156">
       <circle
-         cx="162"
+         cx="100"
          cy="120"
          r="8"
          stroke="#444"
@@ -528,35 +524,55 @@
          id="circle158" />
     </g>
     <text
+       x="92"
+       y="146"
+       fill="#666"
+       style="font-size:11px"
+       id="text160">St 2</text>
+    <g
+       isis_animation="colour"
+       isis_ep="ATT_BC_QUATSATREF"
+       isis_color_operators="&lt;|133.8|#FFF;;&gt;=|133.8|#637db2"
+       id="g162">
+      <circle
+         cx="162"
+         cy="120"
+         r="8"
+         stroke="#444"
+         stroke-width="2"
+         fill="#FFF"
+         id="circle164" />
+    </g>
+    <text
        x="154"
        y="146"
        fill="#666"
        style="font-size:11px"
-       id="text162">St 3</text>
+       id="text166">St 3</text>
     <text
        x="70"
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text164">Open in plot</text>
+       id="text168">Open in plot</text>
   </g>
   <!-- 1 KNOBE - |GENE_AM_144PARINT| -->
   <g
      transform="translate(40,220)"
      isis_ep="GENE_AM_144PARINT"
      isis_search="on"
-     id="g184">
+     id="g170">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect168" />
+       id="rect172" />
     <text
        x="44"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text170">GENE_AM_144PARINT</text>
+       id="text174">GENE_AM_144PARINT</text>
     <circle
        r="54"
        cx="100"
@@ -566,55 +582,55 @@
        stroke-width="8"
        fill="none"
        stroke-dasharray="272"
-       id="circle172" />
+       id="circle176" />
     <g
        isis_animation="rotate"
        isis_ep="AGA_AM_PRIORITY"
        isis_domain="117,121"
        isis_angle="-138,138"
        isis_origin="center,bottom"
-       id="g176">
+       id="g178">
       <path
          d="M100,65 l6,40 q-5,5 -10,0 z"
          style="fill: #666"
-         id="path174" />
+         id="path180" />
     </g>
     <text
        x="30"
        y="154"
        fill="#999"
        style="font-weight:bold;font-size:11px"
-       id="text178">117</text>
+       id="text182">117</text>
     <text
        x="150"
        y="154"
        fill="#999"
        style="font-weight:bold;font-size:11px"
-       id="text180">121</text>
+       id="text184">121</text>
     <text
        x="70"
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text182">Open in plot</text>
+       id="text186">Open in plot</text>
   </g>
   <!-- 1 KNOBE - |GENE_AM_144PARUSHT| -->
   <g
      transform="translate(700,220)"
      isis_ep="GENE_AM_144PARUSHT"
      isis_search="on"
-     id="g202">
+     id="g188">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect186" />
+       id="rect190" />
     <text
        x="32"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text188">GENE_AM_144PARUSHT</text>
+       id="text192">GENE_AM_144PARUSHT</text>
     <circle
        r="54"
        cx="100"
@@ -624,59 +640,59 @@
        stroke-width="8"
        fill="none"
        stroke-dasharray="272"
-       id="circle190" />
+       id="circle194" />
     <g
        isis_animation="rotate"
        isis_ep="AGA_AM_PRIORITY"
        isis_domain="117,121"
        isis_angle="-138,138"
        isis_origin="center,bottom"
-       id="g194">
+       id="g196">
       <path
          d="M100,65 l6,40 q-5,5 -10,0 z"
          style="fill: #666"
-         id="path192" />
+         id="path198" />
     </g>
     <text
        x="30"
        y="154"
        fill="#999"
        style="font-weight:bold;font-size:11px"
-       id="text196">117</text>
+       id="text200">117</text>
     <text
        x="150"
        y="154"
        fill="#999"
        style="font-weight:bold;font-size:11px"
-       id="text198">121</text>
+       id="text202">121</text>
     <text
        x="70"
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text200">Open in plot</text>
+       id="text204">Open in plot</text>
   </g>
   <!-- 1 HORIZONTAL GAUGE + MULTISTATE SWITCH 3 STATES - |ATT_BC_QUATSATREF| -->
   <g
      transform="translate(40,440)"
      isis_ep="ATT_BC_QUATSATREF"
      isis_search="on"
-     id="g246">
+     id="g206">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect204" />
+       id="rect208" />
     <text
        x="44"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text206">ATT_BC_QUATSATREF</text>
+       id="text210">ATT_BC_QUATSATREF</text>
     <path
        d="M20,66 l160,0 l0,22 l-160,0 z"
        style=" fill:#DDD"
-       id="path208" />
+       id="path212" />
     <g
        isis_animation="scaleX"
        isis_ep="ATT_BC_QUATSATREF"
@@ -686,11 +702,12 @@
       <g
          isis_animation="colour"
          isis_ep="ATT_BC_QUATSATREF"
-         id="g212">
+         isis_color_operators="&lt;=|133|#9eafd4;;&gt;|133|#8b9dc3;;&gt;|133.8|#637db2"
+         id="g216">
         <path
            d="M20,66 l160,0 l0,22 l-160,0 z"
            style=" fill:#dfe3ee"
-           id="path210" />
+           id="path218" />
       </g>
     </g>
     <g
@@ -699,55 +716,38 @@
        isis_domain="132.4,134.4"
        isis_distance="160"
        isis_direction="right"
-       id="g218">
+       id="g220">
       <path
          d="M19,62 l2,0 l0,30 l-2,0 z"
          style=" fill: #666"
-         id="path216" />
+         id="path222" />
     </g>
     <text
        x="20"
        y="56"
        fill="#666"
        style="font-size:10px"
-       id="text220">132.4</text>
+       id="text224">132.4</text>
     <text
        x="152"
        y="56"
        fill="#666"
        style="font-size:10px"
-       id="text222">134.4</text>
+       id="text226">134.4</text>
     <g
        isis_x="80"
        isis_y="81"
        isis_animation="textBox"
        isis_ep="ATT_BC_QUATSATREF"
-       id="g224">-</g>
+       isis_textcolor_operators="&lt;|133.8|#000;;&gt;=|133.8|#FFF"
+       id="g228">-</g>
     <g
        isis_animation="colour"
        isis_ep="ATT_BC_QUATSATREF"
-       id="g228">
+       isis_color_operators="&lt;=|133|#637db2;;&gt;|133|#FFF"
+       id="g230">
       <circle
          cx="40"
-         cy="120"
-         r="8"
-         stroke="#444"
-         stroke-width="2"
-         fill="#FFF"
-         id="circle226" />
-    </g>
-    <text
-       x="32"
-       y="146"
-       fill="#666"
-       style="font-size:11px"
-       id="text230">St 1</text>
-    <g
-       isis_animation="colour"
-       isis_ep="ATT_BC_QUATSATREF"
-       id="g234">
-      <circle
-         cx="100"
          cy="120"
          r="8"
          stroke="#444"
@@ -756,17 +756,18 @@
          id="circle232" />
     </g>
     <text
-       x="92"
+       x="32"
        y="146"
        fill="#666"
        style="font-size:11px"
-       id="text236">St 2</text>
+       id="text234">St 1</text>
     <g
        isis_animation="colour"
        isis_ep="ATT_BC_QUATSATREF"
-       id="g240">
+       isis_color_operators="&lt;=|133|#FFF;;&gt;|133|#637db2;;&gt;|133.8|#FFF"
+       id="g236">
       <circle
-         cx="162"
+         cx="100"
          cy="120"
          r="8"
          stroke="#444"
@@ -775,39 +776,59 @@
          id="circle238" />
     </g>
     <text
+       x="92"
+       y="146"
+       fill="#666"
+       style="font-size:11px"
+       id="text240">St 2</text>
+    <g
+       isis_animation="colour"
+       isis_ep="ATT_BC_QUATSATREF"
+       isis_color_operators="&lt;|133.8|#FFF;;&gt;=|133.8|#637db2"
+       id="g242">
+      <circle
+         cx="162"
+         cy="120"
+         r="8"
+         stroke="#444"
+         stroke-width="2"
+         fill="#FFF"
+         id="circle244" />
+    </g>
+    <text
        x="154"
        y="146"
        fill="#666"
        style="font-size:11px"
-       id="text242">St 3</text>
+       id="text246">St 3</text>
     <text
        x="70"
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text244">Open in plot</text>
+       id="text248">Open in plot</text>
   </g>
   <!-- 3 HORIZONTAL SLIDERS - |AGA_AM_VALMASK| -->
   <g
      transform="translate(260,440)"
      isis_ep="AGA_AM_VALMASK"
      isis_search="on"
-     id="g278">
+     id="g250">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect248" />
+       id="rect252" />
     <text
        x="44"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text250">AGA_AM_VALMASK</text>
+       id="text254">AGA_AM_VALMASK</text>
     <path
        d="M30,56 l140,0 l0,6 l-140,0 z"
        style=" fill: #DDD; stroke: #BBB;"
-       id="path252" />
+       id="path256" />
     <g
        isis_animation="translateX"
        isis_ep="AGA_AM_VALMASK"
@@ -817,20 +838,21 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_VALMASK"
-         id="g256">
+         isis_color_thresholds="&lt;=|118|#EEE;;&gt;|118|#F70;;&gt;|119|#F11"
+         id="g260">
         <ellipse
            cx="30"
            cy="59"
            rx="8"
            ry="8"
            style="fill: #F8F8F8; stroke: #BBB;"
-           id="ellipse254" />
+           id="ellipse262" />
       </g>
     </g>
     <path
        d="M30,96 l140,0 l0,6 l-140,0 z"
        style=" fill: #DDD; stroke: #BBB;"
-       id="path260" />
+       id="path264" />
     <g
        isis_animation="translateX"
        isis_ep="AGA_AM_VALMASK"
@@ -840,20 +862,21 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_VALMASK"
-         id="g264">
+         isis_color_thresholds="&lt;=|118|#EEE;;&gt;|118|#F70;;&gt;|119|#F11"
+         id="g268">
         <ellipse
            cx="30"
            cy="99"
            rx="8"
            ry="8"
            style="fill: #F8F8F8; stroke: #BBB;"
-           id="ellipse262" />
+           id="ellipse270" />
       </g>
     </g>
     <path
        d="M30,136 l140,0 l0,6 l-140,0 z"
        style=" fill: #DDD; stroke: #BBB;"
-       id="path268" />
+       id="path272" />
     <g
        isis_animation="translateX"
        isis_ep="AGA_AM_VALMASK"
@@ -863,14 +886,15 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_VALMASK"
-         id="g272">
+         isis_color_thresholds="&lt;=|118|#EEE;;&gt;|118|#F70;;&gt;|119|#F11"
+         id="g276">
         <ellipse
            cx="30"
            cy="139"
            rx="8"
            ry="8"
            style="fill: #F8F8F8; stroke: #BBB;"
-           id="ellipse270" />
+           id="ellipse278" />
       </g>
     </g>
     <text
@@ -878,29 +902,29 @@
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text276">Open in plot</text>
+       id="text280">Open in plot</text>
   </g>
   <!-- 3 VERTICAL GAUGES - |AGA_AM_QP2| -->
   <g
      transform="translate(480,440)"
      isis_ep="AGA_AM_QP2"
      isis_search="on"
-     id="g322">
+     id="g282">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect280" />
+       id="rect284" />
     <text
        x="60"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text282">AGA_AM_QP2</text>
+       id="text286">AGA_AM_QP2</text>
     <path
        d="M30,46 l22,0 l0,110 l-22,0 z"
        style=" fill:#DDD"
-       id="path284" />
+       id="path288" />
     <g
        isis_animation="scaleY"
        isis_ep="AGA_AM_QP2"
@@ -911,11 +935,12 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_QP2"
-         id="g288">
+         isis_operators=""
+         id="g292">
         <path
            d="M30,46 l22,0 l0,110 l-22,0 z"
            style=" fill:#96ceaa"
-           id="path286" />
+           id="path294" />
       </g>
     </g>
     <g
@@ -924,16 +949,16 @@
        isis_domain="74,78"
        isis_distance="110"
        isis_direction="top"
-       id="g294">
+       id="g296">
       <path
          d="M27,156 l0,2 l28,0 l0,-2 z"
          style=" fill: #666"
-         id="path292" />
+         id="path298" />
     </g>
     <path
        d="M88,46 l22,0 l0,110 l-22,0 z"
        style=" fill:#DDD"
-       id="path296" />
+       id="path300" />
     <g
        isis_animation="scaleY"
        isis_ep="AGA_AM_QP2"
@@ -944,11 +969,12 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_QP2"
-         id="g300">
+         isis_color_operators="&lt;=|76.1|#96ceaa;;&gt;|76.1|#FDE47F;;&gt;=|76.3|#c34c23"
+         id="g304">
         <path
            d="M88,46 l22,0 l0,110 l-22,0 z"
            style=" fill:#96ceaa"
-           id="path298" />
+           id="path306" />
       </g>
     </g>
     <g
@@ -957,16 +983,16 @@
        isis_domain="74.4,76.4"
        isis_distance="110"
        isis_direction="top"
-       id="g306">
+       id="g308">
       <path
          d="M85,156 l0,2 l28,0 l0,-2 z"
          style=" fill: #666"
-         id="path304" />
+         id="path310" />
     </g>
     <path
        d="M146,46 l22,0 l0,110 l-22,0 z"
        style=" fill:#DDD"
-       id="path308" />
+       id="path312" />
     <g
        isis_animation="scaleY"
        isis_ep="AGA_AM_QP2"
@@ -977,11 +1003,12 @@
       <g
          isis_animation="colour"
          isis_ep="AGA_AM_QP2"
-         id="g312">
+         isis_operators="&lt;=$118$#96ceaa*&gt;$118$#78a388"
+         id="g316">
         <path
            d="M146,46 l22,0 l0,110 l-22,0 z"
            style=" fill:#96ceaa"
-           id="path310" />
+           id="path318" />
       </g>
     </g>
     <g
@@ -990,66 +1017,49 @@
        isis_domain="74,77"
        isis_distance="110"
        isis_direction="top"
-       id="g318">
+       id="g320">
       <path
          d="M143,156 l0,2 l28,0 l0,-2 z"
          style=" fill: #666"
-         id="path316" />
+         id="path322" />
     </g>
     <text
        x="70"
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text320">Open in plot</text>
+       id="text324">Open in plot</text>
   </g>
   <!-- MULTISTATE SWITCH 6 STATES - |AGA_AM_PRIORITY| -->
   <g
      transform="translate(700,440)"
      isis_ep="AGA_AM_PRIORITY"
      isis_search="on"
-     id="g368">
+     id="g326">
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g326">
+       isis_color_operators="&lt;|118.1|#F8F8F8;;&gt;=|118.1|#ffe8d3;;&gt;|118.4|#F8F8F8"
+       id="g328">
       <rect
          width="200"
          height="200"
          style="fill:#F8F8F8;stroke:#CCC"
-         id="rect324" />
+         id="rect330" />
     </g>
     <text
        x="50"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text328">AGA_AM_PRIORITY</text>
+       id="text332">AGA_AM_PRIORITY</text>
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g332">
+       isis_color_operators="&lt;|119.1|#FFF;;&gt;=|119.1|#96ceaa"
+       id="g334">
       <circle
          cx="40"
-         cy="60"
-         r="8"
-         stroke="#444"
-         stroke-width="2"
-         fill="#FFF"
-         id="circle330" />
-    </g>
-    <text
-       x="32"
-       y="86"
-       fill="#666"
-       style="font-size:11px"
-       id="text334">St 1</text>
-    <g
-       isis_animation="colour"
-       isis_ep="AGA_AM_PRIORITY"
-       id="g338">
-      <circle
-         cx="100"
          cy="60"
          r="8"
          stroke="#444"
@@ -1058,17 +1068,18 @@
          id="circle336" />
     </g>
     <text
-       x="92"
+       x="32"
        y="86"
        fill="#666"
        style="font-size:11px"
-       id="text340">St 2</text>
+       id="text338">St 1</text>
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g344">
+       isis_color_operators="&lt;|117.5|#FFF;;&gt;=|117.5|#96ceaa;;&gt;|117.8|#FFF"
+       id="g340">
       <circle
-         cx="162"
+         cx="100"
          cy="60"
          r="8"
          stroke="#444"
@@ -1077,18 +1088,19 @@
          id="circle342" />
     </g>
     <text
-       x="154"
+       x="92"
        y="86"
        fill="#666"
        style="font-size:11px"
-       id="text346">St 3</text>
+       id="text344">St 2</text>
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g350">
+       isis_color_operators="&lt;|117.8|#FFF;;&gt;=|117.8|#96ceaa;;&gt;|118.1|#FFF"
+       id="g346">
       <circle
-         cx="40"
-         cy="120"
+         cx="162"
+         cy="60"
          r="8"
          stroke="#444"
          stroke-width="2"
@@ -1096,17 +1108,18 @@
          id="circle348" />
     </g>
     <text
-       x="32"
-       y="146"
+       x="154"
+       y="86"
        fill="#666"
        style="font-size:11px"
-       id="text352">St 4</text>
+       id="text350">St 3</text>
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g356">
+       isis_color_operators="&lt;|118.1|#FFF;;&gt;=|118.1|#96ceaa;;&gt;|118.4|#FFF"
+       id="g352">
       <circle
-         cx="100"
+         cx="40"
          cy="120"
          r="8"
          stroke="#444"
@@ -1115,17 +1128,18 @@
          id="circle354" />
     </g>
     <text
-       x="92"
+       x="32"
        y="146"
        fill="#666"
        style="font-size:11px"
-       id="text358">St 5</text>
+       id="text356">St 4</text>
     <g
        isis_animation="colour"
        isis_ep="AGA_AM_PRIORITY"
-       id="g362">
+       isis_color_operators="&lt;|118.4|#FFF;;&gt;=|118.4|#96ceaa;;&gt;|118.8|#FFF"
+       id="g358">
       <circle
-         cx="162"
+         cx="100"
          cy="120"
          r="8"
          stroke="#444"
@@ -1134,34 +1148,54 @@
          id="circle360" />
     </g>
     <text
+       x="92"
+       y="146"
+       fill="#666"
+       style="font-size:11px"
+       id="text362">St 5</text>
+    <g
+       isis_animation="colour"
+       isis_ep="AGA_AM_PRIORITY"
+       isis_color_operators="&lt;|118.8|#FFF;;&gt;=|118.8|#96ceaa;;&gt;|119.1|#FFF"
+       id="g364">
+      <circle
+         cx="162"
+         cy="120"
+         r="8"
+         stroke="#444"
+         stroke-width="2"
+         fill="#FFF"
+         id="circle366" />
+    </g>
+    <text
        x="154"
        y="146"
        fill="#666"
        style="font-size:11px"
-       id="text364">St 6</text>
+       id="text368">St 6</text>
     <text
        x="70"
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text366">Open in plot</text>
+       id="text370">Open in plot</text>
   </g>
   <g
      transform="translate(700,660)"
      isis_ep="AGA_AM_QP2"
      isis_search="on"
-     id="g382">
+     id="g372">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect370" />
+       id="rect374" />
     <text
        x="60"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text372">AGA_AM_QP2</text>
+       id="text376">AGA_AM_QP2</text>
     <!-- DIODE -->
     <g
        transform="translate(0,-852.36218)"
@@ -1192,24 +1226,24 @@
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text380">Open in plot</text>
+       id="text384">Open in plot</text>
   </g>
   <g
      transform="translate(260,660)"
      isis_ep="AGA_AM_QP2"
      isis_search="on"
-     id="g398">
+     id="g386">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect384" />
+       id="rect388" />
     <text
        x="60"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text386">AGA_AM_QP2</text>
+       id="text390">AGA_AM_QP2</text>
     <!-- CIRCUIT BREAKER -->
     <g
        id="layer1"
@@ -1225,11 +1259,11 @@
          style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 0,100 20,0"
          transform="translate(0,852.36218)"
-         id="path389" />
+         id="path394" />
       <path
          d="m 180,952.36218 20,0"
          style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="path391" />
+         id="path396" />
       <path
          style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 50,70 0,60"
@@ -1245,131 +1279,172 @@
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text396">Open in plot</text>
+       id="text400">Open in plot</text>
   </g>
-  <rect
-     y="660"
-     x="480"
-     id="rect400"
-     style="fill:#f8f8f8;stroke:#cccccc"
-     height="200"
-     width="200" />
-  <text
-     id="text402"
-     style="font-weight:bold;font-size:12px;fill:#888888"
-     y="686"
-     x="540">AGA_AM_QP2</text>
-  <circle
-     id="svg_1"
-     cy="750"
-     cx="570"
-     r="75"
-     style="fill:#ffffff;stroke:#000000;stroke-width:3" />
-  <line
-     stroke-linejoin="null"
-     stroke-linecap="null"
-     x1="484"
-     y1="750"
-     x2="533"
-     y2="750"
-     id="svg_2"
-     style="fill:none;stroke:#000000;stroke-width:6;stroke-dasharray:none" />
-  <rect
-     stroke-linejoin="null"
-     stroke-linecap="null"
-     x="533"
-     y="700"
-     width="20"
-     height="100"
-     id="svg_4"
-     style="fill:#000000;stroke:#000000;stroke-width:6;stroke-dasharray:none" />
-  <line
-     stroke-linejoin="null"
-     stroke-linecap="null"
-     x1="553"
-     y1="740"
-     x2="608"
-     y2="710"
-     id="svg_5"
-     style="fill:none;stroke:#000000;stroke-width:6;stroke-dasharray:none" />
-  <line
-     stroke-linejoin="null"
-     stroke-linecap="null"
-     x1="553"
-     y1="763"
-     x2="608"
-     y2="788"
-     id="svg_6"
-     style="fill:none;stroke:#000000;stroke-width:6;stroke-dasharray:none" />
-  <line
-     stroke-linejoin="null"
-     stroke-linecap="null"
-     x1="608"
-     y1="713"
-     x2="608"
-     y2="663"
-     id="svg_7"
-     style="fill:none;stroke:#000000;stroke-width:6;stroke-dasharray:none" />
-  <line
-     stroke-linejoin="null"
-     stroke-linecap="null"
-     x1="605.75519"
-     y1="789.56671"
-     x2="606.43835"
-     y2="844.56244"
-     id="svg_8"
-     style="fill:none;stroke:#000000;stroke-width:6;stroke-dasharray:none" />
-  <polygon
-     id="svg_9"
-     points="202,210.50516 209.38092,227.16769 202,210.50516 209.38092,227.16769 220.45227,241.74744 202,239.66461 183.54773,241.74744 194.61911,227.16769 "
-     transform="rotate(-10.143351,3491.7279,-1668.5097)"
-     style="fill:#000000;stroke:#000000;stroke-width:6" />
-  <text
-     id="text414"
-     style="font-size:12px;fill:#2a7bc5"
-     y="840"
-     x="550">Open in plot</text>
   <g
-     transform="translate(40,660)"
+     transform="translate(480,660)"
      isis_ep="AGA_AM_QP2"
      isis_search="on"
-     id="g434">
+     id="g402">
     <rect
        width="200"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect418" />
+       id="rect404" />
     <text
        x="60"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text420">AGA_AM_QP2</text>
+       id="text406">AGA_AM_QP2</text>
+    <!-- TRANSISTOR -->
+    <g
+       isis_animation="show"
+       isis_ep="AGA_AM_QP2"
+       isis_operators="&gt;|75|show;;&gt;|76|hidden"
+       id="g408">
+      <g
+         transform="scale(0.3),translate(140,140)"
+         id="g410">
+        <ellipse
+           stroke="#000000"
+           ry="150"
+           rx="150"
+           id="svg_1"
+           cy="181"
+           cx="183"
+           stroke-width="6"
+           fill="#ffffff" />
+        <line
+           fill="none"
+           stroke-width="6"
+           stroke-dasharray="null"
+           stroke-linejoin="null"
+           stroke-linecap="null"
+           x1="4"
+           y1="180"
+           x2="107"
+           y2="180"
+           id="svg_2"
+           stroke="#000000" />
+        <rect
+           fill="#000000"
+           stroke="#000000"
+           stroke-width="6"
+           stroke-dasharray="null"
+           stroke-linejoin="null"
+           stroke-linecap="null"
+           x="106"
+           y="80"
+           width="38"
+           height="200"
+           id="svg_4" />
+        <line
+           fill="none"
+           stroke="#000000"
+           stroke-width="6"
+           stroke-dasharray="null"
+           stroke-linejoin="null"
+           stroke-linecap="null"
+           x1="146"
+           y1="159"
+           x2="256"
+           y2="103"
+           id="svg_5" />
+        <line
+           fill="none"
+           stroke="#000000"
+           stroke-width="6"
+           stroke-dasharray="null"
+           stroke-linejoin="null"
+           stroke-linecap="null"
+           x1="146"
+           y1="207"
+           x2="256"
+           y2="254"
+           id="svg_6" />
+        <line
+           fill="none"
+           stroke="#000000"
+           stroke-width="6"
+           stroke-dasharray="null"
+           stroke-linejoin="null"
+           stroke-linecap="null"
+           x1="254"
+           y1="105"
+           x2="254"
+           y2="3"
+           id="svg_7" />
+        <line
+           fill="none"
+           stroke="#000000"
+           stroke-width="6"
+           stroke-dasharray="null"
+           stroke-linejoin="null"
+           stroke-linecap="null"
+           x1="254"
+           y1="253"
+           x2="252"
+           y2="366"
+           id="svg_8"
+           transform="rotate(-0.7117121815681458 253.00000000001296,309.49999999999835) " />
+        <polygon
+           id="svg_9"
+           fill="#000000"
+           points="202,210.50515747070312 209.38092041015625,227.16769409179688 220.4522705078125,241.7474365234375 202,239.66461181640625 183.5477294921875,241.7474365234375 194.61911010742188,227.16769409179688 202,210.50515747070312 209.38092041015625,227.16769409179688 "
+           stroke-width="6"
+           stroke="#000000"
+           transform="rotate(-10.143350601196289 201.99999999999966,226.12628173828128) " />
+      </g>
+    </g>
+    <text
+       x="70"
+       y="180"
+       fill="#2a7bc5"
+       style="font-size:12px;cursor:pointer;"
+       id="text420">Open in plot</text>
+  </g>
+  <g
+     transform="translate(40,660)"
+     isis_ep="AGA_AM_QP2"
+     isis_search="on"
+     id="g422">
+    <rect
+       width="200"
+       height="200"
+       style="fill:#F8F8F8;stroke:#CCC"
+       id="rect424" />
+    <text
+       x="60"
+       y="26"
+       fill="#888"
+       style="font-size:12px;font-weight:bold;"
+       id="text426">AGA_AM_QP2</text>
     <g
        isis_animation="rotate"
        isis_ep="AGA_AM_PRIORITY"
        isis_domain="117,121"
        isis_angle="-10,30"
        isis_origin="center,bottom"
-       id="g430">
+       id="g428">
       <g
          isis_animation="skewY"
          isis_ep="AGA_AM_PRIORITY"
          isis_domain="117,121"
          isis_angle="-90,90"
-         id="g428">
+         id="g430">
         <g
            isis_animation="skewX"
            isis_ep="AGA_AM_PRIORITY"
            isis_domain="117,121"
            isis_angle="-90,90"
-           id="g426">
+           id="g432">
           <g
              transform="scale(0.5),translate(90,80)"
-             id="g424">
+             id="g434">
             <path
                d="M39.576,23.011L28.074,11.499L39.576,0l11.5,11.507L39.576,23.011z M53.62,37.049l11.5-11.503L53.611,14.038L42.112,25.537\t\tL53.62,37.049z M67.642,51.072l11.499-11.499L67.634,28.066L56.13,39.567L67.642,51.072z M81.667,65.103l11.503-11.499L81.667,42.1\t\tL70.168,53.611L81.667,65.103z M37.057,25.537L25.538,14.038l-11.5,11.499l11.507,11.512L37.057,25.537z M51.075,39.573\t\tL39.567,28.066L28.061,39.573l11.507,11.507L51.075,39.573z M53.604,42.1L42.092,53.619l11.511,11.507l11.501-11.507L53.604,42.1z\t\t M11.508,28.074l-11.5,11.507l11.519,11.512l11.508-11.512L11.508,28.074z M14.038,53.611l11.507,11.507l11.52-11.507\t\tl-11.511-11.52L14.038,53.611z M51.083,67.633l-11.507-11.52l-11.507,11.52l11.507,11.507L51.083,67.633z M65.105,81.643\t\tL53.604,70.144L42.092,81.651l11.505,11.512L65.105,81.643z M132.5,115.933l11.497-11.501L132.5,92.926l-11.501,11.506\t\tL132.5,115.933z M146.53,129.959l11.497-11.497l-11.514-11.518l-11.501,11.501L146.53,129.959z M160.563,143.989l11.502-11.498\t\tl-11.502-11.493l-11.505,11.501L160.563,143.989z M174.573,135.004l-11.501,11.51l11.521,11.513l11.501-11.497L174.573,135.004z\t\t M105.683,108.511l-21.08,21.083c-3.085,3.082-8.137,3.094-11.231,0l-7.011-7.041l-16.847,16.852l-2.809-2.806l16.855-16.843\t\tl-7.035-7.029c-3.094-3.098-3.085-8.159,0-11.24l21.067-21.073l-5.61-5.631l-4.348,4.358l-11.503-11.5l11.503-11.519l11.499,11.511\t\tl-4.35,4.346l5.623,5.624l21.077-21.071c3.098-3.102,8.147-3.102,11.236,0l16.859,16.845c3.09,3.094,3.09,8.143,0,11.233\t\tl-21.091,21.079l5.635,5.627l4.355-4.372l11.506,11.501l-11.506,11.529l-11.501-11.505l4.348-4.364L105.683,108.511z\t\t M112.162,61.58c-2.77-2.779-7.338-2.779-10.106,0l-40.443,40.442c-2.779,2.777-2.779,7.346,0,10.123L112.162,61.58z\t\t M120.99,132.491l11.518,11.498l11.505-11.498l-11.505-11.518L120.99,132.491z M158.027,146.514l-11.497-11.51l-11.518,11.51\t\tl11.518,11.513L158.027,146.514z M149.042,160.556l11.521,11.518l11.502-11.518l-11.502-11.506L149.042,160.556z M104.439,120.998\t\tl-11.513,11.514l11.513,11.509l11.502-11.521L104.439,120.998z M118.454,135.004l-11.498,11.525l11.498,11.497l11.517-11.497\t\tL118.454,135.004z M132.483,149.034l-11.501,11.521l11.501,11.501l11.514-11.501L132.483,149.034z M135.021,174.577l11.518,11.525\t\tl11.497-11.525l-11.497-11.497L135.021,174.577z M41.964,144.129c-4.412-4.408-5.678-10.563-4.398-16.262l-5.354,1.803\t\tc-0.613,6.44,1.256,13.076,6.193,18.014c4.938,4.938,11.574,6.809,18.032,6.212l1.783-5.383\t\tC52.543,149.815,46.382,148.545,41.964,144.129z M26.826,131.453l-4.907,1.644c0.322,7.879,3.4,15.685,9.387,21.704\t\tc6,5.995,13.804,9.053,21.684,9.373l1.633-4.905c-7.153,0.061-14.309-2.592-19.767-8.026\t\tC29.425,145.769,26.764,138.614,26.826,131.453z M17.066,134.708l-4.849,1.623c0.998,9.329,4.885,18.397,12.01,25.531\t\tc7.137,7.137,16.202,11.016,25.536,12.01l1.627-4.861c-8.618-0.673-17.044-4.115-23.614-10.691\t\tC21.206,151.755,17.753,143.315,17.066,134.708z"
-               id="path422" />
+               id="path436" />
           </g>
         </g>
       </g>
@@ -1379,25 +1454,25 @@
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text432">Open in plot</text>
+       id="text438">Open in plot</text>
   </g>
   <!-- DIGITAL DISPLAY -->
   <g
      transform="translate(260,220)"
      isis_ep="AGA_AM_QP2"
      isis_search="on"
-     id="g448">
+     id="g440">
     <rect
        width="420"
        height="200"
        style="fill:#F8F8F8;stroke:#CCC"
-       id="rect436" />
+       id="rect442" />
     <text
        x="140"
        y="26"
        fill="#888"
        style="font-size:12px;font-weight:bold;"
-       id="text438">TMMGT_BC_VIRTCHAN3</text>
+       id="text444">TMMGT_BC_VIRTCHAN3</text>
     <g
        isis_x="140"
        isis_y="100"
@@ -1405,13 +1480,13 @@
        isis_ep="GENE_AM_144PARUSHT"
        isis_font="Digital"
        isis_size="82px"
-       id="g440">-</g>
+       id="g446">-</g>
     <text
        x="30"
        y="145"
        fill="#888"
        style="font-size:12px;"
-       id="text442">MONITORING STATE :</text>
+       id="text448">MONITORING STATE :</text>
     <g
        isis_x="160"
        isis_y="148"
@@ -1419,12 +1494,12 @@
        isis_ep="AGA_AM_PRIOR_MS"
        isis_size="32"
        isis_textcolor_regex="info=#00F;;warning=#daa520;;outOfRange=#14bfb2;;severe=#f80;;critical=#f00;;obsol=#d0a0ff"
-       id="g444">-</g>
+       id="g450">-</g>
     <text
        x="176"
        y="180"
        fill="#2a7bc5"
        style="font-size:12px;cursor:pointer;"
-       id="text446">Open in plot</text>
+       id="text452">Open in plot</text>
   </g>
 </svg>

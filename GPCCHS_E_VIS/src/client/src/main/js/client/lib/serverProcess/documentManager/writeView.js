@@ -49,10 +49,8 @@ const writeView = (view, path, callback) => {
         };
         exportData(svgContent, MIME_TYPES.ScalableVectorGraphics, path.concat('.svg'), (errSaving) => {
           if (errSaving) {
-            // dispatch(addMessage(view.uuid, 'danger', `Svg content unsaved: ${errSaving}`));
             return callback(errSaving);
           }
-          // dispatch(addMessage(view.uuid, 'success', 'Image saved'));
           return writeDocument(path, mimicPreparedView, (errWrite, oId) => {
             if (errWrite) {
               return callback(errWrite);

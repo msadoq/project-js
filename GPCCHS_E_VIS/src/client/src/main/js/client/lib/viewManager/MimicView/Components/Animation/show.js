@@ -6,6 +6,6 @@
 // END-HISTORY
 // ====================================================================
 
-const show = '<g isis_animation="show" isis_ep="__ENTRY_POINT__" isis_operators="<=|50|show;;>|50|hide"></g>';
+const show = '<g isis_animation="show" isis_ep="__ENTRY_POINT__" isis_operators="&lt;=|50|show;;&gt;|50|hide"></g>';
 
 export default show;

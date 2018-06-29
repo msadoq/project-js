@@ -40,7 +40,7 @@ const simpleReadView = async.reflect((viewInfo, cb) => {
 
     switch (viewContent.type) {
       case 'MimicView': { // In the Mimic View case the svg content needs to be read
-        // in an svg file. The viewContent.contentPath property is the path to that
+        // from an svg file. The viewContent.contentPath property is the path to that
         // file relative to fmd.
         const fmdRelativePath = viewContent.contentPath;
         const root = getRootDir();

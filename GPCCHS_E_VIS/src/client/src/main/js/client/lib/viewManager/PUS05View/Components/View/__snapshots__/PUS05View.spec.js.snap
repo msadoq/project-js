@@ -85,7 +85,7 @@ exports[`PUS05View :: render snapshot 1`] = `
             </tr>
           </thead>
           <tbody>
-
+            
           </tbody>
         </table>
       </div>
@@ -125,7 +125,7 @@ exports[`PUS05View :: render snapshot 1`] = `
             </tr>
           </thead>
           <tbody>
-
+            
           </tbody>
         </table>
       </div>

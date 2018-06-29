@@ -343,7 +343,7 @@ export default class DynamicView extends PureComponent {
    * @returns {*}
    */
   renderInvalid = (onDrop, onContextMenu, error) => (
-    <div>
+    <div className="h100">
       <DroppableContainer
         onDrop={onDrop}
         onContextMenu={onContextMenu}
@@ -409,7 +409,7 @@ export default class DynamicView extends PureComponent {
     const { parameterName } = entryPoints.dynamicEP.dataId;
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
-      <div>
+      <div className="h100">
         <DroppableContainer
           onDrop={this.onDrop}
           onContextMenu={this.onContextMenu}

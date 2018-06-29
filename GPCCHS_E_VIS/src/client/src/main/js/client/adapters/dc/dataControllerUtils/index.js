@@ -49,6 +49,9 @@ const ADETimebasedQuery = require('./ADETimebasedQuery');
 const ADETimebasedPubsub = require('./ADETimebasedPubsub');
 const ADETimebasedSubscription = require('./ADETimebasedSubscription');
 const ADEItemStructure = require('./ADEItemStructure');
+const ADEItemMetadata = require('./ADEItemMetadata');
+const ADEItemAlgorithm = require('./ADEItemAlgorithm');
+const ADEItemReference = require('./ADEItemReference');
 
 const StatExecution = require('./statExecution');
 const ReportingParameterAggregation = require('./reportingParameterAggregation');
@@ -93,5 +96,8 @@ module.exports = { // TODO .proto should be collocated with adapters
   ADETimebasedSubscription: { type: 'protobuf', adapter: ADETimebasedSubscription },
   StatExecution: { type: 'raw', adapter: StatExecution},
   ADEItemStructure: { type: 'protobuf', adapter: ADEItemStructure },
+  ADEItemMetadata: { type: 'protobuf', adapter: ADEItemMetadata },
+  ADEItemAlgorithm: { type: 'protobuf', adapter: ADEItemAlgorithm },
+  ADEItemReference: { type: 'protobuf', adapter: ADEItemReference },
   ReportingParameterAggregation: { type: 'raw', adapter: ReportingParameterAggregation},
 };

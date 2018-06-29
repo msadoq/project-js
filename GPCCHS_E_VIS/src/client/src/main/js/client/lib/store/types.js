@@ -420,6 +420,8 @@ export const WS_UNIT_ASK = 'WS_UNIT_ASK';
 export const WS_UNIT_ADD = 'WS_UNIT_ADD';
 export const WS_ITEM_STRUCTURE_ASK = 'WS_ITEM_STRUCTURE_ASK';
 export const WS_ITEM_STRUCTURE_ADD = 'WS_ITEM_STRUCTURE_ADD';
+export const WS_ITEM_METADATA_ASK = 'WS_ITEM_METADATA_ASK';
+export const WS_ITEM_METADATA_ADD = 'WS_ITEM_METADATA_ADD';
 export const WS_UNIT_ADD_SIMPLE = 'WS_UNIT_ADD_SIMPLE';
 
 // application process

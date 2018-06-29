@@ -1,0 +1,14 @@
+
+package dataControllerUtils.protobuf;
+
+import "./ADEItemAlgorithm.proto";
+
+message ADEItemMetadata {
+extensions 10 to 102;
+    required string itemName = 1;
+    optional string comment = 2;
+    optional string longDescription = 3;
+    optional string shortDescription = 4;
+    optional string unit = 5;
+    optional ADEItemAlgorithm algorithm = 6;
+}

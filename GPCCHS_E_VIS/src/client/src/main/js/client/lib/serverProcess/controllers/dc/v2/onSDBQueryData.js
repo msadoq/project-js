@@ -31,6 +31,12 @@ const handleItemStructure = (buffer, callback) => {
   callback(decoded);
 };
 
+const handleItemMetadata = (buffer, callback) => {
+  const decoded = decode('dc.dataControllerUtils.ADEItemMetadata', buffer);
+  console.log(JSON.stringify(decoded));
+  callback(decoded);
+};
+
 const SDBQueryTypeHandler = {
   [constants.ADE_SDB_RETRIEVE_CATALOGS]: handleListString,
   [constants.ADE_SDB_RETRIEVE_CATALOG_ITEMS]: handleListString,
@@ -38,6 +44,7 @@ const SDBQueryTypeHandler = {
   [constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_EXISTS]: handleBoolean,
   [constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_FIELD_UNIT]: handleSingleString,
   [constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE]: handleItemStructure,
+  [constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_METADATA]: handleItemMetadata,
 };
 
 /**

@@ -86,7 +86,6 @@ import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreO
 import passerelle from '../utils/passerelle/index';
 import { updateSessions } from '../store/actions/sessions';
 import setComObjectMap from '../store/actions/comObjectMap';
-import { askItemMetadata } from '../store/actions/catalogs';
 
 const isDebugEnabled = () => get('DEBUG') === 'on';
 const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require; // eslint-disable-line
@@ -181,11 +180,6 @@ series({
   store.dispatch(updateSessions(initialData.sessions));
   store.dispatch(updateDomains(initialData.domains));
   store.dispatch(setComObjectMap(comObjectMap));
-  store.dispatch(askItemMetadata({
-    tupleId: '4-0',
-    name: 'Reporting',
-    itemName: 'AIV_GC_GDELTACHK',
-  }));
   requestCatalogSessions(store);
 
   /* Start Health Monitoring mechanism

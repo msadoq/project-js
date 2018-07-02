@@ -6,7 +6,6 @@ import { getFocusedPage } from 'store/selectors/pages';
 import TimelineField from './TimelineField';
 
 const mapStateToProps = (state, { windowId }) => {
-  console.log('TimelineFieldContainer', windowId);
   const { timebarUuid } = getFocusedPage(state, { windowId });
   const timelines = getTimebarTimelinesSelector(state, { timebarUuid });
   return {

@@ -28,8 +28,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import _ from 'lodash';
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
@@ -38,7 +37,7 @@ import { buildFormulaForAutocomplete } from '../../../common';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 
-const getComObject = __.propOr('UNKNOWN_COM_OBJECT', 0);
+const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
 
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
@@ -65,11 +64,12 @@ class HistoryView extends React.Component {
     viewId: PropTypes.string.isRequired,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    currentRowIndexes: PropTypes.arrayOf(PropTypes.number),
+    last: PropTypes.shape(),
   };
 
   static defaultProps = {
     currentRowIndexes: [],
+    last: {},
   };
 
   onDrop = this.drop.bind(this);
@@ -83,7 +83,7 @@ class HistoryView extends React.Component {
     const data = ev.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
 
-    if (!_.get(content, 'catalogName')) {
+    if (!_.get('catalogName', content)) {
       return;
     }
 
@@ -101,13 +101,28 @@ class HistoryView extends React.Component {
     backgroundColor: 'rgba(0, 100, 0, 0.1)',
   });
 
-  _overrideStyle = ({ rowIndex, style }) =>
-    ({ ...(this.props.currentRowIndexes.indexOf(rowIndex) > -1 ? this._outlineStyle(style) : {}) });
+  _overrideStyle = ({ style, content }) =>
+    ({ ...(content.isCurrent ? this._outlineStyle(style) : {}) });
 
   render() {
     const {
       viewId,
+      last,
     } = this.props;
+
+    const _setCurrent = (cellContent = {}, content = {}) => {
+      const { epName, referenceTimestamp } = content;
+      const lastForEp = _.get(epName, last);
+
+      if (lastForEp && (lastForEp === referenceTimestamp)) {
+        return {
+          ...cellContent,
+          isCurrent: true,
+        };
+      }
+
+      return cellContent;
+    };
 
     return (
       <ErrorBoundary>
@@ -118,6 +133,7 @@ class HistoryView extends React.Component {
           <VirtualizedTableViewContainer
             viewId={viewId}
             tableId={'history'}
+            contentModifier={_setCurrent}
             overrideStyle={this._overrideStyle}
             withGroups
             pauseOnScroll

@@ -8,7 +8,7 @@ const Builder = new ProtoBuf.Root()
   .lookup('dataControllerUtils.protobuf.ADEItemMetadata');
 
 const getADEItemMetadata = override => applyOverride({
-  itemName: 'inem',
+  itemName: 'SAT_BC_NUMTC13',
   comment: undefined,
   longDescription: undefined,
   shortDescription: undefined,

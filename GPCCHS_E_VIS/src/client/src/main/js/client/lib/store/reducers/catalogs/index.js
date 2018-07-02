@@ -13,6 +13,7 @@ import {
   WS_UNIT_ADD,
   WS_UNIT_ADD_SIMPLE,
   WS_ITEM_STRUCTURE_ADD,
+  WS_ITEM_METADATA_ADD,
 } from 'store/types';
 
 export const REQUESTING = 'requesting';
@@ -198,6 +199,25 @@ export default function catalogsReducer(state = {}, action) {
       return _set(path, structure, state);
       // return state;
     }
+    case WS_ITEM_METADATA_ADD: {
+      // TODO: factorize this (quite same as previous case)
+      const { tupleId, name, metadata } = action.payload;
+      const { itemName, ...rest } = metadata;
+
+      const catalogIndex = getCatalogIndexByName(state, { tupleId, name });
+      if (catalogIndex === -1) {
+        return state;
+      }
+
+      const itemIndex = getCatalogItemIndexByName(state, { tupleId, name, itemName });
+      if (itemIndex === -1) {
+        return state;
+      }
+
+      const path = getMetadataPath(tupleId, catalogIndex, itemIndex);
+      return _set(path, rest, state);
+      // return state;
+    }
     default:
       return state;
   }
@@ -307,6 +327,9 @@ export const getUnitByItemName = createSelector(
 
 const getStructurePath = (tupleId, catalogIndex, itemIndex) =>
   `[${tupleId}][${catalogIndex}].items[${itemIndex}].structure`;
+
+const getMetadataPath = (tupleId, catalogIndex, itemIndex) =>
+  `[${tupleId}][${catalogIndex}].items[${itemIndex}].metadata`;
 
 export const getComObjectStructure = createSelector(
   (state, { tupleId }) => tupleId,

@@ -10,7 +10,9 @@ import {
   WS_UNIT_ADD,
   WS_ITEM_STRUCTURE_ASK,
   WS_UNIT_ADD_SIMPLE,
-  WS_ITEM_STRUCTURE_ADD, WS_ITEM_METADATA_ASK,
+  WS_ITEM_STRUCTURE_ADD,
+  WS_ITEM_METADATA_ASK,
+  WS_ITEM_METADATA_ADD,
 } from '../types';
 import { getSessionByNameWithFallback, getSessionNameFromTimeline } from '../reducers/sessions';
 import { getDomainId } from '../reducers/domains';
@@ -88,7 +90,7 @@ export const addItemStructure = simple(
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 
-export const askItemMetadata = (viewId, pageId, domainName, timelineId, catalog, path) =>
+export const askItemMetadata = (viewId, pageId, domainName, timelineId, catalogName, path) =>
   (dispatch, getState) => {
     const sessionName = getSessionNameFromTimeline(getState(), { timelineId, wildcardCharacter });
     const sessionId = getSessionByNameWithFallback(getState(), { sessionName, viewId, pageId }).id;
@@ -98,13 +100,20 @@ export const askItemMetadata = (viewId, pageId, domainName, timelineId, catalog,
       payload: {
         timelineId,
         domainId,
-        catalog,
+        catalogName,
         sessionId,
         name,
         itemName: path,
       },
     });
   };
+
+export const addCatalogItemMetadata = simple(
+  WS_ITEM_METADATA_ADD,
+  'tupleId',
+  'name',
+  'metadata'
+);
 
 export const addUnitSimple = simple(
   WS_UNIT_ADD_SIMPLE,

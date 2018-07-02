@@ -15,3 +15,11 @@
 div[role=alert] {
   margin-bottom: 1px !important;
 }
+
+.withButtonContainer {
+  display: flex;
+}
+
+.withButtonMainChild {
+  flex: 1;
+}

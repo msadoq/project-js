@@ -6,5 +6,6 @@ export default () => (
   <Field
     name="connectedData.path"
     component={InputField}
+    type="text"
   />
 );

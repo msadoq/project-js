@@ -13,12 +13,13 @@ import ComObjectFieldContainer from 'viewManager/commonEditor/Fields/ComObjectFi
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
 import
   DataTypeField, {
-    SDB_VALUE_OPTION,
-    TIME_BASED_DATA_OPTION,
-  } from 'viewManager/commonEditor/Fields/DataTypeField';
+  SDB_VALUE_OPTION,
+  TIME_BASED_DATA_OPTION,
+} from 'viewManager/commonEditor/Fields/DataTypeField';
 import RefTimestampFieldContainer from 'viewManager/commonEditor/Fields/RefTimestampFieldContainer';
 import PathField from 'viewManager/commonEditor/Fields/PathField';
-import DisplayModeField from 'viewManager/commonEditor/Fields/DisplayModeField';
+import DisplayModeField, { EXECUTE_AS_CODE_OPTION }
+  from 'viewManager/commonEditor/Fields/DisplayModeField';
 import './EntryPointTree.css';
 import { reduxFormFieldsType } from '../types';
 
@@ -38,6 +39,8 @@ export default class EntryPointConnectedDataFields extends PureComponent {
     selectedCatalogName: PropTypes.string,
     selectedItemName: PropTypes.string,
     selectedComObjectName: PropTypes.string,
+    selectedPath: PropTypes.string,
+    selectedDisplayMode: PropTypes.string,
   };
 
   static defaultProps = {
@@ -46,6 +49,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
     selectedCatalogName: null,
     selectedItemName: null,
     selectedComObjectName: null,
+    selectedPath: null,
   };
 
   static contextTypes = {
@@ -54,6 +58,36 @@ export default class EntryPointConnectedDataFields extends PureComponent {
 
   state = {
     dataType: this.props.dataType,
+  };
+
+  getFormula = () => {
+    const {
+      getFormula,
+      selectedDomainName,
+      selectedTimelineId,
+      selectedCatalogName,
+      selectedPath,
+      viewId,
+      pageId,
+    } = this.props;
+    if (this.fetchFormulaEnabled()) {
+      getFormula(
+        viewId,
+        pageId,
+        selectedDomainName,
+        selectedTimelineId,
+        selectedCatalogName,
+        selectedPath
+      );
+    }
+  };
+
+  fetchFormulaEnabled = () => {
+    const {
+      selectedCatalogName,
+      selectedDisplayMode,
+    } = this.props;
+    return selectedCatalogName && selectedDisplayMode === EXECUTE_AS_CODE_OPTION.value;
   };
 
   render() {
@@ -108,7 +142,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
           </HorizontalFormGroup>
 
           <HorizontalFormGroup label="Display mode" className={classForSdbValues}>
-            <DisplayModeField />
+            <DisplayModeField onChange={this.getFormula} enabled={this.fetchFormulaEnabled()} />
           </HorizontalFormGroup>
 
           <HorizontalFormGroup label="Catalog item" className={classForTimeBasedValues}>

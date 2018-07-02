@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import EntryPointConnectedDataFields from 'viewManager/common/Components/Editor/EntryPointConnectedDataFields';
+import { askItemMetadata } from 'store/actions/catalogs';
 import {
   getSelectedCatalogName,
   getSelectedComObjectName,
@@ -7,7 +8,10 @@ import {
   getSelectedDomainInForm,
   getSelectedItemName,
   getSelectedTimelineId,
-} from '../../../commonEditor/Fields/selectors';
+  getSelectedPath,
+  getSelectedDisplayMode,
+} from 'viewManager/commonEditor/Fields/selectors';
+
 
 const mapStateToProps = (state, { form }) => ({
   selectedDomainName: getSelectedDomainInForm(form, state),
@@ -16,10 +20,16 @@ const mapStateToProps = (state, { form }) => ({
   selectedItemName: getSelectedItemName(form, state),
   selectedComObjectName: getSelectedComObjectName(form, state),
   dataType: getSelectedDataType(form, state),
+  selectedPath: getSelectedPath(form, state),
+  selectedDisplayMode: getSelectedDisplayMode(form, state),
 });
 
-const EntryPointConnectedDataFieldsContainer = connect(
-  mapStateToProps, {}
-)(EntryPointConnectedDataFields);
+const mapDispatchToProps = {
+  getFormula: (viewId, pageId, domainName, timelineId, catalog, item) =>
+    askItemMetadata(viewId, pageId, domainName, timelineId, catalog, item),
+};
+
+const EntryPointConnectedDataFieldsContainer =
+  connect(mapStateToProps, mapDispatchToProps)(EntryPointConnectedDataFields);
 
 export default EntryPointConnectedDataFieldsContainer;

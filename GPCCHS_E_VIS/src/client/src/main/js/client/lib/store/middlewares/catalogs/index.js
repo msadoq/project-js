@@ -15,6 +15,7 @@ import {
   addUnit,
   addUnitSimple,
   addItemStructure,
+  addCatalogItemMetadata,
 } from 'store/actions/catalogs';
 import { getSingleEntryPoint } from 'viewManager/DecommutedPacketView/store/dataSelectors';
 import getLogger from 'common/logManager';
@@ -31,7 +32,6 @@ const asyncCatalogFetcher = (sessionId, domainId, cb) =>
   dc.retrieveSDBCatalogs({ sessionId, domainId }, cb);
 
 const asyncCatalogItemFetcher = (sessionId, domainId, catalogName, cb) => {
-  logger.info('asyncCatalogItemFetcher', sessionId, domainId, catalogName);
   dc.retrieveSDBCatalogsItems({ sessionId, domainId, catalogName }, cb);
 };
 
@@ -264,17 +264,34 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       break;
     }
     case WS_ITEM_METADATA_ASK: {
-      const { sessionId, domainId, name, itemName } = action.payload;
-      asyncItemMetadataFetcher(
-        sessionId,
-        domainId,
-        name,
-        itemName,
-        metadata => console.log(metadata)
+      const { sessionId, domainId, catalogName, itemName } = action.payload;
+      console.log(WS_ITEM_METADATA_ASK, action.payload);
+      // fetch catalog items, then fetch metadata for given itemName
+      // TODO only if itemName matches /^[A-Z][A-Z_]*/g
+
+      const fetchMeta = () => asyncItemMetadataFetcher(sessionId, domainId, catalogName, itemName,
+        metadata => dispatch(
+          addCatalogItemMetadata(getTupleId(domainId, sessionId), catalogName, metadata)
+      ));
+
+      const fetchItemsAndMeta = () => asyncCatalogItemFetcher(sessionId, domainId, catalogName,
+        (items) => {
+          dispatch(addCatalogItems(getTupleId(domainId, sessionId), catalogName, items));
+          fetchMeta();
+        }
       );
+
+      if (!areCatalogItemsLoaded(state, { sessionId, domainId, name: catalogName })) {
+        console.log('catalogItems not loaded for', catalogName);
+        fetchItemsAndMeta();
+      } else {
+        console.log('catalogItems loaded');
+        fetchMeta();
+      }
       break;
     }
-    default: break;
+    default:
+      break;
   }
 
   return nextAction;

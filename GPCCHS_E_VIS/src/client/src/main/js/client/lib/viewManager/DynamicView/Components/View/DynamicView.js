@@ -165,34 +165,45 @@ function objectHeader(ep) {
   });
   return <Form horizontal>{staticHeader}</Form>;
 }
-function arrayHeader(arrayData) {
-  if (!arrayData.length) {
-    return <thead />;
-  }
-  return (
-    <thead>
-      <tr key="header">
-        {Object.keys(arrayData[0]).map((value, idx) =>
-          <th
-            key={'head'.concat(idx)}
-            className="text-center"
-          >
-            {_lowerCase(value)}
-          </th>
-        )}
-      </tr>
-    </thead>
-  );
+function sortKeys(a, b) {
+  // name, converted value, raw value, extracted value, validity state
+  const tableFieldOrder = ['n', 'c', 'r', 'e', 'v'];
+  return tableFieldOrder.indexOf(a[0].toLowerCase()) - tableFieldOrder.indexOf(b[0].toLowerCase());
 }
-function arrayLine(arrayData) {
+
+function buildTable(arrayData) {
   if (!arrayData.length) {
-    return '';
+    return 'no data';
   }
-  const header = Object.keys(arrayData[0]);
+  const sortedKeys = Object.keys(arrayData[0]).sort(sortKeys);
   const item = 'item';
-  return arrayData.map((value, idx) =>
-    (<tr key={item.concat(idx)}>{header.map((key, idy) => <td key={item.concat(idy)}>
-      {dataToShow(value[key])}</td>)}</tr>));
+  return (
+    <Table striped bordered condensed hover>
+      <thead>
+        <tr key="header">
+          {sortedKeys.map((value, idx) =>
+            <th
+              key={'head'.concat(idx)}
+              className="text-center"
+            >{_lowerCase(value)
+            }</th>
+          )}
+        </tr>
+      </thead>
+      <tbody>
+        {
+        arrayData.map((value, idx) => (
+          <tr key={item.concat(idx)}>
+            {sortedKeys.map((key, idy) => (
+              <td key={item.concat(idy)}>
+                {dataToShow(value[key])}
+              </td>)
+            )}
+          </tr>))
+        }
+      </tbody>
+    </Table>
+  );
 }
 
 export default class DynamicView extends PureComponent {
@@ -359,7 +370,7 @@ export default class DynamicView extends PureComponent {
         />
       </div>
     );
-  }
+  };
 
   /**
    * @param onDrop
@@ -451,19 +462,13 @@ export default class DynamicView extends PureComponent {
                 <Row key={'row'.concat(i)}>
                   <header className={styles.arrayHeader}><h2>{_lowerCase(key)}</h2></header>
                   <Col sm={12}>
-                    <Table striped bordered condensed hover>
-                      {arrayHeader(ep[key])}
-                      <tbody>
-                        {arrayLine(ep[key])}
-                      </tbody>
-                    </Table>
+                    {buildTable(ep[key])}
                   </Col>
                 </Row>))}
             </Grid>
             {this.renderLinksContainer()}
           </DroppableContainer>
-          {this.renderModal()}
-        </div>
+          {this.renderModal()}</div>
       </ErrorBoundary>
     );
   }

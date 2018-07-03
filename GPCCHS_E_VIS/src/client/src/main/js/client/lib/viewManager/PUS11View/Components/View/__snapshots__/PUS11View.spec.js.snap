@@ -99,10 +99,18 @@ exports[`PUS11View :: render snapshot 1`] = `
       <div
         className="col-sm-6"
       >
-        <Connect(VirtualizedTableView)
-          tableId="subSchedules"
-          viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
-        />
+        <div
+          style={
+            Object {
+              "height": 400,
+            }
+          }
+        >
+          <Connect(VirtualizedTableView)
+            tableId="subSchedules"
+            viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+          />
+        </div>
       </div>
       <div
         className="clearfix"

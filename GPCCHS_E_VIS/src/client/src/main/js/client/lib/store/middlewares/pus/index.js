@@ -35,9 +35,9 @@ const pusTestMiddleware = ipc => (/* { dispatch, getState } */) => next => (acti
   return nextAction;
 };
 
-export const createPusDataMiddleware = () => pipeMiddlewares(
+export const createPusDataMiddleware = lokiManager => pipeMiddlewares(
   injectPusDataMiddleware(),
-  preparePus()
+  preparePus(lokiManager)
 );
 export default pusTestMiddleware;
 

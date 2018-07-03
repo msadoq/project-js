@@ -9,7 +9,7 @@ import mergeIntervals from '../../../../common/intervals/merge';
 import { add } from '../../../../serverProcess/models/registeredArchiveQueriesSingleton';
 import { sendArchiveQuery } from '../../../actions/pus/knownPus';
 
-// TODO remove this
+// TODO remove this and make a real callback
 const makeCallback = () => () => {};
 
 const retrievePus = ipc => ({ dispatch, getState }) => next => (action) => {
@@ -22,7 +22,7 @@ const retrievePus = ipc => ({ dispatch, getState }) => next => (action) => {
     const ids = Object.keys(neededPus);
     for (let i = 0; i < ids.length; i += 1) {
       const id = ids[i];
-      const { dataId, intervals, apidName } = neededPus[ids[i]];
+      const { intervals, apidName } = neededPus[ids[i]];
 
       // getting records from cache, if there is somme dispatch them with newData
       const pusRecords = getRecordsByInterval(PREFIX_PUS, id, intervals);
@@ -34,10 +34,7 @@ const retrievePus = ipc => ({ dispatch, getState }) => next => (action) => {
       for (let k = 0; k < intervals.length; k += 1) {
         execution.start('get missing intervals');
         const missingIntervals = getMissingIntervals(getState(),
-          {
-            id,
-            queryInterval: intervals[k],
-          }
+          { pusId: id, queryInterval: intervals[k] }
         );
         execution.stop('get missing intervals');
 

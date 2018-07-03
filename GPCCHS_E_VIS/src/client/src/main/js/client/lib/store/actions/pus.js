@@ -17,11 +17,8 @@ export const compare =
     'shouldStartComparisonTool'
   );
 export const reset = simple(types.PUS_TEMP_RESET, 'pusId', 'apId', 'date');
-
 export const incomingPus = simple(types.INCOMING_PUS_DATA, 'data');
 export const saveInFile = simple(types.PUS_MODEL_SAVE_IN_FILE, 'domainId', 'sessionId', 'apId');
-
-export const incomingPusRange = simple(types.INCOMING_PUS_RANGE_DATA, 'data');
 export const newPusData = simple(types.NEW_PUS_DATA, 'data');
 export const injectPusData = simple(types.INJECT_PUS_DATA, 'data');
 

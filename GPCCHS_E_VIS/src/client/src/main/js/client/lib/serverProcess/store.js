@@ -77,7 +77,7 @@ const createMiddlewares = (identity, isDebugOn) => {
     thunk,
     catalogMiddleware,
     apidsMiddleware,
-    createPusDataMiddleware(),
+    createPusDataMiddleware(lokiManager),
     createPusTestMiddleware(ipc),
     createIncomingDataMiddleware(lokiManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),

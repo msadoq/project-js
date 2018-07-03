@@ -8,7 +8,7 @@ const { incomingPus } = require('store/actions/pus');
 // const { add: addMessage } = require('../../../store/actions/messages');
 
 /**
- * Triggered on DC domain request response.
+ * Triggered on pus request response.
  *
  * - decode and pass to registered callback
  *
@@ -17,196 +17,129 @@ const { incomingPus } = require('store/actions/pus');
 module.exports = (buffers, getStore) => {
   logger.silly('called');
   const timestamp = Date.now();
-  console.log(timestamp);
   const store = getStore();
-  const yann = {
-
-    Pus011Model: {
-      maxNoTc: 100,
-      scheduleStatus: 100, // either 100 (ENABLED) / 200 (DISABLED)
-      lastUpdateTimeScheduleStatus: timestamp,
-      apid: 100,
-      noFreeCommands: 100,
-      lastUpdateTimeNoFreeCommands: timestamp,
-      freeSpace: 100,
-      lastUpdateTimeFreeSpace: timestamp,
-      spaceInNumberOfCommands: true,
-      noSubSchedule: 100,
-      status: 100, // either 100 (ENABLED) / 200 (DISABLED)
-      pus011Apid: [
-        {
-          status: 100, // either 100 (ENABLED) / 200 (DISABLED)
+  const pus11 = {
+    dataToInject: {
+      1530092041881: {
+        Pus011Model: {
+          maxNoTc: 100,
+          scheduleStatus: 1,
           apid: 100,
-          lastUpdateMode: 'TM', // either TM / TC / TIMEOUT
-          lastUpdateTime: timestamp,
+          noFreeCommands: 100,
+          lastUpdateTimeNoFreeCommands: timestamp,
+          freeSpace: 100,
+          lastUpdateTimeFreeSpace: timestamp,
+          spaceInNumberOfCommands: true,
+          noSubSchedule: 100,
+          pusElement: {
+            lastUpdateMode: 2,
+            lastUpdateTime: timestamp,
+          },
+          groundDate: timestamp,
+          status: 1,
+          pus011Apid: [
+            {
+              status: 1,
+              apid: 100,
+              pusElement: {
+                lastUpdateMode: 2,
+                lastUpdateTime: timestamp,
+              },
+            },
+          ],
+          useTimeShifts: true,
+          lastUpdateModeFreeSpace: 100,
+          lastUpdateModeNoFreeCommands: 100,
+          lastUpdateModeScheduleStatus: 100,
+          lastUpdateTimeScheduleStatus: timestamp,
         },
-        {
-          status: 100, // either 100 (ENABLED) / 200 (DISABLED)
-          apid: 100,
-          lastUpdateMode: 'TC', // either TM / TC / TIMEOUT
-          lastUpdateTime: timestamp,
-        },
-      ],
-      lastUpdateModeFreeSpace: timestamp,
-      lastUpdateModeNoFreeCommands: timestamp,
-      lastUpdateModeScheduleStatus: timestamp,
-      // scheduleStatus: 'ENABLED',
-      // availableSpace: '1000',
-      // spaceType: 'Bytes',
-      // lastUpdateTime: timestamp,
-      // lastUpdateType: 'TM',
+        Pus011SubSchedule: [
+          {
+            ssId: 100,
+            status: 1,
+            executionTimeFirstTc: timestamp,
+            apid: 100,
+            pusElement: {
+              lastUpdateMode: 2,
+              lastUpdateTime: timestamp,
+            },
+            groundDate: timestamp,
+            ssIdLabel: 'mySTRING',
+            lastUpdateModeStatus: 1,
+            lastUpdateTimeStatus: timestamp,
+            lastUpdateModeExecTimeFirstTc: 1,
+            lastUpdateTimeExecTimeFirstTc: timestamp,
+            lastUpdateModeSsId: 1,
+            lastUpdateTimeSsId: timestamp,
+          },
+        ],
+        Pus011Apid: [
+          {
+            status: 1,
+            apid: 100,
+            pusElement: {
+              lastUpdateMode: 2,
+              lastUpdateTime: timestamp,
+            },
+          },
+        ],
+        Pus011Command: [
+          {
+            commandApid: 100,
+            commandBinaryProfile: 'Buffer.alloc(4, 1)',
+            commandGroundStatus: 1,
+            commandName: 'mySTRING',
+            commandSequenceCount: 100,
+            commandStatus: 1,
+            currentExecutionTime: timestamp,
+            initialExecutionTime: timestamp,
+            commandSourceId: 100,
+            commandSsId: 100,
+            totalTimeShiftOffset: -100,
+            pus011EncapsulatingTc: {
+              sourceId: 100,
+              commandApid: 100,
+              sequenceCount: 100,
+            },
+            pus011CommandParameters: [
+              {
+                parameterName: 'mySTRING',
+                parameterValue: 100,
+              },
+            ],
+            pus011TimeShift: [
+              {
+                applicationTime: timestamp,
+                timeShiftOffset: -100,
+              },
+            ],
+            invalidBinaryTcDetected: false,
+            apid: 100,
+            pusElement: {
+              lastUpdateMode: 2,
+              lastUpdateTime: timestamp,
+            },
+            groundDate: timestamp,
+            lastUpdateModeBinProf: 2,
+            lastUpdateTimeBinProf: timestamp,
+            lastUpdateModeGroundStatus: 2,
+            lastUpdateTimeGroundStatus: timestamp,
+            lastUpdateModeStatus: 2,
+            lastUpdateTimeStatus: timestamp,
+            lastUpdateModeInitExecTime: 2,
+            lastUpdateTimeInitExecTime: timestamp,
+            lastUpdateModeTotalShiftOffset: 2,
+            lastUpdateTimeCurrExecTime: timestamp,
+            lastUpdateModeCurrExecTime: 2,
+            lastUpdateTimeTotalShiftOffset: timestamp,
+            lastUpdateModeCommandId: 2,
+            lastUpdateTimeCommandId: timestamp,
+          },
+        ],
+      },
     },
-    Pus011SubSchedule: [
-      {
-        ssId: 100,
-        status: 100, // either 100 (ENABLED) / 200 (DISABLED)
-        lastUpdateModeStatus: timestamp,
-        lastUpdateTimeStatus: timestamp,
-        executionTimeFirstTc: 1000,
-        apid: 100,
-        ssIdLabel: 'mySTRING',
-        lastUpdateModeSubScheduleId: timestamp,
-        lastUpdateTimeSubscheduleId: timestamp,
-        lastUpdateModeFirstTcTime: timestamp,
-        lastUpdateTimeFirstTcTime: timestamp,
-      },
-      {
-        ssId: 100,
-        status: 100, // either 100 (ENABLED) / 200 (DISABLED)
-        lastUpdateModeStatus: timestamp,
-        lastUpdateTimeStatus: timestamp,
-        executionTimeFirstTc: 1000,
-        apid: 100,
-        ssIdLabel: 'mySTRING',
-        lastUpdateModeSubScheduleId: timestamp,
-        lastUpdateTimeSubscheduleId: timestamp,
-        lastUpdateModeFirstTcTime: timestamp,
-        lastUpdateTimeFirstTcTime: timestamp,
-      }, {
-        ssId: 100,
-        status: 100, // either 100 (ENABLED) / 200 (DISABLED)
-        lastUpdateModeStatus: timestamp,
-        lastUpdateTimeStatus: timestamp,
-        executionTimeFirstTc: 1000,
-        apid: 100,
-        ssIdLabel: 'mySTRING',
-        lastUpdateModeSubScheduleId: timestamp,
-        lastUpdateTimeSubscheduleId: timestamp,
-        lastUpdateModeFirstTcTime: timestamp,
-        lastUpdateTimeFirstTcTime: timestamp,
-      }, {
-        ssId: 100,
-        status: 100, // either 100 (ENABLED) / 200 (DISABLED)
-        lastUpdateModeStatus: timestamp,
-        lastUpdateTimeStatus: timestamp,
-        executionTimeFirstTc: 1000,
-        apid: 100,
-        ssIdLabel: 'mySTRING',
-        lastUpdateModeSubScheduleId: timestamp,
-        lastUpdateTimeSubscheduleId: timestamp,
-        lastUpdateModeFirstTcTime: timestamp,
-        lastUpdateTimeFirstTcTime: timestamp,
-      },
-    ],
-    Pus011Apid: [
-      {
-        status: 100, // either 100 (ENABLED) / 200 (DISABLED)
-        apid: 100,
-        lastUpdateMode: 'TM', // either TM / TC / TIMEOUT
-        lastUpdateTime: timestamp,
-      },
-      {
-        status: 200, // either 100 (ENABLED) / 200 (DISABLED)
-        apid: 100,
-        lastUpdateMode: 'TC', // either TM / TC / TIMEOUT
-        lastUpdateTime: timestamp,
-      },
-      {
-        status: 100, // either 100 (ENABLED) / 200 (DISABLED)
-        apid: 100,
-        lastUpdateMode: 'TM', // either TM / TC / TIMEOUT
-        lastUpdateTime: timestamp,
-      },
-      {
-        status: 200, // either 100 (ENABLED) / 200 (DISABLED)
-        apid: 100,
-        lastUpdateMode: 'TC', // either TM / TC / TIMEOUT
-        lastUpdateTime: timestamp,
-      },
-    ],
-    Pus011Command: [
-      {
-        commandApid: 100,
-        commandBinaryProfile: Buffer.alloc(4, 1),
-        lastUpdateModeBinProf: 'TM', // either TM / TC / TIMEOUT
-        lastUpdateTimeBinProf: timestamp,
-        commandGroundStatus: 100,
-        lastUpdateModeGroundStatus: 'TM', // either TM / TC / TIMEOUT
-        lastUpdateTimeGroundStatus: timestamp,
-        commandName: 'mySTRING',
-        commandSequenceCount: 100,
-        commandStatus: 100,
-        lastUpdateModeStatus: 'TM', // either TM / TC / TIMEOUT
-        lastUpdateTimeStatus: timestamp,
-        currentExecutionTime: timestamp,
-        lastUpdateModeCurrentExecTime: timestamp,
-        lastUpdateTimeCurrentExecTime: timestamp,
-        initialExecutionTime: timestamp,
-        commandSourceId: 100,
-        commandSsId: 100,
-        totalTimeShiftOffset: -100,
-        pus011CommandParameters: [
-          {
-            parameterName: 'mySTRING',
-            parameterValue: 'mySTRING',
-            parameterDescription: 'mySTRING',
-            lastUpdateMode: 'TM', // either TM / TC / TIMEOUT
-            lastUpdateTime: timestamp,
-          },
-          {
-            parameterName: 'mySTRING',
-            parameterValue: 'mySTRING',
-            parameterDescription: 'mySTRING',
-            lastUpdateMode: 'TM', // either TM / TC / TIMEOUT
-            lastUpdateTime: timestamp,
-          },
-          {
-            parameterName: 'mySTRING',
-            parameterValue: 'mySTRING',
-            parameterDescription: 'mySTRING',
-            lastUpdateMode: 'TM', // either TM / TC / TIMEOUT
-            lastUpdateTime: timestamp,
-          },
-        ],
-        pus011TimeShift: [
-          {
-            applicationTime: timestamp,
-            timeShiftOffset: -100,
-            lastUpdateMode: 'TM', // either TM / TC / TIMEOUT
-            lastUpdateTime: timestamp,
-          },
-          {
-            applicationTime: timestamp,
-            timeShiftOffset: -100,
-            lastUpdateMode: 'TM', // either TM / TC / TIMEOUT
-            lastUpdateTime: timestamp,
-          },
-          {
-            applicationTime: timestamp,
-            timeShiftOffset: -100,
-            lastUpdateMode: 'TM', // either TM / TC / TIMEOUT
-            lastUpdateTime: timestamp,
-          },
-        ],
-        apid: 100,
-        commandDescription: 'mySTRING',
-        commandApidName: 'mySTRING',
-        lastUpdateModeCommand: 'TM', // either TM / TC / TIMEOUT
-        lastUpdateTimeCommand: timestamp,
-      },
-    ],
   };
-  store.dispatch(incomingPus(yann));
+  store.dispatch(incomingPus(pus11));
   // const buffer = buffers[0];
   // const callback = pop(requestId);
 

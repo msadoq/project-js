@@ -12,6 +12,8 @@
 //  tests
 // VERSION : 1.1.2 : DM : #5828 : 14/06/2017 : Refactor Jest test to replace it() with test() calls
 // VERSION : 2.0.0 : FA : ISIS-FT-1937 : 01/02/2018 : Fix tests . . .
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3152 : 30/05/2018 : comportement multisat VIMA test end
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3152 : 30/05/2018 : comportement multisat VIMA . .
 // END-HISTORY
 // ====================================================================
 

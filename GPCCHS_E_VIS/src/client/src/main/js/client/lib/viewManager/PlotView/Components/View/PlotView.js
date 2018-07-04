@@ -125,6 +125,13 @@
 // VERSION : 2.0.0 : FA : #11614 : 06/04/2018 : Plotview unit display + snap
 // VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
 //  test (cherry picked from commit 3c9fde0)
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3154 : 09/05/2018 : labels are displayed or not depending on
+//  displayLine prop in Axis.js
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3154 : 30/05/2018 : Revert : labels are displayed or not
+//  depending on displayLine prop in Axis.js
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3154 : 30/05/2018 : labels are displayed or not depending on
+//  displayLine prop in Axis.js
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3181 : 07/06/2018 : Fix orientation of x axis for parametric
 // END-HISTORY
 // ====================================================================
 

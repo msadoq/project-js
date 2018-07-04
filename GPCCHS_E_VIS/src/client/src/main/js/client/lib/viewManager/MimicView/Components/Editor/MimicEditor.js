@@ -18,6 +18,10 @@
 //  MimicView common components to dedicated folder
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // VERSION : 2.0.0 : DM : #10790 : 27/02/2018 : merge R10dev P1 into bridge REVERT
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3086 : 15/05/2018 : editor's form bug on reintialize
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3086 : 30/05/2018 : editor's form bug on reintialize
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3174 : 30/05/2018 : disable background color on view header for
+//  multisat handle
 // END-HISTORY
 // ====================================================================
 

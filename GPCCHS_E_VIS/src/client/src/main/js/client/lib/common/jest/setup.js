@@ -14,6 +14,7 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 01/02/2018 : editeur champ flowType VIMA JS
 // VERSION : 2.0.0 : FA : #10835 : 28/02/2018 : add global configuration for colors
 // VERSION : 2.0.0 : FA : ISIS-FT-2949 : 22/03/2018 : dates now display in TAI
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3152 : 30/05/2018 : comportement multisat VIMA . .
 // END-HISTORY
 // ====================================================================
 

@@ -1,4 +1,4 @@
-#GPCCHS 2.0.0.2 15/05/2018 dr-supprimees.txt
+#GPCCHS 2.0.0.3 06/07/2018 dr-supprimees.txt
 
 
 # ref_OGM_cnes | ref_OGM_emetteur | date_emission | titre

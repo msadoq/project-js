@@ -4,6 +4,8 @@
 // VERSION : 1.1.2 : FA : #7185 : 05/07/2017 : Fix lint errors and warnings
 // VERSION : 1.1.2 : DM : #6829 : 11/07/2017 : PlotView legend and legend location : defaultValues.
 // VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3174 : 30/05/2018 : disable background color on view header for
+//  multisat handle
 // END-HISTORY
 // ====================================================================
 

@@ -39,6 +39,10 @@
 // VERSION : 2.0.0 : FA : #11616 : 06/04/2018 : Fix drag and drop .
 // VERSION : 2.0.0 : FA : #11616 : 06/04/2018 : Fix drag and drop feature in DynamicView
 // VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
+// VERSION : 2.0.0.3 : FA : ISIS-FT-2238 : 22/05/2018 : drag drop paquet dans dynamicView VIMA
+// VERSION : 2.0.0.3 : FA : ISIS-FT-2238 : 30/05/2018 : drag drop paquet dans dynamicView VIMA
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3089 : 07/06/2018 : Fix display bug on dynamic view
+// VERSION : 2.0.0.3 : FA : #13394 : 29/06/2018 : fix content height in dynamic view
 // END-HISTORY
 // ====================================================================
 

@@ -34,6 +34,14 @@
 // VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
 // VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
 //  test (cherry picked from commit 3c9fde0)
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3180 : 25/05/2018 : no more unit selection request on adding
+//  new entry point
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3181 : 29/05/2018 : parametric plot settings editor in order
+//  again
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3181 : 29/05/2018 : unitX and unitY ignored in
+//  EntryPointConnectedData
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3180 : 30/05/2018 : no more unit selection request on adding
+//  new entry point
 // END-HISTORY
 // ====================================================================
 

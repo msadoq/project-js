@@ -26,6 +26,8 @@
 //  in jest/index.js
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3174 : 30/05/2018 : disable background color on view header for
+//  multisat handle
 // END-HISTORY
 // ====================================================================
 

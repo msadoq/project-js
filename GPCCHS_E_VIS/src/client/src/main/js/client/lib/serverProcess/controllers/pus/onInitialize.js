@@ -21,120 +21,102 @@ module.exports = (buffers, getStore) => {
     dataToInject: {
       1530092041881: {
         Pus011Model: {
-          maxNoTc: 100,
-          scheduleStatus: 1,
-          apid: 100,
-          noFreeCommands: 100,
-          lastUpdateTimeNoFreeCommands: 1527520025823,
-          freeSpace: 100,
-          lastUpdateTimeFreeSpace: 1527520025823,
-          spaceInNumberOfCommands: true,
-          noSubSchedule: 100,
-          pusElement: {
-            lastUpdateMode: 2,
-            lastUpdateTime: 1527520025823,
-          },
-          groundDate: 1527520025823,
-          status: 1,
+          serviceApid: 100, // affiché en haut de la vue
+          status: 1, // inutilisé
+          spaceInNumberOfCommands: true, // détermine si l’on doit afficher “noFreeCommands” ou “freeSpace” dans la vue
+          scheduleStatus: 1, // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue
+          lastUpdateTimeScheduleStatus: 1527520025823, // Tooltip sur scheduleStatus
+          lastUpdateModeScheduleStatus: 100,  // Tooltip sur scheduleStatus
+          noFreeCommands: 100, // affiché dans la vue si spaceInNumberOfCommands est a false
+          lastUpdateTimeNoFreeCommands: 1527520025823, // Tooltip sur noFreeCommands
+          lastUpdateModeNoFreeCommands: 100, // Tooltip sur noFreeCommands
+          freeSpace: 100,  // affiché dans la vue si spaceInNumberOfCommands est a true
+          lastUpdateTimeFreeSpace: 1527520025823,  // Tooltip sur freeSpace
+          lastUpdateModeFreeSpace: 100, // Tooltip sur freeSpace
+          serviceApidName: 'myString', // affiché en haut de la vue
+          uniqueId: 100, // inutilisé
           pus011Apid: [
             {
-              status: 1,
-              apid: 100,
-              pusElement: {
-                lastUpdateMode: 2,
-                lastUpdateTime: 1527520025823,
-              },
+              apid: 100, // à afficher dans le tableau Enabled AP
+              lastUpdateModeApid: 1, // Tooltip sur apid / apidName
+              lastUpdateTimeApid: 1527520025823, // Tooltip sur apid / apidName
+              status: 1,  // inutilisé
+              lastUpdateModeStatus: 1,  // inutilisé
+              lastUpdateTimeStatus: 1527520025823,  // inutilisé
+              serviceApid: 100, // inutilisé
+              serviceApidName: 'myString', // inutilisé
+              apidName: 'myString', // A afficher dans le tableau Enabled AP
+              uniqueId: 1, // inutilisé
             },
           ],
-          useTimeShifts: true,
-          lastUpdateModeFreeSpace: 100,
-          lastUpdateModeNoFreeCommands: 100,
-          lastUpdateModeScheduleStatus: 100,
-          lastUpdateTimeScheduleStatus: 1527520025823,
+          Pus011SubSchedule: [
+            {
+              serviceApid: 100, // inutilisé
+              ssId: 100, // A afficher dans le tableau SubSchedules
+              status: 1, // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue
+              ssIdLabel: 'myString', // A afficher dans le tableau SubSchedules
+              lastUpdateModeSubScheduleId: 1, // Tooltip sur ssId
+              lastUpdateTimeSubscheduleId: 1527520025823, // Tooltip sur ssId
+              lastUpdateModeStatus: 1, // Tooltip sur Status
+              lastUpdateTimeStatus: 1527520025823, // Tooltip sur Status
+              lastUpdateModeExecTimeFirstTc: 1, // inutilisé
+              lastUpdateTimeExecTimeFirstTc: 1527520025823, // inutilisé
+              serviceApidName: 'myString', // inutilisé
+              uniqueId: 1527520025823, // inutilisé
+            },
+          ],
+          Pus011Command: [
+            {
+              uniqueId: 100, // Inutilisé
+              commandApid: 100, // Inutilisé
+              commandApidName: 'myString', // Inutilisé
+              commandName: 'myString', // A afficher dans le tableau Commands
+              commandDescription: 'myString', // A afficher dans le tableau Commands
+              commandSequenceCount: 100, // A afficher dans le tableau Commands
+              commandSourceId: 100, // A afficher dans le tableau Commands
+              commandSsId: 100, // Inutilisé
+              serviceApid: 100, // Inutilisé
+              lastUpdateModeCommandId: 2, // Inutilisé
+              lastUpdateTimeCommandId: 1527520025823, // Inutilisé
+              commandBinaryProfile: Buffer.alloc(4, 1), // A afficher dans la popin
+              lastUpdateModeBinProf: 2, // Tooltip dans la popin
+              lastUpdateTimeBinProf: 1527520025823, // Tooltip dans la popin
+              commandGroundStatus: 1, // A afficher dans le tableau Commands
+              lastUpdateModeGroundStatus: 2, // Tooltip sur commandGroundStatus
+              lastUpdateTimeGroundStatus: 1527520025823, // Tooltip sur commandGroundStatus
+              commandStatus: 1, // A afficher dans le tableau Commands
+              lastUpdateModeStatus: 2, // Tooltip sur status
+              lastUpdateTimeStatus: 1527520025823, // Tooltip sur status
+              currentExecutionTime: 1527520025823, // A afficher dans le tableau Commands
+              lastUpdateModeCurrentExecTime: 1, // Tooltip sur currentExecutionTime
+              lastUpdateTimeCurrentExecTime: 1527520025823, // Tooltip sur currentExecutionTime
+              initialExecutionTime: 1527520025823, // A afficher dans le tableau Commands
+              lastUpdateModeInitialExecTime: 1, // Tooltip sur initialExecutionTime
+              lastUpdateTimeInitialExecTime: 1527520025823, // Tooltip sur initialExecutionTime
+              totalTimeShiftOffset: -100, // A afficher dans le tableau Commands
+              lastUpdateModeTotalTimeShiftOffset: 2, // Tooltip sur totalTimeShiftOffset
+              lastUpdateTimeTotalTimeShiftOffset: 1527520025823, // Tooltip sur totalTimeShiftOffset
+              serviceApidName: 'myString', // Inutilisé
+              pus011CommandParameters: [
+                {
+                  parameterName: 'myString', // Affiché dans la popin au dblClick sur une command
+                  parameterValue: 100, // Affiché dans la popin au dblClick sur une command
+                  parameterDescription: 'myString', // Affiché dans la popin au dblClick sur une command
+                  lastUpdateMode: 2, // Tooltip sur les trois précédents champs
+                  lastUpdateTime: 1527520025823, // Tooltip sur les trois précédents champs
+                },
+              ],
+              pus011TimeShift: [
+                {
+                  applicationTime: 1527520025823, // Affiché dans la popin au dbleClick sur une command
+                  timeShiftOffset: -100, // Affiché dans la popin au dbleClick sur une command
+                  lastUpdateMode: 2, // Tooltip sur les trois précédents champs
+                  lastUpdateTime: 1527520025823, // Tooltip sur les trois précédents champs
+                },
+              ],
+            },
+          ],
         },
-        Pus011SubSchedule: [
-          {
-            ssId: 100,
-            status: 1,
-            executionTimeFirstTc: 1527520025823,
-            apid: 100,
-            pusElement: {
-              lastUpdateMode: 2,
-              lastUpdateTime: 1527520025823,
-            },
-            groundDate: 1527520025823,
-            ssIdLabel: 'mySTRING',
-            lastUpdateModeStatus: 1,
-            lastUpdateTimeStatus: 1527520025823,
-            lastUpdateModeExecTimeFirstTc: 1,
-            lastUpdateTimeExecTimeFirstTc: 1527520025823,
-            lastUpdateModeSsId: 1,
-            lastUpdateTimeSsId: 1527520025823,
-          },
-        ],
-        Pus011Apid: [
-          {
-            status: 1,
-            apid: 100,
-            pusElement: {
-              lastUpdateMode: 2,
-              lastUpdateTime: 1527520025823,
-            },
-          },
-        ],
-        Pus011Command: [
-          {
-            commandApid: 100,
-            commandBinaryProfile: 'Buffer.alloc(4, 1)',
-            commandGroundStatus: 1,
-            commandName: 'mySTRING',
-            commandSequenceCount: 100,
-            commandStatus: 1,
-            currentExecutionTime: 1527520025823,
-            initialExecutionTime: 1527520025823,
-            commandSourceId: 100,
-            commandSsId: 100,
-            totalTimeShiftOffset: -100,
-            pus011EncapsulatingTc: {
-              sourceId: 100,
-              commandApid: 100,
-              sequenceCount: 100,
-            },
-            pus011CommandParameters: [
-              {
-                parameterName: 'mySTRING',
-                parameterValue: 100,
-              },
-            ],
-            pus011TimeShift: [
-              {
-                applicationTime: 1527520025823,
-                timeShiftOffset: -100,
-              },
-            ],
-            invalidBinaryTcDetected: false,
-            apid: 100,
-            pusElement: {
-              lastUpdateMode: 2,
-              lastUpdateTime: 1527520025823,
-            },
-            groundDate: 1527520025823,
-            lastUpdateModeBinProf: 2,
-            lastUpdateTimeBinProf: 1527520025823,
-            lastUpdateModeGroundStatus: 2,
-            lastUpdateTimeGroundStatus: 1527520025823,
-            lastUpdateModeStatus: 2,
-            lastUpdateTimeStatus: 1527520025823,
-            lastUpdateModeInitExecTime: 2,
-            lastUpdateTimeInitExecTime: 1527520025823,
-            lastUpdateModeTotalShiftOffset: 2,
-            lastUpdateTimeCurrExecTime: 1527520025823,
-            lastUpdateModeCurrExecTime: 2,
-            lastUpdateTimeTotalShiftOffset: 1527520025823,
-            lastUpdateModeCommandId: 2,
-            lastUpdateTimeCommandId: 1527520025823,
-          },
-        ],
       },
     },
   };

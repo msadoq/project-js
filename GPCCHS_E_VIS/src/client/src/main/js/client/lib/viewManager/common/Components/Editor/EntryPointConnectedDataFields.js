@@ -18,10 +18,13 @@ import
 } from 'viewManager/commonEditor/Fields/DataTypeField';
 import RefTimestampFieldContainer from 'viewManager/commonEditor/Fields/RefTimestampFieldContainer';
 import PathField from 'viewManager/commonEditor/Fields/PathField';
-import DisplayModeField, { EXECUTE_AS_CODE_OPTION }
+import DisplayModeField, {
+  EXECUTE_AS_CODE_OPTION,
+}
   from 'viewManager/commonEditor/Fields/DisplayModeField';
-import './EntryPointTree.css';
+import styles from './EntryPointTree.css';
 import { reduxFormFieldsType } from '../types';
+import InputParameters from './InputParameters';
 
 /*
   All the fields used in Connected data form
@@ -41,6 +44,13 @@ export default class EntryPointConnectedDataFields extends PureComponent {
     selectedComObjectName: PropTypes.string,
     selectedPath: PropTypes.string,
     selectedDisplayMode: PropTypes.string,
+    metadata: PropTypes.shape({
+      inputParameters: PropTypes.arrayOf(PropTypes.shape({
+        itemName: PropTypes.string.isRequired,
+        catalogName: PropTypes.string.isRequired,
+      })),
+      algorithm: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
@@ -50,6 +60,8 @@ export default class EntryPointConnectedDataFields extends PureComponent {
     selectedItemName: null,
     selectedComObjectName: null,
     selectedPath: null,
+    selectedDisplayMode: null,
+    metadata: null,
   };
 
   static contextTypes = {
@@ -101,6 +113,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
       selectedItemName,
       selectedComObjectName,
       dataType,
+      metadata,
     } = this.props;
 
     const classForSdbValues = classnames(dataType !== SDB_VALUE_OPTION.value && 'hidden');
@@ -144,6 +157,22 @@ export default class EntryPointConnectedDataFields extends PureComponent {
           <HorizontalFormGroup label="Display mode" className={classForSdbValues}>
             <DisplayModeField onChange={this.getFormula} enabled={this.fetchFormulaEnabled()} />
           </HorizontalFormGroup>
+
+          <div className={classForSdbValues}>
+
+            {metadata.inputParameters &&
+              <InputParameters params={metadata.inputParameters} className={classForSdbValues} />
+            }
+
+            {metadata.algorithm &&
+            <textarea
+              className={styles.algorithm}
+              value={metadata.algorithm}
+              rows="3"
+              readOnly
+            />
+            }
+          </div>
 
           <HorizontalFormGroup label="Catalog item" className={classForTimeBasedValues}>
             <CatalogItemFieldContainer

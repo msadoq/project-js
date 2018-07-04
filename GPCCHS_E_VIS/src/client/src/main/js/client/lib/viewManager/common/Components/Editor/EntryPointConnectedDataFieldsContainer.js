@@ -11,18 +11,37 @@ import {
   getSelectedPath,
   getSelectedDisplayMode,
 } from 'viewManager/commonEditor/Fields/selectors';
+import { getTupleId, getAlgorithmMetadata } from 'store/reducers/catalogs';
+import { getDomainId } from 'store/reducers/domains';
+import { getSessionByNameWithFallback, getSessionNameFromTimeline } from 'store/reducers/sessions';
+import { get } from '../../../../common/configurationManager';
 
 
-const mapStateToProps = (state, { form }) => ({
-  selectedDomainName: getSelectedDomainInForm(form, state),
-  selectedTimelineId: getSelectedTimelineId(form, state),
-  selectedCatalogName: getSelectedCatalogName(form, state),
-  selectedItemName: getSelectedItemName(form, state),
-  selectedComObjectName: getSelectedComObjectName(form, state),
-  dataType: getSelectedDataType(form, state),
-  selectedPath: getSelectedPath(form, state),
-  selectedDisplayMode: getSelectedDisplayMode(form, state),
-});
+const wildcardCharacter = get('WILDCARD_CHARACTER');
+
+const mapStateToProps = (state, { form, viewId, pageId }) => {
+  const domainName = getSelectedDomainInForm(form, state);
+  const timelineId = getSelectedTimelineId(form, state);
+  const sessionName = getSessionNameFromTimeline(state, { timelineId, wildcardCharacter });
+  const sessionId = getSessionByNameWithFallback(state, { sessionName, viewId, pageId }).id;
+  const domainId = getDomainId(state, { viewId, pageId, domainName });
+  const tupleId = getTupleId(domainId, sessionId);
+  const name = getSelectedCatalogName(form, state);
+  const selectedPath = getSelectedPath(form, state);
+  const metadata = getAlgorithmMetadata(state.catalogs, { tupleId, name, itemName: selectedPath });
+
+  return {
+    selectedDomainName: domainName,
+    selectedTimelineId: timelineId,
+    selectedCatalogName: name,
+    selectedItemName: getSelectedItemName(form, state),
+    selectedComObjectName: getSelectedComObjectName(form, state),
+    dataType: getSelectedDataType(form, state),
+    selectedPath,
+    selectedDisplayMode: getSelectedDisplayMode(form, state),
+    metadata,
+  };
+};
 
 const mapDispatchToProps = {
   getFormula: (viewId, pageId, domainName, timelineId, catalog, item) =>

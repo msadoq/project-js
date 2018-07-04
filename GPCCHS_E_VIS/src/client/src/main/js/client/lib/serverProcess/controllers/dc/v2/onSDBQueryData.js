@@ -27,13 +27,11 @@ const handleBoolean = (buffer, callback) => {
 
 const handleItemStructure = (buffer, callback) => {
   const decoded = decode('dc.dataControllerUtils.ADEItemStructure', buffer);
-  console.log(JSON.stringify(decoded));
   callback(decoded);
 };
 
 const handleItemMetadata = (buffer, callback) => {
   const decoded = decode('dc.dataControllerUtils.ADEItemMetadata', buffer);
-  console.log(JSON.stringify(decoded));
   callback(decoded);
 };
 

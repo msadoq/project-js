@@ -265,7 +265,6 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
     }
     case WS_ITEM_METADATA_ASK: {
       const { sessionId, domainId, catalogName, itemName } = action.payload;
-      console.log(WS_ITEM_METADATA_ASK, action.payload);
       // fetch catalog items, then fetch metadata for given itemName
       // TODO only if itemName matches /^[A-Z][A-Z_]*/g
 
@@ -282,10 +281,8 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       );
 
       if (!areCatalogItemsLoaded(state, { sessionId, domainId, name: catalogName })) {
-        console.log('catalogItems not loaded for', catalogName);
         fetchItemsAndMeta();
       } else {
-        console.log('catalogItems loaded');
         fetchMeta();
       }
       break;

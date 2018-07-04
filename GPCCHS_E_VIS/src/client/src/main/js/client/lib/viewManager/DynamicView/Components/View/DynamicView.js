@@ -165,13 +165,13 @@ function objectHeader(ep) {
   });
   return <Form horizontal>{staticHeader}</Form>;
 }
-function sortKeys(a, b) {
+export const sortKeys = (a, b) => {
   // name, converted value, raw value, extracted value, validity state
   const tableFieldOrder = ['n', 'c', 'r', 'e', 'v'];
   return tableFieldOrder.indexOf(a[0].toLowerCase()) - tableFieldOrder.indexOf(b[0].toLowerCase());
-}
+};
 
-function buildTable(arrayData) {
+export const buildTable = (arrayData) => {
   if (!arrayData.length) {
     return 'no data';
   }
@@ -182,11 +182,9 @@ function buildTable(arrayData) {
       <thead>
         <tr key="header">
           {sortedKeys.map((value, idx) =>
-            <th
-              key={'head'.concat(idx)}
-              className="text-center"
-            >{_lowerCase(value)
-            }</th>
+            <th key={'head'.concat(idx)} className="text-center">
+              {_lowerCase(value)}
+            </th>
           )}
         </tr>
       </thead>
@@ -204,7 +202,7 @@ function buildTable(arrayData) {
       </tbody>
     </Table>
   );
-}
+};
 
 export default class DynamicView extends PureComponent {
   static propTypes = {

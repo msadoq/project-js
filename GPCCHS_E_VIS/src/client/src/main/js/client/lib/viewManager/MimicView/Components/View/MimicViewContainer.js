@@ -27,7 +27,7 @@ import _ from 'lodash/fp';
 
 import { askOpenLink } from 'store/actions/links';
 import { getConfigurationByViewId } from 'viewManager';
-import { getViewContent, getViewDimensions } from 'viewManager/MimicView/store/configurationSelectors';
+import { getViewContent } from 'viewManager/MimicView/store/configurationSelectors';
 import { getPageIdByViewId, getPage, getSearchCount, getSearchingByPage, getSearchViewsIds } from 'store/reducers/pages';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
@@ -42,7 +42,6 @@ import { getDataFilteredByEP } from '../../store/dataReducer';
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
-  const dimensions = getViewDimensions(state, { viewId });
   const searching = getSearchingByPage(state, { pageId });
   const searchViewsIds = getSearchViewsIds(state, { pageId });
   const searchCount = getSearchCount(state, { pageId });
@@ -62,8 +61,6 @@ const mapStateToProps = (state, { viewId }) => {
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
     openLink: linkId => askOpenLink(viewId, linkId),
-    width: dimensions.width,
-    height: dimensions.height,
     searching,
     searchCount,
     searchForThisView: searchViewsIds.indexOf(viewId) !== -1,

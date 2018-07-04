@@ -6,14 +6,18 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash';
 import { dirname } from 'path';
-import { LOG_DOCUMENT_SAVE } from 'constants';
-
+import {
+  LOG_DOCUMENT_SAVE,
+  MIME_TYPES,
+ } from 'constants';
 import { createFolder } from 'common/fs';
 import { isViewTypeSupported, getSchema, getViewModule } from 'viewManager';
 import { dc } from '../ipc';
 import validation from './validation';
-import { writeDocument } from './io';
+import { writeDocument, exportData } from './io';
+import { getRelativeFmdPath } from './fmd';
 
 const writeView = (view, path, callback) => {
   if (!view) {
@@ -35,13 +39,38 @@ const writeView = (view, path, callback) => {
       return callback(validationError);
     }
 
-    return writeDocument(path, preparedView, (errWrite, oId) => {
-      if (errWrite) {
-        return callback(errWrite);
+    switch (view.type) {
+      case 'MimicView': {
+        const contentPathValue = getRelativeFmdPath(path);
+        const svgContent = preparedView.content;
+        const mimicPreparedView = {
+          ..._.omit(preparedView, 'content'),
+          contentPath: contentPathValue.concat('.svg'),
+        };
+        exportData(svgContent, MIME_TYPES.ScalableVectorGraphics, path.concat('.svg'), (errSaving) => {
+          if (errSaving) {
+            return callback(errSaving);
+          }
+          return writeDocument(path, mimicPreparedView, (errWrite, oId) => {
+            if (errWrite) {
+              return callback(errWrite);
+            }
+            dc.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
+            return callback(null, oId);
+          });
+        });
+        break;
       }
-      dc.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
-      return callback(null, oId);
-    });
+      default: { // default is all view types besides mimic
+        return writeDocument(path, preparedView, (errWrite, oId) => {
+          if (errWrite) {
+            return callback(errWrite);
+          }
+          dc.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
+          return callback(null, oId);
+        });
+      }
+    }
   });
 };
 

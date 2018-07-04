@@ -3,7 +3,7 @@ const vSlider = `
 <g transform="translate(__TRANSLATE_FROM__,__TRANSLATE_TO__)">
   <path d="M28,10 l6,0 l0,200, l-6,0 z" style=" fill: #DDD; stroke: #BBB;" />
   <g isis_animation="translateY" isis_ep="__ENTRY_POINT__" isis_domain="0,100" isis_distance="200" isis_direction="top">
-    <g isis_animation="colour" isis_ep="__ENTRY_POINT__"  isis_color_operators="<|0|#e74c3c;;>=|0|#2ecc71;;>=|25|#3498db;;>=|50|#e74c3c;;>=|75|#f1c40f;;>=|100|#e74c3c">
+    <g isis_animation="colour" isis_ep="__ENTRY_POINT__"  isis_color_operators="&lt;|0|#e74c3c;;&gt;=|0|#2ecc71;;&gt;=|25|#3498db;;&gt;=|50|#e74c3c;;&gt;=|75|#f1c40f;;&gt;=|100|#e74c3c">
         <ellipse cx="31" cy="210" rx="8" ry="8" style="fill: #EEE; stroke: #BBB;" />
     </g>
   </g>

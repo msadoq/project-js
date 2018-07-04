@@ -76,6 +76,13 @@ const validOrigin = values =>
   ['center', 'right', 'left'].includes(values[0]) &&
   ['center', 'top', 'bottom'].includes(values[1]);
 
+export const stripInkscapeCharacters = content =>
+  content
+    .replace(/<metadata[\w\W]+metadata>/gm, '')
+    .replace(/<sodipodi[^/>]+\/>/gm, '')
+    .replace(/<defs[^/>]+\/>/gm, '')
+;
+
 export default class MimicView extends Component {
   static propTypes = {
     content: PropTypes.string.isRequired,
@@ -84,8 +91,6 @@ export default class MimicView extends Component {
       values: PropTypes.object,
     }).isRequired,
     perfOutput: PropTypes.bool,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
   };
   static defaultProps = {
     data: {
@@ -129,6 +134,10 @@ export default class MimicView extends Component {
   }
   getContentComponent(props = this.props) {
     const processingInstructions = [
+      {
+        shouldProcessNode: node => node.name === '?xml',
+        processNode: () => {},
+      },
       {
         shouldProcessNode: (node => node.attribs && (node.attribs.isis_animation === 'scaleY' || node.attribs.isis_animation === 'scaleX')),
         processNode: (node, children) => {
@@ -379,8 +388,10 @@ export default class MimicView extends Component {
         processNode: processNodeDefinitions.processDefaultNode,
       },
     ];
+
+    const preProcessed = stripInkscapeCharacters(props.content);
     return htmlToReactParser.parseWithInstructions(
-      props.content,
+      preProcessed,
       isValidNode,
       processingInstructions
     );
@@ -429,7 +440,7 @@ export default class MimicView extends Component {
   svgEls = [];
   render() {
     return (
-      <svg width={`${this.props.width}px`} height={`${this.props.height}px`} style={{ paddingTop: 10 }}>{this.content}</svg>
+      this.content
     );
   }
 }

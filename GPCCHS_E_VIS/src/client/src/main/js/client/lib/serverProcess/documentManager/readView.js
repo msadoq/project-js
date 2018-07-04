@@ -6,7 +6,7 @@
 // END-HISTORY
 // ====================================================================
 
-// import _ from 'lodash/fp';
+
 import async from 'async';
 import { v4 } from 'uuid';
 
@@ -15,7 +15,10 @@ import {
   getSchema,
   getViewModule,
 } from 'viewManager';
+import { read } from 'common/fs';
 import { readDocument } from './io';
+import { getRootDir } from './fmd';
+import resolvePath from './pathResolver';
 import validation from './validation';
 
 const simpleReadView = async.reflect((viewInfo, cb) => {
@@ -33,18 +36,54 @@ const simpleReadView = async.reflect((viewInfo, cb) => {
     if (validationError) {
       return cb(validationError);
     }
-
     const uuid = viewInfo.uuid || v4();
-    const view = getViewModule(viewContent.type).prepareViewForStore({ ...viewContent, uuid });
 
-    return cb(null, {
-      isModified: false,
-      ...viewInfo,
-      ...view,
-      path: viewInfo.path,
-      oId: viewInfo.oId,
-      absolutePath: viewPath,
-    });
+    switch (viewContent.type) {
+      case 'MimicView': { // In the Mimic View case the svg content needs to be read
+        // from an svg file. The viewContent.contentPath property is the path to that
+        // file relative to fmd.
+        const fmdRelativePath = viewContent.contentPath;
+        const root = getRootDir();
+        const absolute = `${root}${fmdRelativePath}`;
+        resolvePath({ absolutePath: absolute }, (resolveErr, { resolvedPath }) => {
+          if (resolveErr) {
+            return cb(err, {});
+          }
+          return read(resolvedPath, (readErr, svgContent) => {
+            if (readErr) {
+              return cb(readErr);
+            }
+            const complementedViewContent = {
+              ...viewContent,
+              content: svgContent,
+            };
+            const view = getViewModule('MimicView')
+              .prepareViewForStore({ ...complementedViewContent, uuid });
+            return cb(null, {
+              isModified: false,
+              ...viewInfo,
+              ...view,
+              path: viewInfo.path,
+              oId: viewInfo.oId,
+              absolutePath: viewPath,
+            });
+          });
+        });
+        break;
+      }
+      default: { // default is any type of view besides mimic
+        const view = getViewModule(viewContent.type).prepareViewForStore({ ...viewContent, uuid });
+        return cb(null, {
+          isModified: false,
+          ...viewInfo,
+          ...view,
+          path: viewInfo.path,
+          oId: viewInfo.oId,
+          absolutePath: viewPath,
+        });
+      }
+    }
+    return null;
   });
 });
 

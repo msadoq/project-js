@@ -15,7 +15,6 @@ import {
 } from 'react-bootstrap';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
-import ColorPickerField from 'windowProcess/commonReduxForm/ColorPickerField';
 import InputField from 'windowProcess/commonReduxForm/InputField';
 import SelectButtonField from 'windowProcess/commonReduxForm/SelectButtonField';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
@@ -102,13 +101,6 @@ export default class FormSectionFontStyle extends FormSection {
             component={ButtonToggleField}
             textOn="S"
             textOff="S"
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Color">
-          <Field
-            name="color"
-            component={ColorPickerField}
           />
         </HorizontalFormGroup>
       </ErrorBoundary>

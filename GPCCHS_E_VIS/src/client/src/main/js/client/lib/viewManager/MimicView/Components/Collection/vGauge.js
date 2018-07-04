@@ -3,7 +3,7 @@ const vGauge = `
 <g transform="translate(__TRANSLATE_FROM__,__TRANSLATE_TO__)">
   <path d="M26,1 l24,0 l0,200 l-24,0 z" style=" fill:#DDD" />
   <g isis_animation="scaleY" isis_ep="__ENTRY_POINT__" isis_domain="0,100"  isis_origin="left, bottom">
-    <g isis_animation="colour" isis_ep="__ENTRY_POINT__" isis_color_operators="<|0|#e74c3c;;>=|0|#2ecc71;;>=|25|#3498db;;>=|50|#e74c3c;;>=|75|#f1c40f;;>=|100|#e74c3c">
+    <g isis_animation="colour" isis_ep="__ENTRY_POINT__" isis_color_operators="&lt;|0|#e74c3c;;&gt;=|0|#2ecc71;;&gt;=|25|#3498db;;&gt;=|50|#e74c3c;;&gt;=|75|#f1c40f;;&gt;=|100|#e74c3c">
       <path d="M26,1 l24,0 l0,200 l-24,0 z" style=" fill:#5C2" />
     </g>
   </g>

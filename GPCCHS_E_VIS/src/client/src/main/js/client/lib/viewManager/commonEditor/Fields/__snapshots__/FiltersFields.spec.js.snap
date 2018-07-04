@@ -45,10 +45,10 @@ exports[`viewManager viewManager :: commonEditor viewManager :: commonEditor :: 
             }
           >
             convertedValue
-
+             
             <b>
               &lt;=
-
+               
             </b>
             0
           </td>

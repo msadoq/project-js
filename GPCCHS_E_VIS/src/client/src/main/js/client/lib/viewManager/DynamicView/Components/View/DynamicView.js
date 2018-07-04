@@ -289,7 +289,6 @@ export default class DynamicView extends PureComponent {
       return;
     }
 
-    // only one comObject in the dropped EP
     if (_get(content, 'comObjects').length === 1) {
       populateFormulaField({
         catalogName: content.catalogName,
@@ -306,6 +305,7 @@ export default class DynamicView extends PureComponent {
       this.showModal();
     }
   };
+
   reset = () => this.setState({
     isOpened: false,
     comObjects: null,
@@ -339,6 +339,24 @@ export default class DynamicView extends PureComponent {
     removeLink(viewId, index);
   };
 
+  renderLinksContainer = () => {
+    const {
+      links, viewId, pageId, showLinks,
+    } = this.props;
+    return (
+      <div style={{ padding: '10px' }}>
+        <LinksContainer
+          show={showLinks}
+          toggleShowLinks={this.toggleShowLinks}
+          links={links}
+          removeLink={this.removeLink}
+          viewId={viewId}
+          pageId={pageId}
+        />
+      </div>
+    );
+  }
+
   /**
    * @param onDrop
    * @param onContextMenu
@@ -358,6 +376,7 @@ export default class DynamicView extends PureComponent {
             {error}
           </div>
         </div>
+        {this.renderLinksContainer()}
       </DroppableContainer>
       {this.renderModal()}
     </div>
@@ -397,7 +416,7 @@ export default class DynamicView extends PureComponent {
 
   render() {
     const {
-      data, entryPoints, links, viewId, pageId, showLinks, isMaxVisuDurationExceeded,
+      data, entryPoints, isMaxVisuDurationExceeded,
     } = this.props;
     const ep = data.value;
     const { dynamicEP } = entryPoints;
@@ -436,16 +455,7 @@ export default class DynamicView extends PureComponent {
                 </Col>
               </Row>))}
           </Grid>
-          <div style={{ padding: '10px' }}>
-            <LinksContainer
-              show={showLinks}
-              toggleShowLinks={this.toggleShowLinks}
-              links={links}
-              removeLink={this.removeLink}
-              viewId={viewId}
-              pageId={pageId}
-            />
-          </div>
+          {this.renderLinksContainer()}
         </DroppableContainer>
         {this.renderModal()}
       </ErrorBoundary>

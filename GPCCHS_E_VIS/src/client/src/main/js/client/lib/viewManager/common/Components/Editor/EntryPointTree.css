@@ -18,3 +18,15 @@
 .hidden {
   display: none !important;
 }
+
+.algorithm {
+  background: #444;
+  color: white;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
+  padding: 0.5rem;
+  font-family: monospace;
+  line-height: 1.5rem;
+}

@@ -1,6 +1,7 @@
 import _find from 'lodash/fp/find';
 import _findIndex from 'lodash/findIndex';
 import _getOr from 'lodash/fp/getOr';
+import _flow from 'lodash/fp/flow';
 import _set from 'lodash/fp/set';
 import { createSelector } from 'reselect';
 import {
@@ -341,4 +342,28 @@ export const getComObjectStructure = createSelector(
     const structure = _getOr({}, path, catalogs);
     return structure;
   }
+);
+
+export const getItemMetadata = createSelector(
+  (_, { tupleId }) => tupleId,
+  getCatalogIndexByName,
+  getCatalogItemIndexByName,
+  state => state,
+  (tupleId, catalogIndex, itemIndex, catalogsState) => _getOr(
+      {},
+      getMetadataPath(tupleId, catalogIndex, itemIndex),
+      catalogsState
+    )
+);
+
+export const getAlgorithmMetadata = createSelector(
+  getItemMetadata,
+  metadata => ({
+    inputParameters: _getOr([], ['algorithm', 'inputParameters'], metadata),
+    algorithm: _flow(
+      _getOr([], ['algorithm', 'algorithms']),
+      _find(a => a.language.toLocaleLowerCase() === 'python'),
+      _getOr(undefined, 'text')
+    )(metadata),
+  })
 );

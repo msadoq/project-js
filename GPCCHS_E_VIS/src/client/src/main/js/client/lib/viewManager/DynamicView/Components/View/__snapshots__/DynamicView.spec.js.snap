@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/DynamicView/Components/View/DynamicView buildTable should match the snapshot 1`] = `
+<table
+  className="table table-striped table-bordered table-condensed table-hover"
+>
+  <thead>
+    <tr>
+      <th
+        className="text-center"
+      >
+        name
+      </th>
+      <th
+        className="text-center"
+      >
+        converted value
+      </th>
+      <th
+        className="text-center"
+      >
+        raw value
+      </th>
+      <th
+        className="text-center"
+      >
+        extracted value
+      </th>
+      <th
+        className="text-center"
+      >
+        validity state
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        GENE_AM_CCSDSVERS1
+      </td>
+      <td>
+        2
+      </td>
+      <td>
+        2
+      </td>
+      <td>
+        0c 0c 0c 0c 0c 0c 0c 0c 0c 0c
+      </td>
+      <td>
+        INVALID
+      </td>
+    </tr>
+    <tr>
+      <td>
+        GENE_AM_CCSDSVERS2
+      </td>
+      <td>
+        0
+      </td>
+      <td>
+        0
+      </td>
+      <td>
+        01 01 01 01 01 01 01 01 01 01
+      </td>
+      <td>
+        INVALID
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

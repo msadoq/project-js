@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   getSelectedDomainInForm,
-  getSelectedSessionName,
+  getSelectedTimelineId,
 } from 'viewManager/commonEditor/Fields/selectors';
 import DefaultPusData from './DefaultPusData';
 
 const mapStateToProps = (state, { form }) => ({
   selectedDomainName: getSelectedDomainInForm(form, state),
-  selectedSessionName: getSelectedSessionName(form, state),
+  selectedTimelineId: getSelectedTimelineId(form, state),
 });
 
 const DefaultPusDataContainer = connect(

@@ -5,7 +5,7 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
 import ApplicationProcessFieldContainer from 'viewManager/commonEditor/Fields/ApplicationProcessFieldContainer';
-import SessionFieldContainer from './Fields/SessionFieldContainer';
+import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
 
 export default class DefaultPusData extends PureComponent {
   static propTypes = {
@@ -15,12 +15,12 @@ export default class DefaultPusData extends PureComponent {
     change: PropTypes.func.isRequired,
     // From DefaultPusDataContainer's mapStateToProps
     selectedDomainName: PropTypes.string,
-    selectedSessionName: PropTypes.string,
+    selectedTimelineId: PropTypes.string,
   };
 
   static defaultProps = {
     selectedDomainName: null,
-    selectedSessionName: null,
+    selectedTimelineId: null,
     selectedCatalogName: null,
     selectedItemName: null,
   };
@@ -35,11 +35,12 @@ export default class DefaultPusData extends PureComponent {
   };
 
   render() {
+    const { windowId } = this.context;
     const {
       viewId,
       pageId,
       selectedDomainName,
-      selectedSessionName,
+      selectedTimelineId,
     } = this.props;
 
     return (
@@ -49,14 +50,16 @@ export default class DefaultPusData extends PureComponent {
             <DomainFieldContainer />
           </HorizontalFormGroup>
 
-          <HorizontalFormGroup label="Session">
-            <SessionFieldContainer />
+          <HorizontalFormGroup label="Timeline">
+            <TimelineFieldContainer
+              windowId={windowId}
+            />
           </HorizontalFormGroup>
 
           <HorizontalFormGroup label="Application Process">
             <ApplicationProcessFieldContainer
               domainName={selectedDomainName}
-              sessionName={selectedSessionName}
+              timelineId={selectedTimelineId}
               viewId={viewId}
               pageId={pageId}
               onChange={this.handleChange}

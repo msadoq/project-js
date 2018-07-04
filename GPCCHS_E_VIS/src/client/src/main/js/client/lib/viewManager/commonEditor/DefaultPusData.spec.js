@@ -5,8 +5,9 @@ import stateTest from 'common/jest/stateTest';
 const propsStub = {
   viewId: 'text1',
   pageId: 'page1',
+  change: () => {},
   selectedDomainName: 'fr.cnes.isis.simupus',
-  selectedSessionName: 'Master',
+  selectedTimelineId: 'tl1',
 };
 
 describe('DefaultPusData :: render', () => {

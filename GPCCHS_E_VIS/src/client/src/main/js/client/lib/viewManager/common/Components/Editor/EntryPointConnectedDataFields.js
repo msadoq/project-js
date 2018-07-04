@@ -72,6 +72,10 @@ export default class EntryPointConnectedDataFields extends PureComponent {
     dataType: this.props.dataType,
   };
 
+  componentDidMount() {
+    this.getFormula();
+  }
+
   getFormula = () => {
     const {
       getFormula,

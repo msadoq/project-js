@@ -29,9 +29,7 @@ module.exports = (queryId, rawBuffer, zmq, decodedSDBQuery) => {
       dataBuffer = generateStringListProto(Object.keys(sdbStub));
       break;
     case constants.ADE_SDB_RETRIEVE_CATALOG_ITEMS: {
-      const o = _get(sdbStub, [catalogName, ITEMS_LABEL]);
-      console.log('sendSDBData', o, catalogName, ITEMS_LABEL);
-      dataBuffer = generateStringListProto(Object.keys(o));
+      dataBuffer = generateStringListProto(Object.keys(_get(sdbStub, [catalogName, ITEMS_LABEL])));
       break;
     }
     case constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_COMOBJECT:

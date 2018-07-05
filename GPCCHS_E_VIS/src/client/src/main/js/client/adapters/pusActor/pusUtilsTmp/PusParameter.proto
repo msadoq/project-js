@@ -10,7 +10,8 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/STRING.proto";
 
 package pusModelEditor.protobuf;
 

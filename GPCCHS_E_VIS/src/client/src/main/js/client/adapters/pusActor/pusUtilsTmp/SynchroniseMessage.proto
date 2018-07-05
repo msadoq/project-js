@@ -10,12 +10,11 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
-import "pusModelEditor/HeaderMessage.proto";
+import "./HeaderMessage.proto";
 
 package pusModelEditor.protobuf;
 
-message SynchoniseMessage {
+message SynchroniseMessage {
 extensions 2 to 102;
 
   optional pusModelEditor.protobuf.HeaderMessage headerMessage = 1;

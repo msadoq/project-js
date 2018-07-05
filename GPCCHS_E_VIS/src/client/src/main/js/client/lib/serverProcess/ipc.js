@@ -384,7 +384,7 @@ const pusCommands = {
   ),
   compare: (pusId, apId, date, callback) => commands.pus.rpc(
     constants.PUS_COMPARE,
-    encode('pusActor.pusUtils.PusCompare', { pusId, apId, date }),
+    encode('pusActor.pusUtils.PusCompare', { pusId: 'vcolfdrslh', apId: 'gfrslidkgb', date: 123 }),
     callback
   ),
   reset: (pusId, apId, date, callback) => commands.pus.rpc(

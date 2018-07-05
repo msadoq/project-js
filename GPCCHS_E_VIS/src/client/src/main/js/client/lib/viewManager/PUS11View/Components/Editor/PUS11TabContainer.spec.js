@@ -1,14 +1,13 @@
-import GroundAlarmTabContainer from 'viewManager/GroundAlarmView/Components/Editor/GroundAlarmTabContainer';
 import { shallowRenderSnapshotInReduxForm } from 'common/jest/utils';
 import stateTest from 'common/jest/stateTest';
+import PUS11TabContainer from './PUS11TabContainer';
 
 const propsStub = {
-
 };
 
-describe('GroundAlarmTabContainer :: render', () => {
+describe('PUS11TabContainer :: render', () => {
   test('snapshot', () => {
-    shallowRenderSnapshotInReduxForm(GroundAlarmTabContainer, propsStub, stateTest);
+    shallowRenderSnapshotInReduxForm(PUS11TabContainer, propsStub, stateTest);
   });
 });
 

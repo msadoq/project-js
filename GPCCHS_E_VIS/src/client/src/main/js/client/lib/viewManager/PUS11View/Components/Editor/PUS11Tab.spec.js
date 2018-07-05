@@ -3,26 +3,7 @@ import { shallowRenderSnapshot } from 'common/jest/utils';
 import stateTest from 'common/jest/stateTest';
 
 const propsStub = {
-  tables: {
-    main: {
-      cols: [],
-    },
-  },
-  configuration: {
-    tables: {
-      subSchedules: {
-        cols: [],
-      },
-      enabledApids: {
-        cols: [],
-      },
-      commands: {
-        cols: [],
-      },
-    },
-  },
   panels: {},
-  updateTableCols: () => {},
   updateViewPanels: () => {},
   viewId: '1838f507-156b-4734-bf6d-69d0e96b39b8',
 };

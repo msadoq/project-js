@@ -6,10 +6,14 @@ import { getApidsByDomainIdAndSessionId } from 'store/reducers/apids';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import ApplicationProcessField from 'viewManager/commonEditor/Fields/ApplicationProcessField';
 import { getSessionByNameWithFallback } from '../../../store/reducers/sessions';
+import { getTimelineById } from '../../../store/reducers/timelines';
 
-const mapStateToProps = (state, { domainName, sessionName, viewId, pageId }) => {
+const mapStateToProps = (state, { domainName, timelineId, viewId, pageId }) => {
   const domain = getDomainByNameWithFallback(state, { domainName, viewId, pageId });
   const domainId = domain ? _get(domain, 'domainId', null) : null;
+
+  const timeline = getTimelineById(state, { timelineId });
+  const sessionName = _get(timeline, 'sessionName', null);
 
   const session = getSessionByNameWithFallback(state, { sessionName });
   const sessionId = session ? _get(session, 'id', null) : null;

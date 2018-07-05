@@ -4,7 +4,7 @@ exports[`viewManager :: commonEditor :: Fields :: ApplicationProcessFieldContain
 <ReduxForm
   domainName="domainId"
   pageId="page-id"
-  sessionName="master"
+  timelineId="tl1"
   viewId="view-id"
 />
 `;

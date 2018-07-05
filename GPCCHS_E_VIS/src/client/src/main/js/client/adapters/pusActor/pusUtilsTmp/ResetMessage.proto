@@ -10,8 +10,9 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
-import "pusModelEditor/HeaderMessage.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/TIME.proto";
+import "./HeaderMessage.proto";
 
 package pusModelEditor.protobuf;
 

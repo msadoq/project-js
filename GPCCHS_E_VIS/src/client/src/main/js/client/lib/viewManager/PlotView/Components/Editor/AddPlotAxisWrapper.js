@@ -69,7 +69,7 @@ export default class AddEntryPointWrapper extends Component {
         ...values,
         min: parseFloat(values.min),
         max: parseFloat(values.max),
-        tickStep: parseInt(values.tickStep, 10),
+        tickStep: parseFloat(values.tickStep),
         logSettings: {
           min: parseFloat(values.logSettings.min),
           max: parseFloat(values.logSettings.max),

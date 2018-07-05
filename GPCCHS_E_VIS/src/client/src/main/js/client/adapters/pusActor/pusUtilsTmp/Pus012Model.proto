@@ -1,0 +1,31 @@
+// Produced by Acceleo Protobuf Generator 1.1.2-R8
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "ccsds_mal/types.proto";
+import "pusModelEditor/Pus012ParameterMonitoringDefinition.proto";
+
+package pusModelEditor.protobuf;
+
+message Pus012Model {
+extensions 11 to 111;
+
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 1;
+  repeated pusModelEditor.protobuf.Pus012ParameterMonitoringDefinition pus012ParameterMonitoringDefinition = 2;
+  optional ccsds_mal.protobuf.UINTEGER noOfParameterMonitoringDefinition = 3;
+  optional ccsds_mal.protobuf.UINTEGER serviceStatus = 4;
+  optional ccsds_mal.protobuf.TIME groundDate = 5;
+  optional ccsds_mal.protobuf.UINTEGER status = 6;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeServiceStatus = 7;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeServiceStatus = 8;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 9;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 10;
+}

@@ -1,0 +1,43 @@
+// Produced by Acceleo Protobuf Generator 1.1.2-R8
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "ccsds_mal/types.proto";
+import "pusModelEditor/PusParameter.proto";
+
+package pusModelEditor.protobuf;
+
+message Pus018Obcp {
+extensions 23 to 123;
+
+  optional ccsds_mal.protobuf.UINTEGER obcpId = 1;
+  optional ccsds_mal.protobuf.STRING status = 2;
+  optional ccsds_mal.protobuf.STRING stepId = 3;
+  optional ccsds_mal.protobuf.STRING partitionId = 4;
+  optional ccsds_mal.protobuf.STRING observabilityLevel = 5;
+  optional ccsds_mal.protobuf.STRING priority = 6;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 7;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStatus = 8;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStepId = 9;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStepId = 10;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModePartitionId = 11;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimePartitionId = 12;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModePriority = 13;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimePriority = 14;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeObsLevel = 15;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeObsLevel = 16;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeObcpId = 17;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeObcpId = 18;
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 19;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 20;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 21;
+  repeated pusModelEditor.protobuf.PusParameter pusParameter = 22;
+}

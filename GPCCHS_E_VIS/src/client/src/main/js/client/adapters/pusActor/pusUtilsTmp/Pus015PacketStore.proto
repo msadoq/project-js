@@ -1,0 +1,37 @@
+// Produced by Acceleo Protobuf Generator 2.2.1-R12S2_alpha
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "ccsds_mal/types.proto";
+import "pusModelEditor/Pus015Packet.proto";
+
+package pusModelEditor.protobuf;
+
+message Pus015PacketStore {
+extensions 17 to 117;
+
+  optional ccsds_mal.protobuf.UINTEGER storeId = 1;
+  optional ccsds_mal.protobuf.UINTEGER status = 2;
+  optional ccsds_mal.protobuf.STRING storageType = 3;
+  optional ccsds_mal.protobuf.BOOLEAN dumpEnabled = 4;
+  repeated pusModelEditor.protobuf.Pus015Packet pus015Packet = 5;
+  optional ccsds_mal.protobuf.STRING hkStatusParameterName = 6;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStoreId = 7;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStoreId = 8;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStoreType = 9;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStoreType = 10;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStoreStatus = 11;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeStoreStatus = 12;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 13;
+  optional ccsds_mal.protobuf.STRING storeName = 14;
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 15;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 16;
+}

@@ -1,0 +1,44 @@
+// Produced by Acceleo Protobuf Generator 2.2.1-R12S2_alpha
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "ccsds_mal/types.proto";
+
+package pusModelEditor.protobuf;
+
+message Pus014ForwardedPacket {
+extensions 25 to 125;
+
+  optional ccsds_mal.protobuf.UINTEGER packetApid = 1;
+  optional ccsds_mal.protobuf.UINTEGER forwardingStatus = 2;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeFwdStatus = 3;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeFwdStatus = 4;
+  optional ccsds_mal.protobuf.STRING packetApidName = 5;
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 6;
+  optional ccsds_mal.protobuf.STRING packetName = 7;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 8;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeRid = 9;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeRid = 10;
+  optional ccsds_mal.protobuf.UINTEGER rid = 11;
+  optional ccsds_mal.protobuf.STRING ridLabel = 12;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSid = 13;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeSid = 14;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSubSamplingRatio = 15;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeSubSamplingRatio = 16;
+  optional ccsds_mal.protobuf.UINTEGER subsamplingRatio = 17;
+  optional ccsds_mal.protobuf.UINTEGER sid = 18;
+  optional ccsds_mal.protobuf.STRING sidLabel = 19;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeTypeSubType = 20;
+  optional ccsds_mal.protobuf.TIME lastUpdateTimeTypeSubType = 21;
+  optional ccsds_mal.protobuf.UINTEGER serviceTpe = 22;
+  optional ccsds_mal.protobuf.UINTEGER serviceSubType = 23;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 24;
+}

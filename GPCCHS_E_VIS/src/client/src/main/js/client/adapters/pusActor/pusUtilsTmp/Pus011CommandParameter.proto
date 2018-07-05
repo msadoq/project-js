@@ -1,0 +1,25 @@
+// Produced by Acceleo Protobuf Generator 2.2.1-R12S2_alpha
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "ccsds_mal/types.proto";
+
+package pusModelEditor.protobuf;
+
+message Pus011CommandParameter {
+extensions 6 to 106;
+
+  optional ccsds_mal.protobuf.STRING parameterName = 1;
+  optional ccsds_mal.protobuf.STRING parameterValue = 2;
+  optional ccsds_mal.protobuf.STRING parameterDescription = 3;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateMode = 4;
+  optional ccsds_mal.protobuf.TIME lastUpdateTime = 5;
+}

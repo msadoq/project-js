@@ -20,6 +20,71 @@
   "sessionName": "*",
   "version": "2.2",
   "tables": {
+    "subSchedules": {
+      "name": "Sub schedules",
+      "sorting": {
+        "colName": "referenceTimestamp",
+        "direction": "DESC"
+      },
+      "cols": [
+        {
+          "title": "ssid",
+          "displayed": true,
+          "value": "ssid",
+          "position": 0,
+          "group": 0
+        },
+        {
+          "title": "ssidLabel",
+          "displayed": true,
+          "value": "ssidLabel",
+          "position": 1,
+          "group": 0
+        },
+        {
+          "title": "name",
+          "displayed": true,
+          "value": "name",
+          "position": 2,
+          "group": 0
+        },
+        {
+          "title": "status",
+          "displayed": true,
+          "value": "status",
+          "position": 3,
+          "group": 0
+        },
+        {
+          "title": "firstTcTime",
+          "displayed": true,
+          "value": "firstTcTime",
+          "position": 4,
+          "group": 0
+        },
+        {
+          "title": "updateType",
+          "value": "updateType",
+          "displayed": true,
+          "position": 5,
+          "group": 0
+        },
+        {
+          "title": "updateTime",
+          "value": "updateTime",
+          "displayed": true,
+          "position": 6,
+          "group": 0
+        },
+        {
+          "title": "nbTc",
+          "value": "nbTc",
+          "displayed": true,
+          "position": 7,
+          "group": 0
+        }
+      ]
+    },
     "enabledApids": {
       "cols": [
         {
@@ -48,66 +113,6 @@
           "value": "updateTime",
           "displayed": true,
           "position": 3,
-          "group": 0
-        }
-      ]
-    },
-    "subSchedules": {
-      "cols": [
-        {
-          "title": "ssid",
-          "value": "ssid",
-          "position": 0,
-          "displayed": true,
-          "group": 0
-        },
-        {
-          "title": "ssidLabel",
-          "value": "ssidLabel",
-          "position": 1,
-          "displayed": true,
-          "group": 0
-        },
-        {
-          "title": "name",
-          "value": "name",
-          "position": 2,
-          "displayed": true,
-          "group": 0
-        },
-        {
-          "title": "status",
-          "value": "status",
-          "displayed": true,
-          "position": 3,
-          "group": 0
-        },
-        {
-          "title": "firstTcTime",
-          "value": "firstTcTime",
-          "displayed": true,
-          "position": 4,
-          "group": 0
-        },
-        {
-          "title": "updateType",
-          "value": "updateType",
-          "displayed": true,
-          "position": 5,
-          "group": 0
-        },
-        {
-          "title": "updateTime",
-          "value": "updateTime",
-          "displayed": true,
-          "position": 6,
-          "group": 0
-        },
-        {
-          "title": "nbTc",
-          "value": "nbTc",
-          "displayed": true,
-          "position": 7,
           "group": 0
         }
       ]
@@ -219,7 +224,7 @@
     "connectedData": {
       "apidName": "ORBIT",
       "apidRawValue": 2,
-      "domain": "fr",
+      "domain": "fr.cnes.isis.simupus",
       "formula": "PusGroundModelDefinition.Pus011Model<Pus011Model>",
       "session": "Session#42"
     },

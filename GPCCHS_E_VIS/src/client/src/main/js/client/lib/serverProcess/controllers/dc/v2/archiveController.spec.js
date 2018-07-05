@@ -4,6 +4,7 @@
 // ====================================================================
 
 import configureMockStore from 'redux-mock-store';
+import { PREFIX_KNOWN_RANGES, PREFIX_LASTS } from 'constants';
 
 const { mockRegister, mockLoadStubs } = require('../../../../common/jest');
 const { getStubData } = require('../../../../utils/stubs');
@@ -39,7 +40,7 @@ describe('controllers/archiveADE', () => {
 
   beforeEach(() => clear());
   test('Received data RANGE not lastQuery', () => {
-    add('myQueryId', 'myTbdId', 'RANGE', 'myDataId');
+    add('myQueryId', 'myTbdId', PREFIX_KNOWN_RANGES, 'myDataId');
     const store = mockStore({});
     const getStore = () => store;
 
@@ -69,7 +70,7 @@ describe('controllers/archiveADE', () => {
   });
 
   test('Received data RANGE lastQuery', () => {
-    add('myQueryId', 'myTbdId', 'RANGE', 'myDataId');
+    add('myQueryId', 'myTbdId', PREFIX_KNOWN_RANGES, 'myDataId');
     const store = mockStore({});
     const getStore = () => store;
 
@@ -99,7 +100,7 @@ describe('controllers/archiveADE', () => {
   });
 
   test('Received data LAST lastQuery', () => {
-    add('myQueryId', 'myTbdId', 'LAST', 'myDataId');
+    add('myQueryId', 'myTbdId', PREFIX_LASTS, 'myDataId');
     const store = mockStore({});
     const getStore = () => store;
 
@@ -129,7 +130,7 @@ describe('controllers/archiveADE', () => {
   });
 
   test('Received data LAST not lastQuery', () => {
-    add('myQueryId', 'myTbdId', 'LAST', 'myDataId');
+    add('myQueryId', 'myTbdId', PREFIX_LASTS, 'myDataId');
     const store = mockStore({});
     const getStore = () => store;
 

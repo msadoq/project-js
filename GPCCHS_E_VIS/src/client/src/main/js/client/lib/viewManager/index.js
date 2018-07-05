@@ -63,7 +63,7 @@ import PUS11ViewSchema from 'common/viewConfigurationFiles/schemas/PUS11View.sch
 import decommutedPacketViewSchema from '../common/viewConfigurationFiles/schemas/DecommutedPacketView.schema.json';
 
 import {
-  DATASTRUCTURETYPE_HISTORIZED,
+  DATASTRUCTURETYPE_PUS,
   DATASTRUCTURETYPE_LAST,
   DATASTRUCTURETYPE_RANGE,
 } from '../constants';
@@ -173,14 +173,14 @@ const list = {
   [constants.VM_VIEW_PUS05]: {
     schema: PUS05ViewSchema,
     viewModule: PUS05ViewModule,
-    structureType: DATASTRUCTURETYPE_HISTORIZED,
+    structureType: DATASTRUCTURETYPE_PUS,
     structureModule: PUS05ViewData,
     dataSelectors: PUS05ViewDataSelectors,
   },
   [constants.VM_VIEW_PUS11]: {
     schema: PUS11ViewSchema,
     viewModule: PUS11ViewModule,
-    structureType: DATASTRUCTURETYPE_HISTORIZED,
+    structureType: DATASTRUCTURETYPE_PUS,
     structureModule: PUS11ViewData,
     dataSelectors: PUS11ViewDataSelectors,
   },

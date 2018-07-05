@@ -40,6 +40,7 @@ import { get } from '../common/configurationManager';
 import makeMessagesMiddleware from '../store/middlewares/messages';
 import createDumpBufferMiddleware from '../store/middlewares/dumpBuffer';
 import createRetrieveDataMiddleware from '../store/middlewares/retrieveData';
+import createRetrievePusDataMiddleware from '../store/middlewares/pus/retrieveData';
 import createCacheMiddleware from '../store/middlewares/cache';
 import reducer from '../store/reducers';
 import ipc from './ipc';
@@ -76,10 +77,11 @@ const createMiddlewares = (identity, isDebugOn) => {
     thunk,
     catalogMiddleware,
     apidsMiddleware,
-    createPusDataMiddleware(),
+    createPusDataMiddleware(lokiManager),
     createPusTestMiddleware(ipc),
     createIncomingDataMiddleware(lokiManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),
+    createRetrievePusDataMiddleware(ipc),
     createCacheMiddleware(lokiManager),
     makeAckMiddleware(ipc.dc.requestAck),
     makeMessagesMiddleware(),

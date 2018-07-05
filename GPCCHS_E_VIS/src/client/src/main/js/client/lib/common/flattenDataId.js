@@ -99,6 +99,14 @@ export const getFlattenDataIdForObsoleteEvent = (dataId) => {
   return `${parameterName}:${sessionId}:${domainId}:::`;
 };
 
+export const getPusFlattenId = (apidName, dataId) => {
+  const {
+    sessionId,
+    domainId,
+  } = dataId;
+  return `${apidName}:${sessionId}:${domainId}`;
+};
+
 /**
  * @param tbdId
  * @returns {*}

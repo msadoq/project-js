@@ -7,6 +7,8 @@
 // END-HISTORY
 // ====================================================================
 
+import { PREFIX_KNOWN_RANGES, PREFIX_LASTS, PREFIX_OBSOLETE_EVENTS } from 'constants';
+
 const executionMonitor = require('common/logManager/execution');
 const logger = require('common/logManager')('controllers:onTimebasedArchiveDataADE');
 const { incomingRange, incomingLast, incomingObsoleteEvent } = require('store/actions/incomingData');
@@ -46,13 +48,13 @@ const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }
     }
 
     switch (type) {
-      case 'RANGE' :
+      case PREFIX_KNOWN_RANGES :
         store.dispatch(incomingRange(tbdId, payloadBuffer, dataId));
         break;
-      case 'LAST' :
+      case PREFIX_LASTS :
         store.dispatch(incomingLast(tbdId, payloadBuffer, dataId));
         break;
-      case 'OBSOLETE_EVENT' :
+      case PREFIX_OBSOLETE_EVENTS :
         store.dispatch(incomingObsoleteEvent(tbdId, payloadBuffer, dataId));
         break;
       default:

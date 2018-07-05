@@ -1,7 +1,7 @@
 import * as types from 'store/types';
 import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
-import injectPusData from './injectPusData';
-import preparePusRange from './preparePusRange';
+import injectPusDataMiddleware from './incomingData/injectPusData';
+import preparePus from './incomingData/preparePus';
 
 const makeCallback = () => () => {};
 
@@ -35,9 +35,9 @@ const pusTestMiddleware = ipc => (/* { dispatch, getState } */) => next => (acti
   return nextAction;
 };
 
-export const createPusDataMiddleware = () => pipeMiddlewares(
-  injectPusData(),
-  preparePusRange()
+export const createPusDataMiddleware = lokiManager => pipeMiddlewares(
+  injectPusDataMiddleware(),
+  preparePus(lokiManager)
 );
 export default pusTestMiddleware;
 

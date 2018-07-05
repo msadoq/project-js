@@ -61,6 +61,8 @@ export default function parseEntryPoint(
       filters: cd.filters,
       mode: cd.mode,
       type: viewType,
+      apidName: connectedData.apidName || null,
+      apidRawValue: connectedData.apidRawValue || null,
     },
   };
   if (stateColors) {

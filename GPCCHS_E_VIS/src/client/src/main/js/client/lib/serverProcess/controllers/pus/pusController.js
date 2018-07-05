@@ -2,13 +2,13 @@
 // const { decode, getType } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers:PUS:onInitialize');
 
-const { incomingPusRange } = require('store/actions/pus');
+const { incomingPus } = require('store/actions/pus');
 
 // const { pop } = require('../../../common/callbacks');
 // const { add: addMessage } = require('../../../store/actions/messages');
 
 /**
- * Triggered on DC domain request response.
+ * Triggered on pus request response.
  *
  * - decode and pass to registered callback
  *
@@ -16,6 +16,7 @@ const { incomingPusRange } = require('store/actions/pus');
  */
 module.exports = (buffers, getStore) => {
   logger.silly('called');
+  const timestamp = Date.now();
   const store = getStore();
   const pus11 = {
     dataToInject: {
@@ -25,13 +26,13 @@ module.exports = (buffers, getStore) => {
           status: 1, // inutilisé
           spaceInNumberOfCommands: true, // détermine si l’on doit afficher “noFreeCommands” ou “freeSpace” dans la vue
           scheduleStatus: 1, // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue
-          lastUpdateTimeScheduleStatus: 1527520025823, // Tooltip sur scheduleStatus
+          lastUpdateTimeScheduleStatus: timestamp, // Tooltip sur scheduleStatus
           lastUpdateModeScheduleStatus: 100,  // Tooltip sur scheduleStatus
           noFreeCommands: 100, // affiché dans la vue si spaceInNumberOfCommands est a false
-          lastUpdateTimeNoFreeCommands: 1527520025823, // Tooltip sur noFreeCommands
+          lastUpdateTimeNoFreeCommands: timestamp, // Tooltip sur noFreeCommands
           lastUpdateModeNoFreeCommands: 100, // Tooltip sur noFreeCommands
           freeSpace: 100,  // affiché dans la vue si spaceInNumberOfCommands est a true
-          lastUpdateTimeFreeSpace: 1527520025823,  // Tooltip sur freeSpace
+          lastUpdateTimeFreeSpace: timestamp,  // Tooltip sur freeSpace
           lastUpdateModeFreeSpace: 100, // Tooltip sur freeSpace
           serviceApidName: 'myString', // affiché en haut de la vue
           uniqueId: 100, // inutilisé
@@ -39,10 +40,10 @@ module.exports = (buffers, getStore) => {
             {
               apid: 100, // à afficher dans le tableau Enabled AP
               lastUpdateModeApid: 1, // Tooltip sur apid / apidName
-              lastUpdateTimeApid: 1527520025823, // Tooltip sur apid / apidName
+              lastUpdateTimeApid: timestamp, // Tooltip sur apid / apidName
               status: 1,  // inutilisé
               lastUpdateModeStatus: 1,  // inutilisé
-              lastUpdateTimeStatus: 1527520025823,  // inutilisé
+              lastUpdateTimeStatus: timestamp,  // inutilisé
               serviceApid: 100, // inutilisé
               serviceApidName: 'myString', // inutilisé
               apidName: 'myString', // A afficher dans le tableau Enabled AP
@@ -56,13 +57,13 @@ module.exports = (buffers, getStore) => {
               status: 1, // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue
               ssIdLabel: 'myString', // A afficher dans le tableau SubSchedules
               lastUpdateModeSubScheduleId: 1, // Tooltip sur ssId
-              lastUpdateTimeSubscheduleId: 1527520025823, // Tooltip sur ssId
+              lastUpdateTimeSubscheduleId: timestamp, // Tooltip sur ssId
               lastUpdateModeStatus: 1, // Tooltip sur Status
-              lastUpdateTimeStatus: 1527520025823, // Tooltip sur Status
+              lastUpdateTimeStatus: timestamp, // Tooltip sur Status
               lastUpdateModeExecTimeFirstTc: 1, // inutilisé
-              lastUpdateTimeExecTimeFirstTc: 1527520025823, // inutilisé
+              lastUpdateTimeExecTimeFirstTc: timestamp, // inutilisé
               serviceApidName: 'myString', // inutilisé
-              uniqueId: 1527520025823, // inutilisé
+              uniqueId: timestamp, // inutilisé
             },
           ],
           Pus011Command: [
@@ -77,25 +78,25 @@ module.exports = (buffers, getStore) => {
               commandSsId: 100, // Inutilisé
               serviceApid: 100, // Inutilisé
               lastUpdateModeCommandId: 2, // Inutilisé
-              lastUpdateTimeCommandId: 1527520025823, // Inutilisé
+              lastUpdateTimeCommandId: timestamp, // Inutilisé
               commandBinaryProfile: Buffer.alloc(4, 1), // A afficher dans la popin
               lastUpdateModeBinProf: 2, // Tooltip dans la popin
-              lastUpdateTimeBinProf: 1527520025823, // Tooltip dans la popin
+              lastUpdateTimeBinProf: timestamp, // Tooltip dans la popin
               commandGroundStatus: 1, // A afficher dans le tableau Commands
               lastUpdateModeGroundStatus: 2, // Tooltip sur commandGroundStatus
-              lastUpdateTimeGroundStatus: 1527520025823, // Tooltip sur commandGroundStatus
+              lastUpdateTimeGroundStatus: timestamp, // Tooltip sur commandGroundStatus
               commandStatus: 1, // A afficher dans le tableau Commands
               lastUpdateModeStatus: 2, // Tooltip sur status
-              lastUpdateTimeStatus: 1527520025823, // Tooltip sur status
-              currentExecutionTime: 1527520025823, // A afficher dans le tableau Commands
+              lastUpdateTimeStatus: timestamp, // Tooltip sur status
+              currentExecutionTime: timestamp, // A afficher dans le tableau Commands
               lastUpdateModeCurrentExecTime: 1, // Tooltip sur currentExecutionTime
-              lastUpdateTimeCurrentExecTime: 1527520025823, // Tooltip sur currentExecutionTime
-              initialExecutionTime: 1527520025823, // A afficher dans le tableau Commands
+              lastUpdateTimeCurrentExecTime: timestamp, // Tooltip sur currentExecutionTime
+              initialExecutionTime: timestamp, // A afficher dans le tableau Commands
               lastUpdateModeInitialExecTime: 1, // Tooltip sur initialExecutionTime
-              lastUpdateTimeInitialExecTime: 1527520025823, // Tooltip sur initialExecutionTime
+              lastUpdateTimeInitialExecTime: timestamp, // Tooltip sur initialExecutionTime
               totalTimeShiftOffset: -100, // A afficher dans le tableau Commands
               lastUpdateModeTotalTimeShiftOffset: 2, // Tooltip sur totalTimeShiftOffset
-              lastUpdateTimeTotalTimeShiftOffset: 1527520025823, // Tooltip sur totalTimeShiftOffset
+              lastUpdateTimeTotalTimeShiftOffset: timestamp, // Tooltip sur totalTimeShiftOffset
               serviceApidName: 'myString', // Inutilisé
               pus011CommandParameters: [
                 {
@@ -103,15 +104,15 @@ module.exports = (buffers, getStore) => {
                   parameterValue: 100, // Affiché dans la popin au dblClick sur une command
                   parameterDescription: 'myString', // Affiché dans la popin au dblClick sur une command
                   lastUpdateMode: 2, // Tooltip sur les trois précédents champs
-                  lastUpdateTime: 1527520025823, // Tooltip sur les trois précédents champs
+                  lastUpdateTime: timestamp, // Tooltip sur les trois précédents champs
                 },
               ],
               pus011TimeShift: [
                 {
-                  applicationTime: 1527520025823, // Affiché dans la popin au dbleClick sur une command
+                  applicationTime: timestamp, // Affiché dans la popin au dbleClick sur une command
                   timeShiftOffset: -100, // Affiché dans la popin au dbleClick sur une command
                   lastUpdateMode: 2, // Tooltip sur les trois précédents champs
-                  lastUpdateTime: 1527520025823, // Tooltip sur les trois précédents champs
+                  lastUpdateTime: timestamp, // Tooltip sur les trois précédents champs
                 },
               ],
             },
@@ -120,7 +121,7 @@ module.exports = (buffers, getStore) => {
       },
     },
   };
-  store.dispatch(incomingPusRange(pus11));
+  store.dispatch(incomingPus(pus11));
   // const buffer = buffers[0];
   // const callback = pop(requestId);
 

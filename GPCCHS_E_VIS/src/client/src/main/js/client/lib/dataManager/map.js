@@ -50,6 +50,8 @@ import _reduce from 'lodash/reduce';
 import _set from 'lodash/set';
 import { createSelector } from 'reselect';
 
+import perPusIdMap from 'dataManager/pus/perPusIdData';
+import expectedPusIntervalMap from 'dataManager/pus/expectedPusIntervalMap';
 import { getTimebars } from '../store/reducers/timebars';
 import perLastTbdIdMap from './perLastTbdIdData';
 import makeGetPerViewData from './perViewData';
@@ -82,7 +84,6 @@ export const getPerViewMap = createDeepEqualSelectorPerViewData(
         }
         const pageId = getPageIdByViewId(state, { viewId });
         const props = perViewDataSelectors[viewId](state, { viewId, timebarUuid, pageId });
-
         // Case of invalid view or collapsed view
         if (!Object.keys(props).length) {
           return map;
@@ -103,7 +104,10 @@ export const getPerLastTbdIdMap = createSelector(
   getPerViewMap,
   perLastTbdIdMap
 ); // TODO should be done (createSelector around perRemoteIdMap) in perRemoteIdData.js
-
+export const getPerPusIdMap = createSelector(
+  getPerViewMap,
+  perPusIdMap
+);
 
 /**
  * Return dataMap organized per view:
@@ -117,10 +121,12 @@ export default createSelector(
   getPerViewMap,
   getPerRangeTbdIdMap,
   getPerLastTbdIdMap,
+  getPerPusIdMap,
   getTimebars,
-  (viewMap, rangeTbdIdMap, lastTbdIdMap, timebars) => {
+  (viewMap, rangeTbdIdMap, lastTbdIdMap, pusIdMap, timebars) => {
     // compute expected intervals
     let forecastIntervalsMap = {};
+    let forecastPusIntervalsMap = {};
     const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
     const rangeIntervals = expectedRangeIntervalMap(
       timebars,
@@ -134,6 +140,12 @@ export default createSelector(
       forecastIntervalsMap,
       forecastTime);
     forecastIntervalsMap = lastIntervals.forecastIntervals;
+    const pusIntervals = expectedPusIntervalMap(
+      timebars,
+      pusIdMap,
+      forecastPusIntervalsMap,
+      forecastTime);
+    forecastPusIntervalsMap = pusIntervals.forecastIntervals;
 
     return {
       perView: viewMap,
@@ -142,6 +154,9 @@ export default createSelector(
       forecastIntervals: forecastIntervalsMap,
       expectedRangeIntervals: rangeIntervals.expectedRangeIntervals,
       expectedLastIntervals: lastIntervals.expectedLastIntervals,
+      perPusId: pusIdMap,
+      forecastPusIntervals: forecastPusIntervalsMap,
+      expectedPusIntervals: pusIntervals.expectedPusIntervals,
     };
   }
 );

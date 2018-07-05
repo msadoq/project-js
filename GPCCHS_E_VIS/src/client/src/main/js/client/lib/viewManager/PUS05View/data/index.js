@@ -1,4 +1,5 @@
 /* eslint-disable import/prefer-default-export */
+import getExpectedInterval from 'viewManager/common/pus/intervalManagement';
 import { filter, sort } from '../../common/data/table';
 import parseEntryPoint from './parseEntryPoint';
 
@@ -38,4 +39,5 @@ export const formatSubScheduleRows = (data, config) => {
 
 export default {
   parseEntryPoint,
+  getExpectedInterval,
 };

@@ -54,6 +54,7 @@ import { set as setCallback } from '../common/callbacks';
 import getLogger from '../common/logManager';
 import { operators } from '../common/operators';
 import { get as getConf } from '../common/configurationManager';
+import { createSillyLog, decorateWithSillyLog } from './sillyLog';
 
 import { add as addMessage } from '../store/actions/messages';
 import constants from '../constants';
@@ -61,6 +62,7 @@ import constants from '../constants';
 const _map = require('lodash/map');
 
 const logger = getLogger('server:ipc');
+const sillyLog = createSillyLog(logger);
 
 const versionDCComProtocol = getConf('VERSION_DC_COM_PROTOCOL');
 
@@ -306,65 +308,51 @@ const dcVersionMap = {
         }),
       ], err => (onDcResponseCallback(err, flatDataId)))
     ),
-    /* enum  METHOD
-    {
-        RETRIEVE_CATALOGS                = 0;
-        RETRIEVE_CATALOG_ITEMS           = 1;
-        RETRIEVE_CATALOG_ITEM_COMOBJECT  = 2;
-        RETRIEVE_CATALOG_ITEM_FIELD_UNIT = 3;
-        RETRIEVE_CATALOG_ITEM_EXISTS     = 4;
-        RETRIEVE_SATELLITE_ITEMS         = 5;
-        RETRIEVE_CATALOG_ITEM_STRUCTURE  = 6;
-        RETRIEVE_APIDS                   = 7;
-    }
-    required METHOD method = 1;
-    optional uint32 sessionId = 2;
-    optional uint32 domainId = 3;
-    optional string catalogName = 4;
-// mandatory except for RETRIEVE_CATALOGS
-    optional string catalogItemName = 5;
-// mandatory except for RETRIEVE_CATALOGS and RETRIEVE_CATALOG_ITEMS
-    optional string comObject = 6;
-// mandatory for RETRIEVE_CATALOG_ITEM_FIELD_UNIT
-// and RETRIEVE_CATALOG_ITEM_EXISTS
-    optional string fieldName = 7;
-// mandatory for RETRIEVE_CATALOG_ITEM_FIELD_UNIT */
     retrieveSDBCatalogs: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOGS,
       args,
-      callback),
+      callback
+    ),
     retrieveSDBCatalogsItems: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEMS,
       args,
-      callback),
+      callback
+    ),
     retrieveSDBCatalogsItemComObject: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_COMOBJECT,
       args,
-      callback),
+      callback
+    ),
     retrieveSDBCatalogItemFieldUnit: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_FIELD_UNIT,
       args,
-      callback),
+      callback
+    ),
     retrieveSDBCatalogItemExists: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_EXISTS,
       args,
-      callback),
+      callback
+    ),
     retrieveSatelliteItems: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_SATELLITE_ITEMS,
       args,
-      callback),
+      callback
+    ),
     retrieveCatalogItemStructure: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE,
       args,
-      callback),
+      callback
+    ),
     retrieveCatalogItemMetadata: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_METADATA,
       args,
-      callback),
+      callback
+    ),
     retrieveApids: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_APIDS,
       args,
-      callback),
+      callback
+    ),
     requestSDBQuery: (method, args, callback) => (
       commands.dc.rpc(constants.ADE_SDB_QUERY, [
         encode('dc.dataControllerUtils.ADESDBQuery', {
@@ -403,6 +391,6 @@ const commands = {
       commands.main.message(constants.IPC_METHOD_REDUX_PATCH, action);
     },
   },
-  dc: dcVersionMap[versionDCComProtocol],
+  dc: decorateWithSillyLog(dcVersionMap[versionDCComProtocol], sillyLog, ['rpc', 'message']),
 };
 module.exports = commands;

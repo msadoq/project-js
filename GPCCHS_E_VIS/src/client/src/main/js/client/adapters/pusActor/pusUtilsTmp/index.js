@@ -1,3 +1,7 @@
+const PusMmeModel = require('./pusMmeModel');
+const PusMmePacket = require('./pusMmePacket');
+const PusMmePacketParameter = require('./pusMmePacketParameter');
+const PusMmePacketStore = require('./pusMmePacketStore');
 const PusParameter = require('./pusParameter');
 const PusServiceApid = require('./pusServiceApid');
 const PusValue = require('./pusValue');
@@ -26,8 +30,20 @@ const Pus012MonitoringCheckProperties = require('./pus012MonitoringCheckProperti
 const Pus012ParameterMonitoringDefinition = require('./pus012ParameterMonitoringDefinition');
 const Pus013Ldt = require('./pus013Ldt');
 const Pus013LdtPart = require('./pus013LdtPart');
+const Pus013Model = require('./pus013Model');
+const Pus014ForwardedPacket = require('./pus014ForwardedPacket');
+const Pus014Model = require('./pus014Model');
+const Pus015Model = require('./pus015Model');
+const Pus015Packet = require('./pus015Packet');
+const Pus015PacketStore = require('./pus015PacketStore');
+const Pus018Model = require('./pus018Model');
+const Pus018Obcp = require('./pus018Obcp');
 
 module.exports = {
+  PusMmeModel: { type: 'protobuf', adapter: PusMmeModel},
+  PusMmePacket: { type: 'protobuf', adapter: PusMmePacket},
+  PusMmePacketParameter: { type: 'protobuf', adapter: PusMmePacketParameter},
+  PusMmePacketStore: { type: 'protobuf', adapter: PusMmePacketStore},
   PusParameter: { type: 'protobuf', adapter: PusParameter},
   PusServiceApid: { type: 'protobuf', adapter: PusServiceApid},
   PusValue: { type: 'protobuf', adapter: PusValue},
@@ -56,4 +72,12 @@ module.exports = {
   Pus012ParameterMonitoringDefinition: { type: 'protobuf', adapter: Pus012ParameterMonitoringDefinition },
   Pus013Ldt: { type: 'protobuf', adapter: Pus013Ldt },
   Pus013LdtPart: { type: 'protobuf', adapter: Pus013LdtPart },
+  Pus013Model: { type: 'protobuf', adapter: Pus013Model },
+  Pus014ForwardedPacket: { type: 'protobuf', adapter: Pus014ForwardedPacket },
+  Pus014Model: { type: 'protobuf', adapter: Pus014Model },
+  Pus015Model: { type: 'protobuf', adapter: Pus015Model },
+  Pus015Packet: { type: 'protobuf', adapter: Pus015Packet },
+  Pus015PacketStore: { type: 'protobuf', adapter: Pus015PacketStore },
+  Pus018Model: { type: 'protobuf', adapter: Pus018Model },
+  Pus018Obcp: { type: 'protobuf', adapter: Pus018Obcp },
 };

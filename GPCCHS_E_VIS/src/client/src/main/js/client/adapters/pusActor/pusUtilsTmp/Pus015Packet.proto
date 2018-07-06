@@ -10,7 +10,10 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/ULONG.proto";
 
 package pusModelEditor.protobuf;
 
@@ -26,9 +29,9 @@ extensions 18 to 118;
   optional ccsds_mal.protobuf.STRING sidLabel = 7;
   optional ccsds_mal.protobuf.BOOLEAN isSubsamplingRatioSet = 8;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModePacketId = 9;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimePacketId = 10;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimePacketId = 10;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSubSamplingRatio = 11;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeSubSamplingRatio = 12;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeSubSamplingRatio = 12;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 13;
   optional ccsds_mal.protobuf.STRING serviceApidName = 14;
   optional ccsds_mal.protobuf.STRING packetApidName = 15;

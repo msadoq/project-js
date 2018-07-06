@@ -99,7 +99,7 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
 
     if (action) {
       if (!action.onClick) {
-        console.error(`[NotImplementedError] onClick is not defined for action [${action.label}]`);
+        return console.error(`[NotImplementedError] onClick is not defined for action [${action.label}]`);
       }
 
       action.onClick(data, rowIndex, columnIndex);

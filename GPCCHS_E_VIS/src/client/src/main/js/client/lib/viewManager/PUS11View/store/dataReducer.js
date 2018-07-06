@@ -11,40 +11,83 @@ import _ from 'lodash/fp';
 
 import { VM_VIEW_PUS11 } from '../../constants';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
-import { INJECT_PUS_RANGE_DATA } from '../../../store/types';
+import { INJECT_PUS_DATA } from '../../../store/types';
 import { injectTabularData } from '../../commonData/reducer';
 
-// eslint-disable-next-line no-unused-vars
-function pus11DataReducer(state = {}, action, viewId) {
-  switch (action.type) {
-    case INJECT_PUS_RANGE_DATA: {
-      console.log('INJECT_PUS_RANGE_DATA');
+const constants = require('constants');
 
-      // const { configurations } = action.payload;
+// eslint-disable-next-line no-unused-vars
+function pus11DataReducer(state = {}, action) {
+  switch (action.type) {
+    case INJECT_PUS_DATA: {
       /**
-       * TODO: update injected data format in stubs
-       *
        * action.payload: {
        *  timestamp: number,
        *  data: {
-       *        PUS011PModel: {...},
-       *        Pus011SubSchedule: [],
-       *        Pus011Apid: [],
-       *        Pus011Command: [],
+       *    pus011Model: {
+       *      ...attributes
+       *      pus011Apid: [],
+       *      pus011SubSchedule: [],
+       *      pus011Command: [],
+       *    },
        *  },
        * },
        */
       const data = _.getOr([], ['payload', 'data'], action);
-      // const pus11Configuration = configurations.PUS11ViewConfiguration[viewId];
 
       let updatedState = state;
 
-      updatedState =
-        injectTabularData(updatedState, 'subSchedules', data.Pus011SubSchedule);
-      updatedState =
-        injectTabularData(updatedState, 'enablesApids', data.Pus011Apid);
-      updatedState =
-        injectTabularData(updatedState, 'commands', data.Pus011Command);
+      // strip tables from data dans add them to updatedState
+      updatedState = {
+        ...updatedState,
+        ..._.omit(
+          ['pus011SubSchedule', 'pus011Apid', 'pus011Command'],
+          _.getOr(null, ['pus011Model'], data)
+        ),
+      };
+
+      // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
+      updatedState = injectTabularData(updatedState, 'subSchedules',
+        _.getOr([], ['pus011Model', 'pus011SubSchedule'], data)
+          .map(subSchedule => ({
+            ...subSchedule,
+            status: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'status', subSchedule)], // map schedule status constant
+            lastUpdateModeSubScheduleId: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeSubScheduleId', subSchedule)], // map schedule lastUpdateModeSubScheduleId constant
+            lastUpdateModeStatus: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeStatus', subSchedule)], // map schedule lastUpdateModeStatus constant
+          }))
+      );
+      updatedState = injectTabularData(updatedState, 'enabledApids',
+        _.getOr([], ['pus011Model', 'pus011Apid'], data)
+          .filter(enabledApid => enabledApid.status !== 1) // filter disabled apids
+          .map(enabledApid => ({
+            ...enabledApid,
+            status: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'status', enabledApid)], // map schedule status constant
+            lastUpdateModeApid: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeApid', enabledApid)], // map schedule lastUpdateModeApid constant
+          }))
+      );
+      updatedState = injectTabularData(updatedState, 'commands',
+        _.getOr([], ['pus011Model', 'pus011Command'], data)
+        .map(command => ({
+          ...command,
+          lastUpdateModeCommandId: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeCommandId', command)], // map schedule lastUpdateModeCommandId constant
+          lastUpdateModeBinProf: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeBinProf', command)], // map schedule lastUpdateModeBinProf constant
+          commandStatus: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'commandStatus', command)], // map schedule commandStatus constant
+          lastUpdateModeGroundStatus: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeGroundStatus', command)], // map schedule lastUpdateModeGroundStatus constant
+          commandGroundStatus: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
+          lastUpdateModeStatus: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeStatus', command)], // map schedule lastUpdateModeStatus constant
+          lastUpdateModeCurrentExecTime: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeCurrentExecTime', command)], // map schedule lastUpdateModeCurrentExecTime constant
+          lastUpdateModeInitialExecTime: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeInitialExecTime', command)], // map schedule lastUpdateModeInitialExecTime constant
+          lastUpdateModeTotalTimeShiftOffset: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeTotalTimeShiftOffset', command)], // map schedule lastUpdateModeTotalTimeShiftOffset constant
+          pus011CommandParameters: command.pus011CommandParameters.map(commandParameter => ({
+            ...commandParameter,
+            lastUpdateMode: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateMode', commandParameter)], // map pus011CommandParameters lastUpdateMode constant
+          })),
+          pus011TimeShift: command.pus011TimeShift.map(timeShift => ({
+            ...timeShift,
+            lastUpdateMode: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateMode', timeShift)], // map pus011TimeShift lastUpdateMode constant
+          })),
+        }))
+      );
 
       return updatedState;
     }

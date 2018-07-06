@@ -12,7 +12,7 @@ export default class DefaultPusData extends PureComponent {
     // Own props
     viewId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
-    change: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired, // comes from redux-form magically: https://redux-form.com/6.2.0/docs/api/props.md/#-change-field-string-value-any-function-
     // From DefaultPusDataContainer's mapStateToProps
     selectedDomainName: PropTypes.string,
     selectedTimelineId: PropTypes.string,

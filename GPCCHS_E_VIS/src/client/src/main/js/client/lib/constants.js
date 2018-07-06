@@ -380,6 +380,7 @@ module.exports = {
       2: 'TM',
       3: 'Default',
       4: 'Timer',
+      200: '',
     },
     FUNCTIONAL_MONITORING_CHECKING_STATUS: {
       1: 'UNCHECKED',
@@ -465,6 +466,7 @@ module.exports = {
       1: 'DISABLED',
       2: 'ENABLED',
       3: 'DELETED',
+      200: 'UNKNOWN',
     },
     CHECK_TYPE: {
       1: 'DELTA',

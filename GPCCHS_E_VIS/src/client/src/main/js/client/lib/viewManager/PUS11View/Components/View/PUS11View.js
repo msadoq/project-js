@@ -1,152 +1,144 @@
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-array-index-key,no-unused-vars,react/no-unused-prop-types,arrow-body-style,react/prop-types,react/no-string-refs */
 import React from 'react';
 import PropTypes from 'prop-types';
+import _memoize from 'lodash/fp/memoize';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 
 import './PUS11View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
+
+const popoverStyle = {
+  height: '80px !important',
+};
+
+// @todo hbenjelloun implement
+const bodyCellsCommands = [
+  {
+    label: 'commandSsId',
+    onHover: () => console.log('tooltip commandSsid. Use lastUpdateModeCommandId & lastUpdateTimeCommandId'),
+  },
+  {
+    label: 'commandGroundStatus',
+    onHover: () => console.log('tooltip command commandGroundStatus. Use lastUpdateTimeBinProf & lastUpdateTimeGroundStatus'),
+  },
+  {
+    label: 'status',
+    onHover: () => console.log('tooltip command status. Use lastUpdateModeStatus & lastUpdateTimeStatus'),
+  },
+  {
+    label: 'currentExecutionTime',
+    onHover: () => console.log('tooltip command currentExecutionTime. Use lastUpdateModeCurrentExecTime & lastUpdateTimeCurrentExecTime'),
+  },
+  {
+    label: 'initialExecutionTime',
+    onHover: () => console.log('tooltip command initialExecutionTime. Use lastUpdateModeInitialExecTime & lastUpdateTimeInitialExecTime'),
+  },
+  {
+    label: 'totalTimeShiftOffset',
+    onHover: () => console.log('tooltip command totalTimeShiftOffset. Use lastUpdateModeTotalTimeShiftOffset & lastUpdateTimeTotalTimeShiftOffset'),
+  },
+  {
+    label: 'Popin ==> PUS11Modal',
+    onDbleClick: () => console.log('open popin with content depending on each line... use commandBinaryProfile, lastUpdateModeBinProf,lastUpdateTimeBinProf, pus011CommandParameters & pus011TimeShift'),
+  },
+];
+
+// @todo hbenjelloun implement
+const bodyCellsEnabledApids = [
+  {
+    label: 'apid',
+    onHover: () => console.log('tooltip apid. Use lastUpdateModeApid & lastUpdateTimeApid'),
+  },
+];
+
+// @todo hbenjelloun implement
+const bodyCellsSubSchedules = [
+  {
+    label: 'ssId',
+    onHover: () => console.log('tooltip ssId. Use lastUpdateModeSubScheduleId & lastUpdateTimeSubscheduleId'),
+  },
+  {
+    label: 'status',
+    onHover: () => console.log('tooltip status. Use lastUpdateModeStatus & lastUpdateTimeStatus'),
+  },
+];
+
+const backgroundDisabled = { backgroundColor: '#e67e22' };
+const backgroundEnabled = { backgroundColor: '#2ecc71' };
+const emptyObject = {};
+
+// apply background color to cells for which value is ENABLED or DISABLED
+export const overrideStyle = ({ style, content }) => {
+  return ({
+    ...(
+// eslint-disable-next-line no-nested-ternary
+      content.value === 'DISABLED'
+      ? backgroundDisabled
+      : content.value === 'ENABLED'
+        ? backgroundEnabled
+        : emptyObject
+    ),
+  });
+};
 
 export default class PUS11View extends React.Component {
   static propTypes = {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS11ViewContainer mapStateToProps
-    applicationProcessName: PropTypes.string,
-    applicationProcessId: PropTypes.number,
-    scheduleStatus: PropTypes.string.isRequired,
-    availableSpace: PropTypes.string.isRequired,
-    spaceType: PropTypes.string.isRequired,
-    lastUpdateTime: PropTypes.number.isRequired,
-    lastUpdateType: PropTypes.string.isRequired,
-    // from container's mapDispatchToProps
-    // openModal: func.isRequired,
-    // askFakeData: PropTypes.func.isRequired,
+    spaceInNumberOfCommands: PropTypes.bool,
+    scheduleStatus: PropTypes.string,
+    lastUpdateTimeScheduleStatus: PropTypes.string,
+    lastUpdateModeScheduleStatus: PropTypes.string,
+    noFreeCommands: PropTypes.number,
+    lastUpdateTimeNoFreeCommands: PropTypes.string,
+    lastUpdateModeNoFreeCommands: PropTypes.string,
+    freeSpace: PropTypes.number,
+    lastUpdateTimeFreeSpace: PropTypes.string,
+    lastUpdateModeFreeSpace: PropTypes.string,
+    serviceApid: PropTypes.number,
+    serviceApidName: PropTypes.string,
   };
 
   static defaultProps = {
-    applicationProcessName: null,
-    applicationProcessId: null,
+    spaceInNumberOfCommands: null,
+    scheduleStatus: null,
+    lastUpdateTimeScheduleStatus: null,
+    lastUpdateModeScheduleStatus: null,
+    noFreeCommands: null,
+    lastUpdateTimeNoFreeCommands: null,
+    lastUpdateModeNoFreeCommands: null,
+    freeSpace: null,
+    lastUpdateTimeFreeSpace: null,
+    lastUpdateModeFreeSpace: null,
+    serviceApid: null,
+    serviceApidName: null,
   };
+
   static contextTypes = {
     windowId: PropTypes.string,
   };
 
-  // handleRowDoubleClicked(e, row) {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   const { openModal, viewId } = this.props;
-  //   const { windowId } = this.context;
-  //   openModal(windowId, { type: 'pus11Modal', viewId, title: 'Details for command ###', bsSize: 'lg' });
-  // }
-
-  // renderTCTable(commands, viewId) {
-  //   return (
-  //     <table className="table table-bordered">
-  //       <thead>
-  //         <tr>
-  //           <th>Apid</th>
-  //           <th>Ssid</th>
-  //           <th>Cmd. Name</th>
-  //           <th>Cmd. Description</th>
-  //           <th>Cmd. AP. Name</th>
-  //           <th>Seq. Count</th>
-  //           <th>Source Id</th>
-  //           <th>Cmd. Status</th>
-  //           <th>Ground Status</th>
-  //           <th>Init. Exec. Time</th>
-  //           <th>Cur. Exec. Time</th>
-  //           <th>Tot. Shift Time</th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {
-  //           commands.data.map((row, i) => (
-  //             <tr key={`${viewId}-tc-table-${i}`} onDoubleClick={e => this.handleRowDoubleClicked(e, row)}>
-  //               <td>{row.apid}</td>
-  //               <td>{row.ssid}</td>
-  //               <td>{row.cmdName}</td>
-  //               <td>{row.cmdDescription}</td>
-  //               <td>{row.cmdApName}</td>
-  //               <td>{row.seqCount}</td>
-  //               <td>{row.sourceId}</td>
-  //               <td>{row.cmdStatus}</td>
-  //               <td>{row.groundStatus}</td>
-  //               <td>{row.initExecTime}</td>
-  //               <td>{row.curExecTime}</td>
-  //               <td>{row.totShiftTime}</td>
-  //             </tr>
-  //           ))
-  //         }
-  //       </tbody>
-  //     </table>
-  //   );
-  // }
-  // componentDidMount() {
-  //   const { viewId, askFakeData } = this.props;
-  //
-  //   askFakeData(
-  //     viewId,
-  //     'subSchedules',
-  //     [
-  //       {
-  //         ssid: 87,
-  //         ssidLabel: 'xxx',
-  //         name: 'xxx',
-  //         status: 'disabled',
-  //         firstTCTime: 1527520025823,
-  //         updateType: 'TM',
-  //         updateTime: 1527520025823,
-  //         nbTc: 1,
-  //       },
-  //       {
-  //         ssid: 90,
-  //         ssidLabel: 'xxx',
-  //         name: 'xxx',
-  //         status: 'disabled',
-  //         firstTCTime: 1527520025823,
-  //         updateType: 'TM',
-  //         updateTime: 1527520025823,
-  //         nbTc: 1,
-  //       },
-  //       {
-  //         ssid: 247,
-  //         ssidLabel: 'xxx',
-  //         name: 'xxx',
-  //         status: 'disabled',
-  //         firstTCTime: 1527520025823,
-  //         updateType: 'TM',
-  //         updateTime: 1527520025823,
-  //         nbTc: 1,
-  //       },
-  //       {
-  //         ssid: 642,
-  //         ssidLabel: 'xxx',
-  //         name: 'xxx',
-  //         status: 'disabled',
-  //         firstTCTime: 1527520025823,
-  //         updateType: 'TM',
-  //         updateTime: 1527520025823,
-  //         nbTc: 1,
-  //       },
-  //     ],
-  //     20
-  //   );
-  // }
-
   render() {
     const {
-      applicationProcessName,
-      applicationProcessId,
+      serviceApid,
+      spaceInNumberOfCommands,
       scheduleStatus,
-      availableSpace,
-      spaceType,
-      lastUpdateTime,
-      lastUpdateType,
+      lastUpdateTimeScheduleStatus,
+      lastUpdateModeScheduleStatus,
+      noFreeCommands,
+      lastUpdateTimeNoFreeCommands,
+      lastUpdateModeNoFreeCommands,
+      freeSpace,
+      lastUpdateTimeFreeSpace,
+      lastUpdateModeFreeSpace,
+      serviceApidName,
       viewId,
     } = this.props;
 
-    if (!isValid(applicationProcessName, applicationProcessId)) {
+    if (!isValid(serviceApidName, serviceApid)) {
       return renderInvald('Please fill-in configuration');
     }
 
@@ -155,37 +147,47 @@ export default class PUS11View extends React.Component {
         <div className="pus11">
           <div className="header">
             {renderHeaders(
-              applicationProcessName,
-              applicationProcessId,
+              serviceApid,
+              spaceInNumberOfCommands,
               scheduleStatus,
-              availableSpace,
-              spaceType,
-              lastUpdateTime,
-              lastUpdateType)}
+              lastUpdateTimeScheduleStatus,
+              lastUpdateModeScheduleStatus,
+              noFreeCommands,
+              lastUpdateTimeNoFreeCommands,
+              lastUpdateModeNoFreeCommands,
+              freeSpace,
+              lastUpdateTimeFreeSpace,
+              lastUpdateModeFreeSpace,
+              serviceApidName
+            )}
           </div>
-          <div className="header">
-            <div className="col-sm-6">
-              <div style={{ height: 400 }}>
-                <VirtualizedTableViewContainer
-                  viewId={viewId}
-                  tableId={'subSchedules'}
-                />
-              </div>
+          <div className="col-sm-6">
+            <div style={{ height: 400 }}>
+              <VirtualizedTableViewContainer
+                viewId={viewId}
+                tableId={'subSchedules'}
+                bodyCellActions={bodyCellsSubSchedules}
+                overrideStyle={overrideStyle}
+              />
             </div>
-            <div className="clearfix" />
-            <div className="col-sm-6">
+          </div>
+          <div className="col-sm-6">
+            <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'enabledApids'}
+                bodyCellActions={bodyCellsEnabledApids}
+                overrideStyle={overrideStyle}
               />
             </div>
-            <div className="clearfix" />
           </div>
-          <div className="header">
-            <div className="info col-sm-12">
+          <div className="info col-sm-12">
+            <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'commands'}
+                bodyCellActions={bodyCellsCommands}
+                overrideStyle={overrideStyle}
               />
             </div>
           </div>
@@ -195,97 +197,82 @@ export default class PUS11View extends React.Component {
   }
 }
 
-export const renderHeaders = (ApplicationProcessName,
-                              ApplicationProcessId,
-                              ScheduleStatus,
-                              AvailableSpace,
-                              SpaceType,
-                              LastUpdateTime,
-                              LastUpdateType
-) => (
-  <React.Fragment>
-    <div className="info col-sm-6">
-      <span>
-        Application Process&nbsp;
-        <input type="text" disabled value={ApplicationProcessName} />&nbsp;
-        <input className="mw50" type="text" disabled value={ApplicationProcessId} />
-      </span>
-      <span className="spacing" />
-    </div>
-    <div className="info col-sm-6">
-      <span>
-        Schedule Status&nbsp;
-        <input type="text" className="mw100" disabled value={ScheduleStatus} />
-      </span>
-      <span className="spacing" />
-    </div>
-    <div className="info col-sm-6">
-      <span>
-        Application Space&nbsp;
-        <input type="text" className="mw100" disabled value={AvailableSpace} />
-        &nbsp;{SpaceType}
-      </span>
-      <span className="spacing" />
-    </div>
-    <div className="info col-sm-6">
-      <span>
-        Last Uptate&nbsp;
-        <input type="text" className="mw100" disabled value={LastUpdateTime} />&nbsp;
-        <input className="mw50" type="text" disabled value={LastUpdateType} />
-      </span>
-      <span className="spacing" />
-    </div>
-    <div className="clearfix" />
-  </React.Fragment>
+export const generatePopover = ({ id, title, time, mode }) => (
+  <Popover
+    id={id}
+    placement="top"
+    title={title}
+    style={popoverStyle}
+  >
+    <div>Last update Time: {time}</div>
+    <div>Last update mode: {mode}</div>
+  </Popover>
 );
 
-// export const renderSubSchedulesTable = (subSchedules, viewId) => (
-//   <table className="table table-bordered">
-//     <thead>
-//       <tr>
-//         <th>SSID</th>
-//         <th>APID</th>
-//         <th>Name</th>
-//         <th>Status</th>
-//         <th>First TC Time</th>
-//       </tr>
-//     </thead>
-//     <tbody>
-//       {
-//         subSchedules.data.map((row, i) => (
-//           <tr key={`${viewId}-sub-schedule-table-${i}`}>
-//             <td>{row.ssid}</td>
-//             <td>{row.apid}</td>
-//             <td>{row.name}</td>
-//             <td>{row.status}</td>
-//             <td>{row.firstTCTime}</td>
-//           </tr>
-//         ))
-//       }
-//     </tbody>
-//   </table>
-// );
+const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
 
-// export const renderEnabledApidsTable = viewId => (
-//   <table className="table table-bordered">
-//     <thead>
-//       <tr>
-//         <th>APID</th>
-//         <th>Name</th>
-//       </tr>
-//     </thead>
-//     <tbody>
-//       {
-//       enabledApids.map((row, i) => (
-//         <tr key={`${viewId}-enabled-apids-table-${i}`}>
-//           <td>{row.apid}</td>
-//           <td>{row.name}</td>
-//         </tr>
-//       ))
-//     }
-//     </tbody>
-//   </table>
-// );
+export const renderHeaders = (
+  serviceApid,
+  spaceInNumberOfCommands,
+  scheduleStatus,
+  lastUpdateTimeScheduleStatus,
+  lastUpdateModeScheduleStatus,
+  noFreeCommands,
+  lastUpdateTimeNoFreeCommands,
+  lastUpdateModeNoFreeCommands,
+  freeSpace,
+  lastUpdateTimeFreeSpace,
+  lastUpdateModeFreeSpace,
+  serviceApidName
+) => (
+  <ErrorBoundary>
+    <div className="info col-sm-6 posRelative">
+      <span>
+        Application Process&nbsp;
+        <input type="text" disabled value={serviceApidName} />&nbsp;
+        <input className="mw50" type="text" disabled value={serviceApid} />
+      </span>
+      <span className="spacing" />
+    </div>
+    <div className="info col-sm-6">
+      <OverlayTrigger
+        trigger={popoverTrigger}
+        placement="top"
+        overlay={generatePopover({
+          id: 'popover-service-apid',
+          title: 'Schedule Status',
+          time: lastUpdateTimeScheduleStatus,
+          mode: lastUpdateModeScheduleStatus,
+        })}
+      >
+        <span>
+          Schedule Status&nbsp;
+          <input type="text" className="mw100" disabled value={scheduleStatus} />
+        </span>
+      </OverlayTrigger>
+      <span className="spacing" />
+    </div>
+    <div className="info col-sm-6">
+      <OverlayTrigger
+        trigger={popoverTrigger}
+        placement="top"
+        overlay={generatePopover({
+          id: 'popover-commands',
+          title: (spaceInNumberOfCommands ? 'Free Commands' : 'Free Bytes'),
+          time: lastUpdateTimeNoFreeCommands,
+          mode: lastUpdateModeNoFreeCommands,
+        })}
+      >
+        <span>
+          Application Space&nbsp;
+          <input type="text" className="mw100" disabled value={spaceInNumberOfCommands ? noFreeCommands : freeSpace} />
+          {spaceInNumberOfCommands ? 'commands' : 'bytes'}
+        </span>
+      </OverlayTrigger>
+    </div>
+    <div className="clearfix" />
+  </ErrorBoundary>
+);
 
 export const isValid = (applicationProcessName, applicationProcessId) =>
   typeof applicationProcessName === 'string' &&
@@ -295,7 +282,7 @@ export const isValid = (applicationProcessName, applicationProcessId) =>
 
 export const renderInvald = error => (
   <div className="pus11 h100 posRelative">
-    <div className="flex">
+    <div className="flex h100">
       <div className="renderErrorText">
         Unable to render view <br />
         {error}

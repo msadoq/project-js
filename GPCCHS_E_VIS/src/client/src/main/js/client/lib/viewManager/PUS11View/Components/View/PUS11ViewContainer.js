@@ -1,32 +1,31 @@
-/* eslint-disable no-unused-vars,arrow-body-style */
 import PropTypes from 'prop-types';
-import _get from 'lodash/get';
+import _ from 'lodash/fp';
 import { connect } from 'react-redux';
-import { open as openModal } from 'store/actions/modals';
-import { askFakeData } from 'store/actions/fake';
+import { getData } from 'viewManager/PUS11View/store/dataReducer';
 import PUS11View from './PUS11View';
-import { getConfigurationByViewId } from '../../../selectors';
+
+const constants = require('constants');
 
 const mapStateToProps = (state, { viewId }) => {
-  const config = getConfigurationByViewId(state, { viewId });
+  const data = getData(state, { viewId });
 
   return {
-    applicationProcessName: _get(config, ['entryPoints', 0, 'connectedData', 'apidName'], null),
-    applicationProcessId: _get(config, ['entryPoints', 0, 'connectedData', 'apidRawValue'], null),
-    scheduleStatus: 'ENABLED',
-    availableSpace: '1000',
-    spaceType: 'Bytes',
-    lastUpdateTime: 1527520025823,
-    lastUpdateType: 'TM',
+    serviceApid: _.getOr(null, 'serviceApid', data),
+    spaceInNumberOfCommands: _.getOr(null, 'spaceInNumberOfCommands', data),
+    scheduleStatus: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'scheduleStatus', data)],
+    lastUpdateTimeScheduleStatus: String(_.getOr(null, 'lastUpdateTimeScheduleStatus', data)),
+    lastUpdateModeScheduleStatus: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeScheduleStatus', data)],
+    noFreeCommands: _.getOr(null, 'noFreeCommands', data),
+    lastUpdateTimeNoFreeCommands: String(_.getOr(null, 'lastUpdateTimeNoFreeCommands', data)),
+    lastUpdateModeNoFreeCommands: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeNoFreeCommands', data)],
+    freeSpace: _.getOr(null, 'freeSpace', data),
+    lastUpdateTimeFreeSpace: String(_.getOr(null, 'lastUpdateTimeFreeSpace', data)),
+    lastUpdateModeFreeSpace: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeFreeSpace', data)],
+    serviceApidName: _.getOr(null, 'serviceApidName', data),
   };
 };
 
-const mapDispatchToProps = {
-  openModal,
-  // askFakeData,
-};
-
-const PUS11ViewContainer = connect(mapStateToProps, mapDispatchToProps)(PUS11View);
+const PUS11ViewContainer = connect(mapStateToProps, null)(PUS11View);
 
 PUS11ViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

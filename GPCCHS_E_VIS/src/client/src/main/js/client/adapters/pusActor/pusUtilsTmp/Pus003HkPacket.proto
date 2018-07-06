@@ -22,6 +22,6 @@ extensions 5 to 105;
 
   optional ccsds_mal.protobuf.STRING generationMode = 1;
   optional pusModelEditor.protobuf.Pus003Packet pus003Packet = 2;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeGenMode = 3;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeGenMode = 3;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeGenMode = 4;
 }

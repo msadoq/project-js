@@ -18,19 +18,19 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeRid)
       : null,
     lastUpdateTimeRid: (data.lastUpdateTimeRid !== null && typeof data.lastUpdateTimeRid !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeRid)
+      ? sTRING.encode(data.lastUpdateTimeRid)
       : null,
     lastUpdateModeOnBoardStatus: (data.lastUpdateModeOnBoardStatus !== null && typeof data.lastUpdateModeOnBoardStatus !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeOnBoardStatus)
       : null,
     lastUpdateTimeOnBoardStatus: (data.lastUpdateTimeOnBoardStatus !== null && typeof data.lastUpdateTimeOnBoardStatus !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeOnBoardStatus)
+      ? sTRING.encode(data.lastUpdateTimeOnBoardStatus)
       : null,
     lastUpdateModeAlarmLevel: (data.lastUpdateModeAlarmLevel !== null && typeof data.lastUpdateModeAlarmLevel !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeAlarmLevel)
       : null,
     lastUpdateTimeAlarmLevel: (data.lastUpdateTimeAlarmLevel !== null && typeof data.lastUpdateTimeAlarmLevel !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeAlarmLevel)
+      ? sTRING.encode(data.lastUpdateTimeAlarmLevel)
       : null,
     serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
       ? uINTEGER.encode(data.serviceApid)
@@ -74,19 +74,19 @@ module.exports = {
       ? uINTEGER.decode(data.lastUpdateModeRid)
       : undefined,
     lastUpdateTimeRid: (data.lastUpdateTimeRid !== null && typeof data.lastUpdateTimeRid !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeRid)
+      ? sTRING.decode(data.lastUpdateTimeRid)
       : undefined,
     lastUpdateModeOnBoardStatus: (data.lastUpdateModeOnBoardStatus !== null && typeof data.lastUpdateModeOnBoardStatus !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeOnBoardStatus)
       : undefined,
     lastUpdateTimeOnBoardStatus: (data.lastUpdateTimeOnBoardStatus !== null && typeof data.lastUpdateTimeOnBoardStatus !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeOnBoardStatus)
+      ? sTRING.decode(data.lastUpdateTimeOnBoardStatus)
       : undefined,
     lastUpdateModeAlarmLevel: (data.lastUpdateModeAlarmLevel !== null && typeof data.lastUpdateModeAlarmLevel !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeAlarmLevel)
       : undefined,
     lastUpdateTimeAlarmLevel: (data.lastUpdateTimeAlarmLevel !== null && typeof data.lastUpdateTimeAlarmLevel !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeAlarmLevel)
+      ? sTRING.decode(data.lastUpdateTimeAlarmLevel)
       : undefined,
     serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
       ? uINTEGER.decode(data.serviceApid)

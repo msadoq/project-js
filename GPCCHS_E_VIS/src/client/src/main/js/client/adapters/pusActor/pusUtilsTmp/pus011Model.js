@@ -1,6 +1,6 @@
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 const bOOLEAN = require('../ccsds_mal/bOOLEAN');
-const tIME = require('../ccsds_mal/tIME');
+const sTRING = require('../ccsds_mal/sTRING');
 const uLONG = require('../ccsds_mal/uLONG');
 const pus011Apid = require('./pus011Apid');
 const pus011Command = require('./pus011Command');
@@ -23,7 +23,7 @@ module.exports = {
       ? uINTEGER.encode(data.scheduleStatus)
       : null,
     lastUpdateTimeScheduleStatus: (data.lastUpdateTimeScheduleStatus !== null && typeof data.lastUpdateTimeScheduleStatus !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeScheduleStatus)
+      ? sTRING.encode(data.lastUpdateTimeScheduleStatus)
       : null,
     lastUpdateModeScheduleStatus: (data.lastUpdateModeScheduleStatus !== null && typeof data.lastUpdateModeScheduleStatus !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeScheduleStatus)
@@ -32,7 +32,7 @@ module.exports = {
       ? uINTEGER.encode(data.noFreeCommands)
       : null,
     lastUpdateTimeNoFreeCommands: (data.lastUpdateTimeNoFreeCommands !== null && typeof data.lastUpdateTimeNoFreeCommands !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeNoFreeCommands)
+      ? sTRING.encode(data.lastUpdateTimeNoFreeCommands)
       : null,
     lastUpdateModeNoFreeCommands: (data.lastUpdateModeNoFreeCommands !== null && typeof data.lastUpdateModeNoFreeCommands !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeNoFreeCommands)
@@ -41,7 +41,7 @@ module.exports = {
       ? uINTEGER.encode(data.freeSpace)
       : null,
     lastUpdateTimeFreeSpace: (data.lastUpdateTimeFreeSpace !== null && typeof data.lastUpdateTimeFreeSpace !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeFreeSpace)
+      ? sTRING.encode(data.lastUpdateTimeFreeSpace)
       : null,
     lastUpdateModeFreeSpace: (data.lastUpdateModeFreeSpace !== null && typeof data.lastUpdateModeFreeSpace !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeFreeSpace)
@@ -70,7 +70,7 @@ module.exports = {
       ? uINTEGER.decode(data.scheduleStatus)
       : undefined,
     lastUpdateTimeScheduleStatus: (data.lastUpdateTimeScheduleStatus !== null && typeof data.lastUpdateTimeScheduleStatus !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeScheduleStatus)
+      ? sTRING.decode(data.lastUpdateTimeScheduleStatus)
       : undefined,
     lastUpdateModeScheduleStatus: (data.lastUpdateModeScheduleStatus !== null && typeof data.lastUpdateModeScheduleStatus !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeScheduleStatus)
@@ -79,7 +79,7 @@ module.exports = {
       ? uINTEGER.decode(data.noFreeCommands)
       : undefined,
     lastUpdateTimeNoFreeCommands: (data.lastUpdateTimeNoFreeCommands !== null && typeof data.lastUpdateTimeNoFreeCommands !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeNoFreeCommands)
+      ? sTRING.decode(data.lastUpdateTimeNoFreeCommands)
       : undefined,
     lastUpdateModeNoFreeCommands: (data.lastUpdateModeNoFreeCommands !== null && typeof data.lastUpdateModeNoFreeCommands !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeNoFreeCommands)
@@ -88,7 +88,7 @@ module.exports = {
       ? uINTEGER.decode(data.freeSpace)
       : undefined,
     lastUpdateTimeFreeSpace: (data.lastUpdateTimeFreeSpace !== null && typeof data.lastUpdateTimeFreeSpace !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeFreeSpace)
+      ? sTRING.decode(data.lastUpdateTimeFreeSpace)
       : undefined,
     lastUpdateModeFreeSpace: (data.lastUpdateModeFreeSpace !== null && typeof data.lastUpdateModeFreeSpace !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeFreeSpace)

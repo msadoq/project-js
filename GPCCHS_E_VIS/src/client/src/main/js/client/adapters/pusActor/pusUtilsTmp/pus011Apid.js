@@ -14,7 +14,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeApid)
       : null,
     lastUpdateTimeApid: (data.lastUpdateTimeApid !== null && typeof data.lastUpdateTimeApid !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeApid)
+      ? sTRING.encode(data.lastUpdateTimeApid)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.encode(data.status)
@@ -23,7 +23,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeStatus)
       : null,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeStatus)
+      ? sTRING.encode(data.lastUpdateTimeStatus)
       : null,
     serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
       ? uINTEGER.encode(data.serviceApid)
@@ -46,7 +46,7 @@ module.exports = {
       ? uINTEGER.decode(data.lastUpdateModeApid)
       : undefined,
     lastUpdateTimeApid: (data.lastUpdateTimeApid !== null && typeof data.lastUpdateTimeApid !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeApid)
+      ? sTRING.decode(data.lastUpdateTimeApid)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.decode(data.status)
@@ -55,7 +55,7 @@ module.exports = {
       ? uINTEGER.decode(data.lastUpdateModeStatus)
       : undefined,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeStatus)
+      ? sTRING.decode(data.lastUpdateTimeStatus)
       : undefined,
     serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
       ? uINTEGER.decode(data.serviceApid)

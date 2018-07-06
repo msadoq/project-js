@@ -30,37 +30,37 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeSid)
       : null,
     lastUpdateTimeSid: (data.lastUpdateTimeSid !== null && typeof data.lastUpdateTimeSid !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeSid)
+      ? sTRING.encode(data.lastUpdateTimeSid)
       : null,
     lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeStatus)
       : null,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeStatus)
+      ? sTRING.encode(data.lastUpdateTimeStatus)
       : null,
     lastUpdateModeValidParamId: (data.lastUpdateModeValidParamId !== null && typeof data.lastUpdateModeValidParamId !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeValidParamId)
       : null,
     lastUpdateTimeValidParamId: (data.lastUpdateTimeValidParamId !== null && typeof data.lastUpdateTimeValidParamId !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeValidParamId)
+      ? sTRING.encode(data.lastUpdateTimeValidParamId)
       : null,
     lastUpdateModeValidParamMask: (data.lastUpdateModeValidParamMask !== null && typeof data.lastUpdateModeValidParamMask !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeValidParamMask)
       : null,
     lastUpdateTimeValidParamMask: (data.lastUpdateTimeValidParamMask !== null && typeof data.lastUpdateTimeValidParamMask !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeValidParamMask)
+      ? sTRING.encode(data.lastUpdateTimeValidParamMask)
       : null,
     lastUpdateModeValidParamExpValue: (data.lastUpdateModeValidParamExpValue !== null && typeof data.lastUpdateModeValidParamExpValue !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeValidParamExpValue)
       : null,
     lastUpdateTimeValidParamExpValue: (data.lastUpdateTimeValidParamExpValue !== null && typeof data.lastUpdateTimeValidParamExpValue !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeValidParamExpValue)
+      ? sTRING.encode(data.lastUpdateTimeValidParamExpValue)
       : null,
     lastUpdateModeCollectInterval: (data.lastUpdateModeCollectInterval !== null && typeof data.lastUpdateModeCollectInterval !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeCollectInterval)
       : null,
     lastUpdateTimeCollectInterval: (data.lastUpdateTimeCollectInterval !== null && typeof data.lastUpdateTimeCollectInterval !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeCollectInterval)
+      ? sTRING.encode(data.lastUpdateTimeCollectInterval)
       : null,
     packetName: (data.packetName !== null && typeof data.packetName !== 'undefined')
       ? sTRING.encode(data.packetName)
@@ -110,37 +110,37 @@ module.exports = {
       ? uINTEGER.decode(data.lastUpdateModeSid)
       : undefined,
     lastUpdateTimeSid: (data.lastUpdateTimeSid !== null && typeof data.lastUpdateTimeSid !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeSid)
+      ? sTRING.decode(data.lastUpdateTimeSid)
       : undefined,
     lastUpdateModeStatus: (data.lastUpdateModeStatus !== null && typeof data.lastUpdateModeStatus !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeStatus)
       : undefined,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeStatus)
+      ? sTRING.decode(data.lastUpdateTimeStatus)
       : undefined,
     lastUpdateModeValidParamId: (data.lastUpdateModeValidParamId !== null && typeof data.lastUpdateModeValidParamId !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeValidParamId)
       : undefined,
     lastUpdateTimeValidParamId: (data.lastUpdateTimeValidParamId !== null && typeof data.lastUpdateTimeValidParamId !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeValidParamId)
+      ? sTRING.decode(data.lastUpdateTimeValidParamId)
       : undefined,
     lastUpdateModeValidParamMask: (data.lastUpdateModeValidParamMask !== null && typeof data.lastUpdateModeValidParamMask !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeValidParamMask)
       : undefined,
     lastUpdateTimeValidParamMask: (data.lastUpdateTimeValidParamMask !== null && typeof data.lastUpdateTimeValidParamMask !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeValidParamMask)
+      ? sTRING.decode(data.lastUpdateTimeValidParamMask)
       : undefined,
     lastUpdateModeValidParamExpValue: (data.lastUpdateModeValidParamExpValue !== null && typeof data.lastUpdateModeValidParamExpValue !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeValidParamExpValue)
       : undefined,
     lastUpdateTimeValidParamExpValue: (data.lastUpdateTimeValidParamExpValue !== null && typeof data.lastUpdateTimeValidParamExpValue !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeValidParamExpValue)
+      ? sTRING.decode(data.lastUpdateTimeValidParamExpValue)
       : undefined,
     lastUpdateModeCollectInterval: (data.lastUpdateModeCollectInterval !== null && typeof data.lastUpdateModeCollectInterval !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeCollectInterval)
       : undefined,
     lastUpdateTimeCollectInterval: (data.lastUpdateTimeCollectInterval !== null && typeof data.lastUpdateTimeCollectInterval !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeCollectInterval)
+      ? sTRING.decode(data.lastUpdateTimeCollectInterval)
       : undefined,
     packetName: (data.packetName !== null && typeof data.packetName !== 'undefined')
       ? sTRING.decode(data.packetName)

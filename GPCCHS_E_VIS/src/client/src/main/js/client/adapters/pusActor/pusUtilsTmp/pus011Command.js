@@ -40,7 +40,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeCommandId)
       : null,
     lastUpdateTimeCommandId: (data.lastUpdateTimeCommandId !== null && typeof data.lastUpdateTimeCommandId !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeCommandId)
+      ? sTRING.encode(data.lastUpdateTimeCommandId)
       : null,
     commandBinaryProfile: (data.commandBinaryProfile !== null && typeof data.commandBinaryProfile !== 'undefined')
       ? sTRING.encode(data.commandBinaryProfile)
@@ -49,7 +49,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeBinProf)
       : null,
     lastUpdateTimeBinProf: (data.lastUpdateTimeBinProf !== null && typeof data.lastUpdateTimeBinProf !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeBinProf)
+      ? sTRING.encode(data.lastUpdateTimeBinProf)
       : null,
     commandGroundStatus: (data.commandGroundStatus !== null && typeof data.commandGroundStatus !== 'undefined')
       ? sTRING.encode(data.commandGroundStatus)
@@ -58,7 +58,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeGroundStatus)
       : null,
     lastUpdateTimeGroundStatus: (data.lastUpdateTimeGroundStatus !== null && typeof data.lastUpdateTimeGroundStatus !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeGroundStatus)
+      ? sTRING.encode(data.lastUpdateTimeGroundStatus)
       : null,
     commandStatus: (data.commandStatus !== null && typeof data.commandStatus !== 'undefined')
       ? uINTEGER.encode(data.commandStatus)
@@ -67,7 +67,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeStatus)
       : null,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeStatus)
+      ? sTRING.encode(data.lastUpdateTimeStatus)
       : null,
     currentExecutionTime: (data.currentExecutionTime !== null && typeof data.currentExecutionTime !== 'undefined')
       ? tIME.encode(data.currentExecutionTime)
@@ -76,7 +76,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeCurrentExecTime)
       : null,
     lastUpdateTimeCurrentExecTime: (data.lastUpdateTimeCurrentExecTime !== null && typeof data.lastUpdateTimeCurrentExecTime !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeCurrentExecTime)
+      ? sTRING.encode(data.lastUpdateTimeCurrentExecTime)
       : null,
     initialExecutionTime: (data.initialExecutionTime !== null && typeof data.initialExecutionTime !== 'undefined')
       ? tIME.encode(data.initialExecutionTime)
@@ -85,7 +85,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeInitialExecTime)
       : null,
     lastUpdateTimeInitialExecTime: (data.lastUpdateTimeInitialExecTime !== null && typeof data.lastUpdateTimeInitialExecTime !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeInitialExecTime)
+      ? sTRING.encode(data.lastUpdateTimeInitialExecTime)
       : null,
     totalTimeShiftOffset: (data.totalTimeShiftOffset !== null && typeof data.totalTimeShiftOffset !== 'undefined')
       ? iNTEGER.encode(data.totalTimeShiftOffset)
@@ -94,7 +94,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateModeTotalTimeShiftOffset)
       : null,
     lastUpdateTimeTotalTimeShiftOffset: (data.lastUpdateTimeTotalTimeShiftOffset !== null && typeof data.lastUpdateTimeTotalTimeShiftOffset !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeTotalTimeShiftOffset)
+      ? sTRING.encode(data.lastUpdateTimeTotalTimeShiftOffset)
       : null,
     pus011TimeShift: _map(data.pus011TimeShift, timeShift => pus011TimeShift.encode(timeShift)),
     pus011CommandParameters: _map(data.pus011CommandParameters, commandParameter => pus011CommandParameter.encode(commandParameter)),
@@ -134,7 +134,7 @@ module.exports = {
       ? uINTEGER.decode(data.lastUpdateModeCommandId)
       : undefined,
     lastUpdateTimeCommandId: (data.lastUpdateTimeCommandId !== null && typeof data.lastUpdateTimeCommandId !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeCommandId)
+      ? sTRING.decode(data.lastUpdateTimeCommandId)
       : undefined,
     commandBinaryProfile: (data.commandBinaryProfile !== null && typeof data.commandBinaryProfile !== 'undefined')
       ? sTRING.decode(data.commandBinaryProfile)
@@ -143,7 +143,7 @@ module.exports = {
       ? uINTEGER.decode(data.lastUpdateModeBinProf)
       : undefined,
     lastUpdateTimeBinProf: (data.lastUpdateTimeBinProf !== null && typeof data.lastUpdateTimeBinProf !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeBinProf)
+      ? sTRING.decode(data.lastUpdateTimeBinProf)
       : undefined,
     commandGroundStatus: (data.commandGroundStatus !== null && typeof data.commandGroundStatus !== 'undefined')
       ? sTRING.decode(data.commandGroundStatus)
@@ -152,7 +152,7 @@ module.exports = {
       ? uINTEGER.decode(data.lastUpdateModeGroundStatus)
       : undefined,
     lastUpdateTimeGroundStatus: (data.lastUpdateTimeGroundStatus !== null && typeof data.lastUpdateTimeGroundStatus !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeGroundStatus)
+      ? sTRING.decode(data.lastUpdateTimeGroundStatus)
       : undefined,
     commandStatus: (data.commandStatus !== null && typeof data.commandStatus !== 'undefined')
       ? uINTEGER.decode(data.commandStatus)
@@ -161,7 +161,7 @@ module.exports = {
       ? uINTEGER.decode(data.lastUpdateModeStatus)
       : undefined,
     lastUpdateTimeStatus: (data.lastUpdateTimeStatus !== null && typeof data.lastUpdateTimeStatus !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeStatus)
+      ? sTRING.decode(data.lastUpdateTimeStatus)
       : undefined,
     currentExecutionTime: (data.currentExecutionTime !== null && typeof data.currentExecutionTime !== 'undefined')
       ? tIME.decode(data.currentExecutionTime)
@@ -170,7 +170,7 @@ module.exports = {
       ? uINTEGER.decode(data.lastUpdateModeCurrentExecTime)
       : undefined,
     lastUpdateTimeCurrentExecTime: (data.lastUpdateTimeCurrentExecTime !== null && typeof data.lastUpdateTimeCurrentExecTime !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeCurrentExecTime)
+      ? sTRING.decode(data.lastUpdateTimeCurrentExecTime)
       : undefined,
     initialExecutionTime: (data.initialExecutionTime !== null && typeof data.initialExecutionTime !== 'undefined')
       ? tIME.decode(data.initialExecutionTime)
@@ -179,7 +179,7 @@ module.exports = {
       ? uINTEGER.decode(data.lastUpdateModeInitialExecTime)
       : undefined,
     lastUpdateTimeInitialExecTime: (data.lastUpdateTimeInitialExecTime !== null && typeof data.lastUpdateTimeInitialExecTime !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeInitialExecTime)
+      ? sTRING.decode(data.lastUpdateTimeInitialExecTime)
       : undefined,
     totalTimeShiftOffset: (data.totalTimeShiftOffset !== null && typeof data.totalTimeShiftOffset !== 'undefined')
       ? iNTEGER.decode(data.totalTimeShiftOffset)

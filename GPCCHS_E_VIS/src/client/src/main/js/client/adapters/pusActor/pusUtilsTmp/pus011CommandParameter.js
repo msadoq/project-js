@@ -17,7 +17,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateMode)
       : null,
     lastUpdateTime: (data.lastUpdateTime !== null && typeof data.lastUpdateTime !== 'undefined')
-      ? tIME.encode(data.lastUpdateTime)
+      ? sTRING.encode(data.lastUpdateTime)
       : null,
   }),
   decode: data => ({
@@ -34,7 +34,7 @@ module.exports = {
       ? uINTEGER.encode(data.lastUpdateMode)
       : undefined,
     lastUpdateTime: (data.lastUpdateTime !== null && typeof data.lastUpdateTime !== 'undefined')
-      ? tIME.encode(data.lastUpdateTime)
+      ? sTRING.encode(data.lastUpdateTime)
       : undefined,
   }),
 };

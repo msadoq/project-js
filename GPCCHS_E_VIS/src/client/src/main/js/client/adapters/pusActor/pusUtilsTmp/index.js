@@ -19,8 +19,13 @@ const Pus011Apid = require('./pus011Apid');
 const Pus011Command = require('./pus011Command');
 const Pus011CommandParameter = require('./pus011CommandParameter');
 const Pus011Model = require('./pus011Model');
-
-
+const Pus011SubSchedule = require('./pus011SubSchedule');
+const Pus011TimeShift = require('./pus011TimeShift');
+const Pus012Model = require('./pus012Model');
+const Pus012MonitoringCheckProperties = require('./pus012MonitoringCheckProperties');
+const Pus012ParameterMonitoringDefinition = require('./pus012ParameterMonitoringDefinition');
+const Pus013Ldt = require('./pus013Ldt');
+const Pus013LdtPart = require('./pus013LdtPart');
 
 module.exports = {
   PusParameter: { type: 'protobuf', adapter: PusParameter},
@@ -44,4 +49,11 @@ module.exports = {
   Pus011Command: { type: 'protobuf', adapter: Pus011Command },
   Pus011CommandParameter: { type: 'protobuf', adapter: Pus011CommandParameter },
   Pus011Model: { type: 'protobuf', adapter: Pus011Model },
+  Pus011SubSchedule: { type: 'protobuf', adapter: Pus011SubSchedule },
+  Pus011TimeShift: { type: 'protobuf', adapter: Pus011TimeShift },
+  Pus012Model: { type: 'protobuf', adapter: Pus012Model },
+  Pus012MonitoringCheckProperties: { type: 'protobuf', adapter: Pus012MonitoringCheckProperties },
+  Pus012ParameterMonitoringDefinition: { type: 'protobuf', adapter: Pus012ParameterMonitoringDefinition },
+  Pus013Ldt: { type: 'protobuf', adapter: Pus013Ldt },
+  Pus013LdtPart: { type: 'protobuf', adapter: Pus013LdtPart },
 };

@@ -10,7 +10,7 @@ module.exports = {
       : null,
     pus003Packet: pus003Packet.encode(data.pus003Packet),
     lastUpdateTimeGenMode: (data.lastUpdateTimeGenMode !== null && typeof data.lastUpdateTimeGenMode !== 'undefined')
-      ? tIME.encode(data.lastUpdateTimeGenMode)
+      ? sTRING.encode(data.lastUpdateTimeGenMode)
       : null,
     lastUpdateModeGenMode: (data.lastUpdateModeGenMode !== null && typeof data.lastUpdateModeGenMode !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeGenMode)
@@ -22,7 +22,7 @@ module.exports = {
       : undefined,
     pus003Packet: pus003Packet.decode(data.pus003Packet),
     lastUpdateTimeGenMode: (data.lastUpdateTimeGenMode !== null && typeof data.lastUpdateTimeGenMode !== 'undefined')
-      ? tIME.decode(data.lastUpdateTimeGenMode)
+      ? sTRING.decode(data.lastUpdateTimeGenMode)
       : undefined,
     lastUpdateModeGenMode: (data.lastUpdateModeGenMode !== null && typeof data.lastUpdateModeGenMode !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeGenMode)

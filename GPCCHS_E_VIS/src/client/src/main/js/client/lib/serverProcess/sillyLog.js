@@ -40,7 +40,6 @@ function decorateWithSillyLog(dcMap, sillyLog, excludedFromDecoration = []) {
       .map(([key, fn]) => [key, sillyLog(fn)])
       .reduce((acc, [key, decoratedFn]) => {
         acc[key] = decoratedFn;
-        console.log(acc);
         return acc;
       }, dcMap) // rebuild dcMap, overriding methods to sillyLog
     : dcMap;

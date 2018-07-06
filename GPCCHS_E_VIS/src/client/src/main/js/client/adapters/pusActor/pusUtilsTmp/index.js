@@ -17,6 +17,10 @@ const Pus003Model = require('./pus003Model');
 const Pus003Packet = require('./pus003Packet');
 const Pus005Model = require('./pus005Model');
 const Pus005OnBoardEvent = require('./pus005OnBoardEvent');
+const Pus011Apid = require('./pus011Apid');
+const Pus011Command = require('./pus011Command');
+const Pus011CommandParameter = require('./pus011CommandParameter');
+const Pus011Model = require('./pus011Model');
 
 
 
@@ -40,4 +44,8 @@ module.exports = {
   Pus003Packet: { type: 'protobuf', adapter: Pus003Packet },
   Pus005Model: { type: 'protobuf', adapter: Pus005Model },
   Pus005OnBoardEvent: { type: 'protobuf', adapter: Pus005OnBoardEvent },
+  Pus011Apid: { type: 'protobuf', adapter: Pus011Apid },
+  Pus011Command: { type: 'protobuf', adapter: Pus011Command },
+  Pus011CommandParameter: { type: 'protobuf', adapter: Pus011CommandParameter },
+  Pus011Model: { type: 'protobuf', adapter: Pus011Model },
 };

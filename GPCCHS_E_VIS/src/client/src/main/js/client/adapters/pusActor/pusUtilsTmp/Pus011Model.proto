@@ -10,10 +10,13 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
-import "pusModelEditor/Pus011Apid.proto";
-import "pusModelEditor/Pus011Command.proto";
-import "pusModelEditor/Pus011SubSchedule.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/ULONG.proto";
+import "./Pus011Apid.proto";
+import "./Pus011Command.proto";
+import "./Pus011SubSchedule.proto";
 
 package pusModelEditor.protobuf;
 

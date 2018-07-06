@@ -10,10 +10,10 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/UINTEGER.proto";
-import "ccsds_mal/STRING.proto";
-import "ccsds_mal/TIME.proto";
-import "ccsds_mal/ULONG.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/ULONG.proto";
 
 package pusModelEditor.protobuf;
 

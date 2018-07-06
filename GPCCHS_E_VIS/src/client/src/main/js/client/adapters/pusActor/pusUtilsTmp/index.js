@@ -1,3 +1,5 @@
+const PusMmePacketParameter = require('./pusMmePacketParameter');
+const PusMmePacketStore = require('./pusMmePacketStore');
 const PusParameter = require('./pusParameter');
 const PusServiceApid = require('./pusServiceApid');
 const PusValue = require('./pusValue');
@@ -19,6 +21,8 @@ const Pus005OnBoardEvent = require('./pus005OnBoardEvent');
 
 
 module.exports = {
+  PusMmePacketParameter: { type: 'protobuf', adapter: PusMmePacketParameter},
+  PusMmePacketStore: { type: 'protobuf', adapter: PusMmePacketStore},
   PusParameter: { type: 'protobuf', adapter: PusParameter},
   PusServiceApid: { type: 'protobuf', adapter: PusServiceApid},
   PusValue: { type: 'protobuf', adapter: PusValue},

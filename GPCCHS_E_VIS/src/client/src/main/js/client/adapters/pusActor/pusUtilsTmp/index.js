@@ -1,3 +1,5 @@
+const PusMmeModel = require('./pusMmeModel');
+const PusMmePacket = require('./pusMmePacket');
 const PusMmePacketParameter = require('./pusMmePacketParameter');
 const PusMmePacketStore = require('./pusMmePacketStore');
 const PusParameter = require('./pusParameter');
@@ -25,6 +27,8 @@ const Pus011Model = require('./pus011Model');
 
 
 module.exports = {
+  PusMmeModel: { type: 'protobuf', adapter: PusMmeModel},
+  PusMmePacket: { type: 'protobuf', adapter: PusMmePacket},
   PusMmePacketParameter: { type: 'protobuf', adapter: PusMmePacketParameter},
   PusMmePacketStore: { type: 'protobuf', adapter: PusMmePacketStore},
   PusParameter: { type: 'protobuf', adapter: PusParameter},

@@ -47,7 +47,7 @@ const commands = {
           return;
         }
 
-        logger.debug(`sending message ${method} to server`);
+        logger.silly(`sending message ${method} to server`);
         webContent.send('global', { type: globalConstants.IPC_MESSAGE, method, payload });
       });
     },
@@ -63,7 +63,7 @@ const commands = {
         return;
       }
 
-      logger.debug(`sending rpc call ${method} to server`);
+      logger.silly(`sending rpc call ${method} to server`);
       const queryId = v4();
       setCallback(queryId, callback);
       proc.send({
@@ -80,7 +80,7 @@ const commands = {
         return;
       }
 
-      logger.debug(`sending message ${method} to server`);
+      logger.silly(`sending message ${method} to server`);
       proc.send({ type: globalConstants.IPC_MESSAGE, method, payload });
     },
     requestReduxCurrentState: (callback) => {

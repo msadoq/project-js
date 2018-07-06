@@ -38,6 +38,16 @@ const Pus015Packet = require('./pus015Packet');
 const Pus015PacketStore = require('./pus015PacketStore');
 const Pus018Model = require('./pus018Model');
 const Pus018Obcp = require('./pus018Obcp');
+const Pus019EventAction = require('./pus019EventAction');
+const Pus019Model = require('./pus019Model');
+const Pus140Model = require('./pus140Model');
+const Pus140Parameter = require('./pus140Parameter');
+const Pus142FunctionalMonitoring = require('./pus142FunctionalMonitoring');
+const Pus142Model = require('./pus142Model');
+const Pus142ParameterMonitoringDefinition = require('./pus142ParameterMonitoringDefinition');
+const Pus144Model = require('./pus144Model');
+const Pus144OnboardFile = require('./pus144OnboardFile');
+const PusValue= require('./pusValue');
 
 module.exports = {
   PusMmeModel: { type: 'protobuf', adapter: PusMmeModel},
@@ -80,4 +90,14 @@ module.exports = {
   Pus015PacketStore: { type: 'protobuf', adapter: Pus015PacketStore },
   Pus018Model: { type: 'protobuf', adapter: Pus018Model },
   Pus018Obcp: { type: 'protobuf', adapter: Pus018Obcp },
+  Pus019EventAction: { type: 'protobuf', adapter: Pus019EventAction },
+  Pus019Model: { type: 'protobuf', adapter: Pus019Model },
+  Pus140Model: { type: 'protobuf', adapter: Pus140Model },
+  Pus140Parameter: { type: 'protobuf', adapter: Pus140Parameter },
+  Pus142FunctionalMonitoring: { type: 'protobuf', adapter: Pus142FunctionalMonitoring },
+  Pus142Model: { type: 'protobuf', adapter: Pus142Model },
+  Pus142ParameterMonitoringDefinition: { type: 'protobuf', adapter: Pus142ParameterMonitoringDefinition },
+  Pus144Model: { type: 'protobuf', adapter: Pus144Model },
+  Pus144OnboardFile: { type: 'protobuf', adapter: Pus144OnboardFile },
+  PusValue: { type: 'protobuf', adapter: PusValue },
 };

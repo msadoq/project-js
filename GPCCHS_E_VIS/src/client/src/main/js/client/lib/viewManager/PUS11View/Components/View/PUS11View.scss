@@ -6,18 +6,23 @@
 
   .header {
 	margin: 0 10px 10px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
 	.info {
 	  margin-top: 10px;
 	  display: flex;
 	  flex-direction: row;
-	  align-items: center;
-	  justify-content: space-between;
+	  align-items: baseline;
+	  justify-content: flex-start;
 	  .mw50 {
 		max-width: 50px;
 	  }
 	  .mw100 {
 		max-width: 100px;
 	  }
+	  &.pus11_ss { justify-content: center; }
+	  &.pus11_as { justify-content: flex-end; }
 	}
   }
 

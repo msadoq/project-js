@@ -86,7 +86,7 @@ const getDefaultView = view => _.merge({
           { title: 'initialExecutionTime', displayed: true }, // A afficher dans le tableau Commands
           // { title: 'lastUpdateModeInitialExecTime', displayed: true }, // Tooltip sur initialExecutionTime
           // { title: 'lastUpdateTimeInitialExecTime', displayed: true }, // Tooltip sur initialExecutionTime
-          { title: 'totalTimeShiftOffset', displayed: true }, 0, // A afficher dans le tableau Commands
+          { title: 'totalTimeShiftOffset', displayed: true }, // A afficher dans le tableau Commands
           // { title: 'lastUpdateModeTotalTimeShiftOffset', displayed: true }, // Tooltip sur totalTimeShiftOffset
           // { title: 'lastUpdateTimeTotalTimeShiftOffset', displayed: true }, // Tooltip sur totalTimeShiftOffset
         ],

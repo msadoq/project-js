@@ -8,7 +8,7 @@ const initialConfiguration = {
     subSchedules: {
       name: 'Sub schedules',
       sorting: {
-        colName: 'referenceTimestamp',
+        colName: 'ssId',
         direction: 'DESC',
       },
       cols: [
@@ -28,6 +28,10 @@ const initialConfiguration = {
     },
     enabledApids: {
       name: 'Enabled APIDs',
+      sorting: {
+        colName: 'apid',
+        direction: 'DESC',
+      },
       cols: [
         { title: 'apid', displayed: true }, // à afficher dans le tableau Enabled AP
         { title: 'apidName', displayed: true }, // A afficher dans le tableau Enabled AP
@@ -41,6 +45,10 @@ const initialConfiguration = {
     },
     commands: {
       name: 'Commands',
+      sorting: {
+        colName: 'commandApid',
+        direction: 'DESC',
+      },
       cols: [
         // { title: 'uniqueId', displayed: true }, // inutilisé dans la vue
         { title: 'commandApid', displayed: true }, // A afficher dans le tableau Commands
@@ -69,7 +77,7 @@ const initialConfiguration = {
         { title: 'initialExecutionTime', displayed: true }, // A afficher dans le tableau Commands
         // { title: 'lastUpdateModeInitialExecTime', displayed: true }, // Tooltip sur initialExecutionTime
         // { title: 'lastUpdateTimeInitialExecTime', displayed: true }, // Tooltip sur initialExecutionTime
-        { title: 'totalTimeShiftOffset', displayed: true }, 0, // A afficher dans le tableau Commands
+        { title: 'totalTimeShiftOffset', displayed: true }, // A afficher dans le tableau Commands
         // { title: 'lastUpdateModeTotalTimeShiftOffset', displayed: true }, // Tooltip sur totalTimeShiftOffset
         // { title: 'lastUpdateTimeTotalTimeShiftOffset', displayed: true }, // Tooltip sur totalTimeShiftOffset
       ],

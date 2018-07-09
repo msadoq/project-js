@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import { computeOptions } from 'viewManager/commonEditor/Fields/common';
-import { timelinesType } from 'viewManager/common/Components/types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class TimelineField extends PureComponent {
@@ -11,7 +10,9 @@ export default class TimelineField extends PureComponent {
     onChange: PropTypes.func,
     name: PropTypes.string,
     // from container mapStateToProps
-    timelines: timelinesType.isRequired,
+    timelines: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    })).isRequired,
   };
 
   static defaultProps = {

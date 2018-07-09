@@ -226,15 +226,12 @@ export const renderHeaders = (
   serviceApidName
 ) => (
   <ErrorBoundary>
-    <div className="info col-sm-6 posRelative">
-      <span>
-        Application Process&nbsp;
-        <input type="text" disabled value={serviceApidName} />&nbsp;
-        <input className="mw50" type="text" disabled value={serviceApid} />
-      </span>
-      <span className="spacing" />
+    <div className="info col-sm-4 pus11_ap">
+      Application Process&nbsp;
+      <input type="text" disabled value={serviceApidName} />&nbsp;
+      <input className="mw50" type="text" disabled value={serviceApid} />
     </div>
-    <div className="info col-sm-6">
+    <div className="info col-sm-4 pus11_ss">
       <OverlayTrigger
         trigger={popoverTrigger}
         placement="top"
@@ -252,7 +249,7 @@ export const renderHeaders = (
       </OverlayTrigger>
       <span className="spacing" />
     </div>
-    <div className="info col-sm-6">
+    <div className="info col-sm-4 pus11_as">
       <OverlayTrigger
         trigger={popoverTrigger}
         placement="top"
@@ -265,12 +262,11 @@ export const renderHeaders = (
       >
         <span>
           Application Space&nbsp;
-          <input type="text" className="mw100" disabled value={spaceInNumberOfCommands ? noFreeCommands : freeSpace} />
+          <input type="text" className="mw100" disabled value={spaceInNumberOfCommands ? noFreeCommands : freeSpace} />&nbsp;
           {spaceInNumberOfCommands ? 'commands' : 'bytes'}
         </span>
       </OverlayTrigger>
     </div>
-    <div className="clearfix" />
   </ErrorBoundary>
 );
 

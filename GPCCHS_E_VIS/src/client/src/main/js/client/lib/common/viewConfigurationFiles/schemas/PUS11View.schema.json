@@ -132,28 +132,15 @@
               "items": {
                 "required": [
                   "title",
-                  "value",
-                  "position",
-                  "displayed",
-                  "group"
+                  "displayed"
                 ],
                 "properties": {
                   "title": {
                     "type": "string",
                     "minLength": 1
                   },
-                  "value": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "position": {
-                    "type": "number"
-                  },
                   "displayed": {
                     "type": "boolean"
-                  },
-                  "group": {
-                    "type": "number"
                   }
                 }
               }
@@ -173,28 +160,15 @@
               "items": {
                 "required": [
                   "title",
-                  "value",
-                  "position",
-                  "displayed",
-                  "group"
+                  "displayed"
                 ],
                 "properties": {
                   "title": {
                     "type": "string",
                     "minLength": 1
                   },
-                  "value": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "position": {
-                    "type": "number"
-                  },
                   "displayed": {
                     "type": "boolean"
-                  },
-                  "group": {
-                    "type": "number"
                   }
                 }
               }
@@ -214,28 +188,15 @@
               "items": {
                 "required": [
                   "title",
-                  "value",
-                  "position",
-                  "displayed",
-                  "group"
+                  "displayed"
                 ],
                 "properties": {
                   "title": {
                     "type": "string",
                     "minLength": 1
                   },
-                  "value": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "position": {
-                    "type": "number"
-                  },
                   "displayed": {
                     "type": "boolean"
-                  },
-                  "group": {
-                    "type": "number"
                   }
                 }
               }

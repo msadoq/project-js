@@ -18,7 +18,6 @@
   },
   "domainName": "*",
   "sessionName": "*",
-  "version": "2.2",
   "tables": {
     "subSchedules": {
       "name": "Sub schedules",
@@ -28,194 +27,118 @@
       },
       "cols": [
         {
-          "title": "ssid",
-          "displayed": true,
-          "value": "ssid",
-          "position": 0,
-          "group": 0
+          "title": "ssId",
+          "displayed": true
         },
         {
-          "title": "ssidLabel",
-          "displayed": true,
-          "value": "ssidLabel",
-          "position": 1,
-          "group": 0
-        },
-        {
-          "title": "name",
-          "displayed": true,
-          "value": "name",
-          "position": 2,
-          "group": 0
+          "title": "ssIdLabel",
+          "displayed": true
         },
         {
           "title": "status",
-          "displayed": true,
-          "value": "status",
-          "position": 3,
-          "group": 0
+          "displayed": true
         },
         {
-          "title": "firstTcTime",
-          "displayed": true,
-          "value": "firstTcTime",
-          "position": 4,
-          "group": 0
+          "title": "lastUpdateModeExecTimeFirstTc",
+          "displayed": true
         },
         {
-          "title": "updateType",
-          "value": "updateType",
-          "displayed": true,
-          "position": 5,
-          "group": 0
+          "title": "lastUpdateTimeExecTimeFirstTc",
+          "displayed": true
         },
         {
-          "title": "updateTime",
-          "value": "updateTime",
-          "displayed": true,
-          "position": 6,
-          "group": 0
+          "title": "serviceApid",
+          "displayed": true
         },
         {
-          "title": "nbTc",
-          "value": "nbTc",
-          "displayed": true,
-          "position": 7,
-          "group": 0
+          "title": "serviceApidName",
+          "displayed": true
         }
       ]
     },
     "enabledApids": {
+      "name": "Enabled APIDs",
       "cols": [
         {
           "title": "apid",
-          "value": "apid",
-          "position": 0,
-          "displayed": true,
-          "group": 0
+          "displayed": true
         },
         {
-          "title": "name",
-          "value": "name",
-          "position": 1,
-          "displayed": true,
-          "group": 0
+          "title": "apidName",
+          "displayed": true
         },
         {
-          "title": "updateType",
-          "value": "updateType",
-          "position": 2,
-          "displayed": true,
-          "group": 0
+          "title": "status",
+          "displayed": true
         },
         {
-          "title": "updateTime",
-          "value": "updateTime",
-          "displayed": true,
-          "position": 3,
-          "group": 0
+          "title": "serviceApid",
+          "displayed": true
+        },
+        {
+          "title": "serviceApidName",
+          "displayed": true
         }
       ]
     },
     "commands": {
+      "name": "Commands",
       "cols": [
         {
-          "title": "apid",
-          "value": "apid",
-          "position": 0,
-          "displayed": true,
-          "group": 0
+          "title": "commandApid",
+          "displayed": true
         },
         {
-          "title": "ssid",
-          "value": "ssid",
-          "position": 1,
-          "displayed": true,
-          "group": 0
+          "title": "commandApidName",
+          "displayed": true
         },
         {
-          "title": "cmdName",
-          "value": "cmdName",
-          "position": 2,
-          "displayed": true,
-          "group": 0
+          "title": "commandName",
+          "displayed": true
         },
         {
-          "title": "cmdShortDescription",
-          "value": "cmdShortDescription",
-          "displayed": true,
-          "position": 3,
-          "group": 0
+          "title": "commandDescription",
+          "displayed": true
         },
         {
-          "title": "cmdApName",
-          "value": "cmdApName",
-          "displayed": true,
-          "position": 4,
-          "group": 0
+          "title": "commandSequenceCount",
+          "displayed": true
         },
         {
-          "title": "seqCount",
-          "value": "seqCount",
-          "displayed": true,
-          "position": 5,
-          "group": 0
+          "title": "commandSourceId",
+          "displayed": true
         },
         {
-          "title": "sourceId",
-          "value": "sourceId",
-          "displayed": true,
-          "position": 6,
-          "group": 0
+          "title": "commandSsId",
+          "displayed": true
         },
         {
-          "title": "cmdStatus",
-          "value": "cmdStatus",
-          "displayed": true,
-          "position": 7,
-          "group": 0
+          "title": "serviceApid",
+          "displayed": true
         },
         {
-          "title": "groundStatus",
-          "value": "groundStatus",
-          "displayed": true,
-          "position": 8,
-          "group": 0
+          "title": "serviceApidName",
+          "displayed": true
         },
         {
-          "title": "initExecTime",
-          "value": "initExecTime",
-          "displayed": true,
-          "position": 9,
-          "group": 0
+          "title": "commandGroundStatus",
+          "displayed": true
         },
         {
-          "title": "curExecTime",
-          "value": "curExecTime",
-          "displayed": true,
-          "position": 10,
-          "group": 0
+          "title": "commandStatus",
+          "displayed": true
         },
         {
-          "title": "totTimeShift",
-          "value": "totTimeShift",
-          "displayed": true,
-          "position": 11,
-          "group": 0
+          "title": "currentExecutionTime",
+          "displayed": true
         },
         {
-          "title": "updateType",
-          "value": "updateType",
-          "displayed": true,
-          "position": 12,
-          "group": 0
+          "title": "initialExecutionTime",
+          "displayed": true
         },
         {
-          "title": "updateTime",
-          "value": "updateTime",
-          "displayed": true,
-          "position": 13,
-          "group": 0
+          "title": "totalTimeShiftOffset",
+          "displayed": true
         }
       ]
     }
@@ -224,12 +147,13 @@
     "connectedData": {
       "apidName": "ORBIT",
       "apidRawValue": 2,
-      "domain": "fr.cnes.isis.simupus",
+      "domain": "fr.cnes.isis.station.hbk",
       "formula": "PusGroundModelDefinition.Pus011Model<Pus011Model>",
-      "session": "Session#42"
+      "session": "*",
+      "timeline": "Session 1"
     },
-    "formula": "PusGroundModelDefinition.Pus011Model<Pus011Model>",
-    "id": "2f7b9aba-570a-46ee-b111-0312f7bfa140",
+    "id": "8a61afaa-5216-4ca2-8866-7c919264f6c3",
     "name": "PUS11EP"
-  }
+  },
+  "version": "2.2"
 }

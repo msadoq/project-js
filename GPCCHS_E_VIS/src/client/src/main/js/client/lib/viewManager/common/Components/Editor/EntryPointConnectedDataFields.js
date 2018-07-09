@@ -122,7 +122,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
       selectedCatalogName,
       selectedDisplayMode,
     } = this.props;
-    return selectedCatalogName && selectedDisplayMode === EXECUTE_AS_CODE_OPTION.value;
+    return !!(selectedCatalogName && selectedDisplayMode === EXECUTE_AS_CODE_OPTION.value);
   };
 
   render() {

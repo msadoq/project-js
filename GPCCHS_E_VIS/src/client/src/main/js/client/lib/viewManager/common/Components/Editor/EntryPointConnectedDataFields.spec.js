@@ -17,17 +17,11 @@ const propsStub = {
   domain: 'domain',
   form: 'form',
   domains: [],
+  metadata: {},
+  changeFormValue: () => null,
 };
-describe('viewManager', () => {
-  describe('viewManager :: common', () => {
-    describe('viewManager :: common :: Components', () => {
-      describe('viewManager :: common :: Components :: Editor', () => {
-        describe('viewManager :: common :: Components :: Editor :: EntryPointConnectedDataFields', () => {
-          test('snapshot', () => {
-            shallowRenderSnapshot(EntryPointConnectedDataFields, propsStub, {});
-          });
-        });
-      });
-    });
+describe('viewManager :: common :: Components :: Editor :: EntryPointConnectedDataFields', () => {
+  test('snapshot', () => {
+    shallowRenderSnapshot(EntryPointConnectedDataFields, propsStub, {});
   });
 });

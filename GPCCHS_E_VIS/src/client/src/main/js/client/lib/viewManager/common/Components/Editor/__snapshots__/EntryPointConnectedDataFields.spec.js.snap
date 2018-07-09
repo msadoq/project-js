@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`viewManager viewManager :: common viewManager :: common :: Components viewManager :: common :: Components :: Editor viewManager :: common :: Components :: Editor :: EntryPointConnectedDataFields snapshot 1`] = `
+exports[`viewManager :: common :: Components :: Editor :: EntryPointConnectedDataFields snapshot 1`] = `
 <ErrorBoundary>
   <Unknown>
     <HorizontalFormGroup
@@ -51,8 +51,31 @@ exports[`viewManager viewManager :: common viewManager :: common :: Components v
       className="hidden"
       label="Display mode"
     >
-      <Unknown />
+      <DisplayModeField
+        enabled={false}
+        onChange={[Function]}
+      />
     </HorizontalFormGroup>
+    <Code
+      className="hidden"
+      visible={false}
+    >
+      <FieldArray
+        component={[Function]}
+        name="connectedData.algoParameters"
+      />
+      <InputParameters
+        className="hidden"
+        params={undefined}
+      />
+      <Field
+        className="algorithm"
+        component="textarea"
+        name="connectedData.algorithm"
+        readOnly={true}
+        rows="3"
+      />
+    </Code>
     <HorizontalFormGroup
       className="hidden"
       label="Catalog item"

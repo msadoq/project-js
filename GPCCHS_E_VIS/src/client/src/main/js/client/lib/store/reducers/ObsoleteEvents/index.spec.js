@@ -188,7 +188,7 @@ describe('store:ObsoleteEvents:selectors', () => {
           filters: [{ field: 'extractedValue', operator: '=', operand: '2' }],
           intervals: [[10, 20], [30, 40]],
         },
-      }
+      },
     };
     test('empty state', () => {
       expect(getUpperIntervalIsInObsoleteEvents({ ObsoleteEvents: {} }, 'tbdId', [1, 12]))

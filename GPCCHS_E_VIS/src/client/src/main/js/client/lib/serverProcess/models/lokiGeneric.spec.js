@@ -135,7 +135,7 @@ describe('models/timebasedDataFactory', () => {
     test('given an empty database, when adding a collection then return an array with the new id', () => {
       const id = 'myId';
       getOrCreateCollection(cacheId, id);
-      const prefixedId = getPrefixedId(cacheId, id)
+      const prefixedId = getPrefixedId(cacheId, id);
       expect(listCachedCollections()).toEqual([prefixedId]);
     });
   });

@@ -61,7 +61,6 @@ const prepareObsoleteEvent =
           execution.stop('persist');
         } catch (e) {
           logger.error('error on processing buffer', e);
-          console.log(e);
           dispatch(addMessage('global', 'warning', 'error on processing header buffer '.concat(e)));
         }
       }

@@ -22,8 +22,19 @@ export const VM_VIEW_PACKET = 'PacketView';
 export const VM_VIEW_HISTORY = 'HistoryView';
 export const VM_VIEW_GROUNDALARM = 'GroundAlarmView';
 export const VM_VIEW_ONBOARDALARM = 'OnboardAlarmView';
+export const VM_VIEW_PUS03 = 'PUS03View';
 export const VM_VIEW_PUS05 = 'PUS05View';
 export const VM_VIEW_PUS11 = 'PUS11View';
+export const VM_VIEW_PUS12 = 'PUS12View';
+export const VM_VIEW_PUS13 = 'PUS13View';
+export const VM_VIEW_PUS14 = 'PUS14View';
+export const VM_VIEW_PUS15 = 'PUS15View';
+export const VM_VIEW_PUS18 = 'PUS18View';
+export const VM_VIEW_PUS19 = 'PUS19View';
+export const VM_VIEW_PUS140 = 'PUS140View';
+export const VM_VIEW_PUS142 = 'PUS142View';
+export const VM_VIEW_PUS144 = 'PUS144View';
+export const VM_VIEW_PUSMME = 'PUSMMEView';
 export const VM_VIEW_DECOMMUTEDPACKET = 'DecommutedPacketView';
 
 export const VM_COMMON_PROPERTIES = [
@@ -37,6 +48,22 @@ export const VM_COMMON_PROPERTIES = [
   'domainName',
   'sessionName',
   'version',
+];
+
+export const VM_PUS_VIEWS = [
+  VM_VIEW_PUS03,
+  VM_VIEW_PUS05,
+  VM_VIEW_PUS11,
+  VM_VIEW_PUS12,
+  VM_VIEW_PUS13,
+  VM_VIEW_PUS14,
+  VM_VIEW_PUS15,
+  VM_VIEW_PUS18,
+  VM_VIEW_PUS19,
+  VM_VIEW_PUS140,
+  VM_VIEW_PUS142,
+  VM_VIEW_PUS144,
+  VM_VIEW_PUSMME,
 ];
 
 /**

@@ -1,18 +1,20 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import { PUS_CONSTANTS } from 'constants';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import _getOr from 'lodash/fp/getOr';
 import _map from 'lodash/map';
-import _find from 'lodash/find';
+import _filter from 'lodash/filter';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
-import InputField from 'windowProcess/commonReduxForm/InputField';
-import { computeOptions } from 'viewManager/commonEditor/Fields/common';
 import { applicationProcessesType } from 'viewManager/common/Components/types';
 import './ApplicationProcessField.scss';
 
 export default class ApplicationProcessField extends PureComponent {
   static propTypes = {
+    // own props
     onChange: PropTypes.func,
+    pusType: PropTypes.string.isRequired,
     // from container mapStateToProps
     applicationProcesses: applicationProcessesType,
     domainId: PropTypes.number,
@@ -48,14 +50,14 @@ export default class ApplicationProcessField extends PureComponent {
     }
   };
 
-  handleChange = (event, newValue) => {
-    const apid = findAPID(this.props.applicationProcesses, newValue);
-    this.setState({ apidRawValue: parseInt(apid.apidRawValue, 10) });
-    this.props.onChange(parseInt(apid.apidRawValue, 10), 'connectedData.apidRawValue');
+  handleChange = (_, newValue) => {
+    const apids = filterAPIDs(this.props.applicationProcesses, newValue.split(','));
+    this.setState({ apids });
+    this.props.onChange(apids, 'connectedData.apids');
   };
 
   render() {
-    const { domainId, sessionId } = this.props;
+    const { domainId, sessionId, pusType } = this.props;
     const disabled = (!domainId || !sessionId);
     const applicationProcessOptions = _map(this.props.applicationProcesses, ap => ({
       name: ap.apidName,
@@ -68,21 +70,13 @@ export default class ApplicationProcessField extends PureComponent {
             format={null}
             name="connectedData.apidName"
             component={ReactSelectField}
-            options={computeOptions(applicationProcessOptions, false)}
-            className="col-xs-8"
+            options={computeApplicationProcessOptions(applicationProcessOptions, pusType)}
+            className="col-xs-12"
             onChange={this.handleChange}
             disabled={disabled}
-          />
-          <Field
-            format={null}
-            name="connectedData.apidRawValue"
-            component={InputField}
-            clearable
-            type="text"
-            className="col-xs-4 inputField"
-            onChange={this.props.onChange}
-            disabled
-            value={this.state.apidRawValue}
+            multi
+            closeOnSelect={false}
+            simpleValue
           />
         </div>
       </ErrorBoundary>
@@ -90,6 +84,31 @@ export default class ApplicationProcessField extends PureComponent {
   }
 }
 
-export const findAPID = (applicationProcesses, apidName) =>
-  _find(applicationProcesses, apid => apid.apidName === apidName
+export const filterAPIDs = (applicationProcesses, apidNames) =>
+  _filter(applicationProcesses, ap => apidNames.indexOf(ap.apidName) !== -1
 );
+
+/**
+ * @param list
+ * @param pusType
+ * @returns {Array}
+ */
+// eslint-disable-next-line import/prefer-default-export
+export const computeApplicationProcessOptions = (list, pusType) => {
+  const apids = _getOr([], ['ENABLED_SERVICE_APIDS', pusType], PUS_CONSTANTS);
+  if (apids.length === 0) {
+    throw new Error(`Invalid configuration detected. No service apids defined for view ${pusType}. Please check sections PUS_CONSTANTS.ENABLED_SERVICE_APIDS`);
+  }
+
+  // empty service apid list
+  if (!list || !Array.isArray(list)) return [];
+
+  // change each value to generate objects that matches the required structure (react-select)
+  return list.map(d =>
+    ({
+      label: d.name,
+      value: d.name,
+      disabled: (apids.find(elt => elt === d.name) === undefined),
+    })
+  );
+};

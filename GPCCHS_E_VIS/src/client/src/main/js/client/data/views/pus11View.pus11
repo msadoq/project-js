@@ -145,14 +145,28 @@
   },
   "entryPoint": {
     "connectedData": {
-      "apidName": "ORBIT",
-      "apidRawValue": 2,
+      "apidName": "TIMEPACKET,POWERMGT,FILEMGT",
+      "apidRawValue": null,
+      "apids": [
+        {
+          "apidName": "TIMEPACKET",
+          "apidRawValue": "0"
+        },
+        {
+          "apidName": "POWERMGT",
+          "apidRawValue": "3"
+        },
+        {
+          "apidName": "FILEMGT",
+          "apidRawValue": "6"
+        }
+      ],
       "domain": "fr.cnes.isis.station.hbk",
       "formula": "PusGroundModelDefinition.Pus011Model<Pus011Model>",
       "session": "*",
       "timeline": "Session 1"
     },
-    "id": "8a61afaa-5216-4ca2-8866-7c919264f6c3",
+    "id": "eb951457-ea82-4b8b-bea2-30ab061dfac7",
     "name": "PUS11EP"
   },
   "version": "2.2"

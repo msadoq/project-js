@@ -1,7 +1,5 @@
-/* eslint-disable react/no-array-index-key,no-unused-vars,react/no-unused-prop-types,arrow-body-style,react/prop-types,react/no-string-refs */
 import React from 'react';
 import PropTypes from 'prop-types';
-import _memoize from 'lodash/fp/memoize';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 
@@ -70,18 +68,16 @@ const backgroundEnabled = { backgroundColor: '#2ecc71' };
 const emptyObject = {};
 
 // apply background color to cells for which value is ENABLED or DISABLED
-export const overrideStyle = ({ style, content }) => {
-  return ({
-    ...(
+export const overrideStyle = ({ content }) => ({
+  ...(
 // eslint-disable-next-line no-nested-ternary
-      content.value === 'DISABLED'
-      ? backgroundDisabled
-      : content.value === 'ENABLED'
-        ? backgroundEnabled
-        : emptyObject
-    ),
-  });
-};
+    content.value === 'DISABLED'
+    ? backgroundDisabled
+    : content.value === 'ENABLED'
+      ? backgroundEnabled
+      : emptyObject
+  ),
+});
 
 export default class PUS11View extends React.Component {
   static propTypes = {
@@ -197,6 +193,13 @@ export default class PUS11View extends React.Component {
   }
 }
 
+/**
+ * @param id
+ * @param title
+ * @param time
+ * @param mode
+ * @returns {*}
+ */
 export const generatePopover = ({ id, title, time, mode }) => (
   <Popover
     id={id}
@@ -208,6 +211,12 @@ export const generatePopover = ({ id, title, time, mode }) => (
     <div>Last update mode: {mode}</div>
   </Popover>
 );
+generatePopover.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired,
+};
 
 const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
 

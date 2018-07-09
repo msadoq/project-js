@@ -40,3 +40,7 @@ export function getSelectedDisplayMode(form, state) {
   return connectedDataSelector(form, state, 'connectedData.displayMode');
 }
 
+export function getFormMetadata(form, state) {
+  return connectedDataSelector(form, state, 'connectedData.metadata');
+}
+

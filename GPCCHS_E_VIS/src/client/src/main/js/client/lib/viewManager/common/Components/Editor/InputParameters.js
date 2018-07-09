@@ -1,19 +1,37 @@
 import React from 'react';
+import { Field } from 'redux-form';
 import PropTypes from 'prop-types';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 
-const InputParameters = ({ params }) => params.map(({ catalogName, itemName }, index) =>
+const Input = ({ input, index, catalogName, itemName }) => (
   <HorizontalFormGroup label={`Variable ${index + 1}`}>
-    <input className="form-control" value={`${catalogName}.${itemName}`} readOnly />
+    <input
+      type="text"
+      className="form-control"
+      {...input}
+      readOnly
+      value={`${catalogName}.${itemName}`}
+    />
   </HorizontalFormGroup>
+);
+
+const InputParameters = ({ params }) => (
+  params ? params.map(({ catalogName, itemName }, index) =>
+    <Field
+      key={catalogName + itemName}
+      name={index}
+      component={Input}
+      index={index}
+      catalogName={catalogName}
+      itemName={itemName}
+    />
+  )
+  : ''
 );
 
 
 InputParameters.propTypes = {
-  params: PropTypes.arrayOf(PropTypes.shape({
-    catalogName: PropTypes.string.isRequired,
-    itemName: PropTypes.string.isRequired,
-  })),
+  params: PropTypes.arrayOf(PropTypes.shape(Input.propTypes)),
 };
 
 InputParameters.defaultProps = {};

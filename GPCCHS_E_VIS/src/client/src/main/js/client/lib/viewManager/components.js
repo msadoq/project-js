@@ -51,10 +51,6 @@ const list = {
     getEditorComponent: () =>
       require('./OnboardAlarmView/Components/Editor/OnboardAlarmEditorContainer'),
   },
-  [constants.VM_VIEW_PUS05]: {
-    getViewComponent: () => require('../viewManager/PUS05View/Components/View/PUS05ViewContainer'),
-    getEditorComponent: () => require('../viewManager/PUS05View/Components/Editor/PUS05EditorContainer'),
-  },
   [constants.VM_VIEW_PUS11]: {
     getViewComponent: () => require('../viewManager/PUS11View/Components/View/PUS11ViewContainer'),
     getEditorComponent: () => require('../viewManager/PUS11View/Components/Editor/PUS11EditorContainer'),

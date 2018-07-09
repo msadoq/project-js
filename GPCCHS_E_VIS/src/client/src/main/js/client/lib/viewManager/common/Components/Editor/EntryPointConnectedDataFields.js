@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { Field, FieldArray } from 'redux-form';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
@@ -25,6 +26,18 @@ import DisplayModeField, {
 import styles from './EntryPointTree.css';
 import { reduxFormFieldsType } from '../types';
 import InputParameters from './InputParameters';
+import Code from './Code';
+
+const metadataType = PropTypes.shape({
+  inputParameters: PropTypes.arrayOf(PropTypes.shape({
+    itemName: PropTypes.string.isRequired,
+    catalogName: PropTypes.string.isRequired,
+  })),
+  algorithm: PropTypes.string,
+});
+
+const ALGORITHM_FORM_PATH = 'connectedData.algorithm';
+const ALGO_PARAMS_FORM_PATH = 'connectedData.algoParameters';
 
 /*
   All the fields used in Connected data form
@@ -44,13 +57,10 @@ export default class EntryPointConnectedDataFields extends PureComponent {
     selectedComObjectName: PropTypes.string,
     selectedPath: PropTypes.string,
     selectedDisplayMode: PropTypes.string,
-    metadata: PropTypes.shape({
-      inputParameters: PropTypes.arrayOf(PropTypes.shape({
-        itemName: PropTypes.string.isRequired,
-        catalogName: PropTypes.string.isRequired,
-      })),
-      algorithm: PropTypes.string,
-    }),
+    metadata: metadataType,
+    formMetadata: metadataType,
+    // from EntryPointDetailsContainer.createForm
+    changeFormValue: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -62,6 +72,7 @@ export default class EntryPointConnectedDataFields extends PureComponent {
     selectedPath: null,
     selectedDisplayMode: null,
     metadata: null,
+    formMetadata: null,
   };
 
   static contextTypes = {
@@ -75,6 +86,14 @@ export default class EntryPointConnectedDataFields extends PureComponent {
   componentDidMount() {
     this.getFormula();
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.formMetadata && nextProps.metadata) {
+      this.props.changeFormValue(ALGORITHM_FORM_PATH, nextProps.metadata.algorithm);
+      this.props.changeFormValue(ALGO_PARAMS_FORM_PATH, nextProps.metadata.inputParameters);
+    }
+  }
+
 
   getFormula = () => {
     const {
@@ -162,21 +181,17 @@ export default class EntryPointConnectedDataFields extends PureComponent {
             <DisplayModeField onChange={this.getFormula} enabled={this.fetchFormulaEnabled()} />
           </HorizontalFormGroup>
 
-          <div className={classForSdbValues}>
-
-            {metadata.inputParameters &&
-              <InputParameters params={metadata.inputParameters} className={classForSdbValues} />
-            }
-
-            {metadata.algorithm &&
-            <textarea
+          <Code className={classForSdbValues} visible={!!metadata.algorithm}>
+            <FieldArray name={ALGO_PARAMS_FORM_PATH} component={InputParameters} />
+            <InputParameters params={metadata.inputParameters} className={classForSdbValues} />
+            <Field
+              component="textarea"
+              name={ALGORITHM_FORM_PATH}
               className={styles.algorithm}
-              value={metadata.algorithm}
               rows="3"
               readOnly
             />
-            }
-          </div>
+          </Code>
 
           <HorizontalFormGroup label="Catalog item" className={classForTimeBasedValues}>
             <CatalogItemFieldContainer

@@ -1,12 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
-const Code = (props) => (
-  <div>Code component</div>
+const Code = ({ className, children, visible }) => (visible
+  ? (
+    <fieldset className={className}>
+      <legend>code</legend>
+      {children}
+    </fieldset>
+  ) : null
 );
 
-Code.propTypes = {};
+Code.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.arrayOf(PropTypes.node),
+  visible: PropTypes.bool,
+};
 
 Code.defaultProps = {};
 

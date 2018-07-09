@@ -32,7 +32,7 @@ const DisplayModeField = ({ onChange, enabled }) => (
       onClick={onChange}
       disabled={!enabled}
     >
-      <Glyphicon glyph="magnet" />
+      <Glyphicon glyph="cloud-download" />
     </Button>
   </div>
 );

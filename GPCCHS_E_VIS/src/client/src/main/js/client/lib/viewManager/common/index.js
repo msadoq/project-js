@@ -66,6 +66,8 @@ export function handleSubmit(values, updateEntryPoint, viewId) {
   if (dataType !== SDB_VALUE_OPTION.value) {
     _unset(values.connectedData, 'path');
     _unset(values.connectedData, 'displayMode');
+    _unset(values.connectedData, 'algorithm');
+    _unset(values.connectedData, 'algoParameters');
   }
   if (dataType !== TIME_BASED_DATA_OPTION.value) {
     _unset(values.connectedData, 'catalogItem');

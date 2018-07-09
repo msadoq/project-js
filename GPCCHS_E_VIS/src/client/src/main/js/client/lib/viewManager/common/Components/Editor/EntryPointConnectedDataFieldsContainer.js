@@ -1,3 +1,4 @@
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import EntryPointConnectedDataFields from 'viewManager/common/Components/Editor/EntryPointConnectedDataFields';
 import { askItemMetadata } from 'store/actions/catalogs';
@@ -10,6 +11,7 @@ import {
   getSelectedTimelineId,
   getSelectedPath,
   getSelectedDisplayMode,
+  getFormMetadata,
 } from 'viewManager/commonEditor/Fields/selectors';
 import { getTupleId, getAlgorithmMetadata } from 'store/reducers/catalogs';
 import { getDomainId } from 'store/reducers/domains';
@@ -28,6 +30,7 @@ const mapStateToProps = (state, { form, viewId, pageId }) => {
   const tupleId = getTupleId(domainId, sessionId);
   const name = getSelectedCatalogName(form, state);
   const selectedPath = getSelectedPath(form, state);
+  const formMetadata = getFormMetadata(form, state);
   const metadata = getAlgorithmMetadata(state.catalogs, { tupleId, name, itemName: selectedPath });
 
   return {
@@ -40,13 +43,17 @@ const mapStateToProps = (state, { form, viewId, pageId }) => {
     selectedPath,
     selectedDisplayMode: getSelectedDisplayMode(form, state),
     metadata,
+    formMetadata,
   };
 };
 
-const mapDispatchToProps = {
-  getFormula: (viewId, pageId, domainName, timelineId, catalog, item) =>
-    askItemMetadata(viewId, pageId, domainName, timelineId, catalog, item),
-};
+function mapDispatchToProps(dispatch, { change }) {
+  return bindActionCreators({
+    getFormula: (viewId, pageId, domainName, timelineId, catalog, item) =>
+      askItemMetadata(viewId, pageId, domainName, timelineId, catalog, item),
+    changeFormValue: change,
+  }, dispatch);
+}
 
 const EntryPointConnectedDataFieldsContainer =
   connect(mapStateToProps, mapDispatchToProps)(EntryPointConnectedDataFields);

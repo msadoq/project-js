@@ -28,7 +28,7 @@ export default function cleanCurrentViewData(
     return currentViewState;
   }
   // new visible view
-  if (!oldViewDef || !currentViewState || !currentViewState.index || {}) {
+  if (!oldViewDef || !currentViewState || !currentViewState.index) {
     return currentViewState;
   }
   // invisible view

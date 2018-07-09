@@ -227,7 +227,11 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
 
       if (!itemName || !name) return nextAction;
 
-      const fetchItemStructure = () => asyncItemStructureFetcher(sessionId, domainId, name, itemName,
+      const fetchItemStructure = () => asyncItemStructureFetcher(
+        sessionId,
+        domainId,
+        name,
+        itemName,
         structure => dispatch(addItemStructure(tupleId, name, itemName, structure))
       );
 

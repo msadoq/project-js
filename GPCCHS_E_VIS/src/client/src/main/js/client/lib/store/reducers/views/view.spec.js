@@ -35,7 +35,6 @@ import _ from 'lodash/fp';
 import * as actions from 'store/actions/views';
 import { freezeArgs } from 'common/jest';
 import viewsReducer from '../views';
-import * as types from '../../types';
 
 const reducer = freezeArgs(viewsReducer);
 

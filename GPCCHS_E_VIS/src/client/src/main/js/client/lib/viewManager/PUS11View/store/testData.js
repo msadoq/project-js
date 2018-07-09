@@ -10,7 +10,7 @@ const initialState = {
         firstTCTime: 1527520025823,
         updateType: 'TM',
         updateTime: 1527520025823,
-        nbTc: 1
+        nbTc: 1,
       },
       {
         ssid: 90,
@@ -20,7 +20,7 @@ const initialState = {
         firstTCTime: 1527520025823,
         updateType: 'TM',
         updateTime: 1527520025823,
-        nbTc: 1
+        nbTc: 1,
       },
       {
         ssid: 247,
@@ -30,7 +30,7 @@ const initialState = {
         firstTCTime: 1527520025823,
         updateType: 'TM',
         updateTime: 1527520025823,
-        nbTc: 1
+        nbTc: 1,
       },
       {
         ssid: 642,
@@ -40,7 +40,7 @@ const initialState = {
         firstTCTime: 1527520025823,
         updateType: 'TM',
         updateTime: 1527520025823,
-        nbTc: 1
+        nbTc: 1,
       },
     ],
   },

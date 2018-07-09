@@ -36,7 +36,7 @@ const createSillyLog = logger => fn => (...args) => {
 function decorateWithSillyLog(dcMap, sillyLog, excludedFromDecoration = []) {
   const result = dcMap
     ? Object.keys(dcMap).map(key => [key, dcMap[key]]) // Object.entries
-      .filter(([key, fn]) => excludedFromDecoration.indexOf(key) === -1) // remove those to exclude
+      .filter(([key]) => excludedFromDecoration.indexOf(key) === -1) // remove those to exclude
       .map(([key, fn]) => [key, sillyLog(fn)])
       .reduce((acc, [key, decoratedFn]) => {
         acc[key] = decoratedFn;

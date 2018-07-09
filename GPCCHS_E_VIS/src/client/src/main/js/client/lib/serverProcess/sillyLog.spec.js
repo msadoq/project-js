@@ -42,7 +42,7 @@ describe('sillyLog', () => {
   it('should log corresponding object attribute if function is a lambda', () => {
     const sillyLog = createSillyLog(logger);
     const dcMock = decorateWithSillyLog({
-      requestMasterSession: callback => {},
+      requestMasterSession: (callback) => {},
       requestSessionTime: (sessionId, callback) => {},
     }, sillyLog);
     dcMock.requestMasterSession('chose', 'machin');
@@ -61,7 +61,7 @@ describe('sillyLog', () => {
   });
 
   test('getArgsName with arrow function', () => {
-    const truc = (bidule, machin, chose, callback) => {}
+    const truc = (bidule, machin, chose, callback) => {};
     const args = getArgsName(truc);
     expect(args).toHaveLength(4);
     expect(args[0]).toEqual('bidule');
@@ -70,7 +70,7 @@ describe('sillyLog', () => {
   });
 
   test('getArgsName with comments ', () => {
-    const truc = (bidule, /* sdfdsfs, */ machin, chose, callback) => {}
+    const truc = (bidule, /* sdfdsfs, */ machin, chose, callback) => {};
     const args = getArgsName(truc);
     expect(args).toHaveLength(4);
     expect(args[0]).toEqual('bidule');

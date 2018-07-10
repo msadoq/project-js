@@ -3,7 +3,7 @@
 const logger = require('../../../common/logManager')('controllers:PUS:onInitialize');
 
 const { incomingPus } = require('store/actions/pus');
-
+const { VM_VIEW_PUS11, VM_VIEW_PUS14 } = require('viewManager/constants');
 // const { pop } = require('../../../common/callbacks');
 // const { add: addMessage } = require('../../../store/actions/messages');
 
@@ -118,7 +118,48 @@ module.exports = (buffers, getStore) => {
       ],
     },
   };
-  store.dispatch(incomingPus(pus11));
+  const pus14 = {
+    pus014TmPacket: [
+      {
+        packetApid: 100, // A afficher dans le tableau de packets
+        forwardingStatus: 1, // A afficher dans le tableau de packets
+        lastUpdateModeFwdStatus: 1, // Tooltip sur forwardingStatus
+        lastUpdateTimeFwdStatus: 1527520025823,  // Tooltip sur forwardingStatus
+        packetApidName: 'myString', // A afficher dans le tableau de packets
+        serviceApid: 100, // Inutilisé dans la vue
+        packetName: 'myString',  // A afficher dans le tableau de packets
+        serviceApidName: 'myString', // Inutilisé dans la vue
+        lastUpdateModeRid: 100,  // Tooltip sur rid / ridLabel
+        lastUpdateTimeRid: 1527520025823, // Tooltip sur rid / ridLabel
+        rid: 100,  // A afficher dans le tableau de packets
+        ridLabel: 'myString', // A afficher dans le tableau de packets
+        lastUpdateModeSid: 1, // Tooltip sur sid, sidLabel
+        lastUpdateTimeSid: 1527520025823, // Tooltip sur sid, sidLabel
+        lastUpdateModeSubSamplingRatio: 1, // Tooltip sur subsamplingRatio
+        lastUpdateTimeSubSamplingRatio: 1527520025823, // Tooltip sur subsamplingRatio
+        subsamplingRatio: 100, // A afficher dans le tableau de packets
+        sid: 100, // A afficher dans le tableau de packets
+        sidLabel: 'myString', // A afficher dans le tableau de packets
+        lastUpdateModeTypeSubType: 1, // Tooltip sur serviceTpe, serviceSubType
+        lastUpdateTimeTypeSubType: 1527520025823, // Tooltip sur serviceTpe, serviceSubType
+        serviceTpe: 1, // A afficher dans le tableau de packets
+        serviceSubType: 2, // A afficher dans le tableau de packets
+        uniqueId: 100, // Inutilisé dans la vue
+        status: 1, // Non affiché dans la vue.  Si 3 (DELETED), supprimer l’entrée du state
+      },
+
+    ],
+    groundDate: 1527520025823, // Inutilisé dans la vue
+    serviceApid: 100, // A afficher dans la vue
+    status: 1, // Inutilisé dans la vue Si 3 (DELETED), supprimer l’entrée du state
+    serviceApidName: 'myString', // A afficher dans la vue
+    uniqueId: 100, // Inutilisé dans la vue
+
+  };
+  store.dispatch(incomingPus({
+    [VM_VIEW_PUS11]: pus11,
+    [VM_VIEW_PUS14]: pus14,
+  }));
   // const buffer = buffers[0];
   // const callback = pop(requestId);
 

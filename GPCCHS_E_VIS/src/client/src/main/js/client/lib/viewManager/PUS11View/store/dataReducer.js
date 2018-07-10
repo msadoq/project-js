@@ -33,8 +33,10 @@ function pus11DataReducer(state = {}, action) {
        *  },
        * },
        */
-      const data = _.getOr([], ['payload', 'data'], action);
-
+      const data = _.getOr([], ['payload', 'data', VM_VIEW_PUS11], action);
+      if (!data) {
+        return state;
+      }
       let updatedState = state;
 
       // strip tables from data dans add them to updatedState

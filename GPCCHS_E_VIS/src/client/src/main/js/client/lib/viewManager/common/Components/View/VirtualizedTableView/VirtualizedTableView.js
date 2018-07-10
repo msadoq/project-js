@@ -312,8 +312,7 @@ class VirtualizedTableView extends React.Component {
             ...updatedStyle,
             ...overrideStyle({ columnIndex, key, rowIndex, style, content }),
           }}
-          onMouseEnter={_onClick}
-          onMouseLeave={_onClick}
+          onClick={_onClick}
           onDoubleClick={_onDoubleClick}
         >
           <span>{content.value}</span>
@@ -331,14 +330,16 @@ class VirtualizedTableView extends React.Component {
       const actionsMenu = (bodyCellActions || []).map(
         actionElem =>
           // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          <a
-            key={shortid.generate()}
-            onClick={() => {
-              onBodyCellAction(actionElem.label, content, rowIndex, columnIndex);
-            }}
-          >
-            {actionElem.label}
-          </a>
+          <div className={styles.ActionItem}>
+            <a
+              key={shortid.generate()}
+              onClick={() => {
+                onBodyCellAction(actionElem.label, content, rowIndex, columnIndex);
+              }}
+            >
+              {actionElem.label}
+            </a>
+          </div>
       );
 
       const popover = (

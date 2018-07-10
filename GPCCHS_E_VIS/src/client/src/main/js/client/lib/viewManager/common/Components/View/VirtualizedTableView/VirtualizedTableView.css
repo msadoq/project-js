@@ -103,3 +103,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.ActionItem {
+  display: block;
+  margin: 3px;
+}

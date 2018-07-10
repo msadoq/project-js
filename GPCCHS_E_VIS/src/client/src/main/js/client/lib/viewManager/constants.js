@@ -70,4 +70,4 @@ export const VM_PUS_VIEWS = [
  * @param type
  * @returns {boolean}
  */
-export const isPusView = type => [VM_VIEW_PUS11].includes(type);
+export const isPusView = type => VM_PUS_VIEWS.includes(type);

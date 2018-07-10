@@ -71,7 +71,7 @@ export default class ApplicationProcessField extends PureComponent {
             name="connectedData.apidName"
             component={ReactSelectField}
             options={computeApplicationProcessOptions(applicationProcessOptions, pusType)}
-            className="col-xs-12"
+            className="col-xs-12 pr0"
             onChange={this.handleChange}
             disabled={disabled}
             multi

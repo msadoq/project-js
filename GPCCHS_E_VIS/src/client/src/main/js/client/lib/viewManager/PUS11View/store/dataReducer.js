@@ -18,17 +18,21 @@ const constants = require('constants');
 
 // eslint-disable-next-line no-unused-vars
 function pus11DataReducer(state = {}, action) {
+  console.log(action.type);
   switch (action.type) {
     case INJECT_PUS_DATA: {
+      console.log('================================== INJECT_PUS_DATA');
       /**
        * action.payload: {
        *  timestamp: number,
        *  data: {
-       *    pus011Model: {
-       *      ...attributes
-       *      pus011Apid: [],
-       *      pus011SubSchedule: [],
-       *      pus011Command: [],
+       *    PUS14View: {
+       *      pus011Model: {
+       *        ...attributes
+       *        pus011Apid: [],
+       *        pus011SubSchedule: [],
+       *        pus011Command: [],
+       *      },
        *    },
        *  },
        * },

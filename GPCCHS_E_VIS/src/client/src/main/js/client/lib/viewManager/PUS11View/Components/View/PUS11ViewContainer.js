@@ -3,11 +3,13 @@ import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { getData } from 'viewManager/PUS11View/store/dataReducer';
 import PUS11View from './PUS11View';
+import { getConfigurationByViewId } from '../../../selectors';
 
 const constants = require('constants');
 
 const mapStateToProps = (state, { viewId }) => {
   const data = getData(state, { viewId });
+  const config = getConfigurationByViewId(state, { viewId });
 
   return {
     serviceApid: _.getOr(null, 'serviceApid', data),
@@ -22,6 +24,7 @@ const mapStateToProps = (state, { viewId }) => {
     lastUpdateTimeFreeSpace: String(_.getOr(null, 'lastUpdateTimeFreeSpace', data)),
     lastUpdateModeFreeSpace: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeFreeSpace', data)],
     serviceApidName: _.getOr(null, 'serviceApidName', data),
+    apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
   };
 };
 

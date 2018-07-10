@@ -96,6 +96,10 @@ export default class PUS11View extends React.Component {
     lastUpdateModeFreeSpace: PropTypes.string,
     serviceApid: PropTypes.number,
     serviceApidName: PropTypes.string,
+    apids: PropTypes.arrayOf(PropTypes.shape({
+      apidName: PropTypes.string,
+      apidRawValue: PropTypes.string,
+    })),
   };
 
   static defaultProps = {
@@ -111,6 +115,7 @@ export default class PUS11View extends React.Component {
     lastUpdateModeFreeSpace: null,
     serviceApid: null,
     serviceApidName: null,
+    apids: [],
   };
 
   static contextTypes = {
@@ -131,10 +136,11 @@ export default class PUS11View extends React.Component {
       lastUpdateTimeFreeSpace,
       lastUpdateModeFreeSpace,
       serviceApidName,
+      apids,
       viewId,
     } = this.props;
 
-    if (!isValid(serviceApidName, serviceApid)) {
+    if (!isValid(apids, serviceApid)) {
       return renderInvald('Please fill-in configuration');
     }
 
@@ -279,10 +285,8 @@ export const renderHeaders = (
   </ErrorBoundary>
 );
 
-export const isValid = (applicationProcessName, applicationProcessId) =>
-  typeof applicationProcessName === 'string' &&
-  applicationProcessName.length > 0 &&
-  typeof applicationProcessId === 'number'
+export const isValid = (apids, applicationProcessId) =>
+  apids && apids.length > 0 && typeof applicationProcessId === 'number'
 ;
 
 export const renderInvald = error => (

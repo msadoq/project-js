@@ -100,15 +100,11 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
 
     if (action) {
       if (!action.onClick) {
-        return console.error(`[NotImplementedError] onClick is not defined for action [${action.label}]`);
+        console.error(`[NotImplementedError] onClick is not defined for action [${action.label}]`);
       }
 
       action.onClick(data, rowIndex, columnIndex);
     }
-  },
-  onCellDoubleClick: (i, j, content) => {
-    console.error('[NotImplementedError] Double-click on cell has not yet been implemented');
-    console.info(i, j, content);
   },
 });
 
@@ -121,6 +117,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       ...stateProps.filterState,
       [col]: value,
     });
+  },
+  onCellDoubleClick: (i, j, content) => {
+    if (typeof ownProps.onCellDoubleClick === 'function') {
+      ownProps.onCellDoubleClick(i, j, content);
+    } else {
+      console.error('[NotImplementedError] Double-click on cell has not yet been implemented');
+      console.info(i, j, content);
+    }
   },
 });
 

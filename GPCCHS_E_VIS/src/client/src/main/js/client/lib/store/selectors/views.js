@@ -40,6 +40,9 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-1937 : 30/01/2018 : Unit convertion, add python fork and
 //  convertion call mechanism
 // VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3152 : 30/05/2018 : comportement multisat VIMA test end
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3152 : 30/05/2018 : correction bug domain colors algo
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3152 : 30/05/2018 : comportement multisat VIMA . .
 // END-HISTORY
 // ====================================================================
 

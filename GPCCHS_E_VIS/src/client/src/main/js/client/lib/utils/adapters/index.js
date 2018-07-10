@@ -26,6 +26,7 @@
 // VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Add management of StatsAggregation in VIMA +
 //  update stub
 // VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Fix bug on decode of StatAgg
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3141 : 31/05/2018 : Create new reporting parameter from aggreg
 // END-HISTORY
 // ====================================================================
 

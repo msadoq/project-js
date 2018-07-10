@@ -31,6 +31,8 @@
 // VERSION : 1.1.2 : FA : #7256 : 20/07/2017 : Working on cleaning style, added variables to edit
 //  style easily.
 // VERSION : 1.1.2 : DM : #6700 : 03/08/2017 : Merge branch 'dev' into dbrugne-data
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3160 : 04/05/2018 : date time bar VIMA .
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3160 : 30/05/2018 : date time bar VIMA .
 // END-HISTORY
 // ====================================================================
 

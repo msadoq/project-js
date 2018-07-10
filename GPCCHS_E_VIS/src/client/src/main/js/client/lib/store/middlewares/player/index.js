@@ -15,6 +15,14 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2254 : 14/12/2017 : mode normal timeBar VIMA .
 // VERSION : 2.0.0 : FA : ISIS-FT-2241 : 25/01/2018 : editeur et multi pages VIMA .
 // VERSION : 2.0.0 : FA : ISIS-FT-2241 : 01/02/2018 : Allow to play when an editor is opened
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3068 : 14/05/2018 : when timebar is playing in real time mode,
+//  base nextTick on currentTime to prevent time shift
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3068 : 25/05/2018 : when real-time, resynchro nextTick to
+//  sessionTime each X tick, X being set in a parameter
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3068 : 30/05/2018 : when timebar is playing in real time mode,
+//  base nextTick on currentTime to prevent time shift
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3068 : 30/05/2018 : when real-time, resynchro nextTick to
+//  sessionTime each X tick, X being set in a parameter
 // END-HISTORY
 // ====================================================================
 

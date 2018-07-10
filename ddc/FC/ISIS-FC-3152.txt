@@ -1,0 +1,165 @@
+#GPCCHS 2.0.0.3 06/07/2018 ISIS-FC-3152.txt
+
+
+Reference changement : ISIS-FT-3152
+
+ANALYSE DU PROBLEME
+===================
+*** A completer ***
+
+SOLUTION APPORTEE
+=================
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/config.colors.json
+	comportement multisat VIMA . .
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.vidv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/ground-alarm.viga (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic_demo.vimv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/onboard-alarm.viba (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.vitv (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/setup.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/stateTest.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/map.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/perRangeTbdIdData.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/perViewData.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/computeMissingRangeIntervals.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.js
+	correction bug domain colors algo
+	comportement multisat VIMA test end
+	comportement multisat VIMA . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.spec.js
+	correction bug domain colors algo
+	comportement multisat VIMA test end
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/parseConnectedData.js
+	comportement multisat VIMA . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/cleanViewData.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/parseConnectedData.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedData.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedData.spec.js
+	comportement multisat VIMA test end
+	comportement multisat VIMA . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/selectors.js
+	correction bug domain colors algo
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js
+	correction bug domain colors algo
+	comportement multisat VIMA . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.js
+	correction bug domain colors algo
+	comportement multisat VIMA test end
+	comportement multisat VIMA . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.spec.js
+	comportement multisat VIMA . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.css
+	correction bug domain colors algo
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.js
+	correction bug domain colors algo
+	comportement multisat VIMA . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.spec.js
+	comportement multisat VIMA test end
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/HeaderContainer.js
+	comportement multisat VIMA . .
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/HeaderContainer.spec.js
+	comportement multisat VIMA test end
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/__snapshots__/Header.spec.js.snap (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/__snapshots__/HeaderContainer.spec.js.snap (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/colors.js
+	comportement multisat VIMA . .
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/colors.spec.js (idem)
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/domain.spec.js (idem)
+
+
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/domains.js
+	correction bug domain colors algo
+	comportement multisat VIMA . .
+
+
+ddc/release-notes.txt
+	Add a note on the color configuration file
+
+DOCUMENTS MODIFIES
+==================
+*** A completer ***
+
+FICHIERS MODIFIES
+=================
+GPCCHS_E_VIS/src/client/src/main/js/client/config.colors.json
+GPCCHS_E_VIS/src/client/src/main/js/client/data/dev.workspace.viws
+GPCCHS_E_VIS/src/client/src/main/js/client/data/pages/dev.page1.vipg
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/dynamicView.vidv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/ground-alarm.viga
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/mimic_demo.vimv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/onboard-alarm.viba
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/plot.vipv
+GPCCHS_E_VIS/src/client/src/main/js/client/data/views/text10.vitv
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/setup.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/common/jest/stateTest.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/map.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/perRangeTbdIdData.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/dataManager/__snapshots__/perViewData.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/observers/computeMissingRangeIntervals.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/store/selectors/views.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/GroundAlarmView/data/parseConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/HistoryView/store/cleanViewData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/MimicView/data/parseEntryPoint.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/OnboardAlarmView/data/parseConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedData.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/commonData/parseConnectedData.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/viewManager/selectors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/Tabs.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/Navigation/TabsContainer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.css
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/HeaderContainer.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/colors.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/colors.spec.js
+
+FICHIERS AJOUTES
+================
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/Header.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/HeaderContainer.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/__snapshots__/Header.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/View/__snapshots__/HeaderContainer.spec.js.snap
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/domain.spec.js
+GPCCHS_E_VIS/src/client/src/main/js/client/lib/windowProcess/common/domains.js
+
+FICHIERS SUPPRIMES
+==================
+Pas de fichiers supprimes.
+
+
+#Generated by Framework DDC-ng (version 0.8a)

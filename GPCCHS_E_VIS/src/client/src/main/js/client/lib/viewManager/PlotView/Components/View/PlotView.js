@@ -59,7 +59,54 @@
 // VERSION : 1.1.2 : FA : #7776 : 13/09/2017 : update of plot view tooltip
 // VERSION : 1.1.2 : FA : #7776 : 13/09/2017 : Fix plot drawing when timeline has offset
 // VERSION : 1.1.2 : FA : #7834 : 15/09/2017 : Fixed right click on PlotView and PlotView legend.
+// VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using
+//  indexes to iterate.
 // VERSION : 1.1.2 : FA : #7814 : 18/09/2017 : Handling data differently in PlotView : using indexes to iterate.
+// VERSION : 2.0.0 : DM : #6127 : 22/09/2017 : Move common/Dimensions.js in
+//  common/hoc/withDimensions .
+// VERSION : 2.0.0 : DM : #6835 : 26/09/2017 : Remove useless prop from PlotView.js
+// VERSION : 2.0.0 : DM : #6835 : 09/10/2017 : PlotView always renders GrizzlyParametric with one x
+//  axis. Tooltip reviewed. Current cursor reviewed for parametric and basic.
+// VERSION : 2.0.0 : DM : #6835 : 20/10/2017 : Fix problem with PlotView's grid not updating.
+// VERSION : 2.0.0 : DM : #6835 : 24/10/2017 : PlotView auto processes and generates x and y axes
+//  for Grizzly. Ready for parametric.
+// VERSION : 2.0.0 : DM : #6835 : 24/10/2017 : Fix on finding which ep is on a non-time x axis.
+// VERSION : 2.0.0 : FA : #8045 : 06/11/2017 : PlotView can draw string parameters, and a defaultY
+//  property can be set.
+// VERSION : 2.0.0 : DM : #6818 : 15/11/2017 : Refacto Grizzly Chart / Add tests
+// VERSION : 2.0.0 : DM : #6818 : 16/11/2017 : Test plot view . .
+// VERSION : 2.0.0 : DM : #6818 : 16/11/2017 : cleanup PropTypes declaration / tests / debounce
+//  linesListener action on zoom & pan
+// VERSION : 2.0.0 : DM : #6818 : 20/11/2017 : save live extents zooms & pans (plot view) in the
+//  store
+// VERSION : 2.0.0 : DM : #6818 : 21/11/2017 : add stop instruction to grizzly & update tests
+//  (obsolete data)
+// VERSION : 2.0.0 : FA : ISIS-FT-2281 : 24/11/2017 : zoom plotView VIMA trigger pause on zoom
+// VERSION : 2.0.0 : DM : #6818 : 01/12/2017 : Revision of PlotView's propTypes: name is not
+//  mandatory.
+// VERSION : 2.0.0 : FA : ISIS-FT-2280 : 06/12/2017 : ergonomie plotView VIMA // afficher la grille
+//  (celle-ci ne s'affiche pas malgre un etat a ON)
+// VERSION : 2.0.0 : FA : ISIS-FT-2280 : 06/12/2017 : ergonomie plotView VIMA // l'utilisateur doit
+//  pouvoir choisir avec ou sans ligne entre les points sans "tricher" en mettant Line size = 0
+// VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
+// VERSION : 2.0.0 : FA : #8082 : 11/12/2017 : Plot view refresh problem // Lorsqu'on cree un entry
+//  point...
+// VERSION : 2.0.0 : DM : #5806 : 11/12/2017 : Fix Open/Close Editor bunny code in MimicView,
+//  PlotView and TextView
+// VERSION : 2.0.0 : FA : ISIS-FT-2237 : 20/03/2018 : Update how an entry point formula is built
+// VERSION : 2.0.0 : FA : #10769 : 20/03/2018 : Fix bug when adding a new entry point when no
+//  timebar has been selected
+// VERSION : 2.0.0 : FA : ISIS-FT-2949 : 22/03/2018 : dates now display in TAI
+// VERSION : 2.0.0 : FA : #11614 : 06/04/2018 : Plotview unit display + snap
+// VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
+//  test (cherry picked from commit 3c9fde0)
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3154 : 09/05/2018 : labels are displayed or not depending on
+//  displayLine prop in Axis.js
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3154 : 30/05/2018 : Revert : labels are displayed or not
+//  depending on displayLine prop in Axis.js
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3154 : 30/05/2018 : labels are displayed or not depending on
+//  displayLine prop in Axis.js
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3181 : 07/06/2018 : Fix orientation of x axis for parametric
 // END-HISTORY
 // ====================================================================
 

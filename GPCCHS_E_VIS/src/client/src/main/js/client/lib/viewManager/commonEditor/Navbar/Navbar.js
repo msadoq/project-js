@@ -3,6 +3,8 @@
 // VERSION : 1.1.2 : DM : #3622 : 09/03/2017 : Moving the editor files in viewManager, splitting
 //  between commonEditor and commonReduxForm.
 // VERSION : 1.1.2 : DM : #5828 : 28/04/2017 : No vertical bar when editor minimized.
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3086 : 15/05/2018 : editor's form bug on reintialize
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3086 : 30/05/2018 : editor's form bug on reintialize
 // END-HISTORY
 // ====================================================================
 

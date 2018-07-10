@@ -12,6 +12,12 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2309 : 31/01/2018 : surveillance du monitoringState pour
 //  parametres TM VIMA
 // VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3301 : 25/05/2018 : prise en compte conf monitoringState VIMA
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3301 : 30/05/2018 : prise en compte conf monitoringState VIMA
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3174 : 30/05/2018 : bug on getColorwithDomainDetermination . .
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3152 : 30/05/2018 : comportement multisat VIMA . .
+// VERSION : 2.0.0.3 : FA : #13142 : 13/06/2018 : hot fix bug on non existing domain color in
+//  configuration
 // END-HISTORY
 // ====================================================================
 
@@ -208,15 +214,12 @@ export const getBorderColorForNav = (workspaceDomain, pages, viewsDomains) => {
 
 export const getColorWithDomainDetermination =
   (workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from) => {
-    let color = null;
+    let color = '#AAAAAA';
     const domain =
       domainDeterminationForColor(workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from);
     if (domain) {
       const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
-      color = colorObject
-        ? colorObject[domain]
-        : null
-      ;
+      color = colorObject ? colorObject[domain] : '#AAAAAA';
     }
     return color;
   };

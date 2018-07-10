@@ -23,11 +23,11 @@ import {
   WS_VIEW_ADD_BLANK,
   INJECT_DATA_RANGE,
   WS_VIEW_UPDATE_ENTRYPOINT_NAME,
-  WS_VIEWDATA_CLEAN,
+  WS_VIEWDATA_CLEAN, WS_VIEW_REMOVE_ENTRYPOINT,
 } from '../../../store/types';
 import {
   mapTabularData,
-  DATA_STATE_KEY,
+  DATA_STATE_KEY, removeTabularData,
 } from '../../commonData/reducer';
 
 
@@ -92,6 +92,11 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
 
         return el;
       });
+    }
+    case WS_VIEW_REMOVE_ENTRYPOINT: {
+      const { entryPointId } = action.payload;
+
+      return removeTabularData(state, 'history', e => e.id === entryPointId);
     }
     default:
       return state;

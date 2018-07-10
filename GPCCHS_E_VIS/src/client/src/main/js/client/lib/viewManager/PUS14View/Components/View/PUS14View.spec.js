@@ -1,4 +1,4 @@
-import PUS14View, { isValid, renderInvald, generatePopover } from 'viewManager/PUS14View/Components/View/PUS14View';
+import PUS14View, { isValid, renderInvald } from 'viewManager/PUS14View/Components/View/PUS14View';
 import { shallowRenderSnapshot } from 'common/jest/utils';
 import stateTest from 'common/jest/stateTest';
 import renderer from 'react-test-renderer';
@@ -6,7 +6,7 @@ import renderer from 'react-test-renderer';
 const propsStub = {
   viewId: '1838f507-156b-4734-bf6d-69d0e96b39b8',
   groundDate: '1528359679639',
-  serviceApid: '100',
+  serviceApid: 100,
   status: 1,
   serviceApidName: 'myString',
   uniqueId: '100',
@@ -31,21 +31,15 @@ describe('viewManager/PUS14View/Components/View/PUS14View', () => {
   });
 
   describe('PUS14View :: isValid', () => {
-    [null, undefined, ''].map(applicationProcessName =>
+    [null, undefined, []].map(apids =>
       [null, undefined].map(applicationProcessId =>
         it('should return false with invalid data', () => {
-          expect(isValid(applicationProcessName, applicationProcessId)).toBe(false);
+          expect(isValid(apids, applicationProcessId)).toBe(false);
         })
       )
     );
     it('should return true with valid data', () => {
-      expect(isValid('ORBIT', 0)).toBe(true);
-    });
-  });
-  describe('generatePopover', () => {
-    it('should match snapshot with valida data', () => {
-      const date = Date.now();
-      expect(generatePopover({ id: 'id', title: 'title', time: date, mode: 'TM' })).toMatchSnapshot();
+      expect(isValid(['ORBIT'], 0)).toBe(true);
     });
   });
 });

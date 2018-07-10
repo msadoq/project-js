@@ -14,6 +14,7 @@ const propsStub = {
   updateEntryPoint: () => null,
   panels: [],
   updateViewSubPanels: () => null,
+  entryPointConnectedDataForm: () => null,
 };
 describe('viewManager', () => {
   describe('viewManager/common', () => {

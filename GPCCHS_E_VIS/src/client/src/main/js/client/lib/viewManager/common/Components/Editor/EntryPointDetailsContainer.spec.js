@@ -15,6 +15,7 @@ const propsStub = {
   updateEntryPoint: () => null,
   panels: [],
   updateViewSubPanels: () => null,
+  entryPointConnectedDataForm: () => null,
 };
 describe('EntryPointDetailsContainer :: render', () => {
   test('EntryPointDetailsContainer :: render', () => {

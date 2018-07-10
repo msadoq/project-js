@@ -117,12 +117,9 @@ export const renderHeaders = (
   </ErrorBoundary>
 );
 
-export const isValid = (applicationProcessName, applicationProcessId) =>
-  typeof applicationProcessName === 'string' &&
-  applicationProcessName.length > 0 &&
-  typeof applicationProcessId === 'number'
+export const isValid = (apids, applicationProcessId) =>
+  Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
 ;
-
 export const renderInvald = error => (
   <div className="pus14 h100 posRelative">
     <div className="flex h100">

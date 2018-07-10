@@ -6,24 +6,16 @@ exports[`viewManager :: commonEditor :: Fields :: ApplicationProcessField snapsh
     className="row mr0 applicationProcess"
   >
     <Field
-      className="col-xs-8"
+      className="col-xs-12 pr0"
+      closeOnSelect={false}
       component={[Function]}
       disabled={true}
       format={null}
+      multi={true}
       name="connectedData.apidName"
       onChange={[Function]}
       options={Array []}
-    />
-    <Field
-      className="col-xs-4 inputField"
-      clearable={true}
-      component={[Function]}
-      disabled={true}
-      format={null}
-      name="connectedData.apidRawValue"
-      onChange={null}
-      type="text"
-      value=""
+      simpleValue={true}
     />
   </div>
 </ErrorBoundary>
@@ -35,24 +27,16 @@ exports[`viewManager :: commonEditor :: Fields :: ApplicationProcessField snapsh
     className="row mr0 applicationProcess"
   >
     <Field
-      className="col-xs-8"
+      className="col-xs-12 pr0"
+      closeOnSelect={false}
       component={[Function]}
       disabled={true}
       format={null}
+      multi={true}
       name="connectedData.apidName"
       onChange={[Function]}
       options={Array []}
-    />
-    <Field
-      className="col-xs-4 inputField"
-      clearable={true}
-      component={[Function]}
-      disabled={true}
-      format={null}
-      name="connectedData.apidRawValue"
-      onChange={null}
-      type="text"
-      value=""
+      simpleValue={true}
     />
   </div>
 </ErrorBoundary>

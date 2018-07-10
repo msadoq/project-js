@@ -35,20 +35,20 @@ describe('viewManager/PUS11View/Components/View/PUS11View', () => {
   });
 
   describe('PUS11View :: isValid', () => {
-    [null, undefined, ''].map(applicationProcessName =>
+    [null, undefined, []].map(apids =>
       [null, undefined].map(applicationProcessId =>
         it('should return false with invalid data', () => {
-          expect(isValid(applicationProcessName, applicationProcessId)).toBe(false);
+          expect(isValid(apids, applicationProcessId)).toBe(false);
         })
       )
     );
     it('should return true with valid data', () => {
-      expect(isValid('ORBIT', 0)).toBe(true);
+      expect(isValid(['ORBIT'], 0)).toBe(true);
     });
   });
   describe('generatePopover', () => {
     it('should match snapshot with valida data', () => {
-      const date = Date.now();
+      const date = 1527520025823;
       expect(generatePopover({ id: 'id', title: 'title', time: date, mode: 'TM' })).toMatchSnapshot();
     });
   });

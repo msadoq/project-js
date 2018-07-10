@@ -125,19 +125,80 @@ const _subSchedulesContentModifier = (cellContent = {}, content = {}) => {
 
 const backgroundDisabled = { backgroundColor: '#e67e22' };
 const backgroundEnabled = { backgroundColor: '#2ecc71' };
-const emptyObject = {};
+
+// ENABLED APIDS
+
+const _enabledApidsStatusKeyList = [
+  'status',
+  'lastUpdateTimeStatus',
+];
 
 // apply background color to cells for which value is ENABLED or DISABLED
-export const overrideStyle = ({ content }) => ({ // apply only for status cols
-  ...(
-// eslint-disable-next-line no-nested-ternary
-    content.value === 'DISABLED'
-      ? backgroundDisabled
-      : content.value === 'ENABLED'
-      ? backgroundEnabled
-      : emptyObject
-  ),
-});
+const _enabledApidsOverrideStyle = ({ content }) => {
+  const { value, colKey } = content;
+
+  if (_enabledApidsStatusKeyList.indexOf(colKey) > -1) {
+    if (value === 'DISABLED') {
+      return backgroundDisabled;
+    }
+
+    if (value === 'ENABLED') {
+      return backgroundEnabled;
+    }
+  }
+
+  return {};
+};
+
+// SUB SCHEDULES
+const _subSchedulesStatusKeyList = [
+  'status',
+  'lastUpdateTimeStatus',
+];
+
+// apply background color to cells for which value is ENABLED or DISABLED
+const _subSchedulesOverrideStyle = ({ content }) => {
+  const { value, colKey } = content;
+
+  if (_subSchedulesStatusKeyList.indexOf(colKey) > -1) {
+    if (value === 'DISABLED') {
+      return backgroundDisabled;
+    }
+
+    if (value === 'ENABLED') {
+      return backgroundEnabled;
+    }
+  }
+
+  return {};
+};
+
+
+// COMMANDS
+
+const _commandsStatusKeyList = [
+  'commandGroundStatus',
+  'lastUpdateTimeGroundStatus',
+  'commandStatus',
+  'lastUpdateTimeStatus',
+];
+
+// apply background color to cells for which value is ENABLED or DISABLED
+const _commandsOverrideStyle = ({ content }) => {
+  const { value, colKey } = content;
+
+  if (_commandsStatusKeyList.indexOf(colKey) > -1) {
+    if (value === 'DISABLED') {
+      return backgroundDisabled;
+    }
+
+    if (value === 'ENABLED') {
+      return backgroundEnabled;
+    }
+  }
+
+  return {};
+};
 
 export default class PUS11View extends React.Component {
   static propTypes = {
@@ -228,7 +289,7 @@ export default class PUS11View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'subSchedules'}
-                overrideStyle={overrideStyle}
+                overrideStyle={_subSchedulesOverrideStyle}
                 contentModifier={_subSchedulesContentModifier}
               />
             </div>
@@ -238,7 +299,7 @@ export default class PUS11View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'enabledApids'}
-                overrideStyle={overrideStyle}
+                overrideStyle={_enabledApidsOverrideStyle}
                 contentModifier={_enabledApidsContentModifier}
               />
             </div>
@@ -248,7 +309,7 @@ export default class PUS11View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'commands'}
-                overrideStyle={overrideStyle}
+                overrideStyle={_commandsOverrideStyle}
                 contentModifier={_commandContentModifier}
               />
             </div>

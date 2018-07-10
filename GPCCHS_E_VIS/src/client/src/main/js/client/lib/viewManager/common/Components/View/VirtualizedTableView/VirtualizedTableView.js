@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import _ from 'lodash/fp';
 import cn from 'classnames';
 import { ArrowKeyStepper, Grid, ScrollSync } from 'react-virtualized';
 import ContainerDimensions from 'react-container-dimensions';
@@ -82,7 +82,7 @@ class VirtualizedTableView extends React.Component {
       onFilter(colKey, newFilterValue);
     };
 
-    return _.debounce(_deferredOnFilter, 500);
+    return _.debounce(500, _deferredOnFilter);
   };
 
   _onSelectCell(ev, rowIndex, columnIndex, content) {
@@ -312,7 +312,8 @@ class VirtualizedTableView extends React.Component {
             ...updatedStyle,
             ...overrideStyle({ columnIndex, key, rowIndex, style, content }),
           }}
-          onClick={_onClick}
+          onMouseEnter={_onClick}
+          onMouseLeave={_onClick}
           onDoubleClick={_onDoubleClick}
         >
           <span>{content.value}</span>
@@ -325,7 +326,8 @@ class VirtualizedTableView extends React.Component {
     if (this.state.selectedCell) {
       const { content, rowIndex, columnIndex } = this.state.selectedCell;
 
-      const popoverContent = _.get(content, ['tooltip', 'body'], null);
+      const popoverContent = _.get(['tooltip', 'body'], content);
+
       const actionsMenu = (bodyCellActions || []).map(
         actionElem =>
           // eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -356,12 +358,14 @@ class VirtualizedTableView extends React.Component {
         </Popover>
       );
 
+      const overlayPlacement = (columnIndex === cols.length - 1) ? 'left' : 'right';
+
       bodyCellOverlay = (popoverContent || (actionsMenu && actionsMenu.length > 0)) ?
         (
           <Overlay
             show
             container={this}
-            placement={'right'}
+            placement={overlayPlacement}
             target={this.state.selectedCell.target}
           >
             {popover}

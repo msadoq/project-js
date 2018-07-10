@@ -59,6 +59,7 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
       return _contentModifier({
         value: content[colKey],
         color,
+        colKey,
       }, content);
     }
 

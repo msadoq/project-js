@@ -292,6 +292,17 @@ class VirtualizedTableView extends React.Component {
         };
       }
 
+      let defaultCellEventProps = {
+        onMouseEnter: _onClick,
+        onMouseLeave: _onClick,
+      };
+
+      if (bodyCellActions) {
+        defaultCellEventProps = {
+          onClick: _onClick,
+        };
+      }
+
       return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
@@ -312,8 +323,8 @@ class VirtualizedTableView extends React.Component {
             ...updatedStyle,
             ...overrideStyle({ columnIndex, key, rowIndex, style, content }),
           }}
-          onClick={_onClick}
           onDoubleClick={_onDoubleClick}
+          {...defaultCellEventProps}
         >
           <span>{content.value}</span>
         </div>

@@ -55,6 +55,10 @@ const list = {
     getViewComponent: () => require('../viewManager/PUS11View/Components/View/PUS11ViewContainer'),
     getEditorComponent: () => require('../viewManager/PUS11View/Components/Editor/PUS11EditorContainer'),
   },
+  [constants.VM_VIEW_PUS14]: {
+    getViewComponent: () => require('../viewManager/PUS14View/Components/View/PUS14ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS14View/Components/Editor/PUS14EditorContainer'),
+  },
 };
 
 export const getViewComponent = (type) => {

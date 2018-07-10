@@ -11,61 +11,63 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
       payload: {
         viewId: 'PUS11View',
         data: {
-          pus011Model: {
-            foo: 'foo',
-            bar: 'bar',
-            pus011SubSchedule: [
-              {
-                baz: 'baz',
-                status: 1,
-                lastUpdateModeSubScheduleId: 1,
-                lastUpdateModeStatus: 1,
-              },
-              {
-                baz: 'baz',
-                status: 2,
-                lastUpdateModeSubScheduleId: 2,
-                lastUpdateModeStatus: 2,
-              },
-            ],
-            pus011Apid: [
-              {
-                baz: 'baz',
-                status: 1,
-                lastUpdateModeApid: 1,
-              },
-              {
-                baz: 'baz',
-                status: 2,
-                lastUpdateModeApid: 2,
-              },
-            ],
-            pus011Command: [
-              {
-                baz: 'baz',
-                lastUpdateModeCommandId: 1,
-                lastUpdateModeBinProf: 1,
-                commandStatus: 1,
-                lastUpdateModeGroundStatus: 1,
-                commandGroundStatus: 1,
-                lastUpdateModeStatus: 1,
-                lastUpdateModeCurrentExecTime: 1,
-                lastUpdateModeInitialExecTime: 1,
-                lastUpdateModeTotalTimeShiftOffset: 1,
-                pus011CommandParameters: [
-                  {
-                    baz: 'baz',
-                    lastUpdateMode: 1,
-                  },
-                ],
-                pus011TimeShift: [
-                  {
-                    baz: 'baz',
-                    lastUpdateMode: 1,
-                  },
-                ],
-              },
-            ],
+          PUS11View: {
+            pus011Model: {
+              foo: 'foo',
+              bar: 'bar',
+              pus011SubSchedule: [
+                {
+                  baz: 'baz',
+                  status: 1,
+                  lastUpdateModeSubScheduleId: 1,
+                  lastUpdateModeStatus: 1,
+                },
+                {
+                  baz: 'baz',
+                  status: 2,
+                  lastUpdateModeSubScheduleId: 2,
+                  lastUpdateModeStatus: 2,
+                },
+              ],
+              pus011Apid: [
+                {
+                  baz: 'baz',
+                  status: 1,
+                  lastUpdateModeApid: 1,
+                },
+                {
+                  baz: 'baz',
+                  status: 2,
+                  lastUpdateModeApid: 2,
+                },
+              ],
+              pus011Command: [
+                {
+                  baz: 'baz',
+                  lastUpdateModeCommandId: 1,
+                  lastUpdateModeBinProf: 1,
+                  commandStatus: 1,
+                  lastUpdateModeGroundStatus: 1,
+                  commandGroundStatus: 1,
+                  lastUpdateModeStatus: 1,
+                  lastUpdateModeCurrentExecTime: 1,
+                  lastUpdateModeInitialExecTime: 1,
+                  lastUpdateModeTotalTimeShiftOffset: 1,
+                  pus011CommandParameters: [
+                    {
+                      baz: 'baz',
+                      lastUpdateMode: 1,
+                    },
+                  ],
+                  pus011TimeShift: [
+                    {
+                      baz: 'baz',
+                      lastUpdateMode: 1,
+                    },
+                  ],
+                },
+              ],
+            },
           },
         },
       },

@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
@@ -13,20 +14,35 @@ const popoverStyle = {
   height: '80px !important',
 };
 
-const _addTooltipWithContent = (cellContent, content, keys) => ({
-  ...cellContent,
-  tooltip: {
-    body: _createTableData(keys.reduce((acc, cur) => ({
-      ...acc,
-      [cur]: content[cur],
-    }), {})),
-  },
-});
+const _addTooltipWithContent = (cellContent, content, displayObj) => {
+  const keys = Object.keys(displayObj);
+
+  return ({
+    ...cellContent,
+    tooltip: {
+      body: _createTableData(keys.reduce((acc, cur) => {
+        const currentContent = displayObj[cur];
+
+        const value = content[currentContent.key];
+
+        const format = currentContent.format || _.identity;
+
+        return ({
+          ...acc,
+          [cur]: format(value),
+        });
+      }, {})),
+    },
+  });
+};
+
+const _formatDate = date => (new Date(date)).toISOString();
 
 const _createTableData =
   obj => (
     <table className={styles.popoverTable}>
-      {
+      <tbody>
+        {
         Object.keys(obj).map(
           key => (
             <tr>
@@ -36,6 +52,7 @@ const _createTableData =
           )
         )
       }
+      </tbody>
     </table>
   );
 
@@ -47,37 +64,88 @@ const _commandContentModifier = (cellContent = {}, content = {}) => {
       return _addTooltipWithContent(
         cellContent,
         content,
-        ['lastUpdateModeCommandId', 'lastUpdateTimeCommandId']
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeCommandId',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeCommandId',
+            format: _formatDate,
+          },
+        }
       );
     case 'commandGroundStatus':
       return _addTooltipWithContent(
         cellContent,
         content,
-        ['lastUpdateTimeBinProf', 'lastUpdateTimeGroundStatus']
+        {
+          lastUpdateTimeBinProf: {
+            key: 'lastUpdateTimeBinProf',
+            format: _formatDate,
+          },
+          lastUpdateTimeGroundStatus: {
+            key: 'lastUpdateTimeGroundStatus',
+            format: _formatDate,
+          },
+        }
       );
     case 'status':
       return _addTooltipWithContent(
         cellContent,
         content,
-        ['lastUpdateModeStatus', 'lastUpdateTimeStatus']
+        {
+          lastUpdateModeStatus: {
+            key: 'lastUpdateModeStatus',
+          },
+          lastUpdateTimeStatus: {
+            key: 'lastUpdateTimeStatus',
+            format: _formatDate,
+          },
+        }
       );
     case 'currentExecutionTime':
       return _addTooltipWithContent(
         cellContent,
         content,
-        ['lastUpdateModeCurrentExecTime', 'lastUpdateTimeCurrentExecTime']
+        {
+          lastUpdateModeCurrentExecTime: {
+            key: 'lastUpdateModeCurrentExecTime',
+          },
+          lastUpdateTimeCurrentExecTime: {
+            key: 'lastUpdateTimeCurrentExecTime',
+            format: _formatDate,
+          },
+        }
       );
     case 'initialExecutionTime':
       return _addTooltipWithContent(
         cellContent,
         content,
-        ['lastUpdateModeCurrentExecTime', 'lastUpdateTimeInitialExecTime']
+        {
+          lastUpdateModeCurrentExecTime: {
+            key: 'lastUpdateModeCurrentExecTime',
+            format: _formatDate,
+          },
+          lastUpdateTimeInitialExecTime: {
+            key: 'lastUpdateTimeInitialExecTime',
+            format: _formatDate,
+          },
+        }
       );
     case 'totalTimeShiftOffset':
       return _addTooltipWithContent(
         cellContent,
         content,
-        ['lastUpdateModeTotalTimeShiftOffset', 'lastUpdateTimeTotalTimeShiftOffset']
+        {
+          lastUpdateModeTotalTimeShiftOffset: {
+            key: 'lastUpdateModeTotalTimeShiftOffset',
+            format: _formatDate,
+          },
+          lastUpdateTimeInitialExecTime: {
+            key: 'lastUpdateTimeTotalTimeShiftOffset',
+            format: _formatDate,
+          },
+        }
       );
     default:
       return cellContent;
@@ -92,7 +160,15 @@ const _enabledApidsContentModifier = (cellContent = {}, content = {}) => {
       return _addTooltipWithContent(
         cellContent,
         content,
-        ['lastUpdateModeApid', 'lastUpdateTimeApid']
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeApid',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeApid',
+            format: _formatDate,
+          },
+        }
       );
     default:
       return cellContent;
@@ -107,14 +183,30 @@ const _subSchedulesContentModifier = (cellContent = {}, content = {}) => {
       return _addTooltipWithContent(
         cellContent,
         content,
-        ['lastUpdateModeSubScheduleId', 'lastUpdateTimeApid']
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeSubScheduleId',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeSubscheduleId',
+            format: _formatDate,
+          },
+        }
       );
     }
     case 'status': {
       return _addTooltipWithContent(
         cellContent,
         content,
-        ['lastUpdateModeApid', 'lastUpdateTimeApid']
+        {
+          lastUpdateModeStatus: {
+            key: 'lastUpdateModeStatus',
+          },
+          lastUpdateTimeStatus: {
+            key: 'lastUpdateTimeStatus',
+            format: _formatDate,
+          },
+        }
       );
     }
     default: {

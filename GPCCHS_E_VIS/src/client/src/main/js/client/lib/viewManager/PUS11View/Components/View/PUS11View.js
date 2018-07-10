@@ -7,6 +7,8 @@ import './PUS11View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 
+import styles from './PUS11View.css';
+
 const popoverStyle = {
   height: '80px !important',
 };
@@ -23,7 +25,7 @@ const _addTooltipWithContent = (cellContent, content, keys) => ({
 
 const _createTableData =
   obj => (
-    <table>
+    <table className={styles.popoverTable}>
       {
         Object.keys(obj).map(
           key => (
@@ -38,7 +40,7 @@ const _createTableData =
   );
 
 const _commandContentModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = content;
+  const { colKey } = cellContent;
 
   switch (colKey) {
     case 'commandSsId':
@@ -83,7 +85,7 @@ const _commandContentModifier = (cellContent = {}, content = {}) => {
 };
 
 const _enabledApidsContentModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = content;
+  const { colKey } = cellContent;
 
   switch (colKey) {
     case 'apid':
@@ -98,23 +100,26 @@ const _enabledApidsContentModifier = (cellContent = {}, content = {}) => {
 };
 
 const _subSchedulesContentModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = content;
+  const { colKey } = cellContent;
 
   switch (colKey) {
-    case 'ssId':
+    case 'ssId': {
       return _addTooltipWithContent(
         cellContent,
         content,
         ['lastUpdateModeSubScheduleId', 'lastUpdateTimeApid']
       );
-    case 'status':
+    }
+    case 'status': {
       return _addTooltipWithContent(
         cellContent,
         content,
         ['lastUpdateModeApid', 'lastUpdateTimeApid']
       );
-    default:
+    }
+    default: {
       return cellContent;
+    }
   }
 };
 

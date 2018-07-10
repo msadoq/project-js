@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PUS11Editor :: render snapshot 1`] = `
+exports[`PUS14Editor :: render snapshot 1`] = `
 <ErrorBoundary>
   <div
     className="contentWrapper"
@@ -43,7 +43,7 @@ exports[`PUS11Editor :: render snapshot 1`] = `
           initialValues={Object {}}
           onSubmit={[Function]}
           pageId="pageId"
-          pusType="PUS11View"
+          pusType="PUS14View"
           viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
         />
       </div>

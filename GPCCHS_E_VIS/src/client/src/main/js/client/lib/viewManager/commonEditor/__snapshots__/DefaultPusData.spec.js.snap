@@ -25,6 +25,7 @@ exports[`DefaultPusData :: render snapshot 1`] = `
         domainName="fr.cnes.isis.simupus"
         onChange={[Function]}
         pageId="page1"
+        pusType="PUS11View"
         timelineId="tl1"
         viewId="text1"
       />

@@ -28,8 +28,19 @@ Array [
               "vihv",
               "viga",
               "viba",
+              "pus03",
               "pus05",
               "pus11",
+              "pus12",
+              "pus13",
+              "pus14",
+              "pus15",
+              "pus18",
+              "pus19",
+              "pus140",
+              "pus142",
+              "pus144",
+              "pusmme",
             ],
             "name": "Any VIMA views",
           },
@@ -89,6 +100,12 @@ Array [
           },
           Object {
             "extensions": Array [
+              "pus03",
+            ],
+            "name": "PUS03View",
+          },
+          Object {
+            "extensions": Array [
               "pus05",
             ],
             "name": "PUS05View",
@@ -98,6 +115,66 @@ Array [
               "pus11",
             ],
             "name": "PUS11View",
+          },
+          Object {
+            "extensions": Array [
+              "pus12",
+            ],
+            "name": "PUS12View",
+          },
+          Object {
+            "extensions": Array [
+              "pus13",
+            ],
+            "name": "PUS13View",
+          },
+          Object {
+            "extensions": Array [
+              "pus14",
+            ],
+            "name": "PUS14View",
+          },
+          Object {
+            "extensions": Array [
+              "pus15",
+            ],
+            "name": "PUS15View",
+          },
+          Object {
+            "extensions": Array [
+              "pus18",
+            ],
+            "name": "PUS18View",
+          },
+          Object {
+            "extensions": Array [
+              "pus19",
+            ],
+            "name": "PUS19View",
+          },
+          Object {
+            "extensions": Array [
+              "pus140",
+            ],
+            "name": "PUS140View",
+          },
+          Object {
+            "extensions": Array [
+              "pus142",
+            ],
+            "name": "PUS142View",
+          },
+          Object {
+            "extensions": Array [
+              "pus144",
+            ],
+            "name": "PUS144View",
+          },
+          Object {
+            "extensions": Array [
+              "pusmme",
+            ],
+            "name": "PUSMMEView",
           },
         ],
       },
@@ -164,8 +241,19 @@ Array [
               "vihv",
               "viga",
               "viba",
+              "pus03",
               "pus05",
               "pus11",
+              "pus12",
+              "pus13",
+              "pus14",
+              "pus15",
+              "pus18",
+              "pus19",
+              "pus140",
+              "pus142",
+              "pus144",
+              "pusmme",
             ],
             "name": "Any VIMA views",
           },
@@ -225,6 +313,12 @@ Array [
           },
           Object {
             "extensions": Array [
+              "pus03",
+            ],
+            "name": "PUS03View",
+          },
+          Object {
+            "extensions": Array [
               "pus05",
             ],
             "name": "PUS05View",
@@ -234,6 +328,66 @@ Array [
               "pus11",
             ],
             "name": "PUS11View",
+          },
+          Object {
+            "extensions": Array [
+              "pus12",
+            ],
+            "name": "PUS12View",
+          },
+          Object {
+            "extensions": Array [
+              "pus13",
+            ],
+            "name": "PUS13View",
+          },
+          Object {
+            "extensions": Array [
+              "pus14",
+            ],
+            "name": "PUS14View",
+          },
+          Object {
+            "extensions": Array [
+              "pus15",
+            ],
+            "name": "PUS15View",
+          },
+          Object {
+            "extensions": Array [
+              "pus18",
+            ],
+            "name": "PUS18View",
+          },
+          Object {
+            "extensions": Array [
+              "pus19",
+            ],
+            "name": "PUS19View",
+          },
+          Object {
+            "extensions": Array [
+              "pus140",
+            ],
+            "name": "PUS140View",
+          },
+          Object {
+            "extensions": Array [
+              "pus142",
+            ],
+            "name": "PUS142View",
+          },
+          Object {
+            "extensions": Array [
+              "pus144",
+            ],
+            "name": "PUS144View",
+          },
+          Object {
+            "extensions": Array [
+              "pusmme",
+            ],
+            "name": "PUSMMEView",
           },
         ],
       },

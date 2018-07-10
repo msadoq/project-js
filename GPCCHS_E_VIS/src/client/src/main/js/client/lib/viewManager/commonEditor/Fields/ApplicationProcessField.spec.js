@@ -1,6 +1,7 @@
-import ApplicationProcessField, { findAPID } from 'viewManager/commonEditor/Fields/ApplicationProcessField';
+import ApplicationProcessField from 'viewManager/commonEditor/Fields/ApplicationProcessField';
 import { REQUESTING } from 'store/reducers/apids';
 import { shallowRenderSnapshot } from '../../../common/jest/utils';
+import { VM_VIEW_PUS11 } from '../../constants';
 
 const propsStub = {
   apids: [{
@@ -13,6 +14,7 @@ const propsStub = {
     }],
   }],
   askApids: () => null,
+  pusType: VM_VIEW_PUS11,
 };
 
 describe('viewManager :: commonEditor :: Fields :: ApplicationProcessField', () => {
@@ -23,19 +25,4 @@ describe('viewManager :: commonEditor :: Fields :: ApplicationProcessField', () 
     const propsStub2 = { ...propsStub, apids: REQUESTING };
     shallowRenderSnapshot(ApplicationProcessField, propsStub2, {});
   });
-});
-
-describe('application process field', () => {
-  const apids = [
-    { apidName: 'TIMEPACKET', apidRawValue: 0 },
-    { apidName: 'ATTITUDE', apidRawValue: 1 },
-  ];
-  it('should find the corresponding apid', () => {
-    expect(findAPID(apids, 'ATTITUDE')).toEqual({ apidName: 'ATTITUDE', apidRawValue: 1 });
-  });
-  [undefined, null, '', 'foo'].map(test =>
-    it('should find nothing', () => {
-      expect(findAPID(apids, test)).toEqual(undefined);
-    })
-  );
 });

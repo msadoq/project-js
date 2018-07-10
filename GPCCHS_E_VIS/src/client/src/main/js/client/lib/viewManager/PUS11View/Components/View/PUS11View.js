@@ -286,7 +286,7 @@ export const renderHeaders = (
 );
 
 export const isValid = (apids, applicationProcessId) =>
-  apids && apids.length > 0 && typeof applicationProcessId === 'number'
+  Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
 ;
 
 export const renderInvald = error => (

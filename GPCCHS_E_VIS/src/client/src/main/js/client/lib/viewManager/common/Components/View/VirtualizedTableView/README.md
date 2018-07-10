@@ -96,8 +96,6 @@ Le composant `VirtualizedTableView` prend en paramètres les propriétés suivan
   à la colonne dans le fichier de configuration `prepareViewForStore.js`.
   - `columnWidth` (default 220): définit la largeur fixe d'une colonne du tableau
   - `rowHeight` (default 22): définit la hauteur d'une cellule
-  - `pauseOnScroll`: définit s'il faut ou non dispatcher une action de pause lorsqu'on réalise
-  un scroll vertical.
   
 _Remarques_
 - _Chaque cellule du tableau correspond à un objet ayant au moins la propriété 'value' qui correspond
@@ -174,7 +172,6 @@ Utilisation du composant :
 	  rows={data}
 	  withGroups
 	  overrideStyle={_overrideStyle}
-	  pauseOnScroll
 	/>
 ``` 
 Dans ce cas particulier, cela permet d'ajouter une bordure aux cellules correspondant à

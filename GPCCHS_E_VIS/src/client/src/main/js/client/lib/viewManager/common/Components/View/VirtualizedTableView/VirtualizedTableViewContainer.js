@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import {
   filterColumn,
   toggleColumnSort,
-  saveScrollTop,
 } from 'store/actions/tableColumns';
-import { pause } from 'store/actions/hsc';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
 import { getViewType } from '../../../../../store/reducers/views';
@@ -81,14 +79,7 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseOnScroll }) => ({
-  onScrollTop: (scrollTop) => {
-    if (pauseOnScroll) {
-      dispatch(pause());
-    }
-
-    dispatch(saveScrollTop(viewId, tableId, scrollTop));
-  },
+const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => ({
   onFilter: (col, value, filters) => {
     dispatch(filterColumn(viewId, tableId, col, value, filters));
   },

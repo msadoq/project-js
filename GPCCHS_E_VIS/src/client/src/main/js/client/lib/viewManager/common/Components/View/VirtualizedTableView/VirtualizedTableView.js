@@ -36,7 +36,6 @@ class VirtualizedTableView extends React.Component {
     onCellDoubleClick: PropTypes.func.isRequired,
     sortState: PropTypes.shape(),
     filterState: PropTypes.shape(),
-    scrollTopOffset: PropTypes.number,
     onScrollTop: PropTypes.func.isRequired,
     overrideStyle: PropTypes.func,
   };
@@ -53,7 +52,6 @@ class VirtualizedTableView extends React.Component {
     withGroups: false,
     sortState: {},
     filterState: {},
-    scrollTopOffset: 0,
     overrideStyle: () => ({}),
   };
 
@@ -128,7 +126,6 @@ class VirtualizedTableView extends React.Component {
       onCellDoubleClick,
       sortState,
       filterState,
-      scrollTopOffset,
       overrideStyle,
       onScrollTop,
       columnCount,
@@ -434,18 +431,15 @@ class VirtualizedTableView extends React.Component {
                           scrollLeft,
                           scrollTop,
                         }
-                      ) => {
-                        const updatedScrollTop = scrollTop || scrollTopOffset;
-
-                        return (
-                          <div className={styles.GridRow}>
-                            {bodyCellOverlay}
-                            <div className={styles.GridColumn}>
-                              <ArrowKeyStepper
-                                columnCount={columnCount}
-                                rowCount={updatedRowCount}
-                              >
-                                {
+                      ) => (
+                        <div className={styles.GridRow}>
+                          {bodyCellOverlay}
+                          <div className={styles.GridColumn}>
+                            <ArrowKeyStepper
+                              columnCount={columnCount}
+                              rowCount={updatedRowCount}
+                            >
+                              {
                                   ({ onSectionRendered, scrollToColumn, scrollToRow }) => (
                                     <div>
                                       {
@@ -458,7 +452,7 @@ class VirtualizedTableView extends React.Component {
                                             columnWidth={columnWidth}
                                             rowHeight={rowHeight}
                                             scrollLeft={scrollLeft}
-                                            scrollTop={updatedScrollTop}
+                                            scrollTop={scrollTop}
                                             columnCount={columnCount}
                                             rowCount={1}
                                             overscanColumnCount={overscanColumnCount}
@@ -475,7 +469,7 @@ class VirtualizedTableView extends React.Component {
                                         columnWidth={columnWidth}
                                         rowHeight={extendedRowHeight}
                                         scrollLeft={scrollLeft}
-                                        scrollTop={updatedScrollTop}
+                                        scrollTop={scrollTop}
                                         columnCount={columnCount}
                                         rowCount={1}
                                         overscanColumnCount={overscanColumnCount}
@@ -491,7 +485,7 @@ class VirtualizedTableView extends React.Component {
                                         columnWidth={columnWidth}
                                         rowHeight={rowHeight}
                                         scrollLeft={scrollLeft}
-                                        scrollTop={updatedScrollTop}
+                                        scrollTop={scrollTop}
                                         columnCount={columnCount}
                                         rowCount={1}
                                         overscanColumnCount={overscanColumnCount}
@@ -509,15 +503,8 @@ class VirtualizedTableView extends React.Component {
                                         columnCount={columnCount}
                                         rowCount={updatedRowCount}
                                         scrollLeft={scrollLeft}
-                                        scrollTop={updatedScrollTop}
-                                        onScroll={(...args) => {
-                                          const nextScrollTop = args[0].scrollTop;
-
-                                          if (scrollTop !== nextScrollTop) {
-                                            onScrollTop(nextScrollTop);
-                                          }
-                                          onScroll(...args);
-                                        }}
+                                        scrollTop={scrollTop}
+                                        onScroll={onScroll}
                                         overscanColumnCount={overscanColumnCount}
                                         overscanRowCount={overscanRowCount}
                                         onSectionRendered={onSectionRendered}
@@ -527,11 +514,10 @@ class VirtualizedTableView extends React.Component {
                                     </div>
                                   )
                                 }
-                              </ArrowKeyStepper>
-                            </div>
+                            </ArrowKeyStepper>
                           </div>
-                        );
-                      }
+                        </div>
+                        )
                     }
                   </ScrollSync>
                 </div>

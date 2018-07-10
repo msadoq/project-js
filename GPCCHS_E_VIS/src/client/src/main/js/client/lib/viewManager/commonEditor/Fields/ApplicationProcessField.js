@@ -45,7 +45,7 @@ export default class ApplicationProcessField extends PureComponent {
 
   requestApids = (props) => {
     const { domainId, sessionId, applicationProcesses, askApids } = props;
-    if (!!(domainId && sessionId) && applicationProcesses === null) {
+    if (domainId !== null && sessionId !== null && applicationProcesses === null) {
       askApids(domainId, sessionId);
     }
   };
@@ -58,7 +58,7 @@ export default class ApplicationProcessField extends PureComponent {
 
   render() {
     const { domainId, sessionId, pusType } = this.props;
-    const disabled = (!domainId || !sessionId);
+    const disabled = domainId === null || sessionId === null;
     const applicationProcessOptions = _map(this.props.applicationProcesses, ap => ({
       name: ap.apidName,
     }));

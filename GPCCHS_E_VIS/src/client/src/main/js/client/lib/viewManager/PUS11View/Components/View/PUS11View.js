@@ -11,69 +11,124 @@ const popoverStyle = {
   height: '80px !important',
 };
 
-// @todo hbenjelloun implement
-const bodyCellsCommands = [
-  {
-    label: 'commandSsId',
-    onHover: () => console.log('tooltip commandSsid. Use lastUpdateModeCommandId & lastUpdateTimeCommandId'),
+const _addTooltipWithContent = (cellContent, content, keys) => ({
+  ...cellContent,
+  tooltip: {
+    body: _createTableData(keys.reduce((acc, cur) => ({
+      ...acc,
+      [cur]: content[cur],
+    }), {})),
   },
-  {
-    label: 'commandGroundStatus',
-    onHover: () => console.log('tooltip command commandGroundStatus. Use lastUpdateTimeBinProf & lastUpdateTimeGroundStatus'),
-  },
-  {
-    label: 'status',
-    onHover: () => console.log('tooltip command status. Use lastUpdateModeStatus & lastUpdateTimeStatus'),
-  },
-  {
-    label: 'currentExecutionTime',
-    onHover: () => console.log('tooltip command currentExecutionTime. Use lastUpdateModeCurrentExecTime & lastUpdateTimeCurrentExecTime'),
-  },
-  {
-    label: 'initialExecutionTime',
-    onHover: () => console.log('tooltip command initialExecutionTime. Use lastUpdateModeInitialExecTime & lastUpdateTimeInitialExecTime'),
-  },
-  {
-    label: 'totalTimeShiftOffset',
-    onHover: () => console.log('tooltip command totalTimeShiftOffset. Use lastUpdateModeTotalTimeShiftOffset & lastUpdateTimeTotalTimeShiftOffset'),
-  },
-  {
-    label: 'Popin ==> PUS11Modal',
-    onDbleClick: () => console.log('open popin with content depending on each line... use commandBinaryProfile, lastUpdateModeBinProf,lastUpdateTimeBinProf, pus011CommandParameters & pus011TimeShift'),
-  },
-];
+});
 
-// @todo hbenjelloun implement
-const bodyCellsEnabledApids = [
-  {
-    label: 'apid',
-    onHover: () => console.log('tooltip apid. Use lastUpdateModeApid & lastUpdateTimeApid'),
-  },
-];
+const _createTableData =
+  obj => (
+    <table>
+      {
+        Object.keys(obj).map(
+          key => (
+            <tr>
+              <td>{key}</td>
+              <td>{obj[key]}</td>
+            </tr>
+          )
+        )
+      }
+    </table>
+  );
 
-// @todo hbenjelloun implement
-const bodyCellsSubSchedules = [
-  {
-    label: 'ssId',
-    onHover: () => console.log('tooltip ssId. Use lastUpdateModeSubScheduleId & lastUpdateTimeSubscheduleId'),
-  },
-  {
-    label: 'status',
-    onHover: () => console.log('tooltip status. Use lastUpdateModeStatus & lastUpdateTimeStatus'),
-  },
-];
+const _commandContentModifier = (cellContent = {}, content = {}) => {
+  const { colKey } = content;
+
+  switch (colKey) {
+    case 'commandSsId':
+      return _addTooltipWithContent(
+        cellContent,
+        content,
+        ['lastUpdateModeCommandId', 'lastUpdateTimeCommandId']
+      );
+    case 'commandGroundStatus':
+      return _addTooltipWithContent(
+        cellContent,
+        content,
+        ['lastUpdateTimeBinProf', 'lastUpdateTimeGroundStatus']
+      );
+    case 'status':
+      return _addTooltipWithContent(
+        cellContent,
+        content,
+        ['lastUpdateModeStatus', 'lastUpdateTimeStatus']
+      );
+    case 'currentExecutionTime':
+      return _addTooltipWithContent(
+        cellContent,
+        content,
+        ['lastUpdateModeCurrentExecTime', 'lastUpdateTimeCurrentExecTime']
+      );
+    case 'initialExecutionTime':
+      return _addTooltipWithContent(
+        cellContent,
+        content,
+        ['lastUpdateModeCurrentExecTime', 'lastUpdateTimeInitialExecTime']
+      );
+    case 'totalTimeShiftOffset':
+      return _addTooltipWithContent(
+        cellContent,
+        content,
+        ['lastUpdateModeTotalTimeShiftOffset', 'lastUpdateTimeTotalTimeShiftOffset']
+      );
+    default:
+      return cellContent;
+  }
+};
+
+const _enabledApidsContentModifier = (cellContent = {}, content = {}) => {
+  const { colKey } = content;
+
+  switch (colKey) {
+    case 'apid':
+      return _addTooltipWithContent(
+        cellContent,
+        content,
+        ['lastUpdateModeApid', 'lastUpdateTimeApid']
+      );
+    default:
+      return cellContent;
+  }
+};
+
+const _subSchedulesContentModifier = (cellContent = {}, content = {}) => {
+  const { colKey } = content;
+
+  switch (colKey) {
+    case 'ssId':
+      return _addTooltipWithContent(
+        cellContent,
+        content,
+        ['lastUpdateModeSubScheduleId', 'lastUpdateTimeApid']
+      );
+    case 'status':
+      return _addTooltipWithContent(
+        cellContent,
+        content,
+        ['lastUpdateModeApid', 'lastUpdateTimeApid']
+      );
+    default:
+      return cellContent;
+  }
+};
 
 const backgroundDisabled = { backgroundColor: '#e67e22' };
 const backgroundEnabled = { backgroundColor: '#2ecc71' };
 const emptyObject = {};
 
 // apply background color to cells for which value is ENABLED or DISABLED
-export const overrideStyle = ({ content }) => ({
+export const overrideStyle = ({ content }) => ({ // apply only for status cols
   ...(
 // eslint-disable-next-line no-nested-ternary
     content.value === 'DISABLED'
-    ? backgroundDisabled
-    : content.value === 'ENABLED'
+      ? backgroundDisabled
+      : content.value === 'ENABLED'
       ? backgroundEnabled
       : emptyObject
   ),
@@ -168,8 +223,8 @@ export default class PUS11View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'subSchedules'}
-                bodyCellActions={bodyCellsSubSchedules}
                 overrideStyle={overrideStyle}
+                contentModifier={_subSchedulesContentModifier}
               />
             </div>
           </div>
@@ -178,8 +233,8 @@ export default class PUS11View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'enabledApids'}
-                bodyCellActions={bodyCellsEnabledApids}
                 overrideStyle={overrideStyle}
+                contentModifier={_enabledApidsContentModifier}
               />
             </div>
           </div>
@@ -188,8 +243,8 @@ export default class PUS11View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'commands'}
-                bodyCellActions={bodyCellsCommands}
                 overrideStyle={overrideStyle}
+                contentModifier={_commandContentModifier}
               />
             </div>
           </div>
@@ -277,7 +332,13 @@ export const renderHeaders = (
       >
         <span>
           Application Space&nbsp;
-          <input type="text" className="mw100" disabled value={spaceInNumberOfCommands ? noFreeCommands : freeSpace} />&nbsp;
+          <input
+            type="text"
+            className="mw100"
+            disabled
+            value={spaceInNumberOfCommands ? noFreeCommands : freeSpace}
+          />
+          &nbsp;
           {spaceInNumberOfCommands ? 'commands' : 'bytes'}
         </span>
       </OverlayTrigger>

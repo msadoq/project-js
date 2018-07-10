@@ -24,7 +24,7 @@ function pus11DataReducer(state = {}, action) {
        * action.payload: {
        *  timestamp: number,
        *  data: {
-       *    PUS14View: {
+       *    PUS11View: {
        *      pus011Model: {
        *        ...attributes
        *        pus011Apid: [],

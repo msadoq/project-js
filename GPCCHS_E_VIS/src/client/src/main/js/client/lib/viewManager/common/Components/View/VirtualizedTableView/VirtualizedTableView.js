@@ -108,7 +108,7 @@ class VirtualizedTableView extends React.Component {
       },
     });
   }
-  overrideStyle
+
   render() {
     const {
       tableName,

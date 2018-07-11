@@ -4,20 +4,12 @@
   <groupId>fr.cnes.lpisis.gpcc</groupId>
   <artifactId>gpcchs_parents_builder</artifactId>
   <packaging>pom</packaging>
-<<<<<<< HEAD
   <version>2.2.1-R12S1-SNAPSHOT</version>
-=======
-  <version>2.2.1-R12S1-SNAPSHOT</version>
->>>>>>> R11-dev
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis</groupId>
     <artifactId>isis-system</artifactId>
-<<<<<<< HEAD
     <version>2.2.1-R12S1-SNAPSHOT</version>
-=======
-    <version>2.2.1-R12S1-SNAPSHOT</version>
->>>>>>> R11-dev
     <relativePath/>
   </parent>
   <modules>

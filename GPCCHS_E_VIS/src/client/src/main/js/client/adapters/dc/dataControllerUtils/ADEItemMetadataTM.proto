@@ -1,0 +1,14 @@
+package dataControllerUtils.protobuf;
+
+import "./ADESgy";
+import "./ADEMonitoringItem";
+import "./ADECalibrationFunction";
+
+message ADEItemMetadataTM {
+extensions 10 to 102;
+    repeated ADESgy sgy = 1; // sgy = significativity
+    repeated ADEMonitoringItem monitoringItems = 2;
+    repeated string computedTriggers = 3;
+    repeated string computingDefinitions = 4;
+    repeated ADECalibrationFunction calibrationFunctions = 5;
+}

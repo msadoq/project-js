@@ -98,8 +98,8 @@ module.exports = (buffers, getStore) => {
           lastUpdateModeGroundStatus: 2, // Tooltip sur commandGroundStatus
           lastUpdateTimeGroundStatus: timestamp, // Tooltip sur commandGroundStatus
           commandStatus: 1, // A afficher dans le tableau Commands. Si 3 (DELETED), supprimer l’entrée du state
-          lastUpdateModeStatus: 2, // Tooltip sur status
-          lastUpdateTimeStatus: timestamp, // Tooltip sur status
+          lastUpdateModeStatus: 2, // Tooltip sur commandStatus
+          lastUpdateTimeStatus: timestamp, // Tooltip sur commandStatus
           currentExecutionTime: timestamp, // A afficher dans le tableau Commands
           lastUpdateModeCurrentExecTime: 1, // Tooltip sur currentExecutionTime
           lastUpdateTimeCurrentExecTime: timestamp, // Tooltip sur currentExecutionTime

@@ -1,7 +1,10 @@
 
 package dataControllerUtils.protobuf;
 
+import "./AliasRecord.proto";
 import "./ADEItemAlgorithm.proto";
+import "./ADEItemMetadataTM.proto";
+
 
 message ADEItemMetadata {
 extensions 10 to 102;
@@ -9,6 +12,8 @@ extensions 10 to 102;
     optional string comment = 2;
     optional string longDescription = 3;
     optional string shortDescription = 4;
-    optional string unit = 5;
-    optional ADEItemAlgorithm algorithm = 6;
+    repeated AliasRecord aliases = 5;
+    optional string unit = 6;
+    optional ADEItemAlgorithm algorithm = 7;
+    optional ADEItemMetadataTM tmMeta = 8;
 }

@@ -11,7 +11,7 @@ import VirtualizedTableViewContainer
 import styles from './PUS11View.css';
 
 const popoverStyle = {
-  height: '80px !important',
+  height: 80,
 };
 
 const _addTooltipWithContent = (cellContent, content, displayObj) => {
@@ -422,14 +422,15 @@ export default class PUS11View extends React.Component {
 export const generatePopover = ({ id, title, time, mode }) => (
   <Popover
     id={id}
-    placement="top"
+    placement="bottom"
     title={title}
     style={popoverStyle}
   >
     <div>Last update Time: {time}</div>
     <div>Last update mode: {mode}</div>
   </Popover>
-);
+  );
+
 generatePopover.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
@@ -462,7 +463,7 @@ export const renderHeaders = (
     <div className="info col-sm-4 pus11_ss">
       <OverlayTrigger
         trigger={popoverTrigger}
-        placement="top"
+        placement="bottom"
         overlay={generatePopover({
           id: 'popover-service-apid',
           title: 'Schedule Status',
@@ -480,7 +481,7 @@ export const renderHeaders = (
     <div className="info col-sm-4 pus11_as">
       <OverlayTrigger
         trigger={popoverTrigger}
-        placement="top"
+        placement="bottom"
         overlay={generatePopover({
           id: 'popover-commands',
           title: (spaceInNumberOfCommands ? 'Free Commands' : 'Free Bytes'),

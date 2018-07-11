@@ -7,7 +7,7 @@
 <<<<<<< HEAD
   <version>2.2.1-R12S1-SNAPSHOT</version>
 =======
-  <version>2.2.0-R11S2-SNAPSHOT</version>
+  <version>2.2.1-R12S1-SNAPSHOT</version>
 >>>>>>> R11-dev
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
@@ -16,7 +16,7 @@
 <<<<<<< HEAD
     <version>2.2.1-R12S1-SNAPSHOT</version>
 =======
-    <version>2.2.0-R11S2-SNAPSHOT</version>
+    <version>2.2.1-R12S1-SNAPSHOT</version>
 >>>>>>> R11-dev
     <relativePath/>
   </parent>

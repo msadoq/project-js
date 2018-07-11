@@ -1,6 +1,6 @@
-
 // const { decode, getType } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers:PUS:onInitialize');
+const _chunk = require('lodash/chunk');
 
 const { incomingPus } = require('store/actions/pus');
 const { VM_VIEW_PUS11, VM_VIEW_PUS14 } = require('viewManager/constants');
@@ -78,7 +78,20 @@ module.exports = (buffers, getStore) => {
           serviceApid: 100, // inutilisé dans la vue
           lastUpdateModeCommandId: 2, // Tooltip sur commandSsId
           lastUpdateTimeCommandId: timestamp, // Tooltip sur commandSsId
-          commandBinaryProfile: 'Buffer.alloc(4, 1)', // A afficher dans la popin
+          commandBinaryProfile: _chunk(
+            Buffer.from(
+              [
+                0xAA, 0x75, 0x66, 0x66, 0x65, 0x72, 0x65, 0x72,
+                0xAA, 0x75, 0x66, 0x66, 0x65, 0x72, 0x65, 0x72,
+                0xAA, 0x75, 0x66, 0x66, 0x65, 0x72, 0x65, 0x72,
+                0xAA, 0x75, 0x66, 0x66, 0x65, 0x72, 0x65, 0x72,
+                0xAA, 0x75, 0x66, 0x66, 0x65, 0x72, 0x65, 0x72,
+                0xAA, 0x75, 0x66, 0x66, 0x65, 0x72, 0x65, 0x72,
+                0xAA, 0x75, 0x66, 0x66, 0x65, 0x72, 0x65, 0x72,
+                0xAA, 0x75, 0x66, 0x66, 0x65, 0x72, 0x65, 0x72,
+              ],
+              'hex'),
+            8), // A afficher dans la popin
           lastUpdateModeBinProf: 2, // Tooltip dans la popin
           lastUpdateTimeBinProf: timestamp, // Tooltip dans la popin
           commandGroundStatus: 1, // A afficher dans le tableau Commands

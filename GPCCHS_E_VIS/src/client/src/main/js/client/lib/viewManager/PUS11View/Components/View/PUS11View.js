@@ -313,6 +313,7 @@ export default class PUS11View extends React.Component {
       apidName: PropTypes.string,
       apidRawValue: PropTypes.string,
     })),
+    onCommandCellDoubleClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -351,6 +352,7 @@ export default class PUS11View extends React.Component {
       serviceApidName,
       apids,
       viewId,
+      onCommandCellDoubleClick,
     } = this.props;
 
     if (!isValid(apids, serviceApid)) {
@@ -403,6 +405,7 @@ export default class PUS11View extends React.Component {
                 tableId={'commands'}
                 overrideStyle={_commandsOverrideStyle}
                 contentModifier={_commandContentModifier}
+                onCellDoubleClick={onCommandCellDoubleClick}
               />
             </div>
           </div>
@@ -429,7 +432,7 @@ export const generatePopover = ({ id, title, time, mode }) => (
     <div>Last update Time: {time}</div>
     <div>Last update mode: {mode}</div>
   </Popover>
-  );
+);
 
 generatePopover.propTypes = {
   id: PropTypes.string.isRequired,

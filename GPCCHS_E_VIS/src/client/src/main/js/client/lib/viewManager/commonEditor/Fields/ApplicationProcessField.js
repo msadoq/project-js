@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { PUS_CONSTANTS } from 'constants';
+import parameters from 'common/configurationManager';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import _getOr from 'lodash/fp/getOr';
 import _map from 'lodash/map';
@@ -95,6 +95,7 @@ export const filterAPIDs = (applicationProcesses, apidNames) =>
  */
 // eslint-disable-next-line import/prefer-default-export
 export const computeApplicationProcessOptions = (list, pusType) => {
+  const PUS_CONSTANTS = parameters.get('PUS_CONSTANTS');
   const apids = _getOr([], ['ENABLED_SERVICE_APIDS', pusType], PUS_CONSTANTS);
   if (apids.length === 0) {
     throw new Error(`Invalid configuration detected. No service apids defined for view ${pusType}. Please check sections PUS_CONSTANTS.ENABLED_SERVICE_APIDS`);

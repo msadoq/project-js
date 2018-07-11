@@ -8,13 +8,12 @@
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 import _ from 'lodash/fp';
+import parameters from 'common/configurationManager';
 
 import { VM_VIEW_PUS11 } from '../../constants';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
 import { INJECT_PUS_DATA } from '../../../store/types';
 import { injectTabularData } from '../../commonData/reducer';
-
-const constants = require('constants');
 
 // eslint-disable-next-line no-unused-vars
 function pus11DataReducer(state = {}, action) {
@@ -26,10 +25,10 @@ function pus11DataReducer(state = {}, action) {
        *  data: {
        *    PUS11View: {
        *      pus011Model: {
-       *        ...attributes
        *        pus011Apid: [],
        *        pus011SubSchedule: [],
        *        pus011Command: [],
+       *        ...rest
        *      },
        *    },
        *  },
@@ -41,7 +40,10 @@ function pus11DataReducer(state = {}, action) {
       }
       let updatedState = state;
 
-      // strip tables from data dans add them to updatedState
+      const statuses = parameters.get('PUS_CONSTANTS').STATUS;
+      const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
+
+      // keep all except tabular data
       updatedState = {
         ...updatedState,
         ..._.omit(
@@ -55,9 +57,9 @@ function pus11DataReducer(state = {}, action) {
         _.getOr([], ['pus011Model', 'pus011SubSchedule'], data)
           .map(subSchedule => ({
             ...subSchedule,
-            status: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'status', subSchedule)], // map schedule status constant
-            lastUpdateModeSubScheduleId: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeSubScheduleId', subSchedule)], // map schedule lastUpdateModeSubScheduleId constant
-            lastUpdateModeStatus: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeStatus', subSchedule)], // map schedule lastUpdateModeStatus constant
+            status: statuses[_.getOr(200, 'status', subSchedule)], // map schedule status constant
+            lastUpdateModeSubScheduleId: updateTypes[_.getOr(200, 'lastUpdateModeSubScheduleId', subSchedule)], // map schedule lastUpdateModeSubScheduleId constant
+            lastUpdateModeStatus: updateTypes[_.getOr(200, 'lastUpdateModeStatus', subSchedule)], // map schedule lastUpdateModeStatus constant
           }))
       );
       updatedState = injectTabularData(updatedState, 'enabledApids',
@@ -65,30 +67,30 @@ function pus11DataReducer(state = {}, action) {
           .filter(enabledApid => enabledApid.status !== 1) // filter disabled apids
           .map(enabledApid => ({
             ...enabledApid,
-            status: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'status', enabledApid)], // map schedule status constant
-            lastUpdateModeApid: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeApid', enabledApid)], // map schedule lastUpdateModeApid constant
+            status: statuses[_.getOr(200, 'status', enabledApid)], // map schedule status constant
+            lastUpdateModeApid: updateTypes[_.getOr(200, 'lastUpdateModeApid', enabledApid)], // map schedule lastUpdateModeApid constant
           }))
       );
       updatedState = injectTabularData(updatedState, 'commands',
         _.getOr([], ['pus011Model', 'pus011Command'], data)
         .map(command => ({
           ...command,
-          lastUpdateModeCommandId: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeCommandId', command)], // map schedule lastUpdateModeCommandId constant
-          lastUpdateModeBinProf: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeBinProf', command)], // map schedule lastUpdateModeBinProf constant
-          commandStatus: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'commandStatus', command)], // map schedule commandStatus constant
-          lastUpdateModeGroundStatus: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeGroundStatus', command)], // map schedule lastUpdateModeGroundStatus constant
-          commandGroundStatus: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
-          lastUpdateModeStatus: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeStatus', command)], // map schedule lastUpdateModeStatus constant
-          lastUpdateModeCurrentExecTime: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeCurrentExecTime', command)], // map schedule lastUpdateModeCurrentExecTime constant
-          lastUpdateModeInitialExecTime: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeInitialExecTime', command)], // map schedule lastUpdateModeInitialExecTime constant
-          lastUpdateModeTotalTimeShiftOffset: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeTotalTimeShiftOffset', command)], // map schedule lastUpdateModeTotalTimeShiftOffset constant
+          lastUpdateModeCommandId: updateTypes[_.getOr(200, 'lastUpdateModeCommandId', command)], // map schedule lastUpdateModeCommandId constant
+          lastUpdateModeBinProf: updateTypes[_.getOr(200, 'lastUpdateModeBinProf', command)], // map schedule lastUpdateModeBinProf constant
+          commandStatus: statuses[_.getOr(200, 'commandStatus', command)], // map schedule commandStatus constant
+          lastUpdateModeGroundStatus: updateTypes[_.getOr(200, 'lastUpdateModeGroundStatus', command)], // map schedule lastUpdateModeGroundStatus constant
+          commandGroundStatus: statuses[_.getOr(200, 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
+          lastUpdateModeStatus: updateTypes[_.getOr(200, 'lastUpdateModeStatus', command)], // map schedule lastUpdateModeStatus constant
+          lastUpdateModeCurrentExecTime: updateTypes[_.getOr(200, 'lastUpdateModeCurrentExecTime', command)], // map schedule lastUpdateModeCurrentExecTime constant
+          lastUpdateModeInitialExecTime: updateTypes[_.getOr(200, 'lastUpdateModeInitialExecTime', command)], // map schedule lastUpdateModeInitialExecTime constant
+          lastUpdateModeTotalTimeShiftOffset: updateTypes[_.getOr(200, 'lastUpdateModeTotalTimeShiftOffset', command)], // map schedule lastUpdateModeTotalTimeShiftOffset constant
           pus011CommandParameters: command.pus011CommandParameters.map(commandParameter => ({
             ...commandParameter,
-            lastUpdateMode: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateMode', commandParameter)], // map pus011CommandParameters lastUpdateMode constant
+            lastUpdateMode: updateTypes[_.getOr(200, 'lastUpdateMode', commandParameter)], // map pus011CommandParameters lastUpdateMode constant
           })),
           pus011TimeShift: command.pus011TimeShift.map(timeShift => ({
             ...timeShift,
-            lastUpdateMode: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateMode', timeShift)], // map pus011TimeShift lastUpdateMode constant
+            lastUpdateMode: updateTypes[_.getOr(200, 'lastUpdateMode', timeShift)], // map pus011TimeShift lastUpdateMode constant
           })),
         }))
       );

@@ -1,0 +1,8 @@
+package dataControllerUtils.protobuf;
+
+message ADEMonitoringLaw {
+	required string type = 1;
+	optional string expectedValue = 2;  //  (monitoringType == onBoard) || (monitoringType == functional)
+    optional string maskType = 3;       //  (monitoringType == onBoard) || (monitoringType == functional)
+    optional string applicationCondition = 4; // monitoringType == onGround
+}

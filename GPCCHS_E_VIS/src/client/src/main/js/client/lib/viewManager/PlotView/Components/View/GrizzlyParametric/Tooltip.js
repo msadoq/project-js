@@ -439,7 +439,7 @@ export default class Tooltip extends React.Component {
                                     `${configurationXAxisId(plotViewConfigurationLines, line.id)}-x`
                                   ](line.x)
                                 }
-                                {' '}
+                                  {' '}
                                 Y : { line.y }
                                 </span>
                               </p>

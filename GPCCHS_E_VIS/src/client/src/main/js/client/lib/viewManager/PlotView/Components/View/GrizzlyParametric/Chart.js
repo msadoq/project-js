@@ -680,33 +680,33 @@ export default class Chart extends React.Component {
     return (
       <ErrorBoundary>
         <div
-        className={styles.container}
-        onWheel={this.onWheel}
-        onMouseDown={this.onMouseDown}
-        style={{
-          ...additionalStyle,
-          height,
-          width,
-        }}
-        ref={this.assignEl}
-      >
-        <Reset
-          yAxesAt={yAxesAt}
-          xAxisAt={xAxisAt}
-          yAxesUniq={this.yAxesUniq}
-          xAxesUniq={this.xAxesUniq}
-          resetPan={this.resetPan}
-          resetZoomLevel={this.resetZoomLevel}
-          resetPanAndZoom={this.resetPanAndZoom}
-          zoomLevels={this.state.zoomLevels}
-          pans={this.state.pans}
-          divStyle={this.divStyle}
-        />
-        <div
-          className={classnames('Background', styles.Background)}
-          style={this.divStyle}
-        />
-        {
+          className={styles.container}
+          onWheel={this.onWheel}
+          onMouseDown={this.onMouseDown}
+          style={{
+            ...additionalStyle,
+            height,
+            width,
+          }}
+          ref={this.assignEl}
+        >
+          <Reset
+            yAxesAt={yAxesAt}
+            xAxisAt={xAxisAt}
+            yAxesUniq={this.yAxesUniq}
+            xAxesUniq={this.xAxesUniq}
+            resetPan={this.resetPan}
+            resetZoomLevel={this.resetZoomLevel}
+            resetPanAndZoom={this.resetPanAndZoom}
+            zoomLevels={this.state.zoomLevels}
+            pans={this.state.pans}
+            divStyle={this.divStyle}
+          />
+          <div
+            className={classnames('Background', styles.Background)}
+            style={this.divStyle}
+          />
+          {
           ['left', 'right'].includes(yAxesAt) && this.yAxesUniq.map((yAxis, index) =>
             <YAxis
               key={yAxis.id}
@@ -743,7 +743,7 @@ export default class Chart extends React.Component {
             />
           )
         }
-        {
+          {
           ['top', 'bottom'].includes(xAxisAt) && this.xAxesUniq.map((xAxis, index) =>
             <XAxis
               key={xAxis.id}
@@ -780,7 +780,7 @@ export default class Chart extends React.Component {
             />
           )
         }
-        {
+          {
           Object.keys(this.pairs).map((key) => {
             const pair = this.pairs[key];
             return (
@@ -804,7 +804,7 @@ export default class Chart extends React.Component {
             );
           })
         }
-        {
+          {
           !parametric && this.xAxesUniq[0] &&
           <CurrentCursorCanvas
             current={current}
@@ -814,7 +814,7 @@ export default class Chart extends React.Component {
             xScale={this.xAxesUniq[0].scale}
           />
         }
-        {
+          {
           enableTooltip &&
           <Tooltip
             tooltipColor={tooltipColor}
@@ -828,35 +828,37 @@ export default class Chart extends React.Component {
             yAxisWidth={this.yAxisWidth}
             xAxisHeight={this.xAxisHeight}
             divStyle={this.divStyle}
-            plotViewConfigurationLines={this.props.lines}/>
-        }
-        {
-          <Zones
-            allowXPan={allowXPan}
-            allowYPan={allowYPan}
-            shiftPressed={shiftPressed}
-            lassoX={lassoX}
-            lassoY={lassoY}
-            lassoOriginX={lassoOriginX}
-            lassoOriginY={lassoOriginY}
-            lassoing={lassoing}
-            yAxes={this.yAxesUniq}
-            xAxes={this.xAxesUniq}
-            xAxisHeight={this.xAxisHeight}
-            yAxisWidth={this.yAxisWidth}
-            yAxesAt={yAxesAt}
-            xAxesAt={xAxisAt}
-            yAxesInteractive={allowYZoom || allowYPan}
-            xAxesInteractive={allowXZoom || allowXPan}
-            height={height}
-            width={width}
-            divStyle={this.divStyle}
-            setPan={this.setPan}
-            pans={this.state.pans}
-            zoomLevels={this.state.zoomLevels}
+            plotViewConfigurationLines={this.props.lines}
           />
         }
-      </div></ErrorBoundary>
+          {
+            <Zones
+              allowXPan={allowXPan}
+              allowYPan={allowYPan}
+              shiftPressed={shiftPressed}
+              lassoX={lassoX}
+              lassoY={lassoY}
+              lassoOriginX={lassoOriginX}
+              lassoOriginY={lassoOriginY}
+              lassoing={lassoing}
+              yAxes={this.yAxesUniq}
+              xAxes={this.xAxesUniq}
+              xAxisHeight={this.xAxisHeight}
+              yAxisWidth={this.yAxisWidth}
+              yAxesAt={yAxesAt}
+              xAxesAt={xAxisAt}
+              yAxesInteractive={allowYZoom || allowYPan}
+              xAxesInteractive={allowXZoom || allowXPan}
+              height={height}
+              width={width}
+              divStyle={this.divStyle}
+              setPan={this.setPan}
+              pans={this.state.pans}
+              zoomLevels={this.state.zoomLevels}
+            />
+        }
+        </div>
+      </ErrorBoundary>
     );
   }
 }

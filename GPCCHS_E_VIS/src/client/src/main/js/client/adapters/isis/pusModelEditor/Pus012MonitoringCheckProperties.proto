@@ -1,0 +1,33 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/ULONG.proto";
+
+
+package pusModelEditor.protobuf;
+
+message Pus012MonitoringCheckProperties {
+extensions 22 to 122;
+
+  optional ccsds_mal.protobuf.UINTEGER rid = 1;
+  optional ccsds_mal.protobuf.STRING ridLabel = 2;
+  optional ccsds_mal.protobuf.UINTEGER ridStatus = 3;
+  optional ccsds_mal.protobuf.UINTEGER actionStatus = 4;
+  optional ccsds_mal.protobuf.STRING actionName = 5;
+  optional ccsds_mal.protobuf.STRING mask = 6;
+  optional ccsds_mal.protobuf.STRING value = 7;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeRid = 8;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeRid = 9;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeActionStatus = 10;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeActionStatus = 11;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeRidStatus = 12;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeRidStatus = 13;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeMask = 14;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeMask = 15;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValue = 16;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValue = 17;
+  optional ccsds_mal.protobuf.UINTEGER actionTcApid = 18;
+  optional ccsds_mal.protobuf.UINTEGER actionTcType = 19;
+  optional ccsds_mal.protobuf.UINTEGER actionTcSubType = 20;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 21;
+}

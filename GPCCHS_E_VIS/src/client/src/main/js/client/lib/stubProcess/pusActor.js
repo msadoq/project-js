@@ -35,17 +35,16 @@ const nextPusActorCall = () => {
 
 const onMessage = (...args) => {
   const header = adapter.decode('isis.pusModelEditor.HeaderStructure', args[0]);
-  console.log(header);
-  switch (header.method) {
+  switch (header.messageType.value) {
     case constants.PUS_INITIALIZE:
       logger.info('Received PUS INITIALIZE');
       // const decodedInit = adapter.decode('pusActor.pusUtils.PusInitialize', args[1]);
       sendMessage(
-        constants.PUS_ON_INITIALIZE,
+        constants.PUS_DATA,
         adapter.encode('isis.pusModelEditor.DataStructure', {
           dataType: 0,
           groundDate: Date.now(),
-          payload: stubData.getPus011ModelProtobuf(),
+          payload: undefined,
         })
       );
       break;

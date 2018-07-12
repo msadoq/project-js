@@ -6,16 +6,12 @@ const { getStore } = require('../../store');
 const { add: addMessage } = require('../../../store/actions/messages');
 const constants = require('../../../constants');
 
-const onCompare = require('./onCompare');
 const pusController = require('./pusController');
-const onPubSubData = require('./onPubSubData');
 
 const controllers = {
-  [constants.PUS_ON_COMPARE]: onCompare,
-  [constants.PUS_ON_INITIALIZE]: (args) => {
+  [constants.PUS_DATA]: (args) => {
     pusController(args, getStore);
   },
-  [constants.PUS_ON_PUBSUB]: onPubSubData,
 };
 
 module.exports = function pusActorController() {

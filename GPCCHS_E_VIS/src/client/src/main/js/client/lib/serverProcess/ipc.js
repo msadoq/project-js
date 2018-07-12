@@ -72,7 +72,7 @@ const getDcHeader = _memoize(
 /*----------------*/
 
 const getDcHeaderADE = (method, requestId) => encode('dc.dataControllerUtils.ADEHeader', { method, requestId });
-const getPusHeader = (messageType, { sessionId, domainId, pusService }) => encode('isis.pusModelEditor.HeaderStructure', { messageType: 0, sessionId, domainId, pusService });
+const getPusHeader = (messageType, { sessionId, domainId, pusService }) => encode('isis.pusModelEditor.HeaderStructure', { messageType, sessionId, domainId, pusService });
 
 const getDcDataId = _memoize(
   (flatDataId, dataId) => encode('dc.dataControllerUtils.DataId', dataId),

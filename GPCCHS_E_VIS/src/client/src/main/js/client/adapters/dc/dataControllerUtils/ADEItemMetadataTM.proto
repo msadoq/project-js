@@ -1,8 +1,8 @@
 package dataControllerUtils.protobuf;
 
-import "./ADESgy";
-import "./ADEMonitoringItem";
-import "./ADECalibrationFunction";
+import "./ADESgy.proto";
+import "./ADEMonitoringItem.proto";
+import "./ADECalibrationFunction.proto";
 
 message ADEItemMetadataTM {
 extensions 10 to 102;

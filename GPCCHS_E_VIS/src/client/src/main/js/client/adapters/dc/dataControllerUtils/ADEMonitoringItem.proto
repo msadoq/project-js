@@ -1,6 +1,6 @@
 package dataControllerUtils.protobuf;
 
-import "./ADEMonitoringLaw";
+import "./ADEMonitoringLaw.proto";
 
 message ADEMonitoringItem {
     required string itemName = 1;

@@ -8,9 +8,9 @@ const Builder = new ProtoBuf.Root()
 
 const getADEMonitoringLaw = override => applyOverride({
   type: 'ster',
-  expectedValue: '42',
-  maskType: 'bat',
-  applicationCondition: '',
+  // expectedValue: '42',
+  // maskType: 'bat',
+  // applicationCondition: 'sqdsqd',
 }, override);
 
 const getADEMonitoringLawProtobuf = override => {

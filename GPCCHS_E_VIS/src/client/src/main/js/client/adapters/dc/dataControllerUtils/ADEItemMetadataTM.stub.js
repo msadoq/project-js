@@ -2,7 +2,7 @@ const ProtoBuf = require('protobufjs');
 const applyOverride = require('../applyOverride');
 const Adapter = require('./ADEItemMetadataTM');
 
-const { getAdeSgy } = require('./ADESgy.stub');
+const { getADESgy } = require('./ADESgy.stub');
 const { getADEMonitoringItem } = require('./ADEMonitoringItem.stub');
 const { getADECalibrationFunction } = require('./ADECalibrationFunction.stub');
 
@@ -11,10 +11,10 @@ const Builder = new ProtoBuf.Root()
   .lookup('dataControllerUtils.protobuf.ADEItemMetadataTM');
 
 const getADEItemMetadataTM = override => applyOverride({
-  sgy: [getAdeSgy({})],
-  monitoringItems: [getADEMonitoringItem()],
+  sgy: [getADESgy()],
+  monitoringItems: [],
   computedTriggers: ['plic', 'plac', 'plouc'],
-  computedDefinitions: ['bif', 'baf', 'bof'],
+  computingDefinitions: ['bif', 'baf', 'bof'],
   calibrationFunctions: [getADECalibrationFunction()],
 }, override);
 

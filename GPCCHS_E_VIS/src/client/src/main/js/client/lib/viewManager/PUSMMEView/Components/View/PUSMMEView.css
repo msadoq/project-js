@@ -1,0 +1,8 @@
+
+.header {
+  margin: 10px;
+}
+
+.container {
+  height: calc(100% - 100px);
+}

@@ -220,6 +220,79 @@ module.exports = (buffers, getStore) => {
       uniqueId: 100, // Inutilisé dans la vue
     },
   };
+
+  const _generateMmePacket = () => (
+    {
+      sid: 100, // A afficher dans la vue
+      validityParameterId: 100, // A afficher dans la vue
+      validityParameterMask: 'myString', // A afficher dans la vue
+      validityParameterExpectedValue: 'myString', // A afficher dans la vue
+      collectionInterval: 'myString', // A afficher dans la vue
+      status: Math.floor(Math.random() * 2) + 1,  // only display enabled apids (2) and hide disabled (1)
+      sidLabel: 'myString', // A afficher dans la vue
+      lastUpdateModeSid: 100, // Tooltip sur sid & sidLabel
+      lastUpdateTimeSid: timestamp, // Tooltip sur sid & sidLabel
+      lastUpdateModeStatus: 1, // Tooltip sur status
+      lastUpdateTimeStatus: timestamp, // Tooltip sur status
+      lastUpdateModeValidParamId: 100, // Tooltip sur validityParameterId
+      lastUpdateTimeValidParamId: timestamp, // Tooltip sur validityParameterId
+      lastUpdateModeValidParamMask: 100, // Tooltip sur validityParameterMask
+      lastUpdateTimeValidParamMask: timestamp, // Tooltip sur validityParameterMask
+      lastUpdateModeValidParamExpValue: 100, // Tooltip sur validityParameterExpectedValue
+      lastUpdateTimeValidParamExpValue: timestamp, // Tooltip sur validityParameterExpectedValue
+      lastUpdateModeCollectInterval: 100, // Tooltip sur collectionInterval
+      lastUpdateTimeCollectInterval: timestamp, // Tooltip sur collectionInterval
+      packetName: 'myString', // A afficher dans la vue
+      validityParameterName: 'myString', // A afficher dans la vue, colonne Val. Param. Name
+      packetApid: 100, //  A afficher dans la vue, colonne Apid
+      packetApidName: 'myString', //  A afficher dans la vue, colonne AP Name
+      serviceApid: 100, // A afficher dans la vue
+      serviceApidName: 'myString', // A afficher dans la vue
+      uniqueId: 100, // Inutilisé dans la vue
+      generationMode: 'myString', // A afficher dans la vue
+      lastUpdateTimeGenMode: timestamp, // Tooltip sur generationMode
+      lastUpdateModeGenMode: 1, // Tooltip sur generationMode
+      packetType: 'myString', // A afficher dans la vue, colonne Type
+      forwardingStatusTypeSubtype: 1, // A afficher dans la vue
+      lastUpdateModeFwdStatusTypeSubtype: 1, // Tooltip sur forwardingStatusTypeSubtype
+      lastUpdateTimeFwdStatusTypeSubtype: timestamp, // Tooltip sur forwardingStatusTypeSubtype
+      forwardingStatusRidSid: 100,  // A afficher dans la vue
+      lastUpdateModeFwdStatusTypeRidSid: 100, // Tooltip sur forwardingStatusRidSid
+      lastUpdateTimeFwdStatusTypeRidSid: timestamp, // Tooltip sur forwardingStatusRidSid
+      lastUpdateModeSubSamplingRatio: 1, // Tooltip sur subsamplingRatio
+      lastUpdateTimeSubSamplingRatio: timestamp, // Tooltip sur subsamplingRatio
+      subsamplingRatio: 1, // A afficher dans la vue
+      pusMmePacketStore: [
+        {
+          storeName: 'myString',  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+          storeId: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+          storeStatus: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+          subSamplingRatio: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+          lastUpdateModeStoreId: 1, // Tooltip sur storeId
+          lastUpdateTimeStoreId: timestamp, // Tooltip sur storeId
+          lastUpdateModeStoreStatus: 1, // Tooltip sur storeStatus
+          lastUpdateTimeStoreStatus: timestamp, // Tooltip sur storeStatus
+          lastUpdateModeSubSamplingRatio: 1, // Tooltip sur subSamplingRatio
+          lastUpdateTimeSubSamplingRatio: timestamp, // Tooltip sur subSamplingRatio
+          uniqueId: 1, // Inutilisé dans la vue
+        },
+      ],
+      pusMmePacketParameter: [
+        {
+          parameterId: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+          parameterName: 'myString', // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+          parameterOrder: 1, // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+          parameterFilteredStatus: 'myString', // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+          uniqueId: 1, // inutilisé dans la vue
+          lastUpdateModeStoreId: 1, // inutilisé dans la vue
+          lastUpdateTimeStoreId: timestamp, // inutilisé dans la vue
+          lastUpdateModeFilteredStatus: 1, // Tooltip sur parameterFilteredStatus
+          lastUpdateTimeFilteredStatus: timestamp, // Tooltip sur parameterFilteredStatus
+        },
+      ],
+    }
+  );
+
   const pusmme = {
     pusMmeModel: {
       serviceApid: 100, // A afficher dans la vue
@@ -227,77 +300,7 @@ module.exports = (buffers, getStore) => {
       groundDate: timestamp, // Inutilisé dans la vue
       serviceApidName: 'myString', // A afficher dans la vue
       uniqueId: 1, // Inutilisé dans la vue
-      pusMmePacket: [
-        {
-          sid: 100, // A afficher dans la vue
-          validityParameterId: 100, // A afficher dans la vue
-          validityParameterMask: 'myString', // A afficher dans la vue
-          validityParameterExpectedValue: 'myString', // A afficher dans la vue
-          collectionInterval: 'myString', // A afficher dans la vue
-          status: 1, // // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue
-          sidLabel: 'myString', // A afficher dans la vue
-          lastUpdateModeSid: 100, // Tooltip sur sid & sidLabel
-          lastUpdateTimeSid: timestamp, // Tooltip sur sid & sidLabel
-          lastUpdateModeStatus: 1, // Tooltip sur status
-          lastUpdateTimeStatus: timestamp, // Tooltip sur status
-          lastUpdateModeValidParamId: 100, // Tooltip sur validityParameterId
-          lastUpdateTimeValidParamId: timestamp, // Tooltip sur validityParameterId
-          lastUpdateModeValidParamMask: 100, // Tooltip sur validityParameterMask
-          lastUpdateTimeValidParamMask: timestamp, // Tooltip sur validityParameterMask
-          lastUpdateModeValidParamExpValue: 100, // Tooltip sur validityParameterExpectedValue
-          lastUpdateTimeValidParamExpValue: timestamp, // Tooltip sur validityParameterExpectedValue
-          lastUpdateModeCollectInterval: 100, // Tooltip sur collectionInterval
-          lastUpdateTimeCollectInterval: timestamp, // Tooltip sur collectionInterval
-          packetName: 'myString', // A afficher dans la vue
-          validityParameterName: 'myString', // A afficher dans la vue, colonne Val. Param. Name
-          packetApid: 100, //  A afficher dans la vue, colonne Apid
-          packetApidName: 'myString', //  A afficher dans la vue, colonne AP Name
-          serviceApid: 100, // A afficher dans la vue
-          serviceApidName: 'myString', // A afficher dans la vue
-          uniqueId: 100, // Inutilisé dans la vue
-          generationMode: 'myString', // A afficher dans la vue
-          lastUpdateTimeGenMode: timestamp, // Tooltip sur generationMode
-          lastUpdateModeGenMode: 1, // Tooltip sur generationMode
-          packetType: 'myString', // A afficher dans la vue, colonne Type
-          forwardingStatusTypeSubtype: 1, // A afficher dans la vue
-          lastUpdateModeFwdStatusTypeSubtype: 1, // Tooltip sur forwardingStatusTypeSubtype
-          lastUpdateTimeFwdStatusTypeSubtype: timestamp, // Tooltip sur forwardingStatusTypeSubtype
-          forwardingStatusRidSid: 100,  // A afficher dans la vue
-          lastUpdateModeFwdStatusTypeRidSid: 100, // Tooltip sur forwardingStatusRidSid
-          lastUpdateTimeFwdStatusTypeRidSid: timestamp, // Tooltip sur forwardingStatusRidSid
-          lastUpdateModeSubSamplingRatio: 1, // Tooltip sur subsamplingRatio
-          lastUpdateTimeSubSamplingRatio: timestamp, // Tooltip sur subsamplingRatio
-          subsamplingRatio: 1, // A afficher dans la vue
-          pusMmePacketStore: [
-            {
-              storeName: 'myString',  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
-              storeId: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
-              storeStatus: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
-              subSamplingRatio: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
-              lastUpdateModeStoreId: 1, // Tooltip sur storeId
-              lastUpdateTimeStoreId: timestamp, // Tooltip sur storeId
-              lastUpdateModeStoreStatus: 1, // Tooltip sur storeStatus
-              lastUpdateTimeStoreStatus: timestamp, // Tooltip sur storeStatus
-              lastUpdateModeSubSamplingRatio: 1, // Tooltip sur subSamplingRatio
-              lastUpdateTimeSubSamplingRatio: timestamp, // Tooltip sur subSamplingRatio
-              uniqueId: 1, // Inutilisé dans la vue
-            },
-          ],
-          pusMmePacketParameter: [
-            {
-              parameterId: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
-              parameterName: 'myString', // A afficher dans la popin sur un Dble Click d’une ligne du tableau
-              parameterOrder: 1, // A afficher dans la popin sur un Dble Click d’une ligne du tableau
-              parameterFilteredStatus: 'myString', // A afficher dans la popin sur un Dble Click d’une ligne du tableau
-              uniqueId: 1, // inutilisé dans la vue
-              lastUpdateModeStoreId: 1, // inutilisé dans la vue
-              lastUpdateTimeStoreId: timestamp, // inutilisé dans la vue
-              lastUpdateModeFilteredStatus: 1, // Tooltip sur parameterFilteredStatus
-              lastUpdateTimeFilteredStatus: timestamp, // Tooltip sur parameterFilteredStatus
-            },
-          ],
-        },
-      ],
+      pusMmePacket: [...new Array(10)].map(() => _generateMmePacket()),
     },
   };
   store.dispatch(incomingPus({

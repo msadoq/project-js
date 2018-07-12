@@ -1,0 +1,15 @@
+
+.InfoIcon {
+  margin-left: 5px;
+  font-size: 12px;
+  color: grey;
+  cursor: pointer;
+}
+
+.InfoIcon:hover {
+  color: black;
+}
+
+.container td > span > * {
+  width: 100%;
+}

@@ -1,8 +1,2 @@
-const encode = data => data;
-
-const decode = data => data;
-
-module.exports = {
-  encode,
-  decode,
-};
+module.exports.encode = data => data;
+module.exports.decode = data => data;

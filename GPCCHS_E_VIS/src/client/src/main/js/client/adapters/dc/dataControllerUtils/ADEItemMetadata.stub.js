@@ -11,20 +11,21 @@ const Builder = new ProtoBuf.Root()
 
 const getADEItemMetadata = override => applyOverride({
   itemName: 'SAT_BC_NUMTC13',
-  comment: undefined,
-  longDescription: undefined,
-  shortDescription: undefined,
+  comment: 'sdfsdf',
+  longDescription: 'sdf',
+  shortDescription: 'sdf',
   aliases: [
     getAliasRecord(),
     getAliasRecord({ alias: 'truc', contextDomain: 'machin' }),
   ],
-  unit: undefined,
+  unit: 'sdfsdf',
   algorithm: getADEItemAlgorithm(),
   tmMeta: getADEItemMetadataTM(),
 }, override);
 
 const getADEItemMetadataProtobuf = override => {
   const toEncode = getADEItemMetadata(override);
+  console.log('{{{{{{{', JSON.stringify(Adapter.encode(toEncode), null, ' '));
   return Builder.encode(Adapter.encode(toEncode)).finish();
 };
 

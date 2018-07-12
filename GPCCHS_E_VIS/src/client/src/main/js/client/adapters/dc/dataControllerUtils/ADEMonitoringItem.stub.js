@@ -10,7 +10,7 @@ const Builder = new ProtoBuf.Root()
 
 const getADEMonitoringItem = override => applyOverride({
   item: 'inator',
-  law: getADEMonitoringLaw({ type: 'monitoringJude' }),
+  law: getADEMonitoringLaw(),
 }, override);
 
 const getADEMonitoringItemProtobuf = override => {

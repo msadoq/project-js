@@ -37,38 +37,14 @@ export default class PUSMMETab extends React.Component {
             {panels.parameters && <ViewParamsContainer viewId={viewId} />}
           </Panel>
           <Panel
-            header="Sub-Schedule Columns"
+            header="Packets Columns"
             key="pusmme-sub-schedules-panel"
           >
             {
               panels['pusmme-sub-schedules-panel'] &&
               <TableColumnsEditorContainer
                 viewId={viewId}
-                tableId={'subSchedules'}
-              />
-            }
-          </Panel>
-          <Panel
-            header="Commands Columns"
-            key="pusmme-commands-panel"
-          >
-            {
-              panels['pusmme-commands-panel'] &&
-              <TableColumnsEditorContainer
-                viewId={viewId}
-                tableId={'commands'}
-              />
-            }
-          </Panel>
-          <Panel
-            header="Enabled Apids Columns"
-            key="pusmme-enabled-apids-panel"
-          >
-            {
-              panels['pusmme-enabled-apids-panel'] &&
-              <TableColumnsEditorContainer
-                viewId={viewId}
-                tableId={'enabledApids'}
+                tableId={'packets'}
               />
             }
           </Panel>

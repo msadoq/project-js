@@ -446,6 +446,189 @@ const userRightBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/file/UserRig
 const userRightStub = require('./file/userRight.stub');
 const userStub = require('./ccsds_cs/user.stub');
 
+const compareStructureStub = require('./pusModelEditor/compareStructure.stub');
+const compareStructureAdapter = require('./pusModelEditor/compareStructure');
+const compareStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/CompareStructure.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.CompareStructure');
+
+const dataStructureStub = require('./pusModelEditor/dataStructure.stub');
+const dataStructureAdapter = require('./pusModelEditor/dataStructure');
+const dataStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/DataStructure.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.DataStructure');
+
+const headerStructureStub = require('./pusModelEditor/headerStructure.stub');
+const headerStructureAdapter = require('./pusModelEditor/headerStructure');
+const headerStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/HeaderStructure.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.HeaderStructure');
+
+const initialiseStructureStub = require('./pusModelEditor/initialiseStructure.stub');
+const initialiseStructureAdapter = require('./pusModelEditor/initialiseStructure');
+const initialiseStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/InitialiseStructure.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.InitialiseStructure');
+
+const pus005ModelStub = require('./pusModelEditor/pus005Model.stub');
+const pus005ModelAdapter = require('./pusModelEditor/pus005Model');
+const pus005ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus005Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus005Model');
+
+const pus005OnBoardEventStub = require('./pusModelEditor/pus005OnBoardEvent.stub');
+const pus005OnBoardEventAdapter = require('./pusModelEditor/pus005OnBoardEvent');
+const pus005OnBoardEventBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus005OnBoardEvent.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus005OnBoardEvent');
+
+const pus011ApidStub = require('./pusModelEditor/pus011Apid.stub');
+const pus011ApidAdapter = require('./pusModelEditor/pus011Apid');
+const pus011ApidBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011Apid.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus011Apid');
+
+const pus011CommandStub = require('./pusModelEditor/pus011Command.stub');
+const pus011CommandAdapter = require('./pusModelEditor/pus011Command');
+const pus011CommandBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011Command.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus011Command');
+
+const pus011CommandParameterStub = require('./pusModelEditor/pus011CommandParameter.stub');
+const pus011CommandParameterAdapter = require('./pusModelEditor/pus011CommandParameter');
+const pus011CommandParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011CommandParameter.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus011CommandParameter');
+
+const pus011ModelStub = require('./pusModelEditor/pus011Model.stub');
+const pus011ModelAdapter = require('./pusModelEditor/pus011Model');
+const pus011ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus011Model');
+
+const pus011SubScheduleStub = require('./pusModelEditor/pus011SubSchedule.stub');
+const pus011SubScheduleAdapter = require('./pusModelEditor/pus011SubSchedule');
+const pus011SubScheduleBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011SubSchedule.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus011SubSchedule');
+
+const pus011TimeShiftStub = require('./pusModelEditor/pus011TimeShift.stub');
+const pus011TimeShiftAdapter = require('./pusModelEditor/pus011TimeShift');
+const pus011TimeShiftBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011TimeShift.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus011TimeShift');
+
+const pus012ModelStub = require('./pusModelEditor/pus012Model.stub');
+const pus012ModelAdapter = require('./pusModelEditor/pus012Model');
+const pus012ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus012Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus012Model');
+
+const pus012MonitoringCheckPropertiesStub = require('./pusModelEditor/pus012MonitoringCheckProperties.stub');
+const pus012MonitoringCheckPropertiesAdapter = require('./pusModelEditor/pus012MonitoringCheckProperties');
+const pus012MonitoringCheckPropertiesBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus012MonitoringCheckProperties.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus012MonitoringCheckProperties');
+
+const pus012ParameterMonitoringDefinitionStub = require('./pusModelEditor/pus012ParameterMonitoringDefinition.stub');
+const pus012ParameterMonitoringDefinitionAdapter = require('./pusModelEditor/pus012ParameterMonitoringDefinition');
+const pus012ParameterMonitoringDefinitionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus012ParameterMonitoringDefinition.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus012ParameterMonitoringDefinition');
+
+const pus013LdtStub = require('./pusModelEditor/pus013Ldt.stub');
+const pus013LdtAdapter = require('./pusModelEditor/pus013Ldt');
+const pus013LdtBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus013Ldt.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus013Ldt');
+
+const pus013LdtPartStub = require('./pusModelEditor/pus013LdtPart.stub');
+const pus013LdtPartAdapter = require('./pusModelEditor/pus013LdtPart');
+const pus013LdtPartBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus013LdtPart.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus013LdtPart');
+
+const pus013ModelStub = require('./pusModelEditor/pus013Model.stub');
+const pus013ModelAdapter = require('./pusModelEditor/pus013Model');
+const pus013ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus013Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus013Model');
+
+const pus014ForwardedPacketStub = require('./pusModelEditor/pus014ForwardedPacket.stub');
+const pus014ForwardedPacketAdapter = require('./pusModelEditor/pus014ForwardedPacket');
+const pus014ForwardedPacketBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus014ForwardedPacket.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus014ForwardedPacket');
+
+const pus014ModelStub = require('./pusModelEditor/pus014Model.stub');
+const pus014ModelAdapter = require('./pusModelEditor/pus014Model');
+const pus014ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus014Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus014Model');
+
+const pus015ModelStub = require('./pusModelEditor/pus015Model.stub');
+const pus015ModelAdapter = require('./pusModelEditor/pus015Model');
+const pus015ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus015Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus015Model');
+
+const pus015PacketStub = require('./pusModelEditor/pus015Packet.stub');
+const pus015PacketAdapter = require('./pusModelEditor/pus015Packet');
+const pus015PacketBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus015Packet.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus015Packet');
+
+const pus015PacketStoreStub = require('./pusModelEditor/pus015PacketStore.stub');
+const pus015PacketStoreAdapter = require('./pusModelEditor/pus015PacketStore');
+const pus015PacketStoreBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus015PacketStore.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus015PacketStore');
+
+const pus018ModelStub = require('./pusModelEditor/pus018Model.stub');
+const pus018ModelAdapter = require('./pusModelEditor/pus018Model');
+const pus018ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus018Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus018Model');
+
+const pus018ObcpStub = require('./pusModelEditor/pus018Obcp.stub');
+const pus018ObcpAdapter = require('./pusModelEditor/pus018Obcp');
+const pus018ObcpBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus018Obcp.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus018Obcp');
+
+const pus019EventActionStub = require('./pusModelEditor/pus019EventAction.stub');
+const pus019EventActionAdapter = require('./pusModelEditor/pus019EventAction');
+const pus019EventActionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus019EventAction.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus019EventAction');
+
+const pus019ModelStub = require('./pusModelEditor/pus019Model.stub');
+const pus019ModelAdapter = require('./pusModelEditor/pus019Model');
+const pus019ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus019Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus019Model');
+
+const pus140ModelStub = require('./pusModelEditor/pus140Model.stub');
+const pus140ModelAdapter = require('./pusModelEditor/pus140Model');
+const pus140ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus140Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus140Model');
+
+const pus140ParameterStub = require('./pusModelEditor/pus140Parameter.stub');
+const pus140ParameterAdapter = require('./pusModelEditor/pus140Parameter');
+const pus140ParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus140Parameter.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus140Parameter');
+
+const pus142FunctionalMonitoringStub = require('./pusModelEditor/pus142FunctionalMonitoring.stub');
+const pus142FunctionalMonitoringAdapter = require('./pusModelEditor/pus142FunctionalMonitoring');
+const pus142FunctionalMonitoringBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus142FunctionalMonitoring.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus142FunctionalMonitoring');
+
+const pus142ModelStub = require('./pusModelEditor/pus142Model.stub');
+const pus142ModelAdapter = require('./pusModelEditor/pus142Model');
+const pus142ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus142Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus142Model');
+
+const pus142ParameterMonitoringDefinitionStub = require('./pusModelEditor/pus142ParameterMonitoringDefinition.stub');
+const pus142ParameterMonitoringDefinitionAdapter = require('./pusModelEditor/pus142ParameterMonitoringDefinition');
+const pus142ParameterMonitoringDefinitionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus142ParameterMonitoringDefinition.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus142ParameterMonitoringDefinition');
+
+const pus144ModelStub = require('./pusModelEditor/pus144Model.stub');
+const pus144ModelAdapter = require('./pusModelEditor/pus144Model');
+const pus144ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus144Model.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus144Model');
+
+const pus144OnboardFileStub = require('./pusModelEditor/pus144OnboardFile.stub');
+const pus144OnboardFileAdapter = require('./pusModelEditor/pus144OnboardFile');
+const pus144OnboardFileBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus144OnboardFile.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.Pus144OnboardFile');
+
+const pusElementListStub = require('./pusModelEditor/pusElementList.stub');
+const pusElementListAdapter = require('./pusModelEditor/pusElementList');
+const pusElementListBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusElementList.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.PusElementList');
+
+const pusMmeModelStub = require('./pusModelEditor/pusMmeModel.stub');
+const pusMmeModelAdapter = require('./pusModelEditor/pusMmeModel');
+const pusMmeModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusMmeModel.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.PusMmeModel');
+
+const pusMmePacketStub = require('./pusModelEditor/pusMmePacket.stub');
+const pusMmePacketAdapter = require('./pusModelEditor/pusMmePacket');
+const pusMmePacketBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusMmePacket.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.PusMmePacket');
+
+const pusMmePacketParameterStub = require('./pusModelEditor/pusMmePacketParameter.stub');
+const pusMmePacketParameterAdapter = require('./pusModelEditor/pusMmePacketParameter');
+const pusMmePacketParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusMmePacketParameter.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.PusMmePacketParameter');
+
+const pusMmePacketStoreStub = require('./pusModelEditor/pusMmePacketStore.stub');
+const pusMmePacketStoreAdapter = require('./pusModelEditor/pusMmePacketStore');
+const pusMmePacketStoreBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusMmePacketStore.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.PusMmePacketStore');
+
+const pusParameterStub = require('./pusModelEditor/pusParameter.stub');
+const pusParameterAdapter = require('./pusModelEditor/pusParameter');
+const pusParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusParameter.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.PusParameter');
+
+const pusServiceApidStub = require('./pusModelEditor/pusServiceApid.stub');
+const pusServiceApidAdapter = require('./pusModelEditor/pusServiceApid');
+const pusServiceApidBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusServiceApid.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.PusServiceApid');
+
+const pusValueStub = require('./pusModelEditor/pusValue.stub');
+const pusValueAdapter = require('./pusModelEditor/pusValue');
+const pusValueBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusValue.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.PusValue');
+
+const resetStructureStub = require('./pusModelEditor/resetStructure.stub');
+const resetStructureAdapter = require('./pusModelEditor/resetStructure');
+const resetStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/ResetStructure.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.ResetStructure');
+
+const subscribeStructureStub = require('./pusModelEditor/subscribeStructure.stub');
+const subscribeStructureAdapter = require('./pusModelEditor/subscribeStructure');
+const subscribeStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/SubscribeStructure.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.SubscribeStructure');
+
+const synchoniseStructureStub = require('./pusModelEditor/synchoniseStructure.stub');
+const synchoniseStructureAdapter = require('./pusModelEditor/synchoniseStructure');
+const synchoniseStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/SynchoniseStructure.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.SynchoniseStructure');
+
+const unsubscribeStructureStub = require('./pusModelEditor/unsubscribeStructure.stub');
+const unsubscribeStructureAdapter = require('./pusModelEditor/unsubscribeStructure');
+const unsubscribeStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/UnsubscribeStructure.proto`, { keepCase: true }).lookup('pusModelEditor.protobuf.UnsubscribeStructure');
 module.exports = {
   getAck: ackStub,
   getAckDeProtobuf: proto => ackAdapter.decode(ackBuilder.decode(proto)),
@@ -882,4 +1065,142 @@ module.exports = {
   getUserRight: userRightStub,
   getUserRightDeProtobuf: proto => userRightAdapter.decode(userRightBuilder.decode(proto)),
   getUserRightProtobuf: override => userRightBuilder.encode(userRightAdapter.encode(userRightStub(override))).finish(),
+  getCompareStructure: compareStructureStub,
+getCompareStructureDeProtobuf:  proto => compareStructureAdapter.decode(compareStructureBuilder.decode(proto)),
+getCompareStructureProtobuf: override => compareStructureBuilder.encode(compareStructureAdapter.encode(compareStructureStub(override))).finish(),
+getDataStructure: dataStructureStub,
+getDataStructureDeProtobuf:  proto => dataStructureAdapter.decode(dataStructureBuilder.decode(proto)),
+getDataStructureProtobuf: override => dataStructureBuilder.encode(dataStructureAdapter.encode(dataStructureStub(override))).finish(),
+getHeaderStructure: headerStructureStub,
+getHeaderStructureDeProtobuf:  proto => headerStructureAdapter.decode(headerStructureBuilder.decode(proto)),
+getHeaderStructureProtobuf: override => headerStructureBuilder.encode(headerStructureAdapter.encode(headerStructureStub(override))).finish(),
+getInitialiseStructure: initialiseStructureStub,
+getInitialiseStructureDeProtobuf:  proto => initialiseStructureAdapter.decode(initialiseStructureBuilder.decode(proto)),
+getInitialiseStructureProtobuf: override => initialiseStructureBuilder.encode(initialiseStructureAdapter.encode(initialiseStructureStub(override))).finish(),
+getPus005Model: pus005ModelStub,
+getPus005ModelDeProtobuf:  proto => pus005ModelAdapter.decode(pus005ModelBuilder.decode(proto)),
+getPus005ModelProtobuf: override => pus005ModelBuilder.encode(pus005ModelAdapter.encode(pus005ModelStub(override))).finish(),
+getPus005OnBoardEvent: pus005OnBoardEventStub,
+getPus005OnBoardEventDeProtobuf:  proto => pus005OnBoardEventAdapter.decode(pus005OnBoardEventBuilder.decode(proto)),
+getPus005OnBoardEventProtobuf: override => pus005OnBoardEventBuilder.encode(pus005OnBoardEventAdapter.encode(pus005OnBoardEventStub(override))).finish(),
+getPus011Apid: pus011ApidStub,
+getPus011ApidDeProtobuf:  proto => pus011ApidAdapter.decode(pus011ApidBuilder.decode(proto)),
+getPus011ApidProtobuf: override => pus011ApidBuilder.encode(pus011ApidAdapter.encode(pus011ApidStub(override))).finish(),
+getPus011Command: pus011CommandStub,
+getPus011CommandDeProtobuf:  proto => pus011CommandAdapter.decode(pus011CommandBuilder.decode(proto)),
+getPus011CommandProtobuf: override => pus011CommandBuilder.encode(pus011CommandAdapter.encode(pus011CommandStub(override))).finish(),
+getPus011CommandParameter: pus011CommandParameterStub,
+getPus011CommandParameterDeProtobuf:  proto => pus011CommandParameterAdapter.decode(pus011CommandParameterBuilder.decode(proto)),
+getPus011CommandParameterProtobuf: override => pus011CommandParameterBuilder.encode(pus011CommandParameterAdapter.encode(pus011CommandParameterStub(override))).finish(),
+getPus011Model: pus011ModelStub,
+getPus011ModelDeProtobuf:  proto => pus011ModelAdapter.decode(pus011ModelBuilder.decode(proto)),
+getPus011ModelProtobuf: override => pus011ModelBuilder.encode(pus011ModelAdapter.encode(pus011ModelStub(override))).finish(),
+getPus011SubSchedule: pus011SubScheduleStub,
+getPus011SubScheduleDeProtobuf:  proto => pus011SubScheduleAdapter.decode(pus011SubScheduleBuilder.decode(proto)),
+getPus011SubScheduleProtobuf: override => pus011SubScheduleBuilder.encode(pus011SubScheduleAdapter.encode(pus011SubScheduleStub(override))).finish(),
+getPus011TimeShift: pus011TimeShiftStub,
+getPus011TimeShiftDeProtobuf:  proto => pus011TimeShiftAdapter.decode(pus011TimeShiftBuilder.decode(proto)),
+getPus011TimeShiftProtobuf: override => pus011TimeShiftBuilder.encode(pus011TimeShiftAdapter.encode(pus011TimeShiftStub(override))).finish(),
+getPus012Model: pus012ModelStub,
+getPus012ModelDeProtobuf:  proto => pus012ModelAdapter.decode(pus012ModelBuilder.decode(proto)),
+getPus012ModelProtobuf: override => pus012ModelBuilder.encode(pus012ModelAdapter.encode(pus012ModelStub(override))).finish(),
+getPus012MonitoringCheckProperties: pus012MonitoringCheckPropertiesStub,
+getPus012MonitoringCheckPropertiesDeProtobuf:  proto => pus012MonitoringCheckPropertiesAdapter.decode(pus012MonitoringCheckPropertiesBuilder.decode(proto)),
+getPus012MonitoringCheckPropertiesProtobuf: override => pus012MonitoringCheckPropertiesBuilder.encode(pus012MonitoringCheckPropertiesAdapter.encode(pus012MonitoringCheckPropertiesStub(override))).finish(),
+getPus012ParameterMonitoringDefinition: pus012ParameterMonitoringDefinitionStub,
+getPus012ParameterMonitoringDefinitionDeProtobuf:  proto => pus012ParameterMonitoringDefinitionAdapter.decode(pus012ParameterMonitoringDefinitionBuilder.decode(proto)),
+getPus012ParameterMonitoringDefinitionProtobuf: override => pus012ParameterMonitoringDefinitionBuilder.encode(pus012ParameterMonitoringDefinitionAdapter.encode(pus012ParameterMonitoringDefinitionStub(override))).finish(),
+getPus013Ldt: pus013LdtStub,
+getPus013LdtDeProtobuf:  proto => pus013LdtAdapter.decode(pus013LdtBuilder.decode(proto)),
+getPus013LdtProtobuf: override => pus013LdtBuilder.encode(pus013LdtAdapter.encode(pus013LdtStub(override))).finish(),
+getPus013LdtPart: pus013LdtPartStub,
+getPus013LdtPartDeProtobuf:  proto => pus013LdtPartAdapter.decode(pus013LdtPartBuilder.decode(proto)),
+getPus013LdtPartProtobuf: override => pus013LdtPartBuilder.encode(pus013LdtPartAdapter.encode(pus013LdtPartStub(override))).finish(),
+getPus013Model: pus013ModelStub,
+getPus013ModelDeProtobuf:  proto => pus013ModelAdapter.decode(pus013ModelBuilder.decode(proto)),
+getPus013ModelProtobuf: override => pus013ModelBuilder.encode(pus013ModelAdapter.encode(pus013ModelStub(override))).finish(),
+getPus014ForwardedPacket: pus014ForwardedPacketStub,
+getPus014ForwardedPacketDeProtobuf:  proto => pus014ForwardedPacketAdapter.decode(pus014ForwardedPacketBuilder.decode(proto)),
+getPus014ForwardedPacketProtobuf: override => pus014ForwardedPacketBuilder.encode(pus014ForwardedPacketAdapter.encode(pus014ForwardedPacketStub(override))).finish(),
+getPus014Model: pus014ModelStub,
+getPus014ModelDeProtobuf:  proto => pus014ModelAdapter.decode(pus014ModelBuilder.decode(proto)),
+getPus014ModelProtobuf: override => pus014ModelBuilder.encode(pus014ModelAdapter.encode(pus014ModelStub(override))).finish(),
+getPus015Model: pus015ModelStub,
+getPus015ModelDeProtobuf:  proto => pus015ModelAdapter.decode(pus015ModelBuilder.decode(proto)),
+getPus015ModelProtobuf: override => pus015ModelBuilder.encode(pus015ModelAdapter.encode(pus015ModelStub(override))).finish(),
+getPus015Packet: pus015PacketStub,
+getPus015PacketDeProtobuf:  proto => pus015PacketAdapter.decode(pus015PacketBuilder.decode(proto)),
+getPus015PacketProtobuf: override => pus015PacketBuilder.encode(pus015PacketAdapter.encode(pus015PacketStub(override))).finish(),
+getPus015PacketStore: pus015PacketStoreStub,
+getPus015PacketStoreDeProtobuf:  proto => pus015PacketStoreAdapter.decode(pus015PacketStoreBuilder.decode(proto)),
+getPus015PacketStoreProtobuf: override => pus015PacketStoreBuilder.encode(pus015PacketStoreAdapter.encode(pus015PacketStoreStub(override))).finish(),
+getPus018Model: pus018ModelStub,
+getPus018ModelDeProtobuf:  proto => pus018ModelAdapter.decode(pus018ModelBuilder.decode(proto)),
+getPus018ModelProtobuf: override => pus018ModelBuilder.encode(pus018ModelAdapter.encode(pus018ModelStub(override))).finish(),
+getPus018Obcp: pus018ObcpStub,
+getPus018ObcpDeProtobuf:  proto => pus018ObcpAdapter.decode(pus018ObcpBuilder.decode(proto)),
+getPus018ObcpProtobuf: override => pus018ObcpBuilder.encode(pus018ObcpAdapter.encode(pus018ObcpStub(override))).finish(),
+getPus019EventAction: pus019EventActionStub,
+getPus019EventActionDeProtobuf:  proto => pus019EventActionAdapter.decode(pus019EventActionBuilder.decode(proto)),
+getPus019EventActionProtobuf: override => pus019EventActionBuilder.encode(pus019EventActionAdapter.encode(pus019EventActionStub(override))).finish(),
+getPus019Model: pus019ModelStub,
+getPus019ModelDeProtobuf:  proto => pus019ModelAdapter.decode(pus019ModelBuilder.decode(proto)),
+getPus019ModelProtobuf: override => pus019ModelBuilder.encode(pus019ModelAdapter.encode(pus019ModelStub(override))).finish(),
+getPus140Model: pus140ModelStub,
+getPus140ModelDeProtobuf:  proto => pus140ModelAdapter.decode(pus140ModelBuilder.decode(proto)),
+getPus140ModelProtobuf: override => pus140ModelBuilder.encode(pus140ModelAdapter.encode(pus140ModelStub(override))).finish(),
+getPus140Parameter: pus140ParameterStub,
+getPus140ParameterDeProtobuf:  proto => pus140ParameterAdapter.decode(pus140ParameterBuilder.decode(proto)),
+getPus140ParameterProtobuf: override => pus140ParameterBuilder.encode(pus140ParameterAdapter.encode(pus140ParameterStub(override))).finish(),
+getPus142FunctionalMonitoring: pus142FunctionalMonitoringStub,
+getPus142FunctionalMonitoringDeProtobuf:  proto => pus142FunctionalMonitoringAdapter.decode(pus142FunctionalMonitoringBuilder.decode(proto)),
+getPus142FunctionalMonitoringProtobuf: override => pus142FunctionalMonitoringBuilder.encode(pus142FunctionalMonitoringAdapter.encode(pus142FunctionalMonitoringStub(override))).finish(),
+getPus142Model: pus142ModelStub,
+getPus142ModelDeProtobuf:  proto => pus142ModelAdapter.decode(pus142ModelBuilder.decode(proto)),
+getPus142ModelProtobuf: override => pus142ModelBuilder.encode(pus142ModelAdapter.encode(pus142ModelStub(override))).finish(),
+getPus142ParameterMonitoringDefinition: pus142ParameterMonitoringDefinitionStub,
+getPus142ParameterMonitoringDefinitionDeProtobuf:  proto => pus142ParameterMonitoringDefinitionAdapter.decode(pus142ParameterMonitoringDefinitionBuilder.decode(proto)),
+getPus142ParameterMonitoringDefinitionProtobuf: override => pus142ParameterMonitoringDefinitionBuilder.encode(pus142ParameterMonitoringDefinitionAdapter.encode(pus142ParameterMonitoringDefinitionStub(override))).finish(),
+getPus144Model: pus144ModelStub,
+getPus144ModelDeProtobuf:  proto => pus144ModelAdapter.decode(pus144ModelBuilder.decode(proto)),
+getPus144ModelProtobuf: override => pus144ModelBuilder.encode(pus144ModelAdapter.encode(pus144ModelStub(override))).finish(),
+getPus144OnboardFile: pus144OnboardFileStub,
+getPus144OnboardFileDeProtobuf:  proto => pus144OnboardFileAdapter.decode(pus144OnboardFileBuilder.decode(proto)),
+getPus144OnboardFileProtobuf: override => pus144OnboardFileBuilder.encode(pus144OnboardFileAdapter.encode(pus144OnboardFileStub(override))).finish(),
+getPusElementList: pusElementListStub,
+getPusElementListDeProtobuf:  proto => pusElementListAdapter.decode(pusElementListBuilder.decode(proto)),
+getPusElementListProtobuf: override => pusElementListBuilder.encode(pusElementListAdapter.encode(pusElementListStub(override))).finish(),
+getPusMmeModel: pusMmeModelStub,
+getPusMmeModelDeProtobuf:  proto => pusMmeModelAdapter.decode(pusMmeModelBuilder.decode(proto)),
+getPusMmeModelProtobuf: override => pusMmeModelBuilder.encode(pusMmeModelAdapter.encode(pusMmeModelStub(override))).finish(),
+getPusMmePacket: pusMmePacketStub,
+getPusMmePacketDeProtobuf:  proto => pusMmePacketAdapter.decode(pusMmePacketBuilder.decode(proto)),
+getPusMmePacketProtobuf: override => pusMmePacketBuilder.encode(pusMmePacketAdapter.encode(pusMmePacketStub(override))).finish(),
+getPusMmePacketParameter: pusMmePacketParameterStub,
+getPusMmePacketParameterDeProtobuf:  proto => pusMmePacketParameterAdapter.decode(pusMmePacketParameterBuilder.decode(proto)),
+getPusMmePacketParameterProtobuf: override => pusMmePacketParameterBuilder.encode(pusMmePacketParameterAdapter.encode(pusMmePacketParameterStub(override))).finish(),
+getPusMmePacketStore: pusMmePacketStoreStub,
+getPusMmePacketStoreDeProtobuf:  proto => pusMmePacketStoreAdapter.decode(pusMmePacketStoreBuilder.decode(proto)),
+getPusMmePacketStoreProtobuf: override => pusMmePacketStoreBuilder.encode(pusMmePacketStoreAdapter.encode(pusMmePacketStoreStub(override))).finish(),
+getPusParameter: pusParameterStub,
+getPusParameterDeProtobuf:  proto => pusParameterAdapter.decode(pusParameterBuilder.decode(proto)),
+getPusParameterProtobuf: override => pusParameterBuilder.encode(pusParameterAdapter.encode(pusParameterStub(override))).finish(),
+getPusServiceApid: pusServiceApidStub,
+getPusServiceApidDeProtobuf:  proto => pusServiceApidAdapter.decode(pusServiceApidBuilder.decode(proto)),
+getPusServiceApidProtobuf: override => pusServiceApidBuilder.encode(pusServiceApidAdapter.encode(pusServiceApidStub(override))).finish(),
+getPusValue: pusValueStub,
+getPusValueDeProtobuf:  proto => pusValueAdapter.decode(pusValueBuilder.decode(proto)),
+getPusValueProtobuf: override => pusValueBuilder.encode(pusValueAdapter.encode(pusValueStub(override))).finish(),
+getResetStructure: resetStructureStub,
+getResetStructureDeProtobuf:  proto => resetStructureAdapter.decode(resetStructureBuilder.decode(proto)),
+getResetStructureProtobuf: override => resetStructureBuilder.encode(resetStructureAdapter.encode(resetStructureStub(override))).finish(),
+getSubscribeStructure: subscribeStructureStub,
+getSubscribeStructureDeProtobuf:  proto => subscribeStructureAdapter.decode(subscribeStructureBuilder.decode(proto)),
+getSubscribeStructureProtobuf: override => subscribeStructureBuilder.encode(subscribeStructureAdapter.encode(subscribeStructureStub(override))).finish(),
+getSynchoniseStructure: synchoniseStructureStub,
+getSynchoniseStructureDeProtobuf:  proto => synchoniseStructureAdapter.decode(synchoniseStructureBuilder.decode(proto)),
+getSynchoniseStructureProtobuf: override => synchoniseStructureBuilder.encode(synchoniseStructureAdapter.encode(synchoniseStructureStub(override))).finish(),
+getUnsubscribeStructure: unsubscribeStructureStub,
+getUnsubscribeStructureDeProtobuf:  proto => unsubscribeStructureAdapter.decode(unsubscribeStructureBuilder.decode(proto)),
+getUnsubscribeStructureProtobuf: override => unsubscribeStructureBuilder.encode(unsubscribeStructureAdapter.encode(unsubscribeStructureStub(override))).finish(),
 };

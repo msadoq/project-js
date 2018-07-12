@@ -9,11 +9,11 @@ import { PROVIDER_FLOW_ALL, DATASTRUCTURETYPE_PUS } from '../../constants';
 // TODO @jmira finish this function
 export function addApidInPusIdMap(pusIdMap, ep, viewId){
   const { apidName, apidRawValue, dataId } = ep;
-  const pusId = getPusFlattenId(apidName, dataId);
   // error on entry point => no remoteId
   if (!apidName) {
     return pusIdMap;
   }
+  const pusId = getPusFlattenId(apidName, dataId);
 
   const newMap = pusIdMap || {};
   if (!newMap[pusId]) {

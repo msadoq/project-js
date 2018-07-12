@@ -12,7 +12,7 @@ const pusTestMiddleware = ipc => (/* { dispatch, getState } */) => next => (acti
       action.payload.forReplay,
       action.payload.firstTime,
       action.payload.lastTime,
-      action.payload.continous,
+      action.payload.continuous,
       makeCallback(action.type));
   }
   if (action.type === types.PUS_TEMP_SUBSCRIBE) {

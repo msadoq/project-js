@@ -4,7 +4,7 @@ import * as types from '../types';
 /**
  * Simple actions
  */
-export const initialize = simple(types.PUS_TEMP_INITIALIZE, 'pusId', 'apId');
+export const initialize = simple(types.PUS_TEMP_INITIALIZE, 'forReplay', 'firstTime', 'lastTime', 'continuous');
 export const subscribe = simple(types.PUS_TEMP_SUBSCRIBE, 'pusId', 'apId');
 export const unsubscribe = simple(types.PUS_TEMP_UNSUBSCRIBE, 'pusId', 'apId');
 export const compare =

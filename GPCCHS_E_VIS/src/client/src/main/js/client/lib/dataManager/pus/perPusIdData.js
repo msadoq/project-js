@@ -13,8 +13,8 @@ export function addApidInPusIdMap(pusIdMap, ep, viewId){
   if (!apidName) {
     return pusIdMap;
   }
-
   const pusId = getPusFlattenId(apidName, dataId);
+
   const newMap = pusIdMap || {};
 
   if (!newMap[pusId]) {

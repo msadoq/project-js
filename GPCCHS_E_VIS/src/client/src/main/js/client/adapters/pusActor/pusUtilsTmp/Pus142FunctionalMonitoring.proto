@@ -10,8 +10,10 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
-import "pusModelEditor/Pus142ParameterMonitoringDefinition.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/ULONG.proto";
+import "./Pus142ParameterMonitoringDefinition.proto";
 
 package pusModelEditor.protobuf;
 
@@ -33,30 +35,30 @@ extensions 43 to 143;
   optional ccsds_mal.protobuf.STRING validityParameterExpectedValue = 13;
   repeated pusModelEditor.protobuf.Pus142ParameterMonitoringDefinition pus142ParameterMonitoringDefinition = 14;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeFMonId = 15;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeFMonId = 16;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeFMonId = 16;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeProtectionStatus = 17;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeProtectionStatus = 18;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeProtectionStatus = 18;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCheckingStatus = 19;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeCheckingStatus = 20;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeCheckingStatus = 20;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 21;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeStatus = 22;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeStatus = 22;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeRid = 23;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeRid = 24;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeRid = 24;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamId = 25;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamId = 26;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValidParamId = 26;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamMask = 27;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamMask = 28;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValidParamMask = 28;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamExpectedValue = 29;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamExpectedValue = 30;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValidParamExpectedValue = 30;
   optional ccsds_mal.protobuf.UINTEGER actionTcApid = 31;
   optional ccsds_mal.protobuf.UINTEGER actionTcType = 32;
   optional ccsds_mal.protobuf.UINTEGER actionTcSubType = 33;
   optional ccsds_mal.protobuf.UINTEGER actionStatus = 34;
   optional ccsds_mal.protobuf.STRING actionName = 35;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeActionStatus = 36;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeActionStatus = 37;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeActionStatus = 37;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeRidStatus = 38;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeRidStatus = 39;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeRidStatus = 39;
   optional ccsds_mal.protobuf.ULONG uniqueId = 40;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 41;
   optional ccsds_mal.protobuf.STRING serviceApidName = 42;

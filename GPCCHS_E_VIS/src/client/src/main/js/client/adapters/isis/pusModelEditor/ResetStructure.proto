@@ -1,0 +1,14 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UINTEGER.proto";
+
+
+package pusModelEditor.protobuf;
+
+message ResetStructure {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.UINTEGER initialisationMode = 1;
+  optional ccsds_mal.protobuf.UINTEGER resetType = 2;
+  optional ccsds_mal.protobuf.TIME date = 3;
+}

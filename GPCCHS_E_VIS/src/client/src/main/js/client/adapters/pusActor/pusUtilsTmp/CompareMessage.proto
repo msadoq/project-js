@@ -10,8 +10,8 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
-import "pusModelEditor/HeaderMessage.proto";
+import "../ccsds_mal/types.proto";
+import "./HeaderMessage.proto";
 
 package pusModelEditor.protobuf;
 

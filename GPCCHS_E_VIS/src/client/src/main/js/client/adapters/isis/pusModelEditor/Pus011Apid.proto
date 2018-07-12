@@ -1,0 +1,20 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/ULONG.proto";
+
+
+package pusModelEditor.protobuf;
+
+message Pus011Apid {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.UINTEGER apid = 1;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeApid = 2;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeApid = 3;
+  optional ccsds_mal.protobuf.UINTEGER status = 4;
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 5;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 6;
+  optional ccsds_mal.protobuf.STRING apidName = 7;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 8;
+}

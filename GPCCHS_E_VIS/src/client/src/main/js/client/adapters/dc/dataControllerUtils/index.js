@@ -52,6 +52,11 @@ const ADEItemStructure = require('./ADEItemStructure');
 const ADEItemMetadata = require('./ADEItemMetadata');
 const ADEItemAlgorithm = require('./ADEItemAlgorithm');
 const ADEItemReference = require('./ADEItemReference');
+const ADEMonitoringLaw = require('./ADEMonitoringLaw');
+const ADEMonitoringItem = require('./ADEMonitoringItem');
+const ADECalibrationFunction = require('./ADECalibrationFunction');
+const ADESgy = require('./ADESgy');
+const ADEItemMetadataTM = require('./ADEItemMetadataTM');
 
 const StatExecution = require('./statExecution');
 const ReportingParameterAggregation = require('./reportingParameterAggregation');
@@ -100,4 +105,9 @@ module.exports = { // TODO .proto should be collocated with adapters
   ADEItemAlgorithm: { type: 'protobuf', adapter: ADEItemAlgorithm },
   ADEItemReference: { type: 'protobuf', adapter: ADEItemReference },
   ReportingParameterAggregation: { type: 'raw', adapter: ReportingParameterAggregation},
+  ADEMonitoringLaw: { type: 'protobuf', adapter: ADEMonitoringLaw },
+  ADEMonitoringItem: { type: 'protobuf', adapter: ADEMonitoringItem },
+  ADECalibrationFunction: { type: 'protobuf', adapter: ADECalibrationFunction },
+  ADESgy: { type: 'protobuf', adapter: ADESgy },
+  ADEItemMetadataTM: { type: 'protobuf', adapter: ADEItemMetadataTM },
 };

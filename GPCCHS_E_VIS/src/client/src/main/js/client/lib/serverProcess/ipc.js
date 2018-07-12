@@ -72,7 +72,7 @@ const getDcHeader = _memoize(
 /*----------------*/
 
 const getDcHeaderADE = (method, requestId) => encode('dc.dataControllerUtils.ADEHeader', { method, requestId });
-const getPusHeader = method => encode('pusActor.pusUtils.PusHeader', { method });
+const getPusHeader = (messageType, sessionId, domainId, pusService) => encode('isis.pusModelEditor.HeaderStructure', { messageType: 0, sessionId: 0, domainId: 0, pusService: 0 });
 
 const getDcDataId = _memoize(
   (flatDataId, dataId) => encode('dc.dataControllerUtils.DataId', dataId),
@@ -367,29 +367,29 @@ const pusCommands = {
 
     return queryId;
   },
-  initialize: (pusId, apId, callback) => commands.pus.rpc(
+  initialize: (forReplay, firstTime, lastTime, continous, callback) => commands.pus.rpc(
     constants.PUS_INITIALIZE,
-    encode('pusActor.pusUtils.PusInitialize', { pusId, apId }),
+    encode('isis.pusModelEditor.InitialiseStructure', { forReplay: true, firstTime: Date.now(), lastTime: Date.now() + 10, continous: true }),
     callback
   ),
   subscribe: (pusId, apId, callback) => commands.pus.rpc(
     constants.PUS_SUBSCRIBE,
-    encode('pusActor.pusUtils.PusSubscribe', { pusId, apId }),
+    encode('isis.pusModelEditor.SubscribeStructure', {}),
     callback
   ),
   unsubscribe: (pusId, apId, callback) => commands.pus.rpc(
     constants.PUS_UNSUBSCRIBE,
-    encode('pusActor.pusUtils.PusUnsubscribe', { pusId, apId }),
+    encode('isis.pusModelEditor.UnsubscribeStructure', {}),
     callback
   ),
-  compare: (pusId, apId, date, callback) => commands.pus.rpc(
+  compare: (firstDate, secondDate, callback) => commands.pus.rpc(
     constants.PUS_COMPARE,
-    encode('pusActor.pusUtils.PusCompare', { pusId: 'vcolfdrslh', apId: 'gfrslidkgb', date: 123 }),
+    encode('isis.pusModelEditor.CompareStructure', { firstDate: Date.now(), secondDate: Date.now() + 10 }),
     callback
   ),
-  reset: (pusId, apId, date, callback) => commands.pus.rpc(
+  reset: (initialisationMode, resetType, date, callback) => commands.pus.rpc(
     constants.PUS_RESET,
-    encode('pusActor.pusUtils.PusReset', { pusId, apId, date }),
+    encode('isis.pusModelEditor.InitialiseStructure', { initialisationMode: 0, resetType: 0, date: Date.now() }),
     callback
   ),
 

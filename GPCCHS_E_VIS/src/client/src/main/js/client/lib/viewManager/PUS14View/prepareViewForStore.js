@@ -48,9 +48,9 @@ const getDefaultView = view => _.merge({
           { title: 'subsamplingRatio', displayed: true }, // A afficher dans le tableau de packets
           { title: 'sid', displayed: true }, // A afficher dans le tableau de packets
           { title: 'sidLabel', displayed: true }, // A afficher dans le tableau de packets
-          { title: 'lastUpdateModeTypeSubType', displayed: true }, // Tooltip sur serviceTpe, serviceSubType
-          { title: 'lastUpdateTimeTypeSubType', displayed: true }, // Tooltip sur serviceTpe, serviceSubType
-          { title: 'serviceTpe', displayed: true }, // A afficher dans le tableau de packets
+          { title: 'lastUpdateModeTypeSubType', displayed: true }, // Tooltip sur serviceType, serviceSubType
+          { title: 'lastUpdateTimeTypeSubType', displayed: true }, // Tooltip sur serviceType, serviceSubType
+          { title: 'serviceType', displayed: true }, // A afficher dans le tableau de packets
           { title: 'serviceSubType', displayed: true }, // A afficher dans le tableau de packets
           // { title: 'uniqueId', displayed: true }, // Inutilisé dans la vue
           { title: 'status', displayed: true }, // Non affiché dans la vue.  Si 3 (DELETED), supprimer l’entrée du state

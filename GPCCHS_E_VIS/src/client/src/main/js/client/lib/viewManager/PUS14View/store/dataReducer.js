@@ -8,13 +8,12 @@
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 import _ from 'lodash/fp';
+import parameters from 'common/configurationManager';
 
 import { VM_VIEW_PUS14 } from '../../constants';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
 import { INJECT_PUS_DATA } from '../../../store/types';
 import { injectTabularData } from '../../commonData/reducer';
-
-const constants = require('constants');
 
 // eslint-disable-next-line no-unused-vars
 function pus14DataReducer(state = {}, action) {
@@ -34,6 +33,8 @@ function pus14DataReducer(state = {}, action) {
        * },
        */
       const data = _.getOr([], ['payload', 'data', VM_VIEW_PUS14], action);
+      const statuses = parameters.get('PUS_CONSTANTS').STATUS;
+      const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
       let updatedState = state;
 
@@ -46,19 +47,19 @@ function pus14DataReducer(state = {}, action) {
       updatedState = {
         ...updatedState,
         ...ownModelData,
-        status: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'status', ownModelData)], // map packet status constant
+        status: statuses[_.getOr(200, 'status', ownModelData)], // map packet status constant
       };
 
       updatedState = injectTabularData(updatedState, 'pus014TmPacket',
         _.getOr([], ['pus014Model', 'pus014TmPacket'], data)
         .map(packet => ({
           ...packet,
-          status: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'status', packet)], // map packet status constant
-          forwardingStatus: constants.PUS_CONSTANTS.STATUS[_.getOr(200, 'forwardingStatus', packet)], // map packet forwardingStatus constant
-          lastUpdateModeFwdStatus: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeFwdStatus', packet)], // map packet lastUpdateModeFwdStatus constant
-          lastUpdateModeSid: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeSid', packet)], // map schedule lastUpdateModeSid constant
-          lastUpdateModeSubSamplingRatio: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeSubSamplingRatio', packet)], // map schedule lastUpdateModeSubSamplingRatio constant
-          lastUpdateModeTypeSubType: constants.PUS_CONSTANTS.UPDATE_TYPE[_.getOr(200, 'lastUpdateModeTypeSubType', packet)], // map schedule lastUpdateModeTypeSubType constant
+          status: statuses[_.getOr(200, 'status', packet)], // map packet status constant
+          forwardingStatus: statuses[_.getOr(200, 'forwardingStatus', packet)], // map packet forwardingStatus constant
+          lastUpdateModeFwdStatus: updateTypes[_.getOr(200, 'lastUpdateModeFwdStatus', packet)], // map packet lastUpdateModeFwdStatus constant
+          lastUpdateModeSid: updateTypes[_.getOr(200, 'lastUpdateModeSid', packet)], // map schedule lastUpdateModeSid constant
+          lastUpdateModeSubSamplingRatio: updateTypes[_.getOr(200, 'lastUpdateModeSubSamplingRatio', packet)], // map schedule lastUpdateModeSubSamplingRatio constant
+          lastUpdateModeTypeSubType: updateTypes[_.getOr(200, 'lastUpdateModeTypeSubType', packet)], // map schedule lastUpdateModeTypeSubType constant
         }))
       );
 

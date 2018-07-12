@@ -8,7 +8,7 @@ import {
   Popover,
 } from 'react-bootstrap';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
-import { createTableData } from './PUS11View';
+import { createTableData } from '../../../common/pus/tooltip';
 
 import styles from './PUS11Modal.css';
 import './PUS11Modal.scss';
@@ -16,7 +16,7 @@ import './PUS11Modal.scss';
 
 const popoverTrigger = ['hover', 'focus'];
 const popoverStyle = {
-  height: 80,
+  height: 50,
 };
 
 const _createInfoPopover = obj => (

@@ -49,7 +49,7 @@ describe('protobuf/isis/pusGroundModel/Pus014Model', () => {
         lastUpdateModeRid: { type: 'uinteger', value: stub.pus014EventReportPacket[i].lastUpdateModeRid },
         lastUpdateTimeRid: { type: 'time', value: stub.pus014EventReportPacket[i].lastUpdateTimeRid },
       });
-      
+
     }
     expect(decoded.pus014HkPacket).toHaveLength(stub.pus014HkPacket.length);
     for (let i = 0; i < stub.pus014HkPacket.length; i += 1) {
@@ -72,12 +72,12 @@ describe('protobuf/isis/pusGroundModel/Pus014Model', () => {
         lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.pus014HkPacket[i].lastUpdateModeSubSamplingRatio },
         lastUpdateTimeSubSamplingRatio: { type: 'time', value: stub.pus014HkPacket[i].lastUpdateTimeSubSamplingRatio },
       });
-      
+
     }
     expect(decoded.pus014TmPacket).toHaveLength(stub.pus014TmPacket.length);
     for (let i = 0; i < stub.pus014TmPacket.length; i += 1) {
       expect(decoded.pus014TmPacket[i]).toMatchObject({
-        serviceTpe: { type: 'uinteger', value: stub.pus014TmPacket[i].serviceTpe },
+        serviceType: { type: 'uinteger', value: stub.pus014TmPacket[i].serviceType },
         serviceSubType: { type: 'uinteger', value: stub.pus014TmPacket[i].serviceSubType },
         pus014ForwardedPacket: {
           apid: { type: 'uinteger', value: stub.pus014TmPacket[i].pus014ForwardedPacket.apid },
@@ -92,7 +92,7 @@ describe('protobuf/isis/pusGroundModel/Pus014Model', () => {
         lastUpdateModeTypeSubType: { type: 'uinteger', value: stub.pus014TmPacket[i].lastUpdateModeTypeSubType },
         lastUpdateTimeTypeSubType: { type: 'time', value: stub.pus014TmPacket[i].lastUpdateTimeTypeSubType },
       });
-      
+
     }
     expect(decoded.pus014DiagPacket).toHaveLength(stub.pus014DiagPacket.length);
     for (let i = 0; i < stub.pus014DiagPacket.length; i += 1) {
@@ -115,7 +115,7 @@ describe('protobuf/isis/pusGroundModel/Pus014Model', () => {
         lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.pus014DiagPacket[i].lastUpdateModeSubSamplingRatio },
         lastUpdateTimeSubSamplingRatio: { type: 'time', value: stub.pus014DiagPacket[i].lastUpdateTimeSubSamplingRatio },
       });
-      
+
     }
   });
 });

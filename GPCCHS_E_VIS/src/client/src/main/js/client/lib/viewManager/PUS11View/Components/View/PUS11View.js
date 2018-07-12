@@ -1,4 +1,3 @@
-import _ from 'lodash/fp';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
@@ -7,157 +6,20 @@ import { OverlayTrigger, Popover } from 'react-bootstrap';
 import './PUS11View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-
-import styles from './PUS11View.css';
+import { addTooltipWithContent } from '../../../common/pus/tooltip';
 
 const popoverStyle = {
   height: 80,
 };
 
-const _addTooltipWithContent = (cellContent, content, displayObj) => {
-  const keys = Object.keys(displayObj);
-
-  return ({
-    ...cellContent,
-    tooltip: {
-      body: createTableData(keys.reduce((acc, cur) => {
-        const currentContent = displayObj[cur];
-
-        const value = content[currentContent.key];
-
-        const format = currentContent.format || _.identity;
-
-        return ({
-          ...acc,
-          [cur]: format(value),
-        });
-      }, {})),
-    },
-  });
-};
-
 const _formatDate = date => (new Date(date)).toISOString();
-
-export const createTableData =
-  obj => (
-    <table className={styles.popoverTable}>
-      <tbody>
-        {
-        Object.keys(obj).map(
-          key => (
-            <tr>
-              <td>{key}</td>
-              <td>{obj[key]}</td>
-            </tr>
-          )
-        )
-      }
-      </tbody>
-    </table>
-  );
-
-const _commandContentModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = cellContent;
-
-  switch (colKey) {
-    case 'commandSsId':
-      return _addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeCommandId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeCommandId',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'commandGroundStatus':
-      return _addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateTimeBinProf: {
-            key: 'lastUpdateTimeBinProf',
-            format: _formatDate,
-          },
-          lastUpdateTimeGroundStatus: {
-            key: 'lastUpdateTimeGroundStatus',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'status':
-      return _addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateModeStatus: {
-            key: 'lastUpdateModeStatus',
-          },
-          lastUpdateTimeStatus: {
-            key: 'lastUpdateTimeStatus',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'currentExecutionTime':
-      return _addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateModeCurrentExecTime: {
-            key: 'lastUpdateModeCurrentExecTime',
-          },
-          lastUpdateTimeCurrentExecTime: {
-            key: 'lastUpdateTimeCurrentExecTime',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'initialExecutionTime':
-      return _addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateModeCurrentExecTime: {
-            key: 'lastUpdateModeCurrentExecTime',
-            format: _formatDate,
-          },
-          lastUpdateTimeInitialExecTime: {
-            key: 'lastUpdateTimeInitialExecTime',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'totalTimeShiftOffset':
-      return _addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateModeTotalTimeShiftOffset: {
-            key: 'lastUpdateModeTotalTimeShiftOffset',
-            format: _formatDate,
-          },
-          lastUpdateTimeInitialExecTime: {
-            key: 'lastUpdateTimeTotalTimeShiftOffset',
-            format: _formatDate,
-          },
-        }
-      );
-    default:
-      return cellContent;
-  }
-};
 
 const _enabledApidsContentModifier = (cellContent = {}, content = {}) => {
   const { colKey } = cellContent;
 
   switch (colKey) {
     case 'apid':
-      return _addTooltipWithContent(
+      return addTooltipWithContent(
         cellContent,
         content,
         {
@@ -170,17 +32,59 @@ const _enabledApidsContentModifier = (cellContent = {}, content = {}) => {
           },
         }
       );
+    case 'apidName':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeApid',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeApid',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'status':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeStatus',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeStatus',
+            format: _formatDate,
+          },
+        }
+      );
     default:
       return cellContent;
   }
 };
-
 const _subSchedulesContentModifier = (cellContent = {}, content = {}) => {
   const { colKey } = cellContent;
 
   switch (colKey) {
     case 'ssId': {
-      return _addTooltipWithContent(
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeSubScheduleId',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeSubscheduleId',
+            format: _formatDate,
+          },
+        }
+      );
+    }
+    case 'ssIdLabel': {
+      return addTooltipWithContent(
         cellContent,
         content,
         {
@@ -195,7 +99,7 @@ const _subSchedulesContentModifier = (cellContent = {}, content = {}) => {
       );
     }
     case 'status': {
-      return _addTooltipWithContent(
+      return addTooltipWithContent(
         cellContent,
         content,
         {
@@ -214,12 +118,105 @@ const _subSchedulesContentModifier = (cellContent = {}, content = {}) => {
     }
   }
 };
+const _commandContentModifier = (cellContent = {}, content = {}) => {
+  const { colKey } = cellContent;
+
+  switch (colKey) {
+    case 'commandSsId':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeCommandId',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeCommandId',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'commandGroundStatus':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeGroundStatus',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeGroundStatus',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'commandStatus':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeStatus',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeStatus',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'currentExecutionTime':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeCurrentExecTime',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeCurrentExecTime',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'initialExecutionTime':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeInitialExecTime',
+            format: _formatDate,
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeInitialExecTime',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'totalTimeShiftOffset':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeTotalTimeShiftOffset',
+            format: _formatDate,
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeTotalTimeShiftOffset',
+            format: _formatDate,
+          },
+        }
+      );
+    default:
+      return cellContent;
+  }
+};
 
 const backgroundDisabled = { backgroundColor: '#e67e22' };
 const backgroundEnabled = { backgroundColor: '#2ecc71' };
 
 // ENABLED APIDS
-
 const _enabledApidsStatusKeyList = [
   'status',
   'lastUpdateTimeStatus',

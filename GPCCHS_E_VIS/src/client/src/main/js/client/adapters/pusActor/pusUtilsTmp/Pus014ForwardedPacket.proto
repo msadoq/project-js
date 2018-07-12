@@ -38,7 +38,7 @@ extensions 25 to 125;
   optional ccsds_mal.protobuf.STRING sidLabel = 19;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeTypeSubType = 20;
   optional ccsds_mal.protobuf.TIME lastUpdateTimeTypeSubType = 21;
-  optional ccsds_mal.protobuf.UINTEGER serviceTpe = 22;
+  optional ccsds_mal.protobuf.UINTEGER serviceType = 22;
   optional ccsds_mal.protobuf.UINTEGER serviceSubType = 23;
   optional ccsds_mal.protobuf.ULONG uniqueId = 24;
 }

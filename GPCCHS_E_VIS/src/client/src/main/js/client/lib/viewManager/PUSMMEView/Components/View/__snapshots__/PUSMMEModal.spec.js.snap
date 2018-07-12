@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PUSMMEModal :: render snapshot 1`] = `
+<ErrorBoundary>
+  <div
+    className="row pusmmeModal"
+  >
+    <div
+      className="container"
+    >
+      <h4>
+        Packet Store
+      </h4>
+      <table
+        className="table table-bordered"
+      >
+        <thead>
+          <tr>
+            <th>
+              storeId
+            </th>
+            <th>
+              storeName
+            </th>
+            <th>
+              storeStatus
+            </th>
+            <th>
+              subSamplingRatio
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              overlay={
+                <Popover
+                  bsClass="popover"
+                  id="packets-info"
+                  placement="bottom"
+                  style={
+                    Object {
+                      "height": 50,
+                    }
+                  }
+                >
+                  <table
+                    className="popoverTable"
+                  >
+                    <tbody>
+                      <tr>
+                        <td>
+                          <strong>
+                            Last update time
+                          </strong>
+                        </td>
+                        <td>
+                          123
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>
+                            Last update mode
+                          </strong>
+                        </td>
+                        <td>
+                          1
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </Popover>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <td>
+                <span>
+                  1
+                </span>
+              </td>
+            </OverlayTrigger>
+            <td>
+              <span>
+                myString
+              </span>
+            </td>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              overlay={
+                <Popover
+                  bsClass="popover"
+                  id="packets-info"
+                  placement="bottom"
+                  style={
+                    Object {
+                      "height": 50,
+                    }
+                  }
+                >
+                  <table
+                    className="popoverTable"
+                  >
+                    <tbody>
+                      <tr>
+                        <td>
+                          <strong>
+                            Last update time
+                          </strong>
+                        </td>
+                        <td>
+                          1531404207354
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>
+                            Last update mode
+                          </strong>
+                        </td>
+                        <td>
+                          1
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </Popover>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <td>
+                <span>
+                  1
+                </span>
+              </td>
+            </OverlayTrigger>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              overlay={
+                <Popover
+                  bsClass="popover"
+                  id="packets-info"
+                  placement="bottom"
+                  style={
+                    Object {
+                      "height": 50,
+                    }
+                  }
+                >
+                  <table
+                    className="popoverTable"
+                  >
+                    <tbody>
+                      <tr>
+                        <td>
+                          <strong>
+                            Last update time
+                          </strong>
+                        </td>
+                        <td>
+                          1531404207354
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>
+                            Last update mode
+                          </strong>
+                        </td>
+                        <td>
+                          1
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </Popover>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <td>
+                <span>
+                  1
+                </span>
+              </td>
+            </OverlayTrigger>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      className="container"
+    >
+      <h4>
+        Packet Parameter
+      </h4>
+      <table
+        className="table table-bordered"
+      >
+        <thead>
+          <tr>
+            <th>
+              parameterId
+            </th>
+            <th>
+              parameterName
+            </th>
+            <th>
+              parameterOrder
+            </th>
+            <th>
+              parameterFilteredStatus
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              1
+            </td>
+            <td>
+              myString
+            </td>
+            <td>
+              1
+            </td>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              overlay={
+                <Popover
+                  bsClass="popover"
+                  id="packets-info"
+                  placement="bottom"
+                  style={
+                    Object {
+                      "height": 50,
+                    }
+                  }
+                >
+                  <table
+                    className="popoverTable"
+                  >
+                    <tbody>
+                      <tr>
+                        <td>
+                          <strong>
+                            Last update time
+                          </strong>
+                        </td>
+                        <td>
+                          1531404207354
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>
+                            Last update mode
+                          </strong>
+                        </td>
+                        <td>
+                          1
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </Popover>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <td>
+                <span>
+                  myString
+                </span>
+              </td>
+            </OverlayTrigger>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div
+    className="text-right"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="btn btn-default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      Close
+    </Button>
+  </div>
+</ErrorBoundary>
+`;

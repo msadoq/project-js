@@ -7,8 +7,8 @@ const uINTEGER = require('../ccsds_mal/uINTEGER');
 
 module.exports = {
   encode: data => ({
-    serviceTpe: (data.serviceTpe !== null && typeof data.serviceTpe !== 'undefined')
-      ? uINTEGER.encode(data.serviceTpe)
+    serviceType: (data.serviceType !== null && typeof data.serviceType !== 'undefined')
+      ? uINTEGER.encode(data.serviceType)
       : null,
     serviceSubType: (data.serviceSubType !== null && typeof data.serviceSubType !== 'undefined')
       ? uINTEGER.encode(data.serviceSubType)
@@ -24,8 +24,8 @@ module.exports = {
       : null,
   }),
   decode: data => ({
-    serviceTpe: (data.serviceTpe !== null && typeof data.serviceTpe !== 'undefined')
-      ? uINTEGER.decode(data.serviceTpe)
+    serviceType: (data.serviceType !== null && typeof data.serviceType !== 'undefined')
+      ? uINTEGER.decode(data.serviceType)
       : undefined,
     serviceSubType: (data.serviceSubType !== null && typeof data.serviceSubType !== 'undefined')
       ? uINTEGER.decode(data.serviceSubType)

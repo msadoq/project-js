@@ -1,11 +1,13 @@
-// const { decode, getType } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers:PUS:onInitialize');
 const _chunk = require('lodash/chunk');
 
 const { incomingPus } = require('store/actions/pus');
-const { VM_VIEW_PUS11, VM_VIEW_PUS14 } = require('viewManager/constants');
-// const { pop } = require('../../../common/callbacks');
-// const { add: addMessage } = require('../../../store/actions/messages');
+const {
+  VM_VIEW_PUS11,
+  VM_VIEW_PUS14,
+  VM_VIEW_PUS15,
+  VM_VIEW_PUSMME,
+} = require('viewManager/constants');
 
 /**
  * Triggered on pus request response.
@@ -138,40 +140,171 @@ module.exports = (buffers, getStore) => {
           packetApid: 100, // A afficher dans le tableau de packets
           forwardingStatus: 1, // A afficher dans le tableau de packets
           lastUpdateModeFwdStatus: 1, // Tooltip sur forwardingStatus
-          lastUpdateTimeFwdStatus: 1527520025823,  // Tooltip sur forwardingStatus
+          lastUpdateTimeFwdStatus: timestamp,  // Tooltip sur forwardingStatus
           packetApidName: 'myString', // A afficher dans le tableau de packets
           serviceApid: 100, // Inutilisé dans la vue
           packetName: 'myString',  // A afficher dans le tableau de packets
           serviceApidName: 'myString', // Inutilisé dans la vue
           lastUpdateModeRid: 100,  // Tooltip sur rid / ridLabel
-          lastUpdateTimeRid: 1527520025823, // Tooltip sur rid / ridLabel
+          lastUpdateTimeRid: timestamp, // Tooltip sur rid / ridLabel
           rid: 100,  // A afficher dans le tableau de packets
           ridLabel: 'myString', // A afficher dans le tableau de packets
           lastUpdateModeSid: 1, // Tooltip sur sid, sidLabel
-          lastUpdateTimeSid: 1527520025823, // Tooltip sur sid, sidLabel
+          lastUpdateTimeSid: timestamp, // Tooltip sur sid, sidLabel
           lastUpdateModeSubSamplingRatio: 1, // Tooltip sur subsamplingRatio
-          lastUpdateTimeSubSamplingRatio: 1527520025823, // Tooltip sur subsamplingRatio
+          lastUpdateTimeSubSamplingRatio: timestamp, // Tooltip sur subsamplingRatio
           subsamplingRatio: 100, // A afficher dans le tableau de packets
           sid: 100, // A afficher dans le tableau de packets
           sidLabel: 'myString', // A afficher dans le tableau de packets
-          lastUpdateModeTypeSubType: 1, // Tooltip sur serviceTpe, serviceSubType
-          lastUpdateTimeTypeSubType: 1527520025823, // Tooltip sur serviceTpe, serviceSubType
-          serviceTpe: 1, // A afficher dans le tableau de packets
+          lastUpdateModeTypeSubType: 1, // Tooltip sur serviceType, serviceSubType
+          lastUpdateTimeTypeSubType: timestamp, // Tooltip sur serviceType, serviceSubType
+          serviceType: 1, // A afficher dans le tableau de packets
           serviceSubType: 2, // A afficher dans le tableau de packets
           uniqueId: 100, // Inutilisé dans la vue
           status: 1, // Non affiché dans la vue.  Si 3 (DELETED), supprimer l’entrée du state
         },
       ],
-      groundDate: 1527520025823, // Inutilisé dans la vue
+      groundDate: timestamp, // Inutilisé dans la vue
       serviceApid: 100, // A afficher dans la vue
       status: 1, // Inutilisé dans la vue Si 3 (DELETED), supprimer l’entrée du state
       serviceApidName: 'myString', // A afficher dans la vue
       uniqueId: 100, // Inutilisé dans la vue
     },
   };
+  const pus15 = {
+    pus015Model: {
+      pus015PacketStore: [ // affiché dans le tableau On-Board Storages
+        {
+          storeId: 100, // affiché dans la vue
+          status: 1, // affiché dans la vue
+          storageType: 'myString', // affiché dans la vue
+          dumpEnabled: false, // affiché dans la vue
+          hkStatusParameterName: 'myString', // affiché dans la vue
+          lastUpdateModeStoreId: 1, // tooltip sur storeId
+          lastUpdateTimeStoreId: timestamp, // tooltip sur storeId
+          lastUpdateModeStoreType: 1, // tooltip sur storageType
+          lastUpdateTimeStoreType: timestamp, // tooltip sur storageType
+          lastUpdateModeStoreStatus: 1, // tooltip sur status
+          lastUpdateTimeStoreStatus: timestamp, // tooltip sur status
+          serviceApidName: 'myString', // affiché dans la vue
+          storeName: 'myString', // affiché dans la vue
+          serviceApid: 100, // affiché dans la vue
+          uniqueId: 100, // inutilisé dans la vue
+          pus015Packet: [ // affiché dans le tableau Storage Definitions. Il faut récupérer tous les pus015Packet de tous les pus015PacketStore et les agéger dans le tableau, doublons filtrés par unique ID
+            {
+              packetApid: 100, // affiché dans la vue
+              serviceType: 1, // affiché dans la vue
+              serviceSubType: 1, // affiché dans la vue
+              sid: 100, // affiché dans la vue
+              subsamplingRatio: 100, // affiché dans la vue
+              packetType: 1, // affiché dans la vue
+              sidLabel: 'myString', // affiché dans la vue
+              isSubsamplingRatioSet: false, // affiché dans la vue
+              lastUpdateModePacketId: 1, // tooltip sur packetType
+              lastUpdateTimePacketId: timestamp, // tooltip sur packetType
+              lastUpdateModeSubSamplingRatio: 1, // tooltip sur subsamplingRatio
+              lastUpdateTimeSubSamplingRatio: timestamp, // tooltip sur subsamplingRatio
+              serviceApid: 100, // affiché dans la vue
+              serviceApidName: 'myString', // affiché dans la vue
+              packetApidName: 'myString', // affiché dans la vue
+              sidName: 'myString', // affiché dans la vue
+              uniqueId: 100, // inutilisé dans la vue
+            },
+          ],
+        },
+      ],
+      groundDate: timestamp, // Inutilisé dans la vue
+      serviceApid: 100, // A afficher dans la vue
+      status: 1, // Inutilisé dans la vue
+      serviceApidName: 'myString', // A afficher dans la vue
+      uniqueId: 100, // Inutilisé dans la vue
+    },
+  };
+  const pusmme = {
+    pusMmeModel: {
+      serviceApid: 100, // A afficher dans la vue
+      status: 1, // A afficher dans la vue
+      groundDate: timestamp, // Inutilisé dans la vue
+      serviceApidName: 'myString', // A afficher dans la vue
+      uniqueId: 1, // Inutilisé dans la vue
+      pusMmePacket: [
+        {
+          sid: 100, // A afficher dans la vue
+          validityParameterId: 100, // A afficher dans la vue
+          validityParameterMask: 'myString', // A afficher dans la vue
+          validityParameterExpectedValue: 'myString', // A afficher dans la vue
+          collectionInterval: 'myString', // A afficher dans la vue
+          status: 1, // // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue
+          sidLabel: 'myString', // A afficher dans la vue
+          lastUpdateModeSid: 100, // Tooltip sur sid & sidLabel
+          lastUpdateTimeSid: timestamp, // Tooltip sur sid & sidLabel
+          lastUpdateModeStatus: 1, // Tooltip sur status
+          lastUpdateTimeStatus: timestamp, // Tooltip sur status
+          lastUpdateModeValidParamId: 100, // Tooltip sur validityParameterId
+          lastUpdateTimeValidParamId: timestamp, // Tooltip sur validityParameterId
+          lastUpdateModeValidParamMask: 100, // Tooltip sur validityParameterMask
+          lastUpdateTimeValidParamMask: timestamp, // Tooltip sur validityParameterMask
+          lastUpdateModeValidParamExpValue: 100, // Tooltip sur validityParameterExpectedValue
+          lastUpdateTimeValidParamExpValue: timestamp, // Tooltip sur validityParameterExpectedValue
+          lastUpdateModeCollectInterval: 100, // Tooltip sur collectionInterval
+          lastUpdateTimeCollectInterval: timestamp, // Tooltip sur collectionInterval
+          packetName: 'myString', // A afficher dans la vue
+          validityParameterName: 'myString', // A afficher dans la vue, colonne Val. Param. Name
+          packetApid: 100, //  A afficher dans la vue, colonne Apid
+          packetApidName: 'myString', //  A afficher dans la vue, colonne AP Name
+          serviceApid: 100, // A afficher dans la vue
+          serviceApidName: 'myString', // A afficher dans la vue
+          uniqueId: 100, // Inutilisé dans la vue
+          generationMode: 'myString', // A afficher dans la vue
+          lastUpdateTimeGenMode: timestamp, // Tooltip sur generationMode
+          lastUpdateModeGenMode: 1, // Tooltip sur generationMode
+          packetType: 'myString', // A afficher dans la vue, colonne Type
+          forwardingStatusTypeSubtype: 1, // A afficher dans la vue
+          lastUpdateModeFwdStatusTypeSubtype: 1, // Tooltip sur forwardingStatusTypeSubtype
+          lastUpdateTimeFwdStatusTypeSubtype: timestamp, // Tooltip sur forwardingStatusTypeSubtype
+          forwardingStatusRidSid: 100,  // A afficher dans la vue
+          lastUpdateModeFwdStatusTypeRidSid: 100, // Tooltip sur forwardingStatusRidSid
+          lastUpdateTimeFwdStatusTypeRidSid: timestamp, // Tooltip sur forwardingStatusRidSid
+          lastUpdateModeSubSamplingRatio: 1, // Tooltip sur subsamplingRatio
+          lastUpdateTimeSubSamplingRatio: timestamp, // Tooltip sur subsamplingRatio
+          subsamplingRatio: 1, // A afficher dans la vue
+          pusMmePacketStore: [
+            {
+              storeName: 'myString',  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+              storeId: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+              storeStatus: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+              subSamplingRatio: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+              lastUpdateModeStoreId: 1, // Tooltip sur storeId
+              lastUpdateTimeStoreId: timestamp, // Tooltip sur storeId
+              lastUpdateModeStoreStatus: 1, // Tooltip sur storeStatus
+              lastUpdateTimeStoreStatus: timestamp, // Tooltip sur storeStatus
+              lastUpdateModeSubSamplingRatio: 1, // Tooltip sur subSamplingRatio
+              lastUpdateTimeSubSamplingRatio: timestamp, // Tooltip sur subSamplingRatio
+              uniqueId: 1, // Inutilisé dans la vue
+            },
+          ],
+          pusMmePacketParameter: [
+            {
+              parameterId: 1,  // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+              parameterName: 'myString', // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+              parameterOrder: 1, // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+              parameterFilteredStatus: 'myString', // A afficher dans la popin sur un Dble Click d’une ligne du tableau
+              uniqueId: 1, // inutilisé dans la vue
+              lastUpdateModeStoreId: 1, // inutilisé dans la vue
+              lastUpdateTimeStoreId: timestamp, // inutilisé dans la vue
+              lastUpdateModeFilteredStatus: 1, // Tooltip sur parameterFilteredStatus
+              lastUpdateTimeFilteredStatus: timestamp, // Tooltip sur parameterFilteredStatus
+            },
+          ],
+        },
+      ],
+    },
+  };
   store.dispatch(incomingPus({
     [VM_VIEW_PUS11]: pus11,
     [VM_VIEW_PUS14]: pus14,
+    [VM_VIEW_PUS15]: pus15,
+    [VM_VIEW_PUSMME]: pusmme,
   }));
 
   // const buffer = buffers[0];

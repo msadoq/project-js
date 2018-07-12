@@ -35,14 +35,14 @@ const props = {
           { title: 'packetApid', displayed: true }, // A afficher dans le tableau de packets
           { title: 'forwardingStatus', displayed: true }, // A afficher dans le tableau de packets
           { title: 'lastUpdateModeFwdStatus', displayed: true }, // Tooltip sur forwardingStatus
-          { title: 'lastUpdateTimeFwdStatus', displayed: true } , // Tooltip sur forwardingStatus
+          { title: 'lastUpdateTimeFwdStatus', displayed: true }, // Tooltip sur forwardingStatus
           { title: 'packetApidName', displayed: true }, // A afficher dans le tableau de packets
           { title: 'serviceApid', displayed: true }, // Inutilisé dans la vue
-          { title: 'packetName', displayed: true } , // A afficher dans le tableau de packets
+          { title: 'packetName', displayed: true }, // A afficher dans le tableau de packets
           { title: 'serviceApidName', displayed: true }, // Inutilisé dans la vue
-          { title: 'lastUpdateModeRid', displayed: true } , // Tooltip sur rid / ridLabel
+          { title: 'lastUpdateModeRid', displayed: true }, // Tooltip sur rid / ridLabel
           { title: 'lastUpdateTimeRid', displayed: true }, // Tooltip sur rid / ridLabel
-          { title: 'rid', displayed: true } , // A afficher dans le tableau de packets
+          { title: 'rid', displayed: true }, // A afficher dans le tableau de packets
           { title: 'ridLabel', displayed: true }, // A afficher dans le tableau de packets
           { title: 'lastUpdateModeSid', displayed: true }, // Tooltip sur sid, sidLabel
           { title: 'lastUpdateTimeSid', displayed: true }, // Tooltip sur sid, sidLabel
@@ -51,9 +51,9 @@ const props = {
           { title: 'subsamplingRatio', displayed: true }, // A afficher dans le tableau de packets
           { title: 'sid', displayed: true }, // A afficher dans le tableau de packets
           { title: 'sidLabel', displayed: true }, // A afficher dans le tableau de packets
-          { title: 'lastUpdateModeTypeSubType', displayed: true }, // Tooltip sur serviceTpe, serviceSubType
-          { title: 'lastUpdateTimeTypeSubType', displayed: true }, // Tooltip sur serviceTpe, serviceSubType
-          { title: 'serviceTpe', displayed: true }, // A afficher dans le tableau de packets
+          { title: 'lastUpdateModeTypeSubType', displayed: true }, // Tooltip sur serviceType, serviceSubType
+          { title: 'lastUpdateTimeTypeSubType', displayed: true }, // Tooltip sur serviceType, serviceSubType
+          { title: 'serviceType', displayed: true }, // A afficher dans le tableau de packets
           { title: 'serviceSubType', displayed: true }, // A afficher dans le tableau de packets
           // { title: 'uniqueId', displayed: true }, // Inutilisé dans la vue
           { title: 'status', displayed: true }, // Non affiché dans la vue.  Si 3 (DELETED), supprimer l’entrée du state

@@ -8,7 +8,7 @@ const getPus014ForwardedPacket = require('./pus014ForwardedPacket.stub');
 const now = _now();
 
 const pus014TmPacket = {
-  serviceTpe: 100,
+  serviceType: 100,
   serviceSubType: 100,
   pus014ForwardedPacket: getPus014ForwardedPacket(),
   lastUpdateModeTypeSubType: 100,

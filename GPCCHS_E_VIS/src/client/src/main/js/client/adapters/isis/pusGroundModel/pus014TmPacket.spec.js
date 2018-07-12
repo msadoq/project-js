@@ -19,7 +19,7 @@ describe('protobuf/isis/pusGroundModel/Pus014TmPacket', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      serviceTpe: { type: 'uinteger', value: stub.serviceTpe },
+      serviceType: { type: 'uinteger', value: stub.serviceType },
       serviceSubType: { type: 'uinteger', value: stub.serviceSubType },
       pus014ForwardedPacket: {
         apid: { type: 'uinteger', value: stub.pus014ForwardedPacket.apid },
@@ -34,6 +34,6 @@ describe('protobuf/isis/pusGroundModel/Pus014TmPacket', () => {
       lastUpdateModeTypeSubType: { type: 'uinteger', value: stub.lastUpdateModeTypeSubType },
       lastUpdateTimeTypeSubType: { type: 'time', value: stub.lastUpdateTimeTypeSubType },
     });
-    
+
   });
 });

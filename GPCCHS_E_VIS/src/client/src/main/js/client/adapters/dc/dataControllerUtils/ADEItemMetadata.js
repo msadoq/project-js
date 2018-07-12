@@ -14,7 +14,6 @@ const encode = data => ({
 });
 
 const decode = data => {
-  console.log('#############', JSON.stringify(data, null, ' '));
   return ({
     itemName: data.itemName,
     comment: data.comment,

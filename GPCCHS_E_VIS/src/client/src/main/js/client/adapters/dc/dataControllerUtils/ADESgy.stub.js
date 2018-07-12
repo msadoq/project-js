@@ -1,22 +1,22 @@
 const ProtoBuf = require('protobufjs');
 const applyOverride = require('../applyOverride');
-const Adapter = require('./ADEAlgorithmLanguage');
+const Adapter = require('./ADESgy');
 
 const Builder = new ProtoBuf.Root()
-  .loadSync(`${__dirname}/ADEAlgorithmLanguage.proto`, { keepCase: true })
-  .lookup('dataControllerUtils.protobuf.ADEAlgorithmLanguage');
+  .loadSync(`${__dirname}/ADESgy.proto`, { keepCase: true })
+  .lookup('dataControllerUtils.protobuf.ADESgy');
 
-const getADEAlgorithmLanguage = override => applyOverride({
+const getADESgy = override => applyOverride({
   validityCondition: 'python',
   inputParameters: ['nif-nif', 'nouf-nouf', 'naf-naf'],
 }, override);
 
-const getADEAlgorithmLanguageProtobuf = override => {
-  const toEncode = getADEAlgorithmLanguage(override);
+const getADESgyProtobuf = override => {
+  const toEncode = getADESgy(override);
   return Builder.encode(Adapter.encode(toEncode)).finish();
 };
 
 module.exports = {
-  getADEAlgorithmLanguage,
-  getADEAlgorithmLanguageProtobuf,
+  getADESgy,
+  getADESgyProtobuf,
 };

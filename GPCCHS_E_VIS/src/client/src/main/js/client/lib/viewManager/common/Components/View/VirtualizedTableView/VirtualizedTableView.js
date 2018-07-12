@@ -38,6 +38,7 @@ class VirtualizedTableView extends React.Component {
     filterState: PropTypes.shape(),
     onScrollTop: PropTypes.func.isRequired,
     overrideStyle: PropTypes.func,
+    tableHeader: PropTypes.func,
   };
 
   static defaultProps = {
@@ -53,6 +54,7 @@ class VirtualizedTableView extends React.Component {
     sortState: {},
     filterState: {},
     overrideStyle: () => ({}),
+    tableHeader: null,
   };
 
   constructor(props, context) {
@@ -128,6 +130,7 @@ class VirtualizedTableView extends React.Component {
       filterState,
       overrideStyle,
       columnCount,
+      tableHeader,
     } = this.props;
 
     const formattedRows = rows;
@@ -405,6 +408,10 @@ class VirtualizedTableView extends React.Component {
 
     const extendedRowHeight = rowHeight * 2;
 
+    const header =
+      tableHeader ||
+      <div className={styles.tableHeader}>{`${tableName} (${_getCountStr()})`}</div>;
+
     return (
       <ErrorBoundary>
         <ContainerDimensions>
@@ -421,7 +428,7 @@ class VirtualizedTableView extends React.Component {
 
               return (
                 <div>
-                  <div className={styles.tableHeader}>{`${tableName} (${_getCountStr()})`}</div>
+                  {header}
                   <ScrollSync className={styles.container}>
                     {
                       (

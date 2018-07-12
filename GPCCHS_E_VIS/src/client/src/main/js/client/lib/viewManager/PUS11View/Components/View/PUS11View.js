@@ -20,7 +20,7 @@ const _addTooltipWithContent = (cellContent, content, displayObj) => {
   return ({
     ...cellContent,
     tooltip: {
-      body: _createTableData(keys.reduce((acc, cur) => {
+      body: createTableData(keys.reduce((acc, cur) => {
         const currentContent = displayObj[cur];
 
         const value = content[currentContent.key];
@@ -38,7 +38,7 @@ const _addTooltipWithContent = (cellContent, content, displayObj) => {
 
 const _formatDate = date => (new Date(date)).toISOString();
 
-const _createTableData =
+export const createTableData =
   obj => (
     <table className={styles.popoverTable}>
       <tbody>

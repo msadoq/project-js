@@ -40,6 +40,8 @@ const mapStateToProps = (state, { viewId }) => {
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
   onCommandCellDoubleClick: (windowId, commandParameters, timeShifts, binaryProfile) => {
+    console.log('timeShifts = ', timeShifts);
+
     dispatch(
       openModal(
         windowId,
@@ -76,8 +78,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     const timeShifts = data.pus011TimeShift;
     const binaryProfile = {
       commandBinaryProfile,
-      lastUpdateModeBinProf,
-      lastUpdateTimeBinProf,
+      lastUpdateMode: lastUpdateModeBinProf,
+      lastUpdateTime: lastUpdateTimeBinProf,
     };
 
     dispatchProps.onCommandCellDoubleClick(

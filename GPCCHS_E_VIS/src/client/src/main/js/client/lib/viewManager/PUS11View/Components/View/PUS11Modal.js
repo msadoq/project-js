@@ -1,14 +1,60 @@
 /* eslint-disable react/no-array-index-key,react/prefer-stateless-function */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import {
+  Button,
+  Glyphicon,
+  OverlayTrigger,
+  Popover,
+} from 'react-bootstrap';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import { createTableData } from './PUS11View';
 
+import styles from './PUS11Modal.css';
 import './PUS11Modal.scss';
+
+
+const popoverTrigger = ['hover', 'focus'];
+const popoverStyle = {
+  height: 80,
+};
+
+const _createInfoPopover = obj => (
+  <Popover
+    id={'commands-timeshifts-info'}
+    placement="bottom"
+    style={popoverStyle}
+  >
+    {createTableData(obj)}
+  </Popover>
+);
+
+const InfoIcon = (<Glyphicon
+  className={styles.InfoIcon}
+  glyph="info-sign"
+/>);
+
+const _createInfoOverlay = (obj, children = InfoIcon) =>
+  (
+    <OverlayTrigger
+      trigger={popoverTrigger}
+      placement="right"
+      overlay={_createInfoPopover({
+        'Last update time': obj.lastUpdateTime,
+        'Last update mode': obj.lastUpdateMode,
+      })}
+    >
+      {children}
+    </OverlayTrigger>
+  );
+
 
 const renderBinaryProfile = binaryProfile => (
   <div>
-    <h4>Binary profile</h4>
+    <h4>
+      Binary profile
+      {_createInfoOverlay(binaryProfile)}
+    </h4>
     <table className="table table-bordered">
       <thead>
         <tr>
@@ -25,7 +71,7 @@ const renderBinaryProfile = binaryProfile => (
       </thead>
       <tbody>
         {
-        binaryProfile.map((subTab, i) => (
+        binaryProfile.commandBinaryProfile.map((subTab, i) => (
           <tr key={`pus11modal-binary-profile-table-tr${i}`}>
             <th>{i}</th>
             {
@@ -43,7 +89,9 @@ const renderBinaryProfile = binaryProfile => (
 
 const renderTimeShifts = timeShifts => (
   <div>
-    <h4>Time shifts</h4>
+    <h4>
+      Time shifts
+    </h4>
     <table className="table table-bordered">
       <thead>
         <tr>
@@ -54,10 +102,16 @@ const renderTimeShifts = timeShifts => (
       <tbody>
         {
         timeShifts.map((row, i) => (
-          <tr key={`pus11modal-sub-schedule-table-${i}`}>
-            <td>{row.applicationTime}</td>
-            <td>{row.timeShiftOffset}</td>
-          </tr>
+          _createInfoOverlay(
+            row,
+            (
+              <tr key={`pus11modal-sub-schedule-table-${i}`}>
+                <td>{row.applicationTime}</td>
+                <td>{row.timeShiftOffset}</td>
+              </tr>
+            )
+          )
+
         ))
       }
       </tbody>
@@ -67,7 +121,9 @@ const renderTimeShifts = timeShifts => (
 
 const renderCommandParameters = commandParameters => (
   <div>
-    <h4>Command parameters</h4>
+    <h4>
+      Command parameters
+    </h4>
     <table className="table table-bordered">
       <thead>
         <tr>
@@ -79,11 +135,13 @@ const renderCommandParameters = commandParameters => (
       <tbody>
         {
         commandParameters.map((row, i) => (
-          <tr key={`pus11modal-sub-schedule-table-${i}`}>
-            <td>{row.parameterName}</td>
-            <td>{row.parameterValue}</td>
-            <td>{row.parameterDescription}</td>
-          </tr>
+          _createInfoOverlay(row, (
+            <tr key={`pus11modal-sub-schedule-table-${i}`}>
+              <td>{row.parameterName}</td>
+              <td>{row.parameterValue}</td>
+              <td>{row.parameterDescription}</td>
+            </tr>
+          ))
         ))
       }
       </tbody>
@@ -110,7 +168,7 @@ export default class PUS11Modal extends PureComponent {
         <div className="row pus11Modal">
           {renderCommandParameters(commandParameters)}
           {renderTimeShifts(timeShifts)}
-          {renderBinaryProfile(binaryProfile.commandBinaryProfile)}
+          {renderBinaryProfile(binaryProfile)}
         </div>
         <div className="text-right">
           <Button

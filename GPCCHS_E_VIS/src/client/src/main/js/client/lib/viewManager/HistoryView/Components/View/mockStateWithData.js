@@ -31903,7 +31903,7 @@ const stateWithData = {
       ],
       Pus014TmPacket: [
         {
-          name: 'serviceTpe',
+          name: 'serviceType',
           type: 'ccsds_mal.protobuf.UINTEGER',
         },
         {

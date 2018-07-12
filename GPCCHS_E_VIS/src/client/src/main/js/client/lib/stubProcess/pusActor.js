@@ -13,6 +13,8 @@ parameters.init(resolve(__dirname, '../..'));
 adapter.registerGlobal();
 stubs.loadStubs();
 
+process.title = 'pusActorStub';
+
 const stubData = stubs.getStubData();
 
 const sendMessage = (method, payload) => {

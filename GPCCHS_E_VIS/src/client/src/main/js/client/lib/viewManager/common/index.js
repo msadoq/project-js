@@ -1,4 +1,6 @@
 import _unset from 'lodash/unset';
+import _ from 'lodash/fp';
+import parameters from 'common/configurationManager';
 import _memoize from 'lodash/memoize';
 import { SIGNIFICANT_VALIDITY_STATE_VALUE } from 'constants';
 import { SDB_VALUE_OPTION, TIME_BASED_DATA_OPTION } from '../commonEditor/Fields/DataTypeField';
@@ -115,3 +117,16 @@ export const validateRequiredFields = (requiredFields, values) => (
 export const memoizeIsSignificantValue = _memoize(
   validityState => validityState === SIGNIFICANT_VALIDITY_STATE_VALUE
 );
+
+/**
+ * @param key // the main parameter key to which look for a specific value
+ * @param path // the path to the value
+ * @returns {*} // the value
+ * @throws Error // when nothing found
+ */
+export const getParameterOrThrowError = (key, path) => {
+  const params = parameters.get(key);
+  const value = _.getOr(undefined, path, params);
+  if (value === undefined) throw new Error(`Invalid configuration detected, nothing found in ${key}[${JSON.stringify(path)}]`);
+  return value;
+};

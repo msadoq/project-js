@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/PUS11View/Components/View/PUS11ViewContainer snapshot 1`] = `
+<ReduxForm
+  freeSpace="freeSpace"
+  lastUpdateModeFreeSpace="lastUpdateModeFreeSpace"
+  lastUpdateModeNoFreeCommands="lastUpdateModeNoFreeCommands"
+  lastUpdateModeScheduleStatus="lastUpdateModeScheduleStatus"
+  lastUpdateTimeFreeSpace="lastUpdateTimeFreeSpace"
+  lastUpdateTimeNoFreeCommands="lastUpdateTimeNoFreeCommands"
+  lastUpdateTimeScheduleStatus="lastUpdateTimeScheduleStatus"
+  noFreeCommands="noFreeCommands"
+  scheduleStatus="scheduleStatus"
+  serviceApid="serviceApid"
+  serviceApidName="serviceApidName"
+  spaceInNumberOfCommands="spaceInNumberOfCommands"
+/>
+`;

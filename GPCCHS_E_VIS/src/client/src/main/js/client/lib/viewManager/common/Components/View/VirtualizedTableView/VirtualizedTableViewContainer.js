@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import {
   filterColumn,
   toggleColumnSort,
-  saveScrollTop,
 } from 'store/actions/tableColumns';
-import { pause } from 'store/actions/hsc';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
 import { getViewType } from '../../../../../store/reducers/views';
@@ -59,6 +57,7 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
       return _contentModifier({
         value: content[colKey],
         color,
+        colKey,
       }, content);
     }
 
@@ -80,14 +79,7 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseOnScroll }) => ({
-  onScrollTop: (scrollTop) => {
-    if (pauseOnScroll) {
-      dispatch(pause());
-    }
-
-    dispatch(saveScrollTop(viewId, tableId, scrollTop));
-  },
+const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => ({
   onFilter: (col, value, filters) => {
     dispatch(filterColumn(viewId, tableId, col, value, filters));
   },
@@ -105,10 +97,6 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
       action.onClick(data, rowIndex, columnIndex);
     }
   },
-  onCellDoubleClick: (i, j, content) => {
-    console.error('[NotImplementedError] Double-click on cell has not yet been implemented');
-    console.info(i, j, content);
-  },
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -120,6 +108,18 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       ...stateProps.filterState,
       [col]: value,
     });
+  },
+  onCellDoubleClick: (i, j, content) => {
+    console.log('rowIndex = ', i);
+    console.log('ownProps = ', ownProps);
+
+    if (typeof ownProps.onCellDoubleClick === 'function') {
+      console.log(ownProps.onCellDoubleClick);
+      ownProps.onCellDoubleClick(i, j, content);
+    } else {
+      console.error('[NotImplementedError] Double-click on cell has not yet been implemented');
+      console.info(i, j, content);
+    }
   },
 });
 

@@ -58,8 +58,8 @@ import historyViewSchema from 'common/viewConfigurationFiles/schemas/HistoryView
 import packetViewSchema from 'common/viewConfigurationFiles/schemas/PacketView.schema.json';
 import groundAlarmViewSchema from 'common/viewConfigurationFiles/schemas/GroundAlarmView.schema.json';
 import onboardAlarmViewSchema from 'common/viewConfigurationFiles/schemas/OnboardAlarmView.schema.json';
-import PUS05ViewSchema from 'common/viewConfigurationFiles/schemas/PUS05View.schema.json'; // @todo finalize schema
-import PUS11ViewSchema from 'common/viewConfigurationFiles/schemas/PUS11View.schema.json'; // @todo finalize schema
+import PUS14ViewSchema from 'common/viewConfigurationFiles/schemas/PUS14View.schema.json';
+import PUS11ViewSchema from 'common/viewConfigurationFiles/schemas/PUS11View.schema.json';
 import decommutedPacketViewSchema from '../common/viewConfigurationFiles/schemas/DecommutedPacketView.schema.json';
 
 import {
@@ -77,8 +77,8 @@ import packetViewData from './PacketView/data';
 import groundAlarmViewData from './GroundAlarmView/data';
 import onboardAlarmViewData from './OnboardAlarmView/data';
 import plotViewData from './PlotView/data';
-import PUS05ViewData from '../viewManager/PUS05View/data';
 import PUS11ViewData from '../viewManager/PUS11View/data';
+import PUS14ViewData from '../viewManager/PUS14View/data';
 
 import plotViewDataSelectors from './PlotView/store/dataSelectors';
 import textViewDataSelectors from './TextView/store/dataSelectors';
@@ -89,8 +89,8 @@ import groundAlarmViewDataSelectors from './GroundAlarmView/store/dataSelectors'
 import onboardAlarmViewDataSelectors from './OnboardAlarmView/store/dataSelectors';
 import historyViewDataSelectors from './HistoryView/store/dataSelectors';
 import packetViewDataSelectors from './PacketView/store/dataSelectors';
-import PUS05ViewDataSelectors from '../viewManager/PUS05View/store/dataSelectors';
 import PUS11ViewDataSelectors from '../viewManager/PUS11View/store/dataSelectors';
+import PUS14ViewDataSelectors from '../viewManager/PUS14View/store/dataSelectors';
 
 import * as constants from './constants';
 
@@ -103,8 +103,8 @@ import historyViewModule from './HistoryView';
 import packetViewModule from './PacketView';
 import groundAlarmViewModule from './GroundAlarmView';
 import onboardAlarmViewModule from './OnboardAlarmView';
-import PUS05ViewModule from '../viewManager/PUS05View';
 import PUS11ViewModule from '../viewManager/PUS11View';
+import PUS14ViewModule from '../viewManager/PUS14View';
 
 const list = {
   [constants.VM_VIEW_PLOT]: {
@@ -170,19 +170,19 @@ const list = {
     structureModule: onboardAlarmViewData,
     dataSelectors: onboardAlarmViewDataSelectors,
   },
-  [constants.VM_VIEW_PUS05]: {
-    schema: PUS05ViewSchema,
-    viewModule: PUS05ViewModule,
-    structureType: DATASTRUCTURETYPE_PUS,
-    structureModule: PUS05ViewData,
-    dataSelectors: PUS05ViewDataSelectors,
-  },
   [constants.VM_VIEW_PUS11]: {
     schema: PUS11ViewSchema,
     viewModule: PUS11ViewModule,
     structureType: DATASTRUCTURETYPE_PUS,
     structureModule: PUS11ViewData,
     dataSelectors: PUS11ViewDataSelectors,
+  },
+  [constants.VM_VIEW_PUS14]: {
+    schema: PUS14ViewSchema,
+    viewModule: PUS14ViewModule,
+    structureType: DATASTRUCTURETYPE_PUS,
+    structureModule: PUS14ViewData,
+    dataSelectors: PUS14ViewDataSelectors,
   },
 };
 

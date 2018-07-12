@@ -92,9 +92,26 @@
               "type": "string",
               "minLength": 1
             },
-            "apidRawValue": {
-              "type": "number",
-              "minLength": 1
+            "apids": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "required": [
+                  "apidName",
+                  "apidRawValue"
+                ],
+                "properties": {
+                  "apidName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "apidRawValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
             },
             "apidName": {
               "type": "string",
@@ -105,7 +122,7 @@
             "formula",
             "domain",
             "session",
-            "apidRawValue",
+            "apids",
             "apidName"
           ]
         },
@@ -132,28 +149,15 @@
               "items": {
                 "required": [
                   "title",
-                  "value",
-                  "position",
-                  "displayed",
-                  "group"
+                  "displayed"
                 ],
                 "properties": {
                   "title": {
                     "type": "string",
                     "minLength": 1
                   },
-                  "value": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "position": {
-                    "type": "number"
-                  },
                   "displayed": {
                     "type": "boolean"
-                  },
-                  "group": {
-                    "type": "number"
                   }
                 }
               }
@@ -173,28 +177,15 @@
               "items": {
                 "required": [
                   "title",
-                  "value",
-                  "position",
-                  "displayed",
-                  "group"
+                  "displayed"
                 ],
                 "properties": {
                   "title": {
                     "type": "string",
                     "minLength": 1
                   },
-                  "value": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "position": {
-                    "type": "number"
-                  },
                   "displayed": {
                     "type": "boolean"
-                  },
-                  "group": {
-                    "type": "number"
                   }
                 }
               }
@@ -214,28 +205,15 @@
               "items": {
                 "required": [
                   "title",
-                  "value",
-                  "position",
-                  "displayed",
-                  "group"
+                  "displayed"
                 ],
                 "properties": {
                   "title": {
                     "type": "string",
                     "minLength": 1
                   },
-                  "value": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "position": {
-                    "type": "number"
-                  },
                   "displayed": {
                     "type": "boolean"
-                  },
-                  "group": {
-                    "type": "number"
                   }
                 }
               }

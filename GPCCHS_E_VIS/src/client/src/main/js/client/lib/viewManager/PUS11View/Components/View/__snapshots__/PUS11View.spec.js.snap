@@ -1,154 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PUS11View :: render snapshot 1`] = `
-<ErrorBoundary>
-  <div
-    className="pus11"
-  >
-    <div
-      className="header"
-    >
-      <Unknown>
-        <div
-          className="info col-sm-6"
-        >
-          <span>
-            Application Process 
-            <input
-              disabled={true}
-              type="text"
-              value="string"
-            />
-             
-            <input
-              className="mw50"
-              disabled={true}
-              type="text"
-              value={11}
-            />
-          </span>
-          <span
-            className="spacing"
-          />
-        </div>
-        <div
-          className="info col-sm-6"
-        >
-          <span>
-            Schedule Status 
-            <input
-              className="mw100"
-              disabled={true}
-              type="text"
-              value="string"
-            />
-          </span>
-          <span
-            className="spacing"
-          />
-        </div>
-        <div
-          className="info col-sm-6"
-        >
-          <span>
-            Application Space 
-            <input
-              className="mw100"
-              disabled={true}
-              type="text"
-              value="string"
-            />
-             
-            string
-          </span>
-          <span
-            className="spacing"
-          />
-        </div>
-        <div
-          className="info col-sm-6"
-        >
-          <span>
-            Last Uptate 
-            <input
-              className="mw100"
-              disabled={true}
-              type="text"
-              value={1528359679639}
-            />
-             
-            <input
-              className="mw50"
-              disabled={true}
-              type="text"
-              value="string"
-            />
-          </span>
-          <span
-            className="spacing"
-          />
-        </div>
-        <div
-          className="clearfix"
-        />
-      </Unknown>
-    </div>
-    <div
-      className="header"
-    >
-      <div
-        className="col-sm-6"
-      >
-        <div
-          style={
-            Object {
-              "height": 400,
-            }
-          }
-        >
-          <Connect(VirtualizedTableView)
-            tableId="subSchedules"
-            viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
-          />
-        </div>
-      </div>
-      <div
-        className="clearfix"
-      />
-      <div
-        className="col-sm-6"
-      >
-        <Connect(VirtualizedTableView)
-          tableId="enabledApids"
-          viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
-        />
-      </div>
-      <div
-        className="clearfix"
-      />
-    </div>
-    <div
-      className="header"
-    >
-      <div
-        className="info col-sm-12"
-      >
-        <Connect(VirtualizedTableView)
-          tableId="commands"
-          viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
-        />
-      </div>
-    </div>
-  </div>
-</ErrorBoundary>
-`;
-
-exports[`PUS11View :: renderInvald snapshot 1`] = `
+exports[`viewManager/PUS11View/Components/View/PUS11View PUS11View :: render snapshot 1`] = `
 <div
   className="pus11 h100 posRelative"
 >
   <div
-    className="flex"
+    className="flex h100"
+  >
+    <div
+      className="renderErrorText"
+    >
+      Unable to render view 
+      <br />
+      Please fill-in configuration
+    </div>
+  </div>
+</div>
+`;
+
+exports[`viewManager/PUS11View/Components/View/PUS11View PUS11View :: renderInvald snapshot 1`] = `
+<div
+  className="pus11 h100 posRelative"
+>
+  <div
+    className="flex h100"
   >
     <div
       className="renderErrorText"
@@ -159,4 +34,27 @@ exports[`PUS11View :: renderInvald snapshot 1`] = `
     </div>
   </div>
 </div>
+`;
+
+exports[`viewManager/PUS11View/Components/View/PUS11View generatePopover should match snapshot with valida data 1`] = `
+<Popover
+  bsClass="popover"
+  id="id"
+  placement="top"
+  style={
+    Object {
+      "height": "80px !important",
+    }
+  }
+  title="title"
+>
+  <div>
+    Last update Time: 
+    1527520025823
+  </div>
+  <div>
+    Last update mode: 
+    TM
+  </div>
+</Popover>
 `;

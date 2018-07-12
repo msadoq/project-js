@@ -10,7 +10,6 @@ import {
   WS_VIEW_TABLE_ADD_COLUMNS,
   WS_VIEW_TABLE_REORDER_COLUMNS,
   WS_VIEW_TABLE_TOGGLE_COLUMN,
-  WS_VIEW_TABLE_SAVE_SCROLL_TOP,
 } from '../types';
 
 export const toggleColumnSort =
@@ -62,12 +61,4 @@ export const toggleColumn =
     'viewId',
     'tableId',
     'index'
-  );
-
-export const saveScrollTop =
-  simple(
-    WS_VIEW_TABLE_SAVE_SCROLL_TOP,
-    'viewId',
-    'tableId',
-    'scrollTop'
   );

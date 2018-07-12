@@ -6,13 +6,15 @@ import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGro
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
 import ApplicationProcessFieldContainer from 'viewManager/commonEditor/Fields/ApplicationProcessFieldContainer';
 import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
+import { VM_PUS_VIEWS } from 'viewManager/constants';
 
 export default class DefaultPusData extends PureComponent {
   static propTypes = {
     // Own props
     viewId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
-    change: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired, // comes from redux-form magically: https://redux-form.com/6.2.0/docs/api/props.md/#-change-field-string-value-any-function-
+    pusType: PropTypes.oneOf(VM_PUS_VIEWS).isRequired, // comes from redux-form magically: https://redux-form.com/6.2.0/docs/api/props.md/#-change-field-string-value-any-function-
     // From DefaultPusDataContainer's mapStateToProps
     selectedDomainName: PropTypes.string,
     selectedTimelineId: PropTypes.string,
@@ -41,6 +43,7 @@ export default class DefaultPusData extends PureComponent {
       pageId,
       selectedDomainName,
       selectedTimelineId,
+      pusType,
     } = this.props;
 
     return (
@@ -63,6 +66,7 @@ export default class DefaultPusData extends PureComponent {
               viewId={viewId}
               pageId={pageId}
               onChange={this.handleChange}
+              pusType={pusType}
             />
           </HorizontalFormGroup>
         </React.Fragment>

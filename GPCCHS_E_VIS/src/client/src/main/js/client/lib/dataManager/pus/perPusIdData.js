@@ -15,7 +15,9 @@ export function addApidInPusIdMap(pusIdMap, ep, viewId){
   }
   const pusId = getPusFlattenId(apidName, dataId);
 
+  const pusId = getPusFlattenId(apidName, dataId);
   const newMap = pusIdMap || {};
+
   if (!newMap[pusId]) {
     const provider = dataId.provider === PROVIDER_FLOW_ALL ? '' : dataId.provider;
     newMap[pusId] = {

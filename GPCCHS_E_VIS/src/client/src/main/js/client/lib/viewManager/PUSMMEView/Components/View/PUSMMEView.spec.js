@@ -1,4 +1,4 @@
-import PUSMMEView, { isValid, renderInvald, generatePopover } from 'viewManager/PUSMMEView/Components/View/PUSMMEView';
+import PUSMMEView, { isValid, renderInvald } from 'viewManager/PUSMMEView/Components/View/PUSMMEView';
 import { shallowRenderSnapshot } from 'common/jest/utils';
 import stateTest from 'common/jest/stateTest';
 import renderer from 'react-test-renderer';

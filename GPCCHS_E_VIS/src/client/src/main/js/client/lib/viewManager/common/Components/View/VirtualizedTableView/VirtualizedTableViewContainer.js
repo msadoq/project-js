@@ -110,7 +110,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     });
   },
   onCellDoubleClick: (i, j, content) => {
+    console.log('rowIndex = ', i);
+    console.log('ownProps = ', ownProps);
+
     if (typeof ownProps.onCellDoubleClick === 'function') {
+      console.log(ownProps.onCellDoubleClick);
       ownProps.onCellDoubleClick(i, j, content);
     } else {
       console.error('[NotImplementedError] Double-click on cell has not yet been implemented');

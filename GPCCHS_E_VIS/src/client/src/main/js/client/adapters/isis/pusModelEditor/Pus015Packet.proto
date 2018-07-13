@@ -1,0 +1,30 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/ULONG.proto";
+
+
+package pusModelEditor.protobuf;
+
+message Pus015Packet {
+extensions 18 to 118;
+
+  optional ccsds_mal.protobuf.UINTEGER packetApid = 1;
+  optional ccsds_mal.protobuf.UINTEGER serviceType = 2;
+  optional ccsds_mal.protobuf.UINTEGER serviceSubType = 3;
+  optional ccsds_mal.protobuf.UINTEGER sid = 4;
+  optional ccsds_mal.protobuf.UINTEGER subsamplingRatio = 5;
+  optional ccsds_mal.protobuf.UINTEGER packetType = 6;
+  optional ccsds_mal.protobuf.STRING sidLabel = 7;
+  optional ccsds_mal.protobuf.BOOLEAN isSubsamplingRatioSet = 8;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModePacketId = 9;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimePacketId = 10;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSubSamplingRatio = 11;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeSubSamplingRatio = 12;
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 13;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 14;
+  optional ccsds_mal.protobuf.STRING packetApidName = 15;
+  optional ccsds_mal.protobuf.STRING sidName = 16;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 17;
+}

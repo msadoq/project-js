@@ -10,8 +10,11 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
-import "pusModelEditor/Pus012MonitoringCheckProperties.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/ULONG.proto";
+import "./Pus012MonitoringCheckProperties.proto";
 
 package pusModelEditor.protobuf;
 
@@ -39,27 +42,27 @@ extensions 46 to 146;
   optional ccsds_mal.protobuf.BOOLEAN isMonitoringIntervalSet = 19;
   optional ccsds_mal.protobuf.BOOLEAN isRepetitionNumberSet = 20;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeMonId = 21;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeMonId = 22;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeMonId = 22;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeParamId = 23;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeParamId = 24;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeParamId = 24;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValParamId = 25;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeValParamId = 26;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValParamId = 26;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeParamCurrentValue = 27;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeParamCurrentValue = 28;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeParamCurrentValue = 28;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValParamExpectValue = 29;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeValParamExpectValue = 30;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValParamExpectValue = 30;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValParamMask = 31;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeValParamMask = 32;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValParamMask = 32;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeMonInterval = 33;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeMonInterval = 34;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeMonInterval = 34;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeRepetition = 35;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeRepetition = 36;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeRepetition = 36;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCheckType = 37;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeCheckTime = 38;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeCheckTime = 38;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeMonStatus = 39;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeMonStatus = 40;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeMonStatus = 40;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeProtectionStatus = 41;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeProtectionStatus = 42;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeProtectionStatus = 42;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 43;
   optional ccsds_mal.protobuf.STRING serviceApidName = 44;
   optional ccsds_mal.protobuf.ULONG uniqueId = 45;

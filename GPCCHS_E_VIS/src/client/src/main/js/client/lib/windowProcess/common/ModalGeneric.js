@@ -75,6 +75,7 @@ import AddTimelineContainer from '../Timebar/LeftTab/AddTimelineContainer';
 import SaveWizardModalContainer from './SaveWizardModal/SaveWizardModalContainer';
 import EditTimelineContainer from '../Timebar/LeftTab/EditTimelineContainer';
 import PUS11ModalContainer from '../../viewManager/PUS11View/Components/View/PUS11ModalContainer';
+import PUSMMEModalContainer from '../../viewManager/PUSMMEView/Components/View/PUSMMEModalContainer';
 import PUSCompareModalContainer from '../../viewManager/common/Components/View/PUS/Modals/PUSCompareModalContainer';
 import PUSSynchronizeModalContainer
   from '../../viewManager/common/Components/View/PUS/Modals/PUSSynchronizeModalContainer';
@@ -137,6 +138,15 @@ const ModalGeneric = (props) => {
       title = props.props.title;
       child = (
         <PUS11ModalContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'pusMmeModal':
+      title = props.props.title;
+      child = (
+        <PUSMMEModalContainer
           {...props.props}
           closeModal={props.onClose}
         />

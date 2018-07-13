@@ -85,18 +85,22 @@ const uiReducer = (state = initialState, action) => {
       return _.unset(action.payload.viewIds, state);
     }
     case types.WS_MODAL_OPEN: {
-      const { type, viewId, ackId, alarmsOids } = action.payload.props;
-      if (type === 'gmaAck' || type === 'obaAck') {
-        return _.set([viewId, 'ackStatus', ackId], {
-          acknowledging: false,
-          alarmsOids: alarmsOids.map(oid => ({
-            oid,
-            acknowledged: false,
-            ackError: null,
-          })),
-        }, state);
+      try {
+        const { type, viewId, ackId, alarmsOids } = action.payload.props;
+        if (type === 'gmaAck' || type === 'obaAck') {
+          return _.set([viewId, 'ackStatus', ackId], {
+            acknowledging: false,
+            alarmsOids: alarmsOids.map(oid => ({
+              oid,
+              acknowledged: false,
+              ackError: null,
+            })),
+          }, state);
+        }
+        return state;
+      } catch (e) {
+        return state;
       }
-      return state;
     }
     case types.WS_MODAL_CLOSED: {
       const { type, viewId, ackId } = action.payload.props;

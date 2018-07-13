@@ -10,8 +10,10 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
-import "pusModelEditor/PusParameter.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/ULONG.proto";
+import "./PusParameter.proto";
 
 package pusModelEditor.protobuf;
 
@@ -25,17 +27,17 @@ extensions 23 to 123;
   optional ccsds_mal.protobuf.STRING observabilityLevel = 5;
   optional ccsds_mal.protobuf.STRING priority = 6;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 7;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeStatus = 8;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeStatus = 8;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStepId = 9;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeStepId = 10;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeStepId = 10;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModePartitionId = 11;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimePartitionId = 12;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimePartitionId = 12;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModePriority = 13;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimePriority = 14;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimePriority = 14;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeObsLevel = 15;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeObsLevel = 16;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeObsLevel = 16;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeObcpId = 17;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeObcpId = 18;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeObcpId = 18;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 19;
   optional ccsds_mal.protobuf.STRING serviceApidName = 20;
   optional ccsds_mal.protobuf.ULONG uniqueId = 21;

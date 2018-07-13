@@ -10,7 +10,9 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UINTEGER.proto";
 
 package pusModelEditor.protobuf;
 
@@ -21,5 +23,5 @@ extensions 6 to 106;
   optional ccsds_mal.protobuf.STRING parameterValue = 2;
   optional ccsds_mal.protobuf.STRING parameterDescription = 3;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateMode = 4;
-  optional ccsds_mal.protobuf.TIME lastUpdateTime = 5;
+  optional ccsds_mal.protobuf.STRING lastUpdateTime = 5;
 }

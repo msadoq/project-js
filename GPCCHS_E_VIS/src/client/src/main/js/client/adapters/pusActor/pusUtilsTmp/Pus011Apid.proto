@@ -10,7 +10,10 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/ULONG.proto";
+import "../ccsds_mal/STRING.proto";
 
 package pusModelEditor.protobuf;
 
@@ -19,10 +22,10 @@ extensions 11 to 111;
 
   optional ccsds_mal.protobuf.UINTEGER apid = 1;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeApid = 2;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeApid = 3;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeApid = 3;
   optional ccsds_mal.protobuf.UINTEGER status = 4;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 5;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeStatus = 6;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeStatus = 6;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 7;
   optional ccsds_mal.protobuf.STRING serviceApidName = 8;
   optional ccsds_mal.protobuf.STRING apidName = 9;

@@ -10,7 +10,10 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/ULONG.proto";
 
 package pusModelEditor.protobuf;
 
@@ -25,17 +28,17 @@ extensions 27 to 127;
   optional ccsds_mal.protobuf.UINTEGER status = 6;
   optional ccsds_mal.protobuf.STRING sidLabel = 7;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSid = 8;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeSid = 9;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeSid = 9;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 10;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeStatus = 11;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeStatus = 11;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamId = 12;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamId = 13;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValidParamId = 13;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamMask = 14;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamMask = 15;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValidParamMask = 15;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamExpValue = 16;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeValidParamExpValue = 17;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValidParamExpValue = 17;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCollectInterval = 18;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeCollectInterval = 19;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeCollectInterval = 19;
   optional ccsds_mal.protobuf.STRING packetName = 20;
   optional ccsds_mal.protobuf.STRING validityParameterName = 21;
   optional ccsds_mal.protobuf.UINTEGER packetApid = 22;

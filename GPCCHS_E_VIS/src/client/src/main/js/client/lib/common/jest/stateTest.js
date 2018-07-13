@@ -335,14 +335,14 @@ export default {
             { title: 'packetApid', displayed: true }, // A afficher dans le tableau de packets
             { title: 'forwardingStatus', displayed: true }, // A afficher dans le tableau de packets
             { title: 'lastUpdateModeFwdStatus', displayed: true }, // Tooltip sur forwardingStatus
-            { title: 'lastUpdateTimeFwdStatus', displayed: true } , // Tooltip sur forwardingStatus
+            { title: 'lastUpdateTimeFwdStatus', displayed: true }, // Tooltip sur forwardingStatus
             { title: 'packetApidName', displayed: true }, // A afficher dans le tableau de packets
             { title: 'serviceApid', displayed: true }, // Inutilisé dans la vue
-            { title: 'packetName', displayed: true } , // A afficher dans le tableau de packets
+            { title: 'packetName', displayed: true }, // A afficher dans le tableau de packets
             { title: 'serviceApidName', displayed: true }, // Inutilisé dans la vue
-            { title: 'lastUpdateModeRid', displayed: true } , // Tooltip sur rid / ridLabel
+            { title: 'lastUpdateModeRid', displayed: true }, // Tooltip sur rid / ridLabel
             { title: 'lastUpdateTimeRid', displayed: true }, // Tooltip sur rid / ridLabel
-            { title: 'rid', displayed: true } , // A afficher dans le tableau de packets
+            { title: 'rid', displayed: true }, // A afficher dans le tableau de packets
             { title: 'ridLabel', displayed: true }, // A afficher dans le tableau de packets
             { title: 'lastUpdateModeSid', displayed: true }, // Tooltip sur sid, sidLabel
             { title: 'lastUpdateTimeSid', displayed: true }, // Tooltip sur sid, sidLabel
@@ -363,6 +363,118 @@ export default {
     },
   },
   PUS14ViewData: {},
+  PUSMMEViewConfiguration: {
+    '9a057132-aa02-43b1-99e7-5d870a3af609': {
+      entryPoints: [
+        {
+          connectedData: {
+            apidName: 'TIMEPACKET,ORBIT,POWERMGT',
+            apidRawValue: null,
+            domain: 'fr.cnes.isis.simupus',
+            formula: 'PusGroundModelDefinition.PusMmeModel<PusMmeModel>',
+            session: '*',
+            apids: [
+              {
+                apidName: 'TIMEPACKET',
+                apidRawValue: '0',
+              },
+              {
+                apidName: 'ORBIT',
+                apidRawValue: '2',
+              },
+              {
+                apidName: 'POWERMGT',
+                apidRawValue: '3',
+              },
+            ],
+            timeline: 'Session 1',
+          },
+          id: 'eee5f2d0-2cc4-4513-9a8a-f049b1631787',
+          name: 'PUSMMEEP',
+        },
+      ],
+      tables: {
+        packets: {
+          cols: [
+            {
+              displayed: true,
+              title: 'sid',
+            },
+            {
+              displayed: true,
+              title: 'validityParameterId',
+            },
+            {
+              displayed: true,
+              title: 'validityParameterMask',
+            },
+            {
+              displayed: true,
+              title: 'validityParameterExpectedValue',
+            },
+            {
+              displayed: true,
+              title: 'collectionInterval',
+            },
+            {
+              displayed: true,
+              title: 'sidLabel',
+            },
+            {
+              displayed: true,
+              title: 'packetName',
+            },
+            {
+              displayed: true,
+              title: 'validityParameterName',
+            },
+            {
+              displayed: true,
+              title: 'packetApid',
+            },
+            {
+              displayed: true,
+              title: 'packetApidName',
+            },
+            {
+              displayed: true,
+              title: 'serviceApid',
+            },
+            {
+              displayed: true,
+              title: 'serviceApidName',
+            },
+            {
+              displayed: true,
+              title: 'generationMode',
+            },
+            {
+              displayed: true,
+              title: 'packetType',
+            },
+            {
+              displayed: true,
+              title: 'forwardingStatusTypeSubtype',
+            },
+            {
+              displayed: true,
+              title: 'forwardingStatusRidSid',
+            },
+            {
+              displayed: true,
+              title: 'subsamplingRatio',
+            },
+          ],
+          name: 'Packets',
+          sorting: {
+            colName: 'sid',
+            direction: 'DESC',
+          },
+        },
+      },
+    },
+  },
+  PUSMMEViewData: {},
   HistoryViewConfiguration: {
     hist1: {
       entryPoints: [{

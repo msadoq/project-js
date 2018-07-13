@@ -10,10 +10,13 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
-import "pusModelEditor/Pus011Apid.proto";
-import "pusModelEditor/Pus011Command.proto";
-import "pusModelEditor/Pus011SubSchedule.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/ULONG.proto";
+import "../ccsds_mal/STRING.proto";
+import "./Pus011Apid.proto";
+import "./Pus011Command.proto";
+import "./Pus011SubSchedule.proto";
 
 package pusModelEditor.protobuf;
 
@@ -24,13 +27,13 @@ extensions 18 to 118;
   optional ccsds_mal.protobuf.UINTEGER status = 2;
   optional ccsds_mal.protobuf.BOOLEAN spaceInNumberOfCommands = 3;
   optional ccsds_mal.protobuf.UINTEGER scheduleStatus = 4;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeScheduleStatus = 5;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeScheduleStatus = 5;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeScheduleStatus = 6;
   optional ccsds_mal.protobuf.UINTEGER noFreeCommands = 7;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeNoFreeCommands = 8;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeNoFreeCommands = 8;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeNoFreeCommands = 9;
   optional ccsds_mal.protobuf.UINTEGER freeSpace = 10;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeFreeSpace = 11;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeFreeSpace = 11;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeFreeSpace = 12;
   repeated pusModelEditor.protobuf.Pus011Apid pus011Apid = 13;
   repeated pusModelEditor.protobuf.Pus011Command pus011Command = 14;

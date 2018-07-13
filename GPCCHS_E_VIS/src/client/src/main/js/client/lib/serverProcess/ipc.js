@@ -72,7 +72,7 @@ const getDcHeader = _memoize(
 /*----------------*/
 
 const getDcHeaderADE = (method, requestId) => encode('dc.dataControllerUtils.ADEHeader', { method, requestId });
-const getPusHeader = method => encode('pusActor.pusUtils.PusHeader', { method });
+const getPusHeader = (messageType, { sessionId, domainId, pusService }) => encode('isis.pusModelEditor.HeaderStructure', { messageType, sessionId, domainId, pusService });
 
 const getDcDataId = _memoize(
   (flatDataId, dataId) => encode('dc.dataControllerUtils.DataId', dataId),
@@ -357,42 +357,46 @@ const dcVersionMap = {
 };
 
 const pusCommands = {
-  rpc: (method, trames, callback) => {
+  rpc: (method, trames, header, callback) => {
     logger.info(`sending rpc call ${method} to pus`);
     const queryId = v4();
     setCallback(queryId, callback);
     zmq.push('pusPush', [
-      getPusHeader(method),
+      getPusHeader(method, header),
     ].concat(trames));
 
     return queryId;
   },
-  initialize: (pusId, apId, callback) => commands.pus.rpc(
+  initialize: (header, forReplay, firstTime, lastTime, continuous, callback) => commands.pus.rpc(
     constants.PUS_INITIALIZE,
-    encode('pusActor.pusUtils.PusInitialize', { pusId, apId }),
+    encode('isis.pusModelEditor.InitialiseStructure', { forReplay: true, firstTime: Date.now(), lastTime: Date.now() + 10, continuous: true }),
+    header,
     callback
   ),
-  subscribe: (pusId, apId, callback) => commands.pus.rpc(
+  subscribe: (header, pusId, apId, callback) => commands.pus.rpc(
     constants.PUS_SUBSCRIBE,
-    encode('pusActor.pusUtils.PusSubscribe', { pusId, apId }),
+    encode('isis.pusModelEditor.SubscribeStructure', {}),
+    header,
     callback
   ),
-  unsubscribe: (pusId, apId, callback) => commands.pus.rpc(
+  unsubscribe: (header, pusId, apId, callback) => commands.pus.rpc(
     constants.PUS_UNSUBSCRIBE,
-    encode('pusActor.pusUtils.PusUnsubscribe', { pusId, apId }),
+    encode('isis.pusModelEditor.UnsubscribeStructure', {}),
+    header,
     callback
   ),
-  compare: (pusId, apId, date, callback) => commands.pus.rpc(
+  compare: (header, firstDate, secondDate, callback) => commands.pus.rpc(
     constants.PUS_COMPARE,
-    encode('pusActor.pusUtils.PusCompare', { pusId: 'vcolfdrslh', apId: 'gfrslidkgb', date: 123 }),
+    encode('isis.pusModelEditor.CompareStructure', { firstDate: Date.now(), secondDate: Date.now() + 10 }),
+    header,
     callback
   ),
-  reset: (pusId, apId, date, callback) => commands.pus.rpc(
+  reset: (header, initialisationMode, resetType, date, callback) => commands.pus.rpc(
     constants.PUS_RESET,
-    encode('pusActor.pusUtils.PusReset', { pusId, apId, date }),
+    encode('isis.pusModelEditor.InitialiseStructure', { initialisationMode: 0, resetType: 0, date: Date.now() }),
+    header,
     callback
   ),
-
 };
 
 const commands = {

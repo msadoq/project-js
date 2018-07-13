@@ -10,7 +10,10 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/ULONG.proto";
 
 package pusModelEditor.protobuf;
 
@@ -23,11 +26,11 @@ extensions 22 to 122;
   optional ccsds_mal.protobuf.BLOB actionTcPacket = 4;
   optional ccsds_mal.protobuf.STRING ridLabel = 5;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeActionStatus = 6;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeActionStatus = 7;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeActionStatus = 7;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeEventActionRid = 8;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeEventActionRid = 9;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeEventActionRid = 9;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeActionTc = 10;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeActionTc = 11;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeActionTc = 11;
   optional ccsds_mal.protobuf.STRING packetName = 12;
   optional ccsds_mal.protobuf.STRING actionName = 13;
   optional ccsds_mal.protobuf.ULONG uniqueId = 14;
@@ -37,5 +40,5 @@ extensions 22 to 122;
   optional ccsds_mal.protobuf.STRING actionDescription = 18;
   optional ccsds_mal.protobuf.STRING selectionStatus = 19;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSelectionStatus = 20;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeSelectionStatus = 21;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeSelectionStatus = 21;
 }

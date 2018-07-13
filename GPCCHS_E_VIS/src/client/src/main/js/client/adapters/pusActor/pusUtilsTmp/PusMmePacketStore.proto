@@ -10,7 +10,9 @@
 //////////////////////////////////////////////////////////////////////
 
 
-import "ccsds_mal/types.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/ULONG.proto";
 
 package pusModelEditor.protobuf;
 
@@ -22,10 +24,10 @@ extensions 12 to 112;
   optional ccsds_mal.protobuf.UINTEGER storeStatus = 3;
   optional ccsds_mal.protobuf.UINTEGER subSamplingRatio = 4;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStoreId = 5;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeStoreId = 6;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeStoreId = 6;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStoreStatus = 7;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeStoreStatus = 8;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeStoreStatus = 8;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSubSamplingRatio = 9;
-  optional ccsds_mal.protobuf.TIME lastUpdateTimeSubSamplingRatio = 10;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeSubSamplingRatio = 10;
   optional ccsds_mal.protobuf.ULONG uniqueId = 11;
 }

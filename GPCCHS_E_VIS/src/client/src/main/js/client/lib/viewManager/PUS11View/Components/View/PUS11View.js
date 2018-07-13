@@ -12,7 +12,13 @@ const popoverStyle = {
   height: 80,
 };
 
-const _formatDate = date => (new Date(date)).toISOString();
+// eslint-disable-next-line arrow-body-style
+const _formatDate = (date) => {
+  return (new Date(date)) > 0
+    ? (new Date(date)).toISOString()
+    : date
+  ;
+};
 
 const _enabledApidsContentModifier = (cellContent = {}, content = {}) => {
   const { colKey } = cellContent;

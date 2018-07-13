@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
   filterColumn,
   toggleColumnSort,
+  saveScroll,
 } from 'store/actions/tableColumns';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
@@ -31,7 +32,6 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
 
   const data = _.getOr([], 'data', tableData);
   const keep = _.getOr([], 'keep', tableData);
-  const scrollTopOffset = _.getOr(0, ['state', 'scrollTop'], tableData);
 
   const sortingDirection =
     _.getOr('DESC', ['sorting', 'direction'], tableConfig);
@@ -75,7 +75,6 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
     columnCount: reducedColumns.length,
     sortState: sorting,
     filterState: filters,
-    scrollTopOffset,
   };
 };
 
@@ -96,6 +95,10 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => (
 
       action.onClick(data, rowIndex, columnIndex);
     }
+  },
+  saveScroll: (scrollPosition) => {
+    console.log('dispatching...');
+    dispatch(saveScroll(viewId, tableId, scrollPosition));
   },
 });
 

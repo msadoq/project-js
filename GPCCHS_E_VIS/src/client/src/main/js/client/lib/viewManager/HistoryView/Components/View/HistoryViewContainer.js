@@ -17,17 +17,29 @@ import _ from 'lodash/fp';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEntryPoint } from 'store/actions/views';
+import { getIsPlaying } from '../../../../store/reducers/hsc';
 
 import HistoryView from './HistoryView';
 import { getData } from '../../store/dataReducer';
+import { getConfigurationByViewId } from '../../../selectors';
 
 
 const mapStateToProps = (state, { viewId }) => {
   const data = getData(state, { viewId });
+  const conf = getConfigurationByViewId(state, { viewId });
   const last = _.getOr({}, 'last', data);
+  const isPlaying = getIsPlaying(state);
+  const overrideScrollToRow =
+    _.getOr(
+      0,
+      ['tables', 'history', 'scrollPosition'],
+      conf
+    );
 
   return {
     last,
+    isPlaying,
+    overrideScrollToRow,
   };
 };
 

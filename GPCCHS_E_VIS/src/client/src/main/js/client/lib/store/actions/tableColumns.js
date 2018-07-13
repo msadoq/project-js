@@ -9,7 +9,7 @@ import {
   WS_VIEW_TABLE_UPDATE_HEIGHT,
   WS_VIEW_TABLE_ADD_COLUMNS,
   WS_VIEW_TABLE_REORDER_COLUMNS,
-  WS_VIEW_TABLE_TOGGLE_COLUMN,
+  WS_VIEW_TABLE_TOGGLE_COLUMN, WS_VIEW_TABLE_SAVE_SCROLL,
 } from '../types';
 
 export const toggleColumnSort =
@@ -61,4 +61,12 @@ export const toggleColumn =
     'viewId',
     'tableId',
     'index'
+  );
+
+export const saveScroll =
+  simple(
+    WS_VIEW_TABLE_SAVE_SCROLL,
+    'viewId',
+    'tableId',
+    'scrollPosition'
   );

@@ -65,6 +65,7 @@ class HistoryView extends React.Component {
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     last: PropTypes.shape(),
+    overrideScrollToRow: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -108,6 +109,7 @@ class HistoryView extends React.Component {
     const {
       viewId,
       last,
+      overrideScrollToRow,
     } = this.props;
 
     const _addTooltip = obj => ({
@@ -145,6 +147,7 @@ class HistoryView extends React.Component {
             contentModifier={_setCurrent}
             overrideStyle={this._overrideStyle}
             withGroups
+            overrideScrollToRow={overrideScrollToRow}
           />
         </DroppableContainer>
       </ErrorBoundary>

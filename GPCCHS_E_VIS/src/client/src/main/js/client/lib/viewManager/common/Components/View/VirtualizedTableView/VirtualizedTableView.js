@@ -39,6 +39,8 @@ class VirtualizedTableView extends React.Component {
     onScrollTop: PropTypes.func.isRequired,
     overrideStyle: PropTypes.func,
     tableHeader: PropTypes.func,
+    saveScroll: PropTypes.func.isRequired,
+    overrideScrollToRow: PropTypes.number,
   };
 
   static defaultProps = {
@@ -55,6 +57,7 @@ class VirtualizedTableView extends React.Component {
     filterState: {},
     overrideStyle: () => ({}),
     tableHeader: null,
+    overrideScrollToRow: null,
   };
 
   constructor(props, context) {
@@ -131,6 +134,8 @@ class VirtualizedTableView extends React.Component {
       overrideStyle,
       columnCount,
       tableHeader,
+      saveScroll,
+      overrideScrollToRow,
     } = this.props;
 
     const formattedRows = rows;
@@ -510,12 +515,16 @@ class VirtualizedTableView extends React.Component {
                                       rowCount={updatedRowCount}
                                       scrollLeft={scrollLeft}
                                       scrollTop={scrollTop}
-                                      onScroll={onScroll}
+                                      onScroll={(...args) => {
+                                        const scrollPosition = args[0];
+                                        saveScroll(scrollPosition);
+                                        onScroll(args);
+                                      }}
                                       overscanColumnCount={overscanColumnCount}
                                       overscanRowCount={overscanRowCount}
                                       onSectionRendered={onSectionRendered}
                                       scrollToColumn={scrollToColumn}
-                                      scrollToRow={scrollToRow}
+                                      scrollToRow={overrideScrollToRow || scrollToRow}
                                     />
                                   </div>
                                 )

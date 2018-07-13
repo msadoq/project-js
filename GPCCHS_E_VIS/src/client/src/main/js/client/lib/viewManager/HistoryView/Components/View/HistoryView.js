@@ -120,9 +120,10 @@ class HistoryView extends React.Component {
 
     const _setCurrent = (cellContent = {}, content = {}) => {
       const { epName, referenceTimestamp } = content;
-      const lastForEp = _.get(epName, last);
+      const lastForEp = _.get([epName, 'referenceTimestamp'], last);
+      const timestamp = new Date(referenceTimestamp).getTime();
 
-      if (lastForEp && (lastForEp === referenceTimestamp)) {
+      if (lastForEp && (lastForEp === timestamp)) {
         return _addTooltip({
           ...cellContent,
           isCurrent: true,

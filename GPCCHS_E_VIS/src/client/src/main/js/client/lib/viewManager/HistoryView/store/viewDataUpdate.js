@@ -42,7 +42,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
   }
 
   let updatedState = state;
-  const { current } = visuWindow;
+  const { current, lower, upper } = visuWindow;
 
   Object.keys(payloads).forEach(
     (ep) => {
@@ -63,19 +63,25 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
       const _updateCurrent = (el, insertIndex) => {
         const { epName, referenceTimestamp } = el;
 
-        const last = _.get(['last', epName], updatedState);
+        const last = _.getOr(
+          0,
+          ['last', epName, 'referenceTimestamp'],
+          updatedState
+        );
+
+        const elementTime = new Date(referenceTimestamp).getTime();
 
         if (
-          !last ||
+          (last < lower || last > upper) ||
           (
-            referenceTimestamp &&
-            (last < referenceTimestamp) &&
-            (referenceTimestamp < current)
+            (elementTime < current) &&
+            (elementTime > lower) &&
+            (elementTime > last)
           )
         ) {
           _last = _.set(
             [epName, 'referenceTimestamp'],
-            referenceTimestamp,
+            elementTime,
             _last
           );
           _last = _.set(

@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch, { viewId }) => ({
   },
 });
 
-const HistoryViewContainer = connect(null, mapDispatchToProps)(HistoryView);
+const HistoryViewContainer = connect(mapStateToProps, mapDispatchToProps)(HistoryView);
 
 HistoryViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

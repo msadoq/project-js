@@ -44,66 +44,87 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
   let updatedState = state;
   const { current, lower, upper } = visuWindow;
 
-  Object.keys(payloads).forEach(
-    (ep) => {
-      const range = Object.keys(payloads[ep]).map((timestamp) => {
-        const epConfig = historyConfig.entryPoints.find(epc => epc.name === ep);
-        if (epConfig) {
-          return {
-            ...payloads[ep][timestamp],
-            id: epConfig.id,
-          };
-        }
+  const epConnectedData = historyConfig.entryPoints.map(ep => ep.connectedData);
 
-        return payloads[ep][timestamp];
-      });
-
-      let _last = _.getOr({}, 'last', state);
-
-      const _updateCurrent = (el, insertIndex) => {
-        const { epName, referenceTimestamp } = el;
-
-        const last = _.getOr(
-          0,
-          ['last', epName, 'referenceTimestamp'],
-          updatedState
-        );
-
-        const elementTime = new Date(referenceTimestamp).getTime();
-
-        if (
-          (last < lower || last > upper) ||
-          (
-            (elementTime < current) &&
-            (elementTime > lower) &&
-            (elementTime > last)
-          )
-        ) {
-          _last = _.set(
-            [epName, 'referenceTimestamp'],
-            elementTime,
-            _last
-          );
-          _last = _.set(
-            [epName, 'index'],
-            insertIndex,
-            _last
-          );
-        }
-      };
-
-      updatedState =
-        injectTabularData(
-          updatedState,
-          'history',
-          range,
-          _updateCurrent
-        );
-
-      updatedState =
-        _.set('last', _last, updatedState);
+  const _connectedDataExists = (ep) => {
+    for (const connectedData of epConnectedData) {
+      if (_.isEqual(ep.connectedData, connectedData)) {
+        return true;
+      }
     }
-  );
+    return false;
+  };
+
+  epKeys
+    .filter((epName) => {
+      const epConfig = historyConfig.entryPoints.find(ep => ep.name === epName);
+
+      if (!epConfig) {
+        return false;
+      }
+
+      return _connectedDataExists(epConfig);
+    })
+    .forEach(
+      (ep) => {
+        const range = Object.keys(payloads[ep]).map((timestamp) => {
+          const epConfig = historyConfig.entryPoints.find(epc => epc.name === ep);
+          if (epConfig) {
+            return {
+              ...payloads[ep][timestamp],
+              id: epConfig.id,
+            };
+          }
+
+          return payloads[ep][timestamp];
+        });
+
+        let _last = _.getOr({}, 'last', state);
+
+        const _updateCurrent = (el, insertIndex) => {
+          const { epName, referenceTimestamp } = el;
+
+          const last = _.getOr(
+            0,
+            ['last', epName, 'referenceTimestamp'],
+            updatedState
+          );
+
+          const elementTime = new Date(referenceTimestamp).getTime();
+
+          if (
+            (last < lower || last > upper) ||
+            (
+              (elementTime < current) &&
+              (elementTime > lower) &&
+              (elementTime > last)
+            )
+          ) {
+            _last = _.set(
+              [epName, 'referenceTimestamp'],
+              elementTime,
+              _last
+            );
+            _last = _.set(
+              [epName, 'index'],
+              insertIndex,
+              _last
+            );
+          }
+        };
+
+        updatedState =
+          injectTabularData(
+            updatedState,
+            'history',
+            range,
+            _updateCurrent
+          );
+
+        updatedState =
+          _.set('last', _last, updatedState);
+      }
+    );
 
   return updatedState;
 }

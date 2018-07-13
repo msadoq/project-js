@@ -6,6 +6,7 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import TableColumnsEditorContainer
   from '../../../common/Components/View/TableColumnsEditor/TableColumnsEditorContainer';
+import HistoryTrackingOptionsContainer from './HistoryTrackingOptionsContainer';
 
 export default class HistoryTab extends React.Component {
   static propTypes = {
@@ -47,6 +48,17 @@ export default class HistoryTab extends React.Component {
               <TableColumnsEditorContainer
                 viewId={viewId}
                 tableId={'history'}
+              />
+            }
+          </Panel>
+          <Panel
+            header="Tracking"
+            key="tracking"
+          >
+            {
+              panels.tracking &&
+              <HistoryTrackingOptionsContainer
+                viewId={viewId}
               />
             }
           </Panel>

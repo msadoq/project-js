@@ -93,21 +93,16 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
           const elementTime = new Date(referenceTimestamp).getTime();
 
           if (
-            (last < lower || last > upper) ||
+            (last < lower || last > upper) || // previous last is outside range
             (
-              (elementTime < current) &&
-              (elementTime > lower) &&
-              (elementTime > last)
+              (elementTime <= current) &&
+              (elementTime >= lower) &&
+              (elementTime >= last)
             )
           ) {
             _last = _.set(
               [epName, 'referenceTimestamp'],
               elementTime,
-              _last
-            );
-            _last = _.set(
-              [epName, 'index'],
-              insertIndex,
               _last
             );
           }
@@ -120,6 +115,24 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
             range,
             _updateCurrent
           );
+
+        // Update current lasts indexes
+        /*
+        Object.keys(_last).forEach((epName) => {
+          const { referenceTimestamp } = _last[epName];
+          const newIndex =
+            _.getOr(
+              [],
+              ['tables', 'history', 'data'],
+              state
+            ).findIndex(
+              el =>
+                new Date(el.referenceTimestamp).getTime() === referenceTimestamp
+            );
+
+          _last = _.set([epName, 'index'], newIndex, _last);
+        });
+        */
 
         updatedState =
           _.set('last', _last, updatedState);

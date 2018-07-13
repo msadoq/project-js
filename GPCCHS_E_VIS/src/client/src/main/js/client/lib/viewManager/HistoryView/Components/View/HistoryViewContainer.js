@@ -29,17 +29,56 @@ const mapStateToProps = (state, { viewId }) => {
   const conf = getConfigurationByViewId(state, { viewId });
   const last = _.getOr({}, 'last', data);
   const isPlaying = getIsPlaying(state);
-  const overrideScrollToRow =
+
+  const scrollPosition =
     _.getOr(
       0,
       ['tables', 'history', 'scrollPosition'],
       conf
     );
 
+  const trackRow = null;
+
+  /*
+  const isTrackingCurrentTimestamp =
+    _.getOr(
+      false,
+      ['tables', 'history', 'isTrackingCurrentTimestamp'],
+      conf
+    );
+
+  let minCurrentIndex = Infinity;
+
+  if (isTrackingCurrentTimestamp) {
+    minCurrentIndex = Object.keys(last).reduce((acc, cur) => {
+      const { referenceTimestamp, index } = last[cur];
+
+      if (referenceTimestamp < acc) {
+        return index;
+      }
+
+      return acc;
+    }, Infinity);
+  }
+
+  if (minCurrentIndex !== Infinity) {
+    trackRow = minCurrentIndex;
+  }
+
+  if (trackRow === -1) {
+    trackRow = null;
+  }
+
+  if (trackRow !== null) {
+    scrollPosition = null;
+  }
+  */
+
   return {
     last,
     isPlaying,
-    overrideScrollToRow,
+    scrollPosition,
+    trackRow,
   };
 };
 

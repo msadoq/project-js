@@ -9,7 +9,7 @@
 // END-HISTORY
 // ====================================================================
 
-// import _ from 'lodash/fp';
+import _ from 'lodash/fp';
 import _without from 'lodash/without';
 import * as types from 'store/types';
 
@@ -136,6 +136,15 @@ export default (stateConf, action) => {
           },
         },
       };
+    }
+    case types.WS_VIEW_HISTORY_TOGGLE_TRACK_CURRENT: {
+      const trackingOptionPath = ['tables', 'history', 'isTrackingCurrentTimestamp'];
+
+      return _.set(
+        trackingOptionPath,
+        !_.get(trackingOptionPath, stateConf),
+        stateConf
+      );
     }
     default:
       return stateConf;

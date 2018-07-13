@@ -1,0 +1,8 @@
+
+.Input, .Input > * {
+  cursor: pointer;
+}
+
+.Input > label {
+  margin-left: 5px;
+}

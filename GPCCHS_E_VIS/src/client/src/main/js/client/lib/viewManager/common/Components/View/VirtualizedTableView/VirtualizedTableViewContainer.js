@@ -97,7 +97,6 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => (
     }
   },
   saveScroll: (scrollPosition) => {
-    console.log('dispatching...');
     dispatch(saveScroll(viewId, tableId, scrollPosition));
   },
 });

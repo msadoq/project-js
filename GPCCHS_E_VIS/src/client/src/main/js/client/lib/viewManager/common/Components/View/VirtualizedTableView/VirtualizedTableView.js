@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
@@ -40,7 +41,8 @@ class VirtualizedTableView extends React.Component {
     overrideStyle: PropTypes.func,
     tableHeader: PropTypes.func,
     saveScroll: PropTypes.func.isRequired,
-    overrideScrollToRow: PropTypes.number,
+    scrollPosition: PropTypes.shape(),
+    scrollToRow: PropTypes.number,
   };
 
   static defaultProps = {
@@ -57,7 +59,8 @@ class VirtualizedTableView extends React.Component {
     filterState: {},
     overrideStyle: () => ({}),
     tableHeader: null,
-    overrideScrollToRow: null,
+    scrollPosition: null,
+    scrollToRow: null,
   };
 
   constructor(props, context) {
@@ -72,6 +75,17 @@ class VirtualizedTableView extends React.Component {
     cols.forEach((colKey) => {
       this.inputRefs[colKey] = React.createRef();
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    const { scrollToRow } = this.props;
+
+    if (this.mainGrid && scrollToRow !== null) {
+      this.mainGrid.scrollToCell({
+        columnIndex: 0,
+        rowIndex: scrollToRow,
+      });
+    }
   }
 
   _onUpdateFilter = (colKey, newFilterValue) => {
@@ -135,7 +149,7 @@ class VirtualizedTableView extends React.Component {
       columnCount,
       tableHeader,
       saveScroll,
-      overrideScrollToRow,
+      scrollPosition,
     } = this.props;
 
     const formattedRows = rows;
@@ -431,112 +445,101 @@ class VirtualizedTableView extends React.Component {
                 adjustedHeight -= rowHeight;
               }
 
-              return (
-                <div>
-                  {header}
-                  <ScrollSync className={styles.container}>
-                    {
-                      (
-                        {
-                          onScroll,
-                          scrollLeft,
-                          scrollTop,
-                        }
-                      ) => (
-                        <div className={styles.GridRow}>
-                          {bodyCellOverlay}
-                          <div className={styles.GridColumn}>
-                            <ArrowKeyStepper
+              let scrollProps = {};
+
+              if (scrollPosition) {
+                scrollProps = {
+                  scrollTop: scrollPosition.scrollTop,
+                  scrollLeft: scrollPosition.scrollLeft,
+                };
+              }
+
+              return (<div>
+                {header}
+                <ScrollSync className={styles.container}>
+                  {
+                    (
+                      {
+                        onScroll,
+                        scrollLeft,
+                        scrollTop,
+                      }
+                    ) => (
+                      <div className={styles.GridRow}>
+                        {bodyCellOverlay}
+                        <div className={styles.GridColumn}>
+                          <div>
+                            {
+                              withGroups ?
+                                <Grid
+                                  cellRenderer={_groupHeaderCellRenderer}
+                                  className={styles.HeaderGrid}
+                                  width={adjustedWidth}
+                                  height={rowHeight}
+                                  columnWidth={columnWidth}
+                                  rowHeight={rowHeight}
+                                  scrollLeft={scrollLeft}
+                                  scrollTop={scrollTop}
+                                  columnCount={columnCount}
+                                  rowCount={1}
+                                  overscanColumnCount={overscanColumnCount}
+                                /> : null
+                            }
+                            <Grid
+                              cellRenderer={_headerCellRenderer}
+                              className={styles.HeaderGrid}
+                              width={adjustedWidth}
+                              height={extendedRowHeight}
+                              columnWidth={columnWidth}
+                              rowHeight={extendedRowHeight}
+                              scrollLeft={scrollLeft}
+                              scrollTop={scrollTop}
+                              columnCount={columnCount}
+                              rowCount={1}
+                              overscanColumnCount={overscanColumnCount}
+                            />
+                            <Grid
+                              cellRenderer={_filterCellRenderer}
+                              className={styles.HeaderGrid}
+                              width={adjustedWidth}
+                              height={rowHeight}
+                              columnWidth={columnWidth}
+                              rowHeight={rowHeight}
+                              scrollLeft={scrollLeft}
+                              scrollTop={scrollTop}
+                              columnCount={columnCount}
+                              rowCount={1}
+                              overscanColumnCount={overscanColumnCount}
+                            />
+                            <Grid
+                              ref={(ref) => {
+                                this.mainGrid = ref;
+                              }}
+                              cellRenderer={_bodyCellRenderer}
+                              className={styles.BodyGrid}
+                              width={adjustedWidth}
+                              height={adjustedHeight}
+                              columnWidth={columnWidth}
+                              rowHeight={rowHeight}
                               columnCount={columnCount}
                               rowCount={updatedRowCount}
-                            >
-                              {
-                                ({ onSectionRendered, scrollToColumn, scrollToRow }) => (
-                                  <div>
-                                    {
-                                      withGroups ?
-                                        <Grid
-                                          cellRenderer={_groupHeaderCellRenderer}
-                                          className={styles.HeaderGrid}
-                                          width={adjustedWidth}
-                                          height={rowHeight}
-                                          columnWidth={columnWidth}
-                                          rowHeight={rowHeight}
-                                          scrollLeft={scrollLeft}
-                                          scrollTop={scrollTop}
-                                          columnCount={columnCount}
-                                          rowCount={1}
-                                          overscanColumnCount={overscanColumnCount}
-                                          onSectionRendered={onSectionRendered}
-                                          scrollToColumn={scrollToColumn}
-                                          scrollToRow={scrollToRow}
-                                        /> : null
-                                    }
-                                    <Grid
-                                      cellRenderer={_headerCellRenderer}
-                                      className={styles.HeaderGrid}
-                                      width={adjustedWidth}
-                                      height={extendedRowHeight}
-                                      columnWidth={columnWidth}
-                                      rowHeight={extendedRowHeight}
-                                      scrollLeft={scrollLeft}
-                                      scrollTop={scrollTop}
-                                      columnCount={columnCount}
-                                      rowCount={1}
-                                      overscanColumnCount={overscanColumnCount}
-                                      onSectionRendered={onSectionRendered}
-                                      scrollToColumn={scrollToColumn}
-                                      scrollToRow={scrollToRow}
-                                    />
-                                    <Grid
-                                      cellRenderer={_filterCellRenderer}
-                                      className={styles.HeaderGrid}
-                                      width={adjustedWidth}
-                                      height={rowHeight}
-                                      columnWidth={columnWidth}
-                                      rowHeight={rowHeight}
-                                      scrollLeft={scrollLeft}
-                                      scrollTop={scrollTop}
-                                      columnCount={columnCount}
-                                      rowCount={1}
-                                      overscanColumnCount={overscanColumnCount}
-                                      onSectionRendered={onSectionRendered}
-                                      scrollToColumn={scrollToColumn}
-                                      scrollToRow={scrollToRow}
-                                    />
-                                    <Grid
-                                      cellRenderer={_bodyCellRenderer}
-                                      className={styles.BodyGrid}
-                                      width={adjustedWidth}
-                                      height={adjustedHeight}
-                                      columnWidth={columnWidth}
-                                      rowHeight={rowHeight}
-                                      columnCount={columnCount}
-                                      rowCount={updatedRowCount}
-                                      scrollLeft={scrollLeft}
-                                      scrollTop={scrollTop}
-                                      onScroll={(...args) => {
-                                        const scrollPosition = args[0];
-                                        saveScroll(scrollPosition);
-                                        onScroll(args);
-                                      }}
-                                      overscanColumnCount={overscanColumnCount}
-                                      overscanRowCount={overscanRowCount}
-                                      onSectionRendered={onSectionRendered}
-                                      scrollToColumn={scrollToColumn}
-                                      scrollToRow={overrideScrollToRow || scrollToRow}
-                                    />
-                                  </div>
-                                )
-                              }
-                            </ArrowKeyStepper>
+                              scrollLeft={scrollLeft}
+                              scrollTop={scrollTop}
+                              onScroll={(...args) => {
+                                saveScroll(args[0]);
+                                onScroll(args);
+                              }}
+                              overscanColumnCount={overscanColumnCount}
+                              overscanRowCount={overscanRowCount}
+                              {...scrollProps}
+                            />
                           </div>
                         </div>
-                      )
-                    }
-                  </ScrollSync>
-                </div>
-              );
+                      </div>
+                    )
+                  }
+                </ScrollSync>
+              </div>);
             }
           }
         </ContainerDimensions>

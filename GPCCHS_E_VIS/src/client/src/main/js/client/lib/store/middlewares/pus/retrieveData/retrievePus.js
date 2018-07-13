@@ -43,11 +43,11 @@ const retrievePus = ipc => ({ dispatch, getState }) => next => (action) => {
             {
               sessionId: dataId.sessionId,
               domainId: dataId.domainId,
-              pusService: id,
+              pusService: 11, // type de pus 11, mme, 12 ...
             }, // header
             false, // forReplay
-            Date.now(), // firstTime,
-            Date.now() + 10,// lastTime,
+            Date.now() - 50000, // firstTime,
+            Date.now(), // lastTime,
             false, // continuous,
             makeCallback()
           );

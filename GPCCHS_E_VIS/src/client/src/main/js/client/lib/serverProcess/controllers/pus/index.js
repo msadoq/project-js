@@ -9,29 +9,28 @@ const constants = require('../../../constants');
 const pusController = require('./pusController');
 
 const controllers = {
-  [constants.PUS_DATA]: (args) => {
-    pusController(args, getStore);
+  [constants.PUS_DATA]: (messageData, pusService) => {
+    pusController(messageData, pusService, getStore);
   },
 };
 
 module.exports = function pusActorController() {
   // eslint-disable-next-line prefer-rest-params, "DV6 TBC_CNES LPISIS Avoid 'Maximum call stack size exceeded' with rest operators and .apply() usage"
   const args = arguments;
-  // args[0] trash
 
   const headerBuffer = args[0];
-  const buffers = Array.prototype.slice.call(args, 1);
+  const messageData = args[1];
 
   try {
-    const { method } = decode('pusActor.pusUtils.PusHeader', headerBuffer);
-    if (method === undefined || method === null) {
+    const { messageType, pusService } = decode('isis.pusModelEditor.HeaderStructure', headerBuffer);
+    if (messageType.value === undefined || messageType.value === null) {
       return logger.warn('invalid message received (no messageType)');
     }
-    const fn = controllers[method];
+    const fn = controllers[messageType.value];
     if (!fn) {
-      return logger.warn(`invalid message received (unknown messageType) '${method}'`);
+      return logger.warn(`invalid message received (unknown messageType) '${messageType.value}'`);
     }
-    return fn(buffers);
+    return fn(messageData, pusService.value);
   } catch (e) {
     getStore().dispatch(addMessage('global', 'warning',
       'error on processing header buffer '.concat(e)));

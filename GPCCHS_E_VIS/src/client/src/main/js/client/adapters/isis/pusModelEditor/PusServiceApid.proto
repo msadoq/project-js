@@ -1,5 +1,5 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/UINTEGER.proto";
 
 
 package pusModelEditor.protobuf;
@@ -7,5 +7,5 @@ package pusModelEditor.protobuf;
 message PusServiceApid {
 extensions 2 to 102;
 
-  optional ccsds_mal.protobuf.STRING value = 1;
+  optional ccsds_mal.protobuf.UINTEGER value = 1;
 }

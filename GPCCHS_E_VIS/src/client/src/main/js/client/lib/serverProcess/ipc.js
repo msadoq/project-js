@@ -369,7 +369,7 @@ const pusCommands = {
   },
   initialize: (header, forReplay, firstTime, lastTime, continuous, callback) => commands.pus.rpc(
     constants.PUS_INITIALIZE,
-    encode('isis.pusModelEditor.InitialiseStructure', { forReplay: true, firstTime: Date.now(), lastTime: Date.now() + 10, continuous: true }),
+    encode('isis.pusModelEditor.InitialiseStructure', { forReplay: true, firstTime: Date.now() - 50000, lastTime: Date.now(), continuous: true }),
     header,
     callback
   ),

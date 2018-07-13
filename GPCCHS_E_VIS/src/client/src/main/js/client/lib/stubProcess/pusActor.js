@@ -1,5 +1,6 @@
 // const encoding = require('text-encoding');
 const { resolve } = require('path');
+const sendPusData = require('./pusUtils/sendPusData');
 const zmq = require('common/zmq');
 const logger = require('../common/logManager')('stubs:utils');
 const adapter = require('../utils/adapters');
@@ -38,14 +39,10 @@ const onMessage = (...args) => {
   switch (header.messageType.value) {
     case constants.PUS_INITIALIZE:
       logger.info('Received PUS INITIALIZE');
-      // const decodedInit = adapter.decode('pusActor.pusUtils.PusInitialize', args[1]);
-      sendMessage(
-        constants.PUS_DATA,
-        adapter.encode('isis.pusModelEditor.DataStructure', {
-          dataType: 0,
-          groundDate: Date.now(),
-          payload: undefined,
-        })
+      sendPusData(
+        header,
+        adapter.decode('isis.pusModelEditor.InitialiseStructure', args[1]),
+        zmq
       );
       break;
     case constants.PUS_SUBSCRIBE:
@@ -96,6 +93,6 @@ zmq.open(
       process.send({ [constants.CHILD_PROCESS_READY_MESSAGE_TYPE_KEY]: true });
     }
 
-    nextPusActorCall();
+    // nextPusActorCall();
   }
 );

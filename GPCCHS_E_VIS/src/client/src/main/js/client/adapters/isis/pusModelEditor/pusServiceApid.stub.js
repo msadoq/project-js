@@ -5,7 +5,7 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 
 
 const pusServiceApid = {
-  value: 'mySTRING',
+  value: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pusServiceApid) : pusServiceApid);

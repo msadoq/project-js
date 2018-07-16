@@ -36,6 +36,7 @@ function pus15DataReducer(state = {}, action) {
        * },
        */
       const data = _.getOr([], ['payload', 'data', VM_VIEW_PUS15], action);
+
       if (!data) {
         return state;
       }
@@ -46,7 +47,6 @@ function pus15DataReducer(state = {}, action) {
 
       // keep all except tabular data
       updatedState = {
-        ...updatedState,
         ..._.omit(
           ['pus015PacketStore'],
           _.getOr(null, ['pus015Model'], data)
@@ -54,7 +54,7 @@ function pus15DataReducer(state = {}, action) {
       };
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
-      updatedState = injectTabularData(updatedState, 'onBoardStorage',
+      updatedState = injectTabularData(updatedState, 'onBoardStorages',
         _.getOr([], ['pus015Model', 'pus015packetStore'], data)
           .map(store => ({
             ...store,
@@ -64,7 +64,7 @@ function pus15DataReducer(state = {}, action) {
             lastUpdateModeStoreStatus: updateTypes[_.getOr(200, 'lastUpdateModeStoreStatus', store)], // map schedule lastUpdateModeStoreStatus constant
           }))
       );
-      updatedState = injectTabularData(updatedState, 'StorageDef',
+      updatedState = injectTabularData(updatedState, 'storageDef',
         _.getOr([], ['pus015Model', 'pus015packetStore'], data)
           .reduce((acc, store) => [...acc, ...store.pus015Packet], [])
           .map(packet => ({

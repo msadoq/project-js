@@ -45,10 +45,9 @@ function pus11DataReducer(state = {}, action) {
 
       // keep all except tabular data
       updatedState = {
-        ...updatedState,
         ..._.omit(
           ['pus011SubSchedule', 'pus011Apid', 'pus011Command'],
-          _.getOr(null, ['pus011Model'], data)
+          data.pus011Model
         ),
       };
 

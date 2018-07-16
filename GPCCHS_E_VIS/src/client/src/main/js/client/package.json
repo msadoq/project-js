@@ -109,7 +109,7 @@
     "devtron": "~1.4.0",
     "dom-helpers": "^3.3.1",
     "dom-to-image": "^2.6.0",
-    "electron": "^1.8.2",
+    "electron": "1.8.2",
     "element-resize-event": "^2.0.9",
     "exit": "~0.1.2",
     "express": "~4.15.2",
@@ -239,9 +239,6 @@
   "peerDependencies": {
     "common": "../../../../../common/src/main/js/common",
     "rtd": "../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd"
-  },
-  "engines": {
-    "node": "6.13.1"
   },
   "engines": {
     "node": "6.13.1"

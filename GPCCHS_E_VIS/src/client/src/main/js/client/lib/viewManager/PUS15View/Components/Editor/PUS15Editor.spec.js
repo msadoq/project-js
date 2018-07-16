@@ -7,13 +7,10 @@ const propsStub = {
   pageId: 'pageId',
   configuration: {
     tables: {
-      subSchedules: {
+      onBoardStorages: {
         cols: [],
       },
-      enabledApids: {
-        cols: [],
-      },
-      commands: {
+      storageDef: {
         cols: [],
       },
     },

@@ -36,13 +36,10 @@ export default class PUS15Editor extends Component {
     configuration: PropTypes.shape({
       entryPoints: PropTypes.arrayOf(entryPointType),
       tables: PropTypes.shape({
-        subSchedules: PropTypes.shape({
+        onBoardStorages: PropTypes.shape({
           cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
-        enabledApids: PropTypes.shape({
-          cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
-        }).isRequired,
-        commands: PropTypes.shape({
+        storageDef: PropTypes.shape({
           cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
       }).isRequired,

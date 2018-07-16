@@ -37,38 +37,26 @@ export default class PUS15Tab extends React.Component {
             {panels.parameters && <ViewParamsContainer viewId={viewId} />}
           </Panel>
           <Panel
-            header="Sub-Schedule Columns"
-            key="pus15-sub-schedules-panel"
+            header="onBoardStorages Columns"
+            key="pus15-onboard-storages-panel"
           >
             {
-              panels['pus15-sub-schedules-panel'] &&
+              panels['pus15-onboard-storages-panel'] &&
               <TableColumnsEditorContainer
                 viewId={viewId}
-                tableId={'subSchedules'}
+                tableId={'onBoardStorages'}
               />
             }
           </Panel>
           <Panel
-            header="Commands Columns"
-            key="pus15-commands-panel"
+            header="Storage Definitions Columns"
+            key="pus15-storage-def-panel"
           >
             {
-              panels['pus15-commands-panel'] &&
+              panels['pus15-storage-def-panel'] &&
               <TableColumnsEditorContainer
                 viewId={viewId}
-                tableId={'commands'}
-              />
-            }
-          </Panel>
-          <Panel
-            header="Enabled Apids Columns"
-            key="pus15-enabled-apids-panel"
-          >
-            {
-              panels['pus15-enabled-apids-panel'] &&
-              <TableColumnsEditorContainer
-                viewId={viewId}
-                tableId={'enabledApids'}
+                tableId={'storageDef'}
               />
             }
           </Panel>

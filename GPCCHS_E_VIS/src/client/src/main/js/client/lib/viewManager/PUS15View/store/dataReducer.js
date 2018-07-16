@@ -35,6 +35,7 @@ function pus15DataReducer(state = {}, action) {
        *  },
        * },
        */
+
       const data = _.getOr([], ['payload', 'data', VM_VIEW_PUS15], action);
 
       if (!data) {

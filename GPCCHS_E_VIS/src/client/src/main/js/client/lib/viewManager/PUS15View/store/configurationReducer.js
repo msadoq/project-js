@@ -19,7 +19,6 @@ const initialConfiguration = {
         { title: 'hkStatusParameterName', displayed: true },
         { title: 'serviceApidName', displayed: true },
         { title: 'storeName', displayed: true },
-        { title: 'lastUpdateTimeExecTimeFirstTc', displayed: true },
         { title: 'serviceApid', displayed: true },
       ],
     },

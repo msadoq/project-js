@@ -341,13 +341,13 @@ module.exports = (messageData, pusService, getStore) => {
           serviceApidName: 'mySTRING', // inutilisé dans la vue
           uniqueId: 1000, // inutilisé dans la vue
           pus012MonitoringCheckPropertiesLow: {
-            rid: 100, // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne RID-EL
-            ridLabel: 'mySTRING', // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne RID-EL Label
-            ridStatus: 100, // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne Status-EL
-            actionStatus: 100, // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne Action Status-EL
-            actionName: 'mySTRING', // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne Action-EL
-            mask: 'mySTRING', // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne Action Mask-E =========> only filled if checkType === "EXPECTED VALUE"
-            value: 'mySTRING', // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne Value-EL
+            rid: 100, // Affiché dans la Table Parameter Monitoring Definitions, colonne RID-EL =========> use this prop if checkType === "DELTA" | "LIMIT", else see pus012MonitoringCheckPropertiesHigh.rid
+            ridLabel: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne RID-EL Label  =========> use this prop if checkType === "DELTA" | "LIMIT", else see pus012MonitoringCheckPropertiesHigh.ridLabel
+            ridStatus: 100, // Affiché dans la Table Parameter Monitoring Definitions, colonne Status-EL  =========> use this prop if checkType === "DELTA" | "LIMIT", else see pus012MonitoringCheckPropertiesHigh.ridStatus
+            actionStatus: 100, // Affiché dans la Table Parameter Monitoring Definitions, colonne Action Status-EL  =========> use this prop if checkType === "DELTA" | "LIMIT", else see pus012MonitoringCheckPropertiesHigh.actionStatus
+            actionName: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne Action-EL  =========> use this prop if checkType === "DELTA" | "LIMIT", else see pus012MonitoringCheckPropertiesHigh.actionName
+            mask: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne Action Mask-E  =========> use this prop if checkType === "DELTA" | "LIMIT", else see pus012MonitoringCheckPropertiesHigh.mask
+            value: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne Value-EL  =========> use this prop if checkType === "DELTA" | "LIMIT", else see pus012MonitoringCheckPropertiesHigh.value
             lastUpdateModeRid: 1, // Tooltip sur rid & ridLabel
             lastUpdateTimeRid: timestamp, // Tooltip sur rid & ridLabel
             lastUpdateModeActionStatus: 1, // Tooltip sur actionStatus
@@ -363,14 +363,14 @@ module.exports = (messageData, pusService, getStore) => {
             actionTcSubType: 100, // inutilisé dans la vue
             uniqueId: 1000, // inutilisé dans la vue
           },
-          pus012MonitoringCheckPropertiesHigh: {
-            rid: 100, // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne RID-H
-            ridLabel: 'mySTRING', // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne RID-H Label
-            ridStatus: 100, // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne Status-H
-            actionStatus: 100, // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne Action Status-H
-            actionName: 'mySTRING', // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne Action-H
+          pus012MonitoringCheckPropertiesHigh: { // =========> only filled if checkType === "DELTA" | "LIMIT", else blank
+            rid: 100, // Affiché dans la Table Parameter Monitoring Definitions, colonne RID-H =========> only filled if checkType === "DELTA" | "LIMIT", else blank
+            ridLabel: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne RID-H Label =========> only filled if checkType === "DELTA" | "LIMIT", else blank
+            ridStatus: 100, // Affiché dans la Table Parameter Monitoring Definitions, colonne Status-H =========> only filled if checkType === "DELTA" | "LIMIT", else blank
+            actionStatus: 100, // Affiché dans la Table Parameter Monitoring Definitions, colonne Action Status-H =========> only filled if checkType === "DELTA" | "LIMIT", else blank
+            actionName: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne Action-H =========> only filled if checkType === "DELTA" | "LIMIT", else blank
             mask: 'mySTRING', // Inutilisé dans la vue
-            value: 'mySTRING', // Affiché dans la Table (ou popin) Parameter Monitoring Definitions, colonne High Limit
+            value: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne High Limit =========> only filled if checkType === "DELTA" | "LIMIT", else blank
             lastUpdateModeRid: 1, // Tooltip sur rid & ridLabel
             lastUpdateTimeRid: timestamp, // Tooltip sur rid & ridLabel
             lastUpdateModeActionStatus: 1, // Tooltip sur actionStatus
@@ -386,28 +386,28 @@ module.exports = (messageData, pusService, getStore) => {
             actionTcSubType: 100, // inutilisé dans la vue
             uniqueId: 1000, // inutilisé dans la vue
           },
-          pus012MonitoringCheckPropertiesExpected: { // ???
-            rid: 100,
-            ridLabel: 'mySTRING',
-            ridStatus: 100,
-            actionStatus: 100,
-            actionName: 'mySTRING',
-            mask: 'mySTRING',
-            value: 'mySTRING',
-            lastUpdateModeRid: 1,
-            lastUpdateTimeRid: timestamp,
-            lastUpdateModeActionStatus: 1,
-            lastUpdateTimeActionStatus: timestamp,
-            lastUpdateModeRidStatus: 1,
-            lastUpdateTimeRidStatus: timestamp,
-            lastUpdateModeMask: 1,
-            lastUpdateTimeMask: timestamp,
-            lastUpdateModeValue: 1,
-            lastUpdateTimeValue: timestamp,
-            actionTcApid: 100,
-            actionTcType: 100,
-            actionTcSubType: 100,
-            uniqueId: 1000,
+          pus012MonitoringCheckPropertiesExpected: {
+            rid: 100, // Affiché dans la Table Parameter Monitoring Definitions, colonne RID-EL =========> use this prop if checkType === EXPEXTED_VALUE, else see pus012MonitoringCheckPropertiesLow.rid
+            ridLabel: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne RID-EL Label  =========> use this prop if checkType === EXPEXTED_VALUE, else see pus012MonitoringCheckPropertiesLow.ridLabel
+            ridStatus: 100, // Affiché dans la Table Parameter Monitoring Definitions, colonne Status-EL  =========> use this prop if checkType === EXPEXTED_VALUE, else see pus012MonitoringCheckPropertiesLow.ridStatus
+            actionStatus: 100, // Affiché dans la Table Parameter Monitoring Definitions, colonne Action Status-EL  =========> use this prop if checkType === EXPEXTED_VALUE, else see pus012MonitoringCheckPropertiesLow.actionStatus
+            actionName: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne Action-EL  =========> use this prop if checkType === EXPEXTED_VALUE, else see pus012MonitoringCheckPropertiesLow.actionName
+            mask: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne Action Mask-E  =========> use this prop if checkType === EXPEXTED_VALUE, else see pus012MonitoringCheckPropertiesLow.mask
+            value: 'mySTRING', // Affiché dans la Table Parameter Monitoring Definitions, colonne Value-EL  =========> use this prop if checkType === EXPEXTED_VALUE, else see pus012MonitoringCheckPropertiesLow.value
+            lastUpdateModeRid: 1, // Tooltip sur rid & ridLabel
+            lastUpdateTimeRid: timestamp, // Tooltip sur rid & ridLabel
+            lastUpdateModeActionStatus: 1, // Tooltip sur actionStatus
+            lastUpdateTimeActionStatus: timestamp, // Tooltip sur actionStatus
+            lastUpdateModeRidStatus: 1, // Tooltip sur ridStatus
+            lastUpdateTimeRidStatus: timestamp, // Tooltip sur ridStatus
+            lastUpdateModeMask: 1, // Tooltip sur mask
+            lastUpdateTimeMask: timestamp, // Tooltip sur mask
+            lastUpdateModeValue: 1, // Tooltip sur value
+            lastUpdateTimeValue: timestamp, // Tooltip sur value
+            actionTcApid: 100, // inutilisé dans la vue
+            actionTcType: 100, // inutilisé dans la vue
+            actionTcSubType: 100, // inutilisé dans la vue
+            uniqueId: 1000, // inutilisé dans la vue
           },
         },
       ],

@@ -197,9 +197,8 @@
         }
       },
       "required": [
-        "commands",
-        "enabledApids",
-        "subSchedules"
+        "onBoardStorages",
+        "storageDef"
       ]
     }
   },

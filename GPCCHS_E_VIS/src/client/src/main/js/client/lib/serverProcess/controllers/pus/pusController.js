@@ -145,14 +145,8 @@ const onPusData = (messageData, pusService, getStore) => {
   const store = getStore();
   try {
     const { dataType, payload } = decode('isis.pusModelEditor.DataStructure', messageData);
-    console.log('###############');
-    console.log(dataType);
-    console.log('###############');
     const decodedPayload = getDecodedPayload(dataType.value, payload.value);
     const cleanPayload = cleanupPayload(decodedPayload);
-    console.log('###############');
-    console.log(cleanPayload);
-    console.log('###############');
     const viewType = getViewType(pusService);
     store.dispatch(injectPusData({
       [viewType]: cleanPayload,

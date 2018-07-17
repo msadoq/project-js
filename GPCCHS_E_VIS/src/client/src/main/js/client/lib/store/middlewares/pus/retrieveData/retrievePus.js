@@ -24,6 +24,7 @@ const retrievePus = ipc => ({ dispatch, getState }) => next => (action) => {
       const id = ids[i];
       const { intervals, apidName, dataId } = neededPus[ids[i]];
 
+      // TODO @jmira remove cache for pus
       // getting records from cache, if there is somme dispatch them with newData
       const pusRecords = getRecordsByInterval(PREFIX_PUS, id, intervals);
       if (Object.keys(pusRecords[id]).length !== 0) {
@@ -43,11 +44,11 @@ const retrievePus = ipc => ({ dispatch, getState }) => next => (action) => {
             {
               sessionId: dataId.sessionId,
               domainId: dataId.domainId,
-              pusService: id,
+              pusService: dataId.pusService, // type de pus 11, mme, 12 ...
             }, // header
             false, // forReplay
-            Date.now(), // firstTime,
-            Date.now() + 10,// lastTime,
+            missingIntervals[j][0], // firstTime,
+            missingIntervals[j][1], // lastTime,
             false, // continuous,
             makeCallback()
           );

@@ -32,7 +32,11 @@ function pus14DataReducer(state = {}, action) {
        *  },
        * },
        */
-      const data = _.getOr([], ['payload', 'data', VM_VIEW_PUS14], action);
+      const data = _.getOr(null, ['payload', 'data', VM_VIEW_PUS14], action);
+      if (!data) {
+        return state;
+      }
+
       const statuses = parameters.get('PUS_CONSTANTS').STATUS;
       const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
@@ -40,7 +44,7 @@ function pus14DataReducer(state = {}, action) {
 
       const ownModelData = _.omit(
         ['pus014TmPacket'],
-        _.getOr(null, ['pus014Model'], data)
+        data
       );
 
       // strip tables from data dans add them to updatedState
@@ -51,7 +55,7 @@ function pus14DataReducer(state = {}, action) {
       };
 
       updatedState = injectTabularData(updatedState, 'pus014TmPacket',
-        _.getOr([], ['pus014Model', 'pus014TmPacket'], data)
+        _.getOr([], ['pus014TmPacket'], data)
         .map(packet => ({
           ...packet,
           status: statuses[_.getOr(200, 'status', packet)], // map packet status constant

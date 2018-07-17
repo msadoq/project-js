@@ -8,8 +8,13 @@ import VirtualizedTableViewContainer
 import { addTooltipWithContent } from '../../../common/pus/tooltip';
 
 
-const _formatDate = date => (new Date(date)).toISOString();
-
+// eslint-disable-next-line arrow-body-style
+const _formatDate = (date) => {
+  return (new Date(date)) > 0
+    ? (new Date(date)).toISOString()
+    : date
+    ;
+};
 const _onBoardStoragesModifier = (cellContent = {}, content = {}) => {
   const { colKey } = cellContent;
 

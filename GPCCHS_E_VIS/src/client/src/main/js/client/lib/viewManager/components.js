@@ -59,6 +59,10 @@ const list = {
     getViewComponent: () => require('../viewManager/PUS14View/Components/View/PUS14ViewContainer'),
     getEditorComponent: () => require('../viewManager/PUS14View/Components/Editor/PUS14EditorContainer'),
   },
+  [constants.VM_VIEW_PUS15]: {
+    getViewComponent: () => require('../viewManager/PUS15View/Components/View/PUS15ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS15View/Components/Editor/PUS15EditorContainer'),
+  },
   [constants.VM_VIEW_PUSMME]: {
     getViewComponent: () => require('../viewManager/PUSMMEView/Components/View/PUSMMEViewContainer'),
     getEditorComponent: () => require('../viewManager/PUSMMEView/Components/Editor/PUSMMEEditorContainer'),

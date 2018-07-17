@@ -1,0 +1,148 @@
+{
+  "type": "PUS15View",
+  "title": "PUS Service 15, Packet Forwarding Service",
+  "titleStyle": {
+    "align": "left",
+    "bold": false,
+    "color": "#000000",
+    "font": "Arial",
+    "italic": false,
+    "size": 12,
+    "strikeOut": false,
+    "underline": false
+  },
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "domainName": "*",
+  "sessionName": "*",
+  "tables": {
+    "pus015PacketStore": {
+      "name": "On-Board Storages",
+      "sorting": {
+        "colName": "storeId",
+        "direction": "DESC"
+      },
+      "cols": [
+        {
+          "title": "storeId",
+          "displayed": true
+        },
+        {
+          "title": "status",
+          "displayed": true
+        },
+        {
+          "title": "storageType",
+          "displayed": true
+        },
+        {
+          "title": "dumpEnable",
+          "displayed": true
+        },
+        {
+          "title": "hkStatusParameterName",
+          "displayed": true
+        },
+        {
+          "title": "serviceApidName",
+          "displayed": true
+        },
+        {
+          "title": "storeName",
+          "displayed": true
+        },
+        {
+          "title": "serviceApid",
+          "displayed": true
+        },
+      ]
+    }
+    "pus015Packet": {
+      "name": "Storage Definitions",
+      "sorting": {
+        "colName": "packetApid",
+        "direction": "DESC"
+      },
+      "cols": [
+        {
+          "title": "packetApid",
+          "displayed": true
+        },
+        {
+          "title": "serviceType",
+          "displayed": true
+        },
+        {
+          "title": "serviceSubType",
+          "displayed": true
+        },
+        {
+          "title": "sid",
+          "displayed": true
+        },
+        {
+          "title": "subsamplingRatio",
+          "displayed": true
+        },
+        {
+          "title": "packetType",
+          "displayed": true
+        },
+        {
+          "title": "sidLabel",
+          "displayed": true
+        },
+        {
+          "title": "isSubsamplingRatioSet",
+          "displayed": true
+        },
+        {
+          "title": "serviceApid",
+          "displayed": true
+        },
+        {
+          "title": "serviceApidName",
+          "displayed": true
+        },
+        {
+          "title": "packetApidName",
+          "displayed": true
+        },
+        {
+          "title": "sidName",
+          "displayed": true
+        },
+      ]
+    }
+  },
+  "entryPoint": {
+    "connectedData": {
+      "apidName": "TIMEPACKET,ORBIT,POWERMGT",
+      "apidRawValue": null,
+      "apids": [
+        {
+          "apidName": "TIMEPACKET",
+          "apidRawValue": "0"
+        },
+        {
+          "apidName": "ORBIT",
+          "apidRawValue": "2"
+        },
+        {
+          "apidName": "POWERMGT",
+          "apidRawValue": "3"
+        }
+      ],
+      "domain": "fr.cnes.isis.simupus",
+      "formula": "PusGroundModelDefinition.Pus015Model<Pus015Model>",
+      "session": "*",
+      "timeline": "Session 1"
+    },
+    "id": "27525ee9-4da0-44ef-9b26-526405b12bf9",
+    "name": "PUS15EP"
+  },
+  "version": "2.2"
+}

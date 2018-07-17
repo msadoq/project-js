@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import cn from 'classnames';
-import { ArrowKeyStepper, Grid, ScrollSync } from 'react-virtualized';
+import { Grid, ScrollSync } from 'react-virtualized';
 import ContainerDimensions from 'react-container-dimensions';
 import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 import shortid from 'shortid';
@@ -513,7 +513,7 @@ class VirtualizedTableView extends React.Component {
                               scrollTop={scrollTop}
                               onScroll={(...args) => {
                                 saveScroll(args[0]);
-                                onScroll(args);
+                                onScroll(...args);
                               }}
                               overscanColumnCount={overscanColumnCount}
                               overscanRowCount={overscanRowCount}

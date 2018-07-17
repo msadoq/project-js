@@ -5,50 +5,135 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import './PUS14View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
+import { addTooltipWithContent } from '../../../common/pus/tooltip';
 
-// @todo hbenjelloun implement
-const bodyCellsPackets = [
-  {
-    label: 'forwardingStatus',
-    onHover: () => console.log('tooltip forwardingStatus. Use lastUpdateModeFwdStatus & lastUpdateTimeFwdStatus'),
-  },
-  {
-    label: 'rid',
-    onHover: () => console.log('tooltip rid. Use lastUpdateModeRid & lastUpdateTimeRid'),
-  },
-  {
-    label: 'sid',
-    onHover: () => console.log('tooltip sid. Use lastUpdateModeSid & lastUpdateTimeSid'),
-  },
-  {
-    label: 'sidLabel',
-    onHover: () => console.log('tooltip sidLabel. Use lastUpdateModeSid & lastUpdateTimeSid'),
-  },
-  {
-    label: 'subsamplingRatio',
-    onHover: () => console.log('tooltip subsamplingRatio. Use lastUpdateModeSubSamplingRatio & lastUpdateTimeSubSamplingRatio'),
-  },
-  {
-    label: 'totalTimeShiftOffset',
-    onHover: () => console.log('tooltip totalTimeShiftOffset. Use lastUpdateModeTotalTimeShiftOffset & lastUpdateTimeTotalTimeShiftOffset'),
-  },
-];
+// eslint-disable-next-line arrow-body-style
+const _formatDate = (date) => {
+  return (new Date(date)) > 0
+    ? (new Date(date)).toISOString()
+    : date
+    ;
+};
+
+const pus014TmPacketContentModifier = (cellContent = {}, content = {}) => {
+  const { colKey } = cellContent;
+
+  switch (colKey) {
+    case 'forwardingStatus':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeFwdStatus',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeFwdStatus',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'rid':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeRid',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeRid',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'sid':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeSid',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeSid',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'sidLabel':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeSid',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeSid',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'subsamplingRatio':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeSubSamplingRatio',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeSubSamplingRatio',
+            format: _formatDate,
+          },
+        }
+      );
+    case 'totalTimeShiftOffset':
+      return addTooltipWithContent(
+        cellContent,
+        content,
+        {
+          lastUpdateMode: {
+            key: 'lastUpdateModeTotalModeShiftOffset',
+          },
+          lastUpdateTime: {
+            key: 'lastUpdateTimeTotalTimeShiftOffset',
+            format: _formatDate,
+          },
+        }
+      );
+    default:
+      return cellContent;
+  }
+};
 
 const backgroundDisabled = { backgroundColor: '#e67e22' };
 const backgroundEnabled = { backgroundColor: '#2ecc71' };
 const emptyObject = {};
 
+// ENABLED APIDS
+const _enabledApidsStatusKeyList = [
+  'status',
+  'forwardingStatus',
+];
+
 // apply background color to cells for which value is ENABLED or DISABLED
-export const overrideStyle = ({ content }) => ({
-  ...(
-// eslint-disable-next-line no-nested-ternary
-    content.value === 'DISABLED'
-    ? backgroundDisabled
-    : content.value === 'ENABLED'
-      ? backgroundEnabled
-      : emptyObject
-  ),
-});
+export const pus014TmPacketOverrideStyle = ({ content }) => {
+  const { value, colKey } = content;
+
+  if (_enabledApidsStatusKeyList.indexOf(colKey) > -1) {
+    if (value === 'DISABLED') {
+      return backgroundDisabled;
+    }
+
+    if (value === 'ENABLED') {
+      return backgroundEnabled;
+    }
+  }
+
+  return emptyObject;
+};
 
 export default class PUS14View extends React.Component {
   static propTypes = {
@@ -57,11 +142,16 @@ export default class PUS14View extends React.Component {
     // From PUS14ViewContainer mapStateToProps
     serviceApid: PropTypes.number,
     serviceApidName: PropTypes.string,
+    apids: PropTypes.arrayOf(PropTypes.shape({
+      apidName: PropTypes.string,
+      apidRawValue: PropTypes.string,
+    })),
   };
 
   static defaultProps = {
     serviceApid: null,
     serviceApidName: null,
+    apids: [],
   };
 
   static contextTypes = {
@@ -73,9 +163,10 @@ export default class PUS14View extends React.Component {
       serviceApid,
       serviceApidName,
       viewId,
+      apids,
     } = this.props;
 
-    if (!isValid(serviceApidName, serviceApid)) {
+    if (!isValid(apids, serviceApid)) {
       return renderInvald('Please fill-in configuration');
     }
 
@@ -93,8 +184,8 @@ export default class PUS14View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'pus014TmPacket'}
-                bodyCellActions={bodyCellsPackets}
-                overrideStyle={overrideStyle}
+                overrideStyle={pus014TmPacketOverrideStyle}
+                contentModifier={pus014TmPacketContentModifier}
               />
             </div>
           </div>
@@ -109,7 +200,7 @@ export const renderHeaders = (
   serviceApidName
 ) => (
   <ErrorBoundary>
-    <div className="info col-sm-4 pus14_ap">
+    <div className="info pus14_ap">
       Application Process&nbsp;
       <input type="text" disabled value={serviceApidName} />&nbsp;
       <input className="mw50" type="text" disabled value={serviceApid} />
@@ -120,6 +211,7 @@ export const renderHeaders = (
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
 ;
+
 export const renderInvald = error => (
   <div className="pus14 h100 posRelative">
     <div className="flex h100">

@@ -2,7 +2,7 @@ const logger = require('../../../common/logManager')('controllers:PUS:onInitiali
 const _forEach = require('lodash/forEach');
 const { decode } = require('../../../utils/adapters');
 const { add: addMessage } = require('../../../store/actions/messages');
-const { incomingPus, injectPusData } = require('store/actions/pus');
+const { injectPusData } = require('store/actions/pus');
 const constants = require('../../../constants');
 
 const {
@@ -145,8 +145,14 @@ const onPusData = (messageData, pusService, getStore) => {
   const store = getStore();
   try {
     const { dataType, payload } = decode('isis.pusModelEditor.DataStructure', messageData);
+    console.log('###############');
+    console.log(dataType);
+    console.log('###############');
     const decodedPayload = getDecodedPayload(dataType.value, payload.value);
     const cleanPayload = cleanupPayload(decodedPayload);
+    console.log('###############');
+    console.log(cleanPayload);
+    console.log('###############');
     const viewType = getViewType(pusService);
     store.dispatch(injectPusData({
       [viewType]: cleanPayload,

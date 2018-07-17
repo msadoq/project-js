@@ -36,7 +36,7 @@ function pus15DataReducer(state = {}, action) {
        * },
        */
 
-      const data = _.getOr([], ['payload', 'data', VM_VIEW_PUS15], action);
+      const data = _.getOr(null, ['payload', 'data', VM_VIEW_PUS15], action);
 
       if (!data) {
         return state;
@@ -50,13 +50,13 @@ function pus15DataReducer(state = {}, action) {
       updatedState = {
         ..._.omit(
           ['pus015PacketStore'],
-          _.getOr(null, ['pus015Model'], data)
+          data
         ),
       };
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
       updatedState = injectTabularData(updatedState, 'onBoardStorages',
-        _.getOr(null, ['pus015Model', 'pus015PacketStore'], data)
+        _.getOr(null, ['pus015PacketStore'], data)
         .map(store => ({
           ..._.omit(['pus015Packet'], store),
           status: statuses[_.getOr(200, 'status', store)], // map schedule status constant
@@ -66,7 +66,7 @@ function pus15DataReducer(state = {}, action) {
         }))
       );
       updatedState = injectTabularData(updatedState, 'storageDef',
-        _.getOr([], ['pus015Model', 'pus015PacketStore'], data)
+        _.getOr([], ['pus015PacketStore'], data)
           .reduce((acc, store) => [...acc, ...store.pus015Packet], [])
           .map(packet => ({
             ...packet,

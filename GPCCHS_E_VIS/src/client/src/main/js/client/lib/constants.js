@@ -421,4 +421,6 @@ module.exports = {
   Pus142ModelType: 22,
   Pus144ModelType: 23,
   Pus144OnBoardFileType: 24,
+  PusMmeModelType: 25,
+  PusMmePacketType: 26,
 };

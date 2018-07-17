@@ -4,11 +4,12 @@ import _has from 'lodash/has';
 import _set from 'lodash/set';
 import _each from 'lodash/each';
 import { getPusFlattenId } from 'common/flattenDataId';
-import { PROVIDER_FLOW_ALL, DATASTRUCTURETYPE_PUS } from '../../constants';
+import * as constants from '../../constants';
 
 // TODO @jmira finish this function
-export function addApidInPusIdMap(pusIdMap, ep, viewId){
-  const { apidName, apidRawValue, dataId } = ep;
+/* eslint-disable complexity */
+export function addApidInPusIdMap(pusIdMap, ep, viewId) {
+  const { apidName, apids, dataId, type, localId, offset, timebarUuid } = ep;
   // error on entry point => no remoteId
   if (!apidName) {
     return pusIdMap;
@@ -17,17 +18,58 @@ export function addApidInPusIdMap(pusIdMap, ep, viewId){
 
   const newMap = pusIdMap || {};
 
+  let pusService;
+  switch (type) {
+    case 'PUS5View':
+      pusService = 5;
+      break;
+    case 'PUS11View':
+      pusService = 11;
+      break;
+    case 'PUS12View':
+      pusService = 12;
+      break;
+    case 'PUS13View':
+      pusService = 13;
+      break;
+    case 'PUS14View':
+      pusService = 14;
+      break;
+    case 'PUS15View':
+      pusService = 15;
+      break;
+    case 'PUS18View':
+      pusService = 14;
+      break;
+    case 'PUS19View':
+      pusService = 14;
+      break;
+    case 'PUS140View':
+      pusService = 14;
+      break;
+    case 'PUS142View':
+      pusService = 14;
+      break;
+    case 'PUS1444View':
+      pusService = 14;
+      break;
+    case 'PUSMMEView':
+      pusService = 0;
+      break;
+    default:
+      pusService = null;
+      break;
+  }
+
   if (!newMap[pusId]) {
-    const provider = dataId.provider === PROVIDER_FLOW_ALL ? '' : dataId.provider;
     newMap[pusId] = {
       dataId: {
         ...dataId,
-        provider,
+        apids,
+        pusService,
       },
       localIds: {},
       views: [viewId],
-      apidName,
-      apidRawValue,
     };
   } else {
     // Add the connected view only once
@@ -37,7 +79,6 @@ export function addApidInPusIdMap(pusIdMap, ep, viewId){
     }
   }
 
-  const { localId, offset, timebarUuid, type } = ep;
   // ignore existing localIds (will represent the same data)
   if (!_has(newMap, [pusId, 'localIds', localId])) {
     _set(newMap, [pusId, 'localIds', localId], {
@@ -52,7 +93,7 @@ export function addApidInPusIdMap(pusIdMap, ep, viewId){
 export default function perPusIdMap(perViewMap) {
   let pusIdMap = {};
   _each(perViewMap, (view, viewId) => {
-    if (getStructureType(view.type) === DATASTRUCTURETYPE_PUS) {
+    if (getStructureType(view.type) === constants.DATASTRUCTURETYPE_PUS) {
       _each(view.entryPoints, (entryPoint) => {
         pusIdMap = addApidInPusIdMap(pusIdMap, entryPoint, viewId);
       });

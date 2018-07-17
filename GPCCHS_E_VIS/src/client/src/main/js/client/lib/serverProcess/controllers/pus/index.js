@@ -6,11 +6,11 @@ const { getStore } = require('../../store');
 const { add: addMessage } = require('../../../store/actions/messages');
 const constants = require('../../../constants');
 
-const pusController = require('./pusController');
+const { onPusData } = require('./pusController');
 
 const controllers = {
   [constants.PUS_DATA]: (messageData, pusService) => {
-    pusController(messageData, pusService, getStore);
+    onPusData(messageData, pusService, getStore);
   },
 };
 

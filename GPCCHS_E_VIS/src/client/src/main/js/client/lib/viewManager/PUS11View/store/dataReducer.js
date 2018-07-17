@@ -32,7 +32,7 @@ function pus11DataReducer(state = {}, action) {
        *  },
        * },
        */
-      const data = _.getOr([], ['payload', 'data', VM_VIEW_PUS11], action);
+      const data = _.getOr(null, ['payload', 'data', VM_VIEW_PUS11], action);
       if (!data) {
         return state;
       }

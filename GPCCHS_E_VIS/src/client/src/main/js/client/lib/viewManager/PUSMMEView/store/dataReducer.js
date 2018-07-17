@@ -32,7 +32,7 @@ function pusMmeDataReducer(state = {}, action) {
        *  },
        * },
        */
-      const data = _.getOr([], ['payload', 'data', VM_VIEW_PUSMME], action);
+      const data = _.getOr(null, ['payload', 'data', VM_VIEW_PUSMME], action);
       if (!data) {
         return state;
       }

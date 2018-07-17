@@ -16,24 +16,6 @@ stubs.loadStubs();
 
 process.title = 'pusActorStub';
 
-const stubData = stubs.getStubData();
-
-const sendMessage = (method, payload) => {
-  const toSend = `${method} ${payload}`;
-  logger.debug(`Sending ${toSend}`);
-  // console.log(`Sending ${toSend}`);
-  zmq.push('stubPusPush', [
-    adapter.encode('pusActor.pusUtils.PusHeader', { method }),
-    payload,
-  ]
-  );
-  // return nextPusActorCall(); // eslint-disable-line no-use-before-define
-};
-
-const nextPusActorCall = () => {
-  setTimeout(sendMessage, constants.DC_STUB_FREQUENCY);
-};
-
 const onMessage = (...args) => {
   const header = adapter.decode('isis.pusModelEditor.HeaderStructure', args[0]);
   switch (header.messageType.value) {
@@ -92,7 +74,5 @@ zmq.open(
     if (process.send) { // only when started as child process
       process.send({ [constants.CHILD_PROCESS_READY_MESSAGE_TYPE_KEY]: true });
     }
-
-    // nextPusActorCall();
   }
 );

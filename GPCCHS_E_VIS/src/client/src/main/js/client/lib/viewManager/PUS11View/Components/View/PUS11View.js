@@ -496,7 +496,7 @@ export const renderHeaders = (
         })}
       >
         <span>
-          Application Space&nbsp;
+          Available Space&nbsp;
           <input
             type="text"
             className="mw100"

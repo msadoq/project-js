@@ -57,7 +57,7 @@ const widgets = {
   map: { title: 'Data map (developer)', component: DataMapContainer },
   store: { title: 'Store (developer)', component: StoreContainer },
   cache: { title: 'Cache (developer)', component: CacheContainer },
-  metadata: { title: 'metadata (developer)', component: CatalogItemMetadataContainer },
+  metadata: { title: 'onNeededMetadata (developer)', component: CatalogItemMetadataContainer },
   information: { title: 'Information (developer)', component: InformationContainer },
   pusTest: { title: 'PUS test(developer)', component: PusTestContainer },
 };

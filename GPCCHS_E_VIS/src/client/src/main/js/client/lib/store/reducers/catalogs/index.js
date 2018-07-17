@@ -329,7 +329,7 @@ export const getUnitByItemName = createSelector(
 const getStructurePath = (tupleId, catalogIndex, itemIndex) =>
   `[${tupleId}][${catalogIndex}].items[${itemIndex}].structure`;
 
-const getMetadataPath = (tupleId, catalogIndex, itemIndex) =>
+export const getMetadataPath = (tupleId, catalogIndex, itemIndex) =>
   `[${tupleId}][${catalogIndex}].items[${itemIndex}].metadata`;
 
 export const getComObjectStructure = createSelector(

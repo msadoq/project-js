@@ -269,7 +269,7 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
     }
     case WS_ITEM_METADATA_ASK: {
       const { sessionId, domainId, catalogName, itemName } = action.payload;
-      // fetch catalog items, then fetch metadata for given itemName
+      // fetch catalog items, then fetch onNeededMetadata for given itemName
       // TODO only if itemName matches /^[A-Z][A-Z_]*/g
 
       const fetchMeta = () => asyncItemMetadataFetcher(sessionId, domainId, catalogName, itemName,

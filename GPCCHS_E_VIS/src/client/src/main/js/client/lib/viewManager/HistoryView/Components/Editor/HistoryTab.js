@@ -6,7 +6,6 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import TableColumnsEditorContainer
   from '../../../common/Components/View/TableColumnsEditor/TableColumnsEditorContainer';
-import HistoryTrackingOptionsContainer from './HistoryTrackingOptionsContainer';
 
 export default class HistoryTab extends React.Component {
   static propTypes = {

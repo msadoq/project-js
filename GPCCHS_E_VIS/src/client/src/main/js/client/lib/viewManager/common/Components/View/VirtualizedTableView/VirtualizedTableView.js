@@ -308,6 +308,7 @@ class VirtualizedTableView extends React.Component {
         };
       }
 
+      console.log(content);
       return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
@@ -330,6 +331,7 @@ class VirtualizedTableView extends React.Component {
           }}
           onDoubleClick={_onDoubleClick}
           {...defaultCellEventProps}
+          title={content.info}
         >
           <span>{content.value}</span>
         </div>

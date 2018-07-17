@@ -102,7 +102,6 @@ export const askItemMetadata = (viewId, pageId, domainName, timelineId, catalogN
         domainId,
         catalogName,
         sessionId,
-        name,
         itemName: path,
       },
     });

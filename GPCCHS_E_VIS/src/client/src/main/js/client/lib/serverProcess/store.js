@@ -66,6 +66,7 @@ import createPusTestMiddleware, { createPusDataMiddleware } from '../store/middl
 import apidsMiddleware from '../store/middlewares/apids';
 import makeOnUserAction from '../store/middlewares/user/makeOnUserAction';
 import onEntryPointData from '../store/middlewares/smartViews/onEntryPointData';
+import onNeededMetadata from '../store/middlewares/metadata/onNeededMetadata';
 
 const log = getLogger('server:store:enhancer');
 
@@ -95,6 +96,7 @@ const createMiddlewares = (identity, isDebugOn) => {
     windowSessionOrDomainUpdated,
     makeOnUserAction(),
     onEntryPointData,
+    onNeededMetadata,
     makePatchGenerator(ipc.main.sendReduxPatch, identity, log, isDebugOn, get('PATCH_THROTTLE_TIMING')),
   ];
   if (isDumpActivated()) {

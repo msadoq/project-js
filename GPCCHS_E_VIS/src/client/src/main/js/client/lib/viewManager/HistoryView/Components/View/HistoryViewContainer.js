@@ -17,16 +17,23 @@ import _ from 'lodash/fp';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEntryPoint } from 'store/actions/views';
+import { askItemMetadata } from 'store/actions/catalogs';
+
 import { getIsPlaying } from '../../../../store/reducers/hsc';
 
 import HistoryView from './HistoryView';
 import { getData } from '../../store/dataReducer';
 import { getConfigurationByViewId } from '../../../selectors';
+import {
+  getTupleId,
+} from '../../../../store/reducers/catalogs';
+import { getDomainId } from '../../../../store/reducers/domains';
+import { getSessionByTimelineId, getSessionId } from '../../../../store/reducers/sessions';
 
 
 const mapStateToProps = (state, { viewId }) => {
   const data = getData(state, { viewId });
-  const conf = getConfigurationByViewId(state, { viewId });
+  let config = getConfigurationByViewId(state, { viewId });
   const last = _.getOr({}, 'last', data);
   const isPlaying = getIsPlaying(state);
 
@@ -34,10 +41,43 @@ const mapStateToProps = (state, { viewId }) => {
     _.getOr(
       0,
       ['tables', 'history', 'scrollPosition'],
-      conf
+      config
     );
 
+  const catalogs = _.get('catalogs', state);
+
+  config.entryPoints.forEach((ep, index) => {
+    const { connectedData } = ep;
+
+    if (connectedData) {
+      const { domain, timeline, catalog, catalogItem } = connectedData;
+
+      if (domain && timeline && catalog && catalogItem) {
+        const domainId = getDomainId(state, { domainName: domain });
+        const session = getSessionByTimelineId(state, { timelineId: timeline });
+
+        const tupleId = getTupleId(domainId, session.id);
+
+        const selectedCatalogSource = catalogs[tupleId];
+
+        if (selectedCatalogSource) {
+          const selectedCatalog = selectedCatalogSource.find(c => c.name === catalog);
+
+          if (selectedCatalog) {
+            const selectedCatalogItem =
+              selectedCatalog.items.find(item => item.name === catalogItem);
+
+            const metadata = _.get('metadata', selectedCatalogItem);
+
+            config = _.set(['entryPoints', index, 'metadata'], metadata, config);
+          }
+        }
+      }
+    }
+  });
+
   return {
+    config,
     last,
     isPlaying,
     scrollPosition,

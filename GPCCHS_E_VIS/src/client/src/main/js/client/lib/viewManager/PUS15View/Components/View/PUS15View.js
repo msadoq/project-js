@@ -187,7 +187,7 @@ export default class PUS15View extends React.Component {
               serviceApidName
             )}
           </div>
-          <div className="col-sm-6">
+          <div className="col-sm-12">
             <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
@@ -197,7 +197,7 @@ export default class PUS15View extends React.Component {
               />
             </div>
           </div>
-          <div className="col-sm-6">
+          <div className="col-sm-12">
             <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}

@@ -56,17 +56,17 @@ function pus15DataReducer(state = {}, action) {
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
       updatedState = injectTabularData(updatedState, 'onBoardStorages',
-        _.getOr([], ['pus015Model', 'pus015packetStore'], data)
-          .map(store => ({
-            ...store,
-            status: statuses[_.getOr(200, 'status', store)], // map schedule status constant
-            lastUpdateModeStoreId: updateTypes[_.getOr(200, 'lastUpdateModeStoreId', store)], // map schedule lastUpdateModeStoreId constant
-            lastUpdateModeStoreType: updateTypes[_.getOr(200, 'lastUpdateModeStoreType', store)], // map schedule lastUpdateModeStoreType constant
-            lastUpdateModeStoreStatus: updateTypes[_.getOr(200, 'lastUpdateModeStoreStatus', store)], // map schedule lastUpdateModeStoreStatus constant
-          }))
+        _.getOr(null, ['pus015Model', 'pus015PacketStore'], data)
+        .map(store => ({
+          ..._.omit(['pus015Packet'], store),
+          status: statuses[_.getOr(200, 'status', store)], // map schedule status constant
+          lastUpdateModeStoreId: updateTypes[_.getOr(200, 'lastUpdateModeStoreId', store)], // map schedule lastUpdateModeStoreId constant
+          lastUpdateModeStoreType: updateTypes[_.getOr(200, 'lastUpdateModeStoreType', store)], // map schedule lastUpdateModeStoreType constant
+          lastUpdateModeStoreStatus: updateTypes[_.getOr(200, 'lastUpdateModeStoreStatus', store)], // map schedule lastUpdateModeStoreStatus constant
+        }))
       );
       updatedState = injectTabularData(updatedState, 'storageDef',
-        _.getOr([], ['pus015Model', 'pus015packetStore'], data)
+        _.getOr([], ['pus015Model', 'pus015PacketStore'], data)
           .reduce((acc, store) => [...acc, ...store.pus015Packet], [])
           .map(packet => ({
             ...packet,

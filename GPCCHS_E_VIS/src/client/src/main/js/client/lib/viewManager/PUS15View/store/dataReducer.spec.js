@@ -110,7 +110,7 @@ describe('viewManager/PUS15View/store/dataReducer', () => {
                 lastUpdateModeStoreStatus: 'Default',
               },
             ],
-            keep: [0, 1],
+            keep: [0, 1, 2],
           },
           storageDef: {
             data: [
@@ -147,7 +147,7 @@ describe('viewManager/PUS15View/store/dataReducer', () => {
                 lastUpdateModeSubSamplingRatio: 'Default',
               },
             ],
-            keep: [0],
+            keep: [0, 1, 2, 3],
           },
         },
       },

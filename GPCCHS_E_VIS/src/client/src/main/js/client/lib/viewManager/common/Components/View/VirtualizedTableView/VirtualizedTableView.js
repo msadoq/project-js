@@ -42,7 +42,6 @@ class VirtualizedTableView extends React.Component {
     tableHeader: PropTypes.func,
     saveScroll: PropTypes.func.isRequired,
     scrollPosition: PropTypes.shape(),
-    scrollToRow: PropTypes.number,
   };
 
   static defaultProps = {
@@ -60,7 +59,6 @@ class VirtualizedTableView extends React.Component {
     overrideStyle: () => ({}),
     tableHeader: null,
     scrollPosition: null,
-    scrollToRow: null,
   };
 
   constructor(props, context) {
@@ -75,17 +73,6 @@ class VirtualizedTableView extends React.Component {
     cols.forEach((colKey) => {
       this.inputRefs[colKey] = React.createRef();
     });
-  }
-
-  componentDidUpdate(prevProps) {
-    const { scrollToRow } = this.props;
-
-    if (this.mainGrid && scrollToRow !== null) {
-      this.mainGrid.scrollToCell({
-        columnIndex: 0,
-        rowIndex: scrollToRow,
-      });
-    }
   }
 
   _onUpdateFilter = (colKey, newFilterValue) => {
@@ -512,9 +499,6 @@ class VirtualizedTableView extends React.Component {
                               overscanColumnCount={overscanColumnCount}
                             />
                             <Grid
-                              ref={(ref) => {
-                                this.mainGrid = ref;
-                              }}
                               cellRenderer={_bodyCellRenderer}
                               className={styles.BodyGrid}
                               width={adjustedWidth}

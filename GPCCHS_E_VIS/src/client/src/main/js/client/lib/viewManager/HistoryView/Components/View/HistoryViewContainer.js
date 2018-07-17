@@ -37,48 +37,10 @@ const mapStateToProps = (state, { viewId }) => {
       conf
     );
 
-  const trackRow = null;
-
-  /*
-  const isTrackingCurrentTimestamp =
-    _.getOr(
-      false,
-      ['tables', 'history', 'isTrackingCurrentTimestamp'],
-      conf
-    );
-
-  let minCurrentIndex = Infinity;
-
-  if (isTrackingCurrentTimestamp) {
-    minCurrentIndex = Object.keys(last).reduce((acc, cur) => {
-      const { referenceTimestamp, index } = last[cur];
-
-      if (referenceTimestamp < acc) {
-        return index;
-      }
-
-      return acc;
-    }, Infinity);
-  }
-
-  if (minCurrentIndex !== Infinity) {
-    trackRow = minCurrentIndex;
-  }
-
-  if (trackRow === -1) {
-    trackRow = null;
-  }
-
-  if (trackRow !== null) {
-    scrollPosition = null;
-  }
-  */
-
   return {
     last,
     isPlaying,
     scrollPosition,
-    trackRow,
   };
 };
 

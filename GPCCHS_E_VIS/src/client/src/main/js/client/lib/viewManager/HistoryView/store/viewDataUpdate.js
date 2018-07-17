@@ -116,24 +116,6 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
             _updateCurrent
           );
 
-        // Update current lasts indexes
-        /*
-        Object.keys(_last).forEach((epName) => {
-          const { referenceTimestamp } = _last[epName];
-          const newIndex =
-            _.getOr(
-              [],
-              ['tables', 'history', 'data'],
-              state
-            ).findIndex(
-              el =>
-                new Date(el.referenceTimestamp).getTime() === referenceTimestamp
-            );
-
-          _last = _.set([epName, 'index'], newIndex, _last);
-        });
-        */
-
         updatedState =
           _.set('last', _last, updatedState);
       }

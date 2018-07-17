@@ -200,10 +200,12 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
       }
     }
 
-    // Filter values out of interval but keep "REQUIREACK" Alarms
+    // Filter values out of interval
     const isOutOfTimeRange = timestamp < lower || timestamp > upper;
-    if (isOutOfTimeRange && ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
-      return;
+    if (ep.mode === constants.ALARM_MODE_ALL) {
+      if (isOutOfTimeRange) {
+        return;
+      }
     }
 
     epSubState[epName][oid] = {

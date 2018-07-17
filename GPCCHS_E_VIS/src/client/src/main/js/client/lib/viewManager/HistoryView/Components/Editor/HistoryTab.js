@@ -51,17 +51,6 @@ export default class HistoryTab extends React.Component {
               />
             }
           </Panel>
-          <Panel
-            header="Tracking"
-            key="tracking"
-          >
-            {
-              panels.tracking &&
-              <HistoryTrackingOptionsContainer
-                viewId={viewId}
-              />
-            }
-          </Panel>
         </Collapse>
       </ErrorBoundary>
     );

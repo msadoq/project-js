@@ -244,6 +244,9 @@
   "engines": {
     "node": "6.13.1"
   },
+  "engines": {
+    "node": "6.13.1"
+  },
   "devEngines": {
     "node": "6.x",
     "npm": "3.x"

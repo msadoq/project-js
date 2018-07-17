@@ -32,3 +32,15 @@ export function getSelectedDataType(form, state) {
   return connectedDataSelector(form, state, 'connectedData.dataType');
 }
 
+export function getSelectedPath(form, state) {
+  return connectedDataSelector(form, state, 'connectedData.path');
+}
+
+export function getSelectedDisplayMode(form, state) {
+  return connectedDataSelector(form, state, 'connectedData.displayMode');
+}
+
+export function getFormMetadata(form, state) {
+  return connectedDataSelector(form, state, 'connectedData.metadata');
+}
+

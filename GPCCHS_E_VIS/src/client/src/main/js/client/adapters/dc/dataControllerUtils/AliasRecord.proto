@@ -1,0 +1,6 @@
+package dataControllerUtils.protobuf;
+
+message AliasRecord {
+    required string alias = 1;
+    optional string contextDomain = 2;
+}

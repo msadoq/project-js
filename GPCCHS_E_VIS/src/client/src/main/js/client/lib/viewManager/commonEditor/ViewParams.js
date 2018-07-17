@@ -8,6 +8,10 @@
 // VERSION : 1.1.2 : DM : #5828 : 10/05/2017 : Add possibility to modify domainName and sessionName
 //  from GUI for view, page, window and workspace
 // VERSION : 2.0.0.1 : FA : #11627 : 13/04/2018 : deal with multidomain sat colors
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3086 : 15/05/2018 : editor's form bug on reintialize
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3086 : 30/05/2018 : editor's form bug on reintialize
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3174 : 30/05/2018 : disable background color on view header for
+//  multisat handle
 // END-HISTORY
 // ====================================================================
 

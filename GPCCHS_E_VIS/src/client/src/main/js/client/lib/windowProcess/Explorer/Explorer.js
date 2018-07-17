@@ -44,6 +44,7 @@ import InspectorContainer from './widgets/InspectorContainer';
 import InformationContainer from './widgets/InformationContainer';
 import CacheContainer from './widgets/CacheContainer';
 import CatalogExplorerContainer from './widgets/CatalogExplorerContainer';
+import CatalogItemMetadataContainer from './widgets/CatalogItemMetadataContainer';
 
 import PusTestContainer from './widgets/PusTestContainer';
 
@@ -56,6 +57,7 @@ const widgets = {
   map: { title: 'Data map (developer)', component: DataMapContainer },
   store: { title: 'Store (developer)', component: StoreContainer },
   cache: { title: 'Cache (developer)', component: CacheContainer },
+  metadata: { title: 'metadata (developer)', component: CatalogItemMetadataContainer },
   information: { title: 'Information (developer)', component: InformationContainer },
   pusTest: { title: 'PUS test(developer)', component: PusTestContainer },
 };

@@ -183,6 +183,8 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2215 : 05/03/2018 : Fix unit test . .
 // VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Improve single unit retrieval .
 // VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3174 : 30/05/2018 : disable background color on view header for
+//  multisat handle
 // END-HISTORY
 // ====================================================================
 
@@ -420,6 +422,8 @@ export const WS_UNIT_ASK = 'WS_UNIT_ASK';
 export const WS_UNIT_ADD = 'WS_UNIT_ADD';
 export const WS_ITEM_STRUCTURE_ASK = 'WS_ITEM_STRUCTURE_ASK';
 export const WS_ITEM_STRUCTURE_ADD = 'WS_ITEM_STRUCTURE_ADD';
+export const WS_ITEM_METADATA_ASK = 'WS_ITEM_METADATA_ASK';
+export const WS_ITEM_METADATA_ADD = 'WS_ITEM_METADATA_ADD';
 export const WS_UNIT_ADD_SIMPLE = 'WS_UNIT_ADD_SIMPLE';
 
 // application process

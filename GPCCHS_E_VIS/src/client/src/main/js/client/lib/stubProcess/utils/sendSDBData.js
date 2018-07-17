@@ -28,11 +28,10 @@ module.exports = (queryId, rawBuffer, zmq, decodedSDBQuery) => {
     case constants.ADE_SDB_RETRIEVE_CATALOGS:
       dataBuffer = generateStringListProto(Object.keys(sdbStub));
       break;
-    case constants.ADE_SDB_RETRIEVE_CATALOG_ITEMS:
-      dataBuffer = generateStringListProto(
-        Object.keys(_get(sdbStub, [catalogName, ITEMS_LABEL]))
-      );
+    case constants.ADE_SDB_RETRIEVE_CATALOG_ITEMS: {
+      dataBuffer = generateStringListProto(Object.keys(_get(sdbStub, [catalogName, ITEMS_LABEL])));
       break;
+    }
     case constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_COMOBJECT:
       dataBuffer = generateStringListProto(_get(sdbStub, [catalogName, COM_OBJECT_LABEL]));
       break;
@@ -50,6 +49,9 @@ module.exports = (queryId, rawBuffer, zmq, decodedSDBQuery) => {
       break;
     case constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE:
       dataBuffer = stubData.getADEItemStructureProtobuf();
+      break;
+    case constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_METADATA:
+      dataBuffer = stubData.getADEItemMetadataProtobuf({ itemName: catalogItemName });
       break;
     default:
       break;

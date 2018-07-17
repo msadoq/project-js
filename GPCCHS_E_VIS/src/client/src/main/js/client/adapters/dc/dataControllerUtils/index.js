@@ -5,6 +5,7 @@
 // VERSION : 2.0.0 : DM : #5806 : 10/10/2017 : Add new stub data for GrounData and OnBoardData
 // VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Add management of StatsAggregation in VIMA +
 //  update stub
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3141 : 31/05/2018 : Create new reporting parameter from aggreg
 // END-HISTORY
 // ====================================================================
 
@@ -48,6 +49,14 @@ const ADETimebasedQuery = require('./ADETimebasedQuery');
 const ADETimebasedPubsub = require('./ADETimebasedPubsub');
 const ADETimebasedSubscription = require('./ADETimebasedSubscription');
 const ADEItemStructure = require('./ADEItemStructure');
+const ADEItemMetadata = require('./ADEItemMetadata');
+const ADEItemAlgorithm = require('./ADEItemAlgorithm');
+const ADEItemReference = require('./ADEItemReference');
+const ADEMonitoringLaw = require('./ADEMonitoringLaw');
+const ADEMonitoringItem = require('./ADEMonitoringItem');
+const ADECalibrationFunction = require('./ADECalibrationFunction');
+const ADESgy = require('./ADESgy');
+const ADEItemMetadataTM = require('./ADEItemMetadataTM');
 
 const StatExecution = require('./statExecution');
 const ReportingParameterAggregation = require('./reportingParameterAggregation');
@@ -92,5 +101,13 @@ module.exports = { // TODO .proto should be collocated with adapters
   ADETimebasedSubscription: { type: 'protobuf', adapter: ADETimebasedSubscription },
   StatExecution: { type: 'raw', adapter: StatExecution},
   ADEItemStructure: { type: 'protobuf', adapter: ADEItemStructure },
+  ADEItemMetadata: { type: 'protobuf', adapter: ADEItemMetadata },
+  ADEItemAlgorithm: { type: 'protobuf', adapter: ADEItemAlgorithm },
+  ADEItemReference: { type: 'protobuf', adapter: ADEItemReference },
   ReportingParameterAggregation: { type: 'raw', adapter: ReportingParameterAggregation},
+  ADEMonitoringLaw: { type: 'protobuf', adapter: ADEMonitoringLaw },
+  ADEMonitoringItem: { type: 'protobuf', adapter: ADEMonitoringItem },
+  ADECalibrationFunction: { type: 'protobuf', adapter: ADECalibrationFunction },
+  ADESgy: { type: 'protobuf', adapter: ADESgy },
+  ADEItemMetadataTM: { type: 'protobuf', adapter: ADEItemMetadataTM },
 };

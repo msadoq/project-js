@@ -26,6 +26,7 @@
 // VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Add management of StatsAggregation in VIMA +
 //  update stub
 // VERSION : 2.0.0.2 : FA : #11812 : 18/04/2018 : Fix bug on decode of StatAgg
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3141 : 31/05/2018 : Create new reporting parameter from aggreg
 // END-HISTORY
 // ====================================================================
 
@@ -101,7 +102,7 @@ const register = (namespaceArray) => {
         });
       });
     } catch (e) {
-      logger.error(`An error occured during the loading of adapters '${currentNamespace}'`);
+      logger.error(`An error occured during the loading of adapters '${currentNamespace}'`, e);
     }
   });
 };
@@ -141,7 +142,7 @@ const decodePayload = (buffer) => {
     return genericPayload[0].payload;
   }
   // Because the use of the comma operator is magnificient
-  // eslint-disable-next-line 
+  // eslint-disable-next-line
   return genericPayload.reduce((acc, { header, payload }) => (acc[header.comObjectType] = protobuf.decode(getMapper(getType(header.comObjectType)), payload), acc), {});
 };
 

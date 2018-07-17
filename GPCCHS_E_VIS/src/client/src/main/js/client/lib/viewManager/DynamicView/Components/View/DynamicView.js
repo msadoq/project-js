@@ -39,6 +39,10 @@
 // VERSION : 2.0.0 : FA : #11616 : 06/04/2018 : Fix drag and drop .
 // VERSION : 2.0.0 : FA : #11616 : 06/04/2018 : Fix drag and drop feature in DynamicView
 // VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix display in every view
+// VERSION : 2.0.0.3 : FA : ISIS-FT-2238 : 22/05/2018 : drag drop paquet dans dynamicView VIMA
+// VERSION : 2.0.0.3 : FA : ISIS-FT-2238 : 30/05/2018 : drag drop paquet dans dynamicView VIMA
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3089 : 07/06/2018 : Fix display bug on dynamic view
+// VERSION : 2.0.0.3 : FA : #13394 : 29/06/2018 : fix content height in dynamic view
 // END-HISTORY
 // ====================================================================
 
@@ -161,35 +165,44 @@ function objectHeader(ep) {
   });
   return <Form horizontal>{staticHeader}</Form>;
 }
-function arrayHeader(arrayData) {
+export const sortKeys = (a, b) => {
+  // name, converted value, raw value, extracted value, validity state
+  const tableFieldOrder = ['n', 'c', 'r', 'e', 'v'];
+  return tableFieldOrder.indexOf(a[0].toLowerCase()) - tableFieldOrder.indexOf(b[0].toLowerCase());
+};
+
+export const buildTable = (arrayData) => {
   if (!arrayData.length) {
-    return <thead />;
+    return 'no data';
   }
-  return (
-    <thead>
-      <tr key="header">
-        {Object.keys(arrayData[0]).map((value, idx) =>
-          <th
-            key={'head'.concat(idx)}
-            className="text-center"
-          >
-            {_lowerCase(value)}
-          </th>
-        )}
-      </tr>
-    </thead>
-  );
-}
-function arrayLine(arrayData) {
-  if (!arrayData.length) {
-    return '';
-  }
-  const header = Object.keys(arrayData[0]);
+  const sortedKeys = Object.keys(arrayData[0]).sort(sortKeys);
   const item = 'item';
-  return arrayData.map((value, idx) =>
-    (<tr key={item.concat(idx)}>{header.map((key, idy) => <td key={item.concat(idy)}>
-      {dataToShow(value[key])}</td>)}</tr>));
-}
+  return (
+    <Table striped bordered condensed hover>
+      <thead>
+        <tr key="header">
+          {sortedKeys.map((value, idx) =>
+            <th key={'head'.concat(idx)} className="text-center">
+              {_lowerCase(value)}
+            </th>
+          )}
+        </tr>
+      </thead>
+      <tbody>
+        {
+        arrayData.map((value, idx) => (
+          <tr key={item.concat(idx)}>
+            {sortedKeys.map((key, idy) => (
+              <td key={item.concat(idy)}>
+                {dataToShow(value[key])}
+              </td>)
+            )}
+          </tr>))
+        }
+      </tbody>
+    </Table>
+  );
+};
 
 export default class DynamicView extends PureComponent {
   static propTypes = {
@@ -355,7 +368,7 @@ export default class DynamicView extends PureComponent {
         />
       </div>
     );
-  }
+  };
 
   /**
    * @param onDrop
@@ -364,7 +377,7 @@ export default class DynamicView extends PureComponent {
    * @returns {*}
    */
   renderInvalid = (onDrop, onContextMenu, error) => (
-    <div>
+    <div className="h100">
       <DroppableContainer
         onDrop={onDrop}
         onContextMenu={onContextMenu}
@@ -432,32 +445,28 @@ export default class DynamicView extends PureComponent {
     const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
       <ErrorBoundary>
-        <DroppableContainer
-          onDrop={this.onDrop}
-          onContextMenu={this.onContextMenu}
-          className={classnames('h100', 'posRelative', styles.container)}
-        >
-          <header className={styles.header}>
-            <h1>{parameterName}</h1>
-          </header>
-          <Grid fluid className="ml10 mr10">
-            <Row><Panel>{objectHeader(ep)}</Panel></Row>
-            { arrayKeys.map((key, i) => (
-              <Row key={'row'.concat(i)}>
-                <header className={styles.arrayHeader}><h2>{_lowerCase(key)}</h2></header>
-                <Col sm={12}>
-                  <Table striped bordered condensed hover>
-                    {arrayHeader(ep[key])}
-                    <tbody>
-                      {arrayLine(ep[key])}
-                    </tbody>
-                  </Table>
-                </Col>
-              </Row>))}
-          </Grid>
-          {this.renderLinksContainer()}
-        </DroppableContainer>
-        {this.renderModal()}
+        <div className="h100">
+          <DroppableContainer
+            onDrop={this.onDrop}
+            onContextMenu={this.onContextMenu}
+            className={classnames('h100', 'posRelative', styles.container)}
+          >
+            <header className={styles.header}>
+              <h1>{parameterName}</h1>
+            </header>
+            <Grid fluid className="ml10 mr10">
+              <Row><Panel>{objectHeader(ep)}</Panel></Row>
+              { arrayKeys.map((key, i) => (
+                <Row key={'row'.concat(i)}>
+                  <header className={styles.arrayHeader}><h2>{_lowerCase(key)}</h2></header>
+                  <Col sm={12}>
+                    {buildTable(ep[key])}
+                  </Col>
+                </Row>))}
+            </Grid>
+            {this.renderLinksContainer()}
+          </DroppableContainer>
+          {this.renderModal()}</div>
       </ErrorBoundary>
     );
   }

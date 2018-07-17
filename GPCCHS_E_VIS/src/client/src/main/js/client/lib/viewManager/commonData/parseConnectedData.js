@@ -15,6 +15,7 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
 // VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix master timeline sessionID passed to DC when
 //  entrypoint's timeline is *
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3152 : 30/05/2018 : comportement multisat VIMA . .
 // END-HISTORY
 // ====================================================================
 
@@ -39,7 +40,15 @@ export default function parseConnectedData(
   workspaceSessionName,
   provider
 ) {
-  const { formula, domain, timeline, filter, convertTo, convertFrom } = connectedData;
+  const {
+    formula,
+    domain,
+    timeline,
+    filter,
+    convertTo,
+    convertFrom,
+    algoParameters,
+  } = connectedData;
   // formula
   const parameter = formulaParser(formula);
   if (!parameter) {
@@ -97,6 +106,7 @@ export default function parseConnectedData(
       from: convertFrom,
       to: convertTo,
     },
+    algoParameters,
   };
 }
 

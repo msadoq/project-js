@@ -10,6 +10,10 @@
 // VERSION : 2.0.0 : DM : #5806 : 06/12/2017 : Change all relative imports .
 // VERSION : 2.0.0.2 : FA : #11609 : 20/04/2018 : correction plot view editeur unit + label(unit) +
 //  test (cherry picked from commit 3c9fde0)
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3180 : 25/05/2018 : no more unit selection request on adding
+//  new entry point
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3180 : 30/05/2018 : no more unit selection request on adding
+//  new entry point
 // END-HISTORY
 // ====================================================================
 

@@ -19,6 +19,8 @@ import catalogsReducer, {
   getCatalogItemComObjects,
   REQUESTING,
   getUnitByItemName,
+  getAlgorithmMetadata,
+  getItemMetadata,
 } from '.';
 
 const reducer = freezeArgs(catalogsReducer);
@@ -26,9 +28,22 @@ const tupleId = 'domain-id-session-id';
 const comObject = {
   name: 'comObjectName',
 };
+
+const metadata = {
+  shortDescription: 'bermuda',
+  algorithm: {
+    inputParameters: [{ catalogName: 'pouet', itemName: 'TAG_ADA' }],
+    algorithms: [
+      { language: 'Python', text: 'TAG_ADA.engineeringValue*3.14' },
+      { language: 'BF', text: '>>>.+++--...>+>>-.' },
+    ],
+  },
+};
+
 const item = {
   name: 'itemName',
   comObjects: [comObject],
+  metadata,
 };
 const items = [item];
 const catalog = {
@@ -531,6 +546,37 @@ describe('store:catalogs:selectors', () => {
         localState,
         { tupleId: 'ploup', name: 'StatValueDefinition', itemName: 'TEST_AGGREG' })
       ).toEqual(undefined);
+    });
+  });
+
+  describe('getItemMetadata', () => {
+    test('nominal case', () => {
+      expect(getItemMetadata(
+        state.catalogs,
+        { tupleId: 'domain-id-session-id', name: 'catalogName', itemName: 'itemName' }
+      )).toEqual(metadata);
+    });
+
+    test('getAlgorithmMetadata nominal case', () => {
+      expect(getAlgorithmMetadata(
+        state.catalogs,
+        { tupleId: 'domain-id-session-id', name: 'catalogName', itemName: 'itemName' }
+      )).toEqual({
+        inputParameters: [{ catalogName: 'pouet', itemName: 'TAG_ADA' }],
+        algorithm: 'TAG_ADA.engineeringValue*3.14',
+      });
+    });
+    test('getAlgorithmMetadata - invalid catalog name', () => {
+      expect(getAlgorithmMetadata(
+        state.catalogs,
+        { tupleId: 'domain-id-session-id', name: 'empty', itemName: 'itemName' }
+      )).toEqual({ algorithm: undefined, inputParameters: [] });
+    });
+    test('getAlgorithmMetadata - invalid item name', () => {
+      expect(getAlgorithmMetadata(
+        state.catalogs,
+        { tupleId: 'domain-id-session-id', name: 'catalogName', itemName: 'aNonExistingName' }
+      )).toEqual({ algorithm: undefined, inputParameters: [] });
     });
   });
 });

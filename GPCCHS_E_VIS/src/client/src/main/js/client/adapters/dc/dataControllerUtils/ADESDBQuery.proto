@@ -12,6 +12,9 @@ message ADESDBQuery {
         RETRIEVE_CATALOG_ITEM_EXISTS     = 4;
         RETRIEVE_SATELLITE_ITEMS         = 5;
         RETRIEVE_CATALOG_ITEM_STRUCTURE  = 6;
+        RETRIEVE_APIDS  = 7;
+        RETRIEVE_CATALOG_ITEM_METADATA  = 8;
+
     }
     required METHOD method = 1;
     optional uint32 sessionId = 2;

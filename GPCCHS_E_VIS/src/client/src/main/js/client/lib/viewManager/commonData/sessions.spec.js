@@ -15,6 +15,8 @@
 //  now functionnal. Plus fixed page and workspace modal editor for undefined values.
 // VERSION : 2.0.0.2 : FA : #11628 : 18/04/2018 : fix master timeline sessionID passed to DC when
 //  entrypoint's timeline is *
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3086 : 15/05/2018 : editor's form bug on reintialize
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3086 : 30/05/2018 : editor's form bug on reintialize
 // END-HISTORY
 // ====================================================================
 

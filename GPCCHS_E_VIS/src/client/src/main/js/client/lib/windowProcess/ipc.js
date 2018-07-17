@@ -49,12 +49,12 @@ import getLogger from '../common/logManager';
 import globalConstants from '../constants';
 import { set } from '../common/callbacks';
 
-const logger = getLogger('main:ipc');
+const logger = getLogger('window:ipc');
 
 const commands = {
   main: {
     rpc: (method, payload, callback) => {
-      logger.debug(`sending rpc call ${method} to main`);
+      logger.silly(`sending rpc call ${method} to main`);
       const queryId = v4();
       set(queryId, callback);
       ipcRenderer.send('windowRequest', {
@@ -65,7 +65,7 @@ const commands = {
       });
     },
     message: (method, payload) => {
-      logger.debug(`sending message ${method} to server`);
+      logger.silly(`sending message ${method} to server`);
       ipcRenderer.send('windowRequest', {
         type: globalConstants.IPC_MESSAGE,
         method,

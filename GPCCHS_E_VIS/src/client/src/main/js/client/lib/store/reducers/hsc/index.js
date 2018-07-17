@@ -52,6 +52,10 @@
 //  specified // La largeur par defaut de la fenetre de visualisation est stockee dans le workspace
 // VERSION : 2.0.0 : FA : #10670 : 09/02/2018 : Detach a page no dispatch WIP
 // VERSION : 2.0.0 : FA : #10670 : 12/02/2018 : Detach a page and attach window with tests
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3185 : 14/05/2018 : mark workspace as modified when timebar
+//  limits move, if visualization window is marked as saved in workspace
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3185 : 30/05/2018 : mark workspace as modified when timebar
+//  limits move, if visualization window is marked as saved in workspace
 // END-HISTORY
 // ====================================================================
 

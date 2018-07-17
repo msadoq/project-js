@@ -38,6 +38,7 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2215 : 06/03/2018 : Fix provider flow wrong value
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
 // VERSION : 2.0.0.2 : FA : #11609 : 18/04/2018 : Fix entry point unit retrieval
+// VERSION : 2.0.0.3 : FA : #13116 : 15/06/2018 : Fix retrieve last parameters request
 // END-HISTORY
 // ====================================================================
 
@@ -53,6 +54,7 @@ import { set as setCallback } from '../common/callbacks';
 import getLogger from '../common/logManager';
 import { operators } from '../common/operators';
 import { get as getConf } from '../common/configurationManager';
+import { createSillyLog, decorateWithSillyLog } from './sillyLog';
 
 import { add as addMessage } from '../store/actions/messages';
 import constants from '../constants';
@@ -60,6 +62,7 @@ import constants from '../constants';
 const _map = require('lodash/map');
 
 const logger = getLogger('server:ipc');
+const sillyLog = createSillyLog(logger);
 
 const versionDCComProtocol = getConf('VERSION_DC_COM_PROTOCOL');
 
@@ -309,35 +312,48 @@ const dcVersionMap = {
     retrieveSDBCatalogs: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOGS,
       args,
-      callback),
+      callback
+    ),
     retrieveSDBCatalogsItems: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEMS,
       args,
-      callback),
+      callback
+    ),
     retrieveSDBCatalogsItemComObject: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_COMOBJECT,
       args,
-      callback),
+      callback
+    ),
     retrieveSDBCatalogItemFieldUnit: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_FIELD_UNIT,
       args,
-      callback),
+      callback
+    ),
     retrieveSDBCatalogItemExists: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_EXISTS,
       args,
-      callback),
+      callback
+    ),
     retrieveSatelliteItems: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_SATELLITE_ITEMS,
       args,
-      callback),
+      callback
+    ),
     retrieveCatalogItemStructure: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE,
       args,
-      callback),
+      callback
+    ),
+    retrieveCatalogItemMetadata: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_METADATA,
+      args,
+      callback
+    ),
     retrieveApids: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_APIDS,
       args,
-      callback),
+      callback
+    ),
     requestSDBQuery: (method, args, callback) => (
       commands.dc.rpc(constants.ADE_SDB_QUERY, [
         encode('dc.dataControllerUtils.ADESDBQuery', {
@@ -419,7 +435,7 @@ const commands = {
       commands.main.message(constants.IPC_METHOD_REDUX_PATCH, action);
     },
   },
-  dc: dcVersionMap[versionDCComProtocol],
+  dc: decorateWithSillyLog(dcVersionMap[versionDCComProtocol], sillyLog, ['rpc', 'message']),
   pus: pusCommands,
 };
 module.exports = commands;

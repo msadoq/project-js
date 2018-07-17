@@ -1,0 +1,12 @@
+package dataControllerUtils.protobuf;
+
+
+import "./ADEItemReference.proto";
+import "./ADEAlgorithmLanguage.proto";
+
+message ADEItemAlgorithm {
+    extensions 10 to 102;
+    required ADEItemReference algorithmItemName = 1;
+    repeated ADEItemReference inputParameters = 2;
+    repeated ADEAlgorithmLanguage algorithms = 3;
+}

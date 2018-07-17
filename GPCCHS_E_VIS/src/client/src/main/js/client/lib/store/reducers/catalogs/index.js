@@ -1,6 +1,7 @@
 import _find from 'lodash/fp/find';
 import _findIndex from 'lodash/findIndex';
 import _getOr from 'lodash/fp/getOr';
+import _flow from 'lodash/fp/flow';
 import _set from 'lodash/fp/set';
 import { createSelector } from 'reselect';
 import {
@@ -13,6 +14,7 @@ import {
   WS_UNIT_ADD,
   WS_UNIT_ADD_SIMPLE,
   WS_ITEM_STRUCTURE_ADD,
+  WS_ITEM_METADATA_ADD,
 } from 'store/types';
 
 export const REQUESTING = 'requesting';
@@ -198,6 +200,25 @@ export default function catalogsReducer(state = {}, action) {
       return _set(path, structure, state);
       // return state;
     }
+    case WS_ITEM_METADATA_ADD: {
+      // TODO: factorize this (quite same as previous case)
+      const { tupleId, name, metadata } = action.payload;
+      const { itemName, ...rest } = metadata;
+
+      const catalogIndex = getCatalogIndexByName(state, { tupleId, name });
+      if (catalogIndex === -1) {
+        return state;
+      }
+
+      const itemIndex = getCatalogItemIndexByName(state, { tupleId, name, itemName });
+      if (itemIndex === -1) {
+        return state;
+      }
+
+      const path = getMetadataPath(tupleId, catalogIndex, itemIndex);
+      return _set(path, rest, state);
+      // return state;
+    }
     default:
       return state;
   }
@@ -308,6 +329,9 @@ export const getUnitByItemName = createSelector(
 const getStructurePath = (tupleId, catalogIndex, itemIndex) =>
   `[${tupleId}][${catalogIndex}].items[${itemIndex}].structure`;
 
+const getMetadataPath = (tupleId, catalogIndex, itemIndex) =>
+  `[${tupleId}][${catalogIndex}].items[${itemIndex}].metadata`;
+
 export const getComObjectStructure = createSelector(
   (state, { tupleId }) => tupleId,
   catalogsState => catalogsState,
@@ -318,4 +342,28 @@ export const getComObjectStructure = createSelector(
     const structure = _getOr({}, path, catalogs);
     return structure;
   }
+);
+
+export const getItemMetadata = createSelector(
+  (_, { tupleId }) => tupleId,
+  getCatalogIndexByName,
+  getCatalogItemIndexByName,
+  state => state,
+  (tupleId, catalogIndex, itemIndex, catalogsState) => _getOr(
+      {},
+      getMetadataPath(tupleId, catalogIndex, itemIndex),
+      catalogsState
+    )
+);
+
+export const getAlgorithmMetadata = createSelector(
+  getItemMetadata,
+  metadata => ({
+    inputParameters: _getOr([], ['algorithm', 'inputParameters'], metadata),
+    algorithm: _flow(
+      _getOr([], ['algorithm', 'algorithms']),
+      _find(a => a.language.toLocaleLowerCase() === 'python'),
+      _getOr(undefined, 'text')
+    )(metadata),
+  })
 );

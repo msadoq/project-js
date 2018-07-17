@@ -1,5 +1,7 @@
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import EntryPointConnectedDataFields from 'viewManager/common/Components/Editor/EntryPointConnectedDataFields';
+import { askItemMetadata } from 'store/actions/catalogs';
 import {
   getSelectedCatalogName,
   getSelectedComObjectName,
@@ -7,19 +9,53 @@ import {
   getSelectedDomainInForm,
   getSelectedItemName,
   getSelectedTimelineId,
-} from '../../../commonEditor/Fields/selectors';
+  getSelectedPath,
+  getSelectedDisplayMode,
+  getFormMetadata,
+} from 'viewManager/commonEditor/Fields/selectors';
+import { getTupleId, getAlgorithmMetadata } from 'store/reducers/catalogs';
+import { getDomainId } from 'store/reducers/domains';
+import { getSessionByNameWithFallback, getSessionNameFromTimeline } from 'store/reducers/sessions';
+import { get } from '../../../../common/configurationManager';
 
-const mapStateToProps = (state, { form }) => ({
-  selectedDomainName: getSelectedDomainInForm(form, state),
-  selectedTimelineId: getSelectedTimelineId(form, state),
-  selectedCatalogName: getSelectedCatalogName(form, state),
-  selectedItemName: getSelectedItemName(form, state),
-  selectedComObjectName: getSelectedComObjectName(form, state),
-  dataType: getSelectedDataType(form, state),
-});
 
-const EntryPointConnectedDataFieldsContainer = connect(
-  mapStateToProps, {}
-)(EntryPointConnectedDataFields);
+const wildcardCharacter = get('WILDCARD_CHARACTER');
+
+const mapStateToProps = (state, { form, viewId, pageId }) => {
+  const domainName = getSelectedDomainInForm(form, state);
+  const timelineId = getSelectedTimelineId(form, state);
+  const sessionName = getSessionNameFromTimeline(state, { timelineId, wildcardCharacter });
+  const sessionId = getSessionByNameWithFallback(state, { sessionName, viewId, pageId }).id;
+  const domainId = getDomainId(state, { viewId, pageId, domainName });
+  const tupleId = getTupleId(domainId, sessionId);
+  const name = getSelectedCatalogName(form, state);
+  const selectedPath = getSelectedPath(form, state);
+  const formMetadata = getFormMetadata(form, state);
+  const metadata = getAlgorithmMetadata(state.catalogs, { tupleId, name, itemName: selectedPath });
+
+  return {
+    selectedDomainName: domainName,
+    selectedTimelineId: timelineId,
+    selectedCatalogName: name,
+    selectedItemName: getSelectedItemName(form, state),
+    selectedComObjectName: getSelectedComObjectName(form, state),
+    dataType: getSelectedDataType(form, state),
+    selectedPath,
+    selectedDisplayMode: getSelectedDisplayMode(form, state),
+    metadata,
+    formMetadata,
+  };
+};
+
+function mapDispatchToProps(dispatch, { change }) {
+  return bindActionCreators({
+    getFormula: (viewId, pageId, domainName, timelineId, catalog, item) =>
+      askItemMetadata(viewId, pageId, domainName, timelineId, catalog, item),
+    changeFormValue: change,
+  }, dispatch);
+}
+
+const EntryPointConnectedDataFieldsContainer =
+  connect(mapStateToProps, mapDispatchToProps)(EntryPointConnectedDataFields);
 
 export default EntryPointConnectedDataFieldsContainer;

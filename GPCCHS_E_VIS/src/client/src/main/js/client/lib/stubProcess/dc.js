@@ -422,7 +422,6 @@ const onHssMessageADE = (...args) => {
 
     case constants.ADE_SDB_QUERY: {
       const decoded = protobuf.decode('dc.dataControllerUtils.ADESDBQuery', args[1]);
-      logger.info(decoded);
       return sendSDBData(queryId, args[1], zmq, decoded);
     }
 

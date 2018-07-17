@@ -26,6 +26,8 @@
 // VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : link presentational component to redux
 // VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : fix a few regressions in tests
 // VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : center window on selected time range
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3160 : 04/05/2018 : date time bar VIMA .
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3160 : 30/05/2018 : date time bar VIMA .
 // END-HISTORY
 // ====================================================================
 

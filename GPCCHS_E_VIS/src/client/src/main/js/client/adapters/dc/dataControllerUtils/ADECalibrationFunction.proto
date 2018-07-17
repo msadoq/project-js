@@ -1,0 +1,6 @@
+package dataControllerUtils.protobuf;
+
+message ADECalibrationFunction {
+    required string functionName = 1;
+    required string selectionCondition = 2;
+}

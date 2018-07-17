@@ -3,6 +3,8 @@
 // VERSION : 1.1.2 : DM : #5828 : 13/06/2017 : Move few common/ modules in client/ folder
 // VERSION : 1.1.2 : FA : #7164 : 07/07/2017 : Apply filters on getLast request
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3105 : 04/05/2018 : Add RM field in provider
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3105 : 30/05/2018 : Add RM field in provider
 // END-HISTORY
 // ====================================================================
 

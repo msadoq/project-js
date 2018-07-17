@@ -34,6 +34,10 @@
 //  specified // Lors du retour a la largeur...
 // VERSION : 2.0.0 : FA : #9725 : 20/12/2017 : Fix weird behavior with visuWindow
 // VERSION : 2.0.0 : FA : ISIS-FT-2265 : 27/02/2018 : link presentational component to redux
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3185 : 14/05/2018 : mark workspace as modified when timebar
+//  limits move, if visualization window is marked as saved in workspace
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3185 : 30/05/2018 : mark workspace as modified when timebar
+//  limits move, if visualization window is marked as saved in workspace
 // END-HISTORY
 // ====================================================================
 

@@ -76,6 +76,10 @@
 // VERSION : 2.0.0 : FA : #11346 : 16/03/2018 : Change type mime for onboard and ground view
 // VERSION : 2.0.0 : FA : ISIS-FT-2159 : 20/03/2018 : editeur champ flowType VIMA JS
 // VERSION : 2.0.0.2 : FA : #11854 : 18/04/2018 : Vima JS does not receive PUB/SUB data
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3105 : 04/05/2018 : Add RM field in provider
+// VERSION : 2.0.0.3 : FA : ISIS-FT-2238 : 22/05/2018 : drag drop paquet dans dynamicView VIMA
+// VERSION : 2.0.0.3 : FA : ISIS-FT-2238 : 30/05/2018 : drag drop paquet dans dynamicView VIMA
+// VERSION : 2.0.0.3 : FA : ISIS-FT-3105 : 30/05/2018 : Add RM field in provider
 // END-HISTORY
 // ====================================================================
 
@@ -144,6 +148,7 @@ module.exports = {
   ADE_SDB_RETRIEVE_SATELLITE_ITEMS: 5,
   ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE: 6, // not used yet
   ADE_SDB_RETRIEVE_APIDS: 7,
+  ADE_SDB_RETRIEVE_CATALOG_ITEM_METADATA: 8,
   // PUS METHOD IPC
   PUS_SUBSCRIBE: 1,
   PUS_UNSUBSCRIBE: 2,

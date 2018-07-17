@@ -707,129 +707,130 @@ export default class Chart extends React.Component {
             style={this.divStyle}
           />
           {
-            ['left', 'right'].includes(yAxesAt) && this.yAxesUniq.map((yAxis, index) =>
-              <YAxis
-                key={yAxis.id}
-                index={index}
-                margin={((this.yAxesUniq.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
-                lines={this.linesUniq.filter(l => l.yAxisId === yAxis.id)}
-                axisId={yAxis.id}
-                updateAxis={updateAxis}
-                format={yAxis.format}
-                showLabels={yAxis.showLabels}
-                showTicks={yAxis.showTicks}
-                autoTick={yAxis.autoTick}
-                tickStep={yAxis.tickStep}
-                showGrid={yAxis.showGrid}
-                gridStyle={yAxis.gridStyle}
-                axisLabel={yAxis.axisLabel}
-                gridSize={yAxis.gridSize}
-                logarithmic={yAxis.logarithmic}
-                yAxisWidth={this.yAxisWidth}
-                xAxisHeight={this.xAxisHeight}
-                chartWidth={this.chartWidth}
-                height={this.chartHeight}
-                allowYPan={allowYPan}
-                xAxesAt={xAxisAt}
-                top={marginTop}
-                yAxesAt={yAxesAt}
-                scale={yAxis.scale}
-                extents={yAxis.extents}
-                label={yAxis.label}
-                labelStyle={yAxis.labelStyle}
-                formatAsDate={yAxis.formatAsDate}
-                getLabelPosition={this.getLabelPosition}
-                side={this.yAxesUniq.length * this.yAxisWidth}
-              />
-            )
-          }
-          {
-            ['top', 'bottom'].includes(xAxisAt) && this.xAxesUniq.map((xAxis, index) =>
-              <XAxis
-                key={xAxis.id}
-                index={index}
-                margin={xAxisAt === 'top' ? (this.xAxesUniq.length - index - 1) * this.xAxisHeight : index * this.xAxisHeight}
-                lines={this.linesUniq.filter(l => l.xAxisId === xAxis.id)}
-                top={marginTop}
-                side={this.yAxesUniq.length * this.yAxisWidth}
-                axisId={xAxis.id}
-                updateAxis={updateAxis}
-                format={xAxis.format}
-                showLabels={xAxis.showLabels}
-                showTicks={xAxis.showTicks}
-                autoTick={xAxis.autoTick}
-                tickStep={xAxis.tickStep}
-                showGrid={xAxis.showGrid}
-                gridStyle={xAxis.gridStyle}
-                axisLabel={xAxis.axisLabel}
-                gridSize={xAxis.gridSize}
-                logarithmic={xAxis.logarithmic}
-                xAxisHeight={this.xAxisHeight}
-                chartWidth={this.chartWidth}
-                height={this.chartHeight}
-                allowYPan={allowYPan}
-                xAxesAt={xAxisAt}
-                yAxesAt={yAxesAt}
-                scale={xAxis.scale}
-                extents={xAxis.extents}
-                label={xAxis.label}
-                labelStyle={xAxis.labelStyle}
-                formatAsDate={xAxis.formatAsDate}
-                getLabelPosition={this.getLabelPosition}
-                yAxisWidth={this.yAxisWidth}
-              />
-            )
-          }
-          {
-            Object.keys(this.pairs).map((key) => {
-              const pair = this.pairs[key];
-              return (
-                <LinesCanvas
-                  key={key}
-                  width={this.chartWidth}
-                  height={this.chartHeight}
-                  xAxesAt={xAxisAt}
-                  xScale={pair.xAxis.scale}
-                  yScale={pair.yAxis.scale}
-                  showLabelsX={pair.xAxis.showLabels}
-                  showLabelsY={pair.yAxis.showLabels}
-                  lines={pair.lines}
-                  indexes={pair.indexes}
-                  updateLabelPosition={this.updateLabelPosition}
-                  perfOutput={perfOutput}
-                  divStyle={this.divStyle}
-                  current={current}
-                  parametric={parametric}
-                />
-              );
-            })
-          }
-          {
-            !parametric && this.xAxesUniq[0] &&
-            <CurrentCursorCanvas
-              current={current}
-              width={this.chartWidth}
-              height={this.chartHeight}
-              divStyle={this.divStyle}
-              xScale={this.xAxesUniq[0].scale}
-            />
-          }
-          {
-            enableTooltip &&
-            <Tooltip
-              tooltipColor={tooltipColor}
-              yAxesUniq={this.yAxesUniq}
-              xAxesUniq={this.xAxesUniq}
-              pairs={this.pairs}
-              width={this.chartWidth}
-              height={this.chartHeight}
-              yAxesAt={yAxesAt}
-              xAxesAt={xAxisAt}
+          ['left', 'right'].includes(yAxesAt) && this.yAxesUniq.map((yAxis, index) =>
+            <YAxis
+              key={yAxis.id}
+              index={index}
+              margin={((this.yAxesUniq.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
+              lines={this.linesUniq.filter(l => l.yAxisId === yAxis.id)}
+              axisId={yAxis.id}
+              updateAxis={updateAxis}
+              format={yAxis.format}
+              showLabels={yAxis.showLabels}
+              showTicks={yAxis.showTicks}
+              autoTick={yAxis.autoTick}
+              tickStep={yAxis.tickStep}
+              showGrid={yAxis.showGrid}
+              gridStyle={yAxis.gridStyle}
+              axisLabel={yAxis.axisLabel}
+              gridSize={yAxis.gridSize}
+              logarithmic={yAxis.logarithmic}
               yAxisWidth={this.yAxisWidth}
               xAxisHeight={this.xAxisHeight}
-              divStyle={this.divStyle}
+              chartWidth={this.chartWidth}
+              height={this.chartHeight}
+              allowYPan={allowYPan}
+              xAxesAt={xAxisAt}
+              top={marginTop}
+              yAxesAt={yAxesAt}
+              scale={yAxis.scale}
+              extents={yAxis.extents}
+              label={yAxis.label}
+              labelStyle={yAxis.labelStyle}
+              formatAsDate={yAxis.formatAsDate}
+              getLabelPosition={this.getLabelPosition}
+              side={this.yAxesUniq.length * this.yAxisWidth}
             />
-          }
+          )
+        }
+          {
+          ['top', 'bottom'].includes(xAxisAt) && this.xAxesUniq.map((xAxis, index) =>
+            <XAxis
+              key={xAxis.id}
+              index={index}
+              margin={xAxisAt === 'top' ? (this.xAxesUniq.length - index - 1) * this.xAxisHeight : index * this.xAxisHeight}
+              lines={this.linesUniq.filter(l => l.xAxisId === xAxis.id)}
+              top={marginTop}
+              side={this.yAxesUniq.length * this.yAxisWidth}
+              axisId={xAxis.id}
+              updateAxis={updateAxis}
+              format={xAxis.format}
+              showLabels={xAxis.showLabels}
+              showTicks={xAxis.showTicks}
+              autoTick={xAxis.autoTick}
+              tickStep={xAxis.tickStep}
+              showGrid={xAxis.showGrid}
+              gridStyle={xAxis.gridStyle}
+              axisLabel={xAxis.axisLabel}
+              gridSize={xAxis.gridSize}
+              logarithmic={xAxis.logarithmic}
+              xAxisHeight={this.xAxisHeight}
+              chartWidth={this.chartWidth}
+              height={this.chartHeight}
+              allowYPan={allowYPan}
+              xAxesAt={xAxisAt}
+              yAxesAt={yAxesAt}
+              scale={xAxis.scale}
+              extents={xAxis.extents}
+              label={xAxis.label}
+              labelStyle={xAxis.labelStyle}
+              formatAsDate={xAxis.formatAsDate}
+              getLabelPosition={this.getLabelPosition}
+              yAxisWidth={this.yAxisWidth}
+            />
+          )
+        }
+          {
+          Object.keys(this.pairs).map((key) => {
+            const pair = this.pairs[key];
+            return (
+              <LinesCanvas
+                key={key}
+                width={this.chartWidth}
+                height={this.chartHeight}
+                xAxesAt={xAxisAt}
+                xScale={pair.xAxis.scale}
+                yScale={pair.yAxis.scale}
+                showLabelsX={pair.xAxis.showLabels}
+                showLabelsY={pair.yAxis.showLabels}
+                lines={pair.lines}
+                indexes={pair.indexes}
+                updateLabelPosition={this.updateLabelPosition}
+                perfOutput={perfOutput}
+                divStyle={this.divStyle}
+                current={current}
+                parametric={parametric}
+              />
+            );
+          })
+        }
+          {
+          !parametric && this.xAxesUniq[0] &&
+          <CurrentCursorCanvas
+            current={current}
+            width={this.chartWidth}
+            height={this.chartHeight}
+            divStyle={this.divStyle}
+            xScale={this.xAxesUniq[0].scale}
+          />
+        }
+          {
+          enableTooltip &&
+          <Tooltip
+            tooltipColor={tooltipColor}
+            yAxesUniq={this.yAxesUniq}
+            xAxesUniq={this.xAxesUniq}
+            pairs={this.pairs}
+            width={this.chartWidth}
+            height={this.chartHeight}
+            yAxesAt={yAxesAt}
+            xAxesAt={xAxisAt}
+            yAxisWidth={this.yAxisWidth}
+            xAxisHeight={this.xAxisHeight}
+            divStyle={this.divStyle}
+            plotViewConfigurationLines={this.props.lines}
+          />
+        }
           {
             <Zones
               allowXPan={allowXPan}
@@ -855,7 +856,7 @@ export default class Chart extends React.Component {
               pans={this.state.pans}
               zoomLevels={this.state.zoomLevels}
             />
-          }
+        }
         </div>
       </ErrorBoundary>
     );

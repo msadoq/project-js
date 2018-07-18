@@ -1,4 +1,6 @@
-/* eslint-disable no-unused-vars */
+
+import _ from 'lodash/fp';
+
 import {
   WS_VIEW_ADD_ENTRYPOINT,
   WS_VIEW_OPENED,
@@ -37,7 +39,7 @@ const onNeededMetadata = ({ dispatch, getState }) => next => (action) => { // re
   if (action.type === WS_VIEW_OPENED) {
     const { viewId } = action.payload;
     const conf = getConfigurationByViewId(state, { viewId });
-    _askEntryPointsRelatedMetadata(conf.entryPoints, { viewId });
+    _askEntryPointsRelatedMetadata(_.getOr([], 'entryPoints', conf), { viewId });
   }
 
   if (

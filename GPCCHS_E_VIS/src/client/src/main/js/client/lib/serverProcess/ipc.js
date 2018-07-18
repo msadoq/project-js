@@ -361,6 +361,11 @@ const dcVersionMap = {
       args,
       callback
     ),
+    retrieveReportingItemPackets: (args, callback) => commands.dc.requestSDBQuery(
+      constants.ADE_SDB_RETRIEVE_REPORTING_ITEM_PACKETS,
+      args,
+      callback
+    ),
     retrieveApids: (args, callback) => commands.dc.requestSDBQuery(
       constants.ADE_SDB_RETRIEVE_APIDS,
       args,

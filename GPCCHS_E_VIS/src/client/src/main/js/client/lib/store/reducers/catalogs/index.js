@@ -15,6 +15,7 @@ import {
   WS_UNIT_ADD_SIMPLE,
   WS_ITEM_STRUCTURE_ADD,
   WS_ITEM_METADATA_ADD,
+  WS_REPORTING_ITEM_PACKETS_ADD,
 } from 'store/types';
 
 export const REQUESTING = 'requesting';
@@ -201,7 +202,6 @@ export default function catalogsReducer(state = {}, action) {
       // return state;
     }
     case WS_ITEM_METADATA_ADD: {
-      // TODO: factorize this (quite same as previous case)
       const { tupleId, name, metadata } = action.payload;
       const { itemName } = metadata;
 
@@ -218,6 +218,22 @@ export default function catalogsReducer(state = {}, action) {
       const path = getMetadataPath(tupleId, catalogIndex, itemIndex);
       return _set(path, metadata, state);
       // return state;
+    }
+    case WS_REPORTING_ITEM_PACKETS_ADD: {
+      const { tupleId, name, itemName, reportingItemPackets } = action.payload; // TODO: update this
+
+      const catalogIndex = getCatalogIndexByName(state, { tupleId, name });
+      if (catalogIndex === -1) {
+        return state;
+      }
+
+      const itemIndex = getCatalogItemIndexByName(state, { tupleId, name, itemName });
+      if (itemIndex === -1) {
+        return state;
+      }
+
+      const path = getReportingItemPacketsPath(tupleId, catalogIndex, itemIndex);
+      return _set(path, reportingItemPackets, state);
     }
     default:
       return state;
@@ -340,6 +356,9 @@ const getStructurePath = (tupleId, catalogIndex, itemIndex) =>
 export const getMetadataPath = (tupleId, catalogIndex, itemIndex) =>
   `[${tupleId}][${catalogIndex}].items[${itemIndex}].metadata`;
 
+const getReportingItemPacketsPath = (tupleId, catalogIndex, itemIndex) =>
+  `[${tupleId}][${catalogIndex}].items[${itemIndex}].reportingItemPackets`;
+
 export const getComObjectStructure = createSelector(
   (state, { tupleId }) => tupleId,
   catalogsState => catalogsState,
@@ -360,6 +379,18 @@ export const getItemMetadata = createSelector(
   (tupleId, catalogIndex, itemIndex, catalogsState) => _getOr(
     {},
     getMetadataPath(tupleId, catalogIndex, itemIndex),
+    catalogsState
+  )
+);
+
+export const getReportingItemPackets = createSelector(
+  (_, { tupleId }) => tupleId,
+  getCatalogIndexByName,
+  getCatalogItemIndexByName,
+  state => state,
+  (tupleId, catalogIndex, itemIndex, catalogsState) => _getOr(
+    {},
+    getReportingItemPacketsPath(tupleId, catalogIndex, itemIndex),
     catalogsState
   )
 );

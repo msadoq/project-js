@@ -13,6 +13,8 @@ import {
   WS_ITEM_STRUCTURE_ADD,
   WS_ITEM_METADATA_ASK,
   WS_ITEM_METADATA_ADD,
+  WS_REPORTING_ITEM_PACKETS_ASK,
+  WS_REPORTING_ITEM_PACKETS_ADD,
 } from '../types';
 
 export const askCatalogs = simple(
@@ -88,11 +90,23 @@ export const addItemStructure = simple(
 export const askItemMetadata =
   simple(WS_ITEM_METADATA_ASK, 'domainId', 'sessionId', 'catalogName', 'itemName');
 
+export const askReportingItemPackets =
+  simple(WS_REPORTING_ITEM_PACKETS_ASK, 'domainId', 'sessionId', 'catalogName', 'itemName');
+
 export const addCatalogItemMetadata = simple(
   WS_ITEM_METADATA_ADD,
   'tupleId',
   'name',
+  'itemName',
   'metadata'
+);
+
+export const addReportingItemPackets = simple(
+  WS_REPORTING_ITEM_PACKETS_ADD,
+  'tupleId',
+  'name',
+  'itemName',
+  'reportingItemPackets'
 );
 
 export const addUnitSimple = simple(

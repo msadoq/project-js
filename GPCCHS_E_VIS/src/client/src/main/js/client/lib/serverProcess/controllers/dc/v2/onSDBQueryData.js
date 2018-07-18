@@ -43,6 +43,7 @@ const SDBQueryTypeHandler = {
   [constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_FIELD_UNIT]: handleSingleString,
   [constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_STRUCTURE]: handleItemStructure,
   [constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_METADATA]: handleItemMetadata,
+  [constants.ADE_SDB_RETRIEVE_REPORTING_ITEM_PACKETS]: handleListString,
 };
 
 /**
@@ -61,7 +62,7 @@ module.exports = (buffers, requestId) => {
     if (!handler) {
       logger.error('Unknown SDB Query response type received');
       getStore().dispatch(addMessage('global', 'warning',
-      'Unknown SDB Query response type received'));
+        'Unknown SDB Query response type received'));
       return;
     }
     handler(buffers[1], callback);

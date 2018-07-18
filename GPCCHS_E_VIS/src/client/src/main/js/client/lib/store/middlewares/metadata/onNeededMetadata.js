@@ -4,7 +4,6 @@ import {
   WS_VIEW_ADD_ENTRYPOINT,
   WS_VIEW_OPENED,
   WS_VIEW_UPDATE_ENTRYPOINT,
-  HSC_SET_INSPECTOR_GENERAL_DATA,
 } from '../../types';
 import { getConfigurationByViewId } from '../../../viewManager';
 import { askItemMetadata } from '../../actions/catalogs';

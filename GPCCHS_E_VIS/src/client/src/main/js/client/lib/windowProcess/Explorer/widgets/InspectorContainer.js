@@ -113,6 +113,8 @@ const mapStateToProps = (state) => {
 
 // eslint-disable-next-line no-unused-vars
   const metadata = _.get('metadata', catalogItem);
+  const reportingItemPackets = _.get('reportingItemPackets', catalogItem);
+  const formattedReportingItemPackets = reportingItemPackets.map(packet => packet.name);
 
   let staticData = null;
 
@@ -121,13 +123,14 @@ const mapStateToProps = (state) => {
       'Short description': metadata.shortDescription,
       'Long description': metadata.longDescription,
       'Aliases': metadata.aliases,
-      'Monitoring laws': metadata.tmMeta.monitoringItems,
-      // TODO?: separate monitoring laws and monitoring conditions into 2 separate elements
+      'Monitoring laws': metadata.tmMeta.monitoringItems, // TODO?: separate monitoring laws
+                                                          // and monitoring conditions
+                                                          // into 2 separate elements
       'Significaty condition': metadata.tmMeta.sgy,
       'Interpretation function': metadata.tmMeta.calibrationFunctions,
       'Formulas': metadata.algorithm,
       'Computed triggers': metadata.tmMeta.computedTriggers,
-      // TODO: add list of TM packets
+      'TM Packets list': formattedReportingItemPackets,
       'Computing definitions': metadata.tmMeta.computingDefinitions,
     }, ROOT_PARENT_NAME);
   }

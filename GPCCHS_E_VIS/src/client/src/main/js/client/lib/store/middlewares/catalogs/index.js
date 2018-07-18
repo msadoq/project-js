@@ -7,6 +7,7 @@ import {
   WS_UNIT_ASK,
   WS_ITEM_STRUCTURE_ASK,
   WS_ITEM_METADATA_ASK,
+  WS_REPORTING_ITEM_PACKETS_ASK,
 } from 'store/types';
 import {
   addCatalogItems,
@@ -16,6 +17,7 @@ import {
   addUnitSimple,
   addItemStructure,
   addCatalogItemMetadata,
+  addReportingItemPackets,
 } from 'store/actions/catalogs';
 import { getSingleEntryPoint } from 'viewManager/DecommutedPacketView/store/dataSelectors';
 import getLogger from 'common/logManager';
@@ -42,6 +44,9 @@ const asyncComObjectsFetcher = (sessionId, domainId, catalogName, catalogItemNam
 
 const asyncItemMetadataFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
   dc.retrieveCatalogItemMetadata({ sessionId, domainId, catalogName, catalogItemName }, cb);
+
+const asyncReportingItemPacketsFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
+  dc.retrieveReportingItemPackets({ sessionId, domainId, catalogName, catalogItemName }, cb);
 
 const asyncUnitFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
   dc.retrieveSDBCatalogItemFieldUnit(
@@ -276,7 +281,12 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
 
       const fetchMeta = () => asyncItemMetadataFetcher(sessionId, domainId, catalogName, itemName,
         metadata => dispatch(
-          addCatalogItemMetadata(getTupleId(domainId, sessionId), catalogName, metadata)
+          addCatalogItemMetadata(
+            getTupleId(domainId, sessionId),
+            catalogName,
+            itemName,
+            metadata
+          )
         ));
 
       const fetchItemsAndMeta = () => asyncCatalogItemFetcher(sessionId, domainId, catalogName,
@@ -309,6 +319,55 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
         fetchItemsAndMeta();
       } else {
         fetchMeta();
+      }
+      break;
+    }
+
+    case WS_REPORTING_ITEM_PACKETS_ASK: {
+      const { sessionId, domainId, catalogName, itemName } = action.payload;
+
+      const fetchItemPackets = () =>
+        asyncReportingItemPacketsFetcher(sessionId, domainId, catalogName, itemName,
+          items => dispatch(
+            addReportingItemPackets(
+              getTupleId(domainId, sessionId),
+              catalogName,
+              itemName,
+              items
+            )
+          ));
+
+      const fetchItemsAndItemPackets = () =>
+        asyncCatalogItemFetcher(sessionId, domainId, catalogName,
+          (items) => {
+            dispatch(addCatalogItems(getTupleId(domainId, sessionId), catalogName, items));
+            fetchItemPackets();
+          }
+        );
+
+      const fetchCatalogAndItemsAndItemPackets = () => {
+        asyncCatalogFetcher(
+          sessionId,
+          domainId,
+          (catalogs) => {
+            dispatch(
+              addCatalogs(
+                getTupleId(domainId, sessionId),
+                catalogs
+              )
+            );
+            fetchItemsAndItemPackets();
+          });
+      };
+
+      if (!isCatalogLoaded(state, { sessionId, domainId })) {
+        fetchCatalogAndItemsAndItemPackets();
+      }
+
+      if (!areCatalogItemsLoaded(state, { sessionId, domainId, name: catalogName })) {
+        fetchItemsAndItemPackets();
+      } else {
+        fetchItemPackets();
       }
       break;
     }

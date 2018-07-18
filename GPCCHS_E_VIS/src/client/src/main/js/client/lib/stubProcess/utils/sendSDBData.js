@@ -53,6 +53,9 @@ module.exports = (queryId, rawBuffer, zmq, decodedSDBQuery) => {
     case constants.ADE_SDB_RETRIEVE_CATALOG_ITEM_METADATA:
       dataBuffer = stubData.getADEItemMetadataProtobuf({ itemName: catalogItemName });
       break;
+    case constants.ADE_SDB_RETRIEVE_REPORTING_ITEM_PACKETS:
+      dataBuffer = generateStringListProto(Object.keys(sdbStub));
+      break;
     default:
       break;
   }

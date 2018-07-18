@@ -19,7 +19,7 @@ import {
   setInspectorStaticData,
   isInspectorStaticDataLoading,
 } from 'store/actions/inspector';
-import { askItemMetadata } from '../../actions/catalogs';
+import { askItemMetadata, askReportingItemPackets } from '../../actions/catalogs';
 
 const logger = getLogger('server:store:middlewares:inspector');
 
@@ -48,6 +48,7 @@ export default rtdManager => ({ dispatch }) => next => (action) => {
 
     // fetch item metadata
     dispatch(askItemMetadata(domainId, sessionId, catalogName, catalogItemName));
+    dispatch(askReportingItemPackets(domainId, sessionId, catalogName, catalogItemName));
 
     // if (catalog !== 'Reporting') {
     //   return nextAction;

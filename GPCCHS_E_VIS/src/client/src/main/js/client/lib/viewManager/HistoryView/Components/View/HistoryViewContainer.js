@@ -43,8 +43,6 @@ const mapStateToProps = (state, { viewId }) => {
       config
     );
 
-  const catalogs = _.get('catalogs', state);
-
   config.entryPoints.forEach((ep, index) => {
     const { connectedData } = ep;
 

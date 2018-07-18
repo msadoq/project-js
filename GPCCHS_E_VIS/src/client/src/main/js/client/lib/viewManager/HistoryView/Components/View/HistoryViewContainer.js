@@ -23,6 +23,7 @@ import HistoryView from './HistoryView';
 import { getData } from '../../store/dataReducer';
 import { getConfigurationByViewId } from '../../../selectors';
 import {
+  getCatalogItemByName,
   getTupleId,
 } from '../../../../store/reducers/catalogs';
 import { getDomainId } from '../../../../store/reducers/domains';
@@ -56,20 +57,18 @@ const mapStateToProps = (state, { viewId }) => {
 
         const tupleId = getTupleId(domainId, session.id);
 
-        // TODO: refactor this to use catalog selector
-        const selectedCatalogSource = catalogs[tupleId];
-
-        if (selectedCatalogSource) {
-          const selectedCatalog = selectedCatalogSource.find(c => c.name === catalog);
-
-          if (selectedCatalog) {
-            const selectedCatalogItem =
-              selectedCatalog.items.find(item => item.name === catalogItem);
-
-            const metadata = _.get('metadata', selectedCatalogItem);
-
-            config = _.set(['entryPoints', index, 'metadata'], metadata, config);
+        const selectedCatalogItem = getCatalogItemByName(
+          state.catalogs,
+          {
+            tupleId,
+            name: catalog,
+            itemName: catalogItem,
           }
+        );
+
+        if (selectedCatalogItem) {
+          const metadata = _.getOr({}, 'metadata', selectedCatalogItem);
+          config = _.set(['entryPoints', index, 'metadata'], metadata, config);
         }
       }
     }

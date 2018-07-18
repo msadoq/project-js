@@ -69,9 +69,9 @@ const makeOnClosePage = () => withListenAction(
         });
       };
       const page = getPage(state, { pageId });
-      if (page.isModified && hasUnsavedViews) {
+      if (page && page.isModified && hasUnsavedViews) {
         pageNeedSave('Page and views are modified');
-      } else if (page.isModified) {
+      } else if (page && page.isModified) {
         pageNeedSave('Page is modified');
       } else if (hasUnsavedViews) {
         pageNeedSave('Views are modified');

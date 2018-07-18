@@ -24,17 +24,15 @@ function pus11DataReducer(state = {}, action) {
        *  timestamp: number,
        *  data: {
        *    PUS11View: {
-       *      pus011Model: {
-       *        pus011Apid: [],
-       *        pus011SubSchedule: [],
-       *        pus011Command: [],
-       *        ...rest
-       *      },
+       *      pus011Apid: [],
+       *      pus011SubSchedule: [],
+       *      pus011Command: [],
+       *      ...rest
        *    },
        *  },
        * },
        */
-      const data = _.getOr([], ['payload', 'data', VM_VIEW_PUS11], action);
+      const data = _.getOr(null, ['payload', 'data', VM_VIEW_PUS11], action);
       if (!data) {
         return state;
       }
@@ -45,16 +43,15 @@ function pus11DataReducer(state = {}, action) {
 
       // keep all except tabular data
       updatedState = {
-        ...updatedState,
         ..._.omit(
           ['pus011SubSchedule', 'pus011Apid', 'pus011Command'],
-          _.getOr(null, ['pus011Model'], data)
+          data
         ),
       };
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
       updatedState = injectTabularData(updatedState, 'subSchedules',
-        _.getOr([], ['pus011Model', 'pus011SubSchedule'], data)
+        _.getOr([], ['pus011SubSchedule'], data)
           .map(subSchedule => ({
             ...subSchedule,
             status: statuses[_.getOr(200, 'status', subSchedule)], // map schedule status constant
@@ -63,7 +60,7 @@ function pus11DataReducer(state = {}, action) {
           }))
       );
       updatedState = injectTabularData(updatedState, 'enabledApids',
-        _.getOr([], ['pus011Model', 'pus011Apid'], data)
+        _.getOr([], ['pus011Apid'], data)
           .filter(enabledApid => enabledApid.status !== 1) // filter disabled apids
           .map(enabledApid => ({
             ...enabledApid,
@@ -72,7 +69,7 @@ function pus11DataReducer(state = {}, action) {
           }))
       );
       updatedState = injectTabularData(updatedState, 'commands',
-        _.getOr([], ['pus011Model', 'pus011Command'], data)
+        _.getOr([], ['pus011Command'], data)
         .map(command => ({
           ...command,
           lastUpdateModeCommandId: updateTypes[_.getOr(200, 'lastUpdateModeCommandId', command)], // map schedule lastUpdateModeCommandId constant

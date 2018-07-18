@@ -60,6 +60,7 @@ import groundAlarmViewSchema from 'common/viewConfigurationFiles/schemas/GroundA
 import onboardAlarmViewSchema from 'common/viewConfigurationFiles/schemas/OnboardAlarmView.schema.json';
 import PUS11ViewSchema from 'common/viewConfigurationFiles/schemas/PUS11View.schema.json';
 import PUS14ViewSchema from 'common/viewConfigurationFiles/schemas/PUS14View.schema.json';
+import PUS15ViewSchema from 'common/viewConfigurationFiles/schemas/PUS15View.schema.json';
 import PUSMMEViewSchema from 'common/viewConfigurationFiles/schemas/PUSMMEView.schema.json';
 import decommutedPacketViewSchema from '../common/viewConfigurationFiles/schemas/DecommutedPacketView.schema.json';
 
@@ -80,6 +81,7 @@ import onboardAlarmViewData from './OnboardAlarmView/data';
 import plotViewData from './PlotView/data';
 import PUS11ViewData from '../viewManager/PUS11View/data';
 import PUS14ViewData from '../viewManager/PUS14View/data';
+import PUS15ViewData from '../viewManager/PUS15View/data';
 import PUSMMEViewData from '../viewManager/PUSMMEView/data';
 
 import plotViewDataSelectors from './PlotView/store/dataSelectors';
@@ -93,6 +95,7 @@ import historyViewDataSelectors from './HistoryView/store/dataSelectors';
 import packetViewDataSelectors from './PacketView/store/dataSelectors';
 import PUS11ViewDataSelectors from '../viewManager/PUS11View/store/dataSelectors';
 import PUS14ViewDataSelectors from '../viewManager/PUS14View/store/dataSelectors';
+import PUS15ViewDataSelectors from '../viewManager/PUS15View/store/dataSelectors';
 import PUSMMEViewDataSelectors from '../viewManager/PUSMMEView/store/dataSelectors';
 
 import * as constants from './constants';
@@ -108,6 +111,7 @@ import groundAlarmViewModule from './GroundAlarmView';
 import onboardAlarmViewModule from './OnboardAlarmView';
 import PUS11ViewModule from '../viewManager/PUS11View';
 import PUS14ViewModule from '../viewManager/PUS14View';
+import PUS15ViewModule from '../viewManager/PUS15View';
 import PUSMMEViewModule from '../viewManager/PUSMMEView';
 
 
@@ -188,6 +192,13 @@ const list = {
     structureType: DATASTRUCTURETYPE_PUS,
     structureModule: PUS14ViewData,
     dataSelectors: PUS14ViewDataSelectors,
+  },
+  [constants.VM_VIEW_PUS15]: {
+    schema: PUS15ViewSchema,
+    viewModule: PUS15ViewModule,
+    structureType: DATASTRUCTURETYPE_PUS,
+    structureModule: PUS15ViewData,
+    dataSelectors: PUS15ViewDataSelectors,
   },
   [constants.VM_VIEW_PUSMME]: {
     schema: PUSMMEViewSchema,

@@ -32,7 +32,7 @@ function pusMmeDataReducer(state = {}, action) {
        *  },
        * },
        */
-      const data = _.getOr([], ['payload', 'data', VM_VIEW_PUSMME], action);
+      const data = _.getOr(null, ['payload', 'data', VM_VIEW_PUSMME], action);
       if (!data) {
         return state;
       }
@@ -46,12 +46,12 @@ function pusMmeDataReducer(state = {}, action) {
         ...updatedState,
         ..._.omit(
           ['pusMmePacketStore', 'pusMmePacketParameter'],
-          _.getOr(null, ['pusMmeModel'], data)
+          data
         ),
       };
 
       updatedState = injectTabularData(updatedState, 'packets',
-        _.getOr([], ['pusMmeModel', 'pusMmePacket'], data)
+        _.getOr([], ['pusMmePacket'], data)
           .filter(packet => packet.status !== 1) // filter disabled apids
           .map(pusMmePacket => ({
             ...pusMmePacket,

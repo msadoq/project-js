@@ -13,7 +13,6 @@ import SortArrow from './SortArrow';
 
 import styles from './VirtualizedTableView.css';
 
-
 class VirtualizedTableView extends React.Component {
   static propTypes = {
     tableName: PropTypes.string,
@@ -37,7 +36,6 @@ class VirtualizedTableView extends React.Component {
     onCellDoubleClick: PropTypes.func.isRequired,
     sortState: PropTypes.shape(),
     filterState: PropTypes.shape(),
-    onScrollTop: PropTypes.func.isRequired,
     overrideStyle: PropTypes.func,
     tableHeader: PropTypes.func,
     saveScroll: PropTypes.func.isRequired,

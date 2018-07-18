@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import React from 'react';
-import styles from './tooltip.scss';
+import './tooltip.scss';
 
 /**
  * @param obj
@@ -8,13 +8,13 @@ import styles from './tooltip.scss';
  */
 export const createTableData =
   obj => (
-    <table className={styles.popoverTable}>
+    <table className="popoverTable">
       <tbody>
         {
           Object.keys(obj).map(
             key => (
               <tr>
-                <td><strong>{key}</strong></td>
+                <th>{key}</th>
                 <td>{obj[key]}</td>
               </tr>
             )

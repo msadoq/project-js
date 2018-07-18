@@ -128,9 +128,9 @@ export default class MimicViewWrapper extends PureComponent {
     let newContent = content;
     // outline for research
     if (searchForThisView) {
-      const regex = new RegExp(`(<g.*isis_ep=".*${searching}.*isis_search="on".*)(>)`, 'g');
+      const regex = new RegExp(`(<g{1}[^>]+isis_ep="[^>]*${searching}[^>]*"[^>]+isis_search="on"[^>]+)(>)|(<g{1}[^>]+isis_search="on"[^>]+isis_ep="[^>]*${searching}[^>]*"[^>]+)(>)`, 'g');
       let count = 0;
-      newContent = content.replace(regex, (fullMatch, matchGroup1, matchGroup2) => {
+      newContent = newContent.replace(regex, (fullMatch, matchGroup1, matchGroup2) => {
         count += 1;
         return `${matchGroup1} style="outline: 2px #FC0 solid"${matchGroup2}`;
       });
@@ -143,7 +143,7 @@ export default class MimicViewWrapper extends PureComponent {
       const color = data.values[epName] ? data.values[epName].color : null;
       // no searching on this Ep
       if (epName.indexOf(searching) === -1) {
-        const regexOutline2 = new RegExp(`(<g.*isis_ep="${epName}".*isis_outline="on".*)(>)`, 'g');
+        const regexOutline2 = new RegExp(`(<g{1}[^>]+isis_ep="[^>]*${epName}[^>]*"[^>]+isis_outline="on"[^>]+)(>)|(<g{1}[^>]+isis_outline="on"[^>]+isis_ep="[^>]*${epName}[^>]*"[^>]+)(>)`, 'g');
         newContent = newContent.replace(regexOutline2, (fullMatch, matchGroup1, matchGroup2) =>
           `${matchGroup1} style="outline: 2px ${color} solid"${matchGroup2}`);
       }

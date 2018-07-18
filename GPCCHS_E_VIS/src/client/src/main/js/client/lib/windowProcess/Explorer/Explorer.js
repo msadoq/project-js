@@ -69,11 +69,11 @@ export default class Explorer extends PureComponent {
     tabId: PropTypes.string,
     focusTabInExplorer: PropTypes.func.isRequired,
     minimizeExplorer: PropTypes.func.isRequired,
-  }
+  };
 
   static defaultProps = {
     tabId: Object.keys(widgets)[0],
-  }
+  };
 
   handleSelect = (event) => {
     const tabId = event.target.value;
@@ -81,7 +81,7 @@ export default class Explorer extends PureComponent {
       const { pageId, focusTabInExplorer } = this.props;
       focusTabInExplorer(pageId, tabId);
     }
-  }
+  };
 
   willExpandExplorer = (e) => {
     e.preventDefault();
@@ -90,7 +90,7 @@ export default class Explorer extends PureComponent {
       pageId,
     } = this.props;
     minimizeExplorer(pageId, true);
-  }
+  };
 
   /**
    * DataStore explorer:
@@ -136,22 +136,23 @@ export default class Explorer extends PureComponent {
 
     return (
       <div className={styles.explorer}>
-  <FormGroup controlId="formControlsSelect">
-      <FormControl
-    componentClass="select"
-    onChange={this.handleSelect}
-    value={tabId}
-      >
-      {Object.keys(widgets).map(
-        id => <option key={id} value={id}>{_get(widgets, [id, 'title'])}</option>
-  )}
-  </FormControl>
-    </FormGroup>
-    <h2>{_get(widgets, [tabId, 'title'])}</h2>
-    <div className={styles.widgetContainer}>
-  <Widget windowId={windowId} />
-    </div>
-    </div>
-  );
+        <FormGroup controlId="formControlsSelect">
+          <FormControl
+            componentClass="select"
+            onChange={this.handleSelect}
+            value={tabId}
+          >
+            {Object.keys(widgets)
+              .map(
+                id => <option key={id} value={id}>{_get(widgets, [id, 'title'])}</option>
+              )}
+          </FormControl>
+        </FormGroup>
+        <h2>{_get(widgets, [tabId, 'title'])}</h2>
+        <div className={styles.widgetContainer}>
+          <Widget windowId={windowId} />
+        </div>
+      </div>
+    );
   }
 }

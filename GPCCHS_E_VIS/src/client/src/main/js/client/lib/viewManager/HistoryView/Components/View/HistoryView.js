@@ -140,7 +140,7 @@ class HistoryView extends React.Component {
 
       const metadata = _.getOr({}, 'metadata', epConf);
 
-      // add info with entry point short description
+      // adds info with entry point short description
       updatedCellContent = _.set(
         'info',
         metadata.shortDescription,
@@ -151,7 +151,7 @@ class HistoryView extends React.Component {
         return updatedCellContent;
       }
 
-      // adds unit to voncertedValue cell
+      // adds unit to convertedValue cell
       const convertedValue = cellContent.value || '';
       const convertedValueWithUnit = `${convertedValue} (${metadata.unit})`;
 

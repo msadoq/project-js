@@ -40,10 +40,10 @@ exports[`viewManager/PUS11View/Components/View/PUS11View generatePopover should 
 <Popover
   bsClass="popover"
   id="id"
-  placement="top"
+  placement="bottom"
   style={
     Object {
-      "height": "80px !important",
+      "height": 80,
     }
   }
   title="title"

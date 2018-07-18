@@ -254,5 +254,21 @@ Array [
       "name": "PUS14View",
     },
   ],
+  Array [
+    Object {
+      "extensions": Array [
+        "pus15",
+      ],
+      "name": "PUS15View",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "pusmme",
+      ],
+      "name": "PUSMMEView",
+    },
+  ],
 ]
 `;

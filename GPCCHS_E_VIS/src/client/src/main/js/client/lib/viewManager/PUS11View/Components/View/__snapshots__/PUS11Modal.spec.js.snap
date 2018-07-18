@@ -5,9 +5,7 @@ exports[`PUS11Modal :: render snapshot 1`] = `
   <div
     className="row pus11Modal"
   >
-    <div
-      className="col-xs-4"
-    >
+    <div>
       <h4>
         Command parameters
       </h4>
@@ -28,45 +26,151 @@ exports[`PUS11Modal :: render snapshot 1`] = `
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              APID_GENE_PARAM
-            </td>
-            <td>
-              xxx
-            </td>
-            <td>
-              xxx
-            </td>
-          </tr>
-          <tr>
-            <td>
-              APID_GENE_PARAM
-            </td>
-            <td>
-              xxx
-            </td>
-            <td>
-              xxx
-            </td>
-          </tr>
-          <tr>
-            <td>
-              APID_GENE_PARAM
-            </td>
-            <td>
-              xxx
-            </td>
-            <td>
-              xxx
-            </td>
-          </tr>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Popover
+                bsClass="popover"
+                id="commands-timeshifts-info"
+                placement="bottom"
+                style={
+                  Object {
+                    "height": 50,
+                  }
+                }
+              >
+                <table
+                  className="popoverTable"
+                >
+                  <tbody>
+                    <tr>
+                      <th>
+                        Last update time
+                      </th>
+                      <td />
+                    </tr>
+                    <tr>
+                      <th>
+                        Last update mode
+                      </th>
+                      <td />
+                    </tr>
+                  </tbody>
+                </table>
+              </Popover>
+            }
+            placement="right"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <tr>
+              <td />
+              <td />
+              <td />
+            </tr>
+          </OverlayTrigger>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Popover
+                bsClass="popover"
+                id="commands-timeshifts-info"
+                placement="bottom"
+                style={
+                  Object {
+                    "height": 50,
+                  }
+                }
+              >
+                <table
+                  className="popoverTable"
+                >
+                  <tbody>
+                    <tr>
+                      <th>
+                        Last update time
+                      </th>
+                      <td />
+                    </tr>
+                    <tr>
+                      <th>
+                        Last update mode
+                      </th>
+                      <td />
+                    </tr>
+                  </tbody>
+                </table>
+              </Popover>
+            }
+            placement="right"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <tr>
+              <td />
+              <td />
+              <td />
+            </tr>
+          </OverlayTrigger>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Popover
+                bsClass="popover"
+                id="commands-timeshifts-info"
+                placement="bottom"
+                style={
+                  Object {
+                    "height": 50,
+                  }
+                }
+              >
+                <table
+                  className="popoverTable"
+                >
+                  <tbody>
+                    <tr>
+                      <th>
+                        Last update time
+                      </th>
+                      <td />
+                    </tr>
+                    <tr>
+                      <th>
+                        Last update mode
+                      </th>
+                      <td />
+                    </tr>
+                  </tbody>
+                </table>
+              </Popover>
+            }
+            placement="right"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <tr>
+              <td />
+              <td />
+              <td />
+            </tr>
+          </OverlayTrigger>
         </tbody>
       </table>
     </div>
-    <div
-      className="col-xs-4"
-    >
+    <div>
       <h4>
         Time shifts
       </h4>
@@ -84,38 +188,197 @@ exports[`PUS11Modal :: render snapshot 1`] = `
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              1527779682256
-            </td>
-            <td>
-              1310
-            </td>
-          </tr>
-          <tr>
-            <td>
-              1527779682256
-            </td>
-            <td>
-              1310
-            </td>
-          </tr>
-          <tr>
-            <td>
-              1527779682256
-            </td>
-            <td>
-              1310
-            </td>
-          </tr>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Popover
+                bsClass="popover"
+                id="commands-timeshifts-info"
+                placement="bottom"
+                style={
+                  Object {
+                    "height": 50,
+                  }
+                }
+              >
+                <table
+                  className="popoverTable"
+                >
+                  <tbody>
+                    <tr>
+                      <th>
+                        Last update time
+                      </th>
+                      <td />
+                    </tr>
+                    <tr>
+                      <th>
+                        Last update mode
+                      </th>
+                      <td />
+                    </tr>
+                  </tbody>
+                </table>
+              </Popover>
+            }
+            placement="right"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <tr>
+              <td />
+              <td />
+            </tr>
+          </OverlayTrigger>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Popover
+                bsClass="popover"
+                id="commands-timeshifts-info"
+                placement="bottom"
+                style={
+                  Object {
+                    "height": 50,
+                  }
+                }
+              >
+                <table
+                  className="popoverTable"
+                >
+                  <tbody>
+                    <tr>
+                      <th>
+                        Last update time
+                      </th>
+                      <td />
+                    </tr>
+                    <tr>
+                      <th>
+                        Last update mode
+                      </th>
+                      <td />
+                    </tr>
+                  </tbody>
+                </table>
+              </Popover>
+            }
+            placement="right"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <tr>
+              <td />
+              <td />
+            </tr>
+          </OverlayTrigger>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Popover
+                bsClass="popover"
+                id="commands-timeshifts-info"
+                placement="bottom"
+                style={
+                  Object {
+                    "height": 50,
+                  }
+                }
+              >
+                <table
+                  className="popoverTable"
+                >
+                  <tbody>
+                    <tr>
+                      <th>
+                        Last update time
+                      </th>
+                      <td />
+                    </tr>
+                    <tr>
+                      <th>
+                        Last update mode
+                      </th>
+                      <td />
+                    </tr>
+                  </tbody>
+                </table>
+              </Popover>
+            }
+            placement="right"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <tr>
+              <td />
+              <td />
+            </tr>
+          </OverlayTrigger>
         </tbody>
       </table>
     </div>
-    <div
-      className="col-xs-4"
-    >
+    <div>
       <h4>
         Binary profile
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          overlay={
+            <Popover
+              bsClass="popover"
+              id="commands-timeshifts-info"
+              placement="bottom"
+              style={
+                Object {
+                  "height": 50,
+                }
+              }
+            >
+              <table
+                className="popoverTable"
+              >
+                <tbody>
+                  <tr>
+                    <th>
+                      Last update time
+                    </th>
+                    <td />
+                  </tr>
+                  <tr>
+                    <th>
+                      Last update mode
+                    </th>
+                    <td />
+                  </tr>
+                </tbody>
+              </table>
+            </Popover>
+          }
+          placement="right"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <Glyphicon
+            bsClass="glyphicon"
+            className="InfoIcon"
+            glyph="info-sign"
+          />
+        </OverlayTrigger>
       </h4>
       <table
         className="table table-bordered"

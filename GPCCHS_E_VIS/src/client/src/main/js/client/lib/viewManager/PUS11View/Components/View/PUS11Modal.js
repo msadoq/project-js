@@ -13,7 +13,6 @@ import { createTableData } from '../../../common/pus/tooltip';
 import styles from './PUS11Modal.css';
 import './PUS11Modal.scss';
 
-
 const popoverTrigger = ['hover', 'focus'];
 const popoverStyle = {
   height: 50,
@@ -47,7 +46,6 @@ const _createInfoOverlay = (obj, children = InfoIcon) =>
       {children}
     </OverlayTrigger>
   );
-
 
 const renderBinaryProfile = binaryProfile => (
   <div>

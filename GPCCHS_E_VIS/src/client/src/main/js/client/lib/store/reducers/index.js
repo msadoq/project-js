@@ -59,7 +59,6 @@ import masterSession from './masterSession';
 import health from './health';
 import codeEditor from './codeEditor';
 import inspector from './inspector';
-import ObsoleteEvents from './ObsoleteEvents';
 import ui from './ui';
 import catalogs from './catalogs';
 import apids from './apids';

@@ -31,19 +31,21 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
   <br />
   <div
     className="rc-collapse"
+    role={null}
     style={undefined}
   >
     <div
       className="rc-collapse-item"
       id={undefined}
-      role="tablist"
       style={undefined}
     >
       <div
         aria-expanded="false"
         className="rc-collapse-header"
         onClick={[Function]}
-        role="tab"
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <i
           className="arrow"
@@ -54,14 +56,15 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
     <div
       className="rc-collapse-item"
       id={undefined}
-      role="tablist"
       style={undefined}
     >
       <div
         aria-expanded="false"
         className="rc-collapse-header"
         onClick={[Function]}
-        role="tab"
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <i
           className="arrow"
@@ -72,14 +75,15 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
     <div
       className="rc-collapse-item"
       id={undefined}
-      role="tablist"
       style={undefined}
     >
       <div
         aria-expanded="false"
         className="rc-collapse-header"
         onClick={[Function]}
-        role="tab"
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <i
           className="arrow"
@@ -90,14 +94,15 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
     <div
       className="rc-collapse-item"
       id={undefined}
-      role="tablist"
       style={undefined}
     >
       <div
         aria-expanded="false"
         className="rc-collapse-header"
         onClick={[Function]}
-        role="tab"
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <i
           className="arrow"
@@ -108,14 +113,15 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
     <div
       className="rc-collapse-item"
       id={undefined}
-      role="tablist"
       style={undefined}
     >
       <div
         aria-expanded="false"
         className="rc-collapse-header"
         onClick={[Function]}
-        role="tab"
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <i
           className="arrow"

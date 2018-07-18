@@ -79,15 +79,15 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
             data: [
               {
                 baz: 'baz',
-                status: 'ENABLED',
-                lastUpdateModeSubScheduleId: 'TM',
-                lastUpdateModeStatus: 'TM',
-              },
-              {
-                baz: 'baz',
                 status: 'DISABLED',
                 lastUpdateModeSubScheduleId: 'TC',
                 lastUpdateModeStatus: 'TC',
+              },
+              {
+                baz: 'baz',
+                status: 'ENABLED',
+                lastUpdateModeSubScheduleId: 'TM',
+                lastUpdateModeStatus: 'TM',
               },
             ],
             keep: [0, 1],

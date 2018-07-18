@@ -16,6 +16,7 @@ const propsStub = {
   enabledApids: [],
   commands: [],
   openModal: () => null,
+  onCommandCellDoubleClick: () => null,
 };
 
 describe('viewManager/PUS11View/Components/View/PUS11View', () => {

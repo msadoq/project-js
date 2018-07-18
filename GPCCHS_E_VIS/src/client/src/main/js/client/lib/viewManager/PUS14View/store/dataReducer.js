@@ -24,10 +24,8 @@ function pus14DataReducer(state = {}, action) {
        *  timestamp: number,
        *  data: {
        *    PUS14View: {
-       *      pus014Model: {
-       *        ...attributes
-       *        pus014TmPacket: [],
-       *      },
+     *        ...attributes
+     *        pus014TmPacket: [],
        *    }
        *  },
        * },

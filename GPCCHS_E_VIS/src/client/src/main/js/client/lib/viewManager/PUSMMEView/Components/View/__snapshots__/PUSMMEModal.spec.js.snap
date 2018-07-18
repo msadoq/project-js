@@ -50,21 +50,17 @@ exports[`PUSMMEModal :: render snapshot 1`] = `
                   >
                     <tbody>
                       <tr>
-                        <td>
-                          <strong>
-                            Last update time
-                          </strong>
-                        </td>
+                        <th>
+                          Last update time
+                        </th>
                         <td>
                           123
                         </td>
                       </tr>
                       <tr>
-                        <td>
-                          <strong>
-                            Last update mode
-                          </strong>
-                        </td>
+                        <th>
+                          Last update mode
+                        </th>
                         <td>
                           1
                         </td>
@@ -110,21 +106,17 @@ exports[`PUSMMEModal :: render snapshot 1`] = `
                   >
                     <tbody>
                       <tr>
-                        <td>
-                          <strong>
-                            Last update time
-                          </strong>
-                        </td>
+                        <th>
+                          Last update time
+                        </th>
                         <td>
                           1531404207354
                         </td>
                       </tr>
                       <tr>
-                        <td>
-                          <strong>
-                            Last update mode
-                          </strong>
-                        </td>
+                        <th>
+                          Last update mode
+                        </th>
                         <td>
                           1
                         </td>
@@ -165,21 +157,17 @@ exports[`PUSMMEModal :: render snapshot 1`] = `
                   >
                     <tbody>
                       <tr>
-                        <td>
-                          <strong>
-                            Last update time
-                          </strong>
-                        </td>
+                        <th>
+                          Last update time
+                        </th>
                         <td>
                           1531404207354
                         </td>
                       </tr>
                       <tr>
-                        <td>
-                          <strong>
-                            Last update mode
-                          </strong>
-                        </td>
+                        <th>
+                          Last update mode
+                        </th>
                         <td>
                           1
                         </td>
@@ -260,21 +248,17 @@ exports[`PUSMMEModal :: render snapshot 1`] = `
                   >
                     <tbody>
                       <tr>
-                        <td>
-                          <strong>
-                            Last update time
-                          </strong>
-                        </td>
+                        <th>
+                          Last update time
+                        </th>
                         <td>
                           1531404207354
                         </td>
                       </tr>
                       <tr>
-                        <td>
-                          <strong>
-                            Last update mode
-                          </strong>
-                        </td>
+                        <th>
+                          Last update mode
+                        </th>
                         <td>
                           1
                         </td>

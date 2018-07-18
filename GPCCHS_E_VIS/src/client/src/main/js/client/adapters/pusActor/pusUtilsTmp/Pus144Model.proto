@@ -1,0 +1,30 @@
+// Produced by Acceleo Protobuf Generator 1.1.2-R8
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "../ccsds_mal/TIME.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/ULONG.proto";
+import "../ccsds_mal/STRING.proto";
+import "./Pus144OnboardFile.proto";
+
+package pusModelEditor.protobuf;
+
+message Pus144Model {
+extensions 7 to 107;
+
+  repeated pusModelEditor.protobuf.Pus144OnboardFile pus144OnboardFiles = 1;
+  optional ccsds_mal.protobuf.TIME groundDate = 2;
+  optional ccsds_mal.protobuf.UINTEGER status = 3;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 4;
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 5;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 6;
+}

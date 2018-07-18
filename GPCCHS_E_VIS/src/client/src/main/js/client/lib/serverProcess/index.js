@@ -125,7 +125,8 @@ series({
     const store = makeCreateStore('server', isDebugEnabled())(); // STORE
     return callback(null, store);
   },
-  zmq: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), callback),
+  zmqDC: callback => connectToZmq(get('ZMQ_GPCCDC_PULL'), get('ZMQ_GPCCDC_PUSH'), 'dc', callback),
+  zmqPUS: callback => connectToZmq(get('ZMQ_PUS_PULL'), get('ZMQ_PUS_PUSH'), 'pus', callback),
   // TODO : Send logBook to LPISIS (after store init to allow dispatch)
   logBook: (callback) => {
     callback(null);

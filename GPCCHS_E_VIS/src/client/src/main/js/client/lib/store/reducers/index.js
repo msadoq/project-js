@@ -44,6 +44,7 @@ import { reducer as form } from 'redux-form';
 import ObsoleteEvents from 'store/reducers/ObsoleteEvents';
 import knownRangesSamplingOn from 'store/reducers/knownRangesSamplingOn';
 import knownRanges from 'store/reducers/knownRanges';
+import knownPus from './pus';
 import sessions from './sessions';
 import timebars from './timebars';
 import views from './views';
@@ -58,6 +59,7 @@ import masterSession from './masterSession';
 import health from './health';
 import codeEditor from './codeEditor';
 import inspector from './inspector';
+import ObsoleteEvents from './ObsoleteEvents';
 import ui from './ui';
 import catalogs from './catalogs';
 import apids from './apids';
@@ -91,6 +93,7 @@ const rootReducer = combineReducers({
   rte,
   knownRanges,
   ObsoleteEvents,
+  knownPus,
   knownRangesSamplingOn,
   comObjectMap,
   ...getConfigurationReducers(),

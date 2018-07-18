@@ -31,7 +31,7 @@ export default function cleanCurrentViewData(
   if (!oldViewDef || !currentViewState || !currentViewState.index) {
     return currentViewState;
   }
-  // invisible view
+  // invisible viewdi
   if (!newViewDef) {
     return {};
   }

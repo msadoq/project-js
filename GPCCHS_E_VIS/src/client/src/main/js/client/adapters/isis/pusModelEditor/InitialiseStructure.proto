@@ -1,0 +1,15 @@
+// Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
+import "../ccsds_mal/TIME.proto";
+
+
+package pusModelEditor.protobuf;
+
+message InitialiseStructure {
+extensions 5 to 105;
+
+  optional ccsds_mal.protobuf.BOOLEAN forReplay = 1;
+  optional ccsds_mal.protobuf.TIME firstTime = 2;
+  optional ccsds_mal.protobuf.TIME lastTime = 3;
+  optional ccsds_mal.protobuf.BOOLEAN continuous = 4;
+}

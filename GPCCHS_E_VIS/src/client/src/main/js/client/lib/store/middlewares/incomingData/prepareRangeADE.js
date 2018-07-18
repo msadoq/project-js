@@ -7,11 +7,12 @@ import { isTimestampInLastInterval } from 'dataManager/mapSelector';
 import { add } from 'serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from 'common/logManager/execution';
 import { add as addMessage } from 'store/actions/messages';
+import { PREFIX_KNOWN_RANGES } from 'constants';
 
 
 const logger = require('../../../common/logManager')('middleware:prepareRangeADE');
 
-const prepareRange = (lokiKnownRangesManager, lokiManagSO) => ({ dispatch, getState }) => next => (action) => {
+const prepareRange = (lokiManager, lokiManagSO) => ({ dispatch, getState }) => next => (action) => {
   const nextAction = next(action);
   if (action.type !== types.INCOMING_RANGE_DATA) {
     return nextAction;
@@ -57,7 +58,7 @@ const prepareRange = (lokiKnownRangesManager, lokiManagSO) => ({ dispatch, getSt
             lokiManagSO.addRecord(tbdId, { timestamp, payload: decodedPayload });
             break;
           default: // default is when sampling is off
-            lokiKnownRangesManager.addRecord(tbdId, { timestamp, payload: decodedPayload });
+            lokiManager.addRecord(tbdId, { timestamp, payload: decodedPayload });
         }
         execution.stop('addRecord');
 
@@ -83,7 +84,7 @@ const prepareRange = (lokiKnownRangesManager, lokiManagSO) => ({ dispatch, getSt
 
   // If data needs to be send to reducers, dispatch action
   if (tbdIds.length) {
-    dispatch(newData({ ranges: payloadsJson }));
+    dispatch(newData({ [PREFIX_KNOWN_RANGES]: payloadsJson }));
   }
 
   execution.stop('global', `${peers.length / 2} payloads`);

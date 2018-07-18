@@ -88,7 +88,6 @@ const knownRanges = (state = {}, action) => {
         },
       };
     }
-    // TODO PGAUCHER
     case types.RESET_KNOWN_RANGES: {
       let newState = { ...state };
       const tbdIdInterval = action.payload.tbdIdInterval;

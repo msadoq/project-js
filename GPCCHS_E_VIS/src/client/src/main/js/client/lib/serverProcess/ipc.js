@@ -75,6 +75,7 @@ const getDcHeader = _memoize(
 /*----------------*/
 
 const getDcHeaderADE = (method, requestId) => encode('dc.dataControllerUtils.ADEHeader', { method, requestId });
+const getPusHeader = (messageType, { sessionId, domainId, pusService }) => encode('isis.pusModelEditor.HeaderStructure', { messageType, sessionId, domainId, pusService });
 
 const getDcDataId = _memoize(
   (flatDataId, dataId) => encode('dc.dataControllerUtils.DataId', dataId),
@@ -259,7 +260,7 @@ const dcVersionMap = {
     },
     requestTimebasedQuery: (flatDataId, dataId, interval, args, samplingNumber) => (
       commands.dc.rpc(
-      constants.ADE_TIMEBASED_QUERY,
+        constants.ADE_TIMEBASED_QUERY,
         [
           encode('dc.dataControllerUtils.ADETimebasedQuery', {
             sessionId: dataId.sessionId,
@@ -356,20 +357,63 @@ const dcVersionMap = {
     ),
     requestSDBQuery: (method, args, callback) => (
       commands.dc.rpc(constants.ADE_SDB_QUERY, [
-        encode('dc.dataControllerUtils.ADESDBQuery', {
-          method,
-          sessionId: args.sessionId,
-          domainId: args.domainId,
-          catalogName: args.catalogName,
-          catalogItemName: args.catalogItemName,
-          comObject: args.comObject,
-          fieldName: args.fieldName,
-        }),
-      ],
+          encode('dc.dataControllerUtils.ADESDBQuery', {
+            method,
+            sessionId: args.sessionId,
+            domainId: args.domainId,
+            catalogName: args.catalogName,
+            catalogItemName: args.catalogItemName,
+            comObject: args.comObject,
+            fieldName: args.fieldName,
+          }),
+        ],
         callback
       )
     ),
   },
+};
+
+const pusCommands = {
+  rpc: (method, trames, header, callback) => {
+    logger.info(`sending rpc call ${method} to pus`);
+    const queryId = v4();
+    setCallback(queryId, callback);
+    zmq.push('pusPush', [
+      getPusHeader(method, header),
+    ].concat(trames));
+
+    return queryId;
+  },
+  initialize: (header, forReplay, firstTime, lastTime, continuous, callback) => commands.pus.rpc(
+    constants.PUS_INITIALIZE,
+    encode('isis.pusModelEditor.InitialiseStructure', { forReplay: true, firstTime, lastTime, continuous: true }),
+    header,
+    callback
+  ),
+  subscribe: (header, pusId, apId, callback) => commands.pus.rpc(
+    constants.PUS_SUBSCRIBE,
+    encode('isis.pusModelEditor.SubscribeStructure', {}),
+    header,
+    callback
+  ),
+  unsubscribe: (header, pusId, apId, callback) => commands.pus.rpc(
+    constants.PUS_UNSUBSCRIBE,
+    encode('isis.pusModelEditor.UnsubscribeStructure', {}),
+    header,
+    callback
+  ),
+  compare: (header, firstDate, secondDate, callback) => commands.pus.rpc(
+    constants.PUS_COMPARE,
+    encode('isis.pusModelEditor.CompareStructure', { firstDate: Date.now(), secondDate: Date.now() + 10 }),
+    header,
+    callback
+  ),
+  reset: (header, initialisationMode, resetType, date, callback) => commands.pus.rpc(
+    constants.PUS_RESET,
+    encode('isis.pusModelEditor.InitialiseStructure', { initialisationMode: 0, resetType: 0, date: Date.now() }),
+    header,
+    callback
+  ),
 };
 
 const commands = {
@@ -393,5 +437,6 @@ const commands = {
     },
   },
   dc: decorateWithSillyLog(dcVersionMap[versionDCComProtocol], sillyLog, ['rpc', 'message']),
+  pus: pusCommands,
 };
 module.exports = commands;

@@ -80,8 +80,6 @@ Le composant `VirtualizedTableView` prend en paramètres les propriétés suivan
   - `tableName` (par défaut 'Data table'): le nom du tableau qui sera affiché en en-tête du tableau à côté des
   informations relatives aux compteurs de données affichées 
   (nombre de lignes ou nombre de filtrées / nombre de lignes total)
-  - `pauseOnScroll`: définit s'il faut ou non dispatcher une action de pause lorsqu'on réalise
-  un scroll vertical.
   
 _Remarques_
 - Les données du tableau sont récupérées automatiquement à partir du state. Il faut utiliser
@@ -158,7 +156,6 @@ Utilisation du composant :
 	  rows={data}
 	  withGroups
 	  overrideStyle={_overrideStyle}
-	  pauseOnScroll
 	/>
 ``` 
 Dans ce cas particulier, cela permet d'ajouter une bordure aux cellules correspondant à

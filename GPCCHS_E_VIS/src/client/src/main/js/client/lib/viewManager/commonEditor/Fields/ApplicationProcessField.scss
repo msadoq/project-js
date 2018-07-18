@@ -20,4 +20,8 @@
   &.mr0 {
 	margin-right: 0;
   }
+  &.invalid {
+	height: 100%;
+	overflow: auto;
+  }
 }

@@ -1,0 +1,30 @@
+// Produced by Acceleo Protobuf Generator 1.1.2-R8
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/BLOB.proto";
+import "../ccsds_mal/ULONG.proto";
+
+package pusModelEditor.protobuf;
+
+message Pus013LdtPart {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.UINTEGER status = 1;
+  optional ccsds_mal.protobuf.UINTEGER partSize = 2;
+  optional ccsds_mal.protobuf.UINTEGER partId = 3;
+  optional ccsds_mal.protobuf.UINTEGER sourceId = 4;
+  optional ccsds_mal.protobuf.UINTEGER commandApid = 5;
+  optional ccsds_mal.protobuf.UINTEGER sequenceCount = 6;
+  optional ccsds_mal.protobuf.BLOB serviceDataUnit = 7;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 8;
+}

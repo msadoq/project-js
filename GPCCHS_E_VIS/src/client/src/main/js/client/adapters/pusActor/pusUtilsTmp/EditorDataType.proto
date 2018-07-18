@@ -1,0 +1,40 @@
+// Produced by Acceleo Protobuf Generator 1.1.2-R8
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+package pusModelEditor.protobuf;
+
+enum EditorDataType {
+  Pus012ModelType = 6;
+  Pus011CommandType = 3;
+  Pus140ModelType = 19;
+  Pus014ModelType = 12;
+  Pus142ModelType = 22;
+  Pus005ModelType = 1;
+  Pus018ModelType = 15;
+  Pus013ModelType = 9;
+  Pus011ModelType = 4;
+  Pus019ModelType = 18;
+  Pus011SubScheduleType = 5;
+  Pus015ModelType = 13;
+  Pus144ModelType = 23;
+  Pus005OnBoardEventType = 2;
+  Pus012ParameterMonitoringDefinitionType = 7;
+  Pus013UplinkLDTType = 10;
+  Pus013DownlinkLDTType = 8;
+  Pus014ForwardPacketType = 11;
+  Pus015PacketType = 14;
+  Pus018ObcpType = 16;
+  Pus019EventActionType = 17;
+  Pus140ParameterType = 20;
+  Pus142FunctionalMonitoringType = 21;
+  Pus144OnBoardFileType = 24;
+}

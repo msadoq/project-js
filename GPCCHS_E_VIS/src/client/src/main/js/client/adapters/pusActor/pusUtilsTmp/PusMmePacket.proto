@@ -1,0 +1,66 @@
+// Produced by Acceleo Protobuf Generator 1.1.2-R8
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/ULONG.proto";
+
+import "./PusMmePacketStore.proto";
+import "./PusMmePacketParameter.proto";
+
+package pusModelEditor.protobuf;
+
+message PusMmePacket {
+extensions 42 to 142;
+
+  optional ccsds_mal.protobuf.UINTEGER sid = 1;
+  optional ccsds_mal.protobuf.UINTEGER validityParameterId = 2;
+  optional ccsds_mal.protobuf.STRING validityParameterMask = 3;
+  optional ccsds_mal.protobuf.STRING validityParameterExpectedValue = 4;
+  optional ccsds_mal.protobuf.STRING collectionInterval = 5;
+  optional ccsds_mal.protobuf.UINTEGER status = 6;
+  optional ccsds_mal.protobuf.STRING sidLabel = 7;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSid = 8;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeSid = 9;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 10;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeStatus = 11;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamId = 12;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValidParamId = 13;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamMask = 14;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValidParamMask = 15;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeValidParamExpValue = 16;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeValidParamExpValue = 17;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCollectInterval = 18;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeCollectInterval = 19;
+  optional ccsds_mal.protobuf.STRING packetName = 20;
+  optional ccsds_mal.protobuf.STRING validityParameterName = 21;
+  optional ccsds_mal.protobuf.UINTEGER packetApid = 22;
+  optional ccsds_mal.protobuf.STRING packetApidName = 23;
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 24;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 25;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 26;
+  optional ccsds_mal.protobuf.STRING generationMode = 27;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeGenMode = 28;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeGenMode = 29;
+  optional ccsds_mal.protobuf.STRING packetType = 30;
+  optional ccsds_mal.protobuf.UINTEGER forwardingStatusTypeSubtype = 31;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeFwdStatusTypeSubtype = 32;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeFwdStatusTypeSubtype = 33;
+  optional ccsds_mal.protobuf.UINTEGER forwardingStatusRidSid = 34;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeFwdStatusTypeRidSid = 35;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeFwdStatusTypeRidSid = 36;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSubSamplingRatio = 37;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeSubSamplingRatio = 38;
+  optional ccsds_mal.protobuf.UINTEGER subsamplingRatio = 39;
+  repeated pusModelEditor.protobuf.PusMmePacketStore pusMmePacketStore = 40;
+  repeated pusModelEditor.protobuf.PusMmePacketParameter pusMmePacketParameter = 41;
+}

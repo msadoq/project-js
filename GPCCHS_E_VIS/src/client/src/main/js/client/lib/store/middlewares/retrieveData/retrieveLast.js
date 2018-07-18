@@ -17,13 +17,14 @@
 // ====================================================================
 
 import * as types from 'store/types';
-import { getLastRecords } from 'serverProcess/models/lokiKnownRangesData';
+import { getLastRecords } from 'serverProcess/models/lokiGeneric';
+import { PREFIX_KNOWN_RANGES, PREFIX_LASTS } from 'constants';
 import { getUpperIntervalIsInKnownRanges } from 'store/reducers/knownRanges';
 import { add } from 'serverProcess/models/registeredArchiveQueriesSingleton';
 import { newData } from 'store/actions/incomingData';
 import executionMonitor from 'common/logManager/execution';
 
-const type = 'LAST';
+// const type = 'LAST';
 const getLastArguments = { getLastNumber: 1 };
 
 const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
@@ -47,20 +48,20 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
         if (!isInInterval) {
           const args = { ...getLastArguments, filters };
           const queryId = ipc.dc.requestTimebasedQuery(tbdId, dataId, intervals[j], args);
-          add(queryId, tbdId, type, dataId);
+          add(queryId, tbdId, PREFIX_LASTS, dataId);
         } else {
           execution.start('get last records');
-          const lastRecords = getLastRecords(tbdId, interval)[tbdId];
+          const lastRecords = getLastRecords(PREFIX_KNOWN_RANGES, tbdId, interval)[tbdId];
           execution.stop('get last records');
           if (Object.keys(lastRecords).length !== 0) {
-            dispatch(newData({ lasts: { [tbdId]: lastRecords } }));
+            dispatch(newData({ [PREFIX_LASTS]: { [tbdId]: lastRecords } }));
           } else {
             const args = { ...getLastArguments, filters };
             const queryId = ipc.dc.requestTimebasedQuery(tbdId,
                                                          dataId,
                                                          intervals[j],
                                                          args);
-            add(queryId, tbdId, type, dataId);
+            add(queryId, tbdId, PREFIX_LASTS, dataId);
           }
         }
       }

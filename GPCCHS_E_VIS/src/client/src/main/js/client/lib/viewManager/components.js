@@ -51,13 +51,21 @@ const list = {
     getEditorComponent: () =>
       require('./OnboardAlarmView/Components/Editor/OnboardAlarmEditorContainer'),
   },
-  [constants.VM_VIEW_PUS05]: {
-    getViewComponent: () => require('../viewManager/PUS05View/Components/View/PUS05ViewContainer'),
-    getEditorComponent: () => require('../viewManager/PUS05View/Components/Editor/PUS05EditorContainer'),
-  },
   [constants.VM_VIEW_PUS11]: {
     getViewComponent: () => require('../viewManager/PUS11View/Components/View/PUS11ViewContainer'),
     getEditorComponent: () => require('../viewManager/PUS11View/Components/Editor/PUS11EditorContainer'),
+  },
+  [constants.VM_VIEW_PUS14]: {
+    getViewComponent: () => require('../viewManager/PUS14View/Components/View/PUS14ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS14View/Components/Editor/PUS14EditorContainer'),
+  },
+  [constants.VM_VIEW_PUS15]: {
+    getViewComponent: () => require('../viewManager/PUS15View/Components/View/PUS15ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS15View/Components/Editor/PUS15EditorContainer'),
+  },
+  [constants.VM_VIEW_PUSMME]: {
+    getViewComponent: () => require('../viewManager/PUSMMEView/Components/View/PUSMMEViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUSMMEView/Components/Editor/PUSMMEEditorContainer'),
   },
 };
 

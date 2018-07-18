@@ -19,6 +19,11 @@ import {
   getOrCreateCollection,
   displayCollection,
   getPrefixedId,
+  getLastRecords,
+  getRecordsByInterval,
+  removeRecords,
+  removeAllExceptIntervals,
+  getDb,
 } from './lokiGeneric';
 
 const cacheId = 'knownRanges';
@@ -184,6 +189,105 @@ describe('models/timebasedDataFactory', () => {
       getOrCreateCollection(cacheId, id);
       getOrCreateCollection(cacheId, id);
       expect(listCachedCollections()).toEqual([prefixedId]);
+    });
+  });
+  describe('lokiGeneric: getLastData', () => {
+    test('tbdId is not present', () => {
+      const tbdId = 'myTbdId';
+      const range = getLastRecords(cacheId, tbdId, [6, 9]);
+      expect(range).toMatchObject({});
+    });
+
+    test('tbdId is already present ', () => {
+      const tbdId = 'myTbdId';
+      getOrCreateCollection(cacheId, tbdId);
+      addRecords(cacheId, tbdId, myRecords);
+
+      const range = getLastRecords(cacheId, tbdId, [6, 9]);
+      expect(range).toMatchObject({ myTbdId: { 7: 7 } });
+    });
+  });
+  describe('lokiGeneric: getRecordsByInterval', () => {
+    test('tbdId is not present', () => {
+      const tbdId = 'myTbdId';
+      const records = getRecordsByInterval(cacheId, tbdId, [[6, 12]]);
+      expect(records).toMatchObject({ [tbdId]: {} });
+    });
+    test('tbdId is already present ', () => {
+      const tbdId = 'myTbdId';
+      getOrCreateCollection(cacheId, tbdId);
+      addRecords(cacheId, tbdId, myRecords);
+
+      const records = getRecordsByInterval(cacheId, tbdId, [[6, 12]]);
+      expect(records).toMatchObject({
+        myTbdId: {
+          6: 6,
+          7: 7,
+          11: 11,
+          12: 12,
+        },
+      });
+    });
+  });
+  describe('lokiGeneric: removeRecords', () => {
+    test('tbdId is not present', () => {});
+    test('tbdId is already present ', () => {
+      const tbdId = 'myTbdId';
+      getOrCreateCollection(cacheId, tbdId);
+      addRecords(cacheId, tbdId, myRecords);
+
+      removeRecords(cacheId, tbdId, 6, 11);
+      expect(displayCollection(cacheId, tbdId)).toMatchObject(
+        [
+          {
+            timestamp: 5,
+            payload: 5,
+          },
+          {
+            timestamp: 12,
+            payload: 12,
+          },
+        ]);
+    });
+  });
+  describe('lokiGeneric: removeAllExceptIntervals', () => {
+    test('removeAllExceptIntervals', () => {
+      const tbdId = '';
+      const tbdId2 = 'myTbdId2';
+      const tbdId3 = 'myTbdId3';
+      getOrCreateCollection(cacheId, tbdId);
+      getOrCreateCollection(cacheId, tbdId2);
+      getOrCreateCollection(cacheId, tbdId3);
+      const collections = getDb().listCollections();
+      expect(collections.map(e => e.name)).toEqual(expect.arrayContaining(
+        ['knownRanges.', 'knownRanges.myTbdId2', 'knownRanges.myTbdId3']
+      ));
+      expect(listCachedCollections().length).toEqual(3);
+      addRecords(cacheId, tbdId, myRecords);
+      removeAllExceptIntervals(
+        cacheId,
+        {
+          '': {
+            interval: [[4, 6], [12, 14]],
+          },
+        }
+      );
+      expect(displayCollection(cacheId, tbdId)).toMatchObject(
+        [
+          {
+            timestamp: 5,
+            payload: 5,
+          },
+          {
+            timestamp: 6,
+            payload: 6,
+          },
+          {
+            timestamp: 12,
+            payload: 12,
+          },
+        ]);
+      expect(listCachedCollections().length).toEqual(1);
     });
   });
 });

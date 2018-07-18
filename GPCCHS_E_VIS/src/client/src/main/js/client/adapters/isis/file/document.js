@@ -1,13 +1,8 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _map = require('lodash/map');
+const bOOLEAN = require('../ccsds_mal/bOOLEAN');
 const namedValue = require('../ccsds_mal/namedValue');
 const sTRING = require('../ccsds_mal/sTRING');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
@@ -35,6 +30,9 @@ module.exports = {
     filesize: (data.filesize !== null && typeof data.filesize !== 'undefined')
       ? uINTEGER.encode(data.filesize)
       : null,
+    confidentialityTracesTrigger: (data.confidentialityTracesTrigger !== null && typeof data.confidentialityTracesTrigger !== 'undefined')
+      ? bOOLEAN.encode(data.confidentialityTracesTrigger)
+      : null,
   }),
   decode: data => ({
     lockedBy: (data.lockedBy !== null && typeof data.lockedBy !== 'undefined')
@@ -55,6 +53,9 @@ module.exports = {
       : undefined,
     filesize: (data.filesize !== null && typeof data.filesize !== 'undefined')
       ? uINTEGER.decode(data.filesize)
+      : undefined,
+    confidentialityTracesTrigger: (data.confidentialityTracesTrigger !== null && typeof data.confidentialityTracesTrigger !== 'undefined')
+      ? bOOLEAN.decode(data.confidentialityTracesTrigger)
       : undefined,
   }),
 };

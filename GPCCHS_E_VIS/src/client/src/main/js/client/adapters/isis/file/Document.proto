@@ -1,10 +1,5 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
+import "../ccsds_mal/BOOLEAN.proto";
 import "../ccsds_mal/NamedValue.proto";
 import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/UINTEGER.proto";
@@ -15,7 +10,7 @@ import "./UserRight.proto";
 package file.protobuf;
 
 message Document {
-extensions 8 to 108;
+extensions 9 to 109;
 
   optional ccsds_mal.protobuf.STRING lockedBy = 1;
   optional ccsds_mal.protobuf.URI dirname = 2;
@@ -24,4 +19,5 @@ extensions 8 to 108;
   optional ccsds_mal.protobuf.STRING basename = 5;
   optional ccsds_mal.protobuf.STRING creatorUser = 6;
   optional ccsds_mal.protobuf.UINTEGER filesize = 7;
+  optional ccsds_mal.protobuf.BOOLEAN confidentialityTracesTrigger = 8;
 }

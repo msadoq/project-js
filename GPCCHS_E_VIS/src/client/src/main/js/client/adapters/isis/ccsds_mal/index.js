@@ -1,9 +1,3 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 const attribute = require('./aTTRIBUTE');
 const blob = require('./bLOB');
@@ -24,8 +18,8 @@ const string = require('./sTRING');
 const time = require('./tIME');
 const finetime = require('./fINETIME');
 const uri = require('./uRI');
-const indexedValue = require('./indexedValue');
 const namedValue = require('./namedValue');
+const indexedValue = require('./indexedValue');
 
 module.exports = {
   ATTRIBUTE: { type: 'protobuf', adapter: attribute },
@@ -47,6 +41,6 @@ module.exports = {
   TIME: { type: 'protobuf', adapter:  time },
   FINETIME: { type: 'protobuf', adapter:  finetime },
   URI: { type: 'protobuf', adapter:  uri },
-  IndexedValue: { type: 'protobuf', adapter: indexedValue },
   NamedValue: { type: 'protobuf', adapter: namedValue },
+  IndexedValue: { type: 'protobuf', adapter: indexedValue },
 };

@@ -1,0 +1,5 @@
+package pusUtils.protobuf;
+message PusInitialize {
+    required string pusId = 1;
+    required string apId = 2;
+}

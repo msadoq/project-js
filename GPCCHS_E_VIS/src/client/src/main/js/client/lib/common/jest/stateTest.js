@@ -202,140 +202,6 @@ export default {
       },
     },
   },
-  PUS05ViewConfiguration: {
-    pus05: {
-      tables: {
-        onBoardEvents: {
-          cols: [
-            {
-              title: 'rid',
-              value: 'rid',
-              position: 0,
-              displayed: true,
-              group: 0,
-            },
-            {
-              title: 'ridLabel',
-              value: 'ridLabel',
-              position: 1,
-              displayed: true,
-              group: 0,
-            },
-            {
-              title: 'name',
-              value: 'name',
-              position: 2,
-              displayed: true,
-              group: 0,
-            },
-            {
-              title: 'status',
-              value: 'status',
-              displayed: true,
-              position: 3,
-              group: 0,
-            },
-            {
-              title: 'eventShortDescription',
-              value: 'eventShortDescription',
-              displayed: true,
-              position: 4,
-              group: 0,
-            },
-            {
-              title: 'eventDefaultStatus',
-              value: 'eventDefaultStatus',
-              displayed: true,
-              position: 5,
-              group: 0,
-            },
-            {
-              title: 'alarmLevel',
-              value: 'alarmLevel',
-              displayed: true,
-              position: 6,
-              group: 0,
-            },
-            {
-              title: 'actionName',
-              value: 'actionName',
-              displayed: true,
-              position: 7,
-              group: 0,
-            },
-            {
-              title: 'eventLongDescription',
-              value: 'eventLongDescription',
-              displayed: true,
-              position: 8,
-              group: 0,
-            },
-            {
-              title: 'updateType',
-              value: 'updateType',
-              displayed: true,
-              position: 9,
-              group: 0,
-            },
-            {
-              title: 'updateTime',
-              value: 'updateTime',
-              displayed: true,
-              position: 10,
-              group: 0,
-            },
-          ],
-        },
-        receivedOnBoardEvents: {
-          cols: [
-            {
-              title: 'onBoardTime',
-              value: 'onBoardTime',
-              position: 0,
-              displayed: true,
-              group: 0,
-            },
-            {
-              title: 'receptionTime',
-              value: 'receptionTime',
-              position: 1,
-              displayed: true,
-              group: 0,
-            },
-            {
-              title: 'rid',
-              value: 'rid',
-              position: 2,
-              displayed: true,
-              group: 0,
-            },
-            {
-              title: 'ridLabel',
-              value: 'ridLabel',
-              displayed: true,
-              position: 3,
-              group: 0,
-            },
-            {
-              title: 'name',
-              value: 'name',
-              displayed: true,
-              position: 4,
-              group: 0,
-            },
-            {
-              title: 'reportType',
-              value: 'reportType',
-              displayed: true,
-              position: 5,
-              group: 0,
-            },
-          ],
-        },
-      },
-    },
-  },
-  PUS05ViewData: {},
   PUS11ViewConfiguration: {
     pus11: {
       tables: {
@@ -343,31 +209,19 @@ export default {
           cols: [
             {
               title: 'apid',
-              value: 'apid',
-              position: 0,
               displayed: true,
-              group: 0,
             },
             {
               title: 'name',
-              value: 'name',
-              position: 1,
               displayed: true,
-              group: 0,
             },
             {
               title: 'updateType',
-              value: 'updateType',
-              position: 2,
               displayed: true,
-              group: 0,
             },
             {
               title: 'updateTime',
-              value: 'updateTime',
               displayed: true,
-              position: 3,
-              group: 0,
             },
           ],
         },
@@ -375,59 +229,35 @@ export default {
           cols: [
             {
               title: 'ssid',
-              value: 'ssid',
-              position: 0,
               displayed: true,
-              group: 0,
             },
             {
               title: 'ssidLabel',
-              value: 'ssidLabel',
-              position: 1,
               displayed: true,
-              group: 0,
             },
             {
               title: 'name',
-              value: 'name',
-              position: 2,
               displayed: true,
-              group: 0,
             },
             {
               title: 'status',
-              value: 'status',
               displayed: true,
-              position: 3,
-              group: 0,
             },
             {
               title: 'firstTcTime',
-              value: 'firstTcTime',
               displayed: true,
-              position: 4,
-              group: 0,
             },
             {
               title: 'updateType',
-              value: 'updateType',
               displayed: true,
-              position: 5,
-              group: 0,
             },
             {
               title: 'updateTime',
-              value: 'updateTime',
               displayed: true,
-              position: 6,
-              group: 0,
             },
             {
               title: 'nbTc',
-              value: 'nbTc',
               displayed: true,
-              position: 7,
-              group: 0,
             },
           ],
         },
@@ -435,101 +265,59 @@ export default {
           cols: [
             {
               title: 'apid',
-              value: 'apid',
-              position: 0,
               displayed: true,
-              group: 0,
             },
             {
               title: 'ssid',
-              value: 'ssid',
-              position: 1,
               displayed: true,
-              group: 0,
             },
             {
               title: 'cmdName',
-              value: 'cmdName',
-              position: 2,
               displayed: true,
-              group: 0,
             },
             {
               title: 'cmdShortDescription',
-              value: 'cmdShortDescription',
               displayed: true,
-              position: 3,
-              group: 0,
             },
             {
               title: 'cmdApName',
-              value: 'cmdApName',
               displayed: true,
-              position: 4,
-              group: 0,
             },
             {
               title: 'seqCount',
-              value: 'seqCount',
               displayed: true,
-              position: 5,
-              group: 0,
             },
             {
               title: 'sourceId',
-              value: 'sourceId',
               displayed: true,
-              position: 6,
-              group: 0,
             },
             {
               title: 'cmdStatus',
-              value: 'cmdStatus',
               displayed: true,
-              position: 7,
-              group: 0,
             },
             {
               title: 'groundStatus',
-              value: 'groundStatus',
               displayed: true,
-              position: 8,
-              group: 0,
             },
             {
               title: 'initExecTime',
-              value: 'initExecTime',
               displayed: true,
-              position: 9,
-              group: 0,
             },
             {
               title: 'curExecTime',
-              value: 'curExecTime',
               displayed: true,
-              position: 10,
-              group: 0,
             },
             {
               title: 'totTimeShift',
-              value: 'totTimeShift',
               displayed: true,
-              position: 11,
-              group: 0,
             },
             {
               title: 'updateType',
-              value: 'updateType',
               displayed: true,
-              position: 12,
-              group: 0,
             },
             {
               title: 'updateTime',
-              value: 'updateTime',
               displayed: true,
-              position: 13,
-              group: 0,
             },
           ],
         },
@@ -537,6 +325,159 @@ export default {
     },
   },
   PUS11ViewData: {},
+  PUS14ViewConfiguration: {
+    pus14: {
+      tables: {
+        pus014TmPacket: {
+          name: 'Tm Packets',
+          sorting: {
+            colName: 'packetApid',
+            direction: 'DESC',
+          },
+          cols: [
+            { title: 'packetApid', displayed: true }, // A afficher dans le tableau de packets
+            { title: 'forwardingStatus', displayed: true }, // A afficher dans le tableau de packets
+            { title: 'lastUpdateModeFwdStatus', displayed: true }, // Tooltip sur forwardingStatus
+            { title: 'lastUpdateTimeFwdStatus', displayed: true }, // Tooltip sur forwardingStatus
+            { title: 'packetApidName', displayed: true }, // A afficher dans le tableau de packets
+            { title: 'serviceApid', displayed: true }, // Inutilisé dans la vue
+            { title: 'packetName', displayed: true }, // A afficher dans le tableau de packets
+            { title: 'serviceApidName', displayed: true }, // Inutilisé dans la vue
+            { title: 'lastUpdateModeRid', displayed: true }, // Tooltip sur rid / ridLabel
+            { title: 'lastUpdateTimeRid', displayed: true }, // Tooltip sur rid / ridLabel
+            { title: 'rid', displayed: true }, // A afficher dans le tableau de packets
+            { title: 'ridLabel', displayed: true }, // A afficher dans le tableau de packets
+            { title: 'lastUpdateModeSid', displayed: true }, // Tooltip sur sid, sidLabel
+            { title: 'lastUpdateTimeSid', displayed: true }, // Tooltip sur sid, sidLabel
+            { title: 'lastUpdateModeSubSamplingRatio', displayed: true }, // Tooltip sur subsamplingRatio
+            { title: 'lastUpdateTimeSubSamplingRatio', displayed: true }, // Tooltip sur subsamplingRatio
+            { title: 'subsamplingRatio', displayed: true }, // A afficher dans le tableau de packets
+            { title: 'sid', displayed: true }, // A afficher dans le tableau de packets
+            { title: 'sidLabel', displayed: true }, // A afficher dans le tableau de packets
+            { title: 'lastUpdateModeTypeSubType', displayed: true }, // Tooltip sur serviceType, serviceSubType
+            { title: 'lastUpdateTimeTypeSubType', displayed: true }, // Tooltip sur serviceType, serviceSubType
+            { title: 'serviceType', displayed: true }, // A afficher dans le tableau de packets
+            { title: 'serviceSubType', displayed: true }, // A afficher dans le tableau de packets
+            // { title: 'uniqueId', displayed: true }, // Inutilisé dans la vue
+            { title: 'status', displayed: true }, // Non affiché dans la vue.  Si 3 (DELETED), supprimer l’entrée du state
+          ],
+        },
+      },
+    },
+  },
+  PUS14ViewData: {},
+  PUSMMEViewConfiguration: {
+    '9a057132-aa02-43b1-99e7-5d870a3af609': {
+      entryPoints: [
+        {
+          connectedData: {
+            apidName: 'TIMEPACKET,ORBIT,POWERMGT',
+            apidRawValue: null,
+            domain: 'fr.cnes.isis.simupus',
+            formula: 'PusGroundModelDefinition.PusMmeModel<PusMmeModel>',
+            session: '*',
+            apids: [
+              {
+                apidName: 'TIMEPACKET',
+                apidRawValue: '0',
+              },
+              {
+                apidName: 'ORBIT',
+                apidRawValue: '2',
+              },
+              {
+                apidName: 'POWERMGT',
+                apidRawValue: '3',
+              },
+            ],
+            timeline: 'Session 1',
+          },
+          id: 'eee5f2d0-2cc4-4513-9a8a-f049b1631787',
+          name: 'PUSMMEEP',
+        },
+      ],
+      tables: {
+        packets: {
+          cols: [
+            {
+              displayed: true,
+              title: 'sid',
+            },
+            {
+              displayed: true,
+              title: 'validityParameterId',
+            },
+            {
+              displayed: true,
+              title: 'validityParameterMask',
+            },
+            {
+              displayed: true,
+              title: 'validityParameterExpectedValue',
+            },
+            {
+              displayed: true,
+              title: 'collectionInterval',
+            },
+            {
+              displayed: true,
+              title: 'sidLabel',
+            },
+            {
+              displayed: true,
+              title: 'packetName',
+            },
+            {
+              displayed: true,
+              title: 'validityParameterName',
+            },
+            {
+              displayed: true,
+              title: 'packetApid',
+            },
+            {
+              displayed: true,
+              title: 'packetApidName',
+            },
+            {
+              displayed: true,
+              title: 'serviceApid',
+            },
+            {
+              displayed: true,
+              title: 'serviceApidName',
+            },
+            {
+              displayed: true,
+              title: 'generationMode',
+            },
+            {
+              displayed: true,
+              title: 'packetType',
+            },
+            {
+              displayed: true,
+              title: 'forwardingStatusTypeSubtype',
+            },
+            {
+              displayed: true,
+              title: 'forwardingStatusRidSid',
+            },
+            {
+              displayed: true,
+              title: 'subsamplingRatio',
+            },
+          ],
+          name: 'Packets',
+          sorting: {
+            colName: 'sid',
+            direction: 'DESC',
+          },
+        },
+      },
+    },
+  },
+  PUSMMEViewData: {},
   HistoryViewConfiguration: {
     hist1: {
       entryPoints: [{

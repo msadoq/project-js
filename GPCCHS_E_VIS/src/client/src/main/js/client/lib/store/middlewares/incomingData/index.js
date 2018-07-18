@@ -23,25 +23,24 @@ import constants from '../../../constants';
 
 const versionDCComProtocol = getConf('VERSION_DC_COM_PROTOCOL');
 
-const createIncomingDataMiddleware = (lokiKnownRangesManager,
+const createIncomingDataMiddleware = (lokiManager,
                                       timingInjectData,
                                       timingPubSubMonitor) => pipeMiddlewares(
-  preparePubSub(lokiKnownRangesManager),
-  prepareRange(lokiKnownRangesManager),
-  prepareLast(lokiKnownRangesManager),
+  preparePubSub(lokiManager),
+  prepareRange(lokiManager),
+  prepareLast(lokiManager),
   injectData(timingInjectData),
   pubSubMonitor(timingPubSubMonitor)
 );
 
-const createIncomingDataMiddlewareADE = (lokiKnownRangesManager,
-  lokiObsoleteEventManager,
-                                        lokiManagerSamplingOn,
-                                        timingInjectData,
-                                        timingPubSubMonitor) => pipeMiddlewares(
-  preparePubSubADE(lokiKnownRangesManager, lokiObsoleteEventManager),
-  prepareRangeADE(lokiKnownRangesManager, lokiManagerSamplingOn),
-  prepareLastADE(lokiKnownRangesManager),
-  prepareObsoleteEventADE(lokiObsoleteEventManager),
+const createIncomingDataMiddlewareADE = (lokiManager,
+                                         lokiManagerSamplingOn,
+                                         timingInjectData,
+                                         timingPubSubMonitor) => pipeMiddlewares(
+  preparePubSubADE(lokiManager),
+  prepareRangeADE(lokiManager, lokiManagerSamplingOn),
+  prepareLastADE(lokiManager),
+  prepareObsoleteEventADE(lokiManager),
   injectData(timingInjectData),
   pubSubMonitor(timingPubSubMonitor)
 );

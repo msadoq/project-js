@@ -46,7 +46,7 @@ import CacheContainer from './widgets/CacheContainer';
 import CatalogExplorerContainer from './widgets/CatalogExplorerContainer';
 import CatalogItemMetadataContainer from './widgets/CatalogItemMetadataContainer';
 
-// import PerformanceContainer from './widgets/PerformanceContainer';
+import PusTestContainer from './widgets/PusTestContainer';
 
 const NotAlreadyImplemented = () => <div>Not already implemented</div>;
 
@@ -59,6 +59,7 @@ const widgets = {
   cache: { title: 'Cache (developer)', component: CacheContainer },
   metadata: { title: 'metadata (developer)', component: CatalogItemMetadataContainer },
   information: { title: 'Information (developer)', component: InformationContainer },
+  pusTest: { title: 'PUS test(developer)', component: PusTestContainer },
 };
 
 export default class Explorer extends PureComponent {
@@ -135,22 +136,22 @@ export default class Explorer extends PureComponent {
 
     return (
       <div className={styles.explorer}>
-        <FormGroup controlId="formControlsSelect">
-          <FormControl
-            componentClass="select"
-            onChange={this.handleSelect}
-            value={tabId}
-          >
-            {Object.keys(widgets).map(
-              id => <option key={id} value={id}>{_get(widgets, [id, 'title'])}</option>
-            )}
-          </FormControl>
-        </FormGroup>
-        <h2>{_get(widgets, [tabId, 'title'])}</h2>
-        <div className={styles.widgetContainer}>
-          <Widget windowId={windowId} />
-        </div>
-      </div>
-    );
+  <FormGroup controlId="formControlsSelect">
+      <FormControl
+    componentClass="select"
+    onChange={this.handleSelect}
+    value={tabId}
+      >
+      {Object.keys(widgets).map(
+        id => <option key={id} value={id}>{_get(widgets, [id, 'title'])}</option>
+  )}
+  </FormControl>
+    </FormGroup>
+    <h2>{_get(widgets, [tabId, 'title'])}</h2>
+    <div className={styles.widgetContainer}>
+  <Widget windowId={windowId} />
+    </div>
+    </div>
+  );
   }
 }

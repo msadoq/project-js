@@ -1,0 +1,19 @@
+// Produced by Acceleo Protobuf Generator 2.2.1-R12S2_alpha
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+package pusModelEditor.protobuf;
+
+enum PusResetType {
+  FromDefault = 1;
+  FromLastState = 2;
+  FromPreviousState = 3;
+}

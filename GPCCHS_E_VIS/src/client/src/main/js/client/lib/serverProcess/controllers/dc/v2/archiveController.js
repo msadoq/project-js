@@ -7,7 +7,7 @@
 // END-HISTORY
 // ====================================================================
 
-// import { get } from 'serverProcess/models/registeredArchiveQueriesSingleton';
+import { PREFIX_KNOWN_RANGES, PREFIX_LASTS, PREFIX_OBSOLETE_EVENTS } from 'constants';
 
 const executionMonitor = require('common/logManager/execution');
 const logger = require('common/logManager')('controllers:onTimebasedArchiveDataADE');
@@ -23,20 +23,20 @@ const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }
       return;
     }
 
-  const execution = executionMonitor('archiveData');
-  execution.start('register query');
-  const requestData = get(requestId);
+    const execution = executionMonitor('archiveData');
+    execution.start('register query');
+    const requestData = get(requestId);
 
-  // JUst to ensure the request exists in the singleton
-  if (!requestData) {
-    logger.error('Already received isLast for this given queryId');
-    return;
-  }
-  const { tbdId, type, dataId, samplingNumber } = requestData;
-  const store = getStore();
-  if (typeof tbdId === 'undefined') {
-    return;
-  }
+    // JUst to ensure the request exists in the singleton
+    if (!requestData) {
+      logger.error('Already received isLast for this given queryId');
+      return;
+    }
+    const { tbdId, type, dataId, samplingNumber } = requestData;
+    const store = getStore();
+    if (typeof tbdId === 'undefined') {
+      return;
+    }
 
     if (typeof dataId === 'undefined') {
       logger.error(`Unknown data id for request queryId: ${requestId}, tbdId: ${tbdId}, type: ${type}`);
@@ -48,13 +48,13 @@ const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }
     }
 
     switch (type) {
-      case 'RANGE' :
+      case PREFIX_KNOWN_RANGES :
         store.dispatch(incomingRange(tbdId, payloadBuffer, dataId, samplingNumber));
         break;
-      case 'LAST' :
+      case PREFIX_LASTS :
         store.dispatch(incomingLast(tbdId, payloadBuffer, dataId));
         break;
-      case 'OBSOLETE_EVENT' :
+      case PREFIX_OBSOLETE_EVENTS :
         store.dispatch(incomingObsoleteEvent(tbdId, payloadBuffer, dataId));
         break;
       default:

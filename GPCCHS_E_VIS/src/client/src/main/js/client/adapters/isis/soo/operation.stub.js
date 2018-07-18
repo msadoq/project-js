@@ -1,13 +1,9 @@
-// ====================================================================
-// HISTORY
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 const _now = require('lodash/now');
 const _defaultsDeep = require('lodash/defaultsDeep');
+const getFunctionalChain = require('./functionalChain.stub');
 const getNamedValue = require('../ccsds_mal/namedValue.stub');
 const getResult = require('./result.stub');
 const getStatus = require('./status.stub');
@@ -16,8 +12,8 @@ const now = _now();
 
 const operation = {
   operationId: -1000,
-  earliest_start_date: now,
-  latest_start_date: now,
+  earliestStartDate: now,
+  latestStartDate: now,
   expected_duration: 42.5,
   foreseenDate: now,
   label: 'mySTRING',
@@ -31,7 +27,7 @@ const operation = {
   options: [getNamedValue(), getNamedValue()],
   result: getResult(),
   hostname: 'mySTRING',
-  functionalChain: Buffer.alloc(4, 1),
+  functionalChain: getFunctionalChain(),
   statuses: [getStatus(), getStatus()],
   activity: 0,
 };

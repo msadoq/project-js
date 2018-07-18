@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
@@ -65,6 +66,8 @@ class HistoryView extends React.Component {
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     last: PropTypes.shape(),
+    scrollPosition: PropTypes.shape().isRequired,
+    config: PropTypes.shape().isRequired,
   };
 
   static defaultProps = {
@@ -108,13 +111,16 @@ class HistoryView extends React.Component {
     const {
       viewId,
       last,
+      scrollPosition,
+      config,
     } = this.props;
 
     const _setCurrent = (cellContent = {}, content = {}) => {
       const { epName, referenceTimestamp } = content;
-      const lastForEp = _.get(epName, last);
+      const lastForEp = _.get([epName, 'referenceTimestamp'], last);
+      const timestamp = new Date(referenceTimestamp).getTime();
 
-      if (lastForEp && (lastForEp === referenceTimestamp)) {
+      if (lastForEp && (lastForEp === timestamp)) {
         return {
           ...cellContent,
           isCurrent: true,
@@ -122,6 +128,45 @@ class HistoryView extends React.Component {
       }
 
       return cellContent;
+    };
+
+    const _setConvertedValueUnit = (cellContent = {}, content = {}) => {
+      let updatedCellContent = cellContent;
+
+      const { entryPoints } = config;
+      const { id: epId } = content;
+
+      const epConf = entryPoints.find(ep => ep.id === epId) || {};
+
+      const metadata = _.getOr({}, 'metadata', epConf);
+
+      // adds info with entry point short description
+      updatedCellContent = _.set(
+        'info',
+        metadata.shortDescription,
+        updatedCellContent
+      );
+
+      if (cellContent.colKey !== 'convertedValue') {
+        return updatedCellContent;
+      }
+
+      // adds unit to convertedValue cell
+      const convertedValue = cellContent.value || '';
+      const convertedValueWithUnit = `${convertedValue} (${metadata.unit})`;
+
+      return _.set(
+        'value',
+        convertedValueWithUnit,
+        updatedCellContent
+      );
+    };
+
+    const _contentModifier = (cellContent, content) => {
+      let updatedCellContent = _setCurrent(cellContent, content);
+      updatedCellContent = _setConvertedValueUnit(updatedCellContent, content);
+
+      return updatedCellContent;
     };
 
     return (
@@ -133,10 +178,10 @@ class HistoryView extends React.Component {
           <VirtualizedTableViewContainer
             viewId={viewId}
             tableId={'history'}
-            contentModifier={_setCurrent}
+            contentModifier={_contentModifier}
             overrideStyle={this._overrideStyle}
             withGroups
-            pauseOnScroll
+            scrollPosition={scrollPosition}
           />
         </DroppableContainer>
       </ErrorBoundary>

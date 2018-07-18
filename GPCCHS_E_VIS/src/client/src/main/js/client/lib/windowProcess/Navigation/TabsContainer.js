@@ -32,15 +32,15 @@ import { getWindowPagesWithConfiguration } from 'store/selectors/windows';
 import { focusPage, moveTabOrder, movePageToWindow, pageDragEvent } from 'store/actions/windows';
 import { askClosePage } from 'store/actions/pages';
 import { getViewDomainName } from 'store/reducers/views';
-import { getViewEntryPointsDomains } from 'viewManager/selectors';
 import { close as closeModal } from 'store/actions/modals';
+import { domainDeterminationForColor } from 'windowProcess/common/domains';
 import _ from 'lodash';
+import { getViewEntryPointsDomains } from 'viewManager/selectors';
 import _flatMap from 'lodash/flatMap';
 import _uniq from 'lodash/uniq';
-import { domainDeterminationForColor } from 'windowProcess/common/domains';
+import { get } from '../../common/configurationManager';
 // import _map from 'lodash/map';
 import Tabs from './Tabs';
-import { get } from '../../common/configurationManager';
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 

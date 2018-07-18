@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/04/2017 : Prepare minimalistic HistoryView . .
@@ -24,11 +23,11 @@ import {
   WS_VIEW_ADD_BLANK,
   INJECT_DATA_RANGE,
   WS_VIEW_UPDATE_ENTRYPOINT_NAME,
-  WS_VIEWDATA_CLEAN,
+  WS_VIEWDATA_CLEAN, WS_VIEW_REMOVE_ENTRYPOINT,
 } from '../../../store/types';
 import {
   mapTabularData,
-  DATA_STATE_KEY,
+  DATA_STATE_KEY, removeTabularData,
 } from '../../commonData/reducer';
 
 
@@ -43,7 +42,13 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
       );
     }
     case INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals, configurations }
+      const {
+        dataToInject,
+        newViewMap,
+        newExpectedRangeIntervals,
+        configurations,
+        visuWindow,
+      }
         = action.payload;
 
       const historyConfig = configurations.HistoryViewConfiguration[viewId];
@@ -57,7 +62,7 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
         selectDataPerView(newViewMap[viewId], newExpectedRangeIntervals, dataToInject);
       if (Object.keys(epSubState).length !== 0) {
         updatedState =
-          viewRangeAdd(updatedState, viewId, epSubState, historyConfig);
+          viewRangeAdd(updatedState, viewId, epSubState, historyConfig, visuWindow);
       }
       return updatedState;
     }
@@ -87,6 +92,11 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
 
         return el;
       });
+    }
+    case WS_VIEW_REMOVE_ENTRYPOINT: {
+      const { entryPointId } = action.payload;
+
+      return removeTabularData(state, 'history', e => e.id === entryPointId);
     }
     default:
       return state;

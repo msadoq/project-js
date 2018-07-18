@@ -150,6 +150,7 @@ import { read } from '../common/fs';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
+  CHILD_PROCESS_PUS,
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
   SERVER_PROCESS_LAUNCHING_TIMEOUT,
@@ -261,6 +262,24 @@ export function onStart() {
       fork(
         CHILD_PROCESS_DC,
         `${parameters.get('path')}/lib/stubProcess/dc.js`,
+        {
+          execPath: parameters.get('NODE_PATH'),
+          env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
+        },
+        null,
+        callback
+      );
+    },
+    function launchPusActorStub(callback) {
+      if (parameters.get('STUB_PUS_ON') !== 'on') {
+        callback(null);
+        return;
+      }
+      splashScreen.setMessage('starting PUS data simulator process...');
+      logger.info('starting PUS data simulator process...');
+      fork(
+        CHILD_PROCESS_PUS,
+        `${parameters.get('path')}/lib/stubProcess/pusActor.js`,
         {
           execPath: parameters.get('NODE_PATH'),
           env: ({ mainProcessConfig: JSON.stringify(parameters.getAll()) }),
@@ -405,7 +424,7 @@ export function onStop() {
   // stop child processes
   kill(CHILD_PROCESS_SERVER);
   kill(CHILD_PROCESS_DC);
-
+  kill(CHILD_PROCESS_PUS);
   // registered callbacks
   clear();
 

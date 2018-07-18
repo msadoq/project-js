@@ -30,7 +30,6 @@ import { get } from 'common/configurationManager';
 import _pull from 'lodash/pull';
 import _uniq from 'lodash/uniq';
 import _flatMap from 'lodash/flatMap';
-import _ from 'lodash';
 import { domainDeterminationForColor } from './domains';
 
 export const STATE_COLOR_NOMINAL = 'nominal';
@@ -127,6 +126,17 @@ const getStateColorsCSSVars =
       ...acc,
       ...c,
     }), {});
+export const getColorWithDomainDetermination =
+  (workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from) => {
+    let color = null;
+    const domain =
+      domainDeterminationForColor(workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from);
+    if (domain) {
+      const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
+      color = colorObject[domain];
+    }
+    return color;
+  };
 
 export const getBackgroundColorByDomains = (workspaceDomain, pageDomain, viewDomain, epDomains) => {
   let domain = null;
@@ -195,7 +205,7 @@ export const getBorderColorForNav = (workspaceDomain, pages, viewsDomains) => {
           [].concat(
             [],
             ...configurations.map(configuration =>
-              _.get(configuration, 'entryPoints', []).map(
+              configuration.entryPoints.map(
                 entryPoint => entryPoint.connectedData.domain
               )
             )
@@ -212,17 +222,6 @@ export const getBorderColorForNav = (workspaceDomain, pages, viewsDomains) => {
   return colorObject !== undefined ? colorObject[domain] : '#CCC';
 };
 
-export const getColorWithDomainDetermination =
-  (workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from) => {
-    let color = '#AAAAAA';
-    const domain =
-      domainDeterminationForColor(workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from);
-    if (domain) {
-      const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
-      color = colorObject ? colorObject[domain] : '#AAAAAA';
-    }
-    return color;
-  };
 
 export default {
   colors,

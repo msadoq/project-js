@@ -4,7 +4,6 @@ import {
   TEST_ASK_FAKE_DATA,
   WS_VIEW_ADD_BLANK,
   WS_VIEW_CHANGE_COL_FILTERS,
-  WS_VIEW_TABLE_SAVE_SCROLL_TOP,
   WS_VIEW_TABLE_UPDATE_SORT,
 } from 'store/types';
 
@@ -146,33 +145,37 @@ export const injectTabularData = (
   let updatedData = _.getOr([], 'data', tableState);
   let updatedKeep = _.getOr([], 'keep', tableState);
 
-  const sortedSource = _sortData(source, colName);
-  let insertIndex = 0;
+  if (!colName) {
+    updatedData = [...updatedData, ...source];
+  } else {
+    const sortedSource = _sortData(source, colName);
+    let insertIndex = 0;
 
-  sortedSource.forEach((el) => {
-    // eslint-disable-next-line prefer-const
-    [updatedData, insertIndex] =
-      _insertSortedBy((e => e[colName]), el, updatedData, insertIndex);
+    sortedSource.forEach((el) => {
+      // eslint-disable-next-line prefer-const
+      [updatedData, insertIndex] =
+        _insertSortedBy((e => e[colName]), el, updatedData, insertIndex);
 
-    if (afterEach !== null) {
-      afterEach(el, insertIndex);
-    }
-
-    if (_shouldKeepElement(el, filters)) {
-      let insertKeepIndexAt =
-        updatedKeep.findIndex(keepIndex => keepIndex === insertIndex);
-
-      if (insertKeepIndexAt === -1) {
-        insertKeepIndexAt = 0;
+      if (afterEach !== null) {
+        afterEach(el, insertIndex);
       }
 
-      updatedKeep = [
-        ...updatedKeep.slice(0, insertKeepIndexAt),
-        insertIndex,
-        ...updatedKeep.slice(insertKeepIndexAt).map(i => i + 1),
-      ];
-    }
-  });
+      if (_shouldKeepElement(el, filters)) {
+        let insertKeepIndexAt =
+          updatedKeep.findIndex(keepIndex => keepIndex === insertIndex);
+
+        if (insertKeepIndexAt === -1) {
+          insertKeepIndexAt = 0;
+        }
+
+        updatedKeep = [
+          ...updatedKeep.slice(0, insertKeepIndexAt),
+          insertIndex,
+          ...updatedKeep.slice(insertKeepIndexAt).map(i => i + 1),
+        ];
+      }
+    });
+  }
 
   updatedKeep = _getKeptIndexes(updatedData, filters);
 
@@ -320,15 +323,6 @@ const scopedCommonReducer = (dataState = {}, action) => {
       return _.set(
         tablePath,
         tableState,
-        dataState
-      );
-    }
-    case WS_VIEW_TABLE_SAVE_SCROLL_TOP: {
-      const { tableId, scrollTop } = action.payload;
-
-      return _.set(
-        ['tables', tableId, DATA_STATE_KEY, 'scrollTop'],
-        scrollTop,
         dataState
       );
     }

@@ -98,6 +98,16 @@ export default (stateConf, action) => {
         stateConf
       );
     }
+    case types.WS_VIEW_TABLE_SAVE_SCROLL: {
+      const { tableId, scrollPosition } = action.payload;
+      const scrollPositionPath = ['tables', tableId, 'scrollPosition'];
+
+      return _.set(
+        scrollPositionPath,
+        scrollPosition,
+        stateConf
+      );
+    }
     default:
       return stateConf;
   }

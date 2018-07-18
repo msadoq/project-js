@@ -89,8 +89,6 @@
 }
 
 .selectedCell {
-  background-color: rgba(0, 0, 0, 0.1);
-  font-weight: bold;
 }
 
 .tableHeader {
@@ -102,4 +100,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.ActionItem {
+  display: block;
+  margin: 3px;
 }

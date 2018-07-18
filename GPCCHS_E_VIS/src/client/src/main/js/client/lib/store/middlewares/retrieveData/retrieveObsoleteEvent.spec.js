@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
-import lokiManager from 'serverProcess/models/lokiObsoleteEventData';
+import lokiManager from 'serverProcess/models/lokiGeneric';
+import { PREFIX_OBSOLETE_EVENTS } from 'constants';
 import retrieveObsoleteEvent from './retrieveObsoleteEvent';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
@@ -56,12 +57,12 @@ describe('store:middlewares:retrieveObsoleteEvent', () => {
   });
 
   test('Need obsolete data', () => {
-    lokiManager.addRecord('TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 3, payload: '3' });
-    lokiManager.addRecord('TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 4, payload: '4' });
-    lokiManager.addRecord('TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 5, payload: '5' });
-    lokiManager.addRecord('TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 6, payload: '6' });
-    lokiManager.addRecord('TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 7, payload: '7' });
-    lokiManager.addRecord('TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 8, payload: '8' });
+    lokiManager.addRecord(PREFIX_OBSOLETE_EVENTS, 'TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 3, payload: '3' });
+    lokiManager.addRecord(PREFIX_OBSOLETE_EVENTS, 'TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 4, payload: '4' });
+    lokiManager.addRecord(PREFIX_OBSOLETE_EVENTS, 'TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 5, payload: '5' });
+    lokiManager.addRecord(PREFIX_OBSOLETE_EVENTS, 'TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 6, payload: '6' });
+    lokiManager.addRecord(PREFIX_OBSOLETE_EVENTS, 'TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 7, payload: '7' });
+    lokiManager.addRecord(PREFIX_OBSOLETE_EVENTS, 'TMMGT_BC_VIRTCHAN3:0:4:::', { timestamp: 8, payload: '8' });
 
     store.dispatch(viewsNeedObsoleteEventData());
     const actions = store.getActions();
@@ -70,7 +71,7 @@ describe('store:middlewares:retrieveObsoleteEvent', () => {
         type: 'NEW_DATA',
         payload: {
           data: {
-            obsoleteEvents: {
+            [PREFIX_OBSOLETE_EVENTS]: {
               'TMMGT_BC_VIRTCHAN3:0:4:::': {
                 4: '4',
                 5: '5',

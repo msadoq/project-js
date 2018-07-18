@@ -8,6 +8,7 @@ import styles from 'viewManager/commonEditor/Editor.css';
 import WithForm from 'viewManager/common/Hoc/WithForm';
 import DefaultPusDataContainer from 'viewManager/commonEditor/DefaultPusDataContainer';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import { VM_VIEW_PUS11 } from 'viewManager/constants';
 
 import { entryPointType, TableConfigurationColumnType } from '../../../common/Components/types';
 import PUS11TabContainer from './PUS11TabContainer';
@@ -89,7 +90,6 @@ export default class PUS11Editor extends Component {
     updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
       ...values,
-      formula: 'PusGroundModelDefinition.Pus011Model<Pus011Model>', // fixed
     });
   };
 
@@ -127,6 +127,7 @@ export default class PUS11Editor extends Component {
               <PUS11EditorForm
                 viewId={viewId}
                 pageId={pageId}
+                pusType={VM_VIEW_PUS11}
                 form={`entrypoint-connectedData-form-${viewId}`}
                 onSubmit={this.handleSubmit}
                 initialValues={initialValues}

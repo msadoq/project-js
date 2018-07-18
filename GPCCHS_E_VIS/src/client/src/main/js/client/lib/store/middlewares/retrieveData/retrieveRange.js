@@ -22,7 +22,7 @@
 // ====================================================================
 
 import * as types from 'store/types';
-import { getRangesRecords as getRangesRecordsSamplingOff } from 'serverProcess/models/lokiKnownRangesData';
+import { getRecordsByInterval } from 'serverProcess/models/lokiGeneric';
 import { getRangesRecords as getRangesRecordsSamplingOn } from 'serverProcess/models/lokiKnownRangesDataSamplingOn';
 import { newData } from 'store/actions/incomingData';
 import { getMissingIntervals } from 'store/reducers/knownRanges';
@@ -33,16 +33,17 @@ import { sendArchiveQuerySamplingOn } from 'store/actions/knownRangesSamplingOn'
 import { get } from 'common/configurationManager';
 import mergeIntervals from 'common/intervals/merge';
 import executionMonitor from 'common/logManager/execution';
+import { PREFIX_KNOWN_RANGES } from 'constants';
 
 const samplingNumber = get('SAMPLING_NUMBER');
 
-const rangesRecordsFunction = (x, y, sampl) => {
+const rangesRecordsFunction = (tbdId, intervals, sampl, prefix) => {
   switch (sampl) {
     case 'off': {
-      return getRangesRecordsSamplingOff(x, y);
+      return getRecordsByInterval(prefix, tbdId, intervals);
     }
     case 'on': {
-      return getRangesRecordsSamplingOn(x, y);
+      return getRangesRecordsSamplingOn(tbdId, intervals);
     }
     default: {
       return null;
@@ -100,9 +101,9 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
     for (let i = 0; i < tbdIds.length; i += 1) {
       const tbdId = tbdIds[i];
       const { dataId, filters, intervals, mode, sampling } = neededRange[tbdIds[i]];
-      const rangesRecords = rangesRecordsFunction(tbdId, intervals, sampling);
+      const rangesRecords = rangesRecordsFunction(tbdId, intervals, sampling, PREFIX_KNOWN_RANGES);
       if (Object.keys(rangesRecords[tbdId]).length !== 0) {
-        dispatch(newData({ ranges: rangesRecords }));
+        dispatch(newData({ [PREFIX_KNOWN_RANGES]: rangesRecords }));
       }
       let mergedInterval = [];
       for (let k = 0; k < intervals.length; k += 1) {
@@ -122,7 +123,7 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
             { filters, alarmMode: { mode } },
             samplingStringFunction(sampling)
           );
-          add(queryId, tbdId, type, dataId, samplingStringFunction(sampling));
+          add(queryId, tbdId, PREFIX_KNOWN_RANGES, dataId, samplingStringFunction(sampling));
         }
         execution.start('merge interval');
         mergedInterval = mergeIntervals(mergedInterval, missingIntervals);

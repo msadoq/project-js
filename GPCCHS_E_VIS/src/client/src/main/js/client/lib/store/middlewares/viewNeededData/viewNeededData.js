@@ -17,14 +17,15 @@ import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
 import execution from 'common/logManager/execution';
 import computeMissingRangeIntervals from 'store/observers/computeMissingRangeIntervals';
 import computeMissingLastIntervals from 'store/observers/computeMissingLastIntervals';
-import { viewsNeedRange, viewsNeedLast, viewsNeedObsoleteEvent } from 'store/actions/retrieveData';
+
+import computeMissingPusIntervals from 'store/observers/computeMissingPusIntervals';import { viewsNeedRange, viewsNeedLast, viewsNeedObsoleteEvent, viewsNeedPus } from 'store/actions/retrieveData';
 import { cleanViewData } from 'store/actions/viewData';
 
 const makeViewNeededData = () => {
   let previousDataMap;
 
   return ({ dispatch, getState }) => next => (action) => {
-      // previous dataMap
+    // previous dataMap
     const nextAction = next(action);
 
     const state = getState();
@@ -58,6 +59,11 @@ const makeViewNeededData = () => {
     const neededLastData = computeMissingLastIntervals(dataMap, previousDataMap);
     profile.stop('missingLastIntervals');
 
+    // get needed last intervals
+    profile.start('missingLastIntervals');
+    const neededPusData = computeMissingPusIntervals(dataMap, previousDataMap);
+    profile.stop('missingLastIntervals');
+
     const previous = _cloneDeep(previousDataMap);
     // store dataMap for next observer execution
     previousDataMap = dataMap;
@@ -75,6 +81,9 @@ const makeViewNeededData = () => {
     }
     if (Object.keys(neededLastData).length) {
       dispatch(viewsNeedLast(neededLastData));
+    }
+    if (Object.keys(neededPusData).length) {
+      dispatch(viewsNeedPus(neededPusData));
     }
     const mergeNeededForEvent = _merge(neededRangeData, neededLastData);
     if (Object.keys(mergeNeededForEvent).length) {

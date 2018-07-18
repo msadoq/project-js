@@ -1,0 +1,13 @@
+package pusUtils.protobuf;
+
+import "../ccsds_mal/TIME.proto";
+
+
+message PusDelta {
+    required ccsds_mal.protobuf.TIME timestamp = 1;
+    required string pusId = 2;
+    required string apId = 3;
+    required string rowId = 4;
+    required bytes payload = 5; // Contient le proto PUS de la ligne de produit qui nous intéresse, le nom du modèle est contenu dans pusName.
+    
+}

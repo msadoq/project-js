@@ -13,11 +13,21 @@ const stubState = {
       id: 1321,
     },
   ],
+  timelines: {
+    tl1: {
+      color: null,
+      id: 'Session 1',
+      kind: 'Session',
+      offset: 0,
+      sessionName: 'Master',
+      uuid: 'tl1',
+    },
+  }
 };
 
 const propsStub = {
   domainName: 'domainId',
-  sessionName: 'master',
+  timelineId: 'tl1',
   viewId: 'view-id',
   pageId: 'page-id',
 };

@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/PUSMMEView/Components/View/PUSMMEView PUSMMEView :: render snapshot 1`] = `
+<ErrorBoundary>
+  <div
+    className="pusmme"
+  >
+    <div
+      className="header"
+    >
+      <ErrorBoundary>
+        <div
+          className="header"
+        >
+          Application Process 
+          <input
+            disabled={true}
+            type="text"
+            value="myString"
+          />
+           
+          <input
+            className="mw50"
+            disabled={true}
+            type="text"
+            value={100}
+          />
+        </div>
+      </ErrorBoundary>
+    </div>
+    <div
+      className="container"
+    >
+      <Connect(VirtualizedTableView)
+        contentModifier={[Function]}
+        onCellDoubleClick={[Function]}
+        tableId="packets"
+        viewId="9a057132-aa02-43b1-99e7-5d870a3af609"
+      />
+    </div>
+  </div>
+</ErrorBoundary>
+`;
+
+exports[`viewManager/PUSMMEView/Components/View/PUSMMEView PUSMMEView :: renderInvald snapshot 1`] = `
+<div
+  className="pusmme h100 posRelative"
+>
+  <div
+    className="flex h100"
+  >
+    <div
+      className="renderErrorText"
+    >
+      Unable to render view 
+      <br />
+      this is an error message
+    </div>
+  </div>
+</div>
+`;

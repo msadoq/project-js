@@ -10,21 +10,24 @@
 import zmq from 'common/zmq';
 import getLogger from 'common/logManager';
 
-export default function connectToZmq(pullUrl, pushUrl, callback) {
+const { resolve } = require('path');
+
+const rootVimaFolder = process.env.IS_BUNDLED === 'on' ? __dirname : resolve(__dirname, '../../..');
+const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require;
+
+export default function connectToZmq(pullUrl, pushUrl, name, callback) {
   if (!pullUrl || !pushUrl) {
     throw new Error('Push and pull ZMQ URLs are required');
   }
 
-  // eslint-disable-next-line global-require, "DV6 TBC_CNES LPISIS packaging constrain"
-  const dcController = require('../controllers/dc');
   const zmqConfiguration = {
-    dcPull: {
+    [`${name}Pull`]: {
       type: 'pull',
       role: 'server',
       url: pullUrl,
-      handler: dcController,
+      handler: dynamicRequire(resolve(rootVimaFolder, 'lib/serverProcess/controllers', name)),
     },
-    dcPush: {
+    [`${name}Push`]: {
       type: 'push',
       role: 'client',
       url: pushUrl,
@@ -33,6 +36,5 @@ export default function connectToZmq(pullUrl, pushUrl, callback) {
       logger: getLogger('server:zmq'),
     },
   };
-
   zmq.open(zmqConfiguration, callback);
 }

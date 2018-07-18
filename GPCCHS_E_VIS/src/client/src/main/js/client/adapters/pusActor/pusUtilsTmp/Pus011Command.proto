@@ -1,0 +1,58 @@
+// Produced by Acceleo Protobuf Generator 2.2.1-R12S2_alpha
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "../ccsds_mal/ULONG.proto";
+import "../ccsds_mal/UINTEGER.proto";
+import "../ccsds_mal/INTEGER.proto";
+import "../ccsds_mal/STRING.proto";
+import "../ccsds_mal/TIME.proto";
+import "./Pus011TimeShift.proto";
+import "./Pus011CommandParameter.proto";
+
+package pusModelEditor.protobuf;
+
+message Pus011Command {
+extensions 33 to 133;
+
+  optional ccsds_mal.protobuf.ULONG uniqueId = 1;
+  optional ccsds_mal.protobuf.UINTEGER commandApid = 2;
+  optional ccsds_mal.protobuf.STRING commandApidName = 3;
+  optional ccsds_mal.protobuf.STRING commandName = 4;
+  optional ccsds_mal.protobuf.STRING commandDescription = 5;
+  optional ccsds_mal.protobuf.UINTEGER commandSequenceCount = 6;
+  optional ccsds_mal.protobuf.UINTEGER commandSourceId = 7;
+  optional ccsds_mal.protobuf.UINTEGER commandSsId = 8;
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 9;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCommandId = 10;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeCommandId = 11;
+  optional ccsds_mal.protobuf.STRING commandBinaryProfile = 12;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeBinProf = 13;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeBinProf = 14;
+  optional ccsds_mal.protobuf.STRING commandGroundStatus = 15;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeGroundStatus = 16;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeGroundStatus = 17;
+  optional ccsds_mal.protobuf.UINTEGER commandStatus = 18;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStatus = 19;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeStatus = 20;
+  optional ccsds_mal.protobuf.TIME currentExecutionTime = 21;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCurrentExecTime = 22;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeCurrentExecTime = 23;
+  optional ccsds_mal.protobuf.TIME initialExecutionTime = 24;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeInitialExecTime = 25;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeInitialExecTime = 26;
+  optional ccsds_mal.protobuf.INTEGER totalTimeShiftOffset = 27;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeTotalTimeShiftOffset = 28;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeTotalTimeShiftOffset = 29;
+  repeated pusModelEditor.protobuf.Pus011CommandParameter pus011CommandParameters = 30;
+  repeated pusModelEditor.protobuf.Pus011TimeShift pus011TimeShift = 31;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 32;
+}

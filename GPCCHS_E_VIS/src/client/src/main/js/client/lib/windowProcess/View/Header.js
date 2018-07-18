@@ -101,11 +101,11 @@ export default class Header extends PureComponent {
       workspaceDomain,
       viewDomain,
     } = this.props;
-
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
+
       background: getColorWithDomainDetermination(
         workspaceDomain,
         [pageDomain],

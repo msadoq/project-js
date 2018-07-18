@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/PUS14View/Components/View/PUS14View PUS14View :: render snapshot 1`] = `
+<div
+  className="pus14 h100 posRelative"
+>
+  <div
+    className="flex h100"
+  >
+    <div
+      className="renderErrorText"
+    >
+      Unable to render view 
+      <br />
+      Please fill-in configuration
+    </div>
+  </div>
+</div>
+`;
+
+exports[`viewManager/PUS14View/Components/View/PUS14View PUS14View :: renderInvald snapshot 1`] = `
+<div
+  className="pus14 h100 posRelative"
+>
+  <div
+    className="flex h100"
+  >
+    <div
+      className="renderErrorText"
+    >
+      Unable to render view 
+      <br />
+      this is an error message
+    </div>
+  </div>
+</div>
+`;

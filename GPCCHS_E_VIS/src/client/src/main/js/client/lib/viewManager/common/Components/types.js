@@ -97,10 +97,7 @@ export const comObjectType = PropTypes.shape({
 
 export const TableConfigurationColumnType = PropTypes.shape({
   title: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  position: PropTypes.number.isRequired,
   displayed: PropTypes.bool.isRequired,
-  group: PropTypes.number,
 });
 
 export const fieldArrayPropsType = PropTypes.shape({

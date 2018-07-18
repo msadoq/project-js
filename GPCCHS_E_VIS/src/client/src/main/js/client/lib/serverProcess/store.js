@@ -40,13 +40,12 @@ import { get } from '../common/configurationManager';
 import makeMessagesMiddleware from '../store/middlewares/messages';
 import createDumpBufferMiddleware from '../store/middlewares/dumpBuffer';
 import createRetrieveDataMiddleware from '../store/middlewares/retrieveData';
+import createRetrievePusDataMiddleware from '../store/middlewares/pus/retrieveData';
 import createCacheMiddleware from '../store/middlewares/cache';
 import reducer from '../store/reducers';
 import ipc from './ipc';
 import documentManager from './documentManager';
-import lokiKnownRangesManager from './models/lokiKnownRangesData';
-import lokiObsoleteEventManager from './models/lokiObsoleteEventData';
-import lokiGenericManager from './models/lokiGeneric';
+import lokiManager from './models/lokiGeneric';
 import lokiManagerSamplingOn from './models/lokiKnownRangesDataSamplingOn';
 import makeAckMiddleware from '../store/middlewares/ack';
 import { isDumpActivated } from '../serverProcess/utils/dumpBuffer';
@@ -64,9 +63,11 @@ import windowSessionOrDomainUpdated
 import getLogger from '../common/logManager';
 import makePlayerMiddleware from '../store/middlewares/player';
 import catalogMiddleware from '../store/middlewares/catalogs';
+import createPusTestMiddleware, { createPusDataMiddleware } from '../store/middlewares/pus';
 import apidsMiddleware from '../store/middlewares/apids';
 import makeOnUserAction from '../store/middlewares/user/makeOnUserAction';
 import onEntryPointData from '../store/middlewares/smartViews/onEntryPointData';
+import onNeededMetadata from '../store/middlewares/metadata/onNeededMetadata';
 
 const log = getLogger('server:store:enhancer');
 
@@ -78,9 +79,12 @@ const createMiddlewares = (identity, isDebugOn) => {
     thunk,
     catalogMiddleware,
     apidsMiddleware,
-    createIncomingDataMiddleware(lokiKnownRangesManager, lokiObsoleteEventManager, lokiManagerSamplingOn, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
+    createPusDataMiddleware(lokiManager),
+    createPusTestMiddleware(ipc),
+    createIncomingDataMiddleware(lokiManager, lokiManagerSamplingOn, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),
-    createCacheMiddleware(lokiGenericManager),
+    createRetrievePusDataMiddleware(ipc),
+    createCacheMiddleware(lokiManager),
     createCacheMiddleware(lokiManagerSamplingOn),
     makeAckMiddleware(ipc.dc.requestAck),
     makeMessagesMiddleware(),
@@ -94,6 +98,7 @@ const createMiddlewares = (identity, isDebugOn) => {
     windowSessionOrDomainUpdated,
     makeOnUserAction(),
     onEntryPointData,
+    onNeededMetadata,
     makePatchGenerator(ipc.main.sendReduxPatch, identity, log, isDebugOn, get('PATCH_THROTTLE_TIMING')),
   ];
   if (isDumpActivated()) {

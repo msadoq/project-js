@@ -5,9 +5,8 @@ import { connect } from 'react-redux';
 import {
   filterColumn,
   toggleColumnSort,
-  saveScrollTop,
+  saveScroll,
 } from 'store/actions/tableColumns';
-import { pause } from 'store/actions/hsc';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
 import { getViewType } from '../../../../../store/reducers/views';
@@ -33,7 +32,6 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
 
   const data = _.getOr([], 'data', tableData);
   const keep = _.getOr([], 'keep', tableData);
-  const scrollTopOffset = _.getOr(0, ['state', 'scrollTop'], tableData);
 
   const sortingDirection =
     _.getOr('DESC', ['sorting', 'direction'], tableConfig);
@@ -59,6 +57,7 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
       return _contentModifier({
         value: content[colKey],
         color,
+        colKey,
       }, content);
     }
 
@@ -76,18 +75,10 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
     columnCount: reducedColumns.length,
     sortState: sorting,
     filterState: filters,
-    scrollTopOffset,
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseOnScroll }) => ({
-  onScrollTop: (scrollTop) => {
-    if (pauseOnScroll) {
-      dispatch(pause());
-    }
-
-    dispatch(saveScrollTop(viewId, tableId, scrollTop));
-  },
+const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => ({
   onFilter: (col, value, filters) => {
     dispatch(filterColumn(viewId, tableId, col, value, filters));
   },
@@ -105,9 +96,8 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions, pauseO
       action.onClick(data, rowIndex, columnIndex);
     }
   },
-  onCellDoubleClick: (i, j, content) => {
-    console.error('[NotImplementedError] Double-click on cell has not yet been implemented');
-    console.info(i, j, content);
+  saveScroll: (scrollPosition) => {
+    dispatch(saveScroll(viewId, tableId, scrollPosition));
   },
 });
 
@@ -120,6 +110,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       ...stateProps.filterState,
       [col]: value,
     });
+  },
+  onCellDoubleClick: (i, j, content) => {
+    if (typeof ownProps.onCellDoubleClick === 'function') {
+      ownProps.onCellDoubleClick(i, j, content);
+    } else {
+      console.error('[NotImplementedError] Double-click on cell has not yet been implemented');
+      console.info(i, j, content);
+    }
   },
 });
 

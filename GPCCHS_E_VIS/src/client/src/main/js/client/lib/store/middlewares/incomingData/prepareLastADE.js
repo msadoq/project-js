@@ -6,6 +6,7 @@ import { decode, getTypeAggreg, decodePayload } from 'utils/adapters';
 import { add } from 'serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from 'common/logManager/execution';
 import { add as addMessage } from 'store/actions/messages';
+import { PREFIX_LASTS } from 'constants';
 
 const logger = require('../../../common/logManager')('middleware:prepareLastADE');
 
@@ -49,7 +50,7 @@ const prepareLast = () => ({ dispatch }) => next => (action) => {
   }
 
   if (!_isEmpty(payloadsJson[tbdId])) {
-    dispatch(newData({ lasts: payloadsJson }));
+    dispatch(newData({ [PREFIX_LASTS]: payloadsJson }));
   }
 
   execution.stop('global');

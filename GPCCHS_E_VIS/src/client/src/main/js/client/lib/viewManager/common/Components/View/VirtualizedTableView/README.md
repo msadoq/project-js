@@ -96,8 +96,6 @@ Le composant `VirtualizedTableView` prend en paramètres les propriétés suivan
   à la colonne dans le fichier de configuration `prepareViewForStore.js`.
   - `columnWidth` (default 220): définit la largeur fixe d'une colonne du tableau
   - `rowHeight` (default 22): définit la hauteur d'une cellule
-  - `pauseOnScroll`: définit s'il faut ou non dispatcher une action de pause lorsqu'on réalise
-  un scroll vertical.
   
 _Remarques_
 - _Chaque cellule du tableau correspond à un objet ayant au moins la propriété 'value' qui correspond
@@ -174,11 +172,35 @@ Utilisation du composant :
 	  rows={data}
 	  withGroups
 	  overrideStyle={_overrideStyle}
-	  pauseOnScroll
 	/>
 ``` 
 Dans ce cas particulier, cela permet d'ajouter une bordure aux cellules correspondant à
 une ligne courante.
+
+### Modification à la volée du contenu d'une cellule
+
+Par contenu d'une cellule, on parle d'un objet `content` contenant au moins la clé `value`
+correspondant à la valeur affichée dans la cellule.
+
+On peut définir d'autre clés représentant des valeurs ajoutées à la volée et qui pourront par
+exemple être utilisées dans la fonction `overrideStyle` vue plus haut (voir exemple HistoryView).
+
+Pour modifier le contenu d'une cellule, on utilise la propriété `contentModifier` qui prend 
+une fonction de signature (cellContent, content) et retournant le nouveau contenu de cellule 
+cellContent mis à jour.
+
+Exemple:
+
+```
+const _sample = (cellContent, content) => ({ ...cellContent, someKey: content.someKey });
+
+// [...]
+
+<VirtualizedTableViewContainer
+	// ...props
+    contentModifier={_sample}
+/>
+```
 
 ### Edition du table via le composant `TableColumnsEditorContainer`.
 

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/PUS14View/Components/View/PUS14ViewContainer snapshot 1`] = `
+<ReduxForm
+  groundDate={1527520025823}
+  serviceApid={100}
+  serviceApidName="myString"
+  status={1}
+  uniqueId={100}
+/>
+`;

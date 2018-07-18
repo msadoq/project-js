@@ -1,0 +1,21 @@
+// Produced by Acceleo Protobuf Generator 2.2.1-R12S2_alpha
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "../ccsds_mal/STRING.proto";
+
+package pusModelEditor.protobuf;
+
+message PusValue {
+extensions 2 to 102;
+
+  optional ccsds_mal.protobuf.STRING value = 1;
+}

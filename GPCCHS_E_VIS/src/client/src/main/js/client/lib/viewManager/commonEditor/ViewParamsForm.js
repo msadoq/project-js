@@ -42,7 +42,6 @@ import InputField from 'windowProcess/commonReduxForm/InputField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import FormSectionFontStyle from './FormSections/FormSectionFontStyle';
 import { computeOptions } from '../../viewManager/commonEditor/Fields/common';
-// import { validateRequiredFields } from '../common';
 
 class ViewParamsForm extends React.Component {
   static propTypes = {

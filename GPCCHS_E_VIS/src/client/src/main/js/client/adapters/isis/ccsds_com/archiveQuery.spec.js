@@ -1,13 +1,6 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : FA : #7453 : 07/08/2017 : Move adapters folder in client folder
-// END-HISTORY
-// ====================================================================
-
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-require('../../../utils/test');
 const { encodeRaw, decodeRaw } = require('./archiveQuery');
 const { getArchiveQuery } = require('../stubs');
 
@@ -16,13 +9,13 @@ const { getArchiveQuery } = require('../stubs');
 describe('protobuf/isis/ccsds_com/ArchiveQuery', () => {
   const fixture = getArchiveQuery();
   let buffer;
-  it('encode', () => {
+  test('encode', () => {
     buffer = encodeRaw(fixture);
-    buffer.constructor.should.equal(Buffer);
+    expect(buffer.constructor).toBe(Buffer);
   });
-  it('decode', () => {
+  test('decode', () => {
     const json = decodeRaw(buffer);
-    json.should.be.an('object').that.have.properties({
+    expect(json).toMatchObject({
       domainID: { type: 'ushort', value: fixture.domainID },
       slotId: { type: 'ushort', value: fixture.slotId },
       providerId: { type: 'ushort', value: fixture.providerId },
@@ -44,6 +37,5 @@ describe('protobuf/isis/ccsds_com/ArchiveQuery', () => {
       sortOrder: { type: 'boolean', value: fixture.sortOrder },
       sortFieldName: { type: 'string', value: fixture.sortFieldName },
     });
-    
   });
 });

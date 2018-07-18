@@ -11,9 +11,11 @@ exports[`DefaultPusData :: render snapshot 1`] = `
     </HorizontalFormGroup>
     <HorizontalFormGroup
       className=""
-      label="Session"
+      label="Timeline"
     >
-      <Connect(SessionField) />
+      <Connect(TimelineField)
+        windowId={undefined}
+      />
     </HorizontalFormGroup>
     <HorizontalFormGroup
       className=""
@@ -23,7 +25,8 @@ exports[`DefaultPusData :: render snapshot 1`] = `
         domainName="fr.cnes.isis.simupus"
         onChange={[Function]}
         pageId="page1"
-        sessionName="Master"
+        pusType="PUS11View"
+        timelineId="tl1"
         viewId="text1"
       />
     </HorizontalFormGroup>

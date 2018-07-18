@@ -40,7 +40,7 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
       style={undefined}
     >
       <div
-        aria-expanded={false}
+        aria-expanded="false"
         className="rc-collapse-header"
         onClick={[Function]}
         role="tab"
@@ -58,7 +58,7 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
       style={undefined}
     >
       <div
-        aria-expanded={false}
+        aria-expanded="false"
         className="rc-collapse-header"
         onClick={[Function]}
         role="tab"
@@ -76,7 +76,7 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
       style={undefined}
     >
       <div
-        aria-expanded={false}
+        aria-expanded="false"
         className="rc-collapse-header"
         onClick={[Function]}
         role="tab"
@@ -94,7 +94,7 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
       style={undefined}
     >
       <div
-        aria-expanded={false}
+        aria-expanded="false"
         className="rc-collapse-header"
         onClick={[Function]}
         role="tab"
@@ -112,7 +112,7 @@ exports[`EntryPointDetailsContainer :: render EntryPointDetailsContainer :: rend
       style={undefined}
     >
       <div
-        aria-expanded={false}
+        aria-expanded="false"
         className="rc-collapse-header"
         onClick={[Function]}
         role="tab"

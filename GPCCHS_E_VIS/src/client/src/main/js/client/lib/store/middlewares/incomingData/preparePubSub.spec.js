@@ -10,10 +10,11 @@ import configureMockStore from 'redux-mock-store';
 import _omit from 'lodash/omit';
 import { isTimestampInKnownRanges } from 'store/reducers/knownRanges';
 import { isTimestampInLastDatamapInterval } from 'dataManager/mapSelector';
-import lokiManager from 'serverProcess/models/lokiKnownRangesData';
+import lokiManager from 'serverProcess/models/lokiGeneric';
 import { getStubData } from 'utils/stubs';
 import * as types from 'store/types';
 import state from 'common/jest/stateTest';
+import { PREFIX_KNOWN_RANGES } from 'constants';
 import preparePubSub, { updateFinalPayload } from './preparePubSub';
 
 const { mockRegister, mockLoadStubs } = require('../../../common/jest');
@@ -36,53 +37,62 @@ describe('store:middlewares:preparePubSub', () => {
       const store = mockStore(state);
       const tbdId = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::';
       const finalPayloads = updateFinalPayload(store.getState(),
-        { tbdId,
+        {
+          tbdId,
           timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
-          addRecord: lokiManager.addRecord },
-        {});
+          addRecord: lokiManager.addRecord,
+          type: PREFIX_KNOWN_RANGES,
+        }, {});
       expect(finalPayloads).toEqual({ [tbdId]: { 320000: decodedPayload } });
-      expect(lokiManager.listCachedCollections()).toEqual([tbdId]);
+      expect(lokiManager.listCachedCollections(PREFIX_KNOWN_RANGES)).toEqual([`${PREFIX_KNOWN_RANGES}.${tbdId}`]);
     });
     test('in store, tbdId in store, timestamp nok, empty finalPayloads', () => {
       const store = mockStore(state);
       const finalPayloads = updateFinalPayload(store.getState(),
-        { tbdId: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::',
+        {
+          tbdId: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::',
           timestamp: 150,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
-          addRecord: lokiManager.addRecord },
-        {});
+          addRecord: lokiManager.addRecord,
+          type: PREFIX_KNOWN_RANGES,
+        }, {});
       expect(finalPayloads).toEqual({ });
-      expect(lokiManager.listCachedCollections()).toEqual([]);
+      expect(lokiManager.listCachedCollections(PREFIX_KNOWN_RANGES)).toEqual([]);
     });
     test('in store, tbdId not in store, empty finalPayloads', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1:::',
+        {
+          tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1:::',
           timestamp: 15,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
-          addRecord: lokiManager.addRecord },
-        {});
+          addRecord: lokiManager.addRecord,
+          type: PREFIX_KNOWN_RANGES,
+        }, {});
       expect(finalPayloads).toEqual({ });
-      expect(lokiManager.listCachedCollections()).toEqual([]);
+      expect(lokiManager.listCachedCollections(PREFIX_KNOWN_RANGES)).toEqual([]);
     });
     test('in store, tbdId not in store, finalPayloads not empty', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1:::',
+        {
+          tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1:::',
           timestamp: 15,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
-          addRecord: lokiManager.addRecord },
+          addRecord: lokiManager.addRecord,
+          type: PREFIX_KNOWN_RANGES,
+        },
         { 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 15: decodedPayload } });
       expect(finalPayloads)
       .toEqual({ 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 15: decodedPayload } });
-      expect(lokiManager.listCachedCollections()).toEqual([]);
+      expect(lokiManager.listCachedCollections(PREFIX_KNOWN_RANGES)).toEqual([]);
     });
     test('in store, tbdId in store, timestamp ok, finalPayloads not empty', () => {
       const tbdId1 = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::';
@@ -93,52 +103,61 @@ describe('store:middlewares:preparePubSub', () => {
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
-          addRecord: lokiManager.addRecord },
+          addRecord: lokiManager.addRecord,
+          type: PREFIX_KNOWN_RANGES,
+        },
         { [tbdId1]: { 300000: decodedPayload } });
       expect(finalPayloads)
       .toEqual({ [tbdId1]: { 300000: decodedPayload, 320000: decodedPayload } });
       const finalPayloads2 = updateFinalPayload(state,
-        { tbdId: tbdId1,
+        {
+          tbdId: tbdId1,
           timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInKnownRanges,
           filters: [],
-          addRecord: lokiManager.addRecord },
+          addRecord: lokiManager.addRecord,
+          type: PREFIX_KNOWN_RANGES,
+        },
         { [tbdId2]: { 300000: decodedPayload } });
       expect(finalPayloads2).toEqual({
         [tbdId1]: { 320000: decodedPayload },
         [tbdId2]: { 300000: decodedPayload },
       });
-      expect(lokiManager.listCachedCollections()).toEqual([tbdId1]);
+      expect(lokiManager.listCachedCollections(PREFIX_KNOWN_RANGES)).toEqual([`${PREFIX_KNOWN_RANGES}.${tbdId1}`]);
     });
     test('in dataMap, tbdId not in last', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1:::',
+        {
+          tbdId: 'Reporting.UNKNOWN_NAME<ReportingParameter>:1:1:::',
           timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInLastDatamapInterval,
-          filters: [] },
+          filters: [],
+        },
         { 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 320000: decodedPayload } });
       expect(finalPayloads)
       .toEqual({ 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1:::': { 320000: decodedPayload } });
-      expect(lokiManager.listCachedCollections()).toEqual([]);
+      expect(lokiManager.listCachedCollections(PREFIX_KNOWN_RANGES)).toEqual([]);
     });
     test('in dataMap, tbdId in last', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
+        {
+          tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
           timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInLastDatamapInterval,
-          filters: [] },
-        { });
+          filters: [],
+        }, {});
       expect(finalPayloads).toEqual({
         'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::': { 320000: decodedPayload },
       });
-      expect(lokiManager.listCachedCollections()).toEqual([]);
+      expect(lokiManager.listCachedCollections(PREFIX_KNOWN_RANGES)).toEqual([]);
     });
     test('in dataMap, tbdId in last but does not validate filters', () => {
       const finalPayloads = updateFinalPayload(state,
-        { tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
+        {
+          tbdId: 'Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::',
           timestamp: 320000,
           decodedPayload,
           isInIntervals: isTimestampInLastDatamapInterval,
@@ -146,8 +165,8 @@ describe('store:middlewares:preparePubSub', () => {
             field: 'extractedValue',
             operator: '>',
             operand: '10',
-          }] },
-        { });
+          }],
+        }, {});
       expect(finalPayloads).toEqual({});
     });
   });

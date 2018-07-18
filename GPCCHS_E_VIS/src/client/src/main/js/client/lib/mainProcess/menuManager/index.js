@@ -70,8 +70,7 @@ import { getStore } from '../store';
 import {
   DATASTRUCTURETYPE_LAST,
   DATASTRUCTURETYPE_RANGE,
-  DATASTRUCTURETYPE_HISTORIZED,
-  DATASTRUCTURETYPE_NO_HISTORY,
+  DATASTRUCTURETYPE_PUS,
 } from '../../constants';
 
 const { Menu } = require('electron');
@@ -208,10 +207,7 @@ const specificViewsMenu = getAvailableViews()
   }));
 
 const specificPusViewsMenu = getAvailableViews()
-  .filter(viewType =>
-    [DATASTRUCTURETYPE_HISTORIZED, DATASTRUCTURETYPE_NO_HISTORY]
-      .includes(getStructureType(viewType)) // only keep pus views
-  )
+  .filter(viewType => getStructureType(viewType) === DATASTRUCTURETYPE_PUS) // only keep pus views
   .map(viewType => ({
     label: `Add ${viewType}...`,
     accelerator: '',

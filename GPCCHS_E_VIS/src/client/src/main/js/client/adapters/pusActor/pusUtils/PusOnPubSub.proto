@@ -1,0 +1,10 @@
+package pusUtils.protobuf;
+
+import "./PusDelta.proto";
+
+message PusOnPubSub {
+    required string pusWholeModelId = 1;
+    required string pusModelName = 2;
+    repeated pusUtils.protobuf.PusDelta deltas = 3;
+}
+

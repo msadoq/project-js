@@ -8,7 +8,7 @@
 
 import configureMockStore from 'redux-mock-store';
 import * as types from 'store/types';
-import lokiManager from 'serverProcess/models/lokiKnownRangesData';
+import lokiManager from 'serverProcess/models/lokiGeneric';
 import { getStubData } from 'utils/stubs';
 import prepareLast from './prepareLast';
 

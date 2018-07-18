@@ -35,7 +35,6 @@ export default class ReactSelectField extends React.Component {
     placeholder: PropTypes.string,
     className: PropTypes.string,
     free: PropTypes.bool,
-    onInputChange: PropTypes.func,
     clearable: PropTypes.bool,
     options: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
@@ -57,42 +56,40 @@ export default class ReactSelectField extends React.Component {
       visited: PropTypes.bool,
       valid: PropTypes.bool,
     }).isRequired,
-  }
+    multi: PropTypes.bool, // https://github.com/JedWatson/react-select
+    simpleValue: PropTypes.bool, // works with multi, https://github.com/JedWatson/react-select
+    closeOnSelect: PropTypes.bool, // works with multi, https://github.com/JedWatson/react-select
+  };
 
   static defaultProps = {
     placeholder: '',
     className: '',
     free: false,
     clearable: false,
-    onInputChange: null,
-  }
-
-  onInputChange = (value) => {
-    const {
-      onInputChange,
-      input,
-    } = this.props;
-    if (value && onInputChange) {
-      input.onChange(value);
-      onInputChange(value);
-    }
-  }
+    multi: false,
+    simpleValue: false,
+    closeOnSelect: true,
+  };
 
   onChange = (event) => {
     if (this.props.input.onChange) {
       if (event) {
-        this.props.input.onChange(event.value);
+        if (this.props.multi) {
+          this.props.input.onChange(event);
+        } else {
+          this.props.input.onChange(event.value);
+        }
       } else {
         this.props.input.onChange('');
       }
     }
-  }
+  };
 
   onBlur = () => {
     if (this.props.input.onBlur) {
       this.props.input.onBlur(this.props.input.value);
     }
-  }
+  };
 
   render() {
     const {
@@ -101,6 +98,9 @@ export default class ReactSelectField extends React.Component {
       className,
       clearable,
       options,
+      multi,
+      simpleValue,
+      closeOnSelect,
       meta: {
         touched,
         error,
@@ -120,12 +120,15 @@ export default class ReactSelectField extends React.Component {
           {...input}
           {...rest}
           onBlur={this.onBlur}
-          options={options}
           onChange={this.onChange}
           className={className}
-          placeholder={placeholder}
           clearable={clearable}
           autoFocus
+          placeholder={placeholder}
+          options={options}
+          closeOnSelect={closeOnSelect}
+          simpleValue={simpleValue}
+          multi={multi}
         />
         {touched && error && <Alert bsStyle="danger" className="m0">
           {error}

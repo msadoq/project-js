@@ -172,6 +172,7 @@
     "sinon": "~2.1.0",
     "string-to-color": "^2.0.0",
     "style-loader": "~0.16.1",
+    "text-encoding": "^0.6.4",
     "updeep": "~1.0.0",
     "uuid": "~3.0.1",
     "why-did-you-update": "~0.0.8",

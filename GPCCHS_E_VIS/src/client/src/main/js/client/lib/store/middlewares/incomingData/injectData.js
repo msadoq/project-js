@@ -30,14 +30,15 @@ import { injectDataRange, injectDataLast, injectDataObsoleteEvent } from 'store/
 import dataMapGenerator from 'dataManager/map';
 import executionMonitor from 'common/logManager/execution';
 import { getCurrentVisuWindow } from 'store/selectors/timebars';
+import { PREFIX_KNOWN_RANGES, PREFIX_OBSOLETE_EVENTS, PREFIX_LASTS } from 'constants';
 import { convertData, mapUnitConvertion } from '../../helpers/unitConverterHelper';
 
 let dataMap = {};
 let previousDataMap = {};
 let buffer = {
-  ranges: {},
-  lasts: {},
-  obsoleteEvents: {},
+  [PREFIX_KNOWN_RANGES]: {},
+  [PREFIX_LASTS]: {},
+  [PREFIX_OBSOLETE_EVENTS]: {},
 };
 const injectData = (timing) => {
   /**
@@ -67,9 +68,9 @@ const injectData = (timing) => {
         console.error(err);
       }
 
-      const ranges = convertedDataToInject.ranges || {};
-      const lasts = convertedDataToInject.lasts || {};
-      const obsoleteEvents = convertedDataToInject.obsoleteEvents || {};
+      const ranges = convertedDataToInject[PREFIX_KNOWN_RANGES] || {};
+      const lasts = convertedDataToInject[PREFIX_LASTS] || {};
+      const obsoleteEvents = convertedDataToInject[PREFIX_OBSOLETE_EVENTS] || {};
 
       const visuWindow = getCurrentVisuWindow(state);
 
@@ -133,9 +134,9 @@ const injectData = (timing) => {
   function cleanBuffer() {
     const data = buffer;
     buffer = {
-      ranges: {},
-      lasts: {},
-      obsoleteEvents: {},
+      [PREFIX_KNOWN_RANGES]: {},
+      [PREFIX_LASTS]: {},
+      [PREFIX_OBSOLETE_EVENTS]: {},
     };
     return data;
   }

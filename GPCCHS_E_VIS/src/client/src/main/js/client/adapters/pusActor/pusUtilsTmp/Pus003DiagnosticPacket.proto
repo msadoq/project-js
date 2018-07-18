@@ -1,0 +1,21 @@
+// Produced by Acceleo Protobuf Generator 2.2.1-R12S2_alpha
+
+
+//////////////////////////////////////////////////////////////////////
+// Start of user code HistoryZone
+// HISTORY
+//
+// END-HISTORY
+// End of user code HistoryZone
+//////////////////////////////////////////////////////////////////////
+
+
+import "./Pus003Packet.proto";
+
+package pusModelEditor.protobuf;
+
+message Pus003DiagnosticPacket {
+extensions 2 to 102;
+
+  optional pusModelEditor.protobuf.Pus003Packet pus003Packet = 1;
+}

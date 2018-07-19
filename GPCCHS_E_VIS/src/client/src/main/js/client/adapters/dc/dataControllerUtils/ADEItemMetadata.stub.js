@@ -25,7 +25,6 @@ const getADEItemMetadata = override => applyOverride({
 
 const getADEItemMetadataProtobuf = override => {
   const toEncode = getADEItemMetadata(override);
-  console.log('{{{{{{{', JSON.stringify(Adapter.encode(toEncode), null, ' '));
   return Builder.encode(Adapter.encode(toEncode)).finish();
 };
 

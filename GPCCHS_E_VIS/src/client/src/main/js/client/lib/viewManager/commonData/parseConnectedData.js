@@ -60,7 +60,7 @@ export default function parseConnectedData(
   if ((workspaceDomain || '*') && pageDomain && viewDomain && domain) {
     const display = domainDeterminationForDisplay(workspaceDomain || '*', pageDomain, viewDomain, domain);
     if (!display) {
-      return { error: `Domains does not match for ${parameterName}` };
+      return { error: `Domains do not match for ${parameterName}` };
     }
   }
 

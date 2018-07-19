@@ -400,6 +400,7 @@ module.exports = {
   PREFIX_PUS_MODELS: 'pusModels',
   PREFIX_PUS_DELTAS: 'pusDeltas',
   PREFIX_PUS: 'pus',
+  PREFIX_SAMPLING: 'sampling',
 
   // list of editor data type
   Pus005ModelType: 1,

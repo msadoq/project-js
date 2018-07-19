@@ -46,7 +46,6 @@ import reducer from '../store/reducers';
 import ipc from './ipc';
 import documentManager from './documentManager';
 import lokiManager from './models/lokiGeneric';
-import lokiManagerSamplingOn from './models/lokiKnownRangesDataSamplingOn';
 import makeAckMiddleware from '../store/middlewares/ack';
 import { isDumpActivated } from '../serverProcess/utils/dumpBuffer';
 import createIncomingDataMiddleware from '../store/middlewares/incomingData';
@@ -81,11 +80,10 @@ const createMiddlewares = (identity, isDebugOn) => {
     apidsMiddleware,
     createPusDataMiddleware(lokiManager),
     createPusTestMiddleware(ipc),
-    createIncomingDataMiddleware(lokiManager, lokiManagerSamplingOn, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
+    createIncomingDataMiddleware(lokiManager, get('INJECT_DATA_THROTTLE_TIMING'), get('PUB_SUB_MONITOR_TIMING')),
     createRetrieveDataMiddleware(ipc),
     createRetrievePusDataMiddleware(ipc),
     createCacheMiddleware(lokiManager),
-    createCacheMiddleware(lokiManagerSamplingOn),
     makeAckMiddleware(ipc.dc.requestAck),
     makeMessagesMiddleware(),
     makeOnProcessOverload(),

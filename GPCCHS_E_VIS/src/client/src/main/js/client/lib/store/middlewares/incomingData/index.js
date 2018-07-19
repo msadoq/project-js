@@ -34,11 +34,10 @@ const createIncomingDataMiddleware = (lokiManager,
 );
 
 const createIncomingDataMiddlewareADE = (lokiManager,
-                                         lokiManagerSamplingOn,
                                          timingInjectData,
                                          timingPubSubMonitor) => pipeMiddlewares(
   preparePubSubADE(lokiManager),
-  prepareRangeADE(lokiManager, lokiManagerSamplingOn),
+  prepareRangeADE(lokiManager),
   prepareLastADE(lokiManager),
   prepareObsoleteEventADE(lokiManager),
   injectData(timingInjectData),

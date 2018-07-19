@@ -23,7 +23,6 @@
 
 import * as types from 'store/types';
 import { getRecordsByInterval } from 'serverProcess/models/lokiGeneric';
-import { getRangesRecords as getRangesRecordsSamplingOn } from 'serverProcess/models/lokiKnownRangesDataSamplingOn';
 import { newData } from 'store/actions/incomingData';
 import { getMissingIntervals } from 'store/reducers/knownRanges';
 import { getMissingIntervalsSamplingOn } from 'store/reducers/knownRangesSamplingOn';
@@ -33,23 +32,10 @@ import { sendArchiveQuerySamplingOn } from 'store/actions/knownRangesSamplingOn'
 import { get } from 'common/configurationManager';
 import mergeIntervals from 'common/intervals/merge';
 import executionMonitor from 'common/logManager/execution';
-import { PREFIX_KNOWN_RANGES } from 'constants';
+import { PREFIX_KNOWN_RANGES, PREFIX_SAMPLING } from 'constants';
 
 const samplingNumber = get('SAMPLING_NUMBER');
 
-const rangesRecordsFunction = (tbdId, intervals, sampl, prefix) => {
-  switch (sampl) {
-    case 'off': {
-      return getRecordsByInterval(prefix, tbdId, intervals);
-    }
-    case 'on': {
-      return getRangesRecordsSamplingOn(tbdId, intervals);
-    }
-    default: {
-      return null;
-    }
-  }
-};
 const getMissingIntervalsFunction = (a, b, sampl) => {
   switch (sampl) {
     case 'off': {
@@ -90,7 +76,6 @@ const sendArchiveQueryFunction = (a, b, c, d, sampl) => {
   }
 };
 
-const type = 'RANGE';
 const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
   const execution = executionMonitor('middleware:retrieveRange');
   const nextAction = next(action);
@@ -101,7 +86,8 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
     for (let i = 0; i < tbdIds.length; i += 1) {
       const tbdId = tbdIds[i];
       const { dataId, filters, intervals, mode, sampling } = neededRange[tbdIds[i]];
-      const rangesRecords = rangesRecordsFunction(tbdId, intervals, sampling, PREFIX_KNOWN_RANGES);
+      const prefix = sampling === 'on' ? PREFIX_SAMPLING : PREFIX_KNOWN_RANGES;
+      const rangesRecords = getRecordsByInterval(prefix, tbdId, intervals);
       if (Object.keys(rangesRecords[tbdId]).length !== 0) {
         dispatch(newData({ [PREFIX_KNOWN_RANGES]: rangesRecords }));
       }

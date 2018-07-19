@@ -35,32 +35,33 @@ const logger = getLogger('view:mimic');
 export default class MimicViewWrapper extends PureComponent {
 
   static propTypes = {
+    // own props
+    viewId: PropTypes.string.isRequired,
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    openInspector: PropTypes.func.isRequired,
+    // mapStateToProps
     content: PropTypes.string.isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }).isRequired,
-    viewId: PropTypes.string.isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorEpId: PropTypes.string,
     links: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
     })),
-    removeLink: PropTypes.func.isRequired,
     pageId: PropTypes.string.isRequired,
     showLinks: PropTypes.bool,
-    updateShowLinks: PropTypes.func.isRequired,
-    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isInspectorOpened: PropTypes.bool.isRequired,
-    inspectorEpId: PropTypes.string,
-    openInspector: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
-    openLink: PropTypes.func.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    searchForThisView: PropTypes.bool.isRequired,
     searching: PropTypes.string,
     searchCount: PropTypes.objectOf(PropTypes.shape),
+    searchForThisView: PropTypes.bool.isRequired,
+    // mapDispatchToProps
+    removeLink: PropTypes.func.isRequired,
+    updateShowLinks: PropTypes.func.isRequired,
     updateSearchCount: PropTypes.func.isRequired,
+    openLink: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -212,8 +213,6 @@ export default class MimicViewWrapper extends PureComponent {
               entryPoints={entryPoints}
               data={data}
               perfOutput={false}
-              width={this.props.width}
-              height={this.props.height}
               searchForThisView={this.props.searchForThisView}
               searching={this.props.searching}
               updateSearchCount={this.props.updateSearchCount}

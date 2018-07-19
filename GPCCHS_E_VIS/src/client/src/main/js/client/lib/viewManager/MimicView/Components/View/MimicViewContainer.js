@@ -26,7 +26,6 @@ import { bindActionCreators } from 'redux';
 import _ from 'lodash/fp';
 
 import { askOpenLink } from 'store/actions/links';
-import { getConfigurationByViewId } from 'viewManager';
 import { getViewContent } from 'viewManager/MimicView/store/configurationSelectors';
 import { getPageIdByViewId, getPage, getSearchCount, getSearchingByPage, getSearchViewsIds } from 'store/reducers/pages';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
@@ -50,7 +49,6 @@ const mapStateToProps = (state, { viewId }) => {
 
   return {
     content: getViewContent(state, { viewId }),
-    configuration: getConfigurationByViewId(state, { viewId }),
     entryPoints,
     data,
     isInspectorOpened: isAnyInspectorOpened(state),
@@ -60,7 +58,6 @@ const mapStateToProps = (state, { viewId }) => {
     showLinks: areLinksShown(state, { viewId }),
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
-    openLink: linkId => askOpenLink(viewId, linkId),
     searching,
     searchCount,
     searchForThisView: searchViewsIds.indexOf(viewId) !== -1,

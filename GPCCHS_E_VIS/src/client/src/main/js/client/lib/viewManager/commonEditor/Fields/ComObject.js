@@ -55,9 +55,12 @@ export default class ComObject extends PureComponent {
     } = props;
 
     if (
-      !!(domainId && timelineId && catalogName && itemName)
-      && comObjects === null
-      && catalogItemsLoaded
+      Number.isInteger(domainId) &&
+      (timelineId !== null && timelineId.length > 0) &&
+      (catalogName !== null && catalogName.length > 0) &&
+      (itemName !== null && itemName.length > 0) &&
+      comObjects === null &&
+      catalogItemsLoaded
     ) {
       askComObjects(domainId, sessionId, catalogName, itemName);
     }

@@ -9,7 +9,7 @@ export function intervalPerPusId(
   pusIdData,
   forecastIntervals,
   forecastTime
-){
+) {
   const localIdIntervals = {};
   const { localIds } = pusIdData;
   const fIntervals = forecastIntervals;
@@ -55,7 +55,7 @@ export default function expectedLastIntervalMap(
   perPusIdMap,
   forecastIntervalsMap,
   forecastTime
-){
+) {
   const intervalPusMap = {};
   let newForecastIntervalsMap = forecastIntervalsMap;
   _each(perPusIdMap, (pusIdData, id) => {

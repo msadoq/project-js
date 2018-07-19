@@ -10,6 +10,9 @@ import { getConfigurationByViewId } from '../../../../../selectors';
 import { getApidsByDomainIdAndSessionId } from '../../../../../../store/reducers/apids';
 import { getDomainId } from '../../../../../../store/reducers/domains';
 import { getSessionId } from '../../../../../../store/reducers/sessions';
+import getLogger from '../../../../../../common/logManager';
+
+const logger = getLogger('viewManager:pus');
 
 const mapStateToProps = (state, { viewId }) => {
   const conf = getConfigurationByViewId(state, { viewId });
@@ -43,7 +46,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   sendPUSCompareRequest: (...args) => {
     const { domainId, sessionId } = stateProps;
-    console.log(`sendPUSCompareRequest(${domainId}, ${sessionId}, ${args.join(', ')})`);
+    logger.info(`sendPUSCompareRequest(${domainId}, ${sessionId}, ${args.join(', ')})`);
     dispatchProps.sendPUSCompareRequest(domainId, sessionId, ...args);
   },
 });

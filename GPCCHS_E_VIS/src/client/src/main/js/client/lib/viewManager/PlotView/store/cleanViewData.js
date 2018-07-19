@@ -54,54 +54,86 @@ const samplingStatusesBothDefinedAndNotEqual = (varX, varY) => {
   return false;
 };
 
-export default function cleanCurrentViewData(currentState,
-  oldViewFromMap, newViewFromMap, oldIntervals, newIntervals, configuration) {
+export const updateStateForSampling = (samplingStatusHasChanged, state, epName) => (
+  samplingStatusHasChanged
+  ? getNewState(state, epName)
+  : state
+);
+
+function getNewState(state, epName) {
+  return {
+    ...state,
+    indexes: _omit(state.indexes, epName),
+    lines: _omit(state.lines, epName),
+    min: _omit(state.min, epName),
+    minTime: _omit(state.minTime, epName),
+    max: _omit(state.max, epName),
+    maxTime: _omit(state.maxTime, epName),
+  };
+}
+
+const initialState = {
+  indexes: {},
+  lines: {},
+  min: {},
+  max: {},
+  minTime: {},
+  maxTime: {},
+};
+
+export const hasViewMapChanged = (newViewFromMap, oldViewFromMap, oldIntervals, newIntervals) =>
+  _isEqual(newViewFromMap, oldViewFromMap) && _isEqual(oldIntervals, newIntervals)
+;
+
+export const isNewVisibleView = (oldViewFromMap, currentState) =>
+  !oldViewFromMap || !currentState || !Object.keys(currentState.indexes || {}).length
+;
+
+export const generateNewStateForEntryPoints = (configuration, state) => {
+  let newState;
+  for (let j = 0; j < configuration.entryPoints.length; j += 1) {
+    if (configuration.entryPoints[j].parametric) {
+      const epName = configuration.entryPoints[j].name;
+      newState = getNewState(state, epName);
+    }
+  }
+  return newState;
+};
+
+export default function cleanCurrentViewData(
+  currentState,
+  oldViewFromMap,
+  newViewFromMap,
+  oldIntervals,
+  newIntervals,
+  configuration
+) {
   const samplingStatusHasChanged = samplingStatusesBothDefinedAndNotEqual(
     oldViewFromMap,
     newViewFromMap
   );
   // Check if viewMap has changed
-  if (_isEqual(newViewFromMap, oldViewFromMap) &&
-      _isEqual(oldIntervals, newIntervals)) {
+  if (
+    hasViewMapChanged(newViewFromMap, oldViewFromMap, oldIntervals, newIntervals) ||
+    isNewVisibleView(oldViewFromMap, currentState)
+  ) {
     return currentState;
   }
-  // new visible view
-  if (!oldViewFromMap || !currentState || !Object.keys(currentState.indexes || {}).length) {
-    return currentState;
-  }
+
   let newState = currentState;
   // invisible view
   if (!newViewFromMap) {
-    return {
-      indexes: {},
-      lines: {},
-      min: {},
-      max: {},
-      minTime: {},
-      maxTime: {},
-    };
+    return initialState;
   }
   // entry point updates
   const oldEntryPoints = oldViewFromMap.entryPoints;
   const newEntryPoints = newViewFromMap.entryPoints;
   const epNames = Object.keys(oldEntryPoints);
+
   // pgaucher-plot
   // Get parametric plot in configuration
   // Remove all previous data for this parametric plot
-  for (let j = 0; j < configuration.entryPoints.length; j += 1) {
-    if (configuration.entryPoints[j].parametric) {
-      const name = configuration.entryPoints[j].name;
-      newState = {
-        ...newState,
-        indexes: _omit(newState.indexes, name),
-        lines: _omit(newState.lines, name),
-        min: _omit(newState.min, name),
-        minTime: _omit(newState.minTime, name),
-        max: _omit(newState.max, name),
-        maxTime: _omit(newState.maxTime, name),
-      };
-    }
-  }
+  newState = generateNewStateForEntryPoints(configuration, newState);
 
   for (let i = 0; i < epNames.length; i += 1) {
     const epName = epNames[i];
@@ -127,32 +159,15 @@ export default function cleanCurrentViewData(currentState,
         continue;
       }
     }
-    // sampling has changed
-    if (samplingStatusHasChanged) {
-      newState = { ...newState,
-        indexes: _omit(newState.indexes, epName),
-        lines: _omit(newState.lines, epName),
-        min: _omit(newState.min, epName),
-        minTime: _omit(newState.minTime, epName),
-        max: _omit(newState.max, epName),
-        maxTime: _omit(newState.maxTime, epName),
-      };
-    }
+    newState = updateStateForSampling(samplingStatusHasChanged, newState, epName);
 
     // removed entry point if invalid
     // EP definition modified: remove entry point from viewData
     if (isInvalidEntryPoint(oldEp, newEp)) {
-      newState = {
-        ...newState,
-        indexes: _omit(newState.indexes, epName),
-        lines: _omit(newState.lines, epName),
-        min: _omit(newState.min, epName),
-        minTime: _omit(newState.minTime, epName),
-        max: _omit(newState.max, epName),
-        maxTime: _omit(newState.maxTime, epName),
-      };
+      newState = getNewState(newState, epName);
       continue;
     }
+
     // Case of point already in error
     if (newEp.error) {
       continue;
@@ -164,15 +179,7 @@ export default function cleanCurrentViewData(currentState,
     const oldInterval = _get(oldIntervals, [oldEp.tbdId, oldEp.localId, 'expectedInterval']);
     const newInterval = _get(newIntervals, [oldEp.tbdId, newEp.localId, 'expectedInterval']);
     if (!newInterval || oldEp.localId !== newEp.localId) {
-      newState = {
-        ...newState,
-        indexes: _omit(newState.indexes, epName),
-        lines: _omit(newState.lines, epName),
-        min: _omit(newState.min, epName),
-        minTime: _omit(newState.minTime, epName),
-        max: _omit(newState.max, epName),
-        maxTime: _omit(newState.maxTime, epName),
-      };
+      newState = getNewState(newState, epName);
     } else if (oldInterval &&
       (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1])) {
       const lower = newInterval[0] + newEp.offset;
@@ -186,14 +193,10 @@ export default function cleanCurrentViewData(currentState,
 }
 
 function isInvalidEntryPoint(oldEp, newEp) {
-  if (!newEp || (newEp.error && newEp.error !== oldEp.error)
+  return !!(!newEp || (newEp.error && newEp.error !== oldEp.error)
     || oldEp.fieldX !== newEp.fieldX || oldEp.fieldY !== newEp.fieldY
-    || oldEp.tbdId !== newEp.tbdId) {
-    return true;
-  }
-  return false;
+    || oldEp.tbdId !== newEp.tbdId);
 }
-
 
 export function updateEpLabel(viewData, oldLabel, newLabel) {
   if (!oldLabel || !newLabel || oldLabel === newLabel) {

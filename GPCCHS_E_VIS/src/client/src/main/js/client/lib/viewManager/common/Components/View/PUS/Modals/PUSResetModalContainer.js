@@ -9,6 +9,9 @@ import PUSResetModal from './PUSResetModal';
 import { getConfigurationByViewId } from '../../../../../selectors';
 import { getDomainId } from '../../../../../../store/reducers/domains';
 import { getSessionId } from '../../../../../../store/reducers/sessions';
+import getLogger from '../../../../../../common/logManager';
+
+const logger = getLogger('viewManager:pus');
 
 const mapStateToProps = (state, { viewId }) => {
   const conf = getConfigurationByViewId(state, { viewId });
@@ -39,7 +42,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   sendPUSResetRequest: (...args) => {
     const { domainId, sessionId } = stateProps;
-    console.log(`sendPUSResetRequest(${domainId}, ${sessionId}, ${args.join(', ')})`);
+    logger.info(`sendPUSResetRequest(${domainId}, ${sessionId}, ${args.join(', ')})`);
     dispatchProps.sendPUSResetRequest(domainId, sessionId, ...args);
   },
 });

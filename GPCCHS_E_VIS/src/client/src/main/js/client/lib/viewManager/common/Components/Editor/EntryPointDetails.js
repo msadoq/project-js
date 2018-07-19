@@ -39,8 +39,6 @@ export default class EntryPointDetails extends PureComponent {
     // From container mapDispatchToProps
     updateViewSubPanels: PropTypes.func.isRequired,
     entryPointConnectedDataForm: PropTypes.func.isRequired,
-    // From createForm
-    change: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

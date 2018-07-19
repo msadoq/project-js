@@ -37,6 +37,7 @@ const newSamplingState = (samplingState, lock) => {
 
 // higher order reducer
 const createReducerByViews = (simpleReducer, viewType = 'all') => (
+// eslint-disable-next-line complexity
   (stateViews = {}, action) => {
     switch (action.type) {
       case types.HSC_CLOSE_WORKSPACE: // clear views when close a workspace
@@ -61,13 +62,12 @@ const createReducerByViews = (simpleReducer, viewType = 'all') => (
           simpleReducer(undefined, setPayloadView(stateView, action))
         );
         const filterViews = viewType !== 'all' ? _.filter(_.propEq('type', viewType)) : _.identity;
-        const ret = _.compose(
+        return _.compose(
           _.defaults(stateViews),         // 4. merge with old stateViews
           _.mapValues(singleViewReducer), // 3. apply single view reducer on each view
           _.indexBy('uuid'),              // 2. index views array by uuid
           filterViews                     // 1. filter views by viewType if given
         )(action.payload.views);
-        return ret;
       }
       case types.WS_TIMEBAR_UPDATE_CURSORS: {
         const { timebarUuid, pages } = action.payload;
@@ -84,7 +84,7 @@ const createReducerByViews = (simpleReducer, viewType = 'all') => (
           .filter(key => _lodash.has(stateViews[key], 'type'))
           .filter(key => stateViews[key].type === 'PlotView')
           .filter(key => viewIds.some(viewIdsKey => viewIdsKey === key));
-        const result = plotViewKeys.reduce(
+        return plotViewKeys.reduce(
           (object, key) => {
             const stateView = stateViews[key];
             const previousSamplingState = stateView.sampling;
@@ -94,7 +94,6 @@ const createReducerByViews = (simpleReducer, viewType = 'all') => (
           },
           { ...stateViews }
         );
-        return result;
       }
       default: {
         const viewId = _.get('payload.viewId', action);

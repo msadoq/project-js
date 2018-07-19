@@ -29,6 +29,8 @@ export default class ToggleButton extends React.Component {
     className: '',
     styleOn: undefined,
     styleOff: undefined,
+    iconOn: 'check',
+    iconOff: 'unchecked',
   };
 
   componentWillMount() {

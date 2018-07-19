@@ -29,50 +29,68 @@ import cleanCurrentViewData,
     scanForMinAndMax,
     removeViewDataByEp } from './cleanViewData';
 
-
 describe('viewManager/PlotView/store/cleanViewData', () => {
   const dataMap = dataMapGenerator(state);
   const viewMap = dataMap.perView;
 
-  describe.skip('cleanCurrentViewData', () => {
+  describe('cleanCurrentViewData', () => {
     test('no update', () => {
       const frozen = freezeMe(state.PlotViewData.plot1);
       expect(
         cleanCurrentViewData(frozen, viewMap.plot1, viewMap.plot1, dataMap.expectedRangeIntervals,
           dataMap.expectedRangeIntervals)).toBe(frozen);
     });
-    test.skip('interval update Plot: keep all', () => {
+    test('interval update Plot: keep all', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
-      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
+      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::']['groundDate/extractedValue.tb1:10000']
       .expectedInterval[1] += 5000;
       const frozen = freezeMe(state.PlotViewData.plot1);
       expect(
-        cleanCurrentViewData(frozen, viewMap.plot1, newMap.plot1, dataMap.expectedRangeIntervals,
-          newIntervals)).toBe(frozen);
+        cleanCurrentViewData(
+          frozen,
+          viewMap.plot1,
+          newMap.plot1,
+          dataMap.expectedRangeIntervals,
+          newIntervals,
+          state.PlotViewConfiguration.plot1
+        )
+      ).toBe(frozen);
     });
-    test.skip('interval update Plot: keep some', () => {
+    test('interval update Plot: keep some', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
-      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
+      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::']['groundDate/extractedValue.tb1:10000']
       .expectedInterval[1] += 5000;
-      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
+      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::']['groundDate/extractedValue.tb1:10000']
       .expectedInterval[0] += 5000;
-      const newState = cleanCurrentViewData(freezeMe(state.PlotViewData.plot1), viewMap.plot1,
-        newMap.plot1, dataMap.expectedRangeIntervals, newIntervals);
+      const newState = cleanCurrentViewData(
+        freezeMe(state.PlotViewData.plot1),
+        viewMap.plot1,
+        newMap.plot1,
+        dataMap.expectedRangeIntervals,
+        newIntervals,
+        state.PlotViewConfiguration.plot1
+      );
       expect(newState).toMatchSnapshot();
     });
-    test.skip('interval update Plot: remove all', () => {
+    test('interval update Plot: remove all', () => {
       const newMap = _cloneDeep(viewMap);
       const newIntervals = _cloneDeep(dataMap.expectedRangeIntervals);
-      newIntervals['Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:extractedValue.<.100']['groundDate/extractedValue.tb1:0']
+      newIntervals['Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4::extractedValue.<.100:']['groundDate/extractedValue.tb1:0:#000000.monitoringState.=.waiting']
         .expectedInterval = [500030, 900000];
-      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:10000']
+      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::']['groundDate/extractedValue.tb1:10000']
         .expectedInterval = [490030, 890000];
-      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1']['groundDate/extractedValue.tb1:0']
+      newIntervals['Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:4:::']['groundDate/extractedValue.tb1:0']
         .expectedInterval = [500030, 900000];
-      const newState = cleanCurrentViewData(freezeMe(state.PlotViewData.plot1), viewMap.plot1,
-              newMap.plot1, dataMap.expectedRangeIntervals, newIntervals);
+      const newState = cleanCurrentViewData(
+        freezeMe(state.PlotViewData.plot1),
+        viewMap.plot1,
+        newMap.plot1,
+        dataMap.expectedRangeIntervals,
+        newIntervals,
+        state.PlotViewConfiguration.plot1
+      );
       expect(newState).toEqual({ indexes: {},
         lines: {},
         min: {},
@@ -81,10 +99,15 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         maxTime: { },
       });
     });
-    test.skip('interval error Plot: remove all', () => {
+    test('interval error Plot: remove all', () => {
       const newMap = _cloneDeep(viewMap);
-      const newState = cleanCurrentViewData(freezeMe(state.PlotViewData.plot1), viewMap.plot1,
-        newMap.plot1, dataMap.expectedRangeIntervals, undefined);
+      const newState = cleanCurrentViewData(
+        freezeMe(state.PlotViewData.plot1),
+        viewMap.plot1,
+        newMap.plot1,
+        dataMap.expectedRangeIntervals,
+        undefined,
+        state.PlotViewConfiguration.plot1);
       expect(newState).toEqual({ indexes: {},
         lines: {},
         min: {},
@@ -93,7 +116,7 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         maxTime: { },
       });
     });
-    test.skip('Ep renaming', () => {
+    test('Ep renaming', () => {
       const newMap = _cloneDeep(viewMap);
       let newPlotData = _cloneDeep(state.PlotViewData.plot1);
 
@@ -129,8 +152,14 @@ describe('viewManager/PlotView/store/cleanViewData', () => {
         ATT_BC_REVTCOUNT10: { ...newMap.plot1.entryPoints.ATT_BC_REVTCOUNT1 },
       };
       newMap.plot1.entryPoints = _omit(newMap.plot1.entryPoints, 'ATT_BC_REVTCOUNT1');
-      expect(cleanCurrentViewData(Object.freeze(state.PlotViewData.plot1), viewMap.plot1,
-        newMap.plot1, dataMap.expectedRangeIntervals, dataMap.expectedRangeIntervals))
+      expect(cleanCurrentViewData(
+        Object.freeze(state.PlotViewData.plot1),
+        viewMap.plot1,
+        newMap.plot1,
+        dataMap.expectedRangeIntervals,
+        dataMap.expectedRangeIntervals,
+        state.PlotViewConfiguration.plot1
+      ))
         .toEqual(newPlotData);
     });
   });

@@ -107,7 +107,6 @@ export default class Tabs extends PureComponent {
     focusPage: func.isRequired,
     pageDragEvent: func.isRequired,
     workspaceDomain: PropTypes.string.isRequired,
-    viewsDomains: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
     pagesDomains: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
     viewsDomainsByPage: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
     workspaceViewsDomains: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types

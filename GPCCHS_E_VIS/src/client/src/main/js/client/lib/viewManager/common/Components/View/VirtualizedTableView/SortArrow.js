@@ -8,7 +8,7 @@ import styles from './SortArrow.css';
 
 
 const SortArrow = ({ colKey, mode, active, onClick }) => (
-  <span
+  <button
     role={'presentation'}
     onClick={() => onClick(colKey, mode)}
     className={cn(styles.SortArrow, { [styles.active]: active })}
@@ -16,7 +16,7 @@ const SortArrow = ({ colKey, mode, active, onClick }) => (
     <Glyphicon
       glyph={mode === 'DESC' ? 'chevron-down' : 'chevron-up'}
     />
-  </span>
+  </button>
 );
 
 SortArrow.propTypes = {

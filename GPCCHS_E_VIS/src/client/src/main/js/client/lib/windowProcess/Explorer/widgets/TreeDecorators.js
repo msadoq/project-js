@@ -11,6 +11,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import _noop from 'lodash/noop';
 import {
   NODE_TYPE_ARRAY as ARRAY,
   NODE_TYPE_ARRAY_ITEM as ARRAY_ITEM,
@@ -197,6 +198,9 @@ const createContainer = (func) => {
       type: PropTypes.string,
     }).isRequired,
     onClick: PropTypes.func,
+  };
+  Container.defaultProps = {
+    onClick: _noop,
   };
   return Container;
 };

@@ -11,9 +11,9 @@ const Code = ({ className, children, visible }) => (visible
 );
 
 Code.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.arrayOf(PropTypes.node),
-  visible: PropTypes.bool,
+  className: PropTypes.string.isRequired,
+  children: PropTypes.arrayOf(PropTypes.node).isRequired,
+  visible: PropTypes.bool.isRequired,
 };
 
 Code.defaultProps = {};

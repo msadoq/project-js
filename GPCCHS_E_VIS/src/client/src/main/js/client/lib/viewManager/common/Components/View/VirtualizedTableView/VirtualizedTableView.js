@@ -191,30 +191,31 @@ class VirtualizedTableView extends React.Component {
           >
             {colKey}
           </span>
-          <span className={styles.Arrows}>
-            <SortArrow
-              colKey={colKey}
-              mode={'ASC'}
-              active={sortState.colName === colKey && sortState.direction === 'ASC'}
-              onClick={() => {
-                this.setState({
-                  selectedCell: null,
-                });
-                onSort(colKey, 'ASC');
-              }}
-            />
-            <SortArrow
-              colKey={colKey}
-              mode={'DESC'}
-              active={sortState.colName === colKey && sortState.direction === 'DESC'}
-              onClick={() => {
-                this.setState({
-                  selectedCell: null,
-                });
-                onSort(colKey, 'DESC');
-              }}
-            />
-          </span>
+          <span
+            className={styles.Label}
+          />
+          <SortArrow
+            colKey={colKey}
+            mode={'ASC'}
+            active={sortState.colName === colKey && sortState.direction === 'ASC'}
+            onClick={() => {
+              this.setState({
+                selectedCell: null,
+              });
+              onSort(colKey, 'ASC');
+            }}
+          />
+          <SortArrow
+            colKey={colKey}
+            mode={'DESC'}
+            active={sortState.colName === colKey && sortState.direction === 'DESC'}
+            onClick={() => {
+              this.setState({
+                selectedCell: null,
+              });
+              onSort(colKey, 'DESC');
+            }}
+          />
         </div>
       );
     };
@@ -343,11 +344,11 @@ class VirtualizedTableView extends React.Component {
       const popoverContent = _.get(['tooltip', 'body'], content);
 
       const actionsMenu = (bodyCellActions || []).map(
-        actionElem =>
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        (actionElem, idx) => (
           <div className={styles.ActionItem}>
             <a
               key={shortid.generate()}
+              tabIndex={idx}
               onClick={() => {
                 onBodyCellAction(actionElem.label, content, rowIndex, columnIndex);
               }}
@@ -355,6 +356,7 @@ class VirtualizedTableView extends React.Component {
               {actionElem.label}
             </a>
           </div>
+        )
       );
 
       const popover = (

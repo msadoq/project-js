@@ -10,7 +10,9 @@ import {
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
 import { getViewType } from '../../../../../store/reducers/views';
+import getLogger from '../../../../../common/logManager';
 
+const logger = getLogger('viewManager');
 
 const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
   const config = getConfigurationByViewId(state, { viewId });
@@ -90,7 +92,7 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => (
 
     if (action) {
       if (!action.onClick) {
-        console.error(`[NotImplementedError] onClick is not defined for action [${action.label}]`);
+        logger.error(`[NotImplementedError] onClick is not defined for action [${action.label}]`);
       }
 
       action.onClick(data, rowIndex, columnIndex);
@@ -115,8 +117,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     if (typeof ownProps.onCellDoubleClick === 'function') {
       ownProps.onCellDoubleClick(i, j, content);
     } else {
-      console.error('[NotImplementedError] Double-click on cell has not yet been implemented');
-      console.info(i, j, content);
+      logger.error('[NotImplementedError] Double-click on cell has not yet been implemented');
+      logger.info(i, j, content);
     }
   },
 });

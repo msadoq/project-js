@@ -17,13 +17,14 @@ const Tuple = ({ name, value }) => (
 );
 
 Tuple.propTypes = {
-  name: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  name: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 const TableTableNode = ({ values }) => (
   <table><tbody>
     {values.map((v, index) =>
+// eslint-disable-next-line react/no-array-index-key
       <tr key={index}>
         {Object.entries(v).map(([name, value]) =>
           <Tuple key={name} name={name} value={value} />

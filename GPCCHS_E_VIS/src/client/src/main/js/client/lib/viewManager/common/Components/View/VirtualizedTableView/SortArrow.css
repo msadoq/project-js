@@ -8,7 +8,8 @@
 }
 
 .SortArrow {
-  margin-right: 7px;
+  border: none;
+  background-color: transparent;
 }
 
 .SortArrow:not(.active) {

@@ -9,6 +9,9 @@ import { getConfigurationByViewId } from '../../../../../selectors';
 import { getApidsByDomainIdAndSessionId } from '../../../../../../store/reducers/apids';
 import { getDomainId } from '../../../../../../store/reducers/domains';
 import { getSessionId } from '../../../../../../store/reducers/sessions';
+import getLogger from '../../../../../../common/logManager';
+
+const logger = getLogger('viewManager:pus');
 
 const mapStateToProps = (state, { viewId }) => {
   const conf = getConfigurationByViewId(state, { viewId });
@@ -41,7 +44,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...dispatchProps,
   sendPUSSaveInFileRequest: (...args) => {
     const { domainId, sessionId } = stateProps;
-    console.log(`sendPUSSaveInFileRequest(${domainId}, ${sessionId}, ${args.join(', ')})`);
+    logger.info(`sendPUSSaveInFileRequest(${domainId}, ${sessionId}, ${args.join(', ')})`);
     dispatchProps.sendPUSSaveInFileRequest(domainId, sessionId, ...args);
   },
 });

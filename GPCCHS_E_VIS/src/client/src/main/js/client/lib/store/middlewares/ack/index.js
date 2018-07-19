@@ -27,14 +27,18 @@ const makeAckMiddleware = requestAck => ({ dispatch, getState }) => next => (act
       };
       return (cb) => {
         const timeoutId = setTimeout(() => failure('Timeout', cb), ALARM_ACK_TIMEOUT * 1000);
-        requestAck(tbdId, dataId, [{ oid, ackRequest: { comment } }], (err) => {
-          clearTimeout(timeoutId);
-          if (err) {
-            return failure(err, cb);
+        requestAck(
+          tbdId,
+          dataId,
+          [{ oid, ackRequest: { comment } }], (err) => {
+            clearTimeout(timeoutId);
+            if (err) {
+              return failure(err, cb);
+            }
+            dispatch(ackSuccess(viewId, ackId, oid));
+            return cb(null, true);
           }
-          dispatch(ackSuccess(viewId, ackId, oid));
-          return cb(null, true);
-        });
+        );
       };
     });
     async.parallel(requests, (err, results) => {

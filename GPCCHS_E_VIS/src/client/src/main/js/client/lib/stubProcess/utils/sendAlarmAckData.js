@@ -1,20 +1,27 @@
 const stubs = require('../../utils/stubs');
 const getPayload = require('./getPayload');
 const logger = require('../../common/logManager')('stubs:alarmAck');
+const constants = require('../../constants');
 
 const stubData = stubs.getStubData();
-const header = stubData.getTimebasedPubSubDataHeaderProtobuf();
 
-module.exports = function sendAlarmAckData(alarmAck, zmq) {
+module.exports = function sendAlarmAckData(queryId, alarms, zmq, rawBuffer, dataId) {
   const buffer = [
     null,
-    header,
-    stubData.getStringProtobuf(alarmAck.queryId),
-    stubData.getDataIdProtobuf(alarmAck.dataId),
+    stubData.getTimebasedPubSubDataHeaderProtobufADE(queryId),
+    stubData.getADETimebasedSubscriptionProtobuf({
+      action: 0,
+      sessionId: dataId.sessionId,
+      domainId: dataId.domainId,
+      objectName: 'OnBoardAlarmAckRequest',
+      catalogName: '',
+      itemName: '',
+      providerFlow: '',
+    }),
   ];
   // TODO pgaucher set the version in getPayload
-  alarmAck.alarms.forEach((alarm) => {
-    const payload = getPayload(Date.now(), alarmAck.dataId, {
+  alarms.forEach((alarm) => {
+    const payload = getPayload(Date.now(), dataId, constants.DC_COM_V2, {
       setOid: alarm.oid,
       setComment: alarm.ackRequest.comment.value,
       withAckRequest: true,
@@ -26,8 +33,7 @@ module.exports = function sendAlarmAckData(alarmAck, zmq) {
     buffer.push(payload.timestamp);
     buffer.push(payload.payload);
   });
-
-  if (alarmAck.alarms.length !== 0) {
+  if (alarms.length !== 0) {
     zmq.push('stubData', buffer);
   }
 };

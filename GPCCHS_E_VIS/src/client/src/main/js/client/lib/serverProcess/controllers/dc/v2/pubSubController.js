@@ -60,6 +60,7 @@ const makeOnPubSubData = (timing) => {
         parameterName: itemName,
         provider: providerFlow,
       };
+
       const payloadBuffers = Array.prototype.slice.call(buffers, 1);
       // check payloads parity
       if (payloadBuffers.length % 2 !== 0) {

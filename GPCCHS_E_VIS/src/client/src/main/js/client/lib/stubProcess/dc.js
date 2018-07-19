@@ -103,6 +103,15 @@ const pushError = (queryId = '', reason = '') => {
     stubData.getStringProtobuf(reason),
   ]);
 };
+
+const acknowledgeAlarmAck = (queryId, rawBuffer) => {
+  zmq.push('stubData', [
+    null,
+    stubData.getDcAlarmAckHeaderProtobufADE(queryId, false, false),
+    rawBuffer,
+  ]);
+};
+
 // Message Controller
 const onHssMessage = (...args) => {
   logger.debug('onHssMessage');
@@ -231,7 +240,6 @@ const onHssMessage = (...args) => {
             `dc.dataControllerUtils.${comObject}`, rawAlarm
           )
         ));
-
       alarmAcks.push({ dataId, queryId, alarms });
       logger.silly('alarmAck registered', comObject, '(', alarms.length, ')');
 
@@ -246,8 +254,6 @@ const onHssMessage = (...args) => {
 const onHssMessageADE = (...args) => {
   logger.debug('onHssMessageADE');
   const { method, requestId } = adapter.decode('dc.dataControllerUtils.ADEHeader', args[0]);
-  // const header = adapter.decode('dc.dataControllerUtils.Header', args[0]);
-  // const queryId = adapter.decode('dc.dataControllerUtils.String', args[1]).string;
   const queryId = requestId;
   switch (method) {
     case constants.ADE_FMD_GET: {
@@ -372,7 +378,6 @@ const onHssMessageADE = (...args) => {
 
     case constants.ADE_TIMEBASED_SUBSCRIPTION: {
       const decoded = protobuf.decode('dc.dataControllerUtils.ADETimebasedSubscription', args[1]);
-
       const dataId = {
         sessionId: decoded.sessionId,
         domainId: decoded.domainId,
@@ -408,6 +413,28 @@ const onHssMessageADE = (...args) => {
     }
 
     case constants.ADE_ALARM_ACK: {
+      const decoded = protobuf.decode('dc.dataControllerUtils.ADEAck', args[1]);
+      // console.log('decoded genericPayload header: ', decoded.genericPayload[0]);
+      const alarmAck = decoded.genericPayload.map(
+        ({ header, payload }) => protobuf.decode(`dc.dataControllerUtils.${header.comObjectType}`, payload)
+      );
+      // envoie une requete de type ADEHeader avec constants.ADE_ALARM_ACK
+      // Créer une reponse de type ADE_ALARM_ACK avec rawBuffer( = args[1])
+      acknowledgeAlarmAck(requestId, args[1]);
+      alarmAcks.push({
+        dataId: {
+          sessionId: decoded.sessionId,
+          domainId: decoded.domainId,
+          comObject: 'OnBoardAlarmAckRequest',
+        },
+        queryId,
+        alarmAck,
+        rawBuffer: args[1],
+      });
+      // _each(alarmAcks, ({ alarmAck, rawBuffer, queryId, dataId }) => {
+      //   logger.debug(`push alarmAck data for ${alarmAck.alarms.length} alarms`);
+      //   sendAlarmAckData(queryId, alarmAck, zmq, rawBuffer, dataId);
+      // });
       /* const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       const comObject = dataId.comObject;
       const alarms = args.slice(3).map(rawAlarm => (
@@ -470,25 +497,25 @@ function dcCall() {
   timeBasedQueries = [];
 
   // obsolete events queries
-  _each(obsoleteEventQueries, (query) => {
-    logger.debug(`push archive data for ${query.dataId.parameterName}`);
-    sendObsoleteEventData(
-      query.queryKey,
-      query.queryId,
-      query.dataId,
-      query.timeInterval,
-      query.isLast,
-      zmq,
-      query.versionDCCom,
-      query.rawBuffer
-    );
-  });
+  // _each(obsoleteEventQueries, (query) => {
+  //   logger.debug(`push archive data for ${query.dataId.parameterName}`);
+  //   sendObsoleteEventData(
+  //     query.queryKey,
+  //     query.queryId,
+  //     query.dataId,
+  //     query.timeInterval,
+  //     query.isLast,
+  //     zmq,
+  //     query.versionDCCom,
+  //     query.rawBuffer
+  //   );
+  // });
   obsoleteEventQueries = [];
 
   // alarmAcks
-  _each(alarmAcks, (alarmAck) => {
-    logger.debug(`push alarmAck data for ${alarmAck.alarms.length} alarms`);
-    sendAlarmAckData(alarmAck, zmq);
+  _each(alarmAcks, ({ alarmAck, rawBuffer, queryId, dataId }) => {
+    logger.debug(`push alarmAck data for ${alarmAck.length} alarms`);
+    sendAlarmAckData(queryId, alarmAck, zmq, rawBuffer, dataId);
   });
   alarmAcks = [];
 

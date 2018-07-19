@@ -34,7 +34,6 @@ const preparePubSub = lokiManager =>
       ) {
         return nextAction;
       }
-
       const execution = executionMonitor('middleware:preparePubSub');
       execution.start('global');
 
@@ -57,6 +56,7 @@ const preparePubSub = lokiManager =>
         const { dataId, payloadBuffers } = payloadBuffersMap[payloadBuffersArray[i]];
         // get payload type and check validity
         const payloadProtobufType = getType(dataId.comObject);
+
         if (typeof payloadProtobufType === 'undefined') {
           // TODO dispatch error
           logger.error('unsupported comObject', dataId.comObject);
@@ -96,8 +96,6 @@ const preparePubSub = lokiManager =>
               execution.start('decode payload');
               const decoded = decodePayload(dataBuffer);
               const decodedPayload = decode(getTypeAggreg(dataId.comObject), decoded);
-              execution.stop('decode payload');
-
               // For each tbdId in storeList
               execution.start('process for ranges');
               for (let j = 0; j < storeTbdIds.length; j += 1) {

@@ -67,6 +67,7 @@ const onSessionTimeDataADE = require('./v2/onSessionTimeData');
 const onSDBQueryData = require('./v2/onSDBQueryData');
 const archiveControllerADE = require('./v2/archiveController');
 const makePubSubControllerADE = require('./v2/pubSubController');
+const onAlarmAckADE = require('./v2/onAlarmAck');
 
 const { add: addMessage } = require('../../../store/actions/messages');
 
@@ -108,6 +109,7 @@ const controllersV2 = {
   [constants.ADE_SESSION_MASTER]: onSessionMasterDataADE,
   [constants.ADE_SESSION_TIME]: onSessionTimeDataADE,
   [constants.ADE_SDB_QUERY]: onSDBQueryData,
+  [constants.ADE_ALARM_ACK]: onAlarmAckADE,
 };
 
 const controllers = {

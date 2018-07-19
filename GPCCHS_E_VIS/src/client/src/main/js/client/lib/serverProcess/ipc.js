@@ -247,16 +247,27 @@ const dcVersionMap = {
       ], callback);
     },
     requestAck: (flatDataId, dataId, alarmAckRequests, callback) => {
-      const payloads = alarmAckRequests.map(alarmAckRequest => (
-        encode(`dc.dataControllerUtils.${dataId.comObject}`, alarmAckRequest)
-      ));
+      const { sessionId, domainId } = dataId;
 
-      const trames = [
-        getDcDataId(flatDataId, dataId),
-        ...payloads,
-      ];
-
-      commands.dc.rpc(constants.MESSAGETYPE_ALARM_ACK, trames, callback);
+      // const trames = [
+      //   getDcDataId(flatDataId, dataId),
+      //   ...payloads,
+      // ];
+      return commands.dc.rpc(constants.ADE_ALARM_ACK, [
+        encode('dc.dataControllerUtils.ADEAck', {
+          sessionId,
+          domainId,
+          // genericPayload : [ { header : {providerId, comObjectType, instanceOid}, payload}]
+          genericPayload: alarmAckRequests.map(({ oid, ackRequest }) => ({
+            header: {
+              providerId: 0,
+              comObjectType: dataId.comObject,
+              instanceOid: oid,
+            },
+            payload: encode(`dc.dataControllerUtils.${dataId.comObject}`, { oid, ackRequest }),
+          })),
+        }),
+      ], callback);
     },
     requestTimebasedQuery: (flatDataId, dataId, interval, args, samplingNumber) => (
       commands.dc.rpc(

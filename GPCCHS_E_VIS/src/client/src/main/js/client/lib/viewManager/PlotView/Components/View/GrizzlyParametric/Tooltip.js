@@ -358,7 +358,10 @@ export default class Tooltip extends React.Component {
                     left: xInRange,
                   }}
                 >
-                  {this.axesFormatters[`${axis.id}-x`](axis.scale.invert(xInRange))}
+                  { this.axesFormatters[`${axis.id}-x`]
+                    ? this.axesFormatters[`${axis.id}-x`](axis.scale.invert(xInRange))
+                    : null
+                  }
                 </span>
               );
             })

@@ -155,7 +155,7 @@ export default function parseEntryPoint(
 
   if (cd.error) {
     logger.info('invalid entryPoint', name, cd.error);
-    return { [name]: { error: cd.error } };
+    return { [name]: { error: cd.error, id, dataId: { parameterName: name } } };
   }
     // ignore parametric entryPoints
   if (cd.dataId.field === connectedData.fieldX) {

@@ -62,7 +62,7 @@ export const createDeepEqualSelector = createSelectorCreator(
   _.isEqual
 );
 
-const configurationReducers = getConfigurationReducers;
+const configurationReducers = getConfigurationReducers();
 
 /* ********************************************************
 * Comparison function to omit timebars in comparison

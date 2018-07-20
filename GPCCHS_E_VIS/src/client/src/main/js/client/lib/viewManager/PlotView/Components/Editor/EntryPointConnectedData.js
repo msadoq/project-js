@@ -47,6 +47,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash/fp';
 import {
   Field,
 } from 'redux-form';
@@ -64,6 +65,20 @@ import DataTypeField from 'viewManager/commonEditor/Fields/DataTypeField';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import styles from './EntryPointConnectedData.css';
+
+export const getFilteredAxes = ({ axes, unitX, unitY, unit, xAxisId, yAxisId, axisId }) => (
+  axes
+    ? Object.keys(axes)
+      .map(key => ({
+        ...axes[key],
+        axisId: key,
+      }))
+      .filter(axis =>
+        [unitX, unitY, unit].includes(axis.unit) ||
+        axis.id === xAxisId || axis.id === yAxisId || axis.id === axisId
+      )
+    : []
+);
 
 /*
   EntryPointConnectedData représente une donnée connectée à un entryPoint.
@@ -139,21 +154,6 @@ class EntryPointConnectedData extends React.Component {
       : [];
   };
 
-  getFilteredAxes = () => {
-    const { axes, unitX, unitY, unit, xAxisId, yAxisId, axisId } = this.props;
-
-    return axes ? Object.keys(axes)
-        .map(key => ({
-          ...axes[key],
-          axisId: key,
-        }))
-        .filter(axis =>
-          [unitX, unitY, unit].includes(axis.unit) ||
-          axis.id === xAxisId || axis.id === yAxisId || axis.id === axisId
-        )
-      : [];
-  };
-
   getNoCorrespondingAxisX = (connectedDataParametricFilteredAxisX) => {
     const { parametric } = this.state;
     const { xAxisId } = this.props;
@@ -166,35 +166,32 @@ class EntryPointConnectedData extends React.Component {
     return parametric && !connectedDataParametricFilteredAxisY.find(axis => axis.id === yAxisId);
   };
 
-  toggleParametric = (event) => {
-    // prevent from toggling to parametric. To be removed with all parametric part
-    // this.setState({ parametric: !this.state.parametric });
-    event.preventDefault();
-  };
-
   render() {
     const {
       axes,
       unitX,
       unitY,
-      unit,
       xAxisId,
       yAxisId,
-      axisId,
       timelines,
       domains,
-      timeline,
-      stringParameter,
       pageId,
       viewId,
+      stringParameter,
       selectedDomainName,
       selectedTimelineId,
       selectedCatalogName,
       selectedItemName,
       selectedComObjectName,
+      entryPoint,
     } = this.props;
+    const unit = _.getOr(null, ['connectedData', 'unit'], entryPoint);
+    const axisId = _.getOr(null, ['connectedData', 'axisId'], entryPoint);
+    const timeline = _.getOr(null, ['connectedData', 'timeline'], entryPoint);
     const { parametric } = this.state;
-    const filteredAxes = this.getFilteredAxes();
+
+    const filteredAxes =
+      getFilteredAxes({ axes, unitX, unitY, unit, xAxisId, yAxisId, axisId });
 
     // Determine elligible axes : must match the unit
     let connectedDataUnitFilteredAxis = filteredAxes.filter(a => a.unit === unit);
@@ -259,7 +256,6 @@ class EntryPointConnectedData extends React.Component {
               name="parametric"
               component={ButtonToggleField}
               styleOff="warning"
-              onChange={this.toggleParametric}
             />
           </HorizontalFormGroup>
           {

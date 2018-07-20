@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/PlotView/Components/View/Legend snapshot should match snapshot 1`] = `
+<ErrorBoundary>
+  <div
+    className="plotLegendHorizontal"
+    style={
+      Object {
+        "maxHeight": "auto",
+      }
+    }
+  >
+    <button
+      className="btn-primary"
+      onClick={[Function]}
+    >
+      Hide legend
+    </button>
+    <div>
+      <h4
+        className="LegendAxisName plotLegendAxisName"
+      >
+        VBat
+      </h4>
+      <div
+        className="plotLegendLegendsHorizontal"
+      >
+        <div
+          className="LegendItem legend"
+          onContextMenu={[Function]}
+          style={
+            Object {
+              "[object Object]": "#222",
+            }
+          }
+        >
+          <span
+            className="plotLegendColor"
+            style={
+              Object {
+                "[object Object]": "#222",
+              }
+            }
+          />
+          <span
+            className="plotLegendName"
+          >
+            TMMGT_BC_VIRTCHAN3
+          </span>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="tooltip"
+                placement="right"
+              >
+                Show Entry Point
+              </Tooltip>
+            }
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Glyphicon
+              bsClass="glyphicon"
+              className="eyeButton"
+              glyph="eye-open"
+              onClick={[Function]}
+            />
+          </OverlayTrigger>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="tooltip"
+                placement="right"
+              >
+                Hide Entry Point
+              </Tooltip>
+            }
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Glyphicon
+              bsClass="glyphicon"
+              className="eyeButton"
+              glyph="eye-close"
+              onClick={[Function]}
+            />
+          </OverlayTrigger>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="tooltip"
+                placement="right"
+              >
+                Remove Entry Point
+              </Tooltip>
+            }
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Glyphicon
+              bsClass="glyphicon"
+              className="removeButton text-danger"
+              glyph="remove"
+              onClick={[Function]}
+            />
+          </OverlayTrigger>
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="tooltip"
+                placement="right"
+              >
+                Display non significant values
+              </Tooltip>
+            }
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Glyphicon
+              bsClass="glyphicon"
+              className="eyeButton"
+              glyph="plus-sign"
+              onClick={[Function]}
+            />
+          </OverlayTrigger>
+        </div>
+      </div>
+    </div>
+  </div>
+</ErrorBoundary>
+`;

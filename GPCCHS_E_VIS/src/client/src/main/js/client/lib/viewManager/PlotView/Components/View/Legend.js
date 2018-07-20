@@ -27,11 +27,72 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _get from 'lodash/get';
-import { Glyphicon } from 'react-bootstrap';
+import _memoize from 'lodash/memoize';
+import { Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import classnames from 'classnames';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import styles from './Legend.css';
+
+export const tooltip = title => (
+  <Tooltip id="tooltip">
+    {title}
+  </Tooltip>
+);
+
+export const renderShowEntryPoint = (showEp, line, showEpNames) => (
+  <OverlayTrigger placement="bottom" overlay={tooltip('Show Entry Point')}>
+    <Glyphicon
+      glyph="eye-open"
+      onClick={e => showEp(e, line.id)}
+      className={classnames(
+        { [styles.showEyeSelected]: showEpNames.includes(line.id) },
+        styles.eyeButton)
+      }
+    />
+  </OverlayTrigger>
+);
+
+export const renderHideEntryPoint = (hideEp, line, hideEpNames) => (
+  <OverlayTrigger placement="bottom" overlay={tooltip('Hide Entry Point')}>
+    <Glyphicon
+      glyph="eye-close"
+      onClick={e => hideEp(e, line.id)}
+      className={classnames(
+        { [styles.hideEyeSelected]: hideEpNames.includes(line.id) },
+        styles.eyeButton)
+      }
+    />
+  </OverlayTrigger>
+);
+
+export const renderRemoveEntryPoint = (removeEntryPoint, line) => (
+  <OverlayTrigger placement="bottom" overlay={tooltip('Remove Entry Point')}>
+    <Glyphicon
+      glyph="remove"
+      onClick={e => removeEntryPoint(e, line.id)}
+      className={classnames(styles.removeButton, 'text-danger')}
+    />
+  </OverlayTrigger>
+);
+
+export const renderShowNonSignificantData = (showNonNominal, line, showEpNonNominal) => (
+  <OverlayTrigger placement="bottom" overlay={tooltip('Display non significant values')}>
+    <Glyphicon
+      glyph="plus-sign"
+      onClick={e => showNonNominal(e, line.id)}
+      className={classnames(
+        { [styles.showEyeSelected]: showEpNonNominal.includes(line.id) },
+        styles.eyeButton)
+      }
+    />
+  </OverlayTrigger>
+);
+
+const renderLegendName = name => (<span className={styles.plotLegendName}>{name}</span>);
+
+const topBottom = ['top', 'bottom'];
+const leftRight = ['left', 'right'];
 
 export default class Legend extends Component {
 
@@ -52,11 +113,11 @@ export default class Legend extends Component {
     onContextMenu: PropTypes.func.isRequired,
     showNonNominal: PropTypes.func.isRequired,
     showEpNonNominal: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }
+  };
 
   static defaultProps = {
     legendLocation: 'bottom',
-  }
+  };
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
@@ -68,6 +129,21 @@ export default class Legend extends Component {
     }
     return shouldRender;
   }
+
+  memoizeHeightStyle = _memoize(
+    (plotHeight, legendLocation) => ({
+      maxHeight: (leftRight.includes(legendLocation)
+        ? `${plotHeight}px`
+        : 'auto'
+      ),
+    })
+  );
+
+  memoizeLineColor = _memoize(
+    (line, attribute) => ({
+      [attribute]: _get(line, ['objectStyle', 'curveColor']) || '#222',
+    })
+  );
 
   render() {
     const {
@@ -101,31 +177,34 @@ export default class Legend extends Component {
     return (
       <ErrorBoundary>
         <div
-          className={
-            legendLocation === 'top' || legendLocation === 'bottom' ?
-            styles.plotLegendHorizontal : styles.plotLegendVertical
+          className={topBottom.includes(legendLocation)
+            ? styles.plotLegendHorizontal
+            : styles.plotLegendVertical
           }
-          style={{
-            maxHeight: (legendLocation === 'right' || legendLocation === 'left') ? `${plotHeight}px` : 'auto',
-          }}
+          style={this.memoizeHeightStyle(
+            `${plotHeight}-${legendLocation}`,
+            plotHeight,
+            legendLocation
+          )}
         >
           <button
             onClick={this.props.toggleShowLegend}
             className="btn-primary"
           >
-            {show ? 'Hide legend' : 'Show legend'}
+            {show
+              ? 'Hide legend'
+              : 'Show legend'
+            }
           </button>
           {
             show && sortedAndValidAxes.map(axis =>
-              <div
-                key={axis.id}
-              >
+              <div key={axis.id}>
                 <h4 className={classnames('LegendAxisName', styles.plotLegendAxisName)}>{axis.label}</h4>
                 <div
                   className={
                     classnames({
-                      [styles.plotLegendLegendsHorizontal]: legendLocation === 'top' || legendLocation === 'bottom',
-                      [styles.plotLegendLegendsVertical]: legendLocation === 'right' || legendLocation === 'left',
+                      [styles.plotLegendLegendsHorizontal]: topBottom.includes(legendLocation),
+                      [styles.plotLegendLegendsVertical]: leftRight.includes(legendLocation),
                     })
                   }
                 >
@@ -133,80 +212,28 @@ export default class Legend extends Component {
                     axis.lines.map(line =>
                       <div
                         className={classnames('LegendItem', styles.legend)}
-                        style={{
-                          borderColor: _get(line, ['objectStyle', 'curveColor']) || '#222',
-                        }}
+                        style={this.memoizeLineColor(
+                          `${line.id}-borderColor`,
+                          line,
+                          'borderColor'
+                        )}
                         key={line.name}
                         onContextMenu={event => onContextMenu(event, line.name)}
                       >
                         <span
                           className={styles.plotLegendColor}
-                          style={{
-                            background: _get(line, ['objectStyle', 'curveColor']) || '#222',
-                          }}
+                          style={this.memoizeLineColor(
+                            `${line.id}-background`,
+                            line,
+                            'background'
+                          )}
                         />
-                        {
-                          (legendLocation === 'top' || legendLocation === 'bottom') &&
-                          <span
-                            className={styles.plotLegendName}
-                          >
-                            {line.name}
-                          </span>
-                        }
-                        <Glyphicon
-                          glyph="eye-open"
-                          onClick={e => showEp(e, line.id)}
-                          className={
-                            classnames(
-                              {
-                                [styles.showEyeSelected]: showEpNames.includes(line.id),
-                              },
-                              styles.eyeButton
-                            )
-                          }
-                        />
-
-                        <Glyphicon
-                          glyph="eye-close"
-                          onClick={e => hideEp(e, line.id)}
-                          className={
-                            classnames(
-                              {
-                                [styles.hideEyeSelected]: hideEpNames.includes(line.id),
-                              },
-                              styles.eyeButton
-                            )
-                          }
-                        />
-
-                        <Glyphicon
-                          glyph="remove"
-                          onClick={e => removeEntryPoint(e, line.id)}
-                          className={
-                            classnames(
-                              styles.removeButton,
-                              'text-danger'
-                            )
-                          }
-                        />
-
-                        <Glyphicon
-                          glyph="plus-sign"
-                          onClick={e => showNonNominal(e, line.id)}
-                          className={
-                            classnames(
-                              {
-                                [styles.showEyeSelected]: showEpNonNominal.includes(line.id),
-                              },
-                              styles.eyeButton
-                            )
-                          }
-                        />
-                        { (legendLocation === 'left' || legendLocation === 'right') &&
-                          <span
-                            className={styles.plotLegendName}
-                          >{line.name}</span>
-                        }
+                        {topBottom.includes(legendLocation) && renderLegendName(line.name) }
+                        {renderShowEntryPoint(showEp, line, showEpNames)}
+                        {renderHideEntryPoint(hideEp, line, hideEpNames)}
+                        {renderRemoveEntryPoint(removeEntryPoint, line)}
+                        {renderShowNonSignificantData(showNonNominal, line, showEpNonNominal)}
+                        {leftRight.includes(legendLocation) && renderLegendName(line.name)}
                       </div>
                   )
                 }
@@ -214,7 +241,8 @@ export default class Legend extends Component {
               </div>
           )
         }
-        </div></ErrorBoundary>
+        </div>
+      </ErrorBoundary>
     );
   }
 }

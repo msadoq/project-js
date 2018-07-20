@@ -137,7 +137,7 @@ export default class ControlsLeft extends PureComponent {
     const { jump, timebarUuid } = this.props;
     jump(
       timebarUuid,
-      1000 * e.currentTarget.getAttribute('offset')
+      1000 * e.currentTarget.getAttribute('data-offset')
     );
   };
 
@@ -294,6 +294,7 @@ export default class ControlsLeft extends PureComponent {
             className={allButtonsKlasses}
             onClick={this.jump}
             title="- 10s"
+            data-offset={-10}
           >
             - 10s
           </button>
@@ -303,6 +304,7 @@ export default class ControlsLeft extends PureComponent {
             className={allButtonsKlasses}
             onClick={this.jump}
             title="+ 10s"
+            data-offset={10}
           >
             + 10s
           </button>

@@ -32,6 +32,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import _ from 'lodash/fp';
 import _sum from 'lodash/sum';
 import _memoize from 'lodash/memoize';
 import _throttle from 'lodash/throttle';
@@ -82,7 +83,10 @@ export default class Tooltip extends React.Component {
     return shouldRender;
   }
 
-  assignEl = (el) => { this.el = el; }
+  getTooltipFormater = (identifier, arg) => (_.getOr(null, identifier, this.axesFormatters)
+      ? this.axesFormatters[identifier](arg)
+      : null
+  );
 
   pseudoState = {
     showTooltip: false,
@@ -206,6 +210,8 @@ export default class Tooltip extends React.Component {
 
   tooltipWidth = 350;
 
+  assignEl = (el) => { this.el = el; }
+
   render() {
     const {
       height,
@@ -326,7 +332,10 @@ export default class Tooltip extends React.Component {
                     top: yInRange,
                   }}
                 >
-                  {this.axesFormatters[`${axis.id}-y`](axis.scale.invert(yInRange))}
+                  {this.getTooltipFormater(
+                    `${axis.id}-y`,
+                    axis.scale.invert(yInRange)
+                  )}
                 </span>
               );
             })
@@ -358,10 +367,10 @@ export default class Tooltip extends React.Component {
                     left: xInRange,
                   }}
                 >
-                  { this.axesFormatters[`${axis.id}-x`]
-                    ? this.axesFormatters[`${axis.id}-x`](axis.scale.invert(xInRange))
-                    : null
-                  }
+                  {this.getTooltipFormater(
+                    `${axis.id}-x`,
+                    axis.scale.invert(xInRange)
+                  )}
                 </span>
               );
             })
@@ -437,13 +446,12 @@ export default class Tooltip extends React.Component {
                                 <span
                                   className={styles.tooltipLineValue}
                                 >
-                                  X : {
-                                  this.axesFormatters[
-                                    `${configurationXAxisId(plotViewConfigurationLines, line.id)}-x`
-                                  ](line.x)
-                                }
+                                  X : {this.getTooltipFormater(
+                                    `${configurationXAxisId(plotViewConfigurationLines, line.id)}-x`,
+                                    line.x
+                                  )}
                                   {' '}
-                                Y : { line.y }
+                                  Y : { line.y }
                                 </span>
                               </p>
                             </div>

@@ -1,4 +1,5 @@
 const stubs = require('../../utils/stubs');
+const predictibleRand = require('../utils/predictibleRand');
 
 const stubData = stubs.getStubData();
 
@@ -11,7 +12,24 @@ const getDataByPusService = (pusService, timestamp) => {
       return { dataType: 4, groundDate: timestamp, payload: stubData.getPus011ModelProtobuf() };
     }
     case 12: {
-      return { dataType: 6, groundDate: timestamp, payload: stubData.getPus012ModelProtobuf() };
+      return {
+        dataType: 6,
+        groundDate: timestamp,
+        payload: stubData.getPus012ModelProtobuf({
+          pus012ParameterMonitoringDefinition: [
+            stubData.getPus012ParameterMonitoringDefinition({
+              checkType: predictibleRand.getFrom([
+                '1', '2', '3',
+              ]),
+            }),
+            stubData.getPus012ParameterMonitoringDefinition({
+              checkType: predictibleRand.getFrom([
+                '1', '2', '3',
+              ]),
+            }),
+          ],
+        }),
+      };
     }
     case 14: {
       return { dataType: 12, groundDate: timestamp, payload: stubData.getPus014ModelProtobuf() };

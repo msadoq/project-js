@@ -1,5 +1,4 @@
 {
-  "STUB_PUS_ON": "on",
   "PROFILING": "off",
   "PYTHON_EXEC_PATH": "/usr/share/isis/bin/python3",
   "SERVER_HEALTH_CRITICAL_DELAY": 500,
@@ -220,7 +219,6 @@
   "ZMQ_PASSERELLE_SUB": "ipc://convertUnitResponse.ipc",
   "COLORS_CONFIGURATION": "config.colors.json",
   "DATE_FORMAT_TAI": "YYYY-MM-DDTHH:mm:ss.SSS",
-  "REAL_TIME_RESYNCHRO_EACH_X_TICKS": 10,
   "PUS_CONSTANTS": {
     "ENABLED_SERVICE_APIDS": {
       "PUS03View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
@@ -329,6 +327,12 @@
       "2": "ENABLED",
       "3": "DELETED",
       "200": "UNKNOWN"
+    },
+    "STATUS_COLOR": {
+      "DISABLED": "#e67e22",
+      "ENABLED": "#2ecc71",
+      "DELETED": "#FF0000",
+      "UNKNOWN": "#bdc3c7"
     },
     "CHECK_TYPE": {
       "1": "DELTA",

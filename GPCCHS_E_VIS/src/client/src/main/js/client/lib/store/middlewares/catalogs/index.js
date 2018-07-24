@@ -28,6 +28,8 @@ import { getPageIdByViewId } from '../../reducers/pages';
 
 const logger = getLogger('middleware:catalogs');
 
+// TODO: refactor async dependent fetchers
+
 const asyncCatalogFetcher = (sessionId, domainId, cb) =>
   dc.retrieveSDBCatalogs({ sessionId, domainId }, cb);
 
@@ -283,6 +285,25 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
           fetchMeta();
         }
       );
+
+      const fetchCatalogAndItemsAndMeta = () => {
+        asyncCatalogFetcher(
+          sessionId,
+          domainId,
+          (catalogs) => {
+            dispatch(
+              addCatalogs(
+                getTupleId(domainId, sessionId),
+                catalogs
+              )
+            );
+            fetchItemsAndMeta();
+          });
+      };
+
+      if (!isCatalogLoaded(state, { sessionId, domainId })) {
+        fetchCatalogAndItemsAndMeta();
+      }
 
       if (!areCatalogItemsLoaded(state, { sessionId, domainId, name: catalogName })) {
         fetchItemsAndMeta();

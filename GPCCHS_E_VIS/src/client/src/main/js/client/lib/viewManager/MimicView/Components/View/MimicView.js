@@ -55,6 +55,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import styles from './MimicView.css';
+
 import {
   scaleAnimation,
   translateAnimation,
@@ -64,6 +67,7 @@ import {
   showAnimation,
   skewAnimation,
 } from './animations';
+import ErrorBoundary from '../../../common/Components/ErrorBoundary';
 
 const HtmlToReactParser = require('html-to-react').Parser;
 const ProcessNodeDefinitions = require('html-to-react').ProcessNodeDefinitions;
@@ -440,7 +444,17 @@ export default class MimicView extends Component {
   svgEls = [];
   render() {
     return (
-      this.content
+      <ErrorBoundary>
+        { this.content && this.content }
+        { !this.content && (
+          <div className="flex">
+            <div className={styles.renderErrorText}>
+              Unable to render view <br />
+              Nothing to render
+            </div>
+          </div>
+        )}
+      </ErrorBoundary>
     );
   }
 }

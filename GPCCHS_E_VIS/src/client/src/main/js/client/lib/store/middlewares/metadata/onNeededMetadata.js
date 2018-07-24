@@ -1,4 +1,3 @@
-
 import _ from 'lodash/fp';
 
 import {
@@ -7,31 +6,36 @@ import {
   WS_VIEW_UPDATE_ENTRYPOINT,
 } from '../../types';
 import { getConfigurationByViewId } from '../../../viewManager';
-import { getPageIdByViewId } from '../../reducers/pages';
 import { askItemMetadata } from '../../actions/catalogs';
+import { getDomainId } from '../../reducers/domains';
+import { getSessionId, getSessionNameFromTimeline } from '../../reducers/sessions';
+import { get } from '../../../common/configurationManager';
 
+const wildcardCharacter = get('WILDCARD_CHARACTER');
 
-const onNeededMetadata = ({ dispatch, getState }) => next => (action) => { // rename to 'triggerAskMetadata'
+const onNeededMetadata = ({ dispatch, getState }) => next => (action) => {
   const state = getState();
 
-  const _askEntryPointRelatedMetadata = (entryPoint, { viewId }) => {
+  const _askEntryPointRelatedMetadata = (entryPoint) => {
     const { connectedData } = entryPoint;
 
     if (!connectedData) {
       return;
     }
 
-    const { domain, timeline, catalog, catalogItem } = connectedData;
+    const { domain: domainName, timeline: timelineId, catalog, catalogItem } = connectedData;
 
-    const pageId = getPageIdByViewId(state, { viewId });
+    const domainId = getDomainId(state, { domainName });
+    const sessionName = getSessionNameFromTimeline(state, { timelineId, wildcardCharacter });
+    const sessionId = getSessionId(state, { sessionName });
 
-    dispatch(askItemMetadata(viewId, pageId, domain, timeline, catalog, catalogItem));
+    dispatch(askItemMetadata(domainId, sessionId, catalog, catalogItem));
   };
 
-  const _askEntryPointsRelatedMetadata = (entryPoints, { viewId }) => {
+  const _askEntryPointsRelatedMetadata = (entryPoints) => {
     if (entryPoints) {
       entryPoints.forEach((ep) => {
-        _askEntryPointRelatedMetadata(ep, { viewId });
+        _askEntryPointRelatedMetadata(ep);
       });
     }
   };
@@ -39,15 +43,16 @@ const onNeededMetadata = ({ dispatch, getState }) => next => (action) => { // re
   if (action.type === WS_VIEW_OPENED) {
     const { viewId } = action.payload;
     const conf = getConfigurationByViewId(state, { viewId });
-    _askEntryPointsRelatedMetadata(_.getOr([], 'entryPoints', conf), { viewId });
+    _askEntryPointsRelatedMetadata(_.getOr([], 'entryPoints', conf));
   }
 
   if (
     action.type === WS_VIEW_ADD_ENTRYPOINT ||
     action.type === WS_VIEW_UPDATE_ENTRYPOINT
   ) {
-    const { viewId, entryPoint } = action.payload;
-    _askEntryPointRelatedMetadata(entryPoint, { viewId });
+    const { entryPoint } = action.payload;
+
+    _askEntryPointRelatedMetadata(entryPoint);
   }
 
   return next(action);

@@ -36,6 +36,8 @@ const mapStateToProps = (state, { form, viewId, pageId }) => {
   return {
     selectedDomainName: domainName,
     selectedTimelineId: timelineId,
+    selectedDomainId: domainId,
+    selectedSessionId: sessionId,
     selectedCatalogName: name,
     selectedItemName: getSelectedItemName(form, state),
     selectedComObjectName: getSelectedComObjectName(form, state),
@@ -49,13 +51,35 @@ const mapStateToProps = (state, { form, viewId, pageId }) => {
 
 function mapDispatchToProps(dispatch, { change }) {
   return bindActionCreators({
-    getFormula: (viewId, pageId, domainName, timelineId, catalog, item) =>
-      askItemMetadata(viewId, pageId, domainName, timelineId, catalog, item),
+    getFormula: (domainId, sessionId, catalogName, catalogItemName) =>
+      askItemMetadata(domainId, sessionId, catalogName, catalogItemName),
     changeFormValue: change,
   }, dispatch);
 }
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  getFormula: () => {
+    const {
+      selectedDomainId,
+      selectedSessionId,
+      selectedCatalogName,
+      selectedItemName,
+    } = stateProps;
+
+
+    dispatchProps.getFormula(
+      selectedDomainId,
+      selectedSessionId,
+      selectedCatalogName,
+      selectedItemName
+    );
+  },
+});
+
 const EntryPointConnectedDataFieldsContainer =
-  connect(mapStateToProps, mapDispatchToProps)(EntryPointConnectedDataFields);
+  connect(mapStateToProps, mapDispatchToProps, mergeProps)(EntryPointConnectedDataFields);
 
 export default EntryPointConnectedDataFieldsContainer;

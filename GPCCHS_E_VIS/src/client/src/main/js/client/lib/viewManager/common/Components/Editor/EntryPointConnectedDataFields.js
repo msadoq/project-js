@@ -98,22 +98,9 @@ export default class EntryPointConnectedDataFields extends PureComponent {
   getFormula = () => {
     const {
       getFormula,
-      selectedDomainName,
-      selectedTimelineId,
-      selectedCatalogName,
-      selectedPath,
-      viewId,
-      pageId,
     } = this.props;
     if (this.fetchFormulaEnabled()) {
-      getFormula(
-        viewId,
-        pageId,
-        selectedDomainName,
-        selectedTimelineId,
-        selectedCatalogName,
-        selectedPath
-      );
+      getFormula();
     }
   };
 

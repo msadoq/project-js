@@ -1,4 +1,3 @@
-/* eslint-disable quote-props,no-unused-vars,arrow-body-style */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
@@ -17,7 +16,6 @@ import _ from 'lodash/fp';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEntryPoint } from 'store/actions/views';
-import { askItemMetadata } from 'store/actions/catalogs';
 
 import { getIsPlaying } from '../../../../store/reducers/hsc';
 
@@ -28,7 +26,7 @@ import {
   getTupleId,
 } from '../../../../store/reducers/catalogs';
 import { getDomainId } from '../../../../store/reducers/domains';
-import { getSessionByTimelineId, getSessionId } from '../../../../store/reducers/sessions';
+import { getSessionByTimelineId } from '../../../../store/reducers/sessions';
 
 
 const mapStateToProps = (state, { viewId }) => {
@@ -58,6 +56,7 @@ const mapStateToProps = (state, { viewId }) => {
 
         const tupleId = getTupleId(domainId, session.id);
 
+        // TODO: refactor this to use catalog selector
         const selectedCatalogSource = catalogs[tupleId];
 
         if (selectedCatalogSource) {

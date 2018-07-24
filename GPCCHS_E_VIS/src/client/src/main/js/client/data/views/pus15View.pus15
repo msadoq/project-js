@@ -19,7 +19,7 @@
   "domainName": "*",
   "sessionName": "*",
   "tables": {
-    "pus015PacketStore": {
+    "onBoardStorages": {
       "name": "On-Board Storages",
       "sorting": {
         "colName": "storeId",
@@ -60,7 +60,7 @@
         },
       ]
     }
-    "pus015Packet": {
+    "StorageDef": {
       "name": "Storage Definitions",
       "sorting": {
         "colName": "packetApid",

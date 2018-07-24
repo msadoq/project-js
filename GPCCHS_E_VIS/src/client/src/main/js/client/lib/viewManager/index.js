@@ -59,6 +59,7 @@ import packetViewSchema from 'common/viewConfigurationFiles/schemas/PacketView.s
 import groundAlarmViewSchema from 'common/viewConfigurationFiles/schemas/GroundAlarmView.schema.json';
 import onboardAlarmViewSchema from 'common/viewConfigurationFiles/schemas/OnboardAlarmView.schema.json';
 import PUS11ViewSchema from 'common/viewConfigurationFiles/schemas/PUS11View.schema.json';
+import PUS12ViewSchema from 'common/viewConfigurationFiles/schemas/PUS12View.schema.json';
 import PUS14ViewSchema from 'common/viewConfigurationFiles/schemas/PUS14View.schema.json';
 import PUS15ViewSchema from 'common/viewConfigurationFiles/schemas/PUS15View.schema.json';
 import PUSMMEViewSchema from 'common/viewConfigurationFiles/schemas/PUSMMEView.schema.json';
@@ -80,6 +81,7 @@ import groundAlarmViewData from './GroundAlarmView/data';
 import onboardAlarmViewData from './OnboardAlarmView/data';
 import plotViewData from './PlotView/data';
 import PUS11ViewData from '../viewManager/PUS11View/data';
+import PUS12ViewData from '../viewManager/PUS12View/data';
 import PUS14ViewData from '../viewManager/PUS14View/data';
 import PUS15ViewData from '../viewManager/PUS15View/data';
 import PUSMMEViewData from '../viewManager/PUSMMEView/data';
@@ -94,6 +96,7 @@ import onboardAlarmViewDataSelectors from './OnboardAlarmView/store/dataSelector
 import historyViewDataSelectors from './HistoryView/store/dataSelectors';
 import packetViewDataSelectors from './PacketView/store/dataSelectors';
 import PUS11ViewDataSelectors from '../viewManager/PUS11View/store/dataSelectors';
+import PUS12ViewDataSelectors from '../viewManager/PUS12View/store/dataSelectors';
 import PUS14ViewDataSelectors from '../viewManager/PUS14View/store/dataSelectors';
 import PUS15ViewDataSelectors from '../viewManager/PUS15View/store/dataSelectors';
 import PUSMMEViewDataSelectors from '../viewManager/PUSMMEView/store/dataSelectors';
@@ -110,6 +113,7 @@ import packetViewModule from './PacketView';
 import groundAlarmViewModule from './GroundAlarmView';
 import onboardAlarmViewModule from './OnboardAlarmView';
 import PUS11ViewModule from '../viewManager/PUS11View';
+import PUS12ViewModule from '../viewManager/PUS12View';
 import PUS14ViewModule from '../viewManager/PUS14View';
 import PUS15ViewModule from '../viewManager/PUS15View';
 import PUSMMEViewModule from '../viewManager/PUSMMEView';
@@ -185,6 +189,13 @@ const list = {
     structureType: DATASTRUCTURETYPE_PUS,
     structureModule: PUS11ViewData,
     dataSelectors: PUS11ViewDataSelectors,
+  },
+  [constants.VM_VIEW_PUS12]: {
+    schema: PUS12ViewSchema,
+    viewModule: PUS12ViewModule,
+    structureType: DATASTRUCTURETYPE_PUS,
+    structureModule: PUS12ViewData,
+    dataSelectors: PUS12ViewDataSelectors,
   },
   [constants.VM_VIEW_PUS14]: {
     schema: PUS14ViewSchema,

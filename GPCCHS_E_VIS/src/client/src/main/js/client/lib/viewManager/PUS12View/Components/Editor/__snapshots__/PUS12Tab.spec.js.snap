@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PUS12Tab :: render snapshot 1`] = `
+<ErrorBoundary>
+  <Collapse
+    accordion={false}
+    defaultActiveKey={Array []}
+    destroyInactivePanel={false}
+    onChange={[Function]}
+    prefixCls="rc-collapse"
+  >
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="Parameters"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+    <CollapsePanel
+      destroyInactivePanel={false}
+      forceRender={false}
+      header="parameterMonitoringDefinitions Columns"
+      headerClass=""
+      isActive={false}
+      onItemClick={[Function]}
+      showArrow={true}
+    />
+  </Collapse>
+</ErrorBoundary>
+`;

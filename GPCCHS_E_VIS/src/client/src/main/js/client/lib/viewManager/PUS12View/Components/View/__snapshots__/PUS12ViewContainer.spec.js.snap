@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/PUS12View/Components/View/PUS12ViewContainer snapshot 1`] = `
+<ReduxForm
+  apids={
+    Array [
+      Object {
+        "apidName": "ORBIT",
+        "apidRawValue": "0",
+      },
+    ]
+  }
+  lastUpdateModeServiceStatus="lastUpdateModeServiceStatus"
+  lastUpdateTimeServiceStatus="lastUpdateTimeServiceStatus"
+  noOfParameterMonitoringDefinition="noOfParameterMonitoringDefinition"
+  serviceApid="serviceApid"
+  serviceStatus="serviceStatus"
+/>
+`;

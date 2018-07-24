@@ -24,7 +24,7 @@ const pus012ParameterMonitoringDefinition = {
   pus012MonitoringCheckPropertiesHigh: getPus012MonitoringCheckProperties(),
   pus012MonitoringCheckPropertiesExpected: getPus012MonitoringCheckProperties(),
   isMonitoringIntervalSet: true,
-  isRepetitionNumberSet: true,
+  isRepetitionNumberSet: false,
   lastUpdateModeMonId: 100,
   lastUpdateTimeMonId: 'mySTRING',
   lastUpdateModeParamId: 100,

@@ -32,6 +32,9 @@ const getDecodedPayload = (dataType, payload) => {
     case constants.Pus011SubScheduleType: {
       return decode('isis.pusModelEditor.Pus011SubSchedule', payload);
     }
+    case constants.Pus012ModelType: {
+      return decode('isis.pusModelEditor.Pus012Model', payload);
+    }
     case constants.Pus012ParameterMonitoringDefinitionType: {
       return decode('isis.pusModelEditor.Pus012ParameterMonitoringDefinition', payload);
     }
@@ -148,6 +151,7 @@ const onPusData = (messageData, pusService, getStore) => {
     const decodedPayload = getDecodedPayload(dataType.value, payload.value);
     const cleanPayload = cleanupPayload(decodedPayload);
     const viewType = getViewType(pusService);
+
     store.dispatch(injectPusData({
       [viewType]: cleanPayload,
     }));

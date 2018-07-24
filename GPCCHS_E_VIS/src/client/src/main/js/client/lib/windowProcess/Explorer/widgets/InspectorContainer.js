@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars,no-trailing-spaces */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
@@ -34,6 +35,34 @@ import {
 import Inspector from './Inspector';
 import { getCatalogItemByName, getTupleId } from '../../../store/reducers/catalogs';
 
+
+/**
+ * Build a tree structure that can be displayed by Treebeard component
+ *
+ * @param obj
+ * @private
+ */
+const _buildTreeStructure =
+  obj =>
+    Object.keys(obj).map(
+      (key) => {
+        const children = obj[key];
+
+        if (!children || ['string', 'number'].indexOf(typeof children) > -1) {
+          return {
+            name: key,
+            value: children,
+          };
+        }
+
+        // iterable element
+        return {
+          name: '',
+          children: _buildTreeStructure(children),
+        };
+      }
+    );
+
 const mapStateToProps = (state) => {
   const viewId = getInspectorViewId(state);
   const viewType = getInspectorViewType(state);
@@ -62,6 +91,66 @@ const mapStateToProps = (state) => {
 
 // eslint-disable-next-line no-unused-vars
   const metadata = _.get('metadata', catalogItem);
+  console.log(staticData);
+  console.log(metadata);
+
+  const data = [
+    {
+      name: 'Parameter name',
+      value: metadata.itemName,
+    },
+    {
+      name: 'Short description',
+      value: metadata.shortDescription,
+    },
+    {
+      name: 'Long description',
+      value: metadata.longDescription,
+    },
+    {
+      name: 'List of aliases',
+      children: metadata.aliases.map(
+        alias =>
+          ({
+            name: '',
+            children: [
+              {
+                name: 'Alias',
+                value: alias.alias,
+              },
+              {
+                name: 'ContextDomain',
+                value: alias.contextDomain,
+              },
+            ],
+          })
+      ),
+    },
+    {
+      name: 'Monitoring law',
+      value: metadata.tmMeta.monitoringItems.map(
+        monitoringItem =>
+          ({
+            name: '',
+            children: [
+              {}
+            ]
+          })
+      ),
+    },
+    {
+      name: 'Monitoring Condition',
+      value: null,
+    },
+    {
+      name: 'Significativity condition',
+      children: _buildTreeStructure(metadata.tmMeta.sgy),
+    },
+    {
+      name: 'Interpretation function',
+      children: _buildTreeStructure(metadata)
+    }
+  ];
 
   // TODO: pass metadata instead of static data and
   // also fetch the list of related TM packets

@@ -9,7 +9,7 @@ const Builder = new ProtoBuf.Root()
   .lookup('dataControllerUtils.protobuf.ADEMonitoringItem');
 
 const getADEMonitoringItem = override => applyOverride({
-  item: 'inator',
+  itemName: 'inator',
   law: getADEMonitoringLaw(),
 }, override);
 

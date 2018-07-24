@@ -12,7 +12,7 @@ const Builder = new ProtoBuf.Root()
 
 const getADEItemMetadataTM = override => applyOverride({
   sgy: [getADESgy()],
-  monitoringItems: [],
+  monitoringItems: [getADEMonitoringItem()],
   computedTriggers: ['plic', 'plac', 'plouc'],
   computingDefinitions: ['bif', 'baf', 'bof'],
   calibrationFunctions: [getADECalibrationFunction()],

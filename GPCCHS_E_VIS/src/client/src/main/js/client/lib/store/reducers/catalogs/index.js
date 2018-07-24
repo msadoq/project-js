@@ -203,7 +203,7 @@ export default function catalogsReducer(state = {}, action) {
     case WS_ITEM_METADATA_ADD: {
       // TODO: factorize this (quite same as previous case)
       const { tupleId, name, metadata } = action.payload;
-      const { itemName, ...rest } = metadata;
+      const { itemName } = metadata;
 
       const catalogIndex = getCatalogIndexByName(state, { tupleId, name });
       if (catalogIndex === -1) {
@@ -216,7 +216,7 @@ export default function catalogsReducer(state = {}, action) {
       }
 
       const path = getMetadataPath(tupleId, catalogIndex, itemIndex);
-      return _set(path, rest, state);
+      return _set(path, metadata, state);
       // return state;
     }
     default:

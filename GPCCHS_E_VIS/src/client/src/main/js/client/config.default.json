@@ -337,7 +337,8 @@
     "CHECK_TYPE": {
       "1": "DELTA",
       "2": "EXPECTED VALUE",
-      "3": "LIMIT"
+      "3": "LIMIT",
+      "4": "UNKNOWN"
     },
     "INITIALISATION_MODE": {
       "1": "FROM DEFAULT",

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Move inspector middleware in a folder
@@ -18,6 +19,7 @@ import {
   setInspectorStaticData,
   isInspectorStaticDataLoading,
 } from 'store/actions/inspector';
+import { askItemMetadata } from '../../actions/catalogs';
 
 const logger = getLogger('server:store:middlewares:inspector');
 
@@ -28,7 +30,12 @@ export default rtdManager => ({ dispatch }) => next => (action) => {
       pageId, viewId, type: viewType,
       options: { epName, epId, dataId, field },
     } = action.payload;
-    const { parameterName, sessionId, domainId } = dataId;
+    const {
+      domainId,
+      sessionId,
+      catalog: catalogName,
+      parameterName: catalogItemName,
+    } = dataId;
 
     dispatch(minimizeExplorer(pageId, false));
     dispatch(focusTabInExplorer(pageId, 'inspector'));
@@ -39,22 +46,25 @@ export default rtdManager => ({ dispatch }) => next => (action) => {
     dispatch(setInspectorStaticData(null));
     dispatch(setInspectorGeneralData(viewId, viewType, epId, epName, dataId, field));
 
+    // fetch item metadata
+    dispatch(askItemMetadata(domainId, sessionId, catalogName, catalogItemName));
+
     // if (catalog !== 'Reporting') {
     //   return nextAction;
     // }
     dispatch(isInspectorStaticDataLoading(true));
     dispatch(isInspectorDisplayingTM(true));
 
-    logger.info(`request ${parameterName} for session ${sessionId} and domain ${domainId}`);
+    logger.info(`request ${catalogItemName} for session ${sessionId} and domain ${domainId}`);
 
-    rtdManager.getTelemetryStaticElements({ sessionId, domainId }, parameterName, (err, data) => {
+    rtdManager.getTelemetryStaticElements({ sessionId, domainId }, catalogItemName, (err, data) => {
       if (err || !data) {
         dispatch(isInspectorStaticDataLoading(false));
         dispatch(deleteInspectorGeneralData());
         dispatch(add(
           'global',
           'warning',
-          `Parameter ${parameterName} was not found in catalog Reporting for session ${sessionId} and domain ${domainId}`
+          `Parameter ${catalogItemName} was not found in catalog Reporting for session ${sessionId} and domain ${domainId}`
         ));
         return;
       }

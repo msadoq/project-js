@@ -11,6 +11,7 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import {
   getInspectorViewId,
@@ -31,6 +32,7 @@ import {
   getDataSelectors,
 } from 'viewManager';
 import Inspector from './Inspector';
+import { getCatalogItemByName, getTupleId } from '../../../store/reducers/catalogs';
 
 const mapStateToProps = (state) => {
   const viewId = getInspectorViewId(state);
@@ -44,6 +46,26 @@ const mapStateToProps = (state) => {
   const dynamicData = (viewType && viewId && epName)
     ? getDataSelectors(viewType).getLastValue(state, { epName, viewId })
     : null;
+
+  const { domainId, sessionId, catalog, parameterName } = dataId;
+
+  const tupleId = getTupleId(domainId, sessionId);
+  const catalogItem =
+    getCatalogItemByName(
+      state.catalogs,
+      {
+        tupleId,
+        name: catalog,
+        itemName: parameterName,
+      }
+    );
+
+// eslint-disable-next-line no-unused-vars
+  const metadata = _.get('metadata', catalogItem);
+
+  // TODO: pass metadata instead of static data and
+  // also fetch the list of related TM packets
+
   return {
     epName,
     field,

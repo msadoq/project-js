@@ -66,17 +66,13 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import styles from './EntryPointConnectedData.css';
 
-export const getFilteredAxes = ({ axes, unitX, unitY, unit, xAxisId, yAxisId, axisId }) => (
+export const getFilteredAxes = ({ axes }) => (
   axes
     ? Object.keys(axes)
       .map(key => ({
         ...axes[key],
         axisId: key,
       }))
-      .filter(axis =>
-        [unitX, unitY, unit].includes(axis.unit) ||
-        axis.id === xAxisId || axis.id === yAxisId || axis.id === axisId
-      )
     : []
 );
 
@@ -93,13 +89,8 @@ class EntryPointConnectedData extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
     axes: PropTypes.shape({}).isRequired,
     timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    axisId: PropTypes.string,
     xAxisId: PropTypes.string,
     yAxisId: PropTypes.string,
-    unitX: PropTypes.string,
-    unitY: PropTypes.string,
-    unit: PropTypes.string,
-    timeline: PropTypes.string,
     parametric: PropTypes.bool,
     stringParameter: PropTypes.bool,
     domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -119,10 +110,6 @@ class EntryPointConnectedData extends React.Component {
     axisId: null,
     xAxisId: null,
     yAxisId: null,
-    unitX: null,
-    unitY: null,
-    unit: null,
-    timeline: null,
     stringParameter: false,
     selectedDomainName: null,
     selectedTimelineId: null,
@@ -169,8 +156,6 @@ class EntryPointConnectedData extends React.Component {
   render() {
     const {
       axes,
-      unitX,
-      unitY,
       xAxisId,
       yAxisId,
       timelines,
@@ -185,18 +170,15 @@ class EntryPointConnectedData extends React.Component {
       selectedComObjectName,
       entryPoint,
     } = this.props;
-    const unit = _.getOr(null, ['connectedData', 'unit'], entryPoint);
     const axisId = _.getOr(null, ['connectedData', 'axisId'], entryPoint);
     const timeline = _.getOr(null, ['connectedData', 'timeline'], entryPoint);
     const { parametric } = this.state;
 
-    const filteredAxes =
-      getFilteredAxes({ axes, unitX, unitY, unit, xAxisId, yAxisId, axisId });
+    let filteredAxes = getFilteredAxes({ axes });
 
     // Determine elligible axes : must match the unit
-    let connectedDataUnitFilteredAxis = filteredAxes.filter(a => a.unit === unit);
-    const noCorrespondingAxis = !connectedDataUnitFilteredAxis.find(axis => axis.id === axisId);
-    connectedDataUnitFilteredAxis = connectedDataUnitFilteredAxis
+    const noCorrespondingAxis = !filteredAxes.find(axis => axis.id === axisId);
+    filteredAxes = filteredAxes
       .map(axis => ({
         label: axis.label,
         value: axis.axisId,
@@ -206,13 +188,13 @@ class EntryPointConnectedData extends React.Component {
         value: '-',
       });
     if (noCorrespondingAxis) {
-      connectedDataUnitFilteredAxis = connectedDataUnitFilteredAxis
+      filteredAxes = filteredAxes
         .concat({ label: axisId, value: axisId, disabled: true });
     }
 
     // Determine elligible axes for X and Y : must match the unit
-    let connectedDataParametricFilteredAxisX = filteredAxes.filter(a => a.unit === unitX);
-    let connectedDataParametricFilteredAxisY = filteredAxes.filter(a => a.unit === unitY);
+    let connectedDataParametricFilteredAxisX = filteredAxes;
+    let connectedDataParametricFilteredAxisY = filteredAxes;
     const noCorrespondingAxisX = this.getNoCorrespondingAxisX(connectedDataParametricFilteredAxisX);
     const noCorrespondingAxisY = this.getNoCorrespondingAxisY(connectedDataParametricFilteredAxisY);
     if (parametric) {
@@ -295,7 +277,7 @@ class EntryPointConnectedData extends React.Component {
                   />
                   {
                     noCorrespondingAxisX &&
-                    <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
+                    <span className="text-danger">No corresponding axis, create it or change it</span>
                   }
                 </HorizontalFormGroup>
                 <HorizontalFormGroup label="Domain X">
@@ -349,7 +331,7 @@ class EntryPointConnectedData extends React.Component {
                   />
                   {
                     noCorrespondingAxisY &&
-                    <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
+                    <span className="text-danger">No corresponding axis, create it or change it</span>
                   }
                 </HorizontalFormGroup>
                 <HorizontalFormGroup label="Domain Y">
@@ -440,11 +422,11 @@ class EntryPointConnectedData extends React.Component {
                   name="connectedData.axisId"
                   clearable={false}
                   component={ReactSelectField}
-                  options={connectedDataUnitFilteredAxis}
+                  options={filteredAxes}
                 />
                 {
                   noCorrespondingAxis &&
-                  <span className="text-danger">No corresponding axis-unit pair, create it or change it</span>
+                  <span className="text-danger">No corresponding axis, create it or change it</span>
                 }
               </HorizontalFormGroup>
               <HorizontalFormGroup label="Domain">

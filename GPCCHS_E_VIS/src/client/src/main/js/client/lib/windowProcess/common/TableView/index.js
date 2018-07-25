@@ -5,7 +5,6 @@ import { Label, Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
 
-import withScroll from './withScroll';
 import styles from './TableView.css';
 
 class SearchInput extends React.Component {
@@ -323,4 +322,4 @@ Table.defaultProps = {
   disableSelectionReason: 'You cannot select a row',
 };
 
-export default withScroll(Table);
+export default Table;

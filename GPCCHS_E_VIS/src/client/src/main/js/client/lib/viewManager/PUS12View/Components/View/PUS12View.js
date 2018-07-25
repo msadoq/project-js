@@ -17,333 +17,52 @@ const _formatDate = (date) => {
     ;
 };
 const _parameterMonitoringDefinitionsModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = cellContent;
-  switch (colKey) {
-    case 'monitoringId':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeMonId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeMonId',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'monitoringIdLabel':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeMonId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeMonId',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'parameterId':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeParamId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeParamId',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'validityParameterId':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeValParamId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeValParamId',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'parameterCurrentValue':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeParamCurrentValue',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeParamCurrentValue',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'validityParameterExpectedValue':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeValParamExpectValue',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeValParamExpectValue',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'validityParameterMask':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeValParamMask',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeValParamMask',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'monitoringInterval':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeMonInterval',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeMonInterval',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'repetitionNumber':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeRepetition',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeRepetition',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'checkType':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeCheckType',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeCheckType',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'monitoringStatus':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeMonStatus',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeMonStatus',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'protectionStatus':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeProtectionStatus',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeProtectionStatus',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'ridEL':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeRidEL',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeRidEL',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'ridLabelEL':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeRidEL',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeRidEL',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'actionStatusEL':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeActionStatusEL',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeActionStatusEL',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'ridStatusEL':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeRidStatusEL',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeRidStatusEL',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'maskEL':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeMaskEL',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeMaskEL',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'valueEL':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeValueEL',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeValueEL',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'ridH':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeRidH',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeRidH',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'ridLabelH':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeRidH',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeRidH',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'actionStatusH':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeActionStatusH',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeActionStatusH',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'ridStatusH':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeRidStatusH',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeRidStatusH',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'valueH':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeValueH',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeValueH',
-            format: _formatDate,
-          },
-        }
-      );
-    default:
-      return cellContent;
+  const { colKey, value } = cellContent;
+  if (typeof value === 'string' && value.length === 0) {
+    return cellContent;
   }
+  const tooltips = {
+    monitoringId: { mode: 'lastUpdateModeMonId', time: 'lastUpdateTimeMonId' },
+    parameterId: { mode: 'lastUpdateModeParamId', time: 'lastUpdateTimeParamId' },
+    monitoringStatus: { mode: 'lastUpdateModeMonStatus', time: 'lastUpdateTimeMonStatus' },
+    protectionStatus: { mode: 'lastUpdateModeProtectionStatus', time: 'lastUpdateTimeProtectionStatus' },
+    monitoringInterval: { mode: 'lastUpdateModeMonInterval', time: 'lastUpdateTimeMonInterval' },
+    repetitionNumber: { mode: 'lastUpdateModeRepetition', time: 'lastUpdateTimeRepetition' },
+    checkType: { mode: 'lastUpdateModeCheckType', time: 'lastUpdateTimeCheckType' },
+    validityParameterId: { mode: 'lastUpdateModeValParamId', time: 'lastUpdateTimeValParamId' },
+    validityParameterMask: { mode: 'lastUpdateModeValParamMask', time: 'lastUpdateTimeValParamMask' },
+    parameterCurrentValue: { mode: 'lastUpdateModeParamCurrentValue', time: 'lastUpdateTimeParamCurrentValue' },
+    validityParameterExpectedValue: { mode: 'lastUpdateModeValParamExpectValue', time: 'lastUpdateTimeValParamExpectValue' },
+    ridEL: { mode: 'lastUpdateModeRidEL', time: 'lastUpdateTimeRidEL' },
+    ridLabelEL: { mode: 'lastUpdateModeRidEL', time: 'lastUpdateTimeRidEL' },
+    ridStatusEL: { mode: 'lastUpdateModeRidStatusEL', time: 'lastUpdateTimeRidStatusEL' },
+    actionStatusEL: { mode: 'lastUpdateModeActionStatusEL', time: 'lastUpdateTimeActionStatusEL' },
+    maskEL: { mode: 'lastUpdateModeMaskEL', time: 'lastUpdateTimeMaskEL' },
+    valueEL: { mode: 'lastUpdateModeValueEL', time: 'lastUpdateTimeValueEL' },
+    ridH: { mode: 'lastUpdateModeRidH', time: 'lastUpdateTimeRidH' },
+    ridLabelH: { mode: 'lastUpdateModeRidH', time: 'lastUpdateTimeRidH' },
+    ridStatusH: { mode: 'lastUpdateModeRidStatusH', time: 'lastUpdateTimeRidStatusH' },
+    actionStatusH: { mode: 'lastUpdateModeActionStatusH', time: 'lastUpdateTimeActionStatusH' },
+    maskH: { mode: 'lastUpdateModeMaskH', time: 'lastUpdateTimeMaskH' },
+    valueH: { mode: 'lastUpdateModeValueH', time: 'lastUpdateTimeValueH' },
+  };
+  const toolT = tooltips[colKey];
+  if (toolT === undefined) {
+    return cellContent;
+  }
+  return addTooltipWithContent(
+    cellContent,
+    content,
+    {
+      lastUpdateMode: {
+        key: toolT.mode,
+      },
+      lastUpdateTime: {
+        key: toolT.time,
+        format: _formatDate,
+      },
+    }
+  );
 };
 
 const backgroundDisabled = { backgroundColor: '#e67e22' };

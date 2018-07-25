@@ -11,6 +11,7 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import {
   addEntryPoint,
@@ -21,8 +22,11 @@ import AddEntryPointWrapper from './AddEntryPointWrapper';
 export default connect(
   (state, { viewId }) => {
     const viewConfiguration = getConfigurationByViewId(state, { viewId });
+
+    const selectableAxes = _.omit('time', viewConfiguration.axes);
+
     return {
-      axes: viewConfiguration.axes,
+      axes: selectableAxes,
     };
   },
   { addEntryPoint }

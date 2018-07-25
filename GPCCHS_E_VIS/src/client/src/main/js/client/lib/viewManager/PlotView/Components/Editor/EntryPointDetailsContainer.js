@@ -21,6 +21,8 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -45,7 +47,7 @@ import {
 } from '../../../commonEditor/Fields/selectors';
 
 const mapStateToProps = (state, props) => ({
-  axes: getAxes(state, props),
+  axes: _.omit(['time'], getAxes(state, props)),
   timelines: getFocusedPageTimelines(state, props),
   panels: getViewEntryPointsSubPanels(state, props),
   domains: getDomains(state),

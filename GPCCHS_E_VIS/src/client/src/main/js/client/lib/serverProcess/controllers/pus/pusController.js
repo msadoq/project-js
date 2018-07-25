@@ -133,7 +133,7 @@ const cleanupPayload = (payload) => {
       newPayload[key] = [];
       _forEach(payload[key], data => newPayload[key].push(cleanupPayload(data)));
     } else if (typeof payload[key] === 'object') {
-      if (payload[key].value) {
+      if (payload[key].value && typeof payload[key].value !== 'object') {
         newPayload[key] = payload[key].value;
       } else {
         newPayload[key] = cleanupPayload(payload[key]);
@@ -151,7 +151,6 @@ const onPusData = (messageData, pusService, getStore) => {
     const decodedPayload = getDecodedPayload(dataType.value, payload.value);
     const cleanPayload = cleanupPayload(decodedPayload);
     const viewType = getViewType(pusService);
-
     store.dispatch(injectPusData({
       [viewType]: cleanPayload,
     }));

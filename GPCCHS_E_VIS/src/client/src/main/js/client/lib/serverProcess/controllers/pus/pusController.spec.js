@@ -26,6 +26,18 @@ const recursivePayload = {
       value: 100,
     },
   },
+  pus011Apid3: {
+    pus011Blah: {
+      apid: {
+        type: 'foo',
+        value: 100,
+      },
+      lastUpdateModeApid: {
+        type: 'foo',
+        value: 100,
+      },
+    },
+  },
   pus011Apid2: [
     {
       apid: {
@@ -70,6 +82,12 @@ describe('serverProcess/controllers/pus/pusController', () => {
           pus011Apid: {
             apid: 100,
             lastUpdateModeApid: 100,
+          },
+          pus011Apid3: {
+            pus011Blah: {
+              apid: 100,
+              lastUpdateModeApid: 100,
+            },
           },
           pus011Apid2: [
             {

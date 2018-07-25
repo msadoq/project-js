@@ -26,6 +26,10 @@ const onNeededMetadata = ({ dispatch, getState }) => next => (action) => {
 
     const { domain: domainName, timeline: timelineId, catalog, catalogItem } = connectedData;
 
+    if (!catalogItem || !catalog || !timelineId || !domainName) {
+      return;
+    }
+
     const domainId = getDomainId(state, { domainName });
     const sessionName = getSessionNameFromTimeline(state, { timelineId, wildcardCharacter });
     const sessionId = getSessionId(state, { sessionName });

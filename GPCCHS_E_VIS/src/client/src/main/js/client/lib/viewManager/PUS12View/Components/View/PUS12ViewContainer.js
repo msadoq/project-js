@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { getData } from 'viewManager/PUS12View/store/dataReducer';
-import parameters from 'common/configurationManager';
 import PUS12View from './PUS12View';
 
 import { getConfigurationByViewId } from '../../../selectors';
@@ -12,22 +11,14 @@ const mapStateToProps = (state, { viewId }) => {
   const data = getData(state, { viewId });
   const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
-  const statuses = parameters.get('PUS_CONSTANTS').STATUS;
-  const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
-
-  const parameterMonitoringDefinitionsData = _.get(
-    ['tables', 'parameterMonitoringDefinitions'],
-    data
-  );
 
   return {
     serviceApid: _.getOr(null, 'serviceApid', data),
     noOfParameterMonitoringDefinition: _.getOr(null, 'noOfParameterMonitoringDefinition', data),
-    serviceStatus: statuses[_.getOr(null, 'serviceStatus', data)],
-    lastUpdateModeServiceStatus: updateTypes[_.getOr(null, 'lastUpdateModeServiceStatus', data)],
-    lastUpdateTimeServiceStatus: String(_.getOr(null, 'lastUpdateTimeServiceStatus', data)),
+    serviceStatus: _.getOr(null, 'serviceStatus', data),
+    lastUpdateModeServiceStatus: _.getOr(null, 'lastUpdateModeServiceStatus', data),
+    lastUpdateTimeServiceStatus: _.getOr(null, 'lastUpdateTimeServiceStatus', data),
     apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
-    parameterMonitoringDefinitionsData,
     windowId,
   };
 };

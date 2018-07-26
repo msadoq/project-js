@@ -70,7 +70,7 @@ const backgroundEnabled = { backgroundColor: '#2ecc71' };
 
 // PARAMETER MONITORING MODIFIER
 const _parameterMonitoringDefinitionsStatusKeyList = [
-  'monitoringStatus',
+  'monitoringStatus', 'ridStatusEL', 'ridStatusH', 'actionStatusEL', 'actionStatusH',
 ];
 
 // apply background color to cells for which value is ENABLED or DISABLED

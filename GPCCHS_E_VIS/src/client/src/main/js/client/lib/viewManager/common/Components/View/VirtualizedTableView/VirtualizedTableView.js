@@ -84,6 +84,12 @@ class VirtualizedTableView extends React.Component {
     });
   }
 
+  _onScrollbarPresenceChange = ({ vertical }) => {
+    this.setState({
+      isVerticalScrollbarDisplayed: vertical,
+    });
+  };
+
   _onUpdateFilter = (colKey, newFilterValue) => {
     const { onFilter } = this.props;
 
@@ -196,7 +202,9 @@ class VirtualizedTableView extends React.Component {
 
 // eslint-disable-next-line react/prop-types
     const _headerCellRenderer = ({ columnIndex, key, style }) => {
-      const colKey = _getColumnName(cols[columnIndex]);
+      const currentCol = cols[columnIndex];
+      const colKey = _getColumnName(currentCol);
+      const colLabel = currentCol.label;
 
       let headerStyle = _.cloneDeep(style);
 
@@ -216,9 +224,9 @@ class VirtualizedTableView extends React.Component {
         >
           <span
             className={styles.Label}
-            title={colKey}
+            title={colLabel || colKey}
           >
-            {colKey}
+            {colLabel || colKey}
           </span>
           <SortArrow
             colKey={colKey}
@@ -451,6 +459,13 @@ class VirtualizedTableView extends React.Component {
           {
             ({ width, height }) => {
               const adjustedWidth = Math.min(width - scrollbarSize(), columnsWidth);
+              let mainGridAdjustedWidth = adjustedWidth;
+
+              console.log('scrollbar?', this.state.isVerticalScrollbarDisplayed);
+              if (this.state.isVerticalScrollbarDisplayed) {
+                mainGridAdjustedWidth += scrollbarSize();
+              }
+
               let adjustedHeight = height - headerHeight - (3 * rowHeight) - scrollbarSize();
 
               if (withGroups) {
@@ -543,7 +558,7 @@ class VirtualizedTableView extends React.Component {
                               }}
                               cellRenderer={_bodyCellRenderer}
                               className={styles.BodyGrid}
-                              width={adjustedWidth + scrollbarSize()}
+                              width={mainGridAdjustedWidth}
                               height={adjustedHeight}
                               columnWidth={_getColumnWidth}
                               estimatedColumnSize={_totalColumnWidth}
@@ -559,6 +574,7 @@ class VirtualizedTableView extends React.Component {
                               overscanColumnCount={overscanColumnCount}
                               overscanRowCount={overscanRowCount}
                               {...scrollProps}
+                              onScrollbarPresenceChange={this._onScrollbarPresenceChange}
                             />
                           </div>
                         </div>

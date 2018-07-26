@@ -5,127 +5,28 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import './PUS15View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { addTooltipWithContent } from '../../../common/pus/tooltip';
+import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 
 
-// eslint-disable-next-line arrow-body-style
-const _formatDate = (date) => {
-  return (new Date(date)) > 0
-    ? (new Date(date)).toISOString()
-    : date
-    ;
+const onBoardStoragesTooltips = {
+  storeId: { mode: 'lastUpdateModeStoreId', time: 'lastUpdateTimeStoreId' },
+  storageType: { mode: 'lastUpdateModeStoreType', time: 'lastUpdateTimeStoreType' },
+  status: { mode: 'lastUpdateModeStoreStatus', time: 'lastUpdateTimeStoreStatus' },
 };
-const _onBoardStoragesModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = cellContent;
+const _onBoardStoragesModifier = tableModifier(onBoardStoragesTooltips);
 
-  switch (colKey) {
-    case 'storeId':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeStoreId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeStoreId',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'storageType':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeStoreType',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeStoreType',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'status':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeStoreStatus',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeStoreStatus',
-            format: _formatDate,
-          },
-        }
-      );
-    default:
-      return cellContent;
-  }
+const storageDefTooltips = {
+  packetType: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
+  subsamplingRatio: { mode: 'lastUpdateModeSubSamplingRatio', time: 'lastUpdateTimeSubSamplingRatio' },
 };
-const _storageDefContentModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = cellContent;
-
-  switch (colKey) {
-    case 'packetType': {
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModePacketId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimePacketId',
-            format: _formatDate,
-          },
-        }
-      );
-    }
-    case 'subsamplingRatio': {
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeSubSamplingRatio',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeSubSamplingRatio',
-            format: _formatDate,
-          },
-        }
-      );
-    }
-    default: {
-      return cellContent;
-    }
-  }
-};
-
-const backgroundDisabled = { backgroundColor: '#e67e22' };
-const backgroundEnabled = { backgroundColor: '#2ecc71' };
+const _storageDefContentModifier = tableModifier(storageDefTooltips);
 
 // ON BOARD STORAGES
 const _onBoardStoragesStatusKeyList = [
   'status',
 ];
-
 // apply background color to cells for which value is ENABLED or DISABLED
-const _onBoardStoragesOverrideStyle = ({ content }) => {
-  const { value, colKey } = content;
-  if (_onBoardStoragesStatusKeyList.indexOf(colKey) > -1) {
-    if (value === 'DISABLED') {
-      return backgroundDisabled;
-    }
-    if (value === 'ENABLED') {
-      return backgroundEnabled;
-    }
-  }
-  return {};
-};
+const _onBoardStoragesOverrideStyle = tableOverrideStyle(_onBoardStoragesStatusKeyList);
 
 // STORAGE DEFINITION
 const _storageDefStatusKeyList = [
@@ -135,18 +36,7 @@ const _storageDefStatusKeyList = [
 ];
 
 // apply background color to cells for which value is ENABLED or DISABLED
-const _storageDefOverrideStyle = ({ content }) => {
-  const { value, colKey } = content;
-  if (_storageDefStatusKeyList.indexOf(colKey) > -1) {
-    if (value === 'DISABLED') {
-      return backgroundDisabled;
-    }
-    if (value === 'ENABLED') {
-      return backgroundEnabled;
-    }
-  }
-  return {};
-};
+const _storageDefOverrideStyle = tableOverrideStyle(_storageDefStatusKeyList);
 
 export default class PUS15View extends React.Component {
   static propTypes = {

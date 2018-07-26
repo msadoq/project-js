@@ -459,57 +459,66 @@ export const renderHeaders = (
   lastUpdateTimeFreeSpace,
   lastUpdateModeFreeSpace,
   serviceApidName
-) => (
-  <ErrorBoundary>
-    <div className="info col-sm-4 pus11_ap">
-      Application Process&nbsp;
-      <input type="text" disabled value={serviceApidName} />&nbsp;
-      <input className="mw50" type="text" disabled value={serviceApid} />
-    </div>
-    <div className="info col-sm-4 pus11_ss">
-      <OverlayTrigger
-        trigger={popoverTrigger}
-        placement="bottom"
-        overlay={generatePopover({
-          id: 'popover-service-apid',
-          title: 'Schedule Status',
-          time: lastUpdateTimeScheduleStatus,
-          mode: lastUpdateModeScheduleStatus,
-        })}
-      >
-        <span>
-          Schedule Status&nbsp;
-          <input type="text" className="mw100" disabled value={scheduleStatus} />
-        </span>
-      </OverlayTrigger>
-      <span className="spacing" />
-    </div>
-    <div className="info col-sm-4 pus11_as">
-      <OverlayTrigger
-        trigger={popoverTrigger}
-        placement="bottom"
-        overlay={generatePopover({
-          id: 'popover-commands',
-          title: (spaceInNumberOfCommands ? 'Free Commands' : 'Free Bytes'),
-          time: lastUpdateTimeNoFreeCommands,
-          mode: lastUpdateModeNoFreeCommands,
-        })}
-      >
-        <span>
-          Available Space&nbsp;
-          <input
-            type="text"
-            className="mw100"
-            disabled
-            value={spaceInNumberOfCommands ? noFreeCommands : freeSpace}
-          />
-          &nbsp;
-          {spaceInNumberOfCommands ? 'commands' : 'bytes'}
-        </span>
-      </OverlayTrigger>
-    </div>
-  </ErrorBoundary>
-);
+) => {
+  const statusStyle = 'mw100 '.concat(
+    ['DISABLED', 'ENABLED'].includes(scheduleStatus) ?
+    scheduleStatus.toLowerCase : ''
+  );
+  const statusSpan = (
+    <span>
+        Schedule Status&nbsp;
+        <input type="text" className={statusStyle} disabled value={scheduleStatus} />
+    </span>
+  );
+  return (
+    <ErrorBoundary>
+      <div className="info col-sm-4 pus11_ap">
+        Application Process&nbsp;
+        <input type="text" disabled value={serviceApidName} />&nbsp;
+        <input className="mw50" type="text" disabled value={serviceApid} />
+      </div>
+      <div className="info col-sm-4 pus11_ss">
+        <OverlayTrigger
+          trigger={popoverTrigger}
+          placement="bottom"
+          overlay={generatePopover({
+            id: 'popover-service-apid',
+            title: 'Schedule Status',
+            time: lastUpdateTimeScheduleStatus,
+            mode: lastUpdateModeScheduleStatus,
+          })}
+        >
+          {statusSpan}
+        </OverlayTrigger>
+        <span className="spacing" />
+      </div>
+      <div className="info col-sm-4 pus11_as">
+        <OverlayTrigger
+          trigger={popoverTrigger}
+          placement="bottom"
+          overlay={generatePopover({
+            id: 'popover-commands',
+            title: (spaceInNumberOfCommands ? 'Free Commands' : 'Free Bytes'),
+            time: lastUpdateTimeNoFreeCommands,
+            mode: lastUpdateModeNoFreeCommands,
+          })}
+        >
+          <span>
+            Available Space&nbsp;
+            <input
+              type="text"
+              className="mw100"
+              disabled
+              value={spaceInNumberOfCommands ? noFreeCommands : freeSpace}
+            />
+            &nbsp;
+            {spaceInNumberOfCommands ? 'commands' : 'bytes'}
+          </span>
+        </OverlayTrigger>
+      </div>
+    </ErrorBoundary>
+  );
+};
 
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'

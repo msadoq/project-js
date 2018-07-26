@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch, { viewId }) => ({
         windowId,
         {
           type: 'pusMmeModal',
-          title: 'Details for command',
+          title: 'Details for Packet',
           viewId,
           packetStore,
           packetParameter,

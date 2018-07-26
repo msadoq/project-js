@@ -72,7 +72,7 @@
 
 .Label {
   display: inline-block;
-  width: 80px;
+  width: 100%;
 }
 
 .Filter {
@@ -105,4 +105,17 @@
 .ActionItem {
   display: block;
   margin: 3px;
+}
+
+.DragHandleIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 22px;
+  background-color: darkgray;
+  cursor: col-resize;
+}
+.DragHandleIcon:hover {
+  background-color: black;
 }

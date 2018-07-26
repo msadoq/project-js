@@ -100,11 +100,34 @@ export default (stateConf, action) => {
     }
     case types.WS_VIEW_TABLE_SAVE_SCROLL: {
       const { tableId, scrollPosition } = action.payload;
-      const scrollPositionPath = ['tables', tableId, 'scrollPosition'];
 
       return _.set(
-        scrollPositionPath,
+        ['tables', tableId, 'scrollPosition'],
         scrollPosition,
+        stateConf
+      );
+    }
+    case types.WS_VIEW_TABLE_UPDATE_COLUMN_WIDTH: {
+      const { tableId, colKey, delta } = action.payload;
+
+      const columnsPath = ['tables', tableId, 'cols'];
+
+      const cols = _.get(columnsPath, stateConf);
+
+      const colIndex = cols.findIndex(col => col.title === colKey);
+
+      const columnWidthPath = [...columnsPath, colIndex, 'width'];
+
+      let currentWidth =
+        _.get(columnWidthPath, stateConf);
+
+      if (!currentWidth) {
+        currentWidth = 220;
+      }
+
+      return _.set(
+        ['tables', tableId, 'cols', colIndex, 'width'],
+        Math.max(0, currentWidth + delta),
         stateConf
       );
     }

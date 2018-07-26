@@ -11,6 +11,7 @@ import {
   WS_VIEW_TABLE_REORDER_COLUMNS,
   WS_VIEW_TABLE_TOGGLE_COLUMN,
   WS_VIEW_TABLE_SAVE_SCROLL,
+  WS_VIEW_TABLE_UPDATE_COLUMN_WIDTH,
 } from '../types';
 
 export const toggleColumnSort =
@@ -70,4 +71,13 @@ export const saveScroll =
     'viewId',
     'tableId',
     'scrollPosition'
+  );
+
+export const updateColumnWidth =
+  simple(
+    WS_VIEW_TABLE_UPDATE_COLUMN_WIDTH,
+    'viewId',
+    'tableId',
+    'colKey',
+    'delta'
   );

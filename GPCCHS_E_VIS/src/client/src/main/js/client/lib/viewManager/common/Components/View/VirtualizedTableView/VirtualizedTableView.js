@@ -8,6 +8,7 @@ import ContainerDimensions from 'react-container-dimensions';
 import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 import shortid from 'shortid';
 import { Overlay, Popover } from 'react-bootstrap';
+import Draggable from 'react-draggable';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import SortArrow from './SortArrow';
 
@@ -40,6 +41,7 @@ class VirtualizedTableView extends React.Component {
     tableHeader: PropTypes.func,
     saveScroll: PropTypes.func.isRequired,
     scrollPosition: PropTypes.shape(),
+    onResizeColumn: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -70,6 +72,15 @@ class VirtualizedTableView extends React.Component {
     this.inputRefs = {};
     cols.forEach((colKey) => {
       this.inputRefs[colKey] = React.createRef();
+    });
+  }
+
+  componentDidUpdate() {
+    ['groupHeaderGrid', 'headerGrid', 'filterGrid', 'mainGrid'].forEach((gridKey) => {
+      const currentGrid = this[gridKey];
+      if (currentGrid) {
+        currentGrid.recomputeGridSize();
+      }
     });
   }
 
@@ -135,6 +146,7 @@ class VirtualizedTableView extends React.Component {
       tableHeader,
       saveScroll,
       scrollPosition,
+      onResizeColumn,
     } = this.props;
 
     const formattedRows = rows;
@@ -144,9 +156,14 @@ class VirtualizedTableView extends React.Component {
 
     const _getColumnName = col => col.title;
 
+    const _totalColumnWidth = cols.reduce((acc, cur) => acc + (cur.width || columnWidth), 0);
+
+    const _getColumnWidth = ({ index }) => cols[index].width || columnWidth;
+
 // eslint-disable-next-line react/prop-types
     const _groupHeaderCellRenderer = ({ columnIndex, key, style }) => {
       const groupName = cols[columnIndex].group;
+      const colKey = _getColumnName(cols[columnIndex]);
 
       const groupHeaderStyle = {
         ...style,
@@ -161,6 +178,18 @@ class VirtualizedTableView extends React.Component {
           style={groupHeaderStyle}
         >
           {groupName}
+          <Draggable
+            axis="x"
+            defaultClassName="DragHandle"
+            defaultClassNameDragging="DragHandleActive"
+            onDrag={(event, { deltaX }) => {
+              onResizeColumn(colKey, deltaX);
+            }}
+            position={{ x: 0 }}
+            zIndex={999}
+          >
+            <div className={styles.DragHandleIcon}>{}</div>
+          </Draggable>
         </div>
       );
     };
@@ -191,9 +220,6 @@ class VirtualizedTableView extends React.Component {
           >
             {colKey}
           </span>
-          <span
-            className={styles.Label}
-          />
           <SortArrow
             colKey={colKey}
             mode={'ASC'}
@@ -410,7 +436,7 @@ class VirtualizedTableView extends React.Component {
       updatedRowCount = 1;
     }
 
-    const columnsWidth = columnWidth * columnCount;
+    const columnsWidth = _totalColumnWidth;
     const headerHeight = 42;
 
     const extendedRowHeight = rowHeight * 2;
@@ -460,11 +486,15 @@ class VirtualizedTableView extends React.Component {
                             {
                               withGroups ?
                                 <Grid
+                                  ref={(node) => {
+                                    this.groupHeaderGrid = node;
+                                  }}
                                   cellRenderer={_groupHeaderCellRenderer}
                                   className={styles.HeaderGrid}
                                   width={adjustedWidth}
                                   height={rowHeight}
-                                  columnWidth={columnWidth}
+                                  columnWidth={_getColumnWidth}
+                                  estimatedColumnSize={columnsWidth}
                                   rowHeight={rowHeight}
                                   scrollLeft={scrollLeft}
                                   scrollTop={scrollTop}
@@ -474,11 +504,15 @@ class VirtualizedTableView extends React.Component {
                                 /> : null
                             }
                             <Grid
+                              ref={(node) => {
+                                this.headerGrid = node;
+                              }}
                               cellRenderer={_headerCellRenderer}
                               className={styles.HeaderGrid}
                               width={adjustedWidth}
                               height={extendedRowHeight}
-                              columnWidth={columnWidth}
+                              columnWidth={_getColumnWidth}
+                              estimatedColumnSize={columnsWidth}
                               rowHeight={extendedRowHeight}
                               scrollLeft={scrollLeft}
                               scrollTop={scrollTop}
@@ -487,11 +521,15 @@ class VirtualizedTableView extends React.Component {
                               overscanColumnCount={overscanColumnCount}
                             />
                             <Grid
+                              ref={(node) => {
+                                this.filterGrid = node;
+                              }}
                               cellRenderer={_filterCellRenderer}
                               className={styles.HeaderGrid}
                               width={adjustedWidth}
                               height={rowHeight}
-                              columnWidth={columnWidth}
+                              columnWidth={_getColumnWidth}
+                              estimatedColumnSize={_totalColumnWidth}
                               rowHeight={rowHeight}
                               scrollLeft={scrollLeft}
                               scrollTop={scrollTop}
@@ -500,11 +538,15 @@ class VirtualizedTableView extends React.Component {
                               overscanColumnCount={overscanColumnCount}
                             />
                             <Grid
+                              ref={(node) => {
+                                this.mainGrid = node;
+                              }}
                               cellRenderer={_bodyCellRenderer}
                               className={styles.BodyGrid}
-                              width={adjustedWidth}
+                              width={adjustedWidth + scrollbarSize()}
                               height={adjustedHeight}
-                              columnWidth={columnWidth}
+                              columnWidth={_getColumnWidth}
+                              estimatedColumnSize={_totalColumnWidth}
                               rowHeight={rowHeight}
                               columnCount={columnCount}
                               rowCount={updatedRowCount}

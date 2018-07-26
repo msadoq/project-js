@@ -6,6 +6,7 @@ import {
   filterColumn,
   toggleColumnSort,
   saveScroll,
+  updateColumnWidth,
 } from 'store/actions/tableColumns';
 import VirtualizedTableView from './VirtualizedTableView';
 import { getConfigurationByViewId } from '../../../../selectors';
@@ -86,6 +87,9 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => (
   },
   onSort: (col, mode) => {
     dispatch(toggleColumnSort(viewId, tableId, col, mode));
+  },
+  onResizeColumn: (colKey, delta) => {
+    dispatch(updateColumnWidth(viewId, tableId, colKey, delta));
   },
   onBodyCellAction: (name, data, rowIndex, columnIndex) => {
     const action = bodyCellActions.find(actionElem => actionElem.label === name);

@@ -39,6 +39,7 @@ exports[`viewManager/PUS12View/Components/View/PUS12View PUS12View :: render sna
               >
                 <div>
                   Last update Time: 
+                  1528359679639
                 </div>
                 <div>
                   Last update mode: 
@@ -59,7 +60,7 @@ exports[`viewManager/PUS12View/Components/View/PUS12View PUS12View :: render sna
                 className="mw100"
                 disabled={true}
                 type="text"
-                value={100}
+                value={1}
               />
             </span>
           </OverlayTrigger>

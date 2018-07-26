@@ -28,6 +28,7 @@ import {
 } from '../../../../store/reducers/catalogs';
 import { getDomainId } from '../../../../store/reducers/domains';
 import { getSessionByTimelineId } from '../../../../store/reducers/sessions';
+import { getTimelinesByViewId } from '../../../../store/selectors/timelines';
 
 
 const mapStateToProps = (state, { viewId }) => {
@@ -72,11 +73,16 @@ const mapStateToProps = (state, { viewId }) => {
     }
   });
 
+  const timelines = getTimelinesByViewId(state, { viewId });
+
+  const isTimelineSelected = timelines.length > 0;
+
   return {
     config,
     last,
     isPlaying,
     scrollPosition,
+    isTimelineSelected,
   };
 };
 

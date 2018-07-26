@@ -68,6 +68,7 @@ class HistoryView extends React.Component {
     last: PropTypes.shape(),
     scrollPosition: PropTypes.shape().isRequired,
     config: PropTypes.shape().isRequired,
+    isTimelineSelected: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -113,6 +114,7 @@ class HistoryView extends React.Component {
       last,
       scrollPosition,
       config,
+      isTimelineSelected,
     } = this.props;
 
     const _setCurrent = (cellContent = {}, content = {}) => {
@@ -168,6 +170,16 @@ class HistoryView extends React.Component {
 
       return updatedCellContent;
     };
+
+    if (!isTimelineSelected) {
+      return (
+        <div className="flex">
+          <div className={styles.renderErrorText}>
+            Unable to render view. Please select a timeline.
+          </div>
+        </div>
+      );
+    }
 
     return (
       <ErrorBoundary>

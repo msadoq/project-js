@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCatalogItems, getTupleId } from 'store/reducers/catalogs';
+import { getCatalogs, getCatalogItems, getTupleId, getCatalogsByTupleId } from 'store/reducers/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
 import { getTimelineById } from 'store/reducers/timelines';
@@ -32,8 +32,8 @@ const mapStateToProps = (state, {
   const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
   const sessionId = selectedSession ? selectedSession.id : null;
   const tupleId = getTupleId(domainId, sessionId);
-  const catalogItems = getCatalogItems(state.catalogs, { tupleId, name: catalogName });
-  const catalogsLoaded = !!Object.keys(state.catalogs).length;
+  const catalogItems = getCatalogItems(getCatalogs(state), { tupleId, name: catalogName });
+  const catalogsLoaded = getCatalogsByTupleId(getCatalogs(state), { tupleId });
 
   return {
     catalogItems,

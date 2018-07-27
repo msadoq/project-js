@@ -226,6 +226,8 @@ export default function catalogsReducer(state = {}, action) {
 
 /* --- Selectors ------------------------------------------------------------ */
 
+export const getCatalogs = state => state.catalogs;
+
 /**
  * @param state
  * @param domainId
@@ -233,7 +235,7 @@ export default function catalogsReducer(state = {}, action) {
  * @returns {null}
  */
 export const getCatalogsByDomainIdAndSessionId = (state, { domainId, sessionId }) =>
-  _getOr(null, getTupleId(domainId, sessionId), state.catalogs);
+  _getOr(null, getTupleId(domainId, sessionId), getCatalogs(state));
 
 /* --- Reducer -------------------------------------------------------------- */
 
@@ -252,6 +254,12 @@ export const getPathToCatalogItemComObjects = catalogItem => _getOr(undefined, '
  * @param state
  * @param tupleId
  * @returns {null}
+ */
+/*
+ * ##########################################
+ * WARNING ! (FIXME) these selectors should not be based on a substate (here, state.catalogs), but directly on the complete state.
+ * This way, the state structure would be an implementation detail ; containers wouldn't need to know state structure.
+ * ##########################################
  */
 export const getCatalogsByTupleId = (state, { tupleId }) => getPathToCatalogs(state, tupleId);
 
@@ -317,7 +325,7 @@ export const getCatalogItemComObjects = createSelector(
   item => getPathToCatalogItemComObjects(item)
 );
 
-const getUnitsCatalog = state => state.catalogs.units;
+const getUnitsCatalog = state => getCatalogs(state).units;
 
 export const getUnitByItemName = createSelector(
   getUnitsCatalog,

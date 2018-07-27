@@ -46,8 +46,8 @@ const initialState = {
   },
   enabledApids: {
     data: [
-      { apid: 9, name: 'OBCENGINE2', updateType: 'TM', updateTime: 1527520025823 },
-      { apid: 11, name: 'APID11', updateType: 'TM', updateTime: 1527520025823 },
+      { apid: 9, name: 'OBCENGINE2', lastUpdateModeApid: 'TM', lastUpdateTimeApid: 1527520025823 },
+      { apid: 11, name: 'APID11', lastUpdateModeApid: 'TM', lastUpdateTimeApid: 1527520025823 },
     ],
   },
   commands: {

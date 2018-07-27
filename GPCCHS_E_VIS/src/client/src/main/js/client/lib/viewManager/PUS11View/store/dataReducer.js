@@ -38,6 +38,7 @@ function pus11DataReducer(state = {}, action) {
       }
       let updatedState = state;
 
+      const groundStatuses = parameters.get('PUS_CONSTANTS').COMMAND_GROUND_STATUS;
       const statuses = parameters.get('PUS_CONSTANTS').STATUS;
       const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
@@ -47,6 +48,10 @@ function pus11DataReducer(state = {}, action) {
           ['pus011SubSchedule', 'pus011Apid', 'pus011Command'],
           data
         ),
+        scheduleStatus: statuses[_.getOr(200, 'scheduleStatus', data)],
+        lastUpdateModeScheduleStatus: updateTypes[_.getOr(200, 'lastUpdateModeScheduleStatus', data)],
+        lastUpdateModeNoFreeCommands: updateTypes[_.getOr(200, 'lastUpdateModeNoFreeCommands', data)],
+        lastUpdateModeFreeSpace: updateTypes[_.getOr(200, 'lastUpdateModeFreeSpace', data)],
       };
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
@@ -57,14 +62,14 @@ function pus11DataReducer(state = {}, action) {
             status: statuses[_.getOr(200, 'status', subSchedule)], // map schedule status constant
             lastUpdateModeSubScheduleId: updateTypes[_.getOr(200, 'lastUpdateModeSubScheduleId', subSchedule)], // map schedule lastUpdateModeSubScheduleId constant
             lastUpdateModeStatus: updateTypes[_.getOr(200, 'lastUpdateModeStatus', subSchedule)], // map schedule lastUpdateModeStatus constant
+            lastUpdateModeExecTimeFirstTc: updateTypes[_.getOr(200, 'lastUpdateModeExecTimeFirstTc', subSchedule)], // map schedule lastUpdateModeStatus constant
           }))
       );
       updatedState = injectTabularData(updatedState, 'enabledApids',
         _.getOr([], ['pus011Apid'], data)
-          .filter(enabledApid => enabledApid.status !== 1) // filter disabled apids
+          .filter(enabledApid => enabledApid.status !== '1') // filter disabled apids
           .map(enabledApid => ({
             ...enabledApid,
-            status: statuses[_.getOr(200, 'status', enabledApid)], // map schedule status constant
             lastUpdateModeApid: updateTypes[_.getOr(200, 'lastUpdateModeApid', enabledApid)], // map schedule lastUpdateModeApid constant
           }))
       );
@@ -76,7 +81,7 @@ function pus11DataReducer(state = {}, action) {
           lastUpdateModeBinProf: updateTypes[_.getOr(200, 'lastUpdateModeBinProf', command)], // map schedule lastUpdateModeBinProf constant
           commandStatus: statuses[_.getOr(200, 'commandStatus', command)], // map schedule commandStatus constant
           lastUpdateModeGroundStatus: updateTypes[_.getOr(200, 'lastUpdateModeGroundStatus', command)], // map schedule lastUpdateModeGroundStatus constant
-          commandGroundStatus: statuses[_.getOr(200, 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
+          commandGroundStatus: groundStatuses[_.getOr(200, 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
           lastUpdateModeStatus: updateTypes[_.getOr(200, 'lastUpdateModeStatus', command)], // map schedule lastUpdateModeStatus constant
           lastUpdateModeCurrentExecTime: updateTypes[_.getOr(200, 'lastUpdateModeCurrentExecTime', command)], // map schedule lastUpdateModeCurrentExecTime constant
           lastUpdateModeInitialExecTime: updateTypes[_.getOr(200, 'lastUpdateModeInitialExecTime', command)], // map schedule lastUpdateModeInitialExecTime constant

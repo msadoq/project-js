@@ -2,9 +2,10 @@ const stubs = require('../../utils/stubs');
 const predictibleRand = require('../utils/predictibleRand');
 
 const stubData = stubs.getStubData();
-const getAStatus = () => predictibleRand.getFrom([1, 2]);
-const getAnUpdateMode = () => predictibleRand.getFrom(['1', '2', '3', '4', '200']);
-const getABoolean = () => getABoolean();
+const getAStatus = () => predictibleRand.getFrom(['1', '2', '3', '200']);
+const getAnUpdateMode = () => predictibleRand.getFrom(['1', '2', '3', '4']);
+const getABoolean = () => predictibleRand.getBool();
+const getAGroundStatus = () => predictibleRand.getInt([1, 8]).toString();
 
 const getDataByPusService = (pusService, timestamp) => {
   switch (pusService) {
@@ -37,27 +38,92 @@ const getDataByPusService = (pusService, timestamp) => {
               lastUpdateTimeApid: timestamp.toString(),
             }),
           ],
+          pus011SubSchedule: [
+            stubData.getPus011SubSchedule({
+              lastUpdateModeSubScheduleId: getAnUpdateMode(),
+              lastUpdateTimeSubscheduleId: timestamp.toString(),
+              status: getAStatus(),
+              lastUpdateModeStatus: getAnUpdateMode(),
+              lastUpdateTimeStatus: timestamp.toString(),
+              executionTimeFirstTc: timestamp.toString(),
+              lastUpdateModeExecTimeFirstTc: getAnUpdateMode(),
+              lastUpdateTimeExecTimeFirstTc: timestamp.toString(),
+            }),
+            stubData.getPus011SubSchedule({
+              lastUpdateModeSubScheduleId: getAnUpdateMode(),
+              lastUpdateTimeSubscheduleId: timestamp.toString(),
+              status: getAStatus(),
+              lastUpdateModeStatus: getAnUpdateMode(),
+              lastUpdateTimeStatus: timestamp.toString(),
+              executionTimeFirstTc: timestamp.toString(),
+              lastUpdateModeExecTimeFirstTc: getAnUpdateMode(),
+              lastUpdateTimeExecTimeFirstTc: timestamp.toString(),
+            }),
+          ],
           pus011Command: [
             stubData.getPus011Command({
               lastUpdateModeCommandId: getAnUpdateMode(),
               lastUpdateTimeCommandId: timestamp.toString(),
-              commandBinaryProfile: `${binaryProfile}${binaryProfile}${binaryProfile}${binaryProfile}`,
-              lastUpdateModeBinProf: getAnUpdateMode(),
-              lastUpdateTimeBinProf: timestamp.toString(),
-              commandGroundStatus: getAStatus(),
-              lastUpdateModeGroundStatus: getAnUpdateMode(),
-              lastUpdateTimeGroundStatus: timestamp.toString(),
               commandStatus: getAStatus(),
               lastUpdateModeStatus: getAnUpdateMode(),
               lastUpdateTimeStatus: timestamp.toString(),
-              currentExecutionTime: timestamp.toString(),
-              lastUpdateModeCurrentExecTime: getAnUpdateMode(),
-              lastUpdateTimeCurrentExecTime: timestamp.toString(),
+              commandGroundStatus: getAGroundStatus(),
+              lastUpdateModeGroundStatus: getAnUpdateMode(),
+              lastUpdateTimeGroundStatus: timestamp.toString(),
               initialExecutionTime: timestamp.toString(),
               lastUpdateModeInitialExecTime: getAnUpdateMode(),
               lastUpdateTimeInitialExecTime: timestamp.toString(),
+              currentExecutionTime: timestamp.toString(),
+              lastUpdateModeCurrentExecTime: getAnUpdateMode(),
+              lastUpdateTimeCurrentExecTime: timestamp.toString(),
               lastUpdateModeTotalTimeShiftOffset: getAnUpdateMode(),
               lastUpdateTimeTotalTimeShiftOffset: timestamp.toString(),
+              commandBinaryProfile: `${binaryProfile}${binaryProfile}${binaryProfile}${binaryProfile}`,
+              lastUpdateModeBinProf: getAnUpdateMode(),
+              lastUpdateTimeBinProf: timestamp.toString(),
+              pus011CommandParameters: [
+                stubData.getPus011CommandParameter({
+                  lastUpdateMode: getAnUpdateMode(),
+                  lastUpdateTime: timestamp.toString(),
+                }),
+                stubData.getPus011CommandParameter({
+                  lastUpdateMode: getAnUpdateMode(),
+                  lastUpdateTime: timestamp.toString(),
+                }),
+              ],
+              pus011TimeShift: [
+                stubData.getPus011TimeShift({
+                  applicationTime: timestamp.toString(),
+                  lastUpdateMode: getAnUpdateMode(),
+                  lastUpdateTime: timestamp.toString(),
+                }),
+                stubData.getPus011TimeShift({
+                  applicationTime: timestamp.toString(),
+                  lastUpdateMode: getAnUpdateMode(),
+                  lastUpdateTime: timestamp.toString(),
+                }),
+              ],
+            }),
+            stubData.getPus011Command({
+              lastUpdateModeCommandId: getAnUpdateMode(),
+              lastUpdateTimeCommandId: timestamp.toString(),
+              commandStatus: getAStatus(),
+              lastUpdateModeStatus: getAnUpdateMode(),
+              lastUpdateTimeStatus: timestamp.toString(),
+              commandGroundStatus: getAGroundStatus(),
+              lastUpdateModeGroundStatus: getAnUpdateMode(),
+              lastUpdateTimeGroundStatus: timestamp.toString(),
+              initialExecutionTime: timestamp.toString(),
+              lastUpdateModeInitialExecTime: getAnUpdateMode(),
+              lastUpdateTimeInitialExecTime: timestamp.toString(),
+              currentExecutionTime: timestamp.toString(),
+              lastUpdateModeCurrentExecTime: getAnUpdateMode(),
+              lastUpdateTimeCurrentExecTime: timestamp.toString(),
+              lastUpdateModeTotalTimeShiftOffset: getAnUpdateMode(),
+              lastUpdateTimeTotalTimeShiftOffset: timestamp.toString(),
+              commandBinaryProfile: `${binaryProfile}${binaryProfile}${binaryProfile}${binaryProfile}`,
+              lastUpdateModeBinProf: getAnUpdateMode(),
+              lastUpdateTimeBinProf: timestamp.toString(),
               pus011CommandParameters: [
                 stubData.getPus011CommandParameter({
                   lastUpdateMode: getAnUpdateMode(),
@@ -92,10 +158,11 @@ const getDataByPusService = (pusService, timestamp) => {
         payload: stubData.getPus012ModelProtobuf({
           serviceStatus: getAStatus(),
           lastUpdateModeServiceStatus: getAnUpdateMode(),
+          lastUpdateTimeServiceStatus: timestamp.toString(),
           pus012ParameterMonitoringDefinition: [
             stubData.getPus012ParameterMonitoringDefinition({
               monitoringStatus: getAStatus(),
-              checkType: getAnUpdateMode(),
+              checkType: getAStatus(),
               isMonitoringIntervalSet: getABoolean(),
               isRepetitionNumberSet: getABoolean(),
               lastUpdateModeMonInterval: getAnUpdateMode(),
@@ -109,6 +176,17 @@ const getDataByPusService = (pusService, timestamp) => {
               lastUpdateModeCheckType: getAnUpdateMode(),
               lastUpdateModeMonStatus: getAnUpdateMode(),
               lastUpdateModeProtectionStatus: getAnUpdateMode(),
+              lastUpdateTimeMonInterval: timestamp.toString(),
+              lastUpdateTimeRepetition: timestamp.toString(),
+              lastUpdateTimeMonId: timestamp.toString(),
+              lastUpdateTimeParamId: timestamp.toString(),
+              lastUpdateTimeValParamId: timestamp.toString(),
+              lastUpdateTimeParamCurrentValue: timestamp.toString(),
+              lastUpdateTimeValParamExpectValue: timestamp.toString(),
+              lastUpdateTimeValParamMask: timestamp.toString(),
+              lastUpdateTimeCheckTime: timestamp.toString(),
+              lastUpdateTimeMonStatus: timestamp.toString(),
+              lastUpdateTimeProtectionStatus: timestamp.toString(),
               pus012MonitoringCheckPropertiesLow: stubData.getPus012MonitoringCheckProperties({
                 ridStatus: getAStatus(),
                 actionStatus: getAStatus(),
@@ -117,6 +195,11 @@ const getDataByPusService = (pusService, timestamp) => {
                 lastUpdateModeRidStatus: getAnUpdateMode(),
                 lastUpdateModeMask: getAnUpdateMode(),
                 lastUpdateModeValue: getAnUpdateMode(),
+                lastUpdateTimeRid: timestamp.toString(),
+                lastUpdateTimeActionStatus: timestamp.toString(),
+                lastUpdateTimeRidStatus: timestamp.toString(),
+                lastUpdateTimeMask: timestamp.toString(),
+                lastUpdateTimeValue: timestamp.toString(),
               }),
               pus012MonitoringCheckPropertiesExpected: stubData.getPus012MonitoringCheckProperties({
                 ridStatus: getAStatus(),
@@ -126,6 +209,11 @@ const getDataByPusService = (pusService, timestamp) => {
                 lastUpdateModeRidStatus: getAnUpdateMode(),
                 lastUpdateModeMask: getAnUpdateMode(),
                 lastUpdateModeValue: getAnUpdateMode(),
+                lastUpdateTimeRid: timestamp.toString(),
+                lastUpdateTimeActionStatus: timestamp.toString(),
+                lastUpdateTimeRidStatus: timestamp.toString(),
+                lastUpdateTimeMask: timestamp.toString(),
+                lastUpdateTimeValue: timestamp.toString(),
               }),
               pus012MonitoringCheckPropertiesHigh: stubData.getPus012MonitoringCheckProperties({
                 ridStatus: getAStatus(),
@@ -135,11 +223,16 @@ const getDataByPusService = (pusService, timestamp) => {
                 lastUpdateModeRidStatus: getAnUpdateMode(),
                 lastUpdateModeMask: getAnUpdateMode(),
                 lastUpdateModeValue: getAnUpdateMode(),
+                lastUpdateTimeRid: timestamp.toString(),
+                lastUpdateTimeActionStatus: timestamp.toString(),
+                lastUpdateTimeRidStatus: timestamp.toString(),
+                lastUpdateTimeMask: timestamp.toString(),
+                lastUpdateTimeValue: timestamp.toString(),
               }),
             }),
             stubData.getPus012ParameterMonitoringDefinition({
               monitoringStatus: getAStatus(),
-              checkType: getAnUpdateMode(),
+              checkType: getAStatus(),
               isMonitoringIntervalSet: getABoolean(),
               isRepetitionNumberSet: getABoolean(),
               lastUpdateModeMonInterval: getAnUpdateMode(),
@@ -153,6 +246,17 @@ const getDataByPusService = (pusService, timestamp) => {
               lastUpdateModeCheckType: getAnUpdateMode(),
               lastUpdateModeMonStatus: getAnUpdateMode(),
               lastUpdateModeProtectionStatus: getAnUpdateMode(),
+              lastUpdateTimeMonInterval: timestamp.toString(),
+              lastUpdateTimeRepetition: timestamp.toString(),
+              lastUpdateTimeMonId: timestamp.toString(),
+              lastUpdateTimeParamId: timestamp.toString(),
+              lastUpdateTimeValParamId: timestamp.toString(),
+              lastUpdateTimeParamCurrentValue: timestamp.toString(),
+              lastUpdateTimeValParamExpectValue: timestamp.toString(),
+              lastUpdateTimeValParamMask: timestamp.toString(),
+              lastUpdateTimeCheckTime: timestamp.toString(),
+              lastUpdateTimeMonStatus: timestamp.toString(),
+              lastUpdateTimeProtectionStatus: timestamp.toString(),
               pus012MonitoringCheckPropertiesLow: stubData.getPus012MonitoringCheckProperties({
                 ridStatus: getAStatus(),
                 actionStatus: getAStatus(),
@@ -161,6 +265,11 @@ const getDataByPusService = (pusService, timestamp) => {
                 lastUpdateModeRidStatus: getAnUpdateMode(),
                 lastUpdateModeMask: getAnUpdateMode(),
                 lastUpdateModeValue: getAnUpdateMode(),
+                lastUpdateTimeRid: timestamp.toString(),
+                lastUpdateTimeActionStatus: timestamp.toString(),
+                lastUpdateTimeRidStatus: timestamp.toString(),
+                lastUpdateTimeMask: timestamp.toString(),
+                lastUpdateTimeValue: timestamp.toString(),
               }),
               pus012MonitoringCheckPropertiesExpected: stubData.getPus012MonitoringCheckProperties({
                 ridStatus: getAStatus(),
@@ -170,6 +279,11 @@ const getDataByPusService = (pusService, timestamp) => {
                 lastUpdateModeRidStatus: getAnUpdateMode(),
                 lastUpdateModeMask: getAnUpdateMode(),
                 lastUpdateModeValue: getAnUpdateMode(),
+                lastUpdateTimeRid: timestamp.toString(),
+                lastUpdateTimeActionStatus: timestamp.toString(),
+                lastUpdateTimeRidStatus: timestamp.toString(),
+                lastUpdateTimeMask: timestamp.toString(),
+                lastUpdateTimeValue: timestamp.toString(),
               }),
               pus012MonitoringCheckPropertiesHigh: stubData.getPus012MonitoringCheckProperties({
                 ridStatus: getAStatus(),
@@ -179,6 +293,11 @@ const getDataByPusService = (pusService, timestamp) => {
                 lastUpdateModeRidStatus: getAnUpdateMode(),
                 lastUpdateModeMask: getAnUpdateMode(),
                 lastUpdateModeValue: getAnUpdateMode(),
+                lastUpdateTimeRid: timestamp.toString(),
+                lastUpdateTimeActionStatus: timestamp.toString(),
+                lastUpdateTimeRidStatus: timestamp.toString(),
+                lastUpdateTimeMask: timestamp.toString(),
+                lastUpdateTimeValue: timestamp.toString(),
               }),
             }),
           ],
@@ -189,7 +308,73 @@ const getDataByPusService = (pusService, timestamp) => {
       return { dataType: 12, groundDate: timestamp, payload: stubData.getPus014ModelProtobuf() };
     }
     case 15: {
-      return { dataType: 13, groundDate: timestamp, payload: stubData.getPus015ModelProtobuf() };
+      return {
+        dataType: 13,
+        groundDate: timestamp,
+        payload: stubData.getPus015ModelProtobuf({
+          status: getAStatus(),
+          pus015PacketStore: [
+            stubData.getPus015PacketStore({
+              status: getAStatus(),
+              lastUpdateModeStoreId: getAnUpdateMode(),
+              lastUpdateTimeStoreId: timestamp.toString(),
+              lastUpdateModeStoreType: getAnUpdateMode(),
+              lastUpdateTimeStoreType: timestamp.toString(),
+              lastUpdateModeStoreStatus: getAnUpdateMode(),
+              lastUpdateTimeStoreStatus: timestamp.toString(),
+              pus015Packet: [
+                stubData.getPus015Packet({
+                  serviceType: getAnUpdateMode(),
+                  serviceSubType: getAnUpdateMode(),
+                  lastUpdateModePacketId: getAnUpdateMode(),
+                  lastUpdateTimePacketId: timestamp.toString(),
+                  lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
+                  lastUpdateTimeSubSamplingRatio: timestamp.toString(),
+                  packetType: getAnUpdateMode(),
+                }),
+                stubData.getPus015Packet({
+                  serviceType: getAnUpdateMode(),
+                  serviceSubType: getAnUpdateMode(),
+                  lastUpdateModePacketId: getAnUpdateMode(),
+                  lastUpdateTimePacketId: timestamp.toString(),
+                  lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
+                  lastUpdateTimeSubSamplingRatio: timestamp.toString(),
+                  packetType: getAnUpdateMode(),
+                }),
+              ],
+            }),
+            stubData.getPus015PacketStore({
+              status: getAStatus(),
+              lastUpdateModeStoreId: getAnUpdateMode(),
+              lastUpdateTimeStoreId: timestamp.toString(),
+              lastUpdateModeStoreType: getAnUpdateMode(),
+              lastUpdateTimeStoreType: timestamp.toString(),
+              lastUpdateModeStoreStatus: getAnUpdateMode(),
+              lastUpdateTimeStoreStatus: timestamp.toString(),
+              pus015Packet: [
+                stubData.getPus015Packet({
+                  serviceType: getAnUpdateMode(),
+                  serviceSubType: getAnUpdateMode(),
+                  lastUpdateModePacketId: getAnUpdateMode(),
+                  lastUpdateTimePacketId: timestamp.toString(),
+                  lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
+                  lastUpdateTimeSubSamplingRatio: timestamp.toString(),
+                  packetType: getAnUpdateMode(),
+                }),
+                stubData.getPus015Packet({
+                  serviceType: getAnUpdateMode(),
+                  serviceSubType: getAnUpdateMode(),
+                  lastUpdateModePacketId: getAnUpdateMode(),
+                  lastUpdateTimePacketId: timestamp.toString(),
+                  lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
+                  lastUpdateTimeSubSamplingRatio: timestamp.toString(),
+                  packetType: getAnUpdateMode(),
+                }),
+              ],
+            }),
+          ],
+        }),
+      };
     }
     case 0: {
       return { dataType: 25, groundDate: timestamp, payload: stubData.getPusMmeModelProtobuf() };

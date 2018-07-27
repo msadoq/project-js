@@ -1,7 +1,10 @@
 import { addTooltipWithContent } from './tooltip';
+import parameters from '../../../common/configurationManager';
 
-const backgroundDisabled = { backgroundColor: '#e67e22' };
-const backgroundEnabled = { backgroundColor: '#2ecc71' };
+const statusColors = parameters.get('PUS_CONSTANTS').STATUS_COLOR;
+
+// const backgroundDisabled = { backgroundColor: '#e67e22' };
+// const backgroundEnabled = { backgroundColor: '#2ecc71' };
 // eslint-disable-next-line arrow-body-style
 const _formatDate = (date) => {
   return (new Date(date)) > 0
@@ -14,12 +17,7 @@ export const tableOverrideStyle = statusKeyList =>
   ({ content }) => {
     const { value, colKey } = content;
     if (statusKeyList.indexOf(colKey) > -1) {
-      if (value === 'DISABLED') {
-        return backgroundDisabled;
-      }
-      if (value === 'ENABLED') {
-        return backgroundEnabled;
-      }
+      return { backgroundColor: statusColors[value] };
     }
     return {};
   };

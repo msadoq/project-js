@@ -59,6 +59,7 @@ function pus15DataReducer(state = {}, action) {
         _.getOr(null, ['pus015PacketStore'], data)
         .map(store => ({
           ..._.omit(['pus015Packet'], store),
+          dumpEnabled: String(_.getOr(200, 'dumpEnabled', store)),
           status: statuses[_.getOr(200, 'status', store)], // map schedule status constant
           lastUpdateModeStoreId: updateTypes[_.getOr(200, 'lastUpdateModeStoreId', store)], // map schedule lastUpdateModeStoreId constant
           lastUpdateModeStoreType: updateTypes[_.getOr(200, 'lastUpdateModeStoreType', store)], // map schedule lastUpdateModeStoreType constant
@@ -70,9 +71,10 @@ function pus15DataReducer(state = {}, action) {
           .reduce((acc, store) => [...acc, ...store.pus015Packet], [])
           .map(packet => ({
             ...packet,
-            serviceType: updateTypes[_.getOr(200, 'serviceType', packet)], // map packets serviceType constant
+            serviceType: updateTypes[_.getOr('', 'serviceType', packet)], // map packets serviceType constant
             serviceSubType: updateTypes[_.getOr(200, 'serviceSubType', packet)], // map packets serviceSubType constant
             packetType: updateTypes[_.getOr(200, 'packetType', packet)], // map packet packetType constant
+            isSubsamplingRatioSet: String(_.getOr('', 'isSubsamplingRatioSet', packet)),
             lastUpdateModePacketId: updateTypes[_.getOr(200, 'lastUpdateModePacketId', packet)], // map schedule lastUpdateModePacketId constant
             lastUpdateModeSubSamplingRatio: updateTypes[_.getOr(200, 'lastUpdateModeSubSamplingRatio', packet)], // map schedule lastUpdateModeSubSamplingRatio constant
           }))

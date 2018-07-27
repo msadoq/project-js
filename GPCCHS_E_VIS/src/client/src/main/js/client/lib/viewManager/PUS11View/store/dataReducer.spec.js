@@ -13,17 +13,22 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
         data: {
           PUS11View: {
             foo: 'foo',
-            bar: 'bar',
+            scheduleStatus: '1',
+            lastUpdateModeScheduleStatus: '1',
+            lastUpdateModeNoFreeCommands: '2',
+            lastUpdateModeFreeSpace: '3',
             pus011SubSchedule: [
               {
                 baz: 'baz',
                 status: 1,
+                lastUpdateModeExecTimeFirstTc: 1,
                 lastUpdateModeSubScheduleId: 1,
                 lastUpdateModeStatus: 1,
               },
               {
                 baz: 'baz',
                 status: 2,
+                lastUpdateModeExecTimeFirstTc: 2,
                 lastUpdateModeSubScheduleId: 2,
                 lastUpdateModeStatus: 2,
               },
@@ -31,12 +36,10 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
             pus011Apid: [
               {
                 baz: 'baz',
-                status: 1,
                 lastUpdateModeApid: 1,
               },
               {
                 baz: 'baz',
-                status: 2,
                 lastUpdateModeApid: 2,
               },
             ],
@@ -73,19 +76,24 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
     expect(pus11DataReducer(state, action)).toEqual({
       PUS11ViewData: {
         foo: 'foo',
-        bar: 'bar',
+        scheduleStatus: 'DISABLED',
+        lastUpdateModeScheduleStatus: 'TC',
+        lastUpdateModeNoFreeCommands: 'TM',
+        lastUpdateModeFreeSpace: 'Default',
         tables: {
           subSchedules: {
             data: [
               {
                 baz: 'baz',
                 status: 'DISABLED',
+                lastUpdateModeExecTimeFirstTc: 'TC',
                 lastUpdateModeSubScheduleId: 'TC',
                 lastUpdateModeStatus: 'TC',
               },
               {
                 baz: 'baz',
                 status: 'ENABLED',
+                lastUpdateModeExecTimeFirstTc: 'TM',
                 lastUpdateModeSubScheduleId: 'TM',
                 lastUpdateModeStatus: 'TM',
               },
@@ -96,11 +104,14 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
             data: [
               {
                 baz: 'baz',
-                status: 'ENABLED',
+                lastUpdateModeApid: 'TC',
+              },
+              {
+                baz: 'baz',
                 lastUpdateModeApid: 'TM',
               },
             ],
-            keep: [0],
+            keep: [0, 1],
           },
           commands: {
             data: [

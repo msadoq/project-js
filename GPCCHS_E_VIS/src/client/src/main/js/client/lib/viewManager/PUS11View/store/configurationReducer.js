@@ -14,16 +14,9 @@ const initialConfiguration = {
       cols: [
         { title: 'ssId', displayed: true }, // A afficher dans le tableau SubSchedules
         { title: 'ssIdLabel', displayed: true }, // A afficher dans le tableau SubSchedules
-        { title: 'status', displayed: true }, // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue. Si 3 (DELETED), supprimer l’entrée du state
-        // { title: 'lastUpdateModeSubScheduleId', displayed: true }, // Tooltip sur ssId
-        // { title: 'lastUpdateTimeSubscheduleId', displayed: true }, // Tooltip sur ssId
-        // { title: 'lastUpdateModeStatus', displayed: true }, // Tooltip sur Status
-        // { title: 'lastUpdateTimeStatus', displayed: true }, // Tooltip sur Status
-        { title: 'lastUpdateModeExecTimeFirstTc', displayed: true }, // A afficher dans le tableau SubSchedules
-        { title: 'lastUpdateTimeExecTimeFirstTc', displayed: true }, // A afficher dans le tableau SubSchedules
-        { title: 'serviceApid', displayed: true }, // A afficher dans le tableau SubSchedules
         { title: 'serviceApidName', displayed: true }, // A afficher dans le tableau SubSchedules
-        // { title: 'uniqueId', displayed: true }, // inutilisé dans la vue
+        { title: 'status', displayed: true }, // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue. Si 3 (DELETED), supprimer l’entrée du state
+        { title: 'executionTimeFirstTc', displayed: true }, // A afficher dans le tableau SubSchedules
       ],
     },
     enabledApids: {
@@ -37,7 +30,7 @@ const initialConfiguration = {
         { title: 'apidName', displayed: true }, // A afficher dans le tableau Enabled AP
         // { title: 'lastUpdateModeApid', displayed: true }, // Tooltip sur apid / apidName
         // { title: 'lastUpdateTimeApid', displayed: true }, // Tooltip sur apid / apidName
-        { title: 'status', displayed: true }, // N’afficher dans le tableau des Apids que ceux dont le status est à Enabled
+        // { title: 'status', displayed: true }, // N’afficher dans le tableau des Apids que ceux dont le status est à Enabled
         { title: 'serviceApid', displayed: true }, // A afficher dans le tableau Enabled AP
         { title: 'serviceApidName', displayed: true }, // A afficher dans le tableau Enabled AP
         // { title: 'uniqueId', displayed: true }, // inutilisé dans la vue

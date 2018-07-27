@@ -3,7 +3,6 @@ import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { open as openModal } from 'store/actions/modals';
 import { getData } from 'viewManager/PUS11View/store/dataReducer';
-import parameters from 'common/configurationManager';
 import PUS11View from './PUS11View';
 
 import { getConfigurationByViewId } from '../../../selectors';
@@ -13,26 +12,21 @@ const mapStateToProps = (state, { viewId }) => {
   const data = getData(state, { viewId });
   const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
-  const statuses = parameters.get('PUS_CONSTANTS').STATUS;
-  const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
-  const commandData = _.get(
-    ['tables', 'commands'],
-    data
-  );
+  const commandData = _.get(['tables', 'commands'], data); // data for modal
 
   return {
     serviceApid: _.getOr(null, 'serviceApid', data),
     spaceInNumberOfCommands: _.getOr(null, 'spaceInNumberOfCommands', data),
-    scheduleStatus: statuses[_.getOr(200, 'scheduleStatus', data)],
-    lastUpdateTimeScheduleStatus: String(_.getOr(null, 'lastUpdateTimeScheduleStatus', data)),
-    lastUpdateModeScheduleStatus: updateTypes[_.getOr(200, 'lastUpdateModeScheduleStatus', data)],
+    scheduleStatus: _.getOr(200, 'scheduleStatus', data),
+    lastUpdateTimeScheduleStatus: _.getOr(null, 'lastUpdateTimeScheduleStatus', data),
+    lastUpdateModeScheduleStatus: _.getOr(200, 'lastUpdateModeScheduleStatus', data),
     noFreeCommands: _.getOr(null, 'noFreeCommands', data),
-    lastUpdateTimeNoFreeCommands: String(_.getOr(null, 'lastUpdateTimeNoFreeCommands', data)),
-    lastUpdateModeNoFreeCommands: updateTypes[_.getOr(200, 'lastUpdateModeNoFreeCommands', data)],
+    lastUpdateTimeNoFreeCommands: _.getOr(null, 'lastUpdateTimeNoFreeCommands', data),
+    lastUpdateModeNoFreeCommands: _.getOr(200, 'lastUpdateModeNoFreeCommands', data),
     freeSpace: _.getOr(null, 'freeSpace', data),
-    lastUpdateTimeFreeSpace: String(_.getOr(null, 'lastUpdateTimeFreeSpace', data)),
-    lastUpdateModeFreeSpace: updateTypes[_.getOr(200, 'lastUpdateModeFreeSpace', data)],
+    lastUpdateTimeFreeSpace: _.getOr(null, 'lastUpdateTimeFreeSpace', data),
+    lastUpdateModeFreeSpace: _.getOr(200, 'lastUpdateModeFreeSpace', data),
     serviceApidName: _.getOr(null, 'serviceApidName', data),
     apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
     commandData,
@@ -47,7 +41,7 @@ const mapDispatchToProps = (dispatch, { viewId }) => ({
         windowId,
         {
           type: 'pus11Modal',
-          title: 'Details for command',
+          title: 'View Details',
           viewId,
           commandParameters,
           timeShifts,

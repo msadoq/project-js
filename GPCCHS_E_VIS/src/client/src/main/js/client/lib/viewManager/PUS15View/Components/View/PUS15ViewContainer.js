@@ -12,22 +12,11 @@ const mapStateToProps = (state, { viewId }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
 
-  const onBoardStoragesData = _.get(
-    ['tables', 'onBoardStorages'],
-    data
-  );
-
-  const storageDefData = _.get(
-    ['tables', 'storageDef'],
-    data
-  );
 
   return {
     serviceApid: _.getOr(null, 'serviceApid', data),
     serviceApidName: _.getOr(null, 'serviceApidName', data),
     apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
-    onBoardStoragesData,
-    storageDefData,
     windowId,
   };
 };

@@ -6,294 +6,44 @@ import { OverlayTrigger, Popover } from 'react-bootstrap';
 import './PUS11View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { addTooltipWithContent } from '../../../common/pus/tooltip';
+import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
+import HeaderStatus from '../../../common/Components/View/PUS/HeaderStatus';
+
 
 const popoverStyle = {
   height: 80,
 };
 
-// eslint-disable-next-line arrow-body-style
-const _formatDate = (date) => {
-  return (new Date(date)) > 0
-    ? (new Date(date)).toISOString()
-    : date
-  ;
+const subSchedulesTooltips = {
+  ssId: { mode: 'lastUpdateModeSubScheduleId', time: 'lastUpdateTimeSubscheduleId' },
+  ssIdLabel: { mode: 'lastUpdateModeSubScheduleId', time: 'lastUpdateTimeSubscheduleId' },
+  status: { mode: 'lastUpdateModeStatus', time: 'lastUpdateTimeStatus' },
+  executionTimeFirstTc: { mode: 'lastUpdateModeExecTimeFirstTc', time: 'lastUpdateTimeExecTimeFirstTc' },
 };
+const _subSchedulesContentModifier = tableModifier(subSchedulesTooltips);
 
-const _enabledApidsContentModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = cellContent;
-
-  switch (colKey) {
-    case 'apid':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeApid',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeApid',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'apidName':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeApid',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeApid',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'status':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeStatus',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeStatus',
-            format: _formatDate,
-          },
-        }
-      );
-    default:
-      return cellContent;
-  }
+const commandTooltips = {
+  commandSsId: { mode: 'lastUpdateModeCommandId', time: 'lastUpdateTimeCommandId' },
+  commandStatus: { mode: 'lastUpdateModeStatus', time: 'lastUpdateTimeStatus' },
+  commandGroundStatus: { mode: 'lastUpdateModeGroundStatus', time: 'lastUpdateTimeGroundStatus' },
+  currentExecutionTime: { mode: 'lastUpdateModeCurrentExecTime', time: 'lastUpdateTimeCurrentExecTime' },
+  initialExecutionTime: { mode: 'lastUpdateModeInitialExecTime', time: 'lastUpdateTimeInitialExecTime' },
+  totalTimeShiftOffset: { mode: 'lastUpdateModeTotalTimeShiftOffset', time: 'lastUpdateTimeTotalTimeShiftOffset' },
 };
-const _subSchedulesContentModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = cellContent;
+const _commandContentModifier = tableModifier(commandTooltips);
 
-  switch (colKey) {
-    case 'ssId': {
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeSubScheduleId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeSubscheduleId',
-            format: _formatDate,
-          },
-        }
-      );
-    }
-    case 'ssIdLabel': {
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeSubScheduleId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeSubscheduleId',
-            format: _formatDate,
-          },
-        }
-      );
-    }
-    case 'status': {
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateModeStatus: {
-            key: 'lastUpdateModeStatus',
-          },
-          lastUpdateTimeStatus: {
-            key: 'lastUpdateTimeStatus',
-            format: _formatDate,
-          },
-        }
-      );
-    }
-    default: {
-      return cellContent;
-    }
-  }
-};
-const _commandContentModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = cellContent;
-
-  switch (colKey) {
-    case 'commandSsId':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeCommandId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeCommandId',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'commandGroundStatus':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeGroundStatus',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeGroundStatus',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'commandStatus':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeStatus',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeStatus',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'currentExecutionTime':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeCurrentExecTime',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeCurrentExecTime',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'initialExecutionTime':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeInitialExecTime',
-            format: _formatDate,
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeInitialExecTime',
-            format: _formatDate,
-          },
-        }
-      );
-    case 'totalTimeShiftOffset':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeTotalTimeShiftOffset',
-            format: _formatDate,
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeTotalTimeShiftOffset',
-            format: _formatDate,
-          },
-        }
-      );
-    default:
-      return cellContent;
-  }
-};
-
-const backgroundDisabled = { backgroundColor: '#e67e22' };
-const backgroundEnabled = { backgroundColor: '#2ecc71' };
-
-// ENABLED APIDS
-const _enabledApidsStatusKeyList = [
-  'status',
-  'lastUpdateTimeStatus',
-];
-
-// apply background color to cells for which value is ENABLED or DISABLED
-const _enabledApidsOverrideStyle = ({ content }) => {
-  const { value, colKey } = content;
-
-  if (_enabledApidsStatusKeyList.indexOf(colKey) > -1) {
-    if (value === 'DISABLED') {
-      return backgroundDisabled;
-    }
-
-    if (value === 'ENABLED') {
-      return backgroundEnabled;
-    }
-  }
-
-  return {};
-};
 
 // SUB SCHEDULES
-const _subSchedulesStatusKeyList = [
-  'status',
-  'lastUpdateTimeStatus',
-];
-
 // apply background color to cells for which value is ENABLED or DISABLED
-const _subSchedulesOverrideStyle = ({ content }) => {
-  const { value, colKey } = content;
-
-  if (_subSchedulesStatusKeyList.indexOf(colKey) > -1) {
-    if (value === 'DISABLED') {
-      return backgroundDisabled;
-    }
-
-    if (value === 'ENABLED') {
-      return backgroundEnabled;
-    }
-  }
-
-  return {};
-};
+const _subSchedulesOverrideStyle = tableOverrideStyle(['status']);
 
 
 // COMMANDS
-
 const _commandsStatusKeyList = [
-  'commandGroundStatus',
-  'lastUpdateTimeGroundStatus',
   'commandStatus',
-  'lastUpdateTimeStatus',
 ];
-
 // apply background color to cells for which value is ENABLED or DISABLED
-const _commandsOverrideStyle = ({ content }) => {
-  const { value, colKey } = content;
-
-  if (_commandsStatusKeyList.indexOf(colKey) > -1) {
-    if (value === 'DISABLED') {
-      return backgroundDisabled;
-    }
-
-    if (value === 'ENABLED') {
-      return backgroundEnabled;
-    }
-  }
-
-  return {};
-};
+const _commandsOverrideStyle = tableOverrideStyle(_commandsStatusKeyList);
 
 export default class PUS11View extends React.Component {
   static propTypes = {
@@ -396,8 +146,6 @@ export default class PUS11View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'enabledApids'}
-                overrideStyle={_enabledApidsOverrideStyle}
-                contentModifier={_enabledApidsContentModifier}
               />
             </div>
           </div>
@@ -459,66 +207,46 @@ export const renderHeaders = (
   lastUpdateTimeFreeSpace,
   lastUpdateModeFreeSpace,
   serviceApidName
-) => {
-  const statusStyle = 'mw100 '.concat(
-    ['DISABLED', 'ENABLED'].includes(scheduleStatus) ?
-    scheduleStatus.toLowerCase : ''
-  );
-  const statusSpan = (
-    <span>
-        Schedule Status&nbsp;
-        <input type="text" className={statusStyle} disabled value={scheduleStatus} />
-    </span>
-  );
-  return (
-    <ErrorBoundary>
-      <div className="info col-sm-4 pus11_ap">
-        Application Process&nbsp;
-        <input type="text" disabled value={serviceApidName} />&nbsp;
-        <input className="mw50" type="text" disabled value={serviceApid} />
-      </div>
-      <div className="info col-sm-4 pus11_ss">
-        <OverlayTrigger
-          trigger={popoverTrigger}
-          placement="bottom"
-          overlay={generatePopover({
-            id: 'popover-service-apid',
-            title: 'Schedule Status',
-            time: lastUpdateTimeScheduleStatus,
-            mode: lastUpdateModeScheduleStatus,
-          })}
-        >
-          {statusSpan}
-        </OverlayTrigger>
-        <span className="spacing" />
-      </div>
-      <div className="info col-sm-4 pus11_as">
-        <OverlayTrigger
-          trigger={popoverTrigger}
-          placement="bottom"
-          overlay={generatePopover({
-            id: 'popover-commands',
-            title: (spaceInNumberOfCommands ? 'Free Commands' : 'Free Bytes'),
-            time: lastUpdateTimeNoFreeCommands,
-            mode: lastUpdateModeNoFreeCommands,
-          })}
-        >
-          <span>
-            Available Space&nbsp;
-            <input
-              type="text"
-              className="mw100"
-              disabled
-              value={spaceInNumberOfCommands ? noFreeCommands : freeSpace}
-            />
-            &nbsp;
-            {spaceInNumberOfCommands ? 'commands' : 'bytes'}
-          </span>
-        </OverlayTrigger>
-      </div>
-    </ErrorBoundary>
-  );
-};
+) => (
+  <ErrorBoundary>
+    <div className="info col-sm-4 pus11_ap">
+      Application Process&nbsp;
+      <input type="text" disabled value={serviceApidName} />&nbsp;
+      <input className="mw50" type="text" disabled value={serviceApid} />
+    </div>
+    <HeaderStatus
+      status={scheduleStatus}
+      lastUpdateMode={lastUpdateModeScheduleStatus}
+      lastUpdateTime={lastUpdateTimeScheduleStatus}
+      label="Schedule Status"
+      pusTag="11"
+    />
+    <div className="info col-sm-4 pus11_as">
+      <OverlayTrigger
+        trigger={popoverTrigger}
+        placement="bottom"
+        overlay={generatePopover({
+          id: 'popover-commands',
+          title: (spaceInNumberOfCommands ? 'Free Commands' : 'Free Bytes'),
+          time: lastUpdateTimeNoFreeCommands,
+          mode: lastUpdateModeNoFreeCommands,
+        })}
+      >
+        <span>
+          Available Space&nbsp;
+          <input
+            type="text"
+            className="mw100"
+            disabled
+            value={spaceInNumberOfCommands ? noFreeCommands : freeSpace}
+          />
+          &nbsp;
+          {spaceInNumberOfCommands ? 'commands' : 'bytes'}
+        </span>
+      </OverlayTrigger>
+    </div>
+  </ErrorBoundary>
+);
 
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'

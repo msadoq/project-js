@@ -22,7 +22,7 @@
     "subSchedules": {
       "name": "Sub schedules",
       "sorting": {
-        "colName": "referenceTimestamp",
+        "colName": "ssId",
         "direction": "DESC"
       },
       "cols": [
@@ -35,25 +35,17 @@
           "displayed": true
         },
         {
+          "title": "serviceApidName",
+          "displayed": true
+        }
+        {
           "title": "status",
           "displayed": true
         },
         {
-          "title": "lastUpdateModeExecTimeFirstTc",
+          "title": "executionTimeFirstTc",
           "displayed": true
         },
-        {
-          "title": "lastUpdateTimeExecTimeFirstTc",
-          "displayed": true
-        },
-        {
-          "title": "serviceApid",
-          "displayed": true
-        },
-        {
-          "title": "serviceApidName",
-          "displayed": true
-        }
       ]
     },
     "enabledApids": {
@@ -68,28 +60,20 @@
           "displayed": true
         },
         {
-          "title": "status",
+          "title": "lastUpdateModeApid",
           "displayed": true
         },
         {
-          "title": "serviceApid",
+          "title": "lastUpdateTimeApid",
           "displayed": true
         },
-        {
-          "title": "serviceApidName",
-          "displayed": true
-        }
       ]
     },
     "commands": {
       "name": "Commands",
       "cols": [
         {
-          "title": "commandApid",
-          "displayed": true
-        },
-        {
-          "title": "commandApidName",
+          "title": "commandSsId",
           "displayed": true
         },
         {
@@ -101,6 +85,10 @@
           "displayed": true
         },
         {
+          "title": "commandApidName",
+          "displayed": true
+        },
+        {
           "title": "commandSequenceCount",
           "displayed": true
         },
@@ -109,15 +97,7 @@
           "displayed": true
         },
         {
-          "title": "commandSsId",
-          "displayed": true
-        },
-        {
-          "title": "serviceApid",
-          "displayed": true
-        },
-        {
-          "title": "serviceApidName",
+          "title": "commandStatus",
           "displayed": true
         },
         {
@@ -125,15 +105,11 @@
           "displayed": true
         },
         {
-          "title": "commandStatus",
+          "title": "initialExecutionTime",
           "displayed": true
         },
         {
           "title": "currentExecutionTime",
-          "displayed": true
-        },
-        {
-          "title": "initialExecutionTime",
           "displayed": true
         },
         {

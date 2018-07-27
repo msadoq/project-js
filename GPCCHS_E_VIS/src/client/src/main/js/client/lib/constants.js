@@ -389,9 +389,10 @@ module.exports = {
 
   // nominal value for significant data
   SIGNIFICANT_VALIDITY_STATE_VALUE: 2,
+  SIGNIFICANT_VALIDITY_STATE_STRING_VALUE: 'VALID',
 
   // list of view's type for search
-  SEARCH_VIEWS_TYPE: ['TextView', 'PlotView', 'MimicView'],
+  SEARCH_VIEWS_TYPE: ['TextView', 'PlotView', 'MimicView', 'HistoryView'],
 
   // list of prefix cacheIds
   PREFIX_KNOWN_RANGES: 'knownRanges',

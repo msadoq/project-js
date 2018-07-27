@@ -19,6 +19,8 @@ import {
   selectDataPerView,
   viewObsoleteEventAdd,
   isLastDataObsolete,
+  isRangeDataObsolete,
+  rangesNeedUpdateForObsolete,
 } from './viewDataUpdate';
 
 describe('viewManager', () => {
@@ -355,6 +357,153 @@ describe('viewManager', () => {
         });
         test('should return true', () => {
           expect(isLastDataObsolete(10, obsoleteEvents, 'ep1', 14)).toBeTruthy();
+        });
+      });
+
+      describe('common : viewDataUpdate : isRangeDataObsolete', () => {
+        it('given empty array of obsolete events, should return false', () => {
+          // given rangesTimes = [10,20,30,40,50];
+          const obsoleteEventsIndexes = [];
+          const timestamp = 10;
+          const nextTimestamp = 20;
+          const lastObsoleteEventIndex = 0;
+          expect(
+            isRangeDataObsolete(
+              timestamp,
+              nextTimestamp,
+              lastObsoleteEventIndex,
+              obsoleteEventsIndexes)
+          ).toEqual({
+            isDataObsolete: false,
+            lastComputedIndex: 0,
+          });
+        });
+        it('given last range timestamp and no obsolete events after, should return false', () => {
+          // given rangesTimes = [10,20,30,40,50];
+          const obsoleteEventsIndexes = [11, 28];
+          const timestamp = 50;
+          const nextTimestamp = -1;
+          const lastObsoleteEventIndex = -1;
+          expect(
+            isRangeDataObsolete(
+              timestamp,
+              nextTimestamp,
+              lastObsoleteEventIndex,
+              obsoleteEventsIndexes)
+          ).toEqual({
+            isDataObsolete: false,
+            lastComputedIndex: -1,
+          });
+        });
+        it('given last range timestamp and obsolete events after, should return true', () => {
+          // given rangesTimes = [10,20,30,40,50];
+          const obsoleteEventsIndexes = [11, 28, 57];
+          const timestamp = 50;
+          const nextTimestamp = -1;
+          const lastObsoleteEventIndex = 1;
+          expect(
+            isRangeDataObsolete(
+              timestamp,
+              nextTimestamp,
+              lastObsoleteEventIndex,
+              obsoleteEventsIndexes)
+          ).toEqual({
+            isDataObsolete: true,
+            lastComputedIndex: 2,
+          });
+        });
+        it('given a range timestamp and one obsolete events after, should return true', () => {
+          // given rangesTimes = [10,20,30,40,50];
+          const obsoleteEventsIndexes = [11, 28];
+          const timestamp = 20;
+          const nextTimestamp = 30;
+          const lastObsoleteEventIndex = 0;
+          expect(
+            isRangeDataObsolete(
+              timestamp,
+              nextTimestamp,
+              lastObsoleteEventIndex,
+              obsoleteEventsIndexes)
+          ).toEqual({
+            isDataObsolete: true,
+            lastComputedIndex: 1,
+          });
+        });
+        it('given a range timestamp and no obsolete events after, should return false', () => {
+          // given rangesTimes = [10,20,30,40,50];
+          const obsoleteEventsIndexes = [11, 28];
+          const timestamp = 30;
+          const nextTimestamp = 40;
+          const lastObsoleteEventIndex = 1;
+          expect(
+            isRangeDataObsolete(
+              timestamp,
+              nextTimestamp,
+              lastObsoleteEventIndex,
+              obsoleteEventsIndexes)
+          ).toEqual({
+            isDataObsolete: false,
+            lastComputedIndex: -1,
+          });
+        });
+      });
+
+      describe('common : viewDataUpdate : rangesNeedUpdateForObsolete', () => {
+        it('given empty array of ranges, should return false', () => {
+          const rangesIndexes = [];
+          const timestamp = 10;
+          const lastIndex = 0;
+          expect(
+            rangesNeedUpdateForObsolete(
+              timestamp,
+              rangesIndexes,
+              lastIndex)
+          ).toEqual({
+            lastComputedIndex: 0,
+            isDataObsolete: false,
+          });
+        });
+        it('given an array of range data and an event with non sorted array of range, should return true', () => {
+          const rangesIndexes = [60, 10, 20, 30, 40, 50];
+          const timestamp = 14;
+          const lastIndex = 0;
+          expect(
+            rangesNeedUpdateForObsolete(
+              timestamp,
+              rangesIndexes,
+              lastIndex)
+          ).toEqual({
+            lastComputedIndex: 1,
+            isDataObsolete: true,
+          });
+        });
+        it('an array of range data and an event before the first range, should return false', () => {
+          const rangesIndexes = [10, 20, 30, 40, 50];
+          const timestamp = 8;
+          const lastIndex = 0;
+          expect(
+            rangesNeedUpdateForObsolete(
+              timestamp,
+              rangesIndexes,
+              lastIndex)
+          ).toEqual({
+            lastComputedIndex: -1,
+            isDataObsolete: false,
+          });
+        });
+        it('an array of range data and an event after the 3rd range data with an old last index, should return true', () => {
+          const rangesIndexes = [10, 20, 30, 40, 50];
+          const timestamp = 44;
+          const lastIndex = 2;
+          expect(
+            rangesNeedUpdateForObsolete(
+              timestamp,
+              rangesIndexes,
+              lastIndex)
+          ).toEqual({
+            lastComputedIndex: 3,
+            isDataObsolete: true,
+          });
         });
       });
     });

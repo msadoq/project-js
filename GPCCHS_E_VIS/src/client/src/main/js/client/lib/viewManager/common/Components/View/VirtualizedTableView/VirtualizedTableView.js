@@ -10,6 +10,7 @@ import shortid from 'shortid';
 import { Overlay, Popover } from 'react-bootstrap';
 import Draggable from 'react-draggable';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import { updateSearchCountArray } from 'store/reducers/pages';
 import SortArrow from './SortArrow';
 
 import styles from './VirtualizedTableView.css';
@@ -41,6 +42,8 @@ class VirtualizedTableView extends React.Component {
     tableHeader: PropTypes.func,
     saveScroll: PropTypes.func.isRequired,
     scrollPosition: PropTypes.shape(),
+    searchForThisView: PropTypes.bool,
+    searching: PropTypes.string,
     onResizeColumn: PropTypes.func.isRequired,
   };
 
@@ -59,6 +62,8 @@ class VirtualizedTableView extends React.Component {
     overrideStyle: () => ({}),
     tableHeader: null,
     scrollPosition: null,
+    searchForThisView: false,
+    searching: null,
   };
 
   constructor(props, context) {
@@ -67,6 +72,7 @@ class VirtualizedTableView extends React.Component {
 
     this.state = {
       selectedCell: null,
+      count: 0,
     };
 
     this.inputRefs = {};
@@ -152,6 +158,8 @@ class VirtualizedTableView extends React.Component {
       tableHeader,
       saveScroll,
       scrollPosition,
+      searching,
+      searchForThisView,
       onResizeColumn,
     } = this.props;
 
@@ -164,9 +172,7 @@ class VirtualizedTableView extends React.Component {
 
     const _totalColumnWidth = cols.reduce((acc, cur) => acc + (cur.width || columnWidth), 0);
 
-    const _getColumnWidth = ({ index }) => cols[index].width || columnWidth;
-
-// eslint-disable-next-line react/prop-types
+    const _getColumnWidth = ({ index }) => cols[index].width || columnWidth;// eslint-disable-next-line react/prop-types
     const _groupHeaderCellRenderer = ({ columnIndex, key, style }) => {
       const groupName = cols[columnIndex].group;
       const colKey = _getColumnName(cols[columnIndex]);
@@ -200,7 +206,7 @@ class VirtualizedTableView extends React.Component {
       );
     };
 
-// eslint-disable-next-line react/prop-types
+    // eslint-disable-next-line react/prop-types
     const _headerCellRenderer = ({ columnIndex, key, style }) => {
       const currentCol = cols[columnIndex];
       const colKey = _getColumnName(currentCol);
@@ -254,7 +260,7 @@ class VirtualizedTableView extends React.Component {
       );
     };
 
-// eslint-disable-next-line react/prop-types
+    // eslint-disable-next-line react/prop-types
     const _filterCellRenderer = ({ columnIndex, key, style }) => {
       const colKey = cols[columnIndex].title;
 
@@ -278,7 +284,7 @@ class VirtualizedTableView extends React.Component {
       );
     };
 
-// eslint-disable-next-line react/prop-types
+    // eslint-disable-next-line react/prop-types
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
       let content = { value: undefined };
 
@@ -305,6 +311,13 @@ class VirtualizedTableView extends React.Component {
         updatedStyle = {
           ...updatedStyle,
           backgroundColor: '#e6e6e6',
+        };
+      }
+
+      if (searchForThisView && content.colKey === 'epName' && (content.value).indexOf(searching) !== -1) {
+        updatedStyle = {
+          ...updatedStyle,
+          backgroundColor: '#FC0',
         };
       }
 
@@ -461,7 +474,6 @@ class VirtualizedTableView extends React.Component {
               const adjustedWidth = Math.min(width - scrollbarSize(), columnsWidth);
               let mainGridAdjustedWidth = adjustedWidth;
 
-              console.log('scrollbar?', this.state.isVerticalScrollbarDisplayed);
               if (this.state.isVerticalScrollbarDisplayed) {
                 mainGridAdjustedWidth += scrollbarSize();
               }

@@ -63,7 +63,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
   const workspaceDomain = state.hsc.domainName || '*';
   const viewDomain = getViewDomainName(state, { viewId });
 
-  const isSearchOpenForView = _get(state, ['pages', pageId, 'panels', 'searchViewId'], null) === viewId;
+  const isSearchOpenForView = _get(state, ['pages', pageId, 'panels', 'searchViewsIds'], []).indexOf(viewId) !== -1;
 
   return {
     backgroundColor,

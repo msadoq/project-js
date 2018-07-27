@@ -13,6 +13,7 @@
 
 import _ from 'lodash';
 import _get from 'lodash/get';
+import { SIGNIFICANT_VALIDITY_STATE_STRING_VALUE } from 'constants';
 import { applyFilter } from './applyFilters';
 import { getStateColor, STATE_COLOR_NOMINAL } from '../../windowProcess/common/colors';
 
@@ -28,7 +29,14 @@ const getStateColorObj = (
   monitoringState = STATE_COLOR_NOMINAL
 ) => {
   const obsolete = _get(payload, 'isDataObsolete', false);
-  const significant = _get(payload, 'validityState.value', 2) === 2;
+  const validityStateValue = _get(payload, 'validityState.value', false);
+  const validityState = _get(payload, 'validityState', null);
+  let significant;
+  if (validityStateValue) {
+    significant = _get(payload, 'validityState.value', 2) === 2;
+  } else if (typeof validityState === 'string') {
+    significant = _get(payload, 'validityState', SIGNIFICANT_VALIDITY_STATE_STRING_VALUE).toUpperCase() === SIGNIFICANT_VALIDITY_STATE_STRING_VALUE;
+  }
   const monitoringColor = getStateColor(obsolete, significant, monitoringState);
   // if no monitoring state has been found, there is a conf error to raise
   if (!monitoringColor) {

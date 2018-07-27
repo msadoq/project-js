@@ -22,10 +22,7 @@ const propsStub = {
 };
 describe('viewManager/PlotView/Components/Editor/EntryPointConnectedData', () => {
   describe('getFilteredAxes', () => {
-    it('should filter all as no same unit', () => {
-      expect(getFilteredAxes(propsStub)).toEqual([]);
-    });
-    it('should onlmy keep matching units', () => {
+    it('should only keep matching units', () => {
       expect(getFilteredAxes({
         ...propsStub,
         unit: 'V',
@@ -35,6 +32,12 @@ describe('viewManager/PlotView/Components/Editor/EntryPointConnectedData', () =>
           id: 'VBat',
           label: 'VBat',
           unit: 'V',
+        },
+        {
+          axisId: 'time',
+          id: 'time',
+          label: 'Time',
+          unit: 's',
         },
       ]
     );

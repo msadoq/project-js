@@ -17,12 +17,17 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
+import _forEach from 'lodash/forEach';
 import _get from 'lodash/get';
+import _findIndex from 'lodash/findIndex';
 import { convertData } from 'viewManager/commonData/convertData';
 import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
+import { isRangeDataObsolete, rangesNeedUpdateForObsolete } from 'viewManager/common/store/viewDataUpdate';
 import { injectTabularData } from '../../commonData/reducer';
+import { getFlattenDataIdForObsoleteEvent } from '../../../common/flattenDataId';
+import { STATE_COLOR_NOMINAL } from '../../../windowProcess/common/colors';
 
 const logger = getLogger('data:rangeValues');
 
@@ -67,17 +72,42 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
     })
     .forEach(
       (ep) => {
-        const range = Object.keys(payloads[ep]).map((timestamp) => {
+        const obsoleteEvents = _.getOr([], ['obsoleteEvents', ep], updatedState);
+        const lastRangeIndexesFromState = _.getOr([], ['indexes', ep], updatedState);
+        const timestamps = Object.keys(payloads[ep]).sort((a, b) => a - b);
+        let lastObsoleteEventIndex = 0;
+        const ranges = [];
+        for (let i = 0; i < timestamps.length; i += 1) {
+          const timestamp = timestamps[i];
+          const nextTimestamp = timestamps[i + 1] || -1;
           const epConfig = historyConfig.entryPoints.find(epc => epc.name === ep);
+
+          let currentValue = payloads[ep][timestamp];
           if (epConfig) {
-            return {
+            currentValue = {
               ...payloads[ep][timestamp],
               id: epConfig.id,
             };
           }
+          const { isDataObsolete, lastComputedObsoleteEventIndex } = isRangeDataObsolete(
+            timestamp,
+            nextTimestamp,
+            lastObsoleteEventIndex,
+            obsoleteEvents
+          );
 
-          return payloads[ep][timestamp];
-        });
+          lastObsoleteEventIndex = lastComputedObsoleteEventIndex;
+          const { color } = getStateColorObj(
+            currentValue,
+            epConfig.stateColors,
+            _get(currentValue, 'monitoringState', STATE_COLOR_NOMINAL)
+          );
+          ranges.push({
+            ...currentValue,
+            isDataObsolete,
+            color,
+          });
+        }
 
         let _last = _.getOr({}, 'last', state);
 
@@ -112,15 +142,63 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
           injectTabularData(
             updatedState,
             'history',
-            range,
+            ranges,
             _updateCurrent
           );
 
-        updatedState =
-          _.set('last', _last, updatedState);
+        updatedState = _.set('last', _last, updatedState);
+        updatedState = _.set(['indexes', ep], lastRangeIndexesFromState.concat(timestamps), updatedState);
+        updatedState = _.set(['obsoleteEvents', ep], obsoleteEvents, updatedState);
       }
     );
+  return updatedState;
+}
 
+export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
+  const obsoleteEventsFlatIds = Object.keys(payloads || {});
+  const epNames = Object.keys(entryPoints || {});
+  if (!obsoleteEventsFlatIds.length || !epNames.length) {
+    // no data
+    return state;
+  }
+
+  let updatedState = state;
+
+  _forEach(epNames, (epName) => {
+    const { dataId } = entryPoints[epName];
+    if (dataId) {
+      const flattenDataId = getFlattenDataIdForObsoleteEvent(dataId);
+
+      let lastRangeIndex = 0;
+      const tbdIdPayload = payloads[flattenDataId];
+      if (tbdIdPayload) {
+        // ascending sort for master times
+        const masterTimes = Object.keys(tbdIdPayload)
+          .sort((a, b) => a - b);
+        for (let i = 0; i < masterTimes.length; i += 1) {
+          const timestamp = parseInt(masterTimes[i], 10);
+          const { isDataObsolete, lastComputedIndex } = rangesNeedUpdateForObsolete(
+            timestamp,
+            updatedState.indexes[epName],
+            lastRangeIndex
+          );
+          if (isDataObsolete) {
+            updatedState = _.set(['tables', 'history', 'data', lastRangeIndex, 'isDataObsolete'], isDataObsolete, updatedState);
+            const currentValue = _.getOr([], ['tables', 'history', 'data', lastRangeIndex], updatedState);
+            const { color } = getStateColorObj(
+              currentValue,
+              entryPoints[epName].stateColors,
+              _get(currentValue, 'monitoringState', STATE_COLOR_NOMINAL)
+            );
+            updatedState = _.set(['tables', 'history', 'data', lastRangeIndex, 'color'], color, updatedState);
+          }
+          lastRangeIndex = lastComputedIndex;
+        }
+        const obsoleteEvents = _.getOr([], ['obsoleteEvents', epName], updatedState);
+        updatedState = _.set(['obsoleteEvents', epName], obsoleteEvents.concat(masterTimes), updatedState);
+      }
+    }
+  });
   return updatedState;
 }
 
@@ -191,7 +269,11 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     let valueToInsert = {
       masterTime,
       epName,
-      ...getStateColorObj(currentValue, ep.stateColors),
+      ...getStateColorObj(
+        currentValue,
+        ep.stateColors,
+        _get(currentValue, 'monitoringState.value', STATE_COLOR_NOMINAL)
+      ),
     };
     const fields = Object.keys(currentValue);
     for (let iField = 0; iField < fields.length; iField += 1) {

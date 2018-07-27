@@ -93,6 +93,7 @@ export default function plotViewData(state = {}, action) {
         newViewMap,
         newExpectedRangeIntervals,
         configurations,
+        visuWindow,
       } = action.payload;
       const { PlotViewConfiguration } = configurations;
       const dataKeys = Object.keys(dataToInject);
@@ -116,7 +117,7 @@ export default function plotViewData(state = {}, action) {
           );
         if (Object.keys(epSubState).length !== 0) {
           // Data injection
-          const viewState = viewRangeAdd(newState[viewId], epSubState);
+          const viewState = viewRangeAdd(newState[viewId], epSubState, visuWindow);
           if (viewState !== newState[viewId]) {
             newState = { ...newState, [viewId]: viewState };
           }

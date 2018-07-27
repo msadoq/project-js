@@ -15,9 +15,9 @@
 import * as types from 'store/types';
 import { getView, getViewIsModified } from 'store/reducers/views';
 import { getWindowIdByViewId } from 'store/selectors/windows';
-import { getPageIdByViewId } from 'store/reducers/pages';
+import { getPageIdByViewId, getSearchViewsIds } from 'store/reducers/pages';
 import { closeView } from 'store/actions/views';
-import { minimizeEditor } from 'store/actions/pages';
+import { minimizeEditor, minimizeSearch } from 'store/actions/pages';
 
 import { openDialog } from 'store/actions/ui';
 import { open as openModal } from 'store/actions/modals';
@@ -26,6 +26,7 @@ import withListenAction from 'store/helpers/withListenAction';
 import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 
 const closeEditor = pageId => minimizeEditor(pageId, true);
+const closeSearch = pageId => minimizeSearch(pageId, true);
 
 const makeOnCloseView = documentManager => withListenAction(
   ({ dispatch, listenAction, getState }) => next => (action) => {
@@ -36,8 +37,12 @@ const makeOnCloseView = documentManager => withListenAction(
       const pageId = getPageIdByViewId(state, { viewId });
       const windowId = getWindowIdByViewId(state, { viewId });
       const view = getView(state, { viewId });
+      const viewsIds = getSearchViewsIds(state, { pageId });
 
       const close = () => {
+        if (viewsIds && viewsIds.length === 1 && viewsIds[0] === viewId){
+          dispatch(closeSearch(pageId));
+        }
         dispatch(closeEditor(pageId));
         dispatch(closeView(viewId));
       };

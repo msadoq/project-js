@@ -21,6 +21,7 @@ import { getIsPlaying } from '../../../../store/reducers/hsc';
 
 import HistoryView from './HistoryView';
 import { getData } from '../../store/dataReducer';
+import { getCountBySearching } from '../../store/dataSelectors';
 import { getConfigurationByViewId } from '../../../selectors';
 import {
   getCatalogItemByName,
@@ -29,17 +30,27 @@ import {
 import { getDomainId } from '../../../../store/reducers/domains';
 import { getSessionByTimelineId } from '../../../../store/reducers/sessions';
 import { getTimelinesByViewId } from '../../../../store/selectors/timelines';
+import {
+  getSearchCount,
+  getSearchingByPage,
+  getSearchViewsIds,
+} from '../../../../store/reducers/pages';
+import { updateSearchCount } from '../../../../store/actions/pages';
 
 
-const mapStateToProps = (state, { viewId }) => {
+const mapStateToProps = (state, { viewId, pageId }) => {
   const data = getData(state, { viewId });
   let config = getConfigurationByViewId(state, { viewId });
   const last = _.getOr({}, 'last', data);
   const isPlaying = getIsPlaying(state);
+  const searching = getSearchingByPage(state, { pageId });
+  const searchViewsIds = getSearchViewsIds(state, { pageId });
+  const searchCount = getSearchCount(state, { pageId });
+  const countBySearching = getCountBySearching(state, { viewId, searching });
 
   const scrollPosition =
     _.getOr(
-      0,
+      {},
       ['tables', 'history', 'scrollPosition'],
       config
     );
@@ -83,12 +94,19 @@ const mapStateToProps = (state, { viewId }) => {
     isPlaying,
     scrollPosition,
     isTimelineSelected,
+    searching,
+    searchCount,
+    countBySearching,
+    searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId }) => ({
+const mapDispatchToProps = (dispatch, { viewId, pageId }) => ({
   addEntryPoint: (entryPoint) => {
     dispatch(addEntryPoint(viewId, entryPoint));
+  },
+  updateSearchCount: (count) => {
+    dispatch(updateSearchCount(pageId, viewId, count));
   },
 });
 

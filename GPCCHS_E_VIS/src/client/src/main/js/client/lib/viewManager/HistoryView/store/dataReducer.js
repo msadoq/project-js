@@ -15,7 +15,7 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
-import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
+import { viewRangeAdd, selectDataPerView, viewObsoleteEventAdd } from './viewDataUpdate';
 import cleanCurrentViewData from './cleanViewData';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
 import { VM_VIEW_HISTORY } from '../../constants';
@@ -23,7 +23,7 @@ import {
   WS_VIEW_ADD_BLANK,
   INJECT_DATA_RANGE,
   WS_VIEW_UPDATE_ENTRYPOINT_NAME,
-  WS_VIEWDATA_CLEAN, WS_VIEW_REMOVE_ENTRYPOINT,
+  WS_VIEWDATA_CLEAN, WS_VIEW_REMOVE_ENTRYPOINT, INJECT_DATA_OBSOLETE_EVENT,
 } from '../../../store/types';
 import {
   mapTabularData,
@@ -77,6 +77,29 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
         dataMap.expectedRangeIntervals,
         configuration.HistoryViewConfiguration[viewId]
       );
+      return updatedState;
+    }
+    case INJECT_DATA_OBSOLETE_EVENT: {
+      const {
+        dataToInject,
+        newViewMap,
+        visuWindow,
+      } = action.payload;
+      const dataKeys = Object.keys(dataToInject);
+      // If nothing changed and no data to import, return state
+      if (!dataKeys.length) {
+        return state;
+      }
+
+      let updatedState = state;
+      if (newViewMap[viewId] && newViewMap[viewId].entryPoints) {
+        updatedState = viewObsoleteEventAdd(
+          updatedState,
+          dataToInject,
+          newViewMap[viewId].entryPoints,
+          visuWindow
+        );
+      }
       return updatedState;
     }
     case WS_VIEW_UPDATE_ENTRYPOINT_NAME: {

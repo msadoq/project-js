@@ -75,6 +75,7 @@ exports[`Controls renders correctly 1`] = `
   >
     <button
       className="btn btn-xs btn-control"
+      data-offset={-10}
       onClick={[Function]}
       title="- 10s"
     >
@@ -86,6 +87,7 @@ exports[`Controls renders correctly 1`] = `
   >
     <button
       className="btn btn-xs btn-control"
+      data-offset={10}
       onClick={[Function]}
       title="+ 10s"
     >

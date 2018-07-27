@@ -22,8 +22,9 @@ import { sendArchiveQuery } from 'store/actions/knownRanges';
 import { add } from 'serverProcess/models/registeredArchiveQueriesSingleton';
 import { get, getFilters } from 'serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from 'common/logManager/execution';
+import { PREFIX_KNOWN_RANGES } from 'constants';
 
-const type = 'RANGE';
+const type = PREFIX_KNOWN_RANGES;
 let previousForecast;
 
 // playPressed is used to relaunch a forecast every time the play button is pressed

@@ -26,36 +26,6 @@
   "sessionName": "*",
   "axes": [
     {
-      "label": "Time",
-      "id": "time",
-      "unit": "s",
-      "style": {
-        "font": "Arial",
-        "size": 12,
-        "bold": false,
-        "italic": false,
-        "underline": false,
-        "strikeOut": false,
-        "align": "left",
-        "color": "#FFF"
-      },
-      "min": 0,
-      "max": 10,
-      "autoLimits": true,
-      "tickStep": 0.5,
-      "autoTick": true,
-      "showTicks": true,
-      "showTickLabels": true,
-      "logarithmic": false,
-      "logSettings": {
-        "min": 0.1,
-        "max": 1000000000,
-        "base": 10
-      },
-      "showAxis": true,
-      "showLabels": true
-    },
-    {
       "autoLimits": true,
       "autoTick": true,
       "id": "VBat",
@@ -176,55 +146,9 @@
         "points": {
           "size": 0,
           "style": "None"
-        }
-      },
-      "parametric": false,
-      "stateColors": []
-    },
-    {
-      "connectedData": {
-        "axisId": "VBat",
-        "convertFrom": "",
-        "convertTo": "",
-        "defaultY": 1,
-        "digits": 5,
-        "domain": "fr.cnes",
-        "fieldX": "groundDate",
-        "filter": [],
-        "format": "decimal",
-        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
-        "provider": "",
-        "stringParameter": false,
-        "timeline": "Session 1",
-        "axisId": "VBat",
-        "stringParameter": false,
-        "defaultY": 1,
-        "provider": "*",
-        "convertFrom": "",
-        "convertTo": "",
-        "unit": "V"
-      },
-      "connectedDataParametric": {
-        "domainX": "",
-        "domainY": "",
-        "formulaX": "",
-        "formulaY": "",
-        "unitX": "",
-        "unitY": "",
-        "xAxisId": "",
-        "yAxisId": ""
-      },
-      "name": "ATT_BC_REVTCOUNT1",
-      "objectStyle": {
-        "curveColor": "#ff9800",
-        "line": {
-          "size": 3,
-          "style": "Continuous"
         },
-        "points": {
-          "size": 3,
-          "style": "None"
-        }
+        "displayLine": true,
+        "displayPoints": false
       },
       "parametric": false,
       "stateColors": []

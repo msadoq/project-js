@@ -249,6 +249,14 @@ Array [
   Array [
     Object {
       "extensions": Array [
+        "pus12",
+      ],
+      "name": "PUS12View",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
         "pus14",
       ],
       "name": "PUS14View",

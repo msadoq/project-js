@@ -20,54 +20,13 @@ exports[`viewManager/PUS12View/Components/View/PUS12View PUS12View :: render sna
           />
            
         </div>
-        <div
-          className="info col-sm-4 pus11_ss"
-        >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            overlay={
-              <Popover
-                bsClass="popover"
-                id="popover-service-apid"
-                placement="bottom"
-                style={
-                  Object {
-                    "height": 80,
-                  }
-                }
-                title="Service Status"
-              >
-                <div>
-                  Last update Time: 
-                  1528359679639
-                </div>
-                <div>
-                  Last update mode: 
-                </div>
-              </Popover>
-            }
-            placement="bottom"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <span>
-              Service Status 
-              <input
-                className="mw100"
-                disabled={true}
-                type="text"
-                value={1}
-              />
-            </span>
-          </OverlayTrigger>
-          <span
-            className="spacing"
-          />
-        </div>
+        <HeaderStatus
+          label="Service Satus"
+          lastUpdateMode={null}
+          lastUpdateTime="1528359679639"
+          pusTag="12"
+          status={1}
+        />
         <div
           className="info col-sm-4 pus12_ap"
         >

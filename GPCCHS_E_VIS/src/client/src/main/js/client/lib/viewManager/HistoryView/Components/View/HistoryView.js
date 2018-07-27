@@ -32,7 +32,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
-
+import { updateSearchCountArray } from 'store/reducers/pages';
 import styles from './HistoryView.css';
 import { buildFormulaForAutocomplete } from '../../../common';
 import VirtualizedTableViewContainer
@@ -69,12 +69,31 @@ class HistoryView extends React.Component {
     scrollPosition: PropTypes.shape().isRequired,
     config: PropTypes.shape().isRequired,
     isTimelineSelected: PropTypes.bool.isRequired,
+    searchForThisView: PropTypes.bool.isRequired,
+    searching: PropTypes.string.isRequired,
+    countBySearching: PropTypes.number.isRequired,
+    searchCount: PropTypes.objectOf(PropTypes.shape).isRequired,
+    updateSearchCount: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     currentRowIndexes: [],
     last: {},
   };
+
+  componentDidUpdate() {
+    const {
+      updateSearchCount,
+      searchForThisView,
+      countBySearching,
+      searchCount,
+      viewId,
+    } = this.props;
+    if (searchForThisView) {
+      const searchCountArray = updateSearchCountArray(searchCount, viewId, countBySearching);
+      updateSearchCount(searchCountArray);
+    }
+  }
 
   onDrop = this.drop.bind(this);
 
@@ -115,6 +134,8 @@ class HistoryView extends React.Component {
       scrollPosition,
       config,
       isTimelineSelected,
+      searching,
+      searchForThisView,
     } = this.props;
 
     const _setCurrent = (cellContent = {}, content = {}) => {
@@ -194,6 +215,8 @@ class HistoryView extends React.Component {
             overrideStyle={this._overrideStyle}
             withGroups
             scrollPosition={scrollPosition}
+            searching={searching}
+            searchForThisView={searchForThisView}
           />
         </DroppableContainer>
       </ErrorBoundary>

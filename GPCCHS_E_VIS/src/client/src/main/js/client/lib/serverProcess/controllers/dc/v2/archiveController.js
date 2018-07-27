@@ -58,6 +58,9 @@ const onArchiveData = ({ buffers, requestId, isLast }, getStore, { get, remove }
         store.dispatch(incomingObsoleteEvent(tbdId, payloadBuffer, dataId));
         break;
       default:
+        console.log('=============');
+        console.log(type);
+        console.log('=============');
         logger.warn('Unkwnown type of request');
         break;
     }

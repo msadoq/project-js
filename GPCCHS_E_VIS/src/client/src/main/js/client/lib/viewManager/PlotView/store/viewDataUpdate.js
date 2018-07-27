@@ -55,6 +55,7 @@ import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import _findIndex from 'lodash/findIndex';
 import { STATE_COLOR_NOMINAL } from 'windowProcess/common/colors';
 import { getFlattenDataIdForObsoleteEvent } from 'common/flattenDataId';
+import { isRangeDataObsolete, rangesNeedUpdateForObsolete } from 'viewManager/common/store/viewDataUpdate';
 
 const logger = getLogger('data:rangeValues:PlotView');
 
@@ -302,12 +303,14 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
         _forEach(masterTimes, (masterTime) => {
           const timestamp = parseInt(masterTime, 10);
           // get index of obsolete ranges data
-          const { newLastRangeIndex, isDataObsolete } =
-            rangesNeedObsoleteDataUpdate(newState.indexes[epName], timestamp, lastRangeIndex);
-          lastRangeIndex = newLastRangeIndex;
+          const { isDataObsolete, lastComputedIndex } = rangesNeedUpdateForObsolete(
+            timestamp,
+            newState.indexes[epName],
+            lastRangeIndex
+          );
+          lastRangeIndex = lastComputedIndex;
           if (isDataObsolete) {
-            // need previous index from indexes, the index tagged before is the next one from the obsolete event
-            const rangeTimestamp = newState.indexes[epName][newLastRangeIndex - 1];
+            const rangeTimestamp = newState.indexes[epName][lastComputedIndex];
             newState.lines[epName][rangeTimestamp] = {
               ...newState.lines[epName][rangeTimestamp],
               isDataObsolete,
@@ -692,44 +695,3 @@ function getMax(lastMax, valY, lastTime, masterTime) {
   }
   return { max: lastMax, maxTime: lastTime };
 }
-
-export const isRangeDataObsolete =
-  (currentTimestamp, nextTimestamp, lastObsoleteEventIndex, obsoleteEventsIndexes) => {
-    let isDataObsolete = false;
-    let lastComputedObsoleteEventIndex = 0;
-
-    if (obsoleteEventsIndexes.length > 0) {
-      lastComputedObsoleteEventIndex = lastObsoleteEventIndex !== -1 ?
-        _findIndex(obsoleteEventsIndexes, t => t >= currentTimestamp, lastObsoleteEventIndex) :
-        lastObsoleteEventIndex;
-      // it is the last range timestamp from payloads
-      if (nextTimestamp === -1) {
-        isDataObsolete = lastComputedObsoleteEventIndex !== -1;
-      } else if (lastComputedObsoleteEventIndex !== -1 &&
-        obsoleteEventsIndexes[lastComputedObsoleteEventIndex] < nextTimestamp) {
-        isDataObsolete = true;
-      }
-    }
-
-    return {
-      isDataObsolete,
-      lastComputedObsoleteEventIndex,
-    };
-  };
-
-export const rangesNeedObsoleteDataUpdate =
-  (rangesIndexes, timestamp, lastRangeIndex) => {
-    let isDataObsolete = false;
-    let newLastRangeIndex = lastRangeIndex;
-    if (lastRangeIndex + 1 >= 0) {
-      const index = _findIndex(rangesIndexes, t => t >= timestamp, lastRangeIndex);
-      newLastRangeIndex = index;
-      if (index >= 0) {
-        isDataObsolete = true;
-      }
-    }
-    return {
-      newLastRangeIndex,
-      isDataObsolete,
-    };
-  };

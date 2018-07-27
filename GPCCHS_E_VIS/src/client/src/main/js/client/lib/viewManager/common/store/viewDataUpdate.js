@@ -36,6 +36,7 @@ import { applyFilters } from 'viewManager/commonData/applyFilters';
 import _cloneDeep from 'lodash/cloneDeep';
 import _isEmpty from 'lodash/isEmpty';
 import _forEach from 'lodash/forEach';
+import _findIndex from 'lodash/findIndex';
 import { getFlattenDataIdForObsoleteEvent } from '../../../common/flattenDataId';
 
 const logger = getLogger('data:lastValue');
@@ -212,6 +213,73 @@ export function isLastDataObsolete(
   }
   return false;
 }
+
+export const isRangeDataObsolete =
+  (timestamp, nextTimestamp, lastIndex, indexes) => {
+    let isDataObsolete = false;
+    let lastComputedIndex = 0;
+
+    if (indexes.length) {
+      lastComputedIndex = lastIndex !== -1 ?
+        _findIndex(indexes, t => t >= timestamp, lastIndex) :
+        lastIndex;
+      // it is the last range timestamp from payloads
+      if (nextTimestamp === -1) {
+        isDataObsolete = lastComputedIndex !== -1;
+      } else if (lastComputedIndex !== -1 &&
+        indexes[lastComputedIndex] < nextTimestamp) {
+        isDataObsolete = true;
+      }
+    }
+
+    return {
+      isDataObsolete,
+      lastComputedIndex,
+    };
+  };
+
+
+export const rangesNeedUpdateForObsolete =
+  (timestamp, rangesIndexes, lastIndex) => {
+    let isDataObsolete = false;
+    let lastComputedIndex = lastIndex;
+
+    if (rangesIndexes && rangesIndexes.length) {
+      const nonSortedArray = [...rangesIndexes];
+      rangesIndexes.sort((a, b) => a - b);
+      const tmpIndex = _findIndex(rangesIndexes, t => t >= timestamp) - 1;
+      const rangeTimestamp = rangesIndexes[tmpIndex];
+      lastComputedIndex = tmpIndex !== -1 ? nonSortedArray.indexOf(rangeTimestamp) : tmpIndex;
+      if (lastComputedIndex !== -1) {
+        isDataObsolete = true;
+      } else if (lastComputedIndex === -1 && timestamp > rangesIndexes[lastComputedIndex]) {
+        isDataObsolete = true;
+      }
+    }
+
+    return {
+      lastComputedIndex,
+      isDataObsolete,
+    };
+  };
+
+
+export const rangesNeedObsoleteDataUpdate =
+  (rangesIndexes, timestamp, lastRangeIndex) => {
+    let isDataObsolete = false;
+    let newLastRangeIndex = lastRangeIndex;
+    if (lastRangeIndex + 1 >= 0) {
+      const index = _findIndex(rangesIndexes, t => t >= timestamp, lastRangeIndex);
+      newLastRangeIndex = index;
+      if (index >= 0) {
+        isDataObsolete = true;
+      }
+    }
+    return {
+      newLastRangeIndex,
+      isDataObsolete,
+    };
+  };
 
 export function viewDataUpdate(viewDataState, payload) {
   if (!payload || !payload.values || !Object.keys(payload.values).length) {

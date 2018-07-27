@@ -32,7 +32,7 @@ import {
 import classnames from 'classnames';
 import Collapse from 'rc-collapse';
 import { entryPointType } from 'viewManager/common/Components/types';
-import { handleSubmit } from 'viewManager/common';
+import { handleSubmit, getEntryPointWithDataTypeInitialized } from 'viewManager/common';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import styles from './EntryPointTree.css';
@@ -115,6 +115,8 @@ export default class EntryPointTree extends PureComponent {
         >
           {list.map((entryPoint) => {
             const isOpen = entryPointsPanels[entryPoint.id];
+            const updatedEntryPoint = getEntryPointWithDataTypeInitialized(entryPoint);
+
             return (
               <Panel
                 key={entryPoint.id}
@@ -154,7 +156,7 @@ export default class EntryPointTree extends PureComponent {
                   pageId={pageId}
                   entryPoint={entryPoint}
                   onSubmit={this.handleSubmit}
-                  initialValues={entryPoint}
+                  initialValues={updatedEntryPoint}
                   form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
                 />}
               </Panel>

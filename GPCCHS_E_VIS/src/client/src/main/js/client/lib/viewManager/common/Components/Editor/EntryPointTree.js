@@ -7,7 +7,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash/fp';
 import {
   Glyphicon,
   Alert,
@@ -16,13 +15,10 @@ import {
 import Collapse, { Panel } from 'rc-collapse';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import classnames from 'classnames';
-import { handleSubmit } from 'viewManager/common';
+import { handleSubmit, getEntryPointWithDataTypeInitialized } from 'viewManager/common';
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 import styles from './EntryPointTree.css';
 import { entryPointType } from '../types';
-import HistoryEntryPointConnectedDataFieldsContainer
-  from '../../../HistoryView/Components/Editor/HistoryEntryPointConnectedDataFieldsContainer';
-import { TIME_BASED_DATA_OPTION } from '../../../commonEditor/Fields/DataTypeField';
 
 const emptyArray = [];
 
@@ -105,17 +101,7 @@ export default class EntryPointTree extends Component {
         >
           {list.map((entryPoint) => {
             const isOpen = entryPointsPanels[entryPoint.id];
-
-            let updatedEntryPoint = entryPoint;
-
-            if (entryPointConnectedDataForm === HistoryEntryPointConnectedDataFieldsContainer) {
-              updatedEntryPoint =
-                _.set(
-                  'connectedData.dataType',
-                  TIME_BASED_DATA_OPTION.value,
-                  updatedEntryPoint
-                );
-            }
+            const updatedEntryPoint = getEntryPointWithDataTypeInitialized(entryPoint);
 
             return (
               <Panel

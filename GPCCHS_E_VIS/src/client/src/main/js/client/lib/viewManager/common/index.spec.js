@@ -3,6 +3,7 @@ import {
   buildFormulaForAutocomplete,
   handleSubmit,
   validateRequiredFields,
+  getEntryPointWithDataTypeInitialized,
 } from 'viewManager/common';
 import { spy } from 'sinon';
 import deepFreeze from 'deep-freeze';
@@ -148,5 +149,21 @@ describe('validateRequiredFields', () => {
     expect(validationMethod).toBeInstanceOf(Function);
     const errors = validationMethod({});
     expect(Object.keys(errors)).toEqual(['name']);
+  });
+
+  describe('getEntryPointWithDataTypeInitialized', () => {
+    it('should return the exact same entryPoint if dataType defined', () => {
+      const entryPoint = { connectedData: { dataType: 'Niobé' } };
+      expect(getEntryPointWithDataTypeInitialized(entryPoint)).toBe(entryPoint);
+    });
+    it('should set dataType if undefined', () => {
+      const entryPoint = {};
+      expect(getEntryPointWithDataTypeInitialized(entryPoint))
+        .toEqual({ connectedData: { dataType: TIME_BASED_DATA_OPTION.value } });
+    });
+    it('should not mutate the entryPoint', () => {
+      const entryPoint = {};
+      expect(getEntryPointWithDataTypeInitialized(entryPoint)).not.toBe(entryPoint);
+    });
   });
 });

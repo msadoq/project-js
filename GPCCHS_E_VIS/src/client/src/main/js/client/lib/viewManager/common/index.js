@@ -132,3 +132,11 @@ export const getParameterOrThrowError = (key, path) => {
   if (value === undefined) throw new Error(`Invalid configuration detected, nothing found in ${key}[${JSON.stringify(path)}]`);
   return value;
 };
+
+// define a default value for connectedData.dataType if not already set
+const DATA_TYPE_PATH = 'connectedData.dataType';
+export const getEntryPointWithDataTypeInitialized = entryPoint => (
+  _.getOr(undefined, DATA_TYPE_PATH, entryPoint)
+    ? entryPoint
+    : _.set(DATA_TYPE_PATH, TIME_BASED_DATA_OPTION.value, entryPoint)
+);

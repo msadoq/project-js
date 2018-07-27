@@ -11,12 +11,12 @@
     }]
   ],
   "env": {
+	"development": {
+	  "presets": [
+		"react-hmre"
+	  ]
+	},
     "test": {},
-    "production": {},
-    "development": {
-      "presets": [
-        "react-hmre"
-      ]
-    }
+    "production": {}
   }
 }

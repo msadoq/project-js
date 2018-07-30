@@ -193,18 +193,37 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
 
     // Compute acknowledgement State
     const ackState = getAckState(currentValue);
+    // Compute alarm type
+    const getAlarmType = _.get('onBoardAlarm.alarmLevel');
+    const alarmType = convertData(getAlarmType(currentValue));
 
-    if (ep.mode === constants.ALARM_MODE_TOACKNOWLEDGE) {
-      if (ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
-        return;
-      }
-    }
-
-    // Filter values out of interval
     const isOutOfTimeRange = timestamp < lower || timestamp > upper;
-    if (ep.mode === constants.ALARM_MODE_ALL) {
-      if (isOutOfTimeRange) {
-        return;
+
+    switch (ep.mode) {
+      case (constants.ALARM_MODE_ALL): {
+        // Filter values out of interval
+        if (isOutOfTimeRange) {
+          return;
+        }
+        break;
+      }
+      case (constants.ALARM_MODE_NONNOMINAL): {
+        if (isOutOfTimeRange) {
+          return;
+        }
+        if (alarmType === 'nominal') {
+          return;
+        }
+        break;
+      }
+      case (constants.ALARM_MODE_TOACKNOWLEDGE): {
+        if (ackState !== 'REQUIRE ACKNOWLEDGE') {
+          return;
+        }
+        break;
+      }
+      default: {
+        // do nothing
       }
     }
 

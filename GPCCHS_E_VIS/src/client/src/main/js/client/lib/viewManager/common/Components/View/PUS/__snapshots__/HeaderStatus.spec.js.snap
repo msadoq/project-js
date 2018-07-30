@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/common/Components/View/PUS/HeaderStatus HeaderStatus :: render snapshot disabled 1`] = `
+<div
+  className="header-status"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Popover
+        bsClass="popover"
+        id="popover-service-status"
+        placement="bottom"
+        style={
+          Object {
+            "height": 70,
+          }
+        }
+      >
+        <table
+          className="popoverTable"
+        >
+          <tbody>
+            <tr>
+              <th>
+                lastUpdateMode
+              </th>
+              <td>
+                TM
+              </td>
+            </tr>
+            <tr>
+              <th>
+                lastUpdateTime
+              </th>
+              <td>
+                1532941906431
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Popover>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <span>
+      Service Status
+       
+      <input
+        className="mw100 disabled"
+        disabled={true}
+        type="text"
+        value="disabled"
+      />
+    </span>
+  </OverlayTrigger>
+  <span
+    className="spacing"
+  />
+</div>
+`;
+
+exports[`viewManager/common/Components/View/PUS/HeaderStatus HeaderStatus :: render snapshot enabled 1`] = `
+<div
+  className="header-status"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Popover
+        bsClass="popover"
+        id="popover-service-status"
+        placement="bottom"
+        style={
+          Object {
+            "height": 70,
+          }
+        }
+      >
+        <table
+          className="popoverTable"
+        >
+          <tbody>
+            <tr>
+              <th>
+                lastUpdateMode
+              </th>
+              <td>
+                TM
+              </td>
+            </tr>
+            <tr>
+              <th>
+                lastUpdateTime
+              </th>
+              <td>
+                1532941906431
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Popover>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <span>
+      Service Status
+       
+      <input
+        className="mw100 enabled"
+        disabled={true}
+        type="text"
+        value="ENABLED"
+      />
+    </span>
+  </OverlayTrigger>
+  <span
+    className="spacing"
+  />
+</div>
+`;

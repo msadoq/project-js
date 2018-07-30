@@ -141,7 +141,6 @@ export const renderHeaders = (
       lastUpdateMode={lastUpdateModeServiceStatus}
       lastUpdateTime={lastUpdateTimeServiceStatus}
       label="Service Satus"
-      pusTag="12"
     />
     <div className="info col-sm-4 pus12_ap">
       Number Monitoring&nbsp;

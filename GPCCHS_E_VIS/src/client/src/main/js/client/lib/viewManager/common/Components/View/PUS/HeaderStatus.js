@@ -1,56 +1,46 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
+import classnames from 'classnames';
+import { createTableData } from '../../../pus/tooltip';
 
-const popoverStyle = {
-  height: 80,
-};
+const popoverStyle = { height: 70 };
+const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
 
-/**
- * @param id
- * @param title
- * @param time
- * @param mode
- * @returns {*}
- */
+const _formatDate = date => (
+  (new Date(date)) > 0
+    ? (new Date(date)).toISOString()
+    : date
+);
 
-const generatePopover = ({ id, title, time, mode }) => (
+const generatePopover = (id, time, mode) => (
   <Popover
     id={id}
     placement="bottom"
-    title={title}
     style={popoverStyle}
   >
-    <div>Last update Time: {time}</div>
-    <div>Last update Mode: {mode}</div>
+    {createTableData({
+      lastUpdateMode: mode,
+      lastUpdateTime: _formatDate(time),
+    })}
   </Popover>
 );
 
-generatePopover.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  time: PropTypes.string.isRequired,
-  mode: PropTypes.string.isRequired,
-};
-
-const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
-
 export default class HeaderStatus extends Component {
   static propTypes = {
-    // From PUSViewContainer mapStateToProps
     status: PropTypes.string,
     lastUpdateMode: PropTypes.string,
     lastUpdateTime: PropTypes.string,
     label: PropTypes.string,
-    pusTag: PropTypes.string,
+    id: PropTypes.string,
   };
 
   static defaultProps = {
     status: null,
     lastUpdateMode: null,
     lastUpdateTime: null,
-    label: null,
-    pusTag: null,
+    label: 'Status',
+    id: 'popover-service-status',
   };
 
   render() {
@@ -59,29 +49,24 @@ export default class HeaderStatus extends Component {
       lastUpdateMode,
       lastUpdateTime,
       label,
-      pusTag,
+      id,
     } = this.props;
-    const statusStyle = 'mw100 '.concat(
-      ['DISABLED', 'ENABLED'].includes(status) ?
-      status.toLowerCase() : ''
-    );
     const statusSpan = (
       <span>
         {label}&nbsp;
-        <input type="text" className={statusStyle} disabled value={status} />
+        <input type="text" className={classnames('mw100', status.toLowerCase())} disabled value={status} />
       </span>
     );
     return (
-      <div className={`info col-sm-4 pus${pusTag}_ss`}>
+      <div className="header-status">
         <OverlayTrigger
           trigger={popoverTrigger}
-          placement="right"
-          overlay={generatePopover({
-            id: 'popover-service-apid',
-            title: 'Service Status',
-            time: lastUpdateTime,
-            mode: lastUpdateMode,
-          })}
+          placement="bottom"
+          overlay={generatePopover(
+            id,
+            lastUpdateTime,
+            lastUpdateMode
+          )}
         >
           {statusSpan}
         </OverlayTrigger>

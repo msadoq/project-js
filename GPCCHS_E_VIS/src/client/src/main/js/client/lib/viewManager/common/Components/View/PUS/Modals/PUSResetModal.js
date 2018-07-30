@@ -47,6 +47,7 @@ class PUSSaveInFileModal extends React.Component {
     this.props.closeModal();
   };
 
+  // @todo hbenjelloun, use values from PUS_CONSTANTS.INITIALISATION_MODE
   render() {
     return (
       <div className={styles.modalContainer}>

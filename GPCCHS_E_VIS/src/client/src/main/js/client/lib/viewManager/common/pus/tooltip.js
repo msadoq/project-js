@@ -13,7 +13,7 @@ export const createTableData =
         {
           Object.keys(obj).map(
             key => (
-              <tr>
+              <tr key={key}>
                 <th>{key}</th>
                 <td>{obj[key]}</td>
               </tr>

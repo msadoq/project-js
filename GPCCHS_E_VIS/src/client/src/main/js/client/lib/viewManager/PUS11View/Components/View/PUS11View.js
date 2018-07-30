@@ -9,10 +9,7 @@ import VirtualizedTableViewContainer
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 import HeaderStatus from '../../../common/Components/View/PUS/HeaderStatus';
 
-
-const popoverStyle = {
-  height: 80,
-};
+const popoverStyle = { height: 80 };
 
 const subSchedulesTooltips = {
   ssId: { mode: 'lastUpdateModeSubScheduleId', time: 'lastUpdateTimeSubscheduleId' },
@@ -219,7 +216,6 @@ export const renderHeaders = (
       lastUpdateMode={lastUpdateModeScheduleStatus}
       lastUpdateTime={lastUpdateTimeScheduleStatus}
       label="Schedule Status"
-      pusTag="11"
     />
     <div className="info col-sm-4 pus11_as">
       <OverlayTrigger

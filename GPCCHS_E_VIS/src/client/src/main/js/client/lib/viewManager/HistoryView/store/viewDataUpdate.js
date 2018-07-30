@@ -19,7 +19,6 @@
 import _ from 'lodash/fp';
 import _forEach from 'lodash/forEach';
 import _get from 'lodash/get';
-import _findIndex from 'lodash/findIndex';
 import { convertData } from 'viewManager/commonData/convertData';
 import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';

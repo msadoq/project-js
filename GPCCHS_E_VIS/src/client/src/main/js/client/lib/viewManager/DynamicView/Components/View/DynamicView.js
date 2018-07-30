@@ -80,7 +80,6 @@ import ModalComponent from '../../../../windowProcess/common/ModalComponent';
 import { get } from '../../../../common/configurationManager';
 
 const WILDCARD = get('WILDCARD_CHARACTER');
-
 /**
  * @param catalogName
  * @param item
@@ -157,8 +156,8 @@ function objectHeader(ep) {
         <Col componentClass={ControlLabel} sm={3}>
           <strong>{_lowerCase(key)}</strong>
         </Col>
-        <Col sm={8}>
-          <Panel className={styles.panel}>{dataToShow(ep[key])}</Panel>
+        <Col sm={8} style={{ paddingTop: '7px' }}>
+          {dataToShow(ep[key])}
         </Col>
       </FormGroup>
     );

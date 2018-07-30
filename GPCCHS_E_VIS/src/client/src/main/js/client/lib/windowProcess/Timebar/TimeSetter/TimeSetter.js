@@ -275,6 +275,7 @@ export default class TimeSetter extends PureComponent {
                     placeholder={x[0]}
                     ref={(el) => { this[`defaultWidth${x[0]}El`] = el; }}
                     onBlur={this.onDefaultWidthChange}
+                    onChange={this.onDefaultWidthChange}
                     className={classnames(
                       styles.input,
                       styles[`input_${x[0]}`],

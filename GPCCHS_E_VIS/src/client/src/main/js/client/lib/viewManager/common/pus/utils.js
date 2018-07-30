@@ -3,15 +3,15 @@ import parameters from '../../../common/configurationManager';
 
 const statusColors = parameters.get('PUS_CONSTANTS').STATUS_COLOR;
 
-// const backgroundDisabled = { backgroundColor: '#e67e22' };
-// const backgroundEnabled = { backgroundColor: '#2ecc71' };
-// eslint-disable-next-line arrow-body-style
-const _formatDate = (date) => {
-  return (new Date(date)) > 0
+/**
+ * @param date
+ * @returns {string}
+ */
+export const formatDate = date => (
+  (new Date(date)) > 0
     ? (new Date(date)).toISOString()
     : date
-    ;
-};
+);
 
 export const tableOverrideStyle = statusKeyList =>
   ({ content }) => {
@@ -43,7 +43,7 @@ export const tableModifier = tooltips =>
         },
         lastUpdateTime: {
           key: toolT.time,
-          format: _formatDate,
+          format: formatDate,
         },
       }
     );

@@ -8,14 +8,7 @@ import VirtualizedTableViewContainer
 import { addTooltipWithContent } from '../../../common/pus/tooltip';
 
 import styles from './PUSMMEView.css';
-
-// eslint-disable-next-line arrow-body-style
-const _formatDate = (date) => {
-  return (new Date(date)) > 0
-    ? (new Date(date)).toISOString()
-    : date
-    ;
-};
+import { formatDate } from '../../../common/pus/utils';
 
 const _packetsContentModifier = (cellContent = {}, content = {}) => {
   const { colKey } = cellContent;
@@ -31,7 +24,7 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeSid',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -45,7 +38,7 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeStatus',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -59,7 +52,7 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeValidParamId',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -73,7 +66,7 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeValidParamMask',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -87,7 +80,7 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeValidParamExpValue',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -101,7 +94,7 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeCollectInterval',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -115,7 +108,7 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeGenMode',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -129,7 +122,7 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeFwdStatusTypeSubtype',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -143,7 +136,7 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeFwdStatusTypeRidSid',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -157,7 +150,7 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeSubSamplingRatio',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );

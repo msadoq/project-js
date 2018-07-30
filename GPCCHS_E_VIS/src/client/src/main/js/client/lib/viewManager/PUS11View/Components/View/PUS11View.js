@@ -6,10 +6,11 @@ import { OverlayTrigger, Popover } from 'react-bootstrap';
 import './PUS11View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
+import { tableOverrideStyle, tableModifier, formatDate } from '../../../common/pus/utils';
 import HeaderStatus from '../../../common/Components/View/PUS/HeaderStatus';
+import { createTableData } from '../../../common/pus/tooltip';
 
-const popoverStyle = { height: 80 };
+const popoverStyle = { height: 70 };
 
 const subSchedulesTooltips = {
   ssId: { mode: 'lastUpdateModeSubScheduleId', time: 'lastUpdateTimeSubscheduleId' },
@@ -29,11 +30,9 @@ const commandTooltips = {
 };
 const _commandContentModifier = tableModifier(commandTooltips);
 
-
 // SUB SCHEDULES
 // apply background color to cells for which value is ENABLED or DISABLED
 const _subSchedulesOverrideStyle = tableOverrideStyle(['status']);
-
 
 // COMMANDS
 const _commandsStatusKeyList = [
@@ -165,29 +164,22 @@ export default class PUS11View extends React.Component {
 
 /**
  * @param id
- * @param title
  * @param time
  * @param mode
  * @returns {*}
  */
-export const generatePopover = ({ id, title, time, mode }) => (
+export const generatePopover = (id, time, mode) => (
   <Popover
     id={id}
     placement="bottom"
-    title={title}
     style={popoverStyle}
   >
-    <div>Last update Time: {time}</div>
-    <div>Last update mode: {mode}</div>
+    {createTableData({
+      lastUpdateMode: mode,
+      lastUpdateTime: formatDate(time),
+    })}
   </Popover>
 );
-
-generatePopover.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  time: PropTypes.string.isRequired,
-  mode: PropTypes.string.isRequired,
-};
 
 const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
 
@@ -221,12 +213,11 @@ export const renderHeaders = (
       <OverlayTrigger
         trigger={popoverTrigger}
         placement="bottom"
-        overlay={generatePopover({
-          id: 'popover-commands',
-          title: (spaceInNumberOfCommands ? 'Free Commands' : 'Free Bytes'),
-          time: lastUpdateTimeNoFreeCommands,
-          mode: lastUpdateModeNoFreeCommands,
-        })}
+        overlay={generatePopover(
+          'popover-commands',
+          lastUpdateTimeNoFreeCommands,
+          lastUpdateModeNoFreeCommands
+        )}
       >
         <span>
           Available Space&nbsp;

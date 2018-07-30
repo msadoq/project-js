@@ -3,15 +3,10 @@ import PropTypes from 'prop-types';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import classnames from 'classnames';
 import { createTableData } from '../../../pus/tooltip';
+import { formatDate } from '../../../pus/utils';
 
 const popoverStyle = { height: 70 };
 const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
-
-const _formatDate = date => (
-  (new Date(date)) > 0
-    ? (new Date(date)).toISOString()
-    : date
-);
 
 const generatePopover = (id, time, mode) => (
   <Popover
@@ -21,7 +16,7 @@ const generatePopover = (id, time, mode) => (
   >
     {createTableData({
       lastUpdateMode: mode,
-      lastUpdateTime: _formatDate(time),
+      lastUpdateTime: formatDate(time),
     })}
   </Popover>
 );

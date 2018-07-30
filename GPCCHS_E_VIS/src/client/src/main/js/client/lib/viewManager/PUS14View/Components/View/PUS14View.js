@@ -6,14 +6,7 @@ import './PUS14View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { addTooltipWithContent } from '../../../common/pus/tooltip';
-
-// eslint-disable-next-line arrow-body-style
-const _formatDate = (date) => {
-  return (new Date(date)) > 0
-    ? (new Date(date)).toISOString()
-    : date
-    ;
-};
+import { formatDate } from '../../../common/pus/utils';
 
 const pus014TmPacketContentModifier = (cellContent = {}, content = {}) => {
   const { colKey } = cellContent;
@@ -29,7 +22,7 @@ const pus014TmPacketContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeFwdStatus',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -43,7 +36,7 @@ const pus014TmPacketContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeRid',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -57,7 +50,7 @@ const pus014TmPacketContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeSid',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -71,7 +64,7 @@ const pus014TmPacketContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeSid',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -85,7 +78,7 @@ const pus014TmPacketContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeSubSamplingRatio',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );
@@ -99,7 +92,7 @@ const pus014TmPacketContentModifier = (cellContent = {}, content = {}) => {
           },
           lastUpdateTime: {
             key: 'lastUpdateTimeTotalTimeShiftOffset',
-            format: _formatDate,
+            format: formatDate,
           },
         }
       );

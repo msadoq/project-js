@@ -147,6 +147,9 @@ function dataToShow(data) {
   }
   return data.value;
 }
+
+const paddingTop = () => ({ paddingTop: '7px' });
+
 function objectHeader(ep) {
   const objectKeys = Object.keys(ep).filter(key => !_isArray(ep[key]));
   const staticHeader = [];
@@ -156,7 +159,7 @@ function objectHeader(ep) {
         <Col componentClass={ControlLabel} sm={3}>
           <strong>{_lowerCase(key)}</strong>
         </Col>
-        <Col sm={8} style={{ paddingTop: '7px' }}>
+        <Col sm={8} style={paddingTop()}>
           {dataToShow(ep[key])}
         </Col>
       </FormGroup>

@@ -217,6 +217,8 @@
   "DISABLE_LOKI_CACHE": false,
   "ZMQ_PASSERELLE_PUB": "ipc://convertUnitRequest.ipc",
   "ZMQ_PASSERELLE_SUB": "ipc://convertUnitResponse.ipc",
+  "ZMQ_PUS_PUSH": "tcp://127.0.0.1:5062",
+  "ZMQ_PUS_PULL": "tcp://127.0.0.1:5063",
   "COLORS_CONFIGURATION": "config.colors.json",
   "DATE_FORMAT_TAI": "YYYY-MM-DDTHH:mm:ss.SSS",
   "PUS_CONSTANTS": {

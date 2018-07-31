@@ -10,10 +10,16 @@
 import zmq from 'common/zmq';
 import getLogger from 'common/logManager';
 
-const { resolve } = require('path');
+// const { resolve } = require('path');
+const dcController = require('../controllers/dc');
+const pusController = require('../controllers/pus');
 
-const rootVimaFolder = process.env.IS_BUNDLED === 'on' ? __dirname : resolve(__dirname, '../../..');
-const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require;
+// const rootVimaFolder = process.env.IS_BUNDLED === 'on' ? __dirname : resolve(__dirname, '../../..');
+// const dynamicRequire = process.env.IS_BUNDLED === 'on' ? global.dynamicRequire : require;
+const controllers = {
+  dc: dcController,
+  pus: pusController,
+};
 
 export default function connectToZmq(pullUrl, pushUrl, name, callback) {
   if (!pullUrl || !pushUrl) {
@@ -25,7 +31,7 @@ export default function connectToZmq(pullUrl, pushUrl, name, callback) {
       type: 'pull',
       role: 'server',
       url: pullUrl,
-      handler: dynamicRequire(resolve(rootVimaFolder, 'lib/serverProcess/controllers', name)),
+      handler: controllers[name],
     },
     [`${name}Push`]: {
       type: 'push',

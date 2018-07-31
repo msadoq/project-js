@@ -10,7 +10,7 @@ const executionMonitor = require('../../../../common/logManager/execution');
 const logger = require('../../../../common/logManager')('controllers:onTimebasedArchiveData');
 const { incomingRange, incomingLast } = require('../../../../store/actions/incomingData');
 
-const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
+const protobufTrue = () => encode('dc.dataControllerUtils.Boolean', { boolean: true });
 const PARAMETER_NAME = 'parameterName';
 
 const onArchiveData = (args, getStore, { get, remove }) => {
@@ -19,7 +19,7 @@ const onArchiveData = (args, getStore, { get, remove }) => {
   const isLastBuffer = args[2];
 
   const payloadBuffers = Array.prototype.slice.call(args, 3);
-  const endOfQuery = protobufTrue.equals(isLastBuffer);
+  const endOfQuery = protobufTrue().equals(isLastBuffer);
   // check payloads parity
   if (payloadBuffers.length % 2 !== 0) {
     logger.warn('payloads should be sent by (timestamp, payloads) peers');

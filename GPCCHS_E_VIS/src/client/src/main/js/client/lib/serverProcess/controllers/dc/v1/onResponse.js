@@ -12,7 +12,7 @@ const { pop } = require('../../../../common/callbacks');
 const { add: addMessage } = require('../../../../store/actions/messages');
 const { getStore } = require('../../../store');
 
-const protobufSuccess = encode('dc.dataControllerUtils.Status', {
+const protobufSuccess = () => encode('dc.dataControllerUtils.Status', {
   status: globalConstants.STATUS_SUCCESS,
 });
 
@@ -43,7 +43,7 @@ module.exports = (args) => {
   }
 
   // if status is SUCCESS, execute callback and stop logic
-  if (_isEqual(statusBuffer, protobufSuccess)) {
+  if (_isEqual(statusBuffer, protobufSuccess())) {
     return callback(null);
   }
 

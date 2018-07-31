@@ -41,7 +41,7 @@
 // END-HISTORY
 // ====================================================================
 
-import { get as getConf } from 'common/configurationManager';
+const conf = require('../../../common/configurationManager');
 
 const { decode } = require('../../../utils/adapters');
 const logger = require('../../../common/logManager')('controllers/utils');
@@ -73,9 +73,9 @@ const { add: addMessage } = require('../../../store/actions/messages');
 const { get, remove } = require('../../models/registeredArchiveQueriesSingleton');
 const { getStore } = require('../../store');
 
-const pubSubController = makePubSubController(getConf('PUBSUB_THROTTLE_TIMING'));
-const pubSubControllerADE = makePubSubControllerADE(getConf('PUBSUB_THROTTLE_TIMING'));
-const versionDCComProtocol = getConf('VERSION_DC_COM_PROTOCOL');
+const pubSubController = makePubSubController(conf.get('PUBSUB_THROTTLE_TIMING'));
+const pubSubControllerADE = makePubSubControllerADE(conf.get('PUBSUB_THROTTLE_TIMING'));
+const versionDCComProtocol = conf.get('VERSION_DC_COM_PROTOCOL');
 
 const controllersV1 = {
   [constants.MESSAGETYPE_DOMAIN_DATA]: onDomainsData,

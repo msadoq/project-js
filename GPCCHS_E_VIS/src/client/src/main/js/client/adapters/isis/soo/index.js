@@ -18,7 +18,6 @@ const SooOperationState = require('./sooOperationState');
 module.exports = {
   GroupOfOperation: { type: 'protobuf', adapter: GroupOfOperation },
   SooBreakpoint: { type: 'protobuf', adapter: SooBreakpoint },
-  Status: { type: 'raw', adapter: Status },
   Operation: { type: 'protobuf', adapter: Operation },
   SooState: { type: 'protobuf', adapter: SooState },
   SooFunctionalChain: { type: 'protobuf', adapter: SooFunctionalChain },

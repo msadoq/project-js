@@ -28,7 +28,7 @@ describe('protobuf/isis/pusModelEditor/HeaderStructure', () => {
     expect(decoded.pusServiceApid).toHaveLength(stub.pusServiceApid.length);
     for (let i = 0; i < stub.pusServiceApid.length; i += 1) {
       expect(decoded.pusServiceApid[i]).toMatchObject({
-        value: { type: 'string', value: stub.pusServiceApid[i].value },
+        value: { type: 'uinteger', value: stub.pusServiceApid[i].value },
       });
       
     }

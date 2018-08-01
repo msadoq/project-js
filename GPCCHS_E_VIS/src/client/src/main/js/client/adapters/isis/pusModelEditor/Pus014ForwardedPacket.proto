@@ -7,7 +7,7 @@ import "../ccsds_mal/ULONG.proto";
 package pusModelEditor.protobuf;
 
 message Pus014ForwardedPacket {
-extensions 26 to 126;
+extensions 30 to 130;
 
   optional ccsds_mal.protobuf.UINTEGER packetApid = 1;
   optional ccsds_mal.protobuf.UINTEGER forwardingStatusTypeSubtype = 2;
@@ -17,21 +17,25 @@ extensions 26 to 126;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 6;
   optional ccsds_mal.protobuf.STRING packetName = 7;
   optional ccsds_mal.protobuf.STRING serviceApidName = 8;
-  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeRid = 9;
-  optional ccsds_mal.protobuf.STRING lastUpdateTimeRid = 10;
-  optional ccsds_mal.protobuf.UINTEGER rid = 11;
+  optional ccsds_mal.protobuf.UINTEGER rid = 9;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeRid = 10;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeRid = 11;
   optional ccsds_mal.protobuf.STRING ridLabel = 12;
-  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSid = 13;
-  optional ccsds_mal.protobuf.STRING lastUpdateTimeSid = 14;
-  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSubSamplingRatio = 15;
-  optional ccsds_mal.protobuf.STRING lastUpdateTimeSubSamplingRatio = 16;
-  optional ccsds_mal.protobuf.UINTEGER subsamplingRatio = 17;
-  optional ccsds_mal.protobuf.UINTEGER sid = 18;
+  optional ccsds_mal.protobuf.UINTEGER sid = 13;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSid = 14;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeSid = 15;
+  optional ccsds_mal.protobuf.UINTEGER subsamplingRatio = 16;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSubSamplingRatio = 17;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeSubSamplingRatio = 18;
   optional ccsds_mal.protobuf.STRING sidLabel = 19;
-  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeTypeSubType = 20;
-  optional ccsds_mal.protobuf.STRING lastUpdateTimeTypeSubType = 21;
-  optional ccsds_mal.protobuf.UINTEGER serviceType = 22;
-  optional ccsds_mal.protobuf.UINTEGER serviceSubType = 23;
+  optional ccsds_mal.protobuf.UINTEGER serviceType = 20;
+  optional ccsds_mal.protobuf.UINTEGER serviceSubType = 21;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeTypeSubType = 22;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeTypeSubType = 23;
   optional ccsds_mal.protobuf.ULONG uniqueId = 24;
   optional ccsds_mal.protobuf.UINTEGER status = 25;
+  optional ccsds_mal.protobuf.STRING packetType = 26;
+  optional ccsds_mal.protobuf.UINTEGER forwardingStatusRidSid = 27;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeFwdStatusTypeRidSid = 28;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeFwdStatusTypeRidSid = 29;
 }

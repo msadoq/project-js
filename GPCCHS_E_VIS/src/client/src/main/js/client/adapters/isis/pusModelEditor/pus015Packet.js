@@ -24,7 +24,7 @@ module.exports = {
       ? uINTEGER.encode(data.subsamplingRatio)
       : null,
     packetType: (data.packetType !== null && typeof data.packetType !== 'undefined')
-      ? uINTEGER.encode(data.packetType)
+      ? sTRING.encode(data.packetType)
       : null,
     sidLabel: (data.sidLabel !== null && typeof data.sidLabel !== 'undefined')
       ? sTRING.encode(data.sidLabel)
@@ -77,7 +77,7 @@ module.exports = {
       ? uINTEGER.decode(data.subsamplingRatio)
       : undefined,
     packetType: (data.packetType !== null && typeof data.packetType !== 'undefined')
-      ? uINTEGER.decode(data.packetType)
+      ? sTRING.decode(data.packetType)
       : undefined,
     sidLabel: (data.sidLabel !== null && typeof data.sidLabel !== 'undefined')
       ? sTRING.decode(data.sidLabel)

@@ -1,6 +1,5 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/STRING.proto";
-import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
 import "../ccsds_mal/ULONG.proto";
 import "./Pus018Obcp.proto";
@@ -9,15 +8,14 @@ import "./Pus018Obcp.proto";
 package pusModelEditor.protobuf;
 
 message Pus018Model {
-extensions 10 to 110;
+extensions 9 to 109;
 
   optional ccsds_mal.protobuf.UINTEGER engineStatus = 1;
   repeated pusModelEditor.protobuf.Pus018Obcp pus018Obcp = 2;
-  optional ccsds_mal.protobuf.TIME groundDate = 3;
-  optional ccsds_mal.protobuf.UINTEGER status = 4;
-  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeEngineStatus = 5;
-  optional ccsds_mal.protobuf.STRING lastUpdateTimeEngineStatus = 6;
-  optional ccsds_mal.protobuf.UINTEGER serviceApid = 7;
-  optional ccsds_mal.protobuf.STRING serviceApidName = 8;
-  optional ccsds_mal.protobuf.ULONG uniqueId = 9;
+  optional ccsds_mal.protobuf.UINTEGER status = 3;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeEngineStatus = 4;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeEngineStatus = 5;
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 6;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 7;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 8;
 }

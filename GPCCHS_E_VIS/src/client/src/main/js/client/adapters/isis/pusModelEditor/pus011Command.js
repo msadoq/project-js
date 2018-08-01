@@ -17,6 +17,12 @@ module.exports = {
     commandApid: (data.commandApid !== null && typeof data.commandApid !== 'undefined')
       ? uINTEGER.encode(data.commandApid)
       : null,
+    commandType: (data.commandType !== null && typeof data.commandType !== 'undefined')
+      ? uINTEGER.encode(data.commandType)
+      : null,
+    commandSubType: (data.commandSubType !== null && typeof data.commandSubType !== 'undefined')
+      ? uINTEGER.encode(data.commandSubType)
+      : null,
     commandApidName: (data.commandApidName !== null && typeof data.commandApidName !== 'undefined')
       ? sTRING.encode(data.commandApidName)
       : null,
@@ -110,6 +116,12 @@ module.exports = {
       : undefined,
     commandApid: (data.commandApid !== null && typeof data.commandApid !== 'undefined')
       ? uINTEGER.decode(data.commandApid)
+      : undefined,
+    commandType: (data.commandType !== null && typeof data.commandType !== 'undefined')
+      ? uINTEGER.decode(data.commandType)
+      : undefined,
+    commandSubType: (data.commandSubType !== null && typeof data.commandSubType !== 'undefined')
+      ? uINTEGER.decode(data.commandSubType)
       : undefined,
     commandApidName: (data.commandApidName !== null && typeof data.commandApidName !== 'undefined')
       ? sTRING.decode(data.commandApidName)

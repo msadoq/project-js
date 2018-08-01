@@ -4,16 +4,12 @@
 const _map = require('lodash/map');
 const pus015PacketStore = require('./pus015PacketStore');
 const sTRING = require('../ccsds_mal/sTRING');
-const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 const uLONG = require('../ccsds_mal/uLONG');
 
 module.exports = {
   encode: data => ({
     pus015PacketStore: _map(data.pus015PacketStore, d => (pus015PacketStore.encode(d))),
-    groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? tIME.encode(data.groundDate)
-      : null,
     serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
       ? uINTEGER.encode(data.serviceApid)
       : null,
@@ -29,9 +25,6 @@ module.exports = {
   }),
   decode: data => ({
     pus015PacketStore: _map(data.pus015PacketStore, d => (pus015PacketStore.decode(d))),
-    groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? tIME.decode(data.groundDate)
-      : undefined,
     serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
       ? uINTEGER.decode(data.serviceApid)
       : undefined,

@@ -20,7 +20,6 @@ describe('protobuf/isis/pusModelEditor/Pus018Model', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
       engineStatus: { type: 'uinteger', value: stub.engineStatus },
-      groundDate: { type: 'time', value: stub.groundDate },
       status: { type: 'uinteger', value: stub.status },
       lastUpdateModeEngineStatus: { type: 'uinteger', value: stub.lastUpdateModeEngineStatus },
       lastUpdateTimeEngineStatus: { type: 'string', value: stub.lastUpdateTimeEngineStatus },
@@ -59,6 +58,8 @@ describe('protobuf/isis/pusModelEditor/Pus018Model', () => {
           parameterId: { type: 'uinteger', value: stub.pus018Obcp[i].pusParameter[ii].parameterId },
           parameterName: { type: 'string', value: stub.pus018Obcp[i].pusParameter[ii].parameterName },
           value: { type: 'string', value: stub.pus018Obcp[i].pusParameter[ii].value },
+          lastUpdateModeParameterId: { type: 'uinteger', value: stub.pus018Obcp[i].pusParameter[ii].lastUpdateModeParameterId },
+          lastUpdateTimeParameterId: { type: 'string', value: stub.pus018Obcp[i].pusParameter[ii].lastUpdateTimeParameterId },
         });
         
       }

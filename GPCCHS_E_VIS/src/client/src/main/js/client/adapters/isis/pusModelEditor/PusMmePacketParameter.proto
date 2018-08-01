@@ -14,8 +14,8 @@ extensions 10 to 110;
   optional ccsds_mal.protobuf.UINTEGER parameterOrder = 3;
   optional ccsds_mal.protobuf.STRING parameterFilteredStatus = 4;
   optional ccsds_mal.protobuf.ULONG uniqueId = 5;
-  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStoreId = 6;
-  optional ccsds_mal.protobuf.STRING lastUpdateTimeStoreId = 7;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeParameterId = 6;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeParameterId = 7;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeFilteredStatus = 8;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeFilteredStatus = 9;
 }

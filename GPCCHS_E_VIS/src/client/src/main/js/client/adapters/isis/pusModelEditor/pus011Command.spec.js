@@ -21,6 +21,8 @@ describe('protobuf/isis/pusModelEditor/Pus011Command', () => {
     expect(decoded).toMatchObject({
       uniqueId: { type: 'ulong', symbol: `${stub.uniqueId}` },
       commandApid: { type: 'uinteger', value: stub.commandApid },
+      commandType: { type: 'uinteger', value: stub.commandType },
+      commandSubType: { type: 'uinteger', value: stub.commandSubType },
       commandApidName: { type: 'string', value: stub.commandApidName },
       commandName: { type: 'string', value: stub.commandName },
       commandDescription: { type: 'string', value: stub.commandDescription },

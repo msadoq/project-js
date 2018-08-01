@@ -15,6 +15,12 @@ module.exports = {
     value: (data.value !== null && typeof data.value !== 'undefined')
       ? sTRING.encode(data.value)
       : null,
+    lastUpdateModeParameterId: (data.lastUpdateModeParameterId !== null && typeof data.lastUpdateModeParameterId !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeParameterId)
+      : null,
+    lastUpdateTimeParameterId: (data.lastUpdateTimeParameterId !== null && typeof data.lastUpdateTimeParameterId !== 'undefined')
+      ? sTRING.encode(data.lastUpdateTimeParameterId)
+      : null,
   }),
   decode: data => ({
     parameterId: (data.parameterId !== null && typeof data.parameterId !== 'undefined')
@@ -25,6 +31,12 @@ module.exports = {
       : undefined,
     value: (data.value !== null && typeof data.value !== 'undefined')
       ? sTRING.decode(data.value)
+      : undefined,
+    lastUpdateModeParameterId: (data.lastUpdateModeParameterId !== null && typeof data.lastUpdateModeParameterId !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeParameterId)
+      : undefined,
+    lastUpdateTimeParameterId: (data.lastUpdateTimeParameterId !== null && typeof data.lastUpdateTimeParameterId !== 'undefined')
+      ? sTRING.decode(data.lastUpdateTimeParameterId)
       : undefined,
   }),
 };

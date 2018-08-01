@@ -19,7 +19,6 @@ describe('protobuf/isis/pusModelEditor/Pus140Model', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      groundDate: { type: 'time', value: stub.groundDate },
       status: { type: 'uinteger', value: stub.status },
       serviceStatus: { type: 'uinteger', value: stub.serviceStatus },
       serviceApidName: { type: 'string', value: stub.serviceApidName },

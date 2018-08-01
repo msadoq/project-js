@@ -20,7 +20,6 @@ describe('protobuf/isis/pusModelEditor/Pus019Model', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
       serviceStatus: { type: 'uinteger', value: stub.serviceStatus },
-      groundDate: { type: 'time', value: stub.groundDate },
       status: { type: 'uinteger', value: stub.status },
       lastUpdateModeServiceStatus: { type: 'uinteger', value: stub.lastUpdateModeServiceStatus },
       lastUpdateTimeServiceStatus: { type: 'string', value: stub.lastUpdateTimeServiceStatus },

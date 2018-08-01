@@ -19,7 +19,6 @@ describe('protobuf/isis/pusModelEditor/Pus015Model', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      groundDate: { type: 'time', value: stub.groundDate },
       serviceApid: { type: 'uinteger', value: stub.serviceApid },
       status: { type: 'uinteger', value: stub.status },
       serviceApidName: { type: 'string', value: stub.serviceApidName },
@@ -53,7 +52,7 @@ describe('protobuf/isis/pusModelEditor/Pus015Model', () => {
           serviceSubType: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].serviceSubType },
           sid: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].sid },
           subsamplingRatio: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].subsamplingRatio },
-          packetType: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].packetType },
+          packetType: { type: 'string', value: stub.pus015PacketStore[i].pus015Packet[ii].packetType },
           sidLabel: { type: 'string', value: stub.pus015PacketStore[i].pus015Packet[ii].sidLabel },
           isSubsamplingRatioSet: { type: 'boolean', value: stub.pus015PacketStore[i].pus015Packet[ii].isSubsamplingRatioSet },
           lastUpdateModePacketId: { type: 'uinteger', value: stub.pus015PacketStore[i].pus015Packet[ii].lastUpdateModePacketId },

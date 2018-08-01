@@ -21,6 +21,6 @@ describe('protobuf/isis/pusModelEditor/PusServiceApid', () => {
     expect(decoded).toMatchObject({
       value: { type: 'uinteger', value: stub.value },
     });
-
+    
   });
 });

@@ -44,7 +44,7 @@ describe('protobuf/isis/pusModelEditor/Pus015PacketStore', () => {
         serviceSubType: { type: 'uinteger', value: stub.pus015Packet[i].serviceSubType },
         sid: { type: 'uinteger', value: stub.pus015Packet[i].sid },
         subsamplingRatio: { type: 'uinteger', value: stub.pus015Packet[i].subsamplingRatio },
-        packetType: { type: 'uinteger', value: stub.pus015Packet[i].packetType },
+        packetType: { type: 'string', value: stub.pus015Packet[i].packetType },
         sidLabel: { type: 'string', value: stub.pus015Packet[i].sidLabel },
         isSubsamplingRatioSet: { type: 'boolean', value: stub.pus015Packet[i].isSubsamplingRatioSet },
         lastUpdateModePacketId: { type: 'uinteger', value: stub.pus015Packet[i].lastUpdateModePacketId },

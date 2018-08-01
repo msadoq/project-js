@@ -47,6 +47,8 @@ describe('protobuf/isis/pusModelEditor/Pus018Obcp', () => {
         parameterId: { type: 'uinteger', value: stub.pusParameter[i].parameterId },
         parameterName: { type: 'string', value: stub.pusParameter[i].parameterName },
         value: { type: 'string', value: stub.pusParameter[i].value },
+        lastUpdateModeParameterId: { type: 'uinteger', value: stub.pusParameter[i].lastUpdateModeParameterId },
+        lastUpdateTimeParameterId: { type: 'string', value: stub.pusParameter[i].lastUpdateTimeParameterId },
       });
       
     }

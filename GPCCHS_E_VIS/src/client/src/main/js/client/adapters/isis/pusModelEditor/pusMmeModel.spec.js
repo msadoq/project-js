@@ -21,9 +21,10 @@ describe('protobuf/isis/pusModelEditor/PusMmeModel', () => {
     expect(decoded).toMatchObject({
       serviceApid: { type: 'uinteger', value: stub.serviceApid },
       status: { type: 'uinteger', value: stub.status },
-      groundDate: { type: 'time', value: stub.groundDate },
       serviceApidName: { type: 'string', value: stub.serviceApidName },
       uniqueId: { type: 'ulong', symbol: `${stub.uniqueId}` },
+      noHkPackets: { type: 'uinteger', value: stub.noHkPackets },
+      noDiagPackets: { type: 'uinteger', value: stub.noDiagPackets },
     });
     expect(decoded.pusMmePacket).toHaveLength(stub.pusMmePacket.length);
     for (let i = 0; i < stub.pusMmePacket.length; i += 1) {
@@ -93,8 +94,8 @@ describe('protobuf/isis/pusModelEditor/PusMmeModel', () => {
           parameterOrder: { type: 'uinteger', value: stub.pusMmePacket[i].pusMmePacketParameter[ii].parameterOrder },
           parameterFilteredStatus: { type: 'string', value: stub.pusMmePacket[i].pusMmePacketParameter[ii].parameterFilteredStatus },
           uniqueId: { type: 'ulong', symbol: `${stub.pusMmePacket[i].pusMmePacketParameter[ii].uniqueId}` },
-          lastUpdateModeStoreId: { type: 'uinteger', value: stub.pusMmePacket[i].pusMmePacketParameter[ii].lastUpdateModeStoreId },
-          lastUpdateTimeStoreId: { type: 'string', value: stub.pusMmePacket[i].pusMmePacketParameter[ii].lastUpdateTimeStoreId },
+          lastUpdateModeParameterId: { type: 'uinteger', value: stub.pusMmePacket[i].pusMmePacketParameter[ii].lastUpdateModeParameterId },
+          lastUpdateTimeParameterId: { type: 'string', value: stub.pusMmePacket[i].pusMmePacketParameter[ii].lastUpdateTimeParameterId },
           lastUpdateModeFilteredStatus: { type: 'uinteger', value: stub.pusMmePacket[i].pusMmePacketParameter[ii].lastUpdateModeFilteredStatus },
           lastUpdateTimeFilteredStatus: { type: 'string', value: stub.pusMmePacket[i].pusMmePacketParameter[ii].lastUpdateTimeFilteredStatus },
         });

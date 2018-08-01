@@ -10,8 +10,8 @@ const pusMmePacketParameter = {
   parameterOrder: 100,
   parameterFilteredStatus: 'mySTRING',
   uniqueId: 1000,
-  lastUpdateModeStoreId: 100,
-  lastUpdateTimeStoreId: 'mySTRING',
+  lastUpdateModeParameterId: 100,
+  lastUpdateTimeParameterId: 'mySTRING',
   lastUpdateModeFilteredStatus: 100,
   lastUpdateTimeFilteredStatus: 'mySTRING',
 };

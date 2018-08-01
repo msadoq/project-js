@@ -8,6 +8,8 @@ const getPus011TimeShift = require('./pus011TimeShift.stub');
 const pus011Command = {
   uniqueId: 1000,
   commandApid: 100,
+  commandType: 100,
+  commandSubType: 100,
   commandApidName: 'mySTRING',
   commandName: 'mySTRING',
   commandDescription: 'mySTRING',

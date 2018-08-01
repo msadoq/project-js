@@ -4,7 +4,6 @@
 const _map = require('lodash/map');
 const pus012ParameterMonitoringDefinition = require('./pus012ParameterMonitoringDefinition');
 const sTRING = require('../ccsds_mal/sTRING');
-const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 const uLONG = require('../ccsds_mal/uLONG');
 
@@ -19,9 +18,6 @@ module.exports = {
       : null,
     serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
       ? uINTEGER.encode(data.serviceStatus)
-      : null,
-    groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? tIME.encode(data.groundDate)
       : null,
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.encode(data.status)
@@ -49,9 +45,6 @@ module.exports = {
       : undefined,
     serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
       ? uINTEGER.decode(data.serviceStatus)
-      : undefined,
-    groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? tIME.decode(data.groundDate)
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.decode(data.status)

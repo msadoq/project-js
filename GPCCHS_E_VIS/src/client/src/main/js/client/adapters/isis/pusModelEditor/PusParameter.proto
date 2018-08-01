@@ -6,9 +6,11 @@ import "../ccsds_mal/UINTEGER.proto";
 package pusModelEditor.protobuf;
 
 message PusParameter {
-extensions 4 to 104;
+extensions 6 to 106;
 
   optional ccsds_mal.protobuf.UINTEGER parameterId = 1;
   optional ccsds_mal.protobuf.STRING parameterName = 2;
   optional ccsds_mal.protobuf.STRING value = 3;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeParameterId = 4;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeParameterId = 5;
 }

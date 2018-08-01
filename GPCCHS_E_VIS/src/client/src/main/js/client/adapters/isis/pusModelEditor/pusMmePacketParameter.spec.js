@@ -24,8 +24,8 @@ describe('protobuf/isis/pusModelEditor/PusMmePacketParameter', () => {
       parameterOrder: { type: 'uinteger', value: stub.parameterOrder },
       parameterFilteredStatus: { type: 'string', value: stub.parameterFilteredStatus },
       uniqueId: { type: 'ulong', symbol: `${stub.uniqueId}` },
-      lastUpdateModeStoreId: { type: 'uinteger', value: stub.lastUpdateModeStoreId },
-      lastUpdateTimeStoreId: { type: 'string', value: stub.lastUpdateTimeStoreId },
+      lastUpdateModeParameterId: { type: 'uinteger', value: stub.lastUpdateModeParameterId },
+      lastUpdateTimeParameterId: { type: 'string', value: stub.lastUpdateTimeParameterId },
       lastUpdateModeFilteredStatus: { type: 'uinteger', value: stub.lastUpdateModeFilteredStatus },
       lastUpdateTimeFilteredStatus: { type: 'string', value: stub.lastUpdateTimeFilteredStatus },
     });

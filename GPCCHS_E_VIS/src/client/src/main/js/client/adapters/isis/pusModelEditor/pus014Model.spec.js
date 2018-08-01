@@ -19,7 +19,6 @@ describe('protobuf/isis/pusModelEditor/Pus014Model', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      groundDate: { type: 'time', value: stub.groundDate },
       serviceApid: { type: 'uinteger', value: stub.serviceApid },
       status: { type: 'uinteger', value: stub.status },
       serviceApidName: { type: 'string', value: stub.serviceApidName },
@@ -36,23 +35,27 @@ describe('protobuf/isis/pusModelEditor/Pus014Model', () => {
         serviceApid: { type: 'uinteger', value: stub.pus014TmPacket[i].serviceApid },
         packetName: { type: 'string', value: stub.pus014TmPacket[i].packetName },
         serviceApidName: { type: 'string', value: stub.pus014TmPacket[i].serviceApidName },
+        rid: { type: 'uinteger', value: stub.pus014TmPacket[i].rid },
         lastUpdateModeRid: { type: 'uinteger', value: stub.pus014TmPacket[i].lastUpdateModeRid },
         lastUpdateTimeRid: { type: 'string', value: stub.pus014TmPacket[i].lastUpdateTimeRid },
-        rid: { type: 'uinteger', value: stub.pus014TmPacket[i].rid },
         ridLabel: { type: 'string', value: stub.pus014TmPacket[i].ridLabel },
+        sid: { type: 'uinteger', value: stub.pus014TmPacket[i].sid },
         lastUpdateModeSid: { type: 'uinteger', value: stub.pus014TmPacket[i].lastUpdateModeSid },
         lastUpdateTimeSid: { type: 'string', value: stub.pus014TmPacket[i].lastUpdateTimeSid },
+        subsamplingRatio: { type: 'uinteger', value: stub.pus014TmPacket[i].subsamplingRatio },
         lastUpdateModeSubSamplingRatio: { type: 'uinteger', value: stub.pus014TmPacket[i].lastUpdateModeSubSamplingRatio },
         lastUpdateTimeSubSamplingRatio: { type: 'string', value: stub.pus014TmPacket[i].lastUpdateTimeSubSamplingRatio },
-        subsamplingRatio: { type: 'uinteger', value: stub.pus014TmPacket[i].subsamplingRatio },
-        sid: { type: 'uinteger', value: stub.pus014TmPacket[i].sid },
         sidLabel: { type: 'string', value: stub.pus014TmPacket[i].sidLabel },
-        lastUpdateModeTypeSubType: { type: 'uinteger', value: stub.pus014TmPacket[i].lastUpdateModeTypeSubType },
-        lastUpdateTimeTypeSubType: { type: 'string', value: stub.pus014TmPacket[i].lastUpdateTimeTypeSubType },
         serviceType: { type: 'uinteger', value: stub.pus014TmPacket[i].serviceType },
         serviceSubType: { type: 'uinteger', value: stub.pus014TmPacket[i].serviceSubType },
+        lastUpdateModeTypeSubType: { type: 'uinteger', value: stub.pus014TmPacket[i].lastUpdateModeTypeSubType },
+        lastUpdateTimeTypeSubType: { type: 'string', value: stub.pus014TmPacket[i].lastUpdateTimeTypeSubType },
         uniqueId: { type: 'ulong', symbol: `${stub.pus014TmPacket[i].uniqueId}` },
         status: { type: 'uinteger', value: stub.pus014TmPacket[i].status },
+        packetType: { type: 'string', value: stub.pus014TmPacket[i].packetType },
+        forwardingStatusRidSid: { type: 'uinteger', value: stub.pus014TmPacket[i].forwardingStatusRidSid },
+        lastUpdateModeFwdStatusTypeRidSid: { type: 'uinteger', value: stub.pus014TmPacket[i].lastUpdateModeFwdStatusTypeRidSid },
+        lastUpdateTimeFwdStatusTypeRidSid: { type: 'string', value: stub.pus014TmPacket[i].lastUpdateTimeFwdStatusTypeRidSid },
       });
       
     }

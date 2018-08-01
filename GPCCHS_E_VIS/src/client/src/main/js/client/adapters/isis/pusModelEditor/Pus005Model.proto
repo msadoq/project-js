@@ -1,6 +1,5 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 import "../ccsds_mal/STRING.proto";
-import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
 import "../ccsds_mal/ULONG.proto";
 import "./Pus005OnBoardEvent.proto";
@@ -9,12 +8,11 @@ import "./Pus005OnBoardEvent.proto";
 package pusModelEditor.protobuf;
 
 message Pus005Model {
-extensions 7 to 107;
+extensions 6 to 106;
 
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 1;
   repeated pusModelEditor.protobuf.Pus005OnBoardEvent pus005OnBoardEvent = 2;
-  optional ccsds_mal.protobuf.TIME groundDate = 3;
-  optional ccsds_mal.protobuf.UINTEGER status = 4;
-  optional ccsds_mal.protobuf.STRING serviceApidName = 5;
-  optional ccsds_mal.protobuf.ULONG uniqueId = 6;
+  optional ccsds_mal.protobuf.UINTEGER status = 3;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 4;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 5;
 }

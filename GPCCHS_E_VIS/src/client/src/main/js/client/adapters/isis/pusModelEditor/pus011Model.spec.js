@@ -53,6 +53,8 @@ describe('protobuf/isis/pusModelEditor/Pus011Model', () => {
       expect(decoded.pus011Command[i]).toMatchObject({
         uniqueId: { type: 'ulong', symbol: `${stub.pus011Command[i].uniqueId}` },
         commandApid: { type: 'uinteger', value: stub.pus011Command[i].commandApid },
+        commandType: { type: 'uinteger', value: stub.pus011Command[i].commandType },
+        commandSubType: { type: 'uinteger', value: stub.pus011Command[i].commandSubType },
         commandApidName: { type: 'string', value: stub.pus011Command[i].commandApidName },
         commandName: { type: 'string', value: stub.pus011Command[i].commandName },
         commandDescription: { type: 'string', value: stub.pus011Command[i].commandDescription },

@@ -21,6 +21,7 @@ describe('protobuf/isis/pusModelEditor/CompareStructure', () => {
     expect(decoded).toMatchObject({
       firstDate: { type: 'time', value: stub.firstDate },
       secondDate: { type: 'time', value: stub.secondDate },
+      startCompTool: { type: 'boolean', value: stub.startCompTool },
     });
     
   });

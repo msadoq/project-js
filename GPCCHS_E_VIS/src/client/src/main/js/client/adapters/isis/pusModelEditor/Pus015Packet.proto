@@ -15,7 +15,7 @@ extensions 18 to 118;
   optional ccsds_mal.protobuf.UINTEGER serviceSubType = 3;
   optional ccsds_mal.protobuf.UINTEGER sid = 4;
   optional ccsds_mal.protobuf.UINTEGER subsamplingRatio = 5;
-  optional ccsds_mal.protobuf.UINTEGER packetType = 6;
+  optional ccsds_mal.protobuf.STRING packetType = 6;
   optional ccsds_mal.protobuf.STRING sidLabel = 7;
   optional ccsds_mal.protobuf.BOOLEAN isSubsamplingRatioSet = 8;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModePacketId = 9;

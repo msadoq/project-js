@@ -20,7 +20,6 @@ describe('protobuf/isis/pusModelEditor/Pus005Model', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
       serviceApid: { type: 'uinteger', value: stub.serviceApid },
-      groundDate: { type: 'time', value: stub.groundDate },
       status: { type: 'uinteger', value: stub.status },
       serviceApidName: { type: 'string', value: stub.serviceApidName },
       uniqueId: { type: 'ulong', symbol: `${stub.uniqueId}` },

@@ -10,6 +10,7 @@ const now = _now();
 const compareStructure = {
   firstDate: now,
   secondDate: now,
+  startCompTool: true,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, compareStructure) : compareStructure);

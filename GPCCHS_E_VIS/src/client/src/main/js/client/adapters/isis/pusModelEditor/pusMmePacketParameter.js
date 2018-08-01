@@ -22,11 +22,11 @@ module.exports = {
     uniqueId: (data.uniqueId !== null && typeof data.uniqueId !== 'undefined')
       ? uLONG.encode(data.uniqueId)
       : null,
-    lastUpdateModeStoreId: (data.lastUpdateModeStoreId !== null && typeof data.lastUpdateModeStoreId !== 'undefined')
-      ? uINTEGER.encode(data.lastUpdateModeStoreId)
+    lastUpdateModeParameterId: (data.lastUpdateModeParameterId !== null && typeof data.lastUpdateModeParameterId !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeParameterId)
       : null,
-    lastUpdateTimeStoreId: (data.lastUpdateTimeStoreId !== null && typeof data.lastUpdateTimeStoreId !== 'undefined')
-      ? sTRING.encode(data.lastUpdateTimeStoreId)
+    lastUpdateTimeParameterId: (data.lastUpdateTimeParameterId !== null && typeof data.lastUpdateTimeParameterId !== 'undefined')
+      ? sTRING.encode(data.lastUpdateTimeParameterId)
       : null,
     lastUpdateModeFilteredStatus: (data.lastUpdateModeFilteredStatus !== null && typeof data.lastUpdateModeFilteredStatus !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeFilteredStatus)
@@ -51,11 +51,11 @@ module.exports = {
     uniqueId: (data.uniqueId !== null && typeof data.uniqueId !== 'undefined')
       ? uLONG.decode(data.uniqueId)
       : undefined,
-    lastUpdateModeStoreId: (data.lastUpdateModeStoreId !== null && typeof data.lastUpdateModeStoreId !== 'undefined')
-      ? uINTEGER.decode(data.lastUpdateModeStoreId)
+    lastUpdateModeParameterId: (data.lastUpdateModeParameterId !== null && typeof data.lastUpdateModeParameterId !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeParameterId)
       : undefined,
-    lastUpdateTimeStoreId: (data.lastUpdateTimeStoreId !== null && typeof data.lastUpdateTimeStoreId !== 'undefined')
-      ? sTRING.decode(data.lastUpdateTimeStoreId)
+    lastUpdateTimeParameterId: (data.lastUpdateTimeParameterId !== null && typeof data.lastUpdateTimeParameterId !== 'undefined')
+      ? sTRING.decode(data.lastUpdateTimeParameterId)
       : undefined,
     lastUpdateModeFilteredStatus: (data.lastUpdateModeFilteredStatus !== null && typeof data.lastUpdateModeFilteredStatus !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeFilteredStatus)

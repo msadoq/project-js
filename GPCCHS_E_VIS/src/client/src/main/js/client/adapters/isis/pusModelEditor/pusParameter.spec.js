@@ -22,6 +22,8 @@ describe('protobuf/isis/pusModelEditor/PusParameter', () => {
       parameterId: { type: 'uinteger', value: stub.parameterId },
       parameterName: { type: 'string', value: stub.parameterName },
       value: { type: 'string', value: stub.value },
+      lastUpdateModeParameterId: { type: 'uinteger', value: stub.lastUpdateModeParameterId },
+      lastUpdateTimeParameterId: { type: 'string', value: stub.lastUpdateTimeParameterId },
     });
     
   });

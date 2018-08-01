@@ -22,7 +22,6 @@ describe('protobuf/isis/pusModelEditor/Pus012Model', () => {
       serviceApid: { type: 'uinteger', value: stub.serviceApid },
       noOfParameterMonitoringDefinition: { type: 'uinteger', value: stub.noOfParameterMonitoringDefinition },
       serviceStatus: { type: 'uinteger', value: stub.serviceStatus },
-      groundDate: { type: 'time', value: stub.groundDate },
       status: { type: 'uinteger', value: stub.status },
       lastUpdateModeServiceStatus: { type: 'uinteger', value: stub.lastUpdateModeServiceStatus },
       lastUpdateTimeServiceStatus: { type: 'string', value: stub.lastUpdateTimeServiceStatus },

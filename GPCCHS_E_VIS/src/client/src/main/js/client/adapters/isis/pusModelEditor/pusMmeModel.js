@@ -4,7 +4,6 @@
 const _map = require('lodash/map');
 const pusMmePacket = require('./pusMmePacket');
 const sTRING = require('../ccsds_mal/sTRING');
-const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 const uLONG = require('../ccsds_mal/uLONG');
 
@@ -16,9 +15,6 @@ module.exports = {
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.encode(data.status)
       : null,
-    groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? tIME.encode(data.groundDate)
-      : null,
     serviceApidName: (data.serviceApidName !== null && typeof data.serviceApidName !== 'undefined')
       ? sTRING.encode(data.serviceApidName)
       : null,
@@ -26,6 +22,12 @@ module.exports = {
       ? uLONG.encode(data.uniqueId)
       : null,
     pusMmePacket: _map(data.pusMmePacket, d => (pusMmePacket.encode(d))),
+    noHkPackets: (data.noHkPackets !== null && typeof data.noHkPackets !== 'undefined')
+      ? uINTEGER.encode(data.noHkPackets)
+      : null,
+    noDiagPackets: (data.noDiagPackets !== null && typeof data.noDiagPackets !== 'undefined')
+      ? uINTEGER.encode(data.noDiagPackets)
+      : null,
   }),
   decode: data => ({
     serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
@@ -34,9 +36,6 @@ module.exports = {
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.decode(data.status)
       : undefined,
-    groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? tIME.decode(data.groundDate)
-      : undefined,
     serviceApidName: (data.serviceApidName !== null && typeof data.serviceApidName !== 'undefined')
       ? sTRING.decode(data.serviceApidName)
       : undefined,
@@ -44,5 +43,11 @@ module.exports = {
       ? uLONG.decode(data.uniqueId)
       : undefined,
     pusMmePacket: _map(data.pusMmePacket, d => (pusMmePacket.decode(d))),
+    noHkPackets: (data.noHkPackets !== null && typeof data.noHkPackets !== 'undefined')
+      ? uINTEGER.decode(data.noHkPackets)
+      : undefined,
+    noDiagPackets: (data.noDiagPackets !== null && typeof data.noDiagPackets !== 'undefined')
+      ? uINTEGER.decode(data.noDiagPackets)
+      : undefined,
   }),
 };

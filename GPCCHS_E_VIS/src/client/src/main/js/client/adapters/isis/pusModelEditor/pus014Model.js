@@ -4,16 +4,12 @@
 const _map = require('lodash/map');
 const pus014ForwardedPacket = require('./pus014ForwardedPacket');
 const sTRING = require('../ccsds_mal/sTRING');
-const tIME = require('../ccsds_mal/tIME');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 const uLONG = require('../ccsds_mal/uLONG');
 
 module.exports = {
   encode: data => ({
     pus014TmPacket: _map(data.pus014TmPacket, d => (pus014ForwardedPacket.encode(d))),
-    groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? tIME.encode(data.groundDate)
-      : null,
     serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
       ? uINTEGER.encode(data.serviceApid)
       : null,
@@ -29,9 +25,6 @@ module.exports = {
   }),
   decode: data => ({
     pus014TmPacket: _map(data.pus014TmPacket, d => (pus014ForwardedPacket.decode(d))),
-    groundDate: (data.groundDate !== null && typeof data.groundDate !== 'undefined')
-      ? tIME.decode(data.groundDate)
-      : undefined,
     serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
       ? uINTEGER.decode(data.serviceApid)
       : undefined,

@@ -8,6 +8,8 @@ const pusParameter = {
   parameterId: 100,
   parameterName: 'mySTRING',
   value: 'mySTRING',
+  lastUpdateModeParameterId: 100,
+  lastUpdateTimeParameterId: 'mySTRING',
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pusParameter) : pusParameter);

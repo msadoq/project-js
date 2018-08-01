@@ -75,7 +75,7 @@ export default class GroundAlarmEditor extends Component {
   };
 
   render() {
-    const entryPoints = _getOr(this.props, 'configuration.entryPoints', {});
+    const entryPoints = _getOr({}, 'configuration.entryPoints')(this.props);
     const {
       viewId,
       tab,

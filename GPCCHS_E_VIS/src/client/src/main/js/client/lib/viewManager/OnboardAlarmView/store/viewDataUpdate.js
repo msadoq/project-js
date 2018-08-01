@@ -190,41 +190,21 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     // if (!applyFilters(currentValue, ep.filters)) {
     //   continue;
     // }
+    // TODO: needs to determine on which filters have top be applied
+    // // check value verify filters
+    // if (!applyFilters(currentValue, ep.filters)) {
+    //   continue;
+    // }
 
     // Compute acknowledgement State
     const ackState = getAckState(currentValue);
     // Compute alarm type
     const getAlarmType = _.get('onBoardAlarm.alarmLevel');
     const alarmType = convertData(getAlarmType(currentValue));
-
     const isOutOfTimeRange = timestamp < lower || timestamp > upper;
 
-    switch (ep.mode) {
-      case (constants.ALARM_MODE_ALL): {
-        // Filter values out of interval
-        if (isOutOfTimeRange) {
-          return;
-        }
-        break;
-      }
-      case (constants.ALARM_MODE_NONNOMINAL): {
-        if (isOutOfTimeRange) {
-          return;
-        }
-        if (alarmType === 'nominal') {
-          return;
-        }
-        break;
-      }
-      case (constants.ALARM_MODE_TOACKNOWLEDGE): {
-        if (ackState !== 'REQUIRE ACKNOWLEDGE') {
-          return;
-        }
-        break;
-      }
-      default: {
-        // do nothing
-      }
+    if (shouldAlarmBeDisplayed(ep.mode, isOutOfTimeRange, alarmType, ackState) === false) {
+      return;
     }
 
     epSubState[epName][oid] = {
@@ -238,4 +218,33 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap) {
     return {};
   }
   return epSubState;
+}
+
+export function shouldAlarmBeDisplayed(epMode, isTimeOutOfRange, typeOfAlarm, stateOfAck) {
+  switch (epMode) {
+    case (constants.ALARM_MODE_ALL): {
+      if (isTimeOutOfRange) {
+        return false;
+      }
+      return true;
+    }
+    case (constants.ALARM_MODE_NONNOMINAL): {
+      if (isTimeOutOfRange) {
+        return false;
+      }
+      if (typeOfAlarm === 'nominal') {
+        return false;
+      }
+      return true;
+    }
+    case (constants.ALARM_MODE_TOACKNOWLEDGE): {
+      if (stateOfAck !== constants.ALARM_ACKSTATE_REQUIREACK) {
+        return false;
+      }
+      return true;
+    }
+    default: {
+      return true;
+    }
+  }
 }

@@ -194,20 +194,18 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     return {};
   }
   const lower = expectedInterval[0];
-  const upper = expectedInterval[1];
-
+  // const upper = expectedInterval[1];
   const epSubState = { [epName]: {} };
 
   // Loop on payload
-  _each(tbdIdPayload, (currentValue, i) => {
+  _each(tbdIdPayload, (currentValue) => {
     const groundMonitoringAlarm = currentValue.groundMonitoringAlarm;
     const oid = currentValue.oid;
     if (!oid || !groundMonitoringAlarm) {
       return;
     }
-
-    const offset = ep.offset || 0;
-    const timestamp = (groundMonitoringAlarm.referenceTimestamp.value || Number(i)) + offset;
+    // const offset = ep.offset || 0;
+    // const timestamp = (groundMonitoringAlarm.referenceTimestamp.value || Number(i)) + offset;
     // TODO do we have to check creation date to validate timestamp ?
     // const timestamp = _get(currentValue, ['creationDate', 'value']);
     // if (typeof timestamp === 'undefined') {
@@ -219,36 +217,45 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     // if (!applyFilters(currentValue, ep.filters)) {
     //   continue;
     // }
-
-    // Compute acknowledgement State
-    const ackState = getAckState(currentValue);
-
-    if (ep.mode === constants.ALARM_MODE_TOACKNOWLEDGE) {
-      if (ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
-        return;
-      }
-    }
-
-    if (ep.mode === constants.ALARM_MODE_NONNOMINAL) {
-      const { creationDate, closingDate } = groundMonitoringAlarm;
-      const isNonNominal = (
-        creationDate.value < visuWindow.current
-        && (!closingDate || closingDate.value > visuWindow.current)
-      );
-      const isNominal = !isNonNominal;
-      if (isNominal) {
-        return;
-      }
-    }
-
+    // const created = createAlarm(currentValue, convertData);
+    // const isOutOfTimeRange = timestamp < lower || timestamp > upper;
+    /* if (ep.mode === constants.ALARM_MODE_TOACKNOWLEDGE) {
+       if (ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
+         return;
+       }
+     } */
+    const { creationDate, closingDate } = groundMonitoringAlarm;
+    /* if (ep.mode === constants.ALARM_MODE_NONNOMINAL) {
+       const isNonNominal = (
+         creationDate.value < visuWindow.current
+         && (!closingDate || closingDate.value > visuWindow.current)
+       );
+       const isNominal = !isNonNominal;
+       if (isNominal) {
+         // return;
+       }
+     } */
+    const raisedAfterVisuLower = creationDate.value > lower;
+    const raisedBeforeVisuCurrent = creationDate.value < visuWindow.current;
+    const closedBeforeVisuCurrent = !!closingDate && closingDate.value < visuWindow.current;
+    const created = createAlarm(currentValue, convertData);
+    const ackState = created.ackState;
+    const alarmType = created.alarmType;
+    if (
+      !shouldAlarmBeDisplayed(
+        ep.mode,
+        raisedAfterVisuLower,
+        raisedBeforeVisuCurrent,
+        closedBeforeVisuCurrent,
+        alarmType,
+        ackState)
+    ) { return; }
     // Filter values out of interval but keep "REQUIREACK" Alarms
-    const isOutOfTimeRange = timestamp < lower || timestamp > upper;
-    if (isOutOfTimeRange && ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
+    /* if (isOutOfTimeRange && ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
       return;
-    }
-
+    } */
     epSubState[epName][oid] = {
-      ...createAlarm(currentValue, convertData),
+      ...created,
       rawAlarm: createAlarm(currentValue, _.identity),
     };
   });
@@ -257,6 +264,40 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
   if (!Object.keys(epSubState[epName]).length) {
     return {};
   }
-
   return epSubState;
+}
+
+export function shouldAlarmBeDisplayed(
+  epMode,
+  raisedAfterVWLower,
+  raisedBeforeVWCurrent,
+  closedBeforeVWCurrent,
+  typeOfAlarm,
+  stateOfAck) {
+  switch (epMode) {
+    case (constants.ALARM_MODE_NONNOMINAL): {
+      if (raisedBeforeVWCurrent && typeOfAlarm !== 'nominal') {
+        return true;
+      }
+      return false;
+    }
+    case (constants.ALARM_MODE_ALL): {
+      if (raisedBeforeVWCurrent && typeOfAlarm !== 'nominal') {
+        return true;
+      }
+      if (raisedBeforeVWCurrent && raisedAfterVWLower) {
+        return true;
+      }
+      return false;
+    }
+    case (constants.ALARM_MODE_TOACKNOWLEDGE): {
+      if (stateOfAck !== constants.ALARM_ACKSTATE_REQUIREACK) {
+        return false;
+      }
+      return true;
+    }
+    default: {
+      return true;
+    }
+  }
 }

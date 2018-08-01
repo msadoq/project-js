@@ -1,0 +1,103 @@
+{
+  "type": "PUS144View",
+  "title": "On-Board Scheduling Service Ground Model (PUS144)",
+  "titleStyle": {
+    "align": "left",
+    "bold": false,
+    "color": "#000000",
+    "font": "Arial",
+    "italic": false,
+    "size": 12,
+    "strikeOut": false,
+    "underline": false
+  },
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "domainName": "*",
+  "sessionName": "*",
+  "tables": {
+    "onBoardPartitions": {
+      "name": "On-Board Partitions",
+      "sorting": {
+        "colName": "serviceApidName",
+        "direction": "DESC"
+      },
+      "cols": [
+        {
+          "title": "serviceApidName",
+          "displayed": true
+        },
+        {
+          "title": "partitionId",
+          "displayed": true
+        },
+        {
+          "title": "fileId",
+          "displayed": true
+        }
+        {
+          "title": "fileType",
+          "displayed": true
+        },
+        {
+          "title": "fileSize",
+          "displayed": true
+        },
+        {
+          "title": "fileCreationTime",
+          "displayed": true
+        },
+        {
+          "title": "fileProtectionStatus",
+          "displayed": true
+        },
+        {
+          "title": "fileMode",
+          "displayed": true
+        },
+        {
+          "title": "fileAddress",
+          "displayed": true
+        },
+        {
+          "title": "uploadedFileChecksum",
+          "displayed": true
+        },
+        {
+          "title": "computedFileChecksum",
+          "displayed": true
+        },
+      ]
+    }
+  },
+  "entryPoint": {
+    "connectedData": {
+      "apidName": "TIMEPACKET,POWERMGT,FILEMGT",
+      "apidRawValue": null,
+      "apids": [
+        {
+          "apidName": "TIMEPACKET",
+          "apidRawValue": "0"
+        },
+        {
+          "apidName": "POWERMGT",
+          "apidRawValue": "3"
+        },
+        {
+          "apidName": "FILEMGT",
+          "apidRawValue": "6"
+        }
+      ],
+      "domain": "fr.cnes.isis.station.hbk",
+      "formula": "PusGroundModelDefinition.Pus0144Model<Pus0144Model>",
+      "session": "*",
+      "timeline": "Session 1"
+    },
+    "id": "eb951457-ea82-4b8b-bea2-30ab061dfac7",
+    "name": "PUS144EP"
+  },
+  "version": "2.2"
+}

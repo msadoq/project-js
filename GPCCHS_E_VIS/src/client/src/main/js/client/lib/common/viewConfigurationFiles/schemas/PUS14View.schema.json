@@ -139,7 +139,7 @@
     "tables": {
       "type": "object",
       "properties": {
-        "pus014TmPacket": {
+        "packetForwarding": {
           "type": "object",
           "properties": {
             "cols": {
@@ -169,7 +169,7 @@
         }
       },
       "required": [
-        "pus014TmPacket"
+        "packetForwarding"
       ]
     }
   },

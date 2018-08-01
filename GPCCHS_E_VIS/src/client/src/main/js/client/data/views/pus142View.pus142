@@ -1,0 +1,172 @@
+{
+  "type": "PUS142View",
+  "title": "Title (PUS142)",
+  "titleStyle": {
+    "align": "left",
+    "bold": false,
+    "color": "#000000",
+    "font": "Arial",
+    "italic": false,
+    "size": 12,
+    "strikeOut": false,
+    "underline": false
+  },
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "domainName": "*",
+  "sessionName": "*",
+  "tables": {
+    "functionalMonitoring": {
+      "name": "Functional Monitoring",
+      "sorting": {
+        "colName": "serviceApidName",
+        "direction": "DESC"
+      },
+      "cols": [
+        {
+          "title": "serviceApidName",
+          "displayed": true
+        },
+        {
+          "title": "fmonId",
+          "displayed": true
+        },
+        {
+          "title": "fmonIdLabel",
+          "displayed": true
+        }
+        {
+          "title": "fmonName",
+          "displayed": true
+        },
+        {
+          "title": "status",
+          "displayed": true
+        },
+        {
+          "title": "checkingStatus",
+          "displayed": true
+        },
+        {
+          "title": "protectionStatus",
+          "displayed": true
+        },
+        {
+          "title": "rid",
+          "displayed": true
+        },
+        {
+          "title": "ridLabel",
+          "displayed": true
+        },
+        {
+          "title": "ridStatus",
+          "displayed": true
+        },
+        {
+          "title": "packetName",
+          "displayed": true
+        },
+        {
+          "title": "validityParameterId",
+          "displayed": true
+        },
+        {
+          "title": "validityParameterMask",
+          "displayed": true
+        },
+        {
+          "title": "validityParameterExpectedValue",
+          "displayed": true
+        },
+        {
+          "title": "actionTcApid",
+          "displayed": true
+        },
+        {
+          "title": "actionTcType",
+          "displayed": true
+        },
+        {
+          "title": "actionTcSubType",
+          "displayed": true
+        },
+        {
+          "title": "actionStatus",
+          "displayed": true
+        },
+        {
+          "title": "actionName",
+          "displayed": true
+        },
+      ]
+    },
+    "parameterMonitorings": {
+      "name": "Parameter Monitorings",
+      "sorting": {
+            "colName": "serviceApidName",
+            "direction": "DESC"
+          },
+      "cols": [
+        {
+          "title": "serviceApidName",
+          "displayed": true
+        },
+        {
+          "title": "fmonId",
+          "displayed": true
+        },
+        {
+          "title": "fmonIdLabel",
+          "displayed": true
+        },
+        {
+          "title": "paramMonId",
+          "displayed": true
+        },
+        {
+          "title": "paramMonName",
+          "displayed": true
+        },
+        {
+          "title": "lastUpdateModeId",
+          "displayed": true
+        },
+        {
+          "title": "lastUpdateTimeId",
+          "displayed": true
+        },
+      ]
+    }
+  },
+  "entryPoint": {
+    "connectedData": {
+      "apidName": "TIMEPACKET,POWERMGT,FILEMGT",
+      "apidRawValue": null,
+      "apids": [
+        {
+          "apidName": "TIMEPACKET",
+          "apidRawValue": "0"
+        },
+        {
+          "apidName": "POWERMGT",
+          "apidRawValue": "3"
+        },
+        {
+          "apidName": "FILEMGT",
+          "apidRawValue": "6"
+        }
+      ],
+      "domain": "fr.cnes.isis.station.hbk",
+      "formula": "PusGroundModelDefinition.Pus0142Model<Pus0142Model>",
+      "session": "*",
+      "timeline": "Session 1"
+    },
+    "id": "eb951457-ea82-4b8b-bea2-30ab061dfac7",
+    "name": "PUS142EP"
+  },
+  "version": "2.2"
+}

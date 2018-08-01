@@ -9,8 +9,14 @@ const {
   VM_VIEW_PUS05,
   VM_VIEW_PUS11,
   VM_VIEW_PUS12,
+  VM_VIEW_PUS13,
   VM_VIEW_PUS14,
   VM_VIEW_PUS15,
+  VM_VIEW_PUS18,
+  VM_VIEW_PUS19,
+  VM_VIEW_PUS140,
+  VM_VIEW_PUS142,
+  VM_VIEW_PUS144,
   VM_VIEW_PUSMME,
 } = require('viewManager/constants');
 
@@ -109,11 +115,29 @@ const getViewType = (pusService) => {
     case 12: {
       return VM_VIEW_PUS12;
     }
+    case 13: {
+      return VM_VIEW_PUS13;
+    }
     case 14: {
       return VM_VIEW_PUS14;
     }
     case 15: {
       return VM_VIEW_PUS15;
+    }
+    case 18: {
+      return VM_VIEW_PUS18;
+    }
+    case 19: {
+      return VM_VIEW_PUS19;
+    }
+    case 140: {
+      return VM_VIEW_PUS140;
+    }
+    case 142: {
+      return VM_VIEW_PUS142;
+    }
+    case 144: {
+      return VM_VIEW_PUS144;
     }
     case 0: {
       return VM_VIEW_PUSMME;

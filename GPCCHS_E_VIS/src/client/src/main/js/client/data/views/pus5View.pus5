@@ -1,0 +1,132 @@
+{
+  "type": "PUS5View",
+  "title": "Event Reporting Service Model (PUS05)",
+  "titleStyle": {
+    "align": "left",
+    "bold": false,
+    "color": "#000000",
+    "font": "Arial",
+    "italic": false,
+    "size": 12,
+    "strikeOut": false,
+    "underline": false
+  },
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "domainName": "*",
+  "sessionName": "*",
+  "tables": {
+    "onBoardEvents": {
+      "name": "On-Board Events",
+      "sorting": {
+        "colName": "ssId",
+        "direction": "DESC"
+      },
+      "cols": [
+        {
+          "title": "serviceApidName",
+          "displayed": true
+        },
+        {
+          "title": "rid",
+          "displayed": true
+        },
+        {
+          "title": "ridLabel",
+          "displayed": true
+        }
+        {
+          "title": "reportName",
+          "displayed": true
+        },
+        {
+          "title": "onBoardStatus",
+          "displayed": true
+        },
+        {
+          "title": "reportShortDescription",
+          "displayed": true
+        },
+        {
+          "title": "defaultOnBoardStatus",
+          "displayed": true
+        },
+        {
+          "title": "alarmLevel",
+          "displayed": true
+        },
+        {
+          "title": "actionName",
+          "displayed": true
+        },
+        {
+          "title": "reportLongDescription",
+          "displayed": true
+        },
+      ]
+    },
+    "received": {
+      "name": "Received On-Board Events",
+      "cols": [
+        {
+          "title": "apid",
+          "displayed": true
+        },
+        {
+          "title": "reportId",
+          "displayed": true
+        },
+        {
+          "title": "reportName",
+          "displayed": true
+        },
+        {
+          "title": "eventType",
+          "displayed": true
+        },
+        {
+          "title": "alarmLevel",
+          "displayed": true
+        },
+        {
+          "title": "onBoardDate",
+          "displayed": true
+        },
+        {
+          "title": "groundDate",
+          "displayed": true
+        },
+      ]
+    },
+  },
+  "entryPoint": {
+    "connectedData": {
+      "apidName": "TIMEPACKET,POWERMGT,FILEMGT",
+      "apidRawValue": null,
+      "apids": [
+        {
+          "apidName": "TIMEPACKET",
+          "apidRawValue": "0"
+        },
+        {
+          "apidName": "POWERMGT",
+          "apidRawValue": "3"
+        },
+        {
+          "apidName": "FILEMGT",
+          "apidRawValue": "6"
+        }
+      ],
+      "domain": "fr.cnes.isis.station.hbk",
+      "formula": "PusGroundModelDefinition.Pus05Model<Pus05Model>",
+      "session": "*",
+      "timeline": "Session 1"
+    },
+    "id": "eb951457-ea82-4b8b-bea2-30ab061dfac7",
+    "name": "PUS05EP"
+  },
+  "version": "2.2"
+}

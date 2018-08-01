@@ -1,7 +1,9 @@
 const stubs = require('../../utils/stubs');
 const predictibleRand = require('../utils/predictibleRand');
+const constants = require('../../constants');
 
 const stubData = stubs.getStubData();
+const getAFileMode = () => predictibleRand.getFrom(['1', '2']);
 const getAStatus = () => predictibleRand.getFrom(['1', '2', '3', '200']);
 const getAnUpdateMode = () => predictibleRand.getFrom(['1', '2', '3', '4']);
 const getABoolean = () => predictibleRand.getBool();
@@ -10,12 +12,27 @@ const getAGroundStatus = () => predictibleRand.getInt([1, 8]).toString();
 const getDataByPusService = (pusService, timestamp) => {
   switch (pusService) {
     case 5: {
-      return { dataType: 1, groundDate: timestamp, payload: stubData.getPus005ModelProtobuf() };
+      return {
+        dataType: constants.Pus005ModelType,
+        groundDate: timestamp,
+        payload: stubData.getPus005ModelProtobuf({
+          pus005OnBoardEvent: stubData.getPus005OnBoardEvent({
+            onBoardStatus: getAStatus(),
+            lastUpdateModeRid: getAnUpdateMode(),
+            lastUpdateTimeRid: timestamp.toString(),
+            lastUpdateModeOnBoardStatus: getAnUpdateMode(),
+            lastUpdateTimeOnBoardStatus: timestamp.toString(),
+            lastUpdateModeAlarmLevel: getAnUpdateMode(),
+            lastUpdateTimeAlarmLevel: timestamp.toString(),
+            defaultOnBoardStatus: getAStatus(),
+          }),
+        }),
+      };
     }
     case 11: {
       const binaryProfile = Math.random().toString(16).substring(2, 15);
       return {
-        dataType: 4,
+        dataType: constants.Pus011ModelType,
         groundDate: timestamp,
         payload: stubData.getPus011ModelProtobuf({
           status: getAStatus(),
@@ -153,7 +170,7 @@ const getDataByPusService = (pusService, timestamp) => {
     }
     case 12: {
       return {
-        dataType: 6,
+        dataType: constants.Pus012ModelType,
         groundDate: timestamp,
         payload: stubData.getPus012ModelProtobuf({
           serviceStatus: getAStatus(),
@@ -305,11 +322,15 @@ const getDataByPusService = (pusService, timestamp) => {
       };
     }
     case 14: {
-      return { dataType: 12, groundDate: timestamp, payload: stubData.getPus014ModelProtobuf() };
+      return {
+        dataType: constants.Pus014ModelType,
+        groundDate: timestamp,
+        payload: stubData.getPus014ModelProtobuf(),
+      };
     }
     case 15: {
       return {
-        dataType: 13,
+        dataType: constants.Pus015ModelType,
         groundDate: timestamp,
         payload: stubData.getPus015ModelProtobuf({
           status: getAStatus(),
@@ -376,8 +397,66 @@ const getDataByPusService = (pusService, timestamp) => {
         }),
       };
     }
+    case 144: {
+      return {
+        dataType: constants.Pus144ModelType,
+        groundDate: timestamp,
+        payload: stubData.getPus144Model({
+          pus144OnboardFiles: [
+            stubData.getPus144OnboardFile({
+              fileProtectionStatus: getAStatus(),
+              fileMode: getAFileMode(),
+              lastUpdateModeOnBoardFileId: getAnUpdateMode(),
+              lastUpdateTimeOnBoardFileId: timestamp.toString(),
+              lastUpdateModeFileType: getAnUpdateMode(),
+              lastUpdateTimeFileType: timestamp.toString(),
+              lastUpdateModeFileSize: getAnUpdateMode(),
+              lastUpdateTimeFileSize: timestamp.toString(),
+              lastUpdateModeFileCreationTime: getAnUpdateMode(),
+              lastUpdateTimeFileCreationTime: timestamp.toString(),
+              lastUpdateModeFileProtectionStatus: getAnUpdateMode(),
+              lastUpdateTimeFileProtectionStatus: timestamp.toString(),
+              lastUpdateModeFileMode: getAnUpdateMode(),
+              lastUpdateTimeFileMode: timestamp.toString(),
+              lastUpdateModeFileAddress: getAnUpdateMode(),
+              lastUpdateTimeFileAddress: timestamp.toString(),
+              lastUpdateModeUploadedChecksum: getAnUpdateMode(),
+              lastUpdateTimeUploadedChecksum: timestamp.toString(),
+              lastUpdateModeComputedChecksum: getAnUpdateMode(),
+              lastUpdateTimeComputedChecksum: timestamp.toString(),
+            }),
+            stubData.getPus144OnboardFile({
+              fileProtectionStatus: getAStatus(),
+              fileMode: getAFileMode(),
+              lastUpdateModeOnBoardFileId: getAnUpdateMode(),
+              lastUpdateTimeOnBoardFileId: timestamp.toString(),
+              lastUpdateModeFileType: getAnUpdateMode(),
+              lastUpdateTimeFileType: timestamp.toString(),
+              lastUpdateModeFileSize: getAnUpdateMode(),
+              lastUpdateTimeFileSize: timestamp.toString(),
+              lastUpdateModeFileCreationTime: getAnUpdateMode(),
+              lastUpdateTimeFileCreationTime: timestamp.toString(),
+              lastUpdateModeFileProtectionStatus: getAnUpdateMode(),
+              lastUpdateTimeFileProtectionStatus: timestamp.toString(),
+              lastUpdateModeFileMode: getAnUpdateMode(),
+              lastUpdateTimeFileMode: timestamp.toString(),
+              lastUpdateModeFileAddress: getAnUpdateMode(),
+              lastUpdateTimeFileAddress: timestamp.toString(),
+              lastUpdateModeUploadedChecksum: getAnUpdateMode(),
+              lastUpdateTimeUploadedChecksum: timestamp.toString(),
+              lastUpdateModeComputedChecksum: getAnUpdateMode(),
+              lastUpdateTimeComputedChecksum: timestamp.toString(),
+            }),
+          ],
+        }),
+      };
+    }
     case 0: {
-      return { dataType: 25, groundDate: timestamp, payload: stubData.getPusMmeModelProtobuf() };
+      return {
+        dataType: constants.Pus005ModelType,
+        groundDate: timestamp,
+        payload: stubData.getPusMmeModelProtobuf(),
+      };
     }
     default: {
       return null;

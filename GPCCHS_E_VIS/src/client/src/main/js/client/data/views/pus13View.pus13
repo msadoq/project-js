@@ -1,0 +1,180 @@
+{
+  "type": "PUS13View",
+  "title": "Title (PUS13)",
+  "titleStyle": {
+    "align": "left",
+    "bold": false,
+    "color": "#000000",
+    "font": "Arial",
+    "italic": false,
+    "size": 12,
+    "strikeOut": false,
+    "underline": false
+  },
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 5
+  },
+  "domainName": "*",
+  "sessionName": "*",
+  "tables": {
+    "uplink": {
+      "name": "Large Data Transfert - Uplink",
+      "sorting": {
+        "colName": "serviceApidName",
+        "direction": "DESC"
+      },
+      "cols": [
+        {
+          "title": "serviceApidName",
+          "displayed": true
+        },
+        {
+          "title": "duId",
+          "displayed": true
+        },
+        {
+          "title": "status",
+          "displayed": true
+        }
+        {
+          "title": "transferType",
+          "displayed": true
+        },
+        {
+          "title": "fileTypeCode",
+          "displayed": true
+        },
+        {
+          "title": "startTime",
+          "displayed": true
+        },
+        {
+          "title": "endTime",
+          "displayed": true
+        },
+        {
+          "title": "size",
+          "displayed": true
+        },
+        {
+          "title": "remainingSize",
+          "displayed": true
+        },
+        {
+          "title": "percent",
+          "displayed": true
+        },
+        {
+          "title": "failureCode",
+          "displayed": true
+        },
+        {
+          "title": "partitionId",
+          "displayed": true
+        },
+        {
+          "title": "fileId",
+          "displayed": true
+        },
+        {
+          "title": "fileChecksum",
+          "displayed": true
+        },
+      ]
+    },
+    "uplink": {
+      "name": "Large Data Transfert - Uplink",
+      "sorting": {
+        "colName": "serviceApidName",
+        "direction": "DESC"
+      },
+      "cols": [
+        {
+          "title": "serviceApidName",
+          "displayed": true
+        },
+        {
+          "title": "duId",
+          "displayed": true
+        },
+        {
+          "title": "status",
+          "displayed": true
+        }
+        {
+          "title": "transferType",
+          "displayed": true
+        },
+        {
+          "title": "fileTypeCode",
+          "displayed": true
+        },
+        {
+          "title": "startTime",
+          "displayed": true
+        },
+        {
+          "title": "endTime",
+          "displayed": true
+        },
+        {
+          "title": "size",
+          "displayed": true
+        },
+        {
+          "title": "remainingSize",
+          "displayed": true
+        },
+        {
+          "title": "percent",
+          "displayed": true
+        },
+        {
+          "title": "failureCode",
+          "displayed": true
+        },
+        {
+          "title": "partitionId",
+          "displayed": true
+        },
+        {
+          "title": "fileId",
+          "displayed": true
+        },
+        {
+          "title": "fileChecksum",
+          "displayed": true
+        },
+      ]
+    }
+  },
+  "entryPoint": {
+    "connectedData": {
+      "apidName": "TIMEPACKET,POWERMGT,FILEMGT",
+      "apidRawValue": null,
+      "apids": [
+        {
+          "apidName": "TIMEPACKET",
+          "apidRawValue": "0"
+        },
+        {
+          "apidName": "POWERMGT",
+          "apidRawValue": "3"
+        },
+        {
+          "apidName": "FILEMGT",
+          "apidRawValue": "6"
+        }
+      ],
+      "domain": "fr.cnes.isis.station.hbk",
+      "formula": "PusGroundModelDefinition.Pus013Model<Pus013Model>",
+      "session": "*",
+      "timeline": "Session 1"
+    },
+    "id": "eb951457-ea82-4b8b-bea2-30ab061dfac7",
+    "name": "PUS13EP"
+  },
+  "version": "2.2"
+}

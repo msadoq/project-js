@@ -5,42 +5,24 @@ import _set from 'lodash/fp/set';
 
 const initialConfiguration = {
   tables: {
-    onBoardStorages: {
-      name: 'On-Board Storages',
+    onBoardPartitions: {
+      name: 'On-Board Partitions',
       sorting: {
-        colName: 'storeId',
+        colName: 'serviceApidName',
         direction: 'DESC',
       },
       cols: [
-        { title: 'storeId', displayed: true },
-        { title: 'status', displayed: true },
-        { title: 'storageType', displayed: true },
-        { title: 'dumpEnabled', displayed: true },
-        { title: 'hkStatusParameterName', displayed: true },
         { title: 'serviceApidName', displayed: true },
-        { title: 'storeName', displayed: true },
-        { title: 'serviceApid', displayed: true },
-      ],
-    },
-    storageDef: {
-      name: 'Storage Definitions',
-      sorting: {
-        colName: 'packectApid',
-        direction: 'DESC',
-      },
-      cols: [
-        { title: 'packetApid', displayed: true },
-        { title: 'serviceType', displayed: true },
-        { title: 'serviceSubType', displayed: true },
-        { title: 'sid', displayed: true },
-        { title: 'subsamplingRatio', displayed: true },
-        { title: 'packetType', displayed: true },
-        { title: 'sidLabel', displayed: true },
-        { title: 'isSubsamplingRatioSet', displayed: true },
-        { title: 'serviceApid', displayed: true },
-        { title: 'serviceApidName', displayed: true },
-        { title: 'packetApidName', displayed: true },
-        { title: 'sidName', displayed: true },
+        { title: 'partitionId', displayed: true },
+        { title: 'fileId', displayed: true },
+        { title: 'fileType', displayed: true },
+        { title: 'fileSize', displayed: true },
+        { title: 'fileCreationTime', displayed: true },
+        { title: 'fileProtectionStatus', displayed: true },
+        { title: 'fileMode', displayed: true },
+        { title: 'fileAddress', displayed: true },
+        { title: 'uploadedFileChecksum', displayed: true },
+        { title: 'computedFileChecksum', displayed: true },
       ],
     },
   },

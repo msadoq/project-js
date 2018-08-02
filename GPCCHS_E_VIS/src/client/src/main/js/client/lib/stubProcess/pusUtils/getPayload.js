@@ -401,11 +401,12 @@ const getDataByPusService = (pusService, timestamp) => {
       return {
         dataType: constants.Pus144ModelType,
         groundDate: timestamp,
-        payload: stubData.getPus144Model({
+        payload: stubData.getPus144ModelProtobuf({
           pus144OnboardFiles: [
             stubData.getPus144OnboardFile({
-              fileProtectionStatus: getAStatus(),
+              fileProtectionStatus: getAFileMode(),
               fileMode: getAFileMode(),
+              isFileSizeSet: getABoolean(),
               lastUpdateModeOnBoardFileId: getAnUpdateMode(),
               lastUpdateTimeOnBoardFileId: timestamp.toString(),
               lastUpdateModeFileType: getAnUpdateMode(),
@@ -426,8 +427,9 @@ const getDataByPusService = (pusService, timestamp) => {
               lastUpdateTimeComputedChecksum: timestamp.toString(),
             }),
             stubData.getPus144OnboardFile({
-              fileProtectionStatus: getAStatus(),
+              fileProtectionStatus: getAFileMode(),
               fileMode: getAFileMode(),
+              isFileSizeSet: getABoolean(),
               lastUpdateModeOnBoardFileId: getAnUpdateMode(),
               lastUpdateTimeOnBoardFileId: timestamp.toString(),
               lastUpdateModeFileType: getAnUpdateMode(),

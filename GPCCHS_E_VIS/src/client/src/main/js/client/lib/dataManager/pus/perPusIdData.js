@@ -20,7 +20,7 @@ export function addApidInPusIdMap(pusIdMap, ep, viewId) {
 
   let pusService;
   switch (type) {
-    case 'PUS5View':
+    case 'PUS05View':
       pusService = 5;
       break;
     case 'PUS11View':
@@ -39,19 +39,19 @@ export function addApidInPusIdMap(pusIdMap, ep, viewId) {
       pusService = 15;
       break;
     case 'PUS18View':
-      pusService = 14;
+      pusService = 18;
       break;
     case 'PUS19View':
-      pusService = 14;
+      pusService = 19;
       break;
     case 'PUS140View':
-      pusService = 14;
+      pusService = 140;
       break;
     case 'PUS142View':
-      pusService = 14;
+      pusService = 142;
       break;
-    case 'PUS1444View':
-      pusService = 14;
+    case 'PUS144View':
+      pusService = 144;
       break;
     case 'PUSMMEView':
       pusService = 0;

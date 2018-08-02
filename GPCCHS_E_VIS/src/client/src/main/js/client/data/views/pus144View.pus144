@@ -1,6 +1,6 @@
 {
   "type": "PUS144View",
-  "title": "On-Board Scheduling Service Ground Model (PUS144)",
+  "title": "PUS Service 144, On-Board Storage and Retrieval Service",
   "titleStyle": {
     "align": "left",
     "bold": false,
@@ -37,7 +37,7 @@
         {
           "title": "fileId",
           "displayed": true
-        }
+        },
         {
           "title": "fileType",
           "displayed": true
@@ -69,34 +69,34 @@
         {
           "title": "computedFileChecksum",
           "displayed": true
-        },
-      ]
+        }
+      ],
+      "scrollPosition": {
+        "clientHeight": 277,
+        "clientWidth": 1143,
+        "scrollHeight": 44,
+        "scrollLeft": 0,
+        "scrollTop": 0,
+        "scrollWidth": 13420
+      }
     }
   },
   "entryPoint": {
     "connectedData": {
-      "apidName": "TIMEPACKET,POWERMGT,FILEMGT",
+      "apidName": "ORBIT",
       "apidRawValue": null,
       "apids": [
         {
-          "apidName": "TIMEPACKET",
-          "apidRawValue": "0"
-        },
-        {
-          "apidName": "POWERMGT",
-          "apidRawValue": "3"
-        },
-        {
-          "apidName": "FILEMGT",
-          "apidRawValue": "6"
+          "apidName": "ORBIT",
+          "apidRawValue": "2"
         }
       ],
-      "domain": "fr.cnes.isis.station.hbk",
+      "domain": "fr.cnes.isis.simupus",
       "formula": "PusGroundModelDefinition.Pus0144Model<Pus0144Model>",
       "session": "*",
       "timeline": "Session 1"
     },
-    "id": "eb951457-ea82-4b8b-bea2-30ab061dfac7",
+    "id": "35d1cd2d-128b-4ebf-8824-2d1c23f71cdb",
     "name": "PUS144EP"
   },
   "version": "2.2"

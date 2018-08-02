@@ -51,6 +51,10 @@ const list = {
     getEditorComponent: () =>
       require('./OnboardAlarmView/Components/Editor/OnboardAlarmEditorContainer'),
   },
+  [constants.VM_VIEW_PUS05]: {
+    getViewComponent: () => require('../viewManager/PUS05View/Components/View/PUS05ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS05View/Components/Editor/PUS05EditorContainer'),
+  },
   [constants.VM_VIEW_PUS11]: {
     getViewComponent: () => require('../viewManager/PUS11View/Components/View/PUS11ViewContainer'),
     getEditorComponent: () => require('../viewManager/PUS11View/Components/Editor/PUS11EditorContainer'),
@@ -59,6 +63,10 @@ const list = {
     getViewComponent: () => require('../viewManager/PUS12View/Components/View/PUS12ViewContainer'),
     getEditorComponent: () => require('../viewManager/PUS12View/Components/Editor/PUS12EditorContainer'),
   },
+  [constants.VM_VIEW_PUS13]: {
+    getViewComponent: () => require('../viewManager/PUS13View/Components/View/PUS13ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS13View/Components/Editor/PUS13EditorContainer'),
+  },
   [constants.VM_VIEW_PUS14]: {
     getViewComponent: () => require('../viewManager/PUS14View/Components/View/PUS14ViewContainer'),
     getEditorComponent: () => require('../viewManager/PUS14View/Components/Editor/PUS14EditorContainer'),
@@ -66,6 +74,26 @@ const list = {
   [constants.VM_VIEW_PUS15]: {
     getViewComponent: () => require('../viewManager/PUS15View/Components/View/PUS15ViewContainer'),
     getEditorComponent: () => require('../viewManager/PUS15View/Components/Editor/PUS15EditorContainer'),
+  },
+  [constants.VM_VIEW_PUS18]: {
+    getViewComponent: () => require('../viewManager/PUS18View/Components/View/PUS18ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS18View/Components/Editor/PUS18EditorContainer'),
+  },
+  [constants.VM_VIEW_PUS19]: {
+    getViewComponent: () => require('../viewManager/PUS19View/Components/View/PUS19ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS19View/Components/Editor/PUS19EditorContainer'),
+  },
+  [constants.VM_VIEW_PUS140]: {
+    getViewComponent: () => require('../viewManager/PUS140View/Components/View/PUS140ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS140View/Components/Editor/PUS140EditorContainer'),
+  },
+  [constants.VM_VIEW_PUS142]: {
+    getViewComponent: () => require('../viewManager/PUS142View/Components/View/PUS142ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS142View/Components/Editor/PUS142EditorContainer'),
+  },
+  [constants.VM_VIEW_PUS144]: {
+    getViewComponent: () => require('../viewManager/PUS144View/Components/View/PUS144ViewContainer'),
+    getEditorComponent: () => require('../viewManager/PUS144View/Components/Editor/PUS144EditorContainer'),
   },
   [constants.VM_VIEW_PUSMME]: {
     getViewComponent: () => require('../viewManager/PUSMMEView/Components/View/PUSMMEViewContainer'),

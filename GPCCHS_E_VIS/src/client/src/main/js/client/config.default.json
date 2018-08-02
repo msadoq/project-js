@@ -355,8 +355,10 @@
       "1": "FILE",
       "2": "STANDARD PACKET"
     },
-    "CHECKSUM_OK": "#2ecc71",
-    "CHECKSUM_KO": "#e67e22"
+    "CHECKSUM_COLOR": {
+      "CHECKSUM_OK": "#2ecc71",
+      "CHECKSUM_KO": "#e67e22"
+    }
   },
   "REAL_TIME_RESYNCHRO_EACH_X_TICKS": 10,
   "SAMPLING_NUMBER": 400,

@@ -24,62 +24,72 @@ function pus144DataReducer(state = {}, action) {
        *  timestamp: number,
        *  data: {
        *    PUS144View: {
-       *      pus0144Model: {
-       *        pus0144PacketStore: [
-       *          ...
-       *          pus0144Packet: []
-       *        ],
-       *        ...rest
-       *      },
+       *       pus144OnboardFiles: [
+       *         {
+       *           ...
+       *         },
+       *         {
+       *           ...
+       *         },
+       *       ]
        *    },
        *  },
        * },
        */
 
       const data = _.getOr(null, ['payload', 'data', VM_VIEW_PUS144], action);
-
       if (!data) {
         return state;
       }
       let updatedState = state;
 
-      const statuses = parameters.get('PUS_CONSTANTS').STATUS;
+      const fileProtectionStatuses = parameters.get('PUS_CONSTANTS').FILE_PROTECTION_STATUS;
       const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
+      const fileModes = parameters.get('PUS_CONSTANTS').FILE_MODE;
 
       // keep all except tabular data
       updatedState = {
         ..._.omit(
-          ['pus0144PacketStore'],
+          ['pus144OnboardFiles'],
           data
         ),
       };
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
-      updatedState = injectTabularData(updatedState, 'onBoardStorages',
-        _.getOr(null, ['pus0144PacketStore'], data)
+      updatedState = injectTabularData(updatedState, 'onBoardPartitions',
+        _.getOr(null, ['pus144OnboardFiles'], data)
         .map(store => ({
-          ..._.omit(['pus0144Packet'], store),
-          dumpEnabled: String(_.getOr(200, 'dumpEnabled', store)),
-          status: statuses[_.getOr(200, 'status', store)], // map schedule status constant
-          lastUpdateModeStoreId: updateTypes[_.getOr(200, 'lastUpdateModeStoreId', store)], // map schedule lastUpdateModeStoreId constant
-          lastUpdateModeStoreType: updateTypes[_.getOr(200, 'lastUpdateModeStoreType', store)], // map schedule lastUpdateModeStoreType constant
-          lastUpdateModeStoreStatus: updateTypes[_.getOr(200, 'lastUpdateModeStoreStatus', store)], // map schedule lastUpdateModeStoreStatus constant
+          ...store,
+          fileProtectionStatus: fileProtectionStatuses[_.get('fileProtectionStatus', store)],
+          fileMode: fileModes[_.get('fileMode', store)],
+          ...(store.isFileSizeSet ? {
+            fileSize: _.get('fileSize', store),
+            lastUpdateModeFileSize: updateTypes[_.getOr('200', 'lastUpdateModeFileSize', store)],
+          } : {
+            fileSize: '',
+          }),
+          isChecksumOk:
+            _.get('uploadedFileChecksum', store) === (_.get('computedFileChecksum', store)),
+          lastUpdateModeOnBoardFileId: updateTypes[_.getOr('200', 'lastUpdateModeOnBoardFileId', store)],
+          lastUpdateModeFileType: updateTypes[_.getOr('200', 'lastUpdateModeFileType', store)],
+          lastUpdateModeFileCreationTime: updateTypes[_.getOr('200', 'lastUpdateModeFileCreationTime', store)],
+          lastUpdateModeFileProtectionStatus: updateTypes[_.getOr('200', 'lastUpdateModeFileProtectionStatus', store)],
+          lastUpdateModeFileMode: updateTypes[_.getOr('200', 'lastUpdateModeFileMode', store)],
+          lastUpdateModeFileAddress: updateTypes[_.getOr('200', 'lastUpdateModeFileAddress', store)],
+          lastUpdateModeUploadedChecksum: updateTypes[_.getOr('200', 'lastUpdateModeUploadedChecksum', store)],
+          lastUpdateModeComputedChecksum: updateTypes[_.getOr('200', 'lastUpdateModeComputedChecksum', store)],
+
+          // lastUpdateTimeOnBoardFileId
+          // lastUpdateTimeFileSize
+          // lastUpdateTimeFileType
+          // lastUpdateTimeFileCreationTime
+          // lastUpdateTimeFileProtectionStatus
+          // lastUpdateTimeFileMode
+          // lastUpdateTimeFileAddress
+          // lastUpdateTimeUploadedChecksum
+          // lastUpdateTimeComputedChecksum
         }))
       );
-      updatedState = injectTabularData(updatedState, 'storageDef',
-        _.getOr([], ['pus0144PacketStore'], data)
-          .reduce((acc, store) => [...acc, ...store.pus0144Packet], [])
-          .map(packet => ({
-            ...packet,
-            serviceType: updateTypes[_.getOr('', 'serviceType', packet)], // map packets serviceType constant
-            serviceSubType: updateTypes[_.getOr(200, 'serviceSubType', packet)], // map packets serviceSubType constant
-            packetType: updateTypes[_.getOr(200, 'packetType', packet)], // map packet packetType constant
-            isSubsamplingRatioSet: String(_.getOr('', 'isSubsamplingRatioSet', packet)),
-            lastUpdateModePacketId: updateTypes[_.getOr(200, 'lastUpdateModePacketId', packet)], // map schedule lastUpdateModePacketId constant
-            lastUpdateModeSubSamplingRatio: updateTypes[_.getOr(200, 'lastUpdateModeSubSamplingRatio', packet)], // map schedule lastUpdateModeSubSamplingRatio constant
-          }))
-      );
-
       return updatedState;
     }
     default:

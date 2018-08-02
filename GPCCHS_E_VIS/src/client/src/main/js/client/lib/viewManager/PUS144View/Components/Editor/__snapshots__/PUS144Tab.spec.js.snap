@@ -21,16 +21,7 @@ exports[`PUS144Tab :: render snapshot 1`] = `
     <CollapsePanel
       destroyInactivePanel={false}
       forceRender={false}
-      header="onBoardStorages Columns"
-      headerClass=""
-      isActive={false}
-      onItemClick={[Function]}
-      showArrow={true}
-    />
-    <CollapsePanel
-      destroyInactivePanel={false}
-      forceRender={false}
-      header="Storage Definitions Columns"
+      header="onBoardPartitions Columns"
       headerClass=""
       isActive={false}
       onItemClick={[Function]}

@@ -39,10 +39,17 @@ import mimicViewConfigurationReducer from './MimicView/store/configurationReduce
 import historyViewConfigurationReducer from './HistoryView/store/configurationReducer';
 import groundAlarmViewConfigurationReducer from './GroundAlarmView/store/configurationReducer';
 import onboardAlarmViewConfigurationReducer from './OnboardAlarmView/store/configurationReducer';
+import pus05ViewConfigurationReducer from './PUS05View/store/configurationReducer';
 import pus11ViewConfigurationReducer from './PUS11View/store/configurationReducer';
 import pus12ViewConfigurationReducer from './PUS12View/store/configurationReducer';
+import pus13ViewConfigurationReducer from './PUS13View/store/configurationReducer';
 import pus14ViewConfigurationReducer from './PUS14View/store/configurationReducer';
 import pus15ViewConfigurationReducer from './PUS15View/store/configurationReducer';
+import pus18ViewConfigurationReducer from './PUS18View/store/configurationReducer';
+import pus19ViewConfigurationReducer from './PUS19View/store/configurationReducer';
+import pus140ViewConfigurationReducer from './PUS140View/store/configurationReducer';
+import pus142ViewConfigurationReducer from './PUS142View/store/configurationReducer';
+import pus144ViewConfigurationReducer from './PUS144View/store/configurationReducer';
 import pusMmeViewConfigurationReducer from './PUSMMEView/store/configurationReducer';
 
 import textViewDataReducer from './TextView/store/dataReducer';
@@ -54,10 +61,17 @@ import historyViewDataReducer from './HistoryView/store/dataReducer';
 import groundAlarmViewDataReducer from './GroundAlarmView/store/dataReducer';
 import onboardAlarmViewDataReducer from './OnboardAlarmView/store/dataReducer';
 import packetViewDataReducer from './PacketView/store/dataReducer';
+import pus05ViewDataReducer from './PUS05View/store/dataReducer';
 import pus11ViewDataReducer from './PUS11View/store/dataReducer';
 import pus12ViewDataReducer from './PUS12View/store/dataReducer';
+import pus13ViewDataReducer from './PUS13View/store/dataReducer';
 import pus14ViewDataReducer from './PUS14View/store/dataReducer';
 import pus15ViewDataReducer from './PUS15View/store/dataReducer';
+import pus18ViewDataReducer from './PUS18View/store/dataReducer';
+import pus19ViewDataReducer from './PUS19View/store/dataReducer';
+import pus140ViewDataReducer from './PUS140View/store/dataReducer';
+import pus142ViewDataReducer from './PUS142View/store/dataReducer';
+import pus144ViewDataReducer from './PUS144View/store/dataReducer';
 import pusMmeViewDataReducer from './PUSMMEView/store/dataReducer';
 
 import alarmViewUiReducer from './GroundAlarmView/store/uiReducer';
@@ -105,10 +119,17 @@ export const getConfigurationReducers = () => createConfigurationReducers({
   [constants.VM_VIEW_PACKET]: packetViewConfigurationReducer,
   [constants.VM_VIEW_GROUNDALARM]: groundAlarmViewConfigurationReducer,
   [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewConfigurationReducer,
+  [constants.VM_VIEW_PUS05]: pus05ViewConfigurationReducer,
   [constants.VM_VIEW_PUS11]: pus11ViewConfigurationReducer,
   [constants.VM_VIEW_PUS12]: pus12ViewConfigurationReducer,
+  [constants.VM_VIEW_PUS13]: pus13ViewConfigurationReducer,
   [constants.VM_VIEW_PUS14]: pus14ViewConfigurationReducer,
   [constants.VM_VIEW_PUS15]: pus15ViewConfigurationReducer,
+  [constants.VM_VIEW_PUS18]: pus18ViewConfigurationReducer,
+  [constants.VM_VIEW_PUS19]: pus19ViewConfigurationReducer,
+  [constants.VM_VIEW_PUS140]: pus140ViewConfigurationReducer,
+  [constants.VM_VIEW_PUS142]: pus142ViewConfigurationReducer,
+  [constants.VM_VIEW_PUS144]: pus144ViewConfigurationReducer,
   [constants.VM_VIEW_PUSMME]: pusMmeViewConfigurationReducer,
 });
 
@@ -122,10 +143,17 @@ export const getDataReducers = () => createDataReducers({
   [constants.VM_VIEW_PACKET]: packetViewDataReducer,
   [constants.VM_VIEW_GROUNDALARM]: groundAlarmViewDataReducer,
   [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewDataReducer,
+  [constants.VM_VIEW_PUS05]: pus05ViewDataReducer,
   [constants.VM_VIEW_PUS11]: pus11ViewDataReducer,
   [constants.VM_VIEW_PUS12]: pus12ViewDataReducer,
+  [constants.VM_VIEW_PUS13]: pus13ViewDataReducer,
   [constants.VM_VIEW_PUS14]: pus14ViewDataReducer,
   [constants.VM_VIEW_PUS15]: pus15ViewDataReducer,
+  [constants.VM_VIEW_PUS18]: pus18ViewDataReducer,
+  [constants.VM_VIEW_PUS19]: pus19ViewDataReducer,
+  [constants.VM_VIEW_PUS140]: pus140ViewDataReducer,
+  [constants.VM_VIEW_PUS142]: pus142ViewDataReducer,
+  [constants.VM_VIEW_PUS144]: pus144ViewDataReducer,
   [constants.VM_VIEW_PUSMME]: pusMmeViewDataReducer,
 });
 export const getUiReducers = () => ({

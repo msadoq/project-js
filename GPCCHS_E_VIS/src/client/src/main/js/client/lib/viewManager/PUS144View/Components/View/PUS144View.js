@@ -1,42 +1,91 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import parameters from 'common/configurationManager';
+import _ from 'lodash/fp';
 
 import './PUS144View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
+import { addTooltipWithContent } from '../../../common/pus/tooltip';
 
 
-const onBoardStoragesTooltips = {
-  storeId: { mode: 'lastUpdateModeStoreId', time: 'lastUpdateTimeStoreId' },
-  storageType: { mode: 'lastUpdateModeStoreType', time: 'lastUpdateTimeStoreType' },
-  status: { mode: 'lastUpdateModeStoreStatus', time: 'lastUpdateTimeStoreStatus' },
+const checksumColor = parameters.get('PUS_CONSTANTS').CHECKSUM_COLOR;
+
+/**
+ * @param date
+ * @returns {string}
+ */
+const formatDate = date => (
+  (new Date(date)) > 0
+    ? (new Date(date)).toISOString()
+    : date
+);
+
+// ON BOARD PARTITIONS
+const onBoardPartitionsTooltips = {
+  fileId: { mode: 'lastUpdateModeOnBoardFileId', time: 'lastUpdateTimeOnBoardFileId' },
+  fileType: { mode: 'lastUpdateModeFileType', time: 'lastUpdateTimeFileSize' },
+  fileSize: { mode: 'lastUpdateModeFileSize', time: 'lastUpdateTimeFileType' },
+  fileCreationTime: { mode: 'lastUpdateModeFileCreationTime', time: 'lastUpdateTimeFileCreationTime' },
+  fileProtectionStatus: { mode: 'lastUpdateModeFileProtectionStatus', time: 'lastUpdateTimeFileProtectionStatus' },
+  fileMode: { mode: 'lastUpdateModeFileMode', time: 'lastUpdateTimeFileMode' },
+  fileAddress: { mode: 'lastUpdateModeFileAddress', time: 'lastUpdateTimeFileAddress' },
+  uploadedFileChecksum: { mode: 'lastUpdateModeUploadedChecksum', time: 'lastUpdateTimeUploadedChecksum' },
+  computedFileChecksum: { mode: 'lastUpdateModeComputedChecksum', time: 'lastUpdateTimeComputedChecksum' },
 };
-const _onBoardStoragesModifier = tableModifier(onBoardStoragesTooltips);
 
-const storageDefTooltips = {
-  packetType: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
-  subsamplingRatio: { mode: 'lastUpdateModeSubSamplingRatio', time: 'lastUpdateTimeSubSamplingRatio' },
+const tableModifier = tooltips =>
+  (cellContent = {}, content = {}) => {
+    const { colKey, value } = cellContent;
+    // empty cell should not received tooltip
+    if (typeof value === 'string' && value.length === 0) {
+      return cellContent;
+    }
+    const toolT = tooltips[colKey];
+    // no tooltip when undefined
+    if (toolT === undefined) {
+      return cellContent;
+    }
+    let modifiedCell = cellContent;
+    if (colKey === 'computedFileChecksum') {
+      const { isChecksumOk, uploadedFileChecksum } = content;
+      // cell shoul be colored
+      if (uploadedFileChecksum.length > 0 && value.length > 0) {
+        modifiedCell = _.set(
+          'checksum',
+          isChecksumOk ? 'CHECKSUM_OK' : 'CHECKSUM_KO',
+          modifiedCell
+        );
+      }
+    }
+
+    return addTooltipWithContent(
+      modifiedCell,
+      content,
+      {
+        lastUpdateMode: {
+          key: toolT.mode,
+        },
+        lastUpdateTime: {
+          key: toolT.time,
+          format: formatDate,
+        },
+      }
+    );
+  };
+
+const _onBoardPartitionsModifier = tableModifier(onBoardPartitionsTooltips);
+
+
+const tableOverrideStyle = ({ content }) => {
+  const { colKey, checksum } = content;
+  if (checksum && colKey === 'computedFileChecksum') {
+    return { backgroundColor: checksumColor[checksum] };
+  }
+  return {};
 };
-const _storageDefContentModifier = tableModifier(storageDefTooltips);
 
-// ON BOARD STORAGES
-const _onBoardStoragesStatusKeyList = [
-  'status',
-];
-// apply background color to cells for which value is ENABLED or DISABLED
-const _onBoardStoragesOverrideStyle = tableOverrideStyle(_onBoardStoragesStatusKeyList);
-
-// STORAGE DEFINITION
-const _storageDefStatusKeyList = [
-  'serviceType',
-  'serviceSubType',
-  'packetType',
-];
-
-// apply background color to cells for which value is ENABLED or DISABLED
-const _storageDefOverrideStyle = tableOverrideStyle(_storageDefStatusKeyList);
 
 export default class PUS144View extends React.Component {
   static propTypes = {
@@ -44,7 +93,6 @@ export default class PUS144View extends React.Component {
     viewId: PropTypes.string.isRequired,
     // From PUS144ViewContainer mapStateToProps
     serviceApid: PropTypes.number,
-    serviceApidName: PropTypes.string,
     apids: PropTypes.arrayOf(PropTypes.shape({
       apidName: PropTypes.string,
       apidRawValue: PropTypes.string,
@@ -53,7 +101,6 @@ export default class PUS144View extends React.Component {
 
   static defaultProps = {
     serviceApid: null,
-    serviceApidName: null,
     apids: [],
   };
 
@@ -64,7 +111,6 @@ export default class PUS144View extends React.Component {
   render() {
     const {
       serviceApid,
-      serviceApidName,
       apids,
       viewId,
     } = this.props;
@@ -76,29 +122,13 @@ export default class PUS144View extends React.Component {
     return (
       <ErrorBoundary>
         <div className="pus144">
-          <div className="header">
-            {renderHeaders(
-              serviceApid,
-              serviceApidName
-            )}
-          </div>
           <div className="col-sm-12">
             <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
-                tableId={'onBoardStorages'}
-                contentModifier={_onBoardStoragesModifier}
-                overrideStyle={_onBoardStoragesOverrideStyle}
-              />
-            </div>
-          </div>
-          <div className="col-sm-12">
-            <div style={{ height: 400 }}>
-              <VirtualizedTableViewContainer
-                viewId={viewId}
-                tableId={'storageDef'}
-                contentModifier={_storageDefContentModifier}
-                overrideStyle={_storageDefOverrideStyle}
+                tableId={'onBoardPartitions'}
+                contentModifier={_onBoardPartitionsModifier}
+                overrideStyle={tableOverrideStyle}
               />
             </div>
           </div>
@@ -107,19 +137,6 @@ export default class PUS144View extends React.Component {
     );
   }
 }
-
-export const renderHeaders = (
-  serviceApid,
-  serviceApidName
-) => (
-  <ErrorBoundary>
-    <div className="info col-sm-4 pus144_ap">
-      Application Process&nbsp;
-      <input type="text" disabled value={serviceApidName} />&nbsp;
-      <input className="mw50" type="text" disabled value={serviceApid} />
-    </div>
-  </ErrorBoundary>
-);
 
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'

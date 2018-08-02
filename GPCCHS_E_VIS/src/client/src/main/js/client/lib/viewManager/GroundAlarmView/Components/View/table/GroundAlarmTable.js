@@ -26,7 +26,7 @@ const COLS = [
   'ackState',
 ];
 
-const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'extractedValue', 'rawValue', 'monitoringState'];
+const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'rawValue', 'monitoringState'];
 
 const initialState = {
   hoveredAlarm: undefined,

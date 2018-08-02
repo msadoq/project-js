@@ -36,10 +36,7 @@ export default class PUS140Editor extends Component {
     configuration: PropTypes.shape({
       entryPoints: PropTypes.arrayOf(entryPointType),
       tables: PropTypes.shape({
-        onBoardStorages: PropTypes.shape({
-          cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
-        }).isRequired,
-        storageDef: PropTypes.shape({
+        parameters: PropTypes.shape({
           cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
       }).isRequired,

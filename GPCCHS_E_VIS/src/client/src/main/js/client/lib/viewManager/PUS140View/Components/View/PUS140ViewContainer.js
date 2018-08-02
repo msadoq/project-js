@@ -14,8 +14,7 @@ const mapStateToProps = (state, { viewId }) => {
 
 
   return {
-    serviceApid: _.getOr(null, 'serviceApid', data),
-    serviceApidName: _.getOr(null, 'serviceApidName', data),
+    serviceApid: _.getOr(0, 'serviceApid', data), // no serviceApid provided
     apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
     windowId,
   };

@@ -5,38 +5,16 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import './PUS140View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
+import { tableModifier } from '../../../common/pus/utils';
 
-
-const onBoardStoragesTooltips = {
-  storeId: { mode: 'lastUpdateModeStoreId', time: 'lastUpdateTimeStoreId' },
-  storageType: { mode: 'lastUpdateModeStoreType', time: 'lastUpdateTimeStoreType' },
-  status: { mode: 'lastUpdateModeStoreStatus', time: 'lastUpdateTimeStoreStatus' },
+// PARAMETERS
+const parametersTooltips = {
+  parameterId: { mode: 'lastUpdateModeParamId', time: 'lastUpdateTimeParamId' },
+  parameterName: { mode: 'lastUpdateModeParamId', time: 'lastUpdateTimeParamId' },
+  currentValue: { mode: 'lastUpdateModeCurrentValue', time: 'lastUpdateTimeCurrentValue' },
 };
-const _onBoardStoragesModifier = tableModifier(onBoardStoragesTooltips);
+const _parametersModifier = tableModifier(parametersTooltips);
 
-const storageDefTooltips = {
-  packetType: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
-  subsamplingRatio: { mode: 'lastUpdateModeSubSamplingRatio', time: 'lastUpdateTimeSubSamplingRatio' },
-};
-const _storageDefContentModifier = tableModifier(storageDefTooltips);
-
-// ON BOARD STORAGES
-const _onBoardStoragesStatusKeyList = [
-  'status',
-];
-// apply background color to cells for which value is ENABLED or DISABLED
-const _onBoardStoragesOverrideStyle = tableOverrideStyle(_onBoardStoragesStatusKeyList);
-
-// STORAGE DEFINITION
-const _storageDefStatusKeyList = [
-  'serviceType',
-  'serviceSubType',
-  'packetType',
-];
-
-// apply background color to cells for which value is ENABLED or DISABLED
-const _storageDefOverrideStyle = tableOverrideStyle(_storageDefStatusKeyList);
 
 export default class PUS140View extends React.Component {
   static propTypes = {
@@ -44,7 +22,6 @@ export default class PUS140View extends React.Component {
     viewId: PropTypes.string.isRequired,
     // From PUS140ViewContainer mapStateToProps
     serviceApid: PropTypes.number,
-    serviceApidName: PropTypes.string,
     apids: PropTypes.arrayOf(PropTypes.shape({
       apidName: PropTypes.string,
       apidRawValue: PropTypes.string,
@@ -53,7 +30,6 @@ export default class PUS140View extends React.Component {
 
   static defaultProps = {
     serviceApid: null,
-    serviceApidName: null,
     apids: [],
   };
 
@@ -64,7 +40,6 @@ export default class PUS140View extends React.Component {
   render() {
     const {
       serviceApid,
-      serviceApidName,
       apids,
       viewId,
     } = this.props;
@@ -76,29 +51,12 @@ export default class PUS140View extends React.Component {
     return (
       <ErrorBoundary>
         <div className="pus140">
-          <div className="header">
-            {renderHeaders(
-              serviceApid,
-              serviceApidName
-            )}
-          </div>
           <div className="col-sm-12">
             <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
-                tableId={'onBoardStorages'}
-                contentModifier={_onBoardStoragesModifier}
-                overrideStyle={_onBoardStoragesOverrideStyle}
-              />
-            </div>
-          </div>
-          <div className="col-sm-12">
-            <div style={{ height: 400 }}>
-              <VirtualizedTableViewContainer
-                viewId={viewId}
-                tableId={'storageDef'}
-                contentModifier={_storageDefContentModifier}
-                overrideStyle={_storageDefOverrideStyle}
+                tableId={'parameters'}
+                contentModifier={_parametersModifier}
               />
             </div>
           </div>
@@ -107,19 +65,6 @@ export default class PUS140View extends React.Component {
     );
   }
 }
-
-export const renderHeaders = (
-  serviceApid,
-  serviceApidName
-) => (
-  <ErrorBoundary>
-    <div className="info col-sm-4 pus140_ap">
-      Application Process&nbsp;
-      <input type="text" disabled value={serviceApidName} />&nbsp;
-      <input className="mw50" type="text" disabled value={serviceApid} />
-    </div>
-  </ErrorBoundary>
-);
 
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'

@@ -397,6 +397,28 @@ const getDataByPusService = (pusService, timestamp) => {
         }),
       };
     }
+    case 140: {
+      return {
+        dataType: constants.Pus140ModelType,
+        groundDate: timestamp,
+        payload: stubData.getPus140ModelProtobuf({
+          pus140Parameter: [
+            stubData.getPus140Parameter({
+              lastUpdateModeCurrentValue: getAnUpdateMode(),
+              lastUpdateTimeCurrentValue: timestamp.toString(),
+              lastUpdateModeParamId: getAnUpdateMode(),
+              lastUpdateTimeParamId: timestamp.toString(),
+            }),
+            stubData.getPus140Parameter({
+              lastUpdateModeCurrentValue: getAnUpdateMode(),
+              lastUpdateTimeCurrentValue: timestamp.toString(),
+              lastUpdateModeParamId: getAnUpdateMode(),
+              lastUpdateTimeParamId: timestamp.toString(),
+            }),
+          ],
+        }),
+      };
+    }
     case 144: {
       return {
         dataType: constants.Pus144ModelType,

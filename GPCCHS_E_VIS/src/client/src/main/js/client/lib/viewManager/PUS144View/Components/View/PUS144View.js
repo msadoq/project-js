@@ -9,20 +9,17 @@ import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { addTooltipWithContent } from '../../../common/pus/tooltip';
 
-
+// ON BOARD PARTITIONS
 const checksumColor = parameters.get('PUS_CONSTANTS').CHECKSUM_COLOR;
 
-/**
- * @param date
- * @returns {string}
- */
-const formatDate = date => (
-  (new Date(date)) > 0
-    ? (new Date(date)).toISOString()
-    : date
-);
+const tableOverrideStyle = ({ content }) => {
+  const { colKey, checksum } = content;
+  if (checksum && colKey === 'computedFileChecksum') {
+    return { backgroundColor: checksumColor[checksum] };
+  }
+  return {};
+};
 
-// ON BOARD PARTITIONS
 const onBoardPartitionsTooltips = {
   fileId: { mode: 'lastUpdateModeOnBoardFileId', time: 'lastUpdateTimeOnBoardFileId' },
   fileType: { mode: 'lastUpdateModeFileType', time: 'lastUpdateTimeFileSize' },
@@ -59,33 +56,17 @@ const tableModifier = tooltips =>
         );
       }
     }
-
     return addTooltipWithContent(
       modifiedCell,
       content,
       {
-        lastUpdateMode: {
-          key: toolT.mode,
-        },
-        lastUpdateTime: {
-          key: toolT.time,
-          format: formatDate,
-        },
+        lastUpdateMode: { key: toolT.mode },
+        lastUpdateTime: { key: toolT.time },
       }
     );
   };
 
 const _onBoardPartitionsModifier = tableModifier(onBoardPartitionsTooltips);
-
-
-const tableOverrideStyle = ({ content }) => {
-  const { colKey, checksum } = content;
-  if (checksum && colKey === 'computedFileChecksum') {
-    return { backgroundColor: checksumColor[checksum] };
-  }
-  return {};
-};
-
 
 export default class PUS144View extends React.Component {
   static propTypes = {
@@ -100,7 +81,7 @@ export default class PUS144View extends React.Component {
   };
 
   static defaultProps = {
-    serviceApid: null,
+    serviceApid: 0,
     apids: [],
   };
 

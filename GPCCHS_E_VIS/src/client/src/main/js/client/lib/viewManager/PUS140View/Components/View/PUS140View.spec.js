@@ -8,13 +8,11 @@ const propsStub = {
   applicationProcessName: 'string',
   applicationProcessId: 140,
   serviceApid: 140,
-  serviceApidName: 'string',
   availableSpace: 'string',
   spaceType: 'string',
   lastUpdateTime: 1528359679639,
   lastUpdateType: 'string',
-  onBoardStorages: [],
-  stroragesDef: [],
+  parameters: [],
   apids: [{ apidName: 'ORBIT', apidRawValue: '0' }],
 };
 

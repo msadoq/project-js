@@ -6,29 +6,6 @@ exports[`viewManager/PUS140View/Components/View/PUS140View PUS140View :: render 
     className="pus140"
   >
     <div
-      className="header"
-    >
-      <ErrorBoundary>
-        <div
-          className="info col-sm-4 pus140_ap"
-        >
-          Application Process 
-          <input
-            disabled={true}
-            type="text"
-            value="string"
-          />
-           
-          <input
-            className="mw50"
-            disabled={true}
-            type="text"
-            value={140}
-          />
-        </div>
-      </ErrorBoundary>
-    </div>
-    <div
       className="col-sm-12"
     >
       <div
@@ -40,26 +17,7 @@ exports[`viewManager/PUS140View/Components/View/PUS140View PUS140View :: render 
       >
         <Connect(VirtualizedTableView)
           contentModifier={[Function]}
-          overrideStyle={[Function]}
-          tableId="onBoardStorages"
-          viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
-        />
-      </div>
-    </div>
-    <div
-      className="col-sm-12"
-    >
-      <div
-        style={
-          Object {
-            "height": 400,
-          }
-        }
-      >
-        <Connect(VirtualizedTableView)
-          contentModifier={[Function]}
-          overrideStyle={[Function]}
-          tableId="storageDef"
+          tableId="parameters"
           viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
         />
       </div>

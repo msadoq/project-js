@@ -7,10 +7,7 @@ const propsStub = {
   pageId: 'pageId',
   configuration: {
     tables: {
-      onBoardStorages: {
-        cols: [],
-      },
-      storageDef: {
+      parameters: {
         cols: [],
       },
     },

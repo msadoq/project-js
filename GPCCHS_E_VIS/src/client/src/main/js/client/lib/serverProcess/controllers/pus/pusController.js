@@ -77,6 +77,9 @@ const getDecodedPayload = (dataType, payload) => {
     case constants.Pus019ModelType: {
       return decode('isis.pusModelEditor.Pus019Model', payload);
     }
+    case constants.Pus140ModelType: {
+      return decode('isis.pusModelEditor.Pus140Model', payload);
+    }
     case constants.Pus140ParameterType: {
       return decode('isis.pusModelEditor.Pus140Parameter', payload);
     }

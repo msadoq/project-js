@@ -5,24 +5,20 @@ import _set from 'lodash/fp/set';
 
 const initialConfiguration = {
   tables: {
-    onBoardPartitions: {
-      name: 'On-Board Partitions',
+    parameters: {
+      name: 'Parameters',
       sorting: {
         colName: 'serviceApidName',
         direction: 'DESC',
       },
       cols: [
         { title: 'serviceApidName', displayed: true },
-        { title: 'partitionId', displayed: true },
-        { title: 'fileId', displayed: true },
-        { title: 'fileType', displayed: true },
-        { title: 'fileSize', displayed: true },
-        { title: 'fileCreationTime', displayed: true },
-        { title: 'fileProtectionStatus', displayed: true },
-        { title: 'fileMode', displayed: true },
-        { title: 'fileAddress', displayed: true },
-        { title: 'uploadedFileChecksum', displayed: true },
-        { title: 'computedFileChecksum', displayed: true },
+        { title: 'apid', displayed: true },
+        { title: 'apidName', displayed: true },
+        { title: 'parameterId', displayed: true },
+        { title: 'parameterName', displayed: true },
+        { title: 'initialValue', displayed: true },
+        { title: 'currentValue', displayed: true },
       ],
     },
   },

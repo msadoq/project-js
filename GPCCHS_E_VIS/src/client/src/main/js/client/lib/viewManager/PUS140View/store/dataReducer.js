@@ -24,12 +24,7 @@ function pus140DataReducer(state = {}, action) {
        *  timestamp: number,
        *  data: {
        *    PUS140View: {
-       *      pus0140Model: {
-       *        pus0140PacketStore: [
-       *          ...
-       *          pus0140Packet: []
-       *        ],
-       *        ...rest
+       *        pus140Parameter: [{},{}]
        *      },
        *    },
        *  },
@@ -43,41 +38,24 @@ function pus140DataReducer(state = {}, action) {
       }
       let updatedState = state;
 
-      const statuses = parameters.get('PUS_CONSTANTS').STATUS;
       const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
       // keep all except tabular data
       updatedState = {
         ..._.omit(
-          ['pus0140PacketStore'],
+          ['pus140Parameter'],
           data
         ),
       };
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
-      updatedState = injectTabularData(updatedState, 'onBoardStorages',
-        _.getOr(null, ['pus0140PacketStore'], data)
+      updatedState = injectTabularData(updatedState, 'parameters',
+        _.getOr(null, ['pus140Parameter'], data)
         .map(store => ({
-          ..._.omit(['pus0140Packet'], store),
-          dumpEnabled: String(_.getOr(200, 'dumpEnabled', store)),
-          status: statuses[_.getOr(200, 'status', store)], // map schedule status constant
-          lastUpdateModeStoreId: updateTypes[_.getOr(200, 'lastUpdateModeStoreId', store)], // map schedule lastUpdateModeStoreId constant
-          lastUpdateModeStoreType: updateTypes[_.getOr(200, 'lastUpdateModeStoreType', store)], // map schedule lastUpdateModeStoreType constant
-          lastUpdateModeStoreStatus: updateTypes[_.getOr(200, 'lastUpdateModeStoreStatus', store)], // map schedule lastUpdateModeStoreStatus constant
+          ...store,
+          lastUpdateModeCurrentValue: updateTypes[_.getOr('200', 'lastUpdateModeCurrentValue', store)],
+          lastUpdateModeParamId: updateTypes[_.getOr('200', 'lastUpdateModeParamId', store)],
         }))
-      );
-      updatedState = injectTabularData(updatedState, 'storageDef',
-        _.getOr([], ['pus0140PacketStore'], data)
-          .reduce((acc, store) => [...acc, ...store.pus0140Packet], [])
-          .map(packet => ({
-            ...packet,
-            serviceType: updateTypes[_.getOr('', 'serviceType', packet)], // map packets serviceType constant
-            serviceSubType: updateTypes[_.getOr(200, 'serviceSubType', packet)], // map packets serviceSubType constant
-            packetType: updateTypes[_.getOr(200, 'packetType', packet)], // map packet packetType constant
-            isSubsamplingRatioSet: String(_.getOr('', 'isSubsamplingRatioSet', packet)),
-            lastUpdateModePacketId: updateTypes[_.getOr(200, 'lastUpdateModePacketId', packet)], // map schedule lastUpdateModePacketId constant
-            lastUpdateModeSubSamplingRatio: updateTypes[_.getOr(200, 'lastUpdateModeSubSamplingRatio', packet)], // map schedule lastUpdateModeSubSamplingRatio constant
-          }))
       );
 
       return updatedState;

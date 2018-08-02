@@ -2,36 +2,16 @@ import { addTooltipWithContent } from './tooltip';
 import parameters from '../../../common/configurationManager';
 
 const statusColors = parameters.get('PUS_CONSTANTS').STATUS_COLOR;
-const checksumColor = parameters.get('PUS_CONSTANTS').CHECKSUM_COLOR;
 
-/**
- * @param date
- * @returns {string}
- */
-export const formatDate = date => (
-  (new Date(date)) > 0
-    ? (new Date(date)).toISOString()
-    : date
-);
 
-export const tableOverrideStyle = (keyList, cellType) => {
-  let colorConst;
-  switch (cellType) {
-    case 'CHECKSUM':
-      colorConst = checksumColor;
-      break;
-    default:
-      colorConst = statusColors;
-      break;
-  }
-  return ({ content }) => {
+export const tableOverrideStyle = keyList =>
+  ({ content }) => {
     const { value, colKey } = content;
     if (keyList.indexOf(colKey) > -1) {
-      return { backgroundColor: colorConst[value] };
+      return { backgroundColor: statusColors[value] };
     }
     return {};
   };
-};
 
 
 export const tableModifier = tooltips =>
@@ -49,13 +29,8 @@ export const tableModifier = tooltips =>
       cellContent,
       content,
       {
-        lastUpdateMode: {
-          key: toolT.mode,
-        },
-        lastUpdateTime: {
-          key: toolT.time,
-          format: formatDate,
-        },
+        lastUpdateMode: { key: toolT.mode },
+        lastUpdateTime: { key: toolT.time },
       }
     );
   };

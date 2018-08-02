@@ -5,7 +5,6 @@ const stubState = {};
 
 const propsStub = {
   serviceApid: 'serviceApid',
-  serviceApidName: 'serviceApidName',
 };
 
 describe('viewManager/PUS140View/Components/View/PUS140ViewContainer', () => {

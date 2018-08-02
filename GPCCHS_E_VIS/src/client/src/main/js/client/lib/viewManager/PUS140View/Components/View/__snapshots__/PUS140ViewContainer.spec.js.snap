@@ -3,6 +3,5 @@
 exports[`viewManager/PUS140View/Components/View/PUS140ViewContainer snapshot 1`] = `
 <ReduxForm
   serviceApid="serviceApid"
-  serviceApidName="serviceApidName"
 />
 `;

@@ -15,12 +15,22 @@ module.exports = function sendPusData(
   structure,
   zmq
 ) {
-  const { sessionId, domainId, pusService, pusServiceApid, messageUniqueId } = header;
-  const { forReplay, firstTime, lastTime, continuous } = structure;
+  const {
+    sessionId,
+    domainId,
+    pusService,
+    // pusServiceApid,
+    // messageUniqueId,
+  } = header;
+  const {
+    // forReplay,
+    firstTime,
+    lastTime,
+    // continuous,
+  } = structure;
 
   const from = firstTime.value;
   const to = lastTime.value;
-
   if (to <= from) {
     throw new Error(
       'Invalid interval requested to PusActor stub',
@@ -66,4 +76,4 @@ module.exports = function sendPusData(
   }
 
   logger.debug(`push ${payloads.length} data from query from: ${new Date(from)} to ${new Date(to)} now`);
-}
+};

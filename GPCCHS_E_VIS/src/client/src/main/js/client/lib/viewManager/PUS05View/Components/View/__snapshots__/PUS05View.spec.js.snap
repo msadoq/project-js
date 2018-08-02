@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/PUS05View/Components/View/PUS05View PUS05View :: render snapshot 1`] = `
+<div
+  className="pus05 h100 posRelative"
+>
+  <div
+    className="flex h100"
+  >
+    <div
+      className="renderErrorText"
+    >
+      Unable to render view 
+      <br />
+      Please fill-in configuration
+    </div>
+  </div>
+</div>
+`;
+
+exports[`viewManager/PUS05View/Components/View/PUS05View PUS05View :: renderInvald snapshot 1`] = `
+<div
+  className="pus05 h100 posRelative"
+>
+  <div
+    className="flex h100"
+  >
+    <div
+      className="renderErrorText"
+    >
+      Unable to render view 
+      <br />
+      this is an error message
+    </div>
+  </div>
+</div>
+`;
+
+exports[`viewManager/PUS05View/Components/View/PUS05View generatePopover should match snapshot with valida data 1`] = `
+<Popover
+  bsClass="popover"
+  id="id"
+  placement="bottom"
+  style={
+    Object {
+      "height": 80,
+    }
+  }
+  title="title"
+>
+  <div>
+    Last update Time: 
+    1527520025823
+  </div>
+  <div>
+    Last update mode: 
+    TM
+  </div>
+</Popover>
+`;

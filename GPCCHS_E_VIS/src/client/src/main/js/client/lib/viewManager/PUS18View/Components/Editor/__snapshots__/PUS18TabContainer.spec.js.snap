@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PUS18TabContainer :: render snapshot 1`] = `<ReduxForm />`;

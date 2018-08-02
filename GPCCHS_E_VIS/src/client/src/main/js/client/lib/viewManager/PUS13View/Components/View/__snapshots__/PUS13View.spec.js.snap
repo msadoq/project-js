@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/PUS13View/Components/View/PUS13View PUS13View :: render snapshot 1`] = `
+<ErrorBoundary>
+  <div
+    className="pus13"
+  >
+    <div
+      className="header"
+    >
+      <ErrorBoundary>
+        <div
+          className="info col-sm-4 pus13_ap"
+        >
+          Application Process 
+          <input
+            disabled={true}
+            type="text"
+            value="ORBIT"
+          />
+           
+        </div>
+        <HeaderStatus
+          id="popover-service-status"
+          label="Service Satus"
+          lastUpdateMode={null}
+          lastUpdateTime="1528359679639"
+          pusTag="13"
+          status={1}
+        />
+        <div
+          className="info col-sm-4 pus13_ap"
+        >
+          Number Monitoring 
+          <input
+            disabled={true}
+            type="text"
+            value={100}
+          />
+           
+        </div>
+      </ErrorBoundary>
+    </div>
+    <div
+      className="col-sm-13"
+    >
+      <div
+        style={
+          Object {
+            "height": 400,
+          }
+        }
+      >
+        <Connect(VirtualizedTableView)
+          contentModifier={[Function]}
+          overrideStyle={[Function]}
+          tableId="parameterMonitoringDefinitions"
+          viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+        />
+      </div>
+    </div>
+  </div>
+</ErrorBoundary>
+`;
+
+exports[`viewManager/PUS13View/Components/View/PUS13View PUS13View :: renderInvald snapshot 1`] = `
+<div
+  className="pus13 h100 posRelative"
+>
+  <div
+    className="flex h100"
+  >
+    <div
+      className="renderErrorText"
+    >
+      Unable to render view 
+      <br />
+      this is an error message
+    </div>
+  </div>
+</div>
+`;

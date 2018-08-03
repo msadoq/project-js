@@ -19,6 +19,7 @@
 // END-HISTORY
 // ====================================================================
 
+import _ from 'lodash/fp';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Panel, Button } from 'react-bootstrap';
@@ -75,6 +76,10 @@ export default class Inspector extends PureComponent {
     staticDataLoading: false,
     dynamicData: null,
   };
+
+  shouldComponentUpdate(nextProps) {
+    return !_.isEqual(nextProps, this.props);
+  }
 
   onMouseDown = (event, node) => {
     const { dataId } = this.props;
@@ -175,10 +180,10 @@ export default class Inspector extends PureComponent {
           header={generalHeader}
         >
           <ul className={styles.general}>
-            { epName &&
-              <li>
-                <span className={styles.title}>Label: </span>{epName}
-              </li>
+            {epName &&
+            <li>
+              <span className={styles.title}>Label: </span>{epName}
+            </li>
             }
             <li><span className={styles.title}>ParameterName: </span>{parameterName}</li>
             <li><span className={styles.title}>Catalog: </span>{catalog}</li>
@@ -193,10 +198,10 @@ export default class Inspector extends PureComponent {
               {' '}
               <span className={styles.title}>Id: </span>{domainId}
             </li>
-            { field &&
-              <li>
-                <span className={styles.title}>Field: </span>{field}
-              </li>
+            {field &&
+            <li>
+              <span className={styles.title}>Field: </span>{field}
+            </li>
             }
           </ul>
         </Panel>
@@ -206,34 +211,34 @@ export default class Inspector extends PureComponent {
               key="staticData"
               header={staticHeader}
             >
-              { staticDataLoading && this.renderLoading() }
-              { hasNoStaticData && this.renderNoData() }
-              { hasStaticData &&
-                <div>
-                  <Button onClick={() => toggleAllNodes(true)}>Expand All</Button>
-                  {' '}
-                  <Button onClick={() => toggleAllNodes(false)}>Collapse All</Button>
-                  <Tree
-                    data={staticData}
-                    onMouseDown={this.onMouseDown}
-                  />
-                </div>
+              {staticDataLoading && this.renderLoading()}
+              {hasNoStaticData && this.renderNoData()}
+              {hasStaticData &&
+              <div>
+                <Button onClick={() => toggleAllNodes(true)}>Expand All</Button>
+                {' '}
+                <Button onClick={() => toggleAllNodes(false)}>Collapse All</Button>
+                <Tree
+                  data={staticData}
+                  onMouseDown={this.onMouseDown}
+                />
+              </div>
               }
             </Panel>,
             <Panel
               key="dynamicData"
               header={dynamicHeader}
             >
-              { hasNoField && this.renderNoField() }
-              { hasNoDynamicData && this.renderNoData() }
-              { hasDynamicData &&
-                <ul className={styles.general}>
-                  <li>
-                    <span className={styles.title}>Last timestamp: </span>
-                    {dynamicData.timestamp}
-                  </li>
-                  <li><span className={styles.title}>Last value: </span>{dynamicData.value}</li>
-                </ul>
+              {hasNoField && this.renderNoField()}
+              {hasNoDynamicData && this.renderNoData()}
+              {hasDynamicData &&
+              <ul className={styles.general}>
+                <li>
+                  <span className={styles.title}>Last timestamp: </span>
+                  {dynamicData.timestamp}
+                </li>
+                <li><span className={styles.title}>Last value: </span>{dynamicData.value}</li>
+              </ul>
               }
             </Panel>,
           ]

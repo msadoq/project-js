@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars,no-trailing-spaces */
+/* eslint-disable quote-props */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
@@ -21,8 +21,6 @@ import {
   getInspectorEpName,
   getInspectorField,
   getInspectorDisplayingTM,
-  getInspectorStaticDataChildren,
-  getInspectorStaticDataLoading,
 } from 'store/reducers/inspector';
 import {
   isInspectorStaticDataNodeToggled as toggleNode,
@@ -35,33 +33,58 @@ import {
 import Inspector from './Inspector';
 import { getCatalogItemByName, getTupleId } from '../../../store/reducers/catalogs';
 
+const ROOT_PARENT_NAME = 'root';
 
 /**
- * Build a tree structure that can be displayed by Treebeard component
+ * Represents a key-value pair in a format usable by react-treebeard
+ *
+ * @param key
+ * @param value
+ * @param parentName
+ * @returns {{children: Array, name: *, parentName: string, type: string}}
+ */
+const buildTerminalNode = (key, value, parentName = ROOT_PARENT_NAME) => ({
+  children: [],
+  name: key,
+  parentName,
+  type: 'key',
+  value,
+});
+
+/**
+ * Represents an object in a format usable by react-treebeard
  *
  * @param obj
- * @private
+ * @param parentName
+ * @returns
  */
-const _buildTreeStructure =
-  obj =>
-    Object.keys(obj).map(
-      (key) => {
-        const children = obj[key];
+const buildNode = (obj = {}, parentName = ROOT_PARENT_NAME) =>
+  Object.keys(obj).map(
+    (key) => {
+      const value = obj[key];
 
-        if (!children || ['string', 'number'].indexOf(typeof children) > -1) {
-          return {
-            name: key,
-            value: children,
-          };
-        }
-
-        // iterable element
-        return {
-          name: '',
-          children: _buildTreeStructure(children),
-        };
+      if (typeof value === 'string') { // terminal node
+        return buildTerminalNode(key, value, parentName);
       }
-    );
+
+      let type = null;
+
+      if (typeof key === 'number') {
+        type = 'objectItem';
+      } else if (Array.isArray(value)) {
+        type = 'array';
+      } else {
+        type = 'object';
+      }
+
+      return {
+        name: key,
+        parentName,
+        type,
+        children: buildNode(value, key),
+        toggled: false,
+      };
+    });
 
 const mapStateToProps = (state) => {
   const viewId = getInspectorViewId(state);
@@ -70,8 +93,7 @@ const mapStateToProps = (state) => {
   const field = getInspectorField(state);
   const dataId = getInspectorDataId(state);
   const isDisplayingTM = getInspectorDisplayingTM(state);
-  const staticData = getInspectorStaticDataChildren(state);
-  const staticDataLoading = getInspectorStaticDataLoading(state);
+  const staticDataLoading = false; // we assume that metadata is loaded when the view opens
   const dynamicData = (viewType && viewId && epName)
     ? getDataSelectors(viewType).getLastValue(state, { epName, viewId })
     : null;
@@ -91,69 +113,24 @@ const mapStateToProps = (state) => {
 
 // eslint-disable-next-line no-unused-vars
   const metadata = _.get('metadata', catalogItem);
-  console.log(staticData);
-  console.log(metadata);
 
-  const data = [
-    {
-      name: 'Parameter name',
-      value: metadata.itemName,
-    },
-    {
-      name: 'Short description',
-      value: metadata.shortDescription,
-    },
-    {
-      name: 'Long description',
-      value: metadata.longDescription,
-    },
-    {
-      name: 'List of aliases',
-      children: metadata.aliases.map(
-        alias =>
-          ({
-            name: '',
-            children: [
-              {
-                name: 'Alias',
-                value: alias.alias,
-              },
-              {
-                name: 'ContextDomain',
-                value: alias.contextDomain,
-              },
-            ],
-          })
-      ),
-    },
-    {
-      name: 'Monitoring law',
-      value: metadata.tmMeta.monitoringItems.map(
-        monitoringItem =>
-          ({
-            name: '',
-            children: [
-              {}
-            ]
-          })
-      ),
-    },
-    {
-      name: 'Monitoring Condition',
-      value: null,
-    },
-    {
-      name: 'Significativity condition',
-      children: _buildTreeStructure(metadata.tmMeta.sgy),
-    },
-    {
-      name: 'Interpretation function',
-      children: _buildTreeStructure(metadata)
-    }
-  ];
+  let staticData = null;
 
-  // TODO: pass metadata instead of static data and
-  // also fetch the list of related TM packets
+  if (metadata) {
+    staticData = buildNode({
+      'Short description': metadata.shortDescription,
+      'Long description': metadata.longDescription,
+      'Aliases': metadata.aliases,
+      'Monitoring laws': metadata.tmMeta.monitoringItems,
+      // TODO?: separate monitoring laws and monitoring conditions into 2 separate elements
+      'Significaty condition': metadata.tmMeta.sgy,
+      'Interpretation function': metadata.tmMeta.calibrationFunctions,
+      'Formulas': metadata.algorithm,
+      'Computed triggers': metadata.tmMeta.computedTriggers,
+      // TODO: add list of TM packets
+      'Computing definitions': metadata.tmMeta.computingDefinitions,
+    }, ROOT_PARENT_NAME);
+  }
 
   return {
     epName,

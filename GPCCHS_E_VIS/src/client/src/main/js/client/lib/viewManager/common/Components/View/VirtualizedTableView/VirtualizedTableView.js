@@ -173,6 +173,24 @@ class VirtualizedTableView extends React.Component {
     const _totalColumnWidth = cols.reduce((acc, cur) => acc + (cur.width || columnWidth), 0);
 
     const _getColumnWidth = ({ index }) => cols[index].width || columnWidth;// eslint-disable-next-line react/prop-types
+
+    const _resizerTool = (colKey, height) =>
+      <Draggable
+        axis="x"
+        defaultClassName="DragHandle"
+        defaultClassNameDragging="DragHandleActive"
+        onDrag={(event, { deltaX }) => {
+          onResizeColumn(colKey, deltaX);
+        }}
+        position={{ x: 0 }}
+        zIndex={999}
+      >
+        <div
+          className={styles.DragHandleIcon}
+          style={{ height }}
+        >{}</div>
+      </Draggable>;
+
     const _groupHeaderCellRenderer = ({ columnIndex, key, style }) => {
       const groupName = cols[columnIndex].group;
       const colKey = _getColumnName(cols[columnIndex]);
@@ -190,18 +208,7 @@ class VirtualizedTableView extends React.Component {
           style={groupHeaderStyle}
         >
           {groupName}
-          <Draggable
-            axis="x"
-            defaultClassName="DragHandle"
-            defaultClassNameDragging="DragHandleActive"
-            onDrag={(event, { deltaX }) => {
-              onResizeColumn(colKey, deltaX);
-            }}
-            position={{ x: 0 }}
-            zIndex={999}
-          >
-            <div className={styles.DragHandleIcon}>{}</div>
-          </Draggable>
+          {_resizerTool(colKey, 22)}
         </div>
       );
     };
@@ -256,6 +263,7 @@ class VirtualizedTableView extends React.Component {
               onSort(colKey, 'DESC');
             }}
           />
+          {_resizerTool(colKey, 44)}
         </div>
       );
     };

@@ -111,11 +111,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 3px;
-  height: 22px;
+  width: 2px;
   background-color: darkgray;
   cursor: col-resize;
-}
-.DragHandleIcon:hover {
-  background-color: black;
 }

@@ -55,22 +55,24 @@ let currentNamespace = '';
 const registerGlobal = (override) => {
   const CLIENT_ADAPTERS = override || parameters.get('CLIENT_ADAPTERS');
   const MISSIONS_ADAPTERS = parameters.get('MISSIONS_ADAPTERS');
-  register(CLIENT_ADAPTERS);
+  register(CLIENT_ADAPTERS, false);
   if (MISSIONS_ADAPTERS) {
-    register(MISSIONS_ADAPTERS);
+    register(MISSIONS_ADAPTERS, true);
   } else {
-    logger.warn('Please provide MISSION_ADAPTERS array for specific mission adapters');
+    logger.warn('Please provide MISSIONS_ADAPTERS array for specific mission adapters');
   }
   return fieldsMap;
 };
 
-const register = (namespaceArray) => {
+const register = (namespaceArray, isPathAbsolute) => {
   _each(namespaceArray, (msgNasmespaces) => {
     currentNamespace = msgNasmespaces.ns;
     if (!types[msgNasmespaces.ns]) {
       types[msgNasmespaces.ns] = {};
     }
-    const adapterPath = resolve(rootVimaFolder, msgNasmespaces.path, msgNasmespaces.ns);
+    const adapterPath = isPathAbsolute ?
+    resolve(msgNasmespaces.path, msgNasmespaces.ns) :
+    resolve(rootVimaFolder, msgNasmespaces.path, msgNasmespaces.ns);
     try {
       const namespaces = dynamicRequire(adapterPath);
       const namespacesKeys = Object.keys(namespaces);
@@ -103,6 +105,7 @@ const register = (namespaceArray) => {
       });
     } catch (e) {
       logger.error(`An error occured during the loading of adapters '${currentNamespace}'`, e);
+      console.log(e);
     }
   });
 };

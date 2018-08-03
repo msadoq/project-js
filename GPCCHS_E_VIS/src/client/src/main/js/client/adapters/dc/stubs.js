@@ -40,6 +40,7 @@ const ADEItemMetadata = require('./dataControllerUtils/ADEItemMetadata.stub');
 const ADEItemAlgorithm = require('./dataControllerUtils/ADEItemAlgorithm.stub');
 const ADEAlgorithmLanguage = require('./dataControllerUtils/ADEAlgorithmLanguage.stub');
 const ADEItemReference = require('./dataControllerUtils/ADEItemReference.stub');
+const ADEError = require('./dataControllerUtils/ADEError.stub');
 module.exports = Object.assign(
   {},
   actionStub,
@@ -76,5 +77,6 @@ module.exports = Object.assign(
   ADEItemMetadata,
   ADEItemAlgorithm,
   ADEAlgorithmLanguage,
-  ADEItemReference
+  ADEItemReference,
+  ADEError
 );

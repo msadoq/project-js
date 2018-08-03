@@ -22,7 +22,8 @@ export const readDocument = (
 ) => {
   const folder = viewFolder || pageFolder || workspaceFolder || documentFolder;
   const relativePath = path;
-  resolvePath({ folder, relativePath, oId, absolutePath }, (err, { resolvedPath, properties }) => {
+  resolvePath({ folder, relativePath, oId, absolutePath },
+  (err, { resolvedPath, properties, version }) => {
     if (err) {
       return cb(err, {});
     }
@@ -34,7 +35,7 @@ export const readDocument = (
         if (parseErr) {
           return cb(parseErr);
         }
-        return cb(null, parsedJson, properties, resolvedPath);
+        return cb(null, parsedJson, properties, version, resolvedPath);
       });
     });
   });

@@ -75,6 +75,7 @@ export default class Header extends PureComponent {
       align: PropTypes.string,
       color: PropTypes.string,
     }),
+    viewVersion: PropTypes.shape().isRequired,
     collapsed: PropTypes.bool.isRequired,
     isModified: PropTypes.bool.isRequired,
     saveView: PropTypes.func.isRequired,
@@ -96,23 +97,12 @@ export default class Header extends PureComponent {
     const {
       titleStyle,
       isViewsEditorOpen,
-      domains,
-      pageDomain,
-      workspaceDomain,
-      viewDomain,
     } = this.props;
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
 
-      background: getColorWithDomainDetermination(
-        workspaceDomain,
-        [pageDomain],
-        [viewDomain],
-        domains,
-        'view'
-      ),
       color: titleStyle.color ? titleStyle.color : null,
       fontWeight: isViewsEditorOpen ? 'bold' : 'normal',
       fontStyle: 'normal',
@@ -138,6 +128,25 @@ export default class Header extends PureComponent {
     return style;
   }
 
+  getHeaderStyle() {
+    const {
+      domains,
+      pageDomain,
+      workspaceDomain,
+      viewDomain,
+    } = this.props;
+
+    return {
+      background: getColorWithDomainDetermination(
+        workspaceDomain,
+        [pageDomain],
+        [viewDomain],
+        domains,
+        'view'
+      ),
+    };
+  }
+
   expand = () => {
     const { collapseView, collapsed } = this.props;
     collapseView(!collapsed);
@@ -150,19 +159,23 @@ export default class Header extends PureComponent {
       isModified,
       onContextMenu,
       isSearchOpenForView,
+      viewVersion,
     } = this.props;
-
     const title = `${this.props.title} ${isModified ? ' *' : ''}`;
 
 
-    const titleStyle = this.getTitleStyle();
-
+    const titleStyleTransformed = this.getTitleStyle();
+    const headerStyle = this.getHeaderStyle();
+    const versionColor = {
+      color: 'white',
+    };
     return (
       <div
         className={classnames(styles.container)}
+        style={headerStyle}
       >
         <div
-          style={titleStyle}
+          style={titleStyleTransformed}
           className={`moveHandler ellipsis ${styles.title}`}
         >
           {isSearchOpenForView &&
@@ -172,6 +185,16 @@ export default class Header extends PureComponent {
           }
           {title}{isViewsEditorOpen ? ' (in edition)' : ''}
         </div>
+        <div className={styles.versionContainer} >
+          Version:
+        </div>
+        <div className={styles.versionContainer} style={versionColor} >
+          {viewVersion.externalVersion && viewVersion.externalVersion.value}
+        </div>
+        <div className={styles.versionContainer} style={versionColor}>
+          {viewVersion.internalVersion && viewVersion.internalVersion.symbol}
+        </div>
+        <div className={styles.ghostDiv} />
         <div className={styles.dropDownButtonContainer} >
           {!collapsed &&
             <button key={1} className={styles.expandButton} onClick={this.expand}>

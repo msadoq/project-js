@@ -59,6 +59,7 @@ const V2 = (queryId, oid, rawBuffer) => {
   } else {
     buffer.push(stubData.getFmdGetDataHeaderProtobufADE(queryId, false, false));
     buffer.push(rawBuffer);
+    buffer.push(stubData.getDocVersionProtobuf({ externalVersion: 'maVersionDeFuego', internalVersion: 107 }));
     buffer.push(stubData.getFMDFileInfoProtobuf());
     buffer.push(stubData.getDocumentProtobuf({
       dirname: dirname(path),

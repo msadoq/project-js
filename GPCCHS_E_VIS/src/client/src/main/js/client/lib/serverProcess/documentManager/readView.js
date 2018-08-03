@@ -22,7 +22,7 @@ import resolvePath from './pathResolver';
 import validation from './validation';
 
 const simpleReadView = async.reflect((viewInfo, cb) => {
-  readDocument(viewInfo, (err, viewContent, properties, viewPath) => {
+  readDocument(viewInfo, (err, viewContent, properties, version, viewPath) => {
     if (err) {
       return cb(err);
     }
@@ -66,6 +66,8 @@ const simpleReadView = async.reflect((viewInfo, cb) => {
               path: viewInfo.path,
               oId: viewInfo.oId,
               absolutePath: viewPath,
+              properties,
+              version,
             });
           });
         });
@@ -80,6 +82,8 @@ const simpleReadView = async.reflect((viewInfo, cb) => {
           path: viewInfo.path,
           oId: viewInfo.oId,
           absolutePath: viewPath,
+          properties,
+          version,
         });
       }
     }

@@ -19,7 +19,7 @@ import { simpleReadView } from './readView';
 const updateAllViews = transform => _.update('views', _.map(transform));
 
 export const simpleReadPage = async.reflect((pageInfo, cb) => {
-  readDocument(pageInfo, (err, page, properties, pagePath) => {
+  readDocument(pageInfo, (err, page, properties, version, pagePath) => {
     if (err) {
       return cb(err);
     }
@@ -42,6 +42,7 @@ export const simpleReadPage = async.reflect((pageInfo, cb) => {
       properties, // Table with document props from FMD
       uuid,
       absolutePath: pagePath,
+      version,
     });
   });
 });

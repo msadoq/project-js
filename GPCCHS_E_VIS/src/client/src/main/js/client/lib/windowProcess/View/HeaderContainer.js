@@ -30,7 +30,7 @@ import _uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getPage, getPanels } from 'store/reducers/pages';
-import { getViewDomainName } from 'store/reducers/views';
+import { getViewDomainName, getViewVersion } from 'store/reducers/views';
 import { getDataSelectors, getViewWithConfiguration } from 'viewManager';
 import Header from './Header';
 
@@ -62,6 +62,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
   const pageDomain = state.pages[pageId].domainName || '*';
   const workspaceDomain = state.hsc.domainName || '*';
   const viewDomain = getViewDomainName(state, { viewId });
+  const viewVersion = getViewVersion(state, { viewId });
 
   const isSearchOpenForView = _get(state, ['pages', pageId, 'panels', 'searchViewsIds'], []).indexOf(viewId) !== -1;
 
@@ -72,6 +73,7 @@ const makeMapStateToProps = () => (state, { pageId, viewId }) => {
     titleStyle,
     isModified,
     domains,
+    viewVersion,
     pageDomain,
     workspaceDomain,
     isSearchOpenForView,

@@ -53,7 +53,7 @@ const prepareWorkspace = _.pipe(
 /* ----------------- */
 
 const simpleReadWorkspace = (workspaceInfo, cb) => {
-  readDocument(workspaceInfo, (err, workspace, properties, workspacePath) => {
+  readDocument(workspaceInfo, (err, workspace, properties, version, workspacePath) => {
     if (err) {
       return cb(err);
     }
@@ -66,6 +66,7 @@ const simpleReadWorkspace = (workspaceInfo, cb) => {
       ...workspace,
       ...workspaceInfo,
       absolutePath: workspacePath,
+      version,
     };
     return cb(null, prepareWorkspace(documents));
   });

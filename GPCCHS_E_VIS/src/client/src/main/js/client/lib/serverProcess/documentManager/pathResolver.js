@@ -30,7 +30,7 @@ export const resolveFmdPath = (path, cb) => {
 };
 
 export const resolveOid = (oId, cb) => (
-  fmd.resolveDocument(oId, (resErr, resolvedPath, properties) => {
+  fmd.resolveDocument(oId, (resErr, resolvedPath, properties, version) => {
     if (resErr) {
       return cb(resErr, {});
     }
@@ -38,13 +38,22 @@ export const resolveOid = (oId, cb) => (
       if (err) {
         return cb(err, {}); // TODO test this branch
       }
-      return cb(null, { ...infoResolved, properties });
+      return cb(null, { ...infoResolved, properties, version });
     });
   })
 );
 
 export default ({ folder, relativePath, oId, absolutePath }, cb) => {
   const rootDir = folder || fmd.getRootDir();
+
+  if (relativePath && fmd.isInFmd(relativePath)) {
+    return resolveOid(fmd.getRelativeFmdPath(relativePath), cb);
+  }
+
+  if (absolutePath && fmd.isInFmd(absolutePath)) {
+    return resolveOid(fmd.getRelativeFmdPath(absolutePath), cb);
+  }
+
   if (absolutePath) {
     return resolveFmdPath(absolutePath, cb);
   }

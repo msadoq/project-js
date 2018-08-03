@@ -87,6 +87,11 @@ export const getViewDomainName = createSelector(
   _.get('domainName')
 );
 
+export const getViewVersion = createSelector(
+  getView,
+  _.getOr({}, 'version')
+);
+
 export const getViewSessionName = createSelector(
   getView,
   _.get('sessionName')

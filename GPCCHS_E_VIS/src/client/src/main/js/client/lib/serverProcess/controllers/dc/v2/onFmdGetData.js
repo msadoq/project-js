@@ -23,10 +23,11 @@ module.exports = (buffers, requestId) => {
 
   const callback = pop(requestId);
 
-  const blob = buffers[2];
+  const blob = buffers[3];
 
   try {
-    const { type, serializedOid } = decode('dc.dataControllerUtils.FMDFileInfo', buffers[1]);
+    const version = decode('isis.file.DocVersion', buffers[1]);
+    const { type, serializedOid } = decode('dc.dataControllerUtils.FMDFileInfo', buffers[2]);
     let detail;
     switch (type) {
       case globalConstants.FMDFILETYPE_COLLECTION: {
@@ -54,6 +55,7 @@ module.exports = (buffers, requestId) => {
       type,
       oId: serializedOid,
       detail,
+      version,
     });
   } catch (e) {
     logger.error('error on processing buffer', e);

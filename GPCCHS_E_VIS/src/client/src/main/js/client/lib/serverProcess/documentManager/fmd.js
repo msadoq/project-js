@@ -28,7 +28,7 @@ export const isInFmd = path => startsWith(getRootDir(), path);
 export const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
 export const resolveDocument = (oId, callback) => {
-  dc.requestFmdGet(oId, ({ err, type, detail }) => {
+  dc.requestFmdGet(oId, ({ err, type, detail, version }) => {
     if (err) {
       return callback(err);
     }
@@ -38,7 +38,8 @@ export const resolveDocument = (oId, callback) => {
     return callback(
       null,
       join(getRootDir(), detail.dirname.value, detail.basename.value),
-      detail.properties
+      detail.properties,
+      version
     );
   });
 };

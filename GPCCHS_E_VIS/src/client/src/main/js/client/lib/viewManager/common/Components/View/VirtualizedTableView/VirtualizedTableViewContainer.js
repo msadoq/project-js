@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import {
   filterColumn,
   toggleColumnSort,
-  saveScroll,
   updateColumnWidth,
 } from 'store/actions/tableColumns';
 import VirtualizedTableView from './VirtualizedTableView';
@@ -69,6 +68,9 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
 
   const reducedColumns = tableCols.filter(col => col.displayed);
 
+  const estimatedColumnsSize =
+    reducedColumns.reduce((acc, cur) => acc + (cur.width || 220), 0);
+
   return {
     tableName: name,
     rows,
@@ -76,6 +78,7 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier }) => {
     totalRowCount,
     cols: reducedColumns,
     columnCount: reducedColumns.length,
+    estimatedColumnsSize,
     sortState: sorting,
     filterState: filters,
   };
@@ -101,9 +104,6 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => (
 
       action.onClick(data, rowIndex, columnIndex);
     }
-  },
-  saveScroll: (scrollPosition) => {
-    dispatch(saveScroll(viewId, tableId, scrollPosition));
   },
 });
 

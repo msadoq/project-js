@@ -40,11 +40,11 @@ class VirtualizedTableView extends React.Component {
     filterState: PropTypes.shape(),
     overrideStyle: PropTypes.func,
     tableHeader: PropTypes.func,
-    saveScroll: PropTypes.func.isRequired,
     scrollPosition: PropTypes.shape(),
     searchForThisView: PropTypes.bool,
     searching: PropTypes.string,
     onResizeColumn: PropTypes.func.isRequired,
+    estimatedColumnsSize: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -86,6 +86,7 @@ class VirtualizedTableView extends React.Component {
       const currentGrid = this[gridKey];
       if (currentGrid) {
         currentGrid.recomputeGridSize();
+        currentGrid.measureAllCells();
       }
     });
   }
@@ -155,8 +156,8 @@ class VirtualizedTableView extends React.Component {
       filterState,
       overrideStyle,
       columnCount,
+      estimatedColumnsSize,
       tableHeader,
-      saveScroll,
       scrollPosition,
       searching,
       searchForThisView,
@@ -169,8 +170,6 @@ class VirtualizedTableView extends React.Component {
     const overscanRowCount = 0;
 
     const _getColumnName = col => col.title;
-
-    const _totalColumnWidth = cols.reduce((acc, cur) => acc + (cur.width || columnWidth), 0);
 
     const _getColumnWidth = ({ index }) => cols[index].width || columnWidth;// eslint-disable-next-line react/prop-types
 
@@ -494,7 +493,6 @@ class VirtualizedTableView extends React.Component {
       updatedRowCount = 1;
     }
 
-    const columnsWidth = _totalColumnWidth;
     const headerHeight = 42;
 
     const extendedRowHeight = rowHeight * 2;
@@ -508,7 +506,8 @@ class VirtualizedTableView extends React.Component {
         <ContainerDimensions>
           {
             ({ width, height }) => {
-              const adjustedWidth = Math.min(width - scrollbarSize(), columnsWidth);
+              const adjustedWidth =
+                Math.min(width - scrollbarSize(), estimatedColumnsSize);
               let mainGridAdjustedWidth = adjustedWidth;
 
               if (this.state.isVerticalScrollbarDisplayed) {
@@ -558,7 +557,7 @@ class VirtualizedTableView extends React.Component {
                                   width={adjustedWidth}
                                   height={rowHeight}
                                   columnWidth={_getColumnWidth}
-                                  estimatedColumnSize={columnsWidth}
+                                  estimatedColumnSize={estimatedColumnsSize}
                                   rowHeight={rowHeight}
                                   scrollLeft={scrollLeft}
                                   scrollTop={scrollTop}
@@ -576,7 +575,7 @@ class VirtualizedTableView extends React.Component {
                               width={adjustedWidth}
                               height={extendedRowHeight}
                               columnWidth={_getColumnWidth}
-                              estimatedColumnSize={columnsWidth}
+                              estimatedColumnSize={estimatedColumnsSize}
                               rowHeight={extendedRowHeight}
                               scrollLeft={scrollLeft}
                               scrollTop={scrollTop}
@@ -593,7 +592,7 @@ class VirtualizedTableView extends React.Component {
                               width={adjustedWidth}
                               height={rowHeight}
                               columnWidth={_getColumnWidth}
-                              estimatedColumnSize={_totalColumnWidth}
+                              estimatedColumnSize={estimatedColumnsSize}
                               rowHeight={rowHeight}
                               scrollLeft={scrollLeft}
                               scrollTop={scrollTop}
@@ -610,16 +609,13 @@ class VirtualizedTableView extends React.Component {
                               width={mainGridAdjustedWidth}
                               height={adjustedHeight}
                               columnWidth={_getColumnWidth}
-                              estimatedColumnSize={_totalColumnWidth}
+                              estimatedColumnSize={estimatedColumnsSize}
                               rowHeight={rowHeight}
                               columnCount={columnCount}
                               rowCount={updatedRowCount}
                               scrollLeft={scrollLeft}
                               scrollTop={scrollTop}
-                              onScroll={(...args) => {
-                                saveScroll(args[0]);
-                                onScroll(...args);
-                              }}
+                              onScroll={onScroll}
                               overscanColumnCount={overscanColumnCount}
                               overscanRowCount={overscanRowCount}
                               {...scrollProps}

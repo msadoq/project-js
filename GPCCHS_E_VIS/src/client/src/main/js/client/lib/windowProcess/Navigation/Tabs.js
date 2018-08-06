@@ -78,6 +78,10 @@ function popoverHoverFocus(page) {
             <tr><td>File name</td><td>{basename(page.absolutePath)}</td></tr>}
           {!page.absolutePath && page.path &&
             <tr><td>File name</td><td>{basename(page.path)}</td></tr>}
+          {page.version && page.version.internalVersion &&
+            <tr><td>Internal version</td><td>{page.version.internalVersion.symbol}</td></tr>}
+          {page.version && page.version.externalVersion &&
+            <tr><td>External version</td><td>{page.version.externalVersion.value}</td></tr>}
           {!page.absolutePath && !page.path && <tr><td>Unsaved file</td></tr>}
         </tbody>
       </Table>

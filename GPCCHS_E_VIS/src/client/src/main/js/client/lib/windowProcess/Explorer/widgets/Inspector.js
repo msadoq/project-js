@@ -22,7 +22,7 @@
 import _ from 'lodash/fp';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Panel, Button } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 import getLogger from 'common/logManager';
 import { NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from 'constants';
 import { main } from 'windowProcess/ipc';
@@ -63,7 +63,6 @@ export default class Inspector extends PureComponent {
     }),
     // ACTIONS
     toggleNode: PropTypes.func.isRequired,
-    toggleAllNodes: PropTypes.func.isRequired,
     loadingNode: PropTypes.func.isRequired,
   };
 
@@ -151,7 +150,6 @@ export default class Inspector extends PureComponent {
       staticData,
       staticDataLoading,
       dynamicData,
-      toggleAllNodes,
     } = this.props;
 
     if (!dataId) {
@@ -215,9 +213,6 @@ export default class Inspector extends PureComponent {
               {hasNoStaticData && this.renderNoData()}
               {hasStaticData &&
               <div>
-                <Button onClick={() => toggleAllNodes(true)}>Expand All</Button>
-                {' '}
-                <Button onClick={() => toggleAllNodes(false)}>Collapse All</Button>
                 <Tree
                   data={staticData}
                   onMouseDown={this.onMouseDown}

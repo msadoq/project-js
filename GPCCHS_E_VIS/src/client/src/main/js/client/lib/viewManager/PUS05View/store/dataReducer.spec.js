@@ -13,58 +13,129 @@ describe('viewManager/PUS05View/store/dataReducer', () => {
         data: {
           PUS05View: {
             foo: 'foo',
-            scheduleStatus: '1',
-            lastUpdateModeScheduleStatus: '1',
-            lastUpdateModeNoFreeCommands: '2',
-            lastUpdateModeFreeSpace: '3',
-            pus005SubSchedule: [
+            pus005OnBoardEvent: [
               {
                 baz: 'baz',
-                status: 1,
-                lastUpdateModeExecTimeFirstTc: 1,
-                lastUpdateModeSubScheduleId: 1,
-                lastUpdateModeStatus: 1,
+                onBoardStatus: 1,
+                defaultOnBoardStatus: 1,
+                lastUpdateModeRid: 1,
+                lastUpdateModeOnBoardStatus: 1,
+                lastUpdateModeAlarmLevel: 1,
+
               },
               {
                 baz: 'baz',
-                status: 2,
-                lastUpdateModeExecTimeFirstTc: 2,
-                lastUpdateModeSubScheduleId: 2,
-                lastUpdateModeStatus: 2,
-              },
-            ],
-            pus005Apid: [
-              {
-                baz: 'baz',
-                lastUpdateModeApid: 1,
-              },
-              {
-                baz: 'baz',
-                lastUpdateModeApid: 2,
+                onBoardStatus: 2,
+                defaultOnBoardStatus: 2,
+                lastUpdateModeRid: 2,
+                lastUpdateModeOnBoardStatus: 2,
+                lastUpdateModeAlarmLevel: 2,
               },
             ],
-            pus005Command: [
+            pus005ReceivedOnBoardEvent: [
               {
-                baz: 'baz',
-                lastUpdateModeCommandId: 1,
-                lastUpdateModeBinProf: 1,
-                commandStatus: 1,
-                lastUpdateModeGroundStatus: 1,
-                commandGroundStatus: 1,
-                lastUpdateModeStatus: 1,
-                lastUpdateModeCurrentExecTime: 1,
-                lastUpdateModeInitialExecTime: 1,
-                lastUpdateModeTotalTimeShiftOffset: 1,
-                pus005CommandParameters: [
+                baz: 'baz1',
+                parameter: [
                   {
-                    baz: 'baz',
-                    lastUpdateMode: 1,
+                    name: 'name1',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name2',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name3',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name4',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name5',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name6',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name7',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name8',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name9',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name10',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name11',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name12',
+                    value: 'value',
                   },
                 ],
-                pus005TimeShift: [
+              },
+              {
+                baz: 'baz2',
+                parameter: [
                   {
-                    baz: 'baz',
-                    lastUpdateMode: 1,
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
+                  },
+                  {
+                    name: 'name',
+                    value: 'value',
                   },
                 ],
               },
@@ -76,71 +147,78 @@ describe('viewManager/PUS05View/store/dataReducer', () => {
     expect(pus05DataReducer(state, action)).toEqual({
       PUS05ViewData: {
         foo: 'foo',
-        scheduleStatus: 'DISABLED',
-        lastUpdateModeScheduleStatus: 'TC',
-        lastUpdateModeNoFreeCommands: 'TM',
-        lastUpdateModeFreeSpace: 'Default',
         tables: {
-          subSchedules: {
+          onBoardEvents: {
             data: [
               {
                 baz: 'baz',
-                status: 'DISABLED',
-                lastUpdateModeExecTimeFirstTc: 'TC',
-                lastUpdateModeSubScheduleId: 'TC',
-                lastUpdateModeStatus: 'TC',
+                onBoardStatus: 'DISABLED',
+                defaultOnBoardStatus: 'DISABLED',
+                lastUpdateModeRid: 'TC',
+                lastUpdateModeOnBoardStatus: 'TC',
+                lastUpdateModeAlarmLevel: 'TC',
               },
               {
                 baz: 'baz',
-                status: 'ENABLED',
-                lastUpdateModeExecTimeFirstTc: 'TM',
-                lastUpdateModeSubScheduleId: 'TM',
-                lastUpdateModeStatus: 'TM',
+                onBoardStatus: 'ENABLED',
+                defaultOnBoardStatus: 'ENABLED',
+                lastUpdateModeRid: 'TM',
+                lastUpdateModeOnBoardStatus: 'TM',
+                lastUpdateModeAlarmLevel: 'TM',
               },
             ],
             keep: [0, 1],
           },
-          enabledApids: {
+          received: {
             data: [
               {
-                baz: 'baz',
-                lastUpdateModeApid: 'TC',
+                baz: 'baz1',
+                name1: 'name1',
+                value1: 'value',
+                name2: 'name2',
+                value2: 'value',
+                name3: 'name3',
+                value3: 'value',
+                name4: 'name4',
+                value4: 'value',
+                name5: 'name5',
+                value5: 'value',
+                name6: 'name6',
+                value6: 'value',
+                name7: 'name7',
+                value7: 'value',
+                name8: 'name8',
+                value8: 'value',
+                name9: 'name9',
+                value9: 'value',
+                name10: 'name10',
+                value10: 'value',
               },
               {
-                baz: 'baz',
-                lastUpdateModeApid: 'TM',
+                baz: 'baz2',
+                name1: 'name1',
+                value1: 'value',
+                name2: 'name2',
+                value2: 'value',
+                name3: 'name3',
+                value3: 'value',
+                name4: 'name4',
+                value4: 'value',
+                name5: 'name5',
+                value5: 'value',
+                name6: 'name6',
+                value6: 'value',
+                name7: 'name7',
+                value7: 'value',
+                name8: 'name8',
+                value8: 'value',
+                name9: 'name9',
+                value9: 'value',
+                name10: 'name10',
+                value10: 'value',
               },
             ],
             keep: [0, 1],
-          },
-          commands: {
-            data: [
-              {
-                baz: 'baz',
-                lastUpdateModeCommandId: 'TC',
-                lastUpdateModeBinProf: 'TC',
-                commandStatus: 'DISABLED',
-                lastUpdateModeGroundStatus: 'TC',
-                commandGroundStatus: 'DISABLED',
-                lastUpdateModeStatus: 'TC',
-                lastUpdateModeCurrentExecTime: 'TC',
-                lastUpdateModeInitialExecTime: 'TC',
-                lastUpdateModeTotalTimeShiftOffset: 'TC',
-                pus005CommandParameters: [
-                  {
-                    baz: 'baz',
-                    lastUpdateMode: 'TC',
-                  },
-                ],
-                pus005TimeShift: [
-                  {
-                    baz: 'baz',
-                    lastUpdateMode: 'TC',
-                  },
-                ],
-              },
-            ],
-            keep: [0],
           },
         },
       },

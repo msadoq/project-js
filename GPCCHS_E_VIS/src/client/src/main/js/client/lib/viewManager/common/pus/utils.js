@@ -1,13 +1,18 @@
 import { addTooltipWithContent } from './tooltip';
 import parameters from '../../../common/configurationManager';
 
-const statusColors = parameters.get('PUS_CONSTANTS').STATUS_COLOR;
 
-
-export const tableOverrideStyle = keyList =>
+export const tableOverrideStyle = statusKeyList =>
   ({ content }) => {
+    const statusColors = parameters.get('PUS_CONSTANTS').STATUS_COLOR;
     const { value, colKey } = content;
-    if (keyList.indexOf(colKey) > -1) {
+    // console.log(JSON.stringify(statusColors, null, 2));
+
+    // empty field style within StatusKeyList should not be overrided
+    if (typeof value === 'string' && value.length === 0) {
+      return {};
+    }
+    if (statusKeyList.indexOf(colKey) > -1) {
       return { backgroundColor: statusColors[value] };
     }
     return {};
@@ -20,7 +25,6 @@ export const tableModifier = tooltips =>
     if (typeof value === 'string' && value.length === 0) {
       return cellContent;
     }
-
     const toolT = tooltips[colKey];
     if (toolT === undefined) {
       return cellContent;

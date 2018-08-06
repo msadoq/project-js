@@ -13,23 +13,10 @@ const mapStateToProps = (state, { viewId }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
 
-  const commandData = _.get(['tables', 'commands'], data); // data for modal
-
   return {
     serviceApid: _.getOr(null, 'serviceApid', data),
-    spaceInNumberOfCommands: _.getOr(null, 'spaceInNumberOfCommands', data),
-    scheduleStatus: _.getOr(200, 'scheduleStatus', data),
-    lastUpdateTimeScheduleStatus: _.getOr(null, 'lastUpdateTimeScheduleStatus', data),
-    lastUpdateModeScheduleStatus: _.getOr(200, 'lastUpdateModeScheduleStatus', data),
-    noFreeCommands: _.getOr(null, 'noFreeCommands', data),
-    lastUpdateTimeNoFreeCommands: _.getOr(null, 'lastUpdateTimeNoFreeCommands', data),
-    lastUpdateModeNoFreeCommands: _.getOr(200, 'lastUpdateModeNoFreeCommands', data),
-    freeSpace: _.getOr(null, 'freeSpace', data),
-    lastUpdateTimeFreeSpace: _.getOr(null, 'lastUpdateTimeFreeSpace', data),
-    lastUpdateModeFreeSpace: _.getOr(200, 'lastUpdateModeFreeSpace', data),
     serviceApidName: _.getOr(null, 'serviceApidName', data),
     apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
-    commandData,
     windowId,
   };
 };

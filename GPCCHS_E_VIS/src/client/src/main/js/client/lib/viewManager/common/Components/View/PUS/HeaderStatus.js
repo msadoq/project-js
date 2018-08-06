@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
+import parameters from 'common/configurationManager';
 import classnames from 'classnames';
 import { createTableData } from '../../../pus/tooltip';
-import { formatDate } from '../../../pus/utils';
 
 const popoverStyle = { height: 70 };
 const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
+const statusColor = parameters.get('PUS_CONSTANTS').STATUS_COLOR;
 
 const generatePopover = (id, time, mode) => (
   <Popover
@@ -16,7 +17,7 @@ const generatePopover = (id, time, mode) => (
   >
     {createTableData({
       lastUpdateMode: mode,
-      lastUpdateTime: formatDate(time),
+      lastUpdateTime: time,
     })}
   </Popover>
 );
@@ -46,10 +47,14 @@ export default class HeaderStatus extends Component {
       label,
       id,
     } = this.props;
+    const colorStyle = { backgroundColor: statusColor[status] };
     const statusSpan = (
       <span>
         {label}&nbsp;
-        <input type="text" className={classnames('mw100', status.toLowerCase())} disabled value={status} />
+        <input
+          type="text" className={classnames('mw100', status.toLowerCase())}
+          disabled value={status} style={colorStyle}
+        />
       </span>
     );
     return (

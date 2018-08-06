@@ -24,9 +24,8 @@ function pus05DataReducer(state = {}, action) {
        *  timestamp: number,
        *  data: {
        *    PUS05View: {
-       *      pus005Apid: [],
-       *      pus005SubSchedule: [],
-       *      pus005Command: [],
+       *      pus005OnBoardEvent: [],
+       *      pus005ReceivedOnBoardEvent: [],
        *      ...rest
        *    },
        *  },
@@ -38,62 +37,40 @@ function pus05DataReducer(state = {}, action) {
       }
       let updatedState = state;
 
-      const groundStatuses = parameters.get('PUS_CONSTANTS').COMMAND_GROUND_STATUS;
       const statuses = parameters.get('PUS_CONSTANTS').STATUS;
       const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
       // keep all except tabular data
       updatedState = {
         ..._.omit(
-          ['pus005SubSchedule', 'pus005Apid', 'pus005Command'],
+          ['pus005OnBoardEvent', 'pus005ReceivedOnBoardEvent'],
           data
         ),
-        scheduleStatus: statuses[_.getOr(200, 'scheduleStatus', data)],
-        lastUpdateModeScheduleStatus: updateTypes[_.getOr(200, 'lastUpdateModeScheduleStatus', data)],
-        lastUpdateModeNoFreeCommands: updateTypes[_.getOr(200, 'lastUpdateModeNoFreeCommands', data)],
-        lastUpdateModeFreeSpace: updateTypes[_.getOr(200, 'lastUpdateModeFreeSpace', data)],
       };
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
-      updatedState = injectTabularData(updatedState, 'subSchedules',
-        _.getOr([], ['pus005SubSchedule'], data)
-          .map(subSchedule => ({
-            ...subSchedule,
-            status: statuses[_.getOr(200, 'status', subSchedule)], // map schedule status constant
-            lastUpdateModeSubScheduleId: updateTypes[_.getOr(200, 'lastUpdateModeSubScheduleId', subSchedule)], // map schedule lastUpdateModeSubScheduleId constant
-            lastUpdateModeStatus: updateTypes[_.getOr(200, 'lastUpdateModeStatus', subSchedule)], // map schedule lastUpdateModeStatus constant
-            lastUpdateModeExecTimeFirstTc: updateTypes[_.getOr(200, 'lastUpdateModeExecTimeFirstTc', subSchedule)], // map schedule lastUpdateModeStatus constant
+      updatedState = injectTabularData(updatedState, 'onBoardEvents',
+        _.getOr([], ['pus005OnBoardEvent'], data)
+          .map(boardEvent => ({
+            ...boardEvent,
+            onBoardStatus: statuses[String(_.getOr(200, 'onBoardStatus', boardEvent))],
+            defaultOnBoardStatus: statuses[String(_.getOr(200, 'onBoardStatus', boardEvent))],
+            lastUpdateModeRid: updateTypes[String(_.getOr(200, 'lastUpdateModeRid', boardEvent))],
+            lastUpdateModeOnBoardStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeOnBoardStatus', boardEvent))],
+            lastUpdateModeAlarmLevel: updateTypes[String(_.getOr(200, 'lastUpdateModeAlarmLevel', boardEvent))],
           }))
       );
-      updatedState = injectTabularData(updatedState, 'enabledApids',
-        _.getOr([], ['pus005Apid'], data)
-          .filter(enabledApid => enabledApid.status !== '1') // filter disabled apids
-          .map(enabledApid => ({
-            ...enabledApid,
-            lastUpdateModeApid: updateTypes[_.getOr(200, 'lastUpdateModeApid', enabledApid)], // map schedule lastUpdateModeApid constant
-          }))
-      );
-      updatedState = injectTabularData(updatedState, 'commands',
-        _.getOr([], ['pus005Command'], data)
-        .map(command => ({
-          ...command,
-          lastUpdateModeCommandId: updateTypes[_.getOr(200, 'lastUpdateModeCommandId', command)], // map schedule lastUpdateModeCommandId constant
-          lastUpdateModeBinProf: updateTypes[_.getOr(200, 'lastUpdateModeBinProf', command)], // map schedule lastUpdateModeBinProf constant
-          commandStatus: statuses[_.getOr(200, 'commandStatus', command)], // map schedule commandStatus constant
-          lastUpdateModeGroundStatus: updateTypes[_.getOr(200, 'lastUpdateModeGroundStatus', command)], // map schedule lastUpdateModeGroundStatus constant
-          commandGroundStatus: groundStatuses[_.getOr(200, 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
-          lastUpdateModeStatus: updateTypes[_.getOr(200, 'lastUpdateModeStatus', command)], // map schedule lastUpdateModeStatus constant
-          lastUpdateModeCurrentExecTime: updateTypes[_.getOr(200, 'lastUpdateModeCurrentExecTime', command)], // map schedule lastUpdateModeCurrentExecTime constant
-          lastUpdateModeInitialExecTime: updateTypes[_.getOr(200, 'lastUpdateModeInitialExecTime', command)], // map schedule lastUpdateModeInitialExecTime constant
-          lastUpdateModeTotalTimeShiftOffset: updateTypes[_.getOr(200, 'lastUpdateModeTotalTimeShiftOffset', command)], // map schedule lastUpdateModeTotalTimeShiftOffset constant
-          pus005CommandParameters: command.pus005CommandParameters.map(commandParameter => ({
-            ...commandParameter,
-            lastUpdateMode: updateTypes[_.getOr(200, 'lastUpdateMode', commandParameter)], // map pus005CommandParameters lastUpdateMode constant
-          })),
-          pus005TimeShift: command.pus005TimeShift.map(timeShift => ({
-            ...timeShift,
-            lastUpdateMode: updateTypes[_.getOr(200, 'lastUpdateMode', timeShift)], // map pus005TimeShift lastUpdateMode constant
-          })),
+      updatedState = injectTabularData(updatedState, 'received',
+        _.getOr([], ['pus005ReceivedOnBoardEvent'], data)
+        .map(received => ({
+          ..._.omit(['parameter'], received),
+          ..._.getOr([], 'parameter', received)
+            .reduce((a, c, i) => {
+              // console.log(JSON.stringify(a, null, 2));
+              _.set('param'.concat(i + 1), c.name, a);
+              _.set('value'.concat(i + 1), c.value, a);
+              return a;
+            }, {}),
         }))
       );
 

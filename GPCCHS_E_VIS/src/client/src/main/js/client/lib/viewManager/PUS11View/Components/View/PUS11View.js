@@ -6,7 +6,7 @@ import { OverlayTrigger, Popover } from 'react-bootstrap';
 import './PUS11View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { tableOverrideStyle, tableModifier, formatDate } from '../../../common/pus/utils';
+import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 import HeaderStatus from '../../../common/Components/View/PUS/HeaderStatus';
 import { createTableData } from '../../../common/pus/tooltip';
 
@@ -176,7 +176,7 @@ export const generatePopover = (id, time, mode) => (
   >
     {createTableData({
       lastUpdateMode: mode,
-      lastUpdateTime: formatDate(time),
+      lastUpdateTime: time,
     })}
   </Popover>
 );

@@ -16,16 +16,148 @@ const getDataByPusService = (pusService, timestamp) => {
         dataType: constants.Pus005ModelType,
         groundDate: timestamp,
         payload: stubData.getPus005ModelProtobuf({
-          pus005OnBoardEvent: stubData.getPus005OnBoardEvent({
-            onBoardStatus: getAStatus(),
-            lastUpdateModeRid: getAnUpdateMode(),
-            lastUpdateTimeRid: timestamp.toString(),
-            lastUpdateModeOnBoardStatus: getAnUpdateMode(),
-            lastUpdateTimeOnBoardStatus: timestamp.toString(),
-            lastUpdateModeAlarmLevel: getAnUpdateMode(),
-            lastUpdateTimeAlarmLevel: timestamp.toString(),
-            defaultOnBoardStatus: getAStatus(),
-          }),
+          pus005OnBoardEvent: [
+            stubData.getPus005OnBoardEvent({
+              onBoardStatus: getAStatus(),
+              lastUpdateModeRid: getAnUpdateMode(),
+              lastUpdateTimeRid: timestamp.toString(),
+              lastUpdateModeOnBoardStatus: getAnUpdateMode(),
+              lastUpdateTimeOnBoardStatus: timestamp.toString(),
+              lastUpdateModeAlarmLevel: getAnUpdateMode(),
+              lastUpdateTimeAlarmLevel: timestamp.toString(),
+              defaultOnBoardStatus: getAStatus(),
+            }),
+            stubData.getPus005OnBoardEvent({
+              onBoardStatus: getAStatus(),
+              lastUpdateModeRid: getAnUpdateMode(),
+              lastUpdateTimeRid: timestamp.toString(),
+              lastUpdateModeOnBoardStatus: getAnUpdateMode(),
+              lastUpdateTimeOnBoardStatus: timestamp.toString(),
+              lastUpdateModeAlarmLevel: getAnUpdateMode(),
+              lastUpdateTimeAlarmLevel: timestamp.toString(),
+              defaultOnBoardStatus: getAStatus(),
+            }),
+          ],
+          pus005ReceivedOnBoardEvent: [
+            {
+              apid: 100,
+              reportId: 100,
+              reportName: 'myString',
+              eventType: 100,
+              alarmLevel: 'myString',
+              onBoardDate: 1527520025823,
+              groundDate: 1527520025823,
+              parameter: [
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+              ],
+            },
+            {
+              apid: 100,
+              reportId: 100,
+              reportName: 'myString',
+              eventType: 100,
+              alarmLevel: 'myString',
+              onBoardDate: 1527520025823,
+              groundDate: 1527520025823,
+              parameter: [
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+                {
+                  name: 100,
+                  value: 'xxx', // can be anything, including a BLOB. @see ATTRIBUTE.proto
+                },
+              ],
+            },
+          ],
         }),
       };
     }

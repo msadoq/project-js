@@ -60,7 +60,7 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
       }
       case WS_PAGE_CLOSE: {
         const { viewIds } = action.payload;
-        if (!viewIds.length) {
+        if (!viewIds || viewIds.length === 0) {
           return state;
         }
         let newState = state;

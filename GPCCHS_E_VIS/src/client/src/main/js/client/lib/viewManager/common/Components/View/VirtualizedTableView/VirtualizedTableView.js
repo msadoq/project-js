@@ -7,7 +7,7 @@ import { Grid, ScrollSync } from 'react-virtualized';
 import ContainerDimensions from 'react-container-dimensions';
 import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 import shortid from 'shortid';
-import { Overlay, Popover } from 'react-bootstrap';
+import { Overlay, OverlayTrigger, Popover } from 'react-bootstrap';
 import Draggable from 'react-draggable';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import { updateSearchCountArray } from 'store/reducers/pages';
@@ -218,8 +218,21 @@ class VirtualizedTableView extends React.Component {
       const currentCol = cols[columnIndex];
       const colKey = _getColumnName(currentCol);
       const colLabel = currentCol.label;
+      const colTooltip = currentCol.tooltip;
 
       let headerStyle = _.cloneDeep(style);
+
+      const popoverStyle = {
+        height: 37,
+      };
+
+      const popover = (<Popover
+        id="header-cell-popover"
+        style={popoverStyle}
+        placement="bottom"
+      >
+        {colTooltip}
+      </Popover>);
 
       if (withGroups) {
         headerStyle = {
@@ -229,42 +242,58 @@ class VirtualizedTableView extends React.Component {
         };
       }
 
-      return (
-        <div
-          className={styles.headerCell}
-          key={key}
-          style={headerStyle}
-        >
-          <span
-            className={styles.Label}
-            title={colLabel || colKey}
+      const overlayTrigger = ['hover', 'focus'];
+
+      const ret =
+        (
+          <div
+            className={styles.headerCell}
+            key={key}
+            style={headerStyle}
           >
-            {colLabel || colKey}
-          </span>
-          <SortArrow
-            colKey={colKey}
-            mode={'ASC'}
-            active={sortState.colName === colKey && sortState.direction === 'ASC'}
-            onClick={() => {
-              this.setState({
-                selectedCell: null,
-              });
-              onSort(colKey, 'ASC');
-            }}
-          />
-          <SortArrow
-            colKey={colKey}
-            mode={'DESC'}
-            active={sortState.colName === colKey && sortState.direction === 'DESC'}
-            onClick={() => {
-              this.setState({
-                selectedCell: null,
-              });
-              onSort(colKey, 'DESC');
-            }}
-          />
-          {_resizerTool(colKey, 44)}
-        </div>
+            <span
+              className={styles.Label}
+            >
+              {colLabel || colKey}
+            </span>
+            <SortArrow
+              colKey={colKey}
+              mode={'ASC'}
+              active={sortState.colName === colKey && sortState.direction === 'ASC'}
+              onClick={() => {
+                this.setState({
+                  selectedCell: null,
+                });
+                onSort(colKey, 'ASC');
+              }}
+            />
+            <SortArrow
+              colKey={colKey}
+              mode={'DESC'}
+              active={sortState.colName === colKey && sortState.direction === 'DESC'}
+              onClick={() => {
+                this.setState({
+                  selectedCell: null,
+                });
+                onSort(colKey, 'DESC');
+              }}
+            />
+            {_resizerTool(colKey, 44)}
+          </div>
+        );
+
+      if (!colTooltip) {
+        return ret;
+      }
+
+      return (
+        <OverlayTrigger
+          trigger={overlayTrigger}
+          placement="bottom"
+          overlay={popover}
+        >
+          {ret}
+        </OverlayTrigger>
       );
     };
 

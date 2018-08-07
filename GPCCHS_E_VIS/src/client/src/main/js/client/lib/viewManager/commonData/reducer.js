@@ -52,7 +52,7 @@ const _sortData = (data, colName) => _.sortBy((el => el[colName]), data);
  * @param filters
  * @returns {boolean}
  */
-export const _shouldKeepElement = (el, filters = {}) => {
+export const shouldKeepElement = (el, filters = {}) => {
   let ret = true;
 
   // eslint-disable-next-line no-restricted-syntax
@@ -86,7 +86,7 @@ export const _shouldKeepElement = (el, filters = {}) => {
 const _getKeptIndexes =
   (data = [], filters = {}) =>
     data.reduce((acc, cur, index) => {
-      if (_shouldKeepElement(cur, filters)) {
+      if (shouldKeepElement(cur, filters)) {
         return [...acc, index];
       }
 
@@ -160,7 +160,7 @@ export const injectTabularData = (
         afterEach(el, insertIndex);
       }
 
-      if (_shouldKeepElement(el, filters)) {
+      if (shouldKeepElement(el, filters)) {
         let insertKeepIndexAt =
           updatedKeep.findIndex(keepIndex => keepIndex === insertIndex);
 

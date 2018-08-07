@@ -77,6 +77,10 @@ export default class PUS11View extends React.Component {
       data,
     } = this.props;
 
+    if (typeof data === 'object' && Object.keys(data).length === 0) {
+      return renderInvald('Please fill-in configuration');
+    }
+
     const headers = data.headers.map((header) => {
       if (!isValid(apids, header.serviceApid)) {
         return renderInvald('Please fill-in configuration');

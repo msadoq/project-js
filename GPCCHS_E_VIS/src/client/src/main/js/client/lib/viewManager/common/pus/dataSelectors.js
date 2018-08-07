@@ -16,8 +16,9 @@ const getPUSViewData = (state, { viewId, pusService }) => {
   const entryPoint = getEntryPointsByViewId(state, { viewId, pusService })[0];
   const { connectedData } = entryPoint;
   const domainId = getDomainId(state, { domainName: connectedData.domain });
-  const sessionId = getSessionByTimelineId(state, { timelineId: connectedData.timeline }).id;
-  const apids = connectedData.apids;
+  const session = getSessionByTimelineId(state, { timelineId: connectedData.timeline });
+  const sessionId = session !== undefined ? session.id : undefined;
+  const apids = connectedData.apids || [];
   const flattenId = getPusFlattenId(apids, { domainId, sessionId });
   const models = apids.map((apid) => {
     let model = _getOr({}, ['knownPus', pusService, flattenId, apid.apidRawValue, 'model'], state);

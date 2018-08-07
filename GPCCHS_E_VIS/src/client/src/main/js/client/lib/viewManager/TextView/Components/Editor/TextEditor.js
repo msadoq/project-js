@@ -38,11 +38,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
-import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
+import ReloadAndSaveViewButtonsContainer
+  from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import { Misc } from 'viewManager/commonEditor/Misc';
 import styles from 'viewManager/commonEditor/Editor.css';
 import TextTabContainer from 'viewManager/TextView/Components/Editor/TextTabContainer';
-import DataViewEntryPointsContainer from 'viewManager/commonEditor/EntryPoint/DataViewEntryPointsContainer';
+import DataViewEntryPointsContainer
+  from 'viewManager/commonEditor/EntryPoint/DataViewEntryPointsContainer';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 const navBarItems = ['Entry Points', 'Text', 'Misc'];

@@ -3,8 +3,19 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
-import InputField from '../../../../windowProcess/commonReduxForm/InputField';
+import parameters from 'common/configurationManager';
 import styles from './EntryPointUnit.css';
+import ReactSelectField from '../../../../windowProcess/commonReduxForm/ReactSelectField';
+
+const unitParameters = Object.values(parameters.get('UNITS'));
+
+const computeOptions = (param, fil) => {
+  const paramFilter = param.filter(d => d.includes(fil));
+  if (paramFilter[0]) {
+    return paramFilter[0].map(d => ({ label: d, value: d }));
+  }
+  return [];
+};
 
 export default class EntryPointUnit extends PureComponent {
   static propTypes = { // FIXME: is this really needed ?
@@ -26,7 +37,6 @@ export default class EntryPointUnit extends PureComponent {
     catalog: null,
     catalogItem: null,
   };
-
   componentWillReceiveProps(nextProps) {
     const {
       askUnit,
@@ -46,35 +56,33 @@ export default class EntryPointUnit extends PureComponent {
     }
   }
 
+
   render() {
+    const { unit } = this.props;
     return (
       <ErrorBoundary>
         <HorizontalFormGroup label="Default unit">
           <div
             className={styles.plaintTextPadded}
           >
-            {this.props.unit}
+            {unit}
           </div>
         </HorizontalFormGroup>
         <HorizontalFormGroup label="Convert from">
           <Field
-            format={null}
             name="connectedData.convertFrom"
-            type="text"
-            className="form-control input-sm"
-            component={InputField}
-            value={this.props.convertFrom}
+            clearable={false}
+            component={ReactSelectField}
+            options={computeOptions(unitParameters, unit)}
           />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Convert to">
           <Field
-            format={null}
             name="connectedData.convertTo"
-            type="text"
-            className="form-control input-sm"
-            component={InputField}
-            value={this.props.convertTo}
+            clearable={false}
+            component={ReactSelectField}
+            options={computeOptions(unitParameters, unit)}
           />
         </HorizontalFormGroup>
       </ErrorBoundary>

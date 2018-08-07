@@ -75,7 +75,7 @@ const getDcHeader = _memoize(
 /*----------------*/
 
 const getDcHeaderADE = (method, requestId) => encode('dc.dataControllerUtils.ADEHeader', { method, requestId });
-const getPusHeader = (messageType, { sessionId, domainId, pusService }) => encode('isis.pusModelEditor.HeaderStructure', { messageType, sessionId, domainId, pusService });
+const getPusHeader = (messageType, { sessionId, domainId, pusService }) => encode('isis.pusModelEditorMessages.HeaderStructure', { messageType, sessionId, domainId, pusService });
 
 const getDcDataId = _memoize(
   (flatDataId, dataId) => encode('dc.dataControllerUtils.DataId', dataId),
@@ -402,31 +402,31 @@ const pusCommands = {
   },
   initialize: (header, forReplay, firstTime, lastTime, continuous, callback) => commands.pus.rpc(
     constants.PUS_INITIALIZE,
-    encode('isis.pusModelEditor.InitialiseStructure', { forReplay: true, firstTime, lastTime, continuous: true }),
+    encode('isis.pusModelEditorMessages.InitialiseStructure', { forReplay: true, firstTime, lastTime, continuous: true }),
     header,
     callback
   ),
   subscribe: (header, pusId, apId, callback) => commands.pus.rpc(
     constants.PUS_SUBSCRIBE,
-    encode('isis.pusModelEditor.SubscribeStructure', {}),
+    encode('isis.pusModelEditorMessages.SubscribeStructure', {}),
     header,
     callback
   ),
   unsubscribe: (header, pusId, apId, callback) => commands.pus.rpc(
     constants.PUS_UNSUBSCRIBE,
-    encode('isis.pusModelEditor.UnsubscribeStructure', {}),
+    encode('isis.pusModelEditorMessages.UnsubscribeStructure', {}),
     header,
     callback
   ),
   compare: (header, firstDate, secondDate, callback) => commands.pus.rpc(
     constants.PUS_COMPARE,
-    encode('isis.pusModelEditor.CompareStructure', { firstDate: Date.now(), secondDate: Date.now() + 10 }),
+    encode('isis.pusModelEditorMessages.CompareStructure', { firstDate: Date.now(), secondDate: Date.now() + 10 }),
     header,
     callback
   ),
   reset: (header, initialisationMode, resetType, date, callback) => commands.pus.rpc(
     constants.PUS_RESET,
-    encode('isis.pusModelEditor.InitialiseStructure', { initialisationMode: 0, resetType: 0, date: Date.now() }),
+    encode('isis.pusModelEditorMessages.InitialiseStructure', { initialisationMode: 0, resetType: 0, date: Date.now() }),
     header,
     callback
   ),

@@ -8,7 +8,7 @@
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
 /* eslint-disable camelcase, "DV6 TBC_CNES generated code" */
-const pusModelEditor = require('./pusModelEditor');
+const pusModelEditorMessages = require('./pusModelEditorMessages');
 const connection = require('./connection');
 const cop1 = require('./cop1');
 const decommutedPacket = require('./decommutedPacket');
@@ -44,7 +44,7 @@ const memoryImage = require('./memoryImage');
 const opAlert = require('./opAlert');
 const sessionModel = require('./sessionModel');
 module.exports = {
-  pusModelEditor,
+  pusModelEditorMessages,
   
   connection,
   

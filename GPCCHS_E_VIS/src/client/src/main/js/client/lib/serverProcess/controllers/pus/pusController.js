@@ -24,82 +24,82 @@ const {
 const getDecodedPayload = (dataType, payload) => {
   switch (dataType) {
     case constants.Pus005ModelType: {
-      return decode('isis.pusModelEditor.Pus005Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus005Model', payload);
     }
     case constants.Pus005OnBoardEventType: {
-      return decode('isis.pusModelEditor.Pus005OnBoardEvent', payload);
+      return decode('isis.pusModelEditorMessages.Pus005OnBoardEvent', payload);
     }
     case constants.Pus011CommandType: {
-      return decode('isis.pusModelEditor.Pus011Command', payload);
+      return decode('isis.pusModelEditorMessages.Pus011Command', payload);
     }
     case constants.Pus011ModelType: {
-      return decode('isis.pusModelEditor.Pus011Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus011Model', payload);
     }
     case constants.Pus011SubScheduleType: {
-      return decode('isis.pusModelEditor.Pus011SubSchedule', payload);
+      return decode('isis.pusModelEditorMessages.Pus011SubSchedule', payload);
     }
     case constants.Pus012ModelType: {
-      return decode('isis.pusModelEditor.Pus012Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus012Model', payload);
     }
     case constants.Pus012ParameterMonitoringDefinitionType: {
-      return decode('isis.pusModelEditor.Pus012ParameterMonitoringDefinition', payload);
+      return decode('isis.pusModelEditorMessages.Pus012ParameterMonitoringDefinition', payload);
     }
     case constants.Pus013DownlinkLDTType: {
-      return decode('isis.pusModelEditor.Pus013DownlinkLDT', payload);
+      return decode('isis.pusModelEditorMessages.Pus013DownlinkLDT', payload);
     }
     case constants.Pus013ModelType: {
-      return decode('isis.pusModelEditor.Pus013Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus013Model', payload);
     }
     case constants.Pus013UplinkLDTType: {
-      return decode('isis.pusModelEditor.Pus013UplinkLDT', payload);
+      return decode('isis.pusModelEditorMessages.Pus013UplinkLDT', payload);
     }
     case constants.Pus014ForwardPacketType: {
-      return decode('isis.pusModelEditor.Pus014ForwardPacket', payload);
+      return decode('isis.pusModelEditorMessages.Pus014ForwardPacket', payload);
     }
     case constants.Pus014ModelType: {
-      return decode('isis.pusModelEditor.Pus014Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus014Model', payload);
     }
     case constants.Pus015ModelType: {
-      return decode('isis.pusModelEditor.Pus015Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus015Model', payload);
     }
     case constants.Pus015PacketType: {
-      return decode('isis.pusModelEditor.Pus015Packet', payload);
+      return decode('isis.pusModelEditorMessages.Pus015Packet', payload);
     }
     case constants.Pus018ModelType: {
-      return decode('isis.pusModelEditor.Pus018Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus018Model', payload);
     }
     case constants.Pus018ObcpType: {
-      return decode('isis.pusModelEditor.Pus018Obcp', payload);
+      return decode('isis.pusModelEditorMessages.Pus018Obcp', payload);
     }
     case constants.Pus019EventActionType: {
-      return decode('isis.pusModelEditor.Pus019EventAction', payload);
+      return decode('isis.pusModelEditorMessages.Pus019EventAction', payload);
     }
     case constants.Pus019ModelType: {
-      return decode('isis.pusModelEditor.Pus019Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus019Model', payload);
     }
     case constants.Pus140ModelType: {
-      return decode('isis.pusModelEditor.Pus140Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus140Model', payload);
     }
     case constants.Pus140ParameterType: {
-      return decode('isis.pusModelEditor.Pus140Parameter', payload);
+      return decode('isis.pusModelEditorMessages.Pus140Parameter', payload);
     }
     case constants.Pus142FunctionalMonitoringType: {
-      return decode('isis.pusModelEditor.Pus142FunctionalMonitoring', payload);
+      return decode('isis.pusModelEditorMessages.Pus142FunctionalMonitoring', payload);
     }
     case constants.Pus142ModelType: {
-      return decode('isis.pusModelEditor.Pus142Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus142Model', payload);
     }
     case constants.Pus144ModelType: {
-      return decode('isis.pusModelEditor.Pus144Model', payload);
+      return decode('isis.pusModelEditorMessages.Pus144Model', payload);
     }
     case constants.Pus144OnBoardFileType: {
-      return decode('isis.pusModelEditor.Pus144OnBoardFile', payload);
+      return decode('isis.pusModelEditorMessages.Pus144OnBoardFile', payload);
     }
     case constants.PusMmeModelType: {
-      return decode('isis.pusModelEditor.PusMmeModel', payload);
+      return decode('isis.pusModelEditorMessages.PusMmeModel', payload);
     }
     case constants.PusMmePacketType: {
-      return decode('isis.pusModelEditor.PusMmePacket', payload);
+      return decode('isis.pusModelEditorMessages.PusMmePacket', payload);
     }
     default: {
       return null;
@@ -174,7 +174,7 @@ const onPusData = (messageData, pusService, getStore) => {
   logger.silly('called');
   const store = getStore();
   try {
-    const { dataType, payload } = decode('isis.pusModelEditor.DataStructure', messageData);
+    const { dataType, payload } = decode('isis.pusModelEditorMessages.DataStructure', messageData);
     const decodedPayload = getDecodedPayload(dataType.value, payload.value);
     const cleanPayload = cleanupPayload(decodedPayload);
     const viewType = getViewType(pusService);

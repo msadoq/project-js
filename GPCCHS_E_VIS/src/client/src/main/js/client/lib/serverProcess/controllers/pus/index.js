@@ -22,7 +22,7 @@ module.exports = function pusActorController() {
   const messageData = args[1];
 
   try {
-    const { messageType, pusService } = decode('isis.pusModelEditor.HeaderStructure', headerBuffer);
+    const { messageType, pusService } = decode('isis.pusModelEditorMessages.HeaderStructure', headerBuffer);
     if (messageType.value === undefined || messageType.value === null) {
       return logger.warn('invalid message received (no messageType)');
     }

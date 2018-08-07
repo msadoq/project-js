@@ -446,189 +446,189 @@ const userRightBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/file/UserRig
 const userRightStub = require('./file/userRight.stub');
 const userStub = require('./ccsds_cs/user.stub');
 
-const compareStructureStub = require('./pusModelEditor/compareStructure.stub');
-const compareStructureAdapter = require('./pusModelEditor/compareStructure');
-const compareStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/CompareStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.CompareStructure');
+const compareStructureStub = require('./pusModelEditorMessages/compareStructure.stub');
+const compareStructureAdapter = require('./pusModelEditorMessages/compareStructure');
+const compareStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/CompareStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.CompareStructure');
 
-const dataStructureStub = require('./pusModelEditor/dataStructure.stub');
-const dataStructureAdapter = require('./pusModelEditor/dataStructure');
-const dataStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/DataStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.DataStructure');
+const dataStructureStub = require('./pusModelEditorMessages/dataStructure.stub');
+const dataStructureAdapter = require('./pusModelEditorMessages/dataStructure');
+const dataStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/DataStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.DataStructure');
 
-const headerStructureStub = require('./pusModelEditor/headerStructure.stub');
-const headerStructureAdapter = require('./pusModelEditor/headerStructure');
-const headerStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/HeaderStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.HeaderStructure');
+const headerStructureStub = require('./pusModelEditorMessages/headerStructure.stub');
+const headerStructureAdapter = require('./pusModelEditorMessages/headerStructure');
+const headerStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/HeaderStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.HeaderStructure');
 
-const initialiseStructureStub = require('./pusModelEditor/initialiseStructure.stub');
-const initialiseStructureAdapter = require('./pusModelEditor/initialiseStructure');
-const initialiseStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/InitialiseStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.InitialiseStructure');
+const initialiseStructureStub = require('./pusModelEditorMessages/initialiseStructure.stub');
+const initialiseStructureAdapter = require('./pusModelEditorMessages/initialiseStructure');
+const initialiseStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/InitialiseStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.InitialiseStructure');
 
-const pus005ModelStub = require('./pusModelEditor/pus005Model.stub');
-const pus005ModelAdapter = require('./pusModelEditor/pus005Model');
-const pus005ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus005Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus005Model');
+const pus005ModelStub = require('./pusModelEditorMessages/pus005Model.stub');
+const pus005ModelAdapter = require('./pusModelEditorMessages/pus005Model');
+const pus005ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus005Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus005Model');
 
-const pus005OnBoardEventStub = require('./pusModelEditor/pus005OnBoardEvent.stub');
-const pus005OnBoardEventAdapter = require('./pusModelEditor/pus005OnBoardEvent');
-const pus005OnBoardEventBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus005OnBoardEvent.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus005OnBoardEvent');
+const pus005OnBoardEventStub = require('./pusModelEditorMessages/pus005OnBoardEvent.stub');
+const pus005OnBoardEventAdapter = require('./pusModelEditorMessages/pus005OnBoardEvent');
+const pus005OnBoardEventBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus005OnBoardEvent.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus005OnBoardEvent');
 
-const pus011ApidStub = require('./pusModelEditor/pus011Apid.stub');
-const pus011ApidAdapter = require('./pusModelEditor/pus011Apid');
-const pus011ApidBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011Apid.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011Apid');
+const pus011ApidStub = require('./pusModelEditorMessages/pus011Apid.stub');
+const pus011ApidAdapter = require('./pusModelEditorMessages/pus011Apid');
+const pus011ApidBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus011Apid.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011Apid');
 
-const pus011CommandStub = require('./pusModelEditor/pus011Command.stub');
-const pus011CommandAdapter = require('./pusModelEditor/pus011Command');
-const pus011CommandBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011Command.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011Command');
+const pus011CommandStub = require('./pusModelEditorMessages/pus011Command.stub');
+const pus011CommandAdapter = require('./pusModelEditorMessages/pus011Command');
+const pus011CommandBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus011Command.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011Command');
 
-const pus011CommandParameterStub = require('./pusModelEditor/pus011CommandParameter.stub');
-const pus011CommandParameterAdapter = require('./pusModelEditor/pus011CommandParameter');
-const pus011CommandParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011CommandParameter.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011CommandParameter');
+const pus011CommandParameterStub = require('./pusModelEditorMessages/pus011CommandParameter.stub');
+const pus011CommandParameterAdapter = require('./pusModelEditorMessages/pus011CommandParameter');
+const pus011CommandParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus011CommandParameter.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011CommandParameter');
 
-const pus011ModelStub = require('./pusModelEditor/pus011Model.stub');
-const pus011ModelAdapter = require('./pusModelEditor/pus011Model');
-const pus011ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011Model');
+const pus011ModelStub = require('./pusModelEditorMessages/pus011Model.stub');
+const pus011ModelAdapter = require('./pusModelEditorMessages/pus011Model');
+const pus011ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus011Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011Model');
 
-const pus011SubScheduleStub = require('./pusModelEditor/pus011SubSchedule.stub');
-const pus011SubScheduleAdapter = require('./pusModelEditor/pus011SubSchedule');
-const pus011SubScheduleBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011SubSchedule.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011SubSchedule');
+const pus011SubScheduleStub = require('./pusModelEditorMessages/pus011SubSchedule.stub');
+const pus011SubScheduleAdapter = require('./pusModelEditorMessages/pus011SubSchedule');
+const pus011SubScheduleBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus011SubSchedule.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011SubSchedule');
 
-const pus011TimeShiftStub = require('./pusModelEditor/pus011TimeShift.stub');
-const pus011TimeShiftAdapter = require('./pusModelEditor/pus011TimeShift');
-const pus011TimeShiftBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus011TimeShift.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011TimeShift');
+const pus011TimeShiftStub = require('./pusModelEditorMessages/pus011TimeShift.stub');
+const pus011TimeShiftAdapter = require('./pusModelEditorMessages/pus011TimeShift');
+const pus011TimeShiftBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus011TimeShift.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus011TimeShift');
 
-const pus012ModelStub = require('./pusModelEditor/pus012Model.stub');
-const pus012ModelAdapter = require('./pusModelEditor/pus012Model');
-const pus012ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus012Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus012Model');
+const pus012ModelStub = require('./pusModelEditorMessages/pus012Model.stub');
+const pus012ModelAdapter = require('./pusModelEditorMessages/pus012Model');
+const pus012ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus012Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus012Model');
 
-const pus012MonitoringCheckPropertiesStub = require('./pusModelEditor/pus012MonitoringCheckProperties.stub');
-const pus012MonitoringCheckPropertiesAdapter = require('./pusModelEditor/pus012MonitoringCheckProperties');
-const pus012MonitoringCheckPropertiesBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus012MonitoringCheckProperties.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus012MonitoringCheckProperties');
+const pus012MonitoringCheckPropertiesStub = require('./pusModelEditorMessages/pus012MonitoringCheckProperties.stub');
+const pus012MonitoringCheckPropertiesAdapter = require('./pusModelEditorMessages/pus012MonitoringCheckProperties');
+const pus012MonitoringCheckPropertiesBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus012MonitoringCheckProperties.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus012MonitoringCheckProperties');
 
-const pus012ParameterMonitoringDefinitionStub = require('./pusModelEditor/pus012ParameterMonitoringDefinition.stub');
-const pus012ParameterMonitoringDefinitionAdapter = require('./pusModelEditor/pus012ParameterMonitoringDefinition');
-const pus012ParameterMonitoringDefinitionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus012ParameterMonitoringDefinition.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus012ParameterMonitoringDefinition');
+const pus012ParameterMonitoringDefinitionStub = require('./pusModelEditorMessages/pus012ParameterMonitoringDefinition.stub');
+const pus012ParameterMonitoringDefinitionAdapter = require('./pusModelEditorMessages/pus012ParameterMonitoringDefinition');
+const pus012ParameterMonitoringDefinitionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus012ParameterMonitoringDefinition.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus012ParameterMonitoringDefinition');
 
-const pus013LdtStub = require('./pusModelEditor/pus013Ldt.stub');
-const pus013LdtAdapter = require('./pusModelEditor/pus013Ldt');
-const pus013LdtBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus013Ldt.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus013Ldt');
+const pus013LdtStub = require('./pusModelEditorMessages/pus013Ldt.stub');
+const pus013LdtAdapter = require('./pusModelEditorMessages/pus013Ldt');
+const pus013LdtBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus013Ldt.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus013Ldt');
 
-const pus013LdtPartStub = require('./pusModelEditor/pus013LdtPart.stub');
-const pus013LdtPartAdapter = require('./pusModelEditor/pus013LdtPart');
-const pus013LdtPartBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus013LdtPart.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus013LdtPart');
+const pus013LdtPartStub = require('./pusModelEditorMessages/pus013LdtPart.stub');
+const pus013LdtPartAdapter = require('./pusModelEditorMessages/pus013LdtPart');
+const pus013LdtPartBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus013LdtPart.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus013LdtPart');
 
-const pus013ModelStub = require('./pusModelEditor/pus013Model.stub');
-const pus013ModelAdapter = require('./pusModelEditor/pus013Model');
-const pus013ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus013Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus013Model');
+const pus013ModelStub = require('./pusModelEditorMessages/pus013Model.stub');
+const pus013ModelAdapter = require('./pusModelEditorMessages/pus013Model');
+const pus013ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus013Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus013Model');
 
-const pus014ForwardedPacketStub = require('./pusModelEditor/pus014ForwardedPacket.stub');
-const pus014ForwardedPacketAdapter = require('./pusModelEditor/pus014ForwardedPacket');
-const pus014ForwardedPacketBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus014ForwardedPacket.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus014ForwardedPacket');
+const pus014ForwardedPacketStub = require('./pusModelEditorMessages/pus014ForwardedPacket.stub');
+const pus014ForwardedPacketAdapter = require('./pusModelEditorMessages/pus014ForwardedPacket');
+const pus014ForwardedPacketBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus014ForwardedPacket.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus014ForwardedPacket');
 
-const pus014ModelStub = require('./pusModelEditor/pus014Model.stub');
-const pus014ModelAdapter = require('./pusModelEditor/pus014Model');
-const pus014ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus014Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus014Model');
+const pus014ModelStub = require('./pusModelEditorMessages/pus014Model.stub');
+const pus014ModelAdapter = require('./pusModelEditorMessages/pus014Model');
+const pus014ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus014Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus014Model');
 
-const pus015ModelStub = require('./pusModelEditor/pus015Model.stub');
-const pus015ModelAdapter = require('./pusModelEditor/pus015Model');
-const pus015ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus015Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus015Model');
+const pus015ModelStub = require('./pusModelEditorMessages/pus015Model.stub');
+const pus015ModelAdapter = require('./pusModelEditorMessages/pus015Model');
+const pus015ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus015Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus015Model');
 
-const pus015PacketStub = require('./pusModelEditor/pus015Packet.stub');
-const pus015PacketAdapter = require('./pusModelEditor/pus015Packet');
-const pus015PacketBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus015Packet.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus015Packet');
+const pus015PacketStub = require('./pusModelEditorMessages/pus015Packet.stub');
+const pus015PacketAdapter = require('./pusModelEditorMessages/pus015Packet');
+const pus015PacketBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus015Packet.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus015Packet');
 
-const pus015PacketStoreStub = require('./pusModelEditor/pus015PacketStore.stub');
-const pus015PacketStoreAdapter = require('./pusModelEditor/pus015PacketStore');
-const pus015PacketStoreBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus015PacketStore.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus015PacketStore');
+const pus015PacketStoreStub = require('./pusModelEditorMessages/pus015PacketStore.stub');
+const pus015PacketStoreAdapter = require('./pusModelEditorMessages/pus015PacketStore');
+const pus015PacketStoreBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus015PacketStore.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus015PacketStore');
 
-const pus018ModelStub = require('./pusModelEditor/pus018Model.stub');
-const pus018ModelAdapter = require('./pusModelEditor/pus018Model');
-const pus018ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus018Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus018Model');
+const pus018ModelStub = require('./pusModelEditorMessages/pus018Model.stub');
+const pus018ModelAdapter = require('./pusModelEditorMessages/pus018Model');
+const pus018ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus018Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus018Model');
 
-const pus018ObcpStub = require('./pusModelEditor/pus018Obcp.stub');
-const pus018ObcpAdapter = require('./pusModelEditor/pus018Obcp');
-const pus018ObcpBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus018Obcp.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus018Obcp');
+const pus018ObcpStub = require('./pusModelEditorMessages/pus018Obcp.stub');
+const pus018ObcpAdapter = require('./pusModelEditorMessages/pus018Obcp');
+const pus018ObcpBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus018Obcp.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus018Obcp');
 
-const pus019EventActionStub = require('./pusModelEditor/pus019EventAction.stub');
-const pus019EventActionAdapter = require('./pusModelEditor/pus019EventAction');
-const pus019EventActionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus019EventAction.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus019EventAction');
+const pus019EventActionStub = require('./pusModelEditorMessages/pus019EventAction.stub');
+const pus019EventActionAdapter = require('./pusModelEditorMessages/pus019EventAction');
+const pus019EventActionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus019EventAction.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus019EventAction');
 
-const pus019ModelStub = require('./pusModelEditor/pus019Model.stub');
-const pus019ModelAdapter = require('./pusModelEditor/pus019Model');
-const pus019ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus019Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus019Model');
+const pus019ModelStub = require('./pusModelEditorMessages/pus019Model.stub');
+const pus019ModelAdapter = require('./pusModelEditorMessages/pus019Model');
+const pus019ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus019Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus019Model');
 
-const pus140ModelStub = require('./pusModelEditor/pus140Model.stub');
-const pus140ModelAdapter = require('./pusModelEditor/pus140Model');
-const pus140ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus140Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus140Model');
+const pus140ModelStub = require('./pusModelEditorMessages/pus140Model.stub');
+const pus140ModelAdapter = require('./pusModelEditorMessages/pus140Model');
+const pus140ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus140Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus140Model');
 
-const pus140ParameterStub = require('./pusModelEditor/pus140Parameter.stub');
-const pus140ParameterAdapter = require('./pusModelEditor/pus140Parameter');
-const pus140ParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus140Parameter.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus140Parameter');
+const pus140ParameterStub = require('./pusModelEditorMessages/pus140Parameter.stub');
+const pus140ParameterAdapter = require('./pusModelEditorMessages/pus140Parameter');
+const pus140ParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus140Parameter.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus140Parameter');
 
-const pus142FunctionalMonitoringStub = require('./pusModelEditor/pus142FunctionalMonitoring.stub');
-const pus142FunctionalMonitoringAdapter = require('./pusModelEditor/pus142FunctionalMonitoring');
-const pus142FunctionalMonitoringBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus142FunctionalMonitoring.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus142FunctionalMonitoring');
+const pus142FunctionalMonitoringStub = require('./pusModelEditorMessages/pus142FunctionalMonitoring.stub');
+const pus142FunctionalMonitoringAdapter = require('./pusModelEditorMessages/pus142FunctionalMonitoring');
+const pus142FunctionalMonitoringBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus142FunctionalMonitoring.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus142FunctionalMonitoring');
 
-const pus142ModelStub = require('./pusModelEditor/pus142Model.stub');
-const pus142ModelAdapter = require('./pusModelEditor/pus142Model');
-const pus142ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus142Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus142Model');
+const pus142ModelStub = require('./pusModelEditorMessages/pus142Model.stub');
+const pus142ModelAdapter = require('./pusModelEditorMessages/pus142Model');
+const pus142ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus142Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus142Model');
 
-const pus142ParameterMonitoringDefinitionStub = require('./pusModelEditor/pus142ParameterMonitoringDefinition.stub');
-const pus142ParameterMonitoringDefinitionAdapter = require('./pusModelEditor/pus142ParameterMonitoringDefinition');
-const pus142ParameterMonitoringDefinitionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus142ParameterMonitoringDefinition.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus142ParameterMonitoringDefinition');
+const pus142ParameterMonitoringDefinitionStub = require('./pusModelEditorMessages/pus142ParameterMonitoringDefinition.stub');
+const pus142ParameterMonitoringDefinitionAdapter = require('./pusModelEditorMessages/pus142ParameterMonitoringDefinition');
+const pus142ParameterMonitoringDefinitionBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus142ParameterMonitoringDefinition.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus142ParameterMonitoringDefinition');
 
-const pus144ModelStub = require('./pusModelEditor/pus144Model.stub');
-const pus144ModelAdapter = require('./pusModelEditor/pus144Model');
-const pus144ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus144Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus144Model');
+const pus144ModelStub = require('./pusModelEditorMessages/pus144Model.stub');
+const pus144ModelAdapter = require('./pusModelEditorMessages/pus144Model');
+const pus144ModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus144Model.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus144Model');
 
-const pus144OnboardFileStub = require('./pusModelEditor/pus144OnboardFile.stub');
-const pus144OnboardFileAdapter = require('./pusModelEditor/pus144OnboardFile');
-const pus144OnboardFileBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/Pus144OnboardFile.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus144OnboardFile');
+const pus144OnboardFileStub = require('./pusModelEditorMessages/pus144OnboardFile.stub');
+const pus144OnboardFileAdapter = require('./pusModelEditorMessages/pus144OnboardFile');
+const pus144OnboardFileBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/Pus144OnboardFile.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.Pus144OnboardFile');
 
-const pusElementListStub = require('./pusModelEditor/pusElementList.stub');
-const pusElementListAdapter = require('./pusModelEditor/pusElementList');
-const pusElementListBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusElementList.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusElementList');
+const pusElementListStub = require('./pusModelEditorMessages/pusElementList.stub');
+const pusElementListAdapter = require('./pusModelEditorMessages/pusElementList');
+const pusElementListBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/PusElementList.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusElementList');
 
-const pusMmeModelStub = require('./pusModelEditor/pusMmeModel.stub');
-const pusMmeModelAdapter = require('./pusModelEditor/pusMmeModel');
-const pusMmeModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusMmeModel.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusMmeModel');
+const pusMmeModelStub = require('./pusModelEditorMessages/pusMmeModel.stub');
+const pusMmeModelAdapter = require('./pusModelEditorMessages/pusMmeModel');
+const pusMmeModelBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/PusMmeModel.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusMmeModel');
 
-const pusMmePacketStub = require('./pusModelEditor/pusMmePacket.stub');
-const pusMmePacketAdapter = require('./pusModelEditor/pusMmePacket');
-const pusMmePacketBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusMmePacket.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusMmePacket');
+const pusMmePacketStub = require('./pusModelEditorMessages/pusMmePacket.stub');
+const pusMmePacketAdapter = require('./pusModelEditorMessages/pusMmePacket');
+const pusMmePacketBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/PusMmePacket.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusMmePacket');
 
-const pusMmePacketParameterStub = require('./pusModelEditor/pusMmePacketParameter.stub');
-const pusMmePacketParameterAdapter = require('./pusModelEditor/pusMmePacketParameter');
-const pusMmePacketParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusMmePacketParameter.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusMmePacketParameter');
+const pusMmePacketParameterStub = require('./pusModelEditorMessages/pusMmePacketParameter.stub');
+const pusMmePacketParameterAdapter = require('./pusModelEditorMessages/pusMmePacketParameter');
+const pusMmePacketParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/PusMmePacketParameter.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusMmePacketParameter');
 
-const pusMmePacketStoreStub = require('./pusModelEditor/pusMmePacketStore.stub');
-const pusMmePacketStoreAdapter = require('./pusModelEditor/pusMmePacketStore');
-const pusMmePacketStoreBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusMmePacketStore.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusMmePacketStore');
+const pusMmePacketStoreStub = require('./pusModelEditorMessages/pusMmePacketStore.stub');
+const pusMmePacketStoreAdapter = require('./pusModelEditorMessages/pusMmePacketStore');
+const pusMmePacketStoreBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/PusMmePacketStore.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusMmePacketStore');
 
-const pusParameterStub = require('./pusModelEditor/pusParameter.stub');
-const pusParameterAdapter = require('./pusModelEditor/pusParameter');
-const pusParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusParameter.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusParameter');
+const pusParameterStub = require('./pusModelEditorMessages/pusParameter.stub');
+const pusParameterAdapter = require('./pusModelEditorMessages/pusParameter');
+const pusParameterBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/PusParameter.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusParameter');
 
-const pusServiceApidStub = require('./pusModelEditor/pusServiceApid.stub');
-const pusServiceApidAdapter = require('./pusModelEditor/pusServiceApid');
-const pusServiceApidBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusServiceApid.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusServiceApid');
+const pusServiceApidStub = require('./pusModelEditorMessages/pusServiceApid.stub');
+const pusServiceApidAdapter = require('./pusModelEditorMessages/pusServiceApid');
+const pusServiceApidBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/PusServiceApid.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusServiceApid');
 
-const pusValueStub = require('./pusModelEditor/pusValue.stub');
-const pusValueAdapter = require('./pusModelEditor/pusValue');
-const pusValueBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/PusValue.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusValue');
+const pusValueStub = require('./pusModelEditorMessages/pusValue.stub');
+const pusValueAdapter = require('./pusModelEditorMessages/pusValue');
+const pusValueBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/PusValue.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.PusValue');
 
-const resetStructureStub = require('./pusModelEditor/resetStructure.stub');
-const resetStructureAdapter = require('./pusModelEditor/resetStructure');
-const resetStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/ResetStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.ResetStructure');
+const resetStructureStub = require('./pusModelEditorMessages/resetStructure.stub');
+const resetStructureAdapter = require('./pusModelEditorMessages/resetStructure');
+const resetStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/ResetStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.ResetStructure');
 
-const subscribeStructureStub = require('./pusModelEditor/subscribeStructure.stub');
-const subscribeStructureAdapter = require('./pusModelEditor/subscribeStructure');
-const subscribeStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/SubscribeStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.SubscribeStructure');
+const subscribeStructureStub = require('./pusModelEditorMessages/subscribeStructure.stub');
+const subscribeStructureAdapter = require('./pusModelEditorMessages/subscribeStructure');
+const subscribeStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/SubscribeStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.SubscribeStructure');
 
-const synchoniseStructureStub = require('./pusModelEditor/synchoniseStructure.stub');
-const synchoniseStructureAdapter = require('./pusModelEditor/synchoniseStructure');
-const synchoniseStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/SynchoniseStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.SynchoniseStructure');
+const synchoniseStructureStub = require('./pusModelEditorMessages/synchoniseStructure.stub');
+const synchoniseStructureAdapter = require('./pusModelEditorMessages/synchoniseStructure');
+const synchoniseStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/SynchoniseStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.SynchoniseStructure');
 
-const unsubscribeStructureStub = require('./pusModelEditor/unsubscribeStructure.stub');
-const unsubscribeStructureAdapter = require('./pusModelEditor/unsubscribeStructure');
-const unsubscribeStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditor/UnsubscribeStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.UnsubscribeStructure');
+const unsubscribeStructureStub = require('./pusModelEditorMessages/unsubscribeStructure.stub');
+const unsubscribeStructureAdapter = require('./pusModelEditorMessages/unsubscribeStructure');
+const unsubscribeStructureBuilder = new ProtoBuf.Root().loadSync(`${__dirname}/pusModelEditorMessages/UnsubscribeStructure.proto`, { keepCase: true }).lookup('pusModelEditorMessages.protobuf.UnsubscribeStructure');
 module.exports = {
   getAck: ackStub,
   getAckDeProtobuf: proto => ackAdapter.decode(ackBuilder.decode(proto)),

@@ -26,7 +26,6 @@ const initialConfiguration = {
         { title: 'validityParameterName', displayed: true },
         { title: 'validityParameterMask', displayed: true },
         { title: 'validityParameterExpectedValue', displayed: true },
-        { title: 'parameterCurrentValue', displayed: true },
         { title: 'ridEL', displayed: true },
         { title: 'ridLabelEL', displayed: true },
         { title: 'ridStatusEL', displayed: true },

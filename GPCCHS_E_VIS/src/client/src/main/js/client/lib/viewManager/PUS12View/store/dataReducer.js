@@ -101,14 +101,12 @@ function pus12DataReducer(state = {}, action) {
 
           ...isExpected ? {
             lastUpdateModeValParamId: updateTypes[String(_.getOr(200, 'lastUpdateModeValParamId', store))],
-            lastUpdateModeParamCurrentValue: updateTypes[String(_.getOr(200, 'lastUpdateModeParamCurrentValue', store))],
             lastUpdateModeValParamExpectValue: updateTypes[String(_.getOr(200, 'lastUpdateModeValParamExpectValue', store))],
             lastUpdateModeValParamMask: updateTypes[String(_.getOr(200, 'lastUpdateModeValParamMask', store))],
           } : {
             validityParameterId: '',
             validityParameterName: '',
             validityParameterMask: '',
-            parameterCurrentValue: '',
             validityParameterExpectedValue: '',
           },
         };

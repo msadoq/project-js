@@ -8,35 +8,32 @@ import VirtualizedTableViewContainer
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 
 
-const onBoardStoragesTooltips = {
-  storeId: { mode: 'lastUpdateModeStoreId', time: 'lastUpdateTimeStoreId' },
-  storageType: { mode: 'lastUpdateModeStoreType', time: 'lastUpdateTimeStoreType' },
-  status: { mode: 'lastUpdateModeStoreStatus', time: 'lastUpdateTimeStoreStatus' },
-};
-const _onBoardStoragesModifier = tableModifier(onBoardStoragesTooltips);
-
-const storageDefTooltips = {
-  packetType: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
-  subsamplingRatio: { mode: 'lastUpdateModeSubSamplingRatio', time: 'lastUpdateTimeSubSamplingRatio' },
-};
-const _storageDefContentModifier = tableModifier(storageDefTooltips);
-
 // ON BOARD STORAGES
-const _onBoardStoragesStatusKeyList = [
-  'status',
-];
+const _onBoardStoragesStatusKeyList = ['storeStatus', 'downlinkStatus'];
 // apply background color to cells for which value is ENABLED or DISABLED
 const _onBoardStoragesOverrideStyle = tableOverrideStyle(_onBoardStoragesStatusKeyList);
 
-// STORAGE DEFINITION
-const _storageDefStatusKeyList = [
-  'serviceType',
-  'serviceSubType',
-  'packetType',
-];
+const onBoardStoragesTooltips = {
+  storeId: { mode: 'lastUpdateModeStoreId', time: 'lastUpdateTimeStoreId' },
+  dumpEnabled: { mode: 'lastUpdateModeStoreId', time: 'lastUpdateTimeStoreId' },
+  storageType: { mode: 'lastUpdateModeStoreType', time: 'lastUpdateTimeStoreType' },
+  storeName: { mode: 'lastUpdateModeStoreType', time: 'lastUpdateTimeStoreId' },
+  storeStatus: { mode: 'lastUpdateModeStoreStatus', time: 'lastUpdateTimeStoreStatus' },
+  downlinkStatus: { mode: 'lastUpdateModeDownlinkStatus', time: 'lastUpdateTimeDownlinkStatus' },
+};
+const _onBoardStoragesModifier = tableModifier(onBoardStoragesTooltips);
 
-// apply background color to cells for which value is ENABLED or DISABLED
-const _storageDefOverrideStyle = tableOverrideStyle(_storageDefStatusKeyList);
+
+// STORAGE DEFINITIONS
+const storageDefTooltips = {
+  serviceType: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
+  serviceSubType: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
+  sid: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
+  sidLabel: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
+  sidName: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
+  subsamplingRatio: { mode: 'lastUpdateModeSubSamplingRatio', time: 'lastUpdateTimeSubSamplingRatio' },
+};
+const _storageDefContentModifier = tableModifier(storageDefTooltips);
 
 export default class PUS15View extends React.Component {
   static propTypes = {
@@ -98,7 +95,6 @@ export default class PUS15View extends React.Component {
                 viewId={viewId}
                 tableId={'storageDef'}
                 contentModifier={_storageDefContentModifier}
-                overrideStyle={_storageDefOverrideStyle}
               />
             </div>
           </div>

@@ -54,7 +54,6 @@ function pus05DataReducer(state = {}, action) {
           .map(boardEvent => ({
             ...boardEvent,
             onBoardStatus: statuses[String(_.getOr(200, 'onBoardStatus', boardEvent))],
-            defaultOnBoardStatus: statuses[String(_.getOr(200, 'onBoardStatus', boardEvent))],
             lastUpdateModeRid: updateTypes[String(_.getOr(200, 'lastUpdateModeRid', boardEvent))],
             lastUpdateModeOnBoardStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeOnBoardStatus', boardEvent))],
             lastUpdateModeAlarmLevel: updateTypes[String(_.getOr(200, 'lastUpdateModeAlarmLevel', boardEvent))],
@@ -62,18 +61,19 @@ function pus05DataReducer(state = {}, action) {
       );
       updatedState = injectTabularData(updatedState, 'received',
         _.getOr([], ['pus005ReceivedOnBoardEvent'], data)
-        .map(received => ({
-          ..._.omit(['parameter'], received),
-          ..._.getOr([], 'parameter', received)
-            .reduce((a, c, i) => {
-              // console.log(JSON.stringify(a, null, 2));
-              _.set('param'.concat(i + 1), c.name, a);
-              _.set('value'.concat(i + 1), c.value, a);
-              return a;
-            }, {}),
-        }))
+          .map(received => ({
+            ..._.omit(['parameter'], received),
+            ..._.getOr([], 'parameter', received) // 10 first parameters received
+              .slice(0, 10)
+              .map((param, i) => (
+                _.mapKeys(
+                  value => value.concat(i + 1)
+                  , param
+                )
+              ))
+              .reduce((a, c) => _.assign(c, a), {}),
+          }))
       );
-
       return updatedState;
     }
     default:

@@ -90,51 +90,51 @@ describe('viewManager/PUS05View/store/dataReducer', () => {
                 baz: 'baz2',
                 parameter: [
                   {
-                    name: 'name',
+                    name: 'name1',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name2',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name3',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name4',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name5',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name6',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name7',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name8',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name9',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name10',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name11',
                     value: 'value',
                   },
                   {
-                    name: 'name',
+                    name: 'name12',
                     value: 'value',
                   },
                 ],

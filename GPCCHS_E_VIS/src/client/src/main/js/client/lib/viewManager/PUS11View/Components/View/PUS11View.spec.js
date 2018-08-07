@@ -50,7 +50,7 @@ describe('viewManager/PUS11View/Components/View/PUS11View', () => {
   describe('generatePopover', () => {
     it('should match snapshot with valida data', () => {
       const date = 1527520025823;
-      expect(generatePopover({ id: 'id', title: 'title', time: date, mode: 'TM' })).toMatchSnapshot();
+      expect(generatePopover('id', date, 'TM')).toMatchSnapshot();
     });
   });
 });

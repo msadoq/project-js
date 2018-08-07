@@ -35,26 +35,3 @@ exports[`viewManager/PUS05View/Components/View/PUS05View PUS05View :: renderInva
   </div>
 </div>
 `;
-
-exports[`viewManager/PUS05View/Components/View/PUS05View generatePopover should match snapshot with valida data 1`] = `
-<Popover
-  bsClass="popover"
-  id="id"
-  placement="bottom"
-  style={
-    Object {
-      "height": 80,
-    }
-  }
-  title="title"
->
-  <div>
-    Last update Time: 
-    1527520025823
-  </div>
-  <div>
-    Last update mode: 
-    TM
-  </div>
-</Popover>
-`;

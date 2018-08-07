@@ -13,10 +13,10 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
         data: {
           PUS11View: {
             foo: 'foo',
-            scheduleStatus: '1',
-            lastUpdateModeScheduleStatus: '1',
-            lastUpdateModeNoFreeCommands: '2',
-            lastUpdateModeFreeSpace: '3',
+            scheduleStatus: 1,
+            lastUpdateModeScheduleStatus: 1,
+            lastUpdateModeNoFreeCommands: 2,
+            lastUpdateModeFreeSpace: 3,
             pus011SubSchedule: [
               {
                 baz: 'baz',
@@ -50,7 +50,7 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
                 lastUpdateModeBinProf: 1,
                 commandStatus: 1,
                 lastUpdateModeGroundStatus: 1,
-                commandGroundStatus: 1,
+                commandGroundStatus: '1',
                 lastUpdateModeStatus: 1,
                 lastUpdateModeCurrentExecTime: 1,
                 lastUpdateModeInitialExecTime: 1,
@@ -121,7 +121,7 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
                 lastUpdateModeBinProf: 'TC',
                 commandStatus: 'DISABLED',
                 lastUpdateModeGroundStatus: 'TC',
-                commandGroundStatus: 'DISABLED',
+                commandGroundStatus: 'ACCEPTANCE SUCCESS',
                 lastUpdateModeStatus: 'TC',
                 lastUpdateModeCurrentExecTime: 'TC',
                 lastUpdateModeInitialExecTime: 'TC',

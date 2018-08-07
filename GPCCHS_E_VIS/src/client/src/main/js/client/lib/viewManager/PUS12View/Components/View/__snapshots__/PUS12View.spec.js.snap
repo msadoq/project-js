@@ -21,14 +21,14 @@ exports[`viewManager/PUS12View/Components/View/PUS12View PUS12View :: render sna
            
         </div>
         <HeaderStatus
+          id="popover-service-status"
           label="Service Satus"
-          lastUpdateMode={null}
+          lastUpdateMode="TC"
           lastUpdateTime="1528359679639"
-          pusTag="12"
-          status={1}
+          status="ENABLED"
         />
         <div
-          className="info col-sm-4 pus12_ap"
+          className="info col-sm-4 pus12_as"
         >
           Number Monitoring 
           <input

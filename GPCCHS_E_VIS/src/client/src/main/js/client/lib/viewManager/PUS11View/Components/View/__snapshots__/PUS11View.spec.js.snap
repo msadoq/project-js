@@ -43,18 +43,31 @@ exports[`viewManager/PUS11View/Components/View/PUS11View generatePopover should 
   placement="bottom"
   style={
     Object {
-      "height": 80,
+      "height": 70,
     }
   }
-  title="title"
 >
-  <div>
-    Last update Time: 
-    1527520025823
-  </div>
-  <div>
-    Last update mode: 
-    TM
-  </div>
+  <table
+    className="popoverTable"
+  >
+    <tbody>
+      <tr>
+        <th>
+          lastUpdateMode
+        </th>
+        <td>
+          TM
+        </td>
+      </tr>
+      <tr>
+        <th>
+          lastUpdateTime
+        </th>
+        <td>
+          1527520025823
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </Popover>
 `;

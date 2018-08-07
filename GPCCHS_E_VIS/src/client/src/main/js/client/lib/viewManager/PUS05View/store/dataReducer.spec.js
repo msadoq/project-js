@@ -17,7 +17,6 @@ describe('viewManager/PUS05View/store/dataReducer', () => {
               {
                 baz: 'baz',
                 onBoardStatus: 1,
-                defaultOnBoardStatus: 1,
                 lastUpdateModeRid: 1,
                 lastUpdateModeOnBoardStatus: 1,
                 lastUpdateModeAlarmLevel: 1,
@@ -26,7 +25,6 @@ describe('viewManager/PUS05View/store/dataReducer', () => {
               {
                 baz: 'baz',
                 onBoardStatus: 2,
-                defaultOnBoardStatus: 2,
                 lastUpdateModeRid: 2,
                 lastUpdateModeOnBoardStatus: 2,
                 lastUpdateModeAlarmLevel: 2,
@@ -153,7 +151,6 @@ describe('viewManager/PUS05View/store/dataReducer', () => {
               {
                 baz: 'baz',
                 onBoardStatus: 'DISABLED',
-                defaultOnBoardStatus: 'DISABLED',
                 lastUpdateModeRid: 'TC',
                 lastUpdateModeOnBoardStatus: 'TC',
                 lastUpdateModeAlarmLevel: 'TC',
@@ -161,7 +158,6 @@ describe('viewManager/PUS05View/store/dataReducer', () => {
               {
                 baz: 'baz',
                 onBoardStatus: 'ENABLED',
-                defaultOnBoardStatus: 'ENABLED',
                 lastUpdateModeRid: 'TM',
                 lastUpdateModeOnBoardStatus: 'TM',
                 lastUpdateModeAlarmLevel: 'TM',

@@ -20,12 +20,7 @@
 	  .mw100 {
 		max-width: 100px;
 		}
-		.disabled{
-			background-color: #e67e22;
-		}
-		.enabled{
-			background-color: #2ecc71;
-		}
+		&.pus12_ap { justify-content: flex-start; }
 	  &.pus12_ss { justify-content: center; }
 	  &.pus12_as { justify-content: flex-end; }
 	}

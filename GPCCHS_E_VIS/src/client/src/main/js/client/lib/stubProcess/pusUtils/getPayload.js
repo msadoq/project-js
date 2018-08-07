@@ -4,8 +4,8 @@ const constants = require('../../constants');
 
 const stubData = stubs.getStubData();
 const getAFileMode = () => predictibleRand.getFrom(['1', '2']);
-const getAStatus = () => predictibleRand.getFrom(['1', '2', '3', '200']);
-const getAnUpdateMode = () => predictibleRand.getFrom(['1', '2', '3', '4']);
+const getAStatus = () => predictibleRand.getFrom([1, 2, 3, 200]);
+const getAnUpdateMode = () => predictibleRand.getInt([1, 4]);
 const getABoolean = () => predictibleRand.getBool();
 const getAGroundStatus = () => predictibleRand.getInt([1, 8]).toString();
 
@@ -333,7 +333,7 @@ const getDataByPusService = (pusService, timestamp) => {
               lastUpdateTimeParamCurrentValue: timestamp.toString(),
               lastUpdateTimeValParamExpectValue: timestamp.toString(),
               lastUpdateTimeValParamMask: timestamp.toString(),
-              lastUpdateTimeCheckTime: timestamp.toString(),
+              lastUpdateTimeCheckType: timestamp.toString(),
               lastUpdateTimeMonStatus: timestamp.toString(),
               lastUpdateTimeProtectionStatus: timestamp.toString(),
               pus012MonitoringCheckPropertiesLow: stubData.getPus012MonitoringCheckProperties({
@@ -403,7 +403,7 @@ const getDataByPusService = (pusService, timestamp) => {
               lastUpdateTimeParamCurrentValue: timestamp.toString(),
               lastUpdateTimeValParamExpectValue: timestamp.toString(),
               lastUpdateTimeValParamMask: timestamp.toString(),
-              lastUpdateTimeCheckTime: timestamp.toString(),
+              lastUpdateTimeCheckType: timestamp.toString(),
               lastUpdateTimeMonStatus: timestamp.toString(),
               lastUpdateTimeProtectionStatus: timestamp.toString(),
               pus012MonitoringCheckPropertiesLow: stubData.getPus012MonitoringCheckProperties({

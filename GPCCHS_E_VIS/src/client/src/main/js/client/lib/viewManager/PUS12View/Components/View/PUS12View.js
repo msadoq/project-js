@@ -16,7 +16,7 @@ const tooltips = {
   protectionStatus: { mode: 'lastUpdateModeProtectionStatus', time: 'lastUpdateTimeProtectionStatus' },
   monitoringInterval: { mode: 'lastUpdateModeMonInterval', time: 'lastUpdateTimeMonInterval' },
   repetitionNumber: { mode: 'lastUpdateModeRepetition', time: 'lastUpdateTimeRepetition' },
-  checkType: { mode: 'lastUpdateModeCheckType', time: 'lastUpdateTimeCheckTime' },
+  checkType: { mode: 'lastUpdateModeCheckType', time: 'lastUpdateTimeCheckType' },
   validityParameterId: { mode: 'lastUpdateModeValParamId', time: 'lastUpdateTimeValParamId' },
   validityParameterMask: { mode: 'lastUpdateModeValParamMask', time: 'lastUpdateTimeValParamMask' },
   parameterCurrentValue: { mode: 'lastUpdateModeParamCurrentValue', time: 'lastUpdateTimeParamCurrentValue' },
@@ -142,7 +142,7 @@ export const renderHeaders = (
       lastUpdateTime={lastUpdateTimeServiceStatus}
       label="Service Satus"
     />
-    <div className="info col-sm-4 pus12_ap">
+    <div className="info col-sm-4 pus12_as">
       Number Monitoring&nbsp;
       <input type="text" disabled value={noOfParameterMonitoringDefinition} />&nbsp;
     </div>

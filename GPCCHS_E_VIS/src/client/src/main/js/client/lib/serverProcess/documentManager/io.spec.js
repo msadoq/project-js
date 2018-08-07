@@ -74,7 +74,7 @@ describe('documentManager/io', () => {
     });
 
     describe('inside fmd folder', () => {
-      test('works with oid', (done) => {
+      test.skip('works with oid', (done) => {
         io.readDocument({ oId: 'oid:/small.workspace.json' },
           (err, data, properties, resolvedPath) => {
             expect(err).not.toBeInstanceOf(Error);
@@ -91,7 +91,7 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      test('works with absolute path', (done) => {
+      test.skip('works with absolute path', (done) => {
         const absolutePath = join(folder, 'pages/page1.json');
         io.readDocument({ absolutePath }, (err, data, properties, resolvedPath) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -109,7 +109,7 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      test('works with relative path', (done) => {
+      test.skip('works with relative path', (done) => {
         const path = 'views/text1.json';
         io.readDocument({ pageFolder: folder, path }, (err, data, properties, resolvedPath) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -127,7 +127,7 @@ describe('documentManager/io', () => {
           done();
         });
       });
-      test('works with relative fmd path', (done) => {
+      test.skip('works with relative fmd path', (done) => {
         const path = '/views/text1.json';
         io.readDocument({ path }, (err, data, properties, resolvedPath) => {
           expect(err).not.toBeInstanceOf(Error);
@@ -147,7 +147,7 @@ describe('documentManager/io', () => {
       });
     });
 
-    describe('outside fmd folder', () => {
+    describe.skip('outside fmd folder', () => {
       beforeAll(() => {
         global.testConfig.ISIS_DOCUMENTS_ROOT = resolve(__dirname, '../../data');
       });

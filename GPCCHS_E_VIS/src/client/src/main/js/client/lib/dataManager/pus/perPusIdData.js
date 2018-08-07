@@ -14,47 +14,47 @@ export function addApidInPusIdMap(pusIdMap, ep, viewId) {
   if (!apidName) {
     return pusIdMap;
   }
-  const pusId = getPusFlattenId(apidName, dataId);
+  const pusId = getPusFlattenId(apids, dataId);
 
   const newMap = pusIdMap || {};
 
   let pusService;
   switch (type) {
-    case 'PUS05View':
-      pusService = 5;
+    case 'PUS5View':
+      pusService = constants.PUS_SERVICE_05;
       break;
     case 'PUS11View':
-      pusService = 11;
+      pusService = constants.PUS_SERVICE_11;
       break;
     case 'PUS12View':
-      pusService = 12;
+      pusService = constants.PUS_SERVICE_12;
       break;
     case 'PUS13View':
-      pusService = 13;
+      pusService = constants.PUS_SERVICE_13;
       break;
     case 'PUS14View':
-      pusService = 14;
+      pusService = constants.PUS_SERVICE_14;
       break;
     case 'PUS15View':
-      pusService = 15;
+      pusService = constants.PUS_SERVICE_15;
       break;
     case 'PUS18View':
-      pusService = 18;
+      pusService = constants.PUS_SERVICE_18;
       break;
     case 'PUS19View':
-      pusService = 19;
+      pusService = constants.PUS_SERVICE_19;
       break;
     case 'PUS140View':
-      pusService = 140;
+      pusService = constants.PUS_SERVICE_140;
       break;
     case 'PUS142View':
-      pusService = 142;
+      pusService = constants.PUS_SERVICE_142;
       break;
-    case 'PUS144View':
-      pusService = 144;
+    case 'PUS1444View':
+      pusService = constants.PUS_SERVICE_144;
       break;
     case 'PUSMMEView':
-      pusService = 0;
+      pusService = constants.PUS_SERVICE_MME;
       break;
     default:
       pusService = null;

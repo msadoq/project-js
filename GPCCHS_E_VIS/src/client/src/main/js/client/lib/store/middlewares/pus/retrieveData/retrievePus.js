@@ -2,8 +2,6 @@ import * as types from 'store/types';
 // import { PREFIX_PUS_MODELS, PREFIX_PUS_DELTA } from 'constants';
 import executionMonitor from 'common/logManager/execution';
 import { PREFIX_PUS } from 'constants';
-import { getRecordsByInterval } from '../../../../serverProcess/models/lokiGeneric';
-import { newData } from '../../../actions/incomingData';
 import { getMissingIntervals } from '../../../reducers/pus';
 import mergeIntervals from '../../../../common/intervals/merge';
 import { add } from '../../../../serverProcess/models/registeredArchiveQueriesSingleton';
@@ -24,12 +22,8 @@ const retrievePus = ipc => ({ dispatch, getState }) => next => (action) => {
       const id = ids[i];
       const { intervals, apidName, dataId } = neededPus[ids[i]];
 
-      // TODO @jmira remove cache for pus
-      // getting records from cache, if there is somme dispatch them with newData
-      const pusRecords = getRecordsByInterval(PREFIX_PUS, id, intervals);
-      if (Object.keys(pusRecords[id]).length !== 0) {
-        dispatch(newData({ [PREFIX_PUS]: pusRecords }));
-      }
+      const { apids } = dataId;
+      const apidRawValues = apids.map(apid => ({ value: apid.apidRawValue }));
 
       let mergedInterval = [];
       for (let k = 0; k < intervals.length; k += 1) {
@@ -45,6 +39,7 @@ const retrievePus = ipc => ({ dispatch, getState }) => next => (action) => {
               sessionId: dataId.sessionId,
               domainId: dataId.domainId,
               pusService: dataId.pusService, // type de pus 11, mme, 12 ...
+              pusServiceApid: apidRawValues, // apids
             }, // header
             false, // forReplay
             missingIntervals[j][0], // firstTime,
@@ -61,7 +56,7 @@ const retrievePus = ipc => ({ dispatch, getState }) => next => (action) => {
         execution.stop('merge interval');
       }
       if (mergedInterval.length !== 0) {
-        dispatch(sendArchiveQuery(id, apidName, mergedInterval));
+        dispatch(sendArchiveQuery(dataId.pusService, id, apidName, mergedInterval));
       }
     }
     execution.stop('global');

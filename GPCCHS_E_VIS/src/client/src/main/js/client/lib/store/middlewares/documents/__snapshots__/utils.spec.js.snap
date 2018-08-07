@@ -241,6 +241,14 @@ Array [
   Array [
     Object {
       "extensions": Array [
+        "pus05",
+      ],
+      "name": "PUS05View",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
         "pus11",
       ],
       "name": "PUS11View",
@@ -257,6 +265,14 @@ Array [
   Array [
     Object {
       "extensions": Array [
+        "pus13",
+      ],
+      "name": "PUS13View",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
         "pus14",
       ],
       "name": "PUS14View",
@@ -268,6 +284,46 @@ Array [
         "pus15",
       ],
       "name": "PUS15View",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "pus18",
+      ],
+      "name": "PUS18View",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "pus19",
+      ],
+      "name": "PUS19View",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "pus140",
+      ],
+      "name": "PUS140View",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "pus142",
+      ],
+      "name": "PUS142View",
+    },
+  ],
+  Array [
+    Object {
+      "extensions": Array [
+        "pus144",
+      ],
+      "name": "PUS144View",
     },
   ],
   Array [

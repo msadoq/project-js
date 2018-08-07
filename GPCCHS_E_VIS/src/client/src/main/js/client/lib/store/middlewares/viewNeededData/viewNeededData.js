@@ -17,8 +17,8 @@ import { getWindowsOpened, getIsWorkspaceOpening } from 'store/reducers/hsc';
 import execution from 'common/logManager/execution';
 import computeMissingRangeIntervals from 'store/observers/computeMissingRangeIntervals';
 import computeMissingLastIntervals from 'store/observers/computeMissingLastIntervals';
-
-import computeMissingPusIntervals from 'store/observers/computeMissingPusIntervals';import { viewsNeedRange, viewsNeedLast, viewsNeedObsoleteEvent, viewsNeedPus } from 'store/actions/retrieveData';
+import computeMissingPusIntervals from 'store/observers/computeMissingPusIntervals';
+import { viewsNeedRange, viewsNeedLast, viewsNeedObsoleteEvent, viewsNeedPus } from 'store/actions/retrieveData';
 import { cleanViewData } from 'store/actions/viewData';
 
 const makeViewNeededData = () => {

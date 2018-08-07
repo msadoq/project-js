@@ -68,6 +68,15 @@ Array [
   },
   Object {
     "payload": Object {
+      "catalogName": "Reporting",
+      "domainId": "domainId",
+      "itemName": "error",
+      "sessionId": "sessionId",
+    },
+    "type": "WS_REPORTING_ITEM_PACKETS_ASK",
+  },
+  Object {
+    "payload": Object {
       "loading": true,
     },
     "type": "HSC_IS_INSPECTOR_STATIC_DATA_LOADING",
@@ -171,6 +180,15 @@ Array [
       "sessionId": "sessionId",
     },
     "type": "WS_ITEM_METADATA_ASK",
+  },
+  Object {
+    "payload": Object {
+      "catalogName": "Reporting",
+      "domainId": "domainId",
+      "itemName": "nodata",
+      "sessionId": "sessionId",
+    },
+    "type": "WS_REPORTING_ITEM_PACKETS_ASK",
   },
   Object {
     "payload": Object {
@@ -280,6 +298,15 @@ Array [
   },
   Object {
     "payload": Object {
+      "catalogName": "Reporting",
+      "domainId": "domainId",
+      "itemName": "param",
+      "sessionId": "sessionId",
+    },
+    "type": "WS_REPORTING_ITEM_PACKETS_ASK",
+  },
+  Object {
+    "payload": Object {
       "loading": true,
     },
     "type": "HSC_IS_INSPECTOR_STATIC_DATA_LOADING",
@@ -369,6 +396,15 @@ Array [
       "sessionId": "sessionId",
     },
     "type": "WS_ITEM_METADATA_ASK",
+  },
+  Object {
+    "payload": Object {
+      "catalogName": "Reporting",
+      "domainId": "domainId",
+      "itemName": "param",
+      "sessionId": "sessionId",
+    },
+    "type": "WS_REPORTING_ITEM_PACKETS_ASK",
   },
   Object {
     "payload": Object {

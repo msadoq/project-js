@@ -1,3 +1,4 @@
+const _omit = require('lodash/omit');
 const logger = require('../../common/logManager')('stubs:utils');
 const constants = require('../../constants');
 const getPayload = require('./getPayload');
@@ -19,7 +20,7 @@ module.exports = function sendPusData(
     sessionId,
     domainId,
     pusService,
-    // pusServiceApid,
+    pusServiceApid,
     // messageUniqueId,
   } = header;
   const {
@@ -28,6 +29,8 @@ module.exports = function sendPusData(
     lastTime,
     // continuous,
   } = structure;
+
+  const cleanPusServiceApid = pusServiceApid.map(apid => _omit(apid.value, 'type'));
 
   const from = firstTime.value;
   const to = lastTime.value;
@@ -49,9 +52,13 @@ module.exports = function sendPusData(
        timestamp += constants.PUS_STUB_VALUE_TIMESTEP
   ) {
     if (shouldPushANewValue(timestamp, previousTimestamp)) {
-      const payload = getPayload(pusService.value, timestamp);
-      if (payload !== null) {
-        payloads.push(payload);
+      const forceModel = timestamp === from;
+      for (let i = 0; i < cleanPusServiceApid.length; i += 1) {
+        const payload =
+          getPayload(pusService.value, cleanPusServiceApid[i].value, timestamp, forceModel);
+        if (payload !== null) {
+          payloads.push(payload);
+        }
       }
     }
     previousTimestamp = timestamp;
@@ -69,6 +76,7 @@ module.exports = function sendPusData(
           sessionId: sessionId.value,
           domainId: domainId.value,
           pusService: pusService.value,
+          pusServiceApid: cleanPusServiceApid,
         }),
         payload,
       ]);

@@ -151,7 +151,7 @@ function pus13DataReducer(state = {}, action) {
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
       updatedState = injectTabularData(updatedState, 'parameterMonitoringDefinitions',
-        _.getOr(null, ['pus012ParameterMonitoringDefinition'], data)
+        _.getOr([], ['pus012ParameterMonitoringDefinition'], data)
         .map(store => ({
           ...selectExpectedData(store),
           ...getELData(store),

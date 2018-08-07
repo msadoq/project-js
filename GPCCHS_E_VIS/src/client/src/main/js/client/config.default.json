@@ -36,136 +36,40 @@
   },
   "STATE_COLORS": {
     "nominal": [
-      {
-        "obsolete": true,
-        "significant": true,
-        "color": "#3498db"
-      },
-      {
-        "obsolete": true,
-        "significant": false,
-        "color": "#bdc3c7"
-      },
-      {
-        "obsolete": false,
-        "significant": true,
-        "color": "#2ecc71"
-      },
-      {
-        "obsolete": false,
-        "significant": false,
-        "color": "#95a5a6"
-      }
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#2ecc71" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
     ],
     "warning": [
-      {
-        "obsolete": true,
-        "significant": true,
-        "color": "#3498db"
-      },
-      {
-        "obsolete": true,
-        "significant": false,
-        "color": "#bdc3c7"
-      },
-      {
-        "obsolete": false,
-        "significant": true,
-        "color": "#f1c40f"
-      },
-      {
-        "obsolete": false,
-        "significant": false,
-        "color": "#95a5a6"
-      }
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#f1c40f" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
     ],
     "danger": [
-      {
-        "obsolete": true,
-        "significant": true,
-        "color": "#3498db"
-      },
-      {
-        "obsolete": true,
-        "significant": false,
-        "color": "#bdc3c7"
-      },
-      {
-        "obsolete": false,
-        "significant": true,
-        "color": "#e67e22"
-      },
-      {
-        "obsolete": false,
-        "significant": false,
-        "color": "#95a5a6"
-      }
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#e67e22" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
     ],
     "severe": [
-      {
-        "obsolete": true,
-        "significant": true,
-        "color": "#3498db"
-      },
-      {
-        "obsolete": true,
-        "significant": false,
-        "color": "#bdc3c7"
-      },
-      {
-        "obsolete": false,
-        "significant": true,
-        "color": "#d35400"
-      },
-      {
-        "obsolete": false,
-        "significant": false,
-        "color": "#95a5a6"
-      }
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#d35400" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
     ],
     "critical": [
-      {
-        "obsolete": true,
-        "significant": true,
-        "color": "#3498db"
-      },
-      {
-        "obsolete": true,
-        "significant": false,
-        "color": "#bdc3c7"
-      },
-      {
-        "obsolete": false,
-        "significant": true,
-        "color": "#e74c3c"
-      },
-      {
-        "obsolete": false,
-        "significant": false,
-        "color": "#95a5a6"
-      }
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#e74c3c" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
     ],
     "outOfRange": [
-      {
-        "obsolete": true,
-        "significant": true,
-        "color": "#3498db"
-      },
-      {
-        "obsolete": true,
-        "significant": false,
-        "color": "#bdc3c7"
-      },
-      {
-        "obsolete": false,
-        "significant": true,
-        "color": "#c0392b"
-      },
-      {
-        "obsolete": false,
-        "significant": false,
-        "color": "#95a5a6"
-      }
+      { "obsolete": true, "significant": true, "color": "#3498db" },
+      { "obsolete": true, "significant": false, "color": "#bdc3c7" },
+      { "obsolete": false, "significant": true, "color": "#c0392b" },
+      { "obsolete": false, "significant": false, "color": "#95a5a6" }
     ]
   },
   "FORECAST": 30000,
@@ -304,10 +208,6 @@
     {
       "path": "./adapters/",
       "ns": "dc"
-    },
-    {
-      "path": "./adapters/",
-      "ns": "pusActor"
     }
   ],
   "DISABLE_LOKI_CACHE": false,
@@ -319,71 +219,19 @@
   "DATE_FORMAT_TAI": "YYYY-MM-DDTHH:mm:ss.SSS",
   "PUS_CONSTANTS": {
     "ENABLED_SERVICE_APIDS": {
-      "PUS03View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS05View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS11View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS12View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS13View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS14View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS15View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS18View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS19View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS140View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS142View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUS144View": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ],
-      "PUSMMEView": [
-        "TIMEPACKET",
-        "ORBIT",
-        "POWERMGT"
-      ]
+      "PUS03View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS05View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS11View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS12View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS13View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS14View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS15View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS18View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS19View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS140View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS142View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUS144View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
+      "PUSMMEView": ["TIMEPACKET", "ORBIT", "POWERMGT"]
     },
     "UPDATE_TYPE": {
       "1": "TC",

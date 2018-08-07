@@ -3,7 +3,7 @@
 exports[`documentManager:readView creates a simple view using readed document 1`] = `
 Object {
   "value": Object {
-    "absolutePath": "/a/fake/absolute/path",
+    "absolutePath": undefined,
     "configuration": Object {
       "content": "",
       "entryPoints": Array [],
@@ -16,9 +16,11 @@ Object {
     "links": Array [],
     "oId": "an oid",
     "path": "/a/path",
+    "properties": null,
     "title": "New Text View",
     "type": "TextView",
     "uuid": "fake-uuid",
+    "version": "/a/fake/absolute/path",
   },
 }
 `;
@@ -26,7 +28,7 @@ Object {
 exports[`documentManager:readView creates a simple view with random uuid 1`] = `
 Object {
   "value": Object {
-    "absolutePath": "/a/fake/absolute/path",
+    "absolutePath": undefined,
     "configuration": Object {
       "content": "",
       "entryPoints": Array [],
@@ -39,8 +41,10 @@ Object {
     "links": Array [],
     "oId": "an oid",
     "path": "/a/path",
+    "properties": null,
     "title": "New Text View",
     "type": "TextView",
+    "version": "/a/fake/absolute/path",
   },
 }
 `;

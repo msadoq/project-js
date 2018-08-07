@@ -3,12 +3,16 @@
 exports[`windowProcess windowProcess :: View windowProcess :: View:: HeaderContainer should render correctly with valid data 1`] = `
 <div
   className="container"
+  style={
+    Object {
+      "background": "#CCC",
+    }
+  }
 >
   <div
     className="moveHandler ellipsis title"
     style={
       Object {
-        "background": "#CCC",
         "color": "#FFF",
         "fontFamily": null,
         "fontSize": null,
@@ -20,9 +24,33 @@ exports[`windowProcess windowProcess :: View windowProcess :: View:: HeaderConta
       }
     }
   >
-    Untitled 
-    
+    Untitled
+
   </div>
+  <div
+    className="versionContainer"
+  >
+    Version:
+  </div>
+  <div
+    className="versionContainer"
+    style={
+      Object {
+        "color": "white",
+      }
+    }
+  />
+  <div
+    className="versionContainer"
+    style={
+      Object {
+        "color": "white",
+      }
+    }
+  />
+  <div
+    className="ghostDiv"
+  />
   <div
     className="dropDownButtonContainer"
   >

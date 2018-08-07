@@ -4,7 +4,7 @@ import injectPusDataMiddleware from './incomingData/injectPusData';
 
 const makeCallback = () => () => {};
 
-const pusTestMiddleware = ipc => (/* { dispatch, getState } */) => next => (action) => {
+const pusMiddleware = ipc => (/* { dispatch, getState } */) => next => (action) => {
   const nextAction = next(action);
   if (action.type === types.PUS_TEMP_INITIALIZE) {
     ipc.pus.initialize(
@@ -44,5 +44,5 @@ const pusTestMiddleware = ipc => (/* { dispatch, getState } */) => next => (acti
 export const createPusDataMiddleware = () => pipeMiddlewares(
   injectPusDataMiddleware()
 );
-export default pusTestMiddleware;
+export default pusMiddleware;
 

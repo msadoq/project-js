@@ -99,12 +99,18 @@ export const getFlattenDataIdForObsoleteEvent = (dataId) => {
   return `${parameterName}:${sessionId}:${domainId}:::`;
 };
 
-export const getPusFlattenId = (apidName, dataId) => {
+export const getPusFlattenId = (apids, dataId) => {
   const {
     sessionId,
     domainId,
   } = dataId;
-  return `${apidName}:${sessionId}:${domainId}`;
+  let apidRawValues = '';
+  if (apids.length && apids[0].apidRawValue !== undefined) {
+    apidRawValues = apids.map(apid => apid.apidRawValue).sort().join(',');
+  } else if (apids.length) {
+    apidRawValues = apids.join(',');
+  }
+  return `${apidRawValues}:${sessionId}:${domainId}`;
 };
 
 /**

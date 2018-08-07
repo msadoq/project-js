@@ -118,3 +118,7 @@ export const getSessionNameFromTimeline = createSelector(
     || ((timelineId === wildcardCharacter) && wildcardCharacter)
     || null
 );
+
+export const getSessionIdFromTimeline = createSelector(
+  getSessionByTimelineId
+);

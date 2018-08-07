@@ -1,24 +1,13 @@
-const logger = require('../../../common/logManager')('controllers:PUS:onInitialize');
 const _forEach = require('lodash/forEach');
+const { getPusFlattenId } = require('common/flattenDataId');
+const logger = require('../../../common/logManager')('controllers:PUS:onInitialize');
 const { decode } = require('../../../utils/adapters');
 const { add: addMessage } = require('../../../store/actions/messages');
-const { injectPusData } = require('store/actions/pus');
+const { savePusData } = require('store/actions/pus');
 const constants = require('../../../constants');
+const { getViewType } = require('../../../viewManager/common/pus/utils');
 
-const {
-  VM_VIEW_PUS05,
-  VM_VIEW_PUS11,
-  VM_VIEW_PUS12,
-  VM_VIEW_PUS13,
-  VM_VIEW_PUS14,
-  VM_VIEW_PUS15,
-  VM_VIEW_PUS18,
-  VM_VIEW_PUS19,
-  VM_VIEW_PUS140,
-  VM_VIEW_PUS142,
-  VM_VIEW_PUS144,
-  VM_VIEW_PUSMME,
-} = require('viewManager/constants');
+const { MODELS } = require('viewManager/constants');
 
 /* eslint-disable complexity */
 const getDecodedPayload = (dataType, payload) => {
@@ -31,6 +20,9 @@ const getDecodedPayload = (dataType, payload) => {
     }
     case constants.Pus011CommandType: {
       return decode('isis.pusModelEditorMessages.Pus011Command', payload);
+    }
+    case constants.Pus011ApidType: {
+      return decode('isis.pusModelEditorMessages.Pus011Apid', payload);
     }
     case constants.Pus011ModelType: {
       return decode('isis.pusModelEditorMessages.Pus011Model', payload);
@@ -107,49 +99,7 @@ const getDecodedPayload = (dataType, payload) => {
   }
 };
 
-const getViewType = (pusService) => {
-  switch (pusService) {
-    case 5: {
-      return VM_VIEW_PUS05;
-    }
-    case 11: {
-      return VM_VIEW_PUS11;
-    }
-    case 12: {
-      return VM_VIEW_PUS12;
-    }
-    case 13: {
-      return VM_VIEW_PUS13;
-    }
-    case 14: {
-      return VM_VIEW_PUS14;
-    }
-    case 15: {
-      return VM_VIEW_PUS15;
-    }
-    case 18: {
-      return VM_VIEW_PUS18;
-    }
-    case 19: {
-      return VM_VIEW_PUS19;
-    }
-    case 140: {
-      return VM_VIEW_PUS140;
-    }
-    case 142: {
-      return VM_VIEW_PUS142;
-    }
-    case 144: {
-      return VM_VIEW_PUS144;
-    }
-    case 0: {
-      return VM_VIEW_PUSMME;
-    }
-    default: {
-      return null;
-    }
-  }
-};
+const isModel = dataType => MODELS.indexOf(dataType) !== -1;
 
 const cleanupPayload = (payload) => {
   const newPayload = {};
@@ -160,8 +110,8 @@ const cleanupPayload = (payload) => {
       newPayload[key] = [];
       _forEach(payload[key], data => newPayload[key].push(cleanupPayload(data)));
     } else if (typeof payload[key] === 'object') {
-      if (payload[key].value && typeof payload[key].value !== 'object') {
-        newPayload[key] = payload[key].value;
+      if (payload[key].symbol || (payload[key].value !== undefined && typeof payload[key].value !== 'object')) {
+        newPayload[key] = payload[key].symbol || payload[key].value;
       } else {
         newPayload[key] = cleanupPayload(payload[key]);
       }
@@ -170,18 +120,24 @@ const cleanupPayload = (payload) => {
   return newPayload;
 };
 
-const onPusData = (messageData, pusService, getStore) => {
+const onPusData = (messageData, pusService, apids, domainId, sessionId, getStore) => {
   logger.silly('called');
   const store = getStore();
   try {
-    const { dataType, payload } = decode('isis.pusModelEditorMessages.DataStructure', messageData);
+    const { dataType, groundDate, payload } = decode('isis.pusModelEditorMessages.DataStructure', messageData);
     const decodedPayload = getDecodedPayload(dataType.value, payload.value);
     const cleanPayload = cleanupPayload(decodedPayload);
     const viewType = getViewType(pusService);
-    store.dispatch(injectPusData({
-      [viewType]: cleanPayload,
-    }));
-    logger.info('PUS DATA  INJECT', viewType);
+    logger.info('SAVE PUS DATA IN STORE', viewType);
+    const flattenId = getPusFlattenId(apids, { domainId, sessionId });
+    store.dispatch(savePusData(
+      pusService,
+      flattenId,
+      groundDate.value,
+      cleanPayload,
+      isModel(dataType.value),
+      dataType.value
+    ));
     return;
   } catch (e) {
     getStore().dispatch(addMessage('global', 'warning',

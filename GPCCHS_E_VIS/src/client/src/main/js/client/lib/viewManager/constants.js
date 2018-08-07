@@ -14,6 +14,8 @@
 // VERSION : 2.0.0 : DM : #5806 : 29/09/2017 : Update viewManager with alarm parameters
 // END-HISTORY
 // ====================================================================
+import constants from 'constants';
+
 export const VM_VIEW_PLOT = 'PlotView';
 export const VM_VIEW_TEXT = 'TextView';
 export const VM_VIEW_DYNAMIC = 'DynamicView';
@@ -64,6 +66,23 @@ export const VM_PUS_VIEWS = [
   VM_VIEW_PUS142,
   VM_VIEW_PUS144,
   VM_VIEW_PUSMME,
+];
+
+// pus models
+export const MODELS = [
+  constants.Pus005ModelType,
+  constants.Pus011ModelType,
+  constants.Pus011ModelType,
+  constants.Pus012ModelType,
+  constants.Pus013ModelType,
+  constants.Pus014ModelType,
+  constants.Pus015ModelType,
+  constants.Pus018ModelType,
+  constants.Pus019ModelType,
+  constants.Pus140ModelType,
+  constants.Pus142ModelType,
+  constants.Pus144ModelType,
+  constants.PusMmeModelType,
 ];
 
 /**

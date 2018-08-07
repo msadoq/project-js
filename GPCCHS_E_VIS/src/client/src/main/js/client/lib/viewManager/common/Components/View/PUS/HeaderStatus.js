@@ -52,7 +52,7 @@ export default class HeaderStatus extends Component {
       <span>
         {label}&nbsp;
         <input
-          type="text" className={classnames('mw100', status.toLowerCase())}
+          type="text" className={classnames('mw100', status ? status.toLowerCase() : '')}
           disabled value={status} style={colorStyle}
         />
       </span>

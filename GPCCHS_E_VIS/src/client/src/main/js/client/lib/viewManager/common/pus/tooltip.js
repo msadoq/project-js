@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import React from 'react';
-import './tooltip.scss';
+// import './tooltip.scss';
 
 /**
  * @param obj

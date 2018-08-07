@@ -10,8 +10,7 @@
 
 import _map from 'lodash/map';
 import { PROVIDER_FLOW_HKTMR, PROVIDER_FLOW_HKTMP, PROVIDER_FLOW_RM } from '../constants';
-
-import flattenDataId, { getDataId, getFilters, getMode } from './flattenDataId';
+import flattenDataId, { getDataId, getFilters, getMode, getPusFlattenId } from './flattenDataId';
 
 const data = {
   parameterName: 'ATT_BC_STR1STRRFQ1',
@@ -117,6 +116,42 @@ describe('/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/m
         });
       });
     });
+  });
+});
+
+describe('getPusFlattenId', () => {
+  test('no apids', () => {
+    const apids = [];
+    const dataId = {
+      domainId: 42,
+      sessionId: 0,
+    };
+    expect(getPusFlattenId(apids, dataId)).toEqual(':0:42');
+  });
+  test('apids array of values', () => {
+    const apids = [0, 2, 3];
+    const dataId = {
+      domainId: 42,
+      sessionId: 0,
+    };
+    expect(getPusFlattenId(apids, dataId)).toEqual('0,2,3:0:42');
+  });
+  test('apids array objects', () => {
+    const apids = [
+      {
+        apidName: 'bar',
+        apidRawValue: 0,
+      },
+      {
+        apidName: 'barz',
+        apidRawValue: 2,
+      },
+    ];
+    const dataId = {
+      domainId: 42,
+      sessionId: 0,
+    };
+    expect(getPusFlattenId(apids, dataId)).toEqual('0,2:0:42');
   });
 });
 

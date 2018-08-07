@@ -547,6 +547,7 @@ export const PUS_MODEL_SAVE_IN_FILE = 'PUS_MODEL_SAVE_IN_FILE';
 export const INCOMING_PUS_RANGE_DATA = 'INCOMING_PUS_RANGE_DATA';
 export const NEW_PUS_DATA = 'NEW_PUS_DATA';
 export const INJECT_PUS_DATA = 'INJECT_PUS_DATA';
+export const SAVE_PUS_DATA = 'SAVE_PUS_DATA';
 
 // TESTS
 // @todo benjelloun still in use ?

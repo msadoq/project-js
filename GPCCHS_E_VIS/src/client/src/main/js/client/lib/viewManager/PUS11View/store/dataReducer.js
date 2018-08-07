@@ -106,6 +106,5 @@ function pus11DataReducer(state = {}, action) {
 
 export default createScopedDataReducer(pus11DataReducer, {}, VM_VIEW_PUS11);
 
-export const getPUS11ViewData = state => state[`${VM_VIEW_PUS11}Data`];
 export const getData = (state, { viewId }) => state[`${VM_VIEW_PUS11}Data`][viewId];
 export const getConfiguration = (state, { viewId }) => state[`${VM_VIEW_PUS11}Configuration`][viewId];

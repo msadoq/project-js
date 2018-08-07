@@ -88,6 +88,7 @@ describe('viewManager/PUS18View/store/dataReducer', () => {
             data: [
               {
                 baz: 'baz',
+                dumpEnabled: '200',
                 status: 'DISABLED',
                 lastUpdateModeStoreId: 'TC',
                 lastUpdateModeStoreType: 'TC',
@@ -95,6 +96,7 @@ describe('viewManager/PUS18View/store/dataReducer', () => {
               },
               {
                 baz: 'baz',
+                dumpEnabled: '200',
                 status: 'ENABLED',
                 lastUpdateModeStoreId: 'TM',
                 lastUpdateModeStoreType: 'TM',
@@ -102,6 +104,7 @@ describe('viewManager/PUS18View/store/dataReducer', () => {
               },
               {
                 baz: 'baz',
+                dumpEnabled: '200',
                 status: 'DELETED',
                 lastUpdateModeStoreId: 'Default',
                 lastUpdateModeStoreType: 'Default',
@@ -114,6 +117,7 @@ describe('viewManager/PUS18View/store/dataReducer', () => {
             data: [
               {
                 baz: 'baz',
+                isSubsamplingRatioSet: '',
                 serviceType: 'TC',
                 serviceSubType: 'TC',
                 packetType: 'TC',
@@ -122,6 +126,7 @@ describe('viewManager/PUS18View/store/dataReducer', () => {
               },
               {
                 baz: 'baz',
+                isSubsamplingRatioSet: '',
                 serviceType: 'TM',
                 serviceSubType: 'TM',
                 packetType: 'TM',
@@ -130,6 +135,7 @@ describe('viewManager/PUS18View/store/dataReducer', () => {
               },
               {
                 baz: 'baz',
+                isSubsamplingRatioSet: '',
                 serviceType: 'Default',
                 serviceSubType: 'Default',
                 packetType: 'Default',
@@ -138,6 +144,7 @@ describe('viewManager/PUS18View/store/dataReducer', () => {
               },
               {
                 baz: 'baz',
+                isSubsamplingRatioSet: '',
                 serviceType: 'Timer',
                 serviceSubType: 'Timer',
                 packetType: 'Timer',

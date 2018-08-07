@@ -3,11 +3,8 @@ import mergeIntervals from 'common/intervals/merge';
 import _isEmpty from 'lodash/isEmpty';
 import * as types from 'store/types';
 import removeIntervals from 'common/intervals/remove';
-import { get } from 'common/configurationManager';
 import _isArray from 'lodash/isArray';
 import missingIntervals from '../../../common/intervals/missing';
-
-const isCacheDisabled = String(get('DISABLE_LOKI_CACHE')) === 'true';
 
 /* --- Reducer -------------------------------------------------------------- */
 
@@ -22,27 +19,17 @@ const knownPus = (state = {}, action) => {
   switch (action.type) {
     case types.WS_KNOWN_PUS_INTERVAL_ADD: {
       const pusId = action.payload.id;
+      const pusService = action.payload.pusService;
       if (!pusId || !_isArray(action.payload.intervals)) {
         return state;
       }
-      let newState = state;
-      if (!state[pusId]) {
-        newState = { ...state,
-          [pusId]: {
-            apidName: action.payload.apidName,
-            intervals: [],
-          },
-        };
-      }
+      const newState = state;
+
+      const intervals = _.getOr([], [pusService, pusId, 'intervals'], newState);
+
       const mergedIntervals =
-        mergeIntervals(newState[pusId].intervals, action.payload.intervals);
-      return {
-        ...newState,
-        [pusId]: {
-          ...newState[pusId],
-          intervals: mergedIntervals,
-        },
-      };
+        mergeIntervals(intervals, action.payload.intervals);
+      return _.set([pusService, pusId, 'intervals'], mergedIntervals, newState);
     }
     case types.WS_KNOWN_PUS_INTERVAL_DELETE: {
       const pusId = action.payload.pusId;
@@ -82,12 +69,50 @@ const knownPus = (state = {}, action) => {
       }
       return newState;
     }
+    case types.SAVE_PUS_DATA: {
+      const payload = action.payload.payload;
+      const pusService = action.payload.pusService;
+      const flattenId = action.payload.flattenId;
+      const groundDate = action.payload.groundDate;
+      const dataType = action.payload.dataType;
+      const type = action.payload.isModel ? 'model' : 'deltas';
+      const serviceApid = payload.serviceApid;
+      let typePayload;
+      if (type === 'model') {
+        typePayload = {
+          groundDate,
+          payload,
+        };
+      } else {
+        typePayload = {
+          ..._.getOr({}, [pusService, flattenId, serviceApid, type], state),
+          [groundDate]: {
+            dataType,
+            payload,
+          },
+        };
+      }
+      const newState = {
+        ...state,
+        [pusService]: {
+          ..._.getOr({}, [pusService], state),
+          [flattenId]: {
+            ..._.getOr({}, [pusService, flattenId], state),
+            [serviceApid]: {
+              ..._.getOr({}, [pusService, flattenId, serviceApid], state),
+              [type]: typePayload,
+            },
+          },
+        },
+      };
+      return newState;
+    }
     default:
       return state;
   }
 };
 
-export default isCacheDisabled ? _.always({}) : knownPus;
+export default knownPus;
 
 /* --- Selectors ------------------------------------------------------------ */
 

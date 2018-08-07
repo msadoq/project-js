@@ -36,7 +36,7 @@ import mergeInterval from '../../common/intervals/merge';
  */
 export default function computeMissingPusIntervals(dataMap, lastMap) {
   const queries = {};
-  _each(dataMap.perPusId, ({ dataId, localIds, views, apidName, apidRawValue }, id) => {
+  _each(dataMap.perPusId, ({ dataId, localIds, views }, id) => {
     _each(localIds, (value, localId) => {
       const knownInterval =
         _get(lastMap, ['expectedPusIntervals', id, localId, 'expectedInterval']);
@@ -64,8 +64,6 @@ export default function computeMissingPusIntervals(dataMap, lastMap) {
         queries[id] = {
           dataId,
           intervals: [],
-          apidName,
-          apidRawValue,
         };
       }
 

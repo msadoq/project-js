@@ -46,18 +46,10 @@ export default class PUS11View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS11ViewContainer mapStateToProps
-    spaceInNumberOfCommands: PropTypes.bool,
-    scheduleStatus: PropTypes.string,
-    lastUpdateTimeScheduleStatus: PropTypes.string,
-    lastUpdateModeScheduleStatus: PropTypes.string,
-    noFreeCommands: PropTypes.number,
-    lastUpdateTimeNoFreeCommands: PropTypes.string,
-    lastUpdateModeNoFreeCommands: PropTypes.string,
-    freeSpace: PropTypes.number,
-    lastUpdateTimeFreeSpace: PropTypes.string,
-    lastUpdateModeFreeSpace: PropTypes.string,
-    serviceApid: PropTypes.number,
-    serviceApidName: PropTypes.string,
+    data: PropTypes.shape({
+      headers: PropTypes.arrayOf(PropTypes.shape()),
+      tables: PropTypes.shape(),
+    }),
     apids: PropTypes.arrayOf(PropTypes.shape({
       apidName: PropTypes.string,
       apidRawValue: PropTypes.string,
@@ -66,19 +58,11 @@ export default class PUS11View extends React.Component {
   };
 
   static defaultProps = {
-    spaceInNumberOfCommands: null,
-    scheduleStatus: null,
-    lastUpdateTimeScheduleStatus: null,
-    lastUpdateModeScheduleStatus: null,
-    noFreeCommands: null,
-    lastUpdateTimeNoFreeCommands: null,
-    lastUpdateModeNoFreeCommands: null,
-    freeSpace: null,
-    lastUpdateTimeFreeSpace: null,
-    lastUpdateModeFreeSpace: null,
-    serviceApid: null,
-    serviceApidName: null,
     apids: [],
+    data: {
+      headers: [],
+      data: {},
+    },
   };
 
   static contextTypes = {
@@ -87,51 +71,46 @@ export default class PUS11View extends React.Component {
 
   render() {
     const {
-      serviceApid,
-      spaceInNumberOfCommands,
-      scheduleStatus,
-      lastUpdateTimeScheduleStatus,
-      lastUpdateModeScheduleStatus,
-      noFreeCommands,
-      lastUpdateTimeNoFreeCommands,
-      lastUpdateModeNoFreeCommands,
-      freeSpace,
-      lastUpdateTimeFreeSpace,
-      lastUpdateModeFreeSpace,
-      serviceApidName,
-      apids,
       viewId,
+      apids,
       onCommandCellDoubleClick,
+      data,
     } = this.props;
 
-    if (!isValid(apids, serviceApid)) {
-      return renderInvald('Please fill-in configuration');
-    }
+    const headers = data.headers.map((header) => {
+      if (!isValid(apids, header.serviceApid)) {
+        return renderInvald('Please fill-in configuration');
+      }
+      return (
+        <div className="header">
+          {renderHeaders(
+            header.serviceApid,
+            header.spaceInNumberOfCommands,
+            header.scheduleStatus,
+            header.lastUpdateTimeScheduleStatus,
+            header.lastUpdateModeScheduleStatus,
+            header.noFreeCommands,
+            header.lastUpdateTimeNoFreeCommands,
+            header.lastUpdateModeNoFreeCommands,
+            header.freeSpace,
+            header.lastUpdateTimeFreeSpace,
+            header.lastUpdateModeFreeSpace,
+            header.serviceApidName
+          )}
+        </div>
+      );
+    });
 
     return (
       <ErrorBoundary>
         <div className="pus11">
-          <div className="header">
-            {renderHeaders(
-              serviceApid,
-              spaceInNumberOfCommands,
-              scheduleStatus,
-              lastUpdateTimeScheduleStatus,
-              lastUpdateModeScheduleStatus,
-              noFreeCommands,
-              lastUpdateTimeNoFreeCommands,
-              lastUpdateModeNoFreeCommands,
-              freeSpace,
-              lastUpdateTimeFreeSpace,
-              lastUpdateModeFreeSpace,
-              serviceApidName
-            )}
-          </div>
+          {headers}
           <div className="col-sm-6">
             <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'subSchedules'}
+                data={data.tables.subSchedules.data}
                 overrideStyle={_subSchedulesOverrideStyle}
                 contentModifier={_subSchedulesContentModifier}
               />
@@ -142,6 +121,7 @@ export default class PUS11View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'enabledApids'}
+                data={data.tables.enabledApids.data}
               />
             </div>
           </div>
@@ -150,6 +130,7 @@ export default class PUS11View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'commands'}
+                data={data.tables.commands.data}
                 overrideStyle={_commandsOverrideStyle}
                 contentModifier={_commandContentModifier}
                 onCellDoubleClick={onCommandCellDoubleClick}

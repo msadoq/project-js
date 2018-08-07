@@ -105,12 +105,12 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier, data }) => {
     const _filter = arr => arr.filter(el => shouldKeepElement(el, filters));
 
     const totalRowCount = data.length;
-    const formattedData = _filter(_sort(data));
+    const formattedData = _sort(_filter(data));
     const rowCount = formattedData.length;
 
     const rows =
       ({ rowIndex, columnIndex, cols }) =>
-        _getModifiedContent({ content: data[rowIndex], cols, columnIndex });
+        _getModifiedContent({ content: formattedData[rowIndex], cols, columnIndex });
 
     return {
       rows,

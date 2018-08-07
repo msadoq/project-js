@@ -9,8 +9,8 @@ const constants = require('../../../constants');
 const { onPusData } = require('./pusController');
 
 const controllers = {
-  [constants.PUS_DATA]: (messageData, pusService) => {
-    onPusData(messageData, pusService, getStore);
+  [constants.PUS_DATA]: (messageData, pusService, apids, domainId, sessionId) => {
+    onPusData(messageData, pusService, apids, domainId, sessionId, getStore);
   },
 };
 
@@ -22,7 +22,9 @@ module.exports = function pusActorController() {
   const messageData = args[1];
 
   try {
-    const { messageType, pusService } = decode('isis.pusModelEditorMessages.HeaderStructure', headerBuffer);
+    const { messageType, pusService, pusServiceApid, domainId, sessionId } =
+      decode('isis.pusModelEditorMessages.HeaderStructure', headerBuffer);
+    const cleanPusServiceApid = pusServiceApid.map(apid => apid.value.value);
     if (messageType.value === undefined || messageType.value === null) {
       return logger.warn('invalid message received (no messageType)');
     }
@@ -30,7 +32,7 @@ module.exports = function pusActorController() {
     if (!fn) {
       return logger.warn(`invalid message received (unknown messageType) '${messageType.value}'`);
     }
-    return fn(messageData, pusService.value);
+    return fn(messageData, pusService.value, cleanPusServiceApid, domainId.value, sessionId.value);
   } catch (e) {
     getStore().dispatch(addMessage('global', 'warning',
       'error on processing header buffer '.concat(e)));

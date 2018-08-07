@@ -9,7 +9,7 @@ exports[`Timesetter renders correctly 1`] = `
     <div
       className="fieldsContainer"
     >
-       
+
       <button
         className="btn btn-sm btn-primary"
         disabled={true}
@@ -43,6 +43,7 @@ exports[`Timesetter renders correctly 1`] = `
           className="input input_hours form-control"
           defaultValue={0}
           onBlur={[Function]}
+          onChange={[Function]}
           placeholder="hours"
         />
         <span>
@@ -56,6 +57,7 @@ exports[`Timesetter renders correctly 1`] = `
           className="input input_minutes form-control"
           defaultValue={10}
           onBlur={[Function]}
+          onChange={[Function]}
           placeholder="minutes"
         />
         <span>
@@ -69,6 +71,7 @@ exports[`Timesetter renders correctly 1`] = `
           className="input input_seconds form-control"
           defaultValue={0}
           onBlur={[Function]}
+          onChange={[Function]}
           placeholder="seconds"
         />
         <span>
@@ -82,6 +85,7 @@ exports[`Timesetter renders correctly 1`] = `
           className="input input_milliseconds form-control"
           defaultValue={0}
           onBlur={[Function]}
+          onChange={[Function]}
           placeholder="milliseconds"
         />
       </div>
@@ -119,7 +123,7 @@ exports[`Timesetter renders correctly 1`] = `
           lower cursor
         </b>
         <b>
-          
+
         </b>
       </div>
       <div
@@ -343,7 +347,7 @@ exports[`Timesetter renders correctly 1`] = `
           current cursor
         </b>
         <b>
-          
+
         </b>
       </div>
       <div
@@ -567,7 +571,7 @@ exports[`Timesetter renders correctly 1`] = `
           upper cursor
         </b>
         <b>
-          
+
         </b>
       </div>
       <div
@@ -669,7 +673,7 @@ exports[`Timesetter renders correctly 1`] = `
         type="submit"
         value="Save"
       />
-       
+
       <button
         className="btn btn-info disabled"
         onClick={[Function]}

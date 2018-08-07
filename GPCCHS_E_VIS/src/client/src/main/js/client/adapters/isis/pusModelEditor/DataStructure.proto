@@ -4,7 +4,7 @@ import "../ccsds_mal/TIME.proto";
 import "../ccsds_mal/UINTEGER.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message DataStructure {
 extensions 4 to 104;

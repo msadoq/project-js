@@ -5,13 +5,13 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus013Ldt.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus013Model {
 extensions 7 to 107;
 
-  repeated pusModelEditor.protobuf.Pus013Ldt pUS013UplinkLdt = 1;
-  repeated pusModelEditor.protobuf.Pus013Ldt pUS013DownlinkLdt = 2;
+  repeated pusModelEditorMessages.protobuf.Pus013Ldt pUS013UplinkLdt = 1;
+  repeated pusModelEditorMessages.protobuf.Pus013Ldt pUS013DownlinkLdt = 2;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 3;
   optional ccsds_mal.protobuf.STRING status = 4;
   optional ccsds_mal.protobuf.STRING serviceApidName = 5;

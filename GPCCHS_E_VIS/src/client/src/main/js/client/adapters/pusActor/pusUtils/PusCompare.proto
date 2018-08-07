@@ -1,8 +1,0 @@
-import "../ccsds_mal/TIME.proto";
-
-package pusUtils.protobuf;
-message PusCompare {
-    required string pusId = 1;
-    required string apId = 2;
-    required ccsds_mal.protobuf.TIME date = 3;
-}

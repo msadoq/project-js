@@ -7,10 +7,10 @@ const stub = require('./pus019Model.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus019Model', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus019Model', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus019Model.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus019Model');
+    .lookup('pusModelEditorMessages.protobuf.Pus019Model');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();
@@ -33,7 +33,7 @@ describe('protobuf/isis/pusModelEditor/Pus019Model', () => {
         apid: { type: 'uinteger', value: stub.pus19EventAction[i].apid },
         rid: { type: 'uinteger', value: stub.pus19EventAction[i].rid },
         actionStatus: { type: 'uinteger', value: stub.pus19EventAction[i].actionStatus },
-        actionTcPacket: { type: 'blob', value: stub.pus19EventAction[i].actionTcPacket },
+        actionTcPacket: { type: 'string', value: stub.pus19EventAction[i].actionTcPacket },
         ridLabel: { type: 'string', value: stub.pus19EventAction[i].ridLabel },
         lastUpdateModeActionStatus: { type: 'uinteger', value: stub.pus19EventAction[i].lastUpdateModeActionStatus },
         lastUpdateTimeActionStatus: { type: 'string', value: stub.pus19EventAction[i].lastUpdateTimeActionStatus },
@@ -48,9 +48,9 @@ describe('protobuf/isis/pusModelEditor/Pus019Model', () => {
         serviceApidName: { type: 'string', value: stub.pus19EventAction[i].serviceApidName },
         apidName: { type: 'string', value: stub.pus19EventAction[i].apidName },
         actionDescription: { type: 'string', value: stub.pus19EventAction[i].actionDescription },
-        selectionStatus: { type: 'string', value: stub.pus19EventAction[i].selectionStatus },
-        lastUpdateModeSelectionStatus: { type: 'uinteger', value: stub.pus19EventAction[i].lastUpdateModeSelectionStatus },
-        lastUpdateTimeSelectionStatus: { type: 'string', value: stub.pus19EventAction[i].lastUpdateTimeSelectionStatus },
+        actionTcApid: { type: 'uinteger', value: stub.pus19EventAction[i].actionTcApid },
+        actionTcType: { type: 'uinteger', value: stub.pus19EventAction[i].actionTcType },
+        actionTcSubType: { type: 'uinteger', value: stub.pus19EventAction[i].actionTcSubType },
       });
       
     }

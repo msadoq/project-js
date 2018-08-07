@@ -7,10 +7,10 @@ const stub = require('./pus011SubSchedule.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus011SubSchedule', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus011SubSchedule', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus011SubSchedule.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus011SubSchedule');
+    .lookup('pusModelEditorMessages.protobuf.Pus011SubSchedule');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

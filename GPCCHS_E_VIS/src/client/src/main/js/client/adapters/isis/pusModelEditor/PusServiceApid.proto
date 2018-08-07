@@ -2,7 +2,7 @@
 import "../ccsds_mal/UINTEGER.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message PusServiceApid {
 extensions 2 to 102;

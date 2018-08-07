@@ -7,10 +7,10 @@ const stub = require('./pus019EventAction.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus019EventAction', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus019EventAction', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus019EventAction.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus019EventAction');
+    .lookup('pusModelEditorMessages.protobuf.Pus019EventAction');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();
@@ -22,7 +22,7 @@ describe('protobuf/isis/pusModelEditor/Pus019EventAction', () => {
       apid: { type: 'uinteger', value: stub.apid },
       rid: { type: 'uinteger', value: stub.rid },
       actionStatus: { type: 'uinteger', value: stub.actionStatus },
-      actionTcPacket: { type: 'blob', value: stub.actionTcPacket },
+      actionTcPacket: { type: 'string', value: stub.actionTcPacket },
       ridLabel: { type: 'string', value: stub.ridLabel },
       lastUpdateModeActionStatus: { type: 'uinteger', value: stub.lastUpdateModeActionStatus },
       lastUpdateTimeActionStatus: { type: 'string', value: stub.lastUpdateTimeActionStatus },
@@ -37,9 +37,9 @@ describe('protobuf/isis/pusModelEditor/Pus019EventAction', () => {
       serviceApidName: { type: 'string', value: stub.serviceApidName },
       apidName: { type: 'string', value: stub.apidName },
       actionDescription: { type: 'string', value: stub.actionDescription },
-      selectionStatus: { type: 'string', value: stub.selectionStatus },
-      lastUpdateModeSelectionStatus: { type: 'uinteger', value: stub.lastUpdateModeSelectionStatus },
-      lastUpdateTimeSelectionStatus: { type: 'string', value: stub.lastUpdateTimeSelectionStatus },
+      actionTcApid: { type: 'uinteger', value: stub.actionTcApid },
+      actionTcType: { type: 'uinteger', value: stub.actionTcType },
+      actionTcSubType: { type: 'uinteger', value: stub.actionTcSubType },
     });
     
   });

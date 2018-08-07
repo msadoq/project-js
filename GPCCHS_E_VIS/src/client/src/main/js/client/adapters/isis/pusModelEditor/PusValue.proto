@@ -2,7 +2,7 @@
 import "../ccsds_mal/STRING.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message PusValue {
 extensions 2 to 102;

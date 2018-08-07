@@ -7,10 +7,10 @@ const stub = require('./pus012ParameterMonitoringDefinition.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus012ParameterMonitoringDefinition', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus012ParameterMonitoringDefinition', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus012ParameterMonitoringDefinition.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus012ParameterMonitoringDefinition');
+    .lookup('pusModelEditorMessages.protobuf.Pus012ParameterMonitoringDefinition');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();
@@ -32,7 +32,6 @@ describe('protobuf/isis/pusModelEditor/Pus012ParameterMonitoringDefinition', () 
       validityParameterId: { type: 'uinteger', value: stub.validityParameterId },
       validityParameterName: { type: 'string', value: stub.validityParameterName },
       validityParameterMask: { type: 'string', value: stub.validityParameterMask },
-      parameterCurrentValue: { type: 'string', value: stub.parameterCurrentValue },
       validityParameterExpectedValue: { type: 'string', value: stub.validityParameterExpectedValue },
       pus012MonitoringCheckPropertiesLow: (typeof stub.pus012MonitoringCheckPropertiesLow === 'undefined')
         ? null
@@ -117,8 +116,6 @@ describe('protobuf/isis/pusModelEditor/Pus012ParameterMonitoringDefinition', () 
       lastUpdateTimeParamId: { type: 'string', value: stub.lastUpdateTimeParamId },
       lastUpdateModeValParamId: { type: 'uinteger', value: stub.lastUpdateModeValParamId },
       lastUpdateTimeValParamId: { type: 'string', value: stub.lastUpdateTimeValParamId },
-      lastUpdateModeParamCurrentValue: { type: 'uinteger', value: stub.lastUpdateModeParamCurrentValue },
-      lastUpdateTimeParamCurrentValue: { type: 'string', value: stub.lastUpdateTimeParamCurrentValue },
       lastUpdateModeValParamExpectValue: { type: 'uinteger', value: stub.lastUpdateModeValParamExpectValue },
       lastUpdateTimeValParamExpectValue: { type: 'string', value: stub.lastUpdateTimeValParamExpectValue },
       lastUpdateModeValParamMask: { type: 'uinteger', value: stub.lastUpdateModeValParamMask },
@@ -128,7 +125,7 @@ describe('protobuf/isis/pusModelEditor/Pus012ParameterMonitoringDefinition', () 
       lastUpdateModeRepetition: { type: 'uinteger', value: stub.lastUpdateModeRepetition },
       lastUpdateTimeRepetition: { type: 'string', value: stub.lastUpdateTimeRepetition },
       lastUpdateModeCheckType: { type: 'uinteger', value: stub.lastUpdateModeCheckType },
-      lastUpdateTimeCheckTime: { type: 'string', value: stub.lastUpdateTimeCheckTime },
+      lastUpdateTimeCheckType: { type: 'string', value: stub.lastUpdateTimeCheckType },
       lastUpdateModeMonStatus: { type: 'uinteger', value: stub.lastUpdateModeMonStatus },
       lastUpdateTimeMonStatus: { type: 'string', value: stub.lastUpdateTimeMonStatus },
       lastUpdateModeProtectionStatus: { type: 'uinteger', value: stub.lastUpdateModeProtectionStatus },

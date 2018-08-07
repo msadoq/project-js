@@ -3,7 +3,7 @@ import "../ccsds_mal/UINTEGER.proto";
 import "./PusServiceApid.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message HeaderStructure {
 extensions 7 to 107;
@@ -12,6 +12,6 @@ extensions 7 to 107;
   optional ccsds_mal.protobuf.UINTEGER sessionId = 2;
   optional ccsds_mal.protobuf.UINTEGER domainId = 3;
   optional ccsds_mal.protobuf.UINTEGER pusService = 4;
-  repeated pusModelEditor.protobuf.PusServiceApid pusServiceApid = 5;
+  repeated pusModelEditorMessages.protobuf.PusServiceApid pusServiceApid = 5;
   optional ccsds_mal.protobuf.UINTEGER messageUniqueId = 6;
 }

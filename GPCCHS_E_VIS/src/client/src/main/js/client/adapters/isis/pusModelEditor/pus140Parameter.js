@@ -10,8 +10,8 @@ module.exports = {
     parameterId: (data.parameterId !== null && typeof data.parameterId !== 'undefined')
       ? uINTEGER.encode(data.parameterId)
       : null,
-    apid: (data.apid !== null && typeof data.apid !== 'undefined')
-      ? uINTEGER.encode(data.apid)
+    serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
+      ? uINTEGER.encode(data.serviceApid)
       : null,
     currentValue: (data.currentValue !== null && typeof data.currentValue !== 'undefined')
       ? sTRING.encode(data.currentValue)
@@ -28,17 +28,11 @@ module.exports = {
     lastUpdateTimeParamId: (data.lastUpdateTimeParamId !== null && typeof data.lastUpdateTimeParamId !== 'undefined')
       ? sTRING.encode(data.lastUpdateTimeParamId)
       : null,
-    serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
-      ? uINTEGER.encode(data.serviceStatus)
-      : null,
     serviceApidName: (data.serviceApidName !== null && typeof data.serviceApidName !== 'undefined')
       ? sTRING.encode(data.serviceApidName)
       : null,
     uniqueId: (data.uniqueId !== null && typeof data.uniqueId !== 'undefined')
       ? uLONG.encode(data.uniqueId)
-      : null,
-    apidName: (data.apidName !== null && typeof data.apidName !== 'undefined')
-      ? sTRING.encode(data.apidName)
       : null,
     parameterName: (data.parameterName !== null && typeof data.parameterName !== 'undefined')
       ? sTRING.encode(data.parameterName)
@@ -46,13 +40,16 @@ module.exports = {
     initialValue: (data.initialValue !== null && typeof data.initialValue !== 'undefined')
       ? sTRING.encode(data.initialValue)
       : null,
+    status: (data.status !== null && typeof data.status !== 'undefined')
+      ? uINTEGER.encode(data.status)
+      : null,
   }),
   decode: data => ({
     parameterId: (data.parameterId !== null && typeof data.parameterId !== 'undefined')
       ? uINTEGER.decode(data.parameterId)
       : undefined,
-    apid: (data.apid !== null && typeof data.apid !== 'undefined')
-      ? uINTEGER.decode(data.apid)
+    serviceApid: (data.serviceApid !== null && typeof data.serviceApid !== 'undefined')
+      ? uINTEGER.decode(data.serviceApid)
       : undefined,
     currentValue: (data.currentValue !== null && typeof data.currentValue !== 'undefined')
       ? sTRING.decode(data.currentValue)
@@ -69,23 +66,20 @@ module.exports = {
     lastUpdateTimeParamId: (data.lastUpdateTimeParamId !== null && typeof data.lastUpdateTimeParamId !== 'undefined')
       ? sTRING.decode(data.lastUpdateTimeParamId)
       : undefined,
-    serviceStatus: (data.serviceStatus !== null && typeof data.serviceStatus !== 'undefined')
-      ? uINTEGER.decode(data.serviceStatus)
-      : undefined,
     serviceApidName: (data.serviceApidName !== null && typeof data.serviceApidName !== 'undefined')
       ? sTRING.decode(data.serviceApidName)
       : undefined,
     uniqueId: (data.uniqueId !== null && typeof data.uniqueId !== 'undefined')
       ? uLONG.decode(data.uniqueId)
       : undefined,
-    apidName: (data.apidName !== null && typeof data.apidName !== 'undefined')
-      ? sTRING.decode(data.apidName)
-      : undefined,
     parameterName: (data.parameterName !== null && typeof data.parameterName !== 'undefined')
       ? sTRING.decode(data.parameterName)
       : undefined,
     initialValue: (data.initialValue !== null && typeof data.initialValue !== 'undefined')
       ? sTRING.decode(data.initialValue)
+      : undefined,
+    status: (data.status !== null && typeof data.status !== 'undefined')
+      ? uINTEGER.decode(data.status)
       : undefined,
   }),
 };

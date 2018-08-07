@@ -6,7 +6,7 @@ import "./PusMmePacketParameter.proto";
 import "./PusMmePacketStore.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message PusMmePacket {
 extensions 42 to 142;
@@ -50,6 +50,6 @@ extensions 42 to 142;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSubSamplingRatio = 37;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeSubSamplingRatio = 38;
   optional ccsds_mal.protobuf.UINTEGER subsamplingRatio = 39;
-  repeated pusModelEditor.protobuf.PusMmePacketStore pusMmePacketStore = 40;
-  repeated pusModelEditor.protobuf.PusMmePacketParameter pusMmePacketParameter = 41;
+  repeated pusModelEditorMessages.protobuf.PusMmePacketStore pusMmePacketStore = 40;
+  repeated pusModelEditorMessages.protobuf.PusMmePacketParameter pusMmePacketParameter = 41;
 }

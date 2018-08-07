@@ -5,7 +5,7 @@ import "../ccsds_mal/UINTEGER.proto";
 import "../ccsds_mal/ULONG.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus144OnboardFile {
 extensions 33 to 133;

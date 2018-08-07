@@ -9,7 +9,7 @@ import "./Pus011Command.proto";
 import "./Pus011SubSchedule.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus011Model {
 extensions 18 to 118;
@@ -26,9 +26,9 @@ extensions 18 to 118;
   optional ccsds_mal.protobuf.INTEGER freeSpace = 10;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeFreeSpace = 11;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeFreeSpace = 12;
-  repeated pusModelEditor.protobuf.Pus011Apid pus011Apid = 13;
-  repeated pusModelEditor.protobuf.Pus011Command pus011Command = 14;
-  repeated pusModelEditor.protobuf.Pus011SubSchedule pus011SubSchedule = 15;
+  repeated pusModelEditorMessages.protobuf.Pus011Apid pus011Apid = 13;
+  repeated pusModelEditorMessages.protobuf.Pus011Command pus011Command = 14;
+  repeated pusModelEditorMessages.protobuf.Pus011SubSchedule pus011SubSchedule = 15;
   optional ccsds_mal.protobuf.STRING serviceApidName = 16;
   optional ccsds_mal.protobuf.ULONG uniqueId = 17;
 }

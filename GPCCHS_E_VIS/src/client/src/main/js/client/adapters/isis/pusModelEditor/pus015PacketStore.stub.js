@@ -6,11 +6,11 @@ const getPus015Packet = require('./pus015Packet.stub');
 
 const pus015PacketStore = {
   storeId: 100,
-  status: 100,
+  storeStatus: 100,
   storageType: 'mySTRING',
   dumpEnabled: true,
   pus015Packet: [getPus015Packet(), getPus015Packet()],
-  hkStatusParameterName: 'mySTRING',
+  hkStoreStatusParameterName: 'mySTRING',
   lastUpdateModeStoreId: 100,
   lastUpdateTimeStoreId: 'mySTRING',
   lastUpdateModeStoreType: 100,
@@ -22,6 +22,10 @@ const pus015PacketStore = {
   serviceApid: 100,
   uniqueId: 1000,
   listPossibleDownlinkVcs: 'mySTRING',
+  downlinkStatus: 100,
+  lastUpdateTimeDownlinkStatus: 'mySTRING',
+  lastUpdateModeDownlinkStatus: 100,
+  hkDownlinkStatusParameterName: 'mySTRING',
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus015PacketStore) : pus015PacketStore);

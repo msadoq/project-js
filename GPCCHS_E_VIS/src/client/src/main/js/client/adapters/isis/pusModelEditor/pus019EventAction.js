@@ -1,7 +1,6 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
 /* eslint-disable max-len, "DV6 TBC_CNES generated code can't avoid too long lines" */
 /* eslint-disable complexity, "DV6 TBC_CNES generated code can't avoid complexity" */
-const bLOB = require('../ccsds_mal/bLOB');
 const sTRING = require('../ccsds_mal/sTRING');
 const uINTEGER = require('../ccsds_mal/uINTEGER');
 const uLONG = require('../ccsds_mal/uLONG');
@@ -18,7 +17,7 @@ module.exports = {
       ? uINTEGER.encode(data.actionStatus)
       : null,
     actionTcPacket: (data.actionTcPacket !== null && typeof data.actionTcPacket !== 'undefined')
-      ? bLOB.encode(data.actionTcPacket)
+      ? sTRING.encode(data.actionTcPacket)
       : null,
     ridLabel: (data.ridLabel !== null && typeof data.ridLabel !== 'undefined')
       ? sTRING.encode(data.ridLabel)
@@ -62,14 +61,14 @@ module.exports = {
     actionDescription: (data.actionDescription !== null && typeof data.actionDescription !== 'undefined')
       ? sTRING.encode(data.actionDescription)
       : null,
-    selectionStatus: (data.selectionStatus !== null && typeof data.selectionStatus !== 'undefined')
-      ? sTRING.encode(data.selectionStatus)
+    actionTcApid: (data.actionTcApid !== null && typeof data.actionTcApid !== 'undefined')
+      ? uINTEGER.encode(data.actionTcApid)
       : null,
-    lastUpdateModeSelectionStatus: (data.lastUpdateModeSelectionStatus !== null && typeof data.lastUpdateModeSelectionStatus !== 'undefined')
-      ? uINTEGER.encode(data.lastUpdateModeSelectionStatus)
+    actionTcType: (data.actionTcType !== null && typeof data.actionTcType !== 'undefined')
+      ? uINTEGER.encode(data.actionTcType)
       : null,
-    lastUpdateTimeSelectionStatus: (data.lastUpdateTimeSelectionStatus !== null && typeof data.lastUpdateTimeSelectionStatus !== 'undefined')
-      ? sTRING.encode(data.lastUpdateTimeSelectionStatus)
+    actionTcSubType: (data.actionTcSubType !== null && typeof data.actionTcSubType !== 'undefined')
+      ? uINTEGER.encode(data.actionTcSubType)
       : null,
   }),
   decode: data => ({
@@ -83,7 +82,7 @@ module.exports = {
       ? uINTEGER.decode(data.actionStatus)
       : undefined,
     actionTcPacket: (data.actionTcPacket !== null && typeof data.actionTcPacket !== 'undefined')
-      ? bLOB.decode(data.actionTcPacket)
+      ? sTRING.decode(data.actionTcPacket)
       : undefined,
     ridLabel: (data.ridLabel !== null && typeof data.ridLabel !== 'undefined')
       ? sTRING.decode(data.ridLabel)
@@ -127,14 +126,14 @@ module.exports = {
     actionDescription: (data.actionDescription !== null && typeof data.actionDescription !== 'undefined')
       ? sTRING.decode(data.actionDescription)
       : undefined,
-    selectionStatus: (data.selectionStatus !== null && typeof data.selectionStatus !== 'undefined')
-      ? sTRING.decode(data.selectionStatus)
+    actionTcApid: (data.actionTcApid !== null && typeof data.actionTcApid !== 'undefined')
+      ? uINTEGER.decode(data.actionTcApid)
       : undefined,
-    lastUpdateModeSelectionStatus: (data.lastUpdateModeSelectionStatus !== null && typeof data.lastUpdateModeSelectionStatus !== 'undefined')
-      ? uINTEGER.decode(data.lastUpdateModeSelectionStatus)
+    actionTcType: (data.actionTcType !== null && typeof data.actionTcType !== 'undefined')
+      ? uINTEGER.decode(data.actionTcType)
       : undefined,
-    lastUpdateTimeSelectionStatus: (data.lastUpdateTimeSelectionStatus !== null && typeof data.lastUpdateTimeSelectionStatus !== 'undefined')
-      ? sTRING.decode(data.lastUpdateTimeSelectionStatus)
+    actionTcSubType: (data.actionTcSubType !== null && typeof data.actionTcSubType !== 'undefined')
+      ? uINTEGER.decode(data.actionTcSubType)
       : undefined,
   }),
 };

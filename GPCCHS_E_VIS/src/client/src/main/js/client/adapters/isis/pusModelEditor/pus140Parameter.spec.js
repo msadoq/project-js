@@ -7,10 +7,10 @@ const stub = require('./pus140Parameter.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus140Parameter', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus140Parameter', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus140Parameter.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus140Parameter');
+    .lookup('pusModelEditorMessages.protobuf.Pus140Parameter');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();
@@ -20,18 +20,17 @@ describe('protobuf/isis/pusModelEditor/Pus140Parameter', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
       parameterId: { type: 'uinteger', value: stub.parameterId },
-      apid: { type: 'uinteger', value: stub.apid },
+      serviceApid: { type: 'uinteger', value: stub.serviceApid },
       currentValue: { type: 'string', value: stub.currentValue },
       lastUpdateModeCurrentValue: { type: 'uinteger', value: stub.lastUpdateModeCurrentValue },
       lastUpdateTimeCurrentValue: { type: 'string', value: stub.lastUpdateTimeCurrentValue },
       lastUpdateModeParamId: { type: 'uinteger', value: stub.lastUpdateModeParamId },
       lastUpdateTimeParamId: { type: 'string', value: stub.lastUpdateTimeParamId },
-      serviceStatus: { type: 'uinteger', value: stub.serviceStatus },
       serviceApidName: { type: 'string', value: stub.serviceApidName },
       uniqueId: { type: 'ulong', symbol: `${stub.uniqueId}` },
-      apidName: { type: 'string', value: stub.apidName },
       parameterName: { type: 'string', value: stub.parameterName },
       initialValue: { type: 'string', value: stub.initialValue },
+      status: { type: 'uinteger', value: stub.status },
     });
     
   });

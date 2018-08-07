@@ -7,10 +7,10 @@ const stub = require('./pus014ForwardedPacket.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus014ForwardedPacket', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus014ForwardedPacket', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus014ForwardedPacket.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus014ForwardedPacket');
+    .lookup('pusModelEditorMessages.protobuf.Pus014ForwardedPacket');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

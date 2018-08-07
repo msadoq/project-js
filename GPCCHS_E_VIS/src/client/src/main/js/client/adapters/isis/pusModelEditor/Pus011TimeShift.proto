@@ -4,7 +4,7 @@ import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/UINTEGER.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus011TimeShift {
 extensions 5 to 105;

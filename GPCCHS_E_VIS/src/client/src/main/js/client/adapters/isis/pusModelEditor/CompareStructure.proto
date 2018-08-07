@@ -3,7 +3,7 @@ import "../ccsds_mal/BOOLEAN.proto";
 import "../ccsds_mal/TIME.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message CompareStructure {
 extensions 4 to 104;

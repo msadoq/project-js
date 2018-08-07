@@ -7,10 +7,10 @@ const stub = require('./pusMmePacketParameter.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/PusMmePacketParameter', () => {
+describe('protobuf/isis/pusModelEditorMessages/PusMmePacketParameter', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/PusMmePacketParameter.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.PusMmePacketParameter');
+    .lookup('pusModelEditorMessages.protobuf.PusMmePacketParameter');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

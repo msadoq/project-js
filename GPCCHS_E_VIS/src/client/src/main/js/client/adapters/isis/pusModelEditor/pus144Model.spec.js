@@ -7,10 +7,10 @@ const stub = require('./pus144Model.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus144Model', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus144Model', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus144Model.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus144Model');
+    .lookup('pusModelEditorMessages.protobuf.Pus144Model');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

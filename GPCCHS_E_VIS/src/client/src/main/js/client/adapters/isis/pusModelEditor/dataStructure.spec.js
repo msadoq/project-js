@@ -7,10 +7,10 @@ const stub = require('./dataStructure.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/DataStructure', () => {
+describe('protobuf/isis/pusModelEditorMessages/DataStructure', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/DataStructure.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.DataStructure');
+    .lookup('pusModelEditorMessages.protobuf.DataStructure');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

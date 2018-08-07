@@ -7,10 +7,10 @@ const stub = require('./initialiseStructure.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/InitialiseStructure', () => {
+describe('protobuf/isis/pusModelEditorMessages/InitialiseStructure', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/InitialiseStructure.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.InitialiseStructure');
+    .lookup('pusModelEditorMessages.protobuf.InitialiseStructure');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

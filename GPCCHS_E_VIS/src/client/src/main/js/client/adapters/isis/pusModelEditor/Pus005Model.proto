@@ -5,13 +5,13 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus005OnBoardEvent.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus005Model {
 extensions 6 to 106;
 
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 1;
-  repeated pusModelEditor.protobuf.Pus005OnBoardEvent pus005OnBoardEvent = 2;
+  repeated pusModelEditorMessages.protobuf.Pus005OnBoardEvent pus005OnBoardEvent = 2;
   optional ccsds_mal.protobuf.UINTEGER status = 3;
   optional ccsds_mal.protobuf.STRING serviceApidName = 4;
   optional ccsds_mal.protobuf.ULONG uniqueId = 5;

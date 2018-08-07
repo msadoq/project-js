@@ -6,17 +6,17 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus015Packet.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus015PacketStore {
-extensions 18 to 118;
+extensions 22 to 122;
 
   optional ccsds_mal.protobuf.UINTEGER storeId = 1;
-  optional ccsds_mal.protobuf.UINTEGER status = 2;
+  optional ccsds_mal.protobuf.UINTEGER storeStatus = 2;
   optional ccsds_mal.protobuf.STRING storageType = 3;
   optional ccsds_mal.protobuf.BOOLEAN dumpEnabled = 4;
-  repeated pusModelEditor.protobuf.Pus015Packet pus015Packet = 5;
-  optional ccsds_mal.protobuf.STRING hkStatusParameterName = 6;
+  repeated pusModelEditorMessages.protobuf.Pus015Packet pus015Packet = 5;
+  optional ccsds_mal.protobuf.STRING hkStoreStatusParameterName = 6;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStoreId = 7;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeStoreId = 8;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeStoreType = 9;
@@ -28,4 +28,8 @@ extensions 18 to 118;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 15;
   optional ccsds_mal.protobuf.ULONG uniqueId = 16;
   optional ccsds_mal.protobuf.STRING listPossibleDownlinkVcs = 17;
+  optional ccsds_mal.protobuf.UINTEGER downlinkStatus = 18;
+  optional ccsds_mal.protobuf.STRING lastUpdateTimeDownlinkStatus = 19;
+  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeDownlinkStatus = 20;
+  optional ccsds_mal.protobuf.STRING hkDownlinkStatusParameterName = 21;
 }

@@ -6,7 +6,7 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus013LdtPart.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus013Ldt {
 extensions 37 to 137;
@@ -24,7 +24,7 @@ extensions 37 to 137;
   optional ccsds_mal.protobuf.UINTEGER partitionId = 11;
   optional ccsds_mal.protobuf.STRING fileId = 12;
   optional ccsds_mal.protobuf.STRING fileChecksum = 13;
-  repeated pusModelEditor.protobuf.Pus013LdtPart pUS013LdtPart = 14;
+  repeated pusModelEditorMessages.protobuf.Pus013LdtPart pUS013LdtPart = 14;
   optional ccsds_mal.protobuf.UINTEGER noLDTParts = 15;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeLduId = 16;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeLduId = 17;

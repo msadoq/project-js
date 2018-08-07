@@ -3,7 +3,7 @@ import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/UINTEGER.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message PusParameter {
 extensions 6 to 106;

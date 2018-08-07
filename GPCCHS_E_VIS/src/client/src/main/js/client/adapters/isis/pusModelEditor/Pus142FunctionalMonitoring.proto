@@ -5,7 +5,7 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus142ParameterMonitoringDefinition.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus142FunctionalMonitoring {
 extensions 43 to 143;
@@ -23,7 +23,7 @@ extensions 43 to 143;
   optional ccsds_mal.protobuf.UINTEGER validityParameterId = 11;
   optional ccsds_mal.protobuf.STRING validityParameterMask = 12;
   optional ccsds_mal.protobuf.STRING validityParameterExpectedValue = 13;
-  repeated pusModelEditor.protobuf.Pus142ParameterMonitoringDefinition pus142ParameterMonitoringDefinition = 14;
+  repeated pusModelEditorMessages.protobuf.Pus142ParameterMonitoringDefinition pus142ParameterMonitoringDefinition = 14;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeFMonId = 15;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeFMonId = 16;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeProtectionStatus = 17;

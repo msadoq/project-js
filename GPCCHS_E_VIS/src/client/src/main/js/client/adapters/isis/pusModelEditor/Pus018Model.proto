@@ -5,13 +5,13 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus018Obcp.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus018Model {
 extensions 9 to 109;
 
   optional ccsds_mal.protobuf.UINTEGER engineStatus = 1;
-  repeated pusModelEditor.protobuf.Pus018Obcp pus018Obcp = 2;
+  repeated pusModelEditorMessages.protobuf.Pus018Obcp pus018Obcp = 2;
   optional ccsds_mal.protobuf.UINTEGER status = 3;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeEngineStatus = 4;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeEngineStatus = 5;

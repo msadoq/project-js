@@ -7,10 +7,10 @@ const stub = require('./pus018Obcp.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus018Obcp', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus018Obcp', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus018Obcp.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus018Obcp');
+    .lookup('pusModelEditorMessages.protobuf.Pus018Obcp');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

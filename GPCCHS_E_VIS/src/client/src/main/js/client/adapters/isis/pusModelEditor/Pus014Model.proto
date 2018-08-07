@@ -5,12 +5,12 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus014ForwardedPacket.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus014Model {
 extensions 6 to 106;
 
-  repeated pusModelEditor.protobuf.Pus014ForwardedPacket pus014TmPacket = 1;
+  repeated pusModelEditorMessages.protobuf.Pus014ForwardedPacket pus014TmPacket = 1;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 2;
   optional ccsds_mal.protobuf.UINTEGER status = 3;
   optional ccsds_mal.protobuf.STRING serviceApidName = 4;

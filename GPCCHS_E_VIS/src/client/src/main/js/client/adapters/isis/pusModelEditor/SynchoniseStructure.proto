@@ -2,7 +2,7 @@
 
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message SynchoniseStructure {
 extensions 1 to 101;

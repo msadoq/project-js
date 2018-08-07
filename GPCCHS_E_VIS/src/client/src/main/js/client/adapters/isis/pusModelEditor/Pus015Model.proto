@@ -5,12 +5,12 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus015PacketStore.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus015Model {
 extensions 6 to 106;
 
-  repeated pusModelEditor.protobuf.Pus015PacketStore pus015PacketStore = 1;
+  repeated pusModelEditorMessages.protobuf.Pus015PacketStore pus015PacketStore = 1;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 2;
   optional ccsds_mal.protobuf.UINTEGER status = 3;
   optional ccsds_mal.protobuf.STRING serviceApidName = 4;

@@ -5,13 +5,13 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus012ParameterMonitoringDefinition.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus012Model {
 extensions 10 to 110;
 
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 1;
-  repeated pusModelEditor.protobuf.Pus012ParameterMonitoringDefinition pus012ParameterMonitoringDefinition = 2;
+  repeated pusModelEditorMessages.protobuf.Pus012ParameterMonitoringDefinition pus012ParameterMonitoringDefinition = 2;
   optional ccsds_mal.protobuf.UINTEGER noOfParameterMonitoringDefinition = 3;
   optional ccsds_mal.protobuf.UINTEGER serviceStatus = 4;
   optional ccsds_mal.protobuf.UINTEGER status = 5;

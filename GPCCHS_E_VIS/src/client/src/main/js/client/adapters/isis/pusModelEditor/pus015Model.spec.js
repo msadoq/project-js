@@ -7,10 +7,10 @@ const stub = require('./pus015Model.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus015Model', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus015Model', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus015Model.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus015Model');
+    .lookup('pusModelEditorMessages.protobuf.Pus015Model');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();
@@ -28,10 +28,10 @@ describe('protobuf/isis/pusModelEditor/Pus015Model', () => {
     for (let i = 0; i < stub.pus015PacketStore.length; i += 1) {
       expect(decoded.pus015PacketStore[i]).toMatchObject({
         storeId: { type: 'uinteger', value: stub.pus015PacketStore[i].storeId },
-        status: { type: 'uinteger', value: stub.pus015PacketStore[i].status },
+        storeStatus: { type: 'uinteger', value: stub.pus015PacketStore[i].storeStatus },
         storageType: { type: 'string', value: stub.pus015PacketStore[i].storageType },
         dumpEnabled: { type: 'boolean', value: stub.pus015PacketStore[i].dumpEnabled },
-        hkStatusParameterName: { type: 'string', value: stub.pus015PacketStore[i].hkStatusParameterName },
+        hkStoreStatusParameterName: { type: 'string', value: stub.pus015PacketStore[i].hkStoreStatusParameterName },
         lastUpdateModeStoreId: { type: 'uinteger', value: stub.pus015PacketStore[i].lastUpdateModeStoreId },
         lastUpdateTimeStoreId: { type: 'string', value: stub.pus015PacketStore[i].lastUpdateTimeStoreId },
         lastUpdateModeStoreType: { type: 'uinteger', value: stub.pus015PacketStore[i].lastUpdateModeStoreType },
@@ -43,6 +43,10 @@ describe('protobuf/isis/pusModelEditor/Pus015Model', () => {
         serviceApid: { type: 'uinteger', value: stub.pus015PacketStore[i].serviceApid },
         uniqueId: { type: 'ulong', symbol: `${stub.pus015PacketStore[i].uniqueId}` },
         listPossibleDownlinkVcs: { type: 'string', value: stub.pus015PacketStore[i].listPossibleDownlinkVcs },
+        downlinkStatus: { type: 'uinteger', value: stub.pus015PacketStore[i].downlinkStatus },
+        lastUpdateTimeDownlinkStatus: { type: 'string', value: stub.pus015PacketStore[i].lastUpdateTimeDownlinkStatus },
+        lastUpdateModeDownlinkStatus: { type: 'uinteger', value: stub.pus015PacketStore[i].lastUpdateModeDownlinkStatus },
+        hkDownlinkStatusParameterName: { type: 'string', value: stub.pus015PacketStore[i].hkDownlinkStatusParameterName },
       });
       expect(decoded.pus015PacketStore[i].pus015Packet).toHaveLength(stub.pus015PacketStore[i].pus015Packet.length);
       for (let ii = 0; ii < stub.pus015PacketStore[i].pus015Packet.length; ii += 1) {

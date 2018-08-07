@@ -4,7 +4,7 @@ import "../ccsds_mal/UINTEGER.proto";
 import "../ccsds_mal/ULONG.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message PusMmePacketStore {
 extensions 12 to 112;

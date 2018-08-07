@@ -13,8 +13,8 @@ module.exports = {
     storeId: (data.storeId !== null && typeof data.storeId !== 'undefined')
       ? uINTEGER.encode(data.storeId)
       : null,
-    status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uINTEGER.encode(data.status)
+    storeStatus: (data.storeStatus !== null && typeof data.storeStatus !== 'undefined')
+      ? uINTEGER.encode(data.storeStatus)
       : null,
     storageType: (data.storageType !== null && typeof data.storageType !== 'undefined')
       ? sTRING.encode(data.storageType)
@@ -23,8 +23,8 @@ module.exports = {
       ? bOOLEAN.encode(data.dumpEnabled)
       : null,
     pus015Packet: _map(data.pus015Packet, d => (pus015Packet.encode(d))),
-    hkStatusParameterName: (data.hkStatusParameterName !== null && typeof data.hkStatusParameterName !== 'undefined')
-      ? sTRING.encode(data.hkStatusParameterName)
+    hkStoreStatusParameterName: (data.hkStoreStatusParameterName !== null && typeof data.hkStoreStatusParameterName !== 'undefined')
+      ? sTRING.encode(data.hkStoreStatusParameterName)
       : null,
     lastUpdateModeStoreId: (data.lastUpdateModeStoreId !== null && typeof data.lastUpdateModeStoreId !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeStoreId)
@@ -59,13 +59,25 @@ module.exports = {
     listPossibleDownlinkVcs: (data.listPossibleDownlinkVcs !== null && typeof data.listPossibleDownlinkVcs !== 'undefined')
       ? sTRING.encode(data.listPossibleDownlinkVcs)
       : null,
+    downlinkStatus: (data.downlinkStatus !== null && typeof data.downlinkStatus !== 'undefined')
+      ? uINTEGER.encode(data.downlinkStatus)
+      : null,
+    lastUpdateTimeDownlinkStatus: (data.lastUpdateTimeDownlinkStatus !== null && typeof data.lastUpdateTimeDownlinkStatus !== 'undefined')
+      ? sTRING.encode(data.lastUpdateTimeDownlinkStatus)
+      : null,
+    lastUpdateModeDownlinkStatus: (data.lastUpdateModeDownlinkStatus !== null && typeof data.lastUpdateModeDownlinkStatus !== 'undefined')
+      ? uINTEGER.encode(data.lastUpdateModeDownlinkStatus)
+      : null,
+    hkDownlinkStatusParameterName: (data.hkDownlinkStatusParameterName !== null && typeof data.hkDownlinkStatusParameterName !== 'undefined')
+      ? sTRING.encode(data.hkDownlinkStatusParameterName)
+      : null,
   }),
   decode: data => ({
     storeId: (data.storeId !== null && typeof data.storeId !== 'undefined')
       ? uINTEGER.decode(data.storeId)
       : undefined,
-    status: (data.status !== null && typeof data.status !== 'undefined')
-      ? uINTEGER.decode(data.status)
+    storeStatus: (data.storeStatus !== null && typeof data.storeStatus !== 'undefined')
+      ? uINTEGER.decode(data.storeStatus)
       : undefined,
     storageType: (data.storageType !== null && typeof data.storageType !== 'undefined')
       ? sTRING.decode(data.storageType)
@@ -74,8 +86,8 @@ module.exports = {
       ? bOOLEAN.decode(data.dumpEnabled)
       : undefined,
     pus015Packet: _map(data.pus015Packet, d => (pus015Packet.decode(d))),
-    hkStatusParameterName: (data.hkStatusParameterName !== null && typeof data.hkStatusParameterName !== 'undefined')
-      ? sTRING.decode(data.hkStatusParameterName)
+    hkStoreStatusParameterName: (data.hkStoreStatusParameterName !== null && typeof data.hkStoreStatusParameterName !== 'undefined')
+      ? sTRING.decode(data.hkStoreStatusParameterName)
       : undefined,
     lastUpdateModeStoreId: (data.lastUpdateModeStoreId !== null && typeof data.lastUpdateModeStoreId !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeStoreId)
@@ -109,6 +121,18 @@ module.exports = {
       : undefined,
     listPossibleDownlinkVcs: (data.listPossibleDownlinkVcs !== null && typeof data.listPossibleDownlinkVcs !== 'undefined')
       ? sTRING.decode(data.listPossibleDownlinkVcs)
+      : undefined,
+    downlinkStatus: (data.downlinkStatus !== null && typeof data.downlinkStatus !== 'undefined')
+      ? uINTEGER.decode(data.downlinkStatus)
+      : undefined,
+    lastUpdateTimeDownlinkStatus: (data.lastUpdateTimeDownlinkStatus !== null && typeof data.lastUpdateTimeDownlinkStatus !== 'undefined')
+      ? sTRING.decode(data.lastUpdateTimeDownlinkStatus)
+      : undefined,
+    lastUpdateModeDownlinkStatus: (data.lastUpdateModeDownlinkStatus !== null && typeof data.lastUpdateModeDownlinkStatus !== 'undefined')
+      ? uINTEGER.decode(data.lastUpdateModeDownlinkStatus)
+      : undefined,
+    hkDownlinkStatusParameterName: (data.hkDownlinkStatusParameterName !== null && typeof data.hkDownlinkStatusParameterName !== 'undefined')
+      ? sTRING.decode(data.hkDownlinkStatusParameterName)
       : undefined,
   }),
 };

@@ -7,10 +7,10 @@ const stub = require('./pusMmeModel.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/PusMmeModel', () => {
+describe('protobuf/isis/pusModelEditorMessages/PusMmeModel', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/PusMmeModel.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.PusMmeModel');
+    .lookup('pusModelEditorMessages.protobuf.PusMmeModel');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();
@@ -19,9 +19,7 @@ describe('protobuf/isis/pusModelEditor/PusMmeModel', () => {
   test('decode', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
-      serviceApid: { type: 'uinteger', value: stub.serviceApid },
       status: { type: 'uinteger', value: stub.status },
-      serviceApidName: { type: 'string', value: stub.serviceApidName },
       uniqueId: { type: 'ulong', symbol: `${stub.uniqueId}` },
       noHkPackets: { type: 'uinteger', value: stub.noHkPackets },
       noDiagPackets: { type: 'uinteger', value: stub.noDiagPackets },

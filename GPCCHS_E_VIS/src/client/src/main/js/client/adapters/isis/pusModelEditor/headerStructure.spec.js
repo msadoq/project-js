@@ -7,10 +7,10 @@ const stub = require('./headerStructure.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/HeaderStructure', () => {
+describe('protobuf/isis/pusModelEditorMessages/HeaderStructure', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/HeaderStructure.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.HeaderStructure');
+    .lookup('pusModelEditorMessages.protobuf.HeaderStructure');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

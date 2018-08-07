@@ -5,7 +5,7 @@ import "../ccsds_mal/ULONG.proto";
 import "./PusParameter.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus018Obcp {
 extensions 23 to 123;
@@ -31,5 +31,5 @@ extensions 23 to 123;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 19;
   optional ccsds_mal.protobuf.STRING serviceApidName = 20;
   optional ccsds_mal.protobuf.ULONG uniqueId = 21;
-  repeated pusModelEditor.protobuf.PusParameter pusParameter = 22;
+  repeated pusModelEditorMessages.protobuf.PusParameter pusParameter = 22;
 }

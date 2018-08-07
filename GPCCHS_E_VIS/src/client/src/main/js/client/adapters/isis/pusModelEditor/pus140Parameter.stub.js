@@ -6,18 +6,17 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 
 const pus140Parameter = {
   parameterId: 100,
-  apid: 100,
+  serviceApid: 100,
   currentValue: 'mySTRING',
   lastUpdateModeCurrentValue: 100,
   lastUpdateTimeCurrentValue: 'mySTRING',
   lastUpdateModeParamId: 100,
   lastUpdateTimeParamId: 'mySTRING',
-  serviceStatus: 100,
   serviceApidName: 'mySTRING',
   uniqueId: 1000,
-  apidName: 'mySTRING',
   parameterName: 'mySTRING',
   initialValue: 'mySTRING',
+  status: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus140Parameter) : pus140Parameter);

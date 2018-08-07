@@ -48,9 +48,6 @@ module.exports = {
     validityParameterMask: (data.validityParameterMask !== null && typeof data.validityParameterMask !== 'undefined')
       ? sTRING.encode(data.validityParameterMask)
       : null,
-    parameterCurrentValue: (data.parameterCurrentValue !== null && typeof data.parameterCurrentValue !== 'undefined')
-      ? sTRING.encode(data.parameterCurrentValue)
-      : null,
     validityParameterExpectedValue: (data.validityParameterExpectedValue !== null && typeof data.validityParameterExpectedValue !== 'undefined')
       ? sTRING.encode(data.validityParameterExpectedValue)
       : null,
@@ -87,12 +84,6 @@ module.exports = {
     lastUpdateTimeValParamId: (data.lastUpdateTimeValParamId !== null && typeof data.lastUpdateTimeValParamId !== 'undefined')
       ? sTRING.encode(data.lastUpdateTimeValParamId)
       : null,
-    lastUpdateModeParamCurrentValue: (data.lastUpdateModeParamCurrentValue !== null && typeof data.lastUpdateModeParamCurrentValue !== 'undefined')
-      ? uINTEGER.encode(data.lastUpdateModeParamCurrentValue)
-      : null,
-    lastUpdateTimeParamCurrentValue: (data.lastUpdateTimeParamCurrentValue !== null && typeof data.lastUpdateTimeParamCurrentValue !== 'undefined')
-      ? sTRING.encode(data.lastUpdateTimeParamCurrentValue)
-      : null,
     lastUpdateModeValParamExpectValue: (data.lastUpdateModeValParamExpectValue !== null && typeof data.lastUpdateModeValParamExpectValue !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeValParamExpectValue)
       : null,
@@ -120,8 +111,8 @@ module.exports = {
     lastUpdateModeCheckType: (data.lastUpdateModeCheckType !== null && typeof data.lastUpdateModeCheckType !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeCheckType)
       : null,
-    lastUpdateTimeCheckTime: (data.lastUpdateTimeCheckTime !== null && typeof data.lastUpdateTimeCheckTime !== 'undefined')
-      ? sTRING.encode(data.lastUpdateTimeCheckTime)
+    lastUpdateTimeCheckType: (data.lastUpdateTimeCheckType !== null && typeof data.lastUpdateTimeCheckType !== 'undefined')
+      ? sTRING.encode(data.lastUpdateTimeCheckType)
       : null,
     lastUpdateModeMonStatus: (data.lastUpdateModeMonStatus !== null && typeof data.lastUpdateModeMonStatus !== 'undefined')
       ? uINTEGER.encode(data.lastUpdateModeMonStatus)
@@ -185,9 +176,6 @@ module.exports = {
     validityParameterMask: (data.validityParameterMask !== null && typeof data.validityParameterMask !== 'undefined')
       ? sTRING.decode(data.validityParameterMask)
       : undefined,
-    parameterCurrentValue: (data.parameterCurrentValue !== null && typeof data.parameterCurrentValue !== 'undefined')
-      ? sTRING.decode(data.parameterCurrentValue)
-      : undefined,
     validityParameterExpectedValue: (data.validityParameterExpectedValue !== null && typeof data.validityParameterExpectedValue !== 'undefined')
       ? sTRING.decode(data.validityParameterExpectedValue)
       : undefined,
@@ -224,12 +212,6 @@ module.exports = {
     lastUpdateTimeValParamId: (data.lastUpdateTimeValParamId !== null && typeof data.lastUpdateTimeValParamId !== 'undefined')
       ? sTRING.decode(data.lastUpdateTimeValParamId)
       : undefined,
-    lastUpdateModeParamCurrentValue: (data.lastUpdateModeParamCurrentValue !== null && typeof data.lastUpdateModeParamCurrentValue !== 'undefined')
-      ? uINTEGER.decode(data.lastUpdateModeParamCurrentValue)
-      : undefined,
-    lastUpdateTimeParamCurrentValue: (data.lastUpdateTimeParamCurrentValue !== null && typeof data.lastUpdateTimeParamCurrentValue !== 'undefined')
-      ? sTRING.decode(data.lastUpdateTimeParamCurrentValue)
-      : undefined,
     lastUpdateModeValParamExpectValue: (data.lastUpdateModeValParamExpectValue !== null && typeof data.lastUpdateModeValParamExpectValue !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeValParamExpectValue)
       : undefined,
@@ -257,8 +239,8 @@ module.exports = {
     lastUpdateModeCheckType: (data.lastUpdateModeCheckType !== null && typeof data.lastUpdateModeCheckType !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeCheckType)
       : undefined,
-    lastUpdateTimeCheckTime: (data.lastUpdateTimeCheckTime !== null && typeof data.lastUpdateTimeCheckTime !== 'undefined')
-      ? sTRING.decode(data.lastUpdateTimeCheckTime)
+    lastUpdateTimeCheckType: (data.lastUpdateTimeCheckType !== null && typeof data.lastUpdateTimeCheckType !== 'undefined')
+      ? sTRING.decode(data.lastUpdateTimeCheckType)
       : undefined,
     lastUpdateModeMonStatus: (data.lastUpdateModeMonStatus !== null && typeof data.lastUpdateModeMonStatus !== 'undefined')
       ? uINTEGER.decode(data.lastUpdateModeMonStatus)

@@ -7,10 +7,10 @@ const stub = require('./resetStructure.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/ResetStructure', () => {
+describe('protobuf/isis/pusModelEditorMessages/ResetStructure', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/ResetStructure.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.ResetStructure');
+    .lookup('pusModelEditorMessages.protobuf.ResetStructure');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

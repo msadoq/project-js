@@ -4,22 +4,21 @@ import "../ccsds_mal/UINTEGER.proto";
 import "../ccsds_mal/ULONG.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus140Parameter {
-extensions 14 to 114;
+extensions 13 to 113;
 
   optional ccsds_mal.protobuf.UINTEGER parameterId = 1;
-  optional ccsds_mal.protobuf.UINTEGER apid = 2;
+  optional ccsds_mal.protobuf.UINTEGER serviceApid = 2;
   optional ccsds_mal.protobuf.STRING currentValue = 3;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeCurrentValue = 4;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeCurrentValue = 5;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeParamId = 6;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeParamId = 7;
-  optional ccsds_mal.protobuf.UINTEGER serviceStatus = 8;
-  optional ccsds_mal.protobuf.STRING serviceApidName = 9;
-  optional ccsds_mal.protobuf.ULONG uniqueId = 10;
-  optional ccsds_mal.protobuf.STRING apidName = 11;
-  optional ccsds_mal.protobuf.STRING parameterName = 12;
-  optional ccsds_mal.protobuf.STRING initialValue = 13;
+  optional ccsds_mal.protobuf.STRING serviceApidName = 8;
+  optional ccsds_mal.protobuf.ULONG uniqueId = 9;
+  optional ccsds_mal.protobuf.STRING parameterName = 10;
+  optional ccsds_mal.protobuf.STRING initialValue = 11;
+  optional ccsds_mal.protobuf.UINTEGER status = 12;
 }

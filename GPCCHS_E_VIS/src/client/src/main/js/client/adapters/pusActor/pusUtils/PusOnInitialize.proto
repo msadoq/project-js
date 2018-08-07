@@ -1,9 +1,0 @@
-package pusUtils.protobuf;
-
-import "./PusDelta.proto";
-import "./PusWholeModel.proto";
-
-message PusOnInitialize {
-    required pusUtils.protobuf.PusWholeModel pusWholeModel = 1;
-    repeated pusUtils.protobuf.PusDelta deltas = 2;
-}

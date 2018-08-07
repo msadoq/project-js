@@ -5,9 +5,7 @@ const _defaultsDeep = require('lodash/defaultsDeep');
 const getPusMmePacket = require('./pusMmePacket.stub');
 
 const pusMmeModel = {
-  serviceApid: 100,
   status: 100,
-  serviceApidName: 'mySTRING',
   uniqueId: 1000,
   pusMmePacket: [getPusMmePacket(), getPusMmePacket()],
   noHkPackets: 100,

@@ -5,12 +5,12 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus144OnboardFile.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus144Model {
 extensions 6 to 106;
 
-  repeated pusModelEditor.protobuf.Pus144OnboardFile pus144OnboardFiles = 1;
+  repeated pusModelEditorMessages.protobuf.Pus144OnboardFile pus144OnboardFiles = 1;
   optional ccsds_mal.protobuf.UINTEGER status = 2;
   optional ccsds_mal.protobuf.ULONG uniqueId = 3;
   optional ccsds_mal.protobuf.UINTEGER serviceApid = 4;

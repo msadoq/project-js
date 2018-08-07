@@ -2,10 +2,10 @@
 import "./PusValue.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message PusElementList {
 extensions 2 to 102;
 
-  repeated pusModelEditor.protobuf.PusValue pusValue = 1;
+  repeated pusModelEditorMessages.protobuf.PusValue pusValue = 1;
 }

@@ -7,8 +7,6 @@ const getPus140Parameter = require('./pus140Parameter.stub');
 const pus140Model = {
   pus140Parameter: [getPus140Parameter(), getPus140Parameter()],
   status: 100,
-  serviceStatus: 100,
-  serviceApidName: 'mySTRING',
   uniqueId: 1000,
 };
 

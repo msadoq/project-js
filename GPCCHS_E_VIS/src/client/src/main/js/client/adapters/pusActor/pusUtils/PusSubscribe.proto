@@ -1,5 +1,0 @@
-package pusUtils.protobuf;
-message PusSubscribe {
-    required string pusId = 1;
-    required string apId = 2;
-}

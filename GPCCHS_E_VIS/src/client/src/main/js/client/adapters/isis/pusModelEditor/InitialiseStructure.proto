@@ -3,7 +3,7 @@ import "../ccsds_mal/BOOLEAN.proto";
 import "../ccsds_mal/TIME.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message InitialiseStructure {
 extensions 5 to 105;

@@ -5,7 +5,7 @@ import "../ccsds_mal/UINTEGER.proto";
 import "../ccsds_mal/ULONG.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus015Packet {
 extensions 18 to 118;

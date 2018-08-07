@@ -7,10 +7,10 @@ const stub = require('./pus005OnBoardEvent.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus005OnBoardEvent', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus005OnBoardEvent', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus005OnBoardEvent.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus005OnBoardEvent');
+    .lookup('pusModelEditorMessages.protobuf.Pus005OnBoardEvent');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

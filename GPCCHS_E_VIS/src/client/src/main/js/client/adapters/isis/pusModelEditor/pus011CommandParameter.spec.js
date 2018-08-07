@@ -7,10 +7,10 @@ const stub = require('./pus011CommandParameter.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus011CommandParameter', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus011CommandParameter', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus011CommandParameter.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus011CommandParameter');
+    .lookup('pusModelEditorMessages.protobuf.Pus011CommandParameter');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

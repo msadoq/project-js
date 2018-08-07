@@ -5,13 +5,13 @@ import "../ccsds_mal/ULONG.proto";
 import "./Pus142FunctionalMonitoring.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus142Model {
 extensions 9 to 109;
 
   optional ccsds_mal.protobuf.UINTEGER serviceStatus = 1;
-  repeated pusModelEditor.protobuf.Pus142FunctionalMonitoring pus142FunctionalMonitoring = 2;
+  repeated pusModelEditorMessages.protobuf.Pus142FunctionalMonitoring pus142FunctionalMonitoring = 2;
   optional ccsds_mal.protobuf.UINTEGER status = 3;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeServiceStatus = 4;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeServiceStatus = 5;

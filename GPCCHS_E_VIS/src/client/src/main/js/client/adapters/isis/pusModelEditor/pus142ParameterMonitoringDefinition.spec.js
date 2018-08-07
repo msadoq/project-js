@@ -7,10 +7,10 @@ const stub = require('./pus142ParameterMonitoringDefinition.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus142ParameterMonitoringDefinition', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus142ParameterMonitoringDefinition', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus142ParameterMonitoringDefinition.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus142ParameterMonitoringDefinition');
+    .lookup('pusModelEditorMessages.protobuf.Pus142ParameterMonitoringDefinition');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

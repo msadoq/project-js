@@ -7,10 +7,10 @@ const stub = require('./pus011TimeShift.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus011TimeShift', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus011TimeShift', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus011TimeShift.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus011TimeShift');
+    .lookup('pusModelEditorMessages.protobuf.Pus011TimeShift');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

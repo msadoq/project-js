@@ -1,11 +1,10 @@
 // Produced by Acceleo JavaScript Generator 1.1.2
-import "../ccsds_mal/BLOB.proto";
 import "../ccsds_mal/STRING.proto";
 import "../ccsds_mal/UINTEGER.proto";
 import "../ccsds_mal/ULONG.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus019EventAction {
 extensions 22 to 122;
@@ -13,7 +12,7 @@ extensions 22 to 122;
   optional ccsds_mal.protobuf.UINTEGER apid = 1;
   optional ccsds_mal.protobuf.UINTEGER rid = 2;
   optional ccsds_mal.protobuf.UINTEGER actionStatus = 3;
-  optional ccsds_mal.protobuf.BLOB actionTcPacket = 4;
+  optional ccsds_mal.protobuf.STRING actionTcPacket = 4;
   optional ccsds_mal.protobuf.STRING ridLabel = 5;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeActionStatus = 6;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeActionStatus = 7;
@@ -28,7 +27,7 @@ extensions 22 to 122;
   optional ccsds_mal.protobuf.STRING serviceApidName = 16;
   optional ccsds_mal.protobuf.STRING apidName = 17;
   optional ccsds_mal.protobuf.STRING actionDescription = 18;
-  optional ccsds_mal.protobuf.STRING selectionStatus = 19;
-  optional ccsds_mal.protobuf.UINTEGER lastUpdateModeSelectionStatus = 20;
-  optional ccsds_mal.protobuf.STRING lastUpdateTimeSelectionStatus = 21;
+  optional ccsds_mal.protobuf.UINTEGER actionTcApid = 19;
+  optional ccsds_mal.protobuf.UINTEGER actionTcType = 20;
+  optional ccsds_mal.protobuf.UINTEGER actionTcSubType = 21;
 }

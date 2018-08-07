@@ -7,10 +7,10 @@ const stub = require('./pus144OnboardFile.stub')();
 
 
 
-describe('protobuf/isis/pusModelEditor/Pus144OnboardFile', () => {
+describe('protobuf/isis/pusModelEditorMessages/Pus144OnboardFile', () => {
   const builder = new ProtoBuf.Root()
     .loadSync(`${__dirname}/Pus144OnboardFile.proto`, { keepCase: true })
-    .lookup('pusModelEditor.protobuf.Pus144OnboardFile');
+    .lookup('pusModelEditorMessages.protobuf.Pus144OnboardFile');
   let buffer;
   test('encode', () => {
     buffer = builder.encode(adapter.encode(stub)).finish();

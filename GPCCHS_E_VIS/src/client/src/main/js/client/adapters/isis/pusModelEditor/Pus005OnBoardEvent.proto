@@ -4,7 +4,7 @@ import "../ccsds_mal/UINTEGER.proto";
 import "../ccsds_mal/ULONG.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus005OnBoardEvent {
 extensions 19 to 119;

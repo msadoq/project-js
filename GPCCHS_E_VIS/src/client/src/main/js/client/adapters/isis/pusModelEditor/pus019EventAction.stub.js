@@ -8,7 +8,7 @@ const pus019EventAction = {
   apid: 100,
   rid: 100,
   actionStatus: 100,
-  actionTcPacket: Buffer.alloc(4, 1),
+  actionTcPacket: 'mySTRING',
   ridLabel: 'mySTRING',
   lastUpdateModeActionStatus: 100,
   lastUpdateTimeActionStatus: 'mySTRING',
@@ -23,9 +23,9 @@ const pus019EventAction = {
   serviceApidName: 'mySTRING',
   apidName: 'mySTRING',
   actionDescription: 'mySTRING',
-  selectionStatus: 'mySTRING',
-  lastUpdateModeSelectionStatus: 100,
-  lastUpdateTimeSelectionStatus: 'mySTRING',
+  actionTcApid: 100,
+  actionTcType: 100,
+  actionTcSubType: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus019EventAction) : pus019EventAction);

@@ -7,7 +7,7 @@ import "./Pus011CommandParameter.proto";
 import "./Pus011TimeShift.proto";
 
 
-package pusModelEditor.protobuf;
+package pusModelEditorMessages.protobuf;
 
 message Pus011Command {
 extensions 35 to 135;
@@ -43,7 +43,7 @@ extensions 35 to 135;
   optional ccsds_mal.protobuf.INTEGER totalTimeShiftOffset = 29;
   optional ccsds_mal.protobuf.UINTEGER lastUpdateModeTotalTimeShiftOffset = 30;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeTotalTimeShiftOffset = 31;
-  repeated pusModelEditor.protobuf.Pus011CommandParameter pus011CommandParameters = 32;
-  repeated pusModelEditor.protobuf.Pus011TimeShift pus011TimeShift = 33;
+  repeated pusModelEditorMessages.protobuf.Pus011CommandParameter pus011CommandParameters = 32;
+  repeated pusModelEditorMessages.protobuf.Pus011TimeShift pus011TimeShift = 33;
   optional ccsds_mal.protobuf.STRING serviceApidName = 34;
 }

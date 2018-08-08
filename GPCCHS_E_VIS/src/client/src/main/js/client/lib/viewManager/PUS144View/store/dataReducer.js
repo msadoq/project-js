@@ -62,12 +62,10 @@ function pus144DataReducer(state = {}, action) {
           ...store,
           fileProtectionStatus: fileProtectionStatuses[_.get('fileProtectionStatus', store)],
           fileMode: fileModes[_.get('fileMode', store)],
-          ...(store.isFileSizeSet ? {
+          ...store.isFileSizeSet ? {
             fileSize: _.get('fileSize', store),
             lastUpdateModeFileSize: updateTypes[_.getOr('200', 'lastUpdateModeFileSize', store)],
-          } : {
-            fileSize: '',
-          }),
+          } : { fileSize: '' },
           isChecksumOk:
             _.get('uploadedFileChecksum', store) === (_.get('computedFileChecksum', store)),
           lastUpdateModeOnBoardFileId: updateTypes[_.getOr('200', 'lastUpdateModeOnBoardFileId', store)],

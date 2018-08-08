@@ -77,6 +77,7 @@ function pus11DataReducer(state = {}, action) {
         _.getOr([], ['pus011Command'], data)
         .map(command => ({
           ...command,
+          commandBinaryProfile: _.chunk(2, _.getOr('', 'commandBinaryProfile', command).split('')).map(c => c.join('')),
           lastUpdateModeCommandId: updateTypes[String(_.getOr(200, 'lastUpdateModeCommandId', command))], // map schedule lastUpdateModeCommandId constant
           lastUpdateModeBinProf: updateTypes[String(_.getOr(200, 'lastUpdateModeBinProf', command))], // map schedule lastUpdateModeBinProf constant
           commandStatus: statuses[String(_.getOr(200, 'commandStatus', command))], // map schedule commandStatus constant

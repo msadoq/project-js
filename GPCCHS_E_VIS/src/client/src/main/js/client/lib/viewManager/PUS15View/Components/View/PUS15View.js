@@ -79,8 +79,8 @@ export default class PUS15View extends React.Component {
               serviceApidName
             )}
           </div>
-          <div className="col-sm-12">
-            <div style={{ height: 400 }}>
+          <div className="col-sm-12 h100">
+            <div className="row tablesHeight">
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'onBoardStorages'}
@@ -88,9 +88,7 @@ export default class PUS15View extends React.Component {
                 overrideStyle={_onBoardStoragesOverrideStyle}
               />
             </div>
-          </div>
-          <div className="col-sm-12">
-            <div style={{ height: 400 }}>
+            <div className="row tablesHeight">
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'storageDef'}

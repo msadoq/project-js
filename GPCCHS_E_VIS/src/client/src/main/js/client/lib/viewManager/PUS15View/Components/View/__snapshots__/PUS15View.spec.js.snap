@@ -29,14 +29,10 @@ exports[`viewManager/PUS15View/Components/View/PUS15View PUS15View :: render sna
       </ErrorBoundary>
     </div>
     <div
-      className="col-sm-12"
+      className="col-sm-12 h100"
     >
       <div
-        style={
-          Object {
-            "height": 400,
-          }
-        }
+        className="row tablesHeight"
       >
         <Connect(VirtualizedTableView)
           contentModifier={[Function]}
@@ -45,16 +41,8 @@ exports[`viewManager/PUS15View/Components/View/PUS15View PUS15View :: render sna
           viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
         />
       </div>
-    </div>
-    <div
-      className="col-sm-12"
-    >
       <div
-        style={
-          Object {
-            "height": 400,
-          }
-        }
+        className="row tablesHeight"
       >
         <Connect(VirtualizedTableView)
           contentModifier={[Function]}

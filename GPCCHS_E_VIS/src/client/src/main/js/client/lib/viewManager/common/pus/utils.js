@@ -1,3 +1,5 @@
+
+import _ from 'lodash/fp';
 import {
   VM_VIEW_PUS05,
   VM_VIEW_PUS11,
@@ -53,7 +55,7 @@ export const tableModifier = tooltips =>
   };
 
 export const getModelEntryByDataType = (dataType) => {
-  switch (dataType){
+  switch (dataType) {
     case constants.Pus005OnBoardEvent: {
       return constants.PUS005_ON_BOARD_EVENT;
     }
@@ -189,4 +191,20 @@ export const getTableIdsByPusService = (pusService) => {
       return null;
     }
   }
+};
+
+export const bindToBoolKey = (arr, store) => {
+  const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
+  const [boolKey, key, toolType] = arr;
+  let newStore = _.pick([key, toolType], store);
+  if (_.get(boolKey, store)) {
+    newStore = _.set(
+      toolType,
+      updateTypes[String(_.getOr(200, toolType, newStore))],
+      newStore
+    );
+  } else {
+    newStore = _.set(key, '', newStore);
+  }
+  return newStore;
 };

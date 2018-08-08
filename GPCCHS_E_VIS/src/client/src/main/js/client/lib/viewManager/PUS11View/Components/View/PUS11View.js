@@ -105,28 +105,26 @@ export default class PUS11View extends React.Component {
       <ErrorBoundary>
         <div className="pus11">
           {headers}
-          <div className="col-sm-6">
-            <div style={{ height: 400 }}>
-              <VirtualizedTableViewContainer
-                viewId={viewId}
-                tableId={'subSchedules'}
-                data={data.tables.subSchedules.data}
-                overrideStyle={_subSchedulesOverrideStyle}
-                contentModifier={_subSchedulesContentModifier}
-              />
+          <div className="info col-sm-12 h100">
+            <div className="row small">
+              <div className="col-sm-6 h100">
+                <VirtualizedTableViewContainer
+                  viewId={viewId}
+                  tableId={'subSchedules'}
+                  data={data.tables.subSchedules.data}
+                  overrideStyle={_subSchedulesOverrideStyle}
+                  contentModifier={_subSchedulesContentModifier}
+                />
+              </div>
+              <div className="col-sm-6 h100">
+                <VirtualizedTableViewContainer
+                  viewId={viewId}
+                  tableId={'enabledApids'}
+                  data={data.tables.enabledApids.data}
+                />
+              </div>
             </div>
-          </div>
-          <div className="col-sm-6">
-            <div style={{ height: 400 }}>
-              <VirtualizedTableViewContainer
-                viewId={viewId}
-                tableId={'enabledApids'}
-                data={data.tables.enabledApids.data}
-              />
-            </div>
-          </div>
-          <div className="info col-sm-12">
-            <div style={{ height: 400 }}>
+            <div className="row main">
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'commands'}

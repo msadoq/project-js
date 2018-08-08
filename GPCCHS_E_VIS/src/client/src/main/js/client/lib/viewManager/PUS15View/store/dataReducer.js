@@ -14,6 +14,8 @@ import { VM_VIEW_PUS15 } from '../../constants';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
 import { INJECT_PUS_DATA } from '../../../store/types';
 import { injectTabularData } from '../../commonData/reducer';
+import { bindToBoolKey } from '../../common/pus/utils';
+
 
 // eslint-disable-next-line no-unused-vars
 function pus15DataReducer(state = {}, action) {
@@ -42,7 +44,6 @@ function pus15DataReducer(state = {}, action) {
         return state;
       }
       let updatedState = state;
-
       const statuses = parameters.get('PUS_CONSTANTS').STATUS;
       const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
@@ -68,22 +69,16 @@ function pus15DataReducer(state = {}, action) {
           lastUpdateModeDownlinkStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeDownlinkStatus', store))],
         }))
       );
+
       updatedState = injectTabularData(updatedState, 'storageDef',
         _.getOr([], ['pus015PacketStore'], data)
           .reduce((acc, store) => [...acc, ...store.pus015Packet], [])
           .map(packet => ({
             ...packet,
-            ...packet.isSubsamplingRatio ? {
-              subsamplingRatio: _.getOr('', 'subsamplingRatio', packet),
-              lastUpdateModeSubSamplingRatio: updateTypes[String(_.getOr(200, 'lastUpdateModeSubSamplingRatio', packet))],
-            } : { subsamplingRatio: '' },
-            serviceType: updateTypes[String(_.getOr('', 'serviceType', packet))],
-            serviceSubType: updateTypes[String(_.getOr(200, 'serviceSubType', packet))],
-            packetType: updateTypes[String(_.getOr(200, 'packetType', packet))],
+            ...bindToBoolKey(['isSubsamplingRatioSet', 'subsamplingRatio', 'lastUpdateModeSubSamplingRatio'], packet),
             lastUpdateModePacketId: updateTypes[String(_.getOr(200, 'lastUpdateModePacketId', packet))],
           }))
       );
-
       return updatedState;
     }
     default:

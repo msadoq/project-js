@@ -46,6 +46,7 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
             pus011Command: [
               {
                 baz: 'baz',
+                commandBinaryProfile: '0215448994313434',
                 lastUpdateModeCommandId: 1,
                 lastUpdateModeBinProf: 1,
                 commandStatus: 1,
@@ -117,6 +118,16 @@ describe('viewManager/PUS11View/store/dataReducer', () => {
             data: [
               {
                 baz: 'baz',
+                commandBinaryProfile: [
+                  '02',
+                  '15',
+                  '44',
+                  '89',
+                  '94',
+                  '31',
+                  '34',
+                  '34',
+                ],
                 lastUpdateModeCommandId: 'TC',
                 lastUpdateModeBinProf: 'TC',
                 commandStatus: 'DISABLED',

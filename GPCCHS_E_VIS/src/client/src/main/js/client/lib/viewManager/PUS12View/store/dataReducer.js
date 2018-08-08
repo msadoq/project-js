@@ -14,7 +14,7 @@ import { VM_VIEW_PUS12 } from '../../constants';
 import createScopedDataReducer from '../../commonData/createScopedDataReducer';
 import { INJECT_PUS_DATA } from '../../../store/types';
 import { injectTabularData } from '../../commonData/reducer';
-
+import { bindToBoolKey } from '../../common/pus/utils';
 
 // eslint-disable-next-line no-unused-vars
 function pus12DataReducer(state = {}, action) {
@@ -58,21 +58,6 @@ function pus12DataReducer(state = {}, action) {
 
       const isExpectedValue = elData => checkTypes[_.getOr('4', 'checkType', elData)] === 'EXPECTED VALUE';
       const isDeltaOrLimit = hData => ['DELTA', 'LIMIT'].includes(checkTypes[_.getOr('4', 'checkType', hData)]);
-
-      const bindToBoolKey = (arr, store) => {
-        const [boolKey, key, toolType] = arr;
-        let newStore = _.pick([key, toolType], store);
-        if (_.get(boolKey, store)) {
-          newStore = _.set(
-            toolType,
-            updateTypes[String(_.getOr(200, toolType, newStore))],
-            newStore
-          );
-        } else {
-          newStore = _.set(key, '', newStore);
-        }
-        return newStore;
-      };
 
       const selectExpectedData = (store) => {
         const isExpected = isExpectedValue(store);

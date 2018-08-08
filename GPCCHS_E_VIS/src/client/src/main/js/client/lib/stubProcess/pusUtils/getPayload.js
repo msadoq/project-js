@@ -5,6 +5,7 @@ const predictibleRand = require('../utils/predictibleRand');
 const stubData = stubs.getStubData();
 const getAFileMode = () => predictibleRand.getFrom(['1', '2']);
 const getAStatus = () => predictibleRand.getFrom([1, 2, 3, 200]);
+const getACheckType = () => predictibleRand.getInt([1, 4]).toString();
 const getAnUpdateMode = () => predictibleRand.getInt([1, 4]);
 const getABoolean = () => predictibleRand.getBool();
 const getAGroundStatus = () => predictibleRand.getInt([1, 8]).toString();
@@ -427,7 +428,7 @@ const getDataByPusService = (pusService, serviceApid, timestamp, type) => {
             stubData.getPus012ParameterMonitoringDefinition({
               serviceApid,
               monitoringStatus: getAStatus(),
-              checkType: getAStatus(),
+              checkType: getACheckType(),
               isMonitoringIntervalSet: getABoolean(),
               isRepetitionNumberSet: getABoolean(),
               lastUpdateModeMonInterval: getAnUpdateMode(),
@@ -496,7 +497,7 @@ const getDataByPusService = (pusService, serviceApid, timestamp, type) => {
             stubData.getPus012ParameterMonitoringDefinition({
               serviceApid,
               monitoringStatus: getAStatus(),
-              checkType: getAStatus(),
+              checkType: getACheckType(),
               isMonitoringIntervalSet: getABoolean(),
               isRepetitionNumberSet: getABoolean(),
               lastUpdateModeMonInterval: getAnUpdateMode(),
@@ -594,51 +595,46 @@ const getDataByPusService = (pusService, serviceApid, timestamp, type) => {
               lastUpdateTimeDownlinkStatus: timestamp.toString(),
               pus015Packet: [
                 stubData.getPus015Packet({
-                  serviceType: getAnUpdateMode(),
-                  serviceSubType: getAnUpdateMode(),
+                  isSubsamplingRatioSet: getABoolean(),
                   lastUpdateModePacketId: getAnUpdateMode(),
-                  lastUpdateTimePacketId: timestamp.toString(),
                   lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
+                  lastUpdateTimePacketId: timestamp.toString(),
                   lastUpdateTimeSubSamplingRatio: timestamp.toString(),
-                  packetType: getAnUpdateMode(),
                 }),
                 stubData.getPus015Packet({
-                  serviceType: getAnUpdateMode(),
-                  serviceSubType: getAnUpdateMode(),
+                  isSubsamplingRatioSet: getABoolean(),
                   lastUpdateModePacketId: getAnUpdateMode(),
-                  lastUpdateTimePacketId: timestamp.toString(),
                   lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
+                  lastUpdateTimePacketId: timestamp.toString(),
                   lastUpdateTimeSubSamplingRatio: timestamp.toString(),
-                  packetType: getAnUpdateMode(),
                 }),
               ],
             }),
             stubData.getPus015PacketStore({
-              status: getAStatus(),
+              storeStatus: getAStatus(),
+              downlinkStatus: getAStatus(),
               lastUpdateModeStoreId: getAnUpdateMode(),
-              lastUpdateTimeStoreId: timestamp.toString(),
               lastUpdateModeStoreType: getAnUpdateMode(),
-              lastUpdateTimeStoreType: timestamp.toString(),
               lastUpdateModeStoreStatus: getAnUpdateMode(),
+              lastUpdateModeDownlinkStatus: getAnUpdateMode(),
+              lastUpdateTimeStoreId: timestamp.toString(),
+              lastUpdateTimeStoreType: timestamp.toString(),
               lastUpdateTimeStoreStatus: timestamp.toString(),
+              lastUpdateTimeDownlinkStatus: timestamp.toString(),
               pus015Packet: [
                 stubData.getPus015Packet({
-                  serviceType: getAnUpdateMode(),
-                  serviceSubType: getAnUpdateMode(),
+                  isSubsamplingRatioSet: getABoolean(),
                   lastUpdateModePacketId: getAnUpdateMode(),
-                  lastUpdateTimePacketId: timestamp.toString(),
                   lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
+                  lastUpdateTimePacketId: timestamp.toString(),
                   lastUpdateTimeSubSamplingRatio: timestamp.toString(),
-                  packetType: getAnUpdateMode(),
                 }),
                 stubData.getPus015Packet({
-                  serviceType: getAnUpdateMode(),
-                  serviceSubType: getAnUpdateMode(),
+                  isSubsamplingRatioSet: getABoolean(),
                   lastUpdateModePacketId: getAnUpdateMode(),
-                  lastUpdateTimePacketId: timestamp.toString(),
                   lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
+                  lastUpdateTimePacketId: timestamp.toString(),
                   lastUpdateTimeSubSamplingRatio: timestamp.toString(),
-                  packetType: getAnUpdateMode(),
                 }),
               ],
             }),

@@ -12,6 +12,7 @@ import { createTableData } from '../../../common/pus/tooltip';
 
 const popoverStyle = { height: 70 };
 
+// SUB SCHEDULES
 const subSchedulesTooltips = {
   ssId: { mode: 'lastUpdateModeSubScheduleId', time: 'lastUpdateTimeSubscheduleId' },
   ssIdLabel: { mode: 'lastUpdateModeSubScheduleId', time: 'lastUpdateTimeSubscheduleId' },
@@ -20,26 +21,27 @@ const subSchedulesTooltips = {
 };
 const _subSchedulesContentModifier = tableModifier(subSchedulesTooltips);
 
+// apply background color to cells for which value is ENABLED or DISABLED
+const _subSchedulesOverrideStyle = tableOverrideStyle(['status']);
+
+
+// COMMANDS
 const commandTooltips = {
   commandSsId: { mode: 'lastUpdateModeCommandId', time: 'lastUpdateTimeCommandId' },
+  commandName: { mode: 'lastUpdateModeCommandId', time: 'lastUpdateTimeCommandId' },
+  commandDescription: { mode: 'lastUpdateModeCommandId', time: 'lastUpdateTimeCommandId' },
+  commandSequenceCount: { mode: 'lastUpdateModeCommandId', time: 'lastUpdateTimeCommandId' },
+  commandSourceId: { mode: 'lastUpdateModeCommandId', time: 'lastUpdateTimeCommandId' },
   commandStatus: { mode: 'lastUpdateModeStatus', time: 'lastUpdateTimeStatus' },
   commandGroundStatus: { mode: 'lastUpdateModeGroundStatus', time: 'lastUpdateTimeGroundStatus' },
-  currentExecutionTime: { mode: 'lastUpdateModeCurrentExecTime', time: 'lastUpdateTimeCurrentExecTime' },
   initialExecutionTime: { mode: 'lastUpdateModeInitialExecTime', time: 'lastUpdateTimeInitialExecTime' },
+  currentExecutionTime: { mode: 'lastUpdateModeCurrentExecTime', time: 'lastUpdateTimeCurrentExecTime' },
   totalTimeShiftOffset: { mode: 'lastUpdateModeTotalTimeShiftOffset', time: 'lastUpdateTimeTotalTimeShiftOffset' },
 };
 const _commandContentModifier = tableModifier(commandTooltips);
 
-// SUB SCHEDULES
 // apply background color to cells for which value is ENABLED or DISABLED
-const _subSchedulesOverrideStyle = tableOverrideStyle(['status']);
-
-// COMMANDS
-const _commandsStatusKeyList = [
-  'commandStatus',
-];
-// apply background color to cells for which value is ENABLED or DISABLED
-const _commandsOverrideStyle = tableOverrideStyle(_commandsStatusKeyList);
+const _commandsOverrideStyle = tableOverrideStyle(['commandStatus']);
 
 export default class PUS11View extends React.Component {
   static propTypes = {

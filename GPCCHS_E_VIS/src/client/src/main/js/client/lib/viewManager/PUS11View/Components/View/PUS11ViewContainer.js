@@ -69,9 +69,9 @@ const mapStateToProps = (state, { viewId }) => {
         ...command,
         lastUpdateModeCommandId: updateTypes[_.getOr(200, 'lastUpdateModeCommandId', command)], // map schedule lastUpdateModeCommandId constant
         lastUpdateModeBinProf: updateTypes[_.getOr(200, 'lastUpdateModeBinProf', command)], // map schedule lastUpdateModeBinProf constant
-        commandStatus: statuses[_.getOr(200, 'commandStatus', command)], // map schedule commandStatus constant
+        commandStatus: statuses[String(_.getOr(200, 'commandStatus', command))], // map schedule commandStatus constant
         lastUpdateModeGroundStatus: updateTypes[_.getOr(200, 'lastUpdateModeGroundStatus', command)], // map schedule lastUpdateModeGroundStatus constant
-        commandGroundStatus: groundStatuses[_.getOr(200, 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
+        commandGroundStatus: groundStatuses[_.getOr('empty', 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
         lastUpdateModeStatus: updateTypes[_.getOr(200, 'lastUpdateModeStatus', command)], // map schedule lastUpdateModeStatus constant
         lastUpdateModeCurrentExecTime: updateTypes[_.getOr(200, 'lastUpdateModeCurrentExecTime', command)], // map schedule lastUpdateModeCurrentExecTime constant
         lastUpdateModeInitialExecTime: updateTypes[_.getOr(200, 'lastUpdateModeInitialExecTime', command)], // map schedule lastUpdateModeInitialExecTime constant

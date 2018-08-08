@@ -8,71 +8,50 @@ const initialConfiguration = {
     subSchedules: {
       name: 'Sub schedules',
       sorting: {
-        colName: 'ssId',
+        colName: 'serviceApidName',
         direction: 'DESC',
       },
       cols: [
-        { title: 'ssId', displayed: true }, // A afficher dans le tableau SubSchedules
-        { title: 'ssIdLabel', displayed: true }, // A afficher dans le tableau SubSchedules
-        { title: 'serviceApidName', displayed: true }, // A afficher dans le tableau SubSchedules
-        { title: 'status', displayed: true }, // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue. Si 3 (DELETED), supprimer l’entrée du state
-        { title: 'executionTimeFirstTc', displayed: true }, // A afficher dans le tableau SubSchedules
+        { label: 'APID Name', title: 'serviceApidName', displayed: true }, // A afficher dans le tableau SubSchedules
+        { label: 'SSID', title: 'ssId', displayed: true }, // A afficher dans le tableau SubSchedules
+        { label: 'SSID Label', title: 'ssIdLabel', displayed: true }, // A afficher dans le tableau SubSchedules
+        { label: 'Status', title: 'status', displayed: true }, // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue. Si 3 (DELETED), supprimer l’entrée du state
+        { label: 'First TC Time', title: 'executionTimeFirstTc', displayed: true }, // A afficher dans le tableau SubSchedules
       ],
     },
     enabledApids: {
       name: 'Enabled APIDs',
       sorting: {
-        colName: 'apid',
+        colName: 'serviceApidName',
         direction: 'DESC',
       },
       cols: [
-        { title: 'apid', displayed: true }, // à afficher dans le tableau Enabled AP
-        { title: 'apidName', displayed: true }, // A afficher dans le tableau Enabled AP
-        // { title: 'lastUpdateModeApid', displayed: true }, // Tooltip sur apid / apidName
-        // { title: 'lastUpdateTimeApid', displayed: true }, // Tooltip sur apid / apidName
-        // { title: 'status', displayed: true }, // N’afficher dans le tableau des Apids que ceux dont le status est à Enabled
-        { title: 'serviceApid', displayed: true }, // A afficher dans le tableau Enabled AP
-        { title: 'serviceApidName', displayed: true }, // A afficher dans le tableau Enabled AP
-        // { title: 'uniqueId', displayed: true }, // inutilisé dans la vue
+        { label: 'Apid Name', title: 'serviceApidName', displayed: true }, // A afficher dans le tableau Enabled AP
+        { label: 'APID', title: 'apid', displayed: true }, // à afficher dans le tableau Enabled AP
+        { label: 'Name', title: 'apidName', displayed: true }, // A afficher dans le tableau Enabled AP
+        { label: 'Update Type', title: 'lastUpdateModeApid', displayed: true }, // A afficher dans le tableau Enabled AP
+        { label: 'Update Time', title: 'lastUpdateTimeApid', displayed: true }, // A afficher dans le tableau Enabled AP
       ],
     },
     commands: {
       name: 'Commands',
       sorting: {
-        colName: 'commandApid',
+        colName: 'serviceApidName',
         direction: 'DESC',
       },
       cols: [
-        // { title: 'uniqueId', displayed: true }, // inutilisé dans la vue
-        { title: 'commandApid', displayed: true }, // A afficher dans le tableau Commands
-        { title: 'commandApidName', displayed: true }, // A afficher dans le tableau Commands
-        { title: 'commandName', displayed: true }, // A afficher dans le tableau Commands
-        { title: 'commandDescription', displayed: true }, // A afficher dans le tableau Commands
-        { title: 'commandSequenceCount', displayed: true }, // A afficher dans le tableau Commands
-        { title: 'commandSourceId', displayed: true }, // A afficher dans le tableau Commands
-        { title: 'commandSsId', displayed: true }, // A afficher dans le tableau Commands
-        { title: 'serviceApid', displayed: true }, // A afficher dans le tableau Commands
-        { title: 'serviceApidName', displayed: true }, // A afficher dans le tableau Commands
-        // { title: 'lastUpdateModeCommandId', displayed: true }, // Tooltip sur commandSsId
-        // { title: 'lastUpdateTimeCommandId', displayed: true }, // Tooltip sur commandSsId
-        // { title: 'commandBinaryProfile', displayed: true }, // A afficher dans la popin
-        // { title: 'lastUpdateModeBinProf', displayed: true }, // Tooltip dans la popin
-        // { title: 'lastUpdateTimeBinProf', displayed: true }, // Tooltip dans la popin
-        { title: 'commandGroundStatus', displayed: true }, // A afficher dans le tableau Commands
-        // { title: 'lastUpdateModeGroundStatus', displayed: true }, // Tooltip sur commandGroundStatus
-        // { title: 'lastUpdateTimeGroundStatus', displayed: true }, // Tooltip sur commandGroundStatus
-        { title: 'commandStatus', displayed: true }, // A afficher dans le tableau Commands. Si 3 (DELETED), supprimer l’entrée du state
-        // { title: 'lastUpdateModeStatus', displayed: true }, // Tooltip sur status
-        // { title: 'lastUpdateTimeStatus', displayed: true }, // Tooltip sur status
-        { title: 'currentExecutionTime', displayed: true }, // A afficher dans le tableau Commands
-        // { title: 'lastUpdateModeCurrentExecTime', displayed: true }, // Tooltip sur currentExecutionTime
-        // { title: 'lastUpdateTimeCurrentExecTime', displayed: true }, // Tooltip sur currentExecutionTime
-        { title: 'initialExecutionTime', displayed: true }, // A afficher dans le tableau Commands
-        // { title: 'lastUpdateModeInitialExecTime', displayed: true }, // Tooltip sur initialExecutionTime
-        // { title: 'lastUpdateTimeInitialExecTime', displayed: true }, // Tooltip sur initialExecutionTime
-        { title: 'totalTimeShiftOffset', displayed: true }, // A afficher dans le tableau Commands
-        // { title: 'lastUpdateModeTotalTimeShiftOffset', displayed: true }, // Tooltip sur totalTimeShiftOffset
-        // { title: 'lastUpdateTimeTotalTimeShiftOffset', displayed: true }, // Tooltip sur totalTimeShiftOffset
+        { label: 'Apid Name', title: 'serviceApidName', displayed: true },
+        { label: 'SSID', title: 'commandSsId', displayed: true },
+        { label: 'Cmd. Name', title: 'commandName', displayed: true },
+        { label: 'Cmd. Short Description', title: 'commandDescription', displayed: true },
+        { label: 'Cmd. AP Name', title: 'commandApidName', displayed: true },
+        { label: 'Seq. Count', title: 'commandSequenceCount', displayed: true },
+        { label: 'Source ID', title: 'commandSourceId', displayed: true },
+        { label: 'Cmd. Status', title: 'commandStatus', displayed: true },
+        { label: 'Ground Status', title: 'commandGroundStatus', displayed: true },
+        { label: 'Init. Exec. Time', title: 'initialExecutionTime', displayed: true },
+        { label: 'Cur. Exec. Time', title: 'currentExecutionTime', displayed: true },
+        { label: 'Tot. Time Shift', title: 'totalTimeShiftOffset', displayed: true },
       ],
     },
   },

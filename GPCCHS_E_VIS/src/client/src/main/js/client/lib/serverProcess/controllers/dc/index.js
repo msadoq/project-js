@@ -73,6 +73,7 @@ const { add: addMessage } = require('../../../store/actions/messages');
 
 const { get, remove } = require('../../models/registeredArchiveQueriesSingleton');
 const { getStore } = require('../../store');
+const { pop } = require('../../../common/callbacks');
 
 const pubSubController = makePubSubController(conf.get('PUBSUB_THROTTLE_TIMING'));
 const pubSubControllerADE = makePubSubControllerADE(conf.get('PUBSUB_THROTTLE_TIMING'));
@@ -154,6 +155,7 @@ module.exports = function dcController() {
     if (isError) {
       const decodedError = decode('dc.dataControllerUtils.ADEError', args[2]);
       const errorMessage = 'error on processing header buffer '.concat(decodedError.message);
+      pop(requestId)(decodedError);
       getStore().dispatch(addMessage('global', 'warning', errorMessage));
       return logger.error(errorMessage);
     }

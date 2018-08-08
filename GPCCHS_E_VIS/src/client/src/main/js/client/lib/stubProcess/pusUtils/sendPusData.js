@@ -31,7 +31,6 @@ module.exports = function sendPusData(
   } = structure;
 
   const cleanPusServiceApid = pusServiceApid.map(apid => _omit(apid.value, 'type'));
-
   const from = firstTime.value;
   const to = lastTime.value;
   if (to <= from) {

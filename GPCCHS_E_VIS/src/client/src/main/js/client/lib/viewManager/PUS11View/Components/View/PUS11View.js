@@ -50,10 +50,10 @@ export default class PUS11View extends React.Component {
       headers: PropTypes.arrayOf(PropTypes.shape()),
       tables: PropTypes.shape(),
     }),
-    apids: PropTypes.arrayOf(PropTypes.shape({
-      apidName: PropTypes.string,
-      apidRawValue: PropTypes.string,
-    })),
+    // apids: PropTypes.arrayOf(PropTypes.shape({
+    //   apidName: PropTypes.string,
+    //   apidRawValue: PropTypes.string,
+    // })),
     onCommandCellDoubleClick: PropTypes.func.isRequired,
   };
 
@@ -72,7 +72,7 @@ export default class PUS11View extends React.Component {
   render() {
     const {
       viewId,
-      apids,
+      // apids,
       onCommandCellDoubleClick,
       data,
     } = this.props;
@@ -81,11 +81,8 @@ export default class PUS11View extends React.Component {
       return renderInvald('Please fill-in configuration');
     }
 
-    const headers = data.headers.map((header) => {
-      if (!isValid(apids, header.serviceApid)) {
-        return renderInvald('Please fill-in configuration');
-      }
-      return (
+    const headers = data.headers.map(header =>
+      (
         <div className="header">
           {renderHeaders(
             header.serviceApid,
@@ -102,8 +99,7 @@ export default class PUS11View extends React.Component {
             header.serviceApidName
           )}
         </div>
-      );
-    });
+      ));
 
     return (
       <ErrorBoundary>

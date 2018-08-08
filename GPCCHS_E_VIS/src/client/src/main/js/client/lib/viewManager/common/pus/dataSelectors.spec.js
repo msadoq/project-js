@@ -877,5 +877,238 @@ describe('viewManager/TextView/store/dataSelector', () => {
         }
       );
     });
+    test('given a non empty state with knowPus with delta after and before current time, should return an object with 2 entries (dataForTables, headers) with data', () => {
+      const state = {
+        pages: {
+          yop: {
+            views: [
+              'foo',
+            ],
+            type: 'Page',
+            timebarUuid: 'blouh',
+            uuid: 'yop',
+          },
+        },
+        domains: [
+          {
+            domainId: 42,
+            itemNamespace: 'Domains',
+            name: 'fr.cnes.isis',
+          },
+        ],
+        sessions: [
+          {
+            id: 0,
+            name: 'Session',
+            timestamp: {
+              ms: 1533642370526,
+              ps: 0,
+            },
+          },
+        ],
+        timelines: {
+          blah: {
+            id: 'Session',
+            sessionName: 'Session',
+          },
+        },
+        timebarTimelines: {
+          blouh: ['blah'],
+        },
+        timebars: {
+          blouh: {
+            uuid: 'blouh',
+            visuWindow: {
+              current: 1533642370526,
+              lower: 1533641770526,
+              upper: 1533642400526,
+            },
+          },
+        },
+        PUS11ViewConfiguration: {
+          foo: {
+            entryPoints: [
+              {
+                connectedData: {
+                  domain: 'fr.cnes.isis',
+                  timeline: 'Session',
+                  apids: [
+                    {
+                      apidName: 'bar',
+                      apidRawValue: 0,
+                    },
+                    {
+                      apidName: 'barz',
+                      apidRawValue: 2,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        knownPus: {
+          11: {
+            '0,2:0:42': {
+              0: {
+                model: {
+                  groudDate: 1533642070526,
+                  payload: {
+                    foo: 0,
+                    pus011Apid: [
+                      {
+                        aaa: 'aaa',
+                        uniqueId: 0,
+                      },
+                      {
+                        bbb: 'bbb',
+                        uniqueId: 1,
+                      },
+                    ],
+                    pus011Command: [
+                      {
+                        ccc: 'ccc',
+                        uniqueId: 2,
+                      },
+                      {
+                        ddd: 'ddd',
+                        uniqueId: 3,
+                      },
+                    ],
+                    pus011SubSchedule: [
+                      {
+                        eee: 'eee',
+                        uniqueId: 4,
+                      },
+                      {
+                        fff: 'fff',
+                        uniqueId: 5,
+                      },
+                    ],
+                    barz: 0,
+                  },
+                },
+                deltas: {
+                  1533642370522: {
+                    dataType: 5,
+                    payload: {
+                      uniqueId: 5,
+                      fff: 'ooo',
+                    },
+                  },
+                  1533642400522: {
+                    dataType: 5,
+                    payload: {
+                      uniqueId: 5,
+                      fff: 'foo',
+                    },
+                  },
+                },
+              },
+              2: {
+                model: {
+                  groudDate: 1533642070526,
+                  payload: {
+                    foo: 2,
+                    pus011Apid: [
+                      {
+                        ggg: 'ggg',
+                      },
+                      {
+                        hhh: 'hhh',
+                      },
+                    ],
+                    pus011Command: [
+                      {
+                        iii: 'iii',
+                      },
+                      {
+                        jjj: 'jjj',
+                      },
+                    ],
+                    pus011SubSchedule: [
+                      {
+                        kkk: 'kkk',
+                      },
+                      {
+                        lll: 'lll',
+                      },
+                    ],
+                    barz: 2,
+                  },
+                },
+                deltas: {},
+              },
+            },
+          },
+        },
+      };
+      const viewId = 'foo';
+      const pusService = 11;
+      expect(getPUSViewData(state, { viewId, pusService })).toEqual(
+        {
+          dataForTables: {
+            pus011Apid: [
+              {
+                aaa: 'aaa',
+                uniqueId: 0,
+              },
+              {
+                bbb: 'bbb',
+                uniqueId: 1,
+              },
+              {
+                ggg: 'ggg',
+              },
+              {
+                hhh: 'hhh',
+              },
+            ],
+            pus011Command: [
+              {
+                ccc: 'ccc',
+                uniqueId: 2,
+              },
+              {
+                ddd: 'ddd',
+                uniqueId: 3,
+              },
+              {
+                iii: 'iii',
+              },
+              {
+                jjj: 'jjj',
+              },
+            ],
+            pus011SubSchedule: [
+              {
+                eee: 'eee',
+                uniqueId: 4,
+              },
+              {
+                fff: 'ooo',
+                uniqueId: 5,
+              },
+              {
+                kkk: 'kkk',
+              },
+              {
+                lll: 'lll',
+              },
+            ],
+          },
+          headers: [
+            {
+              barz: 0,
+              foo: 0,
+            },
+            {
+              barz: 2,
+              foo: 2,
+            },
+          ],
+        }
+      );
+    });
   });
 });

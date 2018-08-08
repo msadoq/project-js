@@ -334,7 +334,7 @@ const getDataByPusService = (pusService, serviceApid, timestamp, type) => {
               status: getAStatus(),
               lastUpdateTimeApid: timestamp.toString(),
               uniqueId: predictibleRand.getFrom(['1', '2']),
-              serviceApidName: predictibleRand.getFrom(['AAA', 'BBB']),
+              apidName: predictibleRand.getFrom(['apidName1', 'apidName2', 'apidName3', 'apidName4']),
             }),
           };
         }
@@ -353,7 +353,7 @@ const getDataByPusService = (pusService, serviceApid, timestamp, type) => {
               lastUpdateModeExecTimeFirstTc: getAnUpdateMode(),
               lastUpdateTimeExecTimeFirstTc: timestamp.toString(),
               uniqueId: predictibleRand.getFrom(['1', '2']),
-              serviceApidName: predictibleRand.getFrom(['CCC', 'DDD']),
+              ssIdLabel: predictibleRand.getFrom(['ssid1', 'ssid2', 'ssid3', 'ssid4']),
             }),
           };
         }
@@ -405,7 +405,7 @@ const getDataByPusService = (pusService, serviceApid, timestamp, type) => {
                 }),
               ],
               uniqueId: predictibleRand.getFrom(['1', '2']),
-              serviceApidName: predictibleRand.getFrom(['EEE', 'FFF']),
+              commandName: predictibleRand.getFrom(['Command1', 'Command2', 'Command3', 'Command4']),
             }),
           };
         }
@@ -566,7 +566,7 @@ const getDataByPusService = (pusService, serviceApid, timestamp, type) => {
         }),
       };
     }
-    case 14: {
+    case constants.PUS_SERVICE_14: {
       return {
         dataType: constants.Pus014ModelType,
         groundDate: timestamp,
@@ -646,7 +646,7 @@ const getDataByPusService = (pusService, serviceApid, timestamp, type) => {
         }),
       };
     }
-    case 140: {
+    case constants.PUS_SERVICE_140: {
       return {
         dataType: constants.Pus140ModelType,
         groundDate: timestamp,

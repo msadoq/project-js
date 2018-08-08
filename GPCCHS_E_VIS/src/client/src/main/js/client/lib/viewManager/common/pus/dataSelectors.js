@@ -32,18 +32,18 @@ const getPUSViewData = (state, { viewId, pusService }) => {
       deltasToApply.forEach((index) => {
         const delta = deltas[index];
         const key = getModelEntryByDataType(delta.dataType);
-        let addToPart = true;
+        let addToParts = true;
         const modelPart = _get(model.payload, [key]).map((part) => {
           // search part of model that will change with the delta
           // return the delta for replace it in the array
           if (part.uniqueId === delta.payload.uniqueId) {
-            addToPart = false;
+            addToParts = false;
             return delta.payload;
           }
           return part;
         });
         // if delta does not correspond of a part of the model it will be add in the array
-        if (addToPart) {
+        if (addToParts) {
           modelPart.push(delta.payload);
         }
         // replace model part with the one transform by deltas

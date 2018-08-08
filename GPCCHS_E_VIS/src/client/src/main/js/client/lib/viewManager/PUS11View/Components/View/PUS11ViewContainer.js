@@ -5,7 +5,7 @@ import { PUS_SERVICE_11 } from 'constants';
 import { open as openModal } from 'store/actions/modals';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
 import PUS11View from './PUS11View';
-import { getConfigurationByViewId } from '../../../selectors';
+// import { getConfigurationByViewId } from '../../../selectors';
 import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 import { injectTabularData } from '../../../commonData/reducer';
 import parameters from '../../../../common/configurationManager';
@@ -90,14 +90,14 @@ const mapStateToProps = (state, { viewId }) => {
     data = _.omit(['dataForTables'], data);
   }
 
-  const config = getConfigurationByViewId(state, { viewId });
+  // const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
 
   const commandData = _.get(['tables', 'commands'], data); // data for modal
 
   return {
     data,
-    apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
+    // apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
     commandData,
     windowId,
   };

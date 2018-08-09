@@ -179,6 +179,12 @@ export const getPageIdByViewId = createSelector(
   )(pages)
 );
 
+export const getPageByViewId = createSelector(
+  state => state,
+  getPageIdByViewId,
+  (state, pageId) => getPage(state, { pageId })
+);
+
 export const getPageViewsConfiguration = createSelector(
   state => state,
   getPageViewsIds,

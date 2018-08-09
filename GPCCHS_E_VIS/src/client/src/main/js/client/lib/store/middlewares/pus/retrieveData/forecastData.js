@@ -1,11 +1,10 @@
+import _ from 'lodash/fp';
 import { getPlayingTimebarId } from 'store/reducers/hsc';
 import { getTimebar } from 'store/reducers/timebars';
 import executionMonitor from 'common/logManager/execution';
 import { PREFIX_PUS } from 'constants';
 import * as types from '../../../types';
 import dataMapGenerator from '../../../../dataManager/map';
-import mergeIntervals from '../../../../common/intervals/merge';
-import { getMissingIntervals } from '../../../reducers/pus';
 import { sendArchiveQuery } from '../../../actions/pus/knownPus';
 import { add } from '../../../../serverProcess/models/registeredArchiveQueriesSingleton';
 
@@ -38,55 +37,41 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
         execution.start('DataMap generation');
         const dataMap = dataMapGenerator(state);
         execution.stop('DataMap generation');
-        const forecastPusIntervals = dataMap.forecastPusIntervals;
-        const flattenIds = Object.keys(forecastPusIntervals);
+        const flattenIds = Object.keys(dataMap.perPusId);
         for (let i = 0; i < flattenIds.length; i += 1) {
-          const currentFlattenId = flattenIds[i];
-          const currentForecastInterval = forecastPusIntervals[currentFlattenId];
-          const localsIds = Object.keys(currentForecastInterval);
-          let mergedInterval = [];
-          execution.start('Merge intervals');
-          for (let j = 0; j < localsIds.length; j += 1) {
-            mergedInterval = mergeIntervals(mergedInterval,
-              currentForecastInterval[localsIds[j]].expectedInterval);
-          }
-          execution.stop('Merge intervals');
-          for (let k = 0; k < mergedInterval.length; k += 1) {
-            const { dataId } = dataMap.perPusId[currentFlattenId];
-            if (dataId) {
-              const { apids } = dataId;
-              const apidRawValues = apids.map(apid => ({ value: apid.apidRawValue }));
-              const missingIntervals = getMissingIntervals(getState(),
-                {
-                  pusService: dataId.pusService,
-                  pusId: currentFlattenId,
-                  queryInterval: mergedInterval[k],
-                }
-              );
-              for (let j = 0; j < missingIntervals.length; j += 1) {
-                const queryId = ipc.pus.initialize(
-                  {
-                    sessionId: dataId.sessionId,
-                    domainId: dataId.domainId,
-                    pusService: dataId.pusService, // type de pus 11, mme, 12 ...
-                    pusServiceApid: apidRawValues, // apids
-                  }, // header
-                  false, // forReplay
-                  missingIntervals[j][0], // firstTime,
-                  missingIntervals[j][1], // lastTime,
-                  true, // continuous,
-                  makeCallback()
-                );
+          const flattenId = flattenIds[i];
+          const { dataId } = dataMap.perPusId[flattenId];
+          if (dataId) {
+            // get known interval for the flattenId of the pus view
+            const knownInterval = _.getOr([], ['knownPus', dataId.pusService, flattenId, 'interval'], state);
+            // the new known interval will be the old interval plus the forecast time
+            const newInterval = [knownInterval[0], knownInterval[1] + time];
+            const { apids } = dataId;
+            const apidRawValues = apids.map(apid => ({ value: apid.apidRawValue }));
+            // forecast is an initialise call with continuous = true
+            const queryId = ipc.pus.initialize(
+              {
+                sessionId: dataId.sessionId,
+                domainId: dataId.domainId,
+                pusService: dataId.pusService, // type de pus 11, mme, 12 ...
+                pusServiceApid: apidRawValues, // apids
+              }, // header
+              false, // forReplay
+              newInterval[0], // firstTime,
+              newInterval[1], // lastTime,
+              true, // continuous,
+              makeCallback()
+            );
 
-                add(queryId, currentFlattenId, PREFIX_PUS, dataId);
-              }
-              dispatch(sendArchiveQuery(
+            add(queryId, flattenId, PREFIX_PUS, dataId);
+            dispatch(sendArchiveQuery(
                 dataId.pusService,
-                currentFlattenId,
+                flattenId,
                 dataId,
-                mergedInterval)
-              );
-            }
+                newInterval,
+                true
+              )
+            );
           }
         }
         const now = visuWindow.upper;

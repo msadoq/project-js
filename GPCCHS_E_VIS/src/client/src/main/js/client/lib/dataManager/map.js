@@ -51,7 +51,6 @@ import _set from 'lodash/set';
 import { createSelector } from 'reselect';
 
 import perPusIdMap from 'dataManager/pus/perPusIdData';
-import expectedPusIntervalMap from 'dataManager/pus/expectedPusIntervalMap';
 import { getTimebars } from '../store/reducers/timebars';
 import perLastTbdIdMap from './perLastTbdIdData';
 import makeGetPerViewData from './perViewData';
@@ -126,7 +125,6 @@ export default createSelector(
   (viewMap, rangeTbdIdMap, lastTbdIdMap, pusIdMap, timebars) => {
     // compute expected intervals
     let forecastIntervalsMap = {};
-    let forecastPusIntervalsMap = {};
     const forecastTime = get('FORECAST'); // TODO dbrugne remove parameters.get() call
     const rangeIntervals = expectedRangeIntervalMap(
       timebars,
@@ -140,12 +138,6 @@ export default createSelector(
       forecastIntervalsMap,
       forecastTime);
     forecastIntervalsMap = lastIntervals.forecastIntervals;
-    const pusIntervals = expectedPusIntervalMap(
-      timebars,
-      pusIdMap,
-      forecastPusIntervalsMap,
-      forecastTime);
-    forecastPusIntervalsMap = pusIntervals.forecastIntervals;
 
     return {
       perView: viewMap,
@@ -155,8 +147,6 @@ export default createSelector(
       expectedRangeIntervals: rangeIntervals.expectedRangeIntervals,
       expectedLastIntervals: lastIntervals.expectedLastIntervals,
       perPusId: pusIdMap,
-      forecastPusIntervals: forecastPusIntervalsMap,
-      expectedPusIntervals: pusIntervals.expectedPusIntervals,
     };
   }
 );

@@ -1,8 +1,5 @@
 import _ from 'lodash/fp';
-import mergeIntervals from 'common/intervals/merge';
-import _isEmpty from 'lodash/isEmpty';
 import * as types from 'store/types';
-import removeIntervals from 'common/intervals/remove';
 import _isArray from 'lodash/isArray';
 import missingIntervals from '../../../common/intervals/missing';
 
@@ -20,51 +17,17 @@ const knownPus = (state = {}, action) => {
     case types.WS_KNOWN_PUS_INTERVAL_ADD: {
       const pusId = action.payload.id;
       const pusService = action.payload.pusService;
-      if (!pusId || !_isArray(action.payload.intervals)) {
+      const continuous = action.payload.continuous;
+      const interval = action.payload.interval;
+      if (!pusId || !_isArray(interval)) {
         return state;
       }
       const newState = state;
 
-      const intervals = _.getOr([], [pusService, pusId, 'intervals'], newState);
-
-      const mergedIntervals =
-        mergeIntervals(intervals, action.payload.intervals);
-      return _.set([pusService, pusId, 'intervals'], mergedIntervals, newState);
-    }
-    case types.WS_KNOWN_PUS_INTERVAL_DELETE: {
-      const pusId = action.payload.pusId;
-      if (!pusId || !_isArray(action.payload.intervals) || !state[pusId]) {
-        return state;
+      if (continuous) {
+        return _.set([pusService, pusId, 'interval', 1], interval[1], newState);
       }
-      // compute remaining intervals
-      const remainingIntervals = removeIntervals(state[pusId].intervals, action.payload.intervals);
-      // if no remaining interval, remove pusId key in state
-      if (_isEmpty(remainingIntervals)) {
-        return _.omit(pusId, state);
-      }
-      return {
-        ...state,
-        [pusId]: {
-          ...state[pusId],
-          intervals: remainingIntervals,
-        },
-      };
-    }
-    case types.RESET_KNOWN_PUS: {
-      let newState = { ...state };
-      const pusIdInterval = action.payload.intervals;
-      const pusIds = Object.keys(newState);
-      for (let i = 0; i < pusIds.length; i += 1) {
-        if (pusIdInterval[pusIds[i]]) {
-          newState[pusIds[i]] = {
-            ...newState[pusIds[i]],
-            intervals: pusIdInterval[pusIds[i]].interval,
-          };
-        } else {
-          newState = _.omit(pusIds[i], newState);
-        }
-      }
-      return newState;
+      return _.set([pusService, pusId, 'interval'], interval, newState);
     }
     case types.SAVE_PUS_DATA: {
       const payload = action.payload.payload;
@@ -106,6 +69,9 @@ const knownPus = (state = {}, action) => {
       // if new pus Data is a model we need to delete deltas, there are no longer link to the new model
       if (type === 'model') {
         newState = _.set([pusService, flattenId, serviceApid, 'deltas'], {}, newState);
+        // const existingInterval = _.getOr([], [pusService, flattenId, 'intervals', 0], newState);
+        // const newInterval = [groundDate, existingInterval[1]];
+        // newState = _.set([pusService, flattenId, 'intervals', 0], newInterval, newState);
       }
       return newState;
     }

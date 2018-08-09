@@ -14,7 +14,7 @@ import missingIntervals from '../../../common/intervals/missing';
  * @param {object} action - The action dispatched.
  * @return {object} The new state.
  */
-
+/* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 const knownPus = (state = {}, action) => {
   switch (action.type) {
     case types.WS_KNOWN_PUS_INTERVAL_ADD: {
@@ -33,10 +33,7 @@ const knownPus = (state = {}, action) => {
     }
     case types.WS_KNOWN_PUS_INTERVAL_DELETE: {
       const pusId = action.payload.pusId;
-      if (!pusId || !_isArray(action.payload.intervals)) {
-        return state;
-      }
-      if (!state[pusId]) {
+      if (!pusId || !_isArray(action.payload.intervals) || !state[pusId]) {
         return state;
       }
       // compute remaining intervals
@@ -92,7 +89,7 @@ const knownPus = (state = {}, action) => {
           },
         };
       }
-      const newState = {
+      let newState = {
         ...state,
         [pusService]: {
           ..._.getOr({}, [pusService], state),
@@ -105,6 +102,11 @@ const knownPus = (state = {}, action) => {
           },
         },
       };
+
+      // if new pus Data is a model we need to delete deltas, there are no longer link to the new model
+      if (type === 'model') {
+        newState = _.set([pusService, flattenId, serviceApid, 'deltas'], {}, newState);
+      }
       return newState;
     }
     default:
@@ -122,7 +124,7 @@ export default knownPus;
  * @param {string} pusId - The specified pusId
  * @return {object} array of known intervals for pusId.
  */
-export const getKnownPus = (state, { pusId }) => state.knownPus[pusId];
+export const getKnownPus = (state, { pusService, pusId }) => _.getOr(false, ['knownPus', pusService, pusId], state);
 
 /**
  * Get known intervalPerLastTbdId for a specified pus id.
@@ -131,8 +133,8 @@ export const getKnownPus = (state, { pusId }) => state.knownPus[pusId];
  * @param {array} queryIntervals - The required interval
  * @return {array} array of missing intervals for the pusId.
  */
-export const getMissingIntervals = (state, { pusId, queryInterval }) => {
-  const pus = getKnownPus(state, { pusId });
+export const getMissingIntervals = (state, { pusService, pusId, queryInterval }) => {
+  const pus = getKnownPus(state, { pusService, pusId });
   if (!pus) {
     return [queryInterval];
   }

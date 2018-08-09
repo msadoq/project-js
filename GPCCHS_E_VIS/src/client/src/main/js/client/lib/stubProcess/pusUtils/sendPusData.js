@@ -27,7 +27,7 @@ module.exports = function sendPusData(
     // forReplay,
     firstTime,
     lastTime,
-    // continuous,
+    continuous,
   } = structure;
 
   const cleanPusServiceApid = pusServiceApid.map(apid => _omit(apid.value, 'type'));
@@ -43,18 +43,23 @@ module.exports = function sendPusData(
   }
 
   const payloads = [];
-  const now = Date.now();
   let previousTimestamp = 0;
 
   for (let timestamp = from;
-       timestamp <= to && timestamp < now;
+       timestamp <= to && timestamp < Date.now();
        timestamp += constants.PUS_STUB_VALUE_TIMESTEP
   ) {
     if (shouldPushANewValue(timestamp, previousTimestamp)) {
       const forceModel = timestamp === from;
       for (let i = 0; i < cleanPusServiceApid.length; i += 1) {
         const payload =
-          getPayload(pusService.value, cleanPusServiceApid[i].value, timestamp, forceModel);
+          getPayload(
+            pusService.value,
+            cleanPusServiceApid[i].value,
+            timestamp,
+            forceModel,
+            continuous.value
+          );
         if (payload !== null) {
           payloads.push(payload);
         }

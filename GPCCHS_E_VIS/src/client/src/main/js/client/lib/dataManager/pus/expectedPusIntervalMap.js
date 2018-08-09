@@ -50,7 +50,7 @@ export function intervalPerPusId(
   return { localIdIntervals, forecastIntervals: fIntervals };
 }
 
-export default function expectedLastIntervalMap(
+export default function expectedPusIntervalMap(
   timebars,
   perPusIdMap,
   forecastIntervalsMap,

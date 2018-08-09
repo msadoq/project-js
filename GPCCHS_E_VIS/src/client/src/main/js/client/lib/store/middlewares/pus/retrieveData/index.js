@@ -10,10 +10,16 @@
 // ====================================================================
 
 import pipeMiddlewares from 'store/helpers/pipeMiddlewares';
+import { get } from 'common/configurationManager';
 import retrievePus from './retrievePus';
+import forecastData from './forecastData';
+
+const forecastTime = get('FORECAST');
+const forecastTrigger = get('FORECAST_TRIGGER');
 
 const createRetrievePusDataMiddleware = ipc => pipeMiddlewares(
-  retrievePus(ipc)
+  retrievePus(ipc),
+  forecastData(ipc, Number(forecastTime), Number(forecastTrigger))
 );
 
 export default createRetrievePusDataMiddleware;

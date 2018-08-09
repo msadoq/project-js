@@ -10,8 +10,12 @@ const getAnUpdateMode = () => predictibleRand.getInt([1, 4]);
 const getABoolean = () => predictibleRand.getBool();
 const getAGroundStatus = () => predictibleRand.getInt([1, 8]).toString();
 // correspond to a model payload or a delta payload
-const payloadType = (forceModel) => {
-  if (forceModel) {
+const payloadType = (forceModel, continuous) => {
+  // first initialise, we need a model, forceModel = true
+  // when vima is in play mode, only deltas are sending, continuous = true
+  if (continuous) {
+    return 'delta';
+  } else if (forceModel) {
     return 'model';
   }
   return predictibleRand.getBool(0.9) ? 'delta' : 'model';
@@ -740,8 +744,8 @@ const getDataByPusService = (pusService, serviceApid, timestamp, type) => {
  * @param  {Object} options   Options for generation
  * @return {Object}           Generated payload
  */
-module.exports = function getPayload(pusService, serviceApid, timestamp, forceModel) {
-  const type = payloadType(forceModel);
+module.exports = function getPayload(pusService, serviceApid, timestamp, forceModel, continuous) {
+  const type = payloadType(forceModel, continuous);
   return stubData.getDataStructureProtobuf(
     getDataByPusService(pusService, serviceApid, timestamp, type)
   );

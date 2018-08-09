@@ -4,7 +4,6 @@ import EventReducer, {
   getKnownPus,
   getMissingIntervals,
 } from '.';
-import { getObsoleteEvents } from '../ObsoleteEvents';
 
 const reducer = freezeArgs(EventReducer);
 

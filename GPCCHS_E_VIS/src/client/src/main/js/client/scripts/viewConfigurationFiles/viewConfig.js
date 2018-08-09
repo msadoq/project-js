@@ -28,6 +28,7 @@ if (program.migrate) {
   try {
     migrate(program.target, program.migrate, program.output, program.lock);
   } catch (error) {
+    // fail silently
     process.exit(1);
   }
 }

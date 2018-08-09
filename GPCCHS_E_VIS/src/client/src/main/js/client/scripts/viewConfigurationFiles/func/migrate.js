@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars */
 const fs = require('fs');
 const merge = require('deepmerge');
 

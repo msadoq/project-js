@@ -125,7 +125,7 @@ const mapStateToProps = (state) => {
         'Long description': _.get('longDescription', metadata),
         'Aliases': _.get('aliases', metadata),
         'Monitoring laws': _.get(['tmMeta', 'monitoringItems'], metadata),
-        'Significaty condition': _.get(['tmMeta', 'sgy'], metadata),
+        'Significativity condition': _.get(['tmMeta', 'sgy'], metadata),
         'Interpretation function': _.get(['tmMeta', 'calibrationFunctions'], metadata),
         'Formulas': _.get('algorithm', metadata),
         'Computed triggers': _.get(['tmMeta', 'computedTriggers'], metadata),

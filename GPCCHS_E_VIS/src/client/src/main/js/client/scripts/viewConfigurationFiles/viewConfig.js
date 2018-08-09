@@ -25,7 +25,12 @@ if (program.check) {
 }
 
 if (program.migrate) {
-  migrate(program.target, program.migrate, program.output, program.lock);
+  try {
+    migrate(program.target, program.migrate, program.output, program.lock);
+  } catch (error) {
+    // fail silently
+    process.exit(1);
+  }
 }
 
 process.exit(0);

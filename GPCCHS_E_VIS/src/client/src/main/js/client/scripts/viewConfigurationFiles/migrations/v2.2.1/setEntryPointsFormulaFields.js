@@ -7,7 +7,11 @@ module.exports = {
   '*': (viewConfiguration) => {
     let updatedContent = viewConfiguration.content;
 
-    const entryPoints = _.getOr([], 'entryPoints', viewConfiguration.content);
+    const entryPoints = _.get('entryPoints', viewConfiguration.content);
+
+    if (!entryPoints || !Array.isArray(entryPoints)) {
+      return viewConfiguration;
+    }
 
     const updatedEntryPoints = entryPoints.reduce((acc, cur) => {
       const formula = _.get(['connectedData', 'formula'], cur);

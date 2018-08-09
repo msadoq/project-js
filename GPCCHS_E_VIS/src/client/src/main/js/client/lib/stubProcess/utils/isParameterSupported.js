@@ -45,6 +45,7 @@ const supported = [
   /^PusGroundModelDefinition\.[^<.]*<Pus140Model>$/,  // Pus140Model
   /^PusGroundModelDefinition\.[^<.]*<Pus142Model>$/,  // Pus142Model
   /^PusGroundModelDefinition\.[^<.]*<Pus144Model>$/,  // Pus144Model
+  /^PusGroundModelDefinition\.[^<.]*<PusMmeModel>$/,  // PusMMEModel
   /^StatAggregationDefinition\.[^<.]*<StatAggregation>$/,  // supportedPus012Model
   /^StatValuesDefinition\.[^<.]*<StatValue>$/,  // StatValue
 ];

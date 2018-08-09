@@ -22,15 +22,14 @@ export default class PUS140View extends React.Component {
     viewId: PropTypes.string.isRequired,
     // From PUS140ViewContainer mapStateToProps
     serviceApid: PropTypes.number,
-    apids: PropTypes.arrayOf(PropTypes.shape({
-      apidName: PropTypes.string,
-      apidRawValue: PropTypes.string,
-    })),
+    domain: PropTypes.string,
+    timeline: PropTypes.string,
   };
 
   static defaultProps = {
     serviceApid: null,
-    apids: [],
+    domain: null,
+    timeline: null,
   };
 
   static contextTypes = {
@@ -40,11 +39,12 @@ export default class PUS140View extends React.Component {
   render() {
     const {
       serviceApid,
-      apids,
+      domain,
+      timeline,
       viewId,
     } = this.props;
 
-    if (!isValid(apids, serviceApid)) {
+    if (!isValid(timeline, domain, serviceApid)) {
       return renderInvald('Please fill-in configuration');
     }
 
@@ -66,8 +66,11 @@ export default class PUS140View extends React.Component {
   }
 }
 
-export const isValid = (apids, applicationProcessId) =>
-  Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
+export const isValid = (domain, timeline, applicationProcessId) =>
+  domain &&
+  domain.length > 0 &&
+  timeline && timeline.length > 0 &&
+  typeof applicationProcessId === 'number'
 ;
 
 export const renderInvald = error => (

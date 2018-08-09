@@ -12,10 +12,10 @@ const mapStateToProps = (state, { viewId }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
 
-
   return {
     serviceApid: _.getOr(0, 'serviceApid', data), // no serviceApid provided
-    apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
+    domain: _.getOr(null, ['entryPoints', 0, 'connectedData', 'domain'], config),
+    timeline: _.getOr(null, ['entryPoints', 0, 'connectedData', 'timeline'], config),
     windowId,
   };
 };

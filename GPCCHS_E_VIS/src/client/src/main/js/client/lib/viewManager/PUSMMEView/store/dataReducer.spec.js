@@ -704,8 +704,6 @@ describe('viewManager/PUSMMEView/store/dataReducer', () => {
                 validityParameterName: 'myString',
               },
             ],
-            serviceApid: 100,
-            serviceApidName: 'myString',
             status: 1,
             uniqueId: 1,
           },
@@ -715,10 +713,8 @@ describe('viewManager/PUSMMEView/store/dataReducer', () => {
     expect(pusmmeDataReducer(state, action)).toEqual(
       {
         PUSMMEViewData: {
-          serviceApid: 100,
           status: 1,
           groundDate: 1531404578453,
-          serviceApidName: 'myString',
           uniqueId: 1,
           pusMmePacket: [
             {

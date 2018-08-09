@@ -12,8 +12,8 @@ const getNewPUS140EntryPoint = () => ({
   connectedData: {
     formula: 'PusGroundModelDefinition.Pus0140Model<Pus0140Model>', // fixed
     domain: get('WILDCARD_CHARACTER'),
-    session: get('WILDCARD_CHARACTER'),
+    timeline: get('WILDCARD_CHARACTER'),
     apidName: null,
-    apidRawValue: null,
+    apids: null,
   },
 });

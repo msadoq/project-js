@@ -24,7 +24,6 @@ function pusMmeDataReducer(state = {}, action) {
        *  timestamp: number,
        *  data: {
        *    PUSMMEView: {
-
        *        pusMmePacket: [],
        *        ...rest
        *      },

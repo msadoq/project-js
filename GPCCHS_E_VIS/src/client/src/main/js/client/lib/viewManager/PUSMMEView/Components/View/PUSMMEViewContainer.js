@@ -18,9 +18,10 @@ const mapStateToProps = (state, { viewId }) => {
   );
 
   return {
-    serviceApid: _.getOr(null, 'serviceApid', data),
-    serviceApidName: _.getOr(null, 'serviceApidName', data),
-    apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
+    noHkPackets: _.getOr(null, 'noHkPackets', data),
+    noDiagPackets: _.getOr(null, 'noDiagPackets', data),
+    domain: _.getOr(null, ['entryPoints', 0, 'connectedData', 'domain'], config),
+    timeline: _.getOr(null, ['entryPoints', 0, 'connectedData', 'timeline'], config),
     packetsData,
     windowId,
   };

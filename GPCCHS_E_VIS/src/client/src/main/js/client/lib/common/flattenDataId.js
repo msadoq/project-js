@@ -104,13 +104,24 @@ export const getPusFlattenId = (apids, dataId) => {
     sessionId,
     domainId,
   } = dataId;
-  let apidRawValues = '';
-  if (apids.length && apids[0].apidRawValue !== undefined) {
-    apidRawValues = apids.map(apid => apid.apidRawValue).sort().join(',');
-  } else if (apids.length) {
-    apidRawValues = apids.join(',');
+
+  return `${getApidsRawValue(apids)}:${sessionId}:${domainId}`;
+};
+
+export const getApidsRawValue = (apids) => {
+  if (!apids || !Array.isArray(apids) || apids.length === 0) {
+    return null;
   }
-  return `${apidRawValues}:${sessionId}:${domainId}`;
+
+  if (apids.length && apids[0].apidRawValue !== undefined) {
+    return apids.map(apid => apid.apidRawValue).sort().join(',');
+  }
+
+  if (apids.length) {
+    return apids.join(',');
+  }
+
+  return null;
 };
 
 /**

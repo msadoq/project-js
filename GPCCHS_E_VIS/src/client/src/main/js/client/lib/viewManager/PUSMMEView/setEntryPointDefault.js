@@ -12,8 +12,8 @@ const getNewPUSMMEEntryPoint = () => ({
   connectedData: {
     formula: 'PusGroundModelDefinition.PusMmeModel<PusMmeModel>', // fixed
     domain: get('WILDCARD_CHARACTER'),
-    session: get('WILDCARD_CHARACTER'),
+    timeline: get('WILDCARD_CHARACTER'),
     apidName: null,
-    apidRawValue: null,
+    apids: null,
   },
 });

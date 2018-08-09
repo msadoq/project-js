@@ -3,31 +3,31 @@ import _getOr from 'lodash/fp/getOr';
 import _has from 'lodash/fp/has';
 import _set from 'lodash/fp/set';
 
-const initialConfiguration = {
-  tables: {
-    eventActions: {
-      name: 'Event Actions',
-      sorting: {
-        colName: 'serviceApidName',
-        direction: 'DESC',
-      },
-      cols: [
-        { label: 'APID Name', title: 'serviceApidName', displayed: true },
-        { label: 'AP ID', title: 'apid', displayed: true },
-        { label: 'AP Name', title: 'apidName', displayed: true },
-        { label: 'RID', title: 'rid', displayed: true },
-        { label: 'RID Label', title: 'ridLabel', displayed: true },
-        { label: 'Name', title: 'actionName', displayed: true },
-        { label: 'Status', title: 'actionStatus', displayed: true },
-        { label: 'Action TC', title: 'actionTcPacket', displayed: true },
-        { label: 'Description', title: 'actionDescription', displayed: true },
-        { label: 'Action TC APID', title: 'actionTcApid', displayed: true },
-        { label: 'Action TC Type', title: 'actionTcType', displayed: true },
-        { label: 'Action TC Subtype', title: 'actionTcSubType', displayed: true },
-      ],
-    },
-  },
-};
+// const initialConfiguration = {
+//   tables: {
+//     eventActions: {
+//       name: 'Event Actions',
+//       sorting: {
+//         colName: 'serviceApidName',
+//         direction: 'DESC',
+//       },
+//       cols: [
+//         { label: 'APID Name', title: 'serviceApidName', displayed: true },
+//         { label: 'AP ID', title: 'apid', displayed: true },
+//         { label: 'AP Name', title: 'apidName', displayed: true },
+//         { label: 'RID', title: 'rid', displayed: true },
+//         { label: 'RID Label', title: 'ridLabel', displayed: true },
+//         { label: 'Name', title: 'actionName', displayed: true },
+//         { label: 'Status', title: 'actionStatus', displayed: true },
+//         { label: 'Action TC', title: 'actionTcPacket', displayed: true },
+//         { label: 'Description', title: 'actionDescription', displayed: true },
+//         { label: 'Action TC APID', title: 'actionTcApid', displayed: true },
+//         { label: 'Action TC Type', title: 'actionTcType', displayed: true },
+//         { label: 'Action TC Subtype', title: 'actionTcSubType', displayed: true },
+//       ],
+//     },
+//   },
+// };
 
 export default (stateConf = {}, action) => {
   switch (action.type) {
@@ -37,7 +37,7 @@ export default (stateConf = {}, action) => {
     case types.WS_WORKSPACE_OPENED:
     case types.WS_VIEW_ADD_BLANK: {
       return {
-        ...initialConfiguration,
+        // ...initialConfiguration,
         ...action.payload.view.configuration,
       };
     }

@@ -57,7 +57,6 @@ const config = merge(baseConfig, {
   },
 
   externals: [
-    'why-did-you-update',
     'htmlhint',
   ],
 

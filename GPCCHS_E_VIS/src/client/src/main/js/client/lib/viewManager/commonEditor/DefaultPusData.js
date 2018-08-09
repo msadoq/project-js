@@ -6,7 +6,7 @@ import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGro
 import DomainFieldContainer from 'viewManager/commonEditor/Fields/DomainFieldContainer';
 import ApplicationProcessFieldContainer from 'viewManager/commonEditor/Fields/ApplicationProcessFieldContainer';
 import TimelineFieldContainer from 'viewManager/commonEditor/Fields/TimelineFieldContainer';
-import { VM_PUS_VIEWS } from 'viewManager/constants';
+import { VM_PUS_VIEWS, VM_VIEW_PUS140, VM_VIEW_PUSMME } from 'viewManager/constants';
 
 export default class DefaultPusData extends PureComponent {
   static propTypes = {
@@ -59,16 +59,22 @@ export default class DefaultPusData extends PureComponent {
             />
           </HorizontalFormGroup>
 
-          <HorizontalFormGroup label="Application Process">
-            <ApplicationProcessFieldContainer
-              domainName={selectedDomainName}
-              timelineId={selectedTimelineId}
-              viewId={viewId}
-              pageId={pageId}
-              onChange={this.handleChange}
-              pusType={pusType}
-            />
-          </HorizontalFormGroup>
+          {/*
+            These views must subscribe to all apids at once, and therefore should not offer the
+            possibility to select some apids. We shall always send null in that case. @see SDD
+          */}
+          {![VM_VIEW_PUSMME, VM_VIEW_PUS140].includes(pusType) &&
+            <HorizontalFormGroup label="Application Process">
+              <ApplicationProcessFieldContainer
+                domainName={selectedDomainName}
+                timelineId={selectedTimelineId}
+                viewId={viewId}
+                pageId={pageId}
+                onChange={this.handleChange}
+                pusType={pusType}
+              />
+            </HorizontalFormGroup>
+          }
         </React.Fragment>
       </ErrorBoundary>
     );

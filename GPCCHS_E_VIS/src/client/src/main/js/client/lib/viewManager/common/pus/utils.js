@@ -55,142 +55,85 @@ export const tableModifier = tooltips =>
   };
 
 export const getModelEntryByDataType = (dataType) => {
-  switch (dataType) {
-    case constants.Pus005OnBoardEvent: {
-      return constants.PUS005_ON_BOARD_EVENT;
-    }
-    case constants.Pus011CommandType: {
-      return constants.PUS011_COMMAND;
-    }
-    case constants.Pus011SubScheduleType: {
-      return constants.PUS011_SUB_SCHEDULE;
-    }
-    case constants.Pus011ApidType: {
-      return constants.PUS011_APID;
-    }
-    case constants.Pus012ParameterMonitoringDefinitionType: {
-      return constants.PUS012_PARAMETER_MONITORING_DEFINITION;
-    }
-    case constants.Pus013DownlinkLDTType:
-    case constants.Pus013UplinkLDTType: {
-      return constants.PUS013_LDT_PART;
-    }
-    case constants.Pus014ForwardPacketType: {
-      return constants.PUS014_TM_PACKET;
-    }
-    case constants.Pus015PacketType: {
-      return constants.PUS015_PACKET_STORE;
-    }
-    case constants.Pus018ObcpType: {
-      return constants.PUS018_OBCP;
-    }
-    case constants.Pus019EventActionType: {
-      return constants.PUS019_EVENT_ACTION;
-    }
-    case constants.Pus140ParameterType: {
-      return constants.PUS140_PARAMETER;
-    }
-    case constants.Pus142FunctionalMonitoringType: {
-      return constants.PUS142_FUNCTIONAL_MONITORING;
-    }
-    case constants.Pus144OnBoardFileType: {
-      return constants.PUS144_ON_BOARD_FILES;
-    }
-    case constants.PusMmePacketType: {
-      return constants.PUSMME_PACKET;
-    }
-    default: {
-      return null;
-    }
-  }
+  const deltaKeys = {
+    [constants.Pus005OnBoardEvent]: constants.PUS005_ON_BOARD_EVENT,
+    [constants.Pus005OnBoardEvent]: constants.PUS005_ON_BOARD_EVENT,
+    [constants.Pus011CommandType]: constants.PUS011_COMMAND,
+    [constants.Pus011SubScheduleType]: constants.PUS011_SUB_SCHEDULE,
+    [constants.Pus011ApidType]: constants.PUS011_APID,
+    [constants.Pus012ParameterMonitoringDefinitionType]:
+      constants.PUS012_PARAMETER_MONITORING_DEFINITION,
+    [constants.Pus013DownlinkLDTType]: constants.PUS013_LDT_PART,
+    [constants.Pus013UplinkLDTType]: constants.PUS013_LDT_PART,
+    [constants.Pus014ForwardPacketType]: constants.PUS014_TM_PACKET,
+    [constants.Pus015PacketType]: constants.PUS015_PACKET_STORE,
+    [constants.Pus018ObcpType]: constants.PUS018_OBCP,
+    [constants.Pus019EventActionType]: constants.PUS019_EVENT_ACTION,
+    [constants.Pus140ParameterType]: constants.PUS140_PARAMETER,
+    [constants.Pus142FunctionalMonitoringType]: constants.PUS142_FUNCTIONAL_MONITORING,
+    [constants.Pus144OnBoardFileType]: constants.PUS144_ON_BOARD_FILES,
+    [constants.PusMmePacketType]: constants.PUSMME_PACKET,
+  };
+
+  return deltaKeys[dataType] || null;
 };
 
 export const getViewType = (pusService) => {
-  switch (pusService) {
-    case constants.PUS_SERVICE_05: {
-      return VM_VIEW_PUS05;
-    }
-    case constants.PUS_SERVICE_11: {
-      return VM_VIEW_PUS11;
-    }
-    case constants.PUS_SERVICE_12: {
-      return VM_VIEW_PUS12;
-    }
-    case constants.PUS_SERVICE_13: {
-      return VM_VIEW_PUS13;
-    }
-    case constants.PUS_SERVICE_14: {
-      return VM_VIEW_PUS14;
-    }
-    case constants.PUS_SERVICE_15: {
-      return VM_VIEW_PUS15;
-    }
-    case constants.PUS_SERVICE_MME: {
-      return VM_VIEW_PUSMME;
-    }
-    case constants.PUS_SERVICE_18: {
-      return VM_VIEW_PUS18;
-    }
-    case constants.PUS_SERVICE_19: {
-      return VM_VIEW_PUS19;
-    }
-    case constants.PUS_SERVICE_140: {
-      return VM_VIEW_PUS140;
-    }
-    case constants.PUS_SERVICE_142: {
-      return VM_VIEW_PUS142;
-    }
-    case constants.PUS_SERVICE_144: {
-      return VM_VIEW_PUS144;
-    }
-    default: {
-      return null;
-    }
-  }
+  const pusServices = {
+    [constants.PUS_SERVICE_05]: VM_VIEW_PUS05,
+    [constants.PUS_SERVICE_11]: VM_VIEW_PUS11,
+    [constants.PUS_SERVICE_12]: VM_VIEW_PUS12,
+    [constants.PUS_SERVICE_13]: VM_VIEW_PUS13,
+    [constants.PUS_SERVICE_14]: VM_VIEW_PUS14,
+    [constants.PUS_SERVICE_15]: VM_VIEW_PUS15,
+    [constants.PUS_SERVICE_MME]: VM_VIEW_PUSMME,
+    [constants.PUS_SERVICE_18]: VM_VIEW_PUS18,
+    [constants.PUS_SERVICE_19]: VM_VIEW_PUS19,
+    [constants.PUS_SERVICE_140]: VM_VIEW_PUS140,
+    [constants.PUS_SERVICE_142]: VM_VIEW_PUS142,
+    [constants.PUS_SERVICE_144]: VM_VIEW_PUS144,
+  };
+  return pusServices[pusService] || null;
 };
 
 export const getTableIdsByPusService = (pusService) => {
-  switch (pusService) {
-    case constants.PUS_SERVICE_05: {
-      return [constants.PUS005_ON_BOARD_EVENT];
-    }
-    case constants.PUS_SERVICE_11: {
-      return [constants.PUS011_APID, constants.PUS011_COMMAND, constants.PUS011_SUB_SCHEDULE];
-    }
-    case constants.PUS_SERVICE_12: {
-      return [constants.PUS012_PARAMETER_MONITORING_DEFINITION];
-    }
-    case constants.PUS_SERVICE_13: {
-      return [constants.PUS013_LDT_PART];
-    }
-    case constants.PUS_SERVICE_14: {
-      return [constants.PUS014_TM_PACKET];
-    }
-    case constants.PUS_SERVICE_15: {
-      return [constants.PUS015_PACKET_STORE];
-    }
-    case constants.PUS_SERVICE_MME: {
-      return [constants.PUSMME_PACKET];
-    }
-    case constants.PUS_SERVICE_18: {
-      return [constants.PUS018_OBCP];
-    }
-    case constants.PUS_SERVICE_19: {
-      return [constants.PUS019_EVENT_ACTION];
-    }
-    case constants.PUS_SERVICE_140: {
-      return [constants.PUS140_PARAMETER];
-    }
-    case constants.PUS_SERVICE_142: {
-      return [constants.PUS142_FUNCTIONAL_MONITORING];
-    }
-    case constants.PUS_SERVICE_144: {
-      return [constants.PUS144_ON_BOARD_FILES];
-    }
-    default: {
-      return null;
-    }
-  }
+  const pusServices = {
+    [constants.PUS_SERVICE_05]: [constants.PUS005_ON_BOARD_EVENT],
+    [constants.PUS_SERVICE_11]: [
+      constants.PUS011_APID,
+      constants.PUS011_COMMAND,
+      constants.PUS011_SUB_SCHEDULE,
+    ],
+    [constants.PUS_SERVICE_12]: [constants.PUS012_PARAMETER_MONITORING_DEFINITION],
+    [constants.PUS_SERVICE_13]: [constants.PUS013_LDT_PART],
+    [constants.PUS_SERVICE_14]: [constants.PUS014_TM_PACKET],
+    [constants.PUS_SERVICE_15]: [constants.PUS015_PACKET_STORE],
+    [constants.PUS_SERVICE_MME]: [constants.PUSMME_PACKET],
+    [constants.PUS_SERVICE_18]: [constants.PUS018_OBCP],
+    [constants.PUS_SERVICE_19]: [constants.PUS019_EVENT_ACTION],
+    [constants.PUS_SERVICE_140]: [constants.PUS140_PARAMETER],
+    [constants.PUS_SERVICE_142]: [constants.PUS142_FUNCTIONAL_MONITORING],
+    [constants.PUS_SERVICE_144]: [constants.PUS144_ON_BOARD_FILES],
+  };
+  return pusServices[pusService] || null;
+};
+
+export const getViewServiceFromType = (type) => {
+  const pusTypes = {
+    VM_VIEW_PUS05: [constants.PUS_SERVICE_05],
+    VM_VIEW_PUS11: [constants.PUS_SERVICE_11],
+    VM_VIEW_PUS12: [constants.PUS_SERVICE_12],
+    VM_VIEW_PUS13: [constants.PUS_SERVICE_13],
+    VM_VIEW_PUS14: [constants.PUS_SERVICE_14],
+    VM_VIEW_PUS15: [constants.PUS_SERVICE_15],
+    VM_VIEW_PUSMME: [constants.PUS_SERVICE_MME],
+    VM_VIEW_PUS18: [constants.PUS_SERVICE_18],
+    VM_VIEW_PUS19: [constants.PUS_SERVICE_19],
+    VM_VIEW_PUS140: [constants.PUS_SERVICE_140],
+    VM_VIEW_PUS142: [constants.PUS_SERVICE_142],
+    VM_VIEW_PUS144: [constants.PUS_SERVICE_144],
+  };
+  return pusTypes[type] || null;
 };
 
 export const bindToBoolKey = (arr, store) => {

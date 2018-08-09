@@ -50,19 +50,6 @@ process.title = 'gpcchs_renderer';
 // ipc with main
 ipcRenderer.on('global', mainController);
 
-if (global.parameters.get('WDYU') === 'on') {
-  // eslint-disable-next-line global-require, "DV6 TBC_CNES Loaded at runtime only if activated"
-  const { whyDidYouUpdate } = require('why-did-you-update');
-  const excludeList = [
-    'Connect', 'Glyphicon', 'NavItem', 'SafeAnchor', 'DraggableCore', 'Resizable',
-    'ReactGridLayout', 'ResponsiveReactGridLayout', 'Button', 'Tabs', 'GridItem', 'Grid', 'Row',
-    'Col', 'DropdownMenu', 'DropdownToggle', 'MenuItem', 'Tooltip', 'ModalComponent',
-  ];
-  whyDidYouUpdate(React, {
-    exclude: new RegExp(excludeList.join('|')),
-  });
-}
-
 /**
  * Request initialState asynchronously from main process
  */

@@ -25,6 +25,7 @@ function pus140DataReducer(state = {}, action) {
        *  data: {
        *    PUS140View: {
        *        pus140Parameter: [{},{}]
+       *        ...rest
        *      },
        *    },
        *  },
@@ -50,7 +51,7 @@ function pus140DataReducer(state = {}, action) {
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
       updatedState = injectTabularData(updatedState, 'parameters',
-        _.getOr(null, ['pus140Parameter'], data)
+        _.getOr([], ['pus140Parameter'], data)
         .map(store => ({
           ...store,
           lastUpdateModeCurrentValue: updateTypes[_.getOr('200', 'lastUpdateModeCurrentValue', store)],

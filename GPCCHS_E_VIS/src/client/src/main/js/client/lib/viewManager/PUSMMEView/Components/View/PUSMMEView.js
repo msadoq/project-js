@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
@@ -162,19 +163,18 @@ const _packetsContentModifier = (cellContent = {}, content = {}) => {
 export default class PUSMMEView extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    serviceApid: PropTypes.number,
-    serviceApidName: PropTypes.string,
-    apids: PropTypes.arrayOf(PropTypes.shape({
-      apidName: PropTypes.string,
-      apidRawValue: PropTypes.string,
-    })),
+    noHkPackets: PropTypes.number,
+    noDiagPackets: PropTypes.number,
+    domain: PropTypes.string,
+    timeline: PropTypes.string,
     onCommandCellDoubleClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    serviceApid: null,
-    serviceApidName: null,
-    apids: [],
+    noHkPackets: 0,
+    noDiagPackets: 0,
+    domain: null,
+    timeline: null,
   };
 
   static contextTypes = {
@@ -184,25 +184,24 @@ export default class PUSMMEView extends React.Component {
   render() {
     const {
       viewId,
-      serviceApid,
-      serviceApidName,
-      apids,
+      noHkPackets,
+      noDiagPackets,
+      domain,
+      timeline,
       onCommandCellDoubleClick,
     } = this.props;
 
-    if (!isValid(apids, serviceApid)) {
+    if (!isValid(timeline, domain)) {
       return renderInvald('Please fill-in configuration');
     }
 
     return (
       <ErrorBoundary>
         <div className="pusmme">
-          <div className="header">
-            {renderHeaders(
-              serviceApid,
-              serviceApidName
-            )}
-          </div>
+          {renderHeaders(
+            noHkPackets,
+            noDiagPackets
+          )}
           <div className={styles.container}>
             <VirtualizedTableViewContainer
               viewId={viewId}
@@ -218,20 +217,23 @@ export default class PUSMMEView extends React.Component {
 }
 
 export const renderHeaders = (
-  serviceApid,
-  serviceApidName
+  noHkPackets,
+  noDiagPackets
 ) => (
   <ErrorBoundary>
-    <div className={styles.header}>
-      Application Process&nbsp;
-      <input type="text" disabled value={serviceApidName} />&nbsp;
-      <input className="mw50" type="text" disabled value={serviceApid} />
+    <div className="header m10 jcsb">
+      <div>
+        Hk Packets&nbsp;<input type="text" disabled value={noHkPackets} />
+      </div>
+      <div>
+        Diag Packets&nbsp;<input type="text" disabled value={noDiagPackets} />
+      </div>
     </div>
   </ErrorBoundary>
 );
 
-export const isValid = (apids, applicationProcessId) =>
-  Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
+export const isValid = (domain, timeline) =>
+  domain && domain.length > 0 && timeline && timeline.length > 0
 ;
 
 export const renderInvald = error => (

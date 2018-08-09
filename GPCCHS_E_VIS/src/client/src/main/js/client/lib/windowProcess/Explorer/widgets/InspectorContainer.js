@@ -63,7 +63,7 @@ const buildNode = (obj = {}, parentName = ROOT_PARENT_NAME) =>
     (key) => {
       const value = obj[key];
 
-      if (typeof value === 'string') { // terminal node
+      if (typeof value === 'string' || typeof value === 'undefined') { // terminal node
         return buildTerminalNode(key, value, parentName);
       }
 
@@ -98,41 +98,41 @@ const mapStateToProps = (state) => {
     ? getDataSelectors(viewType).getLastValue(state, { epName, viewId })
     : null;
 
-  const { domainId, sessionId, catalog, parameterName } = dataId;
-
-  const tupleId = getTupleId(domainId, sessionId);
-  const catalogItem =
-    getCatalogItemByName(
-      state.catalogs,
-      {
-        tupleId,
-        name: catalog,
-        itemName: parameterName,
-      }
-    );
-
-// eslint-disable-next-line no-unused-vars
-  const metadata = _.get('metadata', catalogItem);
-  const reportingItemPackets = _.get('reportingItemPackets', catalogItem);
-  const formattedReportingItemPackets = reportingItemPackets.map(packet => packet.name);
-
   let staticData = null;
 
-  if (metadata) {
-    staticData = buildNode({
-      'Short description': metadata.shortDescription,
-      'Long description': metadata.longDescription,
-      'Aliases': metadata.aliases,
-      'Monitoring laws': metadata.tmMeta.monitoringItems, // TODO?: separate monitoring laws
-                                                          // and monitoring conditions
-                                                          // into 2 separate elements
-      'Significaty condition': metadata.tmMeta.sgy,
-      'Interpretation function': metadata.tmMeta.calibrationFunctions,
-      'Formulas': metadata.algorithm,
-      'Computed triggers': metadata.tmMeta.computedTriggers,
-      'TM Packets list': formattedReportingItemPackets,
-      'Computing definitions': metadata.tmMeta.computingDefinitions,
-    }, ROOT_PARENT_NAME);
+  if (dataId) {
+    const { domainId, sessionId, catalog, parameterName } = dataId;
+
+    const tupleId = getTupleId(domainId, sessionId);
+    const catalogItem =
+      getCatalogItemByName(
+        state.catalogs,
+        {
+          tupleId,
+          name: catalog,
+          itemName: parameterName,
+        }
+      );
+
+// eslint-disable-next-line no-unused-vars
+    const metadata = _.get('metadata', catalogItem);
+    const reportingItemPackets = _.get('reportingItemPackets', catalogItem);
+    const formattedReportingItemPackets = reportingItemPackets.map(packet => _.get('name', packet));
+
+    if (metadata) {
+      staticData = buildNode({
+        'Short description': _.get('shortDescription', metadata),
+        'Long description': _.get('longDescription', metadata),
+        'Aliases': _.get('aliases', metadata),
+        'Monitoring laws': _.get(['tmMeta', 'monitoringItems'], metadata),
+        'Significaty condition': _.get(['tmMeta', 'sgy'], metadata),
+        'Interpretation function': _.get(['tmMeta', 'calibrationFunctions'], metadata),
+        'Formulas': _.get('algorithm', metadata),
+        'Computed triggers': _.get(['tmMeta', 'computedTriggers'], metadata),
+        'TM Packets list': formattedReportingItemPackets,
+        'Computing definitions': _.get(['tmMeta', 'computingDefinitions'], metadata),
+      }, ROOT_PARENT_NAME);
+    }
   }
 
   return {

@@ -17,8 +17,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEntryPoint } from 'store/actions/views';
 
-import { getIsPlaying } from '../../../../store/reducers/hsc';
-
 import HistoryView from './HistoryView';
 import { getData } from '../../store/dataReducer';
 import { getCountBySearching } from '../../store/dataSelectors';
@@ -42,7 +40,6 @@ const mapStateToProps = (state, { viewId, pageId }) => {
   const data = getData(state, { viewId });
   let config = getConfigurationByViewId(state, { viewId });
   const last = _.getOr({}, 'last', data);
-  const isPlaying = getIsPlaying(state);
   const searching = getSearchingByPage(state, { pageId });
   const searchViewsIds = getSearchViewsIds(state, { pageId });
   const searchCount = getSearchCount(state, { pageId });
@@ -65,7 +62,7 @@ const mapStateToProps = (state, { viewId, pageId }) => {
         const domainId = getDomainId(state, { domainName: domain });
         const session = getSessionByTimelineId(state, { timelineId: timeline });
 
-        const tupleId = getTupleId(domainId, session.id);
+        const tupleId = getTupleId(domainId, _.get('id', session));
 
         const selectedCatalogItem = getCatalogItemByName(
           state.catalogs,
@@ -91,7 +88,6 @@ const mapStateToProps = (state, { viewId, pageId }) => {
   return {
     config,
     last,
-    isPlaying,
     scrollPosition,
     isTimelineSelected,
     searching,

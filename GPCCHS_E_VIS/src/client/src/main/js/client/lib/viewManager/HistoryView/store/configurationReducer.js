@@ -26,13 +26,16 @@ const availableComObjects = [
   'COP1Status',
 ];
 
+const REPORTING_DEFAULT_FIELDS = ['apid', 'service', 'subService', 'packetType'];
+
 const comObjectFieldsAreAlreadyDefined = (stateConf, comObject) =>
   stateConf.tables.history.cols.some(col => col.group === comObject);
 
 /**
- * Remove comObject fields that are used by no entry point
+ * Remove comObject fields that are used by no entry point from the specified `stateConf`
  *
- * @param stateConf
+ * @param {object} stateConf
+ * @return {object} the updated stateConf
  */
 
 const syncDisplayedColumns = (stateConf) => {
@@ -116,8 +119,14 @@ export default (stateConf, action) => {
         return stateConf;
       }
 
+      let updatedFields = fields;
+
+      if (groupName === 'ReportingParameter') {
+        updatedFields = [...fields, ...REPORTING_DEFAULT_FIELDS];
+      }
+
       const newColumns =
-        fields.map(field => ({
+        updatedFields.map(field => ({
           title: field,
           displayed: true,
           group: groupName,

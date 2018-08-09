@@ -67,6 +67,8 @@ const mapStateToProps = (state, { viewId }) => {
       'commands',
       _.getOr([], ['dataForTables', 'pus011Command'], data).map(command => ({
         ...command,
+        commandBinaryProfile: _.getOr('', 'commandBinaryProfile', command).match(/.{16}/g)
+          .map(row => row.match(/.{2}/g)),
         lastUpdateModeCommandId: updateTypes[_.getOr(200, 'lastUpdateModeCommandId', command)], // map schedule lastUpdateModeCommandId constant
         lastUpdateModeBinProf: updateTypes[_.getOr(200, 'lastUpdateModeBinProf', command)], // map schedule lastUpdateModeBinProf constant
         commandStatus: statuses[String(_.getOr(200, 'commandStatus', command))], // map schedule commandStatus constant

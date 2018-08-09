@@ -69,12 +69,14 @@ const renderBinaryProfile = binaryProfile => (
       </thead>
       <tbody>
         {
-        binaryProfile.commandBinaryProfile.map((subTab, i) => (
+        binaryProfile.commandBinaryProfile.map((row, i) => (
           <tr key={`pus11modal-binary-profile-table-tr${i}`}>
             <th>{i}</th>
             {
-              subTab.map((row, k) => (
-                <td key={`pus11modal-binary-profile-table-tr${i}-td${k}`}>{row.toString(16).toUpperCase()}</td>
+              row.map((cell, k) => (
+                <td key={`pus11modal-binary-profile-table-tr${i}-td${k}`}>
+                  {cell.toUpperCase() /* .toString(16) */ }
+                </td>
               ))
             }
           </tr>

@@ -5,42 +5,25 @@ import _set from 'lodash/fp/set';
 
 const initialConfiguration = {
   tables: {
-    onBoardStorages: {
-      name: 'On-Board Storages',
+    eventActions: {
+      name: 'Event Actions',
       sorting: {
-        colName: 'storeId',
+        colName: 'serviceApidName',
         direction: 'DESC',
       },
       cols: [
-        { title: 'storeId', displayed: true },
-        { title: 'status', displayed: true },
-        { title: 'storageType', displayed: true },
-        { title: 'dumpEnabled', displayed: true },
-        { title: 'hkStatusParameterName', displayed: true },
-        { title: 'serviceApidName', displayed: true },
-        { title: 'storeName', displayed: true },
-        { title: 'serviceApid', displayed: true },
-      ],
-    },
-    storageDef: {
-      name: 'Storage Definitions',
-      sorting: {
-        colName: 'packectApid',
-        direction: 'DESC',
-      },
-      cols: [
-        { title: 'packetApid', displayed: true },
-        { title: 'serviceType', displayed: true },
-        { title: 'serviceSubType', displayed: true },
-        { title: 'sid', displayed: true },
-        { title: 'subsamplingRatio', displayed: true },
-        { title: 'packetType', displayed: true },
-        { title: 'sidLabel', displayed: true },
-        { title: 'isSubsamplingRatioSet', displayed: true },
-        { title: 'serviceApid', displayed: true },
-        { title: 'serviceApidName', displayed: true },
-        { title: 'packetApidName', displayed: true },
-        { title: 'sidName', displayed: true },
+        { label: 'APID Name', title: 'serviceApidName', displayed: true },
+        { label: 'AP ID', title: 'apid', displayed: true },
+        { label: 'AP Name', title: 'apidName', displayed: true },
+        { label: 'RID', title: 'rid', displayed: true },
+        { label: 'RID Label', title: 'ridLabel', displayed: true },
+        { label: 'Name', title: 'actionName', displayed: true },
+        { label: 'Status', title: 'actionStatus', displayed: true },
+        { label: 'Action TC', title: 'actionTcPacket', displayed: true },
+        { label: 'Description', title: 'actionDescription', displayed: true },
+        { label: 'Action TC APID', title: 'actionTcApid', displayed: true },
+        { label: 'Action TC Type', title: 'actionTcType', displayed: true },
+        { label: 'Action TC Subtype', title: 'actionTcSubType', displayed: true },
       ],
     },
   },
@@ -71,5 +54,5 @@ export default (stateConf = {}, action) => {
 
 export const isValidTableId = action =>
   _has('payload.tableId', action) &&
-  ['onBoardStorages', 'storageDef'].indexOf(action.payload.tableId) !== -1
+  ['eventActions'].indexOf(action.payload.tableId) !== -1
 ;

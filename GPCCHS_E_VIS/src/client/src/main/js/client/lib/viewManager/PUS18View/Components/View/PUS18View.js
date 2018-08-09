@@ -7,36 +7,24 @@ import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 
-
-const onBoardStoragesTooltips = {
-  storeId: { mode: 'lastUpdateModeStoreId', time: 'lastUpdateTimeStoreId' },
-  storageType: { mode: 'lastUpdateModeStoreType', time: 'lastUpdateTimeStoreType' },
-  status: { mode: 'lastUpdateModeStoreStatus', time: 'lastUpdateTimeStoreStatus' },
+// ON BOARD CTRL PROCEDURE
+const onBoardCtrlProceduresTooltips = {
+  obcpId: { mode: 'lastUpdateModeObcpId', time: 'lastUpdateTimeObcpId' },
+  status: { mode: 'lastUpdateModeStatus', time: 'lastUpdateTimeStatus' },
+  stepId: { mode: 'lastUpdateModeStepId', time: 'lastUpdateTimeStepId' },
+  partitionId: { mode: 'lastUpdateModePartitionId', time: 'lastUpdateModePartitionId' },
+  observabilityLevel: { mode: 'lastUpdateModeObsLevel', time: 'lastUpdateTimeObsLevel' },
+  priority: { mode: 'lastUpdateModePriority', time: 'lastUpdateTimePriority' },
 };
-const _onBoardStoragesModifier = tableModifier(onBoardStoragesTooltips);
+const _onBoardCtrlProceduresModifier = tableModifier(onBoardCtrlProceduresTooltips);
 
-const storageDefTooltips = {
-  packetType: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
-  subsamplingRatio: { mode: 'lastUpdateModeSubSamplingRatio', time: 'lastUpdateTimeSubSamplingRatio' },
-};
-const _storageDefContentModifier = tableModifier(storageDefTooltips);
-
-// ON BOARD STORAGES
-const _onBoardStoragesStatusKeyList = [
+const _onBoardCtrlProceduresStatusKeyList = [
   'status',
 ];
 // apply background color to cells for which value is ENABLED or DISABLED
-const _onBoardStoragesOverrideStyle = tableOverrideStyle(_onBoardStoragesStatusKeyList);
+const _onBoardCtrlProceduresOverrideStyle = tableOverrideStyle(_onBoardCtrlProceduresStatusKeyList);
 
-// STORAGE DEFINITION
-const _storageDefStatusKeyList = [
-  'serviceType',
-  'serviceSubType',
-  'packetType',
-];
-
-// apply background color to cells for which value is ENABLED or DISABLED
-const _storageDefOverrideStyle = tableOverrideStyle(_storageDefStatusKeyList);
+// PROCEDURE PARAMETERS
 
 export default class PUS18View extends React.Component {
   static propTypes = {
@@ -83,22 +71,18 @@ export default class PUS18View extends React.Component {
             )}
           </div>
           <div className="col-sm-12">
-            <div style={{ height: 400 }}>
+            <div className="row">
               <VirtualizedTableViewContainer
                 viewId={viewId}
-                tableId={'onBoardStorages'}
-                contentModifier={_onBoardStoragesModifier}
-                overrideStyle={_onBoardStoragesOverrideStyle}
+                tableId={'onBoardCtrlProcedures'}
+                contentModifier={_onBoardCtrlProceduresModifier}
+                overrideStyle={_onBoardCtrlProceduresOverrideStyle}
               />
             </div>
-          </div>
-          <div className="col-sm-12">
-            <div style={{ height: 400 }}>
+            <div className="row">
               <VirtualizedTableViewContainer
                 viewId={viewId}
-                tableId={'storageDef'}
-                contentModifier={_storageDefContentModifier}
-                overrideStyle={_storageDefOverrideStyle}
+                tableId={'procedureParameters'}
               />
             </div>
           </div>

@@ -5,42 +5,48 @@ import _set from 'lodash/fp/set';
 
 const initialConfiguration = {
   tables: {
-    onBoardStorages: {
-      name: 'On-Board Storages',
+    functionalMonitoring: {
+      name: 'Functional Monitoring',
       sorting: {
-        colName: 'storeId',
+        colName: 'serviceApidName',
         direction: 'DESC',
       },
       cols: [
-        { title: 'storeId', displayed: true },
-        { title: 'status', displayed: true },
-        { title: 'storageType', displayed: true },
-        { title: 'dumpEnabled', displayed: true },
-        { title: 'hkStatusParameterName', displayed: true },
-        { title: 'serviceApidName', displayed: true },
-        { title: 'storeName', displayed: true },
-        { title: 'serviceApid', displayed: true },
+        { label: 'APID Name', title: 'serviceApidName', displayed: true },
+        { label: 'FID', title: 'fmonId', displayed: true },
+        { label: 'FID Label', title: 'fmonIdLabel', displayed: true },
+        { label: 'Name', title: 'fmonName', displayed: true },
+        { label: 'Status', title: 'status', displayed: true },
+        { label: 'Checking Status', title: 'checkingStatus', displayed: true },
+        { label: 'Protect. Status', title: 'protectionStatus', displayed: true },
+        { label: 'RID', title: 'rid', displayed: true },
+        { label: 'RID Label', title: 'ridLabel', displayed: true },
+        { label: 'RID Status', title: 'ridStatus', displayed: true },
+        { label: 'Pakect Name', title: 'packetName', displayed: true }, // pending confirmation
+        { label: 'Val. Param', title: 'validityParameterId', displayed: true },
+        { label: 'Val. Mask', title: 'validityParameterMask', displayed: true },
+        { label: 'Val. Exp. Value', title: 'validityParameterExpectedValue', displayed: true },
+        { label: 'Action TC APID', title: 'actionTcApid', displayed: true },
+        { label: 'Action TC Type', title: 'actionTcType', displayed: true },
+        { label: 'Action TC SubType', title: 'actionTcSubType', displayed: true },
+        { label: 'Action Status', title: 'actionStatus', displayed: true },
+        { label: 'Action Name', title: 'actionName', displayed: true },
       ],
     },
-    storageDef: {
-      name: 'Storage Definitions',
+    parameterMonitorings: {
+      name: 'Parameter Monitorings',
       sorting: {
-        colName: 'packectApid',
+        colName: 'serviceApidName',
         direction: 'DESC',
       },
       cols: [
-        { title: 'packetApid', displayed: true },
-        { title: 'serviceType', displayed: true },
-        { title: 'serviceSubType', displayed: true },
-        { title: 'sid', displayed: true },
-        { title: 'subsamplingRatio', displayed: true },
-        { title: 'packetType', displayed: true },
-        { title: 'sidLabel', displayed: true },
-        { title: 'isSubsamplingRatioSet', displayed: true },
-        { title: 'serviceApid', displayed: true },
         { title: 'serviceApidName', displayed: true },
-        { title: 'packetApidName', displayed: true },
-        { title: 'sidName', displayed: true },
+        { title: 'fmonId', displayed: true },
+        { title: 'fmonIdLabel', displayed: true },
+        { title: 'paramMonId', displayed: true },
+        { title: 'paramMonName', displayed: true },
+        { title: 'lastUpdateModeId', displayed: true },
+        { title: 'lastUpdateTimeId', displayed: true },
       ],
     },
   },
@@ -71,5 +77,5 @@ export default (stateConf = {}, action) => {
 
 export const isValidTableId = action =>
   _has('payload.tableId', action) &&
-  ['onBoardStorages', 'storageDef'].indexOf(action.payload.tableId) !== -1
+  ['functionalMonitoring', 'parameterMonitorings'].indexOf(action.payload.tableId) !== -1
 ;

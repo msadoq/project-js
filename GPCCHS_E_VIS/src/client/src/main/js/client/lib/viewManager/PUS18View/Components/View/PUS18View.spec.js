@@ -13,8 +13,8 @@ const propsStub = {
   spaceType: 'string',
   lastUpdateTime: 1528359679639,
   lastUpdateType: 'string',
-  onBoardStorages: [],
-  stroragesDef: [],
+  onBoardCtrlProcedures: [],
+  procedureParameters: [],
   apids: [{ apidName: 'ORBIT', apidRawValue: '0' }],
 };
 

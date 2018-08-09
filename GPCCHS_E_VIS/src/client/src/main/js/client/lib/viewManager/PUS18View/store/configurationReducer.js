@@ -5,42 +5,33 @@ import _set from 'lodash/fp/set';
 
 const initialConfiguration = {
   tables: {
-    onBoardStorages: {
-      name: 'On-Board Storages',
+    onBoardCtrlProcedures: {
+      name: 'On-Board Control Procedures',
       sorting: {
         colName: 'storeId',
         direction: 'DESC',
       },
       cols: [
-        { title: 'storeId', displayed: true },
-        { title: 'status', displayed: true },
-        { title: 'storageType', displayed: true },
-        { title: 'dumpEnabled', displayed: true },
-        { title: 'hkStatusParameterName', displayed: true },
         { title: 'serviceApidName', displayed: true },
-        { title: 'storeName', displayed: true },
-        { title: 'serviceApid', displayed: true },
+        { title: 'obcpId', displayed: true },
+        { title: 'status', displayed: true },
+        { title: 'stepId', displayed: true },
+        { title: 'partitionId', displayed: true },
+        { title: 'observabilityLevel', displayed: true },
+        { title: 'priority', displayed: true },
       ],
     },
-    storageDef: {
-      name: 'Storage Definitions',
+    procedureParameters: {
+      name: 'Procedure Parameters',
       sorting: {
-        colName: 'packectApid',
+        colName: 'obcpId',
         direction: 'DESC',
       },
       cols: [
-        { title: 'packetApid', displayed: true },
-        { title: 'serviceType', displayed: true },
-        { title: 'serviceSubType', displayed: true },
-        { title: 'sid', displayed: true },
-        { title: 'subsamplingRatio', displayed: true },
-        { title: 'packetType', displayed: true },
-        { title: 'sidLabel', displayed: true },
-        { title: 'isSubsamplingRatioSet', displayed: true },
-        { title: 'serviceApid', displayed: true },
-        { title: 'serviceApidName', displayed: true },
-        { title: 'packetApidName', displayed: true },
-        { title: 'sidName', displayed: true },
+        { title: 'obcpId', displayed: true },
+        { title: 'parameterId', displayed: true },
+        { title: 'parameterName', displayed: true },
+        { title: 'value', displayed: true },
       ],
     },
   },

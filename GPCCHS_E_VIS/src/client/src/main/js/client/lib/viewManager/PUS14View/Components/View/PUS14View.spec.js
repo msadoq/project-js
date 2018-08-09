@@ -8,10 +8,8 @@ const propsStub = {
   groundDate: '1528359679639',
   serviceApid: 100,
   status: 1,
-  serviceApidName: 'myString',
   uniqueId: '100',
-  pus014TmPacket: [],
-  openModal: () => null,
+  packetForwarding: [],
 };
 
 describe('viewManager/PUS14View/Components/View/PUS14View', () => {

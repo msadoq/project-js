@@ -7,36 +7,26 @@ import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 
-
-const onBoardStoragesTooltips = {
-  storeId: { mode: 'lastUpdateModeStoreId', time: 'lastUpdateTimeStoreId' },
-  storageType: { mode: 'lastUpdateModeStoreType', time: 'lastUpdateTimeStoreType' },
-  status: { mode: 'lastUpdateModeStoreStatus', time: 'lastUpdateTimeStoreStatus' },
+// FUNCTIONAL MONITORING
+const functionalMonitoringTooltips = {
+  fmonId: { mode: 'lastUpdateModeFMonId', time: 'lastUpdateTimeFMonId' },
+  fmonIdLabel: { mode: 'lastUpdateModeFMonId', time: 'lastUpdateTimeFMonId' },
+  fmonName: { mode: 'lastUpdateModeFMonId', time: 'lastUpdateTimeFMonId' },
+  status: { mode: 'lastUpdateModeStatus', time: 'lastUpdateTimeStatus' },
+  checkingStatus: { mode: 'lastUpdateModeCheckingStatus', time: 'lastUpdateTimeCheckingStatus' },
+  protectionStatus: { mode: 'lastUpdateModeProtectionStatus', time: 'lastUpdateTimeProtectionStatus' },
+  rid: { mode: 'lastUpdateModeRid', time: 'lastUpdateTimeRid' },
+  ridStatus: { mode: 'lastUpdateModeRidStatus', time: 'lastUpdateTimeRidStatus' },
+  validityParameterId: { mode: 'lastUpdateModeValidParamId', time: 'lastUpdateTimeValidParamId' },
+  validityParameterMask: { mode: 'lastUpdateModeValidParamMask', time: 'lastUpdateTimeValidParamMask' },
+  validityParameterExpectedValue: { mode: 'lastUpdateModeValidParamExpectedValue', time: 'lastUpdateTimeValidParamExpectedValue' },
+  actionStatus: { mode: 'lastUpdateModeActionStatus', time: 'lastUpdateTimeActionStatus' },
 };
-const _onBoardStoragesModifier = tableModifier(onBoardStoragesTooltips);
+const _functionalMonitoringModifier = tableModifier(functionalMonitoringTooltips);
 
-const storageDefTooltips = {
-  packetType: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
-  subsamplingRatio: { mode: 'lastUpdateModeSubSamplingRatio', time: 'lastUpdateTimeSubSamplingRatio' },
-};
-const _storageDefContentModifier = tableModifier(storageDefTooltips);
-
-// ON BOARD STORAGES
-const _onBoardStoragesStatusKeyList = [
-  'status',
-];
+const _functionalMonitoringStatusKeyList = ['status', 'ridStatus', 'actionStatus'];
 // apply background color to cells for which value is ENABLED or DISABLED
-const _onBoardStoragesOverrideStyle = tableOverrideStyle(_onBoardStoragesStatusKeyList);
-
-// STORAGE DEFINITION
-const _storageDefStatusKeyList = [
-  'serviceType',
-  'serviceSubType',
-  'packetType',
-];
-
-// apply background color to cells for which value is ENABLED or DISABLED
-const _storageDefOverrideStyle = tableOverrideStyle(_storageDefStatusKeyList);
+const _functionalMonitoringOverrideStyle = tableOverrideStyle(_functionalMonitoringStatusKeyList);
 
 export default class PUS142View extends React.Component {
   static propTypes = {
@@ -86,9 +76,9 @@ export default class PUS142View extends React.Component {
             <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
-                tableId={'onBoardStorages'}
-                contentModifier={_onBoardStoragesModifier}
-                overrideStyle={_onBoardStoragesOverrideStyle}
+                tableId={'functionalMonitoring'}
+                contentModifier={_functionalMonitoringModifier}
+                overrideStyle={_functionalMonitoringOverrideStyle}
               />
             </div>
           </div>
@@ -96,9 +86,7 @@ export default class PUS142View extends React.Component {
             <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
-                tableId={'storageDef'}
-                contentModifier={_storageDefContentModifier}
-                overrideStyle={_storageDefOverrideStyle}
+                tableId={'parameterMonitorings'}
               />
             </div>
           </div>

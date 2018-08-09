@@ -37,26 +37,26 @@ export default class PUS18Tab extends React.Component {
             {panels.parameters && <ViewParamsContainer viewId={viewId} />}
           </Panel>
           <Panel
-            header="onBoardStorages Columns"
-            key="pus18-onboard-storages-panel"
+            header="On-Board Control Procedures Columns"
+            key="pus18-onboard-control-procedures-panel"
           >
             {
-              panels['pus18-onboard-storages-panel'] &&
+              panels['pus18-onboard-control-procedures-panel'] &&
               <TableColumnsEditorContainer
                 viewId={viewId}
-                tableId={'onBoardStorages'}
+                tableId={'onBoardCtrlProcedures'}
               />
             }
           </Panel>
           <Panel
-            header="Storage Definitions Columns"
-            key="pus18-storage-def-panel"
+            header="Procedure Parameters Columns"
+            key="pus18-procedure-parameters-panel"
           >
             {
-              panels['pus18-storage-def-panel'] &&
+              panels['pus18-procedure-parameters-panel'] &&
               <TableColumnsEditorContainer
                 viewId={viewId}
-                tableId={'storageDef'}
+                tableId={'procedureParameters'}
               />
             }
           </Panel>

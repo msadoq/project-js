@@ -5,38 +5,27 @@ import _set from 'lodash/fp/set';
 
 const initialConfiguration = {
   tables: {
-    pus014TmPacket: {
-      name: 'Tm Packets',
+    packetForwarding: {
+      name: 'Table Packet Forwarding',
       sorting: {
-        colName: 'packetApid',
+        colName: 'serviceApidName',
         direction: 'DESC',
       },
       cols: [
-        { title: 'packetApid', displayed: true }, // A afficher dans le tableau de packets
-        { title: 'forwardingStatus', displayed: true }, // A afficher dans le tableau de packets
-        { title: 'lastUpdateModeFwdStatus', displayed: true }, // Tooltip sur forwardingStatus
-        { title: 'lastUpdateTimeFwdStatus', displayed: true }, // Tooltip sur forwardingStatus
-        { title: 'packetApidName', displayed: true }, // A afficher dans le tableau de packets
-        { title: 'serviceApid', displayed: true }, // Inutilisé dans la vue
-        { title: 'packetName', displayed: true }, // A afficher dans le tableau de packets
-        { title: 'serviceApidName', displayed: true }, // Inutilisé dans la vue
-        { title: 'lastUpdateModeRid', displayed: true }, // Tooltip sur rid / ridLabel
-        { title: 'lastUpdateTimeRid', displayed: true }, // Tooltip sur rid / ridLabel
-        { title: 'rid', displayed: true }, // A afficher dans le tableau de packets
-        { title: 'ridLabel', displayed: true }, // A afficher dans le tableau de packets
-        { title: 'lastUpdateModeSid', displayed: true }, // Tooltip sur sid, sidLabel
-        { title: 'lastUpdateTimeSid', displayed: true }, // Tooltip sur sid, sidLabel
-        { title: 'lastUpdateModeSubSamplingRatio', displayed: true }, // Tooltip sur subsamplingRatio
-        { title: 'lastUpdateTimeSubSamplingRatio', displayed: true }, // Tooltip sur subsamplingRatio
-        { title: 'subsamplingRatio', displayed: true }, // A afficher dans le tableau de packets
-        { title: 'sid', displayed: true }, // A afficher dans le tableau de packets
-        { title: 'sidLabel', displayed: true }, // A afficher dans le tableau de packets
-        { title: 'lastUpdateModeTypeSubType', displayed: true }, // Tooltip sur serviceType, serviceSubType
-        { title: 'lastUpdateTimeTypeSubType', displayed: true }, // Tooltip sur serviceType, serviceSubType
-        { title: 'serviceType', displayed: true }, // A afficher dans le tableau de packets
-        { title: 'serviceSubType', displayed: true }, // A afficher dans le tableau de packets
-        // { title: 'uniqueId', displayed: true }, // Inutilisé dans la vue
-        { title: 'status', displayed: true }, // Non affiché dans la vue.  Si 3 (DELETED), supprimer l’entrée du state
+        { label: 'Apid Name', title: 'serviceApidName', displayed: true }, // Inutilisé dans la vue
+        { label: 'Name', title: 'packetName', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'APID', title: 'packetApid', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'AP Name', title: 'packetApidName', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'Type', title: 'serviceType', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'SubType', title: 'serviceSubType', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'Fwd Status (APID/T/ST)', title: 'forwardingStatus', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'RID', title: 'rid', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'RID Label', title: 'ridLabel', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'SID', title: 'sid', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'SID Label', title: 'sidLabel', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'Sample Ratio', title: 'subsamplingRatio', displayed: true }, // A afficher dans le tableau de packets
+        { label: 'Packet Type', title: 'packetType', displayed: true }, // Tooltip sur serviceType, serviceSubType
+        { label: 'Fwd Status RID SID', title: 'forwardingStatusRidSid', displayed: true }, // Tooltip sur serviceType, serviceSubType
       ],
     },
   },
@@ -67,5 +56,5 @@ export default (stateConf = {}, action) => {
 
 export const isValidTableId = action =>
   _has('payload.tableId', action) &&
-  ['pus014TmPacket'].indexOf(action.payload.tableId) !== -1
+  ['packetForwarding'].indexOf(action.payload.tableId) !== -1
 ;

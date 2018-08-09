@@ -7,10 +7,10 @@ const propsStub = {
   pageId: 'pageId',
   configuration: {
     tables: {
-      onBoardStorages: {
+      onBoardCtrlProcedures: {
         cols: [],
       },
-      storageDef: {
+      procedureParameters: {
         cols: [],
       },
     },

@@ -7,36 +7,20 @@ import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 
-
-const onBoardStoragesTooltips = {
-  storeId: { mode: 'lastUpdateModeStoreId', time: 'lastUpdateTimeStoreId' },
-  storageType: { mode: 'lastUpdateModeStoreType', time: 'lastUpdateTimeStoreType' },
-  status: { mode: 'lastUpdateModeStoreStatus', time: 'lastUpdateTimeStoreStatus' },
+// EVENT ACTIONS
+const eventActionsTooltips = {
+  rid: { mode: 'lastUpdateModeEventActionRid', time: 'lastUpdateTimeEventActionRid' },
+  ridLabel: { mode: 'lastUpdateModeEventActionRid', time: 'lastUpdateTimeEventActionRid' },
+  actionStatus: { mode: 'lastUpdateModeActionStatus', time: 'lastUpdateTimeActionStatus' },
+  actionTcPacket: { mode: 'lastUpdateModeActionTc', time: 'lastUpdateTimeActionTc' },
 };
-const _onBoardStoragesModifier = tableModifier(onBoardStoragesTooltips);
+const _eventActionsModifier = tableModifier(eventActionsTooltips);
 
-const storageDefTooltips = {
-  packetType: { mode: 'lastUpdateModePacketId', time: 'lastUpdateTimePacketId' },
-  subsamplingRatio: { mode: 'lastUpdateModeSubSamplingRatio', time: 'lastUpdateTimeSubSamplingRatio' },
-};
-const _storageDefContentModifier = tableModifier(storageDefTooltips);
-
-// ON BOARD STORAGES
-const _onBoardStoragesStatusKeyList = [
-  'status',
+const _eventActionsStatusKeyList = [
+  'actionStatus',
 ];
 // apply background color to cells for which value is ENABLED or DISABLED
-const _onBoardStoragesOverrideStyle = tableOverrideStyle(_onBoardStoragesStatusKeyList);
-
-// STORAGE DEFINITION
-const _storageDefStatusKeyList = [
-  'serviceType',
-  'serviceSubType',
-  'packetType',
-];
-
-// apply background color to cells for which value is ENABLED or DISABLED
-const _storageDefOverrideStyle = tableOverrideStyle(_storageDefStatusKeyList);
+const _eventActionsOverrideStyle = tableOverrideStyle(_eventActionsStatusKeyList);
 
 export default class PUS19View extends React.Component {
   static propTypes = {
@@ -86,19 +70,9 @@ export default class PUS19View extends React.Component {
             <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
-                tableId={'onBoardStorages'}
-                contentModifier={_onBoardStoragesModifier}
-                overrideStyle={_onBoardStoragesOverrideStyle}
-              />
-            </div>
-          </div>
-          <div className="col-sm-12">
-            <div style={{ height: 400 }}>
-              <VirtualizedTableViewContainer
-                viewId={viewId}
-                tableId={'storageDef'}
-                contentModifier={_storageDefContentModifier}
-                overrideStyle={_storageDefOverrideStyle}
+                tableId={'eventActions'}
+                contentModifier={_eventActionsModifier}
+                overrideStyle={_eventActionsOverrideStyle}
               />
             </div>
           </div>

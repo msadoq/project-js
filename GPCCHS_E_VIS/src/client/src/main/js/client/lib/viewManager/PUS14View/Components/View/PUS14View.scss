@@ -5,25 +5,23 @@
   overflow: scroll;
 
   .header {
-	margin: 0 10px 10px;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
-	.info {
-	  margin-top: 10px;
-	  display: flex;
-	  flex-direction: row;
-	  align-items: baseline;
-	  justify-content: flex-start;
-	  .mw50 {
-		max-width: 50px;
-	  }
-	  .mw100 {
-		max-width: 100px;
-	  }
-	  &.pus14_ss { justify-content: center; }
-	  &.pus14_as { justify-content: flex-end; }
-	}
+		margin: 0 10px 10px;
+		display: flex;
+		flex-direction: row;
+		align-items: flex-end;
+		.info {
+			margin-top: 10px;
+			display: flex;
+			flex-direction: row;
+			align-items: baseline;
+			justify-content: flex-start;
+			.mw50 {
+			max-width: 50px;
+			}
+			.mw100 {
+			max-width: 100px;
+			}
+		}
   }
 
   .renderErrorText {

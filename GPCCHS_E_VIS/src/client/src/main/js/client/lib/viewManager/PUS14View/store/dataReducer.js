@@ -52,7 +52,7 @@ function pus14DataReducer(state = {}, action) {
         status: statuses[_.getOr(200, 'status', ownModelData)], // map packet status constant
       };
 
-      updatedState = injectTabularData(updatedState, 'pus014TmPacket',
+      updatedState = injectTabularData(updatedState, 'packetForwarding',
         _.getOr([], ['pus014TmPacket'], data)
         .map(packet => ({
           ...packet,

@@ -13,7 +13,7 @@ const initialConfiguration = {
       },
       cols: [
         { title: 'serviceApidName', displayed: true },
-        { title: 'apid', displayed: true },
+        { title: 'serviceApid', displayed: true },
         { title: 'apidName', displayed: true },
         { title: 'parameterId', displayed: true },
         { title: 'parameterName', displayed: true },

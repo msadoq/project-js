@@ -25,11 +25,7 @@ if (program.check) {
 }
 
 if (program.migrate) {
-  try {
-    migrate(program.target, program.migrate, program.output, program.lock);
-  } catch (error) {
-    process.exit(1);
-  }
+  migrate(program.target, program.migrate, program.output, program.lock);
 }
 
 process.exit(0);

@@ -5,50 +5,25 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import './PUS13View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
+import { tableModifier } from '../../../common/pus/utils';
 import HeaderStatus from '../../../common/Components/View/PUS/HeaderStatus';
 
 
+// UP&DOWN LINK MODIFIER
 const tooltips = {
-  monitoringId: { mode: 'lastUpdateModeMonId', time: 'lastUpdateTimeMonId' },
-  parameterId: { mode: 'lastUpdateModeParamId', time: 'lastUpdateTimeParamId' },
-  monitoringStatus: { mode: 'lastUpdateModeMonStatus', time: 'lastUpdateTimeMonStatus' },
-  protectionStatus: { mode: 'lastUpdateModeProtectionStatus', time: 'lastUpdateTimeProtectionStatus' },
-  monitoringInterval: { mode: 'lastUpdateModeMonInterval', time: 'lastUpdateTimeMonInterval' },
-  repetitionNumber: { mode: 'lastUpdateModeRepetition', time: 'lastUpdateTimeRepetition' },
-  checkType: { mode: 'lastUpdateModeCheckType', time: 'lastUpdateTimeCheckTime' },
-  validityParameterId: { mode: 'lastUpdateModeValParamId', time: 'lastUpdateTimeValParamId' },
-  validityParameterMask: { mode: 'lastUpdateModeValParamMask', time: 'lastUpdateTimeValParamMask' },
-  parameterCurrentValue: { mode: 'lastUpdateModeParamCurrentValue', time: 'lastUpdateTimeParamCurrentValue' },
-  validityParameterExpectedValue: { mode: 'lastUpdateModeValParamExpectValue', time: 'lastUpdateTimeValParamExpectValue' },
-  ridEL: { mode: 'lastUpdateModeRidEL', time: 'lastUpdateTimeRidEL' },
-  ridLabelEL: { mode: 'lastUpdateModeRidEL', time: 'lastUpdateTimeRidEL' },
-  ridStatusEL: { mode: 'lastUpdateModeRidStatusEL', time: 'lastUpdateTimeRidStatusEL' },
-  actionStatusEL: { mode: 'lastUpdateModeActionStatusEL', time: 'lastUpdateTimeActionStatusEL' },
-  maskEL: { mode: 'lastUpdateModeMaskEL', time: 'lastUpdateTimeMaskEL' },
-  valueEL: { mode: 'lastUpdateModeValueEL', time: 'lastUpdateTimeValueEL' },
-  ridH: { mode: 'lastUpdateModeRidH', time: 'lastUpdateTimeRidH' },
-  ridLabelH: { mode: 'lastUpdateModeRidH', time: 'lastUpdateTimeRidH' },
-  ridStatusH: { mode: 'lastUpdateModeRidStatusH', time: 'lastUpdateTimeRidStatusH' },
-  actionStatusH: { mode: 'lastUpdateModeActionStatusH', time: 'lastUpdateTimeActionStatusH' },
-  maskH: { mode: 'lastUpdateModeMaskH', time: 'lastUpdateTimeMaskH' },
-  valueH: { mode: 'lastUpdateModeValueH', time: 'lastUpdateTimeValueH' },
+  duId: { mode: 'lastUpdateModeLduId', time: 'lastUpdateTimeLduId' },
+  status: { mode: 'lastUpdateModeStatus', time: 'lastUpdateTimeStatus' },
+  transferType: { mode: 'lastUpdateModeLduId', time: 'lastUpdateTimeLduId' },
+  startTime: { mode: 'lastUpdateModeStartTime', time: 'lastUpdateTimeStartTime' },
+  endTime: { mode: 'lastUpdateModeEndTime', time: 'lastUpdateTimeEndTime' },
+  size: { mode: 'lastUpdateModeSize', time: 'lastUpdateTimeSize' },
+  remainingSize: { mode: 'lastUpdateModeRemainSize', time: 'lastUpdateTimeRemainSize' },
+  percent: { mode: 'lastUpdateModePercent', time: 'lastUpdateTimePercent' },
+  failureCode: { mode: 'lastUpdateModeFailureCode', time: 'lastUpdateTimeFailureCode' },
+  fileChecksum: { mode: 'lastUpdateModeFileChecksum', time: 'lastUpdateTimeFileChecksum' },
 };
 
-const _parameterMonitoringDefinitionsModifier =
-  tableModifier(tooltips);
-
-// const backgroundDisabled = { backgroundColor: '#e67e22' };
-// const backgroundEnabled = { backgroundColor: '#2ecc71' };
-
-// PARAMETER MONITORING MODIFIER
-const statusKeyList = [
-  'monitoringStatus', 'ridStatusEL', 'ridStatusH', 'actionStatusEL', 'actionStatusH',
-];
-
-// apply background color to cells for which value is ENABLED or DISABLED
-const _parameterMonitoringDefinitionsOverrideStyle =
-  tableOverrideStyle(statusKeyList);
+const _linkModifier = tableModifier(tooltips);
 
 
 export default class PUS13View extends React.Component {
@@ -107,13 +82,21 @@ export default class PUS13View extends React.Component {
               apids
             )}
           </div>
-          <div className="col-sm-13">
-            <div style={{ height: 400 }}>
+          <div className="col-sm-12">
+            <div className="row">
               <VirtualizedTableViewContainer
                 viewId={viewId}
-                tableId={'parameterMonitoringDefinitions'}
-                contentModifier={_parameterMonitoringDefinitionsModifier}
-                overrideStyle={_parameterMonitoringDefinitionsOverrideStyle}
+                tableId={'uplink'}
+                contentModifier={_linkModifier}
+              />
+            </div>
+          </div>
+          <div className="col-sm-12">
+            <div className="row">
+              <VirtualizedTableViewContainer
+                viewId={viewId}
+                tableId={'downlink'}
+                contentModifier={_linkModifier}
               />
             </div>
           </div>

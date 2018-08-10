@@ -116,7 +116,7 @@ const mapStateToProps = (state) => {
 
 // eslint-disable-next-line no-unused-vars
     const metadata = _.get('metadata', catalogItem);
-    const reportingItemPackets = _.get('reportingItemPackets', catalogItem);
+    const reportingItemPackets = _.getOr([], 'reportingItemPackets', catalogItem);
     const formattedReportingItemPackets = reportingItemPackets.map(packet => _.get('name', packet));
 
     if (metadata) {

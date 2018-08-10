@@ -1,4 +1,3 @@
-const _omit = require('lodash/omit');
 const logger = require('../../common/logManager')('stubs:utils');
 const constants = require('../../constants');
 const getPayload = require('./getPayload');
@@ -12,8 +11,10 @@ function shouldPushANewValue(timestamp, previous) {
 }
 
 module.exports = function sendPusData(
-  header,
-  structure,
+  firstTime,
+  lastTime,
+  continuous,
+  dataId,
   zmq
 ) {
   const {
@@ -21,44 +22,34 @@ module.exports = function sendPusData(
     domainId,
     pusService,
     pusServiceApid,
-    // messageUniqueId,
-  } = header;
-  const {
-    // forReplay,
-    firstTime,
-    lastTime,
-    continuous,
-  } = structure;
+  } = dataId;
 
-  const cleanPusServiceApid = pusServiceApid.map(apid => _omit(apid.value, 'type'));
-  const from = firstTime.value;
-  const to = lastTime.value;
-  if (to <= from) {
+  if (lastTime <= firstTime) {
     throw new Error(
-      'Invalid interval requested to PusActor stub',
+      'Invalid interval requested lastTime PusAclastTimer stub',
       pusService.value,
-      from,
-      to
+      firstTime,
+      lastTime
     );
   }
 
   const payloads = [];
   let previousTimestamp = 0;
 
-  for (let timestamp = from;
-       timestamp <= to && timestamp < Date.now();
+  for (let timestamp = firstTime;
+       timestamp <= lastTime && timestamp < Date.now();
        timestamp += constants.PUS_STUB_VALUE_TIMESTEP
   ) {
     if (shouldPushANewValue(timestamp, previousTimestamp)) {
-      const forceModel = timestamp === from;
-      for (let i = 0; i < cleanPusServiceApid.length; i += 1) {
+      const forceModel = timestamp === firstTime;
+      for (let i = 0; i < pusServiceApid.length; i += 1) {
         const payload =
           getPayload(
-            pusService.value,
-            cleanPusServiceApid[i].value,
+            pusService,
+            pusServiceApid[i].value,
             timestamp,
             forceModel,
-            continuous.value
+            continuous
           );
         if (payload !== null) {
           payloads.push(payload);
@@ -77,15 +68,15 @@ module.exports = function sendPusData(
       zmq.push('stubPusPush', [
         stubData.getHeaderStructureProtobuf({
           messageType: constants.PUS_DATA,
-          sessionId: sessionId.value,
-          domainId: domainId.value,
-          pusService: pusService.value,
-          pusServiceApid: cleanPusServiceApid,
+          sessionId,
+          domainId,
+          pusService,
+          pusServiceApid,
         }),
         payload,
       ]);
     });
   }
 
-  logger.debug(`push ${payloads.length} data from query from: ${new Date(from)} to ${new Date(to)} now`);
+  logger.debug(`push ${payloads.length} data firstTime query firstTime: ${new Date(firstTime)} lastTime ${new Date(lastTime)} now`);
 };

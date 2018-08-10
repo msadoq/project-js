@@ -497,19 +497,19 @@ function dcCall() {
   timeBasedQueries = [];
 
   // obsolete events queries
-  // _each(obsoleteEventQueries, (query) => {
-  //   logger.debug(`push archive data for ${query.dataId.parameterName}`);
-  //   sendObsoleteEventData(
-  //     query.queryKey,
-  //     query.queryId,
-  //     query.dataId,
-  //     query.timeInterval,
-  //     query.isLast,
-  //     zmq,
-  //     query.versionDCCom,
-  //     query.rawBuffer
-  //   );
-  // });
+  _each(obsoleteEventQueries, (query) => {
+    logger.debug(`push archive data for ${query.dataId.parameterName}`);
+    sendObsoleteEventData(
+      query.queryKey,
+      query.queryId,
+      query.dataId,
+      query.timeInterval,
+      query.isLast,
+      zmq,
+      query.versionDCCom,
+      query.rawBuffer
+    );
+  });
   obsoleteEventQueries = [];
 
   // alarmAcks

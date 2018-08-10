@@ -6,159 +6,32 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import './PUSMMEView.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { addTooltipWithContent } from '../../../common/pus/tooltip';
 
-import styles from './PUSMMEView.css';
-import { formatDate } from '../../../common/pus/utils';
+import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 
-const _packetsContentModifier = (cellContent = {}, content = {}) => {
-  const { colKey } = cellContent;
+const _packetsStatusKeyList = [
+  'status',
+  'forwardingStatus',
+  'forwardingStatusRidSid',
+];
+const packetsOverrideStyle = tableOverrideStyle(_packetsStatusKeyList);
 
-  switch (colKey) {
-    case 'apid':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeSid',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeSid',
-            format: formatDate,
-          },
-        }
-      );
-    case 'status':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeStatus',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeStatus',
-            format: formatDate,
-          },
-        }
-      );
-    case 'validityParameterId':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeValidParamId',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeValidParamId',
-            format: formatDate,
-          },
-        }
-      );
-    case 'validityParameterMask':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeValidParamMask',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeValidParamMask',
-            format: formatDate,
-          },
-        }
-      );
-    case 'validityParameterExpectedValue':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeValidParamExpValue',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeValidParamExpValue',
-            format: formatDate,
-          },
-        }
-      );
-    case 'collectionInterval':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeCollectInterval',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeCollectInterval',
-            format: formatDate,
-          },
-        }
-      );
-    case 'generationMode':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeGenMode',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeGenMode',
-            format: formatDate,
-          },
-        }
-      );
-    case 'forwardingStatusTypeSubtype':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeFwdStatusTypeSubtype',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeFwdStatusTypeSubtype',
-            format: formatDate,
-          },
-        }
-      );
-    case 'forwardingStatusRidSid':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeFwdStatusTypeRidSid',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeFwdStatusTypeRidSid',
-            format: formatDate,
-          },
-        }
-      );
-    case 'subsamplingRatio':
-      return addTooltipWithContent(
-        cellContent,
-        content,
-        {
-          lastUpdateMode: {
-            key: 'lastUpdateModeSubSamplingRatio',
-          },
-          lastUpdateTime: {
-            key: 'lastUpdateTimeSubSamplingRatio',
-            format: formatDate,
-          },
-        }
-      );
-    default:
-      return cellContent;
-  }
+const packetForwardingTooltips = {
+  sid: { mode: 'lastUpdateModeSid', time: 'lastUpdateTimeSid' },
+  sidLabel: { mode: 'lastUpdateModeSid', time: 'lastUpdateTimeSid' },
+  status: { mode: 'lastUpdateModeStatus', time: 'lastUpdateTimeStatus' },
+  validityParameterId: { mode: 'lastUpdateModeValidParamId', time: 'lastUpdateTimeValidParamId' },
+  validityParameterMask: { mode: 'lastUpdateModeValidParamMask', time: 'lastUpdateTimeValidParamMask' },
+  validityParameterExpectedValue: { mode: 'lastUpdateModeValidParamExpValue', time: 'lastUpdateTimeValidParamExpValue' },
+  collectionInterval: { mode: 'lastUpdateModeCollectInterval', time: 'lastUpdateTimeCollectInterval' },
+  forwardingStatusTypeSubtype: { mode: 'lastUpdateModeFwdStatusTypeSubtype', time: 'lastUpdateTimeFwdStatusTypeSubtype' },
+  serviceSubType: { mode: 'lastUpdateModeTypeSubType', time: 'lastUpdateTimeSubscheduleId' },
+  forwardingStatus: { mode: 'lastUpdateModeFwdStatus', time: 'lastUpdateTimeFwdStatus' },
+  forwardingStatusRidSid: { mode: 'lastUpdateTimeFwdStatusTypeRidSid', time: 'lastUpdateTimeFwdStatusTypeRidSid' },
+  subsamplingRatio: { mode: 'lastUpdateModeSubSamplingRatio', time: 'lastUpdateTimeSubSamplingRatio' },
+  generationMode: { mode: 'lastUpdateModeGenMode', time: 'lastUpdateTimeGenMode' },
 };
+const packetsContentModifier = tableModifier(packetForwardingTooltips);
 
 export default class PUSMMEView extends React.Component {
   static propTypes = {
@@ -186,8 +59,8 @@ export default class PUSMMEView extends React.Component {
       viewId,
       noHkPackets,
       noDiagPackets,
-      domain,
       timeline,
+      domain,
       onCommandCellDoubleClick,
     } = this.props;
 
@@ -201,12 +74,13 @@ export default class PUSMMEView extends React.Component {
           {renderHeaders(
             noHkPackets,
             noDiagPackets
-          )}
           <div className={styles.container}>
+          )}
             <VirtualizedTableViewContainer
               viewId={viewId}
               tableId={'packets'}
-              contentModifier={_packetsContentModifier}
+              overrideStyle={packetsOverrideStyle}
+              contentModifier={packetsContentModifier}
               onCellDoubleClick={onCommandCellDoubleClick}
             />
           </div>

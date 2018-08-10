@@ -22,7 +22,7 @@ const onBoardEventsTooltips = {
 };
 const _onBoardEventsContentModifier = tableModifier(onBoardEventsTooltips);
 
-const _onBoardEventsOverrideStyle = tableOverrideStyle(['onBoardStatus']);
+const _onBoardEventsOverrideStyle = tableOverrideStyle(['onBoardStatus', 'defaultOnBoardStatus']);
 
 // RECEIVED ON-BOARD EVENT
 

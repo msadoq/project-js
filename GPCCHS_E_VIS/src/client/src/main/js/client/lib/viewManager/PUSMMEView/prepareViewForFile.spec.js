@@ -1,14 +1,11 @@
-import _ from 'lodash/fp';
-import { VM_VIEW_PUSMME } from '../constants';
-import { moveProp } from '../../common/fp';
+import _omit from 'lodash/omit';
+import prepareViewForFile from './prepareViewForFile';
 
-const singleton = x => [x];
-
-const getDefaultView = view => _.merge({
-  type: VM_VIEW_PUSMME,
+const props = {
+  type: 'PUSMMEView',
   defaultRatio: { length: 5, width: 5 },
   links: [],
-  title: 'House Keeping and diagnostic packets (PUS MME)',
+  title: 'House Keeping and diagnostic Packets(PUSMME)',
   titleStyle: {
     align: 'left',
     bold: false,
@@ -19,8 +16,14 @@ const getDefaultView = view => _.merge({
     strikeOut: false,
     underline: false,
   },
+  uuid: 'e90097c0-6ca8-4f28-a1e0-6434168fc197',
+  isModified: true,
+  showLinks: false,
+  domainName: '*',
+  sessionName: '*',
+  domain: '*',
+  session: '*',
   configuration: {
-    entryPoint: {},
     tables: {
       packets: {
         name: 'House-Keeping and Diagnostic Packets',
@@ -50,13 +53,20 @@ const getDefaultView = view => _.merge({
         ],
       },
     },
+    entryPoints: [{
+      foo: 'foo',
+    }],
   },
-}, view);
+};
 
-export default _.pipe(
-  getDefaultView,
-  _.update('configuration', _.pipe(
-    moveProp('entryPoint', 'entryPoints'),
-    _.update('entryPoints', singleton)
-  ))
-);
+describe('viewManager/PUSMMEView/prepareViewForFile', () => {
+  it('should remove correctly entryPoints key, and copy it as entryPoint', () => {
+    expect(prepareViewForFile(props)).toEqual({
+      ...props,
+      configuration: {
+        ..._omit(props.configuration, ['entryPoints']),
+        entryPoint: { foo: 'foo' },
+      },
+    });
+  });
+});

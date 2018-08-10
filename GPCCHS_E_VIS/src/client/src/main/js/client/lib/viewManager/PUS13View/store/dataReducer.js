@@ -25,19 +25,27 @@ function pus13DataReducer(state = {}, action) {
           timestamp: number,
           data: {
             ...headerDatas:
-            pus013ParameterMonitoringDefinition:[
+            pus13UplinkLdt:[
               {
                 ...
-                pus013MonitoringCheckPropertiesLow: {}
-                pus013MonitoringCheckPropertiesHigh: {}
-                pus013MonitoringCheckPropertiesExpected: {}
+                pus013LdtPart: [
+                  {}
+                ],
+              },
+            ],
+            pus13DownlinkLdt:[
+              {
+                ...
+                pus013LdtPart: [
+                  {}
+                ],
               },
             ],
           }
       */
       const data = _.getOr(null, ['payload', 'data', VM_VIEW_PUS13], action);
 
-      const checkTypes = parameters.get('PUS_CONSTANTS').CHECK_TYPE;
+      const transfertTypes = parameters.get('PUS_CONSTANTS').TRANSFERT_TYPE;
       const statuses = parameters.get('PUS_CONSTANTS').STATUS;
       const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
@@ -49,113 +57,21 @@ function pus13DataReducer(state = {}, action) {
       // keep all except tabular data
       updatedState = {
         ..._.omit(
-          ['pus012ParameterMonitoringDefinition'],
+          ['pus013UplinkLdt', 'pus013DownlinkLdt'],
           data
         ),
-        serviceStatus: statuses[_.getOr(200, 'serviceStatus', data)],
-        lastUpdateModeServiceStatus: updateTypes[_.getOr(200, 'lastUpdateModeServiceStatus', data)],
       };
 
-      const isExpectedValue = elData => checkTypes[_.getOr('4', 'checkType', elData)] === 'EXPECTED VALUE';
-      const isDeltaOrLimit = hData => ['DELTA', 'LIMIT'].includes(checkTypes[_.getOr('4', 'checkType', hData)]);
-
-      const bindToBoolKey = (arr, store) => {
-        const [boolKey, key, toolType] = arr;
-        let newStore = _.pick([key, toolType], store);
-        if (_.get(boolKey, store)) {
-          newStore = _.set(toolType, updateTypes[_.getOr(200, toolType, newStore)], newStore);
-        } else {
-          newStore = _.set(key, '', newStore);
-        }
-        return newStore;
-      };
-
-      const selectExpectedData = (store) => {
-        const isExpected = isExpectedValue(store);
-        return {
-          ..._.omit(
-            [
-              'pus012MonitoringCheckPropertiesLow',
-              'pus012MonitoringCheckPropertiesHigh',
-              'pus012MonitoringCheckPropertiesExpected',
-              'lastUpdateModeMonInterval',
-              'isMonitoringIntervalSet',
-              'lastUpdateModeRepetition',
-              'isRepetitionNumberSet',
-            ], store),
-
-          ...bindToBoolKey(['isMonitoringIntervalSet', 'monitoringInterval', 'lastUpdateModeMonInterval'], store),
-          ...bindToBoolKey(['isRepetitionNumberSet', 'repetitionNumber', 'lastUpdateModeRepetition'], store),
-
-          checkType: checkTypes[_.getOr('4', 'checkType', store)],
-          monitoringStatus: statuses[_.getOr(200, 'monitoringStatus', store)],
-          lastUpdateModeMonId: updateTypes[_.getOr(200, 'lastUpdateModeMonId', store)],
-          lastUpdateModeParamId: updateTypes[_.getOr(200, 'lastUpdateModeParamId', store)],
-          lastUpdateModeCheckType: updateTypes[_.getOr(200, 'lastUpdateModeCheckType', store)],
-          lastUpdateModeMonStatus: updateTypes[_.getOr(200, 'lastUpdateModeMonStatus', store)],
-          lastUpdateModeProtectionStatus: updateTypes[_.getOr(200, 'lastUpdateModeProtectionStatus', store)],
-
-          ...isExpected ? {
-            lastUpdateModeValParamId: updateTypes[_.getOr(200, 'lastUpdateModeValParamId', store)],
-            lastUpdateModeParamCurrentValue: updateTypes[_.getOr(200, 'lastUpdateModeParamCurrentValue', store)],
-            lastUpdateModeValParamExpectValue: updateTypes[_.getOr(200, 'lastUpdateModeValParamExpectValue', store)],
-            lastUpdateModeValParamMask: updateTypes[_.getOr(200, 'lastUpdateModeValParamMask', store)],
-          } : {
-            validityParameterId: '',
-            validityParameterName: '',
-            validityParameterMask: '',
-            parameterCurrentValue: '',
-            validityParameterExpectedValue: '',
-          },
-        };
-      };
-
-      const getELData = (store) => {
-        const isExpected = isExpectedValue(store);
-        const elData = _.mapKeys(
-          value => value.concat('EL'),
-          _.get(
-            isExpected ? 'pus012MonitoringCheckPropertiesExpected' :
-            'pus012MonitoringCheckPropertiesLow',
-            store)
-        );
-        return {
-          ...elData,
-          ridStatusEL: statuses[_.getOr(200, 'ridStatusEL', elData)],
-          actionStatusEL: statuses[_.getOr(200, 'actionStatusEL', elData)],
-          lastUpdateModeRidEL: updateTypes[_.getOr(200, 'lastUpdateModeRidEL', elData)],
-          lastUpdateModeActionStatusEL: updateTypes[_.getOr(200, 'lastUpdateModeActionStatusEL', elData)],
-          lastUpdateModeRidStatusEL: updateTypes[_.getOr(200, 'lastUpdateModeRidStatusEL', elData)],
-          lastUpdateModeMaskEL: updateTypes[_.getOr(200, 'lastUpdateModeMaskEL', elData)],
-          lastUpdateModeValueEL: updateTypes[_.getOr(200, 'lastUpdateModeValueEL', elData)],
-        };
-      };
-
-      const getHData = (store) => {
-        const isShown = isDeltaOrLimit(store);
-        const hData = _.mapKeys(
-          value => value.concat('H'),
-          _.get('pus012MonitoringCheckPropertiesHigh', store)
-        );
-        return isShown ? {
-          ...hData,
-          ridStatusH: statuses[_.getOr(200, 'ridStatusH', hData)],
-          actionStatusH: statuses[_.getOr(200, 'actionStatusH', hData)],
-          lastUpdateModeRidH: updateTypes[_.getOr(200, 'lastUpdateModeRidH', hData)],
-          lastUpdateModeActionStatusH: updateTypes[_.getOr(200, 'lastUpdateModeActionStatusH', hData)],
-          lastUpdateModeRidStatusH: updateTypes[_.getOr(200, 'lastUpdateModeRidStatusH', hData)],
-          lastUpdateModeValueH: updateTypes[_.getOr(200, 'lastUpdateModeValueH', hData)],
-          lastUpdateModeMaskH: updateTypes[_.getOr(200, 'lastUpdateModeMaskH', hData)],
-        } : _.mapValues(() => '', hData);
-      };
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
-      updatedState = injectTabularData(updatedState, 'parameterMonitoringDefinitions',
-        _.getOr([], ['pus012ParameterMonitoringDefinition'], data)
-        .map(store => ({
-          ...selectExpectedData(store),
-          ...getELData(store),
-          ...getHData(store),
+      updatedState = injectTabularData(updatedState, 'uplink',
+        _.getOr([], ['pus013UplinkLdt'], data)
+        .map(upData => ({
+          status: statuses[String(_.getOr(200, 'status', upData))],
+          transferType: transfertTypes[String(_.getOr(200, 'transferType', upData))],
+          lastUpdateModeStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeStatus', upData))],
+          lastUpdateModeLduId: updateTypes[String(_.getOr(200, 'lastUpdateModeLduId', upData))],
+
         }))
       );
       return updatedState;

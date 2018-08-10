@@ -40,28 +40,19 @@ function pus14DataReducer(state = {}, action) {
 
       let updatedState = state;
 
-      const ownModelData = _.omit(
-        ['pus014TmPacket'],
-        data
-      );
-
-      // strip tables from data dans add them to updatedState
-      updatedState = {
-        ...updatedState,
-        ...ownModelData,
-        status: statuses[_.getOr(200, 'status', ownModelData)], // map packet status constant
-      };
-
       updatedState = injectTabularData(updatedState, 'packetForwarding',
         _.getOr([], ['pus014TmPacket'], data)
         .map(packet => ({
           ...packet,
-          status: statuses[_.getOr(200, 'status', packet)], // map packet status constant
-          forwardingStatus: statuses[_.getOr(200, 'forwardingStatus', packet)], // map packet forwardingStatus constant
-          lastUpdateModeFwdStatus: updateTypes[_.getOr(200, 'lastUpdateModeFwdStatus', packet)], // map packet lastUpdateModeFwdStatus constant
-          lastUpdateModeSid: updateTypes[_.getOr(200, 'lastUpdateModeSid', packet)], // map schedule lastUpdateModeSid constant
-          lastUpdateModeSubSamplingRatio: updateTypes[_.getOr(200, 'lastUpdateModeSubSamplingRatio', packet)], // map schedule lastUpdateModeSubSamplingRatio constant
-          lastUpdateModeTypeSubType: updateTypes[_.getOr(200, 'lastUpdateModeTypeSubType', packet)], // map schedule lastUpdateModeTypeSubType constant
+          status: statuses[String(_.getOr(200, 'status', packet))],
+          forwardingStatus: statuses[String(_.getOr(200, 'forwardingStatus', packet))],
+          forwardingStatusRidSid: statuses[String(_.getOr(200, 'forwardingStatusRidSid', packet))],
+          lastUpdateModeTypeSubType: updateTypes[String(_.getOr(200, 'lastUpdateModeTypeSubType', packet))],
+          lastUpdateModeFwdStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeFwdStatus', packet))],
+          lastUpdateModeRid: updateTypes[String(_.getOr(200, 'lastUpdateModeRid', packet))],
+          lastUpdateModeSid: updateTypes[String(_.getOr(200, 'lastUpdateModeSid', packet))],
+          lastUpdateModeSubSamplingRatio: updateTypes[String(_.getOr(200, 'lastUpdateModeSubSamplingRatio', packet))],
+          lastUpdateModeFwdStatusTypeRidSid: updateTypes[String(_.getOr(200, 'lastUpdateModeFwdStatusTypeRidSid', packet))],
         }))
       );
 

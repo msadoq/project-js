@@ -3,63 +3,37 @@ import _getOr from 'lodash/fp/getOr';
 import _has from 'lodash/fp/has';
 import _set from 'lodash/fp/set';
 
-// const initialConfiguration = {
-//   tables: {
-//     subSchedules: {
-//       name: 'Sub schedules',
-//       sorting: {
-//         colName: 'ssId',
-//         direction: 'DESC',
-//       },
-//       cols: [
-//         { label: 'ssId', title: 'ssId', displayed: true },
-//         { label: 'ssIdLabel', title: 'ssIdLabel', displayed: true },
-//         { label: 'status', title: 'status', displayed: true },
-//         { label: 'lastUpdateModeExecTimeFirstTc', title: 'lastUpdateModeExecTimeFirstTc', displayed: true },
-//         { label: 'lastUpdateTimeExecTimeFirstTc', title: 'lastUpdateTimeExecTimeFirstTc', displayed: true },
-//         { label: 'serviceApid', title: 'serviceApid', displayed: true },
-//         { label: 'serviceApidName', title: 'serviceApidName', displayed: true },
-//       ],
-//     },
-//     enabledApids: {
-//       name: 'Enabled APIDs',
-//       sorting: {
-//         colName: 'apid',
-//         direction: 'DESC',
-//       },
-//       cols: [
-//         { title: 'apid', displayed: true },
-//         { title: 'apidName', displayed: true },
-//         { title: 'status', displayed: true },
-//         { title: 'serviceApid', displayed: true },
-//         { title: 'serviceApidName', displayed: true },
-//       ],
-//     },
-//     commands: {
-//       name: 'Commands',
-//       sorting: {
-//         colName: 'commandApid',
-//         direction: 'DESC',
-//       },
-//       cols: [
-//         { title: 'commandApid', displayed: true },
-//         { title: 'commandApidName', displayed: true },
-//         { title: 'commandName', displayed: true },
-//         { title: 'commandDescription', displayed: true },
-//         { title: 'commandSequenceCount', displayed: true },
-//         { title: 'commandSourceId', displayed: true },
-//         { title: 'commandSsId', displayed: true },
-//         { title: 'serviceApid', displayed: true },
-//         { title: 'serviceApidName', displayed: true },
-//         { title: 'commandGroundStatus', displayed: true },
-//         { title: 'commandStatus', displayed: true },
-//         { title: 'currentExecutionTime', displayed: true },
-//         { title: 'initialExecutionTime', displayed: true },
-//         { title: 'totalTimeShiftOffset', displayed: true },
-//       ],
-//     },
-//   },
-// };
+const initialConfiguration = {
+  tables: {
+    packets: {
+      name: 'House-Keeping and Diagnostic Packets',
+      sorting: {
+        colName: 'serviceApidName',
+        direction: 'DESC',
+      },
+      cols: [
+        { label: 'APID Name', title: 'serviceApidName', displayed: true },
+        { label: 'SID', title: 'sid', displayed: true },
+        { label: 'SID Label', title: 'sidLabel', displayed: true },
+        { label: 'Name', title: 'packetName', displayed: true },
+        { label: 'Type', title: 'packetType', displayed: true },
+        { label: 'AP Name', title: 'packetApidName', displayed: true },
+        { label: 'Status', title: 'status', displayed: true },
+        { label: 'Val. Param. ID', title: 'validityParameterId', displayed: true },
+        { label: 'Val. Param. Name', title: 'validityParameterName', displayed: true },
+        { label: 'Val. Param. Mask', title: 'validityParameterMask', displayed: true },
+        { label: 'Val. Exp. Value', title: 'validityParameterExpectedValue', displayed: true },
+        { label: 'Collect. Int.', title: 'collectionInterval', displayed: true },
+        { label: 'Forward. Status', title: 'forwardingStatusTypeSubtype', displayed: true },
+        { label: 'Forward. Status RID SID', title: 'forwardingStatusRidSid', displayed: true },
+        { label: 'Subsamp. Ratio', title: 'subsamplingRatio', displayed: true },
+        { label: 'Gen. Mode', title: 'generationMode', displayed: true },
+        { label: 'Packet APID', title: 'packetApid', displayed: true },
+        { label: 'Service APID', title: 'serviceApid', displayed: true },
+      ],
+    },
+  },
+};
 
 export default (stateConf = {}, action) => {
   switch (action.type) {
@@ -86,5 +60,5 @@ export default (stateConf = {}, action) => {
 
 export const isValidTableId = action =>
   _has('payload.tableId', action) &&
-  ['enabledApids', 'subSchedules', 'commands'].indexOf(action.payload.tableId) !== -1
+  ['packets'].indexOf(action.payload.tableId) !== -1
 ;

@@ -54,6 +54,7 @@ function pus05DataReducer(state = {}, action) {
           .map(boardEvent => ({
             ...boardEvent,
             onBoardStatus: statuses[String(_.getOr(200, 'onBoardStatus', boardEvent))],
+            defaultOnBoardStatus: statuses[String(_.getOr(200, 'defaultOnBoardStatus', boardEvent))],
             lastUpdateModeRid: updateTypes[String(_.getOr(200, 'lastUpdateModeRid', boardEvent))],
             lastUpdateModeOnBoardStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeOnBoardStatus', boardEvent))],
             lastUpdateModeAlarmLevel: updateTypes[String(_.getOr(200, 'lastUpdateModeAlarmLevel', boardEvent))],

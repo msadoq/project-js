@@ -15,6 +15,12 @@ const groundStatuses = parameters.get('PUS_CONSTANTS').COMMAND_GROUND_STATUS;
 const statuses = parameters.get('PUS_CONSTANTS').STATUS;
 const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
+const formatBinaryProfile = binaryProfile => (
+  binaryProfile.length === 0
+    ? []
+    : binaryProfile.match(/.{1,16}/g).map(row => row.match(/.{1,2}/g))
+);
+
 const mapStateToProps = (state, { viewId }) => {
   let data = getPUSViewData(state, { viewId, pusService });
 
@@ -67,8 +73,7 @@ const mapStateToProps = (state, { viewId }) => {
       'commands',
       _.getOr([], ['dataForTables', 'pus011Command'], data).map(command => ({
         ...command,
-        // commandBinaryProfile: _.getOr('', 'commandBinaryProfile', command).match(/.{1,16}/g)
-        //   .map(row => row.match(/.{1,2}/g)),
+        commandBinaryProfile: formatBinaryProfile(_.getOr('', 'commandBinaryProfile', command)),
         lastUpdateModeCommandId: updateTypes[_.getOr(200, 'lastUpdateModeCommandId', command)], // map schedule lastUpdateModeCommandId constant
         lastUpdateModeBinProf: updateTypes[_.getOr(200, 'lastUpdateModeBinProf', command)], // map schedule lastUpdateModeBinProf constant
         commandStatus: statuses[String(_.getOr(200, 'commandStatus', command))], // map schedule commandStatus constant

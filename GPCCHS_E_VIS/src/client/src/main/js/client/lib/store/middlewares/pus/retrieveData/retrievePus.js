@@ -20,14 +20,16 @@ const retrievePus = ipc => ({ dispatch }) => next => (action) => {
       const { interval, dataId } = neededPus[ids[i]];
 
       const { apids } = dataId;
-      const apidRawValues = apids.map(apid => ({ value: apid.apidRawValue }));
 
       const queryId = ipc.pus.initialize(
         {
           sessionId: dataId.sessionId,
           domainId: dataId.domainId,
           pusService: dataId.pusService, // type de pus 11, mme, 12 ...
-          pusServiceApid: apidRawValues, // apids
+          pusServiceApid: apids
+            ? apids.map(apid => ({ value: apid.apidRawValue }))
+            : null
+          ,
         }, // header
         false, // forReplay
         interval[0], // firstTime,

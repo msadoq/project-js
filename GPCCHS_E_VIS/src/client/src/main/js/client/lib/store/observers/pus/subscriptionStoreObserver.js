@@ -19,12 +19,14 @@ export default function makePusSubscriptionStoreObserver(store) {
   const subscriptionActions = {
     add: (flatId, dataId) => {
       const { apids } = dataId;
-      const apidRawValues = apids.map(apid => ({ value: apid.apidRawValue }));
       const header = {
         sessionId: dataId.sessionId,
         domainId: dataId.domainId,
         pusService: dataId.pusService,
-        pusServiceApid: apidRawValues,
+        pusServiceApid: apids
+          ? apids.map(apid => ({ value: apid.apidRawValue }))
+          : null
+        ,
       };
       subscribe(header, () => {});
       savedSubscriptions[flatId] = dataId;
@@ -32,12 +34,14 @@ export default function makePusSubscriptionStoreObserver(store) {
     delete: (flatId) => {
       const dataId = savedSubscriptions[flatId];
       const { apids } = dataId;
-      const apidRawValues = apids.map(apid => ({ value: apid.apidRawValue }));
       const header = {
         sessionId: dataId.sessionId,
         domainId: dataId.domainId,
         pusService: dataId.pusService,
-        pusServiceApid: apidRawValues,
+        pusServiceApid: apids
+          ? apids.map(apid => ({ value: apid.apidRawValue }))
+          : null
+        ,
       };
       unsubscribe(header, () => {});
       savedSubscriptions = _.omit(flatId, savedSubscriptions);

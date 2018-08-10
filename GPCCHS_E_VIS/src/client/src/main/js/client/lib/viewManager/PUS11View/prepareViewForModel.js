@@ -1,3 +1,3 @@
-import _ from 'lodash/fp';
+import _identity from 'lodash/fp/identity';
 
-export default _.identity;
+export default _identity;

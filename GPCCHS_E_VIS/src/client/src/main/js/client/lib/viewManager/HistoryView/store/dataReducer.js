@@ -137,9 +137,6 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
 
         const lastTimeBeforeCurrent = _.get([epName, 'referenceTimestamp'], acc);
 
-        console.log('lastTimeBeforeCurrent = ', lastTimeBeforeCurrent);
-        console.log(epName, currentTime, current);
-
         if (
           !lastTimeBeforeCurrent ||
           lastTimeBeforeCurrent > current ||
@@ -148,7 +145,6 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
             currentTime < current
           )
         ) {
-          console.log('setting currentTime = ', currentTime);
           return _.set([epName, 'referenceTimestamp'], currentTime, acc);
         }
 

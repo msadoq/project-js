@@ -63,7 +63,6 @@ const makeViewNeededData = () => {
     profile.start('missingLastIntervals');
     const neededPusData = computeMissingPusIntervals(state, dataMap);
     profile.stop('missingLastIntervals');
-
     const previous = _cloneDeep(previousDataMap);
     // store dataMap for next observer execution
     previousDataMap = dataMap;

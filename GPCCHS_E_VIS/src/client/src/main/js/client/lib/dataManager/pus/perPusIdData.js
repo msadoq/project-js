@@ -8,18 +8,11 @@ import { getViewServiceFromType } from 'viewManager/common/pus/utils';
 
 import * as constants from '../../constants';
 
-// TODO @jmira finish this function
-// Then @todo it @jmira !
 export function addApidInPusIdMap(pusIdMap, ep, viewId) {
-  const { apidName, apids, dataId, type, localId, offset, timebarUuid } = ep;
-  // error on entry point => no remoteId
-  if (!apidName) {
-    return pusIdMap;
-  }
+  const { apids, dataId, type, localId, offset, timebarUuid } = ep;
   const pusId = getPusFlattenId(apids, dataId);
   const newMap = pusIdMap || {};
   const pusService = getViewServiceFromType(type);
-
   if (!newMap[pusId]) {
     newMap[pusId] = {
       dataId: {

@@ -120,18 +120,18 @@ export const getTableIdsByPusService = (pusService) => {
 
 export const getViewServiceFromType = (type) => {
   const pusTypes = {
-    VM_VIEW_PUS05: [constants.PUS_SERVICE_05],
-    VM_VIEW_PUS11: [constants.PUS_SERVICE_11],
-    VM_VIEW_PUS12: [constants.PUS_SERVICE_12],
-    VM_VIEW_PUS13: [constants.PUS_SERVICE_13],
-    VM_VIEW_PUS14: [constants.PUS_SERVICE_14],
-    VM_VIEW_PUS15: [constants.PUS_SERVICE_15],
-    VM_VIEW_PUSMME: [constants.PUS_SERVICE_MME],
-    VM_VIEW_PUS18: [constants.PUS_SERVICE_18],
-    VM_VIEW_PUS19: [constants.PUS_SERVICE_19],
-    VM_VIEW_PUS140: [constants.PUS_SERVICE_140],
-    VM_VIEW_PUS142: [constants.PUS_SERVICE_142],
-    VM_VIEW_PUS144: [constants.PUS_SERVICE_144],
+    [VM_VIEW_PUS05]: [constants.PUS_SERVICE_05],
+    [VM_VIEW_PUS11]: [constants.PUS_SERVICE_11],
+    [VM_VIEW_PUS12]: [constants.PUS_SERVICE_12],
+    [VM_VIEW_PUS13]: [constants.PUS_SERVICE_13],
+    [VM_VIEW_PUS14]: [constants.PUS_SERVICE_14],
+    [VM_VIEW_PUS15]: [constants.PUS_SERVICE_15],
+    [VM_VIEW_PUSMME]: [constants.PUS_SERVICE_MME],
+    [VM_VIEW_PUS18]: [constants.PUS_SERVICE_18],
+    [VM_VIEW_PUS19]: [constants.PUS_SERVICE_19],
+    [VM_VIEW_PUS140]: [constants.PUS_SERVICE_140],
+    [VM_VIEW_PUS142]: [constants.PUS_SERVICE_142],
+    [VM_VIEW_PUS144]: [constants.PUS_SERVICE_144],
   };
   return pusTypes[type] || null;
 };

@@ -75,9 +75,8 @@ const getDcHeader = _memoize(
 /*----------------*/
 
 const getDcHeaderADE = (method, requestId) => encode('dc.dataControllerUtils.ADEHeader', { method, requestId });
-const getPusHeader = (messageType, { sessionId, domainId, pusService, pusServiceApid }) => {
-  return encode('isis.pusModelEditorMessages.HeaderStructure', { messageType, sessionId, domainId, pusService, pusServiceApid });
-}
+const getPusHeader = (messageType, { sessionId, domainId, pusService, pusServiceApid }) =>
+  encode('isis.pusModelEditorMessages.HeaderStructure', { messageType, sessionId, domainId, pusService, pusServiceApid });
 
 const getDcDataId = _memoize(
   (flatDataId, dataId) => encode('dc.dataControllerUtils.DataId', dataId),
@@ -408,15 +407,15 @@ const pusCommands = {
     header,
     callback
   ),
-  subscribe: (header, pusId, apId, callback) => commands.pus.rpc(
+  subscribe: (header, callback) => commands.pus.rpc(
     constants.PUS_SUBSCRIBE,
-    encode('isis.pusModelEditorMessages.SubscribeStructure', {}),
+    [],
     header,
     callback
   ),
-  unsubscribe: (header, pusId, apId, callback) => commands.pus.rpc(
+  unsubscribe: (header, callback) => commands.pus.rpc(
     constants.PUS_UNSUBSCRIBE,
-    encode('isis.pusModelEditorMessages.UnsubscribeStructure', {}),
+    [],
     header,
     callback
   ),

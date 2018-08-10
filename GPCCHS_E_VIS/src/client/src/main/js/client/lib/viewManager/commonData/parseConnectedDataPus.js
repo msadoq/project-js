@@ -1,4 +1,4 @@
-import domainDeterminationForDisplay from 'windowProcess/common/domains';
+import { domainDeterminationForDisplay } from 'windowProcess/common/domains';
 import formulaParser from './formula';
 import domainsFilter from './domains';
 import sessionsFilter from './sessions';

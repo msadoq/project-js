@@ -83,6 +83,7 @@ import fetchInitialData from './lifecycle/data';
 import eventLoopMonitoring from '../common/eventLoopMonitoring';
 import { updateHssStatus } from '../store/actions/health';
 import makeSubscriptionStoreObserver from '../store/observers/subscriptionStoreObserver';
+import makePusSubscriptionStoreObserver from '../store/observers/pus/subscriptionStoreObserver';
 import passerelle from '../utils/passerelle/index';
 import { updateSessions } from '../store/actions/sessions';
 import setComObjectMap from '../store/actions/comObjectMap';
@@ -163,6 +164,8 @@ series({
   // ipc with main
   process.on('message', clientController);
   store.subscribe(makeSubscriptionStoreObserver(store));
+  // subscription for Pus
+  store.subscribe(makePusSubscriptionStoreObserver(store));
 
   // inform main that everything is ready and pass initialState
   // warning: as IPC never change the message sending order, this message will be sent before any "patch" message

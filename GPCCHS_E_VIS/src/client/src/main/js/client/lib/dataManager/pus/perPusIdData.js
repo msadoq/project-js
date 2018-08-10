@@ -10,6 +10,9 @@ import * as constants from '../../constants';
 
 export function addApidInPusIdMap(pusIdMap, ep, viewId) {
   const { apids, dataId, type, localId, offset, timebarUuid } = ep;
+  if (!dataId) {
+    return pusIdMap;
+  }
   const pusId = getPusFlattenId(apids, dataId);
   const newMap = pusIdMap || {};
   const pusService = getViewServiceFromType(type);

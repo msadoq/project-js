@@ -23,7 +23,10 @@ import {
   WS_VIEW_ADD_BLANK,
   INJECT_DATA_RANGE,
   WS_VIEW_UPDATE_ENTRYPOINT_NAME,
-  WS_VIEWDATA_CLEAN, WS_VIEW_REMOVE_ENTRYPOINT, INJECT_DATA_OBSOLETE_EVENT,
+  WS_VIEWDATA_CLEAN,
+  WS_VIEW_REMOVE_ENTRYPOINT,
+  INJECT_DATA_OBSOLETE_EVENT,
+  WS_TIMEBAR_UPDATE_CURSORS,
 } from '../../../store/types';
 import {
   mapTabularData,
@@ -120,6 +123,39 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
       const { entryPointId } = action.payload;
 
       return removeTabularData(state, 'history', e => e.id === entryPointId);
+    }
+    case WS_TIMEBAR_UPDATE_CURSORS: {
+      const { visuWindow } = action.payload;
+      const { current } = visuWindow;
+
+      const data = _.getOr([], ['tables', 'history', 'data'], state);
+
+      const updatedLast = data.reduce((acc, cur) => {
+        const { epName, referenceTimestamp } = cur;
+
+        const currentTime = new Date(referenceTimestamp).getTime();
+
+        const lastTimeBeforeCurrent = _.get([epName, 'referenceTimestamp'], acc);
+
+        console.log('lastTimeBeforeCurrent = ', lastTimeBeforeCurrent);
+        console.log(epName, currentTime, current);
+
+        if (
+          !lastTimeBeforeCurrent ||
+          lastTimeBeforeCurrent > current ||
+          (
+            currentTime > lastTimeBeforeCurrent &&
+            currentTime < current
+          )
+        ) {
+          console.log('setting currentTime = ', currentTime);
+          return _.set([epName, 'referenceTimestamp'], currentTime, acc);
+        }
+
+        return acc;
+      }, _.getOr({}, 'last', state));
+
+      return _.set('last', updatedLast, state);
     }
     default:
       return state;

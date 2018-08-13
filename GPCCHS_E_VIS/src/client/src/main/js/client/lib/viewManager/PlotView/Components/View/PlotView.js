@@ -445,6 +445,7 @@ const stopInstruction = (packet, entryPoint, showEpNonNominal) => {
  */
 export const parseDragData = (data, id, defaultTimelineId) => {
   const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
+
   const formula =
     buildFormulaForAutocomplete(
       data.catalogName,
@@ -453,7 +454,7 @@ export const parseDragData = (data, id, defaultTimelineId) => {
       data.comObjectFields
     );
   return {
-    name: id,
+    name: data.item,
     connectedData: {
       formula,
       fieldX: 'onboardDate',

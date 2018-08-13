@@ -443,6 +443,13 @@ class EntryPointConnectedData extends React.Component {
                     label: '*',
                     value: '*',
                   })}
+                  validate={(value) => {
+                    if (value === '') {
+                      return 'Domain is required';
+                    }
+
+                    return undefined;
+                  }}
                 />
               </HorizontalFormGroup>
             </div>
@@ -454,6 +461,13 @@ class EntryPointConnectedData extends React.Component {
               clearable={false}
               component={ReactSelectField}
               options={availableTimelines}
+              validate={(value) => {
+                if (value === '') {
+                  return 'Timeline is required';
+                }
+
+                return undefined;
+              }}
             />
             {
               noCorrespondingTimeline &&

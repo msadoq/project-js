@@ -20,7 +20,7 @@ describe('protobuf/isis/pusModelEditorMessages/Pus018Obcp', () => {
     const decoded = adapter.decode(builder.decode(buffer));
     expect(decoded).toMatchObject({
       obcpId: { type: 'uinteger', value: stub.obcpId },
-      status: { type: 'string', value: stub.status },
+      obcpStatus: { type: 'string', value: stub.obcpStatus },
       stepId: { type: 'string', value: stub.stepId },
       partitionId: { type: 'string', value: stub.partitionId },
       observabilityLevel: { type: 'string', value: stub.observabilityLevel },
@@ -40,6 +40,7 @@ describe('protobuf/isis/pusModelEditorMessages/Pus018Obcp', () => {
       serviceApid: { type: 'uinteger', value: stub.serviceApid },
       serviceApidName: { type: 'string', value: stub.serviceApidName },
       uniqueId: { type: 'ulong', symbol: `${stub.uniqueId}` },
+      status: { type: 'uinteger', value: stub.status },
     });
     expect(decoded.pusParameter).toHaveLength(stub.pusParameter.length);
     for (let i = 0; i < stub.pusParameter.length; i += 1) {

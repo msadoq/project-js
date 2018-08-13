@@ -37,6 +37,8 @@ describe('protobuf/isis/pusModelEditorMessages/Pus140Model', () => {
         parameterName: { type: 'string', value: stub.pus140Parameter[i].parameterName },
         initialValue: { type: 'string', value: stub.pus140Parameter[i].initialValue },
         status: { type: 'uinteger', value: stub.pus140Parameter[i].status },
+        parameterApid: { type: 'uinteger', value: stub.pus140Parameter[i].parameterApid },
+        parameterApidName: { type: 'string', value: stub.pus140Parameter[i].parameterApidName },
       });
       
     }

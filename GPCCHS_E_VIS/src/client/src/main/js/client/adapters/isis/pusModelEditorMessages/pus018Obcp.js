@@ -12,8 +12,8 @@ module.exports = {
     obcpId: (data.obcpId !== null && typeof data.obcpId !== 'undefined')
       ? uINTEGER.encode(data.obcpId)
       : null,
-    status: (data.status !== null && typeof data.status !== 'undefined')
-      ? sTRING.encode(data.status)
+    obcpStatus: (data.obcpStatus !== null && typeof data.obcpStatus !== 'undefined')
+      ? sTRING.encode(data.obcpStatus)
       : null,
     stepId: (data.stepId !== null && typeof data.stepId !== 'undefined')
       ? sTRING.encode(data.stepId)
@@ -73,13 +73,16 @@ module.exports = {
       ? uLONG.encode(data.uniqueId)
       : null,
     pusParameter: _map(data.pusParameter, d => (pusParameter.encode(d))),
+    status: (data.status !== null && typeof data.status !== 'undefined')
+      ? uINTEGER.encode(data.status)
+      : null,
   }),
   decode: data => ({
     obcpId: (data.obcpId !== null && typeof data.obcpId !== 'undefined')
       ? uINTEGER.decode(data.obcpId)
       : undefined,
-    status: (data.status !== null && typeof data.status !== 'undefined')
-      ? sTRING.decode(data.status)
+    obcpStatus: (data.obcpStatus !== null && typeof data.obcpStatus !== 'undefined')
+      ? sTRING.decode(data.obcpStatus)
       : undefined,
     stepId: (data.stepId !== null && typeof data.stepId !== 'undefined')
       ? sTRING.decode(data.stepId)
@@ -139,5 +142,8 @@ module.exports = {
       ? uLONG.decode(data.uniqueId)
       : undefined,
     pusParameter: _map(data.pusParameter, d => (pusParameter.decode(d))),
+    status: (data.status !== null && typeof data.status !== 'undefined')
+      ? uINTEGER.decode(data.status)
+      : undefined,
   }),
 };

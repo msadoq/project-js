@@ -6,7 +6,7 @@ const getPusParameter = require('./pusParameter.stub');
 
 const pus018Obcp = {
   obcpId: 100,
-  status: 'mySTRING',
+  obcpStatus: 'mySTRING',
   stepId: 'mySTRING',
   partitionId: 'mySTRING',
   observabilityLevel: 'mySTRING',
@@ -27,6 +27,7 @@ const pus018Obcp = {
   serviceApidName: 'mySTRING',
   uniqueId: 1000,
   pusParameter: [getPusParameter(), getPusParameter()],
+  status: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus018Obcp) : pus018Obcp);

@@ -17,6 +17,8 @@ const pus140Parameter = {
   parameterName: 'mySTRING',
   initialValue: 'mySTRING',
   status: 100,
+  parameterApid: 100,
+  parameterApidName: 'mySTRING',
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus140Parameter) : pus140Parameter);

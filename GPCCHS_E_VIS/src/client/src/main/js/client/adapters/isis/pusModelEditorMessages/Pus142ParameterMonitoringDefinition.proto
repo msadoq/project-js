@@ -7,7 +7,7 @@ import "../ccsds_mal/ULONG.proto";
 package pusModelEditorMessages.protobuf;
 
 message Pus142ParameterMonitoringDefinition {
-extensions 9 to 109;
+extensions 11 to 111;
 
   optional ccsds_mal.protobuf.UINTEGER paramMonId = 1;
   optional ccsds_mal.protobuf.ULONG uniqueId = 2;
@@ -17,4 +17,6 @@ extensions 9 to 109;
   optional ccsds_mal.protobuf.STRING lastUpdateTimeId = 6;
   optional ccsds_mal.protobuf.STRING paramMonName = 7;
   optional ccsds_mal.protobuf.UINTEGER fmonId = 8;
+  optional ccsds_mal.protobuf.STRING fmonIdLabel = 9;
+  optional ccsds_mal.protobuf.UINTEGER status = 10;
 }

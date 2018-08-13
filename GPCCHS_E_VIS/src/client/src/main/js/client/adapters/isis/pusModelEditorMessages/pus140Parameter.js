@@ -43,6 +43,12 @@ module.exports = {
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.encode(data.status)
       : null,
+    parameterApid: (data.parameterApid !== null && typeof data.parameterApid !== 'undefined')
+      ? uINTEGER.encode(data.parameterApid)
+      : null,
+    parameterApidName: (data.parameterApidName !== null && typeof data.parameterApidName !== 'undefined')
+      ? sTRING.encode(data.parameterApidName)
+      : null,
   }),
   decode: data => ({
     parameterId: (data.parameterId !== null && typeof data.parameterId !== 'undefined')
@@ -80,6 +86,12 @@ module.exports = {
       : undefined,
     status: (data.status !== null && typeof data.status !== 'undefined')
       ? uINTEGER.decode(data.status)
+      : undefined,
+    parameterApid: (data.parameterApid !== null && typeof data.parameterApid !== 'undefined')
+      ? uINTEGER.decode(data.parameterApid)
+      : undefined,
+    parameterApidName: (data.parameterApidName !== null && typeof data.parameterApidName !== 'undefined')
+      ? sTRING.decode(data.parameterApidName)
       : undefined,
   }),
 };

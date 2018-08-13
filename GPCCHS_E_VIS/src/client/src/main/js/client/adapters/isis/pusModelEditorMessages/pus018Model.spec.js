@@ -31,7 +31,7 @@ describe('protobuf/isis/pusModelEditorMessages/Pus018Model', () => {
     for (let i = 0; i < stub.pus018Obcp.length; i += 1) {
       expect(decoded.pus018Obcp[i]).toMatchObject({
         obcpId: { type: 'uinteger', value: stub.pus018Obcp[i].obcpId },
-        status: { type: 'string', value: stub.pus018Obcp[i].status },
+        obcpStatus: { type: 'string', value: stub.pus018Obcp[i].obcpStatus },
         stepId: { type: 'string', value: stub.pus018Obcp[i].stepId },
         partitionId: { type: 'string', value: stub.pus018Obcp[i].partitionId },
         observabilityLevel: { type: 'string', value: stub.pus018Obcp[i].observabilityLevel },
@@ -51,6 +51,7 @@ describe('protobuf/isis/pusModelEditorMessages/Pus018Model', () => {
         serviceApid: { type: 'uinteger', value: stub.pus018Obcp[i].serviceApid },
         serviceApidName: { type: 'string', value: stub.pus018Obcp[i].serviceApidName },
         uniqueId: { type: 'ulong', symbol: `${stub.pus018Obcp[i].uniqueId}` },
+        status: { type: 'uinteger', value: stub.pus018Obcp[i].status },
       });
       expect(decoded.pus018Obcp[i].pusParameter).toHaveLength(stub.pus018Obcp[i].pusParameter.length);
       for (let ii = 0; ii < stub.pus018Obcp[i].pusParameter.length; ii += 1) {

@@ -72,6 +72,8 @@ describe('protobuf/isis/pusModelEditorMessages/Pus142FunctionalMonitoring', () =
         lastUpdateTimeId: { type: 'string', value: stub.pus142ParameterMonitoringDefinition[i].lastUpdateTimeId },
         paramMonName: { type: 'string', value: stub.pus142ParameterMonitoringDefinition[i].paramMonName },
         fmonId: { type: 'uinteger', value: stub.pus142ParameterMonitoringDefinition[i].fmonId },
+        fmonIdLabel: { type: 'string', value: stub.pus142ParameterMonitoringDefinition[i].fmonIdLabel },
+        status: { type: 'uinteger', value: stub.pus142ParameterMonitoringDefinition[i].status },
       });
       
     }

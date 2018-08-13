@@ -8,10 +8,10 @@ import "./PusParameter.proto";
 package pusModelEditorMessages.protobuf;
 
 message Pus018Obcp {
-extensions 23 to 123;
+extensions 24 to 124;
 
   optional ccsds_mal.protobuf.UINTEGER obcpId = 1;
-  optional ccsds_mal.protobuf.STRING status = 2;
+  optional ccsds_mal.protobuf.STRING obcpStatus = 2;
   optional ccsds_mal.protobuf.STRING stepId = 3;
   optional ccsds_mal.protobuf.STRING partitionId = 4;
   optional ccsds_mal.protobuf.STRING observabilityLevel = 5;
@@ -32,4 +32,5 @@ extensions 23 to 123;
   optional ccsds_mal.protobuf.STRING serviceApidName = 20;
   optional ccsds_mal.protobuf.ULONG uniqueId = 21;
   repeated pusModelEditorMessages.protobuf.PusParameter pusParameter = 22;
+  optional ccsds_mal.protobuf.UINTEGER status = 23;
 }

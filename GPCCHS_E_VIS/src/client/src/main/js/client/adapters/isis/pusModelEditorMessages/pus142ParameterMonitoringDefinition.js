@@ -31,6 +31,12 @@ module.exports = {
     fmonId: (data.fmonId !== null && typeof data.fmonId !== 'undefined')
       ? uINTEGER.encode(data.fmonId)
       : null,
+    fmonIdLabel: (data.fmonIdLabel !== null && typeof data.fmonIdLabel !== 'undefined')
+      ? sTRING.encode(data.fmonIdLabel)
+      : null,
+    status: (data.status !== null && typeof data.status !== 'undefined')
+      ? uINTEGER.encode(data.status)
+      : null,
   }),
   decode: data => ({
     paramMonId: (data.paramMonId !== null && typeof data.paramMonId !== 'undefined')
@@ -56,6 +62,12 @@ module.exports = {
       : undefined,
     fmonId: (data.fmonId !== null && typeof data.fmonId !== 'undefined')
       ? uINTEGER.decode(data.fmonId)
+      : undefined,
+    fmonIdLabel: (data.fmonIdLabel !== null && typeof data.fmonIdLabel !== 'undefined')
+      ? sTRING.decode(data.fmonIdLabel)
+      : undefined,
+    status: (data.status !== null && typeof data.status !== 'undefined')
+      ? uINTEGER.decode(data.status)
       : undefined,
   }),
 };

@@ -83,6 +83,8 @@ describe('protobuf/isis/pusModelEditorMessages/Pus142Model', () => {
           lastUpdateTimeId: { type: 'string', value: stub.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii].lastUpdateTimeId },
           paramMonName: { type: 'string', value: stub.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii].paramMonName },
           fmonId: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii].fmonId },
+          fmonIdLabel: { type: 'string', value: stub.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii].fmonIdLabel },
+          status: { type: 'uinteger', value: stub.pus142FunctionalMonitoring[i].pus142ParameterMonitoringDefinition[ii].status },
         });
         
       }

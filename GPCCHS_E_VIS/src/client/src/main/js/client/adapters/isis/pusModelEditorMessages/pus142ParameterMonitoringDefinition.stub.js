@@ -13,6 +13,8 @@ const pus142ParameterMonitoringDefinition = {
   lastUpdateTimeId: 'mySTRING',
   paramMonName: 'mySTRING',
   fmonId: 100,
+  fmonIdLabel: 'mySTRING',
+  status: 100,
 };
 
 module.exports = override => (override ? _defaultsDeep({}, override, pus142ParameterMonitoringDefinition) : pus142ParameterMonitoringDefinition);

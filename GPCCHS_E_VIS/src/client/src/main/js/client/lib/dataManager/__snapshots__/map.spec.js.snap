@@ -48,7 +48,6 @@ Object {
       },
     },
   },
-  "expectedPusIntervals": Object {},
   "expectedRangeIntervals": Object {
     ".<GroundMonitoringAlarmAckRequest>:0:4:::": Object {
       "nofield.tb1:0": Object {
@@ -185,7 +184,6 @@ Object {
       },
     },
   },
-  "forecastPusIntervals": Object {},
   "perLastTbdId": Object {
     "Reporting.AGA_AM_PRIORITY<ReportingParameter>:0:4:::": Object {
       "dataId": Object {

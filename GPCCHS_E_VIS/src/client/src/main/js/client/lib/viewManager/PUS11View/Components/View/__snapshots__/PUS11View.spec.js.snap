@@ -28,7 +28,7 @@ exports[`viewManager/PUS11View/Components/View/PUS11View PUS11View :: renderInva
     <div
       className="renderErrorText"
     >
-      Unable to render view
+      Unable to render view 
       <br />
       this is an error message
     </div>

@@ -1,29 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager/PUS140View/Components/View/PUS140View PUS140View :: render snapshot 1`] = `
-<ErrorBoundary>
+<div
+  className="pus140 h100 posRelative"
+>
   <div
-    className="pus140"
+    className="flex h100"
   >
     <div
-      className="col-sm-12"
+      className="renderErrorText"
     >
-      <div
-        style={
-          Object {
-            "height": 400,
-          }
-        }
-      >
-        <Connect(VirtualizedTableView)
-          contentModifier={[Function]}
-          tableId="parameters"
-          viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
-        />
-      </div>
+      Unable to render view 
+      <br />
+      Please fill-in configuration
     </div>
   </div>
-</ErrorBoundary>
+</div>
 `;
 
 exports[`viewManager/PUS140View/Components/View/PUS140View PUS140View :: renderInvald snapshot 1`] = `

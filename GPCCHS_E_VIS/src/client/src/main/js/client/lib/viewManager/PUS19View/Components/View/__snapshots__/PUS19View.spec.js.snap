@@ -1,42 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`viewManager/PUS12View/Components/View/PUS12View PUS12View :: render snapshot 1`] = `
+exports[`viewManager/PUS19View/Components/View/PUS19View PUS19View :: render snapshot 1`] = `
 <ErrorBoundary>
   <div
-    className="pus12"
+    className="pus19"
   >
     <div
       className="header"
     >
       <ErrorBoundary>
         <div
-          className="info col-sm-4 pus12_ap"
+          className="info col-sm-4 pus19_ap"
         >
           Application Process 
           <input
             disabled={true}
             type="text"
-            value="ORBIT"
+            value="string"
           />
            
-        </div>
-        <HeaderStatus
-          id="popover-service-status"
-          label="Service Satus"
-          lastUpdateMode="TC"
-          lastUpdateTime="1528359679639"
-          status="ENABLED"
-        />
-        <div
-          className="info col-sm-4 pus12_as"
-        >
-          Number Monitoring 
           <input
+            className="mw50"
             disabled={true}
             type="text"
-            value={100}
+            value={19}
           />
-           
         </div>
       </ErrorBoundary>
     </div>
@@ -53,8 +41,8 @@ exports[`viewManager/PUS12View/Components/View/PUS12View PUS12View :: render sna
         <Connect(VirtualizedTableView)
           contentModifier={[Function]}
           overrideStyle={[Function]}
-          tableId="parameterMonitoringDefinitions"
-          viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+          tableId="eventActions"
+          viewId="1838f507-196b-4734-bf6d-69d0e96b39b8"
         />
       </div>
     </div>
@@ -62,9 +50,9 @@ exports[`viewManager/PUS12View/Components/View/PUS12View PUS12View :: render sna
 </ErrorBoundary>
 `;
 
-exports[`viewManager/PUS12View/Components/View/PUS12View PUS12View :: renderInvald snapshot 1`] = `
+exports[`viewManager/PUS19View/Components/View/PUS19View PUS19View :: renderInvald snapshot 1`] = `
 <div
-  className="pus12 h100 posRelative"
+  className="pus19 h100 posRelative"
 >
   <div
     className="flex h100"

@@ -12,10 +12,10 @@ describe('viewManager', () => {
         name: 'PUS140EP',
         connectedData: {
           domain: get('WILDCARD_CHARACTER'),
-          session: get('WILDCARD_CHARACTER'),
+          timeline: get('WILDCARD_CHARACTER'),
           formula: 'PusGroundModelDefinition.Pus0140Model<Pus0140Model>', // fixed
           apidName: null,
-          apidRawValue: null,
+          apids: null,
         },
         id: 'MY_UUID',
       });
@@ -26,10 +26,10 @@ describe('viewManager', () => {
         name: 'PUS140EP',
         connectedData: {
           domain: 'Niobé',
-          session: get('WILDCARD_CHARACTER'),
+          timeline: get('WILDCARD_CHARACTER'),
           formula: 'PusGroundModelDefinition.Pus0140Model<Pus0140Model>', // fixed
           apidName: null,
-          apidRawValue: null,
+          apids: null,
         },
         id: 'MY_UUID',
       });

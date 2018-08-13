@@ -37,16 +37,12 @@ export default class PUSMMEView extends React.Component {
     viewId: PropTypes.string.isRequired,
     noHkPackets: PropTypes.number,
     noDiagPackets: PropTypes.number,
-    domain: PropTypes.string,
-    timeline: PropTypes.string,
     onCommandCellDoubleClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     noHkPackets: 0,
     noDiagPackets: 0,
-    domain: null,
-    timeline: null,
   };
 
   static contextTypes = {
@@ -58,14 +54,8 @@ export default class PUSMMEView extends React.Component {
       viewId,
       noHkPackets,
       noDiagPackets,
-      timeline,
-      domain,
       onCommandCellDoubleClick,
     } = this.props;
-
-    if (!isValid(timeline, domain)) {
-      return renderInvald('Please fill-in configuration');
-    }
 
     return (
       <ErrorBoundary>
@@ -101,10 +91,6 @@ export const renderHeaders = (
     </div>
   </ErrorBoundary>
 );
-
-export const isValid = (domain, timeline) =>
-  domain && domain.length > 0 && timeline && timeline.length > 0
-;
 
 export const renderInvald = error => (
   <div className="pusmme h100 posRelative">

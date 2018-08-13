@@ -42,19 +42,27 @@ exports[`viewManager/PUS13View/Components/View/PUS13View PUS13View :: render sna
       </ErrorBoundary>
     </div>
     <div
-      className="col-sm-13"
+      className="col-sm-12"
     >
       <div
-        style={
-          Object {
-            "height": 400,
-          }
-        }
+        className="row"
       >
         <Connect(VirtualizedTableView)
           contentModifier={[Function]}
-          overrideStyle={[Function]}
-          tableId="parameterMonitoringDefinitions"
+          tableId="uplink"
+          viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+        />
+      </div>
+    </div>
+    <div
+      className="col-sm-12"
+    >
+      <div
+        className="row"
+      >
+        <Connect(VirtualizedTableView)
+          contentModifier={[Function]}
+          tableId="downlink"
           viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
         />
       </div>

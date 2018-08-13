@@ -9,7 +9,7 @@ exports[`Timesetter renders correctly 1`] = `
     <div
       className="fieldsContainer"
     >
-
+       
       <button
         className="btn btn-sm btn-primary"
         disabled={true}
@@ -123,7 +123,7 @@ exports[`Timesetter renders correctly 1`] = `
           lower cursor
         </b>
         <b>
-
+          
         </b>
       </div>
       <div
@@ -347,7 +347,7 @@ exports[`Timesetter renders correctly 1`] = `
           current cursor
         </b>
         <b>
-
+          
         </b>
       </div>
       <div
@@ -571,7 +571,7 @@ exports[`Timesetter renders correctly 1`] = `
           upper cursor
         </b>
         <b>
-
+          
         </b>
       </div>
       <div
@@ -673,7 +673,7 @@ exports[`Timesetter renders correctly 1`] = `
         type="submit"
         value="Save"
       />
-
+       
       <button
         className="btn btn-info disabled"
         onClick={[Function]}

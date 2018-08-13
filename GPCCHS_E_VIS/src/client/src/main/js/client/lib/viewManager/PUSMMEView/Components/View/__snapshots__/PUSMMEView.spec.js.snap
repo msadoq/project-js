@@ -5,35 +5,35 @@ exports[`viewManager/PUSMMEView/Components/View/PUSMMEView PUSMMEView :: render 
   <div
     className="pusmme"
   >
-    <div
-      className="header"
-    >
-      <ErrorBoundary>
-        <div
-          className="header"
-        >
-          Application Process 
+    <ErrorBoundary>
+      <div
+        className="header m10 jcsb"
+      >
+        <div>
+          Hk Packets 
           <input
             disabled={true}
             type="text"
-            value="myString"
-          />
-           
-          <input
-            className="mw50"
-            disabled={true}
-            type="text"
-            value={100}
+            value={0}
           />
         </div>
-      </ErrorBoundary>
-    </div>
+        <div>
+          Diag Packets 
+          <input
+            disabled={true}
+            type="text"
+            value={0}
+          />
+        </div>
+      </div>
+    </ErrorBoundary>
     <div
       className="container"
     >
       <Connect(VirtualizedTableView)
         contentModifier={[Function]}
         onCellDoubleClick={[Function]}
+        overrideStyle={[Function]}
         tableId="packets"
         viewId="9a057132-aa02-43b1-99e7-5d870a3af609"
       />

@@ -62,7 +62,6 @@ import groundAlarmViewDataReducer from './GroundAlarmView/store/dataReducer';
 import onboardAlarmViewDataReducer from './OnboardAlarmView/store/dataReducer';
 import packetViewDataReducer from './PacketView/store/dataReducer';
 import pus05ViewDataReducer from './PUS05View/store/dataReducer';
-import pus11ViewDataReducer from './PUS11View/store/dataReducer';
 import pus12ViewDataReducer from './PUS12View/store/dataReducer';
 import pus13ViewDataReducer from './PUS13View/store/dataReducer';
 import pus14ViewDataReducer from './PUS14View/store/dataReducer';
@@ -144,7 +143,6 @@ export const getDataReducers = () => createDataReducers({
   [constants.VM_VIEW_GROUNDALARM]: groundAlarmViewDataReducer,
   [constants.VM_VIEW_ONBOARDALARM]: onboardAlarmViewDataReducer,
   [constants.VM_VIEW_PUS05]: pus05ViewDataReducer,
-  [constants.VM_VIEW_PUS11]: pus11ViewDataReducer,
   [constants.VM_VIEW_PUS12]: pus12ViewDataReducer,
   [constants.VM_VIEW_PUS13]: pus13ViewDataReducer,
   [constants.VM_VIEW_PUS14]: pus14ViewDataReducer,

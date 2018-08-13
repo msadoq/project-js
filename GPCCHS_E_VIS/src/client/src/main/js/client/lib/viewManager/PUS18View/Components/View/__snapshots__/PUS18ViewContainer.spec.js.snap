@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/PUS18View/Components/View/PUS18ViewContainer snapshot 1`] = `
+<ReduxForm
+  serviceApid="serviceApid"
+  serviceApidName="serviceApidName"
+/>
+`;

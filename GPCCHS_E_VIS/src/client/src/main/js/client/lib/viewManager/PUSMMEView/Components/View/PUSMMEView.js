@@ -6,7 +6,6 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import './PUSMMEView.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 
 const _packetsStatusKeyList = [
@@ -71,11 +70,8 @@ export default class PUSMMEView extends React.Component {
     return (
       <ErrorBoundary>
         <div className="pusmme">
-          {renderHeaders(
-            noHkPackets,
-            noDiagPackets
-          <div className={styles.container}>
-          )}
+          {renderHeaders(noHkPackets, noDiagPackets)}
+          <div className="container">
             <VirtualizedTableViewContainer
               viewId={viewId}
               tableId={'packets'}

@@ -712,7 +712,7 @@ const getPus13Payload = (timestamp, serviceApid, type) => {
       payload: stubData.getPus013ModelProtobuf({
         serviceApid,
         pus013UplinkLdt: [
-          stubData.getPus013Ltd({
+          stubData.getPus013Ldt({
             serviceApid,
             status: getALtGroundStatus(),
             transferType: getAtransfertType(),
@@ -735,15 +735,15 @@ const getPus13Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeFailureCode: formatedTime,
             lastUpdateTimeFileChecksum: formatedTime,
             pus013LdtPart: [
-              stubData.getPus013LtdPart({
+              stubData.getPus013LdtPart({
                 status: getACheckType(), // LARGE_TRANSFER_PART_STATUS
               }),
-              stubData.getPus013LtdPart({
+              stubData.getPus013LdtPart({
                 status: getACheckType(),
               }),
             ],
           }),
-          stubData.getPus013Ltd({
+          stubData.getPus013Ldt({
             serviceApid,
             status: getALtGroundStatus(),
             transferType: getAtransfertType(),
@@ -766,17 +766,17 @@ const getPus13Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeFailureCode: formatedTime,
             lastUpdateTimeFileChecksum: formatedTime,
             pus013LdtPart: [
-              stubData.getPus013LtdPart({
+              stubData.getPus013LdtPart({
                 status: getACheckType(), // LARGE_TRANSFER_PART_STATUS
               }),
-              stubData.getPus013LtdPart({
+              stubData.getPus013LdtPart({
                 status: getACheckType(),
               }),
             ],
           }),
         ],
         pus013DownlinkLdt: [
-          stubData.getPus013Ltd({
+          stubData.getPus013Ldt({
             serviceApid,
             status: getALtGroundStatus(),
             transferType: getAtransfertType(),
@@ -799,15 +799,15 @@ const getPus13Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeFailureCode: formatedTime,
             lastUpdateTimeFileChecksum: formatedTime,
             pus013LdtPart: [
-              stubData.getPus013LtdPart({
+              stubData.getPus013LdtPart({
                 status: getACheckType(), // LARGE_TRANSFER_PART_STATUS
               }),
-              stubData.getPus013LtdPart({
+              stubData.getPus013LdtPart({
                 status: getACheckType(),
               }),
             ],
           }),
-          stubData.getPus013Ltd({
+          stubData.getPus013Ldt({
             serviceApid,
             status: getALtGroundStatus(),
             transferType: getAtransfertType(),
@@ -830,10 +830,10 @@ const getPus13Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeFailureCode: formatedTime,
             lastUpdateTimeFileChecksum: formatedTime,
             pus013LdtPart: [
-              stubData.getPus013LtdPart({
+              stubData.getPus013LdtPart({
                 status: getACheckType(), // LARGE_TRANSFER_PART_STATUS
               }),
-              stubData.getPus013LtdPart({
+              stubData.getPus013LdtPart({
                 status: getACheckType(),
               }),
             ],
@@ -848,7 +848,7 @@ const getPus13Payload = (timestamp, serviceApid, type) => {
       return {
         dataType: constants.Pus013DownlinkLDTType,
         groundDate: timestamp,
-        payload: stubData.getPus013DownlinkLDTProtobuf({
+        payload: stubData.getPus013LdtProtobuf({
           serviceApid,
           status: getALtGroundStatus(),
           transferType: getAtransfertType(),
@@ -871,10 +871,10 @@ const getPus13Payload = (timestamp, serviceApid, type) => {
           lastUpdateTimeFailureCode: formatedTime,
           lastUpdateTimeFileChecksum: formatedTime,
           pus013LdtPart: [
-            stubData.getPus013LtdPart({
+            stubData.getPus013LdtPart({
               status: getACheckType(), // LARGE_TRANSFER_PART_STATUS
             }),
-            stubData.getPus013LtdPart({
+            stubData.getPus013LdtPart({
               status: getACheckType(),
             }),
           ],
@@ -885,7 +885,7 @@ const getPus13Payload = (timestamp, serviceApid, type) => {
       return {
         dataType: constants.Pus013UplinkLDTType,
         groundDate: timestamp,
-        payload: stubData.getPus013UplinkLDTProtobuf({
+        payload: stubData.getPus013LdtProtobuf({
           serviceApid,
           status: getALtGroundStatus(),
           transferType: getAtransfertType(),
@@ -908,10 +908,10 @@ const getPus13Payload = (timestamp, serviceApid, type) => {
           lastUpdateTimeFailureCode: formatedTime,
           lastUpdateTimeFileChecksum: formatedTime,
           pus013LdtPart: [
-            stubData.getPus013LtdPart({
+            stubData.getPus013LdtPart({
               status: getACheckType(), // LARGE_TRANSFER_PART_STATUS
             }),
-            stubData.getPus013LtdPart({
+            stubData.getPus013LdtPart({
               status: getACheckType(),
             }),
           ],
@@ -932,7 +932,7 @@ const getPus14Payload = (timestamp, serviceApid, type) => {
       payload: stubData.getPus014ModelProtobuf({
         serviceApid,
         pus014TmPacket: [
-          stubData.getPus014ForwardingPacket({
+          stubData.getPus014ForwardedPacket({
             serviceApid,
             status: getAStatus(),
             forwardingStatus: getAStatus(),
@@ -950,7 +950,7 @@ const getPus14Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeSubSamplingRatio: formatedTime,
             lastUpdateTimeFwdStatusTypeRidSid: formatedTime,
           }),
-          stubData.getPus014ForwardingPacket({
+          stubData.getPus014ForwardedPacket({
             serviceApid,
             status: getAStatus(),
             forwardingStatus: getAStatus(),
@@ -976,7 +976,7 @@ const getPus14Payload = (timestamp, serviceApid, type) => {
   return {
     dataType: constants.Pus014ForwardPacketType,
     groundDate: timestamp,
-    payload: stubData.getPus014ForwardingPacketProtobuf({
+    payload: stubData.getPus014ForwardedPacket({
       serviceApid,
       status: getAStatus(),
       forwardingStatus: getAStatus(),
@@ -1458,9 +1458,9 @@ const getPus144Payload = (timestamp, serviceApid, type) => {
   }
   // case type === delta
   return {
-    ddataType: constants.Pus144OnBoardFileType,
+    dataType: constants.Pus144OnBoardFileType,
     groundDate: timestamp,
-    payload: stubData.getPus144OnBoardFileProtobuf({
+    payload: stubData.getPus144OnboardFileProtobuf({
       serviceApid,
       fileProtectionStatus: getAFileMode(),
       fileMode: getAFileMode(),

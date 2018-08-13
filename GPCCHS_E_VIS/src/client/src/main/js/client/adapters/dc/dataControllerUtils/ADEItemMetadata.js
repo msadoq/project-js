@@ -21,7 +21,7 @@ const decode = data => {
     shortDescription: data.shortDescription,
     aliases: data.aliases.map(alias => aliasRecord.decode(alias)),
     unit: data.unit,
-    algorithm: itemAlgorithm.decode(data.algorithm),
+    algorithm: data.algorithm ? itemAlgorithm.decode(data.algorithm) : undefined,
     tmMeta: itemMetadataTM.decode(data.tmMeta),
   });
 }

@@ -37,41 +37,46 @@ const knownPus = (state = {}, action) => {
       const dataType = action.payload.dataType;
       const type = action.payload.isModel ? 'model' : 'deltas';
       const serviceApid = payload.serviceApid;
-      let typePayload;
-      if (type === 'model') {
-        typePayload = {
-          groundDate,
-          payload,
-        };
-      } else {
-        typePayload = {
-          ..._.getOr({}, [pusService, flattenId, serviceApid, type], state),
-          [groundDate]: {
-            dataType,
+      const knownInterval = _.getOr({}, [pusService, flattenId, 'interval'], state);
+      let newState = state;
+      // save data only if they belong to the known interval,
+      if (knownInterval && groundDate >= knownInterval[0] && groundDate <= knownInterval[1]) {
+        let typePayload;
+        if (type === 'model') {
+          typePayload = {
+            groundDate,
             payload,
-          },
-        };
-      }
-      let newState = {
-        ...state,
-        [pusService]: {
-          ..._.getOr({}, [pusService], state),
-          [flattenId]: {
-            ..._.getOr({}, [pusService, flattenId], state),
-            [serviceApid]: {
-              ..._.getOr({}, [pusService, flattenId, serviceApid], state),
-              [type]: typePayload,
+          };
+        } else {
+          typePayload = {
+            ..._.getOr({}, [pusService, flattenId, serviceApid, type], state),
+            [groundDate]: {
+              dataType,
+              payload,
+            },
+          };
+        }
+        newState = {
+          ...state,
+          [pusService]: {
+            ..._.getOr({}, [pusService], state),
+            [flattenId]: {
+              ..._.getOr({}, [pusService, flattenId], state),
+              [serviceApid]: {
+                ..._.getOr({}, [pusService, flattenId, serviceApid], state),
+                [type]: typePayload,
+              },
             },
           },
-        },
-      };
+        };
 
-      // if new pus Data is a model we need to delete deltas, there are no longer link to the new model
-      if (type === 'model') {
-        newState = _.set([pusService, flattenId, serviceApid, 'deltas'], {}, newState);
-        // const existingInterval = _.getOr([], [pusService, flattenId, 'intervals', 0], newState);
-        // const newInterval = [groundDate, existingInterval[1]];
-        // newState = _.set([pusService, flattenId, 'intervals', 0], newInterval, newState);
+        // if new pus Data is a model we need to delete deltas, there are no longer link to the new model
+        if (type === 'model') {
+          newState = _.set([pusService, flattenId, serviceApid, 'deltas'], {}, newState);
+          const existingInterval = _.getOr([], [pusService, flattenId, 'interval'], newState);
+          const newInterval = [groundDate, existingInterval[1]];
+          newState = _.set([pusService, flattenId, 'interval'], newInterval, newState);
+        }
       }
       return newState;
     }

@@ -3,7 +3,8 @@ const stubs = require('../../utils/stubs');
 const predictibleRand = require('../utils/predictibleRand');
 const moment = require('moment/moment');
 
-const getAnUpdateTime = timestamp => moment(new Date(timestamp), constants.DATETIME_TILL_MS_FORMAT);
+const getAnUpdateTime = timestamp =>
+  moment(new Date(timestamp)).format(constants.DATETIME_TILL_MS_FORMAT);
 const stubData = stubs.getStubData();
 const getAtransfertType = () => predictibleRand.getInt([1, 2]);
 const getAFileMode = () => predictibleRand.getFrom(['1', '2']);
@@ -204,22 +205,23 @@ const getPus05Payload = (timestamp, serviceApid, type) => {
     case 'getPus005ReceivedOnBoardEvent': {
       return {
         // constante manquante
-        dataType: constants.pus005ReceivedOnBoardEvent,
+        dataType: constants.Pus005ReceivedOnBoardEvent,
         groundDate: timestamp,
         // connection à un OnBoardAlarm.proto de DC
-        payload: stubData.getpus005ReceivedOnBoardEventProtobuf({
-          serviceApid,
-          status: getAStatus(),
-          uniqueId: predictibleRand.getFrom(['1', '2']),
-          ssIdLabel: predictibleRand.getFrom(['ssid1', 'ssid2', 'ssid3', 'ssid4']),
-          lastUpdateModeSubScheduleId: getAnUpdateMode(),
-          lastUpdateModeStatus: getAnUpdateMode(),
-          lastUpdateModeExecTimeFirstTc: getAnUpdateMode(),
-          executionTimeFirstTc: formatedTime,
-          lastUpdateTimeSubscheduleId: formatedTime,
-          lastUpdateTimeStatus: formatedTime,
-          lastUpdateTimeExecTimeFirstTc: formatedTime,
-        }),
+        payload: {},
+        // stubData.getPus005ReceivedOnBoardEventProtobuf({
+        //   serviceApid,
+        //   status: getAStatus(),
+        //   uniqueId: predictibleRand.getFrom(['1', '2']),
+        //   ssIdLabel: predictibleRand.getFrom(['ssid1', 'ssid2', 'ssid3', 'ssid4']),
+        //   lastUpdateModeSubScheduleId: getAnUpdateMode(),
+        //   lastUpdateModeStatus: getAnUpdateMode(),
+        //   lastUpdateModeExecTimeFirstTc: getAnUpdateMode(),
+        //   executionTimeFirstTc: formatedTime,
+        //   lastUpdateTimeSubscheduleId: formatedTime,
+        //   lastUpdateTimeStatus: formatedTime,
+        //   lastUpdateTimeExecTimeFirstTc: formatedTime,
+        // }),
       };
     }
     default: {
@@ -246,8 +248,8 @@ const getPus11Payload = (timestamp, serviceApid, type, binaryProfile) => {
         pus011Apid: [
           stubData.getPus011Apid({
             serviceApid,
-            lastUpdateModeApid: getAnUpdateMode(),
             status: getAStatus(),
+            lastUpdateModeApid: getAnUpdateMode(),
             lastUpdateTimeApid: formatedTime,
             uniqueId: 1,
           }),
@@ -388,10 +390,10 @@ const getPus11Payload = (timestamp, serviceApid, type, binaryProfile) => {
         groundDate: timestamp,
         payload: stubData.getPus011ApidProtobuf({
           serviceApid,
-          lastUpdateModeApid: getAnUpdateMode(),
           status: getAStatus(),
+          lastUpdateModeApid: getAnUpdateMode(),
           lastUpdateTimeApid: formatedTime,
-          uniqueId: predictibleRand.getFrom(['1', '2']),
+          uniqueId: predictibleRand.getInt([1, 2]),
           apidName: predictibleRand.getFrom(['apidName1', 'apidName2', 'apidName3', 'apidName4']),
         }),
       };

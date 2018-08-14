@@ -1,4 +1,4 @@
-import PUS15View, { isValid, renderInvald } from 'viewManager/PUS15View/Components/View/PUS15View';
+import PUS15View, { renderInvald } from 'viewManager/PUS15View/Components/View/PUS15View';
 import { shallowRenderSnapshot } from 'common/jest/utils';
 import stateTest from 'common/jest/stateTest';
 import renderer from 'react-test-renderer';
@@ -31,19 +31,6 @@ describe('viewManager/PUS15View/Components/View/PUS15View', () => {
         .toJSON()
       ;
       expect(tree).toMatchSnapshot();
-    });
-  });
-
-  describe('PUS15View :: isValid', () => {
-    [null, undefined, []].map(apids =>
-      [null, undefined].map(applicationProcessId =>
-        it('should return false with invalid data', () => {
-          expect(isValid(apids, applicationProcessId)).toBe(false);
-        })
-      )
-    );
-    it('should return true with valid data', () => {
-      expect(isValid(['ORBIT'], 0)).toBe(true);
     });
   });
 });

@@ -40,18 +40,17 @@ export default class PUS15View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS15ViewContainer mapStateToProps
-    serviceApid: PropTypes.number,
-    serviceApidName: PropTypes.string,
-    apids: PropTypes.arrayOf(PropTypes.shape({
-      apidName: PropTypes.string,
-      apidRawValue: PropTypes.string,
-    })),
+    data: PropTypes.shape({
+      headers: PropTypes.arrayOf(PropTypes.shape()),
+      tables: PropTypes.shape(),
+    }),
   };
 
   static defaultProps = {
-    serviceApid: null,
-    serviceApidName: null,
-    apids: [],
+    data: {
+      headers: [],
+      data: {},
+    },
   };
 
   static contextTypes = {
@@ -60,30 +59,37 @@ export default class PUS15View extends React.Component {
 
   render() {
     const {
-      serviceApid,
-      serviceApidName,
-      apids,
       viewId,
+      data,
     } = this.props;
 
-    if (!isValid(apids, serviceApid)) {
+    if (typeof data === 'object' && Object.keys(data).length === 0) {
       return renderInvald('Please fill-in configuration');
     }
+
+    const headers = data.headers.map(header =>
+      (
+        <div className="header">
+          {renderHeaders(
+            header.serviceApid,
+            header.serviceApidName
+          )}
+        </div>
+      ));
+
 
     return (
       <ErrorBoundary>
         <div className="pus15">
           <div className="header">
-            {renderHeaders(
-              serviceApid,
-              serviceApidName
-            )}
+            {headers}
           </div>
           <div className="col-sm-12 h100">
             <div className="row tablesHeight">
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'onBoardStorages'}
+                data={data.tables.onBoardStorages.data}
                 contentModifier={_onBoardStoragesModifier}
                 overrideStyle={_onBoardStoragesOverrideStyle}
               />
@@ -92,6 +98,7 @@ export default class PUS15View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'storageDef'}
+                data={data.tables.storageDef.data}
                 contentModifier={_storageDefContentModifier}
               />
             </div>
@@ -114,10 +121,6 @@ export const renderHeaders = (
     </div>
   </ErrorBoundary>
 );
-
-export const isValid = (apids, applicationProcessId) =>
-  Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
-;
 
 export const renderInvald = error => (
   <div className="pus15 h100 posRelative">

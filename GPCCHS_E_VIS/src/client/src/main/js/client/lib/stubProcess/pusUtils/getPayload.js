@@ -1074,25 +1074,38 @@ const getPus15Payload = (timestamp, serviceApid, type) => {
   }
   // case type === delta
   return {
-    dataType: constants.Pus015PacketType,
+    dataType: constants.Pus015PacketStoreType,
     groundDate: timestamp,
-    payload: stubData.getPus015PacketProtobuf({
+    payload: stubData.getPus015PacketStoreProtobuf({
       serviceApid,
-      status: getAStatus(),
-      forwardingStatus: getAStatus(),
-      forwardingStatusRidSid: getAStatus(),
-      lastUpdateModeTypeSubType: getAnUpdateMode(),
-      lastUpdateModeFwdStatus: getAnUpdateMode(),
-      lastUpdateModeRid: getAnUpdateMode(),
-      lastUpdateModeSid: getAnUpdateMode(),
-      lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
-      lastUpdateModeFwdStatusTypeRidSid: getAnUpdateMode(),
-      lastUpdateTimeTypeSubType: formatedTime,
-      lastUpdateTimeFwdStatus: formatedTime,
-      lastUpdateTimeRid: formatedTime,
-      lastUpdateTimeSid: formatedTime,
-      lastUpdateTimeSubSamplingRatio: formatedTime,
-      lastUpdateTimeFwdStatusTypeRidSid: formatedTime,
+      storeStatus: getAStatus(),
+      downlinkStatus: getAStatus(),
+      lastUpdateModeStoreId: getAnUpdateMode(),
+      lastUpdateModeStoreType: getAnUpdateMode(),
+      lastUpdateModeStoreStatus: getAnUpdateMode(),
+      lastUpdateModeDownlinkStatus: getAnUpdateMode(),
+      lastUpdateTimeStoreId: formatedTime,
+      lastUpdateTimeStoreType: formatedTime,
+      lastUpdateTimeStoreStatus: formatedTime,
+      lastUpdateTimeDownlinkStatus: formatedTime,
+      pus015Packet: [
+        stubData.getPus015Packet({
+          serviceApid,
+          isSubsamplingRatioSet: getABoolean(),
+          lastUpdateModePacketId: getAnUpdateMode(),
+          lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
+          lastUpdateTimePacketId: formatedTime,
+          lastUpdateTimeSubSamplingRatio: formatedTime,
+        }),
+        stubData.getPus015Packet({
+          serviceApid,
+          isSubsamplingRatioSet: getABoolean(),
+          lastUpdateModePacketId: getAnUpdateMode(),
+          lastUpdateModeSubSamplingRatio: getAnUpdateMode(),
+          lastUpdateTimePacketId: formatedTime,
+          lastUpdateTimeSubSamplingRatio: formatedTime,
+        }),
+      ],
     }),
   };
 };

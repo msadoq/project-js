@@ -419,7 +419,7 @@ module.exports = {
   Pus014ForwardPacketType: 11,
   Pus014ModelType: 12,
   Pus015ModelType: 13,
-  Pus015PacketType: 14,
+  Pus015PacketStoreType: 14,
   Pus018ModelType: 15,
   Pus018ObcpType: 16,
   Pus019EventActionType: 17,
@@ -434,6 +434,8 @@ module.exports = {
   PusMmePacketType: 26,
   Pus011ApidType: 27,
 
+  PUS015_PACKET_STORE: 'pus015PacketStore',
+
   // list of key for deltas
   PUS005_ON_BOARD_EVENT: 'pus005OnBoardEvent',
   PUS011_COMMAND: 'pus011Command',
@@ -442,7 +444,7 @@ module.exports = {
   PUS012_PARAMETER_MONITORING_DEFINITION: 'pus012ParameterMonitoringDefinition',
   PUS013_LDT_PART: 'pUS013LdtPart',
   PUS014_TM_PACKET: 'pus014TmPacket',
-  PUS015_PACKET_STORE: 'pus015PacketStore',
+  PUS015_PACKET: 'pus015Packet',
   PUS018_OBCP: 'pus018Obcp',
   PUS019_EVENT_ACTION: 'pus19EventAction',
   PUS140_PARAMETER: 'pus140Parameter',

@@ -66,7 +66,7 @@ export const getModelEntryByDataType = (dataType) => {
     [constants.Pus013DownlinkLDTType]: constants.PUS013_LDT_PART,
     [constants.Pus013UplinkLDTType]: constants.PUS013_LDT_PART,
     [constants.Pus014ForwardPacketType]: constants.PUS014_TM_PACKET,
-    [constants.Pus015PacketType]: constants.PUS015_PACKET_STORE,
+    [constants.Pus015PacketStoreType]: constants.PUS015_PACKET_STORE,
     [constants.Pus018ObcpType]: constants.PUS018_OBCP,
     [constants.Pus019EventActionType]: constants.PUS019_EVENT_ACTION,
     [constants.Pus140ParameterType]: constants.PUS140_PARAMETER,

@@ -54,8 +54,8 @@ const getDecodedPayload = (dataType, payload) => {
     case constants.Pus015ModelType: {
       return decode('isis.pusModelEditorMessages.Pus015Model', payload);
     }
-    case constants.Pus015PacketType: {
-      return decode('isis.pusModelEditorMessages.Pus015Packet', payload);
+    case constants.Pus015PacketStoreType: {
+      return decode('isis.pusModelEditorMessages.Pus015PacketStore', payload);
     }
     case constants.Pus018ModelType: {
       return decode('isis.pusModelEditorMessages.Pus018Model', payload);
@@ -128,7 +128,7 @@ const onPusData = (messageData, pusService, apids, domainId, sessionId, getStore
     const decodedPayload = getDecodedPayload(dataType.value, payload.value);
     const cleanPayload = cleanupPayload(decodedPayload);
     const viewType = getViewType(pusService);
-    logger.info('SAVE PUS DATA IN STORE', viewType);
+    logger.debug('SAVE PUS DATA IN STORE', viewType);
     const flattenId = getPusFlattenId(apids, { domainId, sessionId });
     store.dispatch(savePusData(
       pusService,

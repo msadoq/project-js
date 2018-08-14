@@ -974,9 +974,9 @@ const getPus14Payload = (timestamp, serviceApid, type) => {
   }
   // case type === delta
   return {
-    dataType: constants.Pus014ForwardPacketType,
+    dataType: constants.Pus014ForwardedPacketType,
     groundDate: timestamp,
-    payload: stubData.getPus014ForwardedPacket({
+    payload: stubData.getPus014ForwardedPacketProtobuf({
       serviceApid,
       status: getAStatus(),
       forwardingStatus: getAStatus(),

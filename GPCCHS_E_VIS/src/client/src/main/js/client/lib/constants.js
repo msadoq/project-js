@@ -416,7 +416,7 @@ module.exports = {
   Pus013DownlinkLDTType: 8,
   Pus013ModelType: 9,
   Pus013UplinkLDTType: 10,
-  Pus014ForwardPacketType: 11,
+  Pus014ForwardedPacketType: 11,
   Pus014ModelType: 12,
   Pus015ModelType: 13,
   Pus015PacketStoreType: 14,

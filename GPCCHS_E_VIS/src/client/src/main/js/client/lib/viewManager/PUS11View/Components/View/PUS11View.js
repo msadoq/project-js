@@ -52,10 +52,6 @@ export default class PUS11View extends React.Component {
       headers: PropTypes.arrayOf(PropTypes.shape()),
       tables: PropTypes.shape(),
     }),
-    // apids: PropTypes.arrayOf(PropTypes.shape({
-    //   apidName: PropTypes.string,
-    //   apidRawValue: PropTypes.string,
-    // })),
     onCommandCellDoubleClick: PropTypes.func.isRequired,
   };
 

@@ -45,8 +45,8 @@ const getDecodedPayload = (dataType, payload) => {
     case constants.Pus013UplinkLDTType: {
       return decode('isis.pusModelEditorMessages.Pus013UplinkLDT', payload);
     }
-    case constants.Pus014ForwardPacketType: {
-      return decode('isis.pusModelEditorMessages.Pus014ForwardPacket', payload);
+    case constants.Pus014ForwardedPacketType: {
+      return decode('isis.pusModelEditorMessages.Pus014ForwardedPacket', payload);
     }
     case constants.Pus014ModelType: {
       return decode('isis.pusModelEditorMessages.Pus014Model', payload);

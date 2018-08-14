@@ -32,17 +32,17 @@ export default class PUS14View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS14ViewContainer mapStateToProps
-    serviceApid: PropTypes.number,
-    apids: PropTypes.arrayOf(PropTypes.shape({
-      apidName: PropTypes.string,
-      apidRawValue: PropTypes.string,
-    })),
+    data: PropTypes.shape({
+      headers: PropTypes.arrayOf(PropTypes.shape()),
+      tables: PropTypes.shape(),
+    }),
   };
 
   static defaultProps = {
-    serviceApid: null,
-    serviceApidName: null,
-    apids: [],
+    data: {
+      headers: [],
+      data: {},
+    },
   };
 
   static contextTypes = {
@@ -51,12 +51,11 @@ export default class PUS14View extends React.Component {
 
   render() {
     const {
-      serviceApid,
       viewId,
-      apids,
+      data,
     } = this.props;
 
-    if (!isValid(apids, serviceApid)) {
+    if (typeof data === 'object' && Object.keys(data).length === 0) {
       return renderInvald('Please fill-in configuration');
     }
 
@@ -68,6 +67,7 @@ export default class PUS14View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'packetForwarding'}
+                data={data.tables.pus014TmPacket.data}
                 overrideStyle={packetForwardingOverrideStyle}
                 contentModifier={packetForwardingContentModifier}
               />

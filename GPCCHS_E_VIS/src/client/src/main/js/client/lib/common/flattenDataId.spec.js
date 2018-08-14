@@ -126,7 +126,7 @@ describe('getPusFlattenId', () => {
       domainId: 42,
       sessionId: 0,
     };
-    expect(getPusFlattenId(apids, dataId)).toEqual(':0:42');
+    expect(getPusFlattenId(apids, dataId)).toEqual('null:0:42');
   });
   test('apids array of values', () => {
     const apids = [0, 2, 3];

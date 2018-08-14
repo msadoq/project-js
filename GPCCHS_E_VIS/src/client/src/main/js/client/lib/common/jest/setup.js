@@ -196,6 +196,12 @@ global.testConfig = {
       3: 'DELETED',
       200: 'UNKNOWN',
     },
+    STATUS_COLOR: {
+      DISABLED: '#e67e22',
+      ENABLED: '#2ecc71',
+      DELETED: '#FF0000',
+      UNKNOWN: '#bdc3c7',
+    },
     CHECK_TYPE: {
       1: 'DELTA',
       2: 'EXPECTED VALUE',

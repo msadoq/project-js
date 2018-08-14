@@ -9,6 +9,8 @@ const reducer = freezeArgs(EventReducer);
 
 /* ------------------------ REDUCER ------------------------ */
 describe('store:Pus:reducer', () => {
+  const pusService = 11;
+
   test('should returns initial state', () => {
     const nextState = reducer(undefined, {});
     expect(nextState).toEqual({});
@@ -18,73 +20,24 @@ describe('store:Pus:reducer', () => {
     expect(reducer(state, {})).toBe(state);
   });
   test('Should add pudIs known interval: one interval then multi interval', () => {
-    const nextState = reducer({}, actions.sendArchiveQuery('ORBIT:0:4', 'ORBIT', [15, 25], []));
+    const nextState = reducer({}, actions.sendArchiveQuery(pusService, 'ORBIT:0:4', [15, 25], false));
     expect(nextState).toEqual(
       {
-        'ORBIT:0:4': {
-          apidName: 'ORBIT',
-          intervals: [[15, 25]],
+        11: {
+          'ORBIT:0:4': {
+            interval: [15, 25],
+          },
         },
       }
     );
     const nextState2 =
-      reducer(nextState, actions.sendArchiveQuery('ORBIT:0:4', 'ORBIT', [[10, 20], [50, 60]]));
+      reducer(nextState, actions.sendArchiveQuery(11, 'ORBIT:0:4', [50, 60], false));
     expect(nextState2).toEqual(
       {
-        'ORBIT:0:4': {
-          apidName: 'ORBIT',
-          intervals: [[10, 25], [50, 60]],
-        },
-      }
-    );
-  });
-  test('Remove intervals: empty state', () => {
-    const nextState = reducer({}, actions.removeKnownPus('ORBIT:0:4', [2, 4]));
-    expect(nextState).toEqual({});
-  });
-  test('Remove intervals: unknown tbdId', () => {
-    const state = {
-      'ORBIT:0:4': {
-        apidName: 'ORBIT',
-        intervals: [[2, 50]],
-      },
-    };
-    const nextState = reducer(state, actions.removeKnownPus('test', [2, 4]));
-    expect(nextState).toEqual(state);
-  });
-  test('Remove intervals: known pusId and interval', () => {
-    const state = {
-      'ORBIT:0:4': {
-        apidName: 'ORBIT',
-        intervals: [[2, 50]],
-      },
-    };
-    const nextState = reducer(state, actions.removeKnownPus('ORBIT:0:4', [20, 40]));
-    expect(nextState).toEqual({
-      'ORBIT:0:4': {
-        apidName: 'ORBIT',
-        intervals: [[2, 20], [40, 50]],
-      },
-    });
-  });
-  test('Remove intervals: known pusId and complete interval', () => {
-    const state =
-      {
-        'ORBIT:0:4': {
-          apidName: 'ORBIT',
-          intervals: [[2, 50]],
-        },
-        'YOLO:0:4': {
-          apidName: 'YOLO',
-          intervals: [[20, 30]],
-        },
-      };
-    const nextState = reducer(state, actions.removeKnownPus('ORBIT:0:4', [2, 50]));
-    expect(nextState).toEqual(
-      {
-        'YOLO:0:4': {
-          apidName: 'YOLO',
-          intervals: [[20, 30]],
+        11: {
+          'ORBIT:0:4': {
+            interval: [50, 60],
+          },
         },
       }
     );
@@ -95,24 +48,24 @@ describe('store:Pus:reducer', () => {
 describe('store:knownPus:selectors', () => {
   const state = {
     knownPus: {
-      'YOLO:0:4': {
-        apidName: 'YOLO',
-        intervals: [[20, 30]],
-      },
-      'ORBIT:0:4': {
-        apidName: 'ORBIT',
-        intervals: [[2, 50]],
+      11: {
+        'YOLO:0:4': {
+          interval: [20, 30],
+        },
+        'ORBIT:0:4': {
+          interval: [2, 50],
+        },
       },
     },
   };
   describe('getKnownPus', () => {
     test('should return knownPus', () => {
-      expect(getKnownPus(state, { pusId: 'ORBIT:0:4' }))
-        .toEqual(state.knownPus['ORBIT:0:4']);
+      expect(getKnownPus(state, { pusService: 11, pusId: 'ORBIT:0:4' }))
+        .toEqual(state.knownPus[11]['ORBIT:0:4']);
     });
     test('should return undefined', () => {
-      expect(getKnownPus(state, { pusId: 'EFDS:0:4' }))
-        .toEqual(undefined);
+      expect(getKnownPus(state, { pusService: 11, pusId: 'TEST:0:4' }))
+        .toBeFalsy();
     });
   });
   describe('getMissingIntervals', () => {

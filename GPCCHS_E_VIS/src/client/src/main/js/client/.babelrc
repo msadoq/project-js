@@ -16,7 +16,9 @@
 		"react-hmre"
 	  ]
 	},
-    "test": {},
+    "test": {
+	  "presets": []
+	},
     "production": {}
   }
 }

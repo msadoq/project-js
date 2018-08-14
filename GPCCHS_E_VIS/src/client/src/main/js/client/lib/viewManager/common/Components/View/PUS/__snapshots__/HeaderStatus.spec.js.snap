@@ -55,8 +55,13 @@ exports[`viewManager/common/Components/View/PUS/HeaderStatus HeaderStatus :: ren
       <input
         className="mw100 disabled"
         disabled={true}
+        style={
+          Object {
+            "backgroundColor": "#e67e22",
+          }
+        }
         type="text"
-        value="disabled"
+        value="DISABLED"
       />
     </span>
   </OverlayTrigger>
@@ -121,6 +126,11 @@ exports[`viewManager/common/Components/View/PUS/HeaderStatus HeaderStatus :: ren
       <input
         className="mw100 enabled"
         disabled={true}
+        style={
+          Object {
+            "backgroundColor": "#2ecc71",
+          }
+        }
         type="text"
         value="ENABLED"
       />

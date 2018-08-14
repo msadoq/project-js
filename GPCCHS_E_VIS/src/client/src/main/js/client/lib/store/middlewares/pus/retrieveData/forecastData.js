@@ -67,7 +67,6 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
             dispatch(sendArchiveQuery(
                 dataId.pusService,
                 flattenId,
-                dataId,
                 newInterval,
                 true
               )

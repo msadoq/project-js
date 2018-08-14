@@ -354,6 +354,13 @@
     "CHECKSUM_COLOR": {
       "CHECKSUM_OK": "#2ecc71",
       "CHECKSUM_KO": "#e67e22"
+    },
+    "RESETTYPE": {
+      "1": "RT_GroundModel",
+      "2": "RT_CompletedDownlinkLDT",
+      "3": "RT_CompletedUplinkLDT",
+      "4": "RT_FailedDownlinkLDT",
+      "5": "RT_FailedUplinkLDT"
     }
   },
   "REAL_TIME_RESYNCHRO_EACH_X_TICKS": 10,

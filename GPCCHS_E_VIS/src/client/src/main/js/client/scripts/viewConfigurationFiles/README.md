@@ -3,15 +3,18 @@
 
 The viewConfig script gives info, validates and migrate VIMA view configuration files.
 
-    Usage: viewConfig [options]
-    
-    Options:
+  Usage: viewConfig [options]
 
-    -V, --version              output the version number
-    -i, --info <inputFile>     Get information about <inputFile>
-    -c, --check <inputFile>    Check if <inputFile> is a valid VIMA view configuration
-    -m, --migrate <inputFile>  Migrate <inputFile> to the specified version
-    -h, --help                 output usage information
+  Options:
+
+    -V, --version                 output the version number
+    -i, --info <inputFile>        Get information about <inputFile>
+    -c, --check <inputFile>       Check if <inputFile> is a valid VIMA view configuration
+    -m, --migrate <inputFile>     Migrate <inputFile> to the specified version
+    -t, --target <targetVersion>  Sets target version for migration, default 2.0
+    -l, --lock <lockFile>         Sets or use existing lock file to remember migrations that have already been applied
+    -o, --output <outputFile>     Sets output file to save migrated view configuration
+    -h, --help                    output usage information
 
 
 Each VIMA version comes with a migration folder, 
@@ -28,28 +31,64 @@ module.exports = {
 };
 ```
 
-A migration, for example `setVersion`, is an array that maps view types to migration functions :
+A migration, for example `setVersion`, is an array that maps view types to migration functions 
+(pure migration) or migration functions with hook functions:
 
+
+Pure migration:
 ```
 const ViewConfiguration = require('../../ViewConfiguration');
 
 module.exports = {
-  '*': viewConfiguration => new ViewConfiguration({
+  '*': (viewConfiguration, options) => new ViewConfiguration({
     ...viewConfiguration.content,
     version: '2.0',
   }),
 };
 ```
 
-The function mapped to the key `*` is applied to all file types, the other functions are mapped 
-to the view configurations corresponding to the key. 
+Composed migration (MimicView example):
+```
+// [...]
 
-For each migration, 0 to 2 migrations functions are applied :
+module.exports = {
+  MimicView: {
+    update: (viewConfiguration, { inputPath, outputPath }) => {
+      let updatedContent = viewConfiguration.content;
 
-- The common migration function, referenced by `*`
-- The migration function corresponding to the view type, referenced by the view type key 
-(`Page`, `PlotView`, `HistoryView`, etc.)
+      const svgContentPath =
+        path.join(
+          '/views',
+          `${path.basename(outputPath || inputPath)}.svg`
+        );
 
+      updatedContent = _.unset('content', updatedContent);
+      updatedContent = _.set('contentPath', svgContentPath, updatedContent);
+
+      return new ViewConfiguration(updatedContent);
+    },
+    hook: (viewConfiguration, migratedViewConfiguration) => {
+      const outputPath =
+        path.join(config.ISIS_DOCUMENTS_ROOT, migratedViewConfiguration.content.contentPath);
+
+      const content = viewConfiguration.content.content.toString();
+
+      try {
+        fs.writeFileSync(outputPath, content, 'utf8');
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+};
+```
+
+In the above example, the `update` function returns the migrated view configuration instance
+and the `hook` function is called before returning the migrated view configuration file.
+
+The function (or object in the case of a composed migration) mapped to the key `*` 
+is applied to all file types, the other functions are mapped to the view configurations 
+corresponding to the key. 
 
 ## User usage examples
 
@@ -64,13 +103,9 @@ The file 'data/pages/dev.page1.vipg' is a Page configuration file for VIMA 2.0
 $ viewConfig --check data/pages/dev.page1.vipg 
 ```
 
-Note: the scripts does not produce output if the file is valid, 
-and outputs error messages if view configuration file is not valid.
-
-
 ### Migrating view configuration file
 ```
-$ viewConfig --migrate data/pages/dev.page1.vipg --target 2.2
+$ viewConfig --migrate data/pages/dev.page1.vipg --target 2.2.1
 ```
 Migrates file data/pages/dev.page1.vipg to target version and outputs the new content to the standard output.
 Default version for target value is 2.0.
@@ -93,15 +128,6 @@ JSON file is saved to the specified path.
 
 ```
 $ viewConfig --migrate data/pages/dev.page1.vipg --output data/pages/dev.page1.migrated.vipg --target 2.2 --lock lockfile.json
-```
-
-# Related scripts
-
-The scripts `validateViewConfigurationFiles.sh` validates that all files in the specified folder 
-are valid VIMA view configuration files.
-
-```
-./scripts/validateViewConfigurationFiles.sh ./data
 ```
 
 ### Generate a new schema based on the json file: 

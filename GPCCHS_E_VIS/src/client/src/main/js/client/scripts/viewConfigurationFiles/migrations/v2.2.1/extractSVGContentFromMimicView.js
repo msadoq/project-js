@@ -3,11 +3,10 @@ const fs = require('fs');
 const path = require('path');
 const ViewConfiguration = require('../../models/ViewConfiguration');
 
-const config = require('../../../../config.local');
 
 module.exports = {
   MimicView: {
-    update: (viewConfiguration, { inputPath, outputPath }) => {
+    update: (viewConfiguration, {inputPath, outputPath}) => {
       let updatedContent = viewConfiguration.content;
 
       const svgContentPath =
@@ -23,7 +22,7 @@ module.exports = {
     },
     hook: (viewConfiguration, migratedViewConfiguration) => {
       const outputPath =
-        path.join(config.ISIS_DOCUMENTS_ROOT, migratedViewConfiguration.content.contentPath);
+        path.join(process.env.ISIS_DOCUMENT_DIR, migratedViewConfiguration.content.contentPath);
 
       const content = viewConfiguration.content.content.toString();
 

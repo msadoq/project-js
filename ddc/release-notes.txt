@@ -66,7 +66,7 @@ A migration file contains the pure functions that create the migrated view confi
 
 For example, to apply the migrations for version 2.2.1 to a file `sample.vipv`, use the following command :
 
-    viewConfig -m sample.vipv -t 2.2.1 --o sample.vipv
+    viewConfig -m sample.vipv -t 2.2.1 -o sample.vipv
 
 where viewConfig is an alias to the specified script path.
 

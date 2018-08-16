@@ -34,16 +34,24 @@ const saveNewMigrations = (lockFile, newMigrations) => {
   );
 };
 
-module.exports = (target, inputPath, outputPath, lockFile) => {
+module.exports = (target, { inputPath, outputPath, lockPath }) => {
   const targetVersion = target || VIMA_BASE_VERSION;
   const migrationManager = new MigrationManager(targetVersion);
   const toMigrate = ViewConfiguration.fromFile(inputPath);
-  const alreadyAppliedMigration = getAlreadyAppliedMigrations(lockFile);
-  const migratedViewConfiguration = migrationManager.migrate(toMigrate, alreadyAppliedMigration);
+  const alreadyMigrated = getAlreadyAppliedMigrations(lockPath);
+  const migratedViewConfiguration =
+    migrationManager.migrate(
+      toMigrate,
+      {
+        alreadyMigrated,
+        inputPath,
+        outputPath,
+      }
+    );
   const outputContent = migratedViewConfiguration.toString();
 
-  if (lockFile) {
-    saveNewMigrations(lockFile, migrationManager.executedMigrations);
+  if (lockPath) {
+    saveNewMigrations(lockPath, migrationManager.executedMigrations);
   }
 
   if (outputPath) {

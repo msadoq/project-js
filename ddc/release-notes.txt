@@ -49,6 +49,8 @@ La ligne ci-dessous doit ??tre ajout??e dasn le fichier de configuration de la V
 A migration script `viewConfig.js` can be found in `LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/scripts/viewConfigurationFiles/viewConfig.js`. It is used to migrate
 VIMA configuration files to a newer version by applying to them a set of migration files.
 
+A migration file contains the pure functions that create the migrated view configuration (updates) and the functions that are called after these updates (hooks). 
+
   Usage: viewConfig [options]
 
   Options:
@@ -64,26 +66,32 @@ VIMA configuration files to a newer version by applying to them a set of migrati
 
 For example, to apply the migrations for version 2.2.1 to a file `sample.vipv`, use the following command :
 
-    viewConfig -m sample.vipv -t 2.2.1 > sample.vipv
-
-which is equivalent to :
-
-    viewConfig -m sample.vipv -t 2.2.1 --output sample.vipv
+    viewConfig -m sample.vipv -t 2.2.1 --o sample.vipv
 
 where viewConfig is an alias to the specified script path.
 
 You can also migrate a set of view configuration files, for example :
 
-    for f in `find . -name *.vi*`; do viewConfig -m $f -t 2.2.1 > $f; done
+    for f in `find . -name *.vi*`; do viewConfig -m $f -t 2.2.1 -o $f; done
 
 Warning:
 
-- You should create a backup of the migrated view configuration files before applying any migration.
-- The migration script only applies version-specific migrations once at a time. For example, to migrate a 2.0.0 view configuration file 
+- You should create a backup of the migrated view configuration files before applying any migration, or specify an output path different of the input path.
+- The migration script only applies version-specific migrations once at a time. For example, to migrate a 2.0.0 view configuration file.
 to a 3.0.0 view configuration file, you should apply all migrations in between (2.2.1, ..., 3.0.0).
 - If any error occurs during the migration of a view configuration file, the script will fail silently
 and returns the input file unchanged.
+- If `output` argument is not specified, the migrated file is written to stdout. 
 
+So if a migration is pure (_i.e_ it only updates the migration file without side effects such as writing other files), the following command:
+
+     viewConfig -m sample.vipv -t 2.2.1 --output sample.vipv
+ 
+is equivalent to:
+
+     viewConfig -m sample.vipv -t 2.2.1 > sample.vipv
+
+However, it is recommended to use the `output` argument as the scripts knows the new file path and can use it in the migration specified hooks.
 
 See `LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/scripts/viewConfigurationFiles/README.md` for more details.
 

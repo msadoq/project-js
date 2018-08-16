@@ -1,5 +1,6 @@
 /* eslint-disable import/no-dynamic-require,global-require */
 
+const path = require('path');
 const fs = require('fs');
 const Migration = require('./Migration');
 
@@ -18,8 +19,8 @@ class MigrationManager {
     this.executedMigrations[this.version].push(migrationKey);
   }
 
-  migrate(viewConfiguration, alreadyMigrated) {
-    const migrationsPath = `${__dirname}/v${this.version}`;
+  migrate(viewConfiguration, { inputPath, outputPath, alreadyMigrated }) {
+    const migrationsPath = path.join(__dirname, `v${this.version}`);
 
     if (!fs.lstatSync(migrationsPath).isDirectory) {
       throw new Error(`There are no migration files for this version: ${this.version}`);
@@ -38,7 +39,7 @@ class MigrationManager {
         !alreadyMigrated[this.version] ||
         alreadyMigrated[this.version].indexOf(migrationName) === -1
       ) {
-        currentState = migration.migrate(currentState);
+        currentState = migration.migrate(currentState, { inputPath, outputPath });
         this.updateExecutedMigrations(migrationKey);
       }
     });

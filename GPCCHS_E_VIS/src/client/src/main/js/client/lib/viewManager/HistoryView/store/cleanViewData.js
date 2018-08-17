@@ -129,6 +129,10 @@ export function updateEpLabel(viewData, oldLabel, newLabel) { // TODO: update th
 
 export function removeViewDataOutsideRange(viewData, lower, upper) {
   return removeTabularData(viewData, 'history', (e) => {
+    if (!e) {
+      return true;
+    }
+
     const time = (new Date(e.referenceTimestamp)).getTime();
     return (time < lower) || (time > upper);
   });

@@ -45,7 +45,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
     return state;
   }
 
-  let updatedState = state;
+  let updatedState = _.cloneDeep(state);
   const { current, lower, upper } = visuWindow;
 
   const epConnectedData = historyConfig.entryPoints.map(ep => ep.connectedData);
@@ -145,9 +145,23 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
             _updateCurrent
           );
 
+        const _updatedIndexes =
+          _.set(
+            ep,
+            [...lastRangeIndexesFromState, ...timestamps],
+            _.get('indexes', updatedState)
+          );
+
+        const _updatedObsoleteEvents =
+          _.set(
+            ep,
+            obsoleteEvents,
+            _.get('obsoleteEvents')
+          );
+
         updatedState = _.set('last', _last, updatedState);
-        updatedState = _.set(['indexes', ep], lastRangeIndexesFromState.concat(timestamps), updatedState);
-        updatedState = _.set(['obsoleteEvents', ep], obsoleteEvents, updatedState);
+        updatedState = _.set('indexes', _updatedIndexes, updatedState);
+        updatedState = _.set('obsoleteEvents', _updatedObsoleteEvents, updatedState);
       }
     );
   return updatedState;
@@ -161,7 +175,7 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
     return state;
   }
 
-  let updatedState = state;
+  let updatedState = _.cloneDeep(state);
 
   _forEach(epNames, (epName) => {
     const { dataId } = entryPoints[epName];
@@ -182,6 +196,13 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
             lastRangeIndex
           );
           if (isDataObsolete) {
+            const data = _.get(['tables', 'history', 'data'], updatedState);
+
+            // TODO @jmira : make sure lastRangeIndex is inside the data range
+            if (lastRangeIndex > data.length - 1) {
+              continue;
+            }
+
             updatedState = _.set(['tables', 'history', 'data', lastRangeIndex, 'isDataObsolete'], isDataObsolete, updatedState);
             const currentValue = _.getOr([], ['tables', 'history', 'data', lastRangeIndex], updatedState);
             const { color } = getStateColorObj(

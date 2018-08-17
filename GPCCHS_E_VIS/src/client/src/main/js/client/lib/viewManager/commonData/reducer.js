@@ -158,7 +158,7 @@ export const injectTabularData = (
 
       if (colName in el) {
         [updatedData, insertIndex] =
-          _insertSortedBy((e => e[colName]), el, updatedData, insertIndex);
+          _insertSortedBy((e => (e && e[colName])), el, updatedData, insertIndex);
       } else {
         insertIndex = updatedData.length;
         updatedData = [...updatedData, el];

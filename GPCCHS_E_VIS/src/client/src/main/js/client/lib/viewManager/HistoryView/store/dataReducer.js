@@ -131,6 +131,10 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
       const data = _.getOr([], ['tables', 'history', 'data'], state);
 
       const updatedLast = data.reduce((acc, cur) => {
+        if (!cur) {
+          return acc;
+        }
+
         const { epName, referenceTimestamp } = cur;
 
         const currentTime = new Date(referenceTimestamp).getTime();

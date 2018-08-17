@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import asyncSeries from 'async/series';
+import { PREFIX_KNOWN_RANGES, PREFIX_LASTS } from 'constants';
 import passerelle from '../../utils/passerelle/index';
 
 /**
@@ -40,9 +41,44 @@ const mapUnitConvertion = (newViewMap) => {
  * @param {*} cb Callback waiting for the new dataToInjectCOnverted (dataToInject + gpinuc field)
  */
 const convertData = (toConvertMap, dataToInject, cb) => {
+  // console.log(toConvertMap);
+  const tbdIdKeysLasts = Object.keys(dataToInject[PREFIX_LASTS]);
+  const tbdIdKeysRanges = Object.keys(dataToInject[PREFIX_KNOWN_RANGES]);
+  const asyncMap = {
+    ...preparePromisesMap(tbdIdKeysLasts, dataToInject[PREFIX_LASTS], toConvertMap, PREFIX_LASTS),
+    ...preparePromisesMap(
+      tbdIdKeysRanges,
+      dataToInject[PREFIX_KNOWN_RANGES],
+      toConvertMap, PREFIX_KNOWN_RANGES
+    ),
+  };
+  asyncSeries(asyncMap, (err, results) => {
+    const resultsKeys = Object.keys(results);
+    const convertedDataToInject = { ...dataToInject };
+    resultsKeys.forEach((resultsKey) => {
+      const {
+        response,
+        tbdIdKey,
+        field,
+        convertTo,
+        timestamp,
+        prefix } = results[resultsKey];
+      _.set(convertedDataToInject, [prefix, tbdIdKey, timestamp, 'gpinuc', field, convertTo], response);
+    });
+
+    cb(err, convertedDataToInject);
+    // console.log(toConvertMap);
+    // console.log(convertedDataToInject);
+    if (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
+    }
+  });
+};
+
+const preparePromisesMap = (keysLists, dataToInject, toConvertMap, prefix) => {
   const asyncMap = {};
-  const tbdIdKeys = Object.keys(dataToInject);
-  tbdIdKeys.forEach((tbdIdKey) => {
+  keysLists.forEach((tbdIdKey) => {
     const timestampMap = dataToInject[tbdIdKey];
     const timestampArray = Object.keys(timestampMap);
     const arrayToConvert = toConvertMap[tbdIdKey];
@@ -56,7 +92,7 @@ const convertData = (toConvertMap, dataToInject, cb) => {
                 // TODO, add the real value = value: value.symbol,
                 value: value.symbol,
                 unitesource: convertFrom,
-                unitectible: convertTo,
+                unitecible: convertTo,
               },
               (response) => {
                 callbackAsync(null,
@@ -67,6 +103,7 @@ const convertData = (toConvertMap, dataToInject, cb) => {
                     convertTo,
                     timestamp,
                     fromValue: value,
+                    prefix,
                   }
                 );
               }
@@ -76,25 +113,7 @@ const convertData = (toConvertMap, dataToInject, cb) => {
       });
     }
   });
-  asyncSeries(asyncMap, (err, results) => {
-    const resultsKeys = Object.keys(results);
-    const convertedDataToInject = { ...dataToInject };
-    resultsKeys.forEach((resultsKey) => {
-      const {
-        response,
-        tbdIdKey,
-        field,
-        convertTo,
-        timestamp } = results[resultsKey];
-      _.set(convertedDataToInject, [tbdIdKey, timestamp, 'gpinuc', field, convertTo], response);
-    });
-
-    cb(err, convertedDataToInject);
-    if (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
-    }
-  });
+  return asyncMap;
 };
 
 export default {

@@ -34,11 +34,13 @@ import {
   getSearchViewsIds,
 } from '../../../../store/reducers/pages';
 import { updateSearchCount } from '../../../../store/actions/pages';
+import { getViewEntryPoints } from '../../../../store/selectors/views';
 
 
 const mapStateToProps = (state, { viewId, pageId }) => {
   const data = getData(state, { viewId });
   let config = getConfigurationByViewId(state, { viewId });
+  const entryPoints = getViewEntryPoints(state, { viewId });
   const last = _.getOr({}, 'last', data);
   const searching = getSearchingByPage(state, { pageId });
   const searchViewsIds = getSearchViewsIds(state, { pageId });
@@ -61,8 +63,14 @@ const mapStateToProps = (state, { viewId, pageId }) => {
       if (domain && timeline && catalog && catalogItem) {
         const domainId = getDomainId(state, { domainName: domain });
         const session = getSessionByTimelineId(state, { timelineId: timeline });
+        const sessionId = _.get('id', session);
 
-        const tupleId = getTupleId(domainId, _.get('id', session));
+        const connectedDataPath = ['entryPoints', index, 'connectedData'];
+
+        config = _.set([...connectedDataPath, 'sessionId'], sessionId, config);
+        config = _.set([...connectedDataPath, 'domainId'], domainId, config);
+
+        const tupleId = getTupleId(domainId, sessionId);
 
         const selectedCatalogItem = getCatalogItemByName(
           state.catalogs,
@@ -87,6 +95,7 @@ const mapStateToProps = (state, { viewId, pageId }) => {
 
   return {
     config,
+    entryPoints,
     last,
     scrollPosition,
     isTimelineSelected,

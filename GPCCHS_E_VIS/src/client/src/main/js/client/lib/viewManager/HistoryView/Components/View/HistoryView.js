@@ -30,6 +30,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import _ from 'lodash/fp';
+
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import { updateSearchCountArray } from 'store/reducers/pages';
@@ -63,11 +65,16 @@ function parseDragData(data) {
 class HistoryView extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
+    mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
+    openInspector: PropTypes.func.isRequired,
+    isInspectorOpened: PropTypes.bool.isRequired,
+    inspectorEpId: PropTypes.string,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     last: PropTypes.shape(),
     scrollPosition: PropTypes.shape().isRequired,
     config: PropTypes.shape().isRequired,
+    entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     isTimelineSelected: PropTypes.bool.isRequired,
     searchForThisView: PropTypes.bool.isRequired,
     searching: PropTypes.string.isRequired,
@@ -79,6 +86,7 @@ class HistoryView extends React.Component {
   static defaultProps = {
     currentRowIndexes: [],
     last: {},
+    inspectorEpId: null,
   };
 
   componentDidUpdate() {
@@ -95,9 +103,63 @@ class HistoryView extends React.Component {
     }
   }
 
-  onDrop = this.drop.bind(this);
+  onContextMenu = (ev) => {
+    ev.stopPropagation();
 
-  drop(ev) {
+    const {
+      openInspector,
+      mainMenu,
+      isInspectorOpened,
+      inspectorEpId,
+      entryPoints,
+    } = this.props;
+
+    console.log(entryPoints);
+
+    const separator = { type: 'separator' };
+
+    const inspectorMenu = {
+      label: 'Open in Inspector',
+      submenu: Object.keys(entryPoints).reduce((acc, epName) => {
+        const ep = entryPoints[epName];
+        const label = `${epName}`;
+        if (ep.error) {
+          return [
+            ...acc,
+            {
+              label,
+              enabled: false,
+            },
+          ];
+        }
+        const { id, dataId, field } = ep;
+        const opened = isInspectorOpened && (inspectorEpId === id);
+
+        if (!dataId) {
+          return acc;
+        }
+
+        return [
+          ...acc,
+          {
+            label,
+            type: 'checkbox',
+            click: () => openInspector({
+              epId: id,
+              dataId,
+              epName,
+              field,
+            }),
+            checked: opened,
+          },
+        ];
+      }, []),
+    };
+
+    handleContextMenu([inspectorMenu, separator, ...mainMenu]);
+  };
+
+  onDrop = (ev) => {
     const {
       addEntryPoint,
       openEditor,
@@ -115,7 +177,7 @@ class HistoryView extends React.Component {
     openEditor();
 
     ev.stopPropagation();
-  }
+  };
 
   _outlineStyle = style => ({
     ...style,
@@ -207,6 +269,7 @@ class HistoryView extends React.Component {
         <DroppableContainer
           className={styles.HistoryView}
           onDrop={this.onDrop}
+          onContextMenu={this.onContextMenu}
         >
           <VirtualizedTableViewContainer
             viewId={viewId}

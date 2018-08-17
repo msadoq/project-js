@@ -100,6 +100,7 @@ export default class MimicViewWrapper extends PureComponent {
         return;
       }
       const { id, dataId, field } = ep;
+
       const opened = isInspectorOpened && (inspectorEpId === id);
       inspectorMenu.submenu.push({
         label,

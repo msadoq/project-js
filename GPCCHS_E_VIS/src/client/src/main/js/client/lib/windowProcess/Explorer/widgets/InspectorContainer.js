@@ -94,9 +94,14 @@ const mapStateToProps = (state) => {
   const dataId = getInspectorDataId(state);
   const isDisplayingTM = getInspectorDisplayingTM(state);
   const staticDataLoading = false; // we assume that metadata is loaded when the view opens
-  const dynamicData = (viewType && viewId && epName)
-    ? getDataSelectors(viewType).getLastValue(state, { epName, viewId })
-    : null;
+
+  const dataSelectors = viewType && getDataSelectors(viewType);
+  const getLastValue =
+    (dataSelectors && viewId && epName) &&
+    typeof dataSelectors.getLastValue === 'function' &&
+    dataSelectors.getLastValue;
+
+  const dynamicData = getLastValue && (getLastValue(state, { epName, viewId }) || null);
 
   let staticData = null;
 

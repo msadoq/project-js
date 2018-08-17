@@ -64,7 +64,7 @@ export default class SamplingButton extends PureComponent {
             enabled={this.props.sampling.samplingLock ? 'enabled' : 'disabled'}
             onClick={this.toggleButton}
           >
-            Sampling {this.props.sampling.samplingStatus}
+            Sampling is {this.props.sampling.samplingStatus}
           </button>
         </div>
       </div>

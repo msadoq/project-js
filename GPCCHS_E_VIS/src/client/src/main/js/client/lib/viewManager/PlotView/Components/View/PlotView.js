@@ -205,14 +205,7 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
     // const max = 140;
     return yAxes.push({
       id: axis.id,
-      extents:
-        axis.autoLimits === true ?
-          [min, max]
-          :
-        [
-          min < axis.min ? min : axis.min,
-          max > axis.max ? max : axis.max,
-        ],
+      extents: axis.autoLimits === true ? [min, max] : [axis.min, axis.max],
       orient: 'top',
       format: '.3f',
       showAxis: axis.showAxis === true,

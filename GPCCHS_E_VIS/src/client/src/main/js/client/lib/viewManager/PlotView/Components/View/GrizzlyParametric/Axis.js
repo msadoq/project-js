@@ -11,7 +11,7 @@ export default class Axis extends Component {
   static propTypes = {
     direction: PropTypes.oneOf(['horizontal', 'vertical']).isRequired,
     lines: PropTypes.arrayOf(lineType.isRequired).isRequired,
-    // showLabels: bool,
+    showLabels: PropTypes.bool,
     label: PropTypes.string.isRequired,
     height: PropTypes.number.isRequired,
     xAxisHeight: PropTypes.number.isRequired,
@@ -33,7 +33,7 @@ export default class Axis extends Component {
     direction: 'horizontal',
     yAxesAt: 'left',
     xAxesAt: 'bottom',
-    // showLabels: false,
+    showLabels: false,
     showGrid: true,
     labelStyle: {
       color: '#333333',
@@ -51,7 +51,7 @@ export default class Axis extends Component {
     const {
       direction,
       lines,
-      // showLabels,
+      showLabels,
       label,
       height,
       xAxisHeight,
@@ -153,7 +153,7 @@ export default class Axis extends Component {
                   'label',
                   line.highlighted ? styles.highlighted : '',
                   lineLabel,
-                  { hidden: _.isEmpty(line.data) || !line.displayLine }
+                  { hidden: !showLabels || (_.isEmpty(line.data) || !line.displayLine) }
                 )}
                 ref={memoizeAssignRef(line.id)}
               >

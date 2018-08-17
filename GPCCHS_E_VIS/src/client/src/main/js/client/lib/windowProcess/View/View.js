@@ -292,14 +292,20 @@ export default class View extends PureComponent {
         }}
         className={classnames('subdiv', styles.container, 'w100', !maximized && 'h100')}
         style={this.borderColorStyle(borderColor)}
-        onContextMenu={() => handleContextMenu(mainMenu)}
+        onContextMenu={(ev) => {
+          ev.stopPropagation();
+          handleContextMenu(mainMenu);
+        }}
       >
         <HeaderContainer
           viewId={viewId}
           pageId={pageId}
           collapseView={collapseView}
           saveView={save}
-          onContextMenu={() => handleContextMenu(mainMenu)}
+          onContextMenu={(ev) => {
+            ev.stopPropagation();
+            handleContextMenu(mainMenu);
+          }}
         />
         {!collapsed &&
         <div

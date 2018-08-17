@@ -1,3 +1,4 @@
+/* eslint-disable no-continue,no-restricted-syntax,no-loop-func */
 import _ from 'lodash/fp';
 
 import {
@@ -143,7 +144,6 @@ export const injectTabularData = (
   const filters = _.getOr({}, [DATA_STATE_KEY, 'filters'], tableState);
 
   let updatedData = _.getOr([], 'data', tableState);
-  let updatedKeep = _.getOr([], 'keep', tableState);
 
   if (!colName) {
     updatedData = [...updatedData, ...source];
@@ -151,33 +151,26 @@ export const injectTabularData = (
     const sortedSource = _sortData(source, colName);
     let insertIndex = 0;
 
-    sortedSource.forEach((el) => {
-      // eslint-disable-next-line prefer-const
-      [updatedData, insertIndex] =
-        _insertSortedBy((e => e[colName]), el, updatedData, insertIndex);
+    for (const el of sortedSource) {
+      if (typeof el !== 'object') {
+        continue;
+      }
 
-      if (afterEach !== null) {
+      if (colName in el) {
+        [updatedData, insertIndex] =
+          _insertSortedBy((e => e[colName]), el, updatedData, insertIndex);
+      } else {
+        insertIndex = updatedData.length;
+        updatedData = [...updatedData, el];
+      }
+
+      if (typeof afterEach === 'function') {
         afterEach(el, insertIndex);
       }
-
-      if (shouldKeepElement(el, filters)) {
-        let insertKeepIndexAt =
-          updatedKeep.findIndex(keepIndex => keepIndex === insertIndex);
-
-        if (insertKeepIndexAt === -1) {
-          insertKeepIndexAt = 0;
-        }
-
-        updatedKeep = [
-          ...updatedKeep.slice(0, insertKeepIndexAt),
-          insertIndex,
-          ...updatedKeep.slice(insertKeepIndexAt).map(i => i + 1),
-        ];
-      }
-    });
+    }
   }
 
-  updatedKeep = _getKeptIndexes(updatedData, filters);
+  const updatedKeep = _getKeptIndexes(updatedData, filters);
 
   tableState = {
     ...tableState,

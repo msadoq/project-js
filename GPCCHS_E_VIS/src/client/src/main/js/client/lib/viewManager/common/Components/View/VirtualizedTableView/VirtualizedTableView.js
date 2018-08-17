@@ -390,6 +390,14 @@ class VirtualizedTableView extends React.Component {
         };
       }
 
+      const formatText = (text) => {
+        if (typeof text === 'string') {
+          return text;
+        }
+
+        return JSON.stringify(text);
+      };
+
       return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
@@ -414,7 +422,7 @@ class VirtualizedTableView extends React.Component {
           {...defaultCellEventProps}
           title={content.info}
         >
-          <span>{content.value}</span>
+          <span>{formatText(content.value)}</span>
         </div>
       );
     };

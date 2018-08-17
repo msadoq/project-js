@@ -45,6 +45,7 @@ class VirtualizedTableView extends React.Component {
     searching: PropTypes.string,
     onResizeColumn: PropTypes.func.isRequired,
     estimatedColumnsSize: PropTypes.number.isRequired,
+    gridRef: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -611,6 +612,7 @@ class VirtualizedTableView extends React.Component {
                             <Grid
                               ref={(node) => {
                                 this.mainGrid = node;
+                                this.props.gridRef(node);
                               }}
                               cellRenderer={_bodyCellRenderer}
                               className={styles.BodyGrid}

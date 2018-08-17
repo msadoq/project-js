@@ -108,41 +108,11 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
           });
         }
 
-        let _last = _.getOr({}, 'last', state);
-
-        const _updateCurrent = (el, insertIndex) => {
-          const { epName, referenceTimestamp } = el;
-
-          const last = _.getOr(
-            0,
-            ['last', epName, 'referenceTimestamp'],
-            updatedState
-          );
-
-          const elementTime = new Date(referenceTimestamp).getTime();
-
-          if (
-            (last < lower || last > upper) || // previous last is outside range
-            (
-              (elementTime <= current) &&
-              (elementTime >= lower) &&
-              (elementTime >= last)
-            )
-          ) {
-            _last = _.set(
-              [epName, 'referenceTimestamp'],
-              elementTime,
-              _last
-            );
-          }
-        };
-
         updatedState =
           injectTabularData(
             updatedState,
             'history',
-            ranges,
-            _updateCurrent
+            ranges
           );
 
         const _updatedIndexes =
@@ -159,7 +129,6 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
             _.get('obsoleteEvents')
           );
 
-        updatedState = _.set('last', _last, updatedState);
         updatedState = _.set('indexes', _updatedIndexes, updatedState);
         updatedState = _.set('obsoleteEvents', _updatedObsoleteEvents, updatedState);
       }

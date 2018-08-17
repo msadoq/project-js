@@ -1,15 +1,19 @@
 import _ from 'lodash/fp';
 
 import {
+  WS_PAGE_OPENED,
   WS_VIEW_ADD_ENTRYPOINT,
   WS_VIEW_OPENED,
   WS_VIEW_UPDATE_ENTRYPOINT,
+  WS_WORKSPACE_OPENED,
+  WS_WINDOW_SET_IS_LOADED,
 } from '../../types';
 import { getConfigurationByViewId } from '../../../viewManager';
 import { askItemMetadata } from '../../actions/catalogs';
 import { getDomainId } from '../../reducers/domains';
 import { getSessionId, getSessionNameFromTimeline } from '../../reducers/sessions';
 import { get } from '../../../common/configurationManager';
+import { getViews } from '../../reducers/views';
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 
@@ -44,10 +48,30 @@ const onNeededMetadata = ({ dispatch, getState }) => next => (action) => {
     }
   };
 
-  if (action.type === WS_VIEW_OPENED) {
-    const { viewId } = action.payload;
+  const _askEntryPointsRelatedMetadataByViewId = (viewId) => {
     const conf = getConfigurationByViewId(state, { viewId });
     _askEntryPointsRelatedMetadata(_.getOr([], 'entryPoints', conf));
+  };
+
+  const _askAllEntryPointsMetadata = () => {
+    const views = getViews(state);
+
+    Object.keys(views).forEach((viewId) => {
+      _askEntryPointsRelatedMetadataByViewId(viewId);
+    });
+  };
+
+  if (
+    action.type === WS_WINDOW_SET_IS_LOADED ||
+    action.type === WS_WORKSPACE_OPENED ||
+    action.type === WS_PAGE_OPENED
+  ) {
+    _askAllEntryPointsMetadata();
+  }
+
+  if (action.type === WS_VIEW_OPENED) {
+    const { viewId } = action.payload;
+    _askEntryPointsRelatedMetadataByViewId(viewId);
   }
 
   if (

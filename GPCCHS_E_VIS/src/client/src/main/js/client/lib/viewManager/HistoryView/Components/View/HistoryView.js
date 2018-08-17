@@ -67,7 +67,7 @@ class HistoryView extends React.Component {
     viewId: PropTypes.string.isRequired,
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     openInspector: PropTypes.func.isRequired,
-    isInspectorOpened: PropTypes.bool.isRequired,
+    isInspectorOpened: PropTypes.bool,
     inspectorEpId: PropTypes.string,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
@@ -77,9 +77,9 @@ class HistoryView extends React.Component {
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
     isTimelineSelected: PropTypes.bool.isRequired,
     searchForThisView: PropTypes.bool.isRequired,
-    searching: PropTypes.string.isRequired,
+    searching: PropTypes.string,
     countBySearching: PropTypes.number.isRequired,
-    searchCount: PropTypes.objectOf(PropTypes.shape).isRequired,
+    searchCount: PropTypes.objectOf(PropTypes.shape),
     updateSearchCount: PropTypes.func.isRequired,
   };
 
@@ -87,6 +87,9 @@ class HistoryView extends React.Component {
     currentRowIndexes: [],
     last: {},
     inspectorEpId: null,
+    isInspectorOpened: false,
+    searching: '',
+    searchCount: 0,
   };
 
   componentDidUpdate() {
@@ -112,51 +115,105 @@ class HistoryView extends React.Component {
       isInspectorOpened,
       inspectorEpId,
       entryPoints,
+      last,
     } = this.props;
-
-    console.log(entryPoints);
 
     const separator = { type: 'separator' };
 
     const inspectorMenu = {
       label: 'Open in Inspector',
-      submenu: Object.keys(entryPoints).reduce((acc, epName) => {
-        const ep = entryPoints[epName];
-        const label = `${epName}`;
-        if (ep.error) {
+      submenu: Object.keys(entryPoints)
+        .reduce((acc, epName) => {
+          const ep = entryPoints[epName];
+          const label = `${epName}`;
+          if (ep.error) {
+            return [
+              ...acc,
+              {
+                label,
+                enabled: false,
+              },
+            ];
+          }
+          const { id, dataId, field } = ep;
+          const opened = isInspectorOpened && (inspectorEpId === id);
+
+          if (!dataId) {
+            return acc;
+          }
+
           return [
             ...acc,
             {
               label,
-              enabled: false,
+              type: 'checkbox',
+              click: () => openInspector({
+                epId: id,
+                dataId,
+                epName,
+                field,
+              }),
+              checked: opened,
             },
           ];
-        }
-        const { id, dataId, field } = ep;
-        const opened = isInspectorOpened && (inspectorEpId === id);
-
-        if (!dataId) {
-          return acc;
-        }
-
-        return [
-          ...acc,
-          {
-            label,
-            type: 'checkbox',
-            click: () => openInspector({
-              epId: id,
-              dataId,
-              epName,
-              field,
-            }),
-            checked: opened,
-          },
-        ];
-      }, []),
+        }, []),
     };
 
-    handleContextMenu([inspectorMenu, separator, ...mainMenu]);
+    const scrollToCurrentMenu = {
+      label: 'Scroll to current',
+      submenu: Object.keys(entryPoints)
+        .reduce((acc, epName) => {
+          const ep = entryPoints[epName];
+          const label = `${epName}`;
+          if (ep.error) {
+            return [
+              ...acc,
+              {
+                label,
+                enabled: false,
+              },
+            ];
+          }
+          const { id, dataId } = ep;
+          const opened = isInspectorOpened && (inspectorEpId === id);
+
+          if (!dataId) {
+            return acc;
+          }
+
+          return [
+            ...acc,
+            {
+              label,
+              click: () => {
+                const { table } = this;
+
+                if (table) {
+                  const rowIndexToScrollTo = _.get([epName, 'index'], last);
+
+                  if (rowIndexToScrollTo) {
+                    table.scrollToCell({
+                      columnIndex: 0,
+                      rowIndex: rowIndexToScrollTo,
+                    });
+                  }
+                }
+              },
+              checked: opened,
+            },
+          ];
+        }, []),
+    };
+
+    handleContextMenu(
+      [
+        inspectorMenu,
+        separator,
+        scrollToCurrentMenu,
+        separator,
+        ...mainMenu,
+      ]
+    );
   };
 
   onDrop = (ev) => {
@@ -238,7 +295,8 @@ class HistoryView extends React.Component {
 
       // adds unit to convertedValue cell
       const convertedValue = cellContent.value || '';
-      const convertedValueWithUnit = `${convertedValue} (${metadata.unit})`;
+      const convertedValueWithUnit =
+        `${convertedValue} ${(metadata.unit && `(${metadata.unit})`) || ''}`;
 
       return _.set(
         'value',
@@ -272,6 +330,9 @@ class HistoryView extends React.Component {
           onContextMenu={this.onContextMenu}
         >
           <VirtualizedTableViewContainer
+            gridRef={(node) => {
+              this.table = node;
+            }}
             viewId={viewId}
             tableId={'history'}
             contentModifier={_contentModifier}

@@ -32,7 +32,48 @@ import {
   mapTabularData,
   DATA_STATE_KEY, removeTabularData,
 } from '../../commonData/reducer';
+import { getVisuWindowByViewId } from '../../../store/selectors/views';
 
+
+const _updateCurrent = (state, { visuWindow }) => {
+  const { current } = visuWindow;
+
+  const data = _.getOr([], ['tables', 'history', 'data'], state);
+
+  const updatedLast = data.reduce((acc, cur, index) => {
+    if (!cur) {
+      return acc;
+    }
+
+    const { epName, referenceTimestamp } = cur;
+
+    const currentTime = new Date(referenceTimestamp).getTime();
+
+    const lastTimeBeforeCurrent = _.get([epName, 'referenceTimestamp'], acc);
+
+    if (
+      !lastTimeBeforeCurrent ||
+      lastTimeBeforeCurrent > current ||
+      (
+        currentTime > lastTimeBeforeCurrent &&
+        currentTime < current
+      )
+    ) {
+      return _.set(
+        epName,
+        {
+          referenceTimestamp: currentTime,
+          index,
+        },
+        acc
+      );
+    }
+
+    return acc;
+  }, _.getOr({}, 'last', state));
+
+  return _.set('last', updatedLast, state);
+};
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 const scopedHistoryDataReducer = (state = {}, action, viewId) => {
@@ -67,10 +108,15 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
         updatedState =
           viewRangeAdd(updatedState, viewId, epSubState, historyConfig, visuWindow);
       }
+
+      if (visuWindow) {
+        updatedState = _updateCurrent(updatedState, { visuWindow });
+      }
+
       return updatedState;
     }
     case WS_VIEWDATA_CLEAN: {
-      const { previousDataMap, dataMap, configuration } = action.payload;
+      const { previousDataMap, dataMap, configuration, state: globalState } = action.payload;
       let updatedState = state;
       updatedState = cleanCurrentViewData(
         updatedState,
@@ -80,7 +126,10 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
         dataMap.expectedRangeIntervals,
         configuration.HistoryViewConfiguration[viewId]
       );
-      return updatedState;
+
+      const visuWindow = getVisuWindowByViewId(globalState, { viewId });
+
+      return _updateCurrent(updatedState, { visuWindow });
     }
     case INJECT_DATA_OBSOLETE_EVENT: {
       const {
@@ -126,36 +175,12 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
     }
     case WS_TIMEBAR_UPDATE_CURSORS: {
       const { visuWindow } = action.payload;
-      const { current } = visuWindow;
 
-      const data = _.getOr([], ['tables', 'history', 'data'], state);
+      if (visuWindow) {
+        return _updateCurrent(state, { visuWindow });
+      }
 
-      const updatedLast = data.reduce((acc, cur) => {
-        if (!cur) {
-          return acc;
-        }
-
-        const { epName, referenceTimestamp } = cur;
-
-        const currentTime = new Date(referenceTimestamp).getTime();
-
-        const lastTimeBeforeCurrent = _.get([epName, 'referenceTimestamp'], acc);
-
-        if (
-          !lastTimeBeforeCurrent ||
-          lastTimeBeforeCurrent > current ||
-          (
-            currentTime > lastTimeBeforeCurrent &&
-            currentTime < current
-          )
-        ) {
-          return _.set([epName, 'referenceTimestamp'], currentTime, acc);
-        }
-
-        return acc;
-      }, _.getOr({}, 'last', state));
-
-      return _.set('last', updatedLast, state);
+      return state;
     }
     default:
       return state;

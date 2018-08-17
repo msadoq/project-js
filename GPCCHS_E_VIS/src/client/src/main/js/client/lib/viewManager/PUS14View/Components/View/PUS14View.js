@@ -10,14 +10,14 @@ import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 
 // PACKET FORWARDING
 const _packetForwardingStatusKeyList = [
-  'forwardingStatus',
+  'forwardingStatusTypeSubtype',
   'forwardingStatusRidSid',
 ];
 const packetForwardingOverrideStyle = tableOverrideStyle(_packetForwardingStatusKeyList);
 
 const packetForwardingTooltips = {
-  serviceSubType: { mode: 'lastUpdateModeTypeSubType', time: 'lastUpdateTimeSubscheduleId' },
-  forwardingStatus: { mode: 'lastUpdateModeFwdStatus', time: 'lastUpdateTimeFwdStatus' },
+  serviceSubType: { mode: 'lastUpdateModeTypeSubType', time: 'lastUpdateTimeTypeSubType' },
+  forwardingStatusTypeSubtype: { mode: 'lastUpdateModeFwdStatusTypeSubtype', time: 'lastUpdateTimeFwdStatusTypeSubtype' },
   rid: { mode: 'lastUpdateModeRid', time: 'lastUpdateTimeRid' },
   ridLabel: { mode: 'lastUpdateModeRid', time: 'lastUpdateTimeRid' },
   sid: { mode: 'lastUpdateModeSid', time: 'lastUpdateTimeSid' },
@@ -41,7 +41,7 @@ export default class PUS14View extends React.Component {
   static defaultProps = {
     data: {
       headers: [],
-      data: {},
+      tables: {},
     },
   };
 

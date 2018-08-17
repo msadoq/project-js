@@ -30,10 +30,10 @@ const mapStateToProps = (state, { viewId }) => {
         .map(packet => ({
           ...packet,
           status: statuses[String(_.getOr(200, 'status', packet))],
-          forwardingStatus: statuses[String(_.getOr(200, 'forwardingStatus', packet))],
+          forwardingStatusTypeSubtype: statuses[String(_.getOr(200, 'forwardingStatusTypeSubtype', packet))],
           forwardingStatusRidSid: statuses[String(_.getOr(200, 'forwardingStatusRidSid', packet))],
           lastUpdateModeTypeSubType: updateTypes[String(_.getOr(200, 'lastUpdateModeTypeSubType', packet))],
-          lastUpdateModeFwdStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeFwdStatus', packet))],
+          lastUpdateModeFwdStatusTypeSubType: updateTypes[String(_.getOr(200, 'lastUpdateModeFwdStatusTypeSubType', packet))],
           lastUpdateModeRid: updateTypes[String(_.getOr(200, 'lastUpdateModeRid', packet))],
           lastUpdateModeSid: updateTypes[String(_.getOr(200, 'lastUpdateModeSid', packet))],
           lastUpdateModeSubSamplingRatio: updateTypes[String(_.getOr(200, 'lastUpdateModeSubSamplingRatio', packet))],

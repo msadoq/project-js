@@ -59,7 +59,7 @@ export default class PUS11View extends React.Component {
     apids: [],
     data: {
       headers: [],
-      data: {},
+      tables: {},
     },
   };
 

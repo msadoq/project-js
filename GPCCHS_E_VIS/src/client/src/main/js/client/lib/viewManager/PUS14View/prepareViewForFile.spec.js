@@ -38,7 +38,7 @@ const props = {
           { label: 'AP Name', title: 'packetApidName', displayed: true }, // A afficher dans le tableau de packets
           { label: 'Type', title: 'serviceType', displayed: true }, // A afficher dans le tableau de packets
           { label: 'SubType', title: 'serviceSubType', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'Fwd Status (APID/T/ST)', title: 'forwardingStatus', displayed: true }, // A afficher dans le tableau de packets
+          { label: 'Fwd Status (APID/T/ST)', title: 'forwardingStatusTypeSubtype', displayed: true }, // A afficher dans le tableau de packets
           { label: 'RID', title: 'rid', displayed: true }, // A afficher dans le tableau de packets
           { label: 'RID Label', title: 'ridLabel', displayed: true }, // A afficher dans le tableau de packets
           { label: 'SID', title: 'sid', displayed: true }, // A afficher dans le tableau de packets

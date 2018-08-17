@@ -3,27 +3,30 @@
   height: 100%;
   overflow: auto;
 
-  .header {
-	margin: 10px;
-	display: flex;
-	flex-direction: row;
-	align-items: flex-end;
-	justify-content: space-between;
-	.info {
-	  margin-top: 10px;
-	  display: flex;
-	  flex-direction: row;
-	  align-items: baseline;
-	  justify-content: flex-start;
-	  .mw50 {
-		max-width: 50px;
-	  }
-	  .mw100 {
-		max-width: 100px;
-	  }
-	  &.pusmme_ss { justify-content: center; }
-	  &.pusmme_as { justify-content: flex-end; }
-	}
+		.header {
+		margin: 10px;
+		display: flex;
+		flex-direction: row;
+		align-items: flex-end;
+		justify-content: space-between;
+		.info {
+			margin-top: 10px;
+			display: flex;
+			flex-direction: row;
+			align-items: baseline;
+			justify-content: flex-start;
+			.mw50 {
+			max-width: 50px;
+			}
+			.mw100 {
+			max-width: 100px;
+			}
+			&.pusmme_ss { justify-content: center; }
+			&.pusmme_as { justify-content: flex-end; }
+		}
+		.container {
+			height: 100%;
+		}
   }
 
   .renderErrorText {

@@ -25,7 +25,9 @@ const mapStateToProps = (state, { viewId }) => {
     }
 
     // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
-    data = injectTabularData(data, 'onBoardStorages',
+    data = injectTabularData(
+      data,
+      'onBoardStorages',
       _.getOr([], ['dataForTables', 'pus015PacketStore'], data)
         .map(store => ({
           ..._.omit(['pus015Packet'], store),
@@ -39,7 +41,9 @@ const mapStateToProps = (state, { viewId }) => {
         }))
     );
 
-    data = injectTabularData(data, 'storageDef',
+    data = injectTabularData(
+      data,
+      'storageDef',
       _.getOr([], ['dataForTables', 'pus015PacketStore'], data)
         .reduce((acc, store) => [...acc, ...store.pus015Packet], [])
         .map(packet => ({
@@ -60,19 +64,8 @@ const mapStateToProps = (state, { viewId }) => {
   };
 };
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...ownProps,
-  ...stateProps,
-  ...dispatchProps,
-});
+const PUS15ViewContainer = connect(mapStateToProps, null)(PUS15View);
 
-const PUS15ViewContainer =
-  connect(
-    mapStateToProps,
-    mergeProps
-  )(PUS15View);
+PUS15ViewContainer.propTypes = { viewId: PropTypes.string.isRequired };
 
-PUS15ViewContainer.propTypes = {
-  viewId: PropTypes.string.isRequired,
-};
 export default PUS15ViewContainer;

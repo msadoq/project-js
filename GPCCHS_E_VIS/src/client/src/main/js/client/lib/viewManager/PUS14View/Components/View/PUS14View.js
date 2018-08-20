@@ -67,7 +67,7 @@ export default class PUS14View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'packetForwarding'}
-                data={data.tables.pus014TmPacket.data}
+                data={data.tables.packetForwarding.data}
                 overrideStyle={packetForwardingOverrideStyle}
                 contentModifier={packetForwardingContentModifier}
               />
@@ -82,7 +82,7 @@ export default class PUS14View extends React.Component {
 
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
-;
+  ;
 
 export const renderInvald = error => (
   <div className="pus14 h100 posRelative">

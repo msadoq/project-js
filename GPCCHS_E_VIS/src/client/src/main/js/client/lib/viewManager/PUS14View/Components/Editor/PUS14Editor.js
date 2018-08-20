@@ -36,7 +36,7 @@ export default class PUS14Editor extends Component {
     configuration: PropTypes.shape({
       entryPoints: PropTypes.arrayOf(entryPointType),
       tables: PropTypes.shape({
-        pus014TmPacket: PropTypes.shape({
+        packetForwarding: PropTypes.shape({
           cols: PropTypes.arrayOf(TableConfigurationColumnType).isRequired,
         }).isRequired,
       }).isRequired,

@@ -49,7 +49,7 @@ export default class PUS15View extends React.Component {
   static defaultProps = {
     data: {
       headers: [],
-      data: {},
+      tables: {},
     },
   };
 

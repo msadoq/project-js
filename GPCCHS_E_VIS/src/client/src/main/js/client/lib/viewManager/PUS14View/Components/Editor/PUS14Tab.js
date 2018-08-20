@@ -44,7 +44,7 @@ export default class PUS14Tab extends React.Component {
               panels['pus14-tm-packets-panel'] &&
               <TableColumnsEditorContainer
                 viewId={viewId}
-                tableId={'pus014TmPacket'}
+                tableId={'packetForwarding'}
               />
             }
           </Panel>

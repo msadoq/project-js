@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
-import { PUS_SERVICE_14 } from 'constants';
 import parameters from 'common/configurationManager';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
+import { PUS_SERVICE_14 } from 'constants';
 import PUS14View from './PUS14View';
 import { injectTabularData } from '../../../commonData/reducer';
 import { getWindowIdByViewId } from '../../../../store/selectors/windows';
@@ -25,7 +25,7 @@ const mapStateToProps = (state, { viewId }) => {
 
     data = injectTabularData(
       data,
-      'pus014TmPacket',
+      'packetForwarding',
       _.getOr([], ['dataForTables', 'pus014TmPacket'], data)
         .map(packet => ({
           ...packet,

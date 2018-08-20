@@ -10,10 +10,6 @@ import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 import { injectTabularData } from '../../../commonData/reducer';
 import parameters from '../../../../common/configurationManager';
 
-const groundStatuses = parameters.get('PUS_CONSTANTS').COMMAND_GROUND_STATUS;
-const statuses = parameters.get('PUS_CONSTANTS').STATUS;
-const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
-
 const formatBinaryProfile = binaryProfile => (
   binaryProfile.length === 0
     ? []
@@ -21,6 +17,10 @@ const formatBinaryProfile = binaryProfile => (
 );
 
 const updatesConstantsAndTables = (pusData) => {
+  const statuses = parameters.get('PUS_CONSTANTS').STATUS;
+  const groundStatuses = parameters.get('PUS_CONSTANTS').COMMAND_GROUND_STATUS;
+  const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
+
   let data = pusData;
   for (let i = 0; i < data.headers.length; i += 1) {
     data.headers[i].scheduleStatus = statuses[_.getOr(200, 'scheduleStatus', data.headers[i])];

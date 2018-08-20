@@ -7,7 +7,7 @@ const propsStub = {
   pageId: 'pageId',
   configuration: {
     tables: {
-      pus014TmPacket: {
+      packetForwarding: {
         cols: [],
       },
     },

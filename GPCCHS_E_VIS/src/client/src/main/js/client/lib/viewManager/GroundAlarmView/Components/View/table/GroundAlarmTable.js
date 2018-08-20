@@ -11,21 +11,6 @@ import styles from './GroundAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 
-const COLS = [
-  'timestamp',
-  'parameterName',
-  'parameterType',
-  'firstOccurence',
-  'alarmType',
-  'lastOccurence',
-  'duration',
-  'rawValue',
-  'physicalValue',
-  'satellite',
-  'telemetryType',
-  'ackState',
-];
-
 const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'rawValue', 'monitoringState'];
 
 const initialState = {
@@ -66,6 +51,10 @@ class GroundAlarmTable extends React.Component {
     collapse: PropTypes.func.isRequired,
     uncollapse: PropTypes.func.isRequired,
     isPlayingTimebar: PropTypes.bool.isRequired,
+    columns: PropTypes.arrayOf(PropTypes.shape({
+      displayed: PropTypes.bool.isRequired,
+      title: PropTypes.string.isRequired,
+    })).isRequired,
   }
 
   static defaultProps = {
@@ -143,7 +132,10 @@ class GroundAlarmTable extends React.Component {
   }
 
   render() {
-    const { selectedAlarms, expandedAlarms } = this.props;
+    const { selectedAlarms, expandedAlarms, columns } = this.props;
+    const columnsTitles = columns
+      .filter(item => item.displayed)
+      .map(item => item.title);
     const style = {
       height: this.props.containerHeight,
       width: this.props.containerWidth,
@@ -160,7 +152,7 @@ class GroundAlarmTable extends React.Component {
             onSearch={this.props.inputSearch}
             enableSearch={this.props.enableSearch}
             onClickSearchIcon={this.props.inputToggle}
-            cols={COLS}
+            cols={columnsTitles}
             subCols={TRANSITION_COLS}
             sort={this.props.sort}
             toggleSort={this.props.toggleSort}

@@ -15,7 +15,7 @@ import {
   inputResetAll,
   inputToggle,
 } from 'viewManager/GroundAlarmView/store/actions';
-import { getAlarmDomain, getAlarmTimeline, getAlarmMode, getSearch, getEnableSearch } from 'viewManager/GroundAlarmView/store/configurationReducer';
+import { getAlarmDomain, getAlarmTimeline, getAlarmMode, getSearch, getEnableSearch, getColumns } from 'viewManager/GroundAlarmView/store/configurationReducer';
 import GroundAlarmTable from './GroundAlarmTable';
 
 const mapStateToProps = createStructuredSelector({
@@ -31,6 +31,7 @@ const mapStateToProps = createStructuredSelector({
   isPlayingTimebar: getIsPlaying,
   search: getSearch,
   enableSearch: getEnableSearch,
+  columns: getColumns,
 });
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({

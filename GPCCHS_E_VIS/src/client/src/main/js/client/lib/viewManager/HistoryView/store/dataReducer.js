@@ -35,7 +35,12 @@ import {
 import { getVisuWindowByViewId } from '../../../store/selectors/views';
 
 
-const _updateCurrent = (state, { visuWindow }) => {
+const _refreshCurrent = (state, { visuWindow, action }) => {
+  if (!visuWindow) {
+    console.log('WARNING: received empty visuWindow in ', action.type);
+    return state;
+  }
+
   const { current } = visuWindow;
 
   const data = _.getOr([], ['tables', 'history', 'data'], state);
@@ -70,7 +75,7 @@ const _updateCurrent = (state, { visuWindow }) => {
     }
 
     return acc;
-  }, _.getOr({}, 'last', state));
+  }, {});
 
   return _.set('last', updatedLast, state);
 };
@@ -110,7 +115,7 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
       }
 
       if (visuWindow) {
-        updatedState = _updateCurrent(updatedState, { visuWindow });
+        updatedState = _refreshCurrent(updatedState, { visuWindow, action });
       }
 
       return updatedState;
@@ -129,7 +134,7 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
 
       const visuWindow = getVisuWindowByViewId(globalState, { viewId });
 
-      return _updateCurrent(updatedState, { visuWindow });
+      return _refreshCurrent(updatedState, { visuWindow, action });
     }
     case INJECT_DATA_OBSOLETE_EVENT: {
       const {
@@ -176,8 +181,13 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
     case WS_TIMEBAR_UPDATE_CURSORS: {
       const { visuWindow } = action.payload;
 
+      if (!visuWindow) {
+        console.log(action.type);
+        console.log('### WARNING: received empty visuWindow');
+      }
+
       if (visuWindow) {
-        return _updateCurrent(state, { visuWindow });
+        return _refreshCurrent(state, { visuWindow, action });
       }
 
       return state;

@@ -191,9 +191,14 @@ class HistoryView extends React.Component {
                 if (table) {
                   const rowIndexToScrollTo = _.get([epName, 'index'], last);
 
+                  // dispatch ask scroll to current to force refresh current element
+
                   if (rowIndexToScrollTo) {
                     table.scrollToCell({
-                      columnIndex: 0,
+                      rowIndex: Number.MAX_SAFE_INTEGER,
+                    });
+
+                    table.scrollToCell({
                       rowIndex: rowIndexToScrollTo,
                     });
                   }

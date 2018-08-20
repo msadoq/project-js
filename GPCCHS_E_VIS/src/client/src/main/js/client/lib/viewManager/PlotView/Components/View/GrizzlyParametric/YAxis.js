@@ -26,11 +26,14 @@ import { select } from 'd3-selection';
 import { range } from 'd3-array';
 import { format as d3Format } from 'd3-format';
 import { axisLeft, axisRight } from 'd3-axis';
+import { timeFormat } from 'd3-time-format';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import { levelsRules, getZoomLevel } from 'windowProcess/common/timeFormats';
 
 import styles from './GrizzlyChart.css';
 import Axis from './Axis';
 import { lineType, labelStyleType } from './types';
+
 
 export default class YAxis extends Component {
   static propTypes = {
@@ -326,6 +329,14 @@ export default class YAxis extends Component {
   memoizeAssignRef = _memoize(lineId =>
     (el) => { this[`label-${lineId}-el`] = el; }
   );
+
+  memoizeTickFormat= _memoize(
+    (ms) => {
+      const zoomLevel = getZoomLevel(ms);
+      const levelRule = levelsRules[zoomLevel];
+      return timeFormat(levelRule.formatD3);
+    }
+  )
 
   render() {
     const {

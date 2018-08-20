@@ -222,7 +222,7 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
       labelStyle: axis.style,
       logarithmic: axis.logarithmic,
       logSettings: axis.logSettings,
-      formatAsDate: false,
+      formatAsDate: axis.formatAsDate,
     });
   });
 
@@ -288,7 +288,7 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
       labelStyle: axis.style,
       logarithmic: axis.logarithmic,
       logSettings: axis.logSettings,
-      formatAsDate: false,
+      formatAsDate: axis.formatAsDate,
     });
   });
   return { xAxes, yAxes };

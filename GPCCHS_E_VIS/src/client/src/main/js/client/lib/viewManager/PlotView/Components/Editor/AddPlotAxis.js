@@ -274,6 +274,12 @@ class AddPlotAxis extends PureComponent {
             component={ButtonToggleField}
           />
         </HorizontalFormGroup>
+        <HorizontalFormGroup label="Format as date">
+          <Field
+            name="formatAsDate"
+            component={ButtonToggleField}
+          />
+        </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Auto Limit">
           <Field

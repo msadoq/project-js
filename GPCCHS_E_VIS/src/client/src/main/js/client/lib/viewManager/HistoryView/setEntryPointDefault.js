@@ -4,6 +4,21 @@
 // END-HISTORY
 // ====================================================================
 
-import _ from 'lodash/fp';
+import { get } from 'common/configurationManager';
+import { applyDefaultValues } from 'utils/views';
 
-export default _.identity;
+export default function (entryPoint) {
+  return applyDefaultValues(entryPoint, getNewHistoryEntryPoint());
+}
+
+const getNewHistoryEntryPoint = () => ({
+  name: 'historyEP',
+  connectedData: {
+    formula: '',
+    filter: [],
+    domain: get('WILDCARD_CHARACTER'),
+    timeline: get('WILDCARD_CHARACTER'),
+    provider: get('WILDCARD_CHARACTER'),
+  },
+  stateColors: [],
+});

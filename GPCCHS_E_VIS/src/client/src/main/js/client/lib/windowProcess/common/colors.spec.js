@@ -607,6 +607,19 @@ describe('windowProcess', () => {
             'workspace'
           )).toEqual('#CCCCCC');
         });
+        test('returns default color when a domain has no associated color', () => {
+          const workspaceDomain = 'fr.cnes';
+          const pageDomain = ['*'];
+          const viewsDomains = ['*'];
+          const epDomains = ['*'];
+          expect(getColorWithDomainDetermination(
+            workspaceDomain,
+            pageDomain,
+            viewsDomains,
+            epDomains,
+            'workspace'
+          )).toEqual('#CCCCCC');
+        });
       });
     });
   });

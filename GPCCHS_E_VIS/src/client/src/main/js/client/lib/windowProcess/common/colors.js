@@ -133,7 +133,11 @@ export const getColorWithDomainDetermination =
       domainDeterminationForColor(workspaceDomain, pagesDomains, viewsDomains, EpsDomains, from);
     if (domain) {
       const colorObject = Domainscolors.find(obj => Object.keys(obj)[0] === domain);
-      color = colorObject[domain];
+      if (colorObject === undefined) {
+        color = Domainscolors.find(obj => Object.keys(obj)[0] === 'unresolved').unresolved;
+      } else {
+        color = colorObject[domain];
+      }
     }
     return color;
   };

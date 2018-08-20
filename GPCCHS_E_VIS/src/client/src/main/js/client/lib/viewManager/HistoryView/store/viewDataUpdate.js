@@ -72,7 +72,6 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
     .forEach(
       (ep) => {
         const obsoleteEvents = _.getOr([], ['obsoleteEvents', ep], updatedState);
-        const lastRangeIndexesFromState = _.getOr([], ['indexes', ep], updatedState);
         const timestamps = Object.keys(payloads[ep]).sort((a, b) => a - b);
         let lastObsoleteEventIndex = 0;
         const ranges = [];
@@ -115,10 +114,14 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWi
             ranges
           );
 
+        // get indexes from history table
+        // it must be link to data to avoid errors
+        const indexes = updatedState.tables.history.data.map(range => range.masterTime);
+
         const _updatedIndexes =
           _.set(
             ep,
-            [...lastRangeIndexesFromState, ...timestamps],
+            indexes,
             _.get('indexes', updatedState)
           );
 
@@ -165,13 +168,6 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
             lastRangeIndex
           );
           if (isDataObsolete) {
-            const data = _.get(['tables', 'history', 'data'], updatedState);
-
-            // TODO @jmira : make sure lastRangeIndex is inside the data range
-            if (lastRangeIndex > data.length - 1) {
-              continue;
-            }
-
             updatedState = _.set(['tables', 'history', 'data', lastRangeIndex, 'isDataObsolete'], isDataObsolete, updatedState);
             const currentValue = _.getOr([], ['tables', 'history', 'data', lastRangeIndex], updatedState);
             const { color } = getStateColorObj(

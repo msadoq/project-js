@@ -137,6 +137,28 @@ class VirtualizedTableView extends React.Component {
     });
   }
 
+  scrollToRow(rowIndex) {
+    if (this.mainGrid) {
+      const { rowCount } = this.props;
+
+      let rowIndexToScrollTo = 0;
+
+      if (rowIndex > rowCount) {
+        rowIndexToScrollTo = rowIndex;
+      } else {
+        const sortingDirection = _.get('direction', this.props.sortState);
+
+        rowIndexToScrollTo =
+          !sortingDirection || sortingDirection === 'DESC' ?
+            rowIndex :
+            rowCount - rowIndex - 1;
+      }
+
+
+      this.mainGrid.scrollToCell({ rowIndex: rowIndexToScrollTo });
+    }
+  }
+
   render() {
     const {
       tableName,
@@ -613,7 +635,7 @@ class VirtualizedTableView extends React.Component {
                             <Grid
                               ref={(node) => {
                                 this.mainGrid = node;
-                                this.props.gridRef(node);
+                                this.props.gridRef(this);
                               }}
                               cellRenderer={_bodyCellRenderer}
                               className={styles.BodyGrid}

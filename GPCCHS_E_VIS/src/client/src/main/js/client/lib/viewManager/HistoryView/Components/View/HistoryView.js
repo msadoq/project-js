@@ -198,16 +198,9 @@ class HistoryView extends React.Component {
                 if (table) {
                   const rowIndexToScrollTo = _.get([epName, 'index'], last);
 
-                  // dispatch ask scroll to current to force refresh current element
-
                   if (rowIndexToScrollTo) {
-                    table.scrollToCell({
-                      rowIndex: Number.MAX_SAFE_INTEGER,
-                    });
-
-                    table.scrollToCell({
-                      rowIndex: rowIndexToScrollTo,
-                    });
+                    table.scrollToRow(Number.MAX_SAFE_INTEGER);
+                    table.scrollToRow(rowIndexToScrollTo);
                   }
                 }
               },
@@ -342,8 +335,8 @@ class HistoryView extends React.Component {
           onContextMenu={this.onContextMenu}
         >
           <VirtualizedTableViewContainer
-            gridRef={(node) => {
-              this.table = node;
+            gridRef={(table) => {
+              this.table = table;
             }}
             viewId={viewId}
             tableId={'history'}

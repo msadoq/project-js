@@ -45,7 +45,7 @@ class VirtualizedTableView extends React.Component {
     searching: PropTypes.string,
     onResizeColumn: PropTypes.func.isRequired,
     estimatedColumnsSize: PropTypes.number.isRequired,
-    gridRef: PropTypes.func.isRequired,
+    gridRef: PropTypes.func,
   };
 
   static defaultProps = {
@@ -65,6 +65,7 @@ class VirtualizedTableView extends React.Component {
     scrollPosition: null,
     searchForThisView: false,
     searching: null,
+    gridRef: () => {},
   };
 
   constructor(props, context) {

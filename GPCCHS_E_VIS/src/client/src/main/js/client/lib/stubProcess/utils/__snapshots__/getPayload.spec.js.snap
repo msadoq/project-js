@@ -1155,6 +1155,13 @@ Object {
 }
 `;
 
+exports[`getPayload getPayload :: StatAggregation undefined.undefined<StatAggregation> should be true 1`] = `
+Object {
+  "payload": undefined,
+  "timestamp": undefined,
+}
+`;
+
 exports[`getPayload getPayload :: StatValue .<StatValue> should be false 1`] = `
 Object {
   "payload": undefined,

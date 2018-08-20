@@ -186,7 +186,8 @@ const getPus05Payload = (timestamp, serviceApid, type) => {
       }),
     };
   }
-  const deltaType = predictibleRand.getFrom(['getPus005OnBoardEvent', 'getPus005ReceivedOnBoardEvent']);
+  // TODO @jrabreau
+  const deltaType = predictibleRand.getFrom(['getPus005OnBoardEvent'/* , 'getPus005ReceivedOnBoardEvent' */]);
   switch (deltaType) {
     case 'getPus005OnBoardEvent': {
       return {
@@ -382,22 +383,8 @@ const getPus11Payload = (timestamp, serviceApid, type, binaryProfile) => {
       }),
     };
   }
-  const deltaType = predictibleRand.getFrom(['pus011Apid', 'getPus011SubSchedule', 'getPus011Command']);
+  const deltaType = predictibleRand.getFrom(['getPus011SubSchedule', 'getPus011Command']);
   switch (deltaType) {
-    case 'pus011Apid': {
-      return {
-        dataType: constants.Pus011ApidType,
-        groundDate: timestamp,
-        payload: stubData.getPus011ApidProtobuf({
-          serviceApid,
-          status: getAStatus(),
-          lastUpdateModeApid: getAnUpdateMode(),
-          lastUpdateTimeApid: formatedTime,
-          uniqueId: predictibleRand.getInt([1, 2]),
-          apidName: predictibleRand.getFrom(['apidName1', 'apidName2', 'apidName3', 'apidName4']),
-        }),
-      };
-    }
     case 'getPus011SubSchedule': {
       return {
         dataType: constants.Pus011SubScheduleType,

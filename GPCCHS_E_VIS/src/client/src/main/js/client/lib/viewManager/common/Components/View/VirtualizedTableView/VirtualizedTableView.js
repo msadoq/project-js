@@ -46,6 +46,7 @@ class VirtualizedTableView extends React.Component {
     onResizeColumn: PropTypes.func.isRequired,
     estimatedColumnsSize: PropTypes.number.isRequired,
     gridRef: PropTypes.func,
+    virtualIndex: PropTypes.func,
   };
 
   static defaultProps = {
@@ -66,6 +67,7 @@ class VirtualizedTableView extends React.Component {
     searchForThisView: false,
     searching: null,
     gridRef: () => {},
+    virtualIndex: _.identity,
   };
 
   constructor(props, context) {
@@ -139,21 +141,20 @@ class VirtualizedTableView extends React.Component {
 
   scrollToRow(rowIndex) {
     if (this.mainGrid) {
-      const { rowCount } = this.props;
+      const { totalRowCount } = this.props;
 
-      let rowIndexToScrollTo = 0;
+      let rowIndexToScrollTo = rowIndex;
 
-      if (rowIndex > rowCount) {
+      if (rowIndex > totalRowCount) {
         rowIndexToScrollTo = rowIndex;
       } else {
-        const sortingDirection = _.get('direction', this.props.sortState);
+        const { virtualIndex } = this.props;
 
-        rowIndexToScrollTo =
-          !sortingDirection || sortingDirection === 'DESC' ?
-            rowIndex :
-            rowCount - rowIndex - 1;
+        if (typeof virtualIndex === 'function') {
+          rowIndexToScrollTo = virtualIndex(rowIndex);
+          console.log(rowIndexToScrollTo);
+        }
       }
-
 
       this.mainGrid.scrollToCell({ rowIndex: rowIndexToScrollTo });
     }

@@ -68,11 +68,28 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier, data }) => {
     const totalRowCount = tableData.length;
     const rowCount = keep.length;
 
+    const virtualIndex =
+      rowIndex =>
+        (
+          sortingDirection === 'DESC' ?
+            rowIndex :
+            rowCount - rowIndex - 1
+        );
+
+    const _invertedKeep = _.invert(keep);
+
+    /**
+     * Transforms absolute index into the virtual index that is used to display the content in
+     * virtualized tabel view
+     * @param rowIndex
+     * @returns {*}
+     */
+    const virtualIndexFromAbsoluteIndex =
+      rowIndex =>
+        virtualIndex(_invertedKeep[rowIndex]);
+
     const rows = ({ rowIndex, columnIndex, cols }) => {
-      const virtualRowIndex =
-        sortingDirection === 'DESC' ?
-          rowIndex :
-          rowCount - rowIndex - 1;
+      const virtualRowIndex = virtualIndex(rowIndex);
 
       const content =
         _.get(keep[virtualRowIndex], tableData);
@@ -97,6 +114,7 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier, data }) => {
       rows,
       rowCount,
       totalRowCount,
+      virtualIndex: virtualIndexFromAbsoluteIndex, // maps an absolute index to its virtual version
     };
   };
 

@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,react-perf/jsx-no-new-object-as-prop */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 10/04/2017 : prepare packet and history files
@@ -28,6 +28,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import _ from 'lodash/fp';
 
@@ -207,11 +208,11 @@ class HistoryView extends React.Component {
                 const { table } = this;
 
                 if (table) {
-                  const rowIndexToScrollTo = _.get([epName, 'index'], last);
+                  const absoluteRowIndexToScrollTo = _.get([epName, 'index'], last);
 
-                  if (rowIndexToScrollTo) {
+                  if (absoluteRowIndexToScrollTo) {
                     table.scrollToRow(Number.MAX_SAFE_INTEGER);
-                    table.scrollToRow(rowIndexToScrollTo);
+                    table.scrollToRow(absoluteRowIndexToScrollTo);
                   }
                 }
               },
@@ -285,7 +286,6 @@ class HistoryView extends React.Component {
       searching,
       searchForThisView,
       showLinks,
-      updateShowLinks,
       links,
     } = this.props;
 
@@ -376,7 +376,11 @@ class HistoryView extends React.Component {
               searchForThisView={searchForThisView}
             />
           </div>
-          <div className={styles.HistoryViewLinksContainer}>
+          <div
+            className={cn(styles.HistoryViewLinksContainer, {
+              [styles.remove]: links.length === 0,
+            })}
+          >
             <LinksContainer
               show={showLinks}
               toggleShowLinks={this.toggleShowLinks}

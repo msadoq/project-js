@@ -13,7 +13,11 @@
 }
 
 .HistoryViewLinksContainer {
-  height: 50px;
+  margin: 7px;
+}
+
+.HistoryViewLinksContainer.remove {
+  display: none;
 }
 
 .renderErrorText {

@@ -16,7 +16,11 @@ import _ from 'lodash/fp';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addEntryPoint, updateShowLinks } from 'store/actions/views';
+import {
+  addEntryPoint,
+  updateShowLinks,
+  removeLink,
+} from 'store/actions/views';
 
 import HistoryView from './HistoryView';
 import { getData } from '../../store/dataReducer';
@@ -117,7 +121,7 @@ const mapDispatchToProps = (dispatch, { viewId, pageId }) => ({
   updateSearchCount: (count) => {
     dispatch(updateSearchCount(pageId, viewId, count));
   },
-  ...bindActionCreators({ updateShowLinks }, dispatch),
+  ...bindActionCreators({ updateShowLinks, removeLink }, dispatch),
 });
 
 const HistoryViewContainer = connect(mapStateToProps, mapDispatchToProps)(HistoryView);

@@ -135,7 +135,14 @@ class HistoryView extends React.Component {
               },
             ];
           }
-          const { id, dataId, field } = ep;
+          const { id, dataId } = ep;
+
+          let { field } = ep;
+
+          if (!field) {
+            field = 'convertedValue';
+          }
+
           const opened = isInspectorOpened && (inspectorEpId === id);
 
           if (!dataId) {

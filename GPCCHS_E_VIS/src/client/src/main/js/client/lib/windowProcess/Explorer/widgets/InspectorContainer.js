@@ -101,7 +101,9 @@ const mapStateToProps = (state) => {
     typeof dataSelectors.getLastValue === 'function' &&
     dataSelectors.getLastValue;
 
-  const dynamicData = getLastValue && (getLastValue(state, { epName, viewId }) || null);
+  const dynamicData =
+    (typeof getLastValue === 'function') &&
+    (getLastValue(state, { epName, viewId }) || null);
 
   let staticData = null;
 

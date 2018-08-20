@@ -19,7 +19,6 @@
 // END-HISTORY
 // ====================================================================
 
-import _ from 'lodash/fp';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Panel } from 'react-bootstrap';
@@ -75,10 +74,6 @@ export default class Inspector extends PureComponent {
     staticDataLoading: false,
     dynamicData: null,
   };
-
-  shouldComponentUpdate(nextProps) {
-    return !_.isEqual(nextProps, this.props);
-  }
 
   onMouseDown = (event, node) => {
     const { dataId } = this.props;

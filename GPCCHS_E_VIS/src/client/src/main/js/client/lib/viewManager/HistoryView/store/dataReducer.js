@@ -182,8 +182,7 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
       const { visuWindow } = action.payload;
 
       if (!visuWindow) {
-        console.log(action.type);
-        console.log('### WARNING: received empty visuWindow');
+        return state;
       }
 
       if (visuWindow) {

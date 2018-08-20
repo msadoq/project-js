@@ -1,8 +1,19 @@
 
-.HistoryView {
+.HistoryView, .HistoryViewTableContainer, .HistoryViewLinksContainer {
   width: 100%;
+}
+
+.HistoryView {
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
+}
+
+.HistoryViewTableContainer {
+  height: 100%;
+}
+
+.HistoryViewLinksContainer {
+  height: 50px;
 }
 
 .renderErrorText {

@@ -39,6 +39,7 @@ import styles from './HistoryView.css';
 import { buildFormulaForAutocomplete } from '../../../common';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
+import LinksContainer from '../../../../windowProcess/View/LinksContainer';
 
 const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
 
@@ -65,6 +66,14 @@ function parseDragData(data) {
 class HistoryView extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    links: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    })),
+    removeLink: PropTypes.func.isRequired,
+    showLinks: PropTypes.bool,
+    updateShowLinks: PropTypes.func.isRequired,
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     openInspector: PropTypes.func.isRequired,
     isInspectorOpened: PropTypes.bool,
@@ -90,6 +99,8 @@ class HistoryView extends React.Component {
     isInspectorOpened: false,
     searching: '',
     searchCount: 0,
+    links: [],
+    showLinks: false,
   };
 
   componentDidUpdate() {
@@ -241,6 +252,18 @@ class HistoryView extends React.Component {
     ev.stopPropagation();
   };
 
+  removeLink = (e, index) => {
+    e.preventDefault();
+    const { removeLink, viewId } = this.props;
+    removeLink(viewId, index);
+  };
+
+  toggleShowLinks = (e) => {
+    e.preventDefault();
+    const { showLinks, updateShowLinks, viewId } = this.props;
+    updateShowLinks(viewId, !showLinks);
+  };
+
   _outlineStyle = style => ({
     ...style,
     borderTop: '2px solid green',
@@ -254,12 +277,16 @@ class HistoryView extends React.Component {
   render() {
     const {
       viewId,
+      pageId,
       last,
       scrollPosition,
       config,
       isTimelineSelected,
       searching,
       searchForThisView,
+      showLinks,
+      updateShowLinks,
+      links,
     } = this.props;
 
     const _setCurrent = (cellContent = {}, content = {}) => {
@@ -334,19 +361,31 @@ class HistoryView extends React.Component {
           onDrop={this.onDrop}
           onContextMenu={this.onContextMenu}
         >
-          <VirtualizedTableViewContainer
-            gridRef={(table) => {
-              this.table = table;
-            }}
-            viewId={viewId}
-            tableId={'history'}
-            contentModifier={_contentModifier}
-            overrideStyle={this._overrideStyle}
-            withGroups
-            scrollPosition={scrollPosition}
-            searching={searching}
-            searchForThisView={searchForThisView}
-          />
+          <div className={styles.HistoryViewTableContainer}>
+            <VirtualizedTableViewContainer
+              gridRef={(table) => {
+                this.table = table;
+              }}
+              viewId={viewId}
+              tableId={'history'}
+              contentModifier={_contentModifier}
+              overrideStyle={this._overrideStyle}
+              withGroups
+              scrollPosition={scrollPosition}
+              searching={searching}
+              searchForThisView={searchForThisView}
+            />
+          </div>
+          <div className={styles.HistoryViewLinksContainer}>
+            <LinksContainer
+              show={showLinks}
+              toggleShowLinks={this.toggleShowLinks}
+              links={links}
+              removeLink={this.removeLink}
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </div>
         </DroppableContainer>
       </ErrorBoundary>
     );

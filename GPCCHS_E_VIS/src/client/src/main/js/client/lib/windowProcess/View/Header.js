@@ -96,7 +96,6 @@ export default class Header extends PureComponent {
   getTitleStyle() {
     const {
       titleStyle,
-      isViewsEditorOpen,
     } = this.props;
     const style = {
       fontFamily: titleStyle.font ? titleStyle.font : null,
@@ -104,7 +103,7 @@ export default class Header extends PureComponent {
       textAlign: titleStyle.align ? titleStyle.align : null,
 
       color: titleStyle.color ? titleStyle.color : null,
-      fontWeight: isViewsEditorOpen ? 'bold' : 'normal',
+      fontWeight: 'normal',
       fontStyle: 'normal',
       textDecoration: 'none',
       paddingRight: '57px',

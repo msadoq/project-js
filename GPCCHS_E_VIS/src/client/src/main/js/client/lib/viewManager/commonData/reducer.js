@@ -2,7 +2,6 @@
 import _ from 'lodash/fp';
 
 import {
-  TEST_ASK_FAKE_DATA,
   WS_VIEW_ADD_BLANK,
   WS_VIEW_CHANGE_COL_FILTERS,
   WS_VIEW_TABLE_UPDATE_SORT,
@@ -308,37 +307,6 @@ const scopedCommonReducer = (dataState = {}, action) => {
         tableState,
         dataState
       );
-    }
-    case TEST_ASK_FAKE_DATA: {
-      const { tableId, format, length } = action.payload;
-
-      if (!dataState) {
-        return {};
-      }
-
-      let fakeData = [];
-
-      if (Array.isArray(format)) {
-        fakeData = format;
-      } else if (typeof format === 'object') {
-        fakeData = [...new Array(length)].map(
-          (e, index) => (
-            {
-              ...Object.keys(format).reduce(
-                (acc, cur, i) =>
-                  ({
-                    ...acc,
-                    [cur]: `${cur}-${i}-${format[cur]}`,
-                  }),
-                {}
-              ),
-              index,
-            }
-          )
-        );
-      }
-
-      return injectTabularData(dataState, tableId, fakeData);
     }
     default:
       return dataState;

@@ -547,7 +547,3 @@ export const INCOMING_PUS_RANGE_DATA = 'INCOMING_PUS_RANGE_DATA';
 export const NEW_PUS_DATA = 'NEW_PUS_DATA';
 export const INJECT_PUS_DATA = 'INJECT_PUS_DATA';
 export const SAVE_PUS_DATA = 'SAVE_PUS_DATA';
-
-// TESTS
-// @todo benjelloun still in use ?
-export const TEST_ASK_FAKE_DATA = 'TEST_ASK_FAKE_DATA';

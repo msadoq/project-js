@@ -40,7 +40,6 @@ class VirtualizedTableView extends React.Component {
     filterState: PropTypes.shape(),
     overrideStyle: PropTypes.func,
     tableHeader: PropTypes.func,
-    scrollPosition: PropTypes.shape(),
     searchForThisView: PropTypes.bool,
     searching: PropTypes.string,
     onResizeColumn: PropTypes.func.isRequired,
@@ -63,7 +62,6 @@ class VirtualizedTableView extends React.Component {
     filterState: {},
     overrideStyle: () => ({}),
     tableHeader: null,
-    scrollPosition: null,
     searchForThisView: false,
     searching: null,
     gridRef: () => {},
@@ -110,6 +108,7 @@ class VirtualizedTableView extends React.Component {
       });
 
       onFilter(colKey, newFilterValue);
+      this.scrollToTop();
     };
 
     return _.debounce(500, _deferredOnFilter);
@@ -152,11 +151,22 @@ class VirtualizedTableView extends React.Component {
 
         if (typeof virtualIndex === 'function') {
           rowIndexToScrollTo = virtualIndex(rowIndex);
-          console.log(rowIndexToScrollTo);
         }
       }
 
       this.mainGrid.scrollToCell({ rowIndex: rowIndexToScrollTo });
+    }
+  }
+
+  scrollToTop() {
+    if (this.mainGrid) {
+      this.mainGrid.scrollToCell({ rowIndex: 0 });
+    }
+  }
+
+  scrollToBottom() {
+    if (this.mainGrid) {
+      this.mainGrid.scrollToCell({ rowIndex: 0 });
     }
   }
 
@@ -183,7 +193,6 @@ class VirtualizedTableView extends React.Component {
       columnCount,
       estimatedColumnsSize,
       tableHeader,
-      scrollPosition,
       searching,
       searchForThisView,
       onResizeColumn,
@@ -289,6 +298,7 @@ class VirtualizedTableView extends React.Component {
                   selectedCell: null,
                 });
                 onSort(colKey, 'ASC');
+                this.scrollToTop();
               }}
             />
             <SortArrow
@@ -300,6 +310,7 @@ class VirtualizedTableView extends React.Component {
                   selectedCell: null,
                 });
                 onSort(colKey, 'DESC');
+                this.scrollToTop();
               }}
             />
             {_resizerTool(colKey, 44)}
@@ -555,15 +566,6 @@ class VirtualizedTableView extends React.Component {
                 adjustedHeight -= rowHeight;
               }
 
-              let scrollProps = {};
-
-              if (scrollPosition) {
-                scrollProps = {
-                  scrollTop: scrollPosition.scrollTop,
-                  scrollLeft: scrollPosition.scrollLeft,
-                };
-              }
-
               return (<div>
                 {header}
                 <ScrollSync className={styles.container}>
@@ -652,7 +654,6 @@ class VirtualizedTableView extends React.Component {
                               onScroll={onScroll}
                               overscanColumnCount={overscanColumnCount}
                               overscanRowCount={overscanRowCount}
-                              {...scrollProps}
                               onScrollbarPresenceChange={this._onScrollbarPresenceChange}
                             />
                           </div>

@@ -32,7 +32,6 @@ import {
 } from '../../../../store/reducers/catalogs';
 import { getDomainId } from '../../../../store/reducers/domains';
 import { getSessionByTimelineId } from '../../../../store/reducers/sessions';
-import { getTimelinesByViewId } from '../../../../store/selectors/timelines';
 import {
   getSearchCount,
   getSearchingByPage,
@@ -41,6 +40,7 @@ import {
 import { updateSearchCount } from '../../../../store/actions/pages';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { areLinksShown, getLinks } from '../../../../store/reducers/views';
+import { getIsTimelineSelected, getScrollPosition } from '../../store/configurationSelectors';
 
 
 const mapStateToProps = (state, { viewId, pageId }) => {
@@ -52,13 +52,8 @@ const mapStateToProps = (state, { viewId, pageId }) => {
   const searchViewsIds = getSearchViewsIds(state, { pageId });
   const searchCount = getSearchCount(state, { pageId });
   const countBySearching = getCountBySearching(state, { viewId, searching });
-
-  const scrollPosition =
-    _.getOr(
-      {},
-      ['tables', 'history', 'scrollPosition'],
-      config
-    );
+  const scrollPosition = getScrollPosition(state, { viewId });
+  const isTimelineSelected = getIsTimelineSelected(state, { viewId });
 
   config.entryPoints.forEach((ep, index) => {
     const { connectedData } = ep;
@@ -94,10 +89,6 @@ const mapStateToProps = (state, { viewId, pageId }) => {
       }
     }
   });
-
-  const timelines = getTimelinesByViewId(state, { viewId });
-
-  const isTimelineSelected = timelines.length > 0;
 
   return {
     config,

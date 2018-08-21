@@ -103,12 +103,6 @@ const _updateKeptIndexes = (tableState) => {
   );
 };
 
-const _resetScrollTop = tableState => _.set(
-  [DATA_STATE_KEY, 'scrollTop'],
-  0,
-  tableState
-);
-
 const _getTableState =
   (state, tableId) =>
     _.getOr(
@@ -284,8 +278,6 @@ const scopedCommonReducer = (dataState = {}, action) => {
 
       tableState = _updateKeptIndexes(tableState);
 
-      tableState = _resetScrollTop(tableState);
-
       return _.set(
         tablePath,
         tableState,
@@ -310,8 +302,6 @@ const scopedCommonReducer = (dataState = {}, action) => {
       );
 
       tableState = _updateKeptIndexes(tableState);
-
-      tableState = _resetScrollTop(tableState);
 
       return _.set(
         tablePath,

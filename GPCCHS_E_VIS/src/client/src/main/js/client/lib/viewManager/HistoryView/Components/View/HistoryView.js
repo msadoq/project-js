@@ -280,7 +280,6 @@ class HistoryView extends React.Component {
       viewId,
       pageId,
       last,
-      scrollPosition,
       config,
       isTimelineSelected,
       searching,
@@ -371,7 +370,6 @@ class HistoryView extends React.Component {
               contentModifier={_contentModifier}
               overrideStyle={this._overrideStyle}
               withGroups
-              scrollPosition={scrollPosition}
               searching={searching}
               searchForThisView={searchForThisView}
             />

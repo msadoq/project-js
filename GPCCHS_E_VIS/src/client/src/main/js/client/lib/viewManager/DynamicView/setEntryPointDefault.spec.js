@@ -10,6 +10,7 @@ describe('viewManager', () => {
           domain: get('WILDCARD_CHARACTER'),
           timeline: get('WILDCARD_CHARACTER'),
           formula: '',
+          provider: get('WILDCARD_CHARACTER'),
         },
         stateColors: [],
       });
@@ -22,6 +23,7 @@ describe('viewManager', () => {
           domain: 'Niobé',
           timeline: get('WILDCARD_CHARACTER'),
           formula: '',
+          provider: get('WILDCARD_CHARACTER'),
         },
         stateColors: [],
       });

@@ -33,7 +33,6 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
     const neededEvents = action.payload.neededObsoleteEventData;
     const tbdIds = Object.keys(neededEvents);
     for (let i = 0; i < tbdIds.length; i += 1) {
-      const tbdId = tbdIds[i];
       const { dataId, intervals } = neededEvents[tbdIds[i]];
       const flatObsoleteEventId = getFlattenDataIdForObsoleteEvent(dataId);
       // getObsoleteEventData
@@ -47,7 +46,8 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
       for (let k = 0; k < intervals.length; k += 1) {
         execution.start('get missing intervals');
         const missingIntervals = getMissingIntervals(getState(),
-          { tbdId,
+          {
+            tbdId: flatObsoleteEventId,
             queryInterval: intervals[k],
           });
         execution.stop('get missing intervals');

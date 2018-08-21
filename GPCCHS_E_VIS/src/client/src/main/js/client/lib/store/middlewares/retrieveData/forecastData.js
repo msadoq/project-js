@@ -18,13 +18,16 @@ import { getPlayingTimebarId } from 'store/reducers/hsc';
 import { getTimebar } from 'store/reducers/timebars';
 import dataMapGenerator from 'dataManager/map';
 import mergeIntervals from 'common/intervals/merge';
-import { sendArchiveQuery } from 'store/actions/knownRanges';
+import { sendArchiveQuery as knownRangesQuery } from 'store/actions/knownRanges';
+import { sendArchiveQuery as obsoleteQuery } from 'store/actions/ObsoleteEvents';
 import { add } from 'serverProcess/models/registeredArchiveQueriesSingleton';
 import { get, getFilters } from 'serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from 'common/logManager/execution';
-import { PREFIX_KNOWN_RANGES } from 'constants';
+import { PREFIX_KNOWN_RANGES, PREFIX_OBSOLETE_EVENTS } from 'constants';
+import flattenDataId, { getFlattenDataIdForObsoleteEvent } from '../../../common/flattenDataId';
 
-const type = PREFIX_KNOWN_RANGES;
+const knownRangesType = PREFIX_KNOWN_RANGES;
+const obsoleteType = PREFIX_OBSOLETE_EVENTS;
 let previousForecast;
 
 // playPressed is used to relaunch a forecast every time the play button is pressed
@@ -70,18 +73,40 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
             // TODO pgaucher dirty quickfix
             if (dataId) {
               const filters = getFilters(currentTbdId);
+              const flatObsoleteEventId = getFlattenDataIdForObsoleteEvent(dataId);
               const missingIntervals = getMissingIntervals(state,
                 { tbdId: currentTbdId,
                   queryInterval: mergedInterval[k],
                 });
               for (let l = 0; l < missingIntervals.length; l += 1) {
-                const queryId = ipc.dc.requestTimebasedQuery(currentTbdId,
+                const queryIdKnownRanges = ipc.dc.requestTimebasedQuery(currentTbdId,
                                                             dataId,
                                                             missingIntervals[l],
                                                             { filters });
-                add(queryId, currentTbdId, type, dataId);
+                add(queryIdKnownRanges, currentTbdId, knownRangesType, dataId);
+
+                // handle obsolete event for current tbdId
+                const dataIdLogBookEvent = {
+                  catalog: 'LogbookEventDefinition',
+                  parameterName: 'OBSOLETE_PARAMETER',
+                  comObject: 'LogbookEvent',
+                  domainId: dataId.domainId,
+                  domain: dataId.domain,
+                  sessionName: dataId.sessionName,
+                  sessionId: dataId.sessionId,
+                  provider: '',
+                };
+                const flatIdLogBookEvent = flattenDataId(dataIdLogBookEvent);
+                const queryIdObsolete = ipc.dc.requestTimebasedQuery(
+                  flatIdLogBookEvent,
+                  dataIdLogBookEvent,
+                  missingIntervals[k],
+                  {});
+                add(queryIdObsolete, flatIdLogBookEvent, obsoleteType, dataIdLogBookEvent);
               }
-              dispatch(sendArchiveQuery(currentTbdId, dataId, missingIntervals, filters));
+              dispatch(knownRangesQuery(currentTbdId, dataId, missingIntervals, filters));
+              // forecast for obsolete events
+              dispatch(obsoleteQuery(flatObsoleteEventId, dataId, mergedInterval));
             }
           }
         }

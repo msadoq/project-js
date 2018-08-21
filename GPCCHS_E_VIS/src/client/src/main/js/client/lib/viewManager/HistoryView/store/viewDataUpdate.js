@@ -1,4 +1,4 @@
-/* eslint-disable no-continue,no-unused-vars,arrow-body-style */
+/* eslint-disable no-continue,arrow-body-style */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #6127 : 12/09/2017 : Creation of history view data store
@@ -39,14 +39,13 @@ const logger = getLogger('data:rangeValues');
  * @param historyConfig
  * @param visuWindow
  */
-export function viewRangeAdd(state = {}, viewId, payloads, historyConfig, visuWindow = {}) {
+export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
   const epKeys = Object.keys(payloads || {});
   if (!epKeys.length) {
     return state;
   }
 
   let updatedState = _.cloneDeep(state);
-  const { current, lower, upper } = visuWindow;
 
   const epConnectedData = historyConfig.entryPoints.map(ep => ep.connectedData);
 

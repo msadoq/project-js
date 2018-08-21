@@ -163,7 +163,7 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
           const timestamp = parseInt(masterTimes[i], 10);
           const { isDataObsolete, lastComputedIndex } = rangesNeedUpdateForObsolete(
             timestamp,
-            updatedState.indexes[epName],
+            _.getOr([], ['indexes', epName], updatedState),
             lastRangeIndex
           );
           if (isDataObsolete) {

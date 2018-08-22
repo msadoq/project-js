@@ -29,6 +29,7 @@ export default class InputField extends React.Component {
     className: PropTypes.string,
     type: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
+    min: PropTypes.string,
     meta: PropTypes.shape({
       active: PropTypes.bool,
       asyncValidating: PropTypes.bool,
@@ -48,6 +49,7 @@ export default class InputField extends React.Component {
     placeholder: '',
     disabled: false,
     className: 'form-control input-sm',
+    min: '',
   };
 
   onChange = (e) => {
@@ -62,6 +64,7 @@ export default class InputField extends React.Component {
       type,
       className,
       disabled,
+      min,
       meta: {
         error,
         warning,
@@ -83,6 +86,7 @@ export default class InputField extends React.Component {
           placeholder={placeholder}
           type={type}
           disabled={disabled}
+          min={min}
         />
         {this.touched && error && <Alert bsStyle="danger" className="m0">
           {error}

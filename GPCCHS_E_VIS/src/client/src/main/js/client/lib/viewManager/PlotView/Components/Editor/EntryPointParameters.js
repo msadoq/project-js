@@ -109,6 +109,7 @@ class EntryPointParameters extends React.Component {
                 normalize={value => parseInt(value, 10)}
                 className="form-control input-sm"
                 type="number"
+                min="2"
               />
             </HorizontalFormGroup>
           }

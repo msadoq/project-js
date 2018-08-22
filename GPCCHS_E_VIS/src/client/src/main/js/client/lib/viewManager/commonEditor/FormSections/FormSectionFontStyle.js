@@ -64,6 +64,7 @@ export default class FormSectionFontStyle extends FormSection {
                   normalize={value => parseInt(value, 10)}
                   className="form-control input-sm"
                   type="number"
+                  min="7"
                 />
                 <Addon>px</Addon>
               </InputGroup>

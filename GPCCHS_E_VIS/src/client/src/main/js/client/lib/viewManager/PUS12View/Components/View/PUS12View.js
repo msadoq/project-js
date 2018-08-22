@@ -35,11 +35,7 @@ const tooltips = {
   valueH: { mode: 'lastUpdateModeValueH', time: 'lastUpdateTimeValueH' },
 };
 
-const _parameterMonitoringDefinitionsModifier =
-  tableModifier(tooltips);
-
-// const backgroundDisabled = { backgroundColor: '#e67e22' };
-// const backgroundEnabled = { backgroundColor: '#2ecc71' };
+const _parameterMonitoringDefinitionsModifier = tableModifier(tooltips);
 
 // PARAMETER MONITORING MODIFIER
 const statusKeyList = [
@@ -56,24 +52,18 @@ export default class PUS12View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS12ViewContainer mapStateToProps
-    serviceApid: PropTypes.number,
-    noOfParameterMonitoringDefinition: PropTypes.number,
-    serviceStatus: PropTypes.string,
-    lastUpdateModeServiceStatus: PropTypes.string,
-    lastUpdateTimeServiceStatus: PropTypes.string,
-    apids: PropTypes.arrayOf(PropTypes.shape({
-      apidName: PropTypes.string,
-      apidRawValue: PropTypes.string,
-    })),
+    data: PropTypes.shape({
+      headers: PropTypes.arrayOf(PropTypes.shape()),
+      tables: PropTypes.shape(),
+    }),
   };
 
   static defaultProps = {
-    serviceApid: null,
-    noOfParameterMonitoringDefinition: null,
-    serviceStatus: null,
-    lastUpdateModeServiceStatus: null,
-    lastUpdateTimeServiceStatus: null,
     apids: [],
+    data: {
+      headers: [],
+      tables: {},
+    },
   };
 
   static contextTypes = {
@@ -82,36 +72,37 @@ export default class PUS12View extends React.Component {
 
   render() {
     const {
-      serviceApid,
-      noOfParameterMonitoringDefinition,
-      serviceStatus,
-      lastUpdateModeServiceStatus,
-      lastUpdateTimeServiceStatus,
-      apids,
       viewId,
+      data,
     } = this.props;
 
-    if (!isValid(apids, serviceApid)) {
+    if (typeof data === 'object' && Object.keys(data).length === 0) {
       return renderInvald('Please fill-in configuration');
     }
 
+    const headers = data.headers.map(header =>
+      (
+        <div className="header">
+          {renderHeaders(
+            header.serviceApid,
+            header.serviceApidName,
+            header.serviceStatus,
+            header.lastUpdateModeServiceStatus,
+            header.lastUpdateTimeServiceStatus,
+            header.noOfParameterMonitoringDefinition
+          )}
+        </div>
+      ));
     return (
       <ErrorBoundary>
         <div className="pus12">
-          <div className="header">
-            {renderHeaders(
-              noOfParameterMonitoringDefinition,
-              serviceStatus,
-              lastUpdateModeServiceStatus,
-              lastUpdateTimeServiceStatus,
-              apids
-            )}
-          </div>
+          {headers}
           <div className="col-sm-12">
             <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'parameterMonitoringDefinitions'}
+                data={data.tables.parameterMonitoringDefinitions.data}
                 contentModifier={_parameterMonitoringDefinitionsModifier}
                 overrideStyle={_parameterMonitoringDefinitionsOverrideStyle}
               />
@@ -125,16 +116,18 @@ export default class PUS12View extends React.Component {
 
 
 export const renderHeaders = (
-  noOfParameterMonitoringDefinition,
+  serviceApid,
+  serviceApidName,
   serviceStatus,
   lastUpdateModeServiceStatus,
   lastUpdateTimeServiceStatus,
-  apids
+  noOfParameterMonitoringDefinition
 ) => (
   <ErrorBoundary>
     <div className="info col-sm-4 pus12_ap">
       Application Process&nbsp;
-      <input type="text" disabled value={apids[0].apidName} />&nbsp;
+      <input type="text" disabled value={serviceApidName} />&nbsp;
+      <input className="mw50" type="text" disabled value={serviceApid} />
     </div>
     <HeaderStatus
       status={serviceStatus}

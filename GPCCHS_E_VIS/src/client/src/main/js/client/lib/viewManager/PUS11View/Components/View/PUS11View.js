@@ -56,7 +56,6 @@ export default class PUS11View extends React.Component {
   };
 
   static defaultProps = {
-    apids: [],
     data: {
       headers: [],
       tables: {},
@@ -84,17 +83,17 @@ export default class PUS11View extends React.Component {
         <div className="header">
           {renderHeaders(
             header.serviceApid,
-            header.spaceInNumberOfCommands,
+            header.serviceApidName,
             header.scheduleStatus,
             header.lastUpdateTimeScheduleStatus,
             header.lastUpdateModeScheduleStatus,
+            header.spaceInNumberOfCommands,
             header.noFreeCommands,
             header.lastUpdateTimeNoFreeCommands,
             header.lastUpdateModeNoFreeCommands,
             header.freeSpace,
             header.lastUpdateTimeFreeSpace,
-            header.lastUpdateModeFreeSpace,
-            header.serviceApidName
+            header.lastUpdateModeFreeSpace
           )}
         </div>
       ));

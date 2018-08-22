@@ -67,23 +67,9 @@ export default class PUS15View extends React.Component {
       return renderInvald('Please fill-in configuration');
     }
 
-    const headers = data.headers.map(header =>
-      (
-        <div className="header">
-          {renderHeaders(
-            header.serviceApid,
-            header.serviceApidName
-          )}
-        </div>
-      ));
-
-
     return (
       <ErrorBoundary>
         <div className="pus15">
-          <div className="header">
-            {headers}
-          </div>
           <div className="col-sm-12 h100">
             <div className="row tablesHeight">
               <VirtualizedTableViewContainer
@@ -108,19 +94,6 @@ export default class PUS15View extends React.Component {
     );
   }
 }
-
-export const renderHeaders = (
-  serviceApid,
-  serviceApidName
-) => (
-  <ErrorBoundary>
-    <div className="info col-sm-4 pus15_ap">
-      Application Process&nbsp;
-      <input type="text" disabled value={serviceApidName} />&nbsp;
-      <input className="mw50" type="text" disabled value={serviceApid} />
-    </div>
-  </ErrorBoundary>
-);
 
 export const renderInvald = error => (
   <div className="pus15 h100 posRelative">

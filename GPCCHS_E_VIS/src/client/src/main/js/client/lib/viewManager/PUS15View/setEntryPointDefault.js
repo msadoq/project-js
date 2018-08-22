@@ -10,7 +10,7 @@ const getNewPUS15EntryPoint = () => ({
   name: 'PUS15EP',
   id: v4(),
   connectedData: {
-    formula: 'PusGroundModelDefinition.Pus015Model<Pus015Model>', // fixed
+    formula: 'PusGroundModelDefinition.Pus015Model<Pus015Model>',
     domain: get('WILDCARD_CHARACTER'),
     session: get('WILDCARD_CHARACTER'),
     apidName: null,

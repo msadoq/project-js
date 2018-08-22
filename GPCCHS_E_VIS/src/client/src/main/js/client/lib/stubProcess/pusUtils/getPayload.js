@@ -4,7 +4,7 @@ const predictibleRand = require('../utils/predictibleRand');
 const moment = require('moment/moment');
 
 const getAnUpdateTime = timestamp =>
-  moment(new Date(timestamp)).format(constants.DATETIME_TILL_MS_FORMAT);
+  moment(new Date(timestamp)).format(constants.DATE_FORMAT_TAI);
 const stubData = stubs.getStubData();
 const getAtransfertType = () => predictibleRand.getInt([1, 2]);
 const getAFileMode = () => predictibleRand.getFrom(['1', '2']);
@@ -35,7 +35,7 @@ const getPus05Payload = (timestamp, serviceApid, type) => {
   const formatedTime = getAnUpdateTime(timestamp);
   if (type === 'model') {
     return {
-      dataType: constants.Pus05ModelType,
+      dataType: constants.Pus005ModelType,
       groundDate: timestamp,
       payload: stubData.getPus005ModelProtobuf({
         serviceApid,
@@ -206,7 +206,7 @@ const getPus05Payload = (timestamp, serviceApid, type) => {
     case 'getPus005ReceivedOnBoardEvent': {
       return {
         // constante manquante
-        dataType: constants.Pus005ReceivedOnBoardEvent,
+        dataType: constants.Pus005ReceivedOnBoardEventType,
         groundDate: timestamp,
         // connection à un OnBoardAlarm.proto de DC
         payload: {},

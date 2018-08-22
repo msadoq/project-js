@@ -31,16 +31,17 @@ export default class PUS05View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS05ViewContainer mapStateToProps
-    serviceApid: PropTypes.number,
-    apids: PropTypes.arrayOf(PropTypes.shape({
-      apidName: PropTypes.string,
-      apidRawValue: PropTypes.string,
-    })),
+    data: PropTypes.shape({
+      headers: PropTypes.arrayOf(PropTypes.shape()),
+      tables: PropTypes.shape(),
+    }),
   };
 
   static defaultProps = {
-    serviceApid: null,
-    apids: [],
+    data: {
+      headers: [],
+      tables: {},
+    },
   };
 
   static contextTypes = {
@@ -49,12 +50,11 @@ export default class PUS05View extends React.Component {
 
   render() {
     const {
-      serviceApid,
-      apids,
       viewId,
+      data,
     } = this.props;
 
-    if (!isValid(apids, serviceApid)) {
+    if (typeof data === 'object' && Object.keys(data).length === 0) {
       return renderInvald('Please fill-in configuration');
     }
 
@@ -66,6 +66,7 @@ export default class PUS05View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'onBoardEvents'}
+                data={data.tables.onBoardEvents.data}
                 overrideStyle={_onBoardEventsOverrideStyle}
                 contentModifier={_onBoardEventsContentModifier}
               />
@@ -76,6 +77,7 @@ export default class PUS05View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'received'}
+                data={data.tables.received.data}
               />
             </div>
           </div>

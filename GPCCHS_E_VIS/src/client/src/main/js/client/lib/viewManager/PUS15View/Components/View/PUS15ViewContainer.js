@@ -9,21 +9,15 @@ import parameters from '../../../../common/configurationManager';
 import { injectTabularData } from '../../../commonData/reducer';
 import { bindToBoolKey } from '../../../common/pus/utils';
 
-const pusService = PUS_SERVICE_15;
 
 const mapStateToProps = (state, { viewId }) => {
-  let data = getPUSViewData(state, { viewId, pusService });
+  let data = getPUSViewData(state, { viewId, PUS_SERVICE_15 });
+
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
   const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
-  if (typeof data === 'object' && Object.keys(data).length > 0) {
-    for (let i = 0; i < data.headers.length; i += 1) {
-      data.headers[i].status = statuses[_.getOr(200, 'status', data.headers[i])];
-      data.headers[i].serviceApid = _.getOr(null, 'serviceApid', data.headers[i]);
-      data.headers[i].serviceApidName = _.getOr(null, 'serviceApidName', data.headers[i]);
-      data.headers[i].uniqueId = _.getOr(null, 'uniqueId', data.headers[i]);
-    }
 
+  if (typeof data === 'object' && Object.keys(data).length > 0) {
     // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
     data = injectTabularData(
       data,

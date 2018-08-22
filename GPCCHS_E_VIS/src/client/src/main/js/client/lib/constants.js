@@ -384,6 +384,7 @@ module.exports = {
 
   // time format
   DATETIME_TILL_MS_FORMAT: 'DD/MM/YYYY HH:mm:ss.SSS',
+  DATE_FORMAT_TAI: 'YYYY-MM-DDTHH:mm:ss.SSS',
 
   // Input, output separators
   CSV_COLUMN_SEPARATOR: '; ',
@@ -434,7 +435,6 @@ module.exports = {
   PusMmePacketType: 26,
   Pus011ApidType: 27,
 
-  PUS015_PACKET_STORE: 'pus015PacketStore',
 
   // list of key for deltas
   PUS005_ON_BOARD_EVENT: 'pus005OnBoardEvent',
@@ -445,6 +445,7 @@ module.exports = {
   PUS013_LDT_PART: 'pUS013LdtPart',
   PUS014_TM_PACKET: 'pus014TmPacket',
   PUS015_PACKET: 'pus015Packet',
+  PUS015_PACKET_STORE: 'pus015PacketStore',
   PUS018_OBCP: 'pus018Obcp',
   PUS019_EVENT_ACTION: 'pus19EventAction',
   PUS140_PARAMETER: 'pus140Parameter',

@@ -49,6 +49,8 @@ export default function WithForm(WrappedComponent) {
 
   return reduxForm({
     enableReinitialize: true,
+    // TODO @jmira hotfix for redux form on plotview
+    destroyOnUnmount: false,
   })(WrapperForm);
 }
 

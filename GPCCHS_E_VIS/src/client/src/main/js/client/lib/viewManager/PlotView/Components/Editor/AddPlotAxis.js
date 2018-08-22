@@ -336,6 +336,7 @@ class AddPlotAxis extends PureComponent {
               normalize={val => parseFloat(val).toString()}
               type="number"
               step="any"
+              min="1"
             />
           </HorizontalFormGroup>
         }

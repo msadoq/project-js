@@ -22,22 +22,18 @@ const updatesConstantsAndTables = (pusData) => {
 
   let data = pusData;
   for (let i = 0; i < data.headers.length; i += 1) {
-    data.headers[i].scheduleStatus = statuses[_.getOr(200, 'scheduleStatus', data.headers[i])];
+    data.headers[i].serviceApidName = _.getOr(null, 'serviceApidName', data.headers[i]);
+    data.headers[i].serviceApid = _.getOr(null, 'serviceApid', data.headers[i]);
+    data.headers[i].scheduleStatus = _.getOr(200, 'scheduleStatus', data.headers[i]);
+    data.headers[i].spaceInNumberOfCommands = _.getOr(null, 'spaceInNumberOfCommands', data.headers[i]);
+    data.headers[i].noFreeCommands = _.getOr(null, 'noFreeCommands', data.headers[i]);
+    data.headers[i].freeSpace = _.getOr(null, 'freeSpace', data.headers[i]);
     data.headers[i].lastUpdateModeScheduleStatus = updateTypes[_.getOr(200, 'lastUpdateModeScheduleStatus', data.headers[i])];
     data.headers[i].lastUpdateModeNoFreeCommands = updateTypes[_.getOr(200, 'lastUpdateModeNoFreeCommands', data.headers[i])];
     data.headers[i].lastUpdateModeFreeSpace = updateTypes[_.getOr(200, 'lastUpdateModeFreeSpace', data.headers[i])];
-    data.headers[i].serviceApid = _.getOr(null, 'serviceApid', data.headers[i]);
-    data.headers[i].spaceInNumberOfCommands = _.getOr(null, 'spaceInNumberOfCommands', data.headers[i]);
-    data.headers[i].scheduleStatus = _.getOr(200, 'scheduleStatus', data.headers[i]);
     data.headers[i].lastUpdateTimeScheduleStatus = _.getOr(null, 'lastUpdateTimeScheduleStatus', data.headers[i]);
-    data.headers[i].lastUpdateModeScheduleStatus = _.getOr(200, 'lastUpdateModeScheduleStatus', data.headers[i]);
-    data.headers[i].noFreeCommands = _.getOr(null, 'noFreeCommands', data.headers[i]);
-    data.headers[i].lastUpdateTimeNoFreeCommands = _.getOr(null, 'lastUpdateTimeNoFreeCommands', data.headers[i]);
-    data.headers[i].lastUpdateModeNoFreeCommands = _.getOr(200, 'lastUpdateModeNoFreeCommands', data.headers[i]);
-    data.headers[i].freeSpace = _.getOr(null, 'freeSpace', data.headers[i]);
     data.headers[i].lastUpdateTimeFreeSpace = _.getOr(null, 'lastUpdateTimeFreeSpace', data.headers[i]);
-    data.headers[i].lastUpdateModeFreeSpace = _.getOr(200, 'lastUpdateModeFreeSpace', data.headers[i]);
-    data.headers[i].serviceApidName = _.getOr(null, 'serviceApidName', data.headers[i]);
+    data.headers[i].lastUpdateTimeNoFreeCommands = _.getOr(null, 'lastUpdateTimeNoFreeCommands', data.headers[i]);
   }
 
   data = injectTabularData(

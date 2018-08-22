@@ -9,7 +9,6 @@ import parameters from '../../../../common/configurationManager';
 import { injectTabularData } from '../../../commonData/reducer';
 import { bindToBoolKey } from '../../../common/pus/utils';
 
-
 const mapStateToProps = (state, { viewId }) => {
   let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_15 });
 

@@ -8,10 +8,9 @@ import PUS14View from './PUS14View';
 import { injectTabularData } from '../../../commonData/reducer';
 import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 
-const pusService = PUS_SERVICE_14;
 
 const mapStateToProps = (state, { viewId }) => {
-  let data = getPUSViewData(state, { viewId, pusService });
+  let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_14 });
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
   const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 

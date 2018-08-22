@@ -1,35 +1,116 @@
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
-import { getData } from 'viewManager/PUS19View/store/dataReducer';
+import { PUS_SERVICE_19 } from 'constants';
+import { open as openModal } from 'store/actions/modals';
+import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
 import PUS19View from './PUS19View';
-
-import { getConfigurationByViewId } from '../../../selectors';
+// import { getConfigurationByViewId } from '../../../selectors';
 import { getWindowIdByViewId } from '../../../../store/selectors/windows';
+import { injectTabularData } from '../../../commonData/reducer';
+import parameters from '../../../../common/configurationManager';
+
+const formatBinaryProfile = binaryProfile => (
+  binaryProfile.length === 0
+    ? []
+    : binaryProfile.match(/.{1,16}/g).map(row => row.match(/.{1,2}/g))
+);
+const updatesConstantsAndTables = (pusData) => {
+  const statuses = parameters.get('PUS_CONSTANTS').STATUS;
+  const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
+
+  let data = pusData;
+  for (let i = 0; i < data.headers.length; i += 1) {
+    data.headers[i].serviceApidName = _.getOr(null, 'serviceApidName', data.headers[i]);
+    data.headers[i].serviceApid = _.getOr(null, 'serviceApid', data.headers[i]);
+    data.headers[i].serviceStatus = statuses[_.getOr('200', 'serviceStatus', data.headers[i])];
+    data.headers[i].lastUpdateModeServiceStatus = updateTypes[_.getOr('200', 'lastUpdateModeServiceStatus', data.headers[i])];
+    data.headers[i].lastUpdateTimeServiceStatus = _.getOr(null, 'lastUpdateTimeServiceStatus', data.headers[i]);
+  }
+
+  data = injectTabularData(
+    data,
+    'eventActions',
+    _.getOr([], ['dataForTables', 'pus19EventAction'], data)
+      .map(action => ({
+        ...action,
+        actionStatus: statuses[_.getOr('200', 'actionStatus', action)], // map schedule status constant
+        lastUpdateModeActionStatus: updateTypes[_.getOr('200', 'lastUpdateModeActionStatus', action)], // map schedule lastUpdateModeStatus constant
+        lastUpdateModeEventActionRid: updateTypes[_.getOr('200', 'lastUpdateModeEventActionRid', action)], // map schedule lastUpdateModeSubScheduleId constant
+        lastUpdateModeActionTc: updateTypes[_.getOr('200', 'lastUpdateModeActionTc', action)], // map schedule lastUpdateModeStatus constant
+        actionTcPacket: formatBinaryProfile(_.getOr('', 'actionTcPacket', action)),
+      }))
+  );
+
+  return _.omit(['dataForTables'], data);
+};
+
 
 const mapStateToProps = (state, { viewId }) => {
-  const data = getData(state, { viewId });
-  const config = getConfigurationByViewId(state, { viewId });
+  let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_19 });
+
+  if (typeof data === 'object' && Object.keys(data).length > 0) {
+    data = updatesConstantsAndTables(data);
+  }
+
+  // const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
 
+  const eventActionData = _.get(['tables', 'eventActions'], data); // data for modal
 
   return {
-    serviceApid: _.getOr(null, 'serviceApid', data),
-    serviceApidName: _.getOr(null, 'serviceApidName', data),
-    apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
+    data,
+    // apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
+    eventActionData,
     windowId,
   };
 };
+
+const mapDispatchToProps = (dispatch, { viewId }) => ({
+  onCommandCellDoubleClick: (windowId, binaryProfile) => {
+    dispatch(
+      openModal(
+        windowId,
+        {
+          type: 'pus19Modal',
+          title: 'View Details',
+          viewId,
+          binaryProfile,
+        }
+      )
+    );
+  },
+});
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,
   ...dispatchProps,
+  onCommandCellDoubleClick: (rowIndex) => {
+    const { eventActionData } = stateProps;
+
+    const data = eventActionData.data[rowIndex];
+
+    // extract modal data
+    const {
+      actionTcPacket,
+    } = data;
+
+    const binaryProfile = {
+      actionTcPacket,
+    };
+
+    dispatchProps.onCommandCellDoubleClick(
+      stateProps.windowId,
+      binaryProfile
+    );
+  },
 });
 
 const PUS19ViewContainer =
   connect(
     mapStateToProps,
+    mapDispatchToProps,
     mergeProps
   )(PUS19View);
 

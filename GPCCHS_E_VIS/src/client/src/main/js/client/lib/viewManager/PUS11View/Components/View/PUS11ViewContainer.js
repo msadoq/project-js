@@ -5,7 +5,6 @@ import { PUS_SERVICE_11 } from 'constants';
 import { open as openModal } from 'store/actions/modals';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
 import PUS11View from './PUS11View';
-// import { getConfigurationByViewId } from '../../../selectors';
 import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 import { injectTabularData } from '../../../commonData/reducer';
 import parameters from '../../../../common/configurationManager';

@@ -52,6 +52,10 @@ function parseDragData(data) {
     name: data.item,
     connectedData: {
       formula,
+      catalog: data.catalogName,
+      catalogItem: data.item,
+      comObject: getComObject(data.comObjects),
+      comObjectField: data.comObjectFields || 'convertedValue',
     },
   };
 }

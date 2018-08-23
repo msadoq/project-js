@@ -450,6 +450,10 @@ export const parseDragData = (data, id, defaultTimelineId) => {
     name: data.item,
     connectedData: {
       formula,
+      catalog: data.catalogName,
+      catalogItem: data.item,
+      comObject: getComObject(data.comObjects),
+      comObjectField: data.comObjectFields || 'convertedValue',
       fieldX: 'onboardDate',
       unit: 'V',
       domain: '*',

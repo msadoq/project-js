@@ -1,9 +1,9 @@
-import _unset from 'lodash/unset';
+// import _unset from 'lodash/unset';
 import _ from 'lodash/fp';
 import parameters from 'common/configurationManager';
 import _memoize from 'lodash/memoize';
 import { SIGNIFICANT_VALIDITY_STATE_VALUE } from 'constants';
-import { SDB_VALUE_OPTION, TIME_BASED_DATA_OPTION } from '../commonEditor/Fields/DataTypeField';
+import { /* SDB_VALUE_OPTION, */ TIME_BASED_DATA_OPTION } from '../commonEditor/Fields/DataTypeField';
 
 const constants = require('constants');
 
@@ -64,20 +64,21 @@ export const buildFormulaForAutocomplete = (catalog, catalogItem, comObject, com
  * @param viewId
  */
 export function handleSubmit(values, updateEntryPoint, viewId) {
-  const { dataType } = values.connectedData;
-  if (dataType !== SDB_VALUE_OPTION.value) {
-    _unset(values.connectedData, 'path');
-    _unset(values.connectedData, 'displayMode');
-    _unset(values.connectedData, 'algorithm');
-    _unset(values.connectedData, 'algoParameters');
-  }
-  if (dataType !== TIME_BASED_DATA_OPTION.value) {
-    _unset(values.connectedData, 'catalogItem');
-    _unset(values.connectedData, 'comObject');
-    _unset(values.connectedData, 'comObjectField');
-    _unset(values.connectedData, 'provider');
-    _unset(values.connectedData, 'refTimestamp');
-  }
+  // TODO Bug introduce for SDB_VALUE
+  // const { dataType } = values.connectedData;
+  // if (dataType !== SDB_VALUE_OPTION.value) {
+  //   _unset(values.connectedData, 'path');
+  //   _unset(values.connectedData, 'displayMode');
+  //   _unset(values.connectedData, 'algorithm');
+  //   _unset(values.connectedData, 'algoParameters');
+  // }
+  // if (dataType !== TIME_BASED_DATA_OPTION.value) {
+  //   _unset(values.connectedData, 'catalogItem');
+  //   _unset(values.connectedData, 'comObject');
+  //   _unset(values.connectedData, 'comObjectField');
+  //   _unset(values.connectedData, 'provider');
+  //   _unset(values.connectedData, 'refTimestamp');
+  // }
   const { catalog, catalogItem, comObject, comObjectField } = values.connectedData;
   const formula = buildFormula(catalog, catalogItem, comObject, comObjectField);
   updateEntryPoint(viewId, values.id, {

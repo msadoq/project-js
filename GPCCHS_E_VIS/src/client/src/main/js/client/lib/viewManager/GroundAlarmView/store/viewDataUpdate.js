@@ -193,6 +193,10 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
   if (!expectedInterval) {
     return {};
   }
+  // hotfix, crash of vima if visu window is undefined
+  if (!visuWindow) {
+    return {};
+  }
   const lower = expectedInterval[0];
   // const upper = expectedInterval[1];
   const epSubState = { [epName]: {} };
@@ -204,37 +208,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     if (!oid || !groundMonitoringAlarm) {
       return;
     }
-    // const offset = ep.offset || 0;
-    // const timestamp = (groundMonitoringAlarm.referenceTimestamp.value || Number(i)) + offset;
-    // TODO do we have to check creation date to validate timestamp ?
-    // const timestamp = _get(currentValue, ['creationDate', 'value']);
-    // if (typeof timestamp === 'undefined') {
-    //   logger.warn('get an alarm without .creationDate key ', tbdIdPayload);
-    //   continue;
-    // }
-    // TODO: needs to determine on which filters have top be applied
-    // // check value verify filters
-    // if (!applyFilters(currentValue, ep.filters)) {
-    //   continue;
-    // }
-    // const created = createAlarm(currentValue, convertData);
-    // const isOutOfTimeRange = timestamp < lower || timestamp > upper;
-    /* if (ep.mode === constants.ALARM_MODE_TOACKNOWLEDGE) {
-       if (ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
-         return;
-       }
-     } */
     const { creationDate, closingDate } = groundMonitoringAlarm;
-    /* if (ep.mode === constants.ALARM_MODE_NONNOMINAL) {
-       const isNonNominal = (
-         creationDate.value < visuWindow.current
-         && (!closingDate || closingDate.value > visuWindow.current)
-       );
-       const isNominal = !isNonNominal;
-       if (isNominal) {
-         // return;
-       }
-     } */
     const raisedAfterVisuLower = creationDate.value > lower;
     const raisedBeforeVisuCurrent = creationDate.value < visuWindow.current;
     const closedBeforeVisuCurrent = !!closingDate && closingDate.value < visuWindow.current;
@@ -250,10 +224,6 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
         alarmType,
         ackState)
     ) { return; }
-    // Filter values out of interval but keep "REQUIREACK" Alarms
-    /* if (isOutOfTimeRange && ackState !== constants.ALARM_ACKSTATE_REQUIREACK) {
-      return;
-    } */
     epSubState[epName][oid] = {
       ...created,
       rawAlarm: createAlarm(currentValue, _.identity),

@@ -79,7 +79,7 @@ const createReducerByViews = (simpleReducer, viewType = 'all') => (
           key => pages[key].timebarUuid === timebarUuid
         );
         const rightPageKey = rightPageKeyArray[0];
-        const viewIds = pages[rightPageKey].views;
+        const viewIds = _.getOr([], [rightPageKey, 'views'], pages);
         const plotViewKeys = Object.keys(stateViews)
           .filter(key => _lodash.has(stateViews[key], 'type'))
           .filter(key => stateViews[key].type === 'PlotView')

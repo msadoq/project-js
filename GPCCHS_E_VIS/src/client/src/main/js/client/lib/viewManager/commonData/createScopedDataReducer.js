@@ -73,24 +73,31 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
       }
       default: {
         const viewId = _.get(['payload', 'viewId'], action);
-        if (viewId && state[viewId]) { // scoped action
+        let updatedState = state;
+
+        if (viewId) { // scoped action
+          if (!state[viewId]) {
+            updatedState = _.set(viewId, initialState, updatedState);
+          }
+
           return _.set(
             viewId,
             scopedDataReducer(state[viewId], action, viewId),
-            state
+            updatedState
           );
         }
 
-        let updatedState = state;
-
         // multicast
-        Object.keys(updatedState).forEach((viewKey) => {
-          updatedState = _.set(
-            viewKey,
-            scopedDataReducer(state[viewKey], action, viewKey),
-            state
-          );
-        });
+        Object.keys(updatedState)
+          .forEach((viewKey) => {
+            const updatedViewState = scopedDataReducer(state[viewKey], action, viewKey);
+
+            updatedState = _.set(
+              viewKey,
+              updatedViewState,
+              updatedState
+            );
+          });
 
         return updatedState;
       }

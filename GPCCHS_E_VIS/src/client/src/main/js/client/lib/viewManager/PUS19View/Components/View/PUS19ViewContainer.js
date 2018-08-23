@@ -5,7 +5,6 @@ import { PUS_SERVICE_19 } from 'constants';
 import { open as openModal } from 'store/actions/modals';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
 import PUS19View from './PUS19View';
-// import { getConfigurationByViewId } from '../../../selectors';
 import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 import { injectTabularData } from '../../../commonData/reducer';
 import parameters from '../../../../common/configurationManager';
@@ -23,8 +22,8 @@ const updatesConstantsAndTables = (pusData) => {
   for (let i = 0; i < data.headers.length; i += 1) {
     data.headers[i].serviceApidName = _.getOr(null, 'serviceApidName', data.headers[i]);
     data.headers[i].serviceApid = _.getOr(null, 'serviceApid', data.headers[i]);
-    data.headers[i].serviceStatus = statuses[_.getOr('200', 'serviceStatus', data.headers[i])];
-    data.headers[i].lastUpdateModeServiceStatus = updateTypes[_.getOr('200', 'lastUpdateModeServiceStatus', data.headers[i])];
+    data.headers[i].serviceStatus = statuses[String(_.getOr(200, 'serviceStatus', data.headers[i]))];
+    data.headers[i].lastUpdateModeServiceStatus = updateTypes[String(_.getOr(200, 'lastUpdateModeServiceStatus', data.headers[i]))];
     data.headers[i].lastUpdateTimeServiceStatus = _.getOr(null, 'lastUpdateTimeServiceStatus', data.headers[i]);
   }
 
@@ -34,10 +33,10 @@ const updatesConstantsAndTables = (pusData) => {
     _.getOr([], ['dataForTables', 'pus19EventAction'], data)
       .map(action => ({
         ...action,
-        actionStatus: statuses[_.getOr('200', 'actionStatus', action)], // map schedule status constant
-        lastUpdateModeActionStatus: updateTypes[_.getOr('200', 'lastUpdateModeActionStatus', action)], // map schedule lastUpdateModeStatus constant
-        lastUpdateModeEventActionRid: updateTypes[_.getOr('200', 'lastUpdateModeEventActionRid', action)], // map schedule lastUpdateModeSubScheduleId constant
-        lastUpdateModeActionTc: updateTypes[_.getOr('200', 'lastUpdateModeActionTc', action)], // map schedule lastUpdateModeStatus constant
+        actionStatus: statuses[String(_.getOr(200, 'actionStatus', action))],
+        lastUpdateModeActionStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeActionStatus', action))],
+        lastUpdateModeEventActionRid: updateTypes[String(_.getOr(200, 'lastUpdateModeEventActionRid', action))],
+        lastUpdateModeActionTc: updateTypes[String(_.getOr(200, 'lastUpdateModeActionTc', action))],
         actionTcPacket: formatBinaryProfile(_.getOr('', 'actionTcPacket', action)),
       }))
   );
@@ -53,14 +52,12 @@ const mapStateToProps = (state, { viewId }) => {
     data = updatesConstantsAndTables(data);
   }
 
-  // const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
 
   const eventActionsData = _.get(['tables', 'eventActions'], data); // data for modal
 
   return {
     data,
-    // apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
     eventActionsData,
     windowId,
   };

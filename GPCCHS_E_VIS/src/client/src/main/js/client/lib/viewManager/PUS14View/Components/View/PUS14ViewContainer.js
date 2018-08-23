@@ -10,9 +10,9 @@ import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 
 
 const mapStateToProps = (state, { viewId }) => {
-  let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_14 });
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
   const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
+  let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_14 });
 
   if (typeof data === 'object' && Object.keys(data).length > 0) {
     for (let i = 0; i < data.headers.length; i += 1) {

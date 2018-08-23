@@ -1284,7 +1284,7 @@ const getPus142Payload = (timestamp, serviceApid, type) => {
             lastUpdateModeValidParamId: getAnUpdateMode(),
             lastUpdateModeValidParamMask: getAnUpdateMode(),
             lastUpdateModeValidParamExpectedValue: getAnUpdateMode(),
-            lastUpdateModeActionStatusv: getAnUpdateMode(),
+            lastUpdateModeActionStatus: getAnUpdateMode(),
             lastUpdateTimeFMonId: formatedTime,
             lastUpdateTimeStatus: formatedTime,
             lastUpdateTimeCheckingStatus: formatedTime,
@@ -1294,7 +1294,7 @@ const getPus142Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeValidParamId: formatedTime,
             lastUpdateTimeValidParamMask: formatedTime,
             lastUpdateTimeValidParamExpectedValue: formatedTime,
-            lastUpdateTimeActionStatusv: formatedTime,
+            lastUpdateTimeActionStatus: formatedTime,
             pus142ParameterMonitoringDefinition: [
               stubData.getPus142ParameterMonitoringDefinition({
                 serviceApid,
@@ -1323,7 +1323,7 @@ const getPus142Payload = (timestamp, serviceApid, type) => {
             lastUpdateModeValidParamId: getAnUpdateMode(),
             lastUpdateModeValidParamMask: getAnUpdateMode(),
             lastUpdateModeValidParamExpectedValue: getAnUpdateMode(),
-            lastUpdateModeActionStatusv: getAnUpdateMode(),
+            lastUpdateModeActionStatus: getAnUpdateMode(),
             lastUpdateTimeFMonId: getAnUpdateTime(timestamp),
             lastUpdateTimeStatus: getAnUpdateTime(timestamp),
             lastUpdateTimeCheckingStatus: getAnUpdateTime(timestamp),
@@ -1333,7 +1333,7 @@ const getPus142Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeValidParamId: getAnUpdateTime(timestamp),
             lastUpdateTimeValidParamMask: getAnUpdateTime(timestamp),
             lastUpdateTimeValidParamExpectedValue: getAnUpdateTime(timestamp),
-            lastUpdateTimeActionStatusv: getAnUpdateTime(timestamp),
+            lastUpdateTimeActionStatus: getAnUpdateTime(timestamp),
             pus142ParameterMonitoringDefinition: [
               stubData.getPus142ParameterMonitoringDefinition({
                 serviceApid,
@@ -1370,7 +1370,7 @@ const getPus142Payload = (timestamp, serviceApid, type) => {
       lastUpdateModeValidParamId: getAnUpdateMode(),
       lastUpdateModeValidParamMask: getAnUpdateMode(),
       lastUpdateModeValidParamExpectedValue: getAnUpdateMode(),
-      lastUpdateModeActionStatusv: getAnUpdateMode(),
+      lastUpdateModeActionStatus: getAnUpdateMode(),
       lastUpdateTimeFMonId: formatedTime,
       lastUpdateTimeStatus: formatedTime,
       lastUpdateTimeCheckingStatus: formatedTime,
@@ -1380,7 +1380,7 @@ const getPus142Payload = (timestamp, serviceApid, type) => {
       lastUpdateTimeValidParamId: formatedTime,
       lastUpdateTimeValidParamMask: formatedTime,
       lastUpdateTimeValidParamExpectedValue: formatedTime,
-      lastUpdateTimeActionStatusv: formatedTime,
+      lastUpdateTimeActionStatus: formatedTime,
       pus142ParameterMonitoringDefinition: [
         stubData.getPus142ParameterMonitoringDefinition({
           serviceApid,

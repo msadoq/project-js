@@ -12,7 +12,6 @@ export default (stateConf = {}, action) => {
     case types.WS_WORKSPACE_OPENED:
     case types.WS_VIEW_ADD_BLANK: {
       return {
-        // ...initialConfiguration,
         ...action.payload.view.configuration,
       };
     }

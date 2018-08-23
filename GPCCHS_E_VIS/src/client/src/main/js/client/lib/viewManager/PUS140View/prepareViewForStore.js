@@ -29,8 +29,8 @@ const getDefaultView = view => _.merge({
           direction: 'DESC',
         },
         cols: [
-          { label: 'APID Name', title: 'serviceApidName', displayed: true },
-          { label: 'APID', title: 'apid', displayed: true },
+          { label: 'APID Name', title: 'parameterApidName', displayed: true },
+          { label: 'APID', title: 'parameterApid', displayed: true },
           { label: 'ID', title: 'parameterId', displayed: true },
           { label: 'Name', title: 'parameterName', displayed: true },
           { label: 'Init. Value', title: 'initialValue', displayed: true },

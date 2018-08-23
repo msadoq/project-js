@@ -18,11 +18,8 @@ const eventActionsTooltips = {
 };
 const _eventActionsModifier = tableModifier(eventActionsTooltips);
 
-const _eventActionsStatusKeyList = [
-  'actionStatus',
-];
 // apply background color to cells for which value is ENABLED or DISABLED
-const _eventActionsOverrideStyle = tableOverrideStyle(_eventActionsStatusKeyList);
+const _eventActionsOverrideStyle = tableOverrideStyle(['actionStatus']);
 
 export default class PUS19View extends React.Component {
   static propTypes = {
@@ -61,13 +58,7 @@ export default class PUS19View extends React.Component {
     const headers = data.headers.map(header =>
       (
         <div className="header">
-          {renderHeaders(
-            header.serviceApidName,
-            header.serviceApid,
-            header.serviceStatus,
-            header.lastUpdateModeServiceStatus,
-            header.lastUpdateTimeServiceStatus
-          )}
+          {renderHeaders(header)}
         </div>
       ));
 
@@ -93,27 +84,30 @@ export default class PUS19View extends React.Component {
   }
 }
 
-export const renderHeaders = (
-  serviceApid,
-  serviceApidName,
-  serviceStatus,
-  lastUpdateModeServiceStatus,
-  lastUpdateTimeServiceStatus
-) => (
-  <ErrorBoundary>
-    <div className="info col-sm-4 pus19_ap">
-      Application Process&nbsp;
-      <input type="text" disabled value={serviceApidName} />&nbsp;
-      <input className="mw50" type="text" disabled value={serviceApid} />
-    </div>
-    <HeaderStatus
-      status={serviceStatus}
-      lastUpdateMode={lastUpdateModeServiceStatus}
-      lastUpdateTime={lastUpdateTimeServiceStatus}
-      label="Service Status"
-    />
-  </ErrorBoundary>
-);
+export const renderHeaders = (header) => {
+  const {
+    serviceApid,
+    serviceApidName,
+    serviceStatus,
+    lastUpdateModeServiceStatus,
+    lastUpdateTimeServiceStatus,
+  } = header;
+  return (
+    <ErrorBoundary>
+      <div className="info col-sm-4 pus19_ap">
+        Application Process&nbsp;
+        <input type="text" disabled value={serviceApidName} />&nbsp;
+        <input className="mw50" type="text" disabled value={serviceApid} />
+      </div>
+      <HeaderStatus
+        status={serviceStatus}
+        lastUpdateMode={lastUpdateModeServiceStatus}
+        lastUpdateTime={lastUpdateTimeServiceStatus}
+        label="Service Status"
+      />
+    </ErrorBoundary>
+  );
+};
 
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'

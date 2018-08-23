@@ -10,13 +10,12 @@ import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 import { injectTabularData } from '../../../commonData/reducer';
 import parameters from '../../../../common/configurationManager';
 
-const pusService = PUS_SERVICE_MME;
-const statuses = parameters.get('PUS_CONSTANTS').STATUS;
-const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
-
 
 const mapStateToProps = (state, { viewId }) => {
-  let data = getPUSViewData(state, { viewId, pusService });
+  const statuses = parameters.get('PUS_CONSTANTS').STATUS;
+  const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
+
+  let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_MME });
 
   if (typeof data === 'object' && Object.keys(data).length > 0) {
     for (let i = 0; i < data.headers.length; i += 1) {

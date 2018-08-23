@@ -6,7 +6,6 @@ const getFullTitle = getViewTitle;
 const PUS19Data = `${VM_VIEW_PUS19}Data`;
 const PUS19Configuration = `${VM_VIEW_PUS19}Configuration`;
 
-export const getPUS19ViewData = state => state[PUS19Data];
 export const getData = (state, { viewId }) => state[PUS19Data][viewId];
 
 const getEntryPointsByViewId = (state, { viewId }) => (

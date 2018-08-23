@@ -20,15 +20,29 @@ export default class PUS140View extends React.Component {
   static propTypes = {
     // own props
     viewId: PropTypes.string.isRequired,
+    // From PUS14ViewContainer mapStateToProps
+    data: PropTypes.shape({
+      headers: PropTypes.arrayOf(PropTypes.shape()),
+      tables: PropTypes.shape(),
+    }),
+  };
+
+  static defaultProps = {
+    data: {
+      headers: [],
+      tables: {},
+    },
   };
 
   static contextTypes = {
     windowId: PropTypes.string,
   };
 
+
   render() {
     const {
       viewId,
+      data,
     } = this.props;
 
     return (
@@ -39,6 +53,7 @@ export default class PUS140View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'parameters'}
+                data={data.tables.parameters.data}
                 contentModifier={_parametersModifier}
               />
             </div>

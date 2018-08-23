@@ -96,14 +96,12 @@ const mapStateToProps = (state, { viewId }) => {
     data = updatesConstantsAndTables(data);
   }
 
-  // const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
 
   const commandData = _.get(['tables', 'commands'], data); // data for modal
 
   return {
     data,
-    // apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
     commandData,
     windowId,
   };

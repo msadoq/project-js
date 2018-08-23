@@ -1,26 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { OverlayTrigger, Popover } from 'react-bootstrap';
+import { OverlayTrigger } from 'react-bootstrap';
 import parameters from 'common/configurationManager';
 import classnames from 'classnames';
-import { createTableData } from '../../../pus/tooltip';
+import { generatePopover } from '../../../pus/tooltip';
 
-const popoverStyle = { height: 70 };
 const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
 const statusColor = parameters.get('PUS_CONSTANTS').STATUS_COLOR;
-
-const generatePopover = (id, time, mode) => (
-  <Popover
-    id={id}
-    placement="bottom"
-    style={popoverStyle}
-  >
-    {createTableData({
-      lastUpdateMode: mode,
-      lastUpdateTime: time,
-    })}
-  </Popover>
-);
 
 export default class HeaderStatus extends Component {
   static propTypes = {

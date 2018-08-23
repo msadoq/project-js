@@ -1,10 +1,7 @@
 /* eslint-disable no-unused-vars */
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
-
 import PUS19Modal from './PUS19Modal';
-
-import { getData } from '../../store/dataReducer';
 
 // {
 //   label: 'Popin ==> PUS19Modal',

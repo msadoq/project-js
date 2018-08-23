@@ -1,11 +1,13 @@
-import _ from 'lodash/fp';
+import _unset from 'lodash/fp/unset';
+import _update from 'lodash/fp/update';
+import _pipe from 'lodash/fp/pipe';
 import { copyProp } from 'common/fp';
 
-const keepFirstEntryPoint = _.pipe(
+const keepFirstEntryPoint = _pipe(
   copyProp('entryPoints[0]', 'entryPoint'),
-  _.unset('entryPoints')
+  _unset('entryPoints')
 );
 
-export default _.pipe(
-  _.update('configuration', keepFirstEntryPoint)
+export default _pipe(
+  _update('configuration', keepFirstEntryPoint)
 );

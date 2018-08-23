@@ -49,7 +49,7 @@ const renderBinaryProfile = binaryProfile => (
 );
 
 
-export default class PUS11Modal extends PureComponent {
+export default class PUS19Modal extends PureComponent {
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
     binaryProfile: PropTypes.shape({

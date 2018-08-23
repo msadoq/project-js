@@ -1,6 +1,23 @@
 import _ from 'lodash/fp';
 import React from 'react';
+import { Popover } from 'react-bootstrap';
 // import './tooltip.scss';
+
+
+const popoverStyle = { height: 70 };
+
+export const generatePopover = (id, time, mode) => (
+  <Popover
+    id={id}
+    placement="bottom"
+    style={popoverStyle}
+  >
+    {createTableData({
+      lastUpdateMode: mode,
+      lastUpdateTime: time,
+    })}
+  </Popover>
+);
 
 /**
  * @param obj

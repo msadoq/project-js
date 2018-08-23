@@ -18,41 +18,6 @@ import { addTooltipWithContent } from './tooltip';
 import parameters from '../../../common/configurationManager';
 import constants from '../../../constants';
 
-export const tableOverrideStyle = statusKeyList =>
-  ({ content }) => {
-    const statusColors = parameters.get('PUS_CONSTANTS').STATUS_COLOR;
-    const { value, colKey } = content;
-    // console.log(JSON.stringify(statusColors, null, 2));
-
-    // empty field style within StatusKeyList should not be overrided
-    if (typeof value === 'string' && value.length === 0) {
-      return {};
-    }
-    if (statusKeyList.indexOf(colKey) > -1) {
-      return { backgroundColor: statusColors[value] };
-    }
-    return {};
-  };
-
-export const tableModifier = tooltips =>
-  (cellContent = {}, content = {}) => {
-    const { colKey, value } = cellContent;
-    if (typeof value === 'string' && value.length === 0) {
-      return cellContent;
-    }
-    const toolT = tooltips[colKey];
-    if (toolT === undefined) {
-      return cellContent;
-    }
-    return addTooltipWithContent(
-      cellContent,
-      content,
-      {
-        lastUpdateMode: { key: toolT.mode },
-        lastUpdateTime: { key: toolT.time },
-      }
-    );
-  };
 
 export const getModelEntryByDataType = (dataType) => {
   const deltaKeys = {
@@ -136,14 +101,19 @@ export const getViewServiceFromType = (type) => {
   return pusTypes[type] || null;
 };
 
-export const bindToBoolKey = (arr, store) => {
+/**
+ * @param boolKey boolean condition to display key value
+ * @param key displayed if boolKey, or empty
+ * @param tooltip matching tooltip to be added
+ * @returns { key [, tooltip]} new object with updated key and tooltip
+ */
+export const bindToBoolKey = ([boolKey, key, tooltip], store) => {
   const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
-  const [boolKey, key, toolType] = arr;
-  let newStore = _.pick([key, toolType], store);
+  let newStore = _.pick([key, tooltip], store);
   if (_.get(boolKey, store)) {
     newStore = _.set(
-      toolType,
-      updateTypes[String(_.getOr(200, toolType, newStore))],
+      tooltip,
+      updateTypes[String(_.getOr(200, tooltip, newStore))],
       newStore
     );
   } else {
@@ -151,3 +121,38 @@ export const bindToBoolKey = (arr, store) => {
   }
   return newStore;
 };
+
+export const tableOverrideStyle = statusKeyList =>
+  ({ content }) => {
+    const statusColors = parameters.get('PUS_CONSTANTS').STATUS_COLOR;
+    const { value, colKey } = content;
+
+    // empty field style within StatusKeyList should not be overrided
+    if (typeof value === 'string' && value.length === 0) {
+      return {};
+    }
+    if (statusKeyList.indexOf(colKey) > -1) {
+      return { backgroundColor: statusColors[value] };
+    }
+    return {};
+  };
+
+export const tableModifier = tooltips =>
+  (cellContent = {}, content = {}) => {
+    const { colKey, value } = cellContent;
+    if (typeof value === 'string' && value.length === 0) {
+      return cellContent;
+    }
+    const toolT = tooltips[colKey];
+    if (toolT === undefined) {
+      return cellContent;
+    }
+    return addTooltipWithContent(
+      cellContent,
+      content,
+      {
+        lastUpdateMode: { key: toolT.mode },
+        lastUpdateTime: { key: toolT.time },
+      }
+    );
+  };

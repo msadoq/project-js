@@ -24,17 +24,18 @@ const updatesConstantsAndTables = (pusData) => {
   for (let i = 0; i < data.headers.length; i += 1) {
     data.headers[i].serviceApidName = _.getOr(null, 'serviceApidName', data.headers[i]);
     data.headers[i].serviceApid = _.getOr(null, 'serviceApid', data.headers[i]);
-    data.headers[i].scheduleStatus = _.getOr(200, 'scheduleStatus', data.headers[i]);
+    data.headers[i].scheduleStatus = statuses[String(_.getOr(200, 'scheduleStatus', data.headers[i]))];
     data.headers[i].spaceInNumberOfCommands = _.getOr(null, 'spaceInNumberOfCommands', data.headers[i]);
     data.headers[i].noFreeCommands = _.getOr(null, 'noFreeCommands', data.headers[i]);
     data.headers[i].freeSpace = _.getOr(null, 'freeSpace', data.headers[i]);
-    data.headers[i].lastUpdateModeScheduleStatus = updateTypes[_.getOr(200, 'lastUpdateModeScheduleStatus', data.headers[i])];
-    data.headers[i].lastUpdateModeNoFreeCommands = updateTypes[_.getOr(200, 'lastUpdateModeNoFreeCommands', data.headers[i])];
-    data.headers[i].lastUpdateModeFreeSpace = updateTypes[_.getOr(200, 'lastUpdateModeFreeSpace', data.headers[i])];
+    data.headers[i].lastUpdateModeScheduleStatus = updateTypes[String(_.getOr(200, 'lastUpdateModeScheduleStatus', data.headers[i]))];
+    data.headers[i].lastUpdateModeNoFreeCommands = updateTypes[String(_.getOr(200, 'lastUpdateModeNoFreeCommands', data.headers[i]))];
+    data.headers[i].lastUpdateModeFreeSpace = updateTypes[String(_.getOr(200, 'lastUpdateModeFreeSpace', data.headers[i]))];
     data.headers[i].lastUpdateTimeScheduleStatus = _.getOr(null, 'lastUpdateTimeScheduleStatus', data.headers[i]);
     data.headers[i].lastUpdateTimeFreeSpace = _.getOr(null, 'lastUpdateTimeFreeSpace', data.headers[i]);
     data.headers[i].lastUpdateTimeNoFreeCommands = _.getOr(null, 'lastUpdateTimeNoFreeCommands', data.headers[i]);
   }
+
 
   data = injectTabularData(
     data,
@@ -42,10 +43,10 @@ const updatesConstantsAndTables = (pusData) => {
     _.getOr([], ['dataForTables', 'pus011SubSchedule'], data)
       .map(subSchedule => ({
         ...subSchedule,
-        status: statuses[_.getOr(200, 'status', subSchedule)], // map schedule status constant
-        lastUpdateModeSubScheduleId: updateTypes[_.getOr(200, 'lastUpdateModeSubScheduleId', subSchedule)], // map schedule lastUpdateModeSubScheduleId constant
-        lastUpdateModeStatus: updateTypes[_.getOr(200, 'lastUpdateModeStatus', subSchedule)], // map schedule lastUpdateModeStatus constant
-        lastUpdateModeExecTimeFirstTc: updateTypes[_.getOr(200, 'lastUpdateModeExecTimeFirstTc', subSchedule)], // map schedule lastUpdateModeStatus constant
+        status: statuses[String(_.getOr(200, 'status', subSchedule))], // map schedule status constant
+        lastUpdateModeSubScheduleId: updateTypes[String(_.getOr(200, 'lastUpdateModeSubScheduleId', subSchedule))], // map schedule lastUpdateModeSubScheduleId constant
+        lastUpdateModeStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeStatus', subSchedule))], // map schedule lastUpdateModeStatus constant
+        lastUpdateModeExecTimeFirstTc: updateTypes[String(_.getOr(200, 'lastUpdateModeExecTimeFirstTc', subSchedule))], // map schedule lastUpdateModeStatus constant
       }))
   );
 
@@ -56,7 +57,7 @@ const updatesConstantsAndTables = (pusData) => {
       .filter(enabledApid => enabledApid.status !== '1') // filter disabled apids
       .map(enabledApid => ({
         ...enabledApid,
-        lastUpdateModeApid: updateTypes[_.getOr(200, 'lastUpdateModeApid', enabledApid)], // map schedule lastUpdateModeApid constant
+        lastUpdateModeApid: updateTypes[String(_.getOr(200, 'lastUpdateModeApid', enabledApid))], // map schedule lastUpdateModeApid constant
       }))
   );
 
@@ -66,22 +67,22 @@ const updatesConstantsAndTables = (pusData) => {
     _.getOr([], ['dataForTables', 'pus011Command'], data).map(command => ({
       ...command,
       commandBinaryProfile: formatBinaryProfile(_.getOr('', 'commandBinaryProfile', command)),
-      lastUpdateModeCommandId: updateTypes[_.getOr(200, 'lastUpdateModeCommandId', command)], // map schedule lastUpdateModeCommandId constant
-      lastUpdateModeBinProf: updateTypes[_.getOr(200, 'lastUpdateModeBinProf', command)], // map schedule lastUpdateModeBinProf constant
+      lastUpdateModeCommandId: updateTypes[String(_.getOr(200, 'lastUpdateModeCommandId', command))], // map schedule lastUpdateModeCommandId constant
+      lastUpdateModeBinProf: updateTypes[String(_.getOr(200, 'lastUpdateModeBinProf', command))], // map schedule lastUpdateModeBinProf constant
       commandStatus: statuses[String(_.getOr(200, 'commandStatus', command))], // map schedule commandStatus constant
-      lastUpdateModeGroundStatus: updateTypes[_.getOr(200, 'lastUpdateModeGroundStatus', command)], // map schedule lastUpdateModeGroundStatus constant
+      lastUpdateModeGroundStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeGroundStatus', command))], // map schedule lastUpdateModeGroundStatus constant
       commandGroundStatus: groundStatuses[_.getOr('empty', 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
-      lastUpdateModeStatus: updateTypes[_.getOr(200, 'lastUpdateModeStatus', command)], // map schedule lastUpdateModeStatus constant
-      lastUpdateModeCurrentExecTime: updateTypes[_.getOr(200, 'lastUpdateModeCurrentExecTime', command)], // map schedule lastUpdateModeCurrentExecTime constant
-      lastUpdateModeInitialExecTime: updateTypes[_.getOr(200, 'lastUpdateModeInitialExecTime', command)], // map schedule lastUpdateModeInitialExecTime constant
-      lastUpdateModeTotalTimeShiftOffset: updateTypes[_.getOr(200, 'lastUpdateModeTotalTimeShiftOffset', command)], // map schedule lastUpdateModeTotalTimeShiftOffset constant
+      lastUpdateModeStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeStatus', command))], // map schedule lastUpdateModeStatus constant
+      lastUpdateModeCurrentExecTime: updateTypes[String(_.getOr(200, 'lastUpdateModeCurrentExecTime', command))], // map schedule lastUpdateModeCurrentExecTime constant
+      lastUpdateModeInitialExecTime: updateTypes[String(_.getOr(200, 'lastUpdateModeInitialExecTime', command))], // map schedule lastUpdateModeInitialExecTime constant
+      lastUpdateModeTotalTimeShiftOffset: updateTypes[String(_.getOr(200, 'lastUpdateModeTotalTimeShiftOffset', command))], // map schedule lastUpdateModeTotalTimeShiftOffset constant
       pus011CommandParameters: _.getOr([], ['pus011CommandParameters'], command).map(commandParameter => ({
         ...commandParameter,
-        lastUpdateMode: updateTypes[_.getOr(200, 'lastUpdateMode', commandParameter)], // map pus011CommandParameters lastUpdateMode constant
+        lastUpdateMode: updateTypes[String(_.getOr(200, 'lastUpdateMode', commandParameter))], // map pus011CommandParameters lastUpdateMode constant
       })),
       pus011TimeShift: _.getOr([], ['pus011TimeShift'], command).map(timeShift => ({
         ...timeShift,
-        lastUpdateMode: updateTypes[_.getOr(200, 'lastUpdateMode', timeShift)], // map pus011TimeShift lastUpdateMode constant
+        lastUpdateMode: updateTypes[String(_.getOr(200, 'lastUpdateMode', timeShift))], // map pus011TimeShift lastUpdateMode constant
       })),
     }))
   );

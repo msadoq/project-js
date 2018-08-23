@@ -240,6 +240,7 @@ const getPus11Payload = (timestamp, serviceApid, type, binaryProfile) => {
         serviceApid,
         status: getAStatus(),
         scheduleStatus: getAStatus(),
+        spaceInNumberOfCommands: getABoolean(),
         lastUpdateModeScheduleStatus: getAnUpdateMode(),
         lastUpdateModeNoFreeCommands: getAnUpdateMode(),
         lastUpdateModeFreeSpace: getAnUpdateMode(),

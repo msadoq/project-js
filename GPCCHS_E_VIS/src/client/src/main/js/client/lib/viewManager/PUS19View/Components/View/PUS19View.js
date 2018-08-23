@@ -6,6 +6,8 @@ import './PUS19View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
+import HeaderStatus from '../../../common/Components/View/PUS/HeaderStatus';
+
 
 // EVENT ACTIONS
 const eventActionsTooltips = {
@@ -27,18 +29,18 @@ export default class PUS19View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS19ViewContainer mapStateToProps
-    serviceApid: PropTypes.number,
-    serviceApidName: PropTypes.string,
-    apids: PropTypes.arrayOf(PropTypes.shape({
-      apidName: PropTypes.string,
-      apidRawValue: PropTypes.string,
-    })),
+    data: PropTypes.shape({
+      headers: PropTypes.arrayOf(PropTypes.shape()),
+      tables: PropTypes.shape(),
+    }),
+    onCommandCellDoubleClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    serviceApid: null,
-    serviceApidName: null,
-    apids: [],
+    data: {
+      headers: [],
+      tables: {},
+    },
   };
 
   static contextTypes = {
@@ -47,32 +49,41 @@ export default class PUS19View extends React.Component {
 
   render() {
     const {
-      serviceApid,
-      serviceApidName,
-      apids,
       viewId,
+      onCommandCellDoubleClick,
+      data,
     } = this.props;
 
-    if (!isValid(apids, serviceApid)) {
+    if (typeof data === 'object' && Object.keys(data).length === 0) {
       return renderInvald('Please fill-in configuration');
     }
+
+    const headers = data.headers.map(header =>
+      (
+        <div className="header">
+          {renderHeaders(
+            header.serviceApidName,
+            header.serviceApid,
+            header.serviceStatus,
+            header.lastUpdateModeServiceStatus,
+            header.lastUpdateTimeServiceStatus
+          )}
+        </div>
+      ));
 
     return (
       <ErrorBoundary>
         <div className="pus19">
-          <div className="header">
-            {renderHeaders(
-              serviceApid,
-              serviceApidName
-            )}
-          </div>
+          {headers}
           <div className="col-sm-12">
             <div style={{ height: 400 }}>
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'eventActions'}
+                data={data.tables.eventActions.data}
                 contentModifier={_eventActionsModifier}
                 overrideStyle={_eventActionsOverrideStyle}
+                onCellDoubleClick={onCommandCellDoubleClick}
               />
             </div>
           </div>
@@ -84,7 +95,10 @@ export default class PUS19View extends React.Component {
 
 export const renderHeaders = (
   serviceApid,
-  serviceApidName
+  serviceApidName,
+  serviceStatus,
+  lastUpdateModeServiceStatus,
+  lastUpdateTimeServiceStatus
 ) => (
   <ErrorBoundary>
     <div className="info col-sm-4 pus19_ap">
@@ -92,6 +106,12 @@ export const renderHeaders = (
       <input type="text" disabled value={serviceApidName} />&nbsp;
       <input className="mw50" type="text" disabled value={serviceApid} />
     </div>
+    <HeaderStatus
+      status={serviceStatus}
+      lastUpdateMode={lastUpdateModeServiceStatus}
+      lastUpdateTime={lastUpdateTimeServiceStatus}
+      label="Service Status"
+    />
   </ErrorBoundary>
 );
 

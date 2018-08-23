@@ -81,20 +81,7 @@ export default class PUS11View extends React.Component {
     const headers = data.headers.map(header =>
       (
         <div className="header">
-          {renderHeaders(
-            header.serviceApid,
-            header.serviceApidName,
-            header.scheduleStatus,
-            header.lastUpdateTimeScheduleStatus,
-            header.lastUpdateModeScheduleStatus,
-            header.spaceInNumberOfCommands,
-            header.noFreeCommands,
-            header.lastUpdateTimeNoFreeCommands,
-            header.lastUpdateModeNoFreeCommands,
-            header.freeSpace,
-            header.lastUpdateTimeFreeSpace,
-            header.lastUpdateModeFreeSpace
-          )}
+          {renderHeader(header)}
         </div>
       ));
 
@@ -159,57 +146,66 @@ export const generatePopover = (id, time, mode) => (
 
 const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
 
-export const renderHeaders = (
-  serviceApid,
-  spaceInNumberOfCommands,
-  scheduleStatus,
-  lastUpdateTimeScheduleStatus,
-  lastUpdateModeScheduleStatus,
-  noFreeCommands,
-  lastUpdateTimeNoFreeCommands,
-  lastUpdateModeNoFreeCommands,
-  freeSpace,
-  lastUpdateTimeFreeSpace,
-  lastUpdateModeFreeSpace,
-  serviceApidName
-) => (
-  <ErrorBoundary>
-    <div className="info col-sm-4 pus11_ap">
-      Application Process&nbsp;
-      <input type="text" disabled value={serviceApidName} />&nbsp;
-      <input className="mw50" type="text" disabled value={serviceApid} />
-    </div>
-    <HeaderStatus
-      status={scheduleStatus}
-      lastUpdateMode={lastUpdateModeScheduleStatus}
-      lastUpdateTime={lastUpdateTimeScheduleStatus}
-      label="Schedule Status"
-    />
-    <div className="info col-sm-4 pus11_as">
-      <OverlayTrigger
-        trigger={popoverTrigger}
-        placement="bottom"
-        overlay={generatePopover(
-          'popover-commands',
-          lastUpdateTimeNoFreeCommands,
-          lastUpdateModeNoFreeCommands
-        )}
-      >
-        <span>
-          Available Space&nbsp;
-          <input
-            type="text"
-            className="mw100"
-            disabled
-            value={spaceInNumberOfCommands ? noFreeCommands : freeSpace}
-          />
-          &nbsp;
-          {spaceInNumberOfCommands ? 'commands' : 'bytes'}
-        </span>
-      </OverlayTrigger>
-    </div>
-  </ErrorBoundary>
-);
+export const renderHeader = (header) => {
+  const {
+    serviceApid,
+    serviceApidName,
+    scheduleStatus,
+    lastUpdateTimeScheduleStatus,
+    lastUpdateModeScheduleStatus,
+    spaceInNumberOfCommands,
+    noFreeCommands,
+    lastUpdateTimeNoFreeCommands,
+    lastUpdateModeNoFreeCommands,
+    freeSpace,
+    lastUpdateTimeFreeSpace,
+    lastUpdateModeFreeSpace,
+  } = header;
+  // Available Space display
+  const { label, mode, time, value } = spaceInNumberOfCommands ?
+  {
+    label: 'Commands',
+    mode: lastUpdateModeFreeSpace,
+    time: lastUpdateTimeFreeSpace,
+    value: freeSpace,
+  } : {
+    label: 'Bytes',
+    mode: lastUpdateModeNoFreeCommands,
+    time: lastUpdateTimeNoFreeCommands,
+    value: noFreeCommands,
+  };
+
+  return (
+    <ErrorBoundary>
+      <div className="info col-sm-4 pus11_ap">
+        Application Process&nbsp;
+        <input type="text" disabled value={serviceApidName} />&nbsp;
+        <input className="mw50" type="text" disabled value={serviceApid} />
+      </div>
+      <HeaderStatus
+        status={scheduleStatus}
+        lastUpdateMode={lastUpdateModeScheduleStatus}
+        lastUpdateTime={lastUpdateTimeScheduleStatus}
+        label="Schedule Status"
+      />
+      <div className="info col-sm-4 pus11_as">
+        <OverlayTrigger
+          trigger={popoverTrigger}
+          placement="bottom"
+          overlay={generatePopover('popover-available-space', time, mode)}
+        >
+          <span>
+            Available Space
+            &nbsp;
+            <input type="text" className="mw100" disabled value={value} />
+            &nbsp;
+            {label}
+          </span>
+        </OverlayTrigger>
+      </div>
+    </ErrorBoundary>
+  );
+};
 
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'

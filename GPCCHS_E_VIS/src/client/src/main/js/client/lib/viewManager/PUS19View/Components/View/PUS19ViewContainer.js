@@ -56,12 +56,12 @@ const mapStateToProps = (state, { viewId }) => {
   // const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
 
-  const eventActionData = _.get(['tables', 'eventActions'], data); // data for modal
+  const eventActionsData = _.get(['tables', 'eventActions'], data); // data for modal
 
   return {
     data,
     // apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
-    eventActionData,
+    eventActionsData,
     windowId,
   };
 };
@@ -87,9 +87,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
   onCommandCellDoubleClick: (rowIndex) => {
-    const { eventActionData } = stateProps;
+    const { eventActionsData } = stateProps;
 
-    const data = eventActionData.data[rowIndex];
+    const data = eventActionsData.data[rowIndex];
 
     // extract modal data
     const {

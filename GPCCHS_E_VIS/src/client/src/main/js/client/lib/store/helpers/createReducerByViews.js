@@ -14,19 +14,20 @@ import * as types from '../types';
 
 const newSamplingState = (samplingState, lock) => {
   switch (lock) {
-    case 'on': {
-      return {
-        ...samplingState,
-        samplingLock: 'on',
-        samplingStatus: 'on',
-      };
-    }
-    case 'off': {
-      return {
-        ...samplingState,
-        samplingLock: 'off',
-      };
-    }
+    // TODO @JMIRA SAMPLING decomment if sampling is not guilty
+    // case 'on': {
+    //   return {
+    //     ...samplingState,
+    //     samplingLock: 'on',
+    //     samplingStatus: 'on',
+    //   };
+    // }
+    // case 'off': {
+    //   return {
+    //     ...samplingState,
+    //     samplingLock: 'off',
+    //   };
+    // }
     default: {
       return {
         ...samplingState,

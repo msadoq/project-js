@@ -122,6 +122,7 @@ const _getTableState =
  * @param source {array}
  * @param tableId {string} id identifying the table to inject data in
  * @param afterEach {function} callback function to be called on each inserted element
+ * @param config {object} view configuration
  * @returns {object} the updated state
  * @private
  */
@@ -129,12 +130,19 @@ export const injectTabularData = (
   state,
   tableId,
   source,
-  afterEach = null
+  afterEach = null,
+  config = null
 ) => {
   let tableState = _getTableState(state, tableId);
 
-  const colName = _.get([DATA_STATE_KEY, 'sort'], tableState);
-  const filters = _.getOr({}, [DATA_STATE_KEY, 'filters'], tableState);
+  let colName = _.get([DATA_STATE_KEY, 'sort'], tableState);
+  let filters = _.getOr({}, [DATA_STATE_KEY, 'filters'], tableState);
+
+  if (config !== null) {
+    const tablePath = ['tables', tableId];
+    colName = _.get([...tablePath, 'sorting', 'colName'], config);
+    filters = _.get([...tablePath, 'filters'], config);
+  }
 
   let updatedData = _.getOr([], 'data', tableState);
 
@@ -190,7 +198,8 @@ export const removeTabularData = (state, tableId, cond) => {
   let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
-    _.getOr([], 'data', tableState).filter((e, i) => !cond(e, i)),
+    _.getOr([], 'data', tableState)
+      .filter((e, i) => !cond(e, i)),
     tableState
   );
 
@@ -215,7 +224,8 @@ export const mapTabularData = (state, tableId, mapFunc) => {
   let tableState = _getTableState(state, tableId);
   tableState = _.set(
     'data',
-    _.getOr([], 'data', tableState).map((e, i) => mapFunc(e, i)),
+    _.getOr([], 'data', tableState)
+      .map((e, i) => mapFunc(e, i)),
     tableState
   );
 

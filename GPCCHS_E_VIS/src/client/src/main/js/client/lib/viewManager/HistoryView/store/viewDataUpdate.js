@@ -23,7 +23,10 @@ import { convertData } from 'viewManager/commonData/convertData';
 import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { applyFilters } from 'viewManager/commonData/applyFilters';
-import { isRangeDataObsolete, rangesNeedUpdateForObsolete } from 'viewManager/common/store/viewDataUpdate';
+import {
+  isRangeDataObsolete,
+  rangesNeedUpdateForObsolete,
+} from 'viewManager/common/store/viewDataUpdate';
 import { injectTabularData } from '../../commonData/reducer';
 import { getFlattenDataIdForObsoleteEvent } from '../../../common/flattenDataId';
 import { STATE_COLOR_NOMINAL } from '../../../windowProcess/common/colors';
@@ -37,7 +40,6 @@ const logger = getLogger('data:rangeValues');
  * @param viewId
  * @param payloads
  * @param historyConfig
- * @param visuWindow
  */
 export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
   const epKeys = Object.keys(payloads || {});
@@ -71,7 +73,8 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
     .forEach(
       (ep) => {
         const obsoleteEvents = _.getOr([], ['obsoleteEvents', ep], updatedState);
-        const timestamps = Object.keys(payloads[ep]).sort((a, b) => a - b);
+        const timestamps = Object.keys(payloads[ep])
+          .sort((a, b) => a - b);
         let lastObsoleteEventIndex = 0;
         const ranges = [];
         for (let i = 0; i < timestamps.length; i += 1) {
@@ -110,7 +113,9 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
           injectTabularData(
             updatedState,
             'history',
-            ranges
+            ranges,
+            null,
+            historyConfig
           );
 
         // get indexes from history table
@@ -196,18 +201,19 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
 export function selectDataPerView(currentViewMap, intervalMap, payload) {
   let epSubState = {};
   if (currentViewMap) {
-    Object.keys(currentViewMap.entryPoints).forEach((epName) => {
-      const ep = currentViewMap.entryPoints[epName];
-      // No payload for this tbd  Id
-      if (!payload[ep.tbdId]) {
-        return;
-      }
-      const newSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap);
-      epSubState = {
-        ...epSubState,
-        ...newSubState,
-      };
-    });
+    Object.keys(currentViewMap.entryPoints)
+      .forEach((epName) => {
+        const ep = currentViewMap.entryPoints[epName];
+        // No payload for this tbd  Id
+        if (!payload[ep.tbdId]) {
+          return;
+        }
+        const newSubState = selectEpData(payload[ep.tbdId], ep, epName, intervalMap);
+        epSubState = {
+          ...epSubState,
+          ...newSubState,
+        };
+      });
   }
   return epSubState;
 }

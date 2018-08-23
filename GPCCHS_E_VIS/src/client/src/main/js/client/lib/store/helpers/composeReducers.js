@@ -1,20 +1,17 @@
-// ====================================================================
-// HISTORY
-// VERSION : 1.1.2 : DM : #6700 : 16/06/2017 : Add store enhancers helpers code coverage and merge
-//  with dev
-// END-HISTORY
-// ====================================================================
+/**
+ * Returns a single reducer that applies successively an array of reducers
+ * and returns the resulting state
+ *
+ * @param reducers
+ * @returns {function(*, ...[*]): *}
+ */
+export default (...reducers) => (state, ...args) => {
+  let updatedState = state;
 
-import __ from 'lodash/fp';
+  for (let i = reducers.length - 1; i >= 0; i -= 1) {
+    const reducer = reducers[i];
+    updatedState = reducer(updatedState, ...args);
+  }
 
-const injectAction = action => reducer => state => reducer(state, action);
-
-/* ---------------------------- composeReducers ----------------------------- */
-// Purpose :           take some reducers and return a single reducers.
-// example :           composeReducers(r1, r2, r3)
-// is equivalent to :  (state, action) => r1(r2(r3(state, action), action), action)
-
-export default (...reducers) => (state, action) => {
-  const reducersWithAction = __.map(injectAction(action), reducers);
-  return __.compose(...reducersWithAction)(state, action);
+  return updatedState;
 };

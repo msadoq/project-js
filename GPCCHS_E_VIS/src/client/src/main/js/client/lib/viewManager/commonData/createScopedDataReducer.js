@@ -13,7 +13,7 @@ import {
 
 
 export default (scopedDataReducer, initialState = {}, viewType = null) =>
-  (state = {}, action) => {
+  (state = {}, action, rootState) => {
     switch (action.type) {
       case DATA_REMOVE_ALL_VIEWDATA:
       case HSC_CLOSE_WORKSPACE:
@@ -33,7 +33,7 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
         );
         return {
           ...updatedState,
-          [viewId]: scopedDataReducer(updatedState[viewId], action, viewId),
+          [viewId]: scopedDataReducer(updatedState[viewId], action, viewId, rootState),
         };
       }
       case WS_PAGE_OPENED:
@@ -78,7 +78,7 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
         if (viewId && state[viewId]) { // scoped action
           return _.set(
             viewId,
-            scopedDataReducer(state[viewId], action, viewId),
+            scopedDataReducer(state[viewId], action, viewId, rootState),
             updatedState
           );
         }
@@ -86,7 +86,8 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
         // multicast
         Object.keys(updatedState)
           .forEach((viewKey) => {
-            const updatedViewState = scopedDataReducer(state[viewKey], action, viewKey);
+            const updatedViewState =
+              scopedDataReducer(state[viewKey], action, viewKey, rootState);
 
             updatedState = _.set(
               viewKey,

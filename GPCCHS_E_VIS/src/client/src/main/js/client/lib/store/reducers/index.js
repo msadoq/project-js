@@ -39,7 +39,6 @@
 // END-HISTORY
 // ====================================================================
 
-import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
 import ObsoleteEvents from 'store/reducers/ObsoleteEvents';
 import knownRangesSamplingOn from 'store/reducers/knownRangesSamplingOn';
@@ -67,6 +66,7 @@ import comObjectMap from './comObjectMap';
 import cache from './cache';
 import { getConfigurationReducers, getDataReducers, getUiReducers } from '../../viewManager/reducers';
 import hsc from './hsc';
+import combineReducers from './combineReducers';
 
 const rootReducer = combineReducers({
   cache,

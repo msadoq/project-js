@@ -33,6 +33,7 @@ import {
   DATA_STATE_KEY, removeTabularData,
 } from '../../commonData/reducer';
 import { getVisuWindowByViewId } from '../../../store/selectors/views';
+import { getConfigurationByViewId } from '../../selectors';
 
 
 const _refreshCurrent = (state, { visuWindow, action }) => {
@@ -81,7 +82,7 @@ const _refreshCurrent = (state, { visuWindow, action }) => {
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-const scopedHistoryDataReducer = (state = {}, action, viewId) => {
+const scopedHistoryDataReducer = (state = {}, action, viewId, rootState) => {
   switch (action.type) {
     case WS_VIEW_ADD_BLANK: {
       return _.set(
@@ -95,12 +96,10 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
         dataToInject,
         newViewMap,
         newExpectedRangeIntervals,
-        configurations,
         visuWindow,
-      }
-        = action.payload;
+      } = action.payload;
 
-      const historyConfig = configurations.HistoryViewConfiguration[viewId];
+      const historyConfig = getConfigurationByViewId(rootState, { viewId });
 
       const dataKeys = Object.keys(dataToInject);
       if (!dataKeys.length) {
@@ -121,18 +120,17 @@ const scopedHistoryDataReducer = (state = {}, action, viewId) => {
       return updatedState;
     }
     case WS_VIEWDATA_CLEAN: {
-      const { previousDataMap, dataMap, configuration, state: globalState } = action.payload;
+      const { previousDataMap, dataMap } = action.payload;
       let updatedState = state;
       updatedState = cleanCurrentViewData(
         updatedState,
         previousDataMap.perView[viewId],
         dataMap.perView[viewId],
         previousDataMap.expectedRangeIntervals,
-        dataMap.expectedRangeIntervals,
-        configuration.HistoryViewConfiguration[viewId]
+        dataMap.expectedRangeIntervals
       );
 
-      const visuWindow = getVisuWindowByViewId(globalState, { viewId });
+      const visuWindow = getVisuWindowByViewId(rootState, { viewId });
 
       return _refreshCurrent(updatedState, { visuWindow, action });
     }

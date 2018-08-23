@@ -75,11 +75,7 @@ export default (scopedDataReducer, initialState = {}, viewType = null) =>
         const viewId = _.get(['payload', 'viewId'], action);
         let updatedState = state;
 
-        if (viewId) { // scoped action
-          if (!state[viewId]) {
-            updatedState = _.set(viewId, initialState, updatedState);
-          }
-
+        if (viewId && state[viewId]) { // scoped action
           return _.set(
             viewId,
             scopedDataReducer(state[viewId], action, viewId),

@@ -1,7 +1,6 @@
-import _ from 'lodash';
-
 import {
   getTupleId,
+  getUnitMetadata,
 } from 'store/reducers/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
@@ -53,8 +52,7 @@ export default function getUnitParams(state, props) {
     parameterName: catalogItem,
   } = parseFormula(formula);
 
-  const unit = _.get(state.catalogs, ['units', tupleId, catalog, catalogItem], 'Unknown');
-
+  const unit = getUnitMetadata(state.catalogs, { tupleId, name: catalog, itemName: catalogItem });
   return {
     domainId,
     sessionId,

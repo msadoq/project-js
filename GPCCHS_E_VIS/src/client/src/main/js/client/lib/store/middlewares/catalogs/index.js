@@ -1,10 +1,9 @@
-import { getTupleId, getUnitByItemName, REQUESTING } from 'store/reducers/catalogs';
+import { getTupleId, getItemMetadata, REQUESTING } from 'store/reducers/catalogs';
 
 import {
   WS_CATALOG_ITEMS_ASK,
   WS_CATALOGS_ASK,
   WS_COM_OBJECTS_ASK,
-  WS_UNIT_ASK,
   WS_ITEM_STRUCTURE_ASK,
   WS_ITEM_METADATA_ASK,
   WS_REPORTING_ITEM_PACKETS_ASK,
@@ -13,8 +12,6 @@ import {
   addCatalogItems,
   addCatalogs,
   addComObjects,
-  addUnit,
-  addUnitSimple,
   addItemStructure,
   addCatalogItemMetadata,
   addReportingItemPackets,
@@ -48,14 +45,6 @@ const asyncItemMetadataFetcher = (sessionId, domainId, catalogName, catalogItemN
 const asyncReportingItemPacketsFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
   dc.retrieveReportingItemPackets({ sessionId, domainId, catalogName, catalogItemName }, cb);
 
-const asyncUnitFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
-  dc.retrieveSDBCatalogItemFieldUnit(
-    {
-      sessionId,
-      domainId,
-      catalogName,
-      catalogItemName,
-    }, cb);
 
 const asyncItemStructureFetcher = (sessionId, domainId, catalogName, catalogItemName, cb) =>
   dc.retrieveCatalogItemStructure(
@@ -176,50 +165,6 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       );
       break;
     }
-    case WS_UNIT_ASK: {
-      const { sessionId, domainId, name, itemName } = action.payload;
-
-      const tupleId = getTupleId(domainId, sessionId);
-
-      const existingUnit = getUnitByItemName(
-        state,
-        {
-          tupleId,
-          name,
-          itemName,
-        }
-      );
-
-      if (existingUnit !== undefined) { // /!\ existingUnit could be an empty string
-        return nextAction;
-      }
-
-      asyncUnitFetcher(
-        sessionId,
-        domainId,
-        name,
-        itemName,
-        (unit) => {
-          dispatch(
-            addUnit(
-              tupleId,
-              name,
-              itemName,
-              unit
-            )
-          );
-          dispatch(
-            addUnitSimple(
-              tupleId,
-              name,
-              itemName,
-              unit
-            )
-          );
-        }
-      );
-      break;
-    }
     case WS_ITEM_STRUCTURE_ASK: {
       const { viewId } = action.payload;
 
@@ -278,7 +223,11 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       const { sessionId, domainId, catalogName, itemName } = action.payload;
       // fetch catalog items, then fetch onNeededMetadata for given itemName
       // TODO only if itemName matches /^[A-Z][A-Z_]*/g
-
+      const meta = getItemMetadata(state.catalogs,
+        { tupleId: getTupleId(domainId, sessionId), name: catalogName, itemName });
+      if (meta && Object.keys(meta).length !== 0) {
+        break;
+      }
       const fetchMeta = () => asyncItemMetadataFetcher(sessionId, domainId, catalogName, itemName,
         metadata => dispatch(
           addCatalogItemMetadata(

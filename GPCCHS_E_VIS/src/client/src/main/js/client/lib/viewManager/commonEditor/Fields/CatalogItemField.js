@@ -18,7 +18,6 @@ export default class CatalogItemField extends PureComponent {
     timelineId: PropTypes.string,
     catalogName: PropTypes.string,
     catalogsLoaded: PropTypes.bool,
-    askUnit: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -55,7 +54,7 @@ export default class CatalogItemField extends PureComponent {
   };
 
   render() {
-    const { catalogItems, domainId, timelineId, catalogName, askUnit, sessionId } = this.props;
+    const { catalogItems, domainId, timelineId, catalogName } = this.props;
     const disabled = (!domainId || !timelineId || !catalogName || catalogItems === null);
     return (
       <ErrorBoundary>
@@ -66,9 +65,6 @@ export default class CatalogItemField extends PureComponent {
           clearable
           disabled={disabled}
           options={computeOptions(catalogItems)}
-          onChange={(o, value) => {
-            askUnit(domainId, sessionId, catalogName, value);
-          }}
         />
       </ErrorBoundary>
     );

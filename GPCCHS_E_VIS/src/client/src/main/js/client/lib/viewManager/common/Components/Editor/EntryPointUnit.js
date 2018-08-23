@@ -22,7 +22,6 @@ export default class EntryPointUnit extends PureComponent {
     convertFrom: PropTypes.string,
     convertTo: PropTypes.string,
     unit: PropTypes.string,
-    askUnit: PropTypes.func.isRequired,
     domainId: PropTypes.number,
     sessionId: PropTypes.number,
     catalog: PropTypes.string,
@@ -37,25 +36,6 @@ export default class EntryPointUnit extends PureComponent {
     catalog: null,
     catalogItem: null,
   };
-  componentWillReceiveProps(nextProps) {
-    const {
-      askUnit,
-      domainId,
-      sessionId,
-      catalog,
-      catalogItem,
-    } = nextProps;
-
-    if (
-      domainId !== null &&
-      sessionId !== null &&
-      catalog !== null &&
-      catalogItem !== null
-    ) {
-      askUnit(domainId, sessionId, catalog, catalogItem);
-    }
-  }
-
 
   render() {
     const { unit } = this.props;

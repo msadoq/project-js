@@ -514,7 +514,6 @@ export class GrizzlyPlotView extends React.Component {
     pageId: PropTypes.string.isRequired,
     showLinks: PropTypes.bool,
     updateShowLinks: PropTypes.func.isRequired,
-    askUnit: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
     catalogs: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
     searchForThisView: PropTypes.bool.isRequired,
@@ -553,7 +552,6 @@ export class GrizzlyPlotView extends React.Component {
   componentWillReceiveProps(nextProps) {
     const {
       entryPoints,
-      askUnit,
     } = nextProps;
 
     Object.keys(entryPoints).forEach((catalogItem) => {
@@ -569,7 +567,6 @@ export class GrizzlyPlotView extends React.Component {
           catalog !== null &&
           catalogItem !== null
         ) {
-          askUnit(domainId, sessionId, catalog, catalogItem);
           this.setState({ updateUnit: true });
         } else {
           this.setState({ updateUnit: false });

@@ -406,3 +406,8 @@ export const getAlgorithmMetadata = createSelector(
     )(metadata),
   })
 );
+
+export const getUnitMetadata = createSelector(
+  getItemMetadata,
+  metadata => metadata.unit || 'Unknown'
+);

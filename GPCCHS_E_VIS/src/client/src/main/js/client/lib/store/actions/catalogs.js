@@ -6,7 +6,6 @@ import {
   WS_CATALOG_ITEMS_ADD,
   WS_COM_OBJECTS_ASK,
   WS_COM_OBJECTS_ADD,
-  WS_UNIT_ASK,
   WS_UNIT_ADD,
   WS_ITEM_STRUCTURE_ASK,
   WS_UNIT_ADD_SIMPLE,
@@ -57,14 +56,6 @@ export const addComObjects = simple(
   'name',
   'itemName',
   'comObjects'
-);
-
-export const askUnit = simple(
-  WS_UNIT_ASK,
-  'domainId',
-  'sessionId',
-  'name',
-  'itemName'
 );
 
 export const addUnit = simple(

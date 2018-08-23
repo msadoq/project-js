@@ -56,7 +56,6 @@ import { getTimebarTimelines } from 'store/reducers/timebarTimelines';
 import { getTimeline } from 'store/reducers/timelines';
 import { getConfigurationByViewId } from 'viewManager';
 import { getTimebar, isMaxVisuDurationExceeded } from 'store/reducers/timebars';
-import { askUnit } from 'store/actions/catalogs';
 import { toggleZoomState } from 'store/actions/sampling';
 import SizablePlotView from './PlotView';
 import { updateSearchCount } from '../../../../store/actions/pages';
@@ -100,7 +99,6 @@ const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators(
   updateShowLinks,
   toggleLegend,
   updateSearchCount: count => updateSearchCount(pageId, viewId, count),
-  askUnit,
   toggleZoomState,
 }, dispatch);
 

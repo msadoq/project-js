@@ -17,7 +17,6 @@ const propsStub = {
   updateViewPanels: () => null,
   removeEntryPoint: () => null,
   entryPointsPanels: {},
-  askUnit,
 };
 describe('EntryPointUnit :: render', () => {
   test('EntryPointUnit :: render', () => {

@@ -200,8 +200,12 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
           (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
         )
       );
-    const min = _min(axisEntryPoints.map(ep => data.min[ep.name]));
-    const max = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+    const dataMin = _min(axisEntryPoints.map(ep => data.min[ep.name]));
+    const dataMax = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+    const delta = dataMax - dataMin;
+    const margin = 0.1 * delta;
+    const min = dataMin - margin;
+    const max = dataMax + margin;
     // const min = 137;
     // const max = 140;
     return yAxes.push({

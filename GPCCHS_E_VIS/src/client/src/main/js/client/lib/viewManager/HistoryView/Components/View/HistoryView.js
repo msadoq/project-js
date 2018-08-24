@@ -271,7 +271,7 @@ class HistoryView extends React.Component {
    *   - it specifies if the cell should be outlined in green (latest value brefore current)
    *     with a new custom field `isCurrent`
    *
-   * @param config
+   * @param entryPoints
    * @param last
    * @returns {function(*=, *=): (*|{isCurrent})}
    */

@@ -56,9 +56,8 @@ class HistoryView extends React.Component {
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     last: PropTypes.shape(),
-    scrollPosition: PropTypes.shape().isRequired,
-    config: PropTypes.shape().isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
+    entryPointsWithMetadata: PropTypes.objectOf(PropTypes.object).isRequired,
     isTimelineSelected: PropTypes.bool.isRequired,
     searchForThisView: PropTypes.bool.isRequired,
     searching: PropTypes.string,
@@ -69,6 +68,7 @@ class HistoryView extends React.Component {
 
   static defaultProps = {
     currentRowIndexes: [],
+    entryPoints: [],
     last: {},
     inspectorEpId: null,
     isInspectorOpened: false,
@@ -275,9 +275,9 @@ class HistoryView extends React.Component {
    * @param last
    * @returns {function(*=, *=): (*|{isCurrent})}
    */
-  contentModifier = (config, last) => (cellContent, content) => {
+  contentModifier = (entryPoints, last) => (cellContent, content) => {
     let updatedCellContent = this._setCurrent(cellContent, content, last);
-    updatedCellContent = this._setConvertedValueUnit(updatedCellContent, content, config);
+    updatedCellContent = this._setConvertedValueUnit(updatedCellContent, content, entryPoints);
 
     return updatedCellContent;
   };
@@ -304,10 +304,9 @@ class HistoryView extends React.Component {
     return cellContent;
   };
 
-  _setConvertedValueUnit = (cellContent = {}, content = {}, config) => {
+  _setConvertedValueUnit = (cellContent = {}, content = {}, entryPoints = []) => {
     let updatedCellContent = cellContent;
 
-    const { entryPoints } = config;
     const { id: epId } = content;
 
     const epConf = entryPoints.find(ep => ep.id === epId) || {};
@@ -341,8 +340,8 @@ class HistoryView extends React.Component {
     const {
       viewId,
       pageId,
+      entryPointsWithMetadata: entryPoints,
       last,
-      config,
       isTimelineSelected,
       searching,
       searchForThisView,
@@ -368,7 +367,7 @@ class HistoryView extends React.Component {
               }}
               viewId={viewId}
               tableId={'history'}
-              contentModifier={this.contentModifier(config, last)}
+              contentModifier={this.contentModifier(entryPoints, last)}
               overrideStyle={this.overrideStyle}
               withGroups
               searching={searching}

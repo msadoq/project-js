@@ -38,24 +38,24 @@ import {
   getSearchViewsIds,
 } from '../../../../store/reducers/pages';
 import { updateSearchCount } from '../../../../store/actions/pages';
-import { getViewEntryPoints } from '../../../../store/selectors/views';
 import { areLinksShown, getLinks } from '../../../../store/reducers/views';
-import { getIsTimelineSelected, getScrollPosition } from '../../store/configurationSelectors';
+import { getIsTimelineSelected } from '../../store/configurationSelectors';
+import { getViewEntryPoints } from '../../../../store/selectors/views';
 
 
 const mapStateToProps = (state, { viewId, pageId }) => {
   const data = getData(state, { viewId });
-  let config = getConfigurationByViewId(state, { viewId });
   const entryPoints = getViewEntryPoints(state, { viewId });
+  const config = getConfigurationByViewId(state, { viewId });
   const last = _.getOr({}, 'last', data);
   const searching = getSearchingByPage(state, { pageId });
   const searchViewsIds = getSearchViewsIds(state, { pageId });
   const searchCount = getSearchCount(state, { pageId });
   const countBySearching = getCountBySearching(state, { viewId, searching });
-  const scrollPosition = getScrollPosition(state, { viewId });
   const isTimelineSelected = getIsTimelineSelected(state, { viewId });
 
-  config.entryPoints.forEach((ep, index) => {
+
+  const entryPointsWithMetadata = config.entryPoints.map((ep) => {
     const { connectedData } = ep;
 
     if (connectedData) {
@@ -65,11 +65,6 @@ const mapStateToProps = (state, { viewId, pageId }) => {
         const domainId = getDomainId(state, { domainName: domain });
         const session = getSessionByTimelineId(state, { timelineId: timeline });
         const sessionId = _.get('id', session);
-
-        const connectedDataPath = ['entryPoints', index, 'connectedData'];
-
-        config = _.set([...connectedDataPath, 'sessionId'], sessionId, config);
-        config = _.set([...connectedDataPath, 'domainId'], domainId, config);
 
         const tupleId = getTupleId(domainId, sessionId);
 
@@ -84,17 +79,18 @@ const mapStateToProps = (state, { viewId, pageId }) => {
 
         if (selectedCatalogItem) {
           const metadata = _.getOr({}, 'metadata', selectedCatalogItem);
-          config = _.set(['entryPoints', index, 'metadata'], metadata, config);
+          return { ...ep, metadata };
         }
       }
     }
+
+    return ep;
   });
 
   return {
-    config,
     entryPoints,
+    entryPointsWithMetadata,
     last,
-    scrollPosition,
     isTimelineSelected,
     searching,
     searchCount,

@@ -6,7 +6,7 @@ import './PUS19View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
-import HeaderStatus from '../../../common/Components/View/PUS/HeaderStatus';
+import ApidStatusHeader from '../../../common/Components/View/PUS/ApidStatusHeader';
 
 
 // EVENT ACTIONS
@@ -94,12 +94,9 @@ export const renderHeaders = (header) => {
   } = header;
   return (
     <ErrorBoundary>
-      <div className="info col-sm-4 pus19_ap">
-        Application Process&nbsp;
-        <input type="text" disabled value={serviceApidName} />&nbsp;
-        <input className="mw50" type="text" disabled value={serviceApid} />
-      </div>
-      <HeaderStatus
+      <ApidStatusHeader
+        serviceApidName={serviceApidName}
+        serviceApid={serviceApid}
         status={serviceStatus}
         lastUpdateMode={lastUpdateModeServiceStatus}
         lastUpdateTime={lastUpdateTimeServiceStatus}

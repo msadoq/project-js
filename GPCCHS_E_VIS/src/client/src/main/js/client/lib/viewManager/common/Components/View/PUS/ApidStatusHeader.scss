@@ -1,0 +1,25 @@
+.status {
+  justify-content: center;
+  .mw80 {
+	max-width: 80px;
+  }
+  .disabled{
+	background-color: #e67e22;
+  }
+  .enabled{
+	background-color: #2ecc71;
+  }
+}
+.apid{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: flex-start;
+  .mw100 {
+    max-width: 100px;
+  }
+  .mw30 {
+    max-width: 30px;
+  }
+}

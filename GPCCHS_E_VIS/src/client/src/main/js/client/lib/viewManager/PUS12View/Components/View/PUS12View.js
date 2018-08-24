@@ -6,7 +6,7 @@ import './PUS12View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
-import HeaderStatus from '../../../common/Components/View/PUS/HeaderStatus';
+import ApidStatusHeader from '../../../common/Components/View/PUS/ApidStatusHeader';
 
 
 const tooltips = {
@@ -80,19 +80,12 @@ export default class PUS12View extends React.Component {
       return renderInvald('Please fill-in configuration');
     }
 
-    const headers = data.headers.map(header =>
-      (
-        <div className="header">
-          {renderHeaders(
-            header.serviceApid,
-            header.serviceApidName,
-            header.serviceStatus,
-            header.lastUpdateModeServiceStatus,
-            header.lastUpdateTimeServiceStatus,
-            header.noOfParameterMonitoringDefinition
-          )}
-        </div>
-      ));
+    const headers = data.headers.map(header => (
+      <div className="header">
+        {renderHeader(header)}
+      </div>
+    ));
+
     return (
       <ErrorBoundary>
         <div className="pus12">
@@ -115,32 +108,33 @@ export default class PUS12View extends React.Component {
 }
 
 
-export const renderHeaders = (
-  serviceApid,
-  serviceApidName,
-  serviceStatus,
-  lastUpdateModeServiceStatus,
-  lastUpdateTimeServiceStatus,
-  noOfParameterMonitoringDefinition
-) => (
-  <ErrorBoundary>
-    <div className="info col-sm-4 pus12_ap">
-      Application Process&nbsp;
-      <input type="text" disabled value={serviceApidName} />&nbsp;
-      <input className="mw50" type="text" disabled value={serviceApid} />
-    </div>
-    <HeaderStatus
-      status={serviceStatus}
-      lastUpdateMode={lastUpdateModeServiceStatus}
-      lastUpdateTime={lastUpdateTimeServiceStatus}
-      label="Service Satus"
-    />
-    <div className="info col-sm-4 pus12_as">
-      Number Monitoring&nbsp;
-      <input type="text" disabled value={noOfParameterMonitoringDefinition} />&nbsp;
-    </div>
-  </ErrorBoundary>
-);
+export const renderHeader = (header) => {
+  const {
+    serviceApid,
+    serviceApidName,
+    serviceStatus,
+    lastUpdateModeServiceStatus,
+    lastUpdateTimeServiceStatus,
+    noOfParameterMonitoringDefinition,
+  } = header;
+
+  return (
+    <ErrorBoundary>
+      <ApidStatusHeader
+        serviceApidName={serviceApidName}
+        serviceApid={serviceApid}
+        status={serviceStatus}
+        lastUpdateMode={lastUpdateModeServiceStatus}
+        lastUpdateTime={lastUpdateTimeServiceStatus}
+        label="Service Satus"
+      />
+      <div className="info col-sm-4 pus12_as">
+        Number Monitoring&nbsp;
+        <input type="text" disabled value={noOfParameterMonitoringDefinition} />&nbsp;
+      </div>
+    </ErrorBoundary>
+  );
+};
 
 
 export const isValid = (apids, applicationProcessId) =>

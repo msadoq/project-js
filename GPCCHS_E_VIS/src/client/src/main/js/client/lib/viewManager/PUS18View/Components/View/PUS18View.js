@@ -6,6 +6,7 @@ import './PUS18View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
+import ApidStatusHeader from '../../../common/Components/View/PUS/ApidStatusHeader';
 
 // ON BOARD CTRL PROCEDURE
 const onBoardCtrlProceduresTooltips = {
@@ -31,18 +32,17 @@ export default class PUS18View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS18ViewContainer mapStateToProps
-    serviceApid: PropTypes.number,
-    serviceApidName: PropTypes.string,
-    apids: PropTypes.arrayOf(PropTypes.shape({
-      apidName: PropTypes.string,
-      apidRawValue: PropTypes.string,
-    })),
+    data: PropTypes.shape({
+      headers: PropTypes.arrayOf(PropTypes.shape()),
+      tables: PropTypes.shape(),
+    }),
   };
 
   static defaultProps = {
-    serviceApid: null,
-    serviceApidName: null,
-    apids: [],
+    data: {
+      headers: [],
+      tables: {},
+    },
   };
 
   static contextTypes = {
@@ -51,24 +51,25 @@ export default class PUS18View extends React.Component {
 
   render() {
     const {
-      serviceApid,
-      serviceApidName,
-      apids,
       viewId,
+      data,
     } = this.props;
 
-    if (!isValid(apids, serviceApid)) {
+    if (typeof data === 'object' && Object.keys(data).length === 0) {
       return renderInvald('Please fill-in configuration');
     }
+
+    const headers = data.headers.map(header => (
+      <div key={header.serviceApid} className="header">
+        {renderHeader(header)}
+      </div>
+    ));
 
     return (
       <ErrorBoundary>
         <div className="pus18">
           <div className="header">
-            {renderHeaders(
-              serviceApid,
-              serviceApidName
-            )}
+            {headers}
           </div>
           <div className="col-sm-12">
             <div className="row">
@@ -92,18 +93,25 @@ export default class PUS18View extends React.Component {
   }
 }
 
-export const renderHeaders = (
-  serviceApid,
-  serviceApidName
-) => (
-  <ErrorBoundary>
-    <div className="info col-sm-4 pus18_ap">
-      Application Process&nbsp;
-      <input type="text" disabled value={serviceApidName} />&nbsp;
-      <input className="mw50" type="text" disabled value={serviceApid} />
-    </div>
-  </ErrorBoundary>
-);
+export const renderHeader = (header) => {
+  const {
+    serviceApid,
+    serviceApidName,
+    engineStatus,
+    lastUpdateModeEngineStatus,
+    lastUpdateTimeEngineStatus,
+  } = header;
+  return (
+    <ApidStatusHeader
+      serviceApidName={serviceApidName}
+      serviceApid={serviceApid}
+      status={engineStatus}
+      lastUpdateMode={lastUpdateModeEngineStatus}
+      lastUpdateTime={lastUpdateTimeEngineStatus}
+      label="Engine Status"
+    />
+  );
+};
 
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'

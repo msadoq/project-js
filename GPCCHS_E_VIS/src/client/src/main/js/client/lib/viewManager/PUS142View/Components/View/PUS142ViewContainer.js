@@ -7,7 +7,6 @@ import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
 import { PUS_SERVICE_142 } from 'constants';
 import PUS142View from './PUS142View';
 
-import { getConfigurationByViewId } from '../../../selectors';
 import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 import { injectTabularData } from '../../../commonData/reducer';
 
@@ -52,41 +51,27 @@ const mapStateToProps = (state, { viewId }) => {
     data = injectTabularData(
       data,
       'parameterMonitorings',
-      _.getOr([], ['dataForTables', 'pus142FunctionalMonitoring'], data)
-        .reduce((acc, store) => [...acc, ...store.pus142ParameterMonitoringDefinition], [])
-        .map(param => ({
-          ...param,
-          lastUpdateModeId: updateTypes[String(_.getOr(200, 'lastUpdateModeId', param))],
-        }))
+      _.uniqBy(
+        'fMonId',
+        _.getOr([], ['dataForTables', 'pus142FunctionalMonitoring'], data)
+          .reduce((acc, store) => [...acc, ...store.pus142ParameterMonitoringDefinition], [])
+      ).map(param => ({
+        ...param,
+        lastUpdateModeId: updateTypes[String(_.getOr(200, 'lastUpdateModeId', param))],
+      }))
     );
     data = _.omit(['dataForTables'], data);
   }
 
-  const config = getConfigurationByViewId(state, { viewId });
   const windowId = getWindowIdByViewId(state, { viewId });
-
-
   return {
-    serviceApid: _.getOr(null, 'serviceApid', data),
-    serviceApidName: _.getOr(null, 'serviceApidName', data),
-    apids: _.getOr(null, ['entryPoints', 0, 'connectedData', 'apids'], config),
+    data,
     windowId,
   };
 };
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...ownProps,
-  ...stateProps,
-  ...dispatchProps,
-});
+const PUS142ViewContainer = connect(mapStateToProps, null)(PUS142View);
 
-const PUS142ViewContainer =
-  connect(
-    mapStateToProps,
-    mergeProps
-  )(PUS142View);
+PUS142ViewContainer.propTypes = { viewId: PropTypes.string.isRequired };
 
-PUS142ViewContainer.propTypes = {
-  viewId: PropTypes.string.isRequired,
-};
 export default PUS142ViewContainer;

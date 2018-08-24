@@ -33,18 +33,17 @@ export default class PUS142View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS142ViewContainer mapStateToProps
-    serviceApid: PropTypes.number,
-    serviceApidName: PropTypes.string,
-    apids: PropTypes.arrayOf(PropTypes.shape({
-      apidName: PropTypes.string,
-      apidRawValue: PropTypes.string,
-    })),
+    data: PropTypes.shape({
+      headers: PropTypes.arrayOf(PropTypes.shape()),
+      tables: PropTypes.shape(),
+    }),
   };
 
   static defaultProps = {
-    serviceApid: null,
-    serviceApidName: null,
-    apids: [],
+    data: {
+      headers: [],
+      tables: {},
+    },
   };
 
   static contextTypes = {
@@ -53,24 +52,27 @@ export default class PUS142View extends React.Component {
 
   render() {
     const {
-      serviceApid,
-      serviceApidName,
-      apids,
       viewId,
+      data,
     } = this.props;
 
-    if (!isValid(apids, serviceApid)) {
+    if (typeof data === 'object' && Object.keys(data).length === 0) {
       return renderInvald('Please fill-in configuration');
     }
+
+    const headers = data.headers.map(header =>
+      (
+        <div className="header">
+          {renderHeader(header)}
+        </div>
+      ));
+
 
     return (
       <ErrorBoundary>
         <div className="pus142">
-          <div className="header">
-            {renderHeaders(
-              serviceApid,
-              serviceApidName
-            )}
+          <div className="headers">
+            {headers}
           </div>
           <div className="col-sm-12">
             <div style={{ height: 400 }}>
@@ -96,7 +98,7 @@ export default class PUS142View extends React.Component {
   }
 }
 
-export const renderHeaders = (
+export const renderHeader = (
   serviceApid,
   serviceApidName
 ) => (

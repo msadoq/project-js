@@ -1,6 +1,6 @@
 import { shallowRenderSnapshot } from 'common/jest/utils';
 import stateTest from 'common/jest/stateTest';
-import HeaderStatus from 'viewManager/common/Components/View/PUS/HeaderStatus';
+import ApidStatusHeader from 'viewManager/common/Components/View/PUS/ApidStatusHeader';
 
 const propsStub = {
   status: 'ENABLED',
@@ -12,10 +12,10 @@ const propsStub = {
 describe('viewManager/common/Components/View/PUS/HeaderStatus', () => {
   describe('HeaderStatus :: render', () => {
     test('snapshot enabled', () => {
-      shallowRenderSnapshot(HeaderStatus, propsStub, stateTest);
+      shallowRenderSnapshot(ApidStatusHeader, propsStub, stateTest);
     });
     test('snapshot disabled', () => {
-      shallowRenderSnapshot(HeaderStatus, {
+      shallowRenderSnapshot(ApidStatusHeader, {
         ...propsStub,
         status: 'DISABLED',
       }, stateTest);

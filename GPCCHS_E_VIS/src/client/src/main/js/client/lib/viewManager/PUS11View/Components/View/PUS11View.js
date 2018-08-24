@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
-import { OverlayTrigger, Popover } from 'react-bootstrap';
+import { OverlayTrigger } from 'react-bootstrap';
 
 import './PUS11View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
-import HeaderStatus from '../../../common/Components/View/PUS/HeaderStatus';
-import { createTableData } from '../../../common/pus/tooltip';
+import ApidStatusHeader from '../../../common/Components/View/PUS/ApidStatusHeader';
+import { generatePopover } from '../../../common/pus/tooltip';
 
-const popoverStyle = { height: 70 };
 
 // SUB SCHEDULES
 const subSchedulesTooltips = {
@@ -69,7 +68,6 @@ export default class PUS11View extends React.Component {
   render() {
     const {
       viewId,
-      // apids,
       onCommandCellDoubleClick,
       data,
     } = this.props;
@@ -78,17 +76,18 @@ export default class PUS11View extends React.Component {
       return renderInvald('Please fill-in configuration');
     }
 
-    const headers = data.headers.map(header =>
-      (
-        <div className="header">
-          {renderHeader(header)}
-        </div>
-      ));
+    const headers = data.headers.map(header => (
+      <div key={header.serviceApid} className="header row">
+        {renderHeader(header)}
+      </div>
+    ));
 
     return (
       <ErrorBoundary>
         <div className="pus11">
-          {headers}
+          <div className="headers col-sm-12">
+            {headers}
+          </div>
           <div className="info col-sm-12 h100">
             <div className="row small">
               <div className="col-sm-6 h100">
@@ -125,27 +124,6 @@ export default class PUS11View extends React.Component {
   }
 }
 
-/**
- * @param id
- * @param time
- * @param mode
- * @returns {*}
- */
-export const generatePopover = (id, time, mode) => (
-  <Popover
-    id={id}
-    placement="bottom"
-    style={popoverStyle}
-  >
-    {createTableData({
-      lastUpdateMode: mode,
-      lastUpdateTime: time,
-    })}
-  </Popover>
-);
-
-const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
-
 export const renderHeader = (header) => {
   const {
     serviceApid,
@@ -175,14 +153,12 @@ export const renderHeader = (header) => {
     value: noFreeCommands,
   };
 
+  const popoverTrigger = ['hover', 'focus']; // avoid creating a new object in render
   return (
     <ErrorBoundary>
-      <div className="info col-sm-4 pus11_ap">
-        Application Process&nbsp;
-        <input type="text" disabled value={serviceApidName} />&nbsp;
-        <input className="mw50" type="text" disabled value={serviceApid} />
-      </div>
-      <HeaderStatus
+      <ApidStatusHeader
+        serviceApidName={serviceApidName}
+        serviceApid={serviceApid}
         status={scheduleStatus}
         lastUpdateMode={lastUpdateModeScheduleStatus}
         lastUpdateTime={lastUpdateTimeScheduleStatus}

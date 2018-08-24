@@ -37,13 +37,15 @@ const mapStateToProps = (state, { viewId }) => {
     data = injectTabularData(
       data,
       'storageDef',
-      _.getOr([], ['dataForTables', 'pus015PacketStore'], data)
-        .reduce((acc, store) => [...acc, ...store.pus015Packet], [])
-        .map(packet => ({
-          ...packet,
-          ...bindToBoolKey(['isSubsamplingRatioSet', 'subsamplingRatio', 'lastUpdateModeSubSamplingRatio'], packet),
-          lastUpdateModePacketId: updateTypes[String(_.getOr(200, 'lastUpdateModePacketId', packet))],
-        }))
+      _.uniqBy(
+        'uniqueId',
+        _.getOr([], ['dataForTables', 'pus015PacketStore'], data)
+          .reduce((acc, store) => [...acc, ...store.pus015Packet], [])
+      ).map(packet => ({
+        ...packet,
+        ...bindToBoolKey(['isSubsamplingRatioSet', 'subsamplingRatio', 'lastUpdateModeSubSamplingRatio'], packet),
+        lastUpdateModePacketId: updateTypes[String(_.getOr(200, 'lastUpdateModePacketId', packet))],
+      }))
     );
 
     data = _.omit(['dataForTables'], data);

@@ -76,7 +76,11 @@ export default class OffsetFields extends PureComponent {
     const { input } = this.props;
     const duration = moment.duration(input.value);
     ['days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
-      this[`${x}El`].value = duration.get(x);
+      if (x === 'days') {
+        this[`${x}El`].value = Math.trunc(duration.asDays());
+      } else {
+        this[`${x}El`].value = duration.get(x);
+      }
     });
   }
 

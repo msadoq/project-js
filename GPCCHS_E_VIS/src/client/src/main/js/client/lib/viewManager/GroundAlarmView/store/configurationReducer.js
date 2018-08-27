@@ -11,7 +11,7 @@ const initialConfiguration = {
     main: {
       cols: [
         {
-          title: 'timestamp',
+          title: 'alarmDate',
           value: 'timestamp',
           position: 0,
           displayed: true,

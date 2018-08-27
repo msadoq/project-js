@@ -104,7 +104,7 @@ Arrow.propTypes = {
 };
 
 // Used because we need an additional column for expand/collapse
-const getColumns = cols => ['', ...cols];
+const getColumns = cols => [{ key: '', name: '' }, ...cols];
 
 const computeRowClassnameForType = row => `row-typeof-${row.type}`;
 
@@ -124,14 +124,14 @@ export const Table = ({
           style={{ height: `${rowHeight}px` }}
         >
           {
-          getColumns(cols).map(col => (
+          getColumns(cols).map(({ key }) => (
             <th
-              key={col}
-              className={col !== '' ? styles.search : undefined}
+              key={key}
+              className={key !== '' ? styles.search : undefined}
             >
               {
-                col !== ''
-                  ? <SearchInput value={search[col]} onInput={value => onSearch(col, value)} />
+                key !== ''
+                  ? <SearchInput value={search[key]} onInput={value => onSearch(key, value)} />
                   : <SearchIcon enabled={enableSearch} onClick={onClickSearchIcon} />
               }
             </th>
@@ -142,19 +142,19 @@ export const Table = ({
           style={{ height: `${rowHeight}px` }}
         >
           {
-          getColumns(cols).map(col => (
+          getColumns(cols).map(({ key, name }) => (
             <th
               onClick={() => (
-                col !== '' && toggleSort(col)
+                key !== '' && toggleSort(key)
               )}
               className={classnames({
-                [styles.header]: col !== '',
+                [styles.header]: key !== '',
               })}
-              key={col}
+              key={key}
             >
-              { col === '' && !enableSearch && <SearchIcon enabled={enableSearch} onClick={onClickSearchIcon} /> }
-              { sort.column === col && <Arrow mode={sort.mode} /> }
-              {col}
+              { key === '' && !enableSearch && <SearchIcon enabled={enableSearch} onClick={onClickSearchIcon} /> }
+              { sort.column === key && <Arrow mode={sort.mode} /> }
+              {name}
             </th>
           ))
         }
@@ -193,7 +193,7 @@ export const Table = ({
                     className={classnames({
                       [styles.collapseColumn]: index === 0,
                     })}
-                    key={col}
+                    key={col.key}
                   >
                     {
                       index === 0 && row.type === 'row'
@@ -203,7 +203,7 @@ export const Table = ({
                         <CollapseButton collapsed onClick={() => onUncollapse(row)} />
                       ))
                     }
-                    {data[col]}
+                    {data[col.key]}
                   </td>
                 ))
               }
@@ -240,9 +240,9 @@ export const Table = ({
                     className={classnames({
                       [styles.collapseColumn]: index === 0,
                     })}
-                    key={col}
+                    key={col.key}
                   >
-                    {col}
+                    {col.key}
                   </th>
                 ))
               ) : [

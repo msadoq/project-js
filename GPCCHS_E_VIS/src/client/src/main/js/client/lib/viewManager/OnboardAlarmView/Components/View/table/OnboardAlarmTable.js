@@ -11,8 +11,48 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import styles from './OnboardAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
-const COLS = ['timestamp', 'alarmType', 'satellite', 'telemetryType', 'RIDId', 'RIDName', 'reportType', 'ackState'];
-const PARAMETERS_COLS = ['name', 'value'];
+const COLS = [
+  {
+    name: 'alarmDate',
+    key: 'timestamp',
+  },
+  {
+    name: 'alarmType',
+    key: 'alarmType',
+  },
+  {
+    name: 'satellite',
+    key: 'satellite',
+  },
+  {
+    name: 'telemetryType',
+    key: 'telemetryType',
+  },
+  {
+    name: 'RIDId',
+    key: 'RIDId',
+  },
+  {
+    name: 'RIDName',
+    key: 'RIDName',
+  },
+  {
+    name: 'reportType',
+    key: 'reportType',
+  },
+  {
+    name: 'ackState',
+    key: 'ackState',
+  }];
+const PARAMETERS_COLS = [
+  {
+    name: 'name',
+    key: 'name',
+  },
+  {
+    name: 'value',
+    key: 'value',
+  }];
 
 const initialState = {
   hoveredParameter: {},

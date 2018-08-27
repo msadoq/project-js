@@ -11,7 +11,27 @@ import styles from './GroundAlarmTable.css';
 
 const THEAD_DEFAULT_HEIGHT = 22; // in pixel
 
-const TRANSITION_COLS = ['onboardDate', 'groundDate', 'convertedValue', 'rawValue', 'monitoringState'];
+const TRANSITION_COLS = [
+  {
+    name: 'onboardDate',
+    key: 'onboardDate',
+  },
+  {
+    name: 'groundDate',
+    key: 'groundDate',
+  },
+  {
+    name: 'convertedValue',
+    key: 'convertedValue',
+  },
+  {
+    name: 'rawValue',
+    key: 'rawValue',
+  },
+  {
+    name: 'monitoringState',
+    key: 'monitoringState',
+  }];
 
 const initialState = {
   hoveredAlarm: undefined,
@@ -135,7 +155,7 @@ class GroundAlarmTable extends React.Component {
     const { selectedAlarms, expandedAlarms, columns } = this.props;
     const columnsTitles = columns
       .filter(item => item.displayed)
-      .map(item => item.title);
+      .map(item => ({ name: item.title, key: item.value }));
     const style = {
       height: this.props.containerHeight,
       width: this.props.containerWidth,

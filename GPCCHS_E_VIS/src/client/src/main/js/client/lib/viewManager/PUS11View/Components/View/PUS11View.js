@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import { OverlayTrigger } from 'react-bootstrap';
-
+import _ from 'lodash/fp';
 import './PUS11View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
@@ -72,11 +72,7 @@ export default class PUS11View extends React.Component {
       data,
     } = this.props;
 
-    if (typeof data === 'object' && Object.keys(data).length === 0) {
-      return renderInvald('Please fill-in configuration');
-    }
-
-    const headers = data.headers.map(header => (
+    const headers = _.getOr([], ['headers'], data).map(header => (
       <div key={header.serviceApid} className="header row">
         {renderHeader(header)}
       </div>
@@ -94,7 +90,7 @@ export default class PUS11View extends React.Component {
                 <VirtualizedTableViewContainer
                   viewId={viewId}
                   tableId={'subSchedules'}
-                  data={data.tables.subSchedules.data}
+                  data={_.getOr([], ['tables', 'subSchedules', 'data'], data)}
                   overrideStyle={_subSchedulesOverrideStyle}
                   contentModifier={_subSchedulesContentModifier}
                 />
@@ -103,7 +99,7 @@ export default class PUS11View extends React.Component {
                 <VirtualizedTableViewContainer
                   viewId={viewId}
                   tableId={'enabledApids'}
-                  data={data.tables.enabledApids.data}
+                  data={_.getOr([], ['tables', 'enabledApids', 'data'], data)}
                 />
               </div>
             </div>
@@ -111,7 +107,7 @@ export default class PUS11View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'commands'}
-                data={data.tables.commands.data}
+                data={_.getOr([], ['tables', 'commands', 'data'], data)}
                 overrideStyle={_commandsOverrideStyle}
                 contentModifier={_commandContentModifier}
                 onCellDoubleClick={onCommandCellDoubleClick}
@@ -186,14 +182,3 @@ export const renderHeader = (header) => {
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
 ;
-
-export const renderInvald = error => (
-  <div className="pus11 h100 posRelative">
-    <div className="flex h100">
-      <div className="renderErrorText">
-        Unable to render view <br />
-        {error}
-      </div>
-    </div>
-  </div>
-);

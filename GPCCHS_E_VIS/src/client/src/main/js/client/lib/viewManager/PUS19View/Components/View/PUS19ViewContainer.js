@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
-import { PUS_SERVICE_19 } from 'constants';
+import parameters from 'common/configurationManager';
 import { open as openModal } from 'store/actions/modals';
+import { getWindowIdByViewId } from 'store/selectors/windows';
+import { getConfigurationByViewId } from 'viewManager/selectors';
+import { injectTabularData } from 'viewManager/commonData/reducer';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
-import PUS19View from './PUS19View';
-import { getWindowIdByViewId } from '../../../../store/selectors/windows';
-import { injectTabularData } from '../../../commonData/reducer';
-import parameters from '../../../../common/configurationManager';
+import { formatBinaryProfile } from 'viewManager/common/pus/utils';
 
-const formatBinaryProfile = binaryProfile => (
-  binaryProfile.length === 0
-    ? []
-    : binaryProfile.match(/.{1,16}/g).map(row => row.match(/.{1,2}/g))
-);
+import { PUS_SERVICE_19 } from 'constants';
+import PUS19View from './PUS19View';
+
 const updatesConstantsAndTables = (pusData) => {
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
   const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
@@ -52,6 +50,12 @@ const mapStateToProps = (state, { viewId }) => {
     data = updatesConstantsAndTables(data);
   }
 
+  const apids = _.getOr(
+    [],
+    ['connectedData', 'apids'],
+    _.head(getConfigurationByViewId(state, { viewId }).entryPoints)
+  );
+
   const windowId = getWindowIdByViewId(state, { viewId });
 
   const eventActionsData = _.get(['tables', 'eventActions'], data); // data for modal
@@ -59,12 +63,13 @@ const mapStateToProps = (state, { viewId }) => {
   return {
     data,
     eventActionsData,
+    apids,
     windowId,
   };
 };
 
 const mapDispatchToProps = (dispatch, { viewId }) => ({
-  onCommandCellDoubleClick: (windowId, binaryProfile) => {
+  onEventCellDoubleClick: (windowId, binaryProfile) => {
     dispatch(
       openModal(
         windowId,
@@ -83,7 +88,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,
   ...dispatchProps,
-  onCommandCellDoubleClick: (rowIndex) => {
+  onEventCellDoubleClick: (rowIndex) => {
     const { eventActionsData } = stateProps;
 
     const data = eventActionsData.data[rowIndex];
@@ -97,7 +102,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       actionTcPacket,
     };
 
-    dispatchProps.onCommandCellDoubleClick(
+    dispatchProps.onEventCellDoubleClick(
       stateProps.windowId,
       binaryProfile
     );

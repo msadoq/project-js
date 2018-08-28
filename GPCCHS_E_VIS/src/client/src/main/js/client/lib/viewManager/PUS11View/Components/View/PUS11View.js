@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import { OverlayTrigger } from 'react-bootstrap';
 import _ from 'lodash/fp';
-import './PUS11View.scss';
 import VirtualizedTableViewContainer
-  from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
-import ApidStatusHeader from '../../../common/Components/View/PUS/ApidStatusHeader';
-import { generatePopover } from '../../../common/pus/tooltip';
+  from 'viewManager/common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
+import { tableOverrideStyle, tableModifier } from 'viewManager/common/pus/utils';
+import ApidStatusHeader from 'viewManager/common/Components/View/PUS/ApidStatusHeader';
+import ApidsList from 'viewManager/common/Components/View/PUS/ApidsList';
+import { generatePopover } from 'viewManager/common/pus/tooltip';
 
+import './PUS11View.scss';
 
 // SUB SCHEDULES
 const subSchedulesTooltips = {
@@ -47,6 +48,7 @@ export default class PUS11View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS11ViewContainer mapStateToProps
+    apids: PropTypes.arrayOf(PropTypes.shape()),
     data: PropTypes.shape({
       headers: PropTypes.arrayOf(PropTypes.shape()),
       tables: PropTypes.shape(),
@@ -55,6 +57,7 @@ export default class PUS11View extends React.Component {
   };
 
   static defaultProps = {
+    apids: [],
     data: {
       headers: [],
       tables: {},
@@ -70,13 +73,16 @@ export default class PUS11View extends React.Component {
       viewId,
       onCommandCellDoubleClick,
       data,
+      apids,
     } = this.props;
 
-    const headers = _.getOr([], ['headers'], data).map(header => (
+    const headersData = _.getOr([], ['headers'], data);
+    const headers = headersData.length > 0 ?
+    headersData.map(header => (
       <div key={header.serviceApid} className="header row">
         {renderHeader(header)}
       </div>
-    ));
+    )) : ApidsList(apids);
 
     return (
       <ErrorBoundary>
@@ -135,6 +141,7 @@ export const renderHeader = (header) => {
     lastUpdateTimeFreeSpace,
     lastUpdateModeFreeSpace,
   } = header;
+
   // Available Space display
   const { label, mode, time, value } = spaceInNumberOfCommands ?
   {

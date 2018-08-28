@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import _ from 'lodash/fp';
+import VirtualizedTableViewContainer
+from 'viewManager/common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
+import { tableOverrideStyle, tableModifier } from 'viewManager/common/pus/utils';
+import ApidsList from 'viewManager/common/Components/View/PUS/ApidsList';
 
 import './PUS15View.scss';
-import VirtualizedTableViewContainer
-  from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
-import ApidsList from '../../../common/Components/View/PUS/ApidsList';
-
 
 // ON BOARD STORAGES
 const _onBoardStoragesStatusKeyList = ['storeStatus', 'downlinkStatus'];
@@ -98,13 +97,3 @@ export default class PUS15View extends React.Component {
   }
 }
 
-export const renderInvald = error => (
-  <div className="pus15 h100 posRelative">
-    <div className="flex h100">
-      <div className="renderErrorText">
-        Unable to render view <br />
-        {error}
-      </div>
-    </div>
-  </div>
-);

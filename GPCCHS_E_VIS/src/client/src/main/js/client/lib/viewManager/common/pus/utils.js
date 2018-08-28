@@ -101,6 +101,12 @@ export const getViewServiceFromType = (type) => {
   return pusTypes[type] || null;
 };
 
+export const formatBinaryProfile = binaryProfile => (
+  binaryProfile.length === 0
+    ? []
+    : binaryProfile.match(/.{1,16}/g).map(row => row.match(/.{1,2}/g))
+);
+
 /**
  * @param boolKey boolean condition to display key value
  * @param key displayed if boolKey, or empty

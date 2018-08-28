@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
-import { PUS_SERVICE_11 } from 'constants';
+import parameters from 'common/configurationManager';
 import { open as openModal } from 'store/actions/modals';
+import { getWindowIdByViewId } from 'store/selectors/windows';
+import { getConfigurationByViewId } from 'viewManager/selectors';
+import { injectTabularData } from 'viewManager/commonData/reducer';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
-import PUS11View from './PUS11View';
-import { getWindowIdByViewId } from '../../../../store/selectors/windows';
-import { injectTabularData } from '../../../commonData/reducer';
-import parameters from '../../../../common/configurationManager';
+import { formatBinaryProfile } from 'viewManager/common/pus/utils';
 
-const formatBinaryProfile = binaryProfile => (
-  binaryProfile.length === 0
-    ? []
-    : binaryProfile.match(/.{1,16}/g).map(row => row.match(/.{1,2}/g))
-);
+import { PUS_SERVICE_11 } from 'constants';
+import PUS11View from './PUS11View';
+
 
 const updatesConstantsAndTables = (pusData) => {
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
@@ -96,6 +94,11 @@ const mapStateToProps = (state, { viewId }) => {
     data = updatesConstantsAndTables(data);
   }
 
+  const apids = _.getOr(
+    [],
+    ['connectedData', 'apids'],
+    _.head(getConfigurationByViewId(state, { viewId }).entryPoints)
+  );
   const windowId = getWindowIdByViewId(state, { viewId });
 
   const commandData = _.get(['tables', 'commands'], data); // data for modal
@@ -103,6 +106,7 @@ const mapStateToProps = (state, { viewId }) => {
   return {
     data,
     commandData,
+    apids,
     windowId,
   };
 };

@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import parameters from 'common/configurationManager';
+import { getWindowIdByViewId } from 'store/selectors/windows';
+import { getConfigurationByViewId } from 'viewManager/selectors';
+import { injectTabularData } from 'viewManager/commonData/reducer';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
+
 import { PUS_SERVICE_14 } from 'constants';
 import PUS14View from './PUS14View';
-import { injectTabularData } from '../../../commonData/reducer';
-import { getConfigurationByViewId } from '../../../selectors';
-import { getWindowIdByViewId } from '../../../../store/selectors/windows';
-
 
 const mapStateToProps = (state, { viewId }) => {
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;

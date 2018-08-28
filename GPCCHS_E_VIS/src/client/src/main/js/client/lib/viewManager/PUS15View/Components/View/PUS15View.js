@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import _ from 'lodash/fp';
 
 import './PUS15View.scss';
 import VirtualizedTableViewContainer
@@ -49,7 +50,7 @@ export default class PUS15View extends React.Component {
   };
 
   static defaultProps = {
-    apids: {},
+    apids: [],
     data: {
       headers: [],
       tables: {},
@@ -67,9 +68,6 @@ export default class PUS15View extends React.Component {
       apids,
     } = this.props;
 
-    if (typeof data === 'object' && Object.keys(data).length === 0) {
-      return renderInvald('Please fill-in configuration');
-    }
 
     return (
       <ErrorBoundary>
@@ -80,7 +78,7 @@ export default class PUS15View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'onBoardStorages'}
-                data={data.tables.onBoardStorages.data}
+                data={_.getOr([], ['tables', 'onBoardStorages', 'data'], data)}
                 contentModifier={_onBoardStoragesModifier}
                 overrideStyle={_onBoardStoragesOverrideStyle}
               />
@@ -89,7 +87,7 @@ export default class PUS15View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'storageDef'}
-                data={data.tables.storageDef.data}
+                data={_.getOr([], ['tables', 'storageDef', 'data'], data)}
                 contentModifier={_storageDefContentModifier}
               />
             </div>

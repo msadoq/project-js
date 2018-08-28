@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import _ from 'lodash/fp';
 
 import './PUS14View.scss';
 import VirtualizedTableViewContainer
@@ -41,7 +42,7 @@ export default class PUS14View extends React.Component {
   };
 
   static defaultProps = {
-    apids: {},
+    apids: [],
     data: {
       headers: [],
       tables: {},
@@ -59,10 +60,6 @@ export default class PUS14View extends React.Component {
       apids,
     } = this.props;
 
-    if (typeof data === 'object' && Object.keys(data).length === 0) {
-      return renderInvald('Please fill-in configuration');
-    }
-
     return (
       <ErrorBoundary>
         <div className="pus14">
@@ -72,7 +69,7 @@ export default class PUS14View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'packetForwarding'}
-                data={data.tables.packetForwarding.data}
+                data={_.getOr([], ['tables', 'packetForwarding', 'data'], data)}
                 overrideStyle={packetForwardingOverrideStyle}
                 contentModifier={packetForwardingContentModifier}
               />
@@ -83,19 +80,3 @@ export default class PUS14View extends React.Component {
     );
   }
 }
-
-
-export const isValid = (apids, applicationProcessId) =>
-  Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
-  ;
-
-export const renderInvald = error => (
-  <div className="pus14 h100 posRelative">
-    <div className="flex h100">
-      <div className="renderErrorText">
-        Unable to render view <br />
-        {error}
-      </div>
-    </div>
-  </div>
-);

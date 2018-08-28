@@ -179,6 +179,3 @@ export const renderHeader = (header) => {
   );
 };
 
-export const isValid = (apids, applicationProcessId) =>
-  Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
-;

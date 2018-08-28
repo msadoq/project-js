@@ -34,6 +34,7 @@ export default class PUS13View extends React.Component {
       headers: PropTypes.arrayOf(PropTypes.shape()),
       tables: PropTypes.shape(),
     }),
+    onLdtCellDoubleClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -50,6 +51,7 @@ export default class PUS13View extends React.Component {
   render() {
     const {
       viewId,
+      onLdtCellDoubleClick,
       data,
     } = this.props;
 
@@ -65,7 +67,9 @@ export default class PUS13View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'uplink'}
+                data={data.tables.uplink.data}
                 contentModifier={_linkModifier}
+                onCellDoubleClick={onLdtCellDoubleClick('uplink')}
               />
             </div>
           </div>
@@ -74,7 +78,9 @@ export default class PUS13View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'downlink'}
+                data={data.tables.uplink.data}
                 contentModifier={_linkModifier}
+                onCellDoubleClick={onLdtCellDoubleClick('downlink')}
               />
             </div>
           </div>

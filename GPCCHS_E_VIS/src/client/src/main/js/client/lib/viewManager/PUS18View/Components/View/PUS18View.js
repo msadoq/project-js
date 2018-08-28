@@ -13,7 +13,7 @@ const onBoardCtrlProceduresTooltips = {
   obcpId: { mode: 'lastUpdateModeObcpId', time: 'lastUpdateTimeObcpId' },
   status: { mode: 'lastUpdateModeStatus', time: 'lastUpdateTimeStatus' },
   stepId: { mode: 'lastUpdateModeStepId', time: 'lastUpdateTimeStepId' },
-  partitionId: { mode: 'lastUpdateModePartitionId', time: 'lastUpdateModePartitionId' },
+  partitionId: { mode: 'lastUpdateModePartitionId', time: 'lastUpdateTimePartitionId' },
   observabilityLevel: { mode: 'lastUpdateModeObsLevel', time: 'lastUpdateTimeObsLevel' },
   priority: { mode: 'lastUpdateModePriority', time: 'lastUpdateTimePriority' },
 };
@@ -26,6 +26,10 @@ const _onBoardCtrlProceduresStatusKeyList = [
 const _onBoardCtrlProceduresOverrideStyle = tableOverrideStyle(_onBoardCtrlProceduresStatusKeyList);
 
 // PROCEDURE PARAMETERS
+const procedureParametersTooltips = {
+  parameterId: { mode: 'lastUpdateModeParameterId', time: 'lastUpdateTimeParameterId' },
+};
+const _procedureParametersModifier = tableModifier(procedureParametersTooltips);
 
 export default class PUS18View extends React.Component {
   static propTypes = {
@@ -68,22 +72,25 @@ export default class PUS18View extends React.Component {
     return (
       <ErrorBoundary>
         <div className="pus18">
-          <div className="header">
+          <div className="headers col-sm-12">
             {headers}
           </div>
-          <div className="col-sm-12">
-            <div className="row">
+          <div className="col-sm-12 h100">
+            <div className="row tablesHeight">
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'onBoardCtrlProcedures'}
+                data={data.tables.onBoardCtrlProcedures.data}
                 contentModifier={_onBoardCtrlProceduresModifier}
                 overrideStyle={_onBoardCtrlProceduresOverrideStyle}
               />
             </div>
-            <div className="row">
+            <div className="row tablesHeight">
               <VirtualizedTableViewContainer
                 viewId={viewId}
+                data={data.tables.procedureParameters.data}
                 tableId={'procedureParameters'}
+                contentModifier={_procedureParametersModifier}
               />
             </div>
           </div>

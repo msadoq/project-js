@@ -6,6 +6,7 @@ import './PUS142View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
+import ApidStatusHeader from '../../../common/Components/View/PUS/ApidStatusHeader';
 
 // FUNCTIONAL MONITORING
 const functionalMonitoringTooltips = {
@@ -67,7 +68,6 @@ export default class PUS142View extends React.Component {
         </div>
       ));
 
-
     return (
       <ErrorBoundary>
         <div className="pus142">
@@ -75,19 +75,19 @@ export default class PUS142View extends React.Component {
             {headers}
           </div>
           <div className="col-sm-12">
-            <div style={{ height: 400 }}>
+            <div className="row tablesHeight">
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'functionalMonitoring'}
+                data={data.tables.functionalMonitoring.data}
                 contentModifier={_functionalMonitoringModifier}
                 overrideStyle={_functionalMonitoringOverrideStyle}
               />
             </div>
-          </div>
-          <div className="col-sm-12">
-            <div style={{ height: 400 }}>
+            <div className="row tablesHeight">
               <VirtualizedTableViewContainer
                 viewId={viewId}
+                data={data.tables.parameterMonitorings.data}
                 tableId={'parameterMonitorings'}
               />
             </div>
@@ -98,18 +98,28 @@ export default class PUS142View extends React.Component {
   }
 }
 
-export const renderHeader = (
-  serviceApid,
-  serviceApidName
-) => (
-  <ErrorBoundary>
-    <div className="info col-sm-4 pus142_ap">
-      Application Process&nbsp;
-      <input type="text" disabled value={serviceApidName} />&nbsp;
-      <input className="mw50" type="text" disabled value={serviceApid} />
-    </div>
-  </ErrorBoundary>
-);
+export const renderHeader = (header) => {
+  const {
+    serviceApid,
+    serviceApidName,
+    serviceStatus,
+    lastUpdateModeServiceStatus,
+    lastUpdateTimeServiceStatus,
+  } = header;
+  return (
+    <ErrorBoundary>
+      <ApidStatusHeader
+        serviceApidName={serviceApidName}
+        serviceApid={serviceApid}
+        status={serviceStatus}
+        lastUpdateMode={lastUpdateModeServiceStatus}
+        lastUpdateTime={lastUpdateTimeServiceStatus}
+        label="Service Status"
+      />
+    </ErrorBoundary>
+  );
+};
+
 
 export const isValid = (apids, applicationProcessId) =>
   Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'

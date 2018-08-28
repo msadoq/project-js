@@ -48,15 +48,13 @@ export default class PUS140View extends React.Component {
     return (
       <ErrorBoundary>
         <div className="pus140">
-          <div className="col-sm-12">
-            <div style={{ height: 400 }}>
-              <VirtualizedTableViewContainer
-                viewId={viewId}
-                tableId={'parameters'}
-                data={data.tables.parameters.data}
-                contentModifier={_parametersModifier}
-              />
-            </div>
+          <div className="col-sm-12 h100">
+            <VirtualizedTableViewContainer
+              viewId={viewId}
+              tableId={'parameters'}
+              data={data.tables.parameters.data}
+              contentModifier={_parametersModifier}
+            />
           </div>
         </div>
       </ErrorBoundary>

@@ -15,7 +15,7 @@ const getAStatus = () => predictibleRand.getFrom([1, 2, 3, 200]);
 // FUNCTIONAL_MONITORING_CHECKING_STATUS(PUS142),
 const getACheckType = () => predictibleRand.getInt([1, 4]).toString();
 
-const getALtGroundStatus = () => predictibleRand.getInt([1, 7]).toString();
+const getALtGroundStatus = () => predictibleRand.getInt([1, 10]).toString();
 const getAnUpdateMode = () => predictibleRand.getInt([1, 4]);
 const getABoolean = () => predictibleRand.getBool();
 const getAGroundStatus = () => predictibleRand.getInt([1, 8]).toString();
@@ -1111,7 +1111,6 @@ const getPus18Payload = (timestamp, serviceApid, type) => {
           stubData.getPus018Obcp({
             serviceApid,
             status: getAStatus(),
-            downlinkStatus: getAStatus(),
             lastUpdateModeObcpId: getAnUpdateMode(),
             lastUpdateModeStatus: getAnUpdateMode(),
             lastUpdateModeStepId: getAnUpdateMode(),
@@ -1128,7 +1127,6 @@ const getPus18Payload = (timestamp, serviceApid, type) => {
           stubData.getPus018Obcp({
             serviceApid,
             status: getAStatus(),
-            downlinkStatus: getAStatus(),
             lastUpdateModeObcpId: getAnUpdateMode(),
             lastUpdateModeStatus: getAnUpdateMode(),
             lastUpdateModeStepId: getAnUpdateMode(),
@@ -1153,7 +1151,6 @@ const getPus18Payload = (timestamp, serviceApid, type) => {
     payload: stubData.getPus018ObcpProtobuf({
       serviceApid,
       status: getAStatus(),
-      downlinkStatus: getAStatus(),
       lastUpdateModeObcpId: getAnUpdateMode(),
       lastUpdateModeStatus: getAnUpdateMode(),
       lastUpdateModeStepId: getAnUpdateMode(),

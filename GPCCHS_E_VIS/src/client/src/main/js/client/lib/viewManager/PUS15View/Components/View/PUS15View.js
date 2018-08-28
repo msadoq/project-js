@@ -6,6 +6,7 @@ import './PUS15View.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
+import ApidsList from '../../../common/Components/View/PUS/ApidsList';
 
 
 // ON BOARD STORAGES
@@ -40,6 +41,7 @@ export default class PUS15View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS15ViewContainer mapStateToProps
+    apids: PropTypes.arrayOf(PropTypes.shape()),
     data: PropTypes.shape({
       headers: PropTypes.arrayOf(PropTypes.shape()),
       tables: PropTypes.shape(),
@@ -47,6 +49,7 @@ export default class PUS15View extends React.Component {
   };
 
   static defaultProps = {
+    apids: {},
     data: {
       headers: [],
       tables: {},
@@ -61,6 +64,7 @@ export default class PUS15View extends React.Component {
     const {
       viewId,
       data,
+      apids,
     } = this.props;
 
     if (typeof data === 'object' && Object.keys(data).length === 0) {
@@ -70,6 +74,7 @@ export default class PUS15View extends React.Component {
     return (
       <ErrorBoundary>
         <div className="pus15">
+          {ApidsList(apids)}
           <div className="col-sm-12 h100">
             <div className="row tablesHeight">
               <VirtualizedTableViewContainer

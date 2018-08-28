@@ -65,12 +65,22 @@ function pus13DataReducer(state = {}, action) {
 
       // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)
       updatedState = injectTabularData(updatedState, 'uplink',
-        _.getOr([], ['pus013UplinkLdt'], data)
+        _.getOr([], ['pUS013UplinkLdt'], data)
         .map(upData => ({
           status: statuses[String(_.getOr(200, 'status', upData))],
           transferType: transfertTypes[String(_.getOr(200, 'transferType', upData))],
           lastUpdateModeStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeStatus', upData))],
           lastUpdateModeLduId: updateTypes[String(_.getOr(200, 'lastUpdateModeLduId', upData))],
+
+        }))
+      );
+      updatedState = injectTabularData(updatedState, 'downlink',
+        _.getOr([], ['pUS013UplinkLdt'], data)
+        .map(downData => ({
+          status: statuses[String(_.getOr(200, 'status', downData))],
+          transferType: transfertTypes[String(_.getOr(200, 'transferType', downData))],
+          lastUpdateModeStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeStatus', downData))],
+          lastUpdateModeLduId: updateTypes[String(_.getOr(200, 'lastUpdateModeLduId', downData))],
 
         }))
       );

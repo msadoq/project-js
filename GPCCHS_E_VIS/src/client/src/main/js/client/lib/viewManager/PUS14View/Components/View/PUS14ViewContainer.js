@@ -6,6 +6,7 @@ import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
 import { PUS_SERVICE_14 } from 'constants';
 import PUS14View from './PUS14View';
 import { injectTabularData } from '../../../commonData/reducer';
+import { getConfigurationByViewId } from '../../../selectors';
 import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 
 
@@ -15,13 +16,6 @@ const mapStateToProps = (state, { viewId }) => {
   let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_14 });
 
   if (typeof data === 'object' && Object.keys(data).length > 0) {
-    for (let i = 0; i < data.headers.length; i += 1) {
-      data.headers[i].status = statuses[_.getOr(200, 'status', data.headers[i])];
-      data.headers[i].serviceApid = _.getOr(null, 'serviceApid', data.headers[i]);
-      data.headers[i].serviceApidName = _.getOr(null, 'serviceApidName', data.headers[i]);
-      data.headers[i].uniqueId = _.getOr(null, 'uniqueId', data.headers[i]);
-    }
-
     data = injectTabularData(
       data,
       'packetForwarding',
@@ -42,11 +36,15 @@ const mapStateToProps = (state, { viewId }) => {
 
     data = _.omit(['dataForTables'], data);
   }
-
+  const apids = _.get(
+    ['connectedData', 'apids'],
+    _.head(getConfigurationByViewId(state, { viewId }).entryPoints)
+  );
   const windowId = getWindowIdByViewId(state, { viewId });
 
   return {
     data,
+    apids,
     windowId,
   };
 };

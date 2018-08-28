@@ -24,7 +24,13 @@
 			&.pus142_as { justify-content: flex-end; }
 		}
   }
-
+	.h100 {
+		height: 100%;
+	}
+	.tablesHeight{
+		height: 50%;
+		min-height: 200px;
+	}
   .renderErrorText {
 	margin: auto;
 	font-size: 3em;

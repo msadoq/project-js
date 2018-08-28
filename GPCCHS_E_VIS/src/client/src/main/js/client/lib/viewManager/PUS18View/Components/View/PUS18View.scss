@@ -1,6 +1,6 @@
 .pus18 {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   overflow: auto;
 
   .header {
@@ -23,8 +23,14 @@
 			&.pus18_ss { justify-content: center; }
 			&.pus18_as { justify-content: flex-end; }
 		}
-  }
-
+	}
+	.h100 {
+		height: 100vh;
+	}
+	.tablesHeight{
+		height: 50vh;
+		min-height: 200px;
+	}
   .renderErrorText {
 	margin: auto;
 	font-size: 3em;

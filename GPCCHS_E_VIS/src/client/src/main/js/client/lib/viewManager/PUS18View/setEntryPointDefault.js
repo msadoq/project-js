@@ -10,7 +10,7 @@ const getNewPUS18EntryPoint = () => ({
   name: 'PUS18EP',
   id: v4(),
   connectedData: {
-    formula: 'PusGroundModelDefinition.Pus018Model<Pus018Model>', // fixed
+    formula: 'PusGroundModelDefinition.Pus018Model<Pus018Model>',
     domain: get('WILDCARD_CHARACTER'),
     session: get('WILDCARD_CHARACTER'),
     apidName: null,

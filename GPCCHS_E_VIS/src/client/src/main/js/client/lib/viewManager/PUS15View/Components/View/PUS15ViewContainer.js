@@ -10,11 +10,10 @@ import { injectTabularData } from '../../../commonData/reducer';
 import { bindToBoolKey } from '../../../common/pus/utils';
 
 const mapStateToProps = (state, { viewId }) => {
-  let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_15 });
-
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
   const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
+  let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_15 });
 
   if (typeof data === 'object' && Object.keys(data).length > 0) {
     // injectTabularData: add data tables to dedicated injectTabularData (VirtualizedTableView)

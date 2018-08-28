@@ -8,17 +8,19 @@ const initialConfiguration = {
     onBoardCtrlProcedures: {
       name: 'On-Board Control Procedures',
       sorting: {
-        colName: 'storeId',
+        colName: 'serviceApidName',
         direction: 'DESC',
       },
       cols: [
-        { title: 'serviceApidName', displayed: true },
-        { title: 'obcpId', displayed: true },
-        { title: 'status', displayed: true },
-        { title: 'stepId', displayed: true },
-        { title: 'partitionId', displayed: true },
-        { title: 'observabilityLevel', displayed: true },
-        { title: 'priority', displayed: true },
+        { label: 'APID Name', title: 'serviceApidName', displayed: true },
+        { label: 'APID', title: 'serviceApid', displayed: true },
+        { label: 'Status', title: 'status', displayed: true },
+        { label: 'OBCP ID', title: 'obcpId', displayed: true },
+        { label: 'OBCP Status', title: 'obcpStatus', displayed: true },
+        { label: 'Step', title: 'stepId', displayed: true },
+        { label: 'Partition', title: 'partitionId', displayed: true },
+        { label: 'Observability Level', title: 'observabilityLevel', displayed: true },
+        { label: 'Priority', title: 'priority', displayed: true },
       ],
     },
     procedureParameters: {
@@ -28,10 +30,10 @@ const initialConfiguration = {
         direction: 'DESC',
       },
       cols: [
-        { title: 'obcpId', displayed: true },
-        { title: 'parameterId', displayed: true },
-        { title: 'parameterName', displayed: true },
-        { title: 'value', displayed: true },
+        { label: 'OBCP ID', title: 'obcpId', displayed: true },
+        { label: 'Parameter ID', title: 'parameterId', displayed: true },
+        { label: 'Parameter Name', title: 'parameterName', displayed: true },
+        { label: 'Value', title: 'value', displayed: true },
       ],
     },
   },
@@ -62,5 +64,5 @@ export default (stateConf = {}, action) => {
 
 export const isValidTableId = action =>
   _has('payload.tableId', action) &&
-  ['onBoardStorages', 'storageDef'].indexOf(action.payload.tableId) !== -1
+  ['onBoardCtrlProcedures', 'procedureParameters'].indexOf(action.payload.tableId) !== -1
 ;

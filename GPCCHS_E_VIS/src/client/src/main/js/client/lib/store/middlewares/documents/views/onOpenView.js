@@ -27,7 +27,6 @@ import _ from 'lodash/fp';
 import { join } from 'path';
 
 import { askOpenWorkspace } from 'store/actions/hsc';
-import { getIsWorkspaceOpened } from 'store/reducers/hsc';
 import { get } from 'common/configurationManager';
 import * as types from 'store/types';
 import { getFocusedWindow } from 'store/selectors/windows';
@@ -44,12 +43,20 @@ const getPath = path => (isAbsolute(path) ? path : join(get('ISIS_DOCUMENTS_ROOT
 const findOpenedView = (state, viewAbsolutePath) =>
   state.views && Object.values(state.views).find(v => v.absolutePath === viewAbsolutePath);
 
+const getIsWorkspaceOpened = (obj) => {
+  if ('state' in obj) {
+    return getIsWorkspaceOpened(obj.state);
+  }
+  return obj.isWorkspaceOpened;
+};
+
 const makeOnOpenView = documentManager => withListenAction(
   ({ dispatch, listenAction, getState }) => next => (action) => {
     const nextAction = next(action);
     const state = getState();
+    // console.log(isWorkspaceOpened);
     if (action.type === types.WS_ASK_OPEN_VIEW) {
-      if (!getIsWorkspaceOpened(state)) {
+      if (!getIsWorkspaceOpened(state.hsc)) {
         dispatch(askOpenWorkspace(null, null, true, false)); // TODO test this branch
       }
       const window = getFocusedWindow(state) || getUniqueWindow(state); // TODO test this branch

@@ -233,9 +233,11 @@ const dcVersionMap = {
       commands.dc.rpc(constants.ADE_DOMAIN_QUERY, undefined, callback);
     },
     sendProductLog: (uid, args) => {
-      commands.dc.message(constants.ADE_LOG, [
-        encode('dc.dataControllerUtils.SendLog', { uid, arguments: args }),
-      ]);
+      if (args[1] !== undefined) {
+        commands.dc.message(constants.ADE_LOG, [
+          encode('dc.dataControllerUtils.SendLog', { uid, arguments: args }),
+        ]);
+      }
     },
     requestFmdGet: (oid, callback) => {
       commands.dc.rpc(constants.ADE_FMD_GET, [

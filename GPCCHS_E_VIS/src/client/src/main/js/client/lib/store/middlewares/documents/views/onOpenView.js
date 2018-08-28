@@ -43,6 +43,7 @@ const getPath = path => (isAbsolute(path) ? path : join(get('ISIS_DOCUMENTS_ROOT
 const findOpenedView = (state, viewAbsolutePath) =>
   state.views && Object.values(state.views).find(v => v.absolutePath === viewAbsolutePath);
 
+// TODO: QuickFix for open view
 const getIsWorkspaceOpened = (obj) => {
   if ('state' in obj) {
     return getIsWorkspaceOpened(obj.state);

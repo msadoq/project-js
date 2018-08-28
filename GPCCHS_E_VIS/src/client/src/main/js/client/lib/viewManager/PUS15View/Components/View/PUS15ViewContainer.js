@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
+import parameters from 'common/configurationManager';
+import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
 import { PUS_SERVICE_15 } from 'constants';
 import PUS15View from './PUS15View';
-import { getWindowIdByViewId } from '../../../../store/selectors/windows';
-import { getPUSViewData } from '../../../common/pus/dataSelectors';
-import parameters from '../../../../common/configurationManager';
 import { injectTabularData } from '../../../commonData/reducer';
 import { bindToBoolKey } from '../../../common/pus/utils';
+import { getConfigurationByViewId } from '../../../selectors';
+import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 
 const mapStateToProps = (state, { viewId }) => {
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
@@ -50,10 +51,15 @@ const mapStateToProps = (state, { viewId }) => {
     data = _.omit(['dataForTables'], data);
   }
 
+  const apids = _.get(
+    ['connectedData', 'apids'],
+    _.head(getConfigurationByViewId(state, { viewId }).entryPoints)
+  );
   const windowId = getWindowIdByViewId(state, { viewId });
 
   return {
     data,
+    apids,
     windowId,
   };
 };

@@ -55,13 +55,6 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
           execution.stop('get last records');
           if (Object.keys(lastRecords).length !== 0) {
             dispatch(newData({ [PREFIX_LASTS]: { [tbdId]: lastRecords } }));
-          } else {
-            const args = { ...getLastArguments, filters };
-            const queryId = ipc.dc.requestTimebasedQuery(tbdId,
-                                                         dataId,
-                                                         intervals[j],
-                                                         args);
-            add(queryId, tbdId, PREFIX_LASTS, dataId);
           }
         }
       }

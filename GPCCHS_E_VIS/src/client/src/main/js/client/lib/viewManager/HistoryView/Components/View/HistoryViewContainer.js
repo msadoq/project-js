@@ -54,7 +54,6 @@ const mapStateToProps = (state, { viewId, pageId }) => {
   const countBySearching = getCountBySearching(state, { viewId, searching });
   const isTimelineSelected = getIsTimelineSelected(state, { viewId });
 
-
   const entryPointsWithMetadata = config.entryPoints.map((ep) => {
     const { connectedData } = ep;
 

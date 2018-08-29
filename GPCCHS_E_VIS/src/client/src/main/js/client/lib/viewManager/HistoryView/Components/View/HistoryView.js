@@ -56,8 +56,8 @@ class HistoryView extends React.Component {
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     last: PropTypes.shape(),
-    entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
-    entryPointsWithMetadata: PropTypes.objectOf(PropTypes.object).isRequired,
+    entryPoints: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    entryPointsWithMetadata: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     isTimelineSelected: PropTypes.bool.isRequired,
     searchForThisView: PropTypes.bool.isRequired,
     searching: PropTypes.string,
@@ -73,7 +73,7 @@ class HistoryView extends React.Component {
     inspectorEpId: null,
     isInspectorOpened: false,
     searching: '',
-    searchCount: 0,
+    searchCount: {},
     links: [],
     showLinks: false,
   };
@@ -166,6 +166,8 @@ class HistoryView extends React.Component {
           ];
         }, []),
     };
+
+    // TODO: remove scroll to current menu when elements are not sorted in refTimestamp order
 
     const scrollToCurrentMenu = {
       label: 'Scroll to current',

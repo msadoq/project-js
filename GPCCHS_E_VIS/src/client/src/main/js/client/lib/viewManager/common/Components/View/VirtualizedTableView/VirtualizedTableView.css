@@ -96,7 +96,7 @@
   font-weight: bold;
 }
 
-.Label, .bodyCell {
+.Label, .bodyCell, .headerCell {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

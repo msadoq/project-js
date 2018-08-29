@@ -90,9 +90,9 @@ export default class PUS11View extends React.Component {
           <div className="headers col-sm-12">
             {headers}
           </div>
-          <div className="table col-sm-12 h100">
-            <div className="row hXX">
-              <div className="col-sm-6 small">
+          <div className="table col-sm-12">
+            <div className="row small">
+              <div className="col-sm-6 h100">
                 <VirtualizedTableViewContainer
                   viewId={viewId}
                   tableId={'subSchedules'}
@@ -101,7 +101,7 @@ export default class PUS11View extends React.Component {
                   contentModifier={_subSchedulesContentModifier}
                 />
               </div>
-              <div className="col-sm-6 small">
+              <div className="col-sm-6 h100">
                 <VirtualizedTableViewContainer
                   viewId={viewId}
                   tableId={'enabledApids'}
@@ -109,8 +109,8 @@ export default class PUS11View extends React.Component {
                 />
               </div>
             </div>
-            <div className="row hXX">
-              <div className="col-sm-12 main">
+            <div className="row main">
+              <div className="col-sm-12 h100">
                 <VirtualizedTableViewContainer
                   viewId={viewId}
                   tableId={'commands'}

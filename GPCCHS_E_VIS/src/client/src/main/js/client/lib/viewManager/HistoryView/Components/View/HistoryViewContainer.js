@@ -47,6 +47,7 @@ const mapStateToProps = (state, { viewId, pageId }) => {
   const data = getData(state, { viewId });
   const entryPoints = getViewEntryPoints(state, { viewId });
   const config = getConfigurationByViewId(state, { viewId });
+  const sortState = _.get(['tables', 'history', 'sorting'], config);
   const last = _.getOr({}, 'last', data);
   const searching = getSearchingByPage(state, { pageId });
   const searchViewsIds = getSearchViewsIds(state, { pageId });
@@ -97,6 +98,7 @@ const mapStateToProps = (state, { viewId, pageId }) => {
     searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
     links: getLinks(state, { viewId }),
     showLinks: areLinksShown(state, { viewId }),
+    sortState,
   };
 };
 

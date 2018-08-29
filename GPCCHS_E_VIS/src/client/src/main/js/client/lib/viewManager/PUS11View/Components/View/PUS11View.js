@@ -90,9 +90,9 @@ export default class PUS11View extends React.Component {
           <div className="headers col-sm-12">
             {headers}
           </div>
-          <div className="info col-sm-12 h100">
-            <div className="row small">
-              <div className="col-sm-6 h100">
+          <div className="table col-sm-12 h100">
+            <div className="row hXX">
+              <div className="col-sm-6 small">
                 <VirtualizedTableViewContainer
                   viewId={viewId}
                   tableId={'subSchedules'}
@@ -101,7 +101,7 @@ export default class PUS11View extends React.Component {
                   contentModifier={_subSchedulesContentModifier}
                 />
               </div>
-              <div className="col-sm-6 h100">
+              <div className="col-sm-6 small">
                 <VirtualizedTableViewContainer
                   viewId={viewId}
                   tableId={'enabledApids'}
@@ -109,15 +109,17 @@ export default class PUS11View extends React.Component {
                 />
               </div>
             </div>
-            <div className="row main">
-              <VirtualizedTableViewContainer
-                viewId={viewId}
-                tableId={'commands'}
-                data={_.getOr([], ['tables', 'commands', 'data'], data)}
-                overrideStyle={_commandsOverrideStyle}
-                contentModifier={_commandContentModifier}
-                onCellDoubleClick={onCommandCellDoubleClick}
-              />
+            <div className="row hXX">
+              <div className="col-sm-12 main">
+                <VirtualizedTableViewContainer
+                  viewId={viewId}
+                  tableId={'commands'}
+                  data={_.getOr([], ['tables', 'commands', 'data'], data)}
+                  overrideStyle={_commandsOverrideStyle}
+                  contentModifier={_commandContentModifier}
+                  onCellDoubleClick={onCommandCellDoubleClick}
+                />
+              </div>
             </div>
           </div>
         </div>

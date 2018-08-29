@@ -37,7 +37,7 @@
 // ====================================================================
 
 import u from 'updeep';
-import map, { getPerRangeTbdIdMap, getPerLastTbdIdMap, getPerViewMap } from './map';
+import map, { getPerRangeTbdIdMap, getPerLastTbdIdMap, getPerViewMap, getPerPusIdMap } from './map';
 import state from '../common/jest/stateTest';
 
 global.testConfig.DEFAULT_FIELD = JSON.stringify({ ReportingParameter: 'extractedValue' });
@@ -49,6 +49,7 @@ describe('data:map', () => {
     getPerRangeTbdIdMap.resetRecomputations();
     getPerLastTbdIdMap.resetRecomputations();
     getPerViewMap.resetRecomputations();
+    getPerPusIdMap.resetRecomputations();
     expect(map.recomputations()).toEqual(0);
     map(state);
     expect(map.recomputations()).toEqual(1);
@@ -61,6 +62,7 @@ describe('data:map', () => {
     expect(getPerRangeTbdIdMap.recomputations()).toEqual(2);
     expect(getPerLastTbdIdMap.recomputations()).toEqual(2);
     expect(getPerViewMap.recomputations()).toEqual(2);
+    expect(getPerPusIdMap.recomputations()).toEqual(2);
 
     const anotherState = u({ messages: { global: ['Hello you!'] } }, newState);
     map(anotherState);
@@ -69,6 +71,7 @@ describe('data:map', () => {
     expect(getPerRangeTbdIdMap.recomputations()).toEqual(2);
     expect(getPerLastTbdIdMap.recomputations()).toEqual(2);
     expect(getPerViewMap.recomputations()).toEqual(2);
+    expect(getPerPusIdMap.recomputations()).toEqual(2);
   });
   test('should compute dataMap', () => {
     const r = map(state);

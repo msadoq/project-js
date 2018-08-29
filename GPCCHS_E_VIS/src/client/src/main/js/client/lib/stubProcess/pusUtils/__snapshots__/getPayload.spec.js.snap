@@ -40,7 +40,7 @@ Object {
   "dataType": 3,
   "groundDate": 1518791878584,
   "payload": Object {
-    "commandBinaryProfile": "e6a80a9c577f8e6a80a9c577f8e6a80a9c577f8e6a80a9c577f8",
+    "commandBinaryProfile": "572155a3cc79f572155a3cc79f572155a3cc79f572155a3cc79f",
     "commandGroundStatus": "6",
     "commandName": "Command1",
     "commandStatus": 200,
@@ -141,7 +141,7 @@ Object {
     "lastUpdateTimeValParamExpectValue": "2018-02-16T14:37:58.584",
     "lastUpdateTimeValParamId": "2018-02-16T14:37:58.584",
     "lastUpdateTimeValParamMask": "2018-02-16T14:37:58.584",
-    "monitoringStatus": 2,
+    "monitoringStatus": 1,
     "pus012MonitoringCheckPropertiesExpected": Object {
       "actionStatus": 200,
       "lastUpdateModeActionStatus": 2,
@@ -154,10 +154,10 @@ Object {
       "lastUpdateTimeRid": "2018-02-16T14:37:58.584",
       "lastUpdateTimeRidStatus": "2018-02-16T14:37:58.584",
       "lastUpdateTimeValue": "2018-02-16T14:37:58.584",
-      "ridStatus": 3,
+      "ridStatus": 2,
     },
     "pus012MonitoringCheckPropertiesHigh": Object {
-      "actionStatus": 2,
+      "actionStatus": 1,
       "lastUpdateModeActionStatus": 3,
       "lastUpdateModeMask": 3,
       "lastUpdateModeRid": 3,
@@ -168,10 +168,10 @@ Object {
       "lastUpdateTimeRid": "2018-02-16T14:37:58.584",
       "lastUpdateTimeRidStatus": "2018-02-16T14:37:58.584",
       "lastUpdateTimeValue": "2018-02-16T14:37:58.584",
-      "ridStatus": 1,
+      "ridStatus": 0,
     },
     "pus012MonitoringCheckPropertiesLow": Object {
-      "actionStatus": 2,
+      "actionStatus": 1,
       "lastUpdateModeActionStatus": 1,
       "lastUpdateModeMask": 1,
       "lastUpdateModeRid": 3,
@@ -182,7 +182,7 @@ Object {
       "lastUpdateTimeRid": "2018-02-16T14:37:58.584",
       "lastUpdateTimeRidStatus": "2018-02-16T14:37:58.584",
       "lastUpdateTimeValue": "2018-02-16T14:37:58.584",
-      "ridStatus": 2,
+      "ridStatus": 1,
     },
     "serviceApid": 2,
   },
@@ -217,9 +217,9 @@ Object {
     "lastUpdateTimeValParamExpectValue": "2018-02-16T14:37:58.584",
     "lastUpdateTimeValParamId": "2018-02-16T14:37:58.584",
     "lastUpdateTimeValParamMask": "2018-02-16T14:37:58.584",
-    "monitoringStatus": 2,
+    "monitoringStatus": 1,
     "pus012MonitoringCheckPropertiesExpected": Object {
-      "actionStatus": 3,
+      "actionStatus": 2,
       "lastUpdateModeActionStatus": 1,
       "lastUpdateModeMask": 1,
       "lastUpdateModeRid": 3,
@@ -230,10 +230,10 @@ Object {
       "lastUpdateTimeRid": "2018-02-16T14:37:58.584",
       "lastUpdateTimeRidStatus": "2018-02-16T14:37:58.584",
       "lastUpdateTimeValue": "2018-02-16T14:37:58.584",
-      "ridStatus": 1,
+      "ridStatus": 0,
     },
     "pus012MonitoringCheckPropertiesHigh": Object {
-      "actionStatus": 2,
+      "actionStatus": 1,
       "lastUpdateModeActionStatus": 3,
       "lastUpdateModeMask": 1,
       "lastUpdateModeRid": 1,
@@ -247,7 +247,7 @@ Object {
       "ridStatus": 200,
     },
     "pus012MonitoringCheckPropertiesLow": Object {
-      "actionStatus": 2,
+      "actionStatus": 1,
       "lastUpdateModeActionStatus": 1,
       "lastUpdateModeMask": 2,
       "lastUpdateModeRid": 2,
@@ -258,7 +258,7 @@ Object {
       "lastUpdateTimeRid": "2018-02-16T14:37:58.584",
       "lastUpdateTimeRidStatus": "2018-02-16T14:37:58.584",
       "lastUpdateTimeValue": "2018-02-16T14:37:58.584",
-      "ridStatus": 1,
+      "ridStatus": 0,
     },
     "serviceApid": Array [
       2,
@@ -356,8 +356,8 @@ Object {
   "dataType": 11,
   "groundDate": 1518791878584,
   "payload": Object {
-    "forwardingStatusRidSid": 2,
-    "forwardingStatusTypeSubtype": 2,
+    "forwardingStatusRidSid": 1,
+    "forwardingStatusTypeSubtype": 1,
     "lastUpdateModeFwdStatusTypeRidSid": 2,
     "lastUpdateModeFwdStatusTypeSubtype": 3,
     "lastUpdateModeRid": 3,
@@ -371,7 +371,7 @@ Object {
     "lastUpdateTimeSubSamplingRatio": "2018-02-16T14:37:58.584",
     "lastUpdateTimeTypeSubType": "2018-02-16T14:37:58.584",
     "serviceApid": 2,
-    "status": 2,
+    "status": 1,
   },
 }
 `;
@@ -381,8 +381,8 @@ Object {
   "dataType": 11,
   "groundDate": 1518791878584,
   "payload": Object {
-    "forwardingStatusRidSid": 3,
-    "forwardingStatusTypeSubtype": 3,
+    "forwardingStatusRidSid": 2,
+    "forwardingStatusTypeSubtype": 2,
     "lastUpdateModeFwdStatusTypeRidSid": 1,
     "lastUpdateModeFwdStatusTypeSubtype": 3,
     "lastUpdateModeRid": 3,
@@ -411,7 +411,7 @@ Object {
   "dataType": 14,
   "groundDate": 1518791878584,
   "payload": Object {
-    "downlinkStatus": 2,
+    "downlinkStatus": 1,
     "lastUpdateModeDownlinkStatus": 1,
     "lastUpdateModeStoreId": 2,
     "lastUpdateModeStoreStatus": 3,
@@ -439,7 +439,7 @@ Object {
       },
     ],
     "serviceApid": 2,
-    "storeStatus": 1,
+    "storeStatus": 0,
   },
 }
 `;
@@ -449,7 +449,7 @@ Object {
   "dataType": 14,
   "groundDate": 1518791878584,
   "payload": Object {
-    "downlinkStatus": 1,
+    "downlinkStatus": 0,
     "lastUpdateModeDownlinkStatus": 3,
     "lastUpdateModeStoreId": 3,
     "lastUpdateModeStoreStatus": 1,
@@ -486,7 +486,7 @@ Object {
       2,
       4,
     ],
-    "storeStatus": 2,
+    "storeStatus": 1,
   },
 }
 `;
@@ -537,7 +537,7 @@ Object {
       2,
       4,
     ],
-    "status": 2,
+    "status": 1,
   },
 }
 `;
@@ -553,8 +553,8 @@ Object {
     "lastUpdateTimeServiceStatus": "2018-02-16T14:37:58.584",
     "pus19EventAction": Array [
       Object {
-        "actionStatus": 2,
-        "actionTcPacket": "c84527d25ee2bc84527d25ee2bc84527d25ee2bc84527d25ee2b",
+        "actionStatus": 1,
+        "actionTcPacket": "759f32356a729759f32356a729759f32356a729759f32356a729",
         "lastUpdateModeActionStatus": 1,
         "lastUpdateModeActionTc": 3,
         "lastUpdateModeEventActionRid": 2,
@@ -563,8 +563,8 @@ Object {
         "lastUpdateTimeEventActionRid": "2018-02-16T14:37:58.584",
       },
       Object {
-        "actionStatus": 2,
-        "actionTcPacket": "c84527d25ee2bc84527d25ee2bc84527d25ee2bc84527d25ee2b",
+        "actionStatus": 1,
+        "actionTcPacket": "759f32356a729759f32356a729759f32356a729759f32356a729",
         "lastUpdateModeActionStatus": 3,
         "lastUpdateModeActionTc": 3,
         "lastUpdateModeEventActionRid": 1,
@@ -573,7 +573,7 @@ Object {
         "lastUpdateTimeEventActionRid": "2018-02-16T14:37:58.584",
       },
     ],
-    "serviceStatus": 3,
+    "serviceStatus": 2,
   },
 }
 `;
@@ -583,8 +583,8 @@ Object {
   "dataType": 17,
   "groundDate": 1518791878584,
   "payload": Object {
-    "actionStatus": 2,
-    "actionTcPacket": "b8afe8433764db8afe8433764db8afe8433764db8afe8433764d",
+    "actionStatus": 1,
+    "actionTcPacket": "73cb4ed2f564473cb4ed2f564473cb4ed2f564473cb4ed2f5644",
     "lastUpdateModeActionStatus": 3,
     "lastUpdateModeActionTc": 1,
     "lastUpdateModeEventActionRid": 1,
@@ -635,7 +635,7 @@ Object {
   "dataType": 21,
   "groundDate": 1518791878584,
   "payload": Object {
-    "actionStatus": 1,
+    "actionStatus": 0,
     "checkingStatus": "2",
     "lastUpdateModeActionStatus": 3,
     "lastUpdateModeCheckingStatus": 3,
@@ -671,7 +671,7 @@ Object {
     ],
     "ridStatus": 200,
     "serviceApid": 2,
-    "status": 1,
+    "status": 0,
   },
 }
 `;
@@ -681,7 +681,7 @@ Object {
   "dataType": 21,
   "groundDate": 1518791878584,
   "payload": Object {
-    "actionStatus": 1,
+    "actionStatus": 0,
     "checkingStatus": "1",
     "lastUpdateModeActionStatus": 2,
     "lastUpdateModeCheckingStatus": 2,
@@ -721,12 +721,12 @@ Object {
         ],
       },
     ],
-    "ridStatus": 3,
+    "ridStatus": 2,
     "serviceApid": Array [
       2,
       4,
     ],
-    "status": 2,
+    "status": 1,
   },
 }
 `;

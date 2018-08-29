@@ -3,6 +3,7 @@ import flattenDataId from 'common/flattenDataId';
 import flattenStateColors from 'viewManager/commonData/flattenStateColors';
 import parseConnectedDataPus from 'viewManager/commonData/parseConnectedDataPus';
 import _getOr from 'lodash/fp/getOr';
+import { PUS_ALL_APIDS } from 'constants';
 
 export default function parsePusEntryPoint({
   domains,
@@ -18,7 +19,7 @@ export default function parsePusEntryPoint({
   viewSessionName,
   pageSessionName,
   workspaceSessionName,
-  nullableApids,
+  allApids,
   pusType,
 }) {
   const logger = getLogger(`data:${pusType}:parsePusEntryPoint`);
@@ -61,8 +62,8 @@ export default function parsePusEntryPoint({
       offset,
       timebarUuid,
       type: viewType,
-      apids: nullableApids
-        ? null // always null here for pusMME & pus140
+      apids: allApids
+        ? [{ apidName: 'ALLAPIDS', apidRawValue: PUS_ALL_APIDS }] // for pusMME & pus140
         : _getOr([], 'apids', connectedData)
       ,
     },

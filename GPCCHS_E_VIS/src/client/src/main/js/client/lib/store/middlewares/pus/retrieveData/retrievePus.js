@@ -31,7 +31,7 @@ const retrievePus = ipc => ({ dispatch }) => next => (action) => {
             : null
           ,
         }, // header
-        false, // forReplay
+        true, // forReplay
         interval[0], // firstTime,
         interval[1], // lastTime,
         false, // continuous,

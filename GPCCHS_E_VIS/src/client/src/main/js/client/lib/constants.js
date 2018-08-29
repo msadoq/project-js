@@ -466,4 +466,8 @@ module.exports = {
   PUS_SERVICE_142: 142,
   PUS_SERVICE_144: 144,
   PUS_SERVICE_MME: 999,
+
+  // for PUS MME AND 140
+  // wildcard for all apids
+  PUS_ALL_APIDS: 65535,
 };

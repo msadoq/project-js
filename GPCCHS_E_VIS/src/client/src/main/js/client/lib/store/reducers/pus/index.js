@@ -21,7 +21,7 @@ const knownPus = (state = {}, action) => {
       const pusService = action.payload.pusService;
       const continuous = action.payload.continuous;
       const interval = action.payload.interval;
-      if (apids.length === 0 || !_isArray(interval)) {
+      if ((apids && apids.length === 0) || !_isArray(interval)) {
         return state;
       }
       let newState = state;

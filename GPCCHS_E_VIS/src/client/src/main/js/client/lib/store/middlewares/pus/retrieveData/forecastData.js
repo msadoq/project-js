@@ -28,7 +28,8 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
     const state = getState();
     const playingTimebarId = getPlayingTimebarId(state);
     if (playingTimebarId) {
-      const visuWindow = getTimebar(state, { timebarUuid: playingTimebarId }).visuWindow;
+      const timebar = getTimebar(state, { timebarUuid: playingTimebarId });
+      const visuWindow = timebar.visuWindow;
       if (!previousForecast ||
         (previousForecast.end - visuWindow.upper <= trigger) ||
         playPressed
@@ -58,7 +59,7 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
                   pusService: dataId.pusService, // type de pus 11, mme, 12 ...
                   pusServiceApid: [{ value: apids[j].apidRawValue }], // apids
                 }, // header
-                false, // forReplay
+                !timebar.realTime, // forReplay
                 newInterval[0], // firstTime,
                 newInterval[1], // lastTime,
                 true, // continuous,

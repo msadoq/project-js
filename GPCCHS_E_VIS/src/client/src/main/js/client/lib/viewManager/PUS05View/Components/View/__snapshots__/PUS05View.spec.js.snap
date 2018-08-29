@@ -17,21 +17,3 @@ exports[`viewManager/PUS05View/Components/View/PUS05View PUS05View :: render sna
   </div>
 </div>
 `;
-
-exports[`viewManager/PUS05View/Components/View/PUS05View PUS05View :: renderInvald snapshot 1`] = `
-<div
-  className="pus05 h100 posRelative"
->
-  <div
-    className="flex h100"
-  >
-    <div
-      className="renderErrorText"
-    >
-      Unable to render view 
-      <br />
-      this is an error message
-    </div>
-  </div>
-</div>
-`;

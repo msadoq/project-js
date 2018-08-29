@@ -58,6 +58,7 @@ export default function expectedPusIntervalMap(
 ) {
   const intervalPusMap = {};
   let newForecastIntervalsMap = forecastIntervalsMap;
+
   _each(perPusIdMap, (pusIdData, id) => {
     const { localIdIntervals, forecastIntervals } = intervalPerPusId(
       timebars,

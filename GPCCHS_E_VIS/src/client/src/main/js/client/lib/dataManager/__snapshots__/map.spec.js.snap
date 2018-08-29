@@ -48,6 +48,7 @@ Object {
       },
     },
   },
+  "expectedPusIntervals": Object {},
   "expectedRangeIntervals": Object {
     ".<GroundMonitoringAlarmAckRequest>:0:4:::": Object {
       "nofield.tb1:0": Object {
@@ -710,6 +711,15 @@ Object {
         "zoomState": "out",
       },
       "type": "PlotView",
+    },
+    "pus11": Object {
+      "entryPoints": Object {
+        "undefined": Object {
+          "error": "Domains does not match for Pus011Model",
+        },
+      },
+      "sampling": undefined,
+      "type": "PUS11View",
     },
     "text1": Object {
       "entryPoints": Object {

@@ -47,7 +47,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
     return state;
   }
 
-  let updatedState = _.cloneDeep(state);
+  let updatedState = state;
 
   const epConnectedData = historyConfig.entryPoints.map(ep => ep.connectedData);
 

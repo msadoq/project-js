@@ -1,6 +1,8 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { Field } from 'redux-form';
+import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 
 import styles from './PUSSaveInFileModal.css';
 
@@ -10,13 +12,18 @@ class PUSSaveInFileModal extends React.Component {
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
     sendPUSSaveInFileRequest: PropTypes.func.isRequired,
-    apids: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    apids: PropTypes.arrayOf(PropTypes.shape()),
+    name: PropTypes.string,
   };
 
+  static defaultProps = {
+    apids: [],
+    name: 'serviceType',
+  }
   constructor(props) {
     super(props);
     this.state = {
-      apid: null,
+      apids: null,
     };
   }
 
@@ -39,44 +46,35 @@ class PUSSaveInFileModal extends React.Component {
   };
 
   render() {
-    const { apids } = this.props;
+    const { apids, name } = this.props;
 
     return (
       <div className={styles.modalContainer}>
+
         <div className={styles.inputContainer}>
-          <div className={styles.selectInput}>
-            <label htmlFor="serviceType">Service type</label>
-            <select
+          <label htmlFor="serviceType">Service type :
+            <input
               name="serviceType"
               onChange={this._updateServiceType}
-            >
-              <option value={null}>-</option>
-              <option value="st1">Service type 1</option>
-              <option value="st2">Service type 2</option>
-              <option value="st3">Service type 3</option>
-            </select>
-          </div>
-          <div className={styles.selectInput}>
-            <label htmlFor="apid">APID</label>
-            <select
-              ref={this.selectAPID}
-              name="apid"
-              onChange={this._updateAPID}
-            >
-              <option value={null}>-</option>
-
-              {
-                apids.map(apid => <option value={apid.apidRawValue}>{apid.apidName}</option>)
-              }
-            </select>
-          </div>
+              disabled
+              value={name.slice(0, name.length - 2)}
+            />
+          </label>
         </div>
-        <div className={styles.divider} />
-        <div className={styles.actionsContainer}>
-          <div className={styles.actionsButtons}>
-            <button onClick={this._onSubmit}>OK</button>
-            <button onClick={this._onCancel}>Cancel</button>
-          </div>
+        <div className={styles.selectInput}>
+          <label htmlFor="connectedData.apidName">Apid Selection :
+          <Field
+            format={null}
+            name="connectedData.apidName"
+            component={ReactSelectField}
+            options={apids}
+            className="col-xs-12 pr0"
+            onChange={this.handleChange}
+            multi
+            closeOnSelect={false}
+            simpleValue
+          />
+          </label>
         </div>
       </div>
     );

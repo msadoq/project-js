@@ -68,6 +68,13 @@ export const VM_PUS_VIEWS = [
   VM_VIEW_PUSMME,
 ];
 
+export const VM_PUS_COMPARE = [
+  VM_VIEW_PUS11,
+  VM_VIEW_PUS12,
+  VM_VIEW_PUS140,
+  VM_VIEW_PUS142,
+];
+
 // pus models
 export const MODELS = [
   constants.Pus005ModelType,
@@ -90,3 +97,5 @@ export const MODELS = [
  * @returns {boolean}
  */
 export const isPusView = type => VM_PUS_VIEWS.includes(type);
+
+export const canCompare = type => VM_PUS_COMPARE.includes(type);

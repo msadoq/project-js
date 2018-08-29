@@ -15,14 +15,16 @@ function getPayloads(dataId) {
   for (let i = 0; i < _random(1, constants.DC_STUB_MAX_SUBSCRIPTION_VALUES); i += 1) {
     const timestamp = Date.now();
     for (let j = 0; j < pusServiceApid.length; j += 1) {
-      const payload =
-        getPayload(
+      const payload = {
+        serviceApid: pusServiceApid[i].value,
+        data: getPayload(
           pusService,
-          pusServiceApid[j].value,
+          pusServiceApid[i].value,
           timestamp,
           false,
           false
-        );
+        ),
+      };
       if (payload !== null) {
         payloads.push(payload);
       }
@@ -37,7 +39,6 @@ module.exports = (dataId, zmq) => {
     sessionId,
     domainId,
     pusService,
-    pusServiceApid,
   } = dataId;
   const payloads = getPayloads(dataId);
   _each(payloads, (payload) => {
@@ -47,9 +48,9 @@ module.exports = (dataId, zmq) => {
         sessionId,
         domainId,
         pusService,
-        pusServiceApid,
+        pusServiceApid: [{ type: 'uinteger', value: payload.serviceApid }],
       }),
-      payload,
+      payload.data,
     ]);
   });
 };

@@ -20,7 +20,12 @@ describe('store:Pus:reducer', () => {
     expect(reducer(state, {})).toBe(state);
   });
   test('Should add pudIs known interval: one interval then multi interval', () => {
-    const nextState = reducer({}, actions.sendArchiveQuery(pusService, 'ORBIT:0:4', [15, 25], false));
+    const dataId = {
+      apids: ['ORBIT'],
+      domainId: 4,
+      sessionId: 0,
+    };
+    const nextState = reducer({}, actions.sendArchiveQuery(pusService, dataId, [15, 25], false));
     expect(nextState).toEqual(
       {
         11: {
@@ -31,7 +36,7 @@ describe('store:Pus:reducer', () => {
       }
     );
     const nextState2 =
-      reducer(nextState, actions.sendArchiveQuery(11, 'ORBIT:0:4', [50, 60], false));
+      reducer(nextState, actions.sendArchiveQuery(pusService, dataId, [50, 60], false));
     expect(nextState2).toEqual(
       {
         11: {

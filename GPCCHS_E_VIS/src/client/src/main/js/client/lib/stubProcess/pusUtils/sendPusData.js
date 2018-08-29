@@ -43,14 +43,16 @@ module.exports = function sendPusData(
     if (shouldPushANewValue(timestamp, previousTimestamp)) {
       const forceModel = timestamp === firstTime;
       for (let i = 0; i < pusServiceApid.length; i += 1) {
-        const payload =
-          getPayload(
+        const payload = {
+          serviceApid: pusServiceApid[i].value,
+          data: getPayload(
             pusService,
             pusServiceApid[i].value,
             timestamp,
             forceModel,
             continuous
-          );
+          ),
+        };
         if (payload !== null) {
           payloads.push(payload);
         }
@@ -71,9 +73,9 @@ module.exports = function sendPusData(
           sessionId,
           domainId,
           pusService,
-          pusServiceApid,
+          pusServiceApid: [{ type: 'uinteger', value: payload.serviceApid }],
         }),
-        payload,
+        payload.data,
       ]);
     });
   }

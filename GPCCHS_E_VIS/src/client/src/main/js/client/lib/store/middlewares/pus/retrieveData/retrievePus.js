@@ -39,7 +39,7 @@ const retrievePus = ipc => ({ dispatch }) => next => (action) => {
       );
 
       add(queryId, id, PREFIX_PUS, dataId);
-      dispatch(sendArchiveQuery(dataId.pusService, id, interval, false));
+      dispatch(sendArchiveQuery(dataId.pusService, dataId, interval, false));
     }
     execution.stop('global');
     execution.print();

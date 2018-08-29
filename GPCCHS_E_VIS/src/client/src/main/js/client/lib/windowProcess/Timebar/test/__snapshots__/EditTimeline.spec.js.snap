@@ -89,6 +89,7 @@ exports[`EditTimeline component EditTimeline (redux-form) renders correctly 1`] 
           <input
             className="form-control input-sm"
             disabled={false}
+            min=""
             onChange={[Function]}
             placeholder=""
             type="text"

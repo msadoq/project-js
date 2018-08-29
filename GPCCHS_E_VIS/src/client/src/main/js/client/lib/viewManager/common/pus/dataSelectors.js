@@ -19,10 +19,10 @@ const getPUSViewData = (state, { viewId, pusService }) => {
   const session = getSessionByTimelineId(state, { timelineId: connectedData.timeline });
   const sessionId = session !== undefined ? session.id : undefined;
   const apids = connectedData.apids || [];
-  const flattenId = getPusFlattenId(apids, { domainId, sessionId });
   const models = apids.map((apid) => {
-    let model = _getOr({}, ['knownPus', pusService, flattenId, apid.apidRawValue, 'model'], state);
-    const deltas = _getOr({}, ['knownPus', pusService, flattenId, apid.apidRawValue, 'deltas'], state);
+    const flattenId = getPusFlattenId([apid], { domainId, sessionId });
+    let model = _getOr({}, ['knownPus', pusService, flattenId, 'model'], state);
+    const deltas = _getOr({}, ['knownPus', pusService, flattenId, 'deltas'], state);
     if (Object.keys(model).length !== 0) {
       // there is some deltas to apply
       if (Object.keys(deltas).length !== 0) {

@@ -1,21 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`viewManager/PUS11View/Components/View/PUS11View PUS11View :: render snapshot 1`] = `
-<div
-  className="pus11 h100 posRelative"
->
+<ErrorBoundary>
   <div
-    className="flex h100"
+    className="pus11"
   >
     <div
-      className="renderErrorText"
+      className="headers col-sm-12"
     >
-      Unable to render view
-      <br />
-      Please fill-in configuration
+      
+    </div>
+    <div
+      className="info col-sm-12 h100"
+    >
+      <div
+        className="row small"
+      >
+        <div
+          className="col-sm-6 h100"
+        >
+          <Connect(VirtualizedTableView)
+            contentModifier={[Function]}
+            data={Array []}
+            overrideStyle={[Function]}
+            tableId="subSchedules"
+            viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+          />
+        </div>
+        <div
+          className="col-sm-6 h100"
+        >
+          <Connect(VirtualizedTableView)
+            data={Array []}
+            tableId="enabledApids"
+            viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+          />
+        </div>
+      </div>
+      <div
+        className="row main"
+      >
+        <Connect(VirtualizedTableView)
+          contentModifier={[Function]}
+          data={Array []}
+          onCellDoubleClick={[Function]}
+          overrideStyle={[Function]}
+          tableId="commands"
+          viewId="1838f507-156b-4734-bf6d-69d0e96b39b8"
+        />
+      </div>
     </div>
   </div>
-</div>
+</ErrorBoundary>
 `;
 
 exports[`viewManager/PUS11View/Components/View/PUS11View PUS11View :: renderInvald snapshot 1`] = `

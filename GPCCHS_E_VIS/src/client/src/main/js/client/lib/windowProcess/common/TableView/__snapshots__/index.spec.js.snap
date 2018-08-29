@@ -69,28 +69,15 @@ exports[`TableView renders correctly 1`] = `
       <th
         className="header"
         onClick={[Function]}
-      >
-        <span
-          className="sortArrow label label-default"
-        >
-          <span
-            className="glyphicon glyphicon-chevron-up"
-          />
-        </span>
-        a
-      </th>
+      />
       <th
         className="header"
         onClick={[Function]}
-      >
-        b
-      </th>
+      />
       <th
         className="header"
         onClick={[Function]}
-      >
-        c
-      </th>
+      />
     </tr>
   </thead>
   <tbody>
@@ -122,19 +109,13 @@ exports[`TableView renders correctly 1`] = `
       </td>
       <td
         className=""
-      >
-        aaa
-      </td>
+      />
       <td
         className=""
-      >
-        bbb
-      </td>
+      />
       <td
         className=""
-      >
-        ccc
-      </td>
+      />
     </tr>
     <tr
       className="dummyRow"
@@ -186,19 +167,13 @@ exports[`TableView renders correctly 1`] = `
       </th>
       <th
         className=""
-      >
-        d
-      </th>
+      />
       <th
         className=""
-      >
-        e
-      </th>
+      />
       <th
         className=""
-      >
-        f
-      </th>
+      />
     </tr>
     <tr
       className="tableSubRow row-typeof-subrow"
@@ -218,19 +193,13 @@ exports[`TableView renders correctly 1`] = `
       />
       <td
         className=""
-      >
-        ddd
-      </td>
+      />
       <td
         className=""
-      >
-        eee
-      </td>
+      />
       <td
         className=""
-      >
-        fff
-      </td>
+      />
     </tr>
     <tr
       className="tableSubRow lastSubrowFromRange row-typeof-subrow"
@@ -250,19 +219,13 @@ exports[`TableView renders correctly 1`] = `
       />
       <td
         className=""
-      >
-        DDD
-      </td>
+      />
       <td
         className=""
-      >
-        EEE
-      </td>
+      />
       <td
         className=""
-      >
-        FFF
-      </td>
+      />
     </tr>
     <tr
       className="dummyRow"
@@ -297,19 +260,13 @@ exports[`TableView renders correctly 1`] = `
       </td>
       <td
         className=""
-      >
-        AAA
-      </td>
+      />
       <td
         className=""
-      >
-        BBB
-      </td>
+      />
       <td
         className=""
-      >
-        CCC
-      </td>
+      />
     </tr>
     <tr
       className="dummyRow"
@@ -361,19 +318,13 @@ exports[`TableView renders correctly 1`] = `
       </th>
       <th
         className=""
-      >
-        d
-      </th>
+      />
       <th
         className=""
-      >
-        e
-      </th>
+      />
       <th
         className=""
-      >
-        f
-      </th>
+      />
     </tr>
     <tr
       className="tableSubRow row-typeof-subrow"
@@ -393,19 +344,13 @@ exports[`TableView renders correctly 1`] = `
       />
       <td
         className=""
-      >
-        dddd
-      </td>
+      />
       <td
         className=""
-      >
-        eeee
-      </td>
+      />
       <td
         className=""
-      >
-        ffff
-      </td>
+      />
     </tr>
     <tr
       className="tableSubRow row-typeof-subrow"
@@ -425,19 +370,13 @@ exports[`TableView renders correctly 1`] = `
       />
       <td
         className=""
-      >
-        DDDD
-      </td>
+      />
       <td
         className=""
-      >
-        EEEE
-      </td>
+      />
       <td
         className=""
-      >
-        FFFF
-      </td>
+      />
     </tr>
   </tbody>
 </table>

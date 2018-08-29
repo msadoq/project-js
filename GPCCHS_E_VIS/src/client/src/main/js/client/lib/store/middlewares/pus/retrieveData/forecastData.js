@@ -63,10 +63,10 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
               makeCallback()
             );
 
-            add(queryId, flattenId, PREFIX_PUS, dataId);
+            add(queryId, apids, PREFIX_PUS, dataId);
             dispatch(sendArchiveQuery(
                 dataId.pusService,
-                flattenId,
+                dataId,
                 newInterval,
                 true
               )

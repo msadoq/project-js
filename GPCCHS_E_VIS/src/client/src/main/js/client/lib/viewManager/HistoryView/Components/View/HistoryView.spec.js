@@ -26,6 +26,10 @@ const baseProps = {
   searchForThisView: false,
   countBySearching: 0,
   updateSearchCount: mockUpdateSearchCount,
+  sortState: {
+    colName: 'referenceTimestamp',
+    direction: 'DESC',
+  },
 };
 
 describe('HistoryView', () => {

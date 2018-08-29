@@ -23,6 +23,12 @@ ShallowWrapper {
     searchForThisView={false}
     searching=""
     showLinks={false}
+    sortState={
+        Object {
+            "colName": "referenceTimestamp",
+            "direction": "DESC",
+          }
+    }
     updateSearchCount={[Function]}
     updateShowLinks={[Function]}
     viewId="viewId"

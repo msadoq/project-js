@@ -321,9 +321,9 @@
       "8": "SENT"
     },
     "STATUS": {
-      "1": "DISABLED",
-      "2": "ENABLED",
-      "3": "DELETED",
+      "0": "DISABLED",
+      "1": "ENABLED",
+      "2": "DELETED",
       "200": "UNKNOWN"
     },
     "STATUS_COLOR": {

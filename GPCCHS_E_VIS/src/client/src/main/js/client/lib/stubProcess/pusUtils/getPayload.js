@@ -8,7 +8,7 @@ const getAnUpdateTime = timestamp =>
 const stubData = stubs.getStubData();
 const getAtransfertType = () => predictibleRand.getInt([1, 2]);
 const getAFileMode = () => predictibleRand.getFrom(['1', '2']);
-const getAStatus = () => predictibleRand.getFrom([1, 2, 3, 200]);
+const getAStatus = () => predictibleRand.getFrom([0, 1, 2, 200]);
 
 // CHECK_TYPE(PUS12),
 // LARGE_TRANSFER_PART_STATUS(PUS 13),

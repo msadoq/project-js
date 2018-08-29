@@ -39,6 +39,74 @@ import { getOpenExtensionsFilters, getDefaultFolder } from '../utils';
 const findOpenedPage = (state, pageAbsolutePath) =>
   state.pages && Object.values(state.pages).find(p => p.absolutePath === pageAbsolutePath);
 
+const onOpenPage = (state, action, dispatch, documentManager, listenAction) => {
+  const { absolutePath } = action.payload;
+  const windowId = action.payload.windowId
+    || getFocusedWindowId(state) // TODO test this branch
+    || getUniqueWindowId(state); // TODO test this branch
+  const workspaceFolder = getWorkspaceFolder(state);
+  if (absolutePath) {
+    dispatch(documentManager.openPage({
+      windowId,
+      path: absolutePath,
+      workspaceFolder,
+    }));
+  } else {
+    dispatch(openDialog(windowId, 'open', {
+      filters: getOpenExtensionsFilters('Page'),
+      defaultPath: getDefaultFolder(state),
+    }));
+    listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
+      const { choice } = closeAction.payload;
+      if (choice) {
+        const toOpenPageAbsolutePath = choice[0];
+        const foundOpenedPage = findOpenedPage(state, toOpenPageAbsolutePath);
+
+        const askOpenPageConfirmation = () => {
+          dispatch(openModal(windowId, {
+            type: 'dialog',
+            title: 'Confirmation for opening page',
+            message: 'This page file is already open. Do you want to open a copy?',
+            buttons: [
+              { label: 'Cancel', value: 'cancel', type: 'default' },
+              { label: 'Display existing page', value: 'focus', type: 'default' },
+              { label: 'Open a copy in a new tab', value: 'open', type: 'primary' },
+            ],
+          }));
+          listenAction(types.WS_MODAL_CLOSE, (confirmCloseAction) => {
+            if (confirmCloseAction.payload.choice === 'cancel') {
+              // closes modal and do nothing
+            }
+
+            if (confirmCloseAction.payload.choice === 'open') {
+              dispatch(documentManager.openPage({
+                windowId,
+                absolutePath: foundOpenedPage.absolutePath,
+                workspaceFolder,
+                isModified: true,
+              }));
+            }
+
+            if (confirmCloseAction.payload.choice === 'focus') {
+              dispatch(focusPage(windowId, foundOpenedPage.uuid));
+            }
+          });
+        };
+
+        if (foundOpenedPage) {
+          askOpenPageConfirmation();
+        } else {
+          dispatch(documentManager.openPage({
+            windowId,
+            absolutePath: choice[0],
+            workspaceFolder,
+          }));
+        }
+      }
+    });
+  }
+};
+
 const makeOnOpenPage = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
     const nextAction = next(action);
@@ -46,72 +114,12 @@ const makeOnOpenPage = documentManager => withListenAction(
 
     if (action.type === types.WS_ASK_OPEN_PAGE) {
       if (!getIsWorkspaceOpened(state)) {
-        dispatch(askOpenWorkspace(null, null, true, true)); // TODO test this branch
-      }
-      const { absolutePath } = action.payload;
-      const windowId = action.payload.windowId
-        || getFocusedWindowId(state) // TODO test this branch
-        || getUniqueWindowId(state); // TODO test this branch
-      const workspaceFolder = getWorkspaceFolder(state);
-      if (absolutePath) {
-        dispatch(documentManager.openPage({
-          windowId,
-          path: absolutePath,
-          workspaceFolder,
-        }));
-      } else {
-        dispatch(openDialog(windowId, 'open', {
-          filters: getOpenExtensionsFilters('Page'),
-          defaultPath: getDefaultFolder(state),
-        }));
-        listenAction(types.HSC_DIALOG_CLOSED, (closeAction) => {
-          const { choice } = closeAction.payload;
-          if (choice) {
-            const toOpenPageAbsolutePath = choice[0];
-            const foundOpenedPage = findOpenedPage(state, toOpenPageAbsolutePath);
-
-            const askOpenPageConfirmation = () => {
-              dispatch(openModal(windowId, {
-                type: 'dialog',
-                title: 'Confirmation for opening page',
-                message: 'This page file is already open. Do you want to open a copy?',
-                buttons: [
-                  { label: 'Cancel', value: 'cancel', type: 'default' },
-                  { label: 'Display existing page', value: 'focus', type: 'default' },
-                  { label: 'Open a copy in a new tab', value: 'open', type: 'primary' },
-                ],
-              }));
-              listenAction(types.WS_MODAL_CLOSE, (confirmCloseAction) => {
-                if (confirmCloseAction.payload.choice === 'cancel') {
-                  // closes modal and do nothing
-                }
-
-                if (confirmCloseAction.payload.choice === 'open') {
-                  dispatch(documentManager.openPage({
-                    windowId,
-                    absolutePath: foundOpenedPage.absolutePath,
-                    workspaceFolder,
-                    isModified: true,
-                  }));
-                }
-
-                if (confirmCloseAction.payload.choice === 'focus') {
-                  dispatch(focusPage(windowId, foundOpenedPage.uuid));
-                }
-              });
-            };
-
-            if (foundOpenedPage) {
-              askOpenPageConfirmation();
-            } else {
-              dispatch(documentManager.openPage({
-                windowId,
-                absolutePath: choice[0],
-                workspaceFolder,
-              }));
-            }
-          }
+        listenAction(types.WS_WORKSPACE_OPENED, () => {
+          onOpenPage(getState(), action, dispatch, documentManager, listenAction);
         });
+        dispatch(askOpenWorkspace(null, null, true, true)); // TODO test this branch
+      } else {
+        onOpenPage(getState(), action, dispatch, documentManager, listenAction);
       }
     }
     return nextAction;

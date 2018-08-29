@@ -51,9 +51,9 @@ const loadInitialDocuments = (dispatch, splashScreen) => {
     logger.info(`loading ${fileName}`);
   };
 
-  if (documentsRoot && workspacePath) {
-    logLoading(workspacePath);
-    return dispatch(askOpenWorkspace(null, workspacePath, true));
+  if (documentsRoot && viewPath) {
+    logLoading(viewPath);
+    return dispatch(askOpenView(viewPath));
   }
 
   if (documentsRoot && pagePath) {
@@ -61,9 +61,9 @@ const loadInitialDocuments = (dispatch, splashScreen) => {
     return dispatch(askOpenPage(null, pagePath));
   }
 
-  if (documentsRoot && viewPath) {
-    logLoading(viewPath);
-    return dispatch(askOpenView(viewPath));
+  if (documentsRoot && workspacePath) {
+    logLoading(workspacePath);
+    return dispatch(askOpenWorkspace(null, workspacePath, true));
   }
 
   if (!documentsRoot) {

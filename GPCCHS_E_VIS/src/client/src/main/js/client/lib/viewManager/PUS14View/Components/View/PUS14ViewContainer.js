@@ -7,11 +7,13 @@ import { getConfigurationByViewId } from 'viewManager/selectors';
 import { injectTabularData } from 'viewManager/commonData/reducer';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
 
-import { PUS_SERVICE_14 } from 'constants';
+import { PUS_SERVICE_14, PUS014_TM_PACKET } from 'constants';
 import PUS14View from './PUS14View';
+import { getDeltaStatusKey } from '../../../common/pus/utils';
 
 const mapStateToProps = (state, { viewId }) => {
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
+  const deleteStatus = parameters.get('PUS_CONSTANTS').STATUS_DELETED_ID;
   const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
   let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_14 });
 
@@ -19,7 +21,8 @@ const mapStateToProps = (state, { viewId }) => {
     data = injectTabularData(
       data,
       'packetForwarding',
-      _.getOr([], ['dataForTables', 'pus014TmPacket'], data)
+      _.getOr([], ['dataForTables', PUS014_TM_PACKET], data)
+        .filter(packet => packet[getDeltaStatusKey(PUS014_TM_PACKET)] !== deleteStatus)
         .map(packet => ({
           ...packet,
           status: statuses[String(_.getOr(200, 'status', packet))],

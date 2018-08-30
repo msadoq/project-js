@@ -7,14 +7,14 @@ import { getWindowIdByViewId } from 'store/selectors/windows';
 import { getConfigurationByViewId } from 'viewManager/selectors';
 import { injectTabularData } from 'viewManager/commonData/reducer';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
-import { formatBinaryProfile } from 'viewManager/common/pus/utils';
+import { formatBinaryProfile, getDeltaStatusKey } from 'viewManager/common/pus/utils';
 
-import { PUS_SERVICE_11 } from 'constants';
+import { PUS_SERVICE_11, PUS011_SUB_SCHEDULE, PUS011_COMMAND } from 'constants';
 import PUS11View from './PUS11View';
-
 
 const updatesConstantsAndTables = (pusData) => {
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
+  const deleteStatus = parameters.get('PUS_CONSTANTS').STATUS_DELETED_ID;
   const groundStatuses = parameters.get('PUS_CONSTANTS').COMMAND_GROUND_STATUS;
   const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
@@ -34,11 +34,11 @@ const updatesConstantsAndTables = (pusData) => {
     data.headers[i].lastUpdateTimeNoFreeCommands = _.getOr(null, 'lastUpdateTimeNoFreeCommands', data.headers[i]);
   }
 
-
   data = injectTabularData(
     data,
     'subSchedules',
     _.getOr([], ['dataForTables', 'pus011SubSchedule'], data)
+      .filter(subSchedule => subSchedule[getDeltaStatusKey(PUS011_SUB_SCHEDULE)] !== deleteStatus)
       .map(subSchedule => ({
         ...subSchedule,
         status: statuses[String(_.getOr(200, 'status', subSchedule))], // map schedule status constant
@@ -62,27 +62,29 @@ const updatesConstantsAndTables = (pusData) => {
   data = injectTabularData(
     data,
     'commands',
-    _.getOr([], ['dataForTables', 'pus011Command'], data).map(command => ({
-      ...command,
-      commandBinaryProfile: formatBinaryProfile(_.getOr('', 'commandBinaryProfile', command)),
-      lastUpdateModeCommandId: updateTypes[String(_.getOr(200, 'lastUpdateModeCommandId', command))], // map schedule lastUpdateModeCommandId constant
-      lastUpdateModeBinProf: updateTypes[String(_.getOr(200, 'lastUpdateModeBinProf', command))], // map schedule lastUpdateModeBinProf constant
-      commandStatus: statuses[String(_.getOr(200, 'commandStatus', command))], // map schedule commandStatus constant
-      lastUpdateModeGroundStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeGroundStatus', command))], // map schedule lastUpdateModeGroundStatus constant
-      commandGroundStatus: groundStatuses[_.getOr('empty', 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
-      lastUpdateModeStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeStatus', command))], // map schedule lastUpdateModeStatus constant
-      lastUpdateModeCurrentExecTime: updateTypes[String(_.getOr(200, 'lastUpdateModeCurrentExecTime', command))], // map schedule lastUpdateModeCurrentExecTime constant
-      lastUpdateModeInitialExecTime: updateTypes[String(_.getOr(200, 'lastUpdateModeInitialExecTime', command))], // map schedule lastUpdateModeInitialExecTime constant
-      lastUpdateModeTotalTimeShiftOffset: updateTypes[String(_.getOr(200, 'lastUpdateModeTotalTimeShiftOffset', command))], // map schedule lastUpdateModeTotalTimeShiftOffset constant
-      pus011CommandParameters: _.getOr([], ['pus011CommandParameters'], command).map(commandParameter => ({
-        ...commandParameter,
-        lastUpdateMode: updateTypes[String(_.getOr(200, 'lastUpdateMode', commandParameter))], // map pus011CommandParameters lastUpdateMode constant
-      })),
-      pus011TimeShift: _.getOr([], ['pus011TimeShift'], command).map(timeShift => ({
-        ...timeShift,
-        lastUpdateMode: updateTypes[String(_.getOr(200, 'lastUpdateMode', timeShift))], // map pus011TimeShift lastUpdateMode constant
-      })),
-    }))
+    _.getOr([], ['dataForTables', PUS011_COMMAND], data)
+      .filter(command => command[getDeltaStatusKey(PUS011_COMMAND)] !== deleteStatus)
+      .map(command => ({
+        ...command,
+        commandBinaryProfile: formatBinaryProfile(_.getOr('', 'commandBinaryProfile', command)),
+        lastUpdateModeCommandId: updateTypes[String(_.getOr(200, 'lastUpdateModeCommandId', command))], // map schedule lastUpdateModeCommandId constant
+        lastUpdateModeBinProf: updateTypes[String(_.getOr(200, 'lastUpdateModeBinProf', command))], // map schedule lastUpdateModeBinProf constant
+        commandStatus: statuses[String(_.getOr(200, 'commandStatus', command))], // map schedule commandStatus constant
+        lastUpdateModeGroundStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeGroundStatus', command))], // map schedule lastUpdateModeGroundStatus constant
+        commandGroundStatus: groundStatuses[_.getOr('empty', 'commandGroundStatus', command)], // map schedule commandGroundStatus constant
+        lastUpdateModeStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeStatus', command))], // map schedule lastUpdateModeStatus constant
+        lastUpdateModeCurrentExecTime: updateTypes[String(_.getOr(200, 'lastUpdateModeCurrentExecTime', command))], // map schedule lastUpdateModeCurrentExecTime constant
+        lastUpdateModeInitialExecTime: updateTypes[String(_.getOr(200, 'lastUpdateModeInitialExecTime', command))], // map schedule lastUpdateModeInitialExecTime constant
+        lastUpdateModeTotalTimeShiftOffset: updateTypes[String(_.getOr(200, 'lastUpdateModeTotalTimeShiftOffset', command))], // map schedule lastUpdateModeTotalTimeShiftOffset constant
+        pus011CommandParameters: _.getOr([], ['pus011CommandParameters'], command).map(commandParameter => ({
+          ...commandParameter,
+          lastUpdateMode: updateTypes[String(_.getOr(200, 'lastUpdateMode', commandParameter))], // map pus011CommandParameters lastUpdateMode constant
+        })),
+        pus011TimeShift: _.getOr([], ['pus011TimeShift'], command).map(timeShift => ({
+          ...timeShift,
+          lastUpdateMode: updateTypes[String(_.getOr(200, 'lastUpdateMode', timeShift))], // map pus011TimeShift lastUpdateMode constant
+        })),
+      }))
   );
   return _.omit(['dataForTables'], data);
 };

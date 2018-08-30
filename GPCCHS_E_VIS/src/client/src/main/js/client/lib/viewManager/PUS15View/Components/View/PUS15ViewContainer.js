@@ -6,13 +6,14 @@ import { getWindowIdByViewId } from 'store/selectors/windows';
 import { getConfigurationByViewId } from 'viewManager/selectors';
 import { injectTabularData } from 'viewManager/commonData/reducer';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
-import { bindToBoolKey } from 'viewManager/common/pus/utils';
+import { bindToBoolKey, getDeltaStatusKey } from 'viewManager/common/pus/utils';
 
-import { PUS_SERVICE_15 } from 'constants';
+import { PUS_SERVICE_15, PUS015_PACKET_STORE } from 'constants';
 import PUS15View from './PUS15View';
 
 const mapStateToProps = (state, { viewId }) => {
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
+  const deleteStatus = parameters.get('PUS_CONSTANTS').STATUS_DELETED_ID;
   const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
   let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_15 });
@@ -22,7 +23,8 @@ const mapStateToProps = (state, { viewId }) => {
     data = injectTabularData(
       data,
       'onBoardStorages',
-      _.getOr([], ['dataForTables', 'pus015PacketStore'], data)
+      _.getOr([], ['dataForTables', PUS015_PACKET_STORE], data)
+        .filter(packetStore => packetStore[getDeltaStatusKey(PUS015_PACKET_STORE)] !== deleteStatus)
         .map(store => ({
           ..._.omit(['pus015Packet'], store),
           dumpEnabled: String(_.getOr('boolean', 'dumpEnabled', store)),

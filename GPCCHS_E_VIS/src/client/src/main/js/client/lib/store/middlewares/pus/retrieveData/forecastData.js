@@ -35,11 +35,13 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
         playPressed
       ) {
         execution.start('Global');
+        const continous = !playPressed;
         playPressed = false;
         execution.start('DataMap generation');
         const dataMap = dataMapGenerator(state);
         execution.stop('DataMap generation');
         const flattenIds = Object.keys(dataMap.perPusId);
+        const now = visuWindow.upper;
         for (let i = 0; i < flattenIds.length; i += 1) {
           const flattenId = flattenIds[i];
           const { dataId } = dataMap.perPusId[flattenId];
@@ -62,7 +64,7 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
                 !timebar.realTime, // forReplay
                 newInterval[0], // firstTime,
                 newInterval[1], // lastTime,
-                true, // continuous,
+                continous, // continuous,
                 makeCallback()
               );
 
@@ -77,7 +79,6 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
             }
           }
         }
-        const now = visuWindow.upper;
         previousForecast = { start: now, end: Number(now) + Number(time) };
         execution.stop('Global');
         execution.print();

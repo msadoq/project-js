@@ -57,8 +57,15 @@ export const shouldKeepElement = (el, filters = {}) => {
 
   // eslint-disable-next-line no-restricted-syntax
   for (const filterKey of Object.keys(filters)) {
-    const valueToMatch =
-      el && el[filterKey] && `${el[filterKey]}`;
+    let valueToMatch = el && el[filterKey];
+
+    if (typeof valueToMatch === 'object') {
+      valueToMatch = JSON.stringify(valueToMatch);
+    }
+
+    if (['string', 'number'].indexOf(typeof valueToMatch) > -1) {
+      valueToMatch = `${el[filterKey]}`;
+    }
 
     const filterValue =
       filters[filterKey] && `${filters[filterKey]}`;

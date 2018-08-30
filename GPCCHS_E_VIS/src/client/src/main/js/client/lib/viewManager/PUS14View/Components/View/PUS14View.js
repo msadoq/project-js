@@ -61,10 +61,12 @@ export default class PUS14View extends React.Component {
 
     return (
       <ErrorBoundary>
-        <div className="pus14">
-          {ApidsList(apids)}
-          <div className="info col-sm-12">
-            <div style={{ height: 400 }}>
+        <div className="pus14 h100">
+          <div className="h15">
+            {ApidsList(apids)}
+          </div>
+          <div className="info col-sm-12 h85">
+            <div className="h100">
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'packetForwarding'}

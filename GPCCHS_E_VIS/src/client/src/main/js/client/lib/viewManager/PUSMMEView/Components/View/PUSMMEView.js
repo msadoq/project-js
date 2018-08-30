@@ -59,9 +59,11 @@ export default class PUSMMEView extends React.Component {
 
     return (
       <ErrorBoundary>
-        <div className="pusmme">
-          {renderHeaders(noHkPackets, noDiagPackets)}
-          <div className="container">
+        <div className="pusmme h100">
+          <div className="h15">
+            {renderHeaders(noHkPackets, noDiagPackets)}
+          </div>
+          <div className="container h85">
             <VirtualizedTableViewContainer
               viewId={viewId}
               tableId={'packets'}

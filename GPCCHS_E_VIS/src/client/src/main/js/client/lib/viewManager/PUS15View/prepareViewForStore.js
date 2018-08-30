@@ -47,6 +47,7 @@ const getDefaultView = view => _.merge({
           direction: 'DESC',
         },
         cols: [
+          { label: 'Store ID', title: 'storeId', tooltip: 'storeId', displayed: true },
           { label: 'Apid Name', title: 'serviceApidName', tooltip: 'serviceApidName', displayed: true },
           { label: 'APID', title: 'packetApid', tooltip: 'packetApid', displayed: true },
           { label: 'AP. Name', title: 'packetApidName', tooltip: 'packetApidName', displayed: true },

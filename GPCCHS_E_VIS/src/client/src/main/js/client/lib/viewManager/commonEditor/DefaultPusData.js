@@ -23,8 +23,6 @@ export default class DefaultPusData extends PureComponent {
   static defaultProps = {
     selectedDomainName: null,
     selectedTimelineId: null,
-    selectedCatalogName: null,
-    selectedItemName: null,
   };
 
   static contextTypes = {

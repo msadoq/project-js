@@ -133,10 +133,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,
   ...dispatchProps,
-  onCommandCellDoubleClick: (rowIndex) => {
+  onCommandCellDoubleClick: (rowId /* , colId, content */) => {
     const { commandData } = stateProps;
 
-    const data = commandData.data[rowIndex];
+    const data = commandData.data[rowId];
 
     // extract modal data
     const {

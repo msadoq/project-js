@@ -41,7 +41,11 @@ const mapStateToProps = (state, { viewId }) => {
       _.uniqBy(
         'uniqueId',
         _.getOr([], ['dataForTables', 'pus015PacketStore'], data)
-          .reduce((acc, store) => [...acc, ...store.pus015Packet], [])
+          .reduce((acc, store) => [
+            ...acc,
+            ...store.pus015Packet.map(
+              packet => _.assign(packet, { storeId: store.storeId })
+            )], [])
       ).map(packet => ({
         ...packet,
         ...bindToBoolKey(['isSubsamplingRatioSet', 'subsamplingRatio', 'lastUpdateModeSubSamplingRatio'], packet),

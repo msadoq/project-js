@@ -24,6 +24,7 @@ import DroppableContainer from 'windowProcess/common/DroppableContainer';
 import Tree from 'windowProcess/Explorer/widgets/Tree';
 import ModalComponent from 'windowProcess/common/ModalComponent';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import LinksContainer from 'windowProcess/View/LinksContainer';
 
 import styles from './DecommutedPacketView.css';
 import { buildFormulaForAutocomplete } from '../../../common';
@@ -89,6 +90,15 @@ PacketHeader.propTypes = {
 
 export default class DecommutedPacketView extends PureComponent {
   static propTypes = {
+    viewId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+    links: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    })),
+    removeLink: PropTypes.func.isRequired,
+    showLinks: PropTypes.bool,
+    updateShowLinks: PropTypes.func.isRequired,
     data: PropTypes.shape({
       value: PropTypes.object,
       index: PropTypes.number,
@@ -103,15 +113,6 @@ export default class DecommutedPacketView extends PureComponent {
     mainMenu: PropTypes.arrayOf(PropTypes.object).isRequired,
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
-    // links: PropTypes.arrayOf(PropTypes.shape({
-    //   name: PropTypes.string.isRequired,
-    //   path: PropTypes.string.isRequired,
-    // })),
-    removeLink: PropTypes.func.isRequired,
-    // pageId: PropTypes.string.isRequired,
-    viewId: PropTypes.string.isRequired,
-    // showLinks: PropTypes.bool,
-    // updateShowLinks: PropTypes.func.isRequired,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
     askItemStructure: PropTypes.func.isRequired,
   };
@@ -121,7 +122,7 @@ export default class DecommutedPacketView extends PureComponent {
     entryPoints: {},
     inspectorEpId: null,
     links: [],
-    // showLinks: false,
+    showLinks: false,
     data: [],
     structure: {},
   };
@@ -197,6 +198,7 @@ export default class DecommutedPacketView extends PureComponent {
     const separator = { type: 'separator' };
     handleContextMenu([inspectorMenu, editorMenu, separator, ...mainMenu]);
   };
+
   /**
    * Called on any drop in the DroppableContainer
    * @param e
@@ -233,6 +235,18 @@ export default class DecommutedPacketView extends PureComponent {
     }
   };
 
+  toggleShowLinks = (e) => {
+    e.preventDefault();
+    const { showLinks, updateShowLinks, viewId } = this.props;
+    updateShowLinks(viewId, !showLinks);
+  };
+
+  removeLink = (e, index) => {
+    e.preventDefault();
+    const { removeLink, viewId } = this.props;
+    removeLink(viewId, index);
+  };
+
   reset = () => this.setState({
     isOpened: false,
     comObjects: null,
@@ -255,12 +269,6 @@ export default class DecommutedPacketView extends PureComponent {
       addEntryPoint: this.props.addEntryPoint,
       openEditor: this.props.openEditor,
     });
-  };
-
-  removeLink = (e, index) => {
-    e.preventDefault();
-    const { removeLink, viewId } = this.props;
-    removeLink(viewId, index);
   };
 
   innerExpandAll = (node) => {
@@ -306,7 +314,11 @@ export default class DecommutedPacketView extends PureComponent {
     </div>
   );
   renderModal = () => (
-    <ModalComponent isOpened={this.state.isOpened} title="please select a comObject" onClose={this.hideModal}>
+    <ModalComponent
+      isOpened={this.state.isOpened}
+      title="please select a comObject"
+      onClose={this.hideModal}
+    >
       <Select
         name="selectComObject"
         onChange={this.handleSelectedComObjectChange}
@@ -339,7 +351,13 @@ export default class DecommutedPacketView extends PureComponent {
 
   render() {
     const {
-      data, entryPoints, isMaxVisuDurationExceeded,
+      data,
+      entryPoints,
+      isMaxVisuDurationExceeded,
+      viewId,
+      pageId,
+      links,
+      showLinks,
     } = this.props;
     const { structuredData } = this.state;
     const ep = data.value;
@@ -365,19 +383,33 @@ export default class DecommutedPacketView extends PureComponent {
           </header>
           <PacketHeader headerData={data.value} />
           {structuredData &&
-            <React.Fragment>
-              <ToggleButton
-                on="close all"
-                off="expand all"
-                className="btn btn-primary"
-                default={ON}
-                onChange={this.toggleExpandAll}
-              />
-              <Tree
-                data={structuredData}
-              />
-            </React.Fragment>
+          <React.Fragment>
+            <ToggleButton
+              on="close all"
+              off="expand all"
+              className="btn btn-primary"
+              default={ON}
+              onChange={this.toggleExpandAll}
+            />
+            <Tree
+              data={structuredData}
+            />
+          </React.Fragment>
           }
+          <div
+            className={classnames(styles.LinksContainer, {
+              [styles.remove]: links.length === 0,
+            })}
+          >
+            <LinksContainer
+              show={showLinks}
+              toggleShowLinks={this.toggleShowLinks}
+              links={links}
+              removeLink={this.removeLink}
+              viewId={viewId}
+              pageId={pageId}
+            />
+          </div>
         </DroppableContainer>
         {this.renderModal()}
       </ErrorBoundary>

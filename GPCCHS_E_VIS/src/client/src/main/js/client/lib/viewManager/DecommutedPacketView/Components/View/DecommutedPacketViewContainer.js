@@ -75,11 +75,11 @@ const mapStateToProps = (state, { viewId }) => {
     structure,
     isInspectorOpened: isAnyInspectorOpened(state),
     inspectorEpId: getInspectorEpId(state),
-    links: getLinks(state, { viewId }),
     pageId,
-    showLinks: areLinksShown(state, { viewId }),
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
+    links: getLinks(state, { viewId }),
+    showLinks: areLinksShown(state, { viewId }),
   };
 };
 

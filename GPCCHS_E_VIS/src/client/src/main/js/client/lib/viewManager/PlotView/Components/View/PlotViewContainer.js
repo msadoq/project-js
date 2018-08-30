@@ -59,6 +59,7 @@ import { getTimebar, isMaxVisuDurationExceeded } from 'store/reducers/timebars';
 import { toggleZoomState } from 'store/actions/sampling';
 import SizablePlotView from './PlotView';
 import { updateSearchCount } from '../../../../store/actions/pages';
+import { add } from '../../../../store/actions/messages';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
@@ -100,6 +101,7 @@ const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators(
   toggleLegend,
   updateSearchCount: count => updateSearchCount(pageId, viewId, count),
   toggleZoomState,
+  addMessage: (status, content) => add(viewId, status, content),
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);

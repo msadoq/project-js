@@ -115,6 +115,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
+import _has from 'lodash/has';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _sum from 'lodash/sum';
@@ -471,7 +472,7 @@ export const parseDragData = (data, id, defaultTimelineId) => {
       comObjectField: data.comObjectFields || 'convertedValue',
       fieldX: 'onboardDate',
       unit: 'V',
-      domain: '*',
+      domain: data.domain || '*',
       timeline: defaultTimelineId,
     },
   };
@@ -535,6 +536,7 @@ export class GrizzlyPlotView extends React.Component {
     updateSearchCount: PropTypes.func.isRequired,
     searching: PropTypes.string,
     searchCount: PropTypes.objectOf(PropTypes.shape),
+    addMessage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -788,8 +790,13 @@ export class GrizzlyPlotView extends React.Component {
 
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
-    if (!_get(content, 'catalogName')) {
-      return;
+    const required = ['catalogName', 'comObjects', 'item', 'nameSpace', 'sessionName', 'domain'];
+    const missing = required.filter(
+      key => !_has(content, key)
+    );
+    if ( !(missing.length === 0) ) {
+      const messageToDisplay = `Missing properties in dropped data: ${missing.join(', ')}.`;
+      this.props.addMessage('danger', messageToDisplay);
     }
     const epId = getUniqueEpId(data.item || 'entryPoint', configuration.entryPoints);
     addEntryPoint(

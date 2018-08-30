@@ -25,7 +25,6 @@ export const getModelEntryByDataType = (dataType) => {
     [constants.Pus005OnBoardEvent]: constants.PUS005_ON_BOARD_EVENT,
     [constants.Pus011CommandType]: constants.PUS011_COMMAND,
     [constants.Pus011SubScheduleType]: constants.PUS011_SUB_SCHEDULE,
-    [constants.Pus011ApidType]: constants.PUS011_APID,
     [constants.Pus012ParameterMonitoringDefinitionType]:
       constants.PUS012_PARAMETER_MONITORING_DEFINITION,
     [constants.Pus013DownlinkLDTType]: constants.PUS013_LDT_PART,
@@ -99,6 +98,26 @@ export const getViewServiceFromType = (type) => {
     [VM_VIEW_PUS144]: [constants.PUS_SERVICE_144],
   };
   return pusTypes[type] || null;
+};
+
+export const getDeltaStatusKey = (deltaKey) => {
+  const deltas = {
+    [constants.PUS005_ON_BOARD_EVENT]: [constants.pus005OnBoardEventStatusKey],
+    [constants.PUS011_COMMAND]: [constants.pus011CommandStatusKey],
+    [constants.PUS011_SUB_SCHEDULE]: [constants.pus011SubScheduleStatusKey],
+    [constants.PUS012_PARAMETER_MONITORING_DEFINITION]:
+      [constants.pus012ParameterMonitoringDefinitionStatusKey],
+    [constants.PUS013_LDT_PART]: [constants.pUS013LdtPartStatusKey],
+    [constants.PUS014_TM_PACKET]: [constants.pus014TmPacketStatusKey],
+    [constants.PUS015_PACKET_STORE]: [constants.pus015PacketStoreStatusKey],
+    [constants.PUS018_OBCP]: [constants.pus018ObcpStatusKey],
+    [constants.PUS019_EVENT_ACTION]: [constants.pus19EventActionStatusKey],
+    [constants.PUS140_PARAMETER]: [constants.pus140ParameterStatusKey],
+    [constants.PUS142_FUNCTIONAL_MONITORING]: [constants.pus142FunctionalMonitoringStatusKey],
+    [constants.PUS144_ON_BOARD_FILES]: [constants.pus144OnboardFilesStatusKey],
+    [constants.PUSMME_PACKET]: [constants.pusMmePacketStatusKey],
+  };
+  return deltas[deltaKey] || null;
 };
 
 export const formatBinaryProfile = binaryProfile => (

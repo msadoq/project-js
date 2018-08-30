@@ -36,11 +36,6 @@ const knownPus = (state = {}, action) => {
       });
 
       return newState;
-
-      // if (continuous) {
-      //   return _.set([pusService, pusId, 'interval', 1], interval[1], newState);
-      // }
-      // return _.set([pusService, pusId, 'interval'], interval, newState);
     }
     case types.SAVE_PUS_DATA: {
       const payload = action.payload.payload;

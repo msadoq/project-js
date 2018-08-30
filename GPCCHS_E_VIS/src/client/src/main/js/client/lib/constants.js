@@ -438,13 +438,12 @@ module.exports = {
 
   // list of key for deltas
   PUS005_ON_BOARD_EVENT: 'pus005OnBoardEvent',
+  PUS011_APID: 'pus011Apid',
   PUS011_COMMAND: 'pus011Command',
   PUS011_SUB_SCHEDULE: 'pus011SubSchedule',
-  PUS011_APID: 'pus011Apid',
   PUS012_PARAMETER_MONITORING_DEFINITION: 'pus012ParameterMonitoringDefinition',
   PUS013_LDT_PART: 'pUS013LdtPart',
   PUS014_TM_PACKET: 'pus014TmPacket',
-  PUS015_PACKET: 'pus015Packet',
   PUS015_PACKET_STORE: 'pus015PacketStore',
   PUS018_OBCP: 'pus018Obcp',
   PUS019_EVENT_ACTION: 'pus19EventAction',
@@ -470,4 +469,19 @@ module.exports = {
   // for PUS MME AND 140
   // wildcard for all apids
   PUS_ALL_APIDS: 65535,
+
+  // Status by delta type for deltas
+  pus005OnBoardEventStatusKey: 'onBoardStatus',
+  pus011CommandStatusKey: 'commandStatus',
+  pus011SubScheduleStatusKey: 'status',
+  pus012ParameterMonitoringDefinitionStatusKey: 'monitoringStatus',
+  pUS013LdtPartStatusKey: 'status',
+  pus014TmPacketStatusKey: 'status',
+  pus015PacketStoreStatusKey: 'storeStatus',
+  pus018ObcpStatusKey: 'obcpStatus',
+  pus19EventActionStatusKey: 'actionStatus',
+  pus140ParameterStatusKey: 'status',
+  pus142FunctionalMonitoringStatusKey: 'status',
+  pus144OnboardFilesStatusKey: 'status',
+  pusMmePacketStatusKey: 'status',
 };

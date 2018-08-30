@@ -1006,6 +1006,7 @@ const getPus15Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeStoreType: formatedTime,
             lastUpdateTimeStoreStatus: formatedTime,
             lastUpdateTimeDownlinkStatus: formatedTime,
+            uniqueId: 1,
             pus015Packet: [
               stubData.getPus015Packet({
                 serviceApid,
@@ -1037,6 +1038,7 @@ const getPus15Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeStoreType: formatedTime,
             lastUpdateTimeStoreStatus: formatedTime,
             lastUpdateTimeDownlinkStatus: formatedTime,
+            uniqueId: 2,
             pus015Packet: [
               stubData.getPus015Packet({
                 serviceApid,
@@ -1076,6 +1078,7 @@ const getPus15Payload = (timestamp, serviceApid, type) => {
       lastUpdateTimeStoreType: formatedTime,
       lastUpdateTimeStoreStatus: formatedTime,
       lastUpdateTimeDownlinkStatus: formatedTime,
+      uniqueId: predictibleRand.getInt([1, 2]),
       pus015Packet: [
         stubData.getPus015Packet({
           serviceApid,

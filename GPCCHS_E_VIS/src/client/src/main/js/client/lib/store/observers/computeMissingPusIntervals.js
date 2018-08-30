@@ -37,11 +37,10 @@ export default function computeMissingPusIntervals(state, dataMap, previousDataM
       _each(views, (() => {
         const playingTimebarId = getPlayingTimebarId(state);
         const timebarUuid = dataMap.perPusId[tbdId].localIds[localId].timebarUuid;
-        //   // this condition is checking if timebar is currently in playing mode
-        //   // if it is, data are given by the forecast
-        //   // view is not needing data
+        // this condition is checking if timebar is currently in playing mode
+        // if it is, data are given by the forecast
+        // view is not needing data
         if ((!playingTimebarId || timebarUuid !== playingTimebarId) && !queries[tbdId]) {
-          // save filters if they are stored in remoteId
           const query = {
             dataId,
             interval: needed[0],

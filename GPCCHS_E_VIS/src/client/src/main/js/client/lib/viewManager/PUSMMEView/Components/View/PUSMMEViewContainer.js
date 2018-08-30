@@ -1,14 +1,15 @@
+import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
-import { PUS_SERVICE_MME } from 'constants';
-import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
+import parameters from 'common/configurationManager';
 import { open as openModal } from 'store/actions/modals';
-import PUSMMEView from './PUSMMEView';
+import { getWindowIdByViewId } from 'store/selectors/windows';
+import { getConfigurationByViewId } from 'viewManager/selectors';
+import { injectTabularData } from 'viewManager/commonData/reducer';
+import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
 
-import { getConfigurationByViewId } from '../../../selectors';
-import { getWindowIdByViewId } from '../../../../store/selectors/windows';
-import { injectTabularData } from '../../../commonData/reducer';
-import parameters from '../../../../common/configurationManager';
+import { PUS_SERVICE_MME } from 'constants';
+import PUSMMEView from './PUSMMEView';
 
 
 const mapStateToProps = (state, { viewId }) => {
@@ -18,11 +19,6 @@ const mapStateToProps = (state, { viewId }) => {
   let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_MME });
 
   if (typeof data === 'object' && Object.keys(data).length > 0) {
-    for (let i = 0; i < data.headers.length; i += 1) {
-      data.headers[i].noHkPackets = _.getOr(null, 'noHkPackets', data.headers[i]);
-      data.headers[i].noDiagPackets = _.getOr(null, 'noDiagPackets', data.headers[i]);
-    }
-
     data = injectTabularData(
       data,
       'packets',
@@ -30,7 +26,7 @@ const mapStateToProps = (state, { viewId }) => {
         .map(packet => ({
           ...packet,
           status: statuses[String(_.getOr(200, 'status', packet))],
-          forwardingStatus: statuses[String(_.getOr(200, 'forwardingStatus', packet))],
+          forwardingStatusTypeSubtype: statuses[String(_.getOr(200, 'forwardingStatusTypeSubtype', packet))],
           forwardingStatusRidSid: statuses[String(_.getOr(200, 'forwardingStatusRidSid', packet))],
           lastUpdateModeSid: updateTypes[String(_.getOr(200, 'lastUpdateModeSid', packet))],
           lastUpdateModeStatus: updateTypes[String(_.getOr(200, 'lastUpdateModeStatus', packet))],
@@ -59,8 +55,7 @@ const mapStateToProps = (state, { viewId }) => {
   );
 
   return {
-    noHkPackets: _.getOr(null, 'noHkPackets', data),
-    noDiagPackets: _.getOr(null, 'noDiagPackets', data),
+    data,
     domain: _.getOr(null, ['entryPoints', 0, 'connectedData', 'domain'], config),
     timeline: _.getOr(null, ['entryPoints', 0, 'connectedData', 'timeline'], config),
     packetsData,
@@ -114,5 +109,9 @@ const PUSMMEViewContainer =
     mapDispatchToProps,
     mergeProps
   )(PUSMMEView);
+
+PUSMMEViewContainer.propTypes = {
+  viewId: PropTypes.string.isRequired,
+};
 
 export default PUSMMEViewContainer;

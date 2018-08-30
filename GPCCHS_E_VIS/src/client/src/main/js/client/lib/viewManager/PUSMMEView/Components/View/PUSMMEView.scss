@@ -4,31 +4,32 @@
   overflow: auto;
 
 		.header {
-		margin: 10px;
-		display: flex;
-		flex-direction: row;
-		align-items: flex-end;
-		justify-content: space-between;
-		.info {
-			margin-top: 10px;
+			margin: 10px;
 			display: flex;
 			flex-direction: row;
-			align-items: baseline;
-			justify-content: flex-start;
-			.mw50 {
-			max-width: 50px;
+			align-items: flex-end;
+			justify-content: space-between;
+			.info {
+				margin-top: 10px;
+				display: flex;
+				flex-direction: row;
+				align-items: baseline;
+				justify-content: flex-start;
+				.mw50 {
+				max-width: 50px;
+				}
+				.mw100 {
+				max-width: 100px;
+				}
+				&.pusmme_ss { justify-content: center; }
+				&.pusmme_as { justify-content: flex-end; }
 			}
-			.mw100 {
-			max-width: 100px;
-			}
-			&.pusmme_ss { justify-content: center; }
-			&.pusmme_as { justify-content: flex-end; }
-		}
-		.container {
-			height: 100%;
-		}
-  }
-
+			
+	}
+  .container {
+	height: 100%;
+	min-height: 200px;
+	}
   .renderErrorText {
 	margin: auto;
 	font-size: 3em;

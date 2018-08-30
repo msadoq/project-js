@@ -43,7 +43,19 @@ export default class DefaultPusData extends PureComponent {
       selectedTimelineId,
       pusType,
     } = this.props;
-
+    const apidsField = ![VM_VIEW_PUSMME, VM_VIEW_PUS140].includes(pusType) &&
+      (
+        <HorizontalFormGroup label="Application Process">
+          <ApplicationProcessFieldContainer
+            domainName={selectedDomainName}
+            timelineId={selectedTimelineId}
+            viewId={viewId}
+            pageId={pageId}
+            onChange={this.handleChange}
+            pusType={pusType}
+          />
+        </HorizontalFormGroup>
+      );
     return (
       <ErrorBoundary>
         <React.Fragment>
@@ -56,23 +68,11 @@ export default class DefaultPusData extends PureComponent {
               windowId={windowId}
             />
           </HorizontalFormGroup>
-
           {/*
             These views must subscribe to all apids at once, and therefore should not offer the
-            possibility to select some apids. We shall always send null in that case. @see SDD
+            possibility to select some apids. We shall always send 65535 in that case. @see SDD
           */}
-          {![VM_VIEW_PUSMME, VM_VIEW_PUS140].includes(pusType) &&
-            <HorizontalFormGroup label="Application Process">
-              <ApplicationProcessFieldContainer
-                domainName={selectedDomainName}
-                timelineId={selectedTimelineId}
-                viewId={viewId}
-                pageId={pageId}
-                onChange={this.handleChange}
-                pusType={pusType}
-              />
-            </HorizontalFormGroup>
-          }
+          { apidsField }
         </React.Fragment>
       </ErrorBoundary>
     );

@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
-
+import _ from 'lodash/fp';
 import './PUSMMEView.scss';
 import VirtualizedTableViewContainer
   from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
@@ -10,7 +10,7 @@ import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
 
 const _packetsStatusKeyList = [
   'status',
-  'forwardingStatus',
+  'forwardingStatusTypeSubtype',
   'forwardingStatusRidSid',
 ];
 const packetsOverrideStyle = tableOverrideStyle(_packetsStatusKeyList);
@@ -35,14 +35,18 @@ const packetsContentModifier = tableModifier(packetForwardingTooltips);
 export default class PUSMMEView extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    noHkPackets: PropTypes.number,
-    noDiagPackets: PropTypes.number,
+    data: PropTypes.shape({
+      headers: PropTypes.arrayOf(PropTypes.shape()),
+      tables: PropTypes.shape(),
+    }),
     onCommandCellDoubleClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    noHkPackets: 0,
-    noDiagPackets: 0,
+    data: {
+      headers: [],
+      tables: {},
+    },
   };
 
   static contextTypes = {
@@ -52,21 +56,25 @@ export default class PUSMMEView extends React.Component {
   render() {
     const {
       viewId,
-      noHkPackets,
-      noDiagPackets,
+      data,
       onCommandCellDoubleClick,
     } = this.props;
-
+    const headersData = _.getOr([], ['headers'], data);
+    const defaultHeader = {
+      noHkPackets: 0,
+      noDiagPackets: 0,
+    };
+    const header = renderHeader(headersData.length > 0 ?
+    _.head(headersData) : defaultHeader);
     return (
       <ErrorBoundary>
-        <div className="pusmme h100">
-          <div className="h15">
-            {renderHeaders(noHkPackets, noDiagPackets)}
-          </div>
-          <div className="container h85">
+        <div className="pusmme">
+          {header}
+          <div className="container">
             <VirtualizedTableViewContainer
               viewId={viewId}
               tableId={'packets'}
+              data={_.getOr([], ['tables', 'packets', 'data'], data)}
               overrideStyle={packetsOverrideStyle}
               contentModifier={packetsContentModifier}
               onCellDoubleClick={onCommandCellDoubleClick}
@@ -78,29 +86,18 @@ export default class PUSMMEView extends React.Component {
   }
 }
 
-export const renderHeaders = (
-  noHkPackets,
-  noDiagPackets
-) => (
-  <ErrorBoundary>
-    <div className="header m10 jcsb">
-      <div>
-        Hk Packets&nbsp;<input type="text" disabled value={noHkPackets} />
+export const renderHeader = (header) => {
+  const { noHkPackets, noDiagPackets } = header;
+  return (
+    <ErrorBoundary>
+      <div className="header m10 jcsb">
+        <div>
+          Hk Packets&nbsp;<input type="text" disabled value={noHkPackets} />
+        </div>
+        <div>
+          Diag Packets&nbsp;<input type="text" disabled value={noDiagPackets} />
+        </div>
       </div>
-      <div>
-        Diag Packets&nbsp;<input type="text" disabled value={noDiagPackets} />
-      </div>
-    </div>
-  </ErrorBoundary>
-);
-
-export const renderInvald = error => (
-  <div className="pusmme h100 posRelative">
-    <div className="flex h100">
-      <div className="renderErrorText">
-        Unable to render view <br />
-        {error}
-      </div>
-    </div>
-  </div>
-);
+    </ErrorBoundary>
+  );
+};

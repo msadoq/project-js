@@ -1,4 +1,4 @@
-# Produced by Velocity Python Generator 1.1.2-R8
+# Produced by Velocity Python Generator 2.0.0-R10
 
 # -*- coding: utf-8 -*-
 """!
@@ -14,7 +14,7 @@ Component : GPCC
 # HISTORY
 # 
 # VERSION : 1.1.2 : FA : #7472 : 01/09/2017 : Update javascript VIMA launcher to used iedit and
-#  manage the features it launch, remove the old launcher
+# manage the features it launch, remove the old launcher
 # END-HISTORY
 # End of user code HistoryZone
 # ====================================================================

@@ -1,4 +1,4 @@
-# Produced by Velocity Python Generator 1.1.2-R8
+# Produced by Velocity Python Generator 2.0.0-R10
 
 # -*- coding: utf-8 -*-
 
@@ -18,7 +18,7 @@ Component : GPCC
 # HISTORY
 # 
 # VERSION : 1.1.2 : FA : #7472 : 01/09/2017 : Update javascript VIMA launcher to used iedit and
-#  manage the features it launch, remove the old launcher
+# manage the features it launch, remove the old launcher
 # END-HISTORY
 # End of user code HistoryZone
 # ====================================================================
@@ -33,9 +33,10 @@ Contain class IhmLauncherConfig
 
 from GPCC.xmlRuntime.core.xmlcomplexobject import XMLComplexObject
 import GPCC.xmlRuntime.exceptions.xmlexceptions as xmlexceptions 
+from GPCC.xmlRuntime.types.xmlType import XmlType
 
-from GPCC.xmlRuntime.types.XMLBool import XMLBool    
 from GPCC.xmlRuntime.types.XMLString import XMLString    
+from GPCC.xmlRuntime.types.XMLBool import XMLBool    
 
 
 class IhmLauncherConfig(XMLComplexObject):
@@ -55,39 +56,49 @@ class IhmLauncherConfig(XMLComplexObject):
         Constructor for IhmLauncherConfig
         """
         super().__init__(**{"debug":
-                            (self.create_xmldebug, 
-                             self.set_xmldebug,
-                             self.setFileLine_xmldebug ),
+                            (self.createxmldebug, 
+                             self.setxmldebug,
+                             self.setFileLinexmldebug ),
                             "fmdRoot":
-                            (self.create_xmlfmdRoot, 
-                             self.set_xmlfmdRoot,
-                             self.setFileLine_xmlfmdRoot ),
+                            (self.createxmlfmdRoot, 
+                             self.setxmlfmdRoot,
+                             self.setFileLinexmlfmdRoot ),
                             "nodePath":
-                            (self.create_xmlnodePath, 
-                             self.set_xmlnodePath,
-                             self.setFileLine_xmlnodePath ),
+                            (self.createxmlnodePath, 
+                             self.setxmlnodePath,
+                             self.setFileLinexmlnodePath ),
                             "dcPushUri":
-                            (self.create_xmldcPushUri, 
-                             self.set_xmldcPushUri,
-                             self.setFileLine_xmldcPushUri ),
+                            (self.createxmldcPushUri, 
+                             self.setxmldcPushUri,
+                             self.setFileLinexmldcPushUri ),
                             "dcPullUri":
-                            (self.create_xmldcPullUri, 
-                             self.set_xmldcPullUri,
-                             self.setFileLine_xmldcPullUri ),
-                            "dcConfFile":
-                            (self.create_xmldcConfFile, 
-                             self.set_xmldcConfFile,
-                             self.setFileLine_xmldcConfFile ),
+                            (self.createxmldcPullUri, 
+                             self.setxmldcPullUri,
+                             self.setFileLinexmldcPullUri ),
+                            "mcPushUri":
+                            (self.createxmlmcPushUri, 
+                             self.setxmlmcPushUri,
+                             self.setFileLinexmlmcPushUri ),
+                            "mcPullUri":
+                            (self.createxmlmcPullUri, 
+                             self.setxmlmcPullUri,
+                             self.setFileLinexmlmcPullUri ),
+                            "featuresConfFile":
+                            (self.createxmlfeaturesConfFile, 
+                             self.setxmlfeaturesConfFile,
+                             self.setFileLinexmlfeaturesConfFile ),
                             "additionalArg" : 
-                            (self.create_xmladditionalArg, 
-                             self.set_xmladditionalArg)})
+                            (self.createxmladditionalArg, 
+                             self.setxmladditionalArg)})
 
         self.__xmldebug = None
         self.__xmlfmdRoot = None
         self.__xmlnodePath = None
         self.__xmldcPushUri = None
         self.__xmldcPullUri = None
-        self.__xmldcConfFile = None
+        self.__xmlmcPushUri = None
+        self.__xmlmcPullUri = None
+        self.__xmlfeaturesConfFile = None
         self.__xmladditionalArg = None
         self.__shouldWriteTag = True
 
@@ -98,19 +109,15 @@ class IhmLauncherConfig(XMLComplexObject):
         Getter
         @return __xmldebug
         """
-        # Start of user code getxmldebug
         return self.__xmldebug
-        # End of user code
-    
+            
     @xmldebug.setter
     def xmldebug(self, value):
         """
         Setter
         @param value The value to set __xmldebug with
         """
-        # Start of user code setxmldebug
         self.__xmldebug = value
-        # End of user code
     
     @xmldebug.deleter
     def xmldebug(self):
@@ -118,28 +125,22 @@ class IhmLauncherConfig(XMLComplexObject):
         Deleter
         delete __xmldebug
         """
-        # Start of user code delxmldebug
         del self.__xmldebug
-        # End of user code
     @property
     def xmlfmdRoot(self):
         """
         Getter
         @return __xmlfmdRoot
         """
-        # Start of user code getxmlfmdRoot
         return self.__xmlfmdRoot
-        # End of user code
-    
+            
     @xmlfmdRoot.setter
     def xmlfmdRoot(self, value):
         """
         Setter
         @param value The value to set __xmlfmdRoot with
         """
-        # Start of user code setxmlfmdRoot
         self.__xmlfmdRoot = value
-        # End of user code
     
     @xmlfmdRoot.deleter
     def xmlfmdRoot(self):
@@ -147,28 +148,22 @@ class IhmLauncherConfig(XMLComplexObject):
         Deleter
         delete __xmlfmdRoot
         """
-        # Start of user code delxmlfmdRoot
         del self.__xmlfmdRoot
-        # End of user code
     @property
     def xmlnodePath(self):
         """
         Getter
         @return __xmlnodePath
         """
-        # Start of user code getxmlnodePath
         return self.__xmlnodePath
-        # End of user code
-    
+            
     @xmlnodePath.setter
     def xmlnodePath(self, value):
         """
         Setter
         @param value The value to set __xmlnodePath with
         """
-        # Start of user code setxmlnodePath
         self.__xmlnodePath = value
-        # End of user code
     
     @xmlnodePath.deleter
     def xmlnodePath(self):
@@ -176,28 +171,22 @@ class IhmLauncherConfig(XMLComplexObject):
         Deleter
         delete __xmlnodePath
         """
-        # Start of user code delxmlnodePath
         del self.__xmlnodePath
-        # End of user code
     @property
     def xmldcPushUri(self):
         """
         Getter
         @return __xmldcPushUri
         """
-        # Start of user code getxmldcPushUri
         return self.__xmldcPushUri
-        # End of user code
-    
+            
     @xmldcPushUri.setter
     def xmldcPushUri(self, value):
         """
         Setter
         @param value The value to set __xmldcPushUri with
         """
-        # Start of user code setxmldcPushUri
         self.__xmldcPushUri = value
-        # End of user code
     
     @xmldcPushUri.deleter
     def xmldcPushUri(self):
@@ -205,28 +194,22 @@ class IhmLauncherConfig(XMLComplexObject):
         Deleter
         delete __xmldcPushUri
         """
-        # Start of user code delxmldcPushUri
         del self.__xmldcPushUri
-        # End of user code
     @property
     def xmldcPullUri(self):
         """
         Getter
         @return __xmldcPullUri
         """
-        # Start of user code getxmldcPullUri
         return self.__xmldcPullUri
-        # End of user code
-    
+            
     @xmldcPullUri.setter
     def xmldcPullUri(self, value):
         """
         Setter
         @param value The value to set __xmldcPullUri with
         """
-        # Start of user code setxmldcPullUri
         self.__xmldcPullUri = value
-        # End of user code
     
     @xmldcPullUri.deleter
     def xmldcPullUri(self):
@@ -234,57 +217,91 @@ class IhmLauncherConfig(XMLComplexObject):
         Deleter
         delete __xmldcPullUri
         """
-        # Start of user code delxmldcPullUri
         del self.__xmldcPullUri
-        # End of user code
     @property
-    def xmldcConfFile(self):
+    def xmlmcPushUri(self):
         """
         Getter
-        @return __xmldcConfFile
+        @return __xmlmcPushUri
         """
-        # Start of user code getxmldcConfFile
-        return self.__xmldcConfFile
-        # End of user code
-    
-    @xmldcConfFile.setter
-    def xmldcConfFile(self, value):
+        return self.__xmlmcPushUri
+            
+    @xmlmcPushUri.setter
+    def xmlmcPushUri(self, value):
         """
         Setter
-        @param value The value to set __xmldcConfFile with
+        @param value The value to set __xmlmcPushUri with
         """
-        # Start of user code setxmldcConfFile
-        self.__xmldcConfFile = value
-        # End of user code
+        self.__xmlmcPushUri = value
     
-    @xmldcConfFile.deleter
-    def xmldcConfFile(self):
+    @xmlmcPushUri.deleter
+    def xmlmcPushUri(self):
         """
         Deleter
-        delete __xmldcConfFile
+        delete __xmlmcPushUri
         """
-        # Start of user code delxmldcConfFile
-        del self.__xmldcConfFile
-        # End of user code
+        del self.__xmlmcPushUri
+    @property
+    def xmlmcPullUri(self):
+        """
+        Getter
+        @return __xmlmcPullUri
+        """
+        return self.__xmlmcPullUri
+            
+    @xmlmcPullUri.setter
+    def xmlmcPullUri(self, value):
+        """
+        Setter
+        @param value The value to set __xmlmcPullUri with
+        """
+        self.__xmlmcPullUri = value
+    
+    @xmlmcPullUri.deleter
+    def xmlmcPullUri(self):
+        """
+        Deleter
+        delete __xmlmcPullUri
+        """
+        del self.__xmlmcPullUri
+    @property
+    def xmlfeaturesConfFile(self):
+        """
+        Getter
+        @return __xmlfeaturesConfFile
+        """
+        return self.__xmlfeaturesConfFile
+            
+    @xmlfeaturesConfFile.setter
+    def xmlfeaturesConfFile(self, value):
+        """
+        Setter
+        @param value The value to set __xmlfeaturesConfFile with
+        """
+        self.__xmlfeaturesConfFile = value
+    
+    @xmlfeaturesConfFile.deleter
+    def xmlfeaturesConfFile(self):
+        """
+        Deleter
+        delete __xmlfeaturesConfFile
+        """
+        del self.__xmlfeaturesConfFile
     @property
     def xmladditionalArg(self):
         """
         Getter
         @return __xmladditionalArg
         """
-        # Start of user code getxmladditionalArg
         return self.__xmladditionalArg
-        # End of user code
-    
+            
     @xmladditionalArg.setter
     def xmladditionalArg(self, value):
         """
         Setter
         @param value The value to set __xmladditionalArg with
         """
-        # Start of user code setxmladditionalArg
         self.__xmladditionalArg = value
-        # End of user code
     
     @xmladditionalArg.deleter
     def xmladditionalArg(self):
@@ -292,9 +309,7 @@ class IhmLauncherConfig(XMLComplexObject):
         Deleter
         delete __xmladditionalArg
         """
-        # Start of user code delxmladditionalArg
         del self.__xmladditionalArg
-        # End of user code
 
     @property
     def shouldWriteTag(self):
@@ -302,19 +317,15 @@ class IhmLauncherConfig(XMLComplexObject):
         Getter
         @return __shouldWriteTag
         """
-        # Start of user code getshouldWriteTag
         return self.__shouldWriteTag
-        # End of user code
-    
+        
     @shouldWriteTag.setter
     def shouldWriteTag(self, value):
         """
         Setter
         @param value The value to set __shouldWriteTag with
         """
-        # Start of user code setshouldWriteTag
         self.__shouldWriteTag = value
-        # End of user code
     
     @shouldWriteTag.deleter
     def shouldWriteTag(self):
@@ -322,14 +333,12 @@ class IhmLauncherConfig(XMLComplexObject):
         Deleter
         delete __shouldWriteTag
         """
-        # Start of user code delshouldWriteTag
         del self.__shouldWriteTag
-        # End of user code
 
 
 
 
-    def create_xmldebug(self):
+    def createxmldebug(self):    
         """
         Lambda for variable creation
 
@@ -341,13 +350,15 @@ class IhmLauncherConfig(XMLComplexObject):
         self.__xmldebug.tag_name = "debug"
         return self.__xmldebug
 
-    def set_xmldebug(self, value):
+    def setxmldebug(self, value):    
         """
         Set the variable
         @param value the value to store.
         """
-        self.__xmldebug =  XMLBool(value=value)
-    def setFileLine_xmldebug(self, fileName, line):
+        self.__xmldebug = XMLBool(value=value)
+
+
+    def setFileLinexmldebug(self, fileName, line):    
         """
         Set the file name and line
         @param fileName The file name.
@@ -357,7 +368,7 @@ class IhmLauncherConfig(XMLComplexObject):
         self.__xmldebug.lineInFile = line
 
 
-    def create_xmlfmdRoot(self):
+    def createxmlfmdRoot(self):    
         """
         Lambda for variable creation
 
@@ -369,13 +380,15 @@ class IhmLauncherConfig(XMLComplexObject):
         self.__xmlfmdRoot.tag_name = "fmdRoot"
         return self.__xmlfmdRoot
 
-    def set_xmlfmdRoot(self, value):
+    def setxmlfmdRoot(self, value):    
         """
         Set the variable
         @param value the value to store.
         """
-        self.__xmlfmdRoot =  XMLString(value=value)
-    def setFileLine_xmlfmdRoot(self, fileName, line):
+        self.__xmlfmdRoot = XMLString(value=value)
+
+
+    def setFileLinexmlfmdRoot(self, fileName, line):    
         """
         Set the file name and line
         @param fileName The file name.
@@ -385,7 +398,7 @@ class IhmLauncherConfig(XMLComplexObject):
         self.__xmlfmdRoot.lineInFile = line
 
 
-    def create_xmlnodePath(self):
+    def createxmlnodePath(self):    
         """
         Lambda for variable creation
 
@@ -397,13 +410,15 @@ class IhmLauncherConfig(XMLComplexObject):
         self.__xmlnodePath.tag_name = "nodePath"
         return self.__xmlnodePath
 
-    def set_xmlnodePath(self, value):
+    def setxmlnodePath(self, value):    
         """
         Set the variable
         @param value the value to store.
         """
-        self.__xmlnodePath =  XMLString(value=value)
-    def setFileLine_xmlnodePath(self, fileName, line):
+        self.__xmlnodePath = XMLString(value=value)
+
+
+    def setFileLinexmlnodePath(self, fileName, line):    
         """
         Set the file name and line
         @param fileName The file name.
@@ -413,7 +428,7 @@ class IhmLauncherConfig(XMLComplexObject):
         self.__xmlnodePath.lineInFile = line
 
 
-    def create_xmldcPushUri(self):
+    def createxmldcPushUri(self):    
         """
         Lambda for variable creation
 
@@ -425,13 +440,15 @@ class IhmLauncherConfig(XMLComplexObject):
         self.__xmldcPushUri.tag_name = "dcPushUri"
         return self.__xmldcPushUri
 
-    def set_xmldcPushUri(self, value):
+    def setxmldcPushUri(self, value):    
         """
         Set the variable
         @param value the value to store.
         """
-        self.__xmldcPushUri =  XMLString(value=value)
-    def setFileLine_xmldcPushUri(self, fileName, line):
+        self.__xmldcPushUri = XMLString(value=value)
+
+
+    def setFileLinexmldcPushUri(self, fileName, line):    
         """
         Set the file name and line
         @param fileName The file name.
@@ -441,7 +458,7 @@ class IhmLauncherConfig(XMLComplexObject):
         self.__xmldcPushUri.lineInFile = line
 
 
-    def create_xmldcPullUri(self):
+    def createxmldcPullUri(self):    
         """
         Lambda for variable creation
 
@@ -453,13 +470,15 @@ class IhmLauncherConfig(XMLComplexObject):
         self.__xmldcPullUri.tag_name = "dcPullUri"
         return self.__xmldcPullUri
 
-    def set_xmldcPullUri(self, value):
+    def setxmldcPullUri(self, value):    
         """
         Set the variable
         @param value the value to store.
         """
-        self.__xmldcPullUri =  XMLString(value=value)
-    def setFileLine_xmldcPullUri(self, fileName, line):
+        self.__xmldcPullUri = XMLString(value=value)
+
+
+    def setFileLinexmldcPullUri(self, fileName, line):    
         """
         Set the file name and line
         @param fileName The file name.
@@ -469,7 +488,7 @@ class IhmLauncherConfig(XMLComplexObject):
         self.__xmldcPullUri.lineInFile = line
 
 
-    def create_xmldcConfFile(self):
+    def createxmlmcPushUri(self):    
         """
         Lambda for variable creation
 
@@ -477,27 +496,89 @@ class IhmLauncherConfig(XMLComplexObject):
         @see GPCC.xmlRuntime.core.xmlobject
         """
 
-        self.__xmldcConfFile = XMLString()
-        self.__xmldcConfFile.tag_name = "dcConfFile"
-        return self.__xmldcConfFile
+        self.__xmlmcPushUri = XMLString()
+        self.__xmlmcPushUri.tag_name = "mcPushUri"
+        return self.__xmlmcPushUri
 
-    def set_xmldcConfFile(self, value):
+    def setxmlmcPushUri(self, value):    
         """
         Set the variable
         @param value the value to store.
         """
-        self.__xmldcConfFile =  XMLString(value=value)
-    def setFileLine_xmldcConfFile(self, fileName, line):
+        self.__xmlmcPushUri = XMLString(value=value)
+
+
+    def setFileLinexmlmcPushUri(self, fileName, line):    
         """
         Set the file name and line
         @param fileName The file name.
         @param line The line.
         """
-        self.__xmldcConfFile.fileName = fileName
-        self.__xmldcConfFile.lineInFile = line
+        self.__xmlmcPushUri.fileName = fileName
+        self.__xmlmcPushUri.lineInFile = line
 
 
-    def create_xmladditionalArg(self):
+    def createxmlmcPullUri(self):    
+        """
+        Lambda for variable creation
+
+        @return a xmlRuntime.types.XMLString
+        @see GPCC.xmlRuntime.core.xmlobject
+        """
+
+        self.__xmlmcPullUri = XMLString()
+        self.__xmlmcPullUri.tag_name = "mcPullUri"
+        return self.__xmlmcPullUri
+
+    def setxmlmcPullUri(self, value):    
+        """
+        Set the variable
+        @param value the value to store.
+        """
+        self.__xmlmcPullUri = XMLString(value=value)
+
+
+    def setFileLinexmlmcPullUri(self, fileName, line):    
+        """
+        Set the file name and line
+        @param fileName The file name.
+        @param line The line.
+        """
+        self.__xmlmcPullUri.fileName = fileName
+        self.__xmlmcPullUri.lineInFile = line
+
+
+    def createxmlfeaturesConfFile(self):    
+        """
+        Lambda for variable creation
+
+        @return a xmlRuntime.types.XMLString
+        @see GPCC.xmlRuntime.core.xmlobject
+        """
+
+        self.__xmlfeaturesConfFile = XMLString()
+        self.__xmlfeaturesConfFile.tag_name = "featuresConfFile"
+        return self.__xmlfeaturesConfFile
+
+    def setxmlfeaturesConfFile(self, value):    
+        """
+        Set the variable
+        @param value the value to store.
+        """
+        self.__xmlfeaturesConfFile = XMLString(value=value)
+
+
+    def setFileLinexmlfeaturesConfFile(self, fileName, line):    
+        """
+        Set the file name and line
+        @param fileName The file name.
+        @param line The line.
+        """
+        self.__xmlfeaturesConfFile.fileName = fileName
+        self.__xmlfeaturesConfFile.lineInFile = line
+
+
+    def createxmladditionalArg(self):    
         """
         Lambda for variable creation
 
@@ -510,78 +591,102 @@ class IhmLauncherConfig(XMLComplexObject):
         item.tag_name = "additionalArg"
         return item
 
-    def set_xmladditionalArg(self, value):
+    def setxmladditionalArg(self, value):    
         """
         Set the variable
         @param value the value to store.
         """
-        item = XMLString(value=value)
-        self.__xmladditionalArg.append(item)
+        if self.__xmladditionalArg is None:
+            self.__xmladditionalArg = []
+            
+        for val in value.split() :
+            item = XMLString(value=val)
+            self.__xmladditionalArg.append(item)
 
 
 
 
-    def writeXml(self,file_,idtLvl):
+    def writeXml(self,file,idtLvl):
         """
         Method writeXml
         ------------------------------------------------------------
 
         Write this object in the file
 
-        @param file_ _io.TextIOWrapper. The file_ handler to write in
+        @param file _io.TextIOWrapper. The file handler to write in
         @param idtLvl int. The level of indentation
         """
         attributes = {}
-        simpleObject = ((self.__xmldebug, "debug"),
-                        (self.__xmlfmdRoot, "fmdRoot"),
-                        (self.__xmlnodePath, "nodePath"),
-                        (self.__xmldcPushUri, "dcPushUri"),
-                        (self.__xmldcPullUri, "dcPullUri"),
-                        (self.__xmldcConfFile, "dcConfFile"),)
-        simpleList = ((self.__xmladditionalArg, "additionalArg"),)
-
-        indentEndTag = False
+        objectsList=((None, None, None),
+                     (XmlType.SIMPLE_OBJECT, self.__xmldebug, "debug"),
+                     (XmlType.SIMPLE_OBJECT, self.__xmlfmdRoot, "fmdRoot"),
+                     (XmlType.SIMPLE_OBJECT, self.__xmlnodePath, "nodePath"),
+                     (XmlType.SIMPLE_OBJECT, self.__xmldcPushUri, "dcPushUri"),
+                     (XmlType.SIMPLE_OBJECT, self.__xmldcPullUri, "dcPullUri"),
+                     (XmlType.SIMPLE_OBJECT, self.__xmlmcPushUri, "mcPushUri"),
+                     (XmlType.SIMPLE_OBJECT, self.__xmlmcPullUri, "mcPullUri"),
+                     (XmlType.SIMPLE_OBJECT, self.__xmlfeaturesConfFile, "featuresConfFile"),
+                     (XmlType.SIMPLE_LIST_OBJECT, self.__xmladditionalArg, "additionalArg"),
+                    )
+        indentEndTagIhmLauncherConfig = False
         
         if self.tag_name is None:# BAR False alarm pylint: disable=E0203
             self.tag_name = "IhmLauncherConfig" # BAR False alarm pylint: disable=W0201
         #Write start tag
         if self.__shouldWriteTag :
-            self.writeIndent(file_,idtLvl)
-            self.writeStartTag(file_, self.tag_name,**attributes)
+            self.writeIndent(file,idtLvl)
+            self.writeStartTag(file, self.tag_name,**attributes)
             idtLvl += 1
-        #Write XmlSimpleObjects
-        for obj, name in simpleObject:
-            if obj is None:
-                continue
-            if name == "content":
-                file_.write(str(obj.getStringValue()))
-            else:
-                self.writeNewLine(file_)
-                self.writeIndent(file_,idtLvl)
-                self.writeStartTag(file_,name)
-                file_.write(str(obj.getStringValue()))
-                self.writeEndTag(file_,name)
-                indentEndTag = True
+        # Write objects
+        for objType, obj, name in objectsList :
+            # Write XmlSimpleObject
+            if objType == XmlType.SIMPLE_OBJECT :
 
-        #Write simple lists
-        for slst, name in simpleList:
-            if slst is None:
-                continue
-            for sobj in slst:
-                self.writeNewLine(file_)
-                self.writeIndent(file_,idtLvl)
-                self.writeStartTag(file_,name)
-                file_.write(str(sobj.getStringValue()))
-                self.writeEndTag(file_,name)
-                indentEndTag = True
+                if obj is None:
+                    continue
+                if name == "content":
+                    self.writeAndFormatXml(file, str(obj.getStringValue()))
+                else:
+                    indentEndTagIhmLauncherConfig = True
+                    self.writeNewLine(file)
+                    self.writeIndent(file,idtLvl)
+                    self.writeStartTag(file,name)
+                    self.writeAndFormatXml(file, str(obj.getStringValue()))
+                    self.writeEndTag(file,name)
 
+            # Write XmlSimpleObject list
+            if objType == XmlType.SIMPLE_LIST_OBJECT :
+                #Write simple lists
+                if obj is None:
+                    continue
+                for sobj in obj[:-1] :            
+                    if name == "values" :                    
+                        self.writeAndFormatXml(file, str(sobj.getStringValue()+" "))
+                    else :
+                        indentEndTagIhmLauncherConfig = True
+                        self.writeNewLine(file)
+                        self.writeIndent(file,idtLvl)
+                        self.writeStartTag(file,name)
+                        self.writeAndFormatXml(file, str(sobj.getStringValue()))
+                        self.writeEndTag(file,name)
+                sobj=obj[-1]
+                if name == "values" :                
+                    self.writeAndFormatXml(file, str(sobj.getStringValue()))
+                else :
+                    indentEndTagIhmLauncherConfig = True
+                    self.writeNewLine(file)
+                    self.writeIndent(file,idtLvl)
+                    self.writeStartTag(file,name)
+                    self.writeAndFormatXml(file, str(sobj.getStringValue()))
+                    self.writeEndTag(file,name)
+   
         #Write end tag
         if self.__shouldWriteTag :
             idtLvl -= 1
-            if indentEndTag :
-                self.writeNewLine(file_)
-                self.writeIndent(file_,idtLvl)
-            self.writeEndTag(file_,self.tag_name)
+            if indentEndTagIhmLauncherConfig :
+                self.writeNewLine(file)
+                self.writeIndent(file,idtLvl)
+            self.writeEndTag(file,self.tag_name)
 
 
 
@@ -682,21 +787,57 @@ class IhmLauncherConfig(XMLComplexObject):
                 error.append(exception)
                 
 
-        if self.__xmldcConfFile is None:
-            exception = xmlexceptions.XMLRequiredObject('IhmLauncherConfig', 'dcConfFile')
+        if self.__xmlmcPushUri is None:
+            exception = xmlexceptions.XMLRequiredObject('IhmLauncherConfig', 'mcPushUri')
             if self.fileName is not None:
                 exception.setFileAndLine(self.fileName, self.lineInFile)
             error.append(exception)
-        if self.__xmldcConfFile is not None:
-            valid, constraints = self.__xmldcConfFile.validate()
+        if self.__xmlmcPushUri is not None:
+            valid, constraints = self.__xmlmcPushUri.validate()
             if not valid:
                 exception = xmlexceptions.XMLInvalidSimpleObjectException('IhmLauncherConfig',
-                                                                          'dcConfFile',
+                                                                          'mcPushUri',
                                                                           'XMLString',
-                                                                          self.__xmldcConfFile.getValue(),
+                                                                          self.__xmlmcPushUri.getValue(),
                                                                           constraints)
                 if self.fileName is not None:
-                    exception.setFileAndLine(self.fileName, self.__xmldcConfFile.lineInFile)
+                    exception.setFileAndLine(self.fileName, self.__xmlmcPushUri.lineInFile)
+                error.append(exception)
+                
+
+        if self.__xmlmcPullUri is None:
+            exception = xmlexceptions.XMLRequiredObject('IhmLauncherConfig', 'mcPullUri')
+            if self.fileName is not None:
+                exception.setFileAndLine(self.fileName, self.lineInFile)
+            error.append(exception)
+        if self.__xmlmcPullUri is not None:
+            valid, constraints = self.__xmlmcPullUri.validate()
+            if not valid:
+                exception = xmlexceptions.XMLInvalidSimpleObjectException('IhmLauncherConfig',
+                                                                          'mcPullUri',
+                                                                          'XMLString',
+                                                                          self.__xmlmcPullUri.getValue(),
+                                                                          constraints)
+                if self.fileName is not None:
+                    exception.setFileAndLine(self.fileName, self.__xmlmcPullUri.lineInFile)
+                error.append(exception)
+                
+
+        if self.__xmlfeaturesConfFile is None:
+            exception = xmlexceptions.XMLRequiredObject('IhmLauncherConfig', 'featuresConfFile')
+            if self.fileName is not None:
+                exception.setFileAndLine(self.fileName, self.lineInFile)
+            error.append(exception)
+        if self.__xmlfeaturesConfFile is not None:
+            valid, constraints = self.__xmlfeaturesConfFile.validate()
+            if not valid:
+                exception = xmlexceptions.XMLInvalidSimpleObjectException('IhmLauncherConfig',
+                                                                          'featuresConfFile',
+                                                                          'XMLString',
+                                                                          self.__xmlfeaturesConfFile.getValue(),
+                                                                          constraints)
+                if self.fileName is not None:
+                    exception.setFileAndLine(self.fileName, self.__xmlfeaturesConfFile.lineInFile)
                 error.append(exception)
                 
 

@@ -33,7 +33,8 @@ const mapStateToProps = (state, {
   const sessionId = selectedSession ? selectedSession.id : null;
   const tupleId = getTupleId(domainId, sessionId);
   const catalogItems = getCatalogItems(getCatalogs(state), { tupleId, name: catalogName });
-  const catalogsLoaded = getCatalogsByTupleId(getCatalogs(state), { tupleId });
+  const loadedCatalogs = getCatalogsByTupleId(getCatalogs(state), { tupleId });
+  const catalogsLoaded = Array.isArray(loadedCatalogs);
 
   return {
     catalogItems,

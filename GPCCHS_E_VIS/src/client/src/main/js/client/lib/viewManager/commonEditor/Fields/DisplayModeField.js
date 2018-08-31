@@ -39,12 +39,12 @@ const DisplayModeField = ({ onChange, enabled }) => (
 
 DisplayModeField.propTypes = {
   onChange: PropTypes.func,
-  enabled: PropTypes.bool.isRequired,
+  enabled: PropTypes.bool,
 };
 
 DisplayModeField.defaultProps = {
-  onChange: () => {
-  },
+  onChange: () => {},
+  enabled: false,
 };
 
 export default DisplayModeField;

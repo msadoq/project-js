@@ -56,7 +56,7 @@ class HistoryView extends React.Component {
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     last: PropTypes.shape(),
-    entryPoints: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+    entryPoints: PropTypes.shape().isRequired,
     entryPointsWithMetadata: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     isTimelineSelected: PropTypes.bool.isRequired,
     searchForThisView: PropTypes.bool.isRequired,

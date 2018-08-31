@@ -53,7 +53,6 @@ import {
 } from 'redux-form';
 import HorizontalFormGroup from 'windowProcess/commonReduxForm/HorizontalFormGroup';
 import InputField from 'windowProcess/commonReduxForm/InputField';
-import TextareaField from 'windowProcess/commonReduxForm/TextareaField';
 import ReactSelectField from 'windowProcess/commonReduxForm/ReactSelectField';
 import ButtonToggleField from 'windowProcess/commonReduxForm/ButtonToggleField';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
@@ -89,8 +88,8 @@ class EntryPointConnectedData extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
     axes: PropTypes.shape({}).isRequired,
     timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    xAxisId: PropTypes.string,
-    yAxisId: PropTypes.string,
+    // xAxisId: PropTypes.string,
+    // yAxisId: PropTypes.string,
     parametric: PropTypes.bool,
     stringParameter: PropTypes.bool,
     domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -101,6 +100,18 @@ class EntryPointConnectedData extends React.Component {
     selectedCatalogName: PropTypes.string,
     selectedItemName: PropTypes.string,
     selectedComObjectName: PropTypes.string,
+    // parametric X
+    parametricXSelectedDomainName: PropTypes.string,
+    parametricXSelectedTimelineId: PropTypes.string,
+    parametricXSelectedComObjectName: PropTypes.string,
+    parametricXSelectedCatalogName: PropTypes.string,
+    parametricXSelectedItemName: PropTypes.string,
+    // parametric Y
+    parametricYSelectedDomainName: PropTypes.string,
+    parametricYSelectedTimelineId: PropTypes.string,
+    parametricYSelectedComObjectName: PropTypes.string,
+    parametricYSelectedCatalogName: PropTypes.string,
+    parametricYSelectedItemName: PropTypes.string,
     entryPoint: PropTypes.shape({}), // eslint-disable-line react/no-unused-prop-types
   };
 
@@ -108,19 +119,32 @@ class EntryPointConnectedData extends React.Component {
     submitting: false,
     parametric: false,
     axisId: null,
-    xAxisId: null,
-    yAxisId: null,
+    // xAxisId: null,
+    // yAxisId: null,
     stringParameter: false,
     selectedDomainName: null,
     selectedTimelineId: null,
     selectedCatalogName: null,
     selectedItemName: null,
     selectedComObjectName: null,
+    // parametric X
+    parametricXSelectedDomainName: null,
+    parametricXSelectedTimelineId: null,
+    parametricXSelectedComObjectName: null,
+    parametricXSelectedCatalogName: null,
+    parametricXSelectedItemName: null,
+    // parametric Y
+    parametricYSelectedDomainName: null,
+    parametricYSelectedTimelineId: null,
+    parametricYSelectedComObjectName: null,
+    parametricYSelectedCatalogName: null,
+    parametricYSelectedItemName: null,
     entryPoint: null,
   };
 
   state = {
-    parametric: this.props.parametric,
+    parametric: _.getOr(false, ['entryPoint', 'parametric'], this.props),
+    stringParameter: _.getOr(false, ['entryPoint', 'connectedData', 'stringParameter'], this.props),
   };
 
   getAvailableTimelines = (noCorrespondingTimeline, timeline) => {
@@ -141,38 +165,170 @@ class EntryPointConnectedData extends React.Component {
       : [];
   };
 
-  getNoCorrespondingAxisX = (connectedDataParametricFilteredAxisX) => {
-    const { parametric } = this.state;
-    const { xAxisId } = this.props;
-    return parametric && !connectedDataParametricFilteredAxisX.find(axis => axis.id === xAxisId);
+  getParametricForm = (
+    parametricSelectedDomainName,
+    parametricSelectedTimelineId,
+    parametricSelectedComObjectName,
+    parametricSelectedCatalogName,
+    parametricSelectedItemName,
+    pageId,
+    viewId,
+    availableTimelines,
+    domains,
+    connectedDataParametricFilteredAxis,
+    noCorrespondingAxis,
+    axe
+  ) => (
+    <div className={axe === 'X' ? styles.xDiv : styles.yDiv}>
+      <h4>{axe}</h4>
+      <HorizontalFormGroup label="Domain">
+        <Field
+          name={`connectedDataParametric.domain${axe}`}
+          clearable={false}
+          component={ReactSelectField}
+          options={domains.map(d =>
+            ({
+              label: d.name,
+              value: d.name,
+            })
+          ).concat({
+            label: '*',
+            value: '*',
+          })}
+          validate={(value) => {
+            if (value === '') {
+              return 'Domain is required';
+            }
+
+            return undefined;
+          }}
+        />
+      </HorizontalFormGroup>
+      <HorizontalFormGroup label="Timeline">
+        <Field
+          name={`connectedDataParametric.timeline${axe}`}
+          clearable={false}
+          component={ReactSelectField}
+          options={availableTimelines}
+          validate={(value) => {
+            if (value === '') {
+              return 'Timeline is required';
+            }
+
+            return undefined;
+          }}
+        />
+      </HorizontalFormGroup>
+
+      <HorizontalFormGroup label="Axis">
+        <Field
+          name={`connectedDataParametric.${axe.toLowerCase()}AxisId`}
+          clearable={false}
+          component={ReactSelectField}
+          options={connectedDataParametricFilteredAxis}
+        />
+        {
+          noCorrespondingAxis &&
+          <span className="text-danger">No corresponding axis, create it or change it</span>
+        }
+      </HorizontalFormGroup>
+
+      <HorizontalFormGroup label="Data type">
+        <DataTypeField />
+      </HorizontalFormGroup>
+
+      <HorizontalFormGroup label="Catalog">
+        <CatalogFieldContainer
+          name={`connectedDataParametric.catalog${axe}`}
+          domainName={parametricSelectedDomainName}
+          timelineId={parametricSelectedTimelineId}
+          viewId={viewId}
+          pageId={pageId}
+        />
+      </HorizontalFormGroup>
+
+      <HorizontalFormGroup label="Catalog item">
+        <CatalogItemFieldContainer
+          name={`connectedDataParametric.catalogItem${axe}`}
+          domainName={parametricSelectedDomainName}
+          timelineId={parametricSelectedTimelineId}
+          catalogName={parametricSelectedCatalogName}
+          viewId={viewId}
+          pageId={pageId}
+        />
+      </HorizontalFormGroup>
+
+      <HorizontalFormGroup label="Com object">
+        <ComObjectContainer
+          name={`connectedDataParametric.comObject${axe}`}
+          domainName={parametricSelectedDomainName}
+          timelineId={parametricSelectedTimelineId}
+          catalogName={parametricSelectedCatalogName}
+          itemName={parametricSelectedItemName}
+          viewId={viewId}
+          pageId={pageId}
+        />
+      </HorizontalFormGroup>
+
+      <HorizontalFormGroup label="Com object Field">
+        <ComObjectFieldContainer
+          name={`connectedDataParametric.comObjectField${axe}`}
+          domainName={parametricSelectedDomainName}
+          timelineId={parametricSelectedTimelineId}
+          catalogName={parametricSelectedCatalogName}
+          itemName={parametricSelectedItemName}
+          comObjectName={parametricSelectedComObjectName}
+        />
+      </HorizontalFormGroup>
+
+
+      <HorizontalFormGroup label="Provider">
+        <ProviderFieldContainer />
+      </HorizontalFormGroup>
+    </div>
+  );
+
+  hangleToggleParametric = () => {
+    this.setState({ parametric: !this.state.parametric });
   };
 
-  getNoCorrespondingAxisY = (connectedDataParametricFilteredAxisY) => {
-    const { parametric } = this.state;
-    const { yAxisId } = this.props;
-    return parametric && !connectedDataParametricFilteredAxisY.find(axis => axis.id === yAxisId);
+  hangleToggleStringParameter = () => {
+    this.setState({ stringParameter: !this.state.stringParameter });
   };
 
   render() {
     const {
       axes,
-      xAxisId,
-      yAxisId,
+      // xAxisId,
+      // yAxisId,
       timelines,
       domains,
       pageId,
       viewId,
-      stringParameter,
       selectedDomainName,
       selectedTimelineId,
       selectedCatalogName,
       selectedItemName,
       selectedComObjectName,
+      parametricXSelectedDomainName,
+      parametricXSelectedTimelineId,
+      parametricXSelectedComObjectName,
+      parametricXSelectedCatalogName,
+      parametricXSelectedItemName,
+      // Y
+      parametricYSelectedDomainName,
+      parametricYSelectedTimelineId,
+      parametricYSelectedComObjectName,
+      parametricYSelectedCatalogName,
+      parametricYSelectedItemName,
       entryPoint,
     } = this.props;
     const axisId = _.getOr(null, ['connectedData', 'axisId'], entryPoint);
     const timeline = _.getOr(null, ['connectedData', 'timeline'], entryPoint);
-    const { parametric } = this.state;
+    const {
+      parametric,
+      stringParameter,
+    } = this.state;
 
     let filteredAxes = getFilteredAxes({ axes });
 
@@ -193,39 +349,32 @@ class EntryPointConnectedData extends React.Component {
     }
 
     // Determine elligible axes for X and Y : must match the unit
-    let connectedDataParametricFilteredAxisX = filteredAxes;
-    let connectedDataParametricFilteredAxisY = filteredAxes;
-    const noCorrespondingAxisX = this.getNoCorrespondingAxisX(connectedDataParametricFilteredAxisX);
-    const noCorrespondingAxisY = this.getNoCorrespondingAxisY(connectedDataParametricFilteredAxisY);
-    if (parametric) {
-      // X
-      connectedDataParametricFilteredAxisX = connectedDataParametricFilteredAxisX
-        .map(axis => ({
-          label: axis.label,
-          value: axis.axisId,
-        }))
-        .concat({
-          label: '-',
-          value: '-',
-        });
-      if (noCorrespondingAxisX && xAxisId !== '-') {
-        connectedDataParametricFilteredAxisX = connectedDataParametricFilteredAxisX
-          .concat({ label: xAxisId, value: xAxisId, disabled: true });
-      }
-      // Y
-      connectedDataParametricFilteredAxisY = connectedDataParametricFilteredAxisY
-        .map(axis => ({
-          label: axis.label,
-          value: axis.axisId,
-        })).concat({
-          label: '-',
-          value: '-',
-        });
-      if (noCorrespondingAxisY && yAxisId !== '-') {
-        connectedDataParametricFilteredAxisY = connectedDataParametricFilteredAxisY
-          .concat({ label: yAxisId, value: yAxisId, disabled: true });
-      }
-    }
+    // let connectedDataParametricFilteredAxisX = filteredAxes;
+    // let connectedDataParametricFilteredAxisY = filteredAxes;
+    // const noCorrespondingAxisX = this.getNoCorrespondingAxisX(connectedDataParametricFilteredAxisX);
+    // const noCorrespondingAxisY = this.getNoCorrespondingAxisY(connectedDataParametricFilteredAxisY);
+    // if (parametric) {
+    //   // X
+    //   connectedDataParametricFilteredAxisX = connectedDataParametricFilteredAxisX
+    //     .map(axis => ({
+    //       label: axis.label,
+    //       value: axis.axisId,
+    //     }));
+    //   if (noCorrespondingAxisX && xAxisId !== '-') {
+    //     connectedDataParametricFilteredAxisX = connectedDataParametricFilteredAxisX
+    //       .concat({ label: xAxisId, value: xAxisId, disabled: true });
+    //   }
+    //   // Y
+    //   connectedDataParametricFilteredAxisY = connectedDataParametricFilteredAxisY
+    //     .map(axis => ({
+    //       label: axis.label,
+    //       value: axis.axisId,
+    //     }));
+    //   if (noCorrespondingAxisY && yAxisId !== '-') {
+    //     connectedDataParametricFilteredAxisY = connectedDataParametricFilteredAxisY
+    //       .concat({ label: yAxisId, value: yAxisId, disabled: true });
+    //   }
+    // }
 
     const noCorrespondingTimeline = !timelines.find(t => t.id === timeline) && timeline !== '*';
     const availableTimelines = this.getAvailableTimelines(noCorrespondingTimeline, timeline);
@@ -238,120 +387,42 @@ class EntryPointConnectedData extends React.Component {
               name="parametric"
               component={ButtonToggleField}
               styleOff="warning"
+              onChange={this.hangleToggleParametric}
             />
           </HorizontalFormGroup>
           {
             parametric &&
-            <div>
-              <div className={styles.xDiv}>
-                <h4>X</h4>
-                <HorizontalFormGroup label="Formula X">
-                  <Field
-                    name="connectedDataParametric.formulaX"
-                    component={TextareaField}
-                    rows="4"
-                    className="form-control input-sm"
-                  />
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Unit X">
-                  <Field
-                    name="connectedDataParametric.unitX"
-                    component={InputField}
-                    type="text"
-                    className="form-control input-sm"
-                  />
-                  {axes &&
-                  <p
-                    style={{ fontSize: '0.9em', paddingTop: '2px' }}
-                  >
-                    {Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ')}
-                  </p>
-                  }
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Axis X">
-                  <Field
-                    name="connectedDataParametric.xAxisId"
-                    clearable={false}
-                    component={ReactSelectField}
-                    options={connectedDataParametricFilteredAxisX}
-                  />
-                  {
-                    noCorrespondingAxisX &&
-                    <span className="text-danger">No corresponding axis, create it or change it</span>
-                  }
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Domain X">
-                  <Field
-                    name="connectedDataParametric.domainX"
-                    clearable={false}
-                    component={ReactSelectField}
-                    options={domains.map(d =>
-                      ({
-                        label: d.name,
-                        value: d.name,
-                      })
-                    ).concat({
-                      label: '*',
-                      value: '*',
-                    })}
-                  />
-                </HorizontalFormGroup>
-              </div>
-              <div className={styles.yDiv}>
-                <h4>Y</h4>
-                <HorizontalFormGroup label="Formula Y">
-                  <Field
-                    name="connectedDataParametric.formulaY"
-                    component={TextareaField}
-                    rows="4"
-                    className="form-control input-sm"
-                  />
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Unit Y">
-                  <Field
-                    name="connectedDataParametric.unitY"
-                    component={InputField}
-                    type="text"
-                    className="form-control input-sm"
-                  />
-                  {axes &&
-                  <p
-                    style={{ fontSize: '0.9em', paddingTop: '2px' }}
-                  >
-                    {Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ')}
-                  </p>
-                  }
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Axis Y">
-                  <Field
-                    name="connectedDataParametric.yAxisId"
-                    clearable={false}
-                    component={ReactSelectField}
-                    options={connectedDataParametricFilteredAxisY}
-                  />
-                  {
-                    noCorrespondingAxisY &&
-                    <span className="text-danger">No corresponding axis, create it or change it</span>
-                  }
-                </HorizontalFormGroup>
-                <HorizontalFormGroup label="Domain Y">
-                  <Field
-                    name="connectedDataParametric.domainY"
-                    clearable={false}
-                    component={ReactSelectField}
-                    options={domains.map(d =>
-                      ({
-                        label: d.name,
-                        value: d.name,
-                      })
-                    ).concat({
-                      label: '*',
-                      value: '*',
-                    })}
-                  />
-                </HorizontalFormGroup>
-              </div>
-            </div>
+            this.getParametricForm(
+              parametricXSelectedDomainName,
+              parametricXSelectedTimelineId,
+              parametricXSelectedComObjectName,
+              parametricXSelectedCatalogName,
+              parametricXSelectedItemName,
+              pageId,
+              viewId,
+              availableTimelines,
+              domains,
+              filteredAxes,
+              noCorrespondingAxis,
+              'X'
+            )
+          }
+          {
+            parametric &&
+            this.getParametricForm(
+              parametricYSelectedDomainName,
+              parametricYSelectedTimelineId,
+              parametricYSelectedComObjectName,
+              parametricYSelectedCatalogName,
+              parametricYSelectedItemName,
+              pageId,
+              viewId,
+              availableTimelines,
+              domains,
+              filteredAxes,
+              noCorrespondingAxis,
+              'Y'
+            )
           }
           {
             !parametric &&
@@ -372,6 +443,7 @@ class EntryPointConnectedData extends React.Component {
                   textOn="YES"
                   textOff="NO"
                   styleOff="warning"
+                  onChange={this.hangleToggleStringParameter}
                 />
               </HorizontalFormGroup>
               {
@@ -421,78 +493,76 @@ class EntryPointConnectedData extends React.Component {
                   }}
                 />
               </HorizontalFormGroup>
+              <HorizontalFormGroup label="Timeline">
+                <Field
+                  name="connectedData.timeline"
+                  clearable={false}
+                  component={ReactSelectField}
+                  options={availableTimelines}
+                  validate={(value) => {
+                    if (value === '') {
+                      return 'Timeline is required';
+                    }
+
+                    return undefined;
+                  }}
+                />
+                {
+                  noCorrespondingTimeline &&
+                  <span className="text-danger">No corresponding timeline, create it or change it</span>
+                }
+              </HorizontalFormGroup>
+
+              <HorizontalFormGroup label="Data type">
+                <DataTypeField />
+              </HorizontalFormGroup>
+
+              <HorizontalFormGroup label="Catalog">
+                <CatalogFieldContainer
+                  domainName={selectedDomainName}
+                  timelineId={selectedTimelineId}
+                  viewId={viewId}
+                  pageId={pageId}
+                />
+              </HorizontalFormGroup>
+
+              <HorizontalFormGroup label="Catalog item">
+                <CatalogItemFieldContainer
+                  domainName={selectedDomainName}
+                  timelineId={selectedTimelineId}
+                  catalogName={selectedCatalogName}
+                  viewId={viewId}
+                  pageId={pageId}
+                />
+              </HorizontalFormGroup>
+
+              <HorizontalFormGroup label="Com object">
+                <ComObjectContainer
+                  domainName={selectedDomainName}
+                  timelineId={selectedTimelineId}
+                  catalogName={selectedCatalogName}
+                  itemName={selectedItemName}
+                  viewId={viewId}
+                  pageId={pageId}
+                />
+              </HorizontalFormGroup>
+
+              <HorizontalFormGroup label="Com object Field">
+                <ComObjectFieldContainer
+                  domainName={selectedDomainName}
+                  timelineId={selectedTimelineId}
+                  catalogName={selectedCatalogName}
+                  itemName={selectedItemName}
+                  comObjectName={selectedComObjectName}
+                />
+              </HorizontalFormGroup>
+
+
+              <HorizontalFormGroup label="Provider">
+                <ProviderFieldContainer />
+              </HorizontalFormGroup>
             </div>
           }
-
-          <HorizontalFormGroup label="Timeline">
-            <Field
-              name="connectedData.timeline"
-              clearable={false}
-              component={ReactSelectField}
-              options={availableTimelines}
-              validate={(value) => {
-                if (value === '') {
-                  return 'Timeline is required';
-                }
-
-                return undefined;
-              }}
-            />
-            {
-              noCorrespondingTimeline &&
-              <span className="text-danger">No corresponding timeline, create it or change it</span>
-            }
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup label="Data type">
-            <DataTypeField />
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup label="Catalog">
-            <CatalogFieldContainer
-              domainName={selectedDomainName}
-              timelineId={selectedTimelineId}
-              viewId={viewId}
-              pageId={pageId}
-            />
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup label="Catalog item">
-            <CatalogItemFieldContainer
-              domainName={selectedDomainName}
-              timelineId={selectedTimelineId}
-              catalogName={selectedCatalogName}
-              viewId={viewId}
-              pageId={pageId}
-            />
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup label="Com object">
-            <ComObjectContainer
-              domainName={selectedDomainName}
-              timelineId={selectedTimelineId}
-              catalogName={selectedCatalogName}
-              itemName={selectedItemName}
-              viewId={viewId}
-              pageId={pageId}
-            />
-          </HorizontalFormGroup>
-
-          <HorizontalFormGroup label="Com object Field">
-            <ComObjectFieldContainer
-              domainName={selectedDomainName}
-              timelineId={selectedTimelineId}
-              catalogName={selectedCatalogName}
-              itemName={selectedItemName}
-              comObjectName={selectedComObjectName}
-            />
-          </HorizontalFormGroup>
-
-
-          <HorizontalFormGroup label="Provider">
-            <ProviderFieldContainer />
-          </HorizontalFormGroup>
-
         </React.Fragment>
       </ErrorBoundary>
     );

@@ -4,7 +4,7 @@ import ComObjectField from './ComObjectField';
 
 const mapStateToProps = (state, { comObjectName }) => ({
   comObjectFields: getTimeFieldsByComObjectName(state, comObjectName),
-  formFieldName: 'connectedData.refTimestamp',
+  name: 'connectedData.refTimestamp',
 });
 
 export default connect(mapStateToProps)(ComObjectField);

@@ -63,7 +63,6 @@ export default class EntryPointDetails extends PureComponent {
     timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     axes: PropTypes.shape({}).isRequired,
     entryPoint: entryPointType.isRequired,
-    updateEntryPoint: PropTypes.func.isRequired,
     panels: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.bool,
@@ -76,6 +75,18 @@ export default class EntryPointDetails extends PureComponent {
     selectedCatalogName: PropTypes.string,
     selectedItemName: PropTypes.string,
     selectedComObjectName: PropTypes.string,
+    // parametric X
+    parametricXSelectedDomainName: PropTypes.string,
+    parametricXSelectedTimelineId: PropTypes.string,
+    parametricXSelectedComObjectName: PropTypes.string,
+    parametricXSelectedCatalogName: PropTypes.string,
+    parametricXSelectedItemName: PropTypes.string,
+    // parametric Y
+    parametricYSelectedDomainName: PropTypes.string,
+    parametricYSelectedTimelineId: PropTypes.string,
+    parametricYSelectedComObjectName: PropTypes.string,
+    parametricYSelectedCatalogName: PropTypes.string,
+    parametricYSelectedItemName: PropTypes.string,
 
   };
 
@@ -86,6 +97,18 @@ export default class EntryPointDetails extends PureComponent {
     selectedCatalogName: null,
     selectedItemName: null,
     selectedComObjectName: null,
+    // parametric X
+    parametricXSelectedDomainName: null,
+    parametricXSelectedTimelineId: null,
+    parametricXSelectedComObjectName: null,
+    parametricXSelectedCatalogName: null,
+    parametricXSelectedItemName: null,
+    // parametric Y
+    parametricYSelectedDomainName: null,
+    parametricYSelectedTimelineId: null,
+    parametricYSelectedComObjectName: null,
+    parametricYSelectedCatalogName: null,
+    parametricYSelectedItemName: null,
   };
 
   onChange = (openPanels) => {
@@ -95,44 +118,6 @@ export default class EntryPointDetails extends PureComponent {
       entryPoint,
     } = this.props;
     updateViewSubPanels(viewId, 'entryPoints', entryPoint.id, openPanels);
-  };
-
-  handleSubmit = (values) => {
-    const { entryPoint, updateEntryPoint, viewId } = this.props;
-
-    updateEntryPoint(viewId, entryPoint.id, {
-      ...entryPoint,
-      ...values,
-    });
-  };
-
-  handleObjectParametersSubmit = (values) => {
-    const { entryPoint, updateEntryPoint, viewId } = this.props;
-    updateEntryPoint(viewId, entryPoint.id, {
-      ...entryPoint,
-      objectStyle: values,
-      name: values.name,
-      displayLine: values.displayLine,
-      displayPoints: values.displayPoints,
-    });
-  };
-
-  handleConnectedDataSubmit = (values) => {
-    const {
-      entryPoint,
-      updateEntryPoint,
-      viewId,
-    } = this.props;
-
-    updateEntryPoint(
-      viewId,
-      entryPoint.id,
-      {
-        ...entryPoint,
-        parametric: values.parametric,
-        connectedDataParametric: values.connectedDataParametric,
-      }
-    );
   };
 
   render() {
@@ -149,6 +134,18 @@ export default class EntryPointDetails extends PureComponent {
       selectedCatalogName,
       selectedItemName,
       selectedComObjectName,
+      // parametric X
+      parametricXSelectedDomainName,
+      parametricXSelectedTimelineId,
+      parametricXSelectedComObjectName,
+      parametricXSelectedCatalogName,
+      parametricXSelectedItemName,
+      // parametric Y
+      parametricYSelectedDomainName,
+      parametricYSelectedTimelineId,
+      parametricYSelectedComObjectName,
+      parametricYSelectedCatalogName,
+      parametricYSelectedItemName,
     } = this.props;
 
     // TODO Rerender (new ref)
@@ -180,7 +177,6 @@ export default class EntryPointDetails extends PureComponent {
               viewId={viewId}
               pageId={pageId}
               onSubmit={this.handleConnectedDataSubmit}
-
               form={this.props.form}
               entryPoint={entryPoint}
               selectedDomainName={selectedDomainName}
@@ -188,6 +184,18 @@ export default class EntryPointDetails extends PureComponent {
               selectedCatalogName={selectedCatalogName}
               selectedItemName={selectedItemName}
               selectedComObjectName={selectedComObjectName}
+              // X
+              parametricXSelectedDomainName={parametricXSelectedDomainName}
+              parametricXSelectedTimelineId={parametricXSelectedTimelineId}
+              parametricXSelectedComObjectName={parametricXSelectedComObjectName}
+              parametricXSelectedCatalogName={parametricXSelectedCatalogName}
+              parametricXSelectedItemName={parametricXSelectedItemName}
+              // Y
+              parametricYSelectedDomainName={parametricYSelectedDomainName}
+              parametricYSelectedTimelineId={parametricYSelectedTimelineId}
+              parametricYSelectedComObjectName={parametricYSelectedComObjectName}
+              parametricYSelectedCatalogName={parametricYSelectedCatalogName}
+              parametricYSelectedItemName={parametricYSelectedItemName}
             />}
           </Panel>
 

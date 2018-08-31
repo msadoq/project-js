@@ -44,6 +44,11 @@ import {
   getSelectedTimelineId,
   getSelectedCatalogName,
   getSelectedItemName,
+  getParametricSelectedDomainInForm,
+  getParametricSelectedTimelineId,
+  getParametricSelectedComObjectName,
+  getParametricSelectedCatalogName,
+  getParametricSelectedItemName,
 } from '../../../commonEditor/Fields/selectors';
 
 const mapStateToProps = (state, props) => ({
@@ -56,6 +61,18 @@ const mapStateToProps = (state, props) => ({
   selectedCatalogName: getSelectedCatalogName(props.form, state),
   selectedItemName: getSelectedItemName(props.form, state),
   selectedComObjectName: getSelectedComObjectName(props.form, state),
+  // parametric X
+  parametricXSelectedDomainName: getParametricSelectedDomainInForm(props.form, state, 'X'),
+  parametricXSelectedTimelineId: getParametricSelectedTimelineId(props.form, state, 'X'),
+  parametricXSelectedCatalogName: getParametricSelectedCatalogName(props.form, state, 'X'),
+  parametricXSelectedItemName: getParametricSelectedItemName(props.form, state, 'X'),
+  parametricXSelectedComObjectName: getParametricSelectedComObjectName(props.form, state, 'X'),
+  // parametric Y
+  parametricYSelectedDomainName: getParametricSelectedDomainInForm(props.form, state, 'Y'),
+  parametricYSelectedTimelineId: getParametricSelectedTimelineId(props.form, state, 'Y'),
+  parametricYSelectedCatalogName: getParametricSelectedCatalogName(props.form, state, 'Y'),
+  parametricYSelectedItemName: getParametricSelectedItemName(props.form, state, 'Y'),
+  parametricYSelectedComObjectName: getParametricSelectedComObjectName(props.form, state, 'Y'),
 });
 
 const mapDispatchToProps = {

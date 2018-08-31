@@ -79,15 +79,39 @@ export function handleSubmit(values, updateEntryPoint, viewId) {
   //   _unset(values.connectedData, 'provider');
   //   _unset(values.connectedData, 'refTimestamp');
   // }
-  const { catalog, catalogItem, comObject, comObjectField } = values.connectedData;
-  const formula = buildFormula(catalog, catalogItem, comObject, comObjectField);
-  updateEntryPoint(viewId, values.id, {
-    ...values,
-    connectedData: {
-      ...values.connectedData,
-      formula,
-    },
-  });
+  if (values.parametric) {
+    console.log('TA MERE LA TCHOUIN');
+    const {
+      catalogX,
+      catalogItemX,
+      comObjectX,
+      comObjectFieldX,
+      catalogY,
+      catalogItemY,
+      comObjectY,
+      comObjectFieldY,
+    } = values.connectedDataParametric;
+    const formulaX = buildFormula(catalogX, catalogItemX, comObjectX, comObjectFieldX);
+    const formulaY = buildFormula(catalogY, catalogItemY, comObjectY, comObjectFieldY);
+    updateEntryPoint(viewId, values.id, {
+      ...values,
+      connectedDataParametric: {
+        ...values.connectedDataParametric,
+        formulaX,
+        formulaY,
+      },
+    });
+  } else {
+    const { catalog, catalogItem, comObject, comObjectField } = values.connectedData;
+    const formula = buildFormula(catalog, catalogItem, comObject, comObjectField);
+    updateEntryPoint(viewId, values.id, {
+      ...values,
+      connectedData: {
+        ...values.connectedData,
+        formula,
+      },
+    });
+  }
 }
 
 /**

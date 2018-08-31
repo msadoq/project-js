@@ -8,6 +8,7 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class CatalogField extends Component {
   static propTypes = {
+    name: PropTypes.string,
     timelineId: PropTypes.string,
     // from container mapStateToProps
     catalogs: PropTypes.oneOfType([
@@ -21,6 +22,7 @@ export default class CatalogField extends Component {
   };
 
   static defaultProps = {
+    name: 'connectedData.catalog',
     catalogs: null,
     sessionId: null,
     domainId: null,
@@ -43,13 +45,13 @@ export default class CatalogField extends Component {
   };
 
   render() {
-    const { catalogs, domainId, timelineId } = this.props;
+    const { catalogs, domainId, timelineId, name } = this.props;
     const disabled = (!domainId || !timelineId || catalogs === null);
     return (
       <ErrorBoundary>
         <Field
           format={null}
-          name="connectedData.catalog"
+          name={name}
           component={ReactSelectField}
           clearable
           disabled={disabled}

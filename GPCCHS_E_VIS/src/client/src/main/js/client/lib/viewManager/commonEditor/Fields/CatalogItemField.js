@@ -8,6 +8,7 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class CatalogItemField extends PureComponent {
   static propTypes = {
+    name: PropTypes.string,
     catalogItems: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(catalogItemType),
@@ -21,6 +22,7 @@ export default class CatalogItemField extends PureComponent {
   };
 
   static defaultProps = {
+    name: 'connectedData.catalogItem',
     catalogItems: null,
     sessionId: null,
     domainId: null,
@@ -54,13 +56,13 @@ export default class CatalogItemField extends PureComponent {
   };
 
   render() {
-    const { catalogItems, domainId, timelineId, catalogName } = this.props;
+    const { catalogItems, domainId, timelineId, catalogName, name } = this.props;
     const disabled = (!domainId || !timelineId || !catalogName || catalogItems === null);
     return (
       <ErrorBoundary>
         <Field
           format={null}
-          name="connectedData.catalogItem"
+          name={name}
           component={VirtualizedSelectField}
           clearable
           disabled={disabled}

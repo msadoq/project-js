@@ -386,37 +386,6 @@ class EntryPointConnectedData extends React.Component {
                   />
                 </HorizontalFormGroup>
               }
-              <HorizontalFormGroup label="Unit">
-                <Field
-                  name="connectedData.unit"
-                  component={InputField}
-                  type="text"
-                  className="form-control input-sm"
-                />
-                {axes &&
-                <p
-                  style={{ fontSize: '0.9em', paddingTop: '2px' }}
-                >
-                  {Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ')}
-                </p>
-                }
-              </HorizontalFormGroup>
-              <HorizontalFormGroup label="Convert">
-                From
-                <Field
-                  name="connectedData.convertFrom"
-                  type="text"
-                  className="form-control input-sm"
-                  component={InputField}
-                />
-                To
-                <Field
-                  name="connectedData.convertTo"
-                  type="text"
-                  className="form-control input-sm"
-                  component={InputField}
-                />
-              </HorizontalFormGroup>
               <HorizontalFormGroup label="Axis">
                 <Field
                   name="connectedData.axisId"

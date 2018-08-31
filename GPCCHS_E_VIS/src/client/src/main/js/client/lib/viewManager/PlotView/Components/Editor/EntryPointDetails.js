@@ -47,6 +47,7 @@ import EntryPointParameters from './EntryPointParameters';
 import EntryPointConnectedData from './EntryPointConnectedData';
 import { entryPointType } from '../../../common/Components/types';
 import FiltersFieldsContainer from '../../../commonEditor/Fields/FiltersFieldsContainer';
+import EntryPointUnitContainer from '../../../common/Components/Editor/EntryPointUnitContainer';
 
 const { Panel } = Collapse;
 const emptyArray = [];
@@ -188,6 +189,18 @@ export default class EntryPointDetails extends PureComponent {
               selectedItemName={selectedItemName}
               selectedComObjectName={selectedComObjectName}
             />}
+          </Panel>
+
+          <Panel
+            key="Unit"
+            header="Unit"
+          >
+            {Array.isArray(panels) && panels.includes('Unit') &&
+            <EntryPointUnitContainer
+              {...this.props}
+              {...entryPoint}
+            />
+            }
           </Panel>
 
           <Panel

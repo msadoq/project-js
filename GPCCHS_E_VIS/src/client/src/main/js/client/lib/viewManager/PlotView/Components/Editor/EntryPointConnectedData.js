@@ -204,21 +204,6 @@ class EntryPointConnectedData extends React.Component {
           }}
         />
       </HorizontalFormGroup>
-      <HorizontalFormGroup label="Timeline">
-        <Field
-          name={`connectedDataParametric.timeline${axe}`}
-          clearable={false}
-          component={ReactSelectField}
-          options={availableTimelines}
-          validate={(value) => {
-            if (value === '') {
-              return 'Timeline is required';
-            }
-
-            return undefined;
-          }}
-        />
-      </HorizontalFormGroup>
 
       <HorizontalFormGroup label="Axis">
         <Field
@@ -280,11 +265,6 @@ class EntryPointConnectedData extends React.Component {
           comObjectName={parametricSelectedComObjectName}
         />
       </HorizontalFormGroup>
-
-
-      <HorizontalFormGroup label="Provider">
-        <ProviderFieldContainer />
-      </HorizontalFormGroup>
     </div>
   );
 
@@ -311,13 +291,11 @@ class EntryPointConnectedData extends React.Component {
       selectedItemName,
       selectedComObjectName,
       parametricXSelectedDomainName,
-      parametricXSelectedTimelineId,
       parametricXSelectedComObjectName,
       parametricXSelectedCatalogName,
       parametricXSelectedItemName,
       // Y
       parametricYSelectedDomainName,
-      parametricYSelectedTimelineId,
       parametricYSelectedComObjectName,
       parametricYSelectedCatalogName,
       parametricYSelectedItemName,
@@ -392,9 +370,27 @@ class EntryPointConnectedData extends React.Component {
           </HorizontalFormGroup>
           {
             parametric &&
+            <HorizontalFormGroup label="Timeline">
+              <Field
+                name="connectedData.timeline"
+                clearable={false}
+                component={ReactSelectField}
+                options={availableTimelines}
+                validate={(value) => {
+                  if (value === '') {
+                    return 'Timeline is required';
+                  }
+
+                  return undefined;
+                }}
+              />
+            </HorizontalFormGroup>
+          }
+          {
+            parametric &&
             this.getParametricForm(
               parametricXSelectedDomainName,
-              parametricXSelectedTimelineId,
+              selectedTimelineId,
               parametricXSelectedComObjectName,
               parametricXSelectedCatalogName,
               parametricXSelectedItemName,
@@ -411,7 +407,7 @@ class EntryPointConnectedData extends React.Component {
             parametric &&
             this.getParametricForm(
               parametricYSelectedDomainName,
-              parametricYSelectedTimelineId,
+              selectedTimelineId,
               parametricYSelectedComObjectName,
               parametricYSelectedCatalogName,
               parametricYSelectedItemName,
@@ -423,6 +419,12 @@ class EntryPointConnectedData extends React.Component {
               noCorrespondingAxis,
               'Y'
             )
+          }
+          {
+            parametric &&
+            <HorizontalFormGroup label="Provider">
+              <ProviderFieldContainer />
+            </HorizontalFormGroup>
           }
           {
             !parametric &&

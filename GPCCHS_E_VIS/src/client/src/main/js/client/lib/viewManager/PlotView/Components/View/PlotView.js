@@ -193,33 +193,40 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
   yAxesIds.forEach((axisId) => {
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
-    const axisConstant = _filter(constants, constant => constant.axis === axisId);
-    // pgaucher-plot
-    // Hardcoded limit for paramertric
+
     const axisEntryPoints = entryPoints
       .filter(ep =>
         (
-          (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
+          (ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
         )
       );
-    const dataMin = _min(axisEntryPoints.map(ep => data.min[ep.name]));
-    const dataMax = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+
+    let dataMin = _min(axisEntryPoints.map(ep => data.min[ep.name]));
+    let dataMax = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+
+    if (isNaN(dataMin)) {
+      dataMin = 137;
+    }
+
+    if (isNaN(dataMax)) {
+      dataMax = 140;
+    }
+
     const delta = dataMax - dataMin;
     const margin = 0.1 * delta;
     const min = dataMin - margin;
     const max = dataMax + margin;
-    // const min = 137;
-    // const max = 140;
-    return yAxes.push({
+
+    yAxes.push({
       id: axis.id,
-      extents: axis.autoLimits === true ? [min, max] : [axis.min, axis.max],
+      extents: axis.autoLimits ? [min, max] : [axis.min, axis.max],
       orient: 'top',
       format: '.3f',
-      showAxis: axis.showAxis === true,
-      showLabels: axis.showLabels === true,
-      showTicks: axis.showTicks === true,
+      showAxis: axis.showAxis,
+      showLabels: axis.showLabels,
+      showTicks: axis.showTicks,
       autoLimits: false,
-      autoTick: axis.autoTick === true,
+      autoTick: axis.autoTick,
       tickStep: axis.tickStep,
       showGrid: _get(grid, 'showGrid', false),
       gridStyle: _get(grid, ['line', 'style']),
@@ -260,16 +267,14 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
     }
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
-    // pgaucher-plot
-    // Hardcoded limit for paramertric
-    /* const axisEntryPoints = entryPoints
+    const axisEntryPoints = entryPoints
       .filter(ep =>
         (ep.parametric && _get(ep, ['connectedDataParametric', 'xAxisId']) === axis.id)
-      ); */
-    // const min = _min(axisEntryPoints.map(ep => data.minTime[ep.name]));
-    // const max = _max(axisEntryPoints.map(ep => data.maxTime[ep.name]));
-    const min = 131;
-    const max = 135;
+      );
+
+    const min = _min(axisEntryPoints.map(ep => data.minTime[ep.name]));
+    const max = _max(axisEntryPoints.map(ep => data.maxTime[ep.name]));
+
     return xAxes.push({
       id: axis.id,
       extents:
@@ -1067,7 +1072,7 @@ export class GrizzlyPlotView extends React.Component {
             current={visuWindow.current}
             yAxesAt={showYAxes}
             xAxesAt="bottom"
-            parametric={false}
+            parametric
             additionalStyle={memoizeMainStyle(legend.location)}
             yAxes={this.yAxes}
             xAxes={this.xAxes}

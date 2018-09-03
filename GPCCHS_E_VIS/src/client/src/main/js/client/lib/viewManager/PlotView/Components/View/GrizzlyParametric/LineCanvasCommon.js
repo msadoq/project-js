@@ -193,6 +193,7 @@ export const drawLine = (perfOutput,
                          divStyle,
                          ctx,
                          line) => {
+  console.log(line, parametric);
 // Default values
   const { lineSize, pointSize, fontSize, pointOffset } = getDefaultValues(ctx, line);
   const fill = line.fill || '#222222';
@@ -250,6 +251,11 @@ export const drawLine = (perfOutput,
       return;
     }
     stoppedCurrent = line.stopInstruction ? (line.stopInstruction(packet) || false) : false;
+
+    if (parametric) {
+      stoppedCurrent = false;
+    }
+
     currentY = yScale(line.yAccessor ? line.yAccessor(packet) : packet.value);
     currentX = xScale(line.xAccessor ? line.xAccessor(packet) : packet.x);
     nextY = yScale(line.yAccessor ? line.yAccessor(nextPacket) : nextPacket.value);

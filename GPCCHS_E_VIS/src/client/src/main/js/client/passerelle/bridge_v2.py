@@ -49,7 +49,7 @@ class Bridge():
             uuid = j['header']['transactionID']
             method = j['header']['method']
             unitesource = j['payload']['unitesource']
-            unitecible = j['payload']['unitectible']
+            unitecible = j['payload']['unitecible']
             value = j['payload']['value']
 
             # Check if there is a conversion to do

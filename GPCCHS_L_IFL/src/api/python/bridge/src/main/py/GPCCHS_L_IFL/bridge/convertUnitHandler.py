@@ -48,17 +48,20 @@ def perform(unitConverterLib=None, msg=None):
     # Perform the conversion and convert the results in unicode
     resultsList = []
     try:
-        resultsList = unitConverterLib.convertUnitBatch(valuesToConvertList,fromUnit,toUnit)
+        resultsList = unitConverterLib.convertUnitBatch(STRING(";".join(valuesToConvertList)),fromUnit,toUnit)
         raisedErr = None
     except UnitConverterException as e:
         raisedErr = e
         
     # Convert the results from GPCC.ccsds_mal.fINETIME.FINETIME list into ccsds_mal.types_pb2.ATTRIBUTE list for protobuf
     resultsProto = ResultValues()
-    for value in resultsList:
+    resulListSplitted = resultsList.getValue().split(";")
+    
+    for value in resulListSplitted:
         # Create the value in protobuf repeated structure
         protoVal = resultsProto.values.add()
         # Fill the value in protobuf repeated structure
-        protoVal._float.value = float(value.getValue())
+        protoVal._float.value = float(STRING(value).getValue())
         
     return resultsProto, raisedErr
+

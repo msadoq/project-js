@@ -165,6 +165,7 @@ export const sortAxes = master => (
  * @param entryPoints
  * @param axes
  * @param grids
+ * @param constants
  * @param data
  * @param visuWindow
  * @returns {{xAxes: Array, yAxes: Array}}
@@ -237,7 +238,7 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
       labelStyle: axis.style,
       logarithmic: axis.logarithmic,
       logSettings: axis.logSettings,
-      formatAsDate: axis.formatAsDate,
+      formatAsDate: !!axis.formatAsDate,
       constants: axisConstant,
     });
   });

@@ -42,3 +42,8 @@ export const getEntryPoints = createSelector(
   getConfigurationByViewId,
   _.getOr([], 'entryPoints')
 );
+
+export const getConstants = createSelector(
+  getConfigurationByViewId,
+  _.getOr([], 'constants')
+);

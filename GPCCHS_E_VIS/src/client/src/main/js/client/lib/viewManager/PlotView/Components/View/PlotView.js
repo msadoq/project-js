@@ -121,6 +121,7 @@ import _sum from 'lodash/sum';
 import _keys from 'lodash/keys';
 import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';
+import _filter from 'lodash/filter';
 import _ from 'lodash/fp';
 import classnames from 'classnames';
 import LinksContainer from 'windowProcess/View/LinksContainer';
@@ -169,7 +170,7 @@ export const sortAxes = master => (
  * @returns {{xAxes: Array, yAxes: Array}}
  * @pure
  */
-export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
+export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindow) => {
   let xAxesIds = [];
   const xAxes = [];
   let yAxesIds = [];
@@ -192,6 +193,7 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
   yAxesIds.forEach((axisId) => {
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
+    const axisConstant = _filter(constants, constant => constant.axis === axisId);
     // pgaucher-plot
     // Hardcoded limit for paramertric
     const axisEntryPoints = entryPoints
@@ -228,6 +230,7 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
       logarithmic: axis.logarithmic,
       logSettings: axis.logSettings,
       formatAsDate: axis.formatAsDate,
+      constants: axisConstant,
     });
   });
 
@@ -496,6 +499,7 @@ export class GrizzlyPlotView extends React.Component {
       showYAxes: PropTypes.string,
       showLegend: PropTypes.bool.isRequired,
       grids: PropTypes.array,
+      constants: PropTypes.shape(),
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
@@ -580,11 +584,11 @@ export class GrizzlyPlotView extends React.Component {
       }
     });
 
-    // TODO @jmira check after merge
     if (
       nextProps.configuration.entryPoints !== this.props.configuration.entryPoints ||
       nextProps.configuration.axes !== this.props.configuration.axes ||
       nextProps.configuration.grids !== this.props.configuration.grids ||
+      nextProps.configuration.constants !== this.props.configuration.constants ||
       nextProps.visuWindow !== this.props.visuWindow ||
       nextProps.data !== this.props.data
     ) {
@@ -592,6 +596,7 @@ export class GrizzlyPlotView extends React.Component {
         nextProps.configuration.entryPoints,
         nextProps.configuration.axes,
         nextProps.configuration.grids,
+        nextProps.configuration.constants,
         nextProps.data,
         nextProps.visuWindow
       );
@@ -952,6 +957,7 @@ export class GrizzlyPlotView extends React.Component {
         showYAxes,
         axes,
         grids,
+        constants,
         showLegend,
         legend,
       },
@@ -978,6 +984,7 @@ export class GrizzlyPlotView extends React.Component {
         this.props.configuration.entryPoints,
         axes,
         grids,
+        constants,
         data,
         visuWindow
       );

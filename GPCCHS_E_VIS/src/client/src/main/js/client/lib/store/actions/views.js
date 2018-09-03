@@ -154,6 +154,12 @@ export function removeAxis(viewId, axisId, entryPointCollection) {
 
 export const updateAxis = simple(types.WS_VIEW_UPDATE_AXIS, 'viewId', 'axisId', 'axis');
 
+// ************ Constants
+export const addConstant = simple(types.WS_VIEW_ADD_CONSTANT, 'viewId', 'constant');
+export const removeConstant = simple(types.WS_VIEW_REMOVE_CONSTANT, 'viewId', 'constantId');
+export const updateConstant = simple(types.WS_VIEW_UPDATE_CONSTANT, 'viewId', 'constantId', 'constant');
+
+
 // ************ Grids
 export const addGrid = simple(types.WS_VIEW_ADD_GRID, 'viewId', 'grid');
 export const removeGrid = simple(types.WS_VIEW_REMOVE_GRID, 'viewId', 'index');

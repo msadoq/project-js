@@ -290,6 +290,7 @@ export default class Chart extends React.Component {
     document.removeEventListener('mousemove', this.onMouseMoveThrottle);
     document.addEventListener('mouseup', this.onMouseUp);
   };
+
   /**
    * @returns {{}}
    */
@@ -741,6 +742,7 @@ export default class Chart extends React.Component {
               formatAsDate={yAxis.formatAsDate}
               getLabelPosition={this.getLabelPosition}
               side={this.yAxesUniq.length * this.yAxisWidth}
+              constants={yAxis.constants}
             />
           )
         }
@@ -801,6 +803,7 @@ export default class Chart extends React.Component {
                 divStyle={this.divStyle}
                 current={current}
                 parametric={parametric}
+                constants={pair.yAxis.constants}
               />
             );
           })

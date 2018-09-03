@@ -6,9 +6,9 @@
       "title": "Development workspace",
       "geometry": {
         "w": 1596,
-        "h": 820,
-        "x": 1602,
-        "y": 51,
+        "h": 872,
+        "x": 1922,
+        "y": 24,
         "kind": "Absolute"
       },
       "pages": [
@@ -23,7 +23,7 @@
     {
       "id": "TB1",
       "type": "timeBarConfiguration",
-      "rulerResolution": 1708.836617927527,
+      "rulerResolution": 2291.5601023017903,
       "speed": 0.15,
       "masterId": "Session 1",
       "mode": "Normal",

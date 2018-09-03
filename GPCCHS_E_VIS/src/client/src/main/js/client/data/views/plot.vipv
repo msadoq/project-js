@@ -24,6 +24,50 @@
   "procedures": [],
   "domainName": "*",
   "sessionName": "*",
+  "version": {
+    "externalVersion": {
+      "type": "string",
+      "value": "maVersionDeFuego"
+    },
+    "internalVersion": {
+      "type": "ulong",
+      "symbol": "107"
+    },
+    "properties": [
+      {
+        "name": {
+          "type": "identifier",
+          "value": "myIDENTIFIER"
+        },
+        "value": {
+          "type": "double",
+          "symbol": "33.46054708922804"
+        }
+      },
+      {
+        "name": {
+          "type": "identifier",
+          "value": "myIDENTIFIER"
+        },
+        "value": {
+          "type": "double",
+          "symbol": "33.46054708922804"
+        }
+      }
+    ],
+    "isVirtualVersion": {
+      "type": "boolean",
+      "value": true
+    },
+    "dirname": {
+      "type": "uri",
+      "value": "myURI"
+    },
+    "basename": {
+      "type": "string",
+      "value": "mySTRING"
+    }
+  },
   "axes": [
     {
       "autoLimits": true,
@@ -156,5 +200,18 @@
   ],
   "showYAxes": "left",
   "showLegend": false,
+  "constants": {
+    "blah": {
+      "axis": "VBat",
+      "id": "blah",
+      "label": "BLAH",
+      "showConstant": true,
+      "showLabel": true,
+      "style": {
+        "color": "#eb144c"
+      },
+      "value": "139"
+    }
+  },
   "search": ""
 }

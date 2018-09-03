@@ -3,24 +3,24 @@
 exports[`viewManager/PUS14View/Components/View/PUS14View PUS14View :: render snapshot 1`] = `
 <ErrorBoundary>
   <div
-    className="pus14"
+    className="pus14 h100"
   >
-    <ErrorBoundary>
-      <div
-        className="header col-sm-12"
-      >
-        Application Process(es) : 
-      </div>
-    </ErrorBoundary>
     <div
-      className="info col-sm-12"
+      className="h15"
+    >
+      <ErrorBoundary>
+        <div
+          className="header col-sm-12"
+        >
+          Application Process(es) : 
+        </div>
+      </ErrorBoundary>
+    </div>
+    <div
+      className="info col-sm-12 h85"
     >
       <div
-        style={
-          Object {
-            "height": 400,
-          }
-        }
+        className="h100"
       >
         <Connect(VirtualizedTableView)
           contentModifier={[Function]}

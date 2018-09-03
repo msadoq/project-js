@@ -84,7 +84,8 @@ export const drawLinesCanvas = (
   current,
   parametric,
   divStyle,
-  ctx
+  ctx,
+  constants
 ) => {
   ctx.clearRect(0, 0, divStyle.width, divStyle.height);
   let totalPoints = 0;
@@ -93,6 +94,16 @@ export const drawLinesCanvas = (
   if (perfOutput) console.time();
 
   if (lines.length === 0) return;
+
+  constants.forEach((constant) => {
+    drawConstant(
+      constant,
+      yScale,
+      xScale,
+      ctx,
+      divStyle
+    );
+  });
 
   lines.forEach((line) => {
     const lineIndexes = indexes[line.id];
@@ -131,6 +142,22 @@ export const drawLinesCanvas = (
     );
     // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
     console.timeEnd();
+  }
+};
+
+export const drawConstant = (constant, yScale, xScale, ctx, divStyle) => {
+  if (constant.showConstant) {
+    const yPosition = yScale(constant.value);
+    ctx.beginPath();
+    ctx.strokeStyle = constant.style.color;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([0, 0]);
+    ctx.moveTo(0, yPosition);
+    ctx.lineTo(
+      divStyle.width,
+      yPosition
+    );
+    ctx.stroke();
   }
 };
 

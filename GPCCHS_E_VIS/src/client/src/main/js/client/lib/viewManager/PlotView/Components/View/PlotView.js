@@ -193,6 +193,7 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
   yAxesIds.forEach((axisId) => {
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
+    const axisConstant = _filter(constants, constant => constant.axis === axisId);
 
     const axisEntryPoints = entryPoints
       .filter(ep =>

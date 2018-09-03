@@ -110,6 +110,7 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_ALARM_INPUT_SEARCH,
     types.WS_VIEW_ALARM_INPUT_RESET,
     types.WS_VIEW_ALARM_INPUT_TOGGLE,
+    types.WS_VIEW_UPDATE_CONSTANT,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {
     if (!stateView.isModified) {

@@ -100,7 +100,7 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
                 const queryIdObsolete = ipc.dc.requestTimebasedQuery(
                   flatIdLogBookEvent,
                   dataIdLogBookEvent,
-                  missingIntervals[k],
+                  missingIntervals[l],
                   {});
                 add(queryIdObsolete, flatIdLogBookEvent, obsoleteType, dataIdLogBookEvent);
               }

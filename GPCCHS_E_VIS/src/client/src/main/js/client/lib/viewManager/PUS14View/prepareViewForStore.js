@@ -29,20 +29,20 @@ const getDefaultView = view => _.merge({
           direction: 'DESC',
         },
         cols: [
-          { label: 'Apid Name', title: 'serviceApidName', displayed: true }, // Inutilisé dans la vue
-          { label: 'Name', title: 'packetName', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'APID', title: 'packetApid', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'AP Name', title: 'packetApidName', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'Type', title: 'serviceType', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'SubType', title: 'serviceSubType', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'Fwd Status (APID/T/ST)', title: 'forwardingStatusTypeSubtype', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'RID', title: 'rid', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'RID Label', title: 'ridLabel', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'SID', title: 'sid', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'SID Label', title: 'sidLabel', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'Sample Ratio', title: 'subsamplingRatio', displayed: true }, // A afficher dans le tableau de packets
-          { label: 'Packet Type', title: 'packetType', displayed: true }, // Tooltip sur serviceType, serviceSubType
-          { label: 'Fwd Status RID SID', title: 'forwardingStatusRidSid', displayed: true }, // Tooltip sur serviceType, serviceSubType
+          { label: 'Apid Name', title: 'serviceApidName', tooltip: 'serviceApidName', displayed: true },
+          { label: 'Name', title: 'packetName', tooltip: 'packetName', displayed: true },
+          { label: 'APID', title: 'packetApid', tooltip: 'packetApid', displayed: true },
+          { label: 'AP Name', title: 'packetApidName', tooltip: 'packetApidName', displayed: true },
+          { label: 'Type', title: 'serviceType', tooltip: 'serviceType', displayed: true },
+          { label: 'SubType', title: 'serviceSubType', tooltip: 'serviceSubType', displayed: true },
+          { label: 'Fwd Status (APID/T/ST)', title: 'forwardingStatusTypeSubtype', tooltip: 'forwardingStatusTypeSubtype', displayed: true },
+          { label: 'RID', title: 'rid', tooltip: 'rid', displayed: true },
+          { label: 'RID Label', title: 'ridLabel', tooltip: 'ridLabel', displayed: true },
+          { label: 'SID', title: 'sid', tooltip: 'sid', displayed: true },
+          { label: 'SID Label', title: 'sidLabel', tooltip: 'sidLabel', displayed: true },
+          { label: 'Sample Ratio', title: 'subsamplingRatio', tooltip: 'subsamplingRatio', displayed: true },
+          { label: 'Packet Type', title: 'packetType', tooltip: 'packetType', displayed: true },
+          { label: 'Fwd Status RID SID', title: 'forwardingStatusRidSid', tooltip: 'forwardingStatusRidSid', displayed: true },
         ],
       },
     },

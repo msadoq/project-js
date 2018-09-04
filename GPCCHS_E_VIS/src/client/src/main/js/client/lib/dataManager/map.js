@@ -57,6 +57,7 @@ import makeGetPerViewData from './perViewData';
 import perRangeTbdIdMap from './perRangeTbdIdData';
 import { getViewType } from '../store/reducers/views';
 import expectedRangeIntervalMap from './expectedRangeIntervalMap';
+import expectedPusIntervalMap from './pus/expectedPusIntervalMap';
 import { createDeepEqualSelectorPerViewData } from '../store/selectors/views';
 import { getPageIdByViewId } from '../store/reducers/pages';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
@@ -138,7 +139,12 @@ export default createSelector(
       forecastIntervalsMap,
       forecastTime);
     forecastIntervalsMap = lastIntervals.forecastIntervals;
-
+    const pusIntervals = expectedPusIntervalMap(
+      timebars,
+      pusIdMap,
+      forecastIntervalsMap,
+      forecastTime);
+    forecastIntervalsMap = pusIntervals.forecastIntervals;
     return {
       perView: viewMap,
       perRangeTbdId: rangeTbdIdMap,
@@ -146,6 +152,7 @@ export default createSelector(
       forecastIntervals: forecastIntervalsMap,
       expectedRangeIntervals: rangeIntervals.expectedRangeIntervals,
       expectedLastIntervals: lastIntervals.expectedLastIntervals,
+      expectedPusIntervals: pusIntervals.expectedPusIntervals,
       perPusId: pusIdMap,
     };
   }

@@ -3,13 +3,15 @@
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import moment from 'moment/moment';
-import { reset } from '../../../../../../store/actions/pus';
+import { reset } from 'store/actions/pus';
+import { getConfigurationByViewId } from 'viewManager/selectors';
+import { getDomainId } from 'store/reducers/domains';
+import { getSessionId } from 'store/reducers/sessions';
+import getLogger from 'common/logManager';
 
 import PUSResetModal from './PUSResetModal';
-import { getConfigurationByViewId } from '../../../../../selectors';
-import { getDomainId } from '../../../../../../store/reducers/domains';
-import { getSessionId } from '../../../../../../store/reducers/sessions';
-import getLogger from '../../../../../../common/logManager';
+
+const constants = require('constants');
 
 const logger = getLogger('viewManager:pus');
 
@@ -18,7 +20,7 @@ const mapStateToProps = (state, { viewId }) => {
 
   const { connectedData } = _.getOr({}, ['entryPoints', 0], conf);
 
-  const { domain, session } = connectedData;
+  const { domain, session, apids } = connectedData;
 
   const domainId = getDomainId(state, { domainName: domain });
   const sessionId = getSessionId(state, { sessionName: session });
@@ -26,6 +28,7 @@ const mapStateToProps = (state, { viewId }) => {
   return {
     domainId,
     sessionId,
+    apids,
   };
 };
 

@@ -10,10 +10,10 @@ const getNewPUSMMEEntryPoint = () => ({
   name: 'PUSMMEEP',
   id: v4(),
   connectedData: {
-    formula: 'PusGroundModelDefinition.PusMmeModel<PusMmeModel>', // fixed
+    formula: 'PusGroundModelDefinition.PusMmeModel<PusMmeModel>',
     domain: get('WILDCARD_CHARACTER'),
     timeline: get('WILDCARD_CHARACTER'),
     apidName: null,
-    apids: null,
+    apidRawValue: null,
   },
 });

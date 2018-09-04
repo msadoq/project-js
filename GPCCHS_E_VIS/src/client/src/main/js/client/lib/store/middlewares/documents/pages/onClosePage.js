@@ -1,7 +1,7 @@
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Write onClosePage middleware . .
-// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Add helpers in documents middleware + refacto
+// VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 :Add helpers in documents middleware + refacto
 //  + opti pipeMiddlewares function
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Rewrite all saving page code
 // VERSION : 1.1.2 : FA : ISIS-FT-1964 : 06/07/2017 : Add withOpenModal middleware enhancer (in

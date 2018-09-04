@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -10,7 +9,6 @@ import CatalogItemFieldContainer from 'viewManager/commonEditor/Fields/CatalogIt
 import ComObjectContainer from 'viewManager/commonEditor/Fields/ComObjectContainer';
 import ProviderFieldContainer from 'viewManager/commonEditor/Fields/ProviderFieldContainer';
 import DataTypeField from 'viewManager/commonEditor/Fields/DataTypeField';
-import RefTimestampFieldContainer from 'viewManager/commonEditor/Fields/RefTimestampFieldContainer';
 import PathField from 'viewManager/commonEditor/Fields/PathField';
 import DisplayModeField from 'viewManager/commonEditor/Fields/DisplayModeField';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
@@ -57,7 +55,6 @@ export default class HistoryEntryPointConnectedDataFields extends PureComponent 
       selectedTimelineId,
       selectedCatalogName,
       selectedItemName,
-      selectedComObjectName,
       allowedComObjects,
     } = this.props;
 

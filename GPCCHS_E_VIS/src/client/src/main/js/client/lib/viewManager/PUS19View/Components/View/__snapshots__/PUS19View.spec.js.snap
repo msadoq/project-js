@@ -5,29 +5,19 @@ exports[`viewManager/PUS19View/Components/View/PUS19View PUS19View :: render sna
   <div
     className="pus19"
   >
-    <div
-      className="header"
-    >
-      <ErrorBoundary>
-        <div
-          className="info col-sm-4 pus19_ap"
-        >
-          Application Process 
-          <input
-            disabled={true}
-            type="text"
-            value="string"
-          />
-           
-          <input
-            className="mw50"
-            disabled={true}
-            type="text"
-            value={19}
-          />
-        </div>
-      </ErrorBoundary>
-    </div>
+    <ErrorBoundary>
+      <div
+        className="header col-sm-12"
+      >
+        Application Process(es) : 
+        <span>
+          ORBIT
+          [
+          0
+          ], 
+        </span>
+      </div>
+    </ErrorBoundary>
     <div
       className="col-sm-12"
     >
@@ -40,6 +30,8 @@ exports[`viewManager/PUS19View/Components/View/PUS19View PUS19View :: render sna
       >
         <Connect(VirtualizedTableView)
           contentModifier={[Function]}
+          data={Array []}
+          onCellDoubleClick={undefined}
           overrideStyle={[Function]}
           tableId="eventActions"
           viewId="1838f507-196b-4734-bf6d-69d0e96b39b8"
@@ -48,22 +40,4 @@ exports[`viewManager/PUS19View/Components/View/PUS19View PUS19View :: render sna
     </div>
   </div>
 </ErrorBoundary>
-`;
-
-exports[`viewManager/PUS19View/Components/View/PUS19View PUS19View :: renderInvald snapshot 1`] = `
-<div
-  className="pus19 h100 posRelative"
->
-  <div
-    className="flex h100"
-  >
-    <div
-      className="renderErrorText"
-    >
-      Unable to render view 
-      <br />
-      this is an error message
-    </div>
-  </div>
-</div>
 `;

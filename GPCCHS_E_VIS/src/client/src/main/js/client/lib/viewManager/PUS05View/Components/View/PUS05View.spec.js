@@ -1,7 +1,6 @@
-import PUS05View, { isValid, renderInvald } from 'viewManager/PUS05View/Components/View/PUS05View';
+import PUS05View from 'viewManager/PUS05View/Components/View/PUS05View';
 import { shallowRenderSnapshot } from 'common/jest/utils';
 import stateTest from 'common/jest/stateTest';
-import renderer from 'react-test-renderer';
 
 const propsStub = {
   viewId: '1838f507-156b-4734-bf6d-69d0e96b39b8',
@@ -22,28 +21,6 @@ describe('viewManager/PUS05View/Components/View/PUS05View', () => {
   describe('PUS05View :: render', () => {
     test('snapshot', () => {
       shallowRenderSnapshot(PUS05View, propsStub, stateTest);
-    });
-  });
-
-  describe('PUS05View :: renderInvald', () => {
-    test('snapshot', () => {
-      const tree = renderer.create(renderInvald('this is an error message'))
-        .toJSON()
-      ;
-      expect(tree).toMatchSnapshot();
-    });
-  });
-
-  describe('PUS05View :: isValid', () => {
-    [null, undefined, []].map(apids =>
-      [null, undefined].map(applicationProcessId =>
-        it('should return false with invalid data', () => {
-          expect(isValid(apids, applicationProcessId)).toBe(false);
-        })
-      )
-    );
-    it('should return true with valid data', () => {
-      expect(isValid(['ORBIT'], 0)).toBe(true);
     });
   });
 });

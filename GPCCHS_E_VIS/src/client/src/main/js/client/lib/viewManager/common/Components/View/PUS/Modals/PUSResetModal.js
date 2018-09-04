@@ -8,7 +8,7 @@ import moment from 'moment/moment';
 import styles from './PUSResetModal.css';
 
 
-class PUSSaveInFileModal extends React.Component {
+class PUSResetModal extends React.Component {
 
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
@@ -128,4 +128,4 @@ class PUSSaveInFileModal extends React.Component {
   }
 }
 
-export default PUSSaveInFileModal;
+export default PUSResetModal;

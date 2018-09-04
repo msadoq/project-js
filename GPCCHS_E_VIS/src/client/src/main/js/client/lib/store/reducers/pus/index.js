@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 import * as types from 'store/types';
 import _isArray from 'lodash/isArray';
 import missingIntervals from '../../../common/intervals/missing';
+import { getPusFlattenId } from '../../../common/flattenDataId';
 
 /* --- Reducer -------------------------------------------------------------- */
 
@@ -15,19 +16,26 @@ import missingIntervals from '../../../common/intervals/missing';
 const knownPus = (state = {}, action) => {
   switch (action.type) {
     case types.WS_KNOWN_PUS_INTERVAL_ADD: {
-      const pusId = action.payload.id;
+      const dataId = action.payload.dataId;
+      const { apids, domainId, sessionId } = dataId;
       const pusService = action.payload.pusService;
       const continuous = action.payload.continuous;
       const interval = action.payload.interval;
-      if (!pusId || !_isArray(interval)) {
+      if ((apids && apids.length === 0) || !_isArray(interval)) {
         return state;
       }
-      const newState = state;
+      let newState = state;
 
-      if (continuous) {
-        return _.set([pusService, pusId, 'interval', 1], interval[1], newState);
-      }
-      return _.set([pusService, pusId, 'interval'], interval, newState);
+      apids.forEach((apid) => {
+        const flattenId = getPusFlattenId([apid], { domainId, sessionId });
+        if (continuous) {
+          newState = _.set([pusService, flattenId, 'interval', 1], interval[1], newState);
+        } else {
+          newState = _.set([pusService, flattenId, 'interval'], interval, newState);
+        }
+      });
+
+      return newState;
     }
     case types.SAVE_PUS_DATA: {
       const payload = action.payload.payload;
@@ -36,7 +44,6 @@ const knownPus = (state = {}, action) => {
       const groundDate = action.payload.groundDate;
       const dataType = action.payload.dataType;
       const type = action.payload.isModel ? 'model' : 'deltas';
-      const serviceApid = payload.serviceApid;
       const knownInterval = _.getOr({}, [pusService, flattenId, 'interval'], state);
       let newState = state;
       // save data only if they belong to the known interval,
@@ -49,7 +56,7 @@ const knownPus = (state = {}, action) => {
           };
         } else {
           typePayload = {
-            ..._.getOr({}, [pusService, flattenId, serviceApid, type], state),
+            ..._.getOr({}, [pusService, flattenId, type], state),
             [groundDate]: {
               dataType,
               payload,
@@ -62,17 +69,14 @@ const knownPus = (state = {}, action) => {
             ..._.getOr({}, [pusService], state),
             [flattenId]: {
               ..._.getOr({}, [pusService, flattenId], state),
-              [serviceApid]: {
-                ..._.getOr({}, [pusService, flattenId, serviceApid], state),
-                [type]: typePayload,
-              },
+              [type]: typePayload,
             },
           },
         };
 
         // if new pus Data is a model we need to delete deltas, there are no longer link to the new model
         if (type === 'model') {
-          newState = _.set([pusService, flattenId, serviceApid, 'deltas'], {}, newState);
+          newState = _.set([pusService, flattenId, 'deltas'], {}, newState);
           const existingInterval = _.getOr([], [pusService, flattenId, 'interval'], newState);
           const newInterval = [groundDate, existingInterval[1]];
           newState = _.set([pusService, flattenId, 'interval'], newInterval, newState);

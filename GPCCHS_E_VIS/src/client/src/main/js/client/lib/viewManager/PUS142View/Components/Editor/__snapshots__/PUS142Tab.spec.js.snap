@@ -21,7 +21,7 @@ exports[`PUS142Tab :: render snapshot 1`] = `
     <CollapsePanel
       destroyInactivePanel={false}
       forceRender={false}
-      header="onBoardStorages Columns"
+      header="Functional Monitoring Columns"
       headerClass=""
       isActive={false}
       onItemClick={[Function]}
@@ -30,7 +30,7 @@ exports[`PUS142Tab :: render snapshot 1`] = `
     <CollapsePanel
       destroyInactivePanel={false}
       forceRender={false}
-      header="Storage Definitions Columns"
+      header="Parameter Monitorings Columns"
       headerClass=""
       isActive={false}
       onItemClick={[Function]}

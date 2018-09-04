@@ -61,6 +61,7 @@ import PropTypes from 'prop-types';
 import AddLinkContainer from 'viewManager/commonEditor/Misc/AddLinkContainer';
 import { Modal } from 'react-bootstrap';
 import PlotAddAxisContainer from 'viewManager/PlotView/Components/Editor/AddPlotAxisContainer';
+import PlotAddConstantContainer from 'viewManager/PlotView/Components/Editor/AddPlotConstantContainer';
 import PlotAddEntryPointContainer from 'viewManager/PlotView/Components/Editor/AddEntryPointContainer';
 import AddEntryPointContainer from 'viewManager/common/Components/Editor/AddEntryPointContainer';
 import GmaAckModalContainer from 'viewManager/GroundAlarmView/Components/View/AckModalContainer';
@@ -208,6 +209,15 @@ const ModalGeneric = (props) => {
       title = 'Add plot axis';
       child = (
         <PlotAddAxisContainer
+          {...props.props}
+          closeModal={props.onClose}
+        />
+      );
+      break;
+    case 'addPlotConstant':
+      title = 'Add plot constant';
+      child = (
+        <PlotAddConstantContainer
           {...props.props}
           closeModal={props.onClose}
         />

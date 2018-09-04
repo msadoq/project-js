@@ -15,6 +15,7 @@ import { get } from 'common/configurationManager';
 import ComObject from './ComObject';
 
 const mapStateToProps = (state, {
+  name,
   domainName,
   timelineId,
   viewId,
@@ -55,6 +56,7 @@ const mapStateToProps = (state, {
     };
 
   return {
+    name,
     comObjects,
     allowedComObjects: _filterAllowedComObjects(comObjects),
     sessionId,
@@ -72,6 +74,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 const ComObjectContainer = connect(mapStateToProps, mapDispatchToProps)(ComObject);
 
 ComObjectContainer.propTypes = {
+  name: PropTypes.string,
   domainName: PropTypes.string,
   timelineId: PropTypes.string,
   viewId: PropTypes.string.isRequired,

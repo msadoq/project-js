@@ -23,6 +23,7 @@ const getSessions = (override) => {
   return applyOverride({
     sessions: [
       getSession({ timestamp }),
+      getSession({ name: 'Session#1', id: 1, timestamp }),
       getSession({ name: 'Session#42', id: 42, timestamp }),
       getSession({ name: 'Session#181', id: 181, timestamp }),
     ],

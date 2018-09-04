@@ -25,6 +25,7 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import PlotGridsContainer from './PlotGridsContainer';
 import PlotAxesContainer from './PlotAxesContainer';
+import PlotConstantsContainer from './PlotConstantsContainer';
 import ViewParamsContainer from './ViewParamsContainer';
 
 const { Panel } = Collapse;
@@ -51,7 +52,7 @@ export default class PlotTab extends Component {
   onChange = (openPanels) => {
     const { updateViewPanels, viewId } = this.props;
     updateViewPanels(viewId, 'panels', openPanels);
-  }
+  };
 
   handleAddPlotAxis = (e) => {
     e.preventDefault();
@@ -59,7 +60,15 @@ export default class PlotTab extends Component {
     const { openModal, viewId } = this.props;
     const { windowId } = this.context;
     openModal(windowId, { type: 'addPlotAxis', viewId });
-  }
+  };
+
+  handleAddPlotConstant = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const { openModal, viewId } = this.props;
+    const { windowId } = this.context;
+    openModal(windowId, { type: 'addPlotConstant', viewId });
+  };
 
   render() {
     const { viewId, panels } = this.props;
@@ -114,6 +123,33 @@ export default class PlotTab extends Component {
               <PlotAxesContainer
                 viewId={viewId}
                 panel="axes"
+              />
+            }
+          </Panel>
+          <Panel
+            key="constants"
+            header={
+              <div className="rc-collapse-header-inner">
+                <span className="flex" style={{ paddingLeft: '13px' }}>Constants</span>
+                <Button
+                  bsSize="xsmall"
+                  className="pull-right btn-link"
+                  onClick={this.handleAddPlotConstant}
+                >
+                  <Glyphicon
+                    className="text-success"
+                    glyph="plus"
+                    title="Add"
+                  />
+                </Button>
+              </div>
+            }
+          >
+            {
+              panels.constants &&
+              <PlotConstantsContainer
+                viewId={viewId}
+                panel="constants"
               />
             }
           </Panel>

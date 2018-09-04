@@ -51,6 +51,7 @@ export default class LinesCanvas extends Component {
     lines: PropTypes.arrayOf(lineType.isRequired).isRequired,
     divStyle: divStyleType.isRequired,
     parametric: PropTypes.bool.isRequired,
+    constants: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   };
 
   static defaultProps = {
@@ -65,7 +66,7 @@ export default class LinesCanvas extends Component {
 
   shouldComponentUpdate(nextProps) {
     const attrs = ['yAxesAt', 'perfOutput', 'xScale', 'yScale', 'showLabelsX', 'showLabelsY',
-      'yScale', 'indexes', 'divStyle', 'parametric', 'current'];
+      'yScale', 'indexes', 'divStyle', 'parametric', 'current', 'constants'];
 
     const { shouldRender, linesObject } = shouldRenderComponent(
       attrs,
@@ -94,6 +95,7 @@ export default class LinesCanvas extends Component {
       current,
       parametric,
       divStyle,
+      constants,
     } = this.props;
 
     const ctx = this.el.getContext('2d');
@@ -110,7 +112,8 @@ export default class LinesCanvas extends Component {
       current,
       parametric,
       divStyle,
-      ctx
+      ctx,
+      constants
     );
   };
 

@@ -27,6 +27,7 @@ Array [
             <input
                 className="form-control input-sm"
                 disabled={false}
+                min=""
                 onChange={[Function]}
                 placeholder=""
                 type="text"
@@ -190,6 +191,7 @@ Array [
             <input
                 className="form-control input-sm"
                 disabled={false}
+                min=""
                 onChange={[Function]}
                 placeholder=""
                 type="text"
@@ -353,6 +355,7 @@ Array [
             <input
                 className="form-control input-sm"
                 disabled={false}
+                min=""
                 onChange={[Function]}
                 placeholder=""
                 type="text"
@@ -516,6 +519,7 @@ Array [
             <input
                 className="form-control input-sm"
                 disabled={false}
+                min=""
                 onChange={[Function]}
                 placeholder=""
                 type="text"

@@ -9,7 +9,7 @@ const headerStructure = {
   sessionId: 100,
   domainId: 100,
   pusService: 100,
-  pusServiceApid: [getPusServiceApid(), getPusServiceApid()],
+  pusServiceApid: [getPusServiceApid()],
   messageUniqueId: 100,
 };
 

@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import _ from 'lodash/fp';
+import VirtualizedTableViewContainer
+  from 'viewManager/common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
+import { tableOverrideStyle, tableModifier } from 'viewManager/common/pus/utils';
+import ApidStatusHeader from 'viewManager/common/Components/View/PUS/ApidStatusHeader';
+import ApidsList from 'viewManager/common/Components/View/PUS/ApidsList';
 
 import './PUS12View.scss';
-import VirtualizedTableViewContainer
-  from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
-import ApidStatusHeader from '../../../common/Components/View/PUS/ApidStatusHeader';
-
 
 const tooltips = {
   monitoringId: { mode: 'lastUpdateModeMonId', time: 'lastUpdateTimeMonId' },
@@ -52,6 +53,7 @@ export default class PUS12View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS12ViewContainer mapStateToProps
+    apids: PropTypes.arrayOf(PropTypes.shape()),
     data: PropTypes.shape({
       headers: PropTypes.arrayOf(PropTypes.shape()),
       tables: PropTypes.shape(),
@@ -74,17 +76,16 @@ export default class PUS12View extends React.Component {
     const {
       viewId,
       data,
+      apids,
     } = this.props;
 
-    if (typeof data === 'object' && Object.keys(data).length === 0) {
-      return renderInvald('Please fill-in configuration');
-    }
-
-    const headers = data.headers.map(header => (
-      <div className="header">
+    const headersData = _.getOr([], ['headers'], data);
+    const headers = headersData.length > 0 ?
+    headersData.map(header => (
+      <div key={header.serviceApid} className="header row">
         {renderHeader(header)}
       </div>
-    ));
+    )) : ApidsList(apids);
 
     return (
       <ErrorBoundary>
@@ -95,7 +96,7 @@ export default class PUS12View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'parameterMonitoringDefinitions'}
-                data={data.tables.parameterMonitoringDefinitions.data}
+                data={_.getOr([], ['tables', 'parameterMonitoringDefinitions', 'data'], data)}
                 contentModifier={_parameterMonitoringDefinitionsModifier}
                 overrideStyle={_parameterMonitoringDefinitionsOverrideStyle}
               />

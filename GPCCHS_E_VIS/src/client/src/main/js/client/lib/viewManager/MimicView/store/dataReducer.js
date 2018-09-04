@@ -66,7 +66,7 @@ export default function mimicViewData(state = {}, action) {
     }
     case types.WS_PAGE_CLOSE: {
       const { viewIds } = action.payload;
-      if (!viewIds.length) {
+      if (!viewIds || !viewIds.length) {
         return state;
       }
       let newState = state;

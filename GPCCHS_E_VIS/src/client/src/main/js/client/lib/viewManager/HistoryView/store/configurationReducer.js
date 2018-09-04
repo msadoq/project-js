@@ -10,8 +10,9 @@
 // ====================================================================
 
 import _ from 'lodash/fp';
-import _without from 'lodash/without';
 import * as types from 'store/types';
+
+const HISTORY_TABLE_ID = 'history';
 
 /**
  * List of all comObjected (group names) that could be displayed in HistoryView
@@ -53,68 +54,32 @@ const syncDisplayedColumns = (stateConf) => {
   const updatedColumns =
     cols.filter(comObjectField => shouldKeepComObject(comObjectField.group));
 
-  return {
-    ...stateConf,
-    tables: {
-      ...stateConf.tables,
-      history: {
-        ...stateConf.tables.history,
-        cols: updatedColumns,
-      },
-    },
-  };
+  return _.set(
+    ['tables', HISTORY_TABLE_ID, 'cols'],
+    updatedColumns,
+    stateConf
+  );
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
 export default (stateConf, action) => {
   switch (action.type) {
-    case types.WS_VIEW_HIDE_COL:
-      return {
-        ...stateConf,
-        hiddenCols: [
-          ...stateConf.hiddenCols,
-          action.payload.colName,
-        ],
-      };
-    case types.WS_VIEW_SHOW_COL:
-      return {
-        ...stateConf,
-        hiddenCols: _without(stateConf.hiddenCols || [], action.payload.colName),
-      };
-    case types.WS_VIEW_ADD_COL:
-      return {
-        ...stateConf,
-        allCols: [...stateConf.allCols, action.payload.colName],
-      };
-    case types.WS_VIEW_REMOVE_COL:
-      return {
-        ...stateConf,
-        allCols: _without(stateConf.allCols || [], action.payload.colName),
-        hiddenCols: _without(stateConf.hiddenCols || [], action.payload.colName),
-      };
     case types.WS_VIEW_ADD_ENTRYPOINT: {
       const { entryPoint } = action.payload;
 
-      return {
-        ...stateConf,
-        entryPoints: [
-          ...stateConf.entryPoints,
-          {
-            ...entryPoint,
-            connectedData: {
-              ...(entryPoint.connectedData),
-            },
-          },
-        ],
-      };
+      const existingEntryPoints = _.getOr([], 'entryPoints', stateConf);
+
+      return _.set(
+        'entryPoints',
+        [...existingEntryPoints, entryPoint],
+        stateConf
+      );
     }
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
     case types.WS_VIEW_REMOVE_ENTRYPOINT:
       return syncDisplayedColumns(stateConf);
     case types.WS_VIEW_TABLE_ADD_COLUMNS: {
       const { groupName, fields } = action.payload;
-      const tableId = 'history';
-
       if (comObjectFieldsAreAlreadyDefined(stateConf, groupName)) {
         return stateConf;
       }
@@ -125,6 +90,10 @@ export default (stateConf, action) => {
         updatedFields = [...fields, ...REPORTING_DEFAULT_FIELDS];
       }
 
+      const colsPath = ['tables', HISTORY_TABLE_ID, 'cols'];
+
+      const existingColumns = _.getOr([], ['tables', HISTORY_TABLE_ID, 'cols'], stateConf);
+
       const newColumns =
         updatedFields.map(field => ({
           title: field,
@@ -132,28 +101,7 @@ export default (stateConf, action) => {
           group: groupName,
         }));
 
-      return {
-        ...stateConf,
-        tables: {
-          ...stateConf.tables,
-          [tableId]: {
-            ...stateConf.tables[tableId],
-            cols: [
-              ...stateConf.tables[tableId].cols,
-              ...newColumns,
-            ],
-          },
-        },
-      };
-    }
-    case types.WS_VIEW_HISTORY_TOGGLE_TRACK_CURRENT: {
-      const trackingOptionPath = ['tables', 'history', 'isTrackingCurrentTimestamp'];
-
-      return _.set(
-        trackingOptionPath,
-        !_.get(trackingOptionPath, stateConf),
-        stateConf
-      );
+      return _.set(colsPath, [...existingColumns, ...newColumns], stateConf);
     }
     default:
       return stateConf;

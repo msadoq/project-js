@@ -99,6 +99,8 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
     return new Proxy({}, handler);
   };
 
+  const constants = [];
+
   test('LineCanvasCommon :: drawLinesCanvas :: nominal case', () => {
     const ctx = getContext();
     drawLinesCanvas(
@@ -113,7 +115,8 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
       propsStub.current,
       propsStub.parametric,
       propsStub.divStyle,
-      ctx
+      ctx,
+      constants
     );
     expect(operations).toMatchSnapshot();
   });
@@ -133,7 +136,8 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
       propsStub.current,
       propsStub.parametric,
       propsStub.divStyle,
-      ctx
+      ctx,
+      constants
     );
     expect(operations).toMatchSnapshot();
   });
@@ -153,7 +157,8 @@ describe('LineCanvasCommon :: drawLinesCanvas', () => {
       propsStub.current,
       propsStub.parametric,
       propsStub.divStyle,
-      ctx
+      ctx,
+      constants
     );
     expect(operations).toMatchSnapshot();
   });

@@ -27,6 +27,8 @@ export default class Axis extends Component {
     assignEl: PropTypes.func.isRequired,
     memoizeAssignRef: PropTypes.func.isRequired,
     side: PropTypes.number.isRequired,
+    constants: PropTypes.arrayOf(PropTypes.shape()),
+    memoizeConstantsRef: PropTypes.func,
   };
 
   static defaultProps = {
@@ -35,6 +37,8 @@ export default class Axis extends Component {
     xAxesAt: 'bottom',
     showLabels: false,
     showGrid: true,
+    constants: [],
+    memoizeConstantsRef: () => null,
     labelStyle: {
       color: '#333333',
       bgColor: '#FFFFFF',
@@ -67,6 +71,8 @@ export default class Axis extends Component {
       assignLabelEl,
       assignEl,
       memoizeAssignRef,
+      constants,
+      memoizeConstantsRef,
     } = this.props;
 
     const divStyle = {};
@@ -158,6 +164,21 @@ export default class Axis extends Component {
                 ref={memoizeAssignRef(line.id)}
               >
                 {line.id} ({line.unit})
+              </span>
+            )
+          }
+          {
+            constants.map(constant =>
+              <span
+                key={constant.id}
+                className={classnames(
+                  'label',
+                  lineLabel,
+                  { hidden: !showLabels }
+                )}
+                ref={memoizeConstantsRef(constant.id)}
+              >
+                {constant.id}
               </span>
             )
           }

@@ -1,7 +1,6 @@
 // import _unset from 'lodash/unset';
 import _ from 'lodash/fp';
 import parameters from 'common/configurationManager';
-import _memoize from 'lodash/memoize';
 import { SIGNIFICANT_VALIDITY_STATE_VALUE } from 'constants';
 import { /* SDB_VALUE_OPTION, */ TIME_BASED_DATA_OPTION } from '../commonEditor/Fields/DataTypeField';
 
@@ -79,15 +78,39 @@ export function handleSubmit(values, updateEntryPoint, viewId) {
   //   _unset(values.connectedData, 'provider');
   //   _unset(values.connectedData, 'refTimestamp');
   // }
-  const { catalog, catalogItem, comObject, comObjectField } = values.connectedData;
-  const formula = buildFormula(catalog, catalogItem, comObject, comObjectField);
-  updateEntryPoint(viewId, values.id, {
-    ...values,
-    connectedData: {
-      ...values.connectedData,
-      formula,
-    },
-  });
+  if (values.parametric) {
+    console.log('TA MERE LA TCHOUIN');
+    const {
+      catalogX,
+      catalogItemX,
+      comObjectX,
+      comObjectFieldX,
+      catalogY,
+      catalogItemY,
+      comObjectY,
+      comObjectFieldY,
+    } = values.connectedDataParametric;
+    const formulaX = buildFormula(catalogX, catalogItemX, comObjectX, comObjectFieldX);
+    const formulaY = buildFormula(catalogY, catalogItemY, comObjectY, comObjectFieldY);
+    updateEntryPoint(viewId, values.id, {
+      ...values,
+      connectedDataParametric: {
+        ...values.connectedDataParametric,
+        formulaX,
+        formulaY,
+      },
+    });
+  } else {
+    const { catalog, catalogItem, comObject, comObjectField } = values.connectedData;
+    const formula = buildFormula(catalog, catalogItem, comObject, comObjectField);
+    updateEntryPoint(viewId, values.id, {
+      ...values,
+      connectedData: {
+        ...values.connectedData,
+        formula,
+      },
+    });
+  }
 }
 
 /**
@@ -117,9 +140,8 @@ export const validateRequiredFields = (requiredFields, values) => (
  * @type {Function}
  * @returns boolean
  */
-export const memoizeIsSignificantValue = _memoize(
-  validityState => validityState === SIGNIFICANT_VALIDITY_STATE_VALUE
-);
+export const memoizeIsSignificantValue =
+  validityState => validityState === SIGNIFICANT_VALIDITY_STATE_VALUE;
 
 /**
  * @param key // the main parameter key to which look for a specific value

@@ -91,6 +91,31 @@
             "timeline": {
               "type": "string",
               "minLength": 1
+            },
+            "apids": {
+              "type": "array",
+              "uniqueItems": true,
+              "minItems": 1,
+              "items": {
+                "required": [
+                  "apidName",
+                  "apidRawValue"
+                ],
+                "properties": {
+                  "apidName": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "apidRawValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            },
+            "apidName": {
+              "type": "string",
+              "minLength": 1
             }
           },
           "required": [

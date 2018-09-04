@@ -8,7 +8,7 @@ const getAnUpdateTime = timestamp =>
 const stubData = stubs.getStubData();
 const getAtransfertType = () => predictibleRand.getInt([1, 2]);
 const getAFileMode = () => predictibleRand.getFrom(['1', '2']);
-const getAStatus = () => predictibleRand.getFrom([1, 2, 3, 200]);
+const getAStatus = () => predictibleRand.getFrom([0, 1, 2, 200]);
 
 // CHECK_TYPE(PUS12),
 // LARGE_TRANSFER_PART_STATUS(PUS 13),
@@ -1006,6 +1006,7 @@ const getPus15Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeStoreType: formatedTime,
             lastUpdateTimeStoreStatus: formatedTime,
             lastUpdateTimeDownlinkStatus: formatedTime,
+            uniqueId: 1,
             pus015Packet: [
               stubData.getPus015Packet({
                 serviceApid,
@@ -1037,6 +1038,7 @@ const getPus15Payload = (timestamp, serviceApid, type) => {
             lastUpdateTimeStoreType: formatedTime,
             lastUpdateTimeStoreStatus: formatedTime,
             lastUpdateTimeDownlinkStatus: formatedTime,
+            uniqueId: 2,
             pus015Packet: [
               stubData.getPus015Packet({
                 serviceApid,
@@ -1076,6 +1078,7 @@ const getPus15Payload = (timestamp, serviceApid, type) => {
       lastUpdateTimeStoreType: formatedTime,
       lastUpdateTimeStoreStatus: formatedTime,
       lastUpdateTimeDownlinkStatus: formatedTime,
+      uniqueId: predictibleRand.getInt([1, 2]),
       pus015Packet: [
         stubData.getPus015Packet({
           serviceApid,
@@ -1495,7 +1498,7 @@ const getPusMMEPayload = (timestamp, serviceApid, type) => {
           stubData.getPusMmePacket({
             serviceApid,
             status: getAStatus(),
-            forwardingStatus: getAStatus(),
+            forwardingStatusTypeSubtype: getAStatus(),
             forwardingStatusRidSid: getAStatus(),
             lastUpdateModeSid: getAnUpdateMode(),
             lastUpdateModeStatus: getAnUpdateMode(),
@@ -1549,7 +1552,7 @@ const getPusMMEPayload = (timestamp, serviceApid, type) => {
           stubData.getPusMmePacket({
             serviceApid,
             status: getAStatus(),
-            forwardingStatus: getAStatus(),
+            forwardingStatusTypeSubtype: getAStatus(),
             forwardingStatusRidSid: getAStatus(),
             lastUpdateModeSid: getAnUpdateMode(),
             lastUpdateModeStatus: getAnUpdateMode(),
@@ -1611,7 +1614,7 @@ const getPusMMEPayload = (timestamp, serviceApid, type) => {
     payload: stubData.getPusMmePacketProtobuf({
       serviceApid,
       status: getAStatus(),
-      forwardingStatus: getAStatus(),
+      forwardingStatusTypeSubtype: getAStatus(),
       forwardingStatusRidSid: getAStatus(),
       lastUpdateModeSid: getAnUpdateMode(),
       lastUpdateModeStatus: getAnUpdateMode(),

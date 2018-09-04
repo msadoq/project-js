@@ -70,8 +70,12 @@ const onNeededMetadata = ({ dispatch, getState }) => next => (action) => {
   }
 
   if (action.type === WS_VIEW_OPENED) {
-    const { viewId } = action.payload;
-    _askEntryPointsRelatedMetadataByViewId(viewId);
+    const viewEntryPoints = _.get(
+      ['view', 'configuration', 'entryPoints'],
+      action.payload
+    );
+
+    _askEntryPointsRelatedMetadata(viewEntryPoints);
   }
 
   if (

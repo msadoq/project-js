@@ -29,6 +29,7 @@
 
 /* eslint-disable no-continue, "DV6 TBC_CNES Perf. requires 'for', 'continue' avoid complexity" */
 import _get from 'lodash/get';
+import _ from 'lodash/fp';
 import getLogger from 'common/logManager';
 import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { convertData } from 'viewManager/commonData/convertData';
@@ -164,7 +165,7 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints, current)
         if (!newState.obsoleteEvents[epName]) {
           newState.obsoleteEvents[epName] = { eventDate: 0 };
         }
-        const lastDataTimestamp = newState.index[epName];
+        const lastDataTimestamp = _.getOr(0, ['index', epName], newState);
         // ascending sort for master times
         const masterTimes = Object.keys(tbdIdPayload)
           .sort((a, b) => a - b);

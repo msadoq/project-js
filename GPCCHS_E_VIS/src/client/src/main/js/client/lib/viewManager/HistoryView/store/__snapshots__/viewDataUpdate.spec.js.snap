@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`History viewDataUpdate should add payload data into table state 1`] = `
+Object {
+  "indexes": Object {
+    "ep1": Array [
+      undefined,
+      undefined,
+    ],
+  },
+  "obsoleteEvents": Object {
+    "ep1": Array [],
+    "placeholder": [Function],
+  },
+  "tables": Object {
+    "history": Object {
+      "data": Array [
+        Object {
+          "color": "#2ecc71",
+          "convertedValue": 1000,
+          "epName": "ep1",
+          "id": "ep1",
+          "isDataObsolete": false,
+          "referenceTimestamp": "2018-08-29T11:44:58.890Z",
+        },
+        Object {
+          "color": "#2ecc71",
+          "convertedValue": 1100,
+          "epName": "ep1",
+          "id": "ep1",
+          "isDataObsolete": false,
+          "referenceTimestamp": "2018-08-29T11:44:59.890Z",
+        },
+      ],
+      "keep": Array [
+        0,
+        1,
+      ],
+    },
+  },
+}
+`;

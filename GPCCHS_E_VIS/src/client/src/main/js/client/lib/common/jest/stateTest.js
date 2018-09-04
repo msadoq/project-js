@@ -322,6 +322,26 @@ export default {
           ],
         },
       },
+      entryPoints: [{
+        connectedData: {
+          apidName: 'TIMEPACKET,POWERMGT',
+          apidRawValue: null,
+          apids: [
+            {
+              apidName: 'TIMEPACKET',
+              apidRawValue: 0,
+            },
+            {
+              apidName: 'POWERMGT',
+              apidRawValue: 3,
+            },
+          ],
+          domain: 'fr.cnes.isis.station.hbk',
+          formula: 'PusGroundModelDefinition.Pus011Model<Pus011Model>',
+          session: '*',
+          timeline: 'Session 1',
+        },
+      }],
     },
   },
   PUS11ViewData: {},
@@ -1301,6 +1321,7 @@ export default {
         'plotCollapsed',
         'hist1',
         'groundAlarm1',
+        'pus11',
       ],
     },
   },
@@ -1566,6 +1587,41 @@ export default {
       },
       type: 'HistoryView',
       uuid: 'hist1',
+      stateColors: [{
+        color: '#000000',
+        condition: {
+          field: 'monitoringState',
+          operand: 'waiting',
+          operator: '=',
+        },
+      }],
+    },
+    pus11: {
+      absolutePath: '/mydata/data/views/pus11.json',
+      defaultRatio: {
+        length: 5,
+        width: 3,
+      },
+      domainName: 'fr.cnes.isis.simupus',
+      isModified: false,
+      links: [],
+      pageFolder: '/mydata/data/pages',
+      path: '/mydata/data/views/pus11.json',
+      sessionName: 'Master',
+      showLinks: false,
+      title: 'Pus 11',
+      titleStyle: {
+        align: 'center',
+        bold: false,
+        color: '#ffffff',
+        font: 'Arial',
+        italic: false,
+        size: 12,
+        strikeOut: false,
+        underline: true,
+      },
+      type: 'PUS11View',
+      uuid: 'pus11',
       stateColors: [{
         color: '#000000',
         condition: {

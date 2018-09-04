@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
+import _ from 'lodash/fp';
+import VirtualizedTableViewContainer
+  from 'viewManager/common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
+import { tableOverrideStyle, tableModifier } from 'viewManager/common/pus/utils';
+import ApidStatusHeader from 'viewManager/common/Components/View/PUS/ApidStatusHeader';
+import ApidsList from 'viewManager/common/Components/View/PUS/ApidsList';
 
 import './PUS19View.scss';
-import VirtualizedTableViewContainer
-  from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
-import ApidStatusHeader from '../../../common/Components/View/PUS/ApidStatusHeader';
-
 
 // EVENT ACTIONS
 const eventActionsTooltips = {
@@ -26,14 +27,16 @@ export default class PUS19View extends React.Component {
     // own props
     viewId: PropTypes.string.isRequired,
     // From PUS19ViewContainer mapStateToProps
+    apids: PropTypes.arrayOf(PropTypes.shape()),
     data: PropTypes.shape({
       headers: PropTypes.arrayOf(PropTypes.shape()),
       tables: PropTypes.shape(),
     }),
-    onCommandCellDoubleClick: PropTypes.func.isRequired,
+    onEventCellDoubleClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
+    apids: [],
     data: {
       headers: [],
       tables: {},
@@ -47,20 +50,18 @@ export default class PUS19View extends React.Component {
   render() {
     const {
       viewId,
-      onCommandCellDoubleClick,
+      onEventCellDoubleClick,
       data,
+      apids,
     } = this.props;
 
-    if (typeof data === 'object' && Object.keys(data).length === 0) {
-      return renderInvald('Please fill-in configuration');
-    }
-
-    const headers = data.headers.map(header =>
-      (
-        <div className="header">
-          {renderHeaders(header)}
+    const headersData = _.getOr([], ['headers'], data);
+    const headers = headersData.length > 0 ?
+      headersData.map(header => (
+        <div key={header.serviceApid} className="header row">
+          {renderHeader(header)}
         </div>
-      ));
+      )) : ApidsList(apids);
 
     return (
       <ErrorBoundary>
@@ -71,10 +72,10 @@ export default class PUS19View extends React.Component {
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'eventActions'}
-                data={data.tables.eventActions.data}
+                data={_.getOr([], ['tables', 'eventActions', 'data'], data)}
                 contentModifier={_eventActionsModifier}
                 overrideStyle={_eventActionsOverrideStyle}
-                onCellDoubleClick={onCommandCellDoubleClick}
+                onCellDoubleClick={onEventCellDoubleClick}
               />
             </div>
           </div>
@@ -84,7 +85,7 @@ export default class PUS19View extends React.Component {
   }
 }
 
-export const renderHeaders = (header) => {
+export const renderHeader = (header) => {
   const {
     serviceApid,
     serviceApidName,
@@ -106,17 +107,3 @@ export const renderHeaders = (header) => {
   );
 };
 
-export const isValid = (apids, applicationProcessId) =>
-  Array.isArray(apids) && apids.length > 0 && typeof applicationProcessId === 'number'
-;
-
-export const renderInvald = error => (
-  <div className="pus19 h100 posRelative">
-    <div className="flex h100">
-      <div className="renderErrorText">
-        Unable to render view <br />
-        {error}
-      </div>
-    </div>
-  </div>
-);

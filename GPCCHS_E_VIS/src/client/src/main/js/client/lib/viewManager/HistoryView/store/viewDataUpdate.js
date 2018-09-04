@@ -47,7 +47,7 @@ export function viewRangeAdd(state = {}, viewId, payloads, historyConfig) {
     return state;
   }
 
-  let updatedState = _.cloneDeep(state);
+  let updatedState = state;
 
   const epConnectedData = historyConfig.entryPoints.map(ep => ep.connectedData);
 
@@ -172,14 +172,20 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
             lastRangeIndex
           );
           if (isDataObsolete) {
-            updatedState = _.set(['tables', 'history', 'data', lastRangeIndex, 'isDataObsolete'], isDataObsolete, updatedState);
+            if (lastRangeIndex < _.getOr([], ['tables', 'history', 'data'], updatedState).length) {
+              updatedState = _.set(['tables', 'history', 'data', lastRangeIndex, 'isDataObsolete'], isDataObsolete, updatedState);
+            }
+
             const currentValue = _.getOr([], ['tables', 'history', 'data', lastRangeIndex], updatedState);
             const { color } = getStateColorObj(
               currentValue,
               entryPoints[epName].stateColors,
               _get(currentValue, 'monitoringState', STATE_COLOR_NOMINAL)
             );
-            updatedState = _.set(['tables', 'history', 'data', lastRangeIndex, 'color'], color, updatedState);
+
+            if (lastRangeIndex < _.getOr([], ['tables', 'history', 'data'], updatedState).length) {
+              updatedState = _.set(['tables', 'history', 'data', lastRangeIndex, 'color'], color, updatedState);
+            }
           }
           lastRangeIndex = lastComputedIndex;
         }

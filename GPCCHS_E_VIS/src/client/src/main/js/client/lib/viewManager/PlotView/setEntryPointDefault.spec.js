@@ -26,6 +26,10 @@ describe('viewManager', () => {
           defaultY: 1,
           convertFrom: '',
           convertTo: '',
+          catalog: '',
+          catalogItem: '',
+          comObject: '',
+          comObjectField: '',
         },
         connectedDataParametric: {
           formulaX: '',
@@ -72,6 +76,10 @@ describe('viewManager', () => {
           defaultY: 1,
           convertFrom: '',
           convertTo: '',
+          catalog: '',
+          catalogItem: '',
+          comObject: '',
+          comObjectField: '',
         },
         connectedDataParametric: {
           formulaX: '',
@@ -118,6 +126,10 @@ describe('viewManager', () => {
           defaultY: 1,
           convertFrom: '',
           convertTo: '',
+          catalog: '',
+          catalogItem: '',
+          comObject: '',
+          comObjectField: '',
         },
         connectedDataParametric: {
           formulaX: '',

@@ -17,7 +17,7 @@ export default class ButtonToggleField extends React.Component {
     styleOff: PropTypes.string,
     textOn: PropTypes.string,
     textOff: PropTypes.string,
-  }
+  };
 
   static defaultProps = {
     bsSize: 'xsmall',
@@ -25,11 +25,11 @@ export default class ButtonToggleField extends React.Component {
     styleOff: 'default',
     textOn: 'ON',
     textOff: 'OFF',
-  }
+  };
 
   handleToggle = () => {
     this.props.input.onChange(!this.props.input.value);
-  }
+  };
 
   render() {
     const {

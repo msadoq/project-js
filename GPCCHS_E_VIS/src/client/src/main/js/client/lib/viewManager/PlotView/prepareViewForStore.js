@@ -64,6 +64,7 @@ const getDefaultView = _.merge({
     entryPoints: [],
     showYAxes: 'left',
     showLegend: false,
+    constants: {},
   },
 });
 

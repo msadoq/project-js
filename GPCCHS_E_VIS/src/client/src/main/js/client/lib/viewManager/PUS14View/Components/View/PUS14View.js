@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import _ from 'lodash/fp';
+import VirtualizedTableViewContainer
+from 'viewManager/common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
+import { tableOverrideStyle, tableModifier } from 'viewManager/common/pus/utils';
+import ApidsList from 'viewManager/common/Components/View/PUS/ApidsList';
 
 import './PUS14View.scss';
-import VirtualizedTableViewContainer
-  from '../../../common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
-import { tableOverrideStyle, tableModifier } from '../../../common/pus/utils';
-import ApidsList from '../../../common/Components/View/PUS/ApidsList';
-
 
 // PACKET FORWARDING
 const _packetForwardingStatusKeyList = [
@@ -62,10 +61,12 @@ export default class PUS14View extends React.Component {
 
     return (
       <ErrorBoundary>
-        <div className="pus14">
-          {ApidsList(apids)}
-          <div className="info col-sm-12">
-            <div style={{ height: 400 }}>
+        <div className="pus14 h100">
+          <div className="h15">
+            {ApidsList(apids)}
+          </div>
+          <div className="info col-sm-12 h85">
+            <div className="h100">
               <VirtualizedTableViewContainer
                 viewId={viewId}
                 tableId={'packetForwarding'}

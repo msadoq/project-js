@@ -63,6 +63,7 @@ export default class YAxis extends Component {
     labelStyle: labelStyleType.isRequired,
     xAxisHeight: PropTypes.number.isRequired,
     side: PropTypes.number.isRequired,
+    constants: PropTypes.arrayOf(PropTypes.shape()),
   };
 
   static defaultProps = {
@@ -77,6 +78,7 @@ export default class YAxis extends Component {
     gridSize: 1,
     tickStep: 8,
     autoTick: false,
+    constants: [],
     labelStyle: {
       color: '#333333',
       bgColor: '#FFFFFF',
@@ -94,12 +96,13 @@ export default class YAxis extends Component {
     this.draw();
     this.drawLabel();
     this.drawLinesLabel();
+    this.drawConstantsLabel();
   }
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = nextProps.updateAxis;
     const attrs = ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth',
-      'scale', 'autoTick', 'tickStep', 'format', 'gridStyle', 'gridSize', 'showGrid'];
+      'scale', 'autoTick', 'tickStep', 'format', 'gridStyle', 'gridSize', 'showGrid', 'constants'];
     for (let i = 0; i < attrs.length; i += 1) {
       if (nextProps[attrs[i]] !== this.props[attrs[i]]) {
         shouldRender = true;
@@ -115,6 +118,7 @@ export default class YAxis extends Component {
     // update line label refs's style attribute
     if (!shouldRender) {
       this.drawLinesLabel();
+      this.drawConstantsLabel();
     }
 
     return shouldRender;
@@ -124,6 +128,7 @@ export default class YAxis extends Component {
     this.draw();
     this.drawLabel();
     this.drawLinesLabel();
+    this.drawConstantsLabel();
   }
 
   ticksXOffset = 8;
@@ -133,6 +138,32 @@ export default class YAxis extends Component {
       gridSize,
     } = this.props;
     select(this.svgAxisEl).selectAll('line').attr('stroke-width', gridSize);
+  };
+
+  drawConstantsLabel = () => {
+    const {
+      constants,
+      scale,
+      yAxisWidth,
+      yAxesAt,
+    } = this.props;
+
+    constants.forEach((constant) => {
+      const el = this[`label-${constant.id}-el`];
+      if (el) {
+        if (!constant.showConstant || !constant.showLabel) {
+          el.setAttribute('style', 'display:none;');
+        } else {
+          let style = `background:${constant.style.color || '#222222'};top:${scale(constant.value)}px;`;
+          if (yAxesAt === 'left') {
+            style += `transform: translate(-102%, -50%);left: ${yAxisWidth - 8}px;`;
+          } else {
+            style += `transform: translate(102%, -50%);right: ${yAxisWidth - 8}px;`;
+          }
+          el.setAttribute('style', style);
+        }
+      }
+    });
   };
 
   drawLinesLabel = () => {
@@ -330,6 +361,10 @@ export default class YAxis extends Component {
     (el) => { this[`label-${lineId}-el`] = el; }
   );
 
+  memoizeConstantsRef = _memoize(constantId =>
+    (el) => { this[`label-${constantId}-el`] = el; }
+  );
+
   memoizeTickFormat= _memoize(
     (ms) => {
       const zoomLevel = getZoomLevel(ms);
@@ -354,6 +389,7 @@ export default class YAxis extends Component {
       yAxesAt,
       xAxesAt,
       side,
+      constants,
     } = this.props;
 
     return (
@@ -377,6 +413,8 @@ export default class YAxis extends Component {
           assignLabelEl={this.assignLabelEl}
           assignEl={this.assignEl}
           memoizeAssignRef={this.memoizeAssignRef}
+          constants={constants}
+          memoizeConstantsRef={this.memoizeConstantsRef}
         />
       </ErrorBoundary>
     );

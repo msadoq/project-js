@@ -83,7 +83,7 @@ import _flattenDeep from 'lodash/flattenDeep';
 import classnames from 'classnames';
 import getLogger from 'common/logManager';
 import { getViewComponent } from 'viewManager/components';
-import { isPusView } from 'viewManager/constants';
+import { isPusView, canCompare } from 'viewManager/constants';
 import HeaderContainer from './HeaderContainer';
 import MessagesContainer from '../common/MessagesContainer';
 import handleContextMenu from '../common/handleContextMenu';
@@ -160,18 +160,10 @@ export default class View extends PureComponent {
       label: 'Search in this view',
       click: () => openSearch(),
     };
+
     const pusViewMenu = isPusView(type) ?
     [
-        { type: 'separator' },
-      {
-        label: 'Compare (Alt+c)',
-        click: () =>
-            openModal({
-              viewId,
-              type: 'pusCompareModal',
-              title: 'PUS Compare...',
-            }),
-      },
+      { type: 'separator' },
       {
         label: 'Reset (Alt+r)',
         click: () =>
@@ -194,9 +186,18 @@ export default class View extends PureComponent {
         label: 'Synchronize',
         click: () => openModal({ type: 'pusSynchronizeModal', title: 'PUS Synchronize...' }),
       },
-    ] :
-      []
-    ;
+    ] : [];
+    const compareMenu = {
+      label: 'Compare (Alt+c)',
+      click: () =>
+          openModal({
+            viewId,
+            type: 'pusCompareModal',
+            title: 'PUS Compare...',
+          }),
+    };
+    if (canCompare(type)) pusViewMenu.push(compareMenu);
+
     const isPathDefined = !!absolutePath;
 
     return _flattenDeep([

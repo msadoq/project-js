@@ -50,6 +50,7 @@ const mapStateToProps = (state, { viewId, pageId }) => {
   const data = getData(state, { viewId });
   const entryPoints = getViewEntryPoints(state, { viewId });
   const config = getConfigurationByViewId(state, { viewId });
+  const sortState = _.get(['tables', 'history', 'sorting'], config);
   const last = _.getOr({}, 'last', data);
   const page = getPage(state, { pageId });
   const defaultTimelineUuid = getTimebarTimelines(state, { timebarUuid: page.timebarUuid })[0];
@@ -107,6 +108,7 @@ const mapStateToProps = (state, { viewId, pageId }) => {
     showLinks: areLinksShown(state, { viewId }),
     sessions: getSessions(state),
     timelines: getTimelines(state),
+    sortState,
   };
 };
 

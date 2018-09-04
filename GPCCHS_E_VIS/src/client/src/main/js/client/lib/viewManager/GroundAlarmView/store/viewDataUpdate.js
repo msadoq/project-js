@@ -245,27 +245,12 @@ export function shouldAlarmBeDisplayed(
   typeOfAlarm,
   stateOfAck) {
   switch (epMode) {
-    case (constants.ALARM_MODE_NONNOMINAL): {
-      if (raisedBeforeVWCurrent && typeOfAlarm !== 'nominal') {
-        return true;
-      }
-      return false;
-    }
-    case (constants.ALARM_MODE_ALL): {
-      if (raisedBeforeVWCurrent && typeOfAlarm !== 'nominal') {
-        return true;
-      }
-      if (raisedBeforeVWCurrent && raisedAfterVWLower) {
-        return true;
-      }
-      return false;
-    }
-    case (constants.ALARM_MODE_TOACKNOWLEDGE): {
-      if (stateOfAck !== constants.ALARM_ACKSTATE_REQUIREACK) {
-        return false;
-      }
-      return true;
-    }
+    case (constants.ALARM_MODE_NONNOMINAL):
+      return (raisedBeforeVWCurrent && typeOfAlarm !== 'nominal');
+    case (constants.ALARM_MODE_ALL):
+      return ((raisedBeforeVWCurrent && (typeOfAlarm !== 'nominal' || raisedAfterVWLower)));
+    case (constants.ALARM_MODE_TOACKNOWLEDGE):
+      return (stateOfAck === constants.ALARM_ACKSTATE_REQUIREACK);
     default: {
       return true;
     }

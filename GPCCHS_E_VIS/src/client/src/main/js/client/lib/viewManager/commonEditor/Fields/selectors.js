@@ -44,3 +44,22 @@ export function getFormMetadata(form, state) {
   return connectedDataSelector(form, state, 'connectedData.metadata');
 }
 
+export function getParametricSelectedDomainInForm(form, state, axe) {
+  return connectedDataSelector(form, state, `connectedDataParametric.domain${axe}`);
+}
+
+export function getParametricSelectedTimelineId(form, state, axe) {
+  return connectedDataSelector(form, state, `connectedDataParametric.timeline${axe}`);
+}
+
+export function getParametricSelectedComObjectName(form, state, axe) {
+  return connectedDataSelector(form, state, `connectedDataParametric.comObject${axe}`);
+}
+
+export function getParametricSelectedCatalogName(form, state, axe) {
+  return connectedDataSelector(form, state, `connectedDataParametric.catalog${axe}`);
+}
+
+export function getParametricSelectedItemName(form, state, axe) {
+  return connectedDataSelector(form, state, `connectedDataParametric.catalogItem${axe}`);
+}

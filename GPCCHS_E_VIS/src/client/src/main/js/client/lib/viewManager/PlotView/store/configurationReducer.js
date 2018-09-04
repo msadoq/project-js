@@ -29,6 +29,7 @@ import _ from 'lodash/fp';
 
 import * as types from 'store/types';
 import { getYAxis, updateAxis, addAxis, removeAxis } from './axes';
+import { addConstant, removeConstant, updateConstant } from './constants';
 
 const removeElementIn = (key, index, state) => _.update(key, _.pullAt(index), state);
 
@@ -97,6 +98,12 @@ export default (stateConf = { search: '', showLegend: true }, action) => {
         return _.set('search', action.payload.search, stateConf);
       }
       return stateConf;
+    case types.WS_VIEW_ADD_CONSTANT:
+      return addConstant(stateConf, action);
+    case types.WS_VIEW_REMOVE_CONSTANT:
+      return removeConstant(stateConf, action);
+    case types.WS_VIEW_UPDATE_CONSTANT:
+      return updateConstant(stateConf, action);
     default:
       return stateConf;
   }

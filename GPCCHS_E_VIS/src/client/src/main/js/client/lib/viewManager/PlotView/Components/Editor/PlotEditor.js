@@ -71,6 +71,7 @@ export default class PlotEditor extends Component {
       procedures: PropTypes.array,
       entryPoints: PropTypes.array,
       axes: PropTypes.object,
+      constants: PropTypes.object,
       grids: PropTypes.array,
       legend: PropTypes.object,
       markers: PropTypes.array,
@@ -116,6 +117,7 @@ export default class PlotEditor extends Component {
       configuration: {
         entryPoints,
         axes,
+        constants,
         grids,
         markers,
         search,
@@ -165,6 +167,7 @@ export default class PlotEditor extends Component {
               tab === 1 &&
               <PlotTab
                 axes={axes}
+                constants={constants}
                 markers={markers}
                 grids={grids}
                 titleStyle={titleStyle}

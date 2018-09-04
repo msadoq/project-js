@@ -7,6 +7,7 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 export default class ComObject extends PureComponent {
   static propTypes = {
+    name: PropTypes.string,
     timelineId: PropTypes.string,
     // from container mapStateToProps
     comObjects: PropTypes.oneOfType([
@@ -24,6 +25,7 @@ export default class ComObject extends PureComponent {
   };
 
   static defaultProps = {
+    name: 'connectedData.comObject',
     comObjects: null,
     allowedComObjects: null,
     sessionId: null,
@@ -68,6 +70,7 @@ export default class ComObject extends PureComponent {
 
   render() {
     const {
+      name,
       comObjects,
       allowedComObjects,
       domainId,
@@ -81,7 +84,7 @@ export default class ComObject extends PureComponent {
       <ErrorBoundary>
         <Field
           format={null}
-          name="connectedData.comObject"
+          name={name}
           component={ReactSelectField}
           clearable
           disabled={disabled}

@@ -2,16 +2,18 @@ import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import parameters from 'common/configurationManager';
+import { getWindowIdByViewId } from 'store/selectors/windows';
+import { getConfigurationByViewId } from 'viewManager/selectors';
+import { injectTabularData } from 'viewManager/commonData/reducer';
 import { getPUSViewData } from 'viewManager/common/pus/dataSelectors';
-import { PUS_SERVICE_15 } from 'constants';
+import { bindToBoolKey, getDeltaStatusKey } from 'viewManager/common/pus/utils';
+
+import { PUS_SERVICE_15, PUS015_PACKET_STORE } from 'constants';
 import PUS15View from './PUS15View';
-import { injectTabularData } from '../../../commonData/reducer';
-import { bindToBoolKey } from '../../../common/pus/utils';
-import { getConfigurationByViewId } from '../../../selectors';
-import { getWindowIdByViewId } from '../../../../store/selectors/windows';
 
 const mapStateToProps = (state, { viewId }) => {
   const statuses = parameters.get('PUS_CONSTANTS').STATUS;
+  const deleteStatus = parameters.get('PUS_CONSTANTS').STATUS_DELETED_ID;
   const updateTypes = parameters.get('PUS_CONSTANTS').UPDATE_TYPE;
 
   let data = getPUSViewData(state, { viewId, pusService: PUS_SERVICE_15 });
@@ -21,7 +23,8 @@ const mapStateToProps = (state, { viewId }) => {
     data = injectTabularData(
       data,
       'onBoardStorages',
-      _.getOr([], ['dataForTables', 'pus015PacketStore'], data)
+      _.getOr([], ['dataForTables', PUS015_PACKET_STORE], data)
+        .filter(packetStore => packetStore[getDeltaStatusKey(PUS015_PACKET_STORE)] !== deleteStatus)
         .map(store => ({
           ..._.omit(['pus015Packet'], store),
           dumpEnabled: String(_.getOr('boolean', 'dumpEnabled', store)),
@@ -40,7 +43,11 @@ const mapStateToProps = (state, { viewId }) => {
       _.uniqBy(
         'uniqueId',
         _.getOr([], ['dataForTables', 'pus015PacketStore'], data)
-          .reduce((acc, store) => [...acc, ...store.pus015Packet], [])
+          .reduce((acc, store) => [
+            ...acc,
+            ...store.pus015Packet.map(
+              packet => _.assign(packet, { storeId: store.storeId })
+            )], [])
       ).map(packet => ({
         ...packet,
         ...bindToBoolKey(['isSubsamplingRatioSet', 'subsamplingRatio', 'lastUpdateModeSubSamplingRatio'], packet),
@@ -51,7 +58,8 @@ const mapStateToProps = (state, { viewId }) => {
     data = _.omit(['dataForTables'], data);
   }
 
-  const apids = _.get(
+  const apids = _.getOr(
+    [],
     ['connectedData', 'apids'],
     _.head(getConfigurationByViewId(state, { viewId }).entryPoints)
   );

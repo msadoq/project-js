@@ -10,6 +10,7 @@ import { get } from 'common/configurationManager';
 import CatalogItemField from 'viewManager/commonEditor/Fields/CatalogItemField';
 
 const mapStateToProps = (state, {
+  name,
   domainName,
   timelineId,
   viewId,
@@ -33,9 +34,11 @@ const mapStateToProps = (state, {
   const sessionId = selectedSession ? selectedSession.id : null;
   const tupleId = getTupleId(domainId, sessionId);
   const catalogItems = getCatalogItems(getCatalogs(state), { tupleId, name: catalogName });
-  const catalogsLoaded = getCatalogsByTupleId(getCatalogs(state), { tupleId });
+  const loadedCatalogs = getCatalogsByTupleId(getCatalogs(state), { tupleId });
+  const catalogsLoaded = Array.isArray(loadedCatalogs);
 
   return {
+    name,
     catalogItems,
     sessionId,
     domainId,
@@ -51,6 +54,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 const CatalogItemFieldContainer = connect(mapStateToProps, mapDispatchToProps)(CatalogItemField);
 
 CatalogItemFieldContainer.propTypes = {
+  name: PropTypes.string,
   domainName: PropTypes.string,
   timelineId: PropTypes.string,
   viewId: PropTypes.string.isRequired,
@@ -58,6 +62,7 @@ CatalogItemFieldContainer.propTypes = {
 };
 
 CatalogItemFieldContainer.defaultProps = {
+  name: 'connectedData.catalogItem',
   domainName: null,
   timelineId: null,
 };

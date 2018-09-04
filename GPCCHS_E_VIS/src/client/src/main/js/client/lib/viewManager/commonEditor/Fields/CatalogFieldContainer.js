@@ -9,7 +9,14 @@ import CatalogField from './CatalogField';
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 
-const mapStateToProps = (state, { domainName, timelineId, viewId, pageId, viewSessionName }) => {
+const mapStateToProps = (state, {
+  name,
+  domainName,
+  timelineId,
+  viewId,
+  pageId,
+  viewSessionName,
+}) => {
   const domainId = getDomainId(state, { domainName, viewId, pageId });
   const sessionName = viewSessionName
     || getSessionNameFromTimeline(state, { timelineId, wildcardCharacter });
@@ -17,6 +24,7 @@ const mapStateToProps = (state, { domainName, timelineId, viewId, pageId, viewSe
   const catalogs = getCatalogsByDomainIdAndSessionId(state, { domainId, sessionId });
 
   return {
+    name,
     catalogs,
     sessionId,
     domainId,

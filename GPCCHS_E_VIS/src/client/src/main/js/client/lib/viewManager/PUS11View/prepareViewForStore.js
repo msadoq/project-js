@@ -29,11 +29,11 @@ const getDefaultView = view => _.merge({
           direction: 'DESC',
         },
         cols: [
-          { label: 'APID Name', title: 'serviceApidName', displayed: true }, // A afficher dans le tableau SubSchedules
-          { label: 'SSID', title: 'ssId', displayed: true }, // A afficher dans le tableau SubSchedules
-          { label: 'SSID Label', title: 'ssIdLabel', displayed: true }, // A afficher dans le tableau SubSchedules
-          { label: 'Status', title: 'status', displayed: true }, // constante, à récupérer dans PUS_CONSTANTS.STATUS et à afficher dans la vue. Si 3 (DELETED), supprimer l’entrée du state
-          { label: 'First TC Time', title: 'executionTimeFirstTc', displayed: true }, // A afficher dans le tableau SubSchedules
+          { label: 'APID Name', title: 'serviceApidName', tooltip: 'serviceApidName', displayed: true },
+          { label: 'SSID', title: 'ssId', tooltip: 'ssId', displayed: true },
+          { label: 'SSID Label', title: 'ssIdLabel', tooltip: 'ssIdLabel', displayed: true },
+          { label: 'Status', title: 'status', tooltip: 'status', displayed: true },
+          { label: 'First TC Time', title: 'executionTimeFirstTc', tooltip: 'executionTimeFirstTc', displayed: true },
         ],
       },
       enabledApids: {
@@ -43,11 +43,11 @@ const getDefaultView = view => _.merge({
           direction: 'DESC',
         },
         cols: [
-          { label: 'Apid Name', title: 'serviceApidName', displayed: true }, // A afficher dans le tableau Enabled AP
-          { label: 'APID', title: 'apid', displayed: true }, // à afficher dans le tableau Enabled AP
-          { label: 'Name', title: 'apidName', displayed: true }, // A afficher dans le tableau Enabled AP
-          { label: 'Update Type', title: 'lastUpdateModeApid', displayed: true }, // A afficher dans le tableau Enabled AP
-          { label: 'Update Time', title: 'lastUpdateTimeApid', displayed: true }, // A afficher dans le tableau Enabled AP
+          { label: 'Apid Name', title: 'serviceApidName', tooltip: 'serviceApidName', displayed: true },
+          { label: 'APID', title: 'apid', tooltip: 'apid', displayed: true },
+          { label: 'Name', title: 'apidName', tooltip: 'apidName', displayed: true },
+          { label: 'Update Type', title: 'lastUpdateModeApid', tooltip: 'lastUpdateModeApid', displayed: true },
+          { label: 'Update Time', title: 'lastUpdateTimeApid', tooltip: 'lastUpdateTimeApid', displayed: true },
         ],
       },
       commands: {
@@ -57,18 +57,18 @@ const getDefaultView = view => _.merge({
           direction: 'DESC',
         },
         cols: [
-          { label: 'Apid Name', title: 'serviceApidName', displayed: true },
-          { label: 'SSID', title: 'commandSsId', displayed: true },
-          { label: 'Cmd. Name', title: 'commandName', displayed: true },
-          { label: 'Cmd. Short Description', title: 'commandDescription', displayed: true },
-          { label: 'Cmd. AP Name', title: 'commandApidName', displayed: true },
-          { label: 'Seq. Count', title: 'commandSequenceCount', displayed: true },
-          { label: 'Source ID', title: 'commandSourceId', displayed: true },
-          { label: 'Cmd. Status', title: 'commandStatus', displayed: true },
-          { label: 'Ground Status', title: 'commandGroundStatus', displayed: true },
-          { label: 'Init. Exec. Time', title: 'initialExecutionTime', displayed: true },
-          { label: 'Cur. Exec. Time', title: 'currentExecutionTime', displayed: true },
-          { label: 'Tot. Time Shift', title: 'totalTimeShiftOffset', displayed: true },
+          { label: 'Apid Name', title: 'serviceApidName', tooltip: 'serviceApidName', displayed: true },
+          { label: 'SSID', title: 'commandSsId', tooltip: 'commandSsId', displayed: true },
+          { label: 'Cmd. Name', title: 'commandName', tooltip: 'commandName', displayed: true },
+          { label: 'Cmd. Short Description', title: 'commandDescription', tooltip: 'commandDescription', displayed: true },
+          { label: 'Cmd. AP Name', title: 'commandApidName', tooltip: 'commandApidName', displayed: true },
+          { label: 'Seq. Count', title: 'commandSequenceCount', tooltip: 'commandSequenceCount', displayed: true },
+          { label: 'Source ID', title: 'commandSourceId', tooltip: 'commandSourceId', displayed: true },
+          { label: 'Cmd. Status', title: 'commandStatus', tooltip: 'commandStatus', displayed: true },
+          { label: 'Ground Status', title: 'commandGroundStatus', tooltip: 'commandGroundStatus', displayed: true },
+          { label: 'Init. Exec. Time', title: 'initialExecutionTime', tooltip: 'initialExecutionTime', displayed: true },
+          { label: 'Cur. Exec. Time', title: 'currentExecutionTime', tooltip: 'currentExecutionTime', displayed: true },
+          { label: 'Tot. Time Shift', title: 'totalTimeShiftOffset', tooltip: 'totalTimeShiftOffset', displayed: true },
         ],
       },
     },

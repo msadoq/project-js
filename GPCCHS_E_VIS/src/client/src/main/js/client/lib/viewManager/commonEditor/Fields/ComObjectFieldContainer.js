@@ -2,9 +2,9 @@ import { connect } from 'react-redux';
 import { getFieldsListByComObjectName } from 'store/reducers/comObjectMap';
 import ComObjectField from './ComObjectField';
 
-const mapStateToProps = (state, { comObjectName }) => ({
+const mapStateToProps = (state, { comObjectName, name }) => ({
   comObjectFields: getFieldsListByComObjectName(state, comObjectName),
-  formFieldName: 'connectedData.comObjectField',
+  name,
 });
 
 const ComObjectFieldContainer = connect(mapStateToProps, {})(ComObjectField);

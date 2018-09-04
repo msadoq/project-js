@@ -30,7 +30,7 @@ export default function parseEntryPoint(
     viewSessionName,
     pageSessionName,
     workspaceSessionName,
-    nullableApids: false,
+    allApids: false,
     pusType: VM_VIEW_PUS142,
   });
 }

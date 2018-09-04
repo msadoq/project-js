@@ -217,6 +217,7 @@
   "COLORS_CONFIGURATION": "config.colors.json",
   "DATE_FORMAT_TAI": "YYYY-MM-DDTHH:mm:ss.SSS",
   "PUS_CONSTANTS": {
+    "STATUS_DELETED_ID": 2,
     "ENABLED_SERVICE_APIDS": {
       "PUS03View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
       "PUS05View": ["TIMEPACKET", "ORBIT", "POWERMGT"],
@@ -321,9 +322,9 @@
       "8": "SENT"
     },
     "STATUS": {
-      "1": "DISABLED",
-      "2": "ENABLED",
-      "3": "DELETED",
+      "0": "DISABLED",
+      "1": "ENABLED",
+      "2": "DELETED",
       "200": "UNKNOWN"
     },
     "STATUS_COLOR": {

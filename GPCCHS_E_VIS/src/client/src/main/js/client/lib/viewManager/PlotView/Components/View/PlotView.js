@@ -114,6 +114,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _each from 'lodash/each';
+import _filter from 'lodash/filter';
 import _find from 'lodash/find';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
@@ -166,12 +167,13 @@ export const sortAxes = master => (
  * @param entryPoints
  * @param axes
  * @param grids
+ * @param constants
  * @param data
  * @param visuWindow
  * @returns {{xAxes: Array, yAxes: Array}}
  * @pure
  */
-export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
+export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindow) => {
   let xAxesIds = [];
   const xAxes = [];
   let yAxesIds = [];
@@ -194,32 +196,41 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
   yAxesIds.forEach((axisId) => {
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
-    // pgaucher-plot
-    // Hardcoded limit for paramertric
+    const axisConstant = _filter(constants, constant => constant.axis === axisId);
+
     const axisEntryPoints = entryPoints
       .filter(ep =>
         (
-          (!ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
+          _get(ep, ['connectedData', 'axisId']) === axis.id
         )
       );
-    const dataMin = _min(axisEntryPoints.map(ep => data.min[ep.name]));
-    const dataMax = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+
+    let dataMin = _min(axisEntryPoints.map(ep => data.min[ep.name]));
+    let dataMax = _max(axisEntryPoints.map(ep => data.max[ep.name]));
+
+    if (isNaN(dataMin)) {
+      dataMin = 137;
+    }
+
+    if (isNaN(dataMax)) {
+      dataMax = 140;
+    }
+
     const delta = dataMax - dataMin;
     const margin = 0.1 * delta;
     const min = dataMin - margin;
     const max = dataMax + margin;
-    // const min = 137;
-    // const max = 140;
-    return yAxes.push({
+
+    yAxes.push({
       id: axis.id,
-      extents: axis.autoLimits === true ? [min, max] : [axis.min, axis.max],
+      extents: axis.autoLimits ? [min, max] : [axis.min, axis.max],
       orient: 'top',
       format: '.3f',
-      showAxis: axis.showAxis === true,
-      showLabels: axis.showLabels === true,
-      showTicks: axis.showTicks === true,
+      showAxis: axis.showAxis,
+      showLabels: axis.showLabels,
+      showTicks: axis.showTicks,
       autoLimits: false,
-      autoTick: axis.autoTick === true,
+      autoTick: axis.autoTick,
       tickStep: axis.tickStep,
       showGrid: _get(grid, 'showGrid', false),
       gridStyle: _get(grid, ['line', 'style']),
@@ -229,7 +240,8 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
       labelStyle: axis.style,
       logarithmic: axis.logarithmic,
       logSettings: axis.logSettings,
-      formatAsDate: axis.formatAsDate,
+      formatAsDate: !!axis.formatAsDate,
+      constants: axisConstant,
     });
   });
 
@@ -259,16 +271,14 @@ export const getUniqAxes = (entryPoints, axes, grids, data, visuWindow) => {
     }
     const axis = axes[axisId];
     const grid = grids.find(g => g.yAxisId === axis.id);
-    // pgaucher-plot
-    // Hardcoded limit for paramertric
-    /* const axisEntryPoints = entryPoints
+    const axisEntryPoints = entryPoints
       .filter(ep =>
         (ep.parametric && _get(ep, ['connectedDataParametric', 'xAxisId']) === axis.id)
-      ); */
-    // const min = _min(axisEntryPoints.map(ep => data.minTime[ep.name]));
-    // const max = _max(axisEntryPoints.map(ep => data.maxTime[ep.name]));
-    const min = 131;
-    const max = 135;
+      );
+
+    const min = _min(axisEntryPoints.map(ep => data.minTime[ep.name]));
+    const max = _max(axisEntryPoints.map(ep => data.maxTime[ep.name]));
+
     return xAxes.push({
       id: axis.id,
       extents:
@@ -465,6 +475,7 @@ export class GrizzlyPlotView extends React.Component {
       showYAxes: PropTypes.string,
       showLegend: PropTypes.bool.isRequired,
       grids: PropTypes.array,
+      constants: PropTypes.shape(),
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
@@ -494,7 +505,7 @@ export class GrizzlyPlotView extends React.Component {
     searching: PropTypes.string,
     searchCount: PropTypes.objectOf(PropTypes.shape),
     addMessage: PropTypes.func.isRequired,
-    sessions: PropTypes.shape(),
+    sessions: PropTypes.array,
     timelines: PropTypes.shape(),
   };
 
@@ -552,11 +563,11 @@ export class GrizzlyPlotView extends React.Component {
       }
     });
 
-    // TODO @jmira check after merge
     if (
       nextProps.configuration.entryPoints !== this.props.configuration.entryPoints ||
       nextProps.configuration.axes !== this.props.configuration.axes ||
       nextProps.configuration.grids !== this.props.configuration.grids ||
+      nextProps.configuration.constants !== this.props.configuration.constants ||
       nextProps.visuWindow !== this.props.visuWindow ||
       nextProps.data !== this.props.data
     ) {
@@ -564,6 +575,7 @@ export class GrizzlyPlotView extends React.Component {
         nextProps.configuration.entryPoints,
         nextProps.configuration.axes,
         nextProps.configuration.grids,
+        nextProps.configuration.constants,
         nextProps.data,
         nextProps.visuWindow
       );
@@ -952,6 +964,7 @@ export class GrizzlyPlotView extends React.Component {
         showYAxes,
         axes,
         grids,
+        constants,
         showLegend,
         legend,
       },
@@ -978,6 +991,7 @@ export class GrizzlyPlotView extends React.Component {
         this.props.configuration.entryPoints,
         axes,
         grids,
+        constants,
         data,
         visuWindow
       );
@@ -1060,7 +1074,7 @@ export class GrizzlyPlotView extends React.Component {
             current={visuWindow.current}
             yAxesAt={showYAxes}
             xAxesAt="bottom"
-            parametric={false}
+            parametric
             additionalStyle={memoizeMainStyle(legend.location)}
             yAxes={this.yAxes}
             xAxes={this.xAxes}

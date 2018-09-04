@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
@@ -9,6 +10,7 @@ import WithForm from 'viewManager/common/Hoc/WithForm';
 import DefaultPusDataContainer from 'viewManager/commonEditor/DefaultPusDataContainer';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import { VM_VIEW_PUSMME } from 'viewManager/constants';
+import { PUS_ALL_APIDS } from 'constants';
 
 import { entryPointType, TableConfigurationColumnType } from '../../../common/Components/types';
 import PUSMMETabContainer from './PUSMMETabContainer';
@@ -80,10 +82,14 @@ export default class PUSMMEEditor extends Component {
   handleSubmit = (values) => {
     const { configuration, updateEntryPoint, viewId } = this.props;
     const entryPoint = _get(configuration, ['entryPoints', 0]);
-
+    const updatedValues = _.set(
+      ['connectedData', 'apids'],
+      [{ apidname: 'ALLAPIDS', apidRawValue: PUS_ALL_APIDS }],
+      values
+    );
     updateEntryPoint(viewId, entryPoint.id, {
       ...entryPoint,
-      ...values,
+      ...updatedValues,
     });
   };
 

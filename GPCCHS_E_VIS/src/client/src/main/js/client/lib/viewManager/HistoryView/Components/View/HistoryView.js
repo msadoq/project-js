@@ -55,16 +55,11 @@ class HistoryView extends React.Component {
     configuration: PropTypes.shape({
       procedures: PropTypes.array,
       entryPoints: PropTypes.array,
-      axes: PropTypes.object,
-      showYAxes: PropTypes.string,
-      showLegend: PropTypes.bool.isRequired,
-      grids: PropTypes.array,
       legend: PropTypes.object,
-      markers: PropTypes.array,
     }).isRequired,
     last: PropTypes.shape(),
-    entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
-    entryPointsWithMetadata: PropTypes.objectOf(PropTypes.object).isRequired,
+    entryPoints: PropTypes.shape().isRequired,
+    entryPointsWithMetadata: PropTypes.arrayOf(PropTypes.shape()).isRequired,
     isTimelineSelected: PropTypes.bool.isRequired,
     searchForThisView: PropTypes.bool.isRequired,
     searching: PropTypes.string,
@@ -75,6 +70,7 @@ class HistoryView extends React.Component {
     sessions: PropTypes.array,
     timelines: PropTypes.shape(),
     // defaultTimelineId: PropTypes.string.isRequired,
+    sortState: PropTypes.shape().isRequired,
   };
 
   static defaultProps = {
@@ -84,7 +80,7 @@ class HistoryView extends React.Component {
     inspectorEpId: null,
     isInspectorOpened: false,
     searching: '',
-    searchCount: 0,
+    searchCount: {},
     links: [],
     showLinks: false,
   };
@@ -128,6 +124,7 @@ class HistoryView extends React.Component {
       inspectorEpId,
       entryPoints,
       last,
+      sortState,
     } = this.props;
 
     const separator = { type: 'separator' };
@@ -220,6 +217,7 @@ class HistoryView extends React.Component {
             },
           ];
         }, []),
+      enabled: sortState && sortState.colName === 'referenceTimestamp',
     };
 
     handleContextMenu(

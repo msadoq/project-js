@@ -199,7 +199,7 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
     const axisEntryPoints = entryPoints
       .filter(ep =>
         (
-          (ep.parametric && _get(ep, ['connectedData', 'axisId']) === axis.id)
+          _get(ep, ['connectedData', 'axisId']) === axis.id
         )
       );
 

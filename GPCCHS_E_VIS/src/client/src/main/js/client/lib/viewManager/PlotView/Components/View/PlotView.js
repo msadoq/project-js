@@ -114,6 +114,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _each from 'lodash/each';
+import _find from 'lodash/find';
 import _get from 'lodash/get';
 import _has from 'lodash/has';
 import _max from 'lodash/max';
@@ -122,7 +123,6 @@ import _sum from 'lodash/sum';
 import _keys from 'lodash/keys';
 import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';
-import _ from 'lodash/fp';
 import classnames from 'classnames';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 // TODO @JMIRA SAMPLING decomment if sampling is not guilty
@@ -139,8 +139,9 @@ import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
-import { buildFormulaForAutocomplete, memoizeIsSignificantValue } from '../../../common';
+import { memoizeIsSignificantValue } from '../../../common';
 import { getTupleId } from '../../../../store/reducers/catalogs';
+import { parseDragData } from '../../../common/utils';
 
 const logger = getLogger('view:plot');
 
@@ -435,39 +436,6 @@ const stopInstruction = (packet, entryPoint, showEpNonNominal) => {
   return stop;
 };
 
-/**
- * @param data
- * @param id
- * @param defaultTimelineId
- * @returns {{name: *, connectedData: {formula: string, fieldX: string, timeline: *}}}
- * @pure
- */
-export const parseDragData = (data, id, defaultTimelineId) => {
-  const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
-
-  const formula =
-    buildFormulaForAutocomplete(
-      data.catalogName,
-      data.item,
-      getComObject(data.comObjects),
-      data.comObjectFields
-    );
-  return {
-    name: data.item,
-    connectedData: {
-      formula,
-      catalog: data.catalogName,
-      catalogItem: data.item,
-      comObject: getComObject(data.comObjects),
-      comObjectField: data.comObjectFields || 'convertedValue',
-      fieldX: 'onboardDate',
-      unit: 'V',
-      domain: data.domain || '*',
-      timeline: defaultTimelineId,
-    },
-  };
-};
-
 const plotPadding = 15;
 const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
@@ -526,6 +494,8 @@ export class GrizzlyPlotView extends React.Component {
     searching: PropTypes.string,
     searchCount: PropTypes.objectOf(PropTypes.shape),
     addMessage: PropTypes.func.isRequired,
+    sessions: PropTypes.shape(),
+    timelines: PropTypes.shape(),
   };
 
   static defaultProps = {
@@ -767,15 +737,23 @@ export class GrizzlyPlotView extends React.Component {
     }
     return [];
   }
+
+  /**
+   * TODO: Method drop: almost ready to be moved to directory /vewManager/common and
+   * TODO: factorized together with the onDrop method of HistoryView
+   * @param ev
+   */
   drop(e) {
     const {
       addEntryPoint,
       openEditor,
-      viewId,
       configuration,
+      sessions,
+      timelines,
+      viewId,
       defaultTimelineId,
+      addMessage,
     } = this.props;
-
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
     const required = ['catalogName', 'comObjects', 'item', 'nameSpace', 'sessionName', 'domain'];
@@ -784,15 +762,30 @@ export class GrizzlyPlotView extends React.Component {
     );
     if ( !(missing.length === 0) ) {
       const messageToDisplay = `Missing properties in dropped data: ${missing.join(', ')}.`;
-      this.props.addMessage('danger', messageToDisplay);
+      addMessage('danger', messageToDisplay);
+    }
+    const session = _find(
+      sessions,
+      item => item.id.toString() === content.sessionName.toString()
+    );
+    if (session === undefined) {
+      const messageToDisplay = `No session is found with sessionName '${content.sessionName.toString()}'.`;
+      addMessage('danger', messageToDisplay);
+    }
+    const timeline = _find(
+      timelines,
+      item => item.sessionName === session.name
+    );
+    if (timeline === undefined) {
+      const messageToDisplay = `No timeline associated with sessionName '${content.sessionName.toString()} is found'.`;
+      addMessage('danger', messageToDisplay);
     }
     const epId = getUniqueEpId(data.item || 'entryPoint', configuration.entryPoints);
     addEntryPoint(
       viewId,
-      parseDragData(content, epId, defaultTimelineId)
+      parseDragData(content, epId, timeline.id || defaultTimelineId)
     );
     openEditor();
-
     e.stopPropagation();
   }
   shouldRender() {

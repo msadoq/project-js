@@ -20,8 +20,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 import _ from 'lodash/fp';
+import _find from 'lodash/find';
 import _get from 'lodash/get';
 import _each from 'lodash/each';
+import _has from 'lodash/has';
 import classnames from 'classnames';
 import getLogger from 'common/logManager';
 import LinksContainer from 'windowProcess/View/LinksContainer';
@@ -39,7 +41,7 @@ const logger = getLogger('view:text');
 const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
 
 // parse clipboard data to create partial entry point
-function parseDragData(data) {
+function parseDragData(data, timelineId) {
   const formula =
     buildFormulaForAutocomplete(
       data.catalogName,
@@ -47,7 +49,6 @@ function parseDragData(data) {
       getComObject(data.comObjects),
       data.comObjectFields
     );
-
   return {
     name: data.item,
     connectedData: {
@@ -56,6 +57,8 @@ function parseDragData(data) {
       catalogItem: data.item,
       comObject: getComObject(data.comObjects),
       comObjectField: data.comObjectFields || 'convertedValue',
+      domain: data.domain || '*',
+      timeline: timelineId,
     },
   };
 }
@@ -74,6 +77,11 @@ const getEpSpan = (target) => {
   }
   return getEpSpan(parent);
 };
+
+/* const getSessionById = (sessions, identifier) => {
+  const session = _find(sessions, item => item.id === identifier );
+  return session;
+}; */
 
 export default class TextViewWrapper extends PureComponent {
   static propTypes = {
@@ -104,6 +112,9 @@ export default class TextViewWrapper extends PureComponent {
     searchForThisView: PropTypes.bool.isRequired,
     searching: PropTypes.string,
     searchCount: PropTypes.objectOf(PropTypes.shape),
+    addMessage: PropTypes.func.isRequired,
+    sessions: PropTypes.shape(),
+    timelines: PropTypes.shape(),
   };
 
   static defaultProps = {
@@ -197,19 +208,44 @@ export default class TextViewWrapper extends PureComponent {
     handleContextMenu([inspectorMenu, separator, ...mainMenu]);
   };
 
+  /**
+   * TODO: Method onDrop: modifications are required for this method be moved
+   * TODO: to directory /vewManager/common and
+   * TODO: factorized together with the onDrop method of HistoryView and
+   * TODO: the drop method of PlotView
+   * @param ev
+   */
   onDrop = (e) => {
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
-
-    if (!_get(content, 'catalogName')) {
-      return;
+    const required = ['catalogName', 'comObjects', 'item', 'nameSpace', 'sessionName', 'domain'];
+    const missing = required.filter(
+      key => !_has(content, key)
+    );
+    if ( !(missing.length === 0) ) {
+      const messageToDisplay = `Missing properties in dropped data: ${missing.join(', ')}.`;
+      this.props.addMessage('danger', messageToDisplay);
     }
-
+    const session = _find(
+      this.props.sessions,
+      item => item.id.toString() === content.sessionName.toString()
+    );
+    if (session === undefined) {
+      const messageToDisplay = `No session is found with sessionName '${content.sessionName.toString()}'.`;
+      this.props.addMessage('danger', messageToDisplay);
+    }
+    const timeline = _find(
+      this.props.timelines,
+      item => item.sessionName === session.name
+    );
+    if (timeline === undefined) {
+      const messageToDisplay = `No timeline associated with sessionName '${content.sessionName.toString()} is found'.`;
+      this.props.addMessage('danger', messageToDisplay);
+    }
     this.props.addEntryPoint(
-      parseDragData(content)
+      parseDragData(content, timeline.id)
     );
     this.props.openEditor();
-
     e.stopPropagation();
   }
 

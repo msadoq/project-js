@@ -61,6 +61,9 @@ import { getLinks, areLinksShown } from 'store/reducers/views';
 import { getPageIdByViewId, getPage, getSearchingByPage, getSearchViewsIds, getSearchCount } from 'store/reducers/pages';
 import { getConfigurationByViewId } from 'viewManager';
 import TextViewWrapper from './TextViewWrapper';
+import { add } from '../../../../store/actions/messages';
+import { getSessions } from '../../../../store/reducers/sessions';
+import { getTimelines } from '../../../../store/reducers/timelines';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
@@ -84,6 +87,8 @@ const mapStateToProps = (state, { viewId }) => {
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
     searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
+    sessions: getSessions(state),
+    timelines: getTimelines(state),
   };
 };
 const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators({
@@ -93,6 +98,7 @@ const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators(
   updateShowLinks: flag => updateShowLinks(viewId, flag),
   updateSearchCount: count => updateSearchCount(pageId, viewId, count),
   openLink: linkId => askOpenLink(viewId, linkId),
+  addMessage: (status, content) => add(viewId, status, content),
 }, dispatch);
 
 

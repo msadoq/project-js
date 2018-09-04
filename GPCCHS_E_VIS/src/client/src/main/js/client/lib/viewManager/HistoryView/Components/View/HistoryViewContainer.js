@@ -113,13 +113,17 @@ const mapStateToProps = (state, { viewId, pageId }) => {
 };
 
 const mapDispatchToProps = (dispatch, { viewId, pageId }) => ({
-  addEntryPoint: (entryPoint) => {
+  /* addEntryPoint: (entryPoint) => {
     dispatch(addEntryPoint(viewId, entryPoint));
-  },
+  }, */
   updateSearchCount: (count) => {
     dispatch(updateSearchCount(pageId, viewId, count));
   },
-  ...bindActionCreators({ updateShowLinks, removeLink }, dispatch),
+  ...bindActionCreators({
+    updateShowLinks,
+    removeLink,
+    addEntryPoint,
+  }, dispatch),
   addMessage: (status, content) => dispatch(add(viewId, status, content)),
 });
 

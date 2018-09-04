@@ -38,6 +38,7 @@ ShallowWrapper {
     }
     countBySearching={0}
     currentRowIndexes={Array []}
+    defaultTimelineId="Session 1"
     entryPoints={Object {}}
     entryPointsWithMetadata={Array []}
     inspectorEpId={null}

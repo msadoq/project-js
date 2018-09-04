@@ -751,7 +751,7 @@ export class GrizzlyPlotView extends React.Component {
   }
 
   /**
-   * TODO: Method drop: almost ready to be moved to directory /vewManager/common and
+   * TODO: Method drop: ready to be moved to directory viewManager/common and
    * TODO: factorized together with the onDrop method of HistoryView
    * @param ev
    */

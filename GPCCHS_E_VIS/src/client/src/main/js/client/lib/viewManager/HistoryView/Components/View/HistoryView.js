@@ -69,7 +69,7 @@ class HistoryView extends React.Component {
     addMessage: PropTypes.func.isRequired,
     sessions: PropTypes.array,
     timelines: PropTypes.shape(),
-    // defaultTimelineId: PropTypes.string.isRequired,
+    defaultTimelineId: PropTypes.string.isRequired,
     sortState: PropTypes.shape().isRequired,
   };
 
@@ -232,7 +232,7 @@ class HistoryView extends React.Component {
   };
 
   /**
-   * TODO: Method onDrop: almost ready to be moved to directory /vewManager/common and
+   * TODO: Method onDrop: ready to be moved to directory viewManager/common and
    * TODO: factorized together with the drop method of PlotView
    * @param ev
    */
@@ -243,8 +243,8 @@ class HistoryView extends React.Component {
       configuration,
       sessions,
       timelines,
-      // viewId,
-      // defaultTimelineId: necessary in future factorization together with PlotView drop method
+      viewId,
+      defaultTimelineId,
       addMessage,
     } = this.props;
     const data = ev.dataTransfer.getData('text/plain');
@@ -273,11 +273,13 @@ class HistoryView extends React.Component {
     if (timeline === undefined) {
       const messageToDisplay = `No timeline associated with sessionName '${content.sessionName.toString()} is found'.`;
       addMessage('danger', messageToDisplay);
-      return;
     }
     const epId = getUniqueEpId(data.item || 'entryPoint', configuration.entryPoints);
-    const parsedData = parseDragData(content, epId, timeline.id);
-    addEntryPoint(parsedData);
+    const timelineId = timeline === undefined ? defaultTimelineId : timeline.id;
+    addEntryPoint(
+      viewId,
+      parseDragData(content, epId, timelineId)
+    );
     openEditor();
     ev.stopPropagation();
   };

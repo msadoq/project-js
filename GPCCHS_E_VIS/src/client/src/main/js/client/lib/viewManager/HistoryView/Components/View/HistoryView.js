@@ -365,7 +365,7 @@ class HistoryView extends React.Component {
         >
           <div className={styles.HistoryViewTableContainer}>
             <VirtualizedTableViewContainer
-              gridRef={(table) => {
+              tableRef={(table) => {
                 this.table = table;
               }}
               viewId={viewId}
@@ -373,6 +373,7 @@ class HistoryView extends React.Component {
               contentModifier={this.contentModifier(entryPoints, last)}
               overrideStyle={this.overrideStyle}
               withGroups
+              selectableRows
               searching={searching}
               searchForThisView={searchForThisView}
             />

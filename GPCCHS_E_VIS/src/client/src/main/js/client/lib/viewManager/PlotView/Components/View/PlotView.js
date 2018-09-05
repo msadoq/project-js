@@ -126,7 +126,7 @@ import _ from 'lodash/fp';
 import classnames from 'classnames';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 // TODO @JMIRA SAMPLING decomment if sampling is not guilty
-// import SamplingButtonContainer from 'windowProcess/View/SamplingButtonContainer';
+import SamplingButtonContainer from 'windowProcess/View/SamplingButtonContainer';
 import withDimensions from 'windowProcess/common/hoc/withDimensions';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
@@ -1137,19 +1137,15 @@ export class GrizzlyPlotView extends React.Component {
                 pageId={pageId}
               />
             </div>
-            {
-              /* TODO @JMIRA SAMPLING decomment if sampling is not guilty
-                <div className={styles.pvColumn}>
-                  <SamplingButtonContainer
-
-                    viewId={viewId}
-                    pageId={pageId}
-                  />
-                </div>
-              */
-            }
+            <div className={styles.pvColumn}>
+              <SamplingButtonContainer
+                viewId={viewId}
+                pageId={pageId}
+              />
+            </div>
           </div>
-        </DroppableContainer></ErrorBoundary>
+        </DroppableContainer>
+      </ErrorBoundary>
     );
   }
 }

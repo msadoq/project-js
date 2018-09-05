@@ -60,6 +60,7 @@ export const shouldKeepElement = (el, filters = {}) => {
     let valueToMatch = el && el[filterKey];
 
     if (typeof valueToMatch === 'object') {
+      // TODO: verify if template expression is enough and remove this condition
       valueToMatch = JSON.stringify(valueToMatch);
     }
 
@@ -117,6 +118,13 @@ const _getTableState =
       state
     );
 
+
+const _defaultHashFunc = obj =>
+  Object.values(obj)
+    .join('#');
+
+const _withRowId = (el, hashFunc = _defaultHashFunc) => ({ ...el, rowId: hashFunc(el) });
+
 /**
  * Injects a range of objects, `source` in data table
  * and updates the filter keep accordingly
@@ -130,6 +138,7 @@ const _getTableState =
  * @param tableId {string} id identifying the table to inject data in
  * @param afterEach {function} callback function to be called on each inserted element
  * @param config {object} view configuration
+ * @param rowIdHashFunc {function} generate a row unique id depending on its data
  * @returns {object} the updated state
  * @private
  */
@@ -138,7 +147,8 @@ export const injectTabularData = (
   tableId,
   source,
   afterEach = null,
-  config = null
+  config = null,
+  rowIdHashFunc = _defaultHashFunc
 ) => {
   let tableState = _getTableState(state, tableId);
 
@@ -154,26 +164,28 @@ export const injectTabularData = (
   let updatedData = _.getOr([], 'data', tableState);
 
   if (!colName) {
-    updatedData = [...updatedData, ...source];
+    updatedData = [...updatedData, ...source.map(el => _withRowId(el, rowIdHashFunc))];
   } else {
     const sortedSource = _sortData(source, colName);
     let insertIndex = 0;
 
     for (const el of sortedSource) {
-      if (typeof el !== 'object') {
+      const elWithRowId = _withRowId(el, rowIdHashFunc);
+
+      if (typeof elWithRowId !== 'object') {
         continue;
       }
 
-      if (colName in el) {
+      if (colName in elWithRowId) {
         [updatedData, insertIndex] =
-          _insertSortedBy((e => (e && e[colName])), el, updatedData, insertIndex);
+          _insertSortedBy((e => (e && e[colName])), elWithRowId, updatedData, insertIndex);
       } else {
         insertIndex = updatedData.length;
-        updatedData = [...updatedData, el];
+        updatedData = [...updatedData, elWithRowId];
       }
 
       if (typeof afterEach === 'function') {
-        afterEach(el, insertIndex);
+        afterEach(elWithRowId, insertIndex);
       }
     }
   }

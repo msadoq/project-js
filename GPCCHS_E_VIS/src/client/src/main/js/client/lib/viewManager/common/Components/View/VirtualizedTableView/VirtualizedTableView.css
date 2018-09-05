@@ -28,6 +28,7 @@
 }
 
 .evenRow {
+  background-color: rgb(242, 242, 242);
 }
 
 .oddRow {
@@ -58,7 +59,6 @@
 }
 
 .bodyCell {
-  box-shadow: -.5px -.5px 0 #818181;
   cursor: pointer;
 }
 
@@ -84,11 +84,16 @@
   height: 100%;
 }
 
-.active {
-  color: black;
+.hoveredCell {
+  border: 1px solid black;
 }
 
-.selectedCell {
+.hoveredRow {
+  background-color: rgb(230, 242, 255);
+}
+
+.selectedRow {
+  background-color: rgb(204, 229, 255);
 }
 
 .tableHeader {

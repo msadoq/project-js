@@ -36,13 +36,13 @@ import { PREFIX_KNOWN_RANGES, PREFIX_SAMPLING } from 'constants';
 
 const samplingNumber = get('SAMPLING_NUMBER');
 
-const getMissingIntervalsFunction = (a, b, sampl) => {
+const getMissingIntervalsFunction = (state, tbdIdAndQueryInt, sampl) => {
   switch (sampl) {
     case 'off': {
-      return getMissingIntervals(a, b);
+      return getMissingIntervals(state, tbdIdAndQueryInt);
     }
     case 'on': {
-      return getMissingIntervalsSamplingOn(a, b);
+      return getMissingIntervalsSamplingOn(state, tbdIdAndQueryInt);
     }
     default: {
       return null;
@@ -62,13 +62,13 @@ const samplingStringFunction = (sampl) => {
     }
   }
 };
-const sendArchiveQueryFunction = (a, b, c, d, sampl) => {
+const sendArchiveQueryFunction = (tbdId, dataId, mergedInterval, filters, sampl) => {
   switch (sampl) {
     case 'off': {
-      return sendArchiveQuery(a, b, c, d);
+      return sendArchiveQuery(tbdId, dataId, mergedInterval, filters);
     }
     case 'on': {
-      return sendArchiveQuerySamplingOn(a, b, c, d);
+      return sendArchiveQuerySamplingOn(tbdId, dataId, mergedInterval, filters);
     }
     default: {
       return null;

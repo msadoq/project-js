@@ -37,12 +37,13 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier, data }) => {
 
     if (content) {
       const colKey = cols[columnIndex].title;
-      const { color } = content;
+      const { color, rowId } = content;
 
       return _contentModifier({
         value: content[colKey],
         color,
         colKey,
+        rowId,
       }, content);
     }
 
@@ -98,12 +99,13 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier, data }) => {
 
       if (content) {
         const colKey = cols[columnIndex].title;
-        const { color } = content;
+        const { color, rowId } = content;
 
         return _contentModifier({
           value: content[colKey],
           color,
           colKey,
+          rowId,
         }, content);
       }
 
@@ -153,7 +155,7 @@ const mapStateToProps = (state, { viewId, tableId, contentModifier, data }) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => ({
+const mapDispatchToProps = (dispatch, { viewId, tableId }) => ({
   onFilter: (col, value, filters) => {
     dispatch(filterColumn(viewId, tableId, col, value, filters));
   },
@@ -162,17 +164,6 @@ const mapDispatchToProps = (dispatch, { viewId, tableId, bodyCellActions }) => (
   },
   onResizeColumn: (colKey, delta) => {
     dispatch(updateColumnWidth(viewId, tableId, colKey, delta));
-  },
-  onBodyCellAction: (name, data, rowIndex, columnIndex) => {
-    const action = bodyCellActions.find(actionElem => actionElem.label === name);
-
-    if (action) {
-      if (!action.onClick) {
-        logger.error(`[NotImplementedError] onClick is not defined for action [${action.label}]`);
-      }
-
-      action.onClick(data, rowIndex, columnIndex);
-    }
   },
 });
 

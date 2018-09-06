@@ -86,7 +86,7 @@ export default class PUS11View extends React.Component {
 
     return (
       <ErrorBoundary>
-        <div className="pus11">
+        <div className="pus11 h100">
           <div className="headers col-sm-12">
             {headers}
           </div>

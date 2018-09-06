@@ -67,7 +67,7 @@ class HistoryView extends React.Component {
     searchCount: PropTypes.objectOf(PropTypes.shape),
     updateSearchCount: PropTypes.func.isRequired,
     addMessage: PropTypes.func.isRequired,
-    sessions: PropTypes.array,
+    sessions: PropTypes.arrayOf(PropTypes.shape()),
     timelines: PropTypes.shape(),
     defaultTimelineId: PropTypes.string.isRequired,
     sortState: PropTypes.shape().isRequired,
@@ -83,6 +83,8 @@ class HistoryView extends React.Component {
     searchCount: {},
     links: [],
     showLinks: false,
+    sessions: [],
+    timelines: {},
   };
 
   /**

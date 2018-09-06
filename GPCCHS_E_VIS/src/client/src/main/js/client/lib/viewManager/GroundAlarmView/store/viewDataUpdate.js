@@ -8,8 +8,12 @@ import _each from 'lodash/each';
 import _get from 'lodash/get';
 // import { applyFilters } from '../../commonData/applyFilters';
 import { convertData } from 'viewManager/commonData/convertData';
-import * as constants from 'constants';
 
+import {
+  ALARM_ACKSTATE_REQUIREACK,
+  ALARM_ACKSTATE_ACQUITED,
+  ALARM_ACKSTATE_NOACK,
+} from '../../../constants';
 
 /**
  * Debuging function. To check if the indexes are well sorted.
@@ -43,7 +47,8 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
   // lines: contains all fields indexed by oid { [oid]: { values }}
   // indexes: contains ordered oids [oid1, oid2, ...]
   let newState = _cloneDeep(state);
-  if (!newState.indexes) {
+
+  if (!newState || !newState.indexes) {
     newState = { lines: {}, indexes: [] };
   }
 
@@ -123,11 +128,11 @@ export function selectDataPerView(currentViewMap, intervalMap, payload, visuWind
 }
 
 const getAckState = (alarm) => {
-  let ackState = constants.ALARM_ACKSTATE_NOACK;
+  let ackState = ALARM_ACKSTATE_NOACK;
   if (alarm.ackRequest) {
-    ackState = constants.ALARM_ACKSTATE_REQUIREACK;
+    ackState = ALARM_ACKSTATE_REQUIREACK;
     if (alarm.ackRequest && alarm.ackRequest.ack) {
-      ackState = constants.ALARM_ACKSTATE_ACQUITED;
+      ackState = ALARM_ACKSTATE_ACQUITED;
     }
   }
   return ackState;
@@ -197,8 +202,7 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
   if (!visuWindow) {
     return {};
   }
-  const lower = expectedInterval[0];
-  // const upper = expectedInterval[1];
+
   const epSubState = { [epName]: {} };
 
   // Loop on payload
@@ -208,24 +212,11 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     if (!oid || !groundMonitoringAlarm) {
       return;
     }
-    const { creationDate, closingDate } = groundMonitoringAlarm;
-    const raisedAfterVisuLower = creationDate.value > lower;
-    const raisedBeforeVisuCurrent = creationDate.value < visuWindow.current;
-    const closedBeforeVisuCurrent = !!closingDate && closingDate.value < visuWindow.current;
-    const created = createAlarm(currentValue, convertData);
-    const ackState = created.ackState;
-    const alarmType = created.alarmType;
-    if (
-      !shouldAlarmBeDisplayed(
-        ep.mode,
-        raisedAfterVisuLower,
-        raisedBeforeVisuCurrent,
-        closedBeforeVisuCurrent,
-        alarmType,
-        ackState)
-    ) { return; }
+
+    const alarm = createAlarm(currentValue, convertData);
+
     epSubState[epName][oid] = {
-      ...created,
+      ...alarm,
       rawAlarm: createAlarm(currentValue, _.identity),
     };
   });
@@ -235,24 +226,4 @@ export function selectEpData(tbdIdPayload, ep, epName, intervalMap, visuWindow) 
     return {};
   }
   return epSubState;
-}
-
-export function shouldAlarmBeDisplayed(
-  epMode,
-  raisedAfterVWLower,
-  raisedBeforeVWCurrent,
-  closedBeforeVWCurrent,
-  typeOfAlarm,
-  stateOfAck) {
-  switch (epMode) {
-    case (constants.ALARM_MODE_NONNOMINAL):
-      return (raisedBeforeVWCurrent && typeOfAlarm !== 'nominal');
-    case (constants.ALARM_MODE_ALL):
-      return ((raisedBeforeVWCurrent && (typeOfAlarm !== 'nominal' || raisedAfterVWLower)));
-    case (constants.ALARM_MODE_TOACKNOWLEDGE):
-      return (stateOfAck === constants.ALARM_ACKSTATE_REQUIREACK);
-    default: {
-      return true;
-    }
-  }
 }

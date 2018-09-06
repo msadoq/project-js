@@ -184,7 +184,8 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints, current)
             ...getStateColorObj( // will fetch default / fallback / custom color
               {
                 isDataObsolete: true,
-                validityState: newState.values[epName].validityState,
+                validityState:
+                newState && newState.values[epName] && newState.values[epName].validityState,
               },
               entryPoints[epName].stateColors
             ),

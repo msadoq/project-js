@@ -88,11 +88,12 @@ ShallowWrapper {
         >
                 <Connect(VirtualizedTableView)
                         contentModifier={[Function]}
-                        gridRef={[Function]}
                         overrideStyle={[Function]}
                         searchForThisView={false}
                         searching=""
+                        selectableRows={true}
                         tableId="history"
+                        tableRef={[Function]}
                         viewId="viewId"
                         withGroups={true}
                 />
@@ -123,11 +124,12 @@ ShallowWrapper {
 >
             <Connect(VirtualizedTableView)
                         contentModifier={[Function]}
-                        gridRef={[Function]}
                         overrideStyle={[Function]}
                         searchForThisView={false}
                         searching=""
+                        selectableRows={true}
                         tableId="history"
+                        tableRef={[Function]}
                         viewId="viewId"
                         withGroups={true}
             />
@@ -159,11 +161,12 @@ ShallowWrapper {
           "props": Object {
             "children": <Connect(VirtualizedTableView)
               contentModifier={[Function]}
-              gridRef={[Function]}
               overrideStyle={[Function]}
               searchForThisView={false}
               searching=""
+              selectableRows={true}
               tableId="history"
+              tableRef={[Function]}
               viewId="viewId"
               withGroups={true}
 />,
@@ -176,11 +179,12 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "contentModifier": [Function],
-              "gridRef": [Function],
               "overrideStyle": [Function],
               "searchForThisView": false,
               "searching": "",
+              "selectableRows": true,
               "tableId": "history",
+              "tableRef": [Function],
               "viewId": "viewId",
               "withGroups": true,
             },
@@ -246,11 +250,12 @@ ShallowWrapper {
           >
                     <Connect(VirtualizedTableView)
                               contentModifier={[Function]}
-                              gridRef={[Function]}
                               overrideStyle={[Function]}
                               searchForThisView={false}
                               searching=""
+                              selectableRows={true}
                               tableId="history"
+                              tableRef={[Function]}
                               viewId="viewId"
                               withGroups={true}
                     />
@@ -281,11 +286,12 @@ ShallowWrapper {
 >
               <Connect(VirtualizedTableView)
                             contentModifier={[Function]}
-                            gridRef={[Function]}
                             overrideStyle={[Function]}
                             searchForThisView={false}
                             searching=""
+                            selectableRows={true}
                             tableId="history"
+                            tableRef={[Function]}
                             viewId="viewId"
                             withGroups={true}
               />
@@ -317,11 +323,12 @@ ShallowWrapper {
             "props": Object {
               "children": <Connect(VirtualizedTableView)
                 contentModifier={[Function]}
-                gridRef={[Function]}
                 overrideStyle={[Function]}
                 searchForThisView={false}
                 searching=""
+                selectableRows={true}
                 tableId="history"
+                tableRef={[Function]}
                 viewId="viewId"
                 withGroups={true}
 />,
@@ -334,11 +341,12 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "contentModifier": [Function],
-                "gridRef": [Function],
                 "overrideStyle": [Function],
                 "searchForThisView": false,
                 "searching": "",
+                "selectableRows": true,
                 "tableId": "history",
+                "tableRef": [Function],
                 "viewId": "viewId",
                 "withGroups": true,
               },

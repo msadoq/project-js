@@ -7,19 +7,14 @@ import {
   getViewEntryPoint,
   getVisuWindowByViewId,
 } from '../../../store/selectors/views';
-import {
-  ALARM_ACKSTATE_REQUIREACK,
-  ALARM_MODE_ALL,
-  ALARM_MODE_NONNOMINAL,
-  ALARM_MODE_TOACKNOWLEDGE,
-  ALARM_TYPE_NOMINAL,
-} from '../../../constants';
+
 import {
   WS_TIMEBAR_UPDATE_CURSORS,
   INJECT_DATA_RANGE,
   WS_VIEWDATA_CLEAN, WS_VIEW_UPDATE_ENTRYPOINT,
 } from '../../../store/types';
 import { VM_VIEW_GROUNDALARM } from '../../constants';
+import shouldShowAlarm from './shouldShowAlarm';
 
 /**
  * Updates alarm indexes to match shown alarms

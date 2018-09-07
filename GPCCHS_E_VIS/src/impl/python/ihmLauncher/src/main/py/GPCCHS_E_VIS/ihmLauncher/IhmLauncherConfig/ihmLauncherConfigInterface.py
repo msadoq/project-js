@@ -1,4 +1,4 @@
-# Produced by Velocity Python Generator 2.0.0-R10
+# Produced by Velocity Python Generator 1.1.2-R8
 
 # -*- coding: utf-8 -*-
 
@@ -18,7 +18,7 @@ Component : GPCC
 # HISTORY
 # 
 # VERSION : 1.1.2 : FA : #7472 : 01/09/2017 : Update javascript VIMA launcher to used iedit and
-# manage the features it launch, remove the old launcher
+#  manage the features it launch, remove the old launcher
 # END-HISTORY
 # End of user code HistoryZone
 # ====================================================================
@@ -33,7 +33,6 @@ Contain class IhmLauncherConfigInterface
 
 from GPCC.xmlRuntime.core.xmlinterface import XMLInterface
 import GPCC.xmlRuntime.exceptions.xmlexceptions as xmlexceptions 
-from GPCC.xmlRuntime.types.xmlType import XmlType
 
 from GPCCHS_E_VIS.ihmLauncher.IhmLauncherConfig.ihmLauncherConfig import IhmLauncherConfig
 
@@ -55,9 +54,9 @@ class IhmLauncherConfigInterface(XMLInterface): #False alarm pylint: disable=int
         Constructor for IhmLauncherConfigInterface
         """
         super().__init__(**{"IhmLauncherConfig":
-                            (self.createxmlIhmLauncherConfig, 
-                             self.setxmlIhmLauncherConfig,
-                             self.setFileLinexmlIhmLauncherConfig )})
+                            (self.create_xmlIhmLauncherConfig, 
+                             self.set_xmlIhmLauncherConfig,
+                             self.setFileLine_xmlIhmLauncherConfig )})
 
         self.__xmlIhmLauncherConfig = None
         self.__shouldWriteTag = True
@@ -69,15 +68,19 @@ class IhmLauncherConfigInterface(XMLInterface): #False alarm pylint: disable=int
         Getter
         @return __xmlIhmLauncherConfig
         """
+        # Start of user code getxmlIhmLauncherConfig
         return self.__xmlIhmLauncherConfig
-            
+        # End of user code
+    
     @xmlIhmLauncherConfig.setter
     def xmlIhmLauncherConfig(self, value):
         """
         Setter
         @param value The value to set __xmlIhmLauncherConfig with
         """
+        # Start of user code setxmlIhmLauncherConfig
         self.__xmlIhmLauncherConfig = value
+        # End of user code
     
     @xmlIhmLauncherConfig.deleter
     def xmlIhmLauncherConfig(self):
@@ -85,7 +88,9 @@ class IhmLauncherConfigInterface(XMLInterface): #False alarm pylint: disable=int
         Deleter
         delete __xmlIhmLauncherConfig
         """
+        # Start of user code delxmlIhmLauncherConfig
         del self.__xmlIhmLauncherConfig
+        # End of user code
 
     @property
     def shouldWriteTag(self):
@@ -93,15 +98,19 @@ class IhmLauncherConfigInterface(XMLInterface): #False alarm pylint: disable=int
         Getter
         @return __shouldWriteTag
         """
+        # Start of user code getshouldWriteTag
         return self.__shouldWriteTag
-        
+        # End of user code
+    
     @shouldWriteTag.setter
     def shouldWriteTag(self, value):
         """
         Setter
         @param value The value to set __shouldWriteTag with
         """
+        # Start of user code setshouldWriteTag
         self.__shouldWriteTag = value
+        # End of user code
     
     @shouldWriteTag.deleter
     def shouldWriteTag(self):
@@ -109,12 +118,14 @@ class IhmLauncherConfigInterface(XMLInterface): #False alarm pylint: disable=int
         Deleter
         delete __shouldWriteTag
         """
+        # Start of user code delshouldWriteTag
         del self.__shouldWriteTag
+        # End of user code
 
 
 
 
-    def createxmlIhmLauncherConfig(self):    
+    def create_xmlIhmLauncherConfig(self):
         """
         Lambda for variable creation
 
@@ -126,18 +137,13 @@ class IhmLauncherConfigInterface(XMLInterface): #False alarm pylint: disable=int
         self.__xmlIhmLauncherConfig.tag_name = "IhmLauncherConfig"
         return self.__xmlIhmLauncherConfig
 
-    def setxmlIhmLauncherConfig(self, value):    
+    def set_xmlIhmLauncherConfig(self, value):
         """
         Set the variable
         @param value the value to store.
         """
-        if isinstance(value, str) :        
-            self.createxmlIhmLauncherConfig().setxmlvalues(value)
-        else :
-            self.__xmlIhmLauncherConfig = value
-
-
-    def setFileLinexmlIhmLauncherConfig(self, fileName, line):    
+        self.__xmlIhmLauncherConfig =  value
+    def setFileLine_xmlIhmLauncherConfig(self, fileName, line):
         """
         Set the file name and line
         @param fileName The file name.

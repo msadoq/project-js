@@ -31,73 +31,40 @@ class HsFeature(InternalFeature):
     """
     
     def __init__(self, muxer, mid):
-        """!
-        @brief: Constructor
-        """ 
         InternalFeature.__init__(self, muxer, mid)
         self.setFeature("gpcctc_l_cnt-genericLauncher.xml")
         return
 
     def __del__(self):
-        """!
-        @brief: Destructor
-        """ 
         return
 
     @staticmethod
     def allocate(muxer, mid):
-        """!
-        @brief: Allocator
-        """ 
         return HsFeature(muxer, mid)
 
     def created(self, result):
-        """!
-        @brief: Feature creation handler
-        """ 
         return
 
     def activated(self, result):
-        """!
-        @brief: Feature activation handler
-        """ 
         return
 
     def started(self, result):
-        """!
-        @brief: Feature start handler
-        """ 
         return
 
     def paused(self, result):
-        """!
-        @brief: Feature pause handler
-        """ 
         return
 
     def resumed(self, result):
-        """!
-        @brief: Feature resume handler
-        """ 
         return
 
     def stopped(self, result):
-        """!
-        @brief: Feature stop handler
-        """ 
-        return
+         return
 
     def destroyed(self, result):
-        """!
-        @brief: Feature destroy handler
-        """ 
         # Warn the actor
         ThreadContext.getActor_static().hsDestroyed()
 
     def monitor(self, status):
-        """!
-        @brief: Feature monitor handler
-        """ 
         # Check if the status correspond to the end of GPCCHS feature execution
         if ContainerUtils.hasEnded_static(ULONG(status)) :
             # Warn the actor

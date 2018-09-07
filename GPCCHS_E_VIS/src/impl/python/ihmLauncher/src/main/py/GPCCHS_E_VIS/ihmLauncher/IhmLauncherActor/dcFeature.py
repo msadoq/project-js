@@ -26,77 +26,43 @@ from GPCC.container.threadContext import ThreadContext
 
 class DcFeature(InternalFeature):
     """!
-    @brief: GPCCHS_E_VIS.ihmLauncher.IhmLauncherActor.DcFeature : Feature used to let IhmLauncherActor 
-            terminate GPCCDC in case javascript VIMA terminate
+    @brief: GPCCHS_E_VIS.ihmLauncher.IhmLauncherActor.DcFeature : Feature used to let IhmLauncherActor terminate GPCCDC in case javascript VIMA terminate
     """
     
     def __init__(self, muxer, mid):
-        """!
-        @brief: Constructor
-        """ 
         InternalFeature.__init__(self, muxer, mid)
         self.setFeature("gpccdc_d_dbr-default.xml")
         return
 
     def __del__(self):
-        """!
-        @brief: Destructor
-        """ 
         return
 
     @staticmethod
     def allocate(muxer, mid):
-        """!
-        @brief: Allocator
-        """ 
         return DcFeature(muxer, mid)
 
     def created(self, result):
-        """!
-        @brief: Feature creation handler
-        """ 
         return
 
     def activated(self, result):
-        """!
-        @brief: Feature activation handler
-        """ 
         return
 
     def started(self, result):
-        """!
-        @brief: Feature start handler
-        """ 
         return
 
     def paused(self, result):
-        """!
-        @brief: Feature pause handler
-        """ 
         return
 
     def resumed(self, result):
-        """!
-        @brief: Feature resume handler
-        """ 
         return
 
     def stopped(self, result):
-        """!
-        @brief: Feature stop handler
-        """ 
         return
 
     def destroyed(self, result):
-        """!
-        @brief: Feature destroy handler
-        """ 
         # Warn the actor
         ThreadContext.getActor_static().dcDestroyed()
 
     def monitor(self, status):
-        """!
-        @brief: Feature monitor handler
-        """ 
         return
 

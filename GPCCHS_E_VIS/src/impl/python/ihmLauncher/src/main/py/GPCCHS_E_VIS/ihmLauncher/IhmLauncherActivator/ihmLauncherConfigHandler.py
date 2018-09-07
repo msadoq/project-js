@@ -29,7 +29,6 @@ from GPCCHS_E_VIS.ihmLauncher.IhmLauncherConfig.ihmLauncherConfigInterface impor
 from GPCC.core.propertyType import PropertyType
 from GPCC.ccsds_mal.sTRING import STRING
 from GPCC.ccsds_mal.bOOLEAN import BOOLEAN
-from GPCC.core.isisTrace import IsisTrace
 # End of user code
 
 # End of user code
@@ -71,7 +70,6 @@ class IhmLauncherConfigHandler(ConfigurationElementHandler) :
         """
         # generated
         # Start of user code config
-        IsisTrace.debug("IhmLauncherConfigHandler receive its configuration: {}".format(str(elementConfiguration)))
         interface = IhmLauncherConfigInterface()
         interface.readFromString(str(elementConfiguration))
         debug = interface.xmlIhmLauncherConfig.xmldebug
@@ -89,24 +87,15 @@ class IhmLauncherConfigHandler(ConfigurationElementHandler) :
         dcpulluri = interface.xmlIhmLauncherConfig.xmldcPullUri
         if dcpulluri is not None:
             self._actor.updateProperty(PropertyType.USER_CONFIGURATION, elementName + "-dcPullUri", STRING(dcpulluri.getValue()))
-        mcpushuri = interface.xmlIhmLauncherConfig.xmlmcPushUri
-        if mcpushuri is not None:
-            self._actor.updateProperty(PropertyType.USER_CONFIGURATION, elementName + "-mcPushUri", STRING(mcpushuri.getValue()))
-        mcpulluri = interface.xmlIhmLauncherConfig.xmlmcPullUri
-        if mcpulluri is not None:
-            self._actor.updateProperty(PropertyType.USER_CONFIGURATION, elementName + "-mcPullUri", STRING(mcpulluri.getValue()))
-        featconffile = interface.xmlIhmLauncherConfig.xmlfeaturesConfFile
-        if featconffile is not None:
-            self._actor.updateProperty(PropertyType.USER_CONFIGURATION, elementName + "-featuresConfFile", STRING(featconffile.getValue()))
+        dcconffile = interface.xmlIhmLauncherConfig.xmldcConfFile
+        if dcconffile is not None:
+            self._actor.updateProperty(PropertyType.USER_CONFIGURATION, elementName + "-dcConfFile", STRING(dcconffile.getValue()))
         additionalargs = interface.xmlIhmLauncherConfig.xmladditionalArg
         if additionalargs is not None:
             argCnt = 0
             for arg in additionalargs: 
                 self._actor.updateProperty(PropertyType.USER_CONFIGURATION, elementName + "-additionalArg" + str(argCnt), STRING(arg.getValue()))
                 argCnt = argCnt + 1
-        IsisTrace.debug("IhmLauncherConfigHandler gets debug : {} fmdroot : {} nodepath : {}  dcpushuri : {}\
-                         dcpulluri : {} mcpushuri : {} mcpulluri : {} featconffile : {} additionalargs : {} "
-                         .format(debug,fmdroot,nodepath,dcpushuri,dcpulluri,mcpushuri,mcpulluri,featconffile,additionalargs))
         # End of user code
 
     # Start of user code ProtectedOperZone

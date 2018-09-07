@@ -17,7 +17,8 @@
     <module>GPCCHS_E_VIS/src/common</module>
     <module>GPCCHS_E_VIS/src/client</module>
     <module>GPCCHS_E_VIS/src/launcher</module>
-    <module>GPCCHS_E_VIS/src/impl/</module>
+    <module>GPCCHS_E_VIS/src/impl/editor</module>
+    <module>GPCCHS_E_VIS/src/impl/python/ihmLauncher</module>
     <module>src/impl/catalogs_stub</module>
   </modules>
   <build>

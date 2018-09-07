@@ -414,7 +414,6 @@ class HistoryView extends React.Component {
               contentModifier={this.contentModifier(entryPoints, last)}
               overrideStyle={this.overrideStyle}
               withGroups
-              selectableRows
               searching={searching}
               searchForThisView={searchForThisView}
             />

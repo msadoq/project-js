@@ -22,43 +22,6 @@ import {
 import { VM_VIEW_GROUNDALARM } from '../../constants';
 
 /**
- * Determines whether an alarm should be shown to the operator
- *
- * @param groundAlarm
- * @param visuWindow
- * @param mode
- * @returns {*}
- */
-function _shouldShowAlarm(groundAlarm, { visuWindow, mode }) {
-  const { current, lower, upper } = visuWindow;
-
-  const _isAlarmOpen = alarm =>
-    (!alarm.closingDate || new Date(alarm.closingDate).getTime() > current);
-
-  const _isAlarmActive = alarm =>
-    _isAlarmOpen(alarm) &&
-    alarm.alarmType !== ALARM_TYPE_NOMINAL &&
-    new Date(alarm.creationDate).getTime() < current;
-
-  const _hasAlarmBeenRaisedInsideVisuWindow = alarm =>
-    new Date(alarm.creationDate).getTime() >= lower &&
-    new Date(alarm.creationDate).getTime() <= upper;
-
-  const _doesAlarmRequireAcknowledgment = alarm => alarm.ackState === ALARM_ACKSTATE_REQUIREACK;
-
-  switch (mode) {
-    case ALARM_MODE_NONNOMINAL:
-      return _isAlarmActive(groundAlarm);
-    case ALARM_MODE_ALL:
-      return _isAlarmActive(groundAlarm) || _hasAlarmBeenRaisedInsideVisuWindow(groundAlarm);
-    case ALARM_MODE_TOACKNOWLEDGE:
-      return _isAlarmOpen(groundAlarm) && _doesAlarmRequireAcknowledgment(groundAlarm);
-    default:
-      return true;
-  }
-}
-
-/**
  * Updates alarm indexes to match shown alarms
  *
  * @param state
@@ -78,7 +41,7 @@ const _refreshShownAlarms = (state = {}, { visuWindow, mode }) => {
     .reduce((acc, oid) => {
       const alarm = lines[oid];
 
-      if (_shouldShowAlarm(alarm, { visuWindow, mode })) {
+      if (shouldShowAlarm(alarm, { visuWindow, mode })) {
         return [...acc, oid];
       }
 

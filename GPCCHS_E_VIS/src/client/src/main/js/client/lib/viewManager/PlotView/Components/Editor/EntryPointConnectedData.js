@@ -145,7 +145,6 @@ class EntryPointConnectedData extends React.Component {
 
   state = {
     parametric: _.getOr(false, ['entryPoint', 'parametric'], this.props),
-    stringParameter: _.getOr(false, ['entryPoint', 'connectedData', 'stringParameter'], this.props),
   };
 
   getAvailableTimelines = (noCorrespondingTimeline, timeline) => {
@@ -271,10 +270,6 @@ class EntryPointConnectedData extends React.Component {
 
   hangleToggleParametric = () => {
     this.setState({ parametric: !this.state.parametric });
-  };
-
-  hangleToggleStringParameter = () => {
-    this.setState({ stringParameter: !this.state.stringParameter });
   };
 
   render() {

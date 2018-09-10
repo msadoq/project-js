@@ -189,8 +189,6 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
       xAxesIds.push('time');
       yAxesIds.push(_get(ep, ['connectedData', 'axisId']));
     }
-    formatAsString = !!getByField(_get(ep, ['connectedData', 'comObjectField']));
-    stringField = formatAsString ? _get(ep, ['connectedData', 'comObjectField']) : stringField;
   });
 
   xAxesIds = _uniq(xAxesIds);
@@ -209,6 +207,11 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
           _get(ep, ['connectedData', 'axisId']) === axis.id
         )
       );
+
+    axisEntryPoints.forEach((ep) => {
+      formatAsString = !!getByField(_get(ep, ['connectedData', 'comObjectField']));
+      stringField = formatAsString ? _get(ep, ['connectedData', 'comObjectField']) : stringField;
+    });
 
     let dataMin = _min(axisEntryPoints.map(ep => data.min[ep.name]));
     let dataMax = _max(axisEntryPoints.map(ep => data.max[ep.name]));

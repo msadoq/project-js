@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash/fp';
 import { Grid } from 'react-virtualized';
 import cn from 'classnames';
 import scrollbarSize from 'dom-helpers/util/scrollbarSize';
+import handleContextMenu from 'windowProcess/common/handleContextMenu';
 
 import styles from './VirtualizedTableView.css';
 
@@ -36,6 +38,7 @@ const BodyGrid =
      onCellLeave,
      onToggleRow,
      isVerticalScrollbarDisplayed,
+     cellContextMenu,
    }) => {
     // eslint-disable-next-line react/prop-types
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
@@ -119,6 +122,12 @@ const BodyGrid =
       return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
+          onContextMenu={(ev) => {
+            if (typeof cellContextMenu === 'function') {
+              ev.stopPropagation();
+              handleContextMenu(cellContextMenu(content));
+            }
+          }}
           className={
             cn(
               styles.bodyCell,
@@ -200,12 +209,15 @@ BodyGrid.propTypes = {
   onCellEnter: PropTypes.func.isRequired,
   onCellLeave: PropTypes.func.isRequired,
   onToggleRow: PropTypes.func.isRequired,
-  isVerticalScrollbarDisplayed: PropTypes.bool.isRequired,
+  isVerticalScrollbarDisplayed: PropTypes.bool,
+  cellContextMenu: PropTypes.func,
 };
 
 BodyGrid.defaultProps = {
+  isVerticalScrollbarDisplayed: false,
   selectedRows: {},
   hoveredCell: null,
+  cellContextMenu: null,
 };
 
 export default BodyGrid;

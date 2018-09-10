@@ -50,6 +50,7 @@ class VirtualizedTableView extends React.Component {
     overscanColumnCount: PropTypes.number,
     overscanRowCount: PropTypes.number,
     headerHeight: PropTypes.number,
+    cellContextMenu: PropTypes.func,
   };
 
   static defaultProps = {
@@ -75,6 +76,7 @@ class VirtualizedTableView extends React.Component {
     overscanColumnCount: 0,
     overscanRowCount: 0,
     headerHeight: 42,
+    cellContextMenu: null,
   };
 
   static _wrapHoveredCell(ev, { content }) {
@@ -260,6 +262,7 @@ class VirtualizedTableView extends React.Component {
       overscanColumnCount,
       overscanRowCount,
       headerHeight,
+      cellContextMenu,
     } = this.props;
 
     const hoveredCell = _.get('hoveredCell', this.state);
@@ -398,6 +401,7 @@ class VirtualizedTableView extends React.Component {
                               onCellLeave={this._onCellLeave}
                               onToggleRow={this._onToggleRow}
                               isVerticalScrollbarDisplayed={this.state.isVerticalScrollbarDisplayed}
+                              cellContextMenu={cellContextMenu}
                             />
                           </div>
                         </div>

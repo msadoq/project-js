@@ -58,6 +58,7 @@ const BodyGrid =
 
       if (
         searchForThisView && content.colKey === 'epName' &&
+        searching.length >= 2 &&
         (content.value).indexOf(searching) !== -1
       ) {
         updatedStyle = {

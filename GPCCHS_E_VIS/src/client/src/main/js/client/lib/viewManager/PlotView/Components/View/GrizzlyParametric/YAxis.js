@@ -29,6 +29,7 @@ import { axisLeft, axisRight } from 'd3-axis';
 import { timeFormat } from 'd3-time-format';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import { levelsRules, getZoomLevel } from 'windowProcess/common/timeFormats';
+import { getStringByValue } from 'windowProcess/common/stringToIntegerMapSingleton';
 
 import styles from './GrizzlyChart.css';
 import Axis from './Axis';
@@ -60,6 +61,8 @@ export default class YAxis extends Component {
     label: PropTypes.string.isRequired,
     format: PropTypes.string,
     formatAsDate: PropTypes.bool,
+    formatAsString: PropTypes.bool,
+    stringField: PropTypes.string,
     labelStyle: labelStyleType.isRequired,
     xAxisHeight: PropTypes.number.isRequired,
     side: PropTypes.number.isRequired,
@@ -90,6 +93,8 @@ export default class YAxis extends Component {
       size: 11,
     },
     formatAsDate: false,
+    formatAsString: false,
+    stringField: null,
   };
 
   componentDidMount() {
@@ -269,11 +274,15 @@ export default class YAxis extends Component {
       logarithmic,
       extents,
       formatAsDate,
+      formatAsString,
+      stringField,
     } = this.props;
 
     let tickFormat = () => null;
     if (showTicks) {
-      if (formatAsDate) {
+      if (formatAsString) {
+        tickFormat = d => getStringByValue(stringField, d);
+      } else if (formatAsDate) {
         tickFormat = this.memoizeTickFormat(extents[1] - extents[0]);
       } else {
         tickFormat = this.memoizeFormatter(format);
@@ -353,6 +362,8 @@ export default class YAxis extends Component {
     d => d3Format(f)(d)
   );
 
+  memoizeStringFormatter = f => d => d3Format(f)(d);
+
   memoizeRange = _memoize((hash, lower, upper, step) =>
     range(lower, upper, step)
   );
@@ -365,13 +376,13 @@ export default class YAxis extends Component {
     (el) => { this[`label-${constantId}-el`] = el; }
   );
 
-  memoizeTickFormat= _memoize(
+  memoizeTickFormat = _memoize(
     (ms) => {
       const zoomLevel = getZoomLevel(ms);
       const levelRule = levelsRules[zoomLevel];
       return timeFormat(levelRule.formatD3);
     }
-  )
+  );
 
   render() {
     const {

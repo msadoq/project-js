@@ -54,6 +54,9 @@ const commands = {
     sendReduxPatch: (action) => {
       commands.renderer.message(globalConstants.IPC_METHOD_REDUX_PATCH, action);
     },
+    sendSingletonToRenderer: (singleton) => {
+      commands.renderer.message(globalConstants.IPC_METHOD_SINGLETON_PATCH, singleton);
+    },
   },
   server: {
     rpc: (method, payload, callback) => {

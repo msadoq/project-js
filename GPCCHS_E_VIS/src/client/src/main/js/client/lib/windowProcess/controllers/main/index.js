@@ -15,9 +15,11 @@ import constants from 'constants';
 import handle from 'common/ipc/handle';
 
 const onReduxPatch = require('./onReduxPatch');
+const onSingletonPatch = require('./onSingletonPatch');
 
 const controller = {
   [constants.IPC_METHOD_REDUX_PATCH]: onReduxPatch,
+  [constants.IPC_METHOD_SINGLETON_PATCH]: onSingletonPatch,
 };
 
 export default (electronEvent, data) => handle(

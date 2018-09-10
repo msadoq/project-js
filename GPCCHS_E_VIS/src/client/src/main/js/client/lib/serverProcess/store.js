@@ -68,9 +68,9 @@ import makeOnUserAction from '../store/middlewares/user/makeOnUserAction';
 import onEntryPointData from '../store/middlewares/smartViews/onEntryPointData';
 import onNeededMetadata from '../store/middlewares/metadata/onNeededMetadata';
 import addVisuWindow from '../store/middlewares/enhancers/addVisuWindow';
+import { init } from './utils/stringToIntegerMapSingleton';
 
 const log = getLogger('server:store:enhancer');
-
 
 let store = createTempStore();
 
@@ -109,6 +109,9 @@ const createMiddlewares = (identity, isDebugOn) => {
 
 
 export default function makeCreateStore(identity, isDebugOn) {
+  // initialization of StringToIntegerSingleton
+  init(ipc.main.sendSingleton);
+
   return (initialState) => {
     const enhancer = applyMiddleware(...createMiddlewares(identity, isDebugOn));
     store = store.replaceStore(createStore(reducer, initialState, enhancer));

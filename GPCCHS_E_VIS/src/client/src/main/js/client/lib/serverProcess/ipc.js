@@ -451,6 +451,9 @@ const commands = {
     message: (method, payload) => {
       process.send({ type: constants.IPC_MESSAGE, method, payload });
     },
+    sendSingleton: (singleton) => {
+      commands.main.message(constants.IPC_METHOD_SINGLETON_PATCH, singleton);
+    },
     sendReduxPatch: (action) => {
       commands.main.message(constants.IPC_METHOD_REDUX_PATCH, action);
     },

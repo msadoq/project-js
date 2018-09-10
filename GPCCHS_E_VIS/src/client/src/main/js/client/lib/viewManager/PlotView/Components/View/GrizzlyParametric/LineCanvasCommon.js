@@ -85,7 +85,8 @@ export const drawLinesCanvas = (
   parametric,
   divStyle,
   ctx,
-  constants
+  constants,
+  displayMode
 ) => {
   ctx.clearRect(0, 0, divStyle.width, divStyle.height);
   let totalPoints = 0;
@@ -126,7 +127,9 @@ export const drawLinesCanvas = (
       parametric,
       divStyle,
       ctx,
-      line);
+      line,
+      displayMode
+    );
   });
 
   if (perfOutput) {
@@ -192,9 +195,9 @@ export const drawLine = (perfOutput,
                          parametric,
                          divStyle,
                          ctx,
-                         line) => {
-  console.log(line, parametric);
-// Default values
+                         line,
+                         displayMode) => {
+  // Default values
   const { lineSize, pointSize, fontSize, pointOffset } = getDefaultValues(ctx, line);
   const fill = line.fill || '#222222';
   let lastColor;
@@ -296,7 +299,22 @@ export const drawLine = (perfOutput,
 
     // should draw a subline between current data and next data
     if (shouldDrawSubLine(i, stoppedCurrent, stoppedPrevious)) {
-      ctx.lineTo(nextX, nextY);
+      switch (displayMode) {
+        case 0:
+          ctx.lineTo(nextX, nextY);
+          break;
+        case 1:
+          ctx.lineTo(currentX, nextY);
+          ctx.lineTo(nextX, nextY);
+          break;
+        case 2:
+          ctx.lineTo(nextX, currentY);
+          ctx.lineTo(nextX, nextY);
+          break;
+        default:
+          ctx.lineTo(nextX, nextY);
+          break;
+      }
     } else {
       ctx.moveTo(nextX, nextY);
     }

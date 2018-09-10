@@ -300,6 +300,7 @@ export default class Chart extends React.Component {
       xAxes,
       lines,
     } = this.props;
+
     const linesWithValidAxes = getLinesWithValidAxes(yAxes, xAxes, lines);
     const yAxesUniq = [];
     const linesUniq = [];
@@ -349,6 +350,7 @@ export default class Chart extends React.Component {
           indexes: {},
           xAxis: line.xAxis,
           yAxis: line.yAxis,
+          displayMode: line.displayMode,
         };
       }
       pairs[pairId].lines.push(line);
@@ -740,6 +742,8 @@ export default class Chart extends React.Component {
               label={yAxis.label}
               labelStyle={yAxis.labelStyle}
               formatAsDate={yAxis.formatAsDate}
+              formatAsString={yAxis.formatAsString}
+              stringField={yAxis.stringField}
               getLabelPosition={this.getLabelPosition}
               side={this.yAxesUniq.length * this.yAxisWidth}
               constants={yAxis.constants}
@@ -778,6 +782,7 @@ export default class Chart extends React.Component {
               label={xAxis.label}
               labelStyle={xAxis.labelStyle}
               formatAsDate={xAxis.formatAsDate}
+              formatAsString={xAxis.formatAsString}
               getLabelPosition={this.getLabelPosition}
               yAxisWidth={this.yAxisWidth}
             />
@@ -804,6 +809,7 @@ export default class Chart extends React.Component {
                 current={current}
                 parametric={parametric}
                 constants={pair.yAxis.constants}
+                displayMode={pair.displayMode}
               />
             );
           })

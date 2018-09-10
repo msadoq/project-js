@@ -56,6 +56,7 @@ import _findIndex from 'lodash/findIndex';
 import { STATE_COLOR_NOMINAL } from 'windowProcess/common/colors';
 import { getFlattenDataIdForObsoleteEvent } from 'common/flattenDataId';
 import { isRangeDataObsolete, rangesNeedUpdateForObsolete } from 'viewManager/common/store/viewDataUpdate';
+import { getOrCreate } from 'serverProcess/utils/stringToIntegerMapSingleton';
 
 const logger = getLogger('data:rangeValues:PlotView');
 
@@ -334,7 +335,13 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints) {
  * @param: received data
  * @return: updated state
 /* *********************************** */
-export function selectDataPerView(currentViewMap, configuration, intervalMap, payload, viewState) {
+export function selectDataPerView(
+  currentViewMap,
+  configuration,
+  intervalMap,
+  payload,
+  viewState
+) {
   let epSubState = {};
   if (currentViewMap) {
     configuration.entryPoints.forEach((entryPoint) => {
@@ -357,7 +364,8 @@ export function selectDataPerView(currentViewMap, configuration, intervalMap, pa
           ep,
           entryPoint.name,
           epSubState,
-          intervalMap);
+          intervalMap
+        );
         epSubState = { ...epSubState, ...newSubState };
       }
     });
@@ -655,6 +663,10 @@ export function selectEpData(tbdIdPayload, ep, epName, viewState, intervalMap) {
 function getFieldValue(value, field, convertTo) {
   const path = convertTo ? ['gpinuc', field, convertTo] : [field, 'value'];
   let val = _get(value, path);
+  // in the case of val is a string we need to have an integer value for displaying in the plot
+  if (typeof val === 'string') {
+    val = getOrCreate(field, val);
+  }
   // TODO CHECK IF GPINUC GOT NO VALUES
   if (!val) {
     const symbol = _get(value, [field, 'symbol']);

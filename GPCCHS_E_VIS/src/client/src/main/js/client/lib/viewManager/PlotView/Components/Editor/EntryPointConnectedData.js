@@ -1,4 +1,6 @@
 // ====================================================================
+
+
 // HISTORY
 // VERSION : 1.1.2 : DM : #5828 : 03/04/2017 : PlotView EntryPoint refacto: connectedData instead
 //  of connectedDataX and connectedDataY.
@@ -75,6 +77,11 @@ export const getFilteredAxes = ({ axes }) => (
     : []
 );
 
+const displayModeOptions = () => [
+  { label: 'classic', value: 0 },
+  { label: 'rising edge', value: 1 },
+  { label: 'falling edge', value: 2 },
+];
 /*
   EntryPointConnectedData représente une donnée connectée à un entryPoint.
   Dans le cas de l'éditeur de la Plot, il y en a 2 (en X et Y).
@@ -88,10 +95,6 @@ class EntryPointConnectedData extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types, "DV6 TBC_CNES Supported by ReduxForm HOC"
     axes: PropTypes.shape({}).isRequired,
     timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    // xAxisId: PropTypes.string,
-    // yAxisId: PropTypes.string,
-    parametric: PropTypes.bool,
-    stringParameter: PropTypes.bool,
     domains: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     viewId: PropTypes.string.isRequired,
     pageId: PropTypes.string.isRequired,
@@ -102,13 +105,11 @@ class EntryPointConnectedData extends React.Component {
     selectedComObjectName: PropTypes.string,
     // parametric X
     parametricXSelectedDomainName: PropTypes.string,
-    parametricXSelectedTimelineId: PropTypes.string,
     parametricXSelectedComObjectName: PropTypes.string,
     parametricXSelectedCatalogName: PropTypes.string,
     parametricXSelectedItemName: PropTypes.string,
     // parametric Y
     parametricYSelectedDomainName: PropTypes.string,
-    parametricYSelectedTimelineId: PropTypes.string,
     parametricYSelectedComObjectName: PropTypes.string,
     parametricYSelectedCatalogName: PropTypes.string,
     parametricYSelectedItemName: PropTypes.string,
@@ -121,7 +122,7 @@ class EntryPointConnectedData extends React.Component {
     axisId: null,
     // xAxisId: null,
     // yAxisId: null,
-    stringParameter: false,
+    displayMode: 0,
     selectedDomainName: null,
     selectedTimelineId: null,
     selectedCatalogName: null,
@@ -305,7 +306,6 @@ class EntryPointConnectedData extends React.Component {
     const timeline = _.getOr(null, ['connectedData', 'timeline'], entryPoint);
     const {
       parametric,
-      stringParameter,
     } = this.state;
 
     let filteredAxes = getFilteredAxes({ axes });
@@ -438,28 +438,13 @@ class EntryPointConnectedData extends React.Component {
                 />
               </HorizontalFormGroup>
 
-              <HorizontalFormGroup label="String parameter">
+              <HorizontalFormGroup label="Display mode">
                 <Field
-                  name="connectedData.stringParameter"
-                  component={ButtonToggleField}
-                  textOn="YES"
-                  textOff="NO"
-                  styleOff="warning"
-                  onChange={this.hangleToggleStringParameter}
+                  name="connectedData.displayMode"
+                  component={ReactSelectField}
+                  options={displayModeOptions()}
                 />
               </HorizontalFormGroup>
-              {
-                stringParameter &&
-                <HorizontalFormGroup label="Y value">
-                  <Field
-                    name="connectedData.defaultY"
-                    component={InputField}
-                    normalize={val => parseInt(val, 10)}
-                    type="text"
-                    className="form-control input-sm"
-                  />
-                </HorizontalFormGroup>
-              }
               <HorizontalFormGroup label="Axis">
                 <Field
                   name="connectedData.axisId"
@@ -558,7 +543,6 @@ class EntryPointConnectedData extends React.Component {
                   comObjectName={selectedComObjectName}
                 />
               </HorizontalFormGroup>
-
 
               <HorizontalFormGroup label="Provider">
                 <ProviderFieldContainer />

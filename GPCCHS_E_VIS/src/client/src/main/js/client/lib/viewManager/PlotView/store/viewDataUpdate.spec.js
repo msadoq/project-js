@@ -484,7 +484,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         const ep1 = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1';
         const newState = selectEpData(payload[ep1],
           dataMap.perView.plot1.entryPoints.ATT_BC_REVTCOUNT1,
-          'ATT_BC_REVTCOUNT1', undefined, dataMap.expectedRangeIntervals);
+          'ATT_BC_REVTCOUNT1', undefined, dataMap.expectedRangeIntervals, {});
         expect(newState)
           .toMatchSnapshot();
       });
@@ -492,7 +492,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         const ep1 = 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>:0:1';
         const newState = selectEpData(payload[ep1],
           dataMap.perView.plot1.entryPoints.ATT_BC_REVTCOUNT1,
-          'ATT_BC_REVTCOUNT1', {}, dataMap.expectedRangeIntervals);
+          'ATT_BC_REVTCOUNT1', {}, dataMap.expectedRangeIntervals, {});
         expect(newState)
           .toMatchSnapshot();
       });
@@ -510,7 +510,7 @@ describe('viewManager/PlotView/store/viewDataUpdate', () => {
         };
         const newState = selectEpData(payload[ep1],
           dataMap.perView.plot1.entryPoints.ATT_BC_REVTCOUNT1,
-          'ATT_BC_REVTCOUNT1', oldState, dataMap.expectedRangeIntervals);
+          'ATT_BC_REVTCOUNT1', oldState, dataMap.expectedRangeIntervals, {});
         expect(newState)
           .toMatchSnapshot();
       });

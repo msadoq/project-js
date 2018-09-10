@@ -131,6 +131,7 @@ import LinksContainer from 'windowProcess/View/LinksContainer';
 import withDimensions from 'windowProcess/common/hoc/withDimensions';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
+import { getByField } from 'windowProcess/common/stringToIntegerMapSingleton';
 import dateFormat, { TAI } from 'viewManager/commonData/date';
 import getLogger from 'common/logManager';
 import { updateSearchCountArray } from 'store/reducers/pages';
@@ -178,6 +179,8 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
   const xAxes = [];
   let yAxesIds = [];
   const yAxes = [];
+  let formatAsString = false;
+  let stringField = null;
   entryPoints.forEach((ep) => {
     if (ep.parametric) {
       xAxesIds.push(_get(ep, ['connectedDataParametric', 'xAxisId']));
@@ -186,6 +189,8 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
       xAxesIds.push('time');
       yAxesIds.push(_get(ep, ['connectedData', 'axisId']));
     }
+    formatAsString = !!getByField(_get(ep, ['connectedData', 'comObjectField']));
+    stringField = formatAsString ? _get(ep, ['connectedData', 'comObjectField']) : stringField;
   });
 
   xAxesIds = _uniq(xAxesIds);
@@ -242,6 +247,8 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
       logSettings: axis.logSettings,
       formatAsDate: !!axis.formatAsDate,
       constants: axisConstant,
+      formatAsString,
+      stringField,
     });
   });
 
@@ -267,6 +274,7 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
         format: '.2f',
         formatAsDate: true,
         labelStyle: {},
+        formatAsString,
       });
     }
     const axis = axes[axisId];
@@ -306,6 +314,7 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
       logarithmic: axis.logarithmic,
       logSettings: axis.logSettings,
       formatAsDate: axis.formatAsDate,
+      formatAsString,
     });
   });
   return { xAxes, yAxes };
@@ -505,7 +514,7 @@ export class GrizzlyPlotView extends React.Component {
     searching: PropTypes.string,
     searchCount: PropTypes.objectOf(PropTypes.shape),
     addMessage: PropTypes.func.isRequired,
-    sessions: PropTypes.array,
+    sessions: PropTypes.arrayOf(PropTypes.any),
     timelines: PropTypes.shape(),
   };
 
@@ -772,7 +781,7 @@ export class GrizzlyPlotView extends React.Component {
     const missing = required.filter(
       key => !_has(content, key)
     );
-    if ( !(missing.length === 0) ) {
+    if (!(missing.length === 0)) {
       const messageToDisplay = `Missing properties in dropped data: ${missing.join(', ')}.`;
       addMessage('danger', messageToDisplay);
     }
@@ -1081,8 +1090,6 @@ export class GrizzlyPlotView extends React.Component {
             updateAxis={this.state.updateUnit}
             lines={
             entryPointsConfiguration.map((ep) => {
-              const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
-              const stringParameter = !ep.parametric && _get(ep, ['connectedData', 'stringParameter']);
               let unit;
               if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
                 const { domainId, sessionId, catalog, parameterName } =
@@ -1112,14 +1119,16 @@ export class GrizzlyPlotView extends React.Component {
                 dataAccessor: ep.name,
                 stopInstruction: packet => stopInstruction(packet, ep, this.state.showEpNonNominal),
                 xAccessor: null, // default packet => packet.x
-                yAccessor: stringParameter ? () => defaultY : null, // default packet => packet.value
+                yAccessor: null, // default packet => packet.value
                 xTooltipAccessor: null, // default packet => packet.x
-                yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
+                yTooltipAccessor: null, // default packet => packet.value
                 colorAccessor: 'color',
                 tooltipFormatter,
                 highlighted: this.state.epNamesMatchWithSearching.indexOf(ep.name) !== -1,
                 unit: ep.connectedData.convertTo ?
-                    ep.connectedData.convertTo : unit };
+                    ep.connectedData.convertTo : unit,
+                displayMode: ep.connectedData.displayMode,
+              };
             })
           }
           />

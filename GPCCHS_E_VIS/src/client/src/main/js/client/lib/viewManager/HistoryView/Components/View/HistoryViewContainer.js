@@ -31,8 +31,9 @@ import {
   getTupleId,
 } from '../../../../store/reducers/catalogs';
 import { getDomainId } from '../../../../store/reducers/domains';
-import { getSessionByTimelineId } from '../../../../store/reducers/sessions';
+import { getSessionByTimelineId, getSessions } from '../../../../store/reducers/sessions';
 import {
+  getPage,
   getSearchCount,
   getSearchingByPage,
   getSearchViewsIds,
@@ -41,7 +42,9 @@ import { updateSearchCount } from '../../../../store/actions/pages';
 import { areLinksShown, getLinks } from '../../../../store/reducers/views';
 import { getIsTimelineSelected } from '../../store/configurationSelectors';
 import { getViewEntryPoints } from '../../../../store/selectors/views';
-
+import { getTimeline, getTimelines } from '../../../../store/reducers/timelines';
+import { add } from '../../../../store/actions/messages';
+import { getTimebarTimelines } from '../../../../store/reducers/timebarTimelines';
 
 const mapStateToProps = (state, { viewId, pageId }) => {
   const data = getData(state, { viewId });
@@ -49,6 +52,9 @@ const mapStateToProps = (state, { viewId, pageId }) => {
   const config = getConfigurationByViewId(state, { viewId });
   const sortState = _.get(['tables', 'history', 'sorting'], config);
   const last = _.getOr({}, 'last', data);
+  const page = getPage(state, { pageId });
+  const defaultTimelineUuid = getTimebarTimelines(state, { timebarUuid: page.timebarUuid })[0];
+  const defaultTimeline = getTimeline(state, { timelineUuid: defaultTimelineUuid });
   const searching = getSearchingByPage(state, { pageId });
   const searchViewsIds = getSearchViewsIds(state, { pageId });
   const searchCount = getSearchCount(state, { pageId });
@@ -88,28 +94,37 @@ const mapStateToProps = (state, { viewId, pageId }) => {
   });
 
   return {
+    configuration: config,
     entryPoints,
     entryPointsWithMetadata,
     last,
     isTimelineSelected,
+    defaultTimelineId: defaultTimeline ? defaultTimeline.id : null,
     searching,
     searchCount,
     countBySearching,
     searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
     links: getLinks(state, { viewId }),
     showLinks: areLinksShown(state, { viewId }),
+    sessions: getSessions(state),
+    timelines: getTimelines(state),
     sortState,
   };
 };
 
 const mapDispatchToProps = (dispatch, { viewId, pageId }) => ({
-  addEntryPoint: (entryPoint) => {
+  /* addEntryPoint: (entryPoint) => {
     dispatch(addEntryPoint(viewId, entryPoint));
-  },
+  }, */
   updateSearchCount: (count) => {
     dispatch(updateSearchCount(pageId, viewId, count));
   },
-  ...bindActionCreators({ updateShowLinks, removeLink }, dispatch),
+  ...bindActionCreators({
+    updateShowLinks,
+    removeLink,
+    addEntryPoint,
+  }, dispatch),
+  addMessage: (status, content) => dispatch(add(viewId, status, content)),
 });
 
 const HistoryViewContainer = connect(mapStateToProps, mapDispatchToProps)(HistoryView);

@@ -55,7 +55,7 @@ class Bridge():
             # Check if there is a conversion to do
             if unitesource is not None and unitecible is not None and value is not None:
                 # Test if the bridge execution shall end
-                if method ==  "STOP":
+                if method ==  "STOP":                                                                                       
                     doLooping = False
                 else:
                     # compute the handler class name
@@ -64,14 +64,14 @@ class Bridge():
                     requestID = uuid
                     # Decode informations for conversion
                     unitesourceDecode = unitesource
-                    unitecibleDecode = unitecible
-                    valueDecode = float(value)             
+                    unitecibleDecode = unitecible         
 
                     unitConv = ConvertUnitValues()
-                    unitConv.fromUnit = unitesourceDecode
+                    unitConv.fromUnit = unitesourceDecode            
                     unitConv.toUnit = unitecibleDecode
-                    value = unitConv.values.add()
-                    value._float.value = valueDecode                
+                    for v in value:
+                        valueTmp = unitConv.values.add()
+                        valueTmp._float.value = float(v['value'])              
 
                     msg = IsisMessage(1, 3)
                     handlerFrame = COMPOSITE(data = unitConv.SerializeToString(), size = unitConv.ByteSize() )

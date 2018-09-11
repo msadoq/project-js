@@ -32,11 +32,11 @@ exports.spawnPasserelle = function spawnPasserelle() {
   });
 
   spawned.stdout.on('data', (data) => {
-    logger.info(`stdout: ${data}`);
+    logger.debug(`stdout: ${data}`);
   });
 
   spawned.stderr.on('data', (data) => {
-    logger.info(`stderr: ${data}`);
+    logger.debug(`stderr: ${data}`);
   });
 
   spawned.on('close', (code) => {

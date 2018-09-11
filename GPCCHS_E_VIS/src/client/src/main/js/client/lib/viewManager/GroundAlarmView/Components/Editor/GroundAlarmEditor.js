@@ -1,10 +1,11 @@
-import _get from 'lodash/get';
+import _ from 'lodash/fp';
 import _getOr from 'lodash/fp/getOr';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Navbar from 'viewManager/commonEditor/Navbar/Navbar';
 import { Misc } from 'viewManager/commonEditor/Misc';
-import ReloadAndSaveViewButtonsContainer from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
+import ReloadAndSaveViewButtonsContainer
+  from 'viewManager/commonEditor/ReloadAndSaveViewButtonsContainer';
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 
 import styles from '../../../commonEditor/Editor.css';
@@ -32,7 +33,7 @@ export default class GroundAlarmEditor extends Component {
     tab: PropTypes.number,
     panels: PropTypes.shape({}).isRequired,
     // Container's mapDispatchToProps
-    updateEntryPoint: PropTypes.func.isRequired,
+    updateAlarmMode: PropTypes.func.isRequired,
     updateViewTab: PropTypes.func.isRequired,
     updateViewPanels: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
@@ -66,12 +67,8 @@ export default class GroundAlarmEditor extends Component {
   };
 
   handleSubmit = (values) => {
-    const { configuration, updateEntryPoint, viewId } = this.props;
-    const entryPoint = _get(configuration, ['entryPoints', 0]);
-    updateEntryPoint(viewId, entryPoint.id, {
-      ...entryPoint,
-      ...values,
-    });
+    const { updateAlarmMode, viewId } = this.props;
+    updateAlarmMode(viewId, values.connectedData.mode);
   };
 
   render() {
@@ -84,13 +81,6 @@ export default class GroundAlarmEditor extends Component {
       openModal,
       title,
     } = this.props;
-    const initialValues = entryPoints.length
-      ? {
-        ...entryPoints[0].connectedData,
-        timeline: '*', // reset timeline & domain in GA because the field disappears
-        domain: '*',
-      }
-      : entryPoints;
 
     /**
      * get form from the state
@@ -117,7 +107,7 @@ export default class GroundAlarmEditor extends Component {
               <GroundAlarmEditorForm
                 form={`entrypoint-connectedData-form-${viewId}`}
                 onSubmit={values => this.handleSubmit({ connectedData: values })}
-                initialValues={initialValues}
+                initialValues={_.getOr({}, [0, 'connectedData'], entryPoints)}
               />
             </div>}
             {

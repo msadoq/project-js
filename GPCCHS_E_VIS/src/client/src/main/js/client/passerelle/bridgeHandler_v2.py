@@ -82,7 +82,7 @@ class BridgeHandler(Thread):
             message_response['header'] = {};
             message_response['header']['transactionID'] = self._requestID;
             message_response['header']['method'] = self._handlerClassName;
-            message_response['payload'] = valuesList[0];
+            message_response['payload'] = valuesList;
             self._queue.add_message(json.dumps(message_response))
             # End of work, the thread can end
         

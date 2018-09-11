@@ -52,7 +52,7 @@ const getNewPlotEntryPoint = () => ({
     digits: 5,
     format: 'decimal',
     filter: [],
-    stringParameter: false,
+    displayMode: 0,
     defaultY: 1,
     convertFrom: '',
     convertTo: '',

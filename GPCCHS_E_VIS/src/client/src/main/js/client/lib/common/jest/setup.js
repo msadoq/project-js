@@ -346,6 +346,16 @@ global.testConfig = {
     ],
   },
   SAMPLING_OFF_DELTA_T_MAX: 300000,
+  STRING_TO_VALUE_MAP: {
+    monitoringState: {
+      nominal: 0,
+      warning: 1,
+      danger: 2,
+      severe: 3,
+      critical: 4,
+      outOfRange: 5,
+    },
+  },
 };
 
 set(global, 'parameters.get', path => _.get(path, global.testConfig));

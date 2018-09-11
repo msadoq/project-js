@@ -97,10 +97,10 @@ export default (stateConf = {}, action) => {
         ...action.payload.view.configuration,
       };
     }
-    case types.WS_VIEW_UPDATE_ALARMDOMAIN:
+    case types.WS_VIEW_UPDATE_DOMAINNAME:
       return _.set('entryPoints[0].connectedData.domain', action.payload.domainName, stateConf);
-    case types.WS_VIEW_UPDATE_ALARMTIMELINE:
-      return _.set('entryPoints[0].connectedData.timeline', action.payload.timelineName, stateConf);
+    case types.WS_VIEW_UPDATE_SESSIONNAME:
+      return _.set('entryPoints[0].connectedData.session', action.payload.sessionName, stateConf);
     case types.WS_VIEW_UPDATE_ALARMMODE: {
       return _.set('entryPoints[0].connectedData.mode', action.payload.mode, stateConf);
     }

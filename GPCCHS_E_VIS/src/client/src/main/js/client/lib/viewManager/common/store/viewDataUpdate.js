@@ -185,7 +185,7 @@ export function viewObsoleteEventAdd(state = {}, payloads, entryPoints, current)
               {
                 isDataObsolete: true,
                 validityState:
-                  newState && newState.values[epName] && newState.values[epName].validityState,
+                newState && newState.values[epName] && newState.values[epName].validityState,
               },
               entryPoints[epName].stateColors
             ),

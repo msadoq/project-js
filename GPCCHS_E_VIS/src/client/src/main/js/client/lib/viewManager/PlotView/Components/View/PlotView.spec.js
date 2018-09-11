@@ -257,8 +257,12 @@ describe('PlotView :: parseDragData', () => {
       propsStub.id
     );
     expect(newId).toEqual({
-      name: 'Session 1',
+      name: 'ATT_BC_REVTCOUNT1',
       connectedData: {
+        catalog: 'Reporting',
+        catalogItem: 'ATT_BC_REVTCOUNT1',
+        comObject: 'ReportingParameter',
+        comObjectField: 'convertedValue',
         formula: 'Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedValue',
         fieldX: 'onboardDate',
         timeline: 'entryPoint',

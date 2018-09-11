@@ -18,9 +18,11 @@ import constants from 'constants';
 import handle from 'common/ipc/handle';
 
 import onReduxPatch from './onReduxPatch';
+import onSingletonPatch from './onSingletonPatch';
 
 const controller = {
   [constants.IPC_METHOD_REDUX_PATCH]: onReduxPatch,
+  [constants.IPC_METHOD_SINGLETON_PATCH]: onSingletonPatch,
 };
 
 export default (process, data) => handle(

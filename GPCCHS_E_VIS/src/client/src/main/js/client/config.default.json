@@ -366,5 +366,14 @@
   },
   "REAL_TIME_RESYNCHRO_EACH_X_TICKS": 10,
   "SAMPLING_NUMBER": 400,
-  "SAMPLING_OFF_DELTA_T_MAX": 300000
+  "SAMPLING_OFF_DELTA_T_MAX": 300000,
+  "STRING_TO_VALUE_MAP": {
+    "monitoringState": {
+      "nominal": 0,
+      "warning": 1,
+      "danger": 2,
+      "severe": 3,
+      "critical": 4
+    }
+  }
 }

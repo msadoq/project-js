@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import { getConfigurationByViewId } from 'viewManager';
@@ -8,7 +9,7 @@ import { open as openModal } from 'store/actions/modals';
 import { updateViewTab, updateViewPanels } from 'store/actions/ui';
 import { getViewTab, getViewPanels } from 'store/reducers/ui/editor';
 import {
-  updateEntryPoint,
+  updateAlarmMode,
 } from 'store/actions/views';
 import GroundAlarmEditor from './GroundAlarmEditor';
 
@@ -20,12 +21,12 @@ const mapStateToProps = createStructuredSelector({
   panels: getViewPanels,
 });
 
-const mapDispatchToProps = {
-  updateEntryPoint,
+const mapDispatchToProps = dispatch => bindActionCreators({
+  updateAlarmMode,
   updateViewTab,
   updateViewPanels,
   openModal,
-};
+}, dispatch);
 
 const GroundAlarmEditorContainer = connect(mapStateToProps, mapDispatchToProps)(GroundAlarmEditor);
 

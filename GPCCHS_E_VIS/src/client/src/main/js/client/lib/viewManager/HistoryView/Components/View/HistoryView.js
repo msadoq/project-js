@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
+import _find from 'lodash/find';
 import _ from 'lodash/fp';
+import _has from 'lodash/has';
 
 import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
@@ -11,32 +13,27 @@ import { updateSearchCountArray } from 'store/reducers/pages';
 import VirtualizedTableViewContainer
   from 'viewManager/common/Components/View/VirtualizedTableView/VirtualizedTableViewContainer';
 import LinksContainer from 'windowProcess/View/LinksContainer';
-
-import { buildFormulaForAutocomplete } from '../../../common';
+import { parseDragData } from '../../../common/utils';
 
 import styles from './HistoryView.css';
 
-const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
+/**
+ * @param id
+ * @param entryPoints
+ * @returns {*}
+ * @pure
+ */
+export const getUniqueEpId = (id, entryPoints) => {
+  let i = 2;
+  let newId = id;
 
-// parse clipboard data to create partial entry point
-function parseDragData(data) {
-  const formula =
-    buildFormulaForAutocomplete(
-      data.catalogName,
-      data.item,
-      getComObject(data.comObjects),
-      data.comObjectFields
-    );
-
-  return {
-    name: 'HistoryViewEP',
-    connectedData: {
-      formula,
-      domain: '*',
-      timeline: '*',
-    },
-  };
-}
+  // eslint-disable-next-line no-loop-func, "DV6 TBC_CNES Check if name is taken"
+  while (Object.keys(entryPoints).find(k => entryPoints[k].name === newId)) {
+    newId = `${id}_${i}`;
+    i += 1;
+  }
+  return newId;
+};
 
 class HistoryView extends React.Component {
   static propTypes = {
@@ -55,6 +52,11 @@ class HistoryView extends React.Component {
     inspectorEpId: PropTypes.string,
     openEditor: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
+    configuration: PropTypes.shape({
+      procedures: PropTypes.array,
+      entryPoints: PropTypes.array,
+      legend: PropTypes.object,
+    }).isRequired,
     last: PropTypes.shape(),
     entryPoints: PropTypes.shape().isRequired,
     entryPointsWithMetadata: PropTypes.arrayOf(PropTypes.shape()).isRequired,
@@ -64,6 +66,10 @@ class HistoryView extends React.Component {
     countBySearching: PropTypes.number.isRequired,
     searchCount: PropTypes.objectOf(PropTypes.shape),
     updateSearchCount: PropTypes.func.isRequired,
+    addMessage: PropTypes.func.isRequired,
+    sessions: PropTypes.arrayOf(PropTypes.shape()),
+    timelines: PropTypes.shape(),
+    defaultTimelineId: PropTypes.string.isRequired,
     sortState: PropTypes.shape().isRequired,
   };
 
@@ -77,6 +83,8 @@ class HistoryView extends React.Component {
     searchCount: {},
     links: [],
     showLinks: false,
+    sessions: [],
+    timelines: {},
   };
 
   /**
@@ -225,23 +233,56 @@ class HistoryView extends React.Component {
     );
   };
 
+  /**
+   * TODO: Method onDrop: ready to be moved to directory viewManager/common and
+   * TODO: factorized together with the drop method of PlotView
+   * @param ev
+   */
   onDrop = (ev) => {
     const {
       addEntryPoint,
       openEditor,
+      configuration,
+      sessions,
+      timelines,
+      viewId,
+      defaultTimelineId,
+      addMessage,
     } = this.props;
-
     const data = ev.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
-
-    if (!_.get('catalogName', content)) {
+    const required = ['catalogName', 'comObjects', 'item', 'nameSpace', 'sessionName', 'domain'];
+    const missing = required.filter(
+      key => !_has(content, key)
+    );
+    if (!(missing.length === 0)) {
+      const messageToDisplay = `Missing properties in dropped data: ${missing.join(', ')}.`;
+      addMessage('danger', messageToDisplay);
+    }
+    const session = _find(
+      sessions,
+      item => item.id.toString() === content.sessionName.toString()
+    );
+    if (session === undefined) {
+      const messageToDisplay = `No session is found with sessionName '${content.sessionName.toString()}'.`;
+      addMessage('danger', messageToDisplay);
       return;
     }
-
-    const parsedData = parseDragData(content);
-    addEntryPoint(parsedData);
+    const timeline = _find(
+      timelines,
+      item => item.sessionName === session.name
+    );
+    if (timeline === undefined) {
+      const messageToDisplay = `No timeline associated with sessionName '${content.sessionName.toString()} is found'.`;
+      addMessage('danger', messageToDisplay);
+    }
+    const epId = getUniqueEpId(data.item || 'entryPoint', configuration.entryPoints);
+    const timelineId = timeline === undefined ? defaultTimelineId : timeline.id;
+    addEntryPoint(
+      viewId,
+      parseDragData(content, epId, timelineId)
+    );
     openEditor();
-
     ev.stopPropagation();
   };
 
@@ -373,7 +414,6 @@ class HistoryView extends React.Component {
               contentModifier={this.contentModifier(entryPoints, last)}
               overrideStyle={this.overrideStyle}
               withGroups
-              selectableRows
               searching={searching}
               searchForThisView={searchForThisView}
             />

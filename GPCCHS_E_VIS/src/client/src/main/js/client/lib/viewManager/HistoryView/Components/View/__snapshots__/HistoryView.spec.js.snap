@@ -2,13 +2,43 @@
 
 exports[`HistoryView Component rendering should render default view if a timeline is selected 1`] = `
 ShallowWrapper {
-  "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <HistoryView
     addEntryPoint={[Function]}
+    addMessage={[Function]}
+    configuration={
+        Object {
+            "entryPoints": Array [
+              Object {
+                "connectedData": Object {
+                  "catalog": "Reporting",
+                  "catalogItem": "SAT_BC_NUMTC13",
+                  "comObject": "ReportingParameter",
+                  "dataType": "time_based_data",
+                  "domain": "fr.cnes.isis",
+                },
+                "id": "cbe8c689-bc99-4deb-961b-0e87148a5571",
+                "name": "ep1",
+                "stateColors": Array [],
+              },
+            ],
+            "showLegend": false,
+            "tables": Object {
+              "history": Object {
+                "cols": Array [],
+                "name": "Entry points history",
+                "sorting": Object {
+                  "colName": "referenceTimestamp",
+                  "direction": "DESC",
+                },
+              },
+            },
+          }
+    }
     countBySearching={0}
     currentRowIndexes={Array []}
-    entryPoints={Array []}
+    defaultTimelineId="Session 1"
+    entryPoints={Object {}}
     entryPointsWithMetadata={Array []}
     inspectorEpId={null}
     isInspectorOpened={false}
@@ -23,6 +53,7 @@ ShallowWrapper {
     searchCount={Object {}}
     searchForThisView={false}
     searching=""
+    sessions={Array []}
     showLinks={false}
     sortState={
         Object {
@@ -30,6 +61,7 @@ ShallowWrapper {
             "direction": "DESC",
           }
     }
+    timelines={Object {}}
     updateSearchCount={[Function]}
     updateShowLinks={[Function]}
     viewId="viewId"
@@ -57,11 +89,12 @@ ShallowWrapper {
         >
                 <Connect(VirtualizedTableView)
                         contentModifier={[Function]}
-                        gridRef={[Function]}
                         overrideStyle={[Function]}
                         searchForThisView={false}
                         searching=""
+                        selectableRows={true}
                         tableId="history"
+                        tableRef={[Function]}
                         viewId="viewId"
                         withGroups={true}
                 />
@@ -92,11 +125,12 @@ ShallowWrapper {
 >
             <Connect(VirtualizedTableView)
                         contentModifier={[Function]}
-                        gridRef={[Function]}
                         overrideStyle={[Function]}
                         searchForThisView={false}
                         searching=""
+                        selectableRows={true}
                         tableId="history"
+                        tableRef={[Function]}
                         viewId="viewId"
                         withGroups={true}
             />
@@ -128,11 +162,12 @@ ShallowWrapper {
           "props": Object {
             "children": <Connect(VirtualizedTableView)
               contentModifier={[Function]}
-              gridRef={[Function]}
               overrideStyle={[Function]}
               searchForThisView={false}
               searching=""
+              selectableRows={true}
               tableId="history"
+              tableRef={[Function]}
               viewId="viewId"
               withGroups={true}
 />,
@@ -145,11 +180,12 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "contentModifier": [Function],
-              "gridRef": [Function],
               "overrideStyle": [Function],
               "searchForThisView": false,
               "searching": "",
+              "selectableRows": true,
               "tableId": "history",
+              "tableRef": [Function],
               "viewId": "viewId",
               "withGroups": true,
             },
@@ -215,11 +251,12 @@ ShallowWrapper {
           >
                     <Connect(VirtualizedTableView)
                               contentModifier={[Function]}
-                              gridRef={[Function]}
                               overrideStyle={[Function]}
                               searchForThisView={false}
                               searching=""
+                              selectableRows={true}
                               tableId="history"
+                              tableRef={[Function]}
                               viewId="viewId"
                               withGroups={true}
                     />
@@ -250,11 +287,12 @@ ShallowWrapper {
 >
               <Connect(VirtualizedTableView)
                             contentModifier={[Function]}
-                            gridRef={[Function]}
                             overrideStyle={[Function]}
                             searchForThisView={false}
                             searching=""
+                            selectableRows={true}
                             tableId="history"
+                            tableRef={[Function]}
                             viewId="viewId"
                             withGroups={true}
               />
@@ -286,11 +324,12 @@ ShallowWrapper {
             "props": Object {
               "children": <Connect(VirtualizedTableView)
                 contentModifier={[Function]}
-                gridRef={[Function]}
                 overrideStyle={[Function]}
                 searchForThisView={false}
                 searching=""
+                selectableRows={true}
                 tableId="history"
+                tableRef={[Function]}
                 viewId="viewId"
                 withGroups={true}
 />,
@@ -303,11 +342,12 @@ ShallowWrapper {
               "nodeType": "class",
               "props": Object {
                 "contentModifier": [Function],
-                "gridRef": [Function],
                 "overrideStyle": [Function],
                 "searchForThisView": false,
                 "searching": "",
+                "selectableRows": true,
                 "tableId": "history",
+                "tableRef": [Function],
                 "viewId": "viewId",
                 "withGroups": true,
               },
@@ -361,8 +401,16 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getSnapshotBeforeUpdate": true,
+        },
       },
     },
+    "attachTo": undefined,
+    "hydrateIn": undefined,
   },
 }
 `;

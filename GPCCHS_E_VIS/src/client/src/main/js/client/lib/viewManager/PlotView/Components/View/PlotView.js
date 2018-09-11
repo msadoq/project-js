@@ -114,15 +114,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _each from 'lodash/each';
+import _filter from 'lodash/filter';
+import _find from 'lodash/find';
 import _get from 'lodash/get';
+import _has from 'lodash/has';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _sum from 'lodash/sum';
 import _keys from 'lodash/keys';
 import _memoize from 'lodash/memoize';
 import _uniq from 'lodash/uniq';
-import _filter from 'lodash/filter';
-import _ from 'lodash/fp';
 import classnames from 'classnames';
 import LinksContainer from 'windowProcess/View/LinksContainer';
 // TODO @JMIRA SAMPLING decomment if sampling is not guilty
@@ -130,6 +131,7 @@ import SamplingButtonContainer from 'windowProcess/View/SamplingButtonContainer'
 import withDimensions from 'windowProcess/common/hoc/withDimensions';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import DroppableContainer from 'windowProcess/common/DroppableContainer';
+import { getByField } from 'windowProcess/common/stringToIntegerMapSingleton';
 import dateFormat, { TAI } from 'viewManager/commonData/date';
 import getLogger from 'common/logManager';
 import { updateSearchCountArray } from 'store/reducers/pages';
@@ -139,8 +141,9 @@ import GrizzlyChart from './GrizzlyParametric/Chart';
 import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
-import { buildFormulaForAutocomplete, memoizeIsSignificantValue } from '../../../common';
+import { memoizeIsSignificantValue } from '../../../common';
 import { getTupleId } from '../../../../store/reducers/catalogs';
+import { parseDragData } from '../../../common/utils';
 
 const logger = getLogger('view:plot');
 
@@ -176,6 +179,8 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
   const xAxes = [];
   let yAxesIds = [];
   const yAxes = [];
+  let formatAsString = false;
+  let stringField = null;
   entryPoints.forEach((ep) => {
     if (ep.parametric) {
       xAxesIds.push(_get(ep, ['connectedDataParametric', 'xAxisId']));
@@ -202,6 +207,11 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
           _get(ep, ['connectedData', 'axisId']) === axis.id
         )
       );
+
+    axisEntryPoints.forEach((ep) => {
+      formatAsString = !!getByField(_get(ep, ['connectedData', 'comObjectField']));
+      stringField = formatAsString ? _get(ep, ['connectedData', 'comObjectField']) : stringField;
+    });
 
     let dataMin = _min(axisEntryPoints.map(ep => data.min[ep.name]));
     let dataMax = _max(axisEntryPoints.map(ep => data.max[ep.name]));
@@ -240,6 +250,8 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
       logSettings: axis.logSettings,
       formatAsDate: !!axis.formatAsDate,
       constants: axisConstant,
+      formatAsString,
+      stringField,
     });
   });
 
@@ -265,6 +277,7 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
         format: '.2f',
         formatAsDate: true,
         labelStyle: {},
+        formatAsString,
       });
     }
     const axis = axes[axisId];
@@ -304,6 +317,7 @@ export const getUniqAxes = (entryPoints, axes, grids, constants, data, visuWindo
       logarithmic: axis.logarithmic,
       logSettings: axis.logSettings,
       formatAsDate: axis.formatAsDate,
+      formatAsString,
     });
   });
   return { xAxes, yAxes };
@@ -444,39 +458,6 @@ const stopInstruction = (packet, entryPoint, showEpNonNominal) => {
   return stop;
 };
 
-/**
- * @param data
- * @param id
- * @param defaultTimelineId
- * @returns {{name: *, connectedData: {formula: string, fieldX: string, timeline: *}}}
- * @pure
- */
-export const parseDragData = (data, id, defaultTimelineId) => {
-  const getComObject = _.propOr('UNKNOWN_COM_OBJECT', 0);
-
-  const formula =
-    buildFormulaForAutocomplete(
-      data.catalogName,
-      data.item,
-      getComObject(data.comObjects),
-      data.comObjectFields
-    );
-  return {
-    name: data.item,
-    connectedData: {
-      formula,
-      catalog: data.catalogName,
-      catalogItem: data.item,
-      comObject: getComObject(data.comObjects),
-      comObjectField: data.comObjectFields || 'convertedValue',
-      fieldX: 'onboardDate',
-      unit: 'V',
-      domain: '*',
-      timeline: defaultTimelineId,
-    },
-  };
-};
-
 const plotPadding = 15;
 const securityTopPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
@@ -535,6 +516,9 @@ export class GrizzlyPlotView extends React.Component {
     updateSearchCount: PropTypes.func.isRequired,
     searching: PropTypes.string,
     searchCount: PropTypes.objectOf(PropTypes.shape),
+    addMessage: PropTypes.func.isRequired,
+    sessions: PropTypes.arrayOf(PropTypes.any),
+    timelines: PropTypes.shape(),
   };
 
   static defaultProps = {
@@ -777,27 +761,55 @@ export class GrizzlyPlotView extends React.Component {
     }
     return [];
   }
+
+  /**
+   * TODO: Method drop: ready to be moved to directory viewManager/common and
+   * TODO: factorized together with the onDrop method of HistoryView
+   * @param ev
+   */
   drop(e) {
     const {
       addEntryPoint,
       openEditor,
-      viewId,
       configuration,
+      sessions,
+      timelines,
+      viewId,
       defaultTimelineId,
+      addMessage,
     } = this.props;
-
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
-    if (!_get(content, 'catalogName')) {
-      return;
+    const required = ['catalogName', 'comObjects', 'item', 'nameSpace', 'sessionName', 'domain'];
+    const missing = required.filter(
+      key => !_has(content, key)
+    );
+    if (!(missing.length === 0)) {
+      const messageToDisplay = `Missing properties in dropped data: ${missing.join(', ')}.`;
+      addMessage('danger', messageToDisplay);
+    }
+    const session = _find(
+      sessions,
+      item => item.id.toString() === content.sessionName.toString()
+    );
+    if (session === undefined) {
+      const messageToDisplay = `No session is found with sessionName '${content.sessionName.toString()}'.`;
+      addMessage('danger', messageToDisplay);
+    }
+    const timeline = _find(
+      timelines,
+      item => item.sessionName === session.name
+    );
+    if (timeline === undefined) {
+      const messageToDisplay = `No timeline associated with sessionName '${content.sessionName.toString()} is found'.`;
+      addMessage('danger', messageToDisplay);
     }
     const epId = getUniqueEpId(data.item || 'entryPoint', configuration.entryPoints);
     addEntryPoint(
       viewId,
-      parseDragData(content, epId, defaultTimelineId)
+      parseDragData(content, epId, timeline.id || defaultTimelineId)
     );
     openEditor();
-
     e.stopPropagation();
   }
   shouldRender() {
@@ -1081,8 +1093,6 @@ export class GrizzlyPlotView extends React.Component {
             updateAxis={this.state.updateUnit}
             lines={
             entryPointsConfiguration.map((ep) => {
-              const defaultY = _get(ep, ['connectedData', 'defaultY'], 1);
-              const stringParameter = !ep.parametric && _get(ep, ['connectedData', 'stringParameter']);
               let unit;
               if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
                 const { domainId, sessionId, catalog, parameterName } =
@@ -1112,14 +1122,16 @@ export class GrizzlyPlotView extends React.Component {
                 dataAccessor: ep.name,
                 stopInstruction: packet => stopInstruction(packet, ep, this.state.showEpNonNominal),
                 xAccessor: null, // default packet => packet.x
-                yAccessor: stringParameter ? () => defaultY : null, // default packet => packet.value
+                yAccessor: null, // default packet => packet.value
                 xTooltipAccessor: null, // default packet => packet.x
-                yTooltipAccessor: stringParameter ? packet => packet.symbol : null, // default packet => packet.value
+                yTooltipAccessor: null, // default packet => packet.value
                 colorAccessor: 'color',
                 tooltipFormatter,
                 highlighted: this.state.epNamesMatchWithSearching.indexOf(ep.name) !== -1,
                 unit: ep.connectedData.convertTo ?
-                    ep.connectedData.convertTo : unit };
+                    ep.connectedData.convertTo : unit,
+                displayMode: ep.connectedData.displayMode,
+              };
             })
           }
           />

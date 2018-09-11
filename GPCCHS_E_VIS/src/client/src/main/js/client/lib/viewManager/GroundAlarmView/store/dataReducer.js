@@ -1,122 +1,131 @@
 import _ from 'lodash/fp';
 
-import * as types from 'store/types';
-import * as constants from 'viewManager/constants';
-
 import cleanCurrentViewData from './cleanViewData';
 import { viewRangeAdd, selectDataPerView } from './viewDataUpdate';
+import createScopedDataReducer from '../../commonData/createScopedDataReducer';
+import {
+  getViewEntryPoint,
+  getVisuWindowByViewId,
+} from '../../../store/selectors/views';
 
-const initialSubState = {
-  lines: {},
-  indexes: [],
+import {
+  WS_TIMEBAR_UPDATE_CURSORS,
+  INJECT_DATA_RANGE,
+  WS_VIEWDATA_CLEAN, WS_VIEW_UPDATE_ENTRYPOINT,
+} from '../../../store/types';
+import { VM_VIEW_GROUNDALARM } from '../../constants';
+import shouldShowAlarm from './shouldShowAlarm';
+
+/**
+ * Updates alarm indexes to match shown alarms
+ *
+ * @param state
+ * @param visuWindow
+ * @param mode
+ * @returns {*}
+ * @private
+ */
+const _refreshShownAlarms = (state = {}, { visuWindow, mode }) => {
+  if (!visuWindow || !mode) {
+    return state;
+  }
+
+  const lines = _.getOr({}, 'lines', state);
+
+  const updatedIndexes = Object.keys(lines)
+    .reduce((acc, oid) => {
+      const alarm = lines[oid];
+
+      if (shouldShowAlarm(alarm, { visuWindow, mode })) {
+        return [...acc, oid];
+      }
+
+      return acc;
+    }, []);
+
+  return _.set('indexes', updatedIndexes, state);
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-export default function groundAlarmViewData(state = {}, action) {
+const scopedGroundAlarmViewDataReducer = (state = {}, action, viewId, rootState) => {
+  const _getAlarmMode = () => {
+    const entryPoint = getViewEntryPoint(rootState, { viewId, epName: 'groundAlarmEP' });
+
+    return entryPoint.mode;
+  };
+  const _getVisuWindow = () => getVisuWindowByViewId(rootState, { viewId });
+
   switch (action.type) {
-    case types.DATA_REMOVE_ALL_VIEWDATA:
-    case types.HSC_CLOSE_WORKSPACE:
-      return {};
-    case types.WS_VIEW_OPENED:
-    case types.WS_VIEW_ADD_BLANK:
-      if (action.payload.view.type !== constants.VM_VIEW_GROUNDALARM) {
-        return state;
-      }
-      return { ...state, [action.payload.view.uuid]: initialSubState };
-    case types.WS_PAGE_OPENED:
-    case types.WS_WORKSPACE_OPENED:
-      {
-        const { views } = action.payload;
-        if (!views) {
-          return state;
-        }
-        const newState = {};
-        views.forEach((view) => {
-          if (view.type !== constants.VM_VIEW_GROUNDALARM) {
-            return;
-          }
-          newState[view.uuid] = initialSubState;
-        });
-        return { ...state, ...newState };
-      }
-    case types.WS_VIEW_CLOSE: {
-      const { viewId } = action.payload;
-      if (state[viewId]) {
-        return _.omit(viewId, state);
-      }
-      return state;
-    }
-    case types.WS_PAGE_CLOSE: {
-      const { viewIds } = action.payload;
-      if (viewIds.length) {
-        return _.omit(viewIds, state);
-      }
-      return state;
-    }
-    case types.INJECT_DATA_RANGE: {
-      const { dataToInject, newViewMap, newExpectedRangeIntervals, visuWindow }
-        = action.payload;
+    case INJECT_DATA_RANGE: {
+      const {
+        dataToInject,
+        newViewMap,
+        newExpectedRangeIntervals,
+        visuWindow: actionVisuWindow, // visuWindow provided by action payload and not current state
+      } = action.payload;
 
       const dataKeys = Object.keys(dataToInject);
-      // If nothing changed and no data to import, return state
+
       if (!dataKeys.length) {
         return state;
       }
 
-      // since now, state will change
-      let newState = state;
-      const viewIds = Object.keys(state);
-      for (let i = 0; i < viewIds.length; i += 1) {
-        const viewId = viewIds[i];
-        // Data Selection
-        const epSubState = selectDataPerView(
-          newViewMap[viewId],
-          newExpectedRangeIntervals,
-          dataToInject,
-          visuWindow
+      let updatedState = state || {};
+
+      const epSubState = selectDataPerView(
+        newViewMap[viewId],
+        newExpectedRangeIntervals,
+        dataToInject,
+        actionVisuWindow
+      );
+      if (Object.keys(epSubState).length !== 0) {
+        updatedState = viewRangeAdd(
+          updatedState,
+          viewId,
+          epSubState
         );
-        if (Object.keys(epSubState).length !== 0) {
-          // Data injection
-          const viewState = viewRangeAdd(
-            newState[viewId],
-            viewId,
-            epSubState
-          );
-          if (viewState !== newState[viewId]) {
-            newState = { ...newState, [viewId]: viewState };
-          }
-        }
       }
-      return newState || {};
+
+      const visuWindow = _getVisuWindow();
+      const mode = _getAlarmMode();
+
+      updatedState = _refreshShownAlarms(updatedState, { visuWindow, mode });
+
+      return updatedState;
     }
-    case types.WS_VIEWDATA_CLEAN: {
+    case WS_VIEWDATA_CLEAN: {
       const { previousDataMap, dataMap } = action.payload;
-      let newState = state;
-      const viewIds = Object.keys(state);
-      for (let i = 0; i < viewIds.length; i += 1) {
-        const viewId = viewIds[i];
-        const viewData = state[viewId];
+      let updatedState = state;
 
-        // Cleaning
-        const subState = cleanCurrentViewData(
-          viewData,
-          previousDataMap.perView[viewId],
-          dataMap.perView[viewId],
-          previousDataMap.expectedRangeIntervals,
-          dataMap.expectedRangeIntervals
-        );
-        if (subState !== viewData) {
-          newState = { ...newState, [viewId]: subState || initialSubState };
-        }
-      }
-      return newState;
+      updatedState = cleanCurrentViewData(
+        state,
+        previousDataMap.perView[viewId],
+        dataMap.perView[viewId],
+        previousDataMap.expectedRangeIntervals,
+        dataMap.expectedRangeIntervals
+      );
+
+      const visuWindow = _getVisuWindow();
+      const mode = _getAlarmMode();
+
+      updatedState = _refreshShownAlarms(updatedState, { visuWindow, mode });
+
+      return updatedState;
     }
+    case WS_TIMEBAR_UPDATE_CURSORS:
+    case WS_VIEW_UPDATE_ENTRYPOINT: {
+      const visuWindow = _getVisuWindow();
+      const mode = _getAlarmMode();
 
+      return _refreshShownAlarms(state, { visuWindow, mode });
+    }
     default:
       return state;
   }
-}
+};
 
 export const getGroundAlarmViewData = state => state.GroundAlarmViewData;
 
-export const getData = (state, { viewId }) => getGroundAlarmViewData(state)[viewId];
+export const getData = (state, { viewId }) => getGroundAlarmViewData(state)[viewId] || {};
+
+export default createScopedDataReducer(scopedGroundAlarmViewDataReducer, {}, VM_VIEW_GROUNDALARM);

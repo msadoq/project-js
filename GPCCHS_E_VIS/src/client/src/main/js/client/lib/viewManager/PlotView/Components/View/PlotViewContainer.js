@@ -53,12 +53,14 @@ import { getLinks, areLinksShown } from 'store/reducers/views';
 import { getInspectorEpId } from 'store/reducers/inspector';
 import { getPage, getPageIdByViewId, getSearchCount, getSearchingByPage, getSearchViewsIds } from 'store/reducers/pages';
 import { getTimebarTimelines } from 'store/reducers/timebarTimelines';
-import { getTimeline } from 'store/reducers/timelines';
+import { getTimeline, getTimelines } from 'store/reducers/timelines';
 import { getConfigurationByViewId } from 'viewManager';
 import { getTimebar, isMaxVisuDurationExceeded } from 'store/reducers/timebars';
 import { toggleZoomState } from 'store/actions/sampling';
 import SizablePlotView from './PlotView';
 import { updateSearchCount } from '../../../../store/actions/pages';
+import { add } from '../../../../store/actions/messages';
+import { getSessions } from '../../../../store/reducers/sessions';
 
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
@@ -87,6 +89,8 @@ const mapStateToProps = (state, { viewId }) => {
     catalogs: state.catalogs,
     searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
     sampling: state.sampling,
+    sessions: getSessions(state),
+    timelines: getTimelines(state),
   };
 };
 
@@ -100,6 +104,7 @@ const mapDispatchToProps = (dispatch, { viewId, pageId }) => bindActionCreators(
   toggleLegend,
   updateSearchCount: count => updateSearchCount(pageId, viewId, count),
   toggleZoomState,
+  addMessage: (status, content) => add(viewId, status, content),
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SizablePlotView);

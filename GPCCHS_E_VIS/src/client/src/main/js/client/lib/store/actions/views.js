@@ -95,6 +95,7 @@ export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, 'views
 
 export const updateDomainName = simple(types.WS_VIEW_UPDATE_DOMAINNAME, 'viewId', 'domainName');
 export const updateSessionName = simple(types.WS_VIEW_UPDATE_SESSIONNAME, 'viewId', 'sessionName');
+export const updateAlarmMode = simple(types.WS_VIEW_UPDATE_ALARMMODE, 'viewId', 'mode');
 
 /* ------------------------ */
 

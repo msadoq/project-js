@@ -141,9 +141,6 @@
         "timeline": {
           "type": "string"
         },
-        "stringParameter": {
-          "type": "boolean"
-        },
         "defaultY": {
           "type": "number"
         },
@@ -165,7 +162,6 @@
         "format",
         "domain",
         "timeline",
-        "stringParameter",
         "defaultY"
       ]
     },

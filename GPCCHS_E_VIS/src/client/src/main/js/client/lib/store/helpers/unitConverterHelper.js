@@ -61,14 +61,13 @@ const convertData = (toConvertMap, dataToInject, cb) => {
         tbdIdKey,
         field,
         convertTo,
-        timestamp,
-        prefix } = results[resultsKey];
-      _.set(convertedDataToInject, [prefix, tbdIdKey, timestamp, 'gpinuc', field, convertTo], response);
+        prefix,
+        listToConvert } = results[resultsKey];
+      listToConvert.forEach(({ value, timestamp }, index) =>
+      _.set(convertedDataToInject, [prefix, tbdIdKey, timestamp, 'gpinuc', field, convertTo], response[index]));
     });
 
     cb(err, convertedDataToInject);
-    // console.log(toConvertMap);
-    // console.log(convertedDataToInject);
     if (err) {
       // eslint-disable-next-line no-console
       console.log(err);
@@ -82,34 +81,31 @@ const preparePromisesMap = (keysLists, dataToInject, toConvertMap, prefix) => {
     const timestampMap = dataToInject[tbdIdKey];
     const timestampArray = Object.keys(timestampMap);
     const arrayToConvert = toConvertMap[tbdIdKey];
-    if (arrayToConvert) {
-      timestampArray.forEach((timestamp) => {
-        arrayToConvert.forEach(({ field, convertFrom, convertTo }) => {
-          const value = timestampMap[timestamp][field];
-          asyncMap[`${tbdIdKey}${field}${convertFrom}${convertTo}${timestamp}`] = ((callbackAsync) => {
-            passerelle.caller('convertUnit',
-              {
-                // TODO, add the real value = value: value.symbol,
-                value: value.symbol,
-                unitesource: convertFrom,
-                unitecible: convertTo,
-              },
-              (response) => {
-                callbackAsync(null,
-                  { response,
-                    tbdIdKey,
-                    field,
-                    convertFrom,
-                    convertTo,
-                    timestamp,
-                    fromValue: value,
-                    prefix,
-                  }
-                );
-              }
-            );
-          });
-        });
+    if (arrayToConvert) { // If there are some stuff to convert
+      arrayToConvert.forEach(({ field, convertFrom, convertTo }) => {
+        const listToConvert = timestampArray.map(timestamp =>
+          ({ value: timestampMap[timestamp][field].symbol, timestamp }));
+        asyncMap[`${tbdIdKey}${field}${convertFrom}${convertTo}`] = (callbackAsync) => {
+          passerelle.caller('convertUnit',
+            {
+              value: listToConvert,
+              unitesource: convertFrom,
+              unitecible: convertTo,
+            },
+            (response) => {
+              callbackAsync(null,
+                { response,
+                  tbdIdKey,
+                  field,
+                  convertFrom,
+                  convertTo,
+                  prefix,
+                  listToConvert,
+                }
+              );
+            }
+          );
+        };
       });
     }
   });

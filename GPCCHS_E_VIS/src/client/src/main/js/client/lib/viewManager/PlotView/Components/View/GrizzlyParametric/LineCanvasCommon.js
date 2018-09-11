@@ -85,10 +85,11 @@ export const drawLinesCanvas = (
   parametric,
   divStyle,
   ctx,
-  constants
+  constants,
+  displayMode
 ) => {
   ctx.clearRect(0, 0, divStyle.width, divStyle.height);
-  // let totalPoints = 0;
+  let totalPoints = 0;
 
   // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
   if (perfOutput) console.time();
@@ -108,7 +109,7 @@ export const drawLinesCanvas = (
   lines.forEach((line) => {
     const lineIndexes = indexes[line.id];
     const lineData = line.data;
-    // if (perfOutput) totalPoints += lineIndexes.length;
+    if (perfOutput) totalPoints += lineIndexes.length;
 
     if (!lineData || !lineIndexes) {
       return;
@@ -126,12 +127,14 @@ export const drawLinesCanvas = (
       parametric,
       divStyle,
       ctx,
-      line);
+      line,
+      displayMode
+    );
   });
 
   if (perfOutput) {
     // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
-    /* console.log(
+    console.log(
       'axis pair',
       `{lines[0].xAxisId}-${lines[0].yAxisId}`,
       'Just drawed',
@@ -139,7 +142,7 @@ export const drawLinesCanvas = (
       'lines, about',
       totalPoints,
       'total points'
-    ); */
+    );
     // eslint-disable-next-line no-console, "DV6 TBC_CNES Perf logging"
     console.timeEnd();
   }
@@ -192,9 +195,9 @@ export const drawLine = (perfOutput,
                          parametric,
                          divStyle,
                          ctx,
-                         line) => {
-  // console.log(line, parametric);
-// Default values
+                         line,
+                         displayMode) => {
+  // Default values
   const { lineSize, pointSize, fontSize, pointOffset } = getDefaultValues(ctx, line);
   const fill = line.fill || '#222222';
   let lastColor;
@@ -296,7 +299,22 @@ export const drawLine = (perfOutput,
 
     // should draw a subline between current data and next data
     if (shouldDrawSubLine(i, stoppedCurrent, stoppedPrevious)) {
-      ctx.lineTo(nextX, nextY);
+      switch (displayMode) {
+        case 0:
+          ctx.lineTo(nextX, nextY);
+          break;
+        case 1:
+          ctx.lineTo(currentX, nextY);
+          ctx.lineTo(nextX, nextY);
+          break;
+        case 2:
+          ctx.lineTo(nextX, currentY);
+          ctx.lineTo(nextX, nextY);
+          break;
+        default:
+          ctx.lineTo(nextX, nextY);
+          break;
+      }
     } else {
       ctx.moveTo(nextX, nextY);
     }
@@ -398,7 +416,7 @@ export const drawCurrentCursor = (ctx,
                                   packet,
                                   previousPacket,
                                   nextPacket
-                                  ) => {
+) => {
   if (
     parametric &&
     current &&

@@ -10,8 +10,8 @@ const {
 } = require('./stringToIntegerMapSingleton');
 
 describe('common:stringToIntegerMapSingleton', () => {
-  it('should map be initialise by default with configuration', () => {
-    expect(getAll()).toEqual({});
+  beforeAll(() => {
+    init(() => {});
   });
   it('should map be initialise by default with configuration', () => {
     init(() => {});
@@ -46,10 +46,10 @@ describe('common:stringToIntegerMapSingleton', () => {
     expect(getValue('monitoringState', 'warning')).toEqual(1);
   });
   it('should return false unknown field', () => {
-    expect(getValue('test', 'warning')).toEqual(false);
+    expect(getValue('test', 'warning')).toEqual(0);
   });
   it('should return false unknown string', () => {
-    expect(getValue('monitoringState', 'test')).toEqual(false);
+    expect(getValue('monitoringState', 'test')).toEqual(0);
   });
   it('should return the max known value  for the field (here 5)', () => {
     expect(getMaxValues('monitoringState')).toEqual({ monitoringState: 5 });

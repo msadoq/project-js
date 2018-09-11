@@ -8,7 +8,7 @@ let fn = () => {};
 
 const getAll = () => stringToIntegerMap;
 
-const getValue = (field, string) => _.getOr(false, [field, string], stringToIntegerMap);
+const getValue = (field, string) => _.getOr(0, [field, string], stringToIntegerMap);
 
 const getByField = field => _.getOr(false, [field], stringToIntegerMap);
 
@@ -38,7 +38,7 @@ const getStringByValue = (field, value) =>
 
 const getOrCreate = (field, string) => {
   let value = getValue(field, string);
-  if (value === false) {
+  if (!value) {
     if (getByField(field)) {
       value = getMaxValue(field) + 1;
       stringToIntegerMap = _.set(
@@ -49,12 +49,13 @@ const getOrCreate = (field, string) => {
     } else {
       stringToIntegerMap = _.set(
         [field, string],
-        0,
+        value,
         stringToIntegerMap
       );
     }
-    fn(stringToIntegerMap);
+    maxValues = _.set([field], value, maxValues);
   }
+  fn(stringToIntegerMap);
   return value;
 };
 

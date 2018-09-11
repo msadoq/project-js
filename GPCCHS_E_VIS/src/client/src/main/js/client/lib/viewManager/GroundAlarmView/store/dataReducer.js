@@ -15,6 +15,7 @@ import {
 } from '../../../store/types';
 import { VM_VIEW_GROUNDALARM } from '../../constants';
 import shouldShowAlarm from './shouldShowAlarm';
+import { getConfigurationByViewId } from '../../selectors';
 
 /**
  * Updates alarm indexes to match shown alarms
@@ -47,7 +48,7 @@ const _refreshShownAlarms = (state = {}, { visuWindow, mode }) => {
 };
 
 /* eslint-disable complexity, "DV6 TBC_CNES Redux reducers should be implemented as switch case" */
-const scopedGroundAlarmViewDataReducer = (state = {}, action, viewId, rootState) => {
+export const scopedGroundAlarmViewDataReducer = (state = {}, action, viewId, rootState) => {
   const _getAlarmMode = () => {
     const entryPoint = getViewEntryPoint(rootState, { viewId, epName: 'groundAlarmEP' });
 
@@ -79,10 +80,13 @@ const scopedGroundAlarmViewDataReducer = (state = {}, action, viewId, rootState)
         actionVisuWindow
       );
       if (Object.keys(epSubState).length !== 0) {
+        const viewConfig = getConfigurationByViewId(rootState, { viewId });
+
         updatedState = viewRangeAdd(
           updatedState,
           viewId,
-          epSubState
+          epSubState,
+          viewConfig
         );
       }
 

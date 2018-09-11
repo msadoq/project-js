@@ -150,7 +150,7 @@ export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPo
 // composed
 export const getViewEntryPoint = (state, { viewId, epName }) => (
   {
-    ...getViewEntryPoints(state, { viewId })[epName],
+    ..._.getOr({}, epName, getViewEntryPoints(state, { viewId })),
     name: epName,
   }
 );

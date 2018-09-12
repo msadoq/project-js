@@ -272,32 +272,35 @@ const dcVersionMap = {
         }),
       ], callback);
     },
-    requestTimebasedQuery: (flatDataId, dataId, interval, args, samplingNumber) => (
-      commands.dc.rpc(
-        constants.ADE_TIMEBASED_QUERY,
-        [
-          encode('dc.dataControllerUtils.ADETimebasedQuery', {
-            sessionId: dataId.sessionId,
-            domainId: dataId.domainId,
-            objectName: dataId.comObject,
-            providerFlow: _get(dataId, 'provider', ''),
-            catalogName: dataId.catalog,
-            itemName: dataId.parameterName,
-            timeInterval: {
-              startTime: { ms: interval[0] },
-              endTime: { ms: interval[1] },
-            },
-            filters: _map(args.filters, filter => ({
-              ...filter,
-              operator: operators[filter.operator],
-            })),
-            getLastNumber: args.getLastNumber,
-            samplingNumber,
-          }),
-        ],
-        err => (onDcResponseCallback(err, flatDataId))
+    requestTimebasedQuery: (flatDataId, dataId, interval, args, samplingNumber) => {
+      console.log('requete à ', new Date(), ' debut ', new Date(interval[0]), ' fin ', new Date(interval[1]), ' nombre ', samplingNumber);
+      return (
+        commands.dc.rpc(
+          constants.ADE_TIMEBASED_QUERY,
+          [
+            encode('dc.dataControllerUtils.ADETimebasedQuery', {
+              sessionId: dataId.sessionId,
+              domainId: dataId.domainId,
+              objectName: dataId.comObject,
+              providerFlow: _get(dataId, 'provider', ''),
+              catalogName: dataId.catalog,
+              itemName: dataId.parameterName,
+              timeInterval: {
+                startTime: { ms: interval[0] },
+                endTime: { ms: interval[1] },
+              },
+              filters: _map(args.filters, filter => ({
+                ...filter,
+                operator: operators[filter.operator],
+              })),
+              getLastNumber: args.getLastNumber,
+              samplingNumber,
+            }),
+          ],
+          err => (onDcResponseCallback(err, flatDataId))
       )
-    ),
+      );
+    },
     requestSubscriptionAdd: (flatDataId, dataId) => (
       commands.dc.rpc(constants.ADE_TIMEBASED_SUBSCRIPTION, [
         encode('dc.dataControllerUtils.ADETimebasedSubscription', {

@@ -166,6 +166,7 @@ export const Table = ({
           const data = row.data;
           const key = i; // TODO replace 'i' by a better key
           const columns = row.type === 'row' ? getColumns(cols) : getColumns(subCols);
+
           if (row.type === 'row' || row.type === 'subrow') {
             const rowElement = (<tr
               title={disableSelection ? disableSelectionReason : ''}
@@ -188,24 +189,37 @@ export const Table = ({
               style={{ width: '100%', height: `${rowHeight}px` }}
             >
               {
-                columns.map((col, index) => (
-                  <td
-                    className={classnames({
-                      [styles.collapseColumn]: index === 0,
-                    })}
-                    key={col.key}
-                  >
-                    {
-                      index === 0 && row.type === 'row'
-                      && (getIsExpanded(row) ? (
-                        <CollapseButton onClick={() => onCollapse(row)} />
-                      ) : (
-                        <CollapseButton collapsed onClick={() => onUncollapse(row)} />
-                      ))
-                    }
-                    {data[col.key]}
-                  </td>
-                ))
+                columns.map((col, index) => {
+                  let additionalStyle = {};
+
+                  const monitoringStateStyle = {
+                    color: data.color,
+                  };
+
+                  if (!data.transitions) {
+                    additionalStyle = monitoringStateStyle;
+                  }
+
+                  return (
+                    <td
+                      className={classnames({
+                        [styles.collapseColumn]: index === 0,
+                      })}
+                      style={additionalStyle}
+                      key={col.key}
+                    >
+                      {
+                        index === 0 && row.type === 'row'
+                        && (getIsExpanded(row) ? (
+                          <CollapseButton onClick={() => onCollapse(row)} />
+                        ) : (
+                          <CollapseButton collapsed onClick={() => onUncollapse(row)} />
+                        ))
+                      }
+                      {data[col.key]}
+                    </td>
+                  );
+                })
               }
             </tr>);
 

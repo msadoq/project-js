@@ -153,6 +153,7 @@ class GroundAlarmTable extends React.Component {
 
   render() {
     const { selectedAlarms, expandedAlarms, columns } = this.props;
+
     const columnsTitles = columns
       .filter(item => item.displayed)
       .map(item => ({ name: item.title, key: item.value }));

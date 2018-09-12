@@ -6,7 +6,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _concat from 'lodash/concat';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
-// import { applyFilters } from '../../commonData/applyFilters';
+import { getStateColorObj } from 'viewManager/commonData/stateColors';
 import { convertData } from 'viewManager/commonData/convertData';
 
 import {
@@ -14,6 +14,7 @@ import {
   ALARM_ACKSTATE_ACQUITED,
   ALARM_ACKSTATE_NOACK,
 } from '../../../constants';
+import { STATE_COLOR_NOMINAL } from '../../../windowProcess/common/colors';
 
 /**
  * Debuging function. To check if the indexes are well sorted.
@@ -24,6 +25,35 @@ import {
 //   )));
 // }
 
+const _setStateColor = (transition, config) => {
+  const { color } = getStateColorObj(
+    transition,
+    config.stateColors,
+    _.getOr(STATE_COLOR_NOMINAL, 'monitoringState', transition)
+  );
+
+  return {
+    ...transition,
+    color,
+  };
+};
+
+const _getEnhancedPayload = (payload, config) =>
+  Object.keys(payload)
+    .reduce((acc, oid) => {
+      const alarm = payload[oid];
+      const transitions = _.getOr([], 'transitions', alarm);
+      const updatedTransitions = transitions.map(t => _setStateColor(t, config));
+
+      return {
+        ...acc,
+        [oid]: {
+          ...alarm,
+          transitions: updatedTransitions,
+        },
+      };
+    }, {});
+
 /**
  * Add payloads in plot view data state
  *
@@ -33,7 +63,7 @@ import {
  *
  * @return {Object}          updated state
  */
-export function viewRangeAdd(state = {}, viewId, payloads) {
+export function viewRangeAdd(state = {}, viewId, payloads, viewConfig) {
   // console.warn(viewId);
   // get EP names
   const epNames = Object.keys(payloads || {});
@@ -56,11 +86,14 @@ export function viewRangeAdd(state = {}, viewId, payloads) {
   for (let i = 0; i < epNames.length; i += 1) {
     const epName = epNames[i];
 
+    const epPayload = _getEnhancedPayload(payloads[epName], viewConfig);
+
     // Update of EP data
     newState.lines = {
       ...newState.lines,
-      ...payloads[epName],
+      ...epPayload,
     };
+
     const oids = Object.keys(payloads[epName]);
 
     let lastIndex = -1;

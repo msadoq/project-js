@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : FA : #7145 : 04/08/2017 : Move inspector middleware in a folder
@@ -19,7 +18,6 @@ import {
   setInspectorStaticData,
   isInspectorStaticDataLoading,
 } from 'store/actions/inspector';
-import { askItemMetadata, askReportingItemPackets } from '../../actions/catalogs';
 
 const logger = getLogger('server:store:middlewares:inspector');
 
@@ -33,7 +31,6 @@ export default rtdManager => ({ dispatch }) => next => (action) => {
     const {
       domainId,
       sessionId,
-      catalog: catalogName,
       parameterName: catalogItemName,
     } = dataId;
 

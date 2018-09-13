@@ -273,7 +273,8 @@ const dcVersionMap = {
       ], callback);
     },
     requestTimebasedQuery: (flatDataId, dataId, interval, args, samplingNumber) => {
-      console.log('requete à ', new Date(), ' debut ', new Date(interval[0]), ' fin ', new Date(interval[1]), ' nombre ', samplingNumber);
+      // console.log('requete à ', new Date(), ' debut ', new Date(interval[0]),
+      // ' fin ', new Date(interval[1]), ' nombre ', samplingNumber);
       return (
         commands.dc.rpc(
           constants.ADE_TIMEBASED_QUERY,

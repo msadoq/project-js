@@ -365,8 +365,8 @@
     }
   },
   "REAL_TIME_RESYNCHRO_EACH_X_TICKS": 10,
-  "SAMPLING_NUMBER": 20,
-  "SAMPLING_OFF_DELTA_T_MAX": 300000,
+  "SAMPLING_NUMBER": 1000,
+  "SAMPLING_OFF_DELTA_T_MAX": 3600000,
   "STRING_TO_VALUE_MAP": {
     "monitoringState": {
       "nominal": 0,

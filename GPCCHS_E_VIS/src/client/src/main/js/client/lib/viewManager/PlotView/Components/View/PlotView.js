@@ -1086,7 +1086,7 @@ export class GrizzlyPlotView extends React.Component {
             current={visuWindow.current}
             yAxesAt={showYAxes}
             xAxesAt="bottom"
-            parametric
+            parametric={false}
             additionalStyle={memoizeMainStyle(legend.location)}
             yAxes={this.yAxes}
             xAxes={this.xAxes}

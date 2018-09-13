@@ -20,6 +20,7 @@ import { getView } from 'store/reducers/views';
 
 const parseVector = vector => vector.map(e => e).join(COL_SEP).concat(COL_SEP);
 
+
 const parseIntoCsv = (state, viewId) => {
   const view = getView(state, { viewId });
   switch (view.type) {
@@ -156,7 +157,9 @@ const parseIntoCsv = (state, viewId) => {
       return state.DecommutedPacketViewData[viewId];
     }
     case VM_VIEW_HISTORY: {
-      return _.getOr([], ['HistoryViewData', viewId, 'tables', 'history', 'data'], state);
+      const tableData = _.getOr([], ['HistoryViewData', viewId, 'tables', 'history', 'data'], state);
+
+      return tableData.map(el => _.omit(['values', 'definition', 'color', 'rowId'], el));
     }
     case VM_VIEW_ONBOARDALARM: {
       const onboardAlarmViewMetadata = parseVector(['index', 'ackState', 'onBoardDate', 'index', 'satellite', 'telemetryType', 'timestamp', 'alarmType', 'RIDId', 'reportNameexercitation', 'reportType', '', '', '', '']) + ROW_SEP;

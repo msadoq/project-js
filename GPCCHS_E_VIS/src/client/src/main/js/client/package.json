@@ -142,6 +142,7 @@
     "json-loader": "~0.5.4",
     "json-schema-generator": "^2.0.6",
     "json-touch-patch": "^0.11.1",
+    "jsonexport": "^2.3.0",
     "less": "~2.7.2",
     "less-loader": "~3.0.0",
     "lockfile": "~1.0.3",

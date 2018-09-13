@@ -73,7 +73,6 @@ import PanelGroup from 'react-panelgroup';
 import classnames from 'classnames';
 import _ from 'lodash/fp';
 import _memoize from 'lodash/memoize';
-import _debounce from 'lodash/debounce';
 import _get from 'lodash/get';
 import getLogger from 'common/logManager';
 import withDimensions from '../common/hoc/withDimensions';
@@ -183,7 +182,7 @@ class Window extends PureComponent {
     setTimeout(() => setIsLoaded(windowId), 0);
   }
 
-  onHorizontalUpdate = _debounce((panelWidth) => {
+  onHorizontalUpdate = (panelWidth) => {
     const {
       pageId,
       editorWidth,
@@ -223,9 +222,9 @@ class Window extends PureComponent {
         resizeExplorer(pageId, newExplorerWidth);
       }
     }
-  }, 250);
+  };
 
-  onVerticalUpdate = _debounce((panelWidth) => {
+  onVerticalUpdate = (panelWidth) => {
     const {
       pageId,
       timebarHeight,
@@ -242,7 +241,7 @@ class Window extends PureComponent {
     } else if (newTimebarHeight > minimizedTimebarHeigh && timebarIsMinimized) {
       minimizeTimebar(pageId, false);
     }
-  }, 250);
+  };
 
   getPageContextMenu = () => {
     const {

@@ -39,6 +39,7 @@ const BodyGrid =
      onToggleRow,
      isVerticalScrollbarDisplayed,
      cellContextMenu,
+     onSectionRendered,
    }) => {
     // eslint-disable-next-line react/prop-types
     const _bodyCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
@@ -90,12 +91,12 @@ const BodyGrid =
 
       const _onMouseEnter = (ev) => {
         ev.preventDefault();
-        onCellEnter(ev, { content });
+        onCellEnter(ev, { content, columnIndex });
       };
 
       const _onMouseLeave = (ev) => {
         ev.preventDefault();
-        onCellLeave(ev, { content });
+        onCellLeave(ev, { content, columnIndex });
       };
 
       const _onClick = (ev) => {
@@ -179,6 +180,7 @@ const BodyGrid =
         overscanColumnCount={overscanColumnCount}
         overscanRowCount={overscanRowCount}
         onScrollbarPresenceChange={onScrollbarPresenceChange}
+        onSectionRendered={onSectionRendered}
       />
     );
   };
@@ -212,6 +214,7 @@ BodyGrid.propTypes = {
   onToggleRow: PropTypes.func.isRequired,
   isVerticalScrollbarDisplayed: PropTypes.bool,
   cellContextMenu: PropTypes.func,
+  onSectionRendered: PropTypes.func.isRequired,
 };
 
 BodyGrid.defaultProps = {

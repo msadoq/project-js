@@ -8,7 +8,7 @@ const BodyCellPopover =
   ({
      parent,
      hoveredCell,
-     numberOfColumns,
+     columnStopIndex,
    }) => {
     if (!hoveredCell) {
       return null;
@@ -27,7 +27,7 @@ const BodyCellPopover =
       </Popover>
     );
 
-    const overlayPlacement = (columnIndex === numberOfColumns - 1) ? 'left' : 'right';
+    const overlayPlacement = (columnIndex === columnStopIndex - 1) ? 'left' : 'right';
 
     return popoverContent ?
       (
@@ -45,11 +45,12 @@ const BodyCellPopover =
 BodyCellPopover.propTypes = {
   parent: PropTypes.shape().isRequired,
   hoveredCell: PropTypes.shape(),
-  numberOfColumns: PropTypes.number.isRequired,
+  columnStopIndex: PropTypes.number,
 };
 
 BodyCellPopover.defaultProps = {
   hoveredCell: null,
+  columnStopIndex: 0,
 };
 
 export default BodyCellPopover;

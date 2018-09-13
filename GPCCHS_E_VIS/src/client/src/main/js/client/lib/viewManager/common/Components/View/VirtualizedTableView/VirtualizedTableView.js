@@ -275,6 +275,8 @@ class VirtualizedTableView extends React.Component {
 
     const columnStopIndex = _.get('columnStopIndex', this.state);
 
+    const numberOfColumns = cols.length;
+
     const extendedRowHeight = rowHeight * 2;
 
     const _computeAdjustedDimensions = ({ width, height }) => {
@@ -320,6 +322,7 @@ class VirtualizedTableView extends React.Component {
                             parent={this}
                             hoveredCell={hoveredCell}
                             columnStopIndex={columnStopIndex}
+                            numberOfColumns={numberOfColumns}
                           />
                           <div className={styles.GridColumn}>
                             <GroupHeadersGrid

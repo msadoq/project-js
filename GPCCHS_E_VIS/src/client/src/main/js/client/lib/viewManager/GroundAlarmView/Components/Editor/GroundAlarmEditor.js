@@ -82,10 +82,9 @@ export default class GroundAlarmEditor extends Component {
       title,
     } = this.props;
 
-    /**
-     * get form from the state
-     */
     const { GroundAlarmEditorForm } = this.state;
+
+    const initialValues = _.getOr({}, [0, 'connectedData'], entryPoints);
 
     return (
       <ErrorBoundary>
@@ -107,7 +106,7 @@ export default class GroundAlarmEditor extends Component {
               <GroundAlarmEditorForm
                 form={`entrypoint-connectedData-form-${viewId}`}
                 onSubmit={values => this.handleSubmit({ connectedData: values })}
-                initialValues={_.getOr({}, [0, 'connectedData'], entryPoints)}
+                initialValues={initialValues}
               />
             </div>}
             {

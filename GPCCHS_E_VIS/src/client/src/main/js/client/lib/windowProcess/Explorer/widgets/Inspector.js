@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // ====================================================================
 // HISTORY
 // VERSION : 1.1.2 : DM : #5822 : 20/03/2017 : merge dev in working branch
@@ -27,16 +28,14 @@ import { NODE_TYPE_LINK as LINK, NODE_TYPE_RESOLVED_LINK as RESOLVED_LINK } from
 import { main } from 'windowProcess/ipc';
 import handleContextMenu from 'windowProcess/common/handleContextMenu';
 import styles from './Inspector.css';
-import Tree from './Tree';
+import InspectorMetadata from './InspectorMetadata';
 
 const logger = getLogger('Inspector');
 
 const generalHeader = (
   <h2>General</h2>
 );
-const staticHeader = (
-  <h2>Static Data</h2>
-);
+
 const dynamicHeader = (
   <h2>Dynamic Data</h2>
 );
@@ -78,21 +77,7 @@ export default class Inspector extends PureComponent {
   onMouseDown = (event, node) => {
     const { dataId } = this.props;
     const { sessionId, domainId } = dataId;
-    if (event.buttons === 1) {
-      if (node.type !== LINK) {
-        this.props.toggleNode(node.path, !node.toggled);
-        return;
-      }
-      logger.info('Linking to', node.value);
-      this.props.loadingNode(node.path, true);
-      main.resolveLink({
-        link: node.value,
-        path: node.path,
-        sessionId,
-        domainId,
-      });
-      return;
-    }
+
     if (event.buttons === 2) {
       if (node.type === LINK || node.type === RESOLVED_LINK) {
         this.props.loadingNode(node.path, true);
@@ -108,7 +93,7 @@ export default class Inspector extends PureComponent {
         handleContextMenu(workspace);
       }
     }
-  }
+  };
 
   renderInvalidData = () => (
     <div className={styles.general}>
@@ -161,7 +146,7 @@ export default class Inspector extends PureComponent {
       domainId,
     } = dataId;
 
-    const hasStaticData = !staticDataLoading && staticData;
+    const hasStaticDataLoaded = !staticDataLoading && staticData;
     const hasNoStaticData = !staticDataLoading && !staticData;
     const hasNoField = !field;
     const hasNoDynamicData = field && !dynamicData;
@@ -199,39 +184,36 @@ export default class Inspector extends PureComponent {
           </ul>
         </Panel>
         {
-          isDisplayingTM && [
-            <Panel
-              key="staticData"
-              header={staticHeader}
-            >
-              {staticDataLoading && this.renderLoading()}
-              {hasNoStaticData && this.renderNoData()}
-              {hasStaticData &&
-              <div>
-                <Tree
-                  data={staticData}
-                  onMouseDown={this.onMouseDown}
-                />
-              </div>
-              }
-            </Panel>,
-            <Panel
-              key="dynamicData"
-              header={dynamicHeader}
-            >
-              {hasNoField && this.renderNoField()}
-              {hasNoDynamicData && this.renderNoData()}
-              {hasDynamicData &&
-              <ul className={styles.general}>
-                <li>
-                  <span className={styles.title}>Last timestamp: </span>
-                  {dynamicData.timestamp}
-                </li>
-                <li><span className={styles.title}>Last value: </span>{dynamicData.value}</li>
-              </ul>
-              }
-            </Panel>,
-          ]
+          isDisplayingTM &&
+          (
+            <div>
+              <InspectorMetadata
+                staticDataLoading={staticDataLoading}
+                hasStaticDataLoaded={hasStaticDataLoaded}
+                hasNoStaticData={hasNoStaticData}
+                staticData={staticData}
+                renderNoData={this.renderNoData}
+                renderLoading={this.renderLoading}
+                onMouseDown={this.onMouseDown}
+              />
+              <Panel
+                key="dynamicData"
+                header={dynamicHeader}
+              >
+                {hasNoField && this.renderNoField()}
+                {hasNoDynamicData && this.renderNoData()}
+                {hasDynamicData &&
+                <ul className={styles.general}>
+                  <li>
+                    <span className={styles.title}>Last timestamp: </span>
+                    {dynamicData.timestamp}
+                  </li>
+                  <li><span className={styles.title}>Last value: </span>{dynamicData.value}</li>
+                </ul>
+                }
+              </Panel>
+            </div>
+          )
         }
       </div>
     );

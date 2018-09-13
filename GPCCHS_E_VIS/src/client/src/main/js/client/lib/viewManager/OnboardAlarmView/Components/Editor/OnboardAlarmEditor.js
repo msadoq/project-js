@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import _get from 'lodash/get';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -74,19 +76,10 @@ export default class OnboardAlarmEditor extends Component {
       openModal,
       title,
     } = this.props;
-    const nullObject = {};
-    const initialValues = entryPoints.length
-      ? {
-        ...entryPoints[0].connectedData,
-        domain: '*',
-        timeline: '*',
-      }
-      : nullObject;
 
-    /**
-     * get form from the state
-     */
     const { OnBoardAlarmEditorForm } = this.state;
+
+    const initialValues = _.getOr({}, [0, 'connectedData'], entryPoints);
 
     return (
       <ErrorBoundary>

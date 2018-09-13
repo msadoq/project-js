@@ -9,7 +9,7 @@ import {
   WS_WINDOW_SET_IS_LOADED,
 } from '../../types';
 import { getConfigurationByViewId } from '../../../viewManager';
-import { askItemMetadata } from '../../actions/catalogs';
+import { askItemMetadata, askReportingItemPackets } from '../../actions/catalogs';
 import { getDomainId } from '../../reducers/domains';
 import { getSessionId, getSessionNameFromTimeline } from '../../reducers/sessions';
 import { get } from '../../../common/configurationManager';
@@ -38,6 +38,7 @@ const onNeededMetadata = ({ dispatch, getState }) => next => (action) => {
     const sessionId = getSessionId(state, { sessionName });
 
     dispatch(askItemMetadata(domainId, sessionId, catalog, catalogItem));
+    dispatch(askReportingItemPackets(domainId, sessionId, catalog, catalogItem));
   };
 
   const _askEntryPointsRelatedMetadata = (entryPoints) => {

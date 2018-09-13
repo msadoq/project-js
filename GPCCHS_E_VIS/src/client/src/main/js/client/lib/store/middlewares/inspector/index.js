@@ -46,10 +46,6 @@ export default rtdManager => ({ dispatch }) => next => (action) => {
     dispatch(setInspectorStaticData(null));
     dispatch(setInspectorGeneralData(viewId, viewType, epId, epName, dataId, field));
 
-    // fetch item metadata
-    dispatch(askItemMetadata(domainId, sessionId, catalogName, catalogItemName));
-    dispatch(askReportingItemPackets(domainId, sessionId, catalogName, catalogItemName));
-
     // if (catalog !== 'Reporting') {
     //   return nextAction;
     // }

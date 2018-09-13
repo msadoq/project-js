@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import {
   CSV_COLUMN_SEPARATOR as COL_SEP,
   CSV_ROW_SEPARATOR as ROW_SEP,
@@ -11,11 +13,13 @@ import {
   VM_VIEW_HISTORY,
   VM_VIEW_GROUNDALARM,
   VM_VIEW_ONBOARDALARM,
+  VM_VIEW_DECOMMUTEDPACKET,
 } from 'viewManager/constants';
 
 import { getView } from 'store/reducers/views';
 
 const parseVector = vector => vector.map(e => e).join(COL_SEP).concat(COL_SEP);
+
 
 const parseIntoCsv = (state, viewId) => {
   const view = getView(state, { viewId });
@@ -149,8 +153,13 @@ const parseIntoCsv = (state, viewId) => {
     case VM_VIEW_PACKET: {
       return ('');
     }
+    case VM_VIEW_DECOMMUTEDPACKET: {
+      return state.DecommutedPacketViewData[viewId];
+    }
     case VM_VIEW_HISTORY: {
-      return ('');
+      const tableData = _.getOr([], ['HistoryViewData', viewId, 'tables', 'history', 'data'], state);
+
+      return tableData.map(el => _.omit(['values', 'definition', 'color', 'rowId'], el));
     }
     case VM_VIEW_ONBOARDALARM: {
       const onboardAlarmViewMetadata = parseVector(['index', 'ackState', 'onBoardDate', 'index', 'satellite', 'telemetryType', 'timestamp', 'alarmType', 'RIDId', 'reportNameexercitation', 'reportType', '', '', '', '']) + ROW_SEP;

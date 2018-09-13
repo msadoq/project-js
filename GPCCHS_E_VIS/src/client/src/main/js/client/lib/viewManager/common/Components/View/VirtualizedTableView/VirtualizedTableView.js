@@ -79,10 +79,11 @@ class VirtualizedTableView extends React.Component {
     cellContextMenu: null,
   };
 
-  static _wrapHoveredCell(ev, { content }) {
+  static _wrapHoveredCell(ev, { content, columnIndex }) {
     return {
       target: ev.target,
       content,
+      columnIndex,
     };
   }
 
@@ -132,6 +133,15 @@ class VirtualizedTableView extends React.Component {
 
   _getColumnWidth = ({ index }) => this.props.cols[index].width || this.props.columnWidth;
 
+  _onSectionRendered = ({ columnStopIndex }) => {
+    const currentState = _.getOr({}, 'state', this);
+
+    this.setState({
+      ...currentState,
+      columnStopIndex,
+    });
+  };
+
   _onScrollbarPresenceChange = ({ vertical }) => {
     this.setState({
       isVerticalScrollbarDisplayed: vertical,
@@ -142,10 +152,6 @@ class VirtualizedTableView extends React.Component {
     const { onFilter } = this.props;
 
     const _deferredOnFilter = () => {
-      this.setState({
-        selectedCell: null,
-      });
-
       onFilter(colKey, newFilterValue);
       this.scrollToTop();
     };
@@ -183,8 +189,8 @@ class VirtualizedTableView extends React.Component {
     this._onUnselectRow(content);
   };
 
-  _onCellEnter = (ev, { content }) => {
-    const hoveredCell = VirtualizedTableView._wrapHoveredCell(ev, { content });
+  _onCellEnter = (ev, { content, columnIndex }) => {
+    const hoveredCell = VirtualizedTableView._wrapHoveredCell(ev, { content, columnIndex });
     const updatedState = _.set('hoveredCell', hoveredCell, this.state);
 
     this.setState(updatedState);
@@ -267,6 +273,10 @@ class VirtualizedTableView extends React.Component {
 
     const hoveredCell = _.get('hoveredCell', this.state);
 
+    const columnStopIndex = _.get('columnStopIndex', this.state);
+
+    const numberOfColumns = cols.length;
+
     const extendedRowHeight = rowHeight * 2;
 
     const _computeAdjustedDimensions = ({ width, height }) => {
@@ -311,7 +321,8 @@ class VirtualizedTableView extends React.Component {
                           <BodyCellPopover
                             parent={this}
                             hoveredCell={hoveredCell}
-                            numberOfColumns={cols.length}
+                            columnStopIndex={columnStopIndex}
+                            numberOfColumns={numberOfColumns}
                           />
                           <div className={styles.GridColumn}>
                             <GroupHeadersGrid
@@ -402,6 +413,7 @@ class VirtualizedTableView extends React.Component {
                               onToggleRow={this._onToggleRow}
                               isVerticalScrollbarDisplayed={this.state.isVerticalScrollbarDisplayed}
                               cellContextMenu={cellContextMenu}
+                              onSectionRendered={this._onSectionRendered}
                             />
                           </div>
                         </div>

@@ -17,6 +17,7 @@
 
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
+import jsonexport from 'jsonexport';
 
 import { dirname, basename } from 'path';
 
@@ -290,13 +291,28 @@ export const saveViewAsModel = (viewId, path) => (dispatch, getState) => { // TO
 export const exportAsCsv = (viewId, path) => (dispatch, getState) => {
   const state = getState();
   const content = parseIntoCsv(state, viewId);
-  exportData(content, MIME_TYPES.CommaSeparatedValues, path, (errSaving) => {
-    if (errSaving) {
-      dispatch(addMessage(viewId, 'danger', `Data unsaved ${errSaving}`));
-    } else {
-      dispatch(addMessage(viewId, 'success', 'Data saved'));
-    }
-  });
+
+  const exportCsv = (c) => {
+    exportData(c, MIME_TYPES.CommaSeparatedValues, path, (errSaving) => {
+      if (errSaving) {
+        dispatch(addMessage(viewId, 'danger', `Data unsaved ${errSaving}`));
+      } else {
+        dispatch(addMessage(viewId, 'success', 'Data saved'));
+      }
+    });
+  };
+
+  // provides a generic json to csv parser in case the returned value is not a csv string
+  if (typeof content !== 'string') {
+    jsonexport(content, (err, csv) => {
+      if (err) {
+        dispatch(addMessage(viewId, 'danger', `Data unsaved ${err}`));
+        return;
+      }
+
+      exportCsv(csv);
+    });
+  }
 };
 
 export const exportAsImage = (viewId, path, imagedata) => (dispatch) => {

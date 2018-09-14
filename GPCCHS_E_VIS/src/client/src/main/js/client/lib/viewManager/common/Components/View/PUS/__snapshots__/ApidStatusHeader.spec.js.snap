@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`viewManager/common/Components/View/PUS/HeaderStatus HeaderStatus :: render snapshot disabled 1`] = `
+<ErrorBoundary>
+  <div
+    className="apid col-sm-4"
+  >
+    Application Process 
+    <input
+      className="mw100"
+      disabled={true}
+      type="text"
+      value={undefined}
+    />
+     
+    <input
+      className="mw30"
+      disabled={true}
+      type="text"
+      value={undefined}
+    />
+  </div>
+  <div
+    className="status col-sm-4"
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      overlay={
+        <Popover
+          bsClass="popover"
+          id="popover-service-status"
+          placement="bottom"
+          style={
+            Object {
+              "height": 70,
+            }
+          }
+        >
+          <table
+            className="popoverTable"
+          >
+            <tbody>
+              <tr>
+                <th>
+                  lastUpdateMode
+                </th>
+                <td>
+                  TM
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  lastUpdateTime
+                </th>
+                <td>
+                  1532941906431
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </Popover>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <span>
+        Service Status
+         
+        <input
+          className="mw80 disabled"
+          disabled={true}
+          style={
+            Object {
+              "backgroundColor": "#e67e22",
+            }
+          }
+          type="text"
+          value="DISABLED"
+        />
+      </span>
+    </OverlayTrigger>
+    <span
+      className="spacing"
+    />
+  </div>
+</ErrorBoundary>
+`;
+
+exports[`viewManager/common/Components/View/PUS/HeaderStatus HeaderStatus :: render snapshot enabled 1`] = `
+<ErrorBoundary>
+  <div
+    className="apid col-sm-4"
+  >
+    Application Process 
+    <input
+      className="mw100"
+      disabled={true}
+      type="text"
+      value={undefined}
+    />
+     
+    <input
+      className="mw30"
+      disabled={true}
+      type="text"
+      value={undefined}
+    />
+  </div>
+  <div
+    className="status col-sm-4"
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      overlay={
+        <Popover
+          bsClass="popover"
+          id="popover-service-status"
+          placement="bottom"
+          style={
+            Object {
+              "height": 70,
+            }
+          }
+        >
+          <table
+            className="popoverTable"
+          >
+            <tbody>
+              <tr>
+                <th>
+                  lastUpdateMode
+                </th>
+                <td>
+                  TM
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  lastUpdateTime
+                </th>
+                <td>
+                  1532941906431
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </Popover>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <span>
+        Service Status
+         
+        <input
+          className="mw80 enabled"
+          disabled={true}
+          style={
+            Object {
+              "backgroundColor": "#2ecc71",
+            }
+          }
+          type="text"
+          value="ENABLED"
+        />
+      </span>
+    </OverlayTrigger>
+    <span
+      className="spacing"
+    />
+  </div>
+</ErrorBoundary>
+`;

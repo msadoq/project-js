@@ -103,6 +103,7 @@ export default class DecommutedPacketEditor extends Component {
           ...entryPoints[0].connectedData,
           domain: '*',
           timeline: '*',
+          provider: '*',
         },
       }
       : nullObject;

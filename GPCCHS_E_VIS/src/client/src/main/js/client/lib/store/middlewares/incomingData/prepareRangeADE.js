@@ -27,6 +27,8 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
   const samplingNumber = action.payload.samplingNumber;
   const samplingStatus = samplingNumber === undefined ? 'off' : 'on';
 
+  // console.log('reponse ', tbdId, ' peers: ', peers.length/2);
+
   add(tbdId, dataId);
 
   const payloadsJson = { [tbdId]: {} };
@@ -51,6 +53,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
         const decoded = decodePayload(peers[index + 1]);
         const decodedPayload = decode(getTypeAggreg(dataId.comObject), decoded);
         execution.stop('decode payload');
+        // console.log('prepareRange dataId: ', dataId);
 
         execution.start('addRecord');
         switch (samplingStatus) {

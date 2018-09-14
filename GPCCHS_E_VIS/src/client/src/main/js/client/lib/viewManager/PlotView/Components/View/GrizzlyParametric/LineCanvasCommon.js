@@ -416,7 +416,7 @@ export const drawCurrentCursor = (ctx,
                                   packet,
                                   previousPacket,
                                   nextPacket
-                                  ) => {
+) => {
   if (
     parametric &&
     current &&

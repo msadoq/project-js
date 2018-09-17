@@ -22,40 +22,47 @@
 
 .xAxisDiv{
   position: absolute;
-  .xAxis{
-    overflow: visible !important;
-    .xAxisGroup{
-      line {
-        stroke: #AAA;
-      }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.xAxis{
+  overflow: visible !important;
+  .xAxisGroup{
+    line {
+      stroke: #AAA;
     }
   }
-  .xAxisLabel{
-    border-radius: 2px;
-    padding: 2px 6px;
-    font-weight: normal;
-    &.labelUnderline{
-      text-decoration: underline;
-    }
-    &.labelBold{
-      font-weight: bold;
-    }
-    &.labelItalic{
-      font-style: italic;
-    }
-  }
-  .xAxisLineLabel{
-    position: absolute;
-    border-radius: 1px;
-    z-index: 3;
-    text-shadow: 0px 0px 1px #888;
-    padding: 2px;
-    padding-top: 4px;
-    box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
-    &:hover{
-      z-index: 7;
-    }
-  }
+}
+.xAxisLabel{
+  border-radius: 2px;
+  padding: 2px 6px;
+  font-weight: normal;
+&.labelUnderline{
+   text-decoration: underline;
+ }
+&.labelBold{
+   font-weight: bold;
+ }
+&.labelItalic{
+   font-style: italic;
+ }
+}
+.xAxisLineLabel{
+  position: relative;
+  display: block;
+  overflow: visible;
+  left: 1000px;
+  border-radius: 1px;
+  z-index: 3;
+  text-shadow: 0px 0px 1px #888;
+  padding: 2px;
+  padding-top: 4px;
+  box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+&:hover{
+   z-index: 7;
+ }
 }
 .yAxisDiv{
   position: absolute;

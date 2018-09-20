@@ -635,7 +635,6 @@ export default class Chart extends React.Component {
       enableTooltip,
       tooltipColor,
       current,
-      parametric,
       updateAxis,
     } = this.props;
 
@@ -807,7 +806,6 @@ export default class Chart extends React.Component {
                 perfOutput={perfOutput}
                 divStyle={this.divStyle}
                 current={current}
-                parametric={parametric}
                 constants={pair.yAxis.constants}
                 displayMode={pair.displayMode}
               />
@@ -815,7 +813,7 @@ export default class Chart extends React.Component {
           })
         }
           {
-          !parametric && this.xAxesUniq[0] &&
+          this.xAxesUniq[0] &&
           <CurrentCursorCanvas
             current={current}
             width={this.chartWidth}

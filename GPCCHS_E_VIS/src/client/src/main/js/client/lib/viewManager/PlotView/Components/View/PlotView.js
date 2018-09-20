@@ -1086,8 +1086,7 @@ export class GrizzlyPlotView extends React.Component {
             current={visuWindow.current}
             yAxesAt={showYAxes}
             xAxesAt="bottom"
-            parametric={false}  // TODO: this line needs to be reviewed and possibly
-                                // TODO: corrected when parametric mode is fixed
+            parametric
             additionalStyle={memoizeMainStyle(legend.location)}
             yAxes={this.yAxes}
             xAxes={this.xAxes}

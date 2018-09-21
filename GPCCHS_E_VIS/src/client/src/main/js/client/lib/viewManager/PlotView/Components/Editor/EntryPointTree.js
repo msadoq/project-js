@@ -157,7 +157,7 @@ export default class EntryPointTree extends PureComponent {
                   entryPoint={entryPoint}
                   onSubmit={this.handleSubmit}
                   initialValues={updatedEntryPoint}
-                  form={`entrypoint-title-form-${entryPoint.id}-${viewId}`}
+                  form={'edit-entrypoint'}
                 />}
               </Panel>
             );

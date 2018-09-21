@@ -6,8 +6,6 @@ import { touchViewConfiguration } from 'store/actions/views';
 const pageSessionOrDomainUpdated =
   ({ dispatch, getState }) => next => (action) => {
     // Apply action
-    const nextAction = next(action);
-
     if (
       action.type === WS_PAGE_UPDATE_SESSIONNAME ||
       action.type === WS_PAGE_UPDATE_DOMAINNAME
@@ -30,7 +28,7 @@ const pageSessionOrDomainUpdated =
       }
     }
 
-    return nextAction;
+    return next(action);
   };
 
 export default pageSessionOrDomainUpdated;

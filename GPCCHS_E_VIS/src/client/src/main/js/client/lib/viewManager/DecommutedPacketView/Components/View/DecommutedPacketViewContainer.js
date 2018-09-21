@@ -63,7 +63,7 @@ const mapStateToProps = (state, { viewId }) => {
 
     const tupleId = getTupleId(domainId, sessionId);
 
-    structure = getComObjectStructure(state.catalogs, { tupleId, itemName, name });
+    structure = getComObjectStructure(state, { tupleId, itemName, name });
   }
   const data = getData(state, { viewId });
 

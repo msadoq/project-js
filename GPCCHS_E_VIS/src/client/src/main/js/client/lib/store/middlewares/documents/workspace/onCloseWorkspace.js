@@ -46,7 +46,6 @@ const isClosingWindow = _.propEq('type', types.WS_ASK_CLOSE_WINDOW);
 
 const makeOnCloseWorkspace = () => withListenAction(
   ({ getState, dispatch, listenAction }) => next => (action) => {
-    const nextAction = next(action);
     if (isClosingWindow(action) || isClosingWorkspace(action)) {
       const { windowId, keepMessages = false } = action.payload;
       const state = getState();
@@ -126,7 +125,7 @@ const makeOnCloseWorkspace = () => withListenAction(
         askCloseConfirmation('workspace');
       }
     }
-    return nextAction;
+    return next(action);
   });
 
 export default makeOnCloseWorkspace;

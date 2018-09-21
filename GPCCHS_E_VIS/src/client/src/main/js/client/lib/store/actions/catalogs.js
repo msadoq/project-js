@@ -8,13 +8,19 @@ import {
   WS_COM_OBJECTS_ADD,
   WS_UNIT_ADD,
   WS_ITEM_STRUCTURE_ASK,
-  WS_UNIT_ADD_SIMPLE,
   WS_ITEM_STRUCTURE_ADD,
   WS_ITEM_METADATA_ASK,
   WS_ITEM_METADATA_ADD,
   WS_REPORTING_ITEM_PACKETS_ASK,
   WS_REPORTING_ITEM_PACKETS_ADD,
+  FORM_CATALOG_CHANGE,
 } from '../types';
+
+export const updateCatalogField = simple(
+  FORM_CATALOG_CHANGE,
+  'domainId',
+  'sessionId'
+);
 
 export const askCatalogs = simple(
   WS_CATALOGS_ASK,
@@ -79,10 +85,10 @@ export const addItemStructure = simple(
 );
 
 export const askItemMetadata =
-  simple(WS_ITEM_METADATA_ASK, 'domainId', 'sessionId', 'catalogName', 'itemName');
+  simple(WS_ITEM_METADATA_ASK, 'domainId', 'sessionId', 'name', 'itemName');
 
 export const askReportingItemPackets =
-  simple(WS_REPORTING_ITEM_PACKETS_ASK, 'domainId', 'sessionId', 'catalogName', 'itemName');
+  simple(WS_REPORTING_ITEM_PACKETS_ASK, 'domainId', 'sessionId', 'name', 'itemName');
 
 export const addCatalogItemMetadata = simple(
   WS_ITEM_METADATA_ADD,
@@ -98,12 +104,4 @@ export const addReportingItemPackets = simple(
   'name',
   'itemName',
   'reportingItemPackets'
-);
-
-export const addUnitSimple = simple(
-  WS_UNIT_ADD_SIMPLE,
-  'tupleId',
-  'name',
-  'itemName',
-  'unit'
 );

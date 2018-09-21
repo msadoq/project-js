@@ -9,7 +9,6 @@ const makeCallback = () => () => {};
 
 const retrievePus = ipc => ({ dispatch }) => next => (action) => {
   const execution = executionMonitor('middleware:retrievePus');
-  const nextAction = next(action);
 
   if (action.type === types.VIEWS_NEED_PUS) {
     execution.start('global');
@@ -44,7 +43,7 @@ const retrievePus = ipc => ({ dispatch }) => next => (action) => {
     execution.stop('global');
     execution.print();
   }
-  return nextAction;
+  return next(action);
 };
 
 export default retrievePus;

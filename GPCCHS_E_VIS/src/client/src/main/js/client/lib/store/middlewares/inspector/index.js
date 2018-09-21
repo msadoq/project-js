@@ -22,7 +22,6 @@ import {
 const logger = getLogger('server:store:middlewares:inspector');
 
 export default rtdManager => ({ dispatch }) => next => (action) => {
-  const nextAction = next(action);
   if (action.type === types.HSC_ASK_OPEN_INSPECTOR) {
     const {
       pageId, viewId, type: viewType,
@@ -66,5 +65,5 @@ export default rtdManager => ({ dispatch }) => next => (action) => {
       dispatch(setInspectorStaticData(staticData));
     });
   }
-  return nextAction;
+  return next(action);
 };

@@ -1,13 +1,20 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getCatalogs, getCatalogItems, getTupleId, getCatalogsByTupleId } from 'store/reducers/catalogs';
+import {
+  getCatalogItemsArray,
+  getTupleId,
+  areCatalogItemsLoaded,
+  areCatalogItemsLoading,
+  getCatalogsByDomainIdAndSessionId,
+} from 'store/reducers/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
 import { getTimelineById } from 'store/reducers/timelines';
 import { askCatalogItems } from 'store/actions/catalogs';
 import { get } from 'common/configurationManager';
 import CatalogItemField from 'viewManager/commonEditor/Fields/CatalogItemField';
+
 
 const mapStateToProps = (state, {
   name,
@@ -33,9 +40,22 @@ const mapStateToProps = (state, {
   const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
   const sessionId = selectedSession ? selectedSession.id : null;
   const tupleId = getTupleId(domainId, sessionId);
-  const catalogItems = getCatalogItems(getCatalogs(state), { tupleId, name: catalogName });
-  const loadedCatalogs = getCatalogsByTupleId(getCatalogs(state), { tupleId });
-  const catalogsLoaded = Array.isArray(loadedCatalogs);
+  const catalogItems = getCatalogItemsArray(state, { tupleId, name: catalogName });
+
+  const loaded = areCatalogItemsLoaded(state, { domainId, sessionId, name: catalogName });
+  const loading = areCatalogItemsLoading(state, { domainId, sessionId, name: catalogName });
+
+  const shouldLoadCatalogItems =
+    typeof domainId === 'number' &&
+    typeof sessionId === 'number' &&
+    typeof name === 'string' &&
+    !loaded &&
+    !loading;
+
+  const catalogs =
+    Object.keys(
+      getCatalogsByDomainIdAndSessionId(state, { domainId, sessionId })
+    );
 
   return {
     name,
@@ -43,7 +63,10 @@ const mapStateToProps = (state, {
     sessionId,
     domainId,
     catalogName,
-    catalogsLoaded,
+    catalogs,
+    shouldLoadCatalogItems,
+    loading,
+    loaded,
   };
 };
 
@@ -51,7 +74,34 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   askCatalogItems,
 }, dispatch);
 
-const CatalogItemFieldContainer = connect(mapStateToProps, mapDispatchToProps)(CatalogItemField);
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  askCatalogItems: () => {
+    const {
+      domainId,
+      sessionId,
+      catalogName,
+      catalogs,
+      shouldLoadCatalogItems,
+    } = stateProps;
+
+    if (shouldLoadCatalogItems) {
+      if (catalogs.indexOf(catalogName) > -1) {
+        setTimeout(() => {
+          dispatchProps.askCatalogItems(domainId, sessionId, catalogName);
+        }, 500);
+      }
+    }
+  },
+});
+
+const CatalogItemFieldContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(CatalogItemField);
 
 CatalogItemFieldContainer.propTypes = {
   name: PropTypes.string,

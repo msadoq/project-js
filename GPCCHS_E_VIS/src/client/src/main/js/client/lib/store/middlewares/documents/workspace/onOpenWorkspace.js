@@ -48,7 +48,6 @@ const getPath = path => (isAbsolute(path) ? path : join(get('ISIS_DOCUMENTS_ROOT
 
 const makeOnOpenWorkspace = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
-    const nextAction = next(action);
     if (action.type === types.WS_ASK_OPEN_WORKSPACE) {
       const { isNew, windowId, absolutePath, noPage = false } = action.payload;
       const state = getState();
@@ -127,7 +126,7 @@ const makeOnOpenWorkspace = documentManager => withListenAction(
         openWorkspace();
       }
     }
-    return nextAction;
+    return next(action);
   });
 
 export default makeOnOpenWorkspace;

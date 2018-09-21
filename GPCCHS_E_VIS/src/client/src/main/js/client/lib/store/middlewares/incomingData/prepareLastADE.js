@@ -11,9 +11,8 @@ import { PREFIX_LASTS } from 'constants';
 const logger = require('../../../common/logManager')('middleware:prepareLastADE');
 
 const prepareLast = () => ({ dispatch }) => next => (action) => {
-  const nextAction = next(action);
   if (action.type !== types.INCOMING_LAST_DATA) {
-    return nextAction;
+    return next(action);
   }
 
   const execution = executionMonitor('middleware:prepareLastADE');
@@ -55,7 +54,7 @@ const prepareLast = () => ({ dispatch }) => next => (action) => {
 
   execution.stop('global');
   execution.print();
-  return nextAction;
+  return next(action);
 };
 
 export default prepareLast;

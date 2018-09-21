@@ -90,14 +90,13 @@ export const areApidsLoaded = (state, { sessionId, domainId }) =>
 ;
 
 const apidsMiddleware = ({ dispatch, getState }) => next => (action) => {
-  const nextAction = next(action);
   const state = getState();
 
   if (action.type === WS_APIDS_ASK) {
     const { sessionId, domainId } = action.payload;
 
     if (areApidsLoaded(state, { sessionId, domainId })) {
-      return nextAction;
+      return next(action);
     }
 
     asyncApidsFetcher(
@@ -117,7 +116,7 @@ const apidsMiddleware = ({ dispatch, getState }) => next => (action) => {
     );
   }
 
-  return nextAction;
+  return next(action);
 };
 
 export default apidsMiddleware;

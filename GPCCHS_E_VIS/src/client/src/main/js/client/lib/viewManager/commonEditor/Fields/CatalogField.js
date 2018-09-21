@@ -9,7 +9,6 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 export default class CatalogField extends Component {
   static propTypes = {
     name: PropTypes.string,
-    timelineId: PropTypes.string,
     // from container mapStateToProps
     catalogs: PropTypes.oneOfType([
       PropTypes.string, // when requesting
@@ -19,6 +18,9 @@ export default class CatalogField extends Component {
     domainId: PropTypes.number,
     // from container mapDispatchToProps
     askCatalogs: PropTypes.func.isRequired,
+    updateCatalogField: PropTypes.func.isRequired,
+    loading: PropTypes.bool,
+    loaded: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -26,27 +28,46 @@ export default class CatalogField extends Component {
     catalogs: null,
     sessionId: null,
     domainId: null,
-    timelineId: null,
+    loading: false,
+    loaded: false,
   };
 
   componentDidMount() {
-    this.requestCatalogs(this.props);
+    this.props.askCatalogs();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.requestCatalogs(nextProps);
+    nextProps.askCatalogs();
   }
 
-  requestCatalogs = (props) => {
-    const { domainId, timelineId, sessionId, catalogs, askCatalogs } = props;
-    if (domainId !== null && timelineId !== null && catalogs === null) {
-      askCatalogs(domainId, sessionId);
-    }
-  };
+  shouldComponentUpdate(nextProps) {
+    const { domainId, sessionId } = this.props;
+    const { nextDomainId, nextSessionId } = nextProps;
+
+    return nextDomainId !== domainId || nextSessionId !== sessionId;
+  }
 
   render() {
-    const { catalogs, domainId, timelineId, name } = this.props;
-    const disabled = (!domainId || !timelineId || catalogs === null);
+    const {
+      catalogs,
+      name,
+      updateCatalogField,
+      loading,
+      loaded,
+    } = this.props;
+
+    const _getPlaceholder = () => {
+      if (loading) {
+        return 'Loading catalogs...';
+      }
+
+      if (loaded) {
+        return 'Select a catalog...';
+      }
+
+      return '';
+    };
+
     return (
       <ErrorBoundary>
         <Field
@@ -54,8 +75,10 @@ export default class CatalogField extends Component {
           name={name}
           component={ReactSelectField}
           clearable
-          disabled={disabled}
+          disabled={!loaded}
           options={computeOptions(catalogs)}
+          onChange={updateCatalogField}
+          placeholder={_getPlaceholder()}
         />
       </ErrorBoundary>
     );

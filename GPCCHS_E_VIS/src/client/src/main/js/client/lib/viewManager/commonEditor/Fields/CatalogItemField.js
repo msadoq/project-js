@@ -14,11 +14,9 @@ export default class CatalogItemField extends PureComponent {
       PropTypes.arrayOf(catalogItemType),
     ]),
     askCatalogItems: PropTypes.func.isRequired,
-    sessionId: PropTypes.number,
-    domainId: PropTypes.number,
-    timelineId: PropTypes.string,
-    catalogName: PropTypes.string,
-    catalogsLoaded: PropTypes.bool,
+    shouldLoadCatalogItems: PropTypes.bool,
+    loading: PropTypes.bool,
+    loaded: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -26,9 +24,9 @@ export default class CatalogItemField extends PureComponent {
     catalogItems: null,
     sessionId: null,
     domainId: null,
-    timelineId: null,
-    catalogName: null,
-    catalogsLoaded: false,
+    shouldLoadCatalogItems: false,
+    loading: false,
+    loaded: false,
   };
 
   componentWillMount() {
@@ -41,23 +39,35 @@ export default class CatalogItemField extends PureComponent {
 
   tryToLoadCatalogItems = (props) => {
     const {
-      domainId,
-      timelineId,
-      sessionId,
-      catalogItems,
       askCatalogItems,
-      catalogName,
-      catalogsLoaded,
+      shouldLoadCatalogItems,
     } = props;
 
-    if (!!(domainId && timelineId && catalogName) && catalogItems === null && catalogsLoaded) {
-      askCatalogItems(domainId, sessionId, catalogName);
+    if (shouldLoadCatalogItems) {
+      askCatalogItems();
     }
   };
 
   render() {
-    const { catalogItems, domainId, timelineId, catalogName, name } = this.props;
-    const disabled = (!domainId || !timelineId || !catalogName || catalogItems === null);
+    const {
+      catalogItems,
+      name,
+      loading,
+      loaded,
+    } = this.props;
+
+    const _getPlaceholder = () => {
+      if (loading) {
+        return 'Loading catalog items...';
+      }
+
+      if (loaded) {
+        return 'Selec a catalog item...';
+      }
+
+      return '';
+    };
+
     return (
       <ErrorBoundary>
         <Field
@@ -65,8 +75,9 @@ export default class CatalogItemField extends PureComponent {
           name={name}
           component={VirtualizedSelectField}
           clearable
-          disabled={disabled}
+          disabled={!loaded}
           options={computeOptions(catalogItems)}
+          placeholder={_getPlaceholder()}
         />
       </ErrorBoundary>
     );

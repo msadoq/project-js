@@ -103,7 +103,6 @@ const onOpenView = (state, action, dispatch, documentManager, listenAction ) => 
 
 const makeOnOpenView = documentManager => withListenAction(
   ({ dispatch, listenAction, getState }) => next => (action) => {
-    const nextAction = next(action);
     const state = getState();
     if (action.type === types.WS_ASK_OPEN_VIEW) {
       if (!getIsWorkspaceOpened(state.hsc)) {
@@ -115,7 +114,7 @@ const makeOnOpenView = documentManager => withListenAction(
         onOpenView(getState(), action, dispatch, documentManager, listenAction);
       }
     }
-    return nextAction;
+    return next(action);
   }
 );
 

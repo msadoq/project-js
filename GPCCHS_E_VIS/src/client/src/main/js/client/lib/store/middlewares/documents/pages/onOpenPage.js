@@ -109,7 +109,6 @@ const onOpenPage = (state, action, dispatch, documentManager, listenAction) => {
 
 const makeOnOpenPage = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
-    const nextAction = next(action);
     const state = getState();
 
     if (action.type === types.WS_ASK_OPEN_PAGE) {
@@ -122,7 +121,7 @@ const makeOnOpenPage = documentManager => withListenAction(
         onOpenPage(getState(), action, dispatch, documentManager, listenAction);
       }
     }
-    return nextAction;
+    return next(action);
   }
 );
 

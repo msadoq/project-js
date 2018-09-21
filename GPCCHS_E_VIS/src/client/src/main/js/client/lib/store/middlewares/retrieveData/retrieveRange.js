@@ -78,7 +78,6 @@ const sendArchiveQueryFunction = (tbdId, dataId, mergedInterval, filters, sampl)
 
 const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
   const execution = executionMonitor('middleware:retrieveRange');
-  const nextAction = next(action);
   if (action.type === types.VIEWS_NEED_RANGE) {
     execution.start('global');
     const neededRange = action.payload.neededRangeData;
@@ -122,7 +121,7 @@ const retrieveRange = ipc => ({ dispatch, getState }) => next => (action) => {
     execution.stop('global');
     execution.print();
   }
-  return nextAction;
+  return next(action);
 };
 
 export default retrieveRange;

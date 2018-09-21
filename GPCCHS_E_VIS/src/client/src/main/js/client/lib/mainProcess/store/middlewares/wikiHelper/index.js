@@ -18,12 +18,11 @@ const isUrl = _.anyPass([
 ]);
 
 export default (open, getUrl = _.noop) => ({ dispatch }) => next => (action) => {
-  const nextAction = next(action);
   if (action.type === types.HSC_OPEN_WIKI_HELPER) {
     const url = getUrl();
     if (!url) {
       dispatch(addGlobalWarning('Wiki helper : no USER_MANUAL_URL provided'));
-      return nextAction;
+      return next(action);
     }
     const fullUrl = isUrl(url) ? url : `http://${url}`;
     open(fullUrl, { app: 'firefox' })
@@ -31,5 +30,5 @@ export default (open, getUrl = _.noop) => ({ dispatch }) => next => (action) => 
       dispatch(addGlobalError(`Wiki helper : ${e.message}`));
     });
   }
-  return nextAction;
+  return next(action);
 };

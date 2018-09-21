@@ -19,8 +19,8 @@ export default class ComObject extends PureComponent {
     domainId: PropTypes.number,
     catalogName: PropTypes.string,
     itemName: PropTypes.string,
-    catalogItemsLoaded: PropTypes.bool,
     // from container mapDispatchToProps
+    shouldLoadComObjects: PropTypes.bool,
     askComObjects: PropTypes.func.isRequired,
   };
 
@@ -32,8 +32,8 @@ export default class ComObject extends PureComponent {
     domainId: null,
     timelineId: null,
     catalogName: null,
-    catalogItemsLoaded: false,
     itemName: null,
+    shouldLoadComObjects: false,
   };
 
   componentWillMount() {
@@ -47,23 +47,14 @@ export default class ComObject extends PureComponent {
   tryToLoadComObjects = (props) => {
     const {
       domainId,
-      timelineId,
       sessionId,
       askComObjects,
       catalogName,
       itemName,
-      comObjects,
-      catalogItemsLoaded,
+      shouldLoadComObjects,
     } = props;
 
-    if (
-      Number.isInteger(domainId) &&
-      (timelineId !== null && timelineId.length > 0) &&
-      (catalogName !== null && catalogName.length > 0) &&
-      (itemName !== null && itemName.length > 0) &&
-      comObjects === null &&
-      catalogItemsLoaded
-    ) {
+    if (shouldLoadComObjects) {
       askComObjects(domainId, sessionId, catalogName, itemName);
     }
   };

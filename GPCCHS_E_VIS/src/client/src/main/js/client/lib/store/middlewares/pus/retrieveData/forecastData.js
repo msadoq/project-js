@@ -19,7 +19,6 @@ let playPressed = false;
 
 const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next => (action) => {
   const execution = executionMonitor('middleware:forecastData');
-  const nextAction = next(action);
   if (action.type === types.HSC_PLAY) {
     playPressed = true;
   }
@@ -85,7 +84,7 @@ const forecastData = (ipc, time, trigger) => ({ getState, dispatch }) => next =>
       }
     }
   }
-  return nextAction;
+  return next(action);
 };
 
 export default forecastData;

@@ -39,7 +39,6 @@ import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 
 const makeOnSaveWorkspace = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
-    const nextAction = next(action);
     if (action.type === types.WS_ASK_SAVE_WORKSPACE) {
       const state = getState();
       const windowId = action.payload.windowId || getFocusedWindowId(state);
@@ -78,7 +77,7 @@ const makeOnSaveWorkspace = documentManager => withListenAction(
         dispatch(documentManager.saveWorkspace(join(workspaceFolder, workspaceFile)));
       }
     }
-    return nextAction;
+    return next(action);
   });
 
 export default makeOnSaveWorkspace;

@@ -26,13 +26,11 @@ const makeViewNeededData = () => {
 
   return ({ dispatch, getState }) => next => (action) => {
     // previous dataMap
-    const nextAction = next(action);
-
     const state = getState();
 
     // skip is workspace is loading or no windows was already loaded
     if (getIsWorkspaceOpening(state) === true && getWindowsOpened(state) === false) {
-      return nextAction;
+      return next(action);
     }
 
     const profile = execution('middleware:viewNeededData');
@@ -47,7 +45,7 @@ const makeViewNeededData = () => {
 
     if (dataMap === previousDataMap) {
       profile.print();
-      return nextAction;
+      return next(action);
     }
     // get needed range intervals
     profile.start('missingRangeIntervals');
@@ -91,7 +89,7 @@ const makeViewNeededData = () => {
 
     profile.print();
 
-    return nextAction;
+    return next(action);
   };
 };
 

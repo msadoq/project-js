@@ -30,7 +30,6 @@ const closeSearch = pageId => minimizeSearch(pageId, true);
 
 const makeOnCloseView = documentManager => withListenAction(
   ({ dispatch, listenAction, getState }) => next => (action) => {
-    const nextAction = next(action);
     if (action.type === types.WS_ASK_CLOSE_VIEW) {
       const state = getState();
       const { viewId } = action.payload;
@@ -90,7 +89,7 @@ const makeOnCloseView = documentManager => withListenAction(
         close();
       }
     }
-    return nextAction;
+    return next(action);
   }
 );
 

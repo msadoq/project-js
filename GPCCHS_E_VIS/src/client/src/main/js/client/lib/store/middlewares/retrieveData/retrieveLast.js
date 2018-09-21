@@ -30,7 +30,6 @@ const getLastArguments = { getLastNumber: 1 };
 const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
   const execution = executionMonitor('middleware:retrieveLast');
 
-  const nextAction = next(action);
   if (action.type === types.VIEWS_NEED_LAST) {
     execution.start('global');
     const neededLast = action.payload.neededLastData;
@@ -62,7 +61,7 @@ const retrieveLast = ipc => ({ dispatch, getState }) => next => (action) => {
     execution.stop('global');
     execution.print();
   }
-  return nextAction;
+  return next(action);
 };
 
 export default retrieveLast;

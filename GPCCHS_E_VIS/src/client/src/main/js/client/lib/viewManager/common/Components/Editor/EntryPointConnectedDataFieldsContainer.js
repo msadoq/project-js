@@ -31,7 +31,7 @@ const mapStateToProps = (state, { form, viewId, pageId }) => {
   const name = getSelectedCatalogName(form, state);
   const selectedPath = getSelectedPath(form, state);
   const formMetadata = getFormMetadata(form, state);
-  const metadata = getAlgorithmMetadata(state.catalogs, { tupleId, name, itemName: selectedPath });
+  const metadata = getAlgorithmMetadata(state, { tupleId, name, itemName: selectedPath });
 
   return {
     selectedDomainName: domainName,

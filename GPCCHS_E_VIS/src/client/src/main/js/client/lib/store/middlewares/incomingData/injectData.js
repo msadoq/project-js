@@ -142,9 +142,8 @@ const injectData = (timing) => {
   }
 
   return ({ dispatch, getState }) => next => (action) => {
-    const nextAction = next(action);
     if (action.type !== types.NEW_DATA) {
-      return nextAction;
+      return next(action);
     }
 
     const execution = executionMonitor('middleware:injectData');
@@ -155,7 +154,7 @@ const injectData = (timing) => {
 
     execution.stop('global');
     execution.print();
-    return nextAction;
+    return next(action);
   };
 };
 

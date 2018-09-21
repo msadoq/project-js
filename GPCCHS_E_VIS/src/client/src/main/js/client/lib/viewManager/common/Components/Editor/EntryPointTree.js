@@ -140,7 +140,7 @@ export default class EntryPointTree extends Component {
                   entryPoint={updatedEntryPoint}
                   onSubmit={this.handleSubmit}
                   initialValues={updatedEntryPoint}
-                  form={`entrypoint-title-form-${updatedEntryPoint.id}-${viewId}`}
+                  form={'edit-entrypoint'}
                   entryPointConnectedDataForm={entryPointConnectedDataForm}
                 />}
               </Panel>

@@ -26,7 +26,6 @@ import mergeIntervals from '../../../common/intervals/merge';
 
 const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action) => {
   const execution = executionMonitor('middleware:retrieveLast');
-  const nextAction = next(action);
 
   if (action.type === types.VIEWS_NEED_OBSOLETE_EVENT) {
     execution.start('global');
@@ -84,7 +83,7 @@ const retrieveObsoleteEvent = ipc => ({ dispatch, getState }) => next => (action
     execution.stop('global');
     execution.print();
   }
-  return nextAction;
+  return next(action);
 };
 
 export default retrieveObsoleteEvent;

@@ -52,7 +52,7 @@ export default function getUnitParams(state, props) {
     parameterName: catalogItem,
   } = parseFormula(formula);
 
-  const unit = getUnitMetadata(state.catalogs, { tupleId, name: catalog, itemName: catalogItem });
+  const unit = getUnitMetadata(state, { tupleId, name: catalog, itemName: catalogItem });
   return {
     domainId,
     sessionId,

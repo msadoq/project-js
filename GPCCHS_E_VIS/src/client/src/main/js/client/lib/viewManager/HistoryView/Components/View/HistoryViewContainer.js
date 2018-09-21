@@ -75,7 +75,7 @@ const mapStateToProps = (state, { viewId, pageId }) => {
         const tupleId = getTupleId(domainId, sessionId);
 
         const selectedCatalogItem = getCatalogItemByName(
-          state.catalogs,
+          state,
           {
             tupleId,
             name: catalog,

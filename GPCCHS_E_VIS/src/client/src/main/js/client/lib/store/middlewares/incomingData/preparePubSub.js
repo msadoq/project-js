@@ -40,11 +40,10 @@ import { PREFIX_KNOWN_RANGES } from 'constants';
 const logger = require('../../../common/logManager')('middleware:preparePubSub');
 
 const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action) => {
-  const nextAction = next(action);
   if (action.type !== types.INCOMING_PUBSUB_DATA
     && action.type !== types.INCOMING_PUBSUBALARM_DATA
   ) {
-    return nextAction;
+    return next(action);
   }
 
   const execution = executionMonitor('middleware:preparePubSub');
@@ -70,7 +69,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
       logger.error('unsupported comObject', dataId.comObject);
       execution.stop('global');
       execution.print();
-      return nextAction;
+      return next(action);
     }
 
     // Retrieves tbdIds corresponding to dataId from store.knownRanges (storeTbdIds)
@@ -155,7 +154,7 @@ const preparePubSub = lokiManager => ({ dispatch, getState }) => next => (action
 
   execution.stop('global');
   execution.print();
-  return nextAction;
+  return next(action);
 };
 
 /**

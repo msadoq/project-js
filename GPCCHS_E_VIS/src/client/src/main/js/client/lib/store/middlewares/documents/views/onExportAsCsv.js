@@ -13,7 +13,6 @@ import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 
 const makeOnExportAsCsv = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
-    const nextAction = next(action);
     if (action.type === types.WS_ASK_EXPORT_AS_CSV) {
       const { viewId } = action.payload;
       const state = getState();
@@ -29,7 +28,7 @@ const makeOnExportAsCsv = documentManager => withListenAction(
         }
       });
     }
-    return nextAction;
+    return next(action);
   }
 );
 

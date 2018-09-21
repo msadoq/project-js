@@ -13,7 +13,6 @@ import { getSaveExtensionsFilters, getDefaultFolder } from '../utils';
 
 const makeOnExportAsImage = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
-    const nextAction = next(action);
     if (action.type === types.WS_ASK_EXPORT_AS_IMAGE) {
       const { viewId, imageData } = action.payload;
       const state = getState();
@@ -29,7 +28,7 @@ const makeOnExportAsImage = documentManager => withListenAction(
         }
       });
     }
-    return nextAction;
+    return next(action);
   }
 );
 

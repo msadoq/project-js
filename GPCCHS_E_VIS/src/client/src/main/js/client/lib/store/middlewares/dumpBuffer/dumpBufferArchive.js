@@ -14,10 +14,9 @@ import executionMonitor from 'common/logManager/execution';
 import { DUMP_EXTENSIONS } from 'constants';
 
 const dumpBufferArchive = () => () => next => (action) => {
-  const nextAction = next(action);
   if (action.type !== types.INCOMING_LAST_DATA
     && action.type !== types.INCOMING_RANGE_DATA) {
-    return nextAction;
+    return next(action);
   }
   const execution = executionMonitor('middleware:dumpBufferArchive');
   execution.start('global');
@@ -43,7 +42,7 @@ const dumpBufferArchive = () => () => next => (action) => {
 
   execution.stop('global');
   execution.print();
-  return nextAction;
+  return next(action);
 };
 
 export default dumpBufferArchive;

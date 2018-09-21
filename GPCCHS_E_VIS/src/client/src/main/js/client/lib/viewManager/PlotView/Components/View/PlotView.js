@@ -142,7 +142,7 @@ import CloseableAlert from './CloseableAlert';
 import styles from './PlotView.css';
 import grizzlyStyles from './Grizzly/GrizzlyChart.css';
 import { memoizeIsSignificantValue } from '../../../common';
-import { getTupleId } from '../../../../store/reducers/catalogs';
+import { getTupleId, getUnitMetadata } from '../../../../store/reducers/catalogs';
 import { parseDragData } from '../../../common/utils';
 
 const logger = getLogger('view:plot');
@@ -1097,9 +1097,14 @@ export class GrizzlyPlotView extends React.Component {
               let unit;
               if (entryPoints[ep.name] && entryPoints[ep.name].dataId) {
                 const { domainId, sessionId, catalog, parameterName } =
-                    entryPoints[ep.name].dataId;
+                  entryPoints[ep.name].dataId;
                 const tupleId = getTupleId(domainId, sessionId);
-                unit = _get(catalogs, ['units', tupleId, catalog, parameterName], 'Unknown');
+                unit = getUnitMetadata(
+                  catalogs,
+                  { tupleId,
+                    name: catalog,
+                    itemName: parameterName,
+                  });
               } else {
                 unit = ep.unit;
               }

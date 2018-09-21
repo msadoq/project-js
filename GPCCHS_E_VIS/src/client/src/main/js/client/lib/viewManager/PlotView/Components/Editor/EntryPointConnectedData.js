@@ -297,6 +297,7 @@ class EntryPointConnectedData extends React.Component {
       parametricYSelectedItemName,
       entryPoint,
     } = this.props;
+
     const axisId = _.getOr(null, ['connectedData', 'axisId'], entryPoint);
     const timeline = _.getOr(null, ['connectedData', 'timeline'], entryPoint);
     const {

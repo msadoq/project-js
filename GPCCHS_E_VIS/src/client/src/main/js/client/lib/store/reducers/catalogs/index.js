@@ -1,9 +1,10 @@
+/* eslint-disable no-continue */
+
+import _ from 'lodash/fp';
 import _find from 'lodash/fp/find';
-import _findIndex from 'lodash/findIndex';
 import _getOr from 'lodash/fp/getOr';
 import _flow from 'lodash/fp/flow';
-import _set from 'lodash/fp/set';
-import { createSelector } from 'reselect';
+
 import {
   WS_CATALOGS_ASK,
   WS_CATALOGS_ADD,
@@ -11,247 +12,338 @@ import {
   WS_CATALOG_ITEMS_ADD,
   WS_COM_OBJECTS_ASK,
   WS_COM_OBJECTS_ADD,
-  WS_UNIT_ADD,
-  WS_UNIT_ADD_SIMPLE,
+  WS_ITEM_STRUCTURE_ASK,
   WS_ITEM_STRUCTURE_ADD,
+  WS_ITEM_METADATA_ASK,
   WS_ITEM_METADATA_ADD,
+  WS_REPORTING_ITEM_PACKETS_ASK,
   WS_REPORTING_ITEM_PACKETS_ADD,
 } from 'store/types';
 
-export const REQUESTING = 'requesting';
+export const STATUS_LOADING = 'loading';
+export const STATUS_LOADED = 'loaded';
+
+const _setCatalogItemFieldStateToIsLoading =
+  (state, { tupleId, name, itemName, fieldName }) => {
+    if (
+      _getCatalogItemFieldStatus(
+        state, { tupleId, name, itemName, fieldName }
+      ) === STATUS_LOADED
+    ) {
+      return state;
+    }
+
+    return _.set(
+      ['_status', tupleId, name, 'items', itemName, fieldName, '_status'],
+      STATUS_LOADING,
+      state
+    );
+  };
+
+const setCatalogItemFieldStateToIsLoaded =
+  (state, { tupleId, name, itemName, fieldName }) => _.set(
+    ['_status', tupleId, name, 'items', itemName, fieldName, '_status'],
+    STATUS_LOADED,
+    state
+  );
+
+const addCatalogs = (state, { tupleId, catalogs, all }) => {
+  let updatedState = state;
+
+  const existingCatalogs = _.getOr(
+    {},
+    tupleId,
+    state
+  );
+
+  const newCatalogs = catalogs.reduce((acc, catalog) => ({
+    ...acc,
+    [catalog.name]: {},
+  }), {});
+
+  const updatedCatalogs = {
+    ...newCatalogs,
+    ...existingCatalogs,
+  };
+
+  updatedState = _.set(
+    tupleId,
+    updatedCatalogs,
+    updatedState
+  );
+
+  if (all) {
+    updatedState = _.set(
+      ['_status', tupleId, '_status'],
+      STATUS_LOADED,
+      updatedState
+    );
+  }
+
+  return updatedState;
+};
+
+const addCatalogItems = (state, { tupleId, name, items, all }) => {
+  let updatedState = state;
+
+  const existingItems = _.getOr(
+    {},
+    [tupleId, name],
+    state
+  );
+
+  const newItems = items.reduce((acc, item) => ({
+    ...acc,
+    [item.name]: {},
+  }), {});
+
+  let updatedItems = {
+    ...newItems,
+    ...existingItems,
+  };
+
+  let updatedItemsSortedKeys = Object.keys(updatedItems);
+
+  if (all) {
+    updatedItemsSortedKeys = _.intersection(
+      Object.keys(newItems),
+      updatedItemsSortedKeys
+    );
+  }
+
+  updatedItemsSortedKeys = updatedItemsSortedKeys.sort();
+
+  updatedItems = updatedItemsSortedKeys.reduce(
+    (acc, cur) => ({ ...acc, [cur]: updatedItems[cur] }),
+    {}
+  );
+
+  updatedState = _.set(
+    [tupleId, name],
+    updatedItems,
+    updatedState
+  );
+
+  if (all) {
+    updatedState = _.set(
+      ['_status', tupleId, name, '_status'],
+      STATUS_LOADED,
+      updatedState
+    );
+  }
+
+  return updatedState;
+};
+
+const addCatalogItemField = (state, { tupleId, name, itemName, fieldName, content }) => {
+  let updatedState = state;
+
+  updatedState = _.set(
+    [tupleId, name, itemName, fieldName],
+    content,
+    updatedState
+  );
+
+  updatedState =
+    setCatalogItemFieldStateToIsLoaded(
+      updatedState,
+      { tupleId, name, itemName, fieldName }
+    );
+
+  return updatedState;
+};
 
 // eslint-disable-next-line complexity
 export default function catalogsReducer(state = {}, action) {
   switch (action.type) {
     case WS_CATALOGS_ASK: {
-      return _set(
-        getTupleId(action.payload.domainId, action.payload.sessionId),
-        REQUESTING,
+      const { domainId, sessionId } = action.payload;
+
+      const currentLoadingStatus = _.get(
+        ['_status', getTupleId(domainId, sessionId), '_status'],
+        state
+      );
+
+      if (
+        typeof domainId !== 'number' ||
+        typeof sessionId !== 'number' ||
+        currentLoadingStatus === STATUS_LOADED
+      ) {
+        return state;
+      }
+
+      return _.set(
+        ['_status', getTupleId(domainId, sessionId), '_status'],
+        STATUS_LOADING,
         state
       );
     }
     case WS_CATALOGS_ADD: {
-      return _set(
-        action.payload.tupleId,
-        action.payload.catalogs,
-        state
-      );
+      const { tupleId, catalogs } = action.payload;
+      return addCatalogs(state, { tupleId, catalogs, all: true });
     }
     case WS_CATALOG_ITEMS_ASK: {
-      const tupleId = getTupleId(action.payload.domainId, action.payload.sessionId);
-      if (!Array.isArray(state[tupleId])) {
+      const { domainId, sessionId, name } = action.payload;
+
+      if (
+        typeof domainId !== 'number' ||
+        typeof sessionId !== 'number' ||
+        typeof name !== 'string'
+      ) {
         return state;
       }
 
-      const index = getCatalogIndexByName(state, {
-        tupleId,
-        name: action.payload.name,
-      });
-      if (index === -1) {
-        return state;
-      }
+      const tupleId = getTupleId(domainId, sessionId);
 
-      return _set(
-        `[${tupleId}][${index}].items`,
-        REQUESTING,
+      return _.set(
+        ['_status', tupleId, name, '_status'],
+        STATUS_LOADING,
         state
       );
     }
     case WS_CATALOG_ITEMS_ADD: {
-      if (!Array.isArray(state[action.payload.tupleId])) {
+      const { tupleId, name, items } = action.payload;
+
+      return addCatalogItems(state, { tupleId, name, items, all: true });
+    }
+    case WS_ITEM_METADATA_ASK: {
+      const { domainId, sessionId, name, itemName } = action.payload;
+
+      if (
+        typeof domainId !== 'number' ||
+        typeof sessionId !== 'number' ||
+        typeof name !== 'string' ||
+        typeof itemName !== 'string'
+      ) {
         return state;
       }
 
-      const index = getCatalogIndexByName(state, {
-        tupleId: action.payload.tupleId,
-        name: action.payload.name,
-      });
-      if (index === -1) {
-        return state;
-      }
+      const tupleId = getTupleId(domainId, sessionId);
 
-      return _set(
-        `[${action.payload.tupleId}][${index}].items`,
-        action.payload.items,
-        state
+      return _setCatalogItemFieldStateToIsLoading(
+        state,
+        { tupleId, name, itemName, fieldName: 'metadata' }
       );
     }
-    case WS_COM_OBJECTS_ASK: {
-      const tupleId = getTupleId(action.payload.domainId, action.payload.sessionId);
-      if (!Array.isArray(state[tupleId])) {
-        return state;
-      }
+    case WS_ITEM_METADATA_ADD: {
+      const { tupleId, name, itemName, metadata } = action.payload;
 
-      const index = getCatalogIndexByName(state, {
-        tupleId,
-        name: action.payload.name,
-      });
-      if (index === -1) {
-        return state;
-      }
-
-      const indexItem = getCatalogItemIndexByName(
+      return addCatalogItemField(
         state,
         {
           tupleId,
-          name: action.payload.name,
-          itemName: action.payload.itemName,
+          name,
+          itemName,
+          fieldName: 'metadata',
+          content: metadata,
         }
       );
+    }
+    case WS_COM_OBJECTS_ASK: {
+      const { domainId, sessionId, name, itemName } = action.payload;
 
-      if (indexItem === -1) {
+      if (
+        typeof domainId !== 'number' ||
+        typeof sessionId !== 'number' ||
+        typeof name !== 'string' ||
+        typeof itemName !== 'string'
+      ) {
         return state;
       }
 
-      const path = `[${tupleId}][${index}].items[${indexItem}].comObjects`;
-      return _set(
-        path,
-        REQUESTING,
-        state
+      const tupleId = getTupleId(domainId, sessionId);
+
+      return _setCatalogItemFieldStateToIsLoading(
+        state,
+        { tupleId, name, itemName, fieldName: 'comObjects' }
       );
     }
     case WS_COM_OBJECTS_ADD: {
-      if (!Array.isArray(state[action.payload.tupleId])) {
-        return state;
-      }
+      const { tupleId, name, itemName, comObjects } = action.payload;
 
-      const index = getCatalogIndexByName(state, {
-        tupleId: action.payload.tupleId,
-        name: action.payload.name,
-      });
-      if (index === -1) {
-        return state;
-      }
-
-      const indexItem = getCatalogItemIndexByName(
+      return addCatalogItemField(
         state,
         {
-          tupleId: action.payload.tupleId,
-          name: action.payload.name,
-          itemName: action.payload.itemName,
+          tupleId,
+          name,
+          itemName,
+          fieldName: 'comObjects',
+          content: comObjects,
         }
       );
-
-      if (indexItem === -1) {
-        return state;
-      }
-
-      const path = `[${action.payload.tupleId}][${index}].items[${indexItem}].comObjects`;
-      return _set(
-        path,
-        action.payload.comObjects,
-        state
-      );
     }
-    case WS_UNIT_ADD: {
-      if (!Array.isArray(state[action.payload.tupleId])) {
+    case WS_ITEM_STRUCTURE_ASK: {
+      const { domainId, sessionId, name, itemName } = action.payload;
+
+      if (
+        typeof domainId !== 'number' ||
+        typeof sessionId !== 'number' ||
+        typeof name !== 'string' ||
+        typeof itemName !== 'string'
+      ) {
         return state;
       }
 
-      const index = getCatalogIndexByName(state, {
-        tupleId: action.payload.tupleId,
-        name: action.payload.name,
-      });
-      if (index === -1) {
-        return state;
-      }
+      const tupleId = getTupleId(domainId, sessionId);
 
-      const indexItem = getCatalogItemIndexByName(
+      return _setCatalogItemFieldStateToIsLoading(
         state,
-        {
-          tupleId: action.payload.tupleId,
-          name: action.payload.name,
-          itemName: action.payload.itemName,
-        }
-      );
-
-      if (indexItem === -1) {
-        return state;
-      }
-      const path = `[${action.payload.tupleId}][${index}].items[${indexItem}].unit`;
-      return _set(
-        path,
-        action.payload.unit,
-        state
-      );
-    }
-    case WS_UNIT_ADD_SIMPLE: {
-      const { tupleId, name, itemName, unit } = action.payload;
-      const path = `units[${tupleId}][${name}][${itemName}]`;
-      return _set(
-        path,
-        unit,
-        state
+        { tupleId, name, itemName, fieldName: 'structure' }
       );
     }
     case WS_ITEM_STRUCTURE_ADD: {
-      const { tupleId, itemName, name, structure } = action.payload;
+      const { tupleId, name, itemName, structure } = action.payload;
 
-      const catalogIndex = getCatalogIndexByName(state, { tupleId, name });
-      if (catalogIndex === -1) {
-        return state;
-      }
-
-      const itemIndex = getCatalogItemIndexByName(state, { tupleId, name, itemName });
-      if (itemIndex === -1) {
-        return state;
-      }
-
-      const path = getStructurePath(tupleId, catalogIndex, itemIndex);
-      return _set(path, structure, state);
-      // return state;
+      return addCatalogItemField(
+        state,
+        {
+          tupleId,
+          name,
+          itemName,
+          fieldName: 'structure',
+          content: structure,
+        }
+      );
     }
-    case WS_ITEM_METADATA_ADD: {
-      const { tupleId, name, metadata } = action.payload;
-      const { itemName } = metadata;
+    case WS_REPORTING_ITEM_PACKETS_ASK: {
+      const { domainId, sessionId, name, itemName } = action.payload;
 
-      const catalogIndex = getCatalogIndexByName(state, { tupleId, name });
-      if (catalogIndex === -1) {
+      if (
+        typeof domainId !== 'number' ||
+        typeof sessionId !== 'number' ||
+        typeof name !== 'string' ||
+        typeof itemName !== 'string'
+      ) {
         return state;
       }
 
-      const itemIndex = getCatalogItemIndexByName(state, { tupleId, name, itemName });
-      if (itemIndex === -1) {
-        return state;
-      }
+      const tupleId = getTupleId(domainId, sessionId);
 
-      const path = getMetadataPath(tupleId, catalogIndex, itemIndex);
-      return _set(path, metadata, state);
-      // return state;
+      return _setCatalogItemFieldStateToIsLoading(
+        state,
+        { tupleId, name, itemName, fieldName: 'reportingItemPackets' }
+      );
     }
     case WS_REPORTING_ITEM_PACKETS_ADD: {
-      const { tupleId, name, itemName, reportingItemPackets } = action.payload; // TODO: update this
+      const { tupleId, name, itemName, reportingItemPackets } = action.payload;
 
-      const catalogIndex = getCatalogIndexByName(state, { tupleId, name });
-      if (catalogIndex === -1) {
-        return state;
-      }
-
-      const itemIndex = getCatalogItemIndexByName(state, { tupleId, name, itemName });
-      if (itemIndex === -1) {
-        return state;
-      }
-
-      const path = getReportingItemPacketsPath(tupleId, catalogIndex, itemIndex);
-      return _set(path, reportingItemPackets, state);
+      return addCatalogItemField(
+        state,
+        {
+          tupleId,
+          name,
+          itemName,
+          fieldName: 'reportingItemPackets',
+          content: reportingItemPackets,
+        }
+      );
     }
     default:
       return state;
   }
 }
 
-/* --- Selectors ------------------------------------------------------------ */
-
 export const getCatalogs = state => state.catalogs;
-
-/**
- * @param state
- * @param domainId
- * @param sessionId
- * @returns {null}
- */
-export const getCatalogsByDomainIdAndSessionId = (state, { domainId, sessionId }) =>
-  _getOr(null, getTupleId(domainId, sessionId), getCatalogs(state));
 
 /* --- Reducer -------------------------------------------------------------- */
 
@@ -262,152 +354,174 @@ export const getCatalogsByDomainIdAndSessionId = (state, { domainId, sessionId }
  */
 export const getTupleId = (domainId, sessionId) => `${domainId}-${sessionId}`;
 
-export const getPathToCatalogs = (state, tupleId) => _getOr(null, tupleId, state);
-export const getPathToCatalogItems = catalog => _getOr(undefined, 'items', catalog);
-export const getPathToCatalogItemComObjects = catalogItem => _getOr(undefined, 'comObjects', catalogItem);
+export const getCatalogsByTupleId =
+  (state, { tupleId }) =>
+    _.get(
+      tupleId,
+      getCatalogs(state)
+    );
 
-/**
- * @param state
- * @param tupleId
- * @returns {null}
- */
-/*
- * ##########################################
- * WARNING ! (FIXME) these selectors should not be based on a substate (here, state.catalogs), but directly on the complete state.
- * This way, the state structure would be an implementation detail ; containers wouldn't need to know state structure.
- * ##########################################
- */
-export const getCatalogsByTupleId = (state, { tupleId }) => getPathToCatalogs(state, tupleId);
+export const getCatalogsByDomainIdAndSessionId =
+  (state, { domainId, sessionId }) =>
+    _.getOr(
+      {},
+      getTupleId(domainId, sessionId),
+      getCatalogs(state)
+    );
 
-/**
- * @param state
- * @param tupleId
- * @param name
- */
-export const getCatalogByName = (state, { tupleId, name }) => (
-  _find(c => (
-    c.name === name
-  ), getPathToCatalogs(state, tupleId))
-);
+export const getCatalogsByDomainIdAndSessionIdArray =
+  (state, props) => {
+    const catalogs = getCatalogsByDomainIdAndSessionId(state, props);
 
-export const getCatalogIndexByName = createSelector(
-  getCatalogsByTupleId,
-  (state, { name }) => name,
-  (catalogs, name) => _findIndex(catalogs, c => c.name === name)
-);
+    return Object.keys(catalogs)
+      .filter(catalogKey => catalogKey.length > 0 && catalogKey !== 'null')
+      .map(
+        catalog => ({
+          name: catalog,
+        })
+      );
+  };
 
-/**
- * @param state
- * @param tupleId
- * @param name
- * @param itemName
- */
-export const getCatalogItemIndexByName = createSelector(
-  (state, { itemName }) => itemName,
-  getCatalogByName,
-  (itemName, catalog) => _findIndex(getPathToCatalogItems(catalog), c => c.name === itemName)
-);
+export const getCatalogByName = (state, { tupleId, name }) =>
+  _.getOr({}, [tupleId, name], getCatalogs(state));
 
-/**
- * @param state
- * @param tupleId
- * @param name
- * @param itemName
- */
-export const getCatalogItemByName = createSelector(
-  (state, { itemName }) => itemName,
-  getCatalogByName,
-  (itemName, catalog) => _find(i => i.name === itemName, getPathToCatalogItems(catalog))
-);
+export const getCatalogItemByName = (state, { tupleId, name, itemName }) => {
+  const catalog = getCatalogByName(state, { tupleId, name });
+  return _.getOr({}, itemName, catalog);
+};
 
-/**
- * @param state
- * @param tupleId
- * @param name
- */
-export const getCatalogItems = createSelector(
-  getCatalogByName,
-  catalog => getPathToCatalogItems(catalog)
-);
+const getCatalogItems =
+  (state, { tupleId, name }) => getCatalogByName(state, { tupleId, name });
 
-/**
- * @param state
- * @param tupleId
- * @param name
- * @param itemName
- */
-export const getCatalogItemComObjects = createSelector(
-  getCatalogItemByName,
-  item => getPathToCatalogItemComObjects(item)
-);
+export const getCatalogItemsArray = (state, { tupleId, name }) => {
+  const items =
+    Object
+      .keys(getCatalogItems(state, { tupleId, name }))
+      .filter(item => item.length > 0 && item !== 'null');
 
-const getUnitsCatalog = state => getCatalogs(state).units;
+  return items.map(
+    item => ({
+      name: item,
+    })
+  );
+};
 
-export const getUnitByItemName = createSelector(
-  getUnitsCatalog,
-  (state, { tupleId, name, itemName }) => ({ tupleId, name, itemName }),
-  (unitsCatalog, { tupleId, name, itemName }) =>
-    _getOr(undefined, [tupleId, name, itemName], unitsCatalog)
-);
+const createCatalogItemFieldGetter =
+  field =>
+    (state, { tupleId, name, itemName }) =>
+      _.get(field, getCatalogItemByName(state, { tupleId, name, itemName }));
 
-const getStructurePath = (tupleId, catalogIndex, itemIndex) =>
-  `[${tupleId}][${catalogIndex}].items[${itemIndex}].structure`;
+export const getCatalogItemComObjects = createCatalogItemFieldGetter('comObjects');
 
-export const getMetadataPath = (tupleId, catalogIndex, itemIndex) =>
-  `[${tupleId}][${catalogIndex}].items[${itemIndex}].metadata`;
+export const getComObjectStructure = createCatalogItemFieldGetter('structure');
 
-const getReportingItemPacketsPath = (tupleId, catalogIndex, itemIndex) =>
-  `[${tupleId}][${catalogIndex}].items[${itemIndex}].reportingItemPackets`;
+export const getItemMetadata = createCatalogItemFieldGetter('metadata');
 
-export const getComObjectStructure = createSelector(
-  (state, { tupleId }) => tupleId,
-  catalogsState => catalogsState,
-  getCatalogIndexByName,
-  getCatalogItemIndexByName,
-  (tupleId, catalogs, catalogIndex, itemIndex) => {
-    const path = getStructurePath(tupleId, catalogIndex, itemIndex);
-    const structure = _getOr({}, path, catalogs);
-    return structure;
-  }
-);
+export const getReportingItemPackets = createCatalogItemFieldGetter('reportingItemPackets');
 
-export const getItemMetadata = createSelector(
-  (_, { tupleId }) => tupleId,
-  getCatalogIndexByName,
-  getCatalogItemIndexByName,
-  state => state,
-  (tupleId, catalogIndex, itemIndex, catalogsState) => _getOr(
-    {},
-    getMetadataPath(tupleId, catalogIndex, itemIndex),
-    catalogsState
-  )
-);
+export const getAlgorithmMetadata = (state, props) => {
+  const metadata = getItemMetadata(state, props);
 
-export const getReportingItemPackets = createSelector(
-  (_, { tupleId }) => tupleId,
-  getCatalogIndexByName,
-  getCatalogItemIndexByName,
-  state => state,
-  (tupleId, catalogIndex, itemIndex, catalogsState) => _getOr(
-    {},
-    getReportingItemPacketsPath(tupleId, catalogIndex, itemIndex),
-    catalogsState
-  )
-);
-
-export const getAlgorithmMetadata = createSelector(
-  getItemMetadata,
-  metadata => ({
+  return ({
     inputParameters: _getOr([], ['algorithm', 'inputParameters'], metadata),
     algorithm: _flow(
       _getOr([], ['algorithm', 'algorithms']),
       _find(a => a.language.toLocaleLowerCase() === 'python'),
       _getOr(undefined, 'text')
     )(metadata),
-  })
-);
+  });
+};
 
-export const getUnitMetadata = createSelector(
-  getItemMetadata,
-  metadata => metadata.unit || 'Unknown'
-);
+export const getUnitMetadata =
+  (state, props) => {
+    const metadata = getItemMetadata(state, props);
+
+    return _.get('unit', metadata);
+  };
+
+const _getCatalogsStatus = (state, { domainId, sessionId }) =>
+  _.get(['catalogs', '_status', getTupleId(domainId, sessionId), '_status'], state);
+
+
+export const areCatalogsLoading =
+  (state, props) =>
+    _getCatalogsStatus(state, props) === STATUS_LOADING;
+
+export const areCatalogsLoaded =
+  (state, props) =>
+    _getCatalogsStatus(state, props) === STATUS_LOADED;
+
+const _getCatalogItemsStatus =
+  (state, { domainId, sessionId, name }) =>
+    _.get(['catalogs', '_status', getTupleId(domainId, sessionId), name, '_status'], state);
+
+export const areCatalogItemsLoading =
+  (state, props) =>
+    _getCatalogItemsStatus(state, props) === STATUS_LOADING;
+
+export const areCatalogItemsLoaded =
+  (state, props) => _getCatalogItemsStatus(state, props) === STATUS_LOADED;
+
+const _getCatalogItemFieldStatus =
+  (state, { tupleId, name, itemName, fieldName }) =>
+    _.get(
+      ['catalogs', '_status', tupleId, name, 'items', itemName, fieldName, '_status'],
+      state
+    );
+
+
+const _getComObjectsStatus = (state, { tupleId, name, itemName }) =>
+  _getCatalogItemFieldStatus(state, {
+    tupleId,
+    name,
+    itemName,
+    fieldName: 'comObjects',
+  });
+
+export const areComObjectsLoading = (state, props) =>
+  _getComObjectsStatus(state, props) === STATUS_LOADING;
+
+export const areComObjectsLoaded = (state, props) =>
+  _getComObjectsStatus(state, props) === STATUS_LOADED;
+
+const _getItemStructureStatus = (state, { tupleId, name, itemName }) =>
+  _getCatalogItemFieldStatus(state, {
+    tupleId,
+    name,
+    itemName,
+    fieldName: 'structure',
+  });
+
+export const isItemStructureLoading = (state, props) =>
+  _getItemStructureStatus(state, props) === STATUS_LOADING;
+
+export const isItemStructureLoaded = (state, props) =>
+  _getItemStructureStatus(state, props) === STATUS_LOADED;
+
+const _getMetadataStatus = (state, { tupleId, name, itemName }) =>
+  _getCatalogItemFieldStatus(state, {
+    tupleId,
+    name,
+    itemName,
+    fieldName: 'metadata',
+  });
+
+export const isMetadataLoading = (state, props) =>
+  _getMetadataStatus(state, props) === STATUS_LOADING;
+
+export const isMetadataLoaded = (state, props) =>
+  _getMetadataStatus(state, props) === STATUS_LOADED;
+
+const _getReportingItemPacketsStatus = (state, { tupleId, name, itemName }) =>
+  _getCatalogItemFieldStatus(state, {
+    tupleId,
+    name,
+    itemName,
+    fieldName: 'reportingItemPackets',
+  });
+
+export const areReportingItemPacketsLoading = (state, props) =>
+  _getReportingItemPacketsStatus(state, props) === STATUS_LOADING;
+
+export const areReportingItemPacketsLoaded = (state, props) =>
+  _getReportingItemPacketsStatus(state, props) === STATUS_LOADED;

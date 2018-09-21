@@ -13,9 +13,8 @@ import { PREFIX_KNOWN_RANGES, PREFIX_SAMPLING } from 'constants';
 const logger = require('../../../common/logManager')('middleware:prepareRangeADE');
 
 const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action) => {
-  const nextAction = next(action);
   if (action.type !== types.INCOMING_RANGE_DATA) {
-    return nextAction;
+    return next(action);
   }
 
   const execution = executionMonitor('middleware:prepareRangeADE');
@@ -100,7 +99,7 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
 
   execution.stop('global', `${peers.length / 2} payloads`);
   execution.print();
-  return nextAction;
+  return next(action);
 };
 
 export default prepareRange;

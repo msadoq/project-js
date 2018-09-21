@@ -41,7 +41,6 @@ import { getPageUnsavedViewIds, getPageHasUnsavedViews } from '../selectors';
 
 const makeOnClosePage = () => withListenAction(
   ({ getState, dispatch, listenAction }) => next => (action) => {
-    const nextAction = next(action);
     if (action.type === types.WS_ASK_CLOSE_PAGE) {
       const { pageId } = action.payload;
       const state = getState();
@@ -79,7 +78,7 @@ const makeOnClosePage = () => withListenAction(
         dispatch(closePage(pageId));
       }
     }
-    return nextAction;
+    return next(action);
   }
 );
 

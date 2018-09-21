@@ -18,7 +18,6 @@ import withListenAction from 'store/helpers/withListenAction';
 
 const makeOnReloadView = documentManager => withListenAction(
   ({ dispatch, getState, listenAction }) => next => (action) => {
-    const nextAction = next(action);
     if (action.type === types.WS_ASK_RELOAD_VIEW) {
       const state = getState();
       const { viewId } = action.payload;
@@ -43,7 +42,7 @@ const makeOnReloadView = documentManager => withListenAction(
         });
       }
     }
-    return nextAction;
+    return next(action);
   }
 );
 

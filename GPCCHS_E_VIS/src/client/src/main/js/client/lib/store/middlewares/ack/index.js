@@ -13,7 +13,6 @@ const getAlarmEntryPoint = entryPoints => (
 const getNbSuccess = _.compose(_.size, _.filter(_.equals(true)));
 
 const makeAckMiddleware = requestAck => ({ dispatch, getState }) => next => (action) => {
-  const nextAction = next(action);
   if (action.type === types.WS_VIEW_ALARM_ACK) {
     const { viewId, ackId, alarms, comment } = action.payload;
     const dataMap = dataMapGenerator(getState());
@@ -48,7 +47,7 @@ const makeAckMiddleware = requestAck => ({ dispatch, getState }) => next => (act
       }
     });
   }
-  return nextAction;
+  return next(action);
 };
 
 export default makeAckMiddleware;

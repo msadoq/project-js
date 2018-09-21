@@ -86,7 +86,7 @@ const mapStateToProps = (state, { viewId }) => {
     showLinks: areLinksShown(state, { viewId }),
     isMaxVisuDurationExceeded: isMaxVisuDurationExceeded(state,
       { timebarUuid: page.timebarUuid, viewType: 'PlotView' }),
-    catalogs: state.catalogs,
+    catalogs: state,
     searchForThisView: searchViewsIds.indexOf(viewId) !== -1,
     sampling: state.sampling,
     sessions: getSessions(state),

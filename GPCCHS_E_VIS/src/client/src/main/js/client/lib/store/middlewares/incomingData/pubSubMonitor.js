@@ -13,11 +13,10 @@ const pubSubMonitor = (timing) => {
   };
 
   return ({ dispatch }) => next => (action) => {
-    const nextAction = next(action);
     if (action.type !== types.INCOMING_PUBSUB_DATA
       && action.type !== types.INCOMING_PUBSUBALARM_DATA
     ) {
-      return nextAction;
+      return next(action);
     }
 
     const execution = executionMonitor('middleware:pubSubMonitor');
@@ -26,7 +25,7 @@ const pubSubMonitor = (timing) => {
     dispatch(updateLastPubSubTimestamp(Date.now()));
     execution.stop('global');
     execution.print();
-    return nextAction;
+    return next(action);
   };
 };
 

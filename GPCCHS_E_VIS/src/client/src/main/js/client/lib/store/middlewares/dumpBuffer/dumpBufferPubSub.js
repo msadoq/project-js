@@ -16,11 +16,10 @@ import executionMonitor from 'common/logManager/execution';
 import { DUMP_EXTENSIONS } from 'constants';
 
 const dumpBufferPubSub = () => () => next => (action) => {
-  const nextAction = next(action);
   if (action.type !== types.INCOMING_PUBSUB_DATA
     && action.type !== types.INCOMING_PUBSUBALARM_DATA
   ) {
-    return nextAction;
+    return next(action);
   }
   const execution = executionMonitor('middleware:dumpBufferPubSub');
   execution.start('global');
@@ -55,7 +54,7 @@ const dumpBufferPubSub = () => () => next => (action) => {
 
   execution.stop('global');
   execution.print();
-  return nextAction;
+  return next(action);
 };
 
 export default dumpBufferPubSub;

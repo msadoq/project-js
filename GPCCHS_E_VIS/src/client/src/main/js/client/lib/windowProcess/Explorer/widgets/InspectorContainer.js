@@ -113,7 +113,7 @@ const mapStateToProps = (state) => {
     const tupleId = getTupleId(domainId, sessionId);
     const catalogItem =
       getCatalogItemByName(
-        state.catalogs,
+        state,
         {
           tupleId,
           name: catalog,

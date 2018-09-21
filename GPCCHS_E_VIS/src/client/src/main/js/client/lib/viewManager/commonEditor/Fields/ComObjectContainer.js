@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  getCatalogByName,
+  areComObjectsLoaded,
+  areComObjectsLoading,
   getCatalogItemComObjects,
   getTupleId,
 } from 'store/reducers/catalogs';
@@ -10,9 +11,9 @@ import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
 import { getTimelineById } from 'store/reducers/timelines';
 import { askComObjects } from 'store/actions/catalogs';
-import _get from 'lodash/get';
 import { get } from 'common/configurationManager';
 import ComObject from './ComObject';
+
 
 const mapStateToProps = (state, {
   name,
@@ -37,11 +38,15 @@ const mapStateToProps = (state, {
   const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
   const sessionId = selectedSession ? selectedSession.id : null;
   const tupleId = getTupleId(domainId, sessionId);
-  const catalog = getCatalogByName(state.catalogs, { tupleId, name: catalogName });
-  const catalogItemsLoaded = !!Object.keys(_get(catalog, 'items', {})).length;
 
   const comObjects =
-    getCatalogItemComObjects(state.catalogs, { tupleId, name: catalogName, itemName });
+    getCatalogItemComObjects(state, { tupleId, name: catalogName, itemName });
+
+  const shouldLoadComObjects =
+    typeof domainId === 'number' &&
+    typeof sessionId === 'number' &&
+    !areComObjectsLoaded(state, { tupleId, name: catalogName, itemName }) &&
+    !areComObjectsLoading(state, { tupleId, name: catalogName, itemName });
 
   const _filterAllowedComObjects =
     (comObjectsArr) => {
@@ -63,7 +68,7 @@ const mapStateToProps = (state, {
     domainId,
     catalogName,
     itemName,
-    catalogItemsLoaded,
+    shouldLoadComObjects,
   };
 };
 
@@ -71,7 +76,27 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   askComObjects,
 }, dispatch);
 
-const ComObjectContainer = connect(mapStateToProps, mapDispatchToProps)(ComObject);
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  askComObjects: () => {
+    const {
+      domainId,
+      sessionId,
+      catalogName,
+      itemName,
+    } = stateProps;
+
+    dispatchProps.askComObjects(domainId, sessionId, catalogName, itemName);
+  },
+});
+
+const ComObjectContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(ComObject);
 
 ComObjectContainer.propTypes = {
   name: PropTypes.string,

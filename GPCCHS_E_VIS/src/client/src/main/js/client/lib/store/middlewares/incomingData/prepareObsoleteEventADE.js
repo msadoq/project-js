@@ -12,9 +12,8 @@ import { decode, decodePayload, getTypeAggreg } from '../../../utils/adapters';
 const logger = require('../../../common/logManager')('middleware:prepareObsoleteEventADE');
 
 const prepareObsoleteEvent = lokiManager => ({ dispatch }) => next => (action) => {
-  const nextAction = next(action);
   if (action.type !== types.INCOMING_OBSOLETE_EVENT) {
-    return nextAction;
+    return next(action);
   }
 
   const execution = executionMonitor('middleware:prepareObsoleteEventADE');
@@ -74,7 +73,7 @@ const prepareObsoleteEvent = lokiManager => ({ dispatch }) => next => (action) =
 
   execution.stop('global', `${peers.length / 2} payloads`);
   execution.print();
-  return nextAction;
+  return next(action);
 };
 
 export default prepareObsoleteEvent;

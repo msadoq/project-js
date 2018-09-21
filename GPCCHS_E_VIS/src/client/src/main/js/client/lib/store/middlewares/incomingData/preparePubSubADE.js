@@ -28,11 +28,10 @@ const ObsoleteEventHeaderType = 'isis.logbookEvent.LogbookEvent';
 
 const preparePubSub = lokiManager =>
     ({ dispatch, getState }) => next => (action) => {
-      const nextAction = next(action);
       if (action.type !== types.INCOMING_PUBSUB_DATA
         && action.type !== types.INCOMING_PUBSUBALARM_DATA
       ) {
-        return nextAction;
+        return next(action);
       }
       const execution = executionMonitor('middleware:preparePubSub');
       execution.start('global');
@@ -62,7 +61,7 @@ const preparePubSub = lokiManager =>
           logger.error('unsupported comObject', dataId.comObject);
           execution.stop('global');
           execution.print();
-          return nextAction;
+          return next(action);
         }
 
         // Retrieves tbdIds corresponding to dataId from store.knownRanges (storeTbdIds)
@@ -180,7 +179,7 @@ const preparePubSub = lokiManager =>
 
       execution.stop('global');
       execution.print();
-      return nextAction;
+      return next(action);
     };
 
 /**

@@ -67,10 +67,36 @@ import cache from './cache';
 import { getConfigurationReducers, getDataReducers, getUiReducers } from '../../viewManager/reducers';
 import hsc from './hsc';
 import combineReducers from './combineReducers';
+import { FORM_CATALOG_CHANGE } from '../types';
+
+
+const enhancedForm = form.plugin({
+  'edit-entrypoint': (state, action) => {
+    switch (action.type) {
+      case FORM_CATALOG_CHANGE:
+        return {
+          ...state,
+          values: {
+            ...state.values,
+            connectedData: {
+              ...state.values.connectedData,
+              catalogItem: undefined,
+            },
+          },
+          registeredFields: {
+            ...state.registeredFields,
+            'connectedData.catalogItem': undefined,
+          },
+        };
+      default:
+        return state;
+    }
+  },
+});
 
 const rootReducer = combineReducers({
+  form: enhancedForm,
   cache,
-  form,
   hsc,
   timebars,
   timebarTimelines,

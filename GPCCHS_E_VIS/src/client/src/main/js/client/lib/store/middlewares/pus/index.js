@@ -5,7 +5,6 @@ import injectPusDataMiddleware from './incomingData/injectPusData';
 const makeCallback = () => () => {};
 
 const pusMiddleware = ipc => (/* { dispatch, getState } */) => next => (action) => {
-  const nextAction = next(action);
   if (action.type === types.PUS_TEMP_INITIALIZE) {
     ipc.pus.initialize(
       action.payload.forReplay,
@@ -38,7 +37,7 @@ const pusMiddleware = ipc => (/* { dispatch, getState } */) => next => (action) 
       makeCallback(action.type)
     );
   }
-  return nextAction;
+  return next(action);
 };
 
 export const createPusDataMiddleware = () => pipeMiddlewares(

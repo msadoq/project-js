@@ -1,0 +1,277 @@
+{
+  "type": "PlotView",
+  "title": "Plotview 10 parameters",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center"
+  },
+  "backgroundColor": "#FFFFFF",
+  "links": [
+    {
+      "name": "page4",
+      "path": "./pages/page4.json"
+    }
+  ],
+  "defaultRatio": {
+    "length": 50,
+    "width": 50
+  },
+  "procedures": [],
+  "domainName": "*",
+  "sessionName": "*",
+  "version": {
+    "externalVersion": {
+      "type": "string",
+      "value": "maVersionDeFuego"
+    },
+    "internalVersion": {
+      "type": "ulong",
+      "symbol": "107"
+    },
+    "properties": [
+      {
+        "name": {
+          "type": "identifier",
+          "value": "myIDENTIFIER"
+        },
+        "value": {
+          "type": "double",
+          "symbol": "13.627748599136105"
+        }
+      },
+      {
+        "name": {
+          "type": "identifier",
+          "value": "myIDENTIFIER"
+        },
+        "value": {
+          "type": "double",
+          "symbol": "13.627748599136105"
+        }
+      }
+    ],
+    "isVirtualVersion": {
+      "type": "boolean",
+      "value": true
+    },
+    "dirname": {
+      "type": "uri",
+      "value": "myURI"
+    },
+    "basename": {
+      "type": "string",
+      "value": "mySTRING"
+    }
+  },
+  "axes": [
+    {
+      "autoLimits": false,
+      "autoTick": false,
+      "id": "VBat",
+      "label": "VBat",
+      "logSettings": {
+        "base": 10,
+        "max": 1000000000,
+        "min": 0.1
+      },
+      "logarithmic": false,
+      "max": 137,
+      "min": 134,
+      "showAxis": true,
+      "showTickLabels": true,
+      "showTicks": true,
+      "style": {
+        "align": "left",
+        "bold": false,
+        "color": "#FFF",
+        "font": "Arial",
+        "italic": false,
+        "size": 12,
+        "strikeOut": false,
+        "underline": false
+      },
+      "tickStep": 50,
+      "unit": "V"
+    }
+  ],
+  "grids": [
+    {
+      "showGrid": true,
+      "line": {
+        "size": 1,
+        "style": "Dashed"
+      },
+      "xAxisId": "time",
+      "yAxisId": "VBat"
+    }
+  ],
+  "legend": {
+    "location": "top",
+    "style": {
+      "font": "Arial",
+      "size": 12,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikeOut": false,
+      "align": "left",
+      "color": "#000000"
+    }
+  },
+  "markers": [
+    {
+      "kind": "Text",
+      "label": "VBAT",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": true,
+        "strikeOut": false,
+        "align": "left",
+        "color": "#000000"
+      },
+      "relativePosX": 5.6,
+      "relativePosY": 8.9
+    }
+  ],
+  "entryPoints": [
+    {
+      "connectedData": {
+        "axisId": "VBat",
+        "catalog": "",
+        "catalogItem": "",
+        "comObject": "",
+        "comObjectField": "",
+        "convertFrom": "",
+        "convertTo": "",
+        "dataType": "time_based_data",
+        "defaultY": 1,
+        "digits": 5,
+        "displayMode": 0,
+        "domain": "fr.cnes.isis.simupus",
+        "fieldX": "groundDate",
+        "filter": [],
+        "format": "decimal",
+        "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.extractedValue",
+        "provider": "*",
+        "stringParameter": false,
+        "timeline": "Session 1",
+        "unit": "V"
+      },
+      "connectedDataParametric": {
+        "catalogItemX": "GENE_AM_FRVERSION",
+        "catalogItemY": "ATT_BC_MAG1VOLTAGE",
+        "catalogX": "Reporting",
+        "catalogY": "Reporting",
+        "comObjectX": "ReportingParameter",
+        "comObjectY": "ReportingParameter",
+        "domainX": "fr.cnes.isis.simupus",
+        "domainY": "fr.cnes.isis.simupus",
+        "formulaX": "Reporting.GENE_AM_FRVERSION<ReportingParameter>",
+        "formulaY": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "VBat",
+        "yAxisId": "VBat"
+      },
+      "name": "GENE_AM_FRVERSION",
+      "objectStyle": {
+        "curveColor": "#4caf50",
+        "displayLine": true,
+        "displayPoints": false,
+        "line": {
+          "size": 2,
+          "style": "Dotted"
+        },
+        "name": "GENE_AM_FRVERSION",
+        "points": {
+          "size": 0,
+          "style": "Dot"
+        }
+      },
+      "parametric": true,
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operand": "waiting",
+            "operator": "="
+          }
+        }
+      ],
+      "timeBasedData": true
+    },
+    {
+      "name": "ATT_BC_MAG1VOLTAGE",
+      "connectedDataParametric": {
+        "formulaX": "",
+        "formulaY": "",
+        "domainX": "",
+        "domainY": "",
+        "unitX": "",
+        "unitY": "",
+        "xAxisId": "",
+        "yAxisId": ""
+      },
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.extractedValue",
+        "fieldX": "groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "VBat",
+        "stringParameter": false,
+        "defaultY": 1,
+        "catalog": "",
+        "catalogItem": "",
+        "comObject": "",
+        "comObjectField": "",
+        "provider": "*",
+        "filter": [],
+        "displayMode": 0,
+        "convertFrom": "",
+        "convertTo": ""
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColor": "#2196f3",
+        "name": "ATT_BC_MAG1VOLTAGE",
+        "displayLine": true,
+        "displayPoints": false
+      },
+      "stateColors": [
+        {
+          "color": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "=",
+            "operand": "waiting"
+          }
+        }
+      ],
+      "timeBasedData": true,
+      "parametric": false
+    }
+  ],
+  "showYAxes": "left",
+  "showLegend": false,
+  "constants": {},
+  "search": ""
+}

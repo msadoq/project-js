@@ -94,13 +94,14 @@ export default class LinesCanvas extends Component {
       xScale,
       indexes,
       current,
-      parametric,
       divStyle,
       constants,
       displayMode,
     } = this.props;
 
     const ctx = this.el.getContext('2d');
+
+    const parametric = this.props.lines[0].xAxis.id !== 'time';
 
     drawLinesCanvas(
       perfOutput,

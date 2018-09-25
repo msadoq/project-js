@@ -6,18 +6,18 @@ import _getOr from 'lodash/fp/getOr';
 import _flow from 'lodash/fp/flow';
 
 import {
-  WS_CATALOGS_ASK,
-  WS_CATALOGS_ADD,
-  WS_CATALOG_ITEMS_ASK,
   WS_CATALOG_ITEMS_ADD,
-  WS_COM_OBJECTS_ASK,
+  WS_CATALOG_ITEMS_ASK,
+  WS_CATALOGS_ADD,
+  WS_CATALOGS_ASK,
   WS_COM_OBJECTS_ADD,
-  WS_ITEM_STRUCTURE_ASK,
-  WS_ITEM_STRUCTURE_ADD,
-  WS_ITEM_METADATA_ASK,
+  WS_COM_OBJECTS_ASK,
   WS_ITEM_METADATA_ADD,
-  WS_REPORTING_ITEM_PACKETS_ASK,
+  WS_ITEM_METADATA_ASK,
+  WS_ITEM_STRUCTURE_ADD,
+  WS_ITEM_STRUCTURE_ASK,
   WS_REPORTING_ITEM_PACKETS_ADD,
+  WS_REPORTING_ITEM_PACKETS_ASK,
 } from 'store/types';
 
 export const STATUS_LOADING = 'loading';
@@ -56,10 +56,11 @@ const addCatalogs = (state, { tupleId, catalogs, all }) => {
     state
   );
 
-  const newCatalogs = catalogs.reduce((acc, catalog) => ({
-    ...acc,
-    [catalog.name]: {},
-  }), {});
+  const newCatalogs = catalogs.reduce((acc, catalog) => {
+    acc[catalog.name] = {};
+
+    return acc;
+  }, {});
 
   const updatedCatalogs = {
     ...newCatalogs,
@@ -92,31 +93,18 @@ const addCatalogItems = (state, { tupleId, name, items, all }) => {
     state
   );
 
-  const newItems = items.reduce((acc, item) => ({
-    ...acc,
-    [item.name]: {},
-  }), {});
+  const sortedItems = _.sortBy(item => item.name, items);
 
-  let updatedItems = {
+  const newItems = sortedItems.reduce((acc, item) => {
+    acc[item.name] = {};
+
+    return acc;
+  }, {});
+
+  const updatedItems = {
     ...newItems,
     ...existingItems,
   };
-
-  let updatedItemsSortedKeys = Object.keys(updatedItems);
-
-  if (all) {
-    updatedItemsSortedKeys = _.intersection(
-      Object.keys(newItems),
-      updatedItemsSortedKeys
-    );
-  }
-
-  updatedItemsSortedKeys = updatedItemsSortedKeys.sort();
-
-  updatedItems = updatedItemsSortedKeys.reduce(
-    (acc, cur) => ({ ...acc, [cur]: updatedItems[cur] }),
-    {}
-  );
 
   updatedState = _.set(
     [tupleId, name],

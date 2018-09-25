@@ -40,8 +40,9 @@ import { get } from '../../../common/configurationManager';
 import { getPageIdByViewId } from '../../reducers/pages';
 
 
-const fetchCatalogs = (sessionId, domainId, cb) =>
+const fetchCatalogs = (sessionId, domainId, cb) => {
   dc.retrieveSDBCatalogs({ sessionId, domainId }, cb);
+};
 
 const fetchCatalogItems = (sessionId, domainId, catalogName, cb) => {
   dc.retrieveSDBCatalogsItems({ sessionId, domainId, catalogName }, cb);

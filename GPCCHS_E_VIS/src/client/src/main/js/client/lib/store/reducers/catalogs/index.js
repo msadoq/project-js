@@ -195,11 +195,20 @@ export default function catalogsReducer(state = {}, action) {
 
       const tupleId = getTupleId(domainId, sessionId);
 
-      return _.set(
+      const currentLoadingStatus = _.get(
         ['_status', tupleId, name, '_status'],
-        STATUS_LOADING,
         state
       );
+
+      if (currentLoadingStatus !== STATUS_LOADED) {
+        return _.set(
+          ['_status', tupleId, name, '_status'],
+          STATUS_LOADING,
+          state
+        );
+      }
+
+      return state;
     }
     case WS_CATALOG_ITEMS_ADD: {
       const { tupleId, name, items } = action.payload;

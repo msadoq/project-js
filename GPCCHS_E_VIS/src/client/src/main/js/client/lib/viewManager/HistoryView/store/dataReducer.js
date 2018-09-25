@@ -117,6 +117,12 @@ const scopedHistoryDataReducer = (state = {}, action, viewId, rootState) => {
         updatedState = _refreshCurrent(updatedState, { visuWindow, action });
       }
 
+      const visuWindowFromState = getVisuWindowByViewId(rootState, { viewId });
+
+      if (visuWindowFromState) {
+        updatedState = _refreshCurrent(updatedState, { visuWindow: visuWindowFromState, action });
+      }
+
       return updatedState;
     }
     case WS_VIEWDATA_CLEAN: {

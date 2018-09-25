@@ -42,4 +42,4 @@ Supprimer les dossiers qui ne vous intéresse plus.
 #### Lenteur de Webstorm
 
 Les fichiers analysé étant lourds et complexe Webstorm met du temps à les analyser et aura besoin de plus de mémoire pour les analyser sans crash.
-5-6 GB a alloué permet d'analyser des fichiers entre 700 et 1000 GB sans trop de soucis.
+5-6 GB a alloué permet d'analyser des fichiers de log entre 700 et 1000 MB sans trop de soucis.

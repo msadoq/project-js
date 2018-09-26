@@ -31,7 +31,11 @@ import {
   getDataSelectors,
 } from 'viewManager';
 import Inspector from './Inspector';
-import { getCatalogItemByName, getTupleId } from '../../../store/reducers/catalogs';
+import {
+  getItemMetadata,
+  getReportingItemPackets,
+  getTupleId,
+} from '../../../store/reducers/catalogs';
 
 const ROOT_PARENT_NAME = 'root';
 
@@ -59,32 +63,33 @@ const buildTerminalNode = (key, value, parentName = ROOT_PARENT_NAME) => ({
  * @returns
  */
 const buildNode = (obj = {}, parentName = ROOT_PARENT_NAME) =>
-  Object.keys(obj).map(
-    (key) => {
-      const value = obj[key];
+  Object.keys(obj)
+    .map(
+      (key) => {
+        const value = obj[key];
 
-      if (typeof value === 'string' || typeof value === 'undefined') { // terminal node
-        return buildTerminalNode(key, value, parentName);
-      }
+        if (typeof value === 'string' || typeof value === 'undefined') { // terminal node
+          return buildTerminalNode(key, value, parentName);
+        }
 
-      let type = null;
+        let type = null;
 
-      if (typeof key === 'number') {
-        type = 'objectItem';
-      } else if (Array.isArray(value)) {
-        type = 'array';
-      } else {
-        type = 'object';
-      }
+        if (typeof key === 'number') {
+          type = 'objectItem';
+        } else if (Array.isArray(value)) {
+          type = 'array';
+        } else {
+          type = 'object';
+        }
 
-      return {
-        name: key,
-        parentName,
-        type,
-        children: buildNode(value, key),
-        toggled: false,
-      };
-    });
+        return {
+          name: key,
+          parentName,
+          type,
+          children: buildNode(value, key),
+          toggled: false,
+        };
+      });
 
 const mapStateToProps = (state) => {
   const viewId = getInspectorViewId(state);
@@ -111,30 +116,32 @@ const mapStateToProps = (state) => {
     const { domainId, sessionId, catalog, parameterName } = dataId;
 
     const tupleId = getTupleId(domainId, sessionId);
-    const catalogItem =
-      getCatalogItemByName(
-        state,
-        {
-          tupleId,
-          name: catalog,
-          itemName: parameterName,
-        }
-      );
 
-// eslint-disable-next-line no-unused-vars
-    const metadata = _.get('metadata', catalogItem);
-    const reportingItemPackets = _.getOr([], 'reportingItemPackets', catalogItem);
+    const metadata = getItemMetadata(
+      state.catalogs, {
+        tupleId,
+        name: catalog,
+        itemName: parameterName,
+      });
+
+    const reportingItemPackets = getReportingItemPackets(
+      state.catalogs, {
+        tupleId,
+        name: catalog,
+        itemName: parameterName,
+      });
+
     const formattedReportingItemPackets = reportingItemPackets.map(packet => _.get('name', packet));
 
     if (metadata) {
       staticData = buildNode({
+        'Unit': _.get('unit', metadata),
         'Short description': _.get('shortDescription', metadata),
         'Long description': _.get('longDescription', metadata),
         'Aliases': _.get('aliases', metadata),
         'Monitoring laws': _.get(['tmMeta', 'monitoringItems'], metadata),
         'Significativity condition': _.get(['tmMeta', 'sgy'], metadata),
         'Interpretation function': _.get(['tmMeta', 'calibrationFunctions'], metadata),
-        'Formulas': _.get('algorithm', metadata),
         'Computed triggers': _.get(['tmMeta', 'computedTriggers'], metadata),
         'TM Packets list': formattedReportingItemPackets,
         'Computing definitions': _.get(['tmMeta', 'computingDefinitions'], metadata),

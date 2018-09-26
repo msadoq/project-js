@@ -12,7 +12,6 @@ import { minimizeExplorer, focusTabInExplorer } from 'store/actions/pages';
 import {
   setInspectorGeneralData,
   isInspectorDisplayingTM,
-  setInspectorStaticData,
   isInspectorStaticDataLoading,
 } from 'store/actions/inspector';
 
@@ -27,7 +26,6 @@ export default () => ({ dispatch }) => next => (action) => {
     dispatch(minimizeExplorer(pageId, false));
     dispatch(focusTabInExplorer(pageId, 'inspector'));
 
-    dispatch(setInspectorStaticData(null));
     dispatch(setInspectorGeneralData(viewId, viewType, epId, epName, dataId, field));
 
     dispatch(isInspectorStaticDataLoading(true));

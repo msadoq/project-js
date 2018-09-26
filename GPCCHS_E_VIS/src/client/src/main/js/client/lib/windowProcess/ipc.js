@@ -78,53 +78,6 @@ const commands = {
     sendReduxDispatch: (action) => {
       commands.main.message(globalConstants.IPC_METHOD_REDUX_DISPATCH, action);
     },
-    resolveLink: ({ link, path, sessionId, domainId }, callback) => // TODO middleware)
-      commands.main.message(globalConstants.IPC_METHOD_RESOLVE_LINK, {
-        link,
-        path,
-        sessionId,
-        domainId,
-      }, callback),
-    getRteDomains: (sessionId, callback) => // TODO middleware
-      commands.main.message(globalConstants.IPC_METHOD_GET_RTE_DOMAINS, {
-        sessionId,
-      }, callback),
-    getRteCatalogs: (sessionId, domainId, callback) => // TODO middleware
-      commands.main.message(globalConstants.IPC_METHOD_GET_RTE_CATALOGS, {
-        sessionId,
-        domainId,
-      }, callback),
-    getRteItemNames: (catalog, version, callback) => // TODO middleware
-      commands.main.message(globalConstants.IPC_METHOD_GET_RTE_ITEM_NAMES, {
-        catalog,
-        version,
-      }, callback),
-    openRteItem: (sessionId, domainId, catalog, version, namespace, name, key, callback) => // TODO middleware
-      commands.main.message(globalConstants.IPC_METHOD_OPEN_RTE_ITEM, {
-        sessionId,
-        domainId,
-        catalog,
-        version,
-        namespace,
-        name,
-        key,
-      }, callback),
-    focusRteItem: (sessionId, domainId, catalog, version, namespace, name, key, callback) => // TODO middleware
-      commands.main.message(globalConstants.IPC_METHOD_FOCUS_RTE_ITEM, {
-        sessionId,
-        domainId,
-        catalog,
-        version,
-        namespace,
-        name,
-        key,
-      }, callback),
-    resolveRteLink: ({ link, sessionId, domainId }, callback) => // TODO middleware
-      commands.main.message(globalConstants.IPC_METHOD_RESOLVE_RTE_LINK, {
-        link,
-        sessionId,
-        domainId,
-      }, callback),
   },
 };
 

@@ -5,7 +5,36 @@ import {
 } from '../../types';
 import { updateDisplayedColumns } from '../../actions/tableColumns';
 import { updateEntryPointName } from '../../actions/editEntryPoints';
+import { getViewType } from '../../reducers/views';
+import { VM_VIEW_HISTORY } from '../../../viewManager/constants';
 
+/**
+ * Dispatches an action to add table columns
+ * associated with the comObjectFields that are found in the comObjectMap
+ * for the specified entry point comObject
+ *
+ * @param dispatch
+ * @param state
+ * @returns {Function}
+ * @private
+ */
+const _updateTableColumns = state => dispatch => ({ viewId, entryPoint }) => {
+  if (entryPoint.connectedData && entryPoint.connectedData.comObject) {
+    const { comObject } = entryPoint.connectedData;
+    const { comObjectMap } = state;
+
+    const comObjectFields = comObjectMap.fields[comObject];
+    const fields = comObjectFields && comObjectFields.map(field => field.name);
+
+    dispatch(
+      updateDisplayedColumns(
+        viewId,
+        comObject,
+        fields
+      )
+    );
+  }
+};
 
 const onEntryPointData = ({ dispatch, getState }) => next => (action) => {
   const state = getState();
@@ -21,20 +50,10 @@ const onEntryPointData = ({ dispatch, getState }) => next => (action) => {
   ) {
     const { viewId, entryPoint } = action.payload;
 
-    if (entryPoint.connectedData && entryPoint.connectedData.comObject) {
-      const { comObject } = entryPoint.connectedData;
-      const { comObjectMap } = state;
+    const viewType = getViewType(state, { viewId });
 
-      const comObjectFields = comObjectMap.fields[comObject];
-      const fields = comObjectFields && comObjectFields.map(field => field.name);
-
-      dispatch(
-        updateDisplayedColumns(
-          viewId,
-          comObject,
-          fields
-        )
-      );
+    if (viewType === VM_VIEW_HISTORY) {
+      _updateTableColumns(state)(dispatch)({ viewId, entryPoint });
     }
   }
 

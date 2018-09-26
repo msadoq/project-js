@@ -3,6 +3,5 @@
   "ZMQ_GPCCDC_PUSH",
   "ZMQ_GPCCDC_PULL",
   "NODE_PATH",
-  "path",
-  "RTD_UNIX_SOCKET"
+  "path"
 ]

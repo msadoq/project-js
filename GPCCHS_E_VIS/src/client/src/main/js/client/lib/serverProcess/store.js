@@ -52,7 +52,6 @@ import createIncomingDataMiddleware from '../store/middlewares/incomingData';
 import makeOnProcessOverload from '../store/middlewares/player/processOverload';
 import makeDocumentsMiddleware from '../store/middlewares/documents';
 import makeInspectorMiddleware from '../store/middlewares/inspector';
-import * as rtdManager from '../rtdManager';
 import makeProductLogMiddleware from '../store/middlewares/productLog';
 import makePatchGenerator from '../store/middlewares/patch/patchGenerator';
 import makeViewNeededData from '../store/middlewares/viewNeededData/viewNeededData';
@@ -90,7 +89,7 @@ const createMiddlewares = (identity, isDebugOn) => {
     makeOnProcessOverload(),
     makePlayerMiddleware(get('PLAYER_FREQUENCY'), get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')),
     makeDocumentsMiddleware(documentManager),
-    makeInspectorMiddleware(rtdManager),
+    makeInspectorMiddleware(),
     makeProductLogMiddleware(ipc.dc.sendProductLog),
     makeViewNeededData(),
     pageSessionOrDomainUpdated,

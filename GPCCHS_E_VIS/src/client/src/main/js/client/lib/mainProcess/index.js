@@ -154,10 +154,8 @@ import {
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
   SERVER_PROCESS_LAUNCHING_TIMEOUT,
-  RTE_SESSIONS_REQUEST_LAUNCHING_TIMEOUT,
 } from '../constants';
 import { clear } from '../common/callbacks';
-import { setRtd, getRtd } from '../rtdManager';
 
 import enableDebug from './debug';
 import { fork, get, kill } from '../common/processManager';
@@ -166,7 +164,6 @@ import rendererController from './controllers/renderer';
 import loadInitialDocuments from './loadInitialDocuments';
 import parameters from '../common/configurationManager';
 import { getIsWorkspaceOpening } from '../store/reducers/hsc';
-import { setRteSessions } from '../store/actions/rte';
 import setMenu from './menuManager';
 import { splashScreen, codeEditor, windows } from './windowsManager';
 import makeWindowsObserver from './windowsManager/observer';
@@ -346,56 +343,11 @@ export function onStart() {
         );
       }
     },
-    function initRtdClient(callback) {
-      if (parameters.get('RTD_ON') === 'on') {
-        const createRtd = dynamicRequire('rtd/catalogs').connect;
-        const socket = parameters.get('RTD_UNIX_SOCKET');
-        let stub = false;
-        if (parameters.get('STUB_RTD_ON') === 'on') {
-          stub = true;
-        }
-        splashScreen.setMessage('starting data RTD client...');
-        logger.info('starting RTD client...');
-        createRtd({ socket, stub }, (err, rtd) => {
-          if (err) {
-            callback(err);
-            return;
-          }
-          setRtd(rtd);
-          callback(null);
-        });
-      } else {
-        callback(null);
-      }
-    },
     function openInitialWorkspace(callback) {
       splashScreen.setMessage('searching workspace...');
       logger.info('searching workspace...');
       loadInitialDocuments(getStore().dispatch, splashScreen);
       callback(null);
-    },
-    function requestCatalogSessions(callback) {
-      // should have rte sessions in store at start
-      if (parameters.get('RTD_ON') === 'on') {
-        splashScreen.setMessage('requesting catalog explorer sessions...');
-        logger.info('requesting catalog explorer sessions...');
-        const cancelTimeout = scheduleTimeout(RTE_SESSIONS_REQUEST_LAUNCHING_TIMEOUT, 'rteSession');
-        const { dispatch } = getStore();
-        const rtdApi = getRtd();
-        rtdApi.getDatabase().getSessionList((err, sessions) => {
-          cancelTimeout();
-          if (err) {
-            callback(err);
-            return;
-          }
-          splashScreen.setMessage('injecting catalog explorer sessions...');
-          logger.info('injecting catalog explorer sessions...');
-          dispatch(setRteSessions(sessions));
-          callback(null);
-        });
-      } else {
-        callback(null);
-      }
     },
   ], (err) => {
     if (err) {

@@ -68,14 +68,12 @@
 
 import exit from 'exit';
 import { series } from 'async';
-import { setRtd, getRtd } from '../rtdManager';
 import { updateDomains } from '../store/actions/domains';
 import adapter from '../utils/adapters';
 import { LOG_APPLICATION_START, CHILD_PROCESS_READY_MESSAGE_TYPE_KEY } from '../constants';
 import getLogger from '../common/logManager';
 import { get } from '../common/configurationManager';
 import makeCreateStore from './store';
-import { setRteSessions } from '../store/actions/rte';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { sendProductLog } from '../store/actions/hsc';
 import connectToZmq from './lifecycle/zmq';
@@ -99,21 +97,6 @@ const logger = getLogger('main');
 let monitoring = {};
 process.title = 'gpcchs_master';
 
-const requestCatalogSessions = (store) => {
-  // should have rte sessions in store at start
-  if (get('RTD_ON') === 'on') {
-    logger.info('requesting catalog explorer sessions...');
-    const rtdApi = getRtd();
-    rtdApi.getDatabase().getSessionList((err, sessions) => {
-      if (err) {
-        return;
-      }
-      logger.info('injecting catalog explorer sessions...');
-      store.dispatch(setRteSessions(sessions));
-    });
-  }
-};
-
 const launchPasserelle = (callback) => {
   passerelle.spawnPasserelle();
   passerelle.init();
@@ -133,27 +116,6 @@ series({
     callback(null);
   },
   launchGateway: callback => launchPasserelle(callback),
-  rtd: (callback) => {
-    if (get('RTD_ON') === 'on') {
-      const createRtd = dynamicRequire('rtd/catalogs').connect;
-      const socket = get('RTD_UNIX_SOCKET');
-      let stub = false;
-      if (get('STUB_RTD_ON') === 'on') {
-        stub = true;
-      }
-      logger.info('starting RTD client...');
-      createRtd({ socket, stub }, (err, rtd) => {
-        if (err) {
-          callback(err);
-          return;
-        }
-        setRtd(rtd);
-        callback(null);
-      });
-    } else {
-      callback(null);
-    }
-  },
   // Initial data for store (domains, sessions, master session ID)
   initialData: callback => fetchInitialData(callback),
 }, (err, { store, initialData }) => {
@@ -184,7 +146,6 @@ series({
   store.dispatch(updateSessions(initialData.sessions));
   store.dispatch(updateDomains(initialData.domains));
   store.dispatch(setComObjectMap(comObjectMap));
-  requestCatalogSessions(store);
 
   /* Start Health Monitoring mechanism
   On a status change, the Server Health status is updated

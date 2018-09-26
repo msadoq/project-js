@@ -61,7 +61,6 @@ import inspector from './inspector';
 import ui from './ui';
 import catalogs from './catalogs';
 import apids from './apids';
-import rte from './rte';
 import comObjectMap from './comObjectMap';
 import cache from './cache';
 import { getConfigurationReducers, getDataReducers, getUiReducers } from '../../viewManager/reducers';
@@ -115,7 +114,6 @@ const rootReducer = combineReducers({
   ui,
   catalogs,
   apids,
-  rte,
   knownRanges,
   ObsoleteEvents,
   knownPus,

@@ -75,6 +75,7 @@ function getArgv(name) {
 const env = process.env.mainProcessConfig
   ? JSON.parse(process.env.mainProcessConfig)
   : process.env;
+
 function getEnv(name) {
   return env[name];
 }

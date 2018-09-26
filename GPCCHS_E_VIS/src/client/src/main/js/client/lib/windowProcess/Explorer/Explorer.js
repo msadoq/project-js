@@ -43,7 +43,6 @@ import styles from './Explorer.css';
 import InspectorContainer from './widgets/InspectorContainer';
 import InformationContainer from './widgets/InformationContainer';
 import CacheContainer from './widgets/CacheContainer';
-import CatalogExplorerContainer from './widgets/CatalogExplorerContainer';
 import CatalogItemMetadataContainer from './widgets/CatalogItemMetadataContainer';
 
 import PusTestContainer from './widgets/PusTestContainer';
@@ -52,7 +51,6 @@ const NotAlreadyImplemented = () => <div>Not already implemented</div>;
 
 const widgets = {
   dsex: { title: 'DataStore explorer', component: NotAlreadyImplemented },
-  rte: { title: 'Catalog explorer', component: CatalogExplorerContainer },
   inspector: { title: 'Inspector', component: InspectorContainer },
   map: { title: 'Data map (developer)', component: DataMapContainer },
   store: { title: 'Store (developer)', component: StoreContainer },

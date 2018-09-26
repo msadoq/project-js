@@ -118,20 +118,21 @@ const mapStateToProps = (state) => {
     const tupleId = getTupleId(domainId, sessionId);
 
     const metadata = getItemMetadata(
-      state.catalogs, {
+      state, {
         tupleId,
         name: catalog,
         itemName: parameterName,
       });
 
     const reportingItemPackets = getReportingItemPackets(
-      state.catalogs, {
+      state, {
         tupleId,
         name: catalog,
         itemName: parameterName,
       });
 
-    const formattedReportingItemPackets = reportingItemPackets.map(packet => _.get('name', packet));
+    const formattedReportingItemPackets =
+      (reportingItemPackets || []).map(packet => _.get('name', packet));
 
     if (metadata) {
       staticData = buildNode({

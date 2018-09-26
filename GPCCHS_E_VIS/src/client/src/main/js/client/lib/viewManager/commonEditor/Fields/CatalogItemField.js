@@ -40,12 +40,9 @@ export default class CatalogItemField extends PureComponent {
   tryToLoadCatalogItems = (props) => {
     const {
       askCatalogItems,
-      shouldLoadCatalogItems,
     } = props;
 
-    if (shouldLoadCatalogItems) {
-      askCatalogItems();
-    }
+    askCatalogItems();
   };
 
   render() {

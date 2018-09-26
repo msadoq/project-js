@@ -48,7 +48,7 @@ const mapStateToProps = (state, {
   const shouldLoadCatalogItems =
     typeof domainId === 'number' &&
     typeof sessionId === 'number' &&
-    typeof name === 'string' &&
+    typeof catalogName === 'string' &&
     !loaded &&
     !loading;
 
@@ -87,11 +87,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       shouldLoadCatalogItems,
     } = stateProps;
 
+    const filteredCatalogs = catalogs.filter(catalog => catalog.length > 0);
+
     if (shouldLoadCatalogItems) {
-      if (catalogs.indexOf(catalogName) > -1) {
-        setTimeout(() => {
-          dispatchProps.askCatalogItems(domainId, sessionId, catalogName);
-        }, 500);
+      if (filteredCatalogs.indexOf(catalogName) > -1) {
+        dispatchProps.askCatalogItems(domainId, sessionId, catalogName);
       }
     }
   },

@@ -30,7 +30,6 @@ const mapStateToProps = (state, {
   const loading = areCatalogsLoading(state, { domainId, sessionId });
   const loaded = areCatalogsLoaded(state, { domainId, sessionId });
 
-
   const shouldLoadCatalogs =
     typeof domainId === 'number' &&
     typeof sessionId === 'number' &&
@@ -61,9 +60,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     const { domainId, sessionId, shouldLoadCatalogs } = stateProps;
 
     if (shouldLoadCatalogs) {
-      setTimeout(() => {
-        dispatchProps.askCatalogs(domainId, sessionId);
-      }, 500);
+      console.log('### ask catalogs...', domainId, sessionId);
+      dispatchProps.askCatalogs(domainId, sessionId);
     }
   },
 });

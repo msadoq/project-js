@@ -40,13 +40,15 @@ import { get } from '../../../common/configurationManager';
 import { getPageIdByViewId } from '../../reducers/pages';
 
 
-const fetchCatalogs = (sessionId, domainId, cb) => {
+const fetchCatalogs = (sessionId, domainId, cb) =>
   dc.retrieveSDBCatalogs({ sessionId, domainId }, cb);
-};
 
-const fetchCatalogItems = (sessionId, domainId, catalogName, cb) => {
-  dc.retrieveSDBCatalogsItems({ sessionId, domainId, catalogName }, cb);
-};
+const fetchCatalogItems = (sessionId, domainId, catalogName, cb) =>
+  dc.retrieveSDBCatalogsItems({
+    sessionId,
+    domainId,
+    catalogName,
+  }, cb);
 
 const fetchComObjects = (sessionId, domainId, catalogName, catalogItemName, cb) =>
   dc.retrieveSDBCatalogsItemComObject({ sessionId, domainId, catalogName, catalogItemName }, cb);
@@ -59,13 +61,12 @@ const fetchReportingItemPackets = (sessionId, domainId, catalogName, catalogItem
 
 
 const fetchItemStructure = (sessionId, domainId, catalogName, catalogItemName, cb) =>
-  dc.retrieveCatalogItemStructure(
-    {
-      sessionId,
-      domainId,
-      catalogName,
-      catalogItemName,
-    }, cb);
+  dc.retrieveCatalogItemStructure({
+    sessionId,
+    domainId,
+    catalogName,
+    catalogItemName,
+  }, cb);
 
 const wildcard = get('WILDCARD_CHARACTER');
 

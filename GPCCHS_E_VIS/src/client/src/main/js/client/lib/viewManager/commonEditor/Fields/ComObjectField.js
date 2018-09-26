@@ -18,8 +18,6 @@ export default class ComObjectField extends PureComponent {
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.shape),
     ]),
-    askComObjects: PropTypes.func.isRequired,
-    shouldLoadComObjects: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -30,26 +28,6 @@ export default class ComObjectField extends PureComponent {
     catalogName: null,
     itemName: null,
     comObjectName: null,
-    shouldLoadComObjects: false,
-  };
-
-  componentWillMount() {
-    this.tryToLoadComObjects(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.tryToLoadComObjects(nextProps);
-  }
-
-  tryToLoadComObjects = (props) => {
-    const {
-      shouldLoadComObjects,
-      askComObjects,
-    } = props;
-
-    if (shouldLoadComObjects) {
-      askComObjects();
-    }
   };
 
   render() {

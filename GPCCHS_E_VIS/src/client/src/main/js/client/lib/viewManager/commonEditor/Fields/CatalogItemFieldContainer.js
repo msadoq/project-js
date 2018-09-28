@@ -18,6 +18,8 @@ import { get } from 'common/configurationManager';
 import CatalogItemField from 'viewManager/commonEditor/Fields/CatalogItemField';
 
 
+const requested = [];
+
 const mapStateToProps = (state, {
   name,
   domainName,
@@ -86,11 +88,16 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       shouldLoadCatalogItems,
     } = stateProps;
 
+    const requestId = [domainId, sessionId, catalogName];
+
     if (shouldLoadCatalogItems) {
       const found = _.findIndex(catalog => catalog.name === catalogName, catalogs);
 
       if (found > -1) {
-        dispatchProps.askCatalogItems(domainId, sessionId, catalogName);
+        if (_.findIndex(_.isEqual(requestId), requested) === -1) {
+          dispatchProps.askCatalogItems(domainId, sessionId, catalogName);
+          requested.push(requestId);
+        }
       }
     }
   },

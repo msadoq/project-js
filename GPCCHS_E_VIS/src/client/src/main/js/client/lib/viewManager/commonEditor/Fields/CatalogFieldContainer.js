@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -10,6 +11,9 @@ import { getSessionIdWithFallback, getSessionNameFromTimeline } from 'store/redu
 import { askCatalogs, updateCatalogField } from 'store/actions/catalogs';
 import { get } from 'common/configurationManager';
 import CatalogField from './CatalogField';
+
+
+const requested = [];
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 
@@ -59,8 +63,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   askCatalogs: () => {
     const { domainId, sessionId, shouldLoadCatalogs } = stateProps;
 
+    const requestId = [domainId, sessionId];
+
     if (shouldLoadCatalogs) {
-      dispatchProps.askCatalogs(domainId, sessionId);
+      if (_.findIndex(_.isEqual(requestId), requested) === -1) {
+        dispatchProps.askCatalogs(domainId, sessionId);
+        requested.push(requestId);
+      }
     }
   },
 });

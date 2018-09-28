@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -15,6 +17,8 @@ import { askCatalogItemComObjects } from 'store/actions/catalogs';
 import { get } from 'common/configurationManager';
 
 import ComObject from './ComObject';
+
+const requested = [];
 
 const mapStateToProps = (state, {
   name,
@@ -106,8 +110,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       shouldLoadComObjects,
     } = stateProps;
 
+    const requestId = [domainId, sessionId, catalogName, itemName];
+
     if (shouldLoadComObjects) {
-      dispatchProps.askCatalogItemComObjects(domainId, sessionId, catalogName, itemName);
+      if (_.findIndex(_.isEqual(requestId), requested) === -1) {
+        dispatchProps.askCatalogItemComObjects(domainId, sessionId, catalogName, itemName);
+        requested.push(requestId);
+      }
     }
   },
 });

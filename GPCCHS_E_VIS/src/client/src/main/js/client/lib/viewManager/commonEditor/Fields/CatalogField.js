@@ -26,8 +26,8 @@ export default class CatalogField extends Component {
     catalogs: null,
   };
 
-  componentWillReceiveProps(nextProps) {
-    nextProps.askCatalogs();
+  componentDidUpdate() {
+    this.props.askCatalogs();
   }
 
   _getPlaceholder = () => {

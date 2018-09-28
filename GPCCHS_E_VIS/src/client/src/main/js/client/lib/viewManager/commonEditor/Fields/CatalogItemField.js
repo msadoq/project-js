@@ -27,8 +27,8 @@ export default class CatalogItemField extends PureComponent {
     loaded: false,
   };
 
-  componentWillReceiveProps(nextProps) {
-    nextProps.askCatalogItems();
+  componentDidUpdate() {
+    this.props.askCatalogItems();
   }
 
   _getPlaceholder = () => {

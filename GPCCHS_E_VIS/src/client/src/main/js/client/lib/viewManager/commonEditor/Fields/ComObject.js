@@ -21,8 +21,8 @@ export default class ComObject extends PureComponent {
     allowedComObjects: null,
   };
 
-  componentWillReceiveProps(nextProps) {
-    nextProps.askCatalogItemComObjects();
+  componentDidUpdate() {
+    this.props.askCatalogItemComObjects();
   }
 
   _getPlaceholder = () => {

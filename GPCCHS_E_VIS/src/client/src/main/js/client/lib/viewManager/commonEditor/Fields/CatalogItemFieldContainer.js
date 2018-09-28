@@ -1,13 +1,14 @@
+import _ from 'lodash/fp';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  getCatalogItemsArray,
-  getTupleId,
+  getCatalogItems,
   areCatalogItemsLoaded,
   areCatalogItemsLoading,
-  getCatalogsByDomainIdAndSessionId,
-} from 'store/reducers/catalogs';
+  getCatalogs,
+} from 'store/selectors/catalogs';
+
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
 import { getTimelineById } from 'store/reducers/timelines';
@@ -39,11 +40,10 @@ const mapStateToProps = (state, {
   }
   const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
   const sessionId = selectedSession ? selectedSession.id : null;
-  const tupleId = getTupleId(domainId, sessionId);
-  const catalogItems = getCatalogItemsArray(state, { tupleId, name: catalogName });
+  const catalogItems = getCatalogItems(state, { domainId, sessionId, catalogName });
 
-  const loaded = areCatalogItemsLoaded(state, { domainId, sessionId, name: catalogName });
-  const loading = areCatalogItemsLoading(state, { domainId, sessionId, name: catalogName });
+  const loaded = areCatalogItemsLoaded(state, { domainId, sessionId, catalogName });
+  const loading = areCatalogItemsLoading(state, { domainId, sessionId, catalogName });
 
   const shouldLoadCatalogItems =
     typeof domainId === 'number' &&
@@ -52,10 +52,7 @@ const mapStateToProps = (state, {
     !loaded &&
     !loading;
 
-  const catalogs =
-    Object.keys(
-      getCatalogsByDomainIdAndSessionId(state, { domainId, sessionId })
-    );
+  const catalogs = getCatalogs(state, { domainId, sessionId });
 
   return {
     name,
@@ -87,10 +84,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       shouldLoadCatalogItems,
     } = stateProps;
 
-    const filteredCatalogs = catalogs.filter(catalog => catalog.length > 0);
-
     if (shouldLoadCatalogItems) {
-      if (filteredCatalogs.indexOf(catalogName) > -1) {
+      const found = _.findIndex(catalog => catalog.name === catalogName, catalogs);
+
+      if (found > -1) {
         dispatchProps.askCatalogItems(domainId, sessionId, catalogName);
       }
     }

@@ -63,14 +63,23 @@ import catalogs from './catalogs';
 import apids from './apids';
 import comObjectMap from './comObjectMap';
 import cache from './cache';
-import { getConfigurationReducers, getDataReducers, getUiReducers } from '../../viewManager/reducers';
+import {
+  getConfigurationReducers,
+  getDataReducers,
+  getUiReducers,
+} from '../../viewManager/reducers';
 import hsc from './hsc';
 import combineReducers from './combineReducers';
 import { FORM_CATALOG_CHANGE } from '../types';
 
-
+/**
+ * Redux form plugin that handles form fields updates when related fields change
+ * TODO: move this plugin in appropriate file|folder
+ *
+ * @type {*}
+ */
 const enhancedForm = form.plugin({
-  'edit-entrypoint': (state, action) => {
+  'edit-entrypoint': (state = {}, action) => {
     switch (action.type) {
       case FORM_CATALOG_CHANGE:
         return {
@@ -78,7 +87,7 @@ const enhancedForm = form.plugin({
           values: {
             ...state.values,
             connectedData: {
-              ...state.values.connectedData,
+              ...(state.values || {}).connectedData,
               catalogItem: undefined,
             },
           },

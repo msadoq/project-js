@@ -30,12 +30,13 @@ import {
 import {
   getDataSelectors,
 } from 'viewManager';
-import Inspector from './Inspector';
 import {
-  getItemMetadata,
-  getReportingItemPackets,
-  getTupleId,
-} from '../../../store/reducers/catalogs';
+  getCatalogItemMetadata,
+  getCatalogItemReportingItemPackets,
+} from 'store/selectors/catalogs';
+
+import Inspector from './Inspector';
+
 
 const ROOT_PARENT_NAME = 'root';
 
@@ -115,21 +116,16 @@ const mapStateToProps = (state) => {
   if (dataId) {
     const { domainId, sessionId, catalog, parameterName } = dataId;
 
-    const tupleId = getTupleId(domainId, sessionId);
+    const catalogItemProps = {
+      domainId,
+      sessionId,
+      catalogName: catalog,
+      catalogItemName: parameterName,
+    };
 
-    const metadata = getItemMetadata(
-      state, {
-        tupleId,
-        name: catalog,
-        itemName: parameterName,
-      });
+    const metadata = getCatalogItemMetadata(state, catalogItemProps);
 
-    const reportingItemPackets = getReportingItemPackets(
-      state, {
-        tupleId,
-        name: catalog,
-        itemName: parameterName,
-      });
+    const reportingItemPackets = getCatalogItemReportingItemPackets(state, catalogItemProps);
 
     const formattedReportingItemPackets =
       (reportingItemPackets || []).map(packet => _.get('name', packet));

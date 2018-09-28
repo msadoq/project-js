@@ -6,7 +6,6 @@ import {
   WS_CATALOG_ITEMS_ADD,
   WS_COM_OBJECTS_ASK,
   WS_COM_OBJECTS_ADD,
-  WS_UNIT_ADD,
   WS_ITEM_STRUCTURE_ASK,
   WS_ITEM_STRUCTURE_ADD,
   WS_ITEM_METADATA_ASK,
@@ -30,7 +29,8 @@ export const askCatalogs = simple(
 
 export const addCatalogs = simple(
   WS_CATALOGS_ADD,
-  'tupleId',
+  'domainId',
+  'sessionId',
   'catalogs'
 );
 
@@ -38,70 +38,82 @@ export const askCatalogItems = simple(
   WS_CATALOG_ITEMS_ASK,
   'domainId',
   'sessionId',
-  'name'
+  'catalogName'
 );
 
 export const addCatalogItems = simple(
   WS_CATALOG_ITEMS_ADD,
-  'tupleId',
-  'name',
+  'domainId',
+  'sessionId',
+  'catalogName',
   'items'
 );
 
-export const askComObjects = simple(
+export const askCatalogItemComObjects = simple(
   WS_COM_OBJECTS_ASK,
   'domainId',
   'sessionId',
-  'name',
-  'itemName'
+  'catalogName',
+  'catalogItemName'
 );
 
-export const addComObjects = simple(
+export const addCatalogItemComObjects = simple(
   WS_COM_OBJECTS_ADD,
-  'tupleId',
-  'name',
-  'itemName',
+  'domainId',
+  'sessionId',
+  'catalogName',
+  'catalogItemName',
   'comObjects'
 );
 
-export const addUnit = simple(
-  WS_UNIT_ADD,
-  'tupleId',
-  'name',
-  'itemName',
-  'unit'
-);
-
-export const askItemStructure = simple(
+export const askCatalogItemStructure = simple(
   WS_ITEM_STRUCTURE_ASK,
-  'viewId'
+  'domainId',
+  'sessionId',
+  'catalogName',
+  'catalogItemName'
 );
-export const addItemStructure = simple(
+export const addCatalogItemStructure = simple(
   WS_ITEM_STRUCTURE_ADD,
-  'tupleId',
-  'name',
-  'itemName',
+  'domainId',
+  'sessionId',
+  'catalogName',
+  'catalogItemName',
   'structure'
 );
 
 export const askItemMetadata =
-  simple(WS_ITEM_METADATA_ASK, 'domainId', 'sessionId', 'name', 'itemName');
+  simple(
+    WS_ITEM_METADATA_ASK,
+    'domainId',
+    'sessionId',
+    'catalogName',
+    'catalogItemName'
+  );
 
-export const askReportingItemPackets =
-  simple(WS_REPORTING_ITEM_PACKETS_ASK, 'domainId', 'sessionId', 'name', 'itemName');
+export const askCatalogItemReportingItemPackets =
+  simple(
+    WS_REPORTING_ITEM_PACKETS_ASK,
+    'domainId',
+    'sessionId',
+    'catalogName',
+    'catalogItemName'
+  );
 
 export const addCatalogItemMetadata = simple(
   WS_ITEM_METADATA_ADD,
-  'tupleId',
-  'name',
-  'itemName',
+  'domainId',
+  'sessionId',
+  'catalogName',
+  'catalogItemName',
   'metadata'
 );
 
-export const addReportingItemPackets = simple(
+export const addCatalogItemReportingItemPackets = simple(
   WS_REPORTING_ITEM_PACKETS_ADD,
-  'tupleId',
-  'name',
-  'itemName',
+  'domainId',
+  'sessionId',
+  'catalogName',
+  'catalogItemName',
   'reportingItemPackets'
 );

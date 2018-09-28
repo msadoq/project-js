@@ -13,7 +13,6 @@ import { VM_VIEW_HISTORY } from '../../../viewManager/constants';
  * associated with the comObjectFields that are found in the comObjectMap
  * for the specified entry point comObject
  *
- * @param dispatch
  * @param state
  * @returns {Function}
  * @private

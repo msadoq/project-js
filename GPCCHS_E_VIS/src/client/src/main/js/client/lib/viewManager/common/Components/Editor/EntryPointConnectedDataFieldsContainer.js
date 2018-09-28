@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import EntryPointConnectedDataFields from 'viewManager/common/Components/Editor/EntryPointConnectedDataFields';
+import EntryPointConnectedDataFields
+  from 'viewManager/common/Components/Editor/EntryPointConnectedDataFields';
 import { askItemMetadata } from 'store/actions/catalogs';
 import {
   getSelectedCatalogName,
@@ -13,7 +14,7 @@ import {
   getSelectedDisplayMode,
   getFormMetadata,
 } from 'viewManager/commonEditor/Fields/selectors';
-import { getTupleId, getAlgorithmMetadata } from 'store/reducers/catalogs';
+import { getCatalogItemAlgorithmMetadata } from 'store/selectors/catalogs';
 import { getDomainId } from 'store/reducers/domains';
 import { getSessionByNameWithFallback, getSessionNameFromTimeline } from 'store/reducers/sessions';
 import { get } from '../../../../common/configurationManager';
@@ -27,18 +28,24 @@ const mapStateToProps = (state, { form, viewId, pageId }) => {
   const sessionName = getSessionNameFromTimeline(state, { timelineId, wildcardCharacter });
   const sessionId = getSessionByNameWithFallback(state, { sessionName, viewId, pageId }).id;
   const domainId = getDomainId(state, { viewId, pageId, domainName });
-  const tupleId = getTupleId(domainId, sessionId);
-  const name = getSelectedCatalogName(form, state);
+  const catalogName = getSelectedCatalogName(form, state);
   const selectedPath = getSelectedPath(form, state);
   const formMetadata = getFormMetadata(form, state);
-  const metadata = getAlgorithmMetadata(state, { tupleId, name, itemName: selectedPath });
+  const metadata = getCatalogItemAlgorithmMetadata(
+    state, {
+      domainId,
+      sessionId,
+      catalogName,
+      catalogItemName: selectedPath,
+    }
+  );
 
   return {
     selectedDomainName: domainName,
     selectedTimelineId: timelineId,
     selectedDomainId: domainId,
     selectedSessionId: sessionId,
-    selectedCatalogName: name,
+    selectedCatalogName: catalogName,
     selectedItemName: getSelectedItemName(form, state),
     selectedComObjectName: getSelectedComObjectName(form, state),
     dataType: getSelectedDataType(form, state),

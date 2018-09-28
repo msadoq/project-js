@@ -16,35 +16,39 @@ import _ from 'lodash/fp';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import {
   addEntryPoint,
   updateShowLinks,
   removeLink,
 } from 'store/actions/views';
 
-import HistoryView from './HistoryView';
-import { getData } from '../../store/dataReducer';
-import { getCountBySearching } from '../../store/dataSelectors';
-import { getConfigurationByViewId } from '../../../selectors';
-import {
-  getCatalogItemByName,
-  getTupleId,
-} from '../../../../store/reducers/catalogs';
-import { getDomainId } from '../../../../store/reducers/domains';
-import { getSessionByTimelineId, getSessions } from '../../../../store/reducers/sessions';
 import {
   getPage,
   getSearchCount,
   getSearchingByPage,
   getSearchViewsIds,
-} from '../../../../store/reducers/pages';
-import { updateSearchCount } from '../../../../store/actions/pages';
-import { areLinksShown, getLinks } from '../../../../store/reducers/views';
+} from 'store/reducers/pages';
+
+import { updateSearchCount } from 'store/actions/pages';
+import { areLinksShown, getLinks } from 'store/reducers/views';
+import { getTimeline, getTimelines } from 'store/reducers/timelines';
+import { add } from 'store/actions/messages';
+import { getTimebarTimelines } from 'store/reducers/timebarTimelines';
+import { getDomainId } from 'store/reducers/domains';
+import { getSessionByTimelineId, getSessions } from 'store/reducers/sessions';
+import { getCatalogItemMetadata } from 'store/selectors/catalogs';
+import { getViewEntryPoints } from 'store/selectors/views';
+
+import { getData } from '../../store/dataReducer';
+import { getCountBySearching } from '../../store/dataSelectors';
+
 import { getIsTimelineSelected } from '../../store/configurationSelectors';
-import { getViewEntryPoints } from '../../../../store/selectors/views';
-import { getTimeline, getTimelines } from '../../../../store/reducers/timelines';
-import { add } from '../../../../store/actions/messages';
-import { getTimebarTimelines } from '../../../../store/reducers/timebarTimelines';
+import { getConfigurationByViewId } from '../../../selectors';
+
+
+import HistoryView from './HistoryView';
+
 
 const mapStateToProps = (state, { viewId, pageId }) => {
   const data = getData(state, { viewId });
@@ -72,21 +76,14 @@ const mapStateToProps = (state, { viewId, pageId }) => {
         const session = getSessionByTimelineId(state, { timelineId: timeline });
         const sessionId = _.get('id', session);
 
-        const tupleId = getTupleId(domainId, sessionId);
+        const metadata = getCatalogItemMetadata(state, {
+          domainId,
+          sessionId,
+          catalogName: catalog,
+          catalogItemName: catalogItem,
+        });
 
-        const selectedCatalogItem = getCatalogItemByName(
-          state,
-          {
-            tupleId,
-            name: catalog,
-            itemName: catalogItem,
-          }
-        );
-
-        if (selectedCatalogItem) {
-          const metadata = _.getOr({}, 'metadata', selectedCatalogItem);
-          return { ...ep, metadata };
-        }
+        return { ...ep, metadata };
       }
     }
 
@@ -113,9 +110,6 @@ const mapStateToProps = (state, { viewId, pageId }) => {
 };
 
 const mapDispatchToProps = (dispatch, { viewId, pageId }) => ({
-  /* addEntryPoint: (entryPoint) => {
-    dispatch(addEntryPoint(viewId, entryPoint));
-  }, */
   updateSearchCount: (count) => {
     dispatch(updateSearchCount(pageId, viewId, count));
   },

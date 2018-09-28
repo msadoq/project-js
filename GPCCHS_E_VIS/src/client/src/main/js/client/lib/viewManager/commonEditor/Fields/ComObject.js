@@ -8,69 +8,48 @@ import ErrorBoundary from 'viewManager/common/Components/ErrorBoundary';
 export default class ComObject extends PureComponent {
   static propTypes = {
     name: PropTypes.string,
-    timelineId: PropTypes.string,
     // from container mapStateToProps
-    comObjects: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.shape()),
-    ]),
     allowedComObjects: PropTypes.arrayOf(PropTypes.shape()),
-    sessionId: PropTypes.number,
-    domainId: PropTypes.number,
-    catalogName: PropTypes.string,
-    itemName: PropTypes.string,
     // from container mapDispatchToProps
-    shouldLoadComObjects: PropTypes.bool,
-    askComObjects: PropTypes.func.isRequired,
+    askCatalogItemComObjects: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    loaded: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     name: 'connectedData.comObject',
-    comObjects: null,
     allowedComObjects: null,
-    sessionId: null,
-    domainId: null,
-    timelineId: null,
-    catalogName: null,
-    itemName: null,
-    shouldLoadComObjects: false,
   };
 
   componentWillMount() {
-    this.tryToLoadComObjects(this.props);
+    this.props.askCatalogItemComObjects();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.tryToLoadComObjects(nextProps);
+    nextProps.askCatalogItemComObjects();
   }
 
-  tryToLoadComObjects = (props) => {
-    const {
-      domainId,
-      sessionId,
-      askComObjects,
-      catalogName,
-      itemName,
-      shouldLoadComObjects,
-    } = props;
+  _getPlaceholder = () => {
+    const { loading, loaded } = this.props;
 
-    if (shouldLoadComObjects) {
-      askComObjects(domainId, sessionId, catalogName, itemName);
+    if (loading) {
+      return 'Loading catalog items...';
     }
+
+    if (loaded) {
+      return 'Select a catalog item...';
+    }
+
+    return '';
   };
 
   render() {
     const {
       name,
-      comObjects,
       allowedComObjects,
-      domainId,
-      timelineId,
-      catalogName,
-      itemName,
+      loaded,
     } = this.props;
 
-    const disabled = (!domainId || !timelineId || !catalogName || !itemName || comObjects === null);
     return (
       <ErrorBoundary>
         <Field
@@ -78,8 +57,9 @@ export default class ComObject extends PureComponent {
           name={name}
           component={ReactSelectField}
           clearable
-          disabled={disabled}
+          disabled={!loaded}
           options={computeOptions(allowedComObjects)}
+          placehoder={this._getPlaceholder()}
         />
       </ErrorBoundary>
     );

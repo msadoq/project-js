@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  getCatalogsByDomainIdAndSessionIdArray,
+  getCatalogs,
   areCatalogsLoaded,
   areCatalogsLoading,
-} from 'store/reducers/catalogs';
+} from 'store/selectors/catalogs';
 import { getDomainId } from 'store/reducers/domains';
 import { getSessionIdWithFallback, getSessionNameFromTimeline } from 'store/reducers/sessions';
 import { askCatalogs, updateCatalogField } from 'store/actions/catalogs';
@@ -25,7 +25,7 @@ const mapStateToProps = (state, {
   const sessionName = viewSessionName
     || getSessionNameFromTimeline(state, { timelineId, wildcardCharacter });
   const sessionId = getSessionIdWithFallback(state, { sessionName, viewId, pageId });
-  const catalogs = getCatalogsByDomainIdAndSessionIdArray(state, { domainId, sessionId });
+  const catalogs = getCatalogs(state, { domainId, sessionId });
 
   const loading = areCatalogsLoading(state, { domainId, sessionId });
   const loaded = areCatalogsLoaded(state, { domainId, sessionId });
@@ -60,7 +60,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     const { domainId, sessionId, shouldLoadCatalogs } = stateProps;
 
     if (shouldLoadCatalogs) {
-      console.log('### ask catalogs...', domainId, sessionId);
       dispatchProps.askCatalogs(domainId, sessionId);
     }
   },

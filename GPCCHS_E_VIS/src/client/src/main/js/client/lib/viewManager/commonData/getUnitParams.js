@@ -1,13 +1,12 @@
-import {
-  getTupleId,
-  getUnitMetadata,
-} from 'store/reducers/catalogs';
+import _ from 'lodash/fp';
+
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
 import { getTimelineById } from 'store/reducers/timelines';
 import { get } from 'common/configurationManager';
 
 import parseFormula from './formula';
+import { getCatalogItemMetadata } from '../../store/selectors/catalogs';
 
 const wildcardCharacter = get('WILDCARD_CHARACTER');
 
@@ -37,8 +36,6 @@ export default function getUnitParams(state, props) {
   const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
   const sessionId = selectedSession ? selectedSession.id : null;
 
-  const tupleId = getTupleId(domainId, sessionId);
-
   if (!formula) {
     return {
       domainId,
@@ -52,7 +49,18 @@ export default function getUnitParams(state, props) {
     parameterName: catalogItem,
   } = parseFormula(formula);
 
-  const unit = getUnitMetadata(state, { tupleId, name: catalog, itemName: catalogItem });
+  const metadata = getCatalogItemMetadata(
+    state,
+    {
+      domainId,
+      sessionId,
+      catalogName: catalog,
+      catalogItemName: catalogItem,
+    }
+  );
+
+  const unit = _.getOr('Unkown', 'unit', metadata);
+
   return {
     domainId,
     sessionId,

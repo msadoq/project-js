@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import {
-  areComObjectsLoaded,
-  areComObjectsLoading,
+  areCatalogItemComObjectsLoaded,
+  areCatalogItemComObjectsLoading,
   getCatalogItemComObjects,
-  getTupleId,
-} from 'store/reducers/catalogs';
+} from 'store/selectors/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
 import { getSessionByNameWithFallback } from 'store/reducers/sessions';
 import { getTimelineById } from 'store/reducers/timelines';
-import { askComObjects } from 'store/actions/catalogs';
+import { askCatalogItemComObjects } from 'store/actions/catalogs';
 import { get } from 'common/configurationManager';
-import ComObject from './ComObject';
 
+import ComObject from './ComObject';
 
 const mapStateToProps = (state, {
   name,
@@ -37,16 +37,29 @@ const mapStateToProps = (state, {
   }
   const selectedSession = getSessionByNameWithFallback(state, { sessionName, viewId, pageId });
   const sessionId = selectedSession ? selectedSession.id : null;
-  const tupleId = getTupleId(domainId, sessionId);
+
+  const catalogItemProps = {
+    domainId,
+    sessionId,
+    catalogName,
+    catalogItemName: itemName,
+  };
 
   const comObjects =
-    getCatalogItemComObjects(state, { tupleId, name: catalogName, itemName });
+    getCatalogItemComObjects(state, catalogItemProps);
+
+  const loading = areCatalogItemComObjectsLoading(state, catalogItemProps);
+  const loaded = areCatalogItemComObjectsLoaded(state, catalogItemProps);
 
   const shouldLoadComObjects =
     typeof domainId === 'number' &&
     typeof sessionId === 'number' &&
-    !areComObjectsLoaded(state, { tupleId, name: catalogName, itemName }) &&
-    !areComObjectsLoading(state, { tupleId, name: catalogName, itemName });
+    typeof catalogName === 'string' &&
+    catalogName.length > 0 &&
+    typeof itemName === 'string' &&
+    itemName.length > 0 &&
+    !loaded &&
+    !loading;
 
   const _filterAllowedComObjects =
     (comObjectsArr) => {
@@ -69,26 +82,31 @@ const mapStateToProps = (state, {
     catalogName,
     itemName,
     shouldLoadComObjects,
+    loading,
+    loaded,
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  askComObjects,
+  askCatalogItemComObjects,
 }, dispatch);
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   ...stateProps,
   ...dispatchProps,
-  askComObjects: () => {
+  askCatalogItemComObjects: () => {
     const {
       domainId,
       sessionId,
       catalogName,
       itemName,
+      shouldLoadComObjects,
     } = stateProps;
 
-    dispatchProps.askComObjects(domainId, sessionId, catalogName, itemName);
+    if (shouldLoadComObjects) {
+      dispatchProps.askCatalogItemComObjects(domainId, sessionId, catalogName, itemName);
+    }
   },
 });
 

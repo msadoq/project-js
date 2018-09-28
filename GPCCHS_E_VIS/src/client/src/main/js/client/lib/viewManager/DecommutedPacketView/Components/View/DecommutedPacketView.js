@@ -114,7 +114,7 @@ export default class DecommutedPacketView extends PureComponent {
     isInspectorOpened: PropTypes.bool.isRequired,
     inspectorEpId: PropTypes.string,
     isMaxVisuDurationExceeded: PropTypes.bool.isRequired,
-    askItemStructure: PropTypes.func.isRequired,
+    askCatalogItemStructure: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -140,7 +140,7 @@ export default class DecommutedPacketView extends PureComponent {
   };
 
   componentWillMount() {
-    this.props.askItemStructure();
+    this.props.askCatalogItemStructure();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -154,7 +154,7 @@ export default class DecommutedPacketView extends PureComponent {
       });
     }
     if (_isEmpty(nextProps.structure)) {
-      this.props.askItemStructure();
+      nextProps.askCatalogItemStructure();
     }
   }
 

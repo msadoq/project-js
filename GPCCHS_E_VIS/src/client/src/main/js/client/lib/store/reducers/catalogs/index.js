@@ -1,9 +1,4 @@
-/* eslint-disable no-continue */
-
 import _ from 'lodash/fp';
-import _find from 'lodash/fp/find';
-import _getOr from 'lodash/fp/getOr';
-import _flow from 'lodash/fp/flow';
 
 import {
   WS_CATALOG_ITEMS_ADD,
@@ -20,41 +15,75 @@ import {
   WS_REPORTING_ITEM_PACKETS_ASK,
 } from 'store/types';
 
-export const STATUS_LOADING = 'loading';
-export const STATUS_LOADED = 'loaded';
+import { STATUS_LOADED, STATUS_LOADING } from '../../selectors/catalogs';
 
-const _setCatalogItemFieldStateToIsLoading =
-  (state, { tupleId, name, itemName, fieldName }) => {
+
+const setCatalogItemFieldStateToIsLoading =
+  (state, props) => {
+    const {
+      domainId,
+      sessionId,
+      catalogName,
+      catalogItemName,
+      fieldName,
+    } = props;
+
     if (
-      _getCatalogItemFieldStatus(
-        state, { tupleId, name, itemName, fieldName }
-      ) === STATUS_LOADED
+      typeof domainId !== 'number' ||
+      typeof sessionId !== 'number' ||
+      typeof catalogName !== 'string' ||
+      typeof catalogItemName !== 'string' ||
+      typeof fieldName !== 'string'
     ) {
       return state;
     }
 
     return _.set(
-      ['_status', tupleId, name, 'items', itemName, fieldName, '_status'],
+      [
+        '_status',
+        getTupleId(domainId, sessionId),
+        catalogName,
+        'items',
+        catalogItemName,
+        fieldName,
+        '_status',
+      ],
       STATUS_LOADING,
       state
     );
   };
 
 const setCatalogItemFieldStateToIsLoaded =
-  (state, { tupleId, name, itemName, fieldName }) => _.set(
-    ['_status', tupleId, name, 'items', itemName, fieldName, '_status'],
-    STATUS_LOADED,
-    state
-  );
+  (state, { domainId, sessionId, catalogName, catalogItemName, fieldName }) => {
+    if (
+      typeof domainId !== 'number' ||
+      typeof sessionId !== 'number' ||
+      typeof catalogName !== 'string' ||
+      typeof catalogItemName !== 'string' ||
+      typeof fieldName !== 'string'
+    ) {
+      return state;
+    }
 
-const addCatalogs = (state, { tupleId, catalogs, all }) => {
+    return _.set(
+      [
+        '_status',
+        getTupleId(domainId, sessionId),
+        catalogName,
+        'items',
+        catalogItemName,
+        fieldName,
+        '_status',
+      ],
+      STATUS_LOADED,
+      state
+    );
+  };
+
+const addCatalogs = (state, { domainId, sessionId, catalogs, all }) => {
   let updatedState = state;
 
-  const existingCatalogs = _.getOr(
-    {},
-    tupleId,
-    state
-  );
+  const existingCatalogs = _.getOr({}, [domainId, sessionId], state);
 
   const newCatalogs = catalogs.reduce((acc, catalog) => {
     acc[catalog.name] = {};
@@ -68,14 +97,18 @@ const addCatalogs = (state, { tupleId, catalogs, all }) => {
   };
 
   updatedState = _.set(
-    tupleId,
+    getTupleId(domainId, sessionId),
     updatedCatalogs,
     updatedState
   );
 
   if (all) {
     updatedState = _.set(
-      ['_status', tupleId, '_status'],
+      [
+        '_status',
+        getTupleId(domainId, sessionId),
+        '_status',
+      ],
       STATUS_LOADED,
       updatedState
     );
@@ -84,12 +117,15 @@ const addCatalogs = (state, { tupleId, catalogs, all }) => {
   return updatedState;
 };
 
-const addCatalogItems = (state, { tupleId, name, items, all }) => {
+const addCatalogItems = (state, { domainId, sessionId, catalogName, items, all }) => {
   let updatedState = state;
 
   const existingItems = _.getOr(
     {},
-    [tupleId, name],
+    [
+      getTupleId(domainId, sessionId),
+      catalogName,
+    ],
     state
   );
 
@@ -107,14 +143,22 @@ const addCatalogItems = (state, { tupleId, name, items, all }) => {
   };
 
   updatedState = _.set(
-    [tupleId, name],
+    [
+      getTupleId(domainId, sessionId),
+      catalogName,
+    ],
     updatedItems,
     updatedState
   );
 
   if (all) {
     updatedState = _.set(
-      ['_status', tupleId, name, '_status'],
+      [
+        '_status',
+        getTupleId(domainId, sessionId),
+        catalogName,
+        '_status',
+      ],
       STATUS_LOADED,
       updatedState
     );
@@ -123,20 +167,30 @@ const addCatalogItems = (state, { tupleId, name, items, all }) => {
   return updatedState;
 };
 
-const addCatalogItemField = (state, { tupleId, name, itemName, fieldName, content }) => {
+const addCatalogItemField = (state, props) => {
+  const {
+    domainId,
+    sessionId,
+    catalogName,
+    catalogItemName,
+    fieldName,
+    content,
+  } = props;
+
   let updatedState = state;
 
   updatedState = _.set(
-    [tupleId, name, itemName, fieldName],
+    [
+      getTupleId(domainId, sessionId),
+      catalogName,
+      catalogItemName,
+      fieldName,
+    ],
     content,
     updatedState
   );
 
-  updatedState =
-    setCatalogItemFieldStateToIsLoaded(
-      updatedState,
-      { tupleId, name, itemName, fieldName }
-    );
+  updatedState = setCatalogItemFieldStateToIsLoaded(updatedState, props);
 
   return updatedState;
 };
@@ -147,191 +201,133 @@ export default function catalogsReducer(state = {}, action) {
     case WS_CATALOGS_ASK: {
       const { domainId, sessionId } = action.payload;
 
-      const currentLoadingStatus = _.get(
-        ['_status', getTupleId(domainId, sessionId), '_status'],
-        state
-      );
-
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        currentLoadingStatus === STATUS_LOADED
-      ) {
-        return state;
-      }
-
       return _.set(
-        ['_status', getTupleId(domainId, sessionId), '_status'],
+        [
+          '_status',
+          getTupleId(domainId, sessionId),
+          '_status',
+        ],
         STATUS_LOADING,
         state
       );
     }
     case WS_CATALOGS_ADD: {
-      const { tupleId, catalogs } = action.payload;
-      return addCatalogs(state, { tupleId, catalogs, all: true });
+      const { payload: props } = action;
+
+      return addCatalogs(state, { ...props, all: true });
     }
     case WS_CATALOG_ITEMS_ASK: {
-      const { domainId, sessionId, name } = action.payload;
+      const { domainId, sessionId, catalogName } = action.payload;
 
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        typeof name !== 'string'
-      ) {
-        return state;
-      }
-
-      const tupleId = getTupleId(domainId, sessionId);
-
-      const currentLoadingStatus = _.get(
-        ['_status', tupleId, name, '_status'],
+      return _.set(
+        [
+          '_status',
+          getTupleId(domainId, sessionId),
+          catalogName,
+          '_status',
+        ],
+        STATUS_LOADING,
         state
       );
-
-      if (currentLoadingStatus !== STATUS_LOADED) {
-        return _.set(
-          ['_status', tupleId, name, '_status'],
-          STATUS_LOADING,
-          state
-        );
-      }
-
-      return state;
     }
     case WS_CATALOG_ITEMS_ADD: {
-      const { tupleId, name, items } = action.payload;
+      const { payload: props } = action;
 
-      return addCatalogItems(state, { tupleId, name, items, all: true });
+      return addCatalogItems(
+        state,
+        {
+          ...props,
+          all: true,
+        }
+      );
     }
     case WS_ITEM_METADATA_ASK: {
-      const { domainId, sessionId, name, itemName } = action.payload;
+      const { payload: props } = action;
 
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        typeof name !== 'string' ||
-        typeof itemName !== 'string'
-      ) {
-        return state;
-      }
-
-      const tupleId = getTupleId(domainId, sessionId);
-
-      return _setCatalogItemFieldStateToIsLoading(
+      return setCatalogItemFieldStateToIsLoading(
         state,
-        { tupleId, name, itemName, fieldName: 'metadata' }
+        {
+          ...props,
+          fieldName: 'metadata',
+        }
       );
     }
     case WS_ITEM_METADATA_ADD: {
-      const { tupleId, name, itemName, metadata } = action.payload;
+      const { payload: props } = action;
 
       return addCatalogItemField(
         state,
         {
-          tupleId,
-          name,
-          itemName,
+          ...props,
           fieldName: 'metadata',
-          content: metadata,
+          content: props.metadata,
         }
       );
     }
     case WS_COM_OBJECTS_ASK: {
-      const { domainId, sessionId, name, itemName } = action.payload;
+      const { payload: props } = action;
 
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        typeof name !== 'string' ||
-        typeof itemName !== 'string'
-      ) {
-        return state;
-      }
-
-      const tupleId = getTupleId(domainId, sessionId);
-
-      return _setCatalogItemFieldStateToIsLoading(
+      return setCatalogItemFieldStateToIsLoading(
         state,
-        { tupleId, name, itemName, fieldName: 'comObjects' }
-      );
+        {
+          ...props,
+          fieldName: 'comObjects',
+        });
     }
     case WS_COM_OBJECTS_ADD: {
-      const { tupleId, name, itemName, comObjects } = action.payload;
+      const { payload: props } = action;
 
       return addCatalogItemField(
         state,
         {
-          tupleId,
-          name,
-          itemName,
+          ...props,
           fieldName: 'comObjects',
-          content: comObjects,
+          content: props.comObjects,
         }
       );
     }
     case WS_ITEM_STRUCTURE_ASK: {
-      const { domainId, sessionId, name, itemName } = action.payload;
+      const { payload: props } = action;
 
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        typeof name !== 'string' ||
-        typeof itemName !== 'string'
-      ) {
-        return state;
-      }
-
-      const tupleId = getTupleId(domainId, sessionId);
-
-      return _setCatalogItemFieldStateToIsLoading(
+      return setCatalogItemFieldStateToIsLoading(
         state,
-        { tupleId, name, itemName, fieldName: 'structure' }
-      );
+        {
+          ...props,
+          fieldName: 'structure',
+        });
     }
     case WS_ITEM_STRUCTURE_ADD: {
-      const { tupleId, name, itemName, structure } = action.payload;
+      const { payload: props } = action;
 
       return addCatalogItemField(
         state,
         {
-          tupleId,
-          name,
-          itemName,
+          ...props,
           fieldName: 'structure',
-          content: structure,
+          content: props.structure,
         }
       );
     }
     case WS_REPORTING_ITEM_PACKETS_ASK: {
-      const { domainId, sessionId, name, itemName } = action.payload;
+      const { payload: props } = action;
 
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        typeof name !== 'string' ||
-        typeof itemName !== 'string'
-      ) {
-        return state;
-      }
-
-      const tupleId = getTupleId(domainId, sessionId);
-
-      return _setCatalogItemFieldStateToIsLoading(
+      return setCatalogItemFieldStateToIsLoading(
         state,
-        { tupleId, name, itemName, fieldName: 'reportingItemPackets' }
+        {
+          ...props,
+          fieldName: 'reportingItemPackets',
+        }
       );
     }
     case WS_REPORTING_ITEM_PACKETS_ADD: {
-      const { tupleId, name, itemName, reportingItemPackets } = action.payload;
+      const { payload: props } = action;
 
       return addCatalogItemField(
         state,
         {
-          tupleId,
-          name,
-          itemName,
+          ...props,
           fieldName: 'reportingItemPackets',
-          content: reportingItemPackets,
+          content: props.reportingItemPackets,
         }
       );
     }
@@ -340,185 +336,16 @@ export default function catalogsReducer(state = {}, action) {
   }
 }
 
-export const getCatalogs = state => state.catalogs;
-
-/* --- Reducer -------------------------------------------------------------- */
-
 /**
+ *
  * @param domainId
  * @param sessionId
  * @returns {string}
  */
 export const getTupleId = (domainId, sessionId) => `${domainId}-${sessionId}`;
 
-export const getCatalogsByTupleId =
-  (state, { tupleId }) =>
-    _.get(
-      tupleId,
-      getCatalogs(state)
-    );
-
-export const getCatalogsByDomainIdAndSessionId =
-  (state, { domainId, sessionId }) =>
-    _.getOr(
-      {},
-      getTupleId(domainId, sessionId),
-      getCatalogs(state)
-    );
-
-export const getCatalogsByDomainIdAndSessionIdArray =
-  (state, props) => {
-    const catalogs = getCatalogsByDomainIdAndSessionId(state, props);
-
-    return Object.keys(catalogs)
-      .filter(catalogKey => catalogKey.length > 0 && catalogKey !== 'null')
-      .map(
-        catalog => ({
-          name: catalog,
-        })
-      );
-  };
-
-export const getCatalogByName = (state, { tupleId, name }) =>
-  _.getOr({}, [tupleId, name], getCatalogs(state));
-
-export const getCatalogItemByName = (state, { tupleId, name, itemName }) => {
-  const catalog = getCatalogByName(state, { tupleId, name });
-  return _.getOr({}, itemName, catalog);
-};
-
-const getCatalogItems =
-  (state, { tupleId, name }) => getCatalogByName(state, { tupleId, name });
-
-export const getCatalogItemsArray = (state, { tupleId, name }) => {
-  const items =
-    Object
-      .keys(getCatalogItems(state, { tupleId, name }))
-      .filter(item => item.length > 0 && item !== 'null');
-
-  return items.map(
-    item => ({
-      name: item,
-    })
-  );
-};
-
-const createCatalogItemFieldGetter =
-  field =>
-    (state, { tupleId, name, itemName }) =>
-      _.get(field, getCatalogItemByName(state, { tupleId, name, itemName }));
-
-export const getCatalogItemComObjects = createCatalogItemFieldGetter('comObjects');
-
-export const getComObjectStructure = createCatalogItemFieldGetter('structure');
-
-export const getItemMetadata = createCatalogItemFieldGetter('metadata');
-
-export const getReportingItemPackets = createCatalogItemFieldGetter('reportingItemPackets');
-
-export const getAlgorithmMetadata = (state, props) => {
-  const metadata = getItemMetadata(state, props);
-
-  return ({
-    inputParameters: _getOr([], ['algorithm', 'inputParameters'], metadata),
-    algorithm: _flow(
-      _getOr([], ['algorithm', 'algorithms']),
-      _find(a => a.language.toLocaleLowerCase() === 'python'),
-      _getOr(undefined, 'text')
-    )(metadata),
-  });
-};
-
-export const getUnitMetadata =
-  (state, props) => {
-    const metadata = getItemMetadata(state, props);
-
-    return _.get('unit', metadata);
-  };
-
-const _getCatalogsStatus = (state, { domainId, sessionId }) =>
-  _.get(['catalogs', '_status', getTupleId(domainId, sessionId), '_status'], state);
-
-
-export const areCatalogsLoading =
-  (state, props) =>
-    _getCatalogsStatus(state, props) === STATUS_LOADING;
-
-export const areCatalogsLoaded =
-  (state, props) =>
-    _getCatalogsStatus(state, props) === STATUS_LOADED;
-
-const _getCatalogItemsStatus =
-  (state, { domainId, sessionId, name }) =>
-    _.get(['catalogs', '_status', getTupleId(domainId, sessionId), name, '_status'], state);
-
-export const areCatalogItemsLoading =
-  (state, props) =>
-    _getCatalogItemsStatus(state, props) === STATUS_LOADING;
-
-export const areCatalogItemsLoaded =
-  (state, props) => _getCatalogItemsStatus(state, props) === STATUS_LOADED;
-
-const _getCatalogItemFieldStatus =
-  (state, { tupleId, name, itemName, fieldName }) =>
-    _.get(
-      ['catalogs', '_status', tupleId, name, 'items', itemName, fieldName, '_status'],
-      state
-    );
-
-
-const _getComObjectsStatus = (state, { tupleId, name, itemName }) =>
-  _getCatalogItemFieldStatus(state, {
-    tupleId,
-    name,
-    itemName,
-    fieldName: 'comObjects',
-  });
-
-export const areComObjectsLoading = (state, props) =>
-  _getComObjectsStatus(state, props) === STATUS_LOADING;
-
-export const areComObjectsLoaded = (state, props) =>
-  _getComObjectsStatus(state, props) === STATUS_LOADED;
-
-const _getItemStructureStatus = (state, { tupleId, name, itemName }) =>
-  _getCatalogItemFieldStatus(state, {
-    tupleId,
-    name,
-    itemName,
-    fieldName: 'structure',
-  });
-
-export const isItemStructureLoading = (state, props) =>
-  _getItemStructureStatus(state, props) === STATUS_LOADING;
-
-export const isItemStructureLoaded = (state, props) =>
-  _getItemStructureStatus(state, props) === STATUS_LOADED;
-
-const _getMetadataStatus = (state, { tupleId, name, itemName }) =>
-  _getCatalogItemFieldStatus(state, {
-    tupleId,
-    name,
-    itemName,
-    fieldName: 'metadata',
-  });
-
-export const isMetadataLoading = (state, props) =>
-  _getMetadataStatus(state, props) === STATUS_LOADING;
-
-export const isMetadataLoaded = (state, props) =>
-  _getMetadataStatus(state, props) === STATUS_LOADED;
-
-const _getReportingItemPacketsStatus = (state, { tupleId, name, itemName }) =>
-  _getCatalogItemFieldStatus(state, {
-    tupleId,
-    name,
-    itemName,
-    fieldName: 'reportingItemPackets',
-  });
-
-export const areReportingItemPacketsLoading = (state, props) =>
-  _getReportingItemPacketsStatus(state, props) === STATUS_LOADING;
-
-export const areReportingItemPacketsLoaded = (state, props) =>
-  _getReportingItemPacketsStatus(state, props) === STATUS_LOADED;
+/**
+ * DEPRECATED
+ * @type {string}
+ */
+export const REQUESTING = 'requesting';

@@ -11,7 +11,7 @@ const propsStub = {
   domainId: 1,
   catalogName: 'catalogName',
   itemName: 'itemName',
-  askComObjects: () => null,
+  askCatalogItemComObjects: () => null,
 };
 describe('viewManager', () => {
   describe('viewManager :: commonEditor', () => {

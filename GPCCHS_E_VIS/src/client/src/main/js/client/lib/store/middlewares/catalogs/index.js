@@ -1,20 +1,3 @@
-/* eslint-disable complexity */
-import {
-  getTupleId,
-  areCatalogItemsLoaded,
-  areCatalogsLoaded,
-  areCatalogItemsLoading,
-  areCatalogsLoading,
-  areComObjectsLoaded,
-  areComObjectsLoading,
-  areReportingItemPacketsLoaded,
-  areReportingItemPacketsLoading,
-  isItemStructureLoaded,
-  isItemStructureLoading,
-  isMetadataLoaded,
-  isMetadataLoading,
-} from 'store/reducers/catalogs';
-
 import {
   WS_CATALOG_ITEMS_ASK,
   WS_CATALOGS_ASK,
@@ -23,251 +6,160 @@ import {
   WS_ITEM_METADATA_ASK,
   WS_REPORTING_ITEM_PACKETS_ASK,
 } from 'store/types';
+
 import {
   addCatalogItems,
   addCatalogs,
-  addComObjects,
-  addItemStructure,
+  addCatalogItemComObjects,
+  addCatalogItemStructure,
   addCatalogItemMetadata,
-  addReportingItemPackets,
+  addCatalogItemReportingItemPackets,
 } from 'store/actions/catalogs';
-import { getSingleEntryPoint } from 'viewManager/DecommutedPacketView/store/dataSelectors';
 
-import { dc } from '../../../serverProcess/ipc';
-import { getSessionIdWithFallback } from '../../reducers/sessions';
-import { getDomainId } from '../../reducers/domains';
-import { get } from '../../../common/configurationManager';
-import { getPageIdByViewId } from '../../reducers/pages';
-
-
-const fetchCatalogs = (sessionId, domainId, cb) =>
-  dc.retrieveSDBCatalogs({ sessionId, domainId }, cb);
-
-const fetchCatalogItems = (sessionId, domainId, catalogName, cb) =>
-  dc.retrieveSDBCatalogsItems({
-    sessionId,
-    domainId,
-    catalogName,
-  }, cb);
-
-const fetchComObjects = (sessionId, domainId, catalogName, catalogItemName, cb) =>
-  dc.retrieveSDBCatalogsItemComObject({ sessionId, domainId, catalogName, catalogItemName }, cb);
-
-const fetchItemMetadata = (sessionId, domainId, catalogName, catalogItemName, cb) =>
-  dc.retrieveCatalogItemMetadata({ sessionId, domainId, catalogName, catalogItemName }, cb);
-
-const fetchReportingItemPackets = (sessionId, domainId, catalogName, catalogItemName, cb) =>
-  dc.retrieveReportingItemPackets({ sessionId, domainId, catalogName, catalogItemName }, cb);
-
-
-const fetchItemStructure = (sessionId, domainId, catalogName, catalogItemName, cb) =>
-  dc.retrieveCatalogItemStructure({
-    sessionId,
-    domainId,
-    catalogName,
-    catalogItemName,
-  }, cb);
-
-const wildcard = get('WILDCARD_CHARACTER');
+import loaders from './loaders';
 
 const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
   const state = getState();
+
   switch (action.type) {
     case WS_CATALOGS_ASK: {
-      const { sessionId, domainId } = action.payload;
+      const { payload: props } = action;
+      const { sessionId, domainId } = props;
 
-      if (typeof domainId !== 'number' || typeof sessionId !== 'number') {
-        return next(action);
-      }
+      const _addCatalogs = (catalogs) => {
+        dispatch(
+          addCatalogs(
+            domainId,
+            sessionId,
+            catalogs
+          )
+        );
+      };
 
-      if (
-        areCatalogsLoaded(state, { sessionId, domainId }) ||
-        areCatalogsLoading(state, { sessionId, domainId })
-      ) {
-        return next(action);
-      }
-
-      fetchCatalogs(
-        sessionId,
-        domainId,
-        (catalogs) => {
-          dispatch(
-            addCatalogs(
-              getTupleId(domainId, sessionId),
-              catalogs
-            )
-          );
-        }
+      loaders.loadCatalogs(
+        state,
+        props,
+        _addCatalogs
       );
 
       break;
     }
     case WS_CATALOG_ITEMS_ASK: {
-      const { sessionId, domainId, name } = action.payload;
+      const { payload: props } = action;
+      const { sessionId, domainId, catalogName } = props;
 
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        typeof name !== 'string'
-      ) {
-        return next(action);
-      }
-
-      if (
-        areCatalogItemsLoaded(state, { sessionId, domainId, name }) ||
-        areCatalogItemsLoading(state, { sessionId, domainId, name })
-      ) {
-        return next(action);
-      }
-
-      fetchCatalogItems(
-        sessionId,
-        domainId,
-        name,
-        items => dispatch(
-          addCatalogItems(
-            getTupleId(domainId, sessionId),
-            name,
-            items
-          )
+      const _addCatalogItems = items => dispatch(
+        addCatalogItems(
+          domainId,
+          sessionId,
+          catalogName,
+          items
         )
       );
 
-      break;
-    }
-    case WS_COM_OBJECTS_ASK: {
-      const { sessionId, domainId, name, itemName } = action.payload;
 
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        typeof name !== 'string' ||
-        typeof itemName !== 'string'
-      ) {
-        return next(action);
-      }
-
-      if (
-        areComObjectsLoaded(state, { domainId, sessionId, name, itemName }) ||
-        areComObjectsLoading(state, { domainId, sessionId, name, itemName })
-      ) {
-        return next(action);
-      }
-
-      fetchComObjects(
-        sessionId,
-        domainId,
-        name,
-        itemName,
-        comObjects => dispatch(
-          addComObjects(
-            getTupleId(domainId, sessionId),
-            name,
-            itemName,
-            comObjects
-          )
-        )
-      );
-      break;
-    }
-    case WS_ITEM_STRUCTURE_ASK: {
-      const { viewId } = action.payload;
-
-      const pageId = getPageIdByViewId(state, { viewId });
-      const domainId = getDomainId(state, { domainName: wildcard, viewId, pageId });
-      const sessionId = getSessionIdWithFallback(state, { sessionName: wildcard, viewId, pageId });
-      const tupleId = getTupleId(domainId, sessionId);
-      const {
-        catalogItem: itemName,
-        catalog: name,
-      } = getSingleEntryPoint(state, { viewId }).connectedData;
-
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        typeof name !== 'string' ||
-        typeof itemName !== 'string'
-      ) {
-        return next(action);
-      }
-
-      if (
-        isItemStructureLoading(state, { domainId, sessionId, name, itemName }) ||
-        isItemStructureLoaded(state, { domainId, sessionId, name, itemName })
-      ) {
-        return next(action);
-      }
-
-      fetchItemStructure(
-        sessionId,
-        domainId,
-        name,
-        itemName,
-        structure => dispatch(addItemStructure(tupleId, name, itemName, structure))
+      loaders.loadCatalogItems(
+        state,
+        props,
+        _addCatalogItems
       );
 
       break;
     }
     case WS_ITEM_METADATA_ASK: {
-      const { sessionId, domainId, name, itemName } = action.payload;
+      const { payload: props } = action;
 
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        typeof name !== 'string' ||
-        typeof itemName !== 'string'
-      ) {
-        return next(action);
-      }
+      const {
+        sessionId,
+        domainId,
+        catalogName,
+        catalogItemName,
+      } = props;
 
-      if (
-        isMetadataLoaded(state, { domainId, sessionId, name, itemName }) ||
-        isMetadataLoading(state, { domainId, sessionId, name, itemName })
-      ) {
-        return next(action);
-      }
+      const _addCatalogItemMetadata = metadata => dispatch(
+        addCatalogItemMetadata(
+          domainId,
+          sessionId,
+          catalogName,
+          catalogItemName,
+          metadata
+        )
+      );
 
-      fetchItemMetadata(sessionId, domainId, name, itemName,
-        metadata => dispatch(
-          addCatalogItemMetadata(
-            getTupleId(domainId, sessionId),
-            name,
-            itemName,
-            metadata
-          )
-        ));
+      loaders.loadCatalogItemMetadata(
+        state,
+        props,
+        _addCatalogItemMetadata
+      );
 
       break;
     }
-
     case WS_REPORTING_ITEM_PACKETS_ASK: {
-      const { sessionId, domainId, name, itemName } = action.payload;
+      const { payload: props } = action;
+      const { sessionId, domainId, catalogName, catalogItemName } = props;
 
-      if (
-        typeof domainId !== 'number' ||
-        typeof sessionId !== 'number' ||
-        typeof name !== 'string' ||
-        typeof itemName !== 'string'
-      ) {
-        return next(action);
-      }
-
-      if (
-        areReportingItemPacketsLoaded(state, { domainId, sessionId, name, itemName }) ||
-        areReportingItemPacketsLoading(state, { domainId, sessionId, name, itemName })
-      ) {
-        return next(action);
-      }
-
-      fetchReportingItemPackets(sessionId, domainId, name, itemName,
+      const _addCatalogItemsReportingItemPackets =
         items => dispatch(
-          addReportingItemPackets(
-            getTupleId(domainId, sessionId),
-            name,
-            itemName,
+          addCatalogItemReportingItemPackets(
+            domainId,
+            sessionId,
+            catalogName,
+            catalogItemName,
             items
           )
-        ));
+        );
+
+      loaders.loadCatalogItemReportingPackets(
+        state,
+        props,
+        _addCatalogItemsReportingItemPackets
+      );
+
+      break;
+    }
+    case WS_COM_OBJECTS_ASK: {
+      const { payload: props } = action;
+      const { sessionId, domainId, catalogName, catalogItemName } = props;
+
+      const _addCatalogItemComObjects = comObjects => dispatch(
+        addCatalogItemComObjects(
+          domainId,
+          sessionId,
+          catalogName,
+          catalogItemName,
+          comObjects
+        )
+      );
+
+      loaders.loadCatalogItemComObjects(
+        state,
+        props,
+        _addCatalogItemComObjects
+      );
+
+      break;
+    }
+    case WS_ITEM_STRUCTURE_ASK: {
+      const { payload: props } = action;
+      const { domainId, sessionId, catalogName, catalogItemName } = props;
+
+      const _addCatalogItemStructure =
+        structure =>
+          dispatch(
+            addCatalogItemStructure(
+              domainId,
+              sessionId,
+              catalogName,
+              catalogItemName,
+              structure
+            )
+          );
+
+      loaders.loadCatalogItemStructure(
+        state,
+        props,
+        _addCatalogItemStructure
+      );
 
       break;
     }

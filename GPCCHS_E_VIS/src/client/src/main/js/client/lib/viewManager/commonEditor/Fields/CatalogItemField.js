@@ -14,7 +14,6 @@ export default class CatalogItemField extends PureComponent {
       PropTypes.arrayOf(catalogItemType),
     ]),
     askCatalogItems: PropTypes.func.isRequired,
-    shouldLoadCatalogItems: PropTypes.bool,
     loading: PropTypes.bool,
     loaded: PropTypes.bool,
   };
@@ -24,46 +23,38 @@ export default class CatalogItemField extends PureComponent {
     catalogItems: null,
     sessionId: null,
     domainId: null,
-    shouldLoadCatalogItems: false,
     loading: false,
     loaded: false,
   };
 
   componentWillMount() {
-    this.tryToLoadCatalogItems(this.props);
+    this.props.askCatalogItems();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.tryToLoadCatalogItems(nextProps);
+    nextProps.askCatalogItems();
   }
 
-  tryToLoadCatalogItems = (props) => {
-    const {
-      askCatalogItems,
-    } = props;
+  _getPlaceholder = () => {
+    const { loading, loaded } = this.props;
 
-    askCatalogItems();
+    if (loading) {
+      return 'Loading catalog items...';
+    }
+
+    if (loaded) {
+      return 'Select a catalog item...';
+    }
+
+    return '';
   };
 
   render() {
     const {
       catalogItems,
       name,
-      loading,
       loaded,
     } = this.props;
-
-    const _getPlaceholder = () => {
-      if (loading) {
-        return 'Loading catalog items...';
-      }
-
-      if (loaded) {
-        return 'Selec a catalog item...';
-      }
-
-      return '';
-    };
 
     return (
       <ErrorBoundary>
@@ -74,7 +65,7 @@ export default class CatalogItemField extends PureComponent {
           clearable
           disabled={!loaded}
           options={computeOptions(catalogItems)}
-          placeholder={_getPlaceholder()}
+          placeholder={this._getPlaceholder()}
         />
       </ErrorBoundary>
     );

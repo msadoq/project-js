@@ -33,13 +33,13 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { askItemStructure } from 'store/actions/catalogs';
+import { askCatalogItemStructure } from 'store/actions/catalogs';
 import { getPageIdByViewId, getPage } from 'store/reducers/pages';
 import { getConfigurationByViewId } from 'viewManager';
 import { getViewEntryPoints } from 'store/selectors/views';
 import { isAnyInspectorOpened } from 'store/selectors/pages';
+import { getCatalogItemComObjectStructure } from 'store/selectors/catalogs';
 import { isMaxVisuDurationExceeded } from 'store/reducers/timebars';
-import { getComObjectStructure, getTupleId } from 'store/reducers/catalogs';
 import { removeLink, updateShowLinks, addEntryPoint } from 'store/actions/views';
 import { getData } from 'viewManager/DecommutedPacketView/store/dataReducer';
 import { getLinks, areLinksShown } from 'store/reducers/views';
@@ -47,12 +47,16 @@ import { getInspectorEpId } from 'store/reducers/inspector';
 import { getFormula } from './selectors';
 import DecommutedPacketView from './DecommutedPacketView';
 
+
 const mapStateToProps = (state, { viewId }) => {
   const pageId = getPageIdByViewId(state, { viewId });
   const page = getPage(state, { pageId });
 
   const entryPoints = getViewEntryPoints(state, { viewId });
   let structure;
+
+  let catalogItemProps = {};
+
   if (entryPoints.decommutedPacketEP && entryPoints.decommutedPacketEP.dataId) {
     const {
       parameterName: itemName,
@@ -61,13 +65,19 @@ const mapStateToProps = (state, { viewId }) => {
       sessionId,
     } = entryPoints.decommutedPacketEP.dataId;
 
-    const tupleId = getTupleId(domainId, sessionId);
+    catalogItemProps = {
+      domainId,
+      sessionId,
+      catalogName: name,
+      catalogItemName: itemName,
+    };
 
-    structure = getComObjectStructure(state, { tupleId, itemName, name });
+    structure = getCatalogItemComObjectStructure(state, catalogItemProps);
   }
   const data = getData(state, { viewId });
 
   return {
+    ...catalogItemProps,
     formula: getFormula(state, { viewId }),
     configuration: getConfigurationByViewId(state, { viewId }),
     entryPoints,
@@ -87,12 +97,22 @@ const mapDispatchToProps = (dispatch, { viewId }) =>
   bindActionCreators({
     removeLink,
     updateShowLinks,
-    askItemStructure: () => askItemStructure(viewId),
+    askCatalogItemStructure,
     addEntryPoint: data => addEntryPoint(viewId, data),
   }, dispatch);
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  askCatalogItemStructure: () => {
+    const { domainId, sessionId, catalogName, catalogItemName } = stateProps;
+    dispatchProps.askCatalogItemStructure(domainId, sessionId, catalogName, catalogItemName);
+  },
+});
+
 const DecommutedPacketViewContainer =
-  connect(mapStateToProps, mapDispatchToProps)(DecommutedPacketView);
+  connect(mapStateToProps, mapDispatchToProps, mergeProps)(DecommutedPacketView);
 
 DecommutedPacketViewContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

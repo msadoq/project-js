@@ -14,8 +14,6 @@ export default class CatalogField extends Component {
       PropTypes.string, // when requesting
       PropTypes.arrayOf(catalogType),
     ]),
-    sessionId: PropTypes.number,
-    domainId: PropTypes.number,
     // from container mapDispatchToProps
     askCatalogs: PropTypes.func.isRequired,
     updateCatalogField: PropTypes.func.isRequired,
@@ -26,8 +24,6 @@ export default class CatalogField extends Component {
   static defaultProps = {
     name: 'connectedData.catalog',
     catalogs: null,
-    sessionId: null,
-    domainId: null,
     loading: false,
     loaded: false,
   };
@@ -40,33 +36,27 @@ export default class CatalogField extends Component {
     nextProps.askCatalogs();
   }
 
-  shouldComponentUpdate(nextProps) {
-    const { domainId, sessionId } = this.props;
-    const { nextDomainId, nextSessionId } = nextProps;
+  _getPlaceholder = () => {
+    const { loaded, loading } = this.props;
 
-    return nextDomainId !== domainId || nextSessionId !== sessionId;
-  }
+    if (loading) {
+      return 'Loading catalogs...';
+    }
+
+    if (loaded) {
+      return 'Select a catalog...';
+    }
+
+    return '';
+  };
 
   render() {
     const {
       catalogs,
       name,
       updateCatalogField,
-      loading,
       loaded,
     } = this.props;
-
-    const _getPlaceholder = () => {
-      if (loading) {
-        return 'Loading catalogs...';
-      }
-
-      if (loaded) {
-        return 'Select a catalog...';
-      }
-
-      return '';
-    };
 
     return (
       <ErrorBoundary>
@@ -78,7 +68,7 @@ export default class CatalogField extends Component {
           disabled={!loaded}
           options={computeOptions(catalogs)}
           onChange={updateCatalogField}
-          placeholder={_getPlaceholder()}
+          placeholder={this._getPlaceholder()}
         />
       </ErrorBoundary>
     );

@@ -33,14 +33,14 @@ describe('store:actions:editor', () => {
   });
   test('dispatch a "WS_COM_OBJECTS_ASK"', () => {
     const store = mockStore(state);
-    store.dispatch(actions.askComObjects('domainId', 'sessionId', 'catalogName', 'catalogItemName'));
+    store.dispatch(actions.askCatalogItemComObjects('domainId', 'sessionId', 'catalogName', 'catalogItemName'));
     expect(store.getActions()).toMatchObject([
       { payload: { domainId: 'domainId', sessionId: 'sessionId', name: 'catalogName', itemName: 'catalogItemName' }, type: 'WS_COM_OBJECTS_ASK' },
     ]);
   });
   test('dispatch a "WS_COM_OBJECTS_ADD"', () => {
     const store = mockStore(state);
-    store.dispatch(actions.addComObjects('domainId-sessionId', 'catalogName', 'catalogItemName', []));
+    store.dispatch(actions.addCatalogItemComObjects('domainId-sessionId', 'catalogName', 'catalogItemName', []));
     expect(store.getActions()).toMatchObject([
       { payload: { tupleId: 'domainId-sessionId', name: 'catalogName', itemName: 'catalogItemName', comObjects: [] }, type: 'WS_COM_OBJECTS_ADD' },
     ]);

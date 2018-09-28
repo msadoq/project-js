@@ -17,20 +17,14 @@ export default class CatalogField extends Component {
     // from container mapDispatchToProps
     askCatalogs: PropTypes.func.isRequired,
     updateCatalogField: PropTypes.func.isRequired,
-    loading: PropTypes.bool,
-    loaded: PropTypes.bool,
+    loading: PropTypes.bool.isRequired,
+    loaded: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     name: 'connectedData.catalog',
     catalogs: null,
-    loading: false,
-    loaded: false,
   };
-
-  componentDidMount() {
-    this.props.askCatalogs();
-  }
 
   componentWillReceiveProps(nextProps) {
     nextProps.askCatalogs();

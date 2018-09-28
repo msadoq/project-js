@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
   getCatalogItems,
+  areCatalogsLoaded,
   areCatalogItemsLoaded,
   areCatalogItemsLoading,
   getCatalogs,
@@ -49,6 +50,7 @@ const mapStateToProps = (state, {
     typeof domainId === 'number' &&
     typeof sessionId === 'number' &&
     typeof catalogName === 'string' &&
+    areCatalogsLoaded(state, { domainId, sessionId }) &&
     !loaded &&
     !loading;
 

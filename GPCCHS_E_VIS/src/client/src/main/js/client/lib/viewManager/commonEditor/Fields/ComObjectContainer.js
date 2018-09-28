@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import {
   areCatalogItemComObjectsLoaded,
   areCatalogItemComObjectsLoading,
+  areCatalogItemsLoaded,
   getCatalogItemComObjects,
 } from 'store/selectors/catalogs';
 import { getDomainByNameWithFallback } from 'store/reducers/domains';
@@ -58,6 +59,7 @@ const mapStateToProps = (state, {
     catalogName.length > 0 &&
     typeof itemName === 'string' &&
     itemName.length > 0 &&
+    areCatalogItemsLoaded(state, catalogItemProps) &&
     !loaded &&
     !loading;
 

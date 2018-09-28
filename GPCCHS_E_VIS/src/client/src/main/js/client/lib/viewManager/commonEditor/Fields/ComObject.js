@@ -21,10 +21,6 @@ export default class ComObject extends PureComponent {
     allowedComObjects: null,
   };
 
-  componentWillMount() {
-    this.props.askCatalogItemComObjects();
-  }
-
   componentWillReceiveProps(nextProps) {
     nextProps.askCatalogItemComObjects();
   }

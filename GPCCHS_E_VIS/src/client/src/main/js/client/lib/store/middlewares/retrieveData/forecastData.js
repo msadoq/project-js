@@ -21,7 +21,7 @@ import mergeIntervals from 'common/intervals/merge';
 import { sendArchiveQuery as knownRangesQuery } from 'store/actions/knownRanges';
 import { sendArchiveQuery as obsoleteQuery } from 'store/actions/ObsoleteEvents';
 import { add } from 'serverProcess/models/registeredArchiveQueriesSingleton';
-import { get, getFilters } from 'serverProcess/models/tbdIdDataIdMap';
+import { get, getFilters } from 'common/tbdIdDataIdMap';
 import executionMonitor from 'common/logManager/execution';
 import { PREFIX_KNOWN_RANGES, PREFIX_OBSOLETE_EVENTS } from 'constants';
 import flattenDataId, { getFlattenDataIdForObsoleteEvent } from '../../../common/flattenDataId';

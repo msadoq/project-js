@@ -5,18 +5,41 @@ import {
   WS_ITEM_STRUCTURE_ASK,
   WS_ITEM_METADATA_ASK,
   WS_REPORTING_ITEM_PACKETS_ASK,
+  STATUS_LOADING,
+  STATUS_LOADED,
 } from 'store/types';
 
 import {
+  updateCatalogsStatus,
   addCatalogItems,
   addCatalogs,
   addCatalogItemComObjects,
   addCatalogItemStructure,
   addCatalogItemMetadata,
   addCatalogItemReportingItemPackets,
+  updateCatalogItemsStatus,
+  updateCatalogItemComObjectsStatus,
+  updateCatalogItemMetadataStatus,
+  updateCatalogItemReportingItemPacketsStatus,
+  updateCatalogItemStructureStatus,
 } from 'store/actions/catalogs';
 
 import loaders from './loaders';
+
+import {
+  areCatalogItemComObjectsLoaded,
+  areCatalogItemComObjectsLoading, areCatalogItemFieldPropsValid,
+  areCatalogItemsLoaded,
+  areCatalogItemsLoading, areCatalogItemsPropsValid,
+  areCatalogsLoaded, areCatalogsLoading, areCatalogsPropsValid,
+  areReportingItemPacketsLoaded,
+  areReportingItemPacketsLoading,
+  isCatalogItemMetadataLoaded,
+  isCatalogItemMetadataLoading,
+  isCatalogItemStructureLoaded,
+  isCatalogItemStructureLoading,
+} from '../../selectors/catalogs';
+
 
 const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
   const state = getState();
@@ -34,13 +57,24 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
             catalogs
           )
         );
+
+        dispatch(
+          updateCatalogsStatus(
+            domainId,
+            sessionId,
+            STATUS_LOADED
+          )
+        );
       };
 
-      loaders.loadCatalogs(
-        state,
-        props,
-        _addCatalogs
-      );
+      if (
+        areCatalogsPropsValid(props) &&
+        !areCatalogsLoaded(state, props) &&
+        !areCatalogsLoading(state, props)
+      ) {
+        dispatch(updateCatalogsStatus(domainId, sessionId, STATUS_LOADING));
+        loaders.loadCatalogs(state, props, _addCatalogs);
+      }
 
       break;
     }
@@ -48,21 +82,43 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       const { payload: props } = action;
       const { sessionId, domainId, catalogName } = props;
 
-      const _addCatalogItems = items => dispatch(
-        addCatalogItems(
-          domainId,
-          sessionId,
-          catalogName,
-          items
-        )
-      );
+      const _addCatalogItems = (items) => {
+        dispatch(
+          addCatalogItems(
+            domainId,
+            sessionId,
+            catalogName,
+            items
+          ))
+        ;
+
+        dispatch(
+          updateCatalogItemsStatus(
+            domainId,
+            sessionId,
+            catalogName,
+            STATUS_LOADED
+          )
+        );
+      };
 
 
-      loaders.loadCatalogItems(
-        state,
-        props,
-        _addCatalogItems
-      );
+      if (
+        areCatalogItemsPropsValid(props) &&
+        !areCatalogItemsLoaded(state, props) &&
+        !areCatalogItemsLoading(state, props)
+      ) {
+        dispatch(
+          updateCatalogItemsStatus(
+            domainId,
+            sessionId,
+            catalogName,
+            STATUS_LOADING
+          )
+        );
+
+        loaders.loadCatalogItems(state, props, _addCatalogItems);
+      }
 
       break;
     }
@@ -76,21 +132,44 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
         catalogItemName,
       } = props;
 
-      const _addCatalogItemMetadata = metadata => dispatch(
-        addCatalogItemMetadata(
-          domainId,
-          sessionId,
-          catalogName,
-          catalogItemName,
-          metadata
-        )
-      );
+      const _addCatalogItemMetadata = (metadata) => {
+        dispatch(
+          addCatalogItemMetadata(
+            domainId,
+            sessionId,
+            catalogName,
+            catalogItemName,
+            metadata
+          )
+        );
 
-      loaders.loadCatalogItemMetadata(
-        state,
-        props,
-        _addCatalogItemMetadata
-      );
+        dispatch(
+          updateCatalogItemMetadataStatus(
+            domainId,
+            sessionId,
+            catalogName,
+            catalogItemName,
+            STATUS_LOADED
+          )
+        );
+      };
+
+      if (
+        areCatalogItemFieldPropsValid(props) &&
+        !isCatalogItemMetadataLoaded(state, props) &&
+        !isCatalogItemMetadataLoading(state, props)
+      ) {
+        dispatch(
+          updateCatalogItemMetadataStatus(
+            domainId,
+            sessionId,
+            catalogName,
+            catalogItemName,
+            STATUS_LOADING
+          ));
+
+        loaders.loadCatalogItemMetadata(state, props, _addCatalogItemMetadata);
+      }
 
       break;
     }
@@ -99,21 +178,49 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       const { sessionId, domainId, catalogName, catalogItemName } = props;
 
       const _addCatalogItemsReportingItemPackets =
-        items => dispatch(
-          addCatalogItemReportingItemPackets(
+        (items) => {
+          dispatch(
+            addCatalogItemReportingItemPackets(
+              domainId,
+              sessionId,
+              catalogName,
+              catalogItemName,
+              items
+            )
+          );
+
+          dispatch(
+            updateCatalogItemReportingItemPacketsStatus(
+              domainId,
+              sessionId,
+              catalogName,
+              catalogItemName,
+              STATUS_LOADED
+            )
+          );
+        };
+
+      if (
+        areCatalogItemFieldPropsValid(props) &&
+        !areReportingItemPacketsLoaded(state, props) &&
+        !areReportingItemPacketsLoading(state, props)
+      ) {
+        dispatch(
+          updateCatalogItemReportingItemPacketsStatus(
             domainId,
             sessionId,
             catalogName,
             catalogItemName,
-            items
+            STATUS_LOADING
           )
         );
 
-      loaders.loadCatalogItemReportingPackets(
-        state,
-        props,
-        _addCatalogItemsReportingItemPackets
-      );
+        loaders.loadCatalogItemReportingPackets(
+          state,
+          props,
+          _addCatalogItemsReportingItemPackets
+        );
+      }
 
       break;
     }
@@ -121,21 +228,49 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       const { payload: props } = action;
       const { sessionId, domainId, catalogName, catalogItemName } = props;
 
-      const _addCatalogItemComObjects = comObjects => dispatch(
-        addCatalogItemComObjects(
-          domainId,
-          sessionId,
-          catalogName,
-          catalogItemName,
-          comObjects
-        )
-      );
+      const _addCatalogItemComObjects = (comObjects) => {
+        dispatch(
+          addCatalogItemComObjects(
+            domainId,
+            sessionId,
+            catalogName,
+            catalogItemName,
+            comObjects
+          )
+        );
 
-      loaders.loadCatalogItemComObjects(
-        state,
-        props,
-        _addCatalogItemComObjects
-      );
+        dispatch(
+          updateCatalogItemComObjectsStatus(
+            domainId,
+            sessionId,
+            catalogName,
+            catalogItemName,
+            STATUS_LOADED
+          )
+        );
+      };
+
+      if (
+        areCatalogItemFieldPropsValid(props) &&
+        !areCatalogItemComObjectsLoaded(state, props) &&
+        !areCatalogItemComObjectsLoading(state, props)
+      ) {
+        dispatch(
+          updateCatalogItemComObjectsStatus(
+            domainId,
+            sessionId,
+            catalogName,
+            catalogItemName,
+            STATUS_LOADING
+          )
+        );
+
+        loaders.loadCatalogItemComObjects(
+          state,
+          props,
+          _addCatalogItemComObjects
+        );
+      }
 
       break;
     }
@@ -144,7 +279,7 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
       const { domainId, sessionId, catalogName, catalogItemName } = props;
 
       const _addCatalogItemStructure =
-        structure =>
+        (structure) => {
           dispatch(
             addCatalogItemStructure(
               domainId,
@@ -155,11 +290,39 @@ const catalogMiddleware = ({ dispatch, getState }) => next => (action) => {
             )
           );
 
-      loaders.loadCatalogItemStructure(
-        state,
-        props,
-        _addCatalogItemStructure
-      );
+          dispatch(
+            updateCatalogItemStructureStatus(
+              domainId,
+              sessionId,
+              catalogName,
+              catalogItemName,
+              STATUS_LOADED
+            )
+          );
+        };
+
+
+      if (
+        areCatalogItemFieldPropsValid(props) &&
+        !isCatalogItemStructureLoaded(state, props) &&
+        !isCatalogItemStructureLoading(state, props)
+      ) {
+        dispatch(
+          updateCatalogItemStructureStatus(
+            domainId,
+            sessionId,
+            catalogName,
+            catalogItemName,
+            STATUS_LOADING
+          )
+        );
+
+        loaders.loadCatalogItemStructure(
+          state,
+          props,
+          _addCatalogItemStructure
+        );
+      }
 
       break;
     }

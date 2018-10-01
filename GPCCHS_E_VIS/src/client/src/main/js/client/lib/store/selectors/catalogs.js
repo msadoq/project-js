@@ -81,6 +81,9 @@ export const getCatalogItemUnitMetadata =
     return _.get('unit', metadata);
   };
 
+
+// LOADING STATUSES
+
 export const getCatalogsStatus = (state, { domainId, sessionId }) =>
   _.get(['catalogs', '_status', getTupleId(domainId, sessionId), '_status'], state);
 
@@ -162,3 +165,23 @@ export const isCatalogItemStructureLoading =
 export const isCatalogItemStructureLoaded =
   (state, props) =>
     isCatalogItemFieldLoaded(state, { ...props, fieldName: 'structure' });
+
+// PARAM VALIDATORS
+
+export const areCatalogsPropsValid =
+  ({ domainId, sessionId }) =>
+    typeof domainId === 'number' &&
+    typeof sessionId === 'number';
+
+export const areCatalogItemsPropsValid =
+  ({ domainId, sessionId, catalogName }) =>
+    areCatalogsPropsValid({ domainId, sessionId }) &&
+    typeof catalogName === 'string' &&
+    catalogName.length > 0;
+
+export const areCatalogItemFieldPropsValid =
+  ({ domainId, sessionId, catalogName, catalogItemName }) =>
+    areCatalogItemsPropsValid({ domainId, sessionId, catalogName }) &&
+    typeof catalogItemName === 'string' &&
+    catalogItemName.length > 0;
+

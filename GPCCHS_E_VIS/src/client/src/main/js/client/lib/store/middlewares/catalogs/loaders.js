@@ -1,134 +1,23 @@
-import {
-  areCatalogItemsLoaded,
-  areCatalogItemsLoading,
-  areCatalogsLoaded,
-  areCatalogsLoading,
-  areCatalogItemComObjectsLoaded,
-  areCatalogItemComObjectsLoading,
-  areReportingItemPacketsLoaded,
-  areReportingItemPacketsLoading,
-  isCatalogItemItemStructureLoaded,
-  isCatalogItemItemStructureLoading,
-  isCatalogItemMetadataLoaded,
-  isCatalogItemMetadataLoading,
-} from 'store/selectors/catalogs';
-
 import { dc } from '../../../serverProcess/ipc';
 
 
-const loadCatalogs = (state, props, cb) => {
-  const { sessionId, domainId } = props;
-
-  if (
-    typeof domainId !== 'number' ||
-    typeof sessionId !== 'number' ||
-    areCatalogsLoaded(state, props) ||
-    areCatalogsLoading(state, props)
-  ) {
-    return;
-  }
-
+const loadCatalogs = (state, props, cb) =>
   dc.retrieveSDBCatalogs(props, cb);
-};
 
-const loadCatalogItems = (state, props, cb) => {
-  const { sessionId, domainId, catalogName } = props;
-
-  if (
-    typeof domainId !== 'number' ||
-    typeof sessionId !== 'number' ||
-    typeof catalogName !== 'string' ||
-    areCatalogItemsLoaded(state, props) ||
-    areCatalogItemsLoading(state, props)
-  ) {
-    return;
-  }
-
+const loadCatalogItems = (state, props, cb) =>
   dc.retrieveSDBCatalogsItems(props, cb);
-};
 
-const loadCatalogItemComObjects = (state, props, cb) => {
-  const {
-    sessionId,
-    domainId,
-    catalogName,
-    catalogItemName,
-  } = props;
-
-  if (
-    typeof domainId !== 'number' ||
-    typeof sessionId !== 'number' ||
-    typeof catalogName !== 'string' ||
-    typeof catalogItemName !== 'string' ||
-    areCatalogItemComObjectsLoaded(state, props) ||
-    areCatalogItemComObjectsLoading(state, props)
-  ) {
-    return;
-  }
-
+const loadCatalogItemComObjects = (state, props, cb) =>
   dc.retrieveSDBCatalogsItemComObject(props, cb);
-};
 
-const loadCatalogItemMetadata = (state, props, cb) => {
-  const {
-    sessionId,
-    domainId,
-    catalogName,
-    catalogItemName,
-  } = props;
-
-  if (
-    typeof domainId !== 'number' ||
-    typeof sessionId !== 'number' ||
-    typeof catalogName !== 'string' ||
-    typeof catalogItemName !== 'string' ||
-    isCatalogItemMetadataLoaded(state, props) ||
-    isCatalogItemMetadataLoading(state, props)
-  ) {
-    return;
-  }
-
+const loadCatalogItemMetadata = (state, props, cb) =>
   dc.retrieveCatalogItemMetadata(props, cb);
-};
 
-const loadCatalogItemReportingPackets = (state, props, cb) => {
-  const {
-    sessionId,
-    domainId,
-    catalogName,
-    catalogItemName,
-  } = props;
-
-  if (
-    typeof domainId !== 'number' ||
-    typeof sessionId !== 'number' ||
-    typeof catalogName !== 'string' ||
-    typeof catalogItemName !== 'string' ||
-    areReportingItemPacketsLoaded(state, props) ||
-    areReportingItemPacketsLoading(state, props)
-  ) {
-    return;
-  }
-
+const loadCatalogItemReportingPackets = (state, props, cb) =>
   dc.retrieveReportingItemPackets(props, cb);
-};
 
-const loadCatalogItemStructure = (state, props, cb) => {
-  const { sessionId, domainId, catalogName, catalogItemName } = props;
-
-  if (
-    typeof domainId !== 'number' ||
-    typeof sessionId !== 'number' ||
-    typeof catalogName !== 'string' ||
-    typeof catalogItemName !== 'string' ||
-    isCatalogItemItemStructureLoading(state, props) ||
-    isCatalogItemItemStructureLoaded(state, props)
-  ) {
-    return;
-  }
-
+const loadCatalogItemStructure = (state, props, cb) =>
   dc.retrieveCatalogItemStructure(props, cb);
-};
 
 export default {
   loadCatalogs,

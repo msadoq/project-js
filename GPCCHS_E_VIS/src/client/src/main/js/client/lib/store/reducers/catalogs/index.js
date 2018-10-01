@@ -2,23 +2,21 @@ import _ from 'lodash/fp';
 
 import {
   WS_CATALOG_ITEMS_ADD,
-  WS_CATALOG_ITEMS_ASK,
   WS_CATALOGS_ADD,
-  WS_CATALOGS_ASK,
   WS_COM_OBJECTS_ADD,
-  WS_COM_OBJECTS_ASK,
   WS_ITEM_METADATA_ADD,
-  WS_ITEM_METADATA_ASK,
   WS_ITEM_STRUCTURE_ADD,
-  WS_ITEM_STRUCTURE_ASK,
   WS_REPORTING_ITEM_PACKETS_ADD,
-  WS_REPORTING_ITEM_PACKETS_ASK,
+  WS_CATALOG_ITEMS_UPDATE_STATUS,
+  WS_CATALOGS_UPDATE_STATUS,
+  WS_ITEM_METADATA_UPDATE_STATUS,
+  WS_COM_OBJECTS_UPDATE_STATUS,
+  WS_ITEM_STRUCTURE_UPDATE_STATUS,
+  WS_REPORTING_ITEM_PACKETS_UPDATE_STATUS,
 } from 'store/types';
 
-import { STATUS_LOADED, STATUS_LOADING } from '../../selectors/catalogs';
 
-
-const setCatalogItemFieldStateToIsLoading =
+const updateCatalogItemFieldStateStatus =
   (state, props) => {
     const {
       domainId,
@@ -26,6 +24,7 @@ const setCatalogItemFieldStateToIsLoading =
       catalogName,
       catalogItemName,
       fieldName,
+      status,
     } = props;
 
     if (
@@ -48,39 +47,12 @@ const setCatalogItemFieldStateToIsLoading =
         fieldName,
         '_status',
       ],
-      STATUS_LOADING,
+      status,
       state
     );
   };
 
-const setCatalogItemFieldStateToIsLoaded =
-  (state, { domainId, sessionId, catalogName, catalogItemName, fieldName }) => {
-    if (
-      typeof domainId !== 'number' ||
-      typeof sessionId !== 'number' ||
-      typeof catalogName !== 'string' ||
-      typeof catalogItemName !== 'string' ||
-      typeof fieldName !== 'string'
-    ) {
-      return state;
-    }
-
-    return _.set(
-      [
-        '_status',
-        getTupleId(domainId, sessionId),
-        catalogName,
-        'items',
-        catalogItemName,
-        fieldName,
-        '_status',
-      ],
-      STATUS_LOADED,
-      state
-    );
-  };
-
-const addCatalogs = (state, { domainId, sessionId, catalogs, all }) => {
+const addCatalogs = (state, { domainId, sessionId, catalogs }) => {
   let updatedState = state;
 
   const existingCatalogs = _.getOr({}, [domainId, sessionId], state);
@@ -102,22 +74,10 @@ const addCatalogs = (state, { domainId, sessionId, catalogs, all }) => {
     updatedState
   );
 
-  if (all) {
-    updatedState = _.set(
-      [
-        '_status',
-        getTupleId(domainId, sessionId),
-        '_status',
-      ],
-      STATUS_LOADED,
-      updatedState
-    );
-  }
-
   return updatedState;
 };
 
-const addCatalogItems = (state, { domainId, sessionId, catalogName, items, all }) => {
+const addCatalogItems = (state, { domainId, sessionId, catalogName, items }) => {
   let updatedState = state;
 
   const existingItems = _.getOr(
@@ -151,19 +111,6 @@ const addCatalogItems = (state, { domainId, sessionId, catalogName, items, all }
     updatedState
   );
 
-  if (all) {
-    updatedState = _.set(
-      [
-        '_status',
-        getTupleId(domainId, sessionId),
-        catalogName,
-        '_status',
-      ],
-      STATUS_LOADED,
-      updatedState
-    );
-  }
-
   return updatedState;
 };
 
@@ -190,16 +137,14 @@ const addCatalogItemField = (state, props) => {
     updatedState
   );
 
-  updatedState = setCatalogItemFieldStateToIsLoaded(updatedState, props);
-
   return updatedState;
 };
 
 // eslint-disable-next-line complexity
 export default function catalogsReducer(state = {}, action) {
   switch (action.type) {
-    case WS_CATALOGS_ASK: {
-      const { domainId, sessionId } = action.payload;
+    case WS_CATALOGS_UPDATE_STATUS: {
+      const { domainId, sessionId, status } = action.payload;
 
       return _.set(
         [
@@ -207,7 +152,7 @@ export default function catalogsReducer(state = {}, action) {
           getTupleId(domainId, sessionId),
           '_status',
         ],
-        STATUS_LOADING,
+        status,
         state
       );
     }
@@ -216,8 +161,8 @@ export default function catalogsReducer(state = {}, action) {
 
       return addCatalogs(state, { ...props, all: true });
     }
-    case WS_CATALOG_ITEMS_ASK: {
-      const { domainId, sessionId, catalogName } = action.payload;
+    case WS_CATALOG_ITEMS_UPDATE_STATUS: {
+      const { domainId, sessionId, catalogName, status } = action.payload;
 
       return _.set(
         [
@@ -226,7 +171,7 @@ export default function catalogsReducer(state = {}, action) {
           catalogName,
           '_status',
         ],
-        STATUS_LOADING,
+        status,
         state
       );
     }
@@ -241,10 +186,10 @@ export default function catalogsReducer(state = {}, action) {
         }
       );
     }
-    case WS_ITEM_METADATA_ASK: {
+    case WS_ITEM_METADATA_UPDATE_STATUS: {
       const { payload: props } = action;
 
-      return setCatalogItemFieldStateToIsLoading(
+      return updateCatalogItemFieldStateStatus(
         state,
         {
           ...props,
@@ -264,10 +209,10 @@ export default function catalogsReducer(state = {}, action) {
         }
       );
     }
-    case WS_COM_OBJECTS_ASK: {
+    case WS_COM_OBJECTS_UPDATE_STATUS: {
       const { payload: props } = action;
 
-      return setCatalogItemFieldStateToIsLoading(
+      return updateCatalogItemFieldStateStatus(
         state,
         {
           ...props,
@@ -286,10 +231,10 @@ export default function catalogsReducer(state = {}, action) {
         }
       );
     }
-    case WS_ITEM_STRUCTURE_ASK: {
+    case WS_ITEM_STRUCTURE_UPDATE_STATUS: {
       const { payload: props } = action;
 
-      return setCatalogItemFieldStateToIsLoading(
+      return updateCatalogItemFieldStateStatus(
         state,
         {
           ...props,
@@ -308,10 +253,10 @@ export default function catalogsReducer(state = {}, action) {
         }
       );
     }
-    case WS_REPORTING_ITEM_PACKETS_ASK: {
+    case WS_REPORTING_ITEM_PACKETS_UPDATE_STATUS: {
       const { payload: props } = action;
 
-      return setCatalogItemFieldStateToIsLoading(
+      return updateCatalogItemFieldStateStatus(
         state,
         {
           ...props,

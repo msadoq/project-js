@@ -4,7 +4,6 @@ import { newData } from 'store/actions/incomingData';
 import { decode, getTypeAggreg, decodePayload } from 'utils/adapters';
 import dataMapGenerator from 'dataManager/map';
 import { isTimestampInLastInterval } from 'dataManager/mapSelector';
-import { add } from 'serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from 'common/logManager/execution';
 import { add as addMessage } from 'store/actions/messages';
 import { PREFIX_KNOWN_RANGES, PREFIX_SAMPLING } from 'constants';
@@ -27,8 +26,6 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
   const samplingStatus = samplingNumber === undefined ? 'off' : 'on';
 
   // console.log('reponse ', tbdId, ' peers: ', peers.length/2);
-
-  add(tbdId, dataId);
 
   const payloadsJson = { [tbdId]: {} };
 

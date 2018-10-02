@@ -6,7 +6,6 @@ import executionMonitor from 'common/logManager/execution';
 import { add as addMessage } from 'store/actions/messages';
 import { PREFIX_OBSOLETE_EVENTS } from 'constants';
 import { getFlattenDataIdForObsoleteEvent } from 'common/flattenDataId';
-import { add } from '../../../serverProcess/models/tbdIdDataIdMap';
 import { decode, decodePayload, getTypeAggreg } from '../../../utils/adapters';
 
 const logger = require('../../../common/logManager')('middleware:prepareObsoleteEventADE');
@@ -44,7 +43,6 @@ const prepareObsoleteEvent = lokiManager => ({ dispatch }) => next => (action) =
           referenceTimestamp: decodedPayload.referenceTimestamp,
         };
         execution.stop('decode payload');
-        add(flatId, dataId);
         execution.start('addRecord');
         lokiManager.addRecord(
           PREFIX_OBSOLETE_EVENTS,

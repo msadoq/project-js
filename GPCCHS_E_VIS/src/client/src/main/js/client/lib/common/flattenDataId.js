@@ -12,7 +12,7 @@
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import { PROVIDER_FLOW_ALL } from '../constants';
-
+import { add } from './tbdIdDataIdMap';
 /**
  * Generate a predictable flat dataId for a given dataId Object
  * @param dataId {catalog, parameterName, comObject, sessionId, domainId }
@@ -31,7 +31,9 @@ export default (dataId, filters = [], mode = '') => {
   } = dataId;
   const _provider = !provider || provider === PROVIDER_FLOW_ALL ? '' : provider;
   const _mode = mode || '';
-  return `${catalog}.${parameterName}<${comObject}>:${sessionId}:${domainId}:${_provider}:${flattenFilters(filters)}:${_mode}`;
+  const tbdId = `${catalog}.${parameterName}<${comObject}>:${sessionId}:${domainId}:${_provider}:${flattenFilters(filters)}:${_mode}`;
+  add(tbdId, dataId);
+  return tbdId;
 };
 
 function flattenFilters(filters = []) {

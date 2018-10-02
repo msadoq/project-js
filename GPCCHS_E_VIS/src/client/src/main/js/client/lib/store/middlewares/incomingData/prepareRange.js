@@ -20,7 +20,6 @@ import { newData } from 'store/actions/incomingData';
 import { decode, getType } from 'utils/adapters';
 import dataMapGenerator from 'dataManager/map';
 import { isTimestampInLastInterval } from 'dataManager/mapSelector';
-import { add } from 'serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from 'common/logManager/execution';
 import { add as addMessage } from 'store/actions/messages';
 import { PREFIX_KNOWN_RANGES } from 'constants';
@@ -39,7 +38,6 @@ const prepareRange = lokiManager => ({ dispatch, getState }) => next => (action)
   const dataId = action.payload.dataId;
   const peers = action.payload.peers;
   const payloadProtobufType = getType(dataId.comObject);
-  add(tbdId, dataId);
   if (typeof payloadProtobufType === 'undefined') {
     logger.error('protobufType unknown');
     execution.stop('global');

@@ -3,7 +3,6 @@ import _isBuffer from 'lodash/isBuffer';
 import * as types from 'store/types';
 import { newData } from 'store/actions/incomingData';
 import { decode, getTypeAggreg, decodePayload } from 'utils/adapters';
-import { add } from 'serverProcess/models/tbdIdDataIdMap';
 import executionMonitor from 'common/logManager/execution';
 import { add as addMessage } from 'store/actions/messages';
 import { PREFIX_LASTS } from 'constants';
@@ -21,7 +20,6 @@ const prepareLast = () => ({ dispatch }) => next => (action) => {
   const tbdId = action.payload.tbdId;
   const dataId = action.payload.dataId;
   const peers = action.payload.peers;
-  add(tbdId, dataId);
 
   const payloadsJson = { [tbdId]: {} };
   let index = 0;

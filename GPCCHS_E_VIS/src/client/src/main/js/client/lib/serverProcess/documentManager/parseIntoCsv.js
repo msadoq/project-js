@@ -76,7 +76,7 @@ const parseIntoCsv = (state, viewId) => {
       );
     }
     case VM_VIEW_GROUNDALARM: {
-      const groundAlarmViewData = state.GroundAlarmViewData[viewId];
+      const groundAlarmViewData = _.getOr({}, ['GroundAlarmViewData', viewId], state);
       const groundAlarmViewEntries = Object.entries(groundAlarmViewData.lines);
       const firstElement = groundAlarmViewEntries[0][1];
       /* const parseVector = vector => (

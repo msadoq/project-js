@@ -17,6 +17,11 @@ import { VM_VIEW_GROUNDALARM } from '../../constants';
 import shouldShowAlarm from './shouldShowAlarm';
 import { getConfigurationByViewId } from '../../selectors';
 
+const initialState = {
+  lines: {},
+  indexes: [],
+};
+
 /**
  * Updates alarm indexes to match shown alarms
  *
@@ -132,4 +137,8 @@ export const getGroundAlarmViewData = state => state.GroundAlarmViewData;
 
 export const getData = (state, { viewId }) => getGroundAlarmViewData(state)[viewId] || {};
 
-export default createScopedDataReducer(scopedGroundAlarmViewDataReducer, {}, VM_VIEW_GROUNDALARM);
+export default createScopedDataReducer(
+  scopedGroundAlarmViewDataReducer,
+  initialState,
+  VM_VIEW_GROUNDALARM
+);

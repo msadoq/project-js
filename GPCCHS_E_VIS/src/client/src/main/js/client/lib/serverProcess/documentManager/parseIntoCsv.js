@@ -77,8 +77,8 @@ const parseIntoCsv = (state, viewId) => {
     }
     case VM_VIEW_GROUNDALARM: {
       const groundAlarmViewData = _.getOr({}, ['GroundAlarmViewData', viewId], state);
-      const groundAlarmViewEntries = Object.entries(groundAlarmViewData.lines);
-      const firstElement = groundAlarmViewEntries[0][1];
+      const groundAlarmViewEntries = Object.entries(groundAlarmViewData.lines || {});
+      const firstElement = _.get([0, 1], groundAlarmViewEntries);
       /* const parseVector = vector => (
           vector[0] + COL_SEP +
           vector[1] + COL_SEP +
@@ -98,9 +98,12 @@ const parseIntoCsv = (state, viewId) => {
           vector[15] + COL_SEP +
           vector[16] + COL_SEP
     ); */
-      const header = (groundAlarmViewEntries.length === 0)
-        ? ''
-        : 'index'.concat(COL_SEP).concat(parseVector(Object.keys(firstElement)));
+
+      if (!firstElement) {
+        return '';
+      }
+
+      const header = 'index'.concat(COL_SEP).concat(parseVector(Object.keys(firstElement)));
       const getGroundAlarmViewCSV = element => (
         element[0] + COL_SEP + parseVector(Object.values(element[1]))
       );

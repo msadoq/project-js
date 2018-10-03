@@ -302,8 +302,10 @@ export const exportAsCsv = (viewId, path) => (dispatch, getState) => {
     });
   };
 
-  // provides a generic json to csv parser in case the returned value is not a csv string
-  if (typeof content !== 'string') {
+  if (typeof content === 'string') {
+    exportCsv(content);
+  } else {
+    // provides a generic json to csv parser in case the returned value is not a csv string
     jsonexport(content, (err, csv) => {
       if (err) {
         dispatch(addMessage(viewId, 'danger', `Data unsaved ${err}`));

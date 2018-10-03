@@ -382,7 +382,7 @@ module.exports = {
   DATE_FORMAT_TAI: 'YYYY-MM-DDTHH:mm:ss.SSS',
 
   // Input, output separators
-  CSV_COLUMN_SEPARATOR: '; ',
+  CSV_COLUMN_SEPARATOR: ';',
   CSV_ROW_SEPARATOR: '\n',
 
   // nominal value for significant data

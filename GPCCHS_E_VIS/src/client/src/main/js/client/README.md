@@ -233,3 +233,5 @@ In case of error 'ImportError: No module named GPINUC_L_UCL.unitConverterLibrary
 # Migrating view configuration file to a newer VIMA version
 @see
 `scripts/viewConfigurationFiles/README.md`
+
+Mouncef SADOQ
